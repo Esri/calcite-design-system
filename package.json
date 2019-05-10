@@ -16,9 +16,14 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@esri/calcite-colors": "^1.1.0",
+    "calcite-fonts": "github:ArcGIS/calcite-fonts",
+    "calcite-web": "github:Esri/calcite-web#v1.2.2"
+  },
   "devDependencies": {
-    "@stencil/core": "~0.16.2"
+    "@stencil/core": "~0.16.2",
+    "@stencil/sass": "^0.1.1"
   },
   "license": "MIT"
 }
