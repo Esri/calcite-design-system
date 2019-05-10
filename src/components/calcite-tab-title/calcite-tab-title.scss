@@ -1,0 +1,34 @@
+:host {
+  flex: 0 1 auto;
+}
+
+:host([is-active]) a {
+  color: var(--calcite-tabs-color-active);
+  border-bottom-color: var(--calcite-tabs-border-active);
+}
+
+:host(:not(:last-child)) a {
+  margin-right: 1.25rem;
+}
+
+a {
+  @include box-sizing(border-box);
+  @include font-size(-2);
+  padding: $baseline/3 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  @include transition(all 0.15s ease-in-out);
+  color: var(--calcite-tabs-color);
+
+  &:active,
+  &:hover,
+  &:focus {
+    outline: none;
+    text-decoration: none;
+    color: var(--calcite-tabs-color-active);
+    border-bottom-color: var(var(--calcite-tabs-border-hover));
+  }
+}

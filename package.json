@@ -16,7 +16,11 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@stencil/sass": "^0.2.1",
+    "@types/jest": "^24.0.12",
+    "calcite-web": "Esri/calcite-web.git#9628011044ce3356a1c171ae3e6d7ef62bcfdade"
+  },
   "devDependencies": {
     "@stencil/core": "~0.16.2"
   },
