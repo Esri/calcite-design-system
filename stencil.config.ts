@@ -11,12 +11,10 @@ export const config: Config = {
       serviceWorker: null // disable service workers
     }
   ],
+  globalStyle: "src/assets/styles/includes.scss",
   plugins: [
     sass({
-      includePaths: ["node_modules/calcite-web/lib/sass"],
-      injectGlobalPaths: [
-        "node_modules/calcite-web/lib/sass/calcite-web/imports.scss"
-      ]
+      injectGlobalPaths: ["src/assets/styles/includes.scss"]
     })
   ]
 };
