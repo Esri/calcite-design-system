@@ -17,9 +17,9 @@
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
   "dependencies": {
-    "@esri/calcite-colors": "^1.1.0",
-    "calcite-fonts": "github:ArcGIS/calcite-fonts",
-    "@esri/calcite-base": "github:patrickarlt/calcite-base"
+    "@esri/calcite-base": "github:ArcGIS/calcite-base",
+    "@esri/calcite-colors": "^1.2.0",
+    "calcite-fonts": "github:ArcGIS/calcite-fonts"
   },
   "devDependencies": {
     "@stencil/core": "~0.16.2",

@@ -1,6 +1,8 @@
 .example-class {
+  // from cw utils
   padding: $baseline;
-  color: $h-bb-060;
-  border: 1px solid $blk-020;
+  color: $red;
   box-shadow: $box-shadow;
+  // from calcite colors
+  border: 1px solid $h-bb-060;
 }

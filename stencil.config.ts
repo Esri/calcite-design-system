@@ -14,11 +14,7 @@ export const config: Config = {
   globalStyle: "src/assets/styles/includes.scss",
   plugins: [
     sass({
-      injectGlobalPaths: [
-        "node_modules/calcite-fonts/fonts.scss",
-        "node_modules/@esri/calcite-colors/colors.scss",
-        "node_modules/@esri/calcite-base/dist/_index.scss"
-      ]
+      injectGlobalPaths: ["src/assets/styles/includes.scss"]
     })
   ]
 };
