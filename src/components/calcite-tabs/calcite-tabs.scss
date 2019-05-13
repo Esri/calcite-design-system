@@ -1,0 +1,19 @@
+:host {
+  --calcite-tabs-color: #{$darkest-gray};
+  --calcite-tabs-border: #{$lightest-gray};
+  --calcite-tabs-border-hover: #{$light-gray};
+  --calcite-tabs-color-active: #{$off-black};
+  --calcite-tabs-border-active: #{$blue};
+}
+
+:host([theme="dark"]) {
+  --calcite-tabs-color: #{$lightest-gray};
+  --calcite-tabs-border: #{$darker-gray};
+  --calcite-tabs-border-hover: #{$gray};
+  --calcite-tabs-color-active: #{$off-white};
+  --calcite-tabs-border-active: #{$white};
+}
+
+.tab-contents {
+  border-top: 1px solid var(--calcite-tabs-border);
+}

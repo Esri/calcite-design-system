@@ -3,7 +3,7 @@ import { format } from "../../utils/utils";
 
 @Component({
   tag: "calcite-modal",
-  styleUrl: "calcite-modal.css",
+  styleUrl: "calcite-modal.scss",
   shadow: true
 })
 export class CalciteModal {
@@ -27,6 +27,6 @@ export class CalciteModal {
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return <div class="example-class">Hello, World! I'm {this.getText()}</div>;
   }
 }
