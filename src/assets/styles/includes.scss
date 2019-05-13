@@ -1,22 +1,7 @@
+
 @import './../../../node_modules/calcite-fonts/fonts.scss';
-@import './../../../node_modules/@esri/calcite-colors/colors.scss';
+@import './node_modules/@esri/calcite-base/dist/_index.scss';
 
 * {
   font-family: "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
 }
-
-// temporarily map values required by cw utils
-$off-black: $blk-230;
-$blue: $h-bb-060;
-$dark-blue: $h-bb-070;
-
-// Sass Output
-$generate-css: true !default;
-$include-utils: $generate-css !default;
-
-// ┌──────────────┐
-// │ CALCITE WEB  │
-// └──────────────┘
-
-@import "./../../../node_modules/calcite-web/dist/sass/calcite-web/base/config";
-@import "./../../../node_modules/calcite-web/dist/sass/calcite-web/utils/utils";
