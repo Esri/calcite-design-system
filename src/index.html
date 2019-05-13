@@ -8,11 +8,17 @@
     />
     <title>Calcite Component Starter</title>
 
-    <link
-      rel="stylesheet"
-      href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css"
-    />
-    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+    <style>
+      body {
+        font-family: "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+      }
+
+      .dark-tabs-demo {
+        background: #323232;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
 
     <script src="/build/calcite.js"></script>
   </head>
@@ -41,7 +47,7 @@
 
       <h1 class="leader-1">Dark Theme Tabs</h1>
 
-      <div class="panel panel-dark">
+      <div class="dark-tabs-demo">
         <calcite-tabs theme="dark">
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>

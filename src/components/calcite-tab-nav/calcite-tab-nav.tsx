@@ -20,9 +20,6 @@ export class CalciteTabNav {
   selectedTab: number | string = 0;
   @Watch("selectedTab")
   selectedTabChanged() {
-    console.log({
-      tab: this.selectedTab
-    });
     this.tabChange.emit({
       tab: this.selectedTab
     });
