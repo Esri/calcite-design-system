@@ -1,5 +1,6 @@
 :host {
   flex: 0 1 auto;
+  outline: none;
 }
 
 :host([is-active]) a {
@@ -9,6 +10,17 @@
 
 :host(:not(:last-child)) a {
   margin-right: 1.25rem;
+}
+
+:host(:active),
+:host(:focus),
+:host(:hover) {
+  a {
+    outline: none;
+    text-decoration: none;
+    color: var(--calcite-tabs-color-active);
+    border-bottom-color: var(--calcite-tabs-border-hover);
+  }
 }
 
 a {
@@ -24,13 +36,5 @@ a {
   transition: all 0.15s ease-in-out;
   // @include transition(all 0.15s ease-in-out);
   color: var(--calcite-tabs-color);
-
-  &:active,
-  &:hover,
-  &:focus {
-    outline: none;
-    text-decoration: none;
-    color: var(--calcite-tabs-color-active);
-    border-bottom-color: var(var(--calcite-tabs-border-hover));
-  }
+  outline: none;
 }

@@ -4,9 +4,14 @@ import {
   Event,
   EventEmitter,
   Listen,
-  Element
+  Element,
+  Method,
+  State
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
+import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
+
+import { Guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-tab-title",
@@ -14,6 +19,9 @@ import { TabChangeEventDetail } from "../../interfaces/TabChange";
   shadow: true
 })
 export class CalciteTabTitle {
+  @Prop({ mutable: true, reflectToAttr: true })
+  private id: string = `calite-tab-title-${Guid.raw()}`;
+  @State() private controls: string;
   @Element() el: HTMLElement;
 
   @Prop({
@@ -28,13 +36,10 @@ export class CalciteTabTitle {
   })
   isActive: boolean = false;
 
-  @Event() tabTitleClicked: EventEmitter<TabChangeEventDetail>;
-
-  @Listen("click") onClick() {
-    this.tabTitleClicked.emit({
-      tab: this.tab
-    });
-  }
+  @Event() activateTab: EventEmitter<TabChangeEventDetail>;
+  @Event() focusNextTab: EventEmitter;
+  @Event() focusPreviousTab: EventEmitter;
+  @Event() private registerTabTitle: EventEmitter<TabRegisterEventDetail>;
 
   @Listen("parent:tabChange") tabChangeHand(
     event: CustomEvent<TabChangeEventDetail>
@@ -42,13 +47,58 @@ export class CalciteTabTitle {
     if (this.tab) {
       this.isActive = this.tab === event.detail.tab;
     } else {
-      const index = Array.prototype.indexOf.call(
-        this.el.parentElement.children,
-        this.el
-      );
-
-      this.isActive = index === event.detail.tab;
+      this.isActive = this.getTabIndex() === event.detail.tab;
     }
+  }
+
+  @Listen("click") onClick() {
+    this.activateTab.emit({
+      tab: this.tab
+    });
+  }
+
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case 13:
+      case 32:
+        this.onClick();
+        break;
+      case 37:
+        this.focusPreviousTab.emit();
+        break;
+      case 39:
+        this.focusNextTab.emit();
+        break;
+    }
+  }
+
+  componentDidLoad() {
+    this.registerTabTitle.emit({
+      id: this.id,
+      index: this.getTabIndex()
+    });
+  }
+
+  @Method()
+  getTabIndex() {
+    return Array.prototype.indexOf.call(
+      this.el.parentElement.children,
+      this.el
+    );
+  }
+
+  hostData() {
+    return {
+      "aria-expanded": this.isActive ? "true" : "false",
+      role: "tab",
+      "aria-controls": this.controls,
+      tabindex: 0
+    };
+  }
+
+  @Method()
+  setControledBy(id: string) {
+    this.controls = id;
   }
 
   render() {

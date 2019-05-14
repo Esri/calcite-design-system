@@ -4,9 +4,12 @@ import {
   Prop,
   Watch,
   Event,
-  EventEmitter
+  EventEmitter,
+  Element
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
+import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
+import { Guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -14,10 +17,15 @@ import { TabChangeEventDetail } from "../../interfaces/TabChange";
   shadow: true
 })
 export class CalciteTabNav {
+  @Element() el;
+  @Prop({ mutable: true, reflectToAttr: true })
+  private id: string = `calite-tab-nav-${Guid.raw()}`;
+
   @Event() tabChange!: EventEmitter<TabChangeEventDetail>;
 
   @Prop({ mutable: true })
   selectedTab: number | string = 0;
+
   @Watch("selectedTab")
   selectedTabChanged() {
     this.tabChange.emit({
@@ -25,21 +33,55 @@ export class CalciteTabNav {
     });
   }
 
-  @Listen("tabTitleClicked") tabTitleClickedHandler(
+  @Listen("focusPreviousTab") focusPreviousTabHandler(e: CustomEvent) {
+    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
+    const currentIndex = this.getIndexOfTabTitle(
+      e.target as HTMLCalciteTabTitleElement
+    );
+    const previousTab = tabs[currentIndex - 1] || tabs[tabs.length - 1];
+    console.log(previousTab);
+    previousTab.focus();
+  }
+
+  @Listen("focusNextTab") focusNextTabHandler(e: CustomEvent) {
+    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
+    const currentIndex = this.getIndexOfTabTitle(
+      e.target as HTMLCalciteTabTitleElement
+    );
+    const nextTab = tabs[currentIndex + 1] || tabs[0];
+    nextTab.focus();
+  }
+
+  @Listen("registerTabTitle")
+  tabTitleRegistationHandler(e: CustomEvent<TabRegisterEventDetail>) {
+    (e.target as HTMLCalciteTabTitleElement).setControledBy(this.id);
+  }
+
+  @Listen("activateTab") activateTabHandler(
     e: CustomEvent<TabChangeEventDetail>
   ) {
     if (e.detail.tab) {
       this.selectedTab = e.detail.tab;
     } else {
-      this.selectedTab = Array.prototype.indexOf.call(
-        (e.target as HTMLElement).parentElement.children,
-        e.target
+      this.selectedTab = this.getIndexOfTabTitle(
+        e.target as HTMLCalciteTabTitleElement
       );
     }
   }
 
+  getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
+    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
+    return Array.prototype.indexOf.call(tabs, el);
+  }
+
   componentWillLoad() {
     this.selectedTabChanged();
+  }
+
+  hostData() {
+    return {
+      role: "tablist"
+    };
   }
 
   render() {
