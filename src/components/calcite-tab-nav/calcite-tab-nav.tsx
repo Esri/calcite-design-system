@@ -21,19 +21,19 @@ export class CalciteTabNav {
   @Prop({ mutable: true, reflectToAttr: true })
   private id: string = `calite-tab-nav-${Guid.raw()}`;
 
-  @Event() tabChange!: EventEmitter<TabChangeEventDetail>;
+  @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
 
   @Prop({ mutable: true })
   selectedTab: number | string = 0;
 
   @Watch("selectedTab")
   selectedTabChanged() {
-    this.tabChange.emit({
+    this.calciteTabChange.emit({
       tab: this.selectedTab
     });
   }
 
-  @Listen("focusPreviousTab") focusPreviousTabHandler(e: CustomEvent) {
+  @Listen("calciteFocusPreviousTab") focusPreviousTabHandler(e: CustomEvent) {
     const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement
@@ -43,7 +43,7 @@ export class CalciteTabNav {
     previousTab.focus();
   }
 
-  @Listen("focusNextTab") focusNextTabHandler(e: CustomEvent) {
+  @Listen("calciteFocusNextTab") focusNextTabHandler(e: CustomEvent) {
     const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement
@@ -52,12 +52,12 @@ export class CalciteTabNav {
     nextTab.focus();
   }
 
-  @Listen("registerTabTitle")
+  @Listen("calciteRegisterTabTitle")
   tabTitleRegistationHandler(e: CustomEvent<TabRegisterEventDetail>) {
     (e.target as HTMLCalciteTabTitleElement).setControledBy(this.id);
   }
 
-  @Listen("activateTab") activateTabHandler(
+  @Listen("calciteActivateTab") activateTabHandler(
     e: CustomEvent<TabChangeEventDetail>
   ) {
     if (e.detail.tab) {

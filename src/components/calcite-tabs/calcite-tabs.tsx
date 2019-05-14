@@ -28,7 +28,7 @@ export class CalciteTabs {
   })
   theme: "light" | "dark" = "light";
 
-  @Listen("registerTabTitle") tabTitleRegistationHandler(
+  @Listen("calciteRegisterTabTitle") tabTitleRegistationHandler(
     e: CustomEvent<TabRegisterEventDetail>
   ) {
     const { index, id } = e.detail;
@@ -43,7 +43,7 @@ export class CalciteTabs {
     }
   }
 
-  @Listen("registerTab") tabRegistationHandler(
+  @Listen("calciteRegisterTab") tabRegistationHandler(
     e: CustomEvent<TabRegisterEventDetail>
   ) {
     const { index, id } = e.detail;

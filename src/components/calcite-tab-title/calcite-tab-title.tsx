@@ -36,12 +36,14 @@ export class CalciteTabTitle {
   })
   isActive: boolean = false;
 
-  @Event() activateTab: EventEmitter<TabChangeEventDetail>;
-  @Event() focusNextTab: EventEmitter;
-  @Event() focusPreviousTab: EventEmitter;
-  @Event() private registerTabTitle: EventEmitter<TabRegisterEventDetail>;
+  @Event() calciteActivateTab: EventEmitter<TabChangeEventDetail>;
+  @Event() calciteFocusNextTab: EventEmitter;
+  @Event() calciteFocusPreviousTab: EventEmitter;
+  @Event() private calciteRegisterTabTitle: EventEmitter<
+    TabRegisterEventDetail
+  >;
 
-  @Listen("parent:tabChange") tabChangeHand(
+  @Listen("parent:calciteTabChange") tabChangeHand(
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (this.tab) {
@@ -52,7 +54,7 @@ export class CalciteTabTitle {
   }
 
   @Listen("click") onClick() {
-    this.activateTab.emit({
+    this.calciteActivateTab.emit({
       tab: this.tab
     });
   }
@@ -64,16 +66,16 @@ export class CalciteTabTitle {
         this.onClick();
         break;
       case 37:
-        this.focusPreviousTab.emit();
+        this.calciteFocusNextTab.emit();
         break;
       case 39:
-        this.focusNextTab.emit();
+        this.calciteFocusPreviousTab.emit();
         break;
     }
   }
 
   componentDidLoad() {
-    this.registerTabTitle.emit({
+    this.calciteRegisterTabTitle.emit({
       id: this.id,
       index: this.getTabIndex()
     });
