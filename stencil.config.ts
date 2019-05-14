@@ -15,14 +15,14 @@ export const config: Config = {
     }
   ],
   outputTargets: [
-    { type: "dist" }
+    { type: "dist" },
     // { type: "docs" },
-    // {
-    //   type: "www",
-    //   serviceWorker: null // disable service workers
-    // }
+    {
+      type: "www",
+      serviceWorker: null // disable service workers
+    }
   ],
-  globalStyle: "src/assets/styles/includes.scss",
+  globalStyle: "src/assets/styles/global.scss",
   plugins: [
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
