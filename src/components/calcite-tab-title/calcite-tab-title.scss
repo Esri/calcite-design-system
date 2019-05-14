@@ -3,11 +3,6 @@
   outline: none;
 }
 
-:host([is-active]) a {
-  color: var(--calcite-tabs-color-active);
-  border-bottom-color: var(--calcite-tabs-border-active);
-}
-
 :host(:not(:last-child)) a {
   margin-right: 1.25rem;
 }
@@ -21,6 +16,11 @@
     color: var(--calcite-tabs-color-active);
     border-bottom-color: var(--calcite-tabs-border-hover);
   }
+}
+
+:host([is-active]) a {
+  color: var(--calcite-tabs-color-active);
+  border-bottom-color: var(--calcite-tabs-border-active);
 }
 
 a {

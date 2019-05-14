@@ -89,7 +89,7 @@ export class CalciteTabTitle {
   async getTabIndex() {
     return Promise.resolve(
       Array.prototype.indexOf.call(
-        this.el.parentElement.querySelectorAll("calcite-tab"),
+        this.el.parentElement.querySelectorAll("calcite-tab-title"),
         this.el
       )
     );
