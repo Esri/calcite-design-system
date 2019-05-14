@@ -49,7 +49,9 @@ export class CalciteTabTitle {
     if (this.tab) {
       this.isActive = this.tab === event.detail.tab;
     } else {
-      this.isActive = this.getTabIndex() === event.detail.tab;
+      this.getTabIndex().then(index => {
+        this.isActive = index === event.detail.tab;
+      });
     }
   }
 
@@ -75,17 +77,21 @@ export class CalciteTabTitle {
   }
 
   componentDidLoad() {
-    this.calciteRegisterTabTitle.emit({
-      id: this.id,
-      index: this.getTabIndex()
+    this.getTabIndex().then(index => {
+      this.calciteRegisterTabTitle.emit({
+        id: this.id,
+        index
+      });
     });
   }
 
   @Method()
-  getTabIndex() {
-    return Array.prototype.indexOf.call(
-      this.el.parentElement.children,
-      this.el
+  async getTabIndex() {
+    return Promise.resolve(
+      Array.prototype.indexOf.call(
+        this.el.parentElement.querySelectorAll("calcite-tab"),
+        this.el
+      )
     );
   }
 

@@ -3,13 +3,24 @@ import { sass } from "@stencil/sass";
 
 export const config: Config = {
   namespace: "calcite",
-  outputTargets: [
-    { type: "dist" },
-    { type: "docs" },
+  bundles: [
+    { components: ["calcite-modal"] },
     {
-      type: "www",
-      serviceWorker: null // disable service workers
+      components: [
+        "calcite-tabs",
+        "calcite-tab",
+        "calcite-tab-title",
+        "calcite-tab-nav"
+      ]
     }
+  ],
+  outputTargets: [
+    { type: "dist" }
+    // { type: "docs" },
+    // {
+    //   type: "www",
+    //   serviceWorker: null // disable service workers
+    // }
   ],
   globalStyle: "src/assets/styles/includes.scss",
   plugins: [

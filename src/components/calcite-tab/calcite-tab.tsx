@@ -43,24 +43,30 @@ export class CalciteTab {
     if (this.tab) {
       this.isActive = this.tab === event.detail.tab;
     } else {
-      this.isActive = this.getTabIndex() === event.detail.tab;
+      this.getTabIndex().then(index => {
+        this.isActive = index === event.detail.tab;
+      });
     }
   }
 
   @Event() calciteRegisterTab: EventEmitter<TabRegisterEventDetail>;
 
   componentDidLoad() {
-    this.calciteRegisterTab.emit({
-      id: this.id,
-      index: this.getTabIndex()
+    this.getTabIndex().then(index => {
+      this.calciteRegisterTab.emit({
+        id: this.id,
+        index
+      });
     });
   }
 
   @Method()
-  getTabIndex() {
-    return Array.prototype.indexOf.call(
-      this.el.parentElement.querySelectorAll("calcite-tab"),
-      this.el
+  async getTabIndex() {
+    return Promise.resolve(
+      Array.prototype.indexOf.call(
+        this.el.parentElement.querySelectorAll("calcite-tab"),
+        this.el
+      )
     );
   }
 

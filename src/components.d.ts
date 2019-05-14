@@ -61,7 +61,7 @@ export namespace Components {
   }
 
   interface CalciteTabTitle {
-    'getTabIndex': () => any;
+    'getTabIndex': () => Promise<any>;
     'id': string;
     'isActive': boolean;
     'setControledBy': (id: string) => void;
@@ -78,7 +78,7 @@ export namespace Components {
   }
 
   interface CalciteTab {
-    'getTabIndex': () => any;
+    'getTabIndex': () => Promise<any>;
     'id': string;
     'isActive': boolean;
     'registerLabeledBy': (id: any) => void;
