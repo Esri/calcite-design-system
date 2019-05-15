@@ -14,6 +14,9 @@ import {
 import {
   TabChangeEventDetail,
 } from './interfaces/TabChange';
+import {
+  TabRegisterEventDetail,
+} from './interfaces/TabRegister';
 
 
 export namespace Components {
@@ -48,29 +51,43 @@ export namespace Components {
   }
 
   interface CalciteTabNav {
+    'id': string;
     'selectedTab': number | string;
   }
   interface CalciteTabNavAttributes extends StencilHTMLAttributes {
-    'onTabChange'?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    'id'?: string;
+    'onCalciteTabChange'?: (event: CustomEvent<TabChangeEventDetail>) => void;
     'selectedTab'?: number | string;
   }
 
   interface CalciteTabTitle {
+    'getTabIndex': () => Promise<any>;
+    'id': string;
     'isActive': boolean;
+    'setControledBy': (id: string) => void;
     'tab': string;
   }
   interface CalciteTabTitleAttributes extends StencilHTMLAttributes {
+    'id'?: string;
     'isActive'?: boolean;
-    'onTabTitleClicked'?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    'onCalciteActivateTab'?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    'onCalciteFocusNextTab'?: (event: CustomEvent) => void;
+    'onCalciteFocusPreviousTab'?: (event: CustomEvent) => void;
+    'onCalciteRegisterTabTitle'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
     'tab'?: string;
   }
 
   interface CalciteTab {
+    'getTabIndex': () => Promise<any>;
+    'id': string;
     'isActive': boolean;
+    'registerLabeledBy': (id: any) => void;
     'tab': string;
   }
   interface CalciteTabAttributes extends StencilHTMLAttributes {
+    'id'?: string;
     'isActive'?: boolean;
+    'onCalciteRegisterTab'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
     'tab'?: string;
   }
 

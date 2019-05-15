@@ -1,6 +1,6 @@
 :host {
   --calcite-tabs-color: #{$darkest-gray};
-  --calcite-tabs-border: #{$lightest-gray};
+  --calcite-tabs-border: #{$lighter-gray};
   --calcite-tabs-border-hover: #{$light-gray};
   --calcite-tabs-color-active: #{$off-black};
   --calcite-tabs-border-active: #{$blue};
@@ -15,5 +15,6 @@
 }
 
 .tab-contents {
+  margin-top: 1px;
   border-top: 1px solid var(--calcite-tabs-border);
 }

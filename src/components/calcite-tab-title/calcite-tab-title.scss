@@ -1,14 +1,22 @@
 :host {
   flex: 0 1 auto;
+  outline: none;
+}
+
+:host(:active),
+:host(:focus),
+:host(:hover) {
+  a {
+    outline: none;
+    text-decoration: none;
+    color: var(--calcite-tabs-color-active);
+    border-bottom-color: var(--calcite-tabs-border-hover);
+  }
 }
 
 :host([is-active]) a {
   color: var(--calcite-tabs-color-active);
   border-bottom-color: var(--calcite-tabs-border-active);
-}
-
-:host(:not(:last-child)) a {
-  margin-right: 1.25rem;
 }
 
 a {
@@ -24,13 +32,5 @@ a {
   transition: all 0.15s ease-in-out;
   // @include transition(all 0.15s ease-in-out);
   color: var(--calcite-tabs-color);
-
-  &:active,
-  &:hover,
-  &:focus {
-    outline: none;
-    text-decoration: none;
-    color: var(--calcite-tabs-color-active);
-    border-bottom-color: var(var(--calcite-tabs-border-hover));
-  }
+  outline: none;
 }
