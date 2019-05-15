@@ -1,10 +1,6 @@
+// from https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues#Examples
 function random() {
-  if (window.crypto.getRandomValues) {
-    // from https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues#Examples
-    return window.crypto.getRandomValues(new Uint32Array(1))[0] / 1e10;
-  }
-
-  return Math.random();
+  return window.crypto.getRandomValues(new Uint32Array(1))[0] / 1e10;
 }
 
 function gen(count) {
