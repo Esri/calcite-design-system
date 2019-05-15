@@ -11,7 +11,7 @@ import {
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 
-import { Guid } from "../../utils/guid";
+import { guid } from "../../utils/guid";
 import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
 
 @Component({
@@ -21,7 +21,7 @@ import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
 })
 export class CalciteTabTitle {
   @Prop({ mutable: true, reflectToAttr: true })
-  private id: string = `calite-tab-title-${Guid.raw()}`;
+  private id: string = `calite-tab-title-${guid()}`;
   @State() private controls: string;
   @Element() el: HTMLElement;
 

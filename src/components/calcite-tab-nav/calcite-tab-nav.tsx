@@ -9,7 +9,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
-import { Guid } from "../../utils/guid";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -19,7 +19,7 @@ import { Guid } from "../../utils/guid";
 export class CalciteTabNav {
   @Element() el;
   @Prop({ mutable: true, reflectToAttr: true })
-  private id: string = `calite-tab-nav-${Guid.raw()}`;
+  private id: string = `calite-tab-nav-${guid()}`;
 
   @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
 
