@@ -3,10 +3,6 @@
   outline: none;
 }
 
-:host(:not(:last-child)) a {
-  margin-right: 1.25rem;
-}
-
 :host(:active),
 :host(:focus),
 :host(:hover) {

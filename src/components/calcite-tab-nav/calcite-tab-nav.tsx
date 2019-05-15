@@ -39,7 +39,6 @@ export class CalciteTabNav {
       e.target as HTMLCalciteTabTitleElement
     );
     const previousTab = tabs[currentIndex - 1] || tabs[tabs.length - 1];
-    console.log(previousTab);
     previousTab.focus();
   }
 
@@ -71,7 +70,7 @@ export class CalciteTabNav {
 
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
     const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
-    return Array.prototype.indexOf.call(tabs, el);
+    return [...tabs].indexOf(el);
   }
 
   componentWillLoad() {

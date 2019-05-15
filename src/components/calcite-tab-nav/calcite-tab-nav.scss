@@ -1,4 +1,13 @@
-:host {
+.tab-nav {
   display: flex;
   padding: $baseline/3 0;
+}
+
+::slotted(calcite-tab-title) {
+  margin-right: 1.25rem;
+}
+
+:host([dir="rtl"]) ::slotted(calcite-tab-title) {
+  margin-right: 0;
+  margin-left: 1.25rem;
 }

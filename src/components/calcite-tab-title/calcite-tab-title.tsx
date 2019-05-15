@@ -12,6 +12,7 @@ import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 
 import { Guid } from "../../utils/guid";
+import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
 
 @Component({
   tag: "calcite-tab-title",
@@ -63,14 +64,14 @@ export class CalciteTabTitle {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     switch (e.keyCode) {
-      case 13:
-      case 32:
+      case SPACE:
+      case ENTER:
         this.onClick();
         break;
-      case 37:
+      case RIGHT:
         this.calciteFocusNextTab.emit();
         break;
-      case 39:
+      case LEFT:
         this.calciteFocusPreviousTab.emit();
         break;
     }
