@@ -4,9 +4,11 @@ import { sass } from "@stencil/sass";
 export const config: Config = {
   namespace: "calcite",
   bundles: [
-    { components: ["calcite-modal"] },
     {
       components: [
+        "calcite-modal",
+        "calcite-alert",
+        "calcite-alert-container",
         "calcite-tabs",
         "calcite-tab",
         "calcite-tab-title",
@@ -22,7 +24,7 @@ export const config: Config = {
       serviceWorker: null // disable service workers
     }
   ],
-  globalStyle: "src/assets/styles/global.scss",
+  globalStyle: "src/assets/styles/includes.scss",
   plugins: [
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]

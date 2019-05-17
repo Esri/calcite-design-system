@@ -1,0 +1,230 @@
+:host .alert {
+  position: relative;
+  justify-content: center;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  z-index: 100;
+  width: 50em;
+  max-width: 90%;
+  border-radius: 2px;
+  background-color: $blk-000;
+  box-shadow: 0 0 12px 0 rgba($blk-240, 0.15);
+  height: 0;
+  opacity: 0;
+  display: flex;
+  border-top: 3px solid;
+  transition: visibility 0ms linear 300ms, opacity 300ms $easing-function, all .15s ease-in-out;
+  transform: translate3d(0, $baseline, 0);
+  pointer-events: none;
+  border-width: 0px;
+
+  @media only screen and (max-width: 600px) {
+    max-width: 100%;
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 -6px 12px 0 rgba($blk-240, 0.15);
+  }
+}
+
+:host([is-active]) .alert {
+  visibility: visible;
+  border-width: 3px;
+  opacity: 1;
+  height: 100%;
+  transition-delay: 300ms;
+  transform: translate3d(0, 0, 0);
+  pointer-events: initial;
+}
+
+:host slot[name=alert-title]::slotted(div) {
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+:host slot[name=alert-link]::slotted(a) {
+  display: inline-block;
+  font-size: 15px;
+  color: $h-bb-060;
+}
+
+:host slot[name=alert-message]::slotted(div) {
+  font-size: 15px;
+  color: $blk-160;
+  display: inline;
+  margin-inline-end: $baseline/2;
+}
+
+@mixin alert-color($color) {
+  border-top-color: $color;
+
+  & .alert-icon svg {
+    fill: $color;
+  }
+}
+
+@mixin alert-element-base() {
+  padding: $baseline/2 $baseline;
+  flex: 0 0 auto;
+
+  @media only screen and (max-width: 600px) {
+    padding: $baseline;
+  }
+
+  & svg {
+    position: relative;
+    vertical-align: top;
+    height: 16px;
+    width: 16px;
+  }
+}
+
+:host .alert-content {
+  @include alert-element-base;
+  flex: 1 1 auto;
+  min-width: 0;
+  word-wrap: break-word;
+  padding-block-start: $baseline/2;
+  padding-block-end: $baseline/2;
+  padding-inline-end: $baseline/2;
+  padding-inline-start: 0;
+
+  &:first-child {
+    padding-inline-start: $baseline;
+  }
+}
+
+
+:host .alert-icon {
+  @include alert-element-base;
+  display: flex;
+  align-items: center;
+}
+
+:host .alert-close {
+  @include alert-element-base;
+  transition: all .15s ease-in-out;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0 0 2px 0;
+
+  & svg {
+    fill: $blk-220;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $blk-010;
+  }
+
+  &:active {
+    background-color: $blk-020;
+  }
+
+  &:last-child {
+    border-radius: 0 0 2px 0;
+
+    :host([dir="rtl"]) & {
+      border-radius: 0 0 0 2px;
+    }
+
+  }
+
+  @media only screen and (max-width: 600px) {
+    padding: $baseline/2;
+    border-radius: 0;
+  }
+}
+
+:host .alert-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: all .15s ease-in;
+  width: 0;
+  font-size: 14px;
+  visibility: hidden;
+  padding: 0;
+  font-weight: 500;
+  text-align: center;
+  background-color: transparent;
+  color: $gray;
+  opacity: 0;
+  border-left: 0px solid transparent;
+  border-right: 0px solid transparent;
+  cursor: default;
+
+  &.is-active {
+    visibility: visible;
+    transition-delay: 300ms;
+    opacity: 1;
+    padding: 0 $baseline/4;
+    width: $baseline*2;
+    border-left: 1px solid $lightest-gray;
+    border-right: 1px solid $lightest-gray;
+
+  }
+
+  @media only screen and (max-width: 600px) {
+    border-radius: 0;
+  }
+}
+
+:host .alert.alert-dismiss-6000,
+:host .alert.alert-dismiss-10000,
+:host .alert.alert-dismiss-14000 {
+  &:after {
+    height: 3px;
+    top: -3px;
+    right: 0;
+    display: block;
+    position: absolute;
+    border-radius: 2px 2px 0 0;
+    content: '';
+    width: 0;
+    opacity: 0;
+    background-color: rgba($white, 0.5);
+    animation: dismissProgress 6000ms linear;
+    transition-delay: 300ms;
+    transition: all .15s ease;
+  }
+}
+
+:host .alert.is-dismissing-10000:after {
+  animation: dismissProgress 10000ms linear;
+}
+
+:host .alert.is-dismissing-14000:after {
+  animation: dismissProgress 14000ms linear;
+}
+
+@keyframes dismissProgress {
+  0% {
+    width: 0;
+    opacity: 0
+  }
+
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+$alertColors:
+''$h-bb-060,
+'-red'$h-rr-060,
+'-yellow'$h-yy-060,
+'-green'$h-gg-060;
+
+@each $alertColor in $alertColors {
+  $name: nth($alertColor, 1);
+  $color: nth($alertColor, 2);
+
+  :host .alert#{$name} {
+    @include alert-color($color);
+  }
+}
