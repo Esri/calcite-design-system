@@ -30,6 +30,7 @@ export class CalciteAlert {
       this.alertClose.emit(this.id);
     }
   }
+
   componentWillUpdate() {
     this.isActive = this.currentAlert === this.id;
     if (this.isActive) this.alertOpen.emit(this.id);
@@ -41,6 +42,7 @@ export class CalciteAlert {
       setTimeout(() => { this.close(); }, durationInMs);
     }
   }
+
   hostData() {
     return {
       'is-active': !!this.isActive

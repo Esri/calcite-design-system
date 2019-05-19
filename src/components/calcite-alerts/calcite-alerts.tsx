@@ -24,7 +24,6 @@ export class CalciteAlerts {
       this.isActive = true;
       this.currentAlert = requestedAlert;
       this.queue.push(requestedAlert);
-      if (this.queue.length > 0 && !this.queue.includes(this.currentAlert)) this.queue.push(this.currentAlert);
       this.alertsOpen.emit({id: this.id, currentAlert: this.currentAlert, queue: this.queue});
     }
   }
@@ -32,7 +31,7 @@ export class CalciteAlerts {
   @Listen('alertClose') updateQueue(event: CustomEvent) {
     if (this.queue.includes(event.detail)) this.queue = this.queue.filter(e => e !== event.detail);
     if (this.queue.length < 1) setTimeout(() => {this.isActive = false}, 300);
-    if (this.queue.length < 1) this.alertsClose.emit({id: this.id, currentAlert: this.currentAlert, queue: this.queue });
+    this.alertsClose.emit({id: this.id, currentAlert: this.currentAlert, queue: this.queue });
   }
 
   componentWillUpdate() {
