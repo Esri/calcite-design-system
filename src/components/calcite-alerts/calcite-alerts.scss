@@ -8,7 +8,6 @@
   height: 0;
   z-index: 101;
   pointer-events: none;
-  transition: bottom .15s ease-in-out;
 
   @media only screen and (max-width: 600px) {
     bottom: 0px;

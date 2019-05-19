@@ -8,14 +8,13 @@ import { lightbulb24F, exclamationMarkTriangle24F, checkCircle24F, x32 } from '@
   shadow: true
 })
 
-export class Alert {
+export class CalciteAlert {
   @Element() el: HTMLElement;
 
   @Prop() color: string = ''
   @Prop() currentAlert: string = ''
   @Prop() dismiss: boolean = false;
   @Prop() duration: string = 'medium';
-  @Prop() durationInMs = 6000;
   @Prop() icon: boolean = false;
   @Prop() id: string = '1';
   @Prop() queueLength: number = 0
@@ -25,31 +24,26 @@ export class Alert {
   @Event() alertClose: EventEmitter;
   @Event() alertOpen: EventEmitter;
 
-  componentWillUpdate() {
-    this.isActive = this.currentAlert === this.id;
-    if (this.isActive) {
-      this.alertOpen.emit(this.id);
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.isActive && this.dismiss) {
-      this.durationInMs = this.duration === 'fast' ? 6000 : this.duration === 'slow' ? 14000 : 10000;
-      setTimeout(() => { this.close(); }, this.durationInMs);
-    }
-  }
-
   @Method() async close() {
     if (this.isActive) {
       this.isActive = false;
       this.alertClose.emit(this.id);
     }
   }
+  componentWillUpdate() {
+    this.isActive = this.currentAlert === this.id;
+    if (this.isActive) this.alertOpen.emit(this.id);
+  }
 
+  componentDidUpdate() {
+    if (this.isActive && this.dismiss) {
+      let durationInMs = this.duration === 'fast' ? 6000 : this.duration === 'slow' ? 14000 : 10000;
+      setTimeout(() => { this.close(); }, durationInMs);
+    }
+  }
   hostData() {
     return {
-      'is-active': !!this.isActive,
-      'class': { 'is-dismissing': this.dismiss },
+      'is-active': !!this.isActive
     }
   }
 
@@ -74,7 +68,7 @@ export class Alert {
     const count = <div class={`${this.queueLength > 0 ? 'is-active ' : ''}alert-count`}>+{this.queueLength > 0 ? this.queueLength : 1}</div>
 
     return (
-      <div class={`alert alert-${this.color} ${this.dismiss && this.isActive ? `alert-dismiss-${this.durationInMs}` : ''}`} role="alert" aria-atomic="true">
+      <div class={`alert alert-${this.color} ${this.dismiss && this.isActive ? `alert-dismiss alert-dismiss-${this.duration}` : ''}`} role="alert" aria-atomic="true">
         {icon}
         <div class='alert-content'>
           <slot name="alert-title"></slot>
@@ -88,4 +82,4 @@ export class Alert {
   }
 }
 
-AlertInterface.injectProps(Alert, ['currentAlert', 'queueLength']);
+AlertInterface.injectProps(CalciteAlert, ['currentAlert', 'queueLength']);

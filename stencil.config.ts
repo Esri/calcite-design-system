@@ -7,8 +7,8 @@ export const config: Config = {
     {
       components: [
         "calcite-modal",
+        "calcite-alerts",
         "calcite-alert",
-        "calcite-alert-container",
         "calcite-tabs",
         "calcite-tab",
         "calcite-tab-title",

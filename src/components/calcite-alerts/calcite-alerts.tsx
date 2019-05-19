@@ -2,12 +2,12 @@ import { Component, Element, Event, EventEmitter, Listen, Method, Prop, State } 
 import AlertInterface from '../../interfaces/AlertInterface';
 
 @Component({
-  tag: 'calcite-alert-container',
-  styleUrl: 'calcite-alert-container.scss',
+  tag: 'calcite-alerts',
+  styleUrl: 'calcite-alerts.scss',
   shadow: true
 })
 
-export class AlertContainer {
+export class CalciteAlerts {
   @Element() el: HTMLElement;
 
   @Prop() id: string = '1';
@@ -16,31 +16,27 @@ export class AlertContainer {
   @State() isActive: boolean = false;
   @State() queue: string[] = [];
 
-  @Event() alertContainerClose: EventEmitter;
-  @Event() alertContainerOpen: EventEmitter;
-
-  componentWillUpdate() {
-    this.currentAlert = this.queue.length > 0 ? this.queue[0] : '';
-    if (this.queue.length > 0 && !this.queue.includes(this.currentAlert)) {
-      this.queue.push(this.currentAlert)
-    }
-  }
+  @Event() alertsClose: EventEmitter;
+  @Event() alertsOpen: EventEmitter;
 
   @Method() async open(requestedAlert) {
     if (!this.queue.includes(requestedAlert)) {
       this.isActive = true;
       this.currentAlert = requestedAlert;
-      this.queue.push(requestedAlert)
-      this.alertContainerOpen.emit({id: this.id, currentAlert: this.currentAlert});
+      this.queue.push(requestedAlert);
+      if (this.queue.length > 0 && !this.queue.includes(this.currentAlert)) this.queue.push(this.currentAlert);
+      this.alertsOpen.emit({id: this.id, currentAlert: this.currentAlert, queue: this.queue});
     }
   }
 
   @Listen('alertClose') updateQueue(event: CustomEvent) {
-    this.isActive = this.queue.length > 0 ? true : false;
-    this.queue = this.queue.includes(event.detail) ? this.queue.filter(e => e !== event.detail) : this.queue;
-    if (this.queue.length < 1) {
-      this.alertContainerClose.emit({id: this.id, currentAlert: this.currentAlert});
-    }
+    if (this.queue.includes(event.detail)) this.queue = this.queue.filter(e => e !== event.detail);
+    if (this.queue.length < 1) setTimeout(() => {this.isActive = false}, 300);
+    if (this.queue.length < 1) this.alertsClose.emit({id: this.id, currentAlert: this.currentAlert, queue: this.queue });
+  }
+
+  componentWillUpdate() {
+    this.currentAlert = this.queue.length > 0 ? this.queue[0] : '';
   }
 
   hostData() {

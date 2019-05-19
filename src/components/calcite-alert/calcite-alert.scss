@@ -93,6 +93,13 @@
   &:first-child {
     padding-inline-start: $baseline;
   }
+  @media only screen and (max-width: 600px) {
+    padding-block-start: $baseline;
+    padding-block-end: $baseline;
+    padding-inline-end: $baseline/2;
+    padding-inline-start: 0;
+  }
+
 }
 
 
@@ -135,7 +142,6 @@
   }
 
   @media only screen and (max-width: 600px) {
-    padding: $baseline/2;
     border-radius: 0;
   }
 }
@@ -174,9 +180,7 @@
   }
 }
 
-:host .alert.alert-dismiss-6000,
-:host .alert.alert-dismiss-10000,
-:host .alert.alert-dismiss-14000 {
+:host .alert.alert-dismiss {
   &:after {
     height: 3px;
     top: -3px;
@@ -187,18 +191,22 @@
     content: '';
     width: 0;
     opacity: 0;
-    background-color: rgba($white, 0.5);
-    animation: dismissProgress 6000ms linear;
+    background-color: rgba($white, 0.6);
+    animation: dismissProgress 10000ms linear;
     transition-delay: 300ms;
     transition: all .15s ease;
   }
 }
 
-:host .alert.is-dismissing-10000:after {
+:host .alert.alert-dismiss-fast:after {
+  animation: dismissProgress 6000ms linear;
+}
+
+:host .alert.alert-dismiss-medium:after {
   animation: dismissProgress 10000ms linear;
 }
 
-:host .alert.is-dismissing-14000:after {
+:host .alert.alert-dismiss-slow:after {
   animation: dismissProgress 14000ms linear;
 }
 
