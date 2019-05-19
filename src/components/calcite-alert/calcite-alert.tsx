@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, Method, Prop, State } from '@stencil/core';
-import AlertInterface from '../../interfaces/AlertInterface';
 import { lightbulb24F, exclamationMarkTriangle24F, checkCircle24F, x32 } from '@esri/calcite-ui-icons';
+import AlertInterface from '../../interfaces/AlertInterface';
 
 @Component({
   tag: 'calcite-alert',
@@ -34,13 +34,7 @@ export class CalciteAlert {
   componentWillUpdate() {
     this.isActive = this.currentAlert === this.id;
     if (this.isActive) this.alertOpen.emit(this.id);
-  }
-
-  componentDidUpdate() {
-    if (this.isActive && this.dismiss) {
-      let durationInMs = this.duration === 'fast' ? 6000 : this.duration === 'slow' ? 14000 : 10000;
-      setTimeout(() => { this.close(); }, durationInMs);
-    }
+    if (this.isActive && this.dismiss) setTimeout(() => { this.close(); }, this.duration === 'fast' ? 6000 : this.duration === 'slow' ? 14000 : 10000);
   }
 
   hostData() {
