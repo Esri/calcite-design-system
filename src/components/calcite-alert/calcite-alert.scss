@@ -67,6 +67,8 @@
 @mixin alert-element-base() {
   padding: $baseline/2 $baseline;
   flex: 0 0 auto;
+  transition-delay: 300ms;
+  transition: all .15s ease-in-out;
 
   @media only screen and (max-width: 600px) {
     padding: $baseline;
@@ -111,7 +113,6 @@
 
 :host .alert-close {
   @include alert-element-base;
-  transition: all .15s ease-in-out;
   -webkit-appearance: none;
   background-color: transparent;
   border: none;
