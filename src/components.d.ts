@@ -7,7 +7,7 @@
 
 import '@stencil/core';
 
-
+import '@stencil/state-tunnel';
 import {
   EventEmitter,
 } from '@stencil/core';
@@ -20,6 +20,38 @@ import {
 
 
 export namespace Components {
+
+  interface CalciteAlert {
+    'close': () => Promise<void>;
+    'color': string;
+    'currentAlert': string;
+    'dismiss': boolean;
+    'duration': string;
+    'icon': boolean;
+    'id': string;
+    'queueLength': number;
+  }
+  interface CalciteAlertAttributes extends StencilHTMLAttributes {
+    'color'?: string;
+    'currentAlert'?: string;
+    'dismiss'?: boolean;
+    'duration'?: string;
+    'icon'?: boolean;
+    'id'?: string;
+    'onAlertClose'?: (event: CustomEvent) => void;
+    'onAlertOpen'?: (event: CustomEvent) => void;
+    'queueLength'?: number;
+  }
+
+  interface CalciteAlerts {
+    'id': string;
+    'open': (requestedAlert: any) => Promise<void>;
+  }
+  interface CalciteAlertsAttributes extends StencilHTMLAttributes {
+    'id'?: string;
+    'onAlertsClose'?: (event: CustomEvent) => void;
+    'onAlertsOpen'?: (event: CustomEvent) => void;
+  }
 
   interface CalciteModal {
     /**
@@ -101,6 +133,8 @@ export namespace Components {
 
 declare global {
   interface StencilElementInterfaces {
+    'CalciteAlert': Components.CalciteAlert;
+    'CalciteAlerts': Components.CalciteAlerts;
     'CalciteModal': Components.CalciteModal;
     'CalciteTabNav': Components.CalciteTabNav;
     'CalciteTabTitle': Components.CalciteTabTitle;
@@ -109,6 +143,8 @@ declare global {
   }
 
   interface StencilIntrinsicElements {
+    'calcite-alert': Components.CalciteAlertAttributes;
+    'calcite-alerts': Components.CalciteAlertsAttributes;
     'calcite-modal': Components.CalciteModalAttributes;
     'calcite-tab-nav': Components.CalciteTabNavAttributes;
     'calcite-tab-title': Components.CalciteTabTitleAttributes;
@@ -116,6 +152,18 @@ declare global {
     'calcite-tabs': Components.CalciteTabsAttributes;
   }
 
+
+  interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {}
+  var HTMLCalciteAlertElement: {
+    prototype: HTMLCalciteAlertElement;
+    new (): HTMLCalciteAlertElement;
+  };
+
+  interface HTMLCalciteAlertsElement extends Components.CalciteAlerts, HTMLStencilElement {}
+  var HTMLCalciteAlertsElement: {
+    prototype: HTMLCalciteAlertsElement;
+    new (): HTMLCalciteAlertsElement;
+  };
 
   interface HTMLCalciteModalElement extends Components.CalciteModal, HTMLStencilElement {}
   var HTMLCalciteModalElement: {
@@ -148,6 +196,8 @@ declare global {
   };
 
   interface HTMLElementTagNameMap {
+    'calcite-alert': HTMLCalciteAlertElement
+    'calcite-alerts': HTMLCalciteAlertsElement
     'calcite-modal': HTMLCalciteModalElement
     'calcite-tab-nav': HTMLCalciteTabNavElement
     'calcite-tab-title': HTMLCalciteTabTitleElement
@@ -156,6 +206,8 @@ declare global {
   }
 
   interface ElementTagNameMap {
+    'calcite-alert': HTMLCalciteAlertElement;
+    'calcite-alerts': HTMLCalciteAlertsElement;
     'calcite-modal': HTMLCalciteModalElement;
     'calcite-tab-nav': HTMLCalciteTabNavElement;
     'calcite-tab-title': HTMLCalciteTabTitleElement;
