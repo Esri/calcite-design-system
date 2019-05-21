@@ -6,7 +6,9 @@ import {
   Listen,
   Element,
   Method,
-  State
+  State,
+  h,
+  Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
@@ -20,8 +22,7 @@ import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
   shadow: true
 })
 export class CalciteTabTitle {
-  @Prop({ mutable: true, reflectToAttr: true })
-  private id: string = `calite-tab-title-${guid()}`;
+  @Prop({ mutable: true, reflectToAttr: true }) id: string = `calite-tab-title-${guid()}`;
   @State() private controls: string;
   @Element() el: HTMLElement;
 
@@ -44,7 +45,7 @@ export class CalciteTabTitle {
     TabRegisterEventDetail
   >;
 
-  @Listen("parent:calciteTabChange") tabChangeHand(
+  @Listen('calciteTabChange', { target: 'parent' }) tabChangeHand(
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (this.tab) {
@@ -96,25 +97,18 @@ export class CalciteTabTitle {
     );
   }
 
-  hostData() {
-    return {
-      "aria-expanded": this.isActive ? "true" : "false",
-      role: "tab",
-      "aria-controls": this.controls,
-      tabindex: 0
-    };
-  }
-
   @Method()
-  setControledBy(id: string) {
+  async setControledBy(id: string) {
     this.controls = id;
   }
 
   render() {
     return (
-      <a>
-        <slot />
-      </a>
+      <Host aria-controls={this.controls} aria-expanded={this.isActive ? "true" : "false"} role="tab" tabindex="0">
+        <a>
+          <slot />
+        </a>
+      </Host>
     );
   }
 }

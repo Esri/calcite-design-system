@@ -14,9 +14,10 @@
     }
   </style>
 
-  <link rel="stylesheet" href="/build/calcite.css" />
-  <script src="/build/calcite.js"></script>
-  <script src="/assets/demo/createAlert.js"></script>
+<link rel="stylesheet" href="/build/calcite.css" />
+<script type="module" src="build/calcite.esm.js"></script>
+<script nomodule src="build/calcite.js"></script>
+<script src="/assets/demo/createAlert.js"></script>
 </head>
 
 <body>
@@ -100,13 +101,13 @@
         <h5>Multiple alerts will be added to a queue.</h5>
         <button onclick=document.querySelector('#my-alert-container').open('one')>Autodismiss, title, link, red</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('two')>Icon, link, green</button><br />
-        <button onclick=document.querySelector('#my-alert-container').open('three')>Icon</button><br />
+        <button onclick=document.querySelector('#my-alert-container').open('three')>Icon, dark theme</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('four')>Icon, title, yellow, link</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('five')>Default</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('six')>Icon, title, link, red</button><br />
-        <button onclick=document.querySelector('#my-alert-container').open('seven')>title, link, green</button><br />
+        <button onclick=document.querySelector('#my-alert-container').open('seven')>title, link, green, dark theme</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('eight')>Autodismiss, icon, title, red</button><br />
-        <button onclick=document.querySelector('#my-alert-container').open('nine')>Autodismiss (fast),link</button><br />
+        <button onclick=document.querySelector('#my-alert-container').open('nine')>Autodismiss (fast),link, dark theme</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('ten')>Autodismiss (medium)</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('eleven')>Autodismiss (slow),link</button><br />
 
@@ -128,7 +129,7 @@
         <a slot="alert-link" href=''>View layer</a>
       </calcite-alert>
 
-      <calcite-alert color='' id='three' icon>
+      <calcite-alert id='three' icon theme="dark">
         <div slot="alert-message">A general piece of information</div>
       </calcite-alert>
 
@@ -148,27 +149,27 @@
         <a slot="alert-link" href=''>Take action</a>
       </calcite-alert>
 
-      <calcite-alert color='green' id='seven'>
+      <calcite-alert color='green' id='seven' theme="dark">
         <div slot="alert-title">Layer duplicated</div>
         <div slot="alert-message">Successfully duplicated <em>Portland Restaurants</em> feature layer</div>
         <a slot="alert-link" href=''>View layer</a>
       </calcite-alert>
 
-      <calcite-alert color='red' id='eight' dismiss duration icon>
+      <calcite-alert color='red' id='eight' dismiss icon>
         <div slot="alert-title">You can't do that</div>
         <div slot="alert-message">Sorry bud</div>
       </calcite-alert>
 
-      <calcite-alert color='' id='nine' dismiss duration='fast'>
+      <calcite-alert id='nine' theme="dark" dismiss duration='fast'>
         <div slot="alert-message">A general piece of information</div>
         <a slot="alert-link" href=''>Take action</a>
       </calcite-alert>
 
-      <calcite-alert color='' id='ten' dismiss duration='medium'>
+      <calcite-alert id='ten' dismiss duration='medium'>
         <div slot="alert-message">A general piece of information</div>
       </calcite-alert>
 
-      <calcite-alert color='' id='eleven' dismiss duration='slow'>
+      <calcite-alert id='eleven' dismiss duration='slow'>
         <div slot="alert-message">A general piece of information</div>
         <a slot="alert-link" href=''>Take action</a>
       </calcite-alert>

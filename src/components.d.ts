@@ -5,22 +5,16 @@
  */
 
 
-import '@stencil/core';
-
-import '@stencil/state-tunnel';
-import {
-  EventEmitter,
-} from '@stencil/core';
-import {
-  TabChangeEventDetail,
-} from './interfaces/TabChange';
+import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   TabRegisterEventDetail,
 } from './interfaces/TabRegister';
+import {
+  TabChangeEventDetail,
+} from './interfaces/TabChange';
 
 
 export namespace Components {
-
   interface CalciteAlert {
     'close': () => Promise<void>;
     'color': string;
@@ -30,29 +24,12 @@ export namespace Components {
     'icon': boolean;
     'id': string;
     'queueLength': number;
+    'theme': string;
   }
-  interface CalciteAlertAttributes extends StencilHTMLAttributes {
-    'color'?: string;
-    'currentAlert'?: string;
-    'dismiss'?: boolean;
-    'duration'?: string;
-    'icon'?: boolean;
-    'id'?: string;
-    'onAlertClose'?: (event: CustomEvent) => void;
-    'onAlertOpen'?: (event: CustomEvent) => void;
-    'queueLength'?: number;
-  }
-
   interface CalciteAlerts {
     'id': string;
     'open': (requestedAlert: any) => Promise<void>;
   }
-  interface CalciteAlertsAttributes extends StencilHTMLAttributes {
-    'id'?: string;
-    'onAlertsClose'?: (event: CustomEvent) => void;
-    'onAlertsOpen'?: (event: CustomEvent) => void;
-  }
-
   interface CalciteModal {
     /**
     * The first name
@@ -67,7 +44,48 @@ export namespace Components {
     */
     'middle': string;
   }
-  interface CalciteModalAttributes extends StencilHTMLAttributes {
+  interface CalciteTab {
+    'getTabIndex': () => Promise<any>;
+    'id': string;
+    'isActive': boolean;
+    'registerLabeledBy': (id: any) => Promise<void>;
+    'tab': string;
+  }
+  interface CalciteTabNav {
+    'id': string;
+    'selectedTab': number | string;
+  }
+  interface CalciteTabTitle {
+    'getTabIndex': () => Promise<any>;
+    'id': string;
+    'isActive': boolean;
+    'setControledBy': (id: string) => Promise<void>;
+    'tab': string;
+  }
+  interface CalciteTabs {
+    'theme': "light" | "dark";
+  }
+}
+
+declare namespace LocalJSX {
+  interface CalciteAlert extends JSXBase.HTMLAttributes {
+    'color'?: string;
+    'currentAlert'?: string;
+    'dismiss'?: boolean;
+    'duration'?: string;
+    'icon'?: boolean;
+    'id'?: string;
+    'onAlertClose'?: (event: CustomEvent<any>) => void;
+    'onAlertOpen'?: (event: CustomEvent<any>) => void;
+    'queueLength'?: number;
+    'theme'?: string;
+  }
+  interface CalciteAlerts extends JSXBase.HTMLAttributes {
+    'id'?: string;
+    'onAlertsClose'?: (event: CustomEvent<any>) => void;
+    'onAlertsOpen'?: (event: CustomEvent<any>) => void;
+  }
+  interface CalciteModal extends JSXBase.HTMLAttributes {
     /**
     * The first name
     */
@@ -81,76 +99,53 @@ export namespace Components {
     */
     'middle'?: string;
   }
-
-  interface CalciteTabNav {
-    'id': string;
-    'selectedTab': number | string;
-  }
-  interface CalciteTabNavAttributes extends StencilHTMLAttributes {
-    'id'?: string;
-    'onCalciteTabChange'?: (event: CustomEvent<TabChangeEventDetail>) => void;
-    'selectedTab'?: number | string;
-  }
-
-  interface CalciteTabTitle {
-    'getTabIndex': () => Promise<any>;
-    'id': string;
-    'isActive': boolean;
-    'setControledBy': (id: string) => void;
-    'tab': string;
-  }
-  interface CalciteTabTitleAttributes extends StencilHTMLAttributes {
-    'id'?: string;
-    'isActive'?: boolean;
-    'onCalciteActivateTab'?: (event: CustomEvent<TabChangeEventDetail>) => void;
-    'onCalciteFocusNextTab'?: (event: CustomEvent) => void;
-    'onCalciteFocusPreviousTab'?: (event: CustomEvent) => void;
-    'onCalciteRegisterTabTitle'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
-    'tab'?: string;
-  }
-
-  interface CalciteTab {
-    'getTabIndex': () => Promise<any>;
-    'id': string;
-    'isActive': boolean;
-    'registerLabeledBy': (id: any) => void;
-    'tab': string;
-  }
-  interface CalciteTabAttributes extends StencilHTMLAttributes {
+  interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;
     'isActive'?: boolean;
     'onCalciteRegisterTab'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
     'tab'?: string;
   }
-
-  interface CalciteTabs {
-    'theme': "light" | "dark";
+  interface CalciteTabNav extends JSXBase.HTMLAttributes {
+    'id'?: string;
+    'onCalciteTabChange'?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    'selectedTab'?: number | string;
   }
-  interface CalciteTabsAttributes extends StencilHTMLAttributes {
+  interface CalciteTabTitle extends JSXBase.HTMLAttributes {
+    'id'?: string;
+    'isActive'?: boolean;
+    'onCalciteActivateTab'?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    'onCalciteFocusNextTab'?: (event: CustomEvent<any>) => void;
+    'onCalciteFocusPreviousTab'?: (event: CustomEvent<any>) => void;
+    'onCalciteRegisterTabTitle'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
+    'tab'?: string;
+  }
+  interface CalciteTabs extends JSXBase.HTMLAttributes {
     'theme'?: "light" | "dark";
+  }
+
+  interface IntrinsicElements {
+    'calcite-alert': CalciteAlert;
+    'calcite-alerts': CalciteAlerts;
+    'calcite-modal': CalciteModal;
+    'calcite-tab': CalciteTab;
+    'calcite-tab-nav': CalciteTabNav;
+    'calcite-tab-title': CalciteTabTitle;
+    'calcite-tabs': CalciteTabs;
   }
 }
 
-declare global {
-  interface StencilElementInterfaces {
-    'CalciteAlert': Components.CalciteAlert;
-    'CalciteAlerts': Components.CalciteAlerts;
-    'CalciteModal': Components.CalciteModal;
-    'CalciteTabNav': Components.CalciteTabNav;
-    'CalciteTabTitle': Components.CalciteTabTitle;
-    'CalciteTab': Components.CalciteTab;
-    'CalciteTabs': Components.CalciteTabs;
-  }
+export { LocalJSX as JSX };
 
-  interface StencilIntrinsicElements {
-    'calcite-alert': Components.CalciteAlertAttributes;
-    'calcite-alerts': Components.CalciteAlertsAttributes;
-    'calcite-modal': Components.CalciteModalAttributes;
-    'calcite-tab-nav': Components.CalciteTabNavAttributes;
-    'calcite-tab-title': Components.CalciteTabTitleAttributes;
-    'calcite-tab': Components.CalciteTabAttributes;
-    'calcite-tabs': Components.CalciteTabsAttributes;
+
+declare module "@stencil/core" {
+  export namespace JSX {
+    interface IntrinsicElements extends LocalJSX.IntrinsicElements {}
   }
+}
+
+
+declare global {
+
 
 
   interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {}
@@ -171,6 +166,12 @@ declare global {
     new (): HTMLCalciteModalElement;
   };
 
+  interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {}
+  var HTMLCalciteTabElement: {
+    prototype: HTMLCalciteTabElement;
+    new (): HTMLCalciteTabElement;
+  };
+
   interface HTMLCalciteTabNavElement extends Components.CalciteTabNav, HTMLStencilElement {}
   var HTMLCalciteTabNavElement: {
     prototype: HTMLCalciteTabNavElement;
@@ -183,12 +184,6 @@ declare global {
     new (): HTMLCalciteTabTitleElement;
   };
 
-  interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {}
-  var HTMLCalciteTabElement: {
-    prototype: HTMLCalciteTabElement;
-    new (): HTMLCalciteTabElement;
-  };
-
   interface HTMLCalciteTabsElement extends Components.CalciteTabs, HTMLStencilElement {}
   var HTMLCalciteTabsElement: {
     prototype: HTMLCalciteTabsElement;
@@ -196,32 +191,15 @@ declare global {
   };
 
   interface HTMLElementTagNameMap {
-    'calcite-alert': HTMLCalciteAlertElement
-    'calcite-alerts': HTMLCalciteAlertsElement
-    'calcite-modal': HTMLCalciteModalElement
-    'calcite-tab-nav': HTMLCalciteTabNavElement
-    'calcite-tab-title': HTMLCalciteTabTitleElement
-    'calcite-tab': HTMLCalciteTabElement
-    'calcite-tabs': HTMLCalciteTabsElement
-  }
-
-  interface ElementTagNameMap {
     'calcite-alert': HTMLCalciteAlertElement;
     'calcite-alerts': HTMLCalciteAlertsElement;
     'calcite-modal': HTMLCalciteModalElement;
+    'calcite-tab': HTMLCalciteTabElement;
     'calcite-tab-nav': HTMLCalciteTabNavElement;
     'calcite-tab-title': HTMLCalciteTabTitleElement;
-    'calcite-tab': HTMLCalciteTabElement;
     'calcite-tabs': HTMLCalciteTabsElement;
   }
 
-
-  export namespace JSX {
-    export interface Element {}
-    export interface IntrinsicElements extends StencilIntrinsicElements {
-      [tagName: string]: any;
-    }
-  }
-  export interface HTMLAttributes extends StencilHTMLAttributes {}
-
+  interface ElementTagNameMap extends HTMLElementTagNameMap {}
 }
+

@@ -5,7 +5,9 @@ import {
   Watch,
   Event,
   EventEmitter,
-  Element
+  Element,
+  h,
+  Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
@@ -18,8 +20,7 @@ import { guid } from "../../utils/guid";
 })
 export class CalciteTabNav {
   @Element() el;
-  @Prop({ mutable: true, reflectToAttr: true })
-  private id: string = `calite-tab-nav-${guid()}`;
+  @Prop({ mutable: true, reflectToAttr: true }) id: string = `calite-tab-nav-${guid()}`;
 
   @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
 
@@ -77,17 +78,13 @@ export class CalciteTabNav {
     this.selectedTabChanged();
   }
 
-  hostData() {
-    return {
-      role: "tablist"
-    };
-  }
-
   render() {
     return (
-      <nav class="tab-nav">
-        <slot />
-      </nav>
+      <Host role="tablist">
+        <nav class="tab-nav">
+          <slot />
+        </nav>
+      </Host>
     );
   }
 }

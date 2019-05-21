@@ -2,8 +2,11 @@
   "name": "calcite-components",
   "version": "0.0.1",
   "description": "Stencil Component Starter",
-  "module": "dist/esm/index.js",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "jsnext:main": "dist/esm/index.mjs",
   "unpkg": "dist/ionic.js",
   "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
@@ -19,10 +22,12 @@
   "dependencies": {
     "@esri/calcite-base": "github:ArcGIS/calcite-base",
     "@esri/calcite-colors": "^1.2.0",
+    "@esri/calcite-ui-icons": "^2.0.1",
     "calcite-fonts": "github:ArcGIS/calcite-fonts"
   },
   "devDependencies": {
-    "@stencil/core": "~0.16.2",
+    "@stencil/core": "one",
+    "@stencil/state-tunnel": "one",
     "@stencil/sass": "^0.1.1"
   },
   "license": "MIT"

@@ -3,10 +3,9 @@
 function createExampleAlert (id) {
   const exampleAlert =
   `<calcite-alert color='red' id=${id}>
-      <div slot='alert-title'>Something failed</div>
-      <div slot='alert-message'>That thing you wanted to do didn't work as expected</div>
-      <a slot='alert-link' href=''>Retry</a>
-  </calcite-alert>`;
+        <div slot="alert-title">You can't do that</div>
+        <div slot="alert-message">Sorry bud</div>
+      </calcite-alert>`;
 
   if (!document.querySelector(`#${id}`)) {
     document.querySelector('#my-alert-container').insertAdjacentHTML('beforeend', exampleAlert);

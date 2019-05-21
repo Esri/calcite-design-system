@@ -1,4 +1,4 @@
-:host .alert-container {
+:host {
   position: fixed;
   visibility: hidden;
   opacity: 0;
@@ -16,7 +16,7 @@
   }
 }
 
-:host([is-active]) .alert-container {
+:host([is-active]) {
   height: auto;
   visibility: visible;
   opacity: 1;
