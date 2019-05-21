@@ -238,6 +238,9 @@
   }
 }
 
+:host([theme="dark"]) .alert-dismiss:after {
+  background-color: rgba($darkest-gray, 0.6);
+}
 :host([duration="fast"]) .alert-dismiss:after {
   animation: dismissProgress 6000ms linear;
 }

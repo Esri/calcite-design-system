@@ -110,14 +110,11 @@
         <button onclick=document.querySelector('#my-alert-container').open('nine')>Autodismiss (fast),link, dark theme</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('ten')>Autodismiss (medium)</button><br />
         <button onclick=document.querySelector('#my-alert-container').open('eleven')>Autodismiss (slow),link</button><br />
-
-        <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
-        <button onclick=createExampleAlert('created-1')>created alert</button><br />
-        <button onclick=createExampleAlert('created-2')>created alert 2</button><br />
       </calcite-tab>
 
     </calcite-tabs>
     <calcite-alerts id='my-alert-container'>
+
       <calcite-alert color='red' id='one' dismiss>
         <div slot="alert-title">Something failed</div>
         <div slot="alert-message">That thing you wanted to do didn't work as expected</div>
