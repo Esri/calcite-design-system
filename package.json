@@ -23,7 +23,9 @@
     "@esri/calcite-base": "github:ArcGIS/calcite-base",
     "@esri/calcite-colors": "^1.2.0",
     "@esri/calcite-ui-icons": "^2.0.1",
-    "calcite-fonts": "github:ArcGIS/calcite-fonts"
+    "@types/jest": "^24.0.13",
+    "calcite-fonts": "github:ArcGIS/calcite-fonts",
+    "typescript": "^3.4.5"
   },
   "devDependencies": {
     "@stencil/core": "one",
