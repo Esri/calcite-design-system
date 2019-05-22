@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Method, Prop, State } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State } from '@stencil/core';
 import { lightbulb24F, exclamationMarkTriangle24F, checkCircle24F, x32 } from '@esri/calcite-ui-icons';
 import AlertInterface from '../../interfaces/AlertInterface';
 
@@ -11,13 +11,14 @@ import AlertInterface from '../../interfaces/AlertInterface';
 export class CalciteAlert {
   @Element() el: HTMLElement;
 
-  @Prop() color: string = ''
   @Prop() currentAlert: string = ''
   @Prop() dismiss: boolean = false;
-  @Prop() duration: string = 'medium';
   @Prop() icon: boolean = false;
   @Prop() id: string = '1';
   @Prop() queueLength: number = 0
+  @Prop({ reflectToAttr: true }) color: string = 'blue'
+  @Prop({ reflectToAttr: true }) theme: string = null;
+  @Prop({ reflectToAttr: true }) duration: string = this.dismiss ? 'medium' : null;
 
   @State() isActive: boolean = this.id === this.currentAlert;
 
@@ -35,12 +36,6 @@ export class CalciteAlert {
     this.isActive = this.currentAlert === this.id;
     if (this.isActive) this.alertOpen.emit(this.id);
     if (this.isActive && this.dismiss) setTimeout(() => { this.close(); }, this.duration === 'fast' ? 6000 : this.duration === 'slow' ? 14000 : 10000);
-  }
-
-  hostData() {
-    return {
-      'is-active': !!this.isActive
-    }
   }
 
   setIcon() {
@@ -62,18 +57,19 @@ export class CalciteAlert {
     const close = !this.dismiss ? closeButton : '';
     const icon = this.icon ? this.setIcon() : '';
     const count = <div class={`${this.queueLength > 0 ? 'is-active ' : ''}alert-count`}>+{this.queueLength > 0 ? this.queueLength : 1}</div>
-
+    const progress = this.isActive && this.dismiss ? <div class="alert-dismiss"></div> : '';
     return (
-      <div class={`alert alert-${this.color} ${this.dismiss && this.isActive ? `alert-dismiss alert-dismiss-${this.duration}` : ''}`} role="alert" aria-atomic="true">
+      <Host theme={this.theme} is-active={!!this.isActive} duration={this.duration}>
         {icon}
-        <div class='alert-content'>
+        <div class="alert-content">
           <slot name="alert-title"></slot>
           <slot name="alert-message"></slot>
           <slot name="alert-link"></slot>
         </div>
         {count}
         {close}
-      </div>
+        {progress}
+      </Host>
     );
   }
 }

@@ -1,4 +1,4 @@
-:host .alert {
+:host {
   position: relative;
   justify-content: center;
   right: 0;
@@ -13,6 +13,7 @@
   box-shadow: 0 0 12px 0 rgba($blk-240, 0.15);
   height: 0;
   opacity: 0;
+  overflow: visible;
   display: flex;
   border-top: 3px solid;
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function, all .15s ease-in-out;
@@ -27,7 +28,7 @@
   }
 }
 
-:host([is-active]) .alert {
+:host([is-active]) {
   visibility: visible;
   border-width: 3px;
   opacity: 1;
@@ -56,6 +57,18 @@
   margin-inline-end: $baseline/2;
 }
 
+:host([theme="dark"]) {
+  background-color: $darkest-gray;
+}
+
+:host([theme="dark"]) slot[name=alert-title]::slotted(div) {
+  color: $blk-005;
+}
+
+:host([theme="dark"]) slot[name=alert-message]::slotted(div) {
+  color: $blk-010;
+}
+
 @mixin alert-color($color) {
   border-top-color: $color;
 
@@ -82,7 +95,7 @@
   }
 }
 
-:host .alert-content {
+.alert-content {
   @include alert-element-base;
   flex: 1 1 auto;
   min-width: 0;
@@ -92,26 +105,25 @@
   padding-inline-end: $baseline/2;
   padding-inline-start: 0;
 
-  &:first-child {
+  &:first-of-type {
     padding-inline-start: $baseline;
   }
+
   @media only screen and (max-width: 600px) {
     padding-block-start: $baseline;
     padding-block-end: $baseline;
     padding-inline-end: $baseline/2;
     padding-inline-start: 0;
   }
-
 }
 
-
-:host .alert-icon {
+.alert-icon {
   @include alert-element-base;
   display: flex;
   align-items: center;
 }
 
-:host .alert-close {
+.alert-close {
   @include alert-element-base;
   -webkit-appearance: none;
   background-color: transparent;
@@ -123,23 +135,18 @@
   & svg {
     fill: $blk-220;
   }
-
-  &:hover,
-  &:focus {
+  &:hover, &:focus {
     background-color: $blk-010;
   }
-
   &:active {
     background-color: $blk-020;
   }
-
   &:last-child {
     border-radius: 0 0 2px 0;
 
     :host([dir="rtl"]) & {
       border-radius: 0 0 0 2px;
     }
-
   }
 
   @media only screen and (max-width: 600px) {
@@ -147,7 +154,21 @@
   }
 }
 
-:host .alert-count {
+:host([theme="dark"]) .alert-close {
+  & svg {
+    fill: $blk-040;
+  }
+
+  &:hover, &:focus {
+    background-color: $blk-210;
+  }
+
+  &:active {
+    background-color: $blk-220;
+  }
+}
+
+.alert-count {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -161,8 +182,8 @@
   background-color: transparent;
   color: $gray;
   opacity: 0;
-  border-left: 0px solid transparent;
-  border-right: 0px solid transparent;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
   cursor: default;
 
   &.is-active {
@@ -174,14 +195,33 @@
     border-left: 1px solid $lightest-gray;
     border-right: 1px solid $lightest-gray;
 
+    &:last-child {
+      border-right-color: transparent;
+    }
   }
-
   @media only screen and (max-width: 600px) {
     border-radius: 0;
   }
 }
 
-:host .alert.alert-dismiss {
+:host([theme="dark"]) .alert-count {
+  color: $blk-040;
+  &.is-active {
+    border-left: 1px solid $blk-210;
+    border-right: 1px solid $blk-210;
+  }
+}
+
+.alert-dismiss {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  z-index: 101;
+
   &:after {
     height: 3px;
     top: -3px;
@@ -190,24 +230,26 @@
     position: absolute;
     border-radius: 2px 2px 0 0;
     content: '';
-    width: 0;
-    opacity: 0;
+    width: 50%;
     background-color: rgba($white, 0.6);
     animation: dismissProgress 10000ms linear;
-    transition-delay: 300ms;
-    transition: all .15s ease;
+    transition: all .15s ease-in-out;
+    z-index: 200;
   }
 }
 
-:host .alert.alert-dismiss-fast:after {
+:host([theme="dark"]) .alert-dismiss:after {
+  background-color: rgba($darkest-gray, 0.6);
+}
+:host([duration="fast"]) .alert-dismiss:after {
   animation: dismissProgress 6000ms linear;
 }
 
-:host .alert.alert-dismiss-medium:after {
+:host([duration="medium"]) .alert-dismiss:after {
   animation: dismissProgress 10000ms linear;
 }
 
-:host .alert.alert-dismiss-slow:after {
+:host([duration="slow"]) .alert-dismiss:after {
   animation: dismissProgress 14000ms linear;
 }
 
@@ -216,24 +258,22 @@
     width: 0;
     opacity: 0
   }
-
   100% {
     width: 100%;
     opacity: 1;
   }
 }
 
-$alertColors:
-''$h-bb-060,
-'-red'$h-rr-060,
-'-yellow'$h-yy-060,
-'-green'$h-gg-060;
+$alertColors: 'blue'$h-bb-060,
+'red'$h-rr-060,
+'yellow'$h-yy-060,
+'green'$h-gg-060;
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);
   $color: nth($alertColor, 2);
 
-  :host .alert#{$name} {
+  :host([color="#{$name}"]) {
     @include alert-color($color);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Listen, Method, Prop, State } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Host, Listen, Method, Prop, State } from '@stencil/core';
 import AlertInterface from '../../interfaces/AlertInterface';
 
 @Component({
@@ -24,24 +24,18 @@ export class CalciteAlerts {
       this.isActive = true;
       this.currentAlert = requestedAlert;
       this.queue.push(requestedAlert);
-      this.alertsOpen.emit({id: this.id, currentAlert: this.currentAlert, queue: this.queue});
+      this.alertsOpen.emit({ id: this.id, currentAlert: this.currentAlert, queue: this.queue });
     }
   }
 
   @Listen('alertClose') updateQueue(event: CustomEvent) {
     if (this.queue.includes(event.detail)) this.queue = this.queue.filter(e => e !== event.detail);
-    if (this.queue.length < 1) setTimeout(() => {this.isActive = false}, 300);
-    this.alertsClose.emit({id: this.id, currentAlert: this.currentAlert, queue: this.queue });
+    if (this.queue.length < 1) setTimeout(() => { this.isActive = false }, 300);
+    this.alertsClose.emit({ id: this.id, currentAlert: this.currentAlert, queue: this.queue });
   }
 
   componentWillUpdate() {
     this.currentAlert = this.queue.length > 0 ? this.queue[0] : '';
-  }
-
-  hostData() {
-    return {
-      'is-active': !!this.isActive
-    }
   }
 
   render() {
@@ -50,12 +44,12 @@ export class CalciteAlerts {
       queueLength: this.queue.length >= 2 ? this.queue.length - 1 : 0
     };
 
-    return [
-      <div class="alert-container">
+    return (
+      <Host is-active={!!this.isActive}>
         <AlertInterface.Provider state={alertState}>
           <slot />
         </AlertInterface.Provider>
-      </div>
-    ];
+      </Host>
+    );
   }
 }

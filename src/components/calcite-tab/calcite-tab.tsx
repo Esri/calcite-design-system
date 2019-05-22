@@ -6,7 +6,9 @@ import {
   Method,
   Event,
   EventEmitter,
-  State
+  State,
+  h,
+  Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -18,8 +20,7 @@ import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
   shadow: true
 })
 export class CalciteTab {
-  @Prop({ mutable: true, reflectToAttr: true })
-  private id: string = `calite-tab-${guid()}`;
+  @Prop({ mutable: true, reflectToAttr: true }) id: string = `calite-tab-${guid()}`;
 
   @State() private labeledBy: string;
 
@@ -37,7 +38,7 @@ export class CalciteTab {
   })
   isActive: boolean = false;
 
-  @Listen("parent:calciteTabChange") tabChangeHandler(
+  @Listen('calciteTabChange', { target: 'parent' }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (this.tab) {
@@ -71,23 +72,17 @@ export class CalciteTab {
   }
 
   @Method()
-  registerLabeledBy(id) {
+  async registerLabeledBy(id) {
     this.labeledBy = id;
-  }
-
-  hostData() {
-    return {
-      "aria-labeledby": this.labeledBy,
-      role: "tabpanel",
-      "aria-expanded": this.isActive ? "true" : "false"
-    };
   }
 
   render() {
     return (
-      <section>
-        <slot />
-      </section>
+      <Host aria-labeledby={this.labeledBy} aria-expanded={this.isActive ? "true" : "false"} role="tabpanel">
+        <section>
+          <slot />
+        </section>
+      </Host>
     );
   }
 }

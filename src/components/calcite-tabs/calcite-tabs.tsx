@@ -1,4 +1,4 @@
-import { Component, Prop, Listen, State } from "@stencil/core";
+import { Component, Prop, Listen, State, h } from "@stencil/core";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 
 interface TabRegister {
