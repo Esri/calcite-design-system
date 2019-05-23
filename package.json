@@ -28,7 +28,7 @@
   "devDependencies": {
     "@stencil/core": "one",
     "@stencil/state-tunnel": "one",
-    "@stencil/sass": "^0.1.1"
+    "@stencil/sass": "^0.2.3"
   },
   "license": "MIT"
 }
