@@ -30,6 +30,10 @@ export namespace Components {
     'id': string;
     'open': (requestedAlert: any) => Promise<void>;
   }
+  interface CalciteLoader {
+    'isActive': boolean;
+    'text': string;
+  }
   interface CalciteModal {
     /**
     * The first name
@@ -85,6 +89,10 @@ declare namespace LocalJSX {
     'onAlertsClose'?: (event: CustomEvent<any>) => void;
     'onAlertsOpen'?: (event: CustomEvent<any>) => void;
   }
+  interface CalciteLoader extends JSXBase.HTMLAttributes {
+    'isActive'?: boolean;
+    'text'?: string;
+  }
   interface CalciteModal extends JSXBase.HTMLAttributes {
     /**
     * The first name
@@ -126,6 +134,7 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'calcite-alert': CalciteAlert;
     'calcite-alerts': CalciteAlerts;
+    'calcite-loader': CalciteLoader;
     'calcite-modal': CalciteModal;
     'calcite-tab': CalciteTab;
     'calcite-tab-nav': CalciteTabNav;
@@ -158,6 +167,12 @@ declare global {
   var HTMLCalciteAlertsElement: {
     prototype: HTMLCalciteAlertsElement;
     new (): HTMLCalciteAlertsElement;
+  };
+
+  interface HTMLCalciteLoaderElement extends Components.CalciteLoader, HTMLStencilElement {}
+  var HTMLCalciteLoaderElement: {
+    prototype: HTMLCalciteLoaderElement;
+    new (): HTMLCalciteLoaderElement;
   };
 
   interface HTMLCalciteModalElement extends Components.CalciteModal, HTMLStencilElement {}
@@ -193,6 +208,7 @@ declare global {
   interface HTMLElementTagNameMap {
     'calcite-alert': HTMLCalciteAlertElement;
     'calcite-alerts': HTMLCalciteAlertsElement;
+    'calcite-loader': HTMLCalciteLoaderElement;
     'calcite-modal': HTMLCalciteModalElement;
     'calcite-tab': HTMLCalciteTabElement;
     'calcite-tab-nav': HTMLCalciteTabNavElement;
