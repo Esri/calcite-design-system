@@ -14,9 +14,11 @@ export class CalciteLoader {
 
   render() {
     return (
-      <Host class="loader is-active padding-leader-3 padding-trailer-3">
-        <div class="loader-bars" />
-        <div class="loader-text">{this.text}</div>
+      <Host>
+        <div class="loader">
+          <div class="loader-bars" />
+          <div class="loader-text">{this.text}</div>
+        </div>
       </Host>
     );
   }

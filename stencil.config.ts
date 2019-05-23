@@ -9,6 +9,7 @@ export const config: Config = {
         "calcite-modal",
         "calcite-alerts",
         "calcite-alert",
+        "calcite-loader",
         "calcite-tabs",
         "calcite-tab",
         "calcite-tab-title",

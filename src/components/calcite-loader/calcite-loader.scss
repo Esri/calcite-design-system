@@ -1,55 +1,91 @@
+$loader-width: 0.85rem;
+$loader-height: 2rem;
+$loader-zoom: 0.5rem;
+$loader-spacing: 1.25rem;
+$loader-speed: 0.8s;
+$loader-delay: 0.16s;
+
+%loader-styles {
+  background: $blue;
+  -webkit-animation: load $loader-speed infinite ease-in-out;
+  animation: load $loader-speed infinite ease-in-out;
+  width: $loader-width;
+  height: $loader-height;
+}
+
+%loader-pseudoelements {
+  @extend %loader-styles;
+  position: absolute;
+  top: 0;
+  content: "";
+}
+
+@mixin loader-bars() {
+  @extend %loader-styles;
+  text-indent: -9999em;
+  margin: auto;
+  position: absolute;
+  right: calc(50% - #{$loader-width / 2});
+  font-size: 11px;
+  -webkit-animation-delay: $loader-delay;
+  animation-delay: $loader-delay;
+  &:before {
+    @extend %loader-pseudoelements;
+    left: -$loader-spacing;
+  }
+  &:after {
+    @extend %loader-pseudoelements;
+    left: $loader-spacing;
+    -webkit-animation-delay: 2 * $loader-delay;
+    animation-delay: 2 * $loader-delay;
+  }
+}
+
+@-webkit-keyframes load {
+  0%,
+  80%,
+  100% {
+    opacity: 0.75;
+    box-shadow: 0 0 $blue;
+    height: $loader-height;
+  }
+  40% {
+    opacity: 1;
+    box-shadow: 0 -1 * $loader-zoom $blue;
+    height: $loader-height + $loader-zoom;
+  }
+}
+@keyframes load {
+  0%,
+  80%,
+  100% {
+    opacity: 0.75;
+    box-shadow: 0 0 $blue;
+    height: $loader-height;
+  }
+  40% {
+    opacity: 1;
+    box-shadow: 0 -1 * $loader-zoom $blue;
+    height: $loader-height + $loader-zoom;
+  }
+}
+
+@mixin loader-text() {
+  text-align: center;
+}
+
 :host {
   position: relative;
-  justify-content: center;
-  right: 0;
-  left: 0;
-  margin-right: auto;
-  margin-left: auto;
-  z-index: 100;
-  width: 50em;
-  max-width: 90%;
-  border-radius: 2px;
-  background-color: black;
-  box-shadow: 0 0 12px 0 rgba(black, 0.15);
-  height: 0;
-  opacity: 0;
-  overflow: visible;
-  display: flex;
-  border-top: 3px solid;
-  transition: visibility 0ms linear 300ms, opacity 300ms $easing-function,
-    all 0.15s ease-in-out;
-  transform: translate3d(0, $baseline, 0);
-  pointer-events: none;
-  border-width: 0px;
-}
-
-:host slot[name="alert-title"]::slotted(div) {
   display: block;
-  font-weight: 500;
-  font-size: 16px;
+  padding-bottom: 4.5rem;
+  padding-top: 4.5rem;
 }
 
-:host slot[name="alert-link"]::slotted(a) {
-  display: inline-block;
-  font-size: 15px;
-  color: black;
+:host .loader-bars {
+  @include loader-bars();
 }
 
-:host slot[name="alert-message"]::slotted(div) {
-  font-size: 15px;
-  color: black;
-  display: inline;
-  margin-inline-end: $baseline/2;
-}
-
-:host([theme="dark"]) {
-  background-color: $darkest-gray;
-}
-
-:host([theme="dark"]) slot[name="alert-title"]::slotted(div) {
-  color: black;
-}
-
-:host([theme="dark"]) slot[name="alert-message"]::slotted(div) {
-  color: black;
+:host .loader-text {
+  padding-top: 4rem;
+  @include loader-text();
 }
