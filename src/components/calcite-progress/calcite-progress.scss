@@ -1,0 +1,51 @@
+$looping-progress-bar-width: 20% !default;
+$looping-progress-bar-params: 1500ms linear infinite !default;
+
+:host {
+  display: block;
+}
+
+.calcite-progress {
+  position: relative;
+  display: block;
+}
+
+.calcite-progress:before,
+.calcite-progress:after {
+  content: "";
+  opacity: 1;
+  position: absolute;
+  height: 2px;
+  top: 0;
+  transition: opacity 500ms ease-in-out;
+}
+.calcite-progress:before {
+  background-color: blue;
+  width: 100%;
+  z-index: 0;
+}
+.calcite-progress:after {
+  background-color: red;
+  width: $looping-progress-bar-width;
+  z-index: 0;
+  animation: looping-progresss-bar-ani $looping-progress-bar-params;
+}
+
+@keyframes looping-progresss-bar-ani {
+  0% {
+    left: 0%;
+    width: 0%;
+  }
+  #{$looping-progress-bar-width} {
+    left: 0%;
+    width: $looping-progress-bar-width;
+  }
+  #{100-$looping-progress-bar-width} {
+    left: 100% - $looping-progress-bar-width;
+    width: $looping-progress-bar-width;
+  }
+  100% {
+    left: 100%;
+    width: 0%;
+  }
+}
