@@ -10,15 +10,11 @@ export class CalciteLoader {
 
   @Prop() text: string = "Loading...";
 
-  componentWillUpdate() {}
-
   render() {
     return (
       <Host>
-        <div class="loader">
-          <div class="loader-bars" />
-          <div class="loader-text">{this.text}</div>
-        </div>
+        <div class="loader-bars" />
+        <div class="loader-text">{this.text}</div>
       </Host>
     );
   }

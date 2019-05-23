@@ -20,7 +20,14 @@ $loader-delay: 0.16s;
   content: "";
 }
 
-@mixin loader-bars() {
+:host {
+  position: relative;
+  display: block;
+  padding-bottom: 4.5rem;
+  padding-top: 4.5rem;
+}
+
+:host .loader-bars {
   @extend %loader-styles;
   text-indent: -9999em;
   margin: auto;
@@ -39,6 +46,11 @@ $loader-delay: 0.16s;
     -webkit-animation-delay: 2 * $loader-delay;
     animation-delay: 2 * $loader-delay;
   }
+}
+
+:host .loader-text {
+  padding-top: 4rem;
+  text-align: center;
 }
 
 @-webkit-keyframes load {
@@ -68,24 +80,4 @@ $loader-delay: 0.16s;
     box-shadow: 0 -1 * $loader-zoom $blue;
     height: $loader-height + $loader-zoom;
   }
-}
-
-@mixin loader-text() {
-  text-align: center;
-}
-
-:host {
-  position: relative;
-  display: block;
-  padding-bottom: 4.5rem;
-  padding-top: 4.5rem;
-}
-
-:host .loader-bars {
-  @include loader-bars();
-}
-
-:host .loader-text {
-  padding-top: 4rem;
-  @include loader-text();
 }
