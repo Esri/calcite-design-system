@@ -2,15 +2,10 @@
 
 # props
 
+isActive boolean
 text string
-
-# slots
-
-alert-title (div)
-alert-message (div)
-alert-link (a)
 
 # todo
 
 - tests
-- verify aria
+- verify designs and api
