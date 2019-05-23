@@ -31,6 +31,7 @@ export namespace Components {
     'open': (requestedAlert: any) => Promise<void>;
   }
   interface CalciteLoader {
+    'isActive': boolean;
     'text': string;
   }
   interface CalciteModal {
@@ -89,6 +90,7 @@ declare namespace LocalJSX {
     'onAlertsOpen'?: (event: CustomEvent<any>) => void;
   }
   interface CalciteLoader extends JSXBase.HTMLAttributes {
+    'isActive'?: boolean;
     'text'?: string;
   }
   interface CalciteModal extends JSXBase.HTMLAttributes {

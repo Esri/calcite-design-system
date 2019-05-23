@@ -22,9 +22,13 @@ $loader-delay: 0.16s;
 
 :host {
   position: relative;
-  display: block;
+  display: none;
   padding-bottom: 4.5rem;
   padding-top: 4.5rem;
+}
+
+:host([is-active]) {
+  display: block;
 }
 
 :host .loader-bars {

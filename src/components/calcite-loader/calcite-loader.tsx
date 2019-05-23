@@ -8,11 +8,13 @@ import { Component, Element, h, Host, Prop } from "@stencil/core";
 export class CalciteLoader {
   @Element() el: HTMLElement;
 
-  @Prop() text: string = "Loading...";
+  @Prop() isActive = false;
+
+  @Prop() text = "Loading...";
 
   render() {
     return (
-      <Host>
+      <Host is-active={!!this.isActive}>
         <div class="loader-bars" />
         <div class="loader-text">{this.text}</div>
       </Host>
