@@ -49,9 +49,10 @@ export namespace Components {
     'middle': string;
   }
   interface CalciteProgress {
-    'percentage': number;
+    'reversed': boolean;
     'text': string;
-    'type': "indeterminate" | "indeterminate-reversed" | "progress";
+    'type': "indeterminate" | "determinate";
+    'value': number;
   }
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;
@@ -113,9 +114,10 @@ declare namespace LocalJSX {
     'middle'?: string;
   }
   interface CalciteProgress extends JSXBase.HTMLAttributes {
-    'percentage'?: number;
+    'reversed'?: boolean;
     'text'?: string;
-    'type'?: "indeterminate" | "indeterminate-reversed" | "progress";
+    'type'?: "indeterminate" | "determinate";
+    'value'?: number;
   }
   interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;

@@ -8,19 +8,22 @@ import { Component, Element, h, Host, Prop } from "@stencil/core";
 export class CalciteProgress {
   @Element() el: HTMLElement;
 
-  @Prop() type: "indeterminate" | "indeterminate-reversed" | "progress" =
-    "indeterminate";
+  @Prop() type: "indeterminate" | "determinate" = "determinate";
 
-  @Prop() percentage = 0;
+  @Prop() value = 0;
 
   @Prop() text: string = null;
+
+  @Prop() reversed = false;
 
   render() {
     return (
       <Host
         class="calcite-progress"
-        progress-type={this.type}
-        percentage={this.percentage}
+        type={this.type}
+        style={{
+          "--percentage-value": `${this.value * 100}%`
+        }}
       >
         <slot name="progress-content" />
       </Host>
