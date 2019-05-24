@@ -1,0 +1,206 @@
+//  ┌────────────┐
+// │  Switches  │
+//└────────────┘
+//  ↳ http: //esri.github.io/calcite-web/documentation/components/#switches
+//  ↳ components → _switches.md
+// variables
+$switch-width: 36px;
+$switch-height: 20px;
+$switch-bg: #{$lightest-gray};
+$switch-border-color: #{$light-gray};
+$switch-hover-bg: #{$lighter-gray};
+$switch-hover-border-color: #{$light-gray};
+$switch-checked-bg: $blue;
+$switch-checked-border-color: $dark-blue;
+$switch-focus-shadow: 0 0 4px 2px rgba($light-gray,0.9);
+$switch-focus-checked-shadow: 0 0 4px 2px rgba($lighter-gray,0.9);
+$switch-focus-destructive-checked-shadow: 0 0 4px 2px rgba($lighter-gray,0.9);
+$handle-size: 18px;
+$handle-top-distance: -1px;
+$handle-edge-distance: -1px;
+$handle-active-edge-distance: 1px;
+$handle-bg: $white;
+$handle-border-color: $darkest-gray;
+$handle-shadow: 0 1px 1px 0px rgba($darkest-gray,0.2);
+$handle-hover-border-color: #{$blue};
+$handle-hover-shadow: 0 1px 2px 0px rgba($darkest-gray,0.2);
+$handle-checked-border-color: $dark-blue;
+$handle-checked-shadow: 0 2px 1px 0px rgba($darkest-gray,0.2);
+$handle-active-shadow: 0 3px 1px 0px rgba($darkest-gray,0.2);
+$switch-destructive-checked-bg: $dark-red ;
+$switch-destructive-checked-border-color: $darker-red;
+$handle-destructive-hover-border-color: $dark-red;
+$handle-destructive-checked-border-color: $darker-red;
+$switch-handle-margin: 18px;
+
+@mixin position-left($left) {
+  left: $left;
+  right: auto;
+
+  html[dir="rtl"] & {
+    left: auto;
+    right: $left;
+  }
+}
+
+@mixin position-right($right) {
+  right: $right;
+  left: auto;
+
+  html[dir="rtl"] & {
+    right: auto;
+    left: $right;
+  }
+}
+
+%margin-right{
+  margin-right:  $switch-handle-margin;
+  html[dir="rtl"] & {
+    margin-left:  $switch-handle-margin;
+  }
+}
+
+%margin-left{
+  margin-left:  $switch-handle-margin;
+  html[dir="rtl"] & {
+    margin-right:  $switch-handle-margin;
+  }
+}
+
+// our containing block element
+.toggle-switch {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+
+// spacing for label
+.toggle-switch-label {
+  width: calc((100% - 3em) - .5em);
+  padding: 0 .1em;
+  vertical-align: top;
+}
+
+// track
+.toggle-switch-track {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: $switch-width;
+  height: $switch-height;
+  top: .05em;
+  background-color: $switch-bg;
+  border-radius: 30px;
+  border: 1px solid $switch-border-color;
+
+  transition: all 0.25s ease;
+  // handle
+  &:after {
+    position: absolute;
+    display: block;
+    content: '';
+    width: $handle-size;
+    height: $handle-size;
+    top: $handle-top-distance;
+    @include position-left($handle-edge-distance);
+    background-color: $handle-bg;
+    border-radius: 30px;
+    border: 2px solid $handle-border-color;
+    box-shadow: $handle-shadow;
+    transition: all 0.25s ease;
+  }
+
+  &--left{
+    @extend %margin-right;
+  }
+
+  &--right{
+    @extend %margin-left;
+  }
+  // alignment fixes for edge
+  @supports (-ms-ime-align: auto) { & { top: .1em; }}
+  // alignment fixes for ff
+  @supports (-moz-appearance: none) { & { top: .1em; }}
+  // alignment fixes for ios
+  @supports (-webkit-overflow-scrolling: touch) { & { top: .15em; }}
+}
+
+.toggle-switch-input {
+  @include visually-hidden;
+  
+  // hover
+  &:hover + .toggle-switch-track {
+    border-color: $switch-hover-border-color;
+    background-color: $switch-hover-bg;
+    &:after {
+      border-color: $handle-hover-border-color;
+      box-shadow: $handle-hover-shadow;
+    }
+  }
+  // active
+  &:active + .toggle-switch-track {
+    box-shadow: $switch-focus-shadow;
+    &:after {
+      @include position-left($handle-active-edge-distance);
+      border-color: $handle-checked-border-color;
+      box-shadow: $handle-active-shadow;
+    }
+  }
+  // checked
+  &:checked + .toggle-switch-track {
+    border-color: $switch-checked-border-color;
+    background-color: $switch-checked-bg;
+    &:after {
+      @include position-right($handle-edge-distance);
+      border-color: $handle-checked-border-color;
+      box-shadow: $handle-checked-shadow;
+    }
+  }
+  // checked and active
+  &:checked:active + .toggle-switch-track {
+    box-shadow: $switch-focus-checked-shadow;
+    &:after {
+      @include position-right($handle-active-edge-distance);
+      border-color: $handle-checked-border-color;
+      box-shadow: $handle-active-shadow;
+   }
+ }
+  // unchecked focus
+  &:focus + .toggle-switch-track {
+    box-shadow: $switch-focus-shadow;
+    &:after { border-color: $handle-hover-border-color; }
+  }
+  // checked focus
+  &:checked:focus + .toggle-switch-track {
+    box-shadow: $switch-focus-checked-shadow;
+    &:after { border-color: $handle-checked-border-color; }
+  }
+}
+
+@mixin toggle-switch-destructive {
+  & .toggle-switch-input:hover + .toggle-switch-track:after { border-color: $handle-destructive-hover-border-color; }
+  & .toggle-switch-input:active + .toggle-switch-track:after { border-color: $handle-destructive-checked-border-color; }
+  & .toggle-switch-input:checked:active + .toggle-switch-track {
+    box-shadow: $switch-focus-destructive-checked-shadow;
+    &:after { border-color: $handle-destructive-checked-border-color; }
+  }
+  & .toggle-switch-input:checked + .toggle-switch-track {
+    background-color: $switch-destructive-checked-bg;
+    border-color: $switch-destructive-checked-border-color;
+    &:after { border-color: $handle-destructive-checked-border-color; }
+  }
+  & .toggle-switch-input:focus + .toggle-switch-track:after {
+    border-color: $handle-destructive-hover-border-color;
+  }
+  & .toggle-switch-input:checked:focus + .toggle-switch-track {
+    box-shadow: $switch-focus-destructive-checked-shadow;
+    &:after { border-color: $handle-destructive-checked-border-color; }
+  }
+}

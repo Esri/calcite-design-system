@@ -48,6 +48,11 @@ export namespace Components {
     */
     'middle': string;
   }
+  interface CalciteSwitch {
+    'checked': boolean;
+    'position': "left" | "right";
+    'text': string;
+  }
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;
     'id': string;
@@ -107,6 +112,11 @@ declare namespace LocalJSX {
     */
     'middle'?: string;
   }
+  interface CalciteSwitch extends JSXBase.HTMLAttributes {
+    'checked'?: boolean;
+    'position'?: "left" | "right";
+    'text'?: string;
+  }
   interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;
     'isActive'?: boolean;
@@ -136,6 +146,7 @@ declare namespace LocalJSX {
     'calcite-alerts': CalciteAlerts;
     'calcite-loader': CalciteLoader;
     'calcite-modal': CalciteModal;
+    'calcite-switch': CalciteSwitch;
     'calcite-tab': CalciteTab;
     'calcite-tab-nav': CalciteTabNav;
     'calcite-tab-title': CalciteTabTitle;
@@ -181,6 +192,12 @@ declare global {
     new (): HTMLCalciteModalElement;
   };
 
+  interface HTMLCalciteSwitchElement extends Components.CalciteSwitch, HTMLStencilElement {}
+  var HTMLCalciteSwitchElement: {
+    prototype: HTMLCalciteSwitchElement;
+    new (): HTMLCalciteSwitchElement;
+  };
+
   interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {}
   var HTMLCalciteTabElement: {
     prototype: HTMLCalciteTabElement;
@@ -210,6 +227,7 @@ declare global {
     'calcite-alerts': HTMLCalciteAlertsElement;
     'calcite-loader': HTMLCalciteLoaderElement;
     'calcite-modal': HTMLCalciteModalElement;
+    'calcite-switch': HTMLCalciteSwitchElement;
     'calcite-tab': HTMLCalciteTabElement;
     'calcite-tab-nav': HTMLCalciteTabNavElement;
     'calcite-tab-title': HTMLCalciteTabTitleElement;
