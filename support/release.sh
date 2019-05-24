@@ -6,6 +6,7 @@ npm run build
 # commit the changes from `npm run release:prepare`
 git add --all
 git commit -am "v$VERSION" --no-verify
+git add dist --force
 
 # tag a new version
 git tag v$VERSION
