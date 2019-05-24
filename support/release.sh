@@ -39,4 +39,7 @@ rm $TEMP_FOLDER.zip
 git checkout $BRANCH
 
 # delete the release branch
-git branch -d publish_v$VERSION
+git branch -D publish_v$VERSION
+
+# reset the branch to the last commit.
+git reset head --hard
