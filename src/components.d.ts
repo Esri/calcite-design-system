@@ -114,6 +114,7 @@ declare namespace LocalJSX {
   }
   interface CalciteSwitch extends JSXBase.HTMLAttributes {
     'checked'?: boolean;
+    'onSwitchChange'?: (event: CustomEvent<any>) => void;
     'position'?: "left" | "right";
     'text'?: string;
   }
