@@ -2,17 +2,20 @@
 VERSION=$(node --eval "console.log(require('./package.json').version);")
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-# Checkout a temp branch for release
-git checkout -b publish_v$VERSION
-
 # commit the changes from `npm run release:prepare`
 git add --all
+
+# commit a new version
+git commit -am "v$VERSION" --no-verify
+
+# Checkout a temp branch for release
+git checkout -b publish_v$VERSION
 
 # force add built files so they appear in git only on this tag
 git add dist --force
 
 # commit a new version
-git commit -am "v$VERSION" --no-verify
+git commit -am "v$VERSION - add built files" --no-verify
 
 # tag a new version
 git tag v$VERSION
