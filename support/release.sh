@@ -1,12 +1,18 @@
 # get the version from package.json
 VERSION=$(node --eval "console.log(require('./package.json').version);")
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-npm run build
+# Checkout a temp branch for release
+git checkout -b v$VERSION
 
 # commit the changes from `npm run release:prepare`
 git add --all
-git commit -am "v$VERSION" --no-verify
+
+# force add built files so they appear in git only on this tag
 git add dist --force
+
+# commit a new version
+git commit -am "v$VERSION" --no-verify
 
 # tag a new version
 git tag v$VERSION
@@ -16,6 +22,12 @@ git push https://github.com/ArcGIS/calcite-components.git master
 
 # push the new tag, not the old tags
 git push https://github.com/ArcGIS/calcite-components.git v$VERSION
+
+# checkout master
+git checkout $BRANCH
+
+# delete the release branch
+git branch -d v$VERSION
 
 # create a ZIP archive of the dist files
 TEMP_FOLDER=calcite-components-v$VERSION;
