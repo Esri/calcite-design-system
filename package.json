@@ -1,13 +1,13 @@
 {
   "name": "calcite-components",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.0-alpha.0",
   "description": "Stencil Component Starter",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "es2015": "dist/esm/index.mjs",
-  "es2017": "dist/esm/index.mjs",
-  "jsnext:main": "dist/esm/index.mjs",
-  "unpkg": "dist/ionic.js",
+  "main": "dist/calcite.js",
+  "module": "dist/calcite.mjs",
+  "es2015": "dist/esm/calcite.mjs",
+  "es2017": "dist/esm/calcite.mjs",
+  "jsnext:main": "dist/esm/calcite.mjs",
+  "unpkg": "dist/calcite.js",
   "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "files": [
@@ -27,8 +27,9 @@
   },
   "devDependencies": {
     "@stencil/core": "one",
+    "@stencil/sass": "^0.2.3",
     "@stencil/state-tunnel": "one",
-    "@stencil/sass": "^0.2.3"
+    "gh-release": "^3.5.0"
   },
   "license": "MIT"
 }
