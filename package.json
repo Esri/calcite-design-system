@@ -1,6 +1,6 @@
 {
   "name": "calcite-components",
-  "version": "0.0.0-alpha.2",
+  "version": "0.0.0-alpha.1",
   "description": "Stencil Component Starter",
   "main": "dist/calcite.js",
   "module": "dist/calcite.mjs",
@@ -18,7 +18,9 @@
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "release": "./support/release.sh"
+    "prerelease:prepare": "npm run build",
+    "release:prepare": "npm version prerelease --preid=alpha --no-git-tag-version",
+    "release:publish": "./support/release.sh"
   },
   "repository": {
     "type": "git",

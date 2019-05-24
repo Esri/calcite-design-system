@@ -1,11 +1,9 @@
-# run a build
-npm run build
-
-# incriment the package.json version
-npm version prerelease --preid=alpha -m "v%s"
-
 # get the version from package.json
 VERSION=$(node --eval "console.log(require('./package.json').version);")
+
+# commit the changes from `npm run release:prepare`
+git add --all
+git commit -am "v$VERSION" --no-verify
 
 # push everything up to this point to master
 git push https://github.com/ArcGIS/calcite-components.git master
