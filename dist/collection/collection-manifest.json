@@ -1,0 +1,39 @@
+{
+  "entries": [
+    "components/calcite-loader/calcite-loader.js",
+    "components/calcite-tabs/calcite-tabs.js",
+    "components/calcite-alerts/calcite-alerts.js",
+    "components/calcite-tab-nav/calcite-tab-nav.js",
+    "components/calcite-tab/calcite-tab.js",
+    "components/calcite-alert/calcite-alert.js",
+    "components/calcite-tab-title/calcite-tab-title.js",
+    "components/calcite-modal/calcite-modal.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "1.0.0-beta.5",
+    "typescriptVersion": "3.4.5"
+  },
+  "collections": [
+    {
+      "name": "@stencil/state-tunnel",
+      "tags": [
+        "context-consumer"
+      ]
+    }
+  ],
+  "bundles": [
+    {
+      "components": [
+        "calcite-alert",
+        "calcite-alerts",
+        "calcite-loader",
+        "calcite-modal",
+        "calcite-tab",
+        "calcite-tab-nav",
+        "calcite-tab-title",
+        "calcite-tabs"
+      ]
+    }
+  ]
+}

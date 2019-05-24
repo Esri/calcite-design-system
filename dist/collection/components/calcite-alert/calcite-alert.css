@@ -1,0 +1,318 @@
+body {
+  font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+}
+
+@keyframes dismissProgress {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+:host {
+  position: relative;
+  justify-content: center;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  z-index: 100;
+  width: 50em;
+  max-width: 90%;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.15);
+  height: 0;
+  opacity: 0;
+  overflow: visible;
+  display: flex;
+  border-top: 3px solid;
+  transition: visibility 0ms linear 300ms, opacity 300ms cubic-bezier(0.215, 0.44, 0.42, 0.88), all 0.15s ease-in-out;
+  transform: translate3d(0, 1.5rem, 0);
+  pointer-events: none;
+  border-width: 0px;
+}
+@media only screen and (max-width: 600px) {
+  :host {
+    max-width: 100%;
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 -6px 12px 0 rgba(0, 0, 0, 0.15);
+  }
+}
+
+:host([is-active]) {
+  visibility: visible;
+  border-width: 3px;
+  opacity: 1;
+  height: 100%;
+  transition-delay: 300ms;
+  transform: translate3d(0, 0, 0);
+  pointer-events: initial;
+}
+
+:host slot[name=alert-title]::slotted(div) {
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+:host slot[name=alert-link]::slotted(a) {
+  display: inline-block;
+  font-size: 15px;
+  color: #007ac2;
+}
+
+:host slot[name=alert-message]::slotted(div) {
+  font-size: 15px;
+  color: #555555;
+  display: inline;
+  margin-inline-end: 0.75rem;
+}
+
+:host([theme=dark]) {
+  background-color: #2b2b2b;
+}
+
+:host([theme=dark]) slot[name=alert-title]::slotted(div) {
+  color: #f8f8f8;
+}
+
+:host([theme=dark]) slot[name=alert-message]::slotted(div) {
+  color: #f3f3f3;
+}
+
+.alert-content {
+  padding: 0.75rem 1.5rem;
+  flex: 0 0 auto;
+  transition-delay: 300ms;
+  transition: all 0.15s ease-in-out;
+  flex: 1 1 auto;
+  min-width: 0;
+  word-wrap: break-word;
+  padding-block-start: 0.75rem;
+  padding-block-end: 0.75rem;
+  padding-inline-end: 0.75rem;
+  padding-inline-start: 0;
+}
+@media only screen and (max-width: 600px) {
+  .alert-content {
+    padding: 1.5rem;
+  }
+}
+.alert-content svg {
+  position: relative;
+  vertical-align: top;
+  height: 16px;
+  width: 16px;
+}
+.alert-content:first-of-type {
+  padding-inline-start: 1.5rem;
+}
+@media only screen and (max-width: 600px) {
+  .alert-content {
+    padding-block-start: 1.5rem;
+    padding-block-end: 1.5rem;
+    padding-inline-end: 0.75rem;
+    padding-inline-start: 0;
+  }
+}
+
+.alert-icon {
+  padding: 0.75rem 1.5rem;
+  flex: 0 0 auto;
+  transition-delay: 300ms;
+  transition: all 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+@media only screen and (max-width: 600px) {
+  .alert-icon {
+    padding: 1.5rem;
+  }
+}
+.alert-icon svg {
+  position: relative;
+  vertical-align: top;
+  height: 16px;
+  width: 16px;
+}
+
+.alert-close {
+  padding: 0.75rem 1.5rem;
+  flex: 0 0 auto;
+  transition-delay: 300ms;
+  transition: all 0.15s ease-in-out;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0 0 2px 0;
+}
+@media only screen and (max-width: 600px) {
+  .alert-close {
+    padding: 1.5rem;
+  }
+}
+.alert-close svg {
+  position: relative;
+  vertical-align: top;
+  height: 16px;
+  width: 16px;
+}
+.alert-close svg {
+  fill: #151515;
+}
+.alert-close:hover, .alert-close:focus {
+  background-color: #f3f3f3;
+}
+.alert-close:active {
+  background-color: #eaeaea;
+}
+.alert-close:last-child {
+  border-radius: 0 0 2px 0;
+}
+:host([dir=rtl]) .alert-close:last-child {
+  border-radius: 0 0 0 2px;
+}
+@media only screen and (max-width: 600px) {
+  .alert-close {
+    border-radius: 0;
+  }
+}
+
+:host([theme=dark]) .alert-close svg {
+  fill: #d4d4d4;
+}
+:host([theme=dark]) .alert-close:hover, :host([theme=dark]) .alert-close:focus {
+  background-color: #202020;
+}
+:host([theme=dark]) .alert-close:active {
+  background-color: #151515;
+}
+
+.alert-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: all 0.15s ease-in;
+  width: 0;
+  font-size: 14px;
+  visibility: hidden;
+  padding: 0;
+  font-weight: 500;
+  text-align: center;
+  background-color: transparent;
+  color: #757575;
+  opacity: 0;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  cursor: default;
+}
+.alert-count.is-active {
+  visibility: visible;
+  transition-delay: 300ms;
+  opacity: 1;
+  padding: 0 0.375rem;
+  width: 3rem;
+  border-left: 1px solid #f3f3f3;
+  border-right: 1px solid #f3f3f3;
+}
+.alert-count.is-active:last-child {
+  border-right-color: transparent;
+}
+@media only screen and (max-width: 600px) {
+  .alert-count {
+    border-radius: 0;
+  }
+}
+
+:host([theme=dark]) .alert-count {
+  color: #d4d4d4;
+}
+:host([theme=dark]) .alert-count.is-active {
+  border-left: 1px solid #202020;
+  border-right: 1px solid #202020;
+}
+
+.alert-dismiss {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  z-index: 101;
+}
+.alert-dismiss:after {
+  height: 3px;
+  top: -3px;
+  right: 0;
+  display: block;
+  position: absolute;
+  border-radius: 2px 2px 0 0;
+  content: "";
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  animation: dismissProgress 10000ms linear;
+  transition: all 0.15s ease-in-out;
+  z-index: 200;
+}
+
+:host([theme=dark]) .alert-dismiss:after {
+  background-color: rgba(43, 43, 43, 0.6);
+}
+
+:host([duration=fast]) .alert-dismiss:after {
+  animation: dismissProgress 6000ms linear;
+}
+
+:host([duration=medium]) .alert-dismiss:after {
+  animation: dismissProgress 10000ms linear;
+}
+
+:host([duration=slow]) .alert-dismiss:after {
+  animation: dismissProgress 14000ms linear;
+}
+
+@keyframes dismissProgress {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+:host([color=blue]) {
+  border-top-color: #007ac2;
+}
+:host([color=blue]) .alert-icon svg {
+  fill: #007ac2;
+}
+
+:host([color=red]) {
+  border-top-color: #d83020;
+}
+:host([color=red]) .alert-icon svg {
+  fill: #d83020;
+}
+
+:host([color=yellow]) {
+  border-top-color: #edd317;
+}
+:host([color=yellow]) .alert-icon svg {
+  fill: #edd317;
+}
+
+:host([color=green]) {
+  border-top-color: #35ac46;
+}
+:host([color=green]) .alert-icon svg {
+  fill: #35ac46;
+}
