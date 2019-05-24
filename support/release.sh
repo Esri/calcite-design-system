@@ -1,5 +1,10 @@
+# run a build
+npm run build
+
+# incriment the package.json version
 npm version prerelease --preid=alpha -m "v%s"
 
+# get the version from package.json
 VERSION=$(node --eval "console.log(require('./package.json').version);")
 
 # push everything up to this point to master
@@ -10,8 +15,7 @@ git push https://github.com/ArcGIS/calcite-components.git v$VERSION
 
 # create a ZIP archive of the dist files
 TEMP_FOLDER=calcite-components-v$VERSION;
-mkdir $TEMP_FOLDER
-cp dist $TEMP_FOLDER
+mv dist $TEMP_FOLDER
 zip -r $TEMP_FOLDER.zip $TEMP_FOLDER
 rm -rf $TEMP_FOLDER
 

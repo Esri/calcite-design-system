@@ -20,6 +20,10 @@
     "test.watch": "stencil test --spec --e2e --watchAll",
     "release": "./support/release.sh"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArcGIS/calcite-components.git"
+  },
   "dependencies": {
     "@esri/calcite-base": "github:ArcGIS/calcite-base",
     "@esri/calcite-colors": "^1.2.0",
