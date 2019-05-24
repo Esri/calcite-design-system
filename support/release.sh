@@ -3,7 +3,7 @@ VERSION=$(node --eval "console.log(require('./package.json').version);")
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 # Checkout a temp branch for release
-git checkout -b v$VERSION
+git checkout -b publish_v$VERSION
 
 # commit the changes from `npm run release:prepare`
 git add --all
@@ -39,4 +39,4 @@ rm $TEMP_FOLDER.zip
 git checkout $BRANCH
 
 # delete the release branch
-git branch -d v$VERSION
+git branch -d publish_v$VERSION
