@@ -50,6 +50,7 @@ export namespace Components {
   }
   interface CalciteSwitch {
     'checked': boolean;
+    'destructive': boolean;
     'position': "left" | "right";
     'text': string;
   }
@@ -114,6 +115,7 @@ declare namespace LocalJSX {
   }
   interface CalciteSwitch extends JSXBase.HTMLAttributes {
     'checked'?: boolean;
+    'destructive'?: boolean;
     'onSwitchChange'?: (event: CustomEvent<any>) => void;
     'position'?: "left" | "right";
     'text'?: string;

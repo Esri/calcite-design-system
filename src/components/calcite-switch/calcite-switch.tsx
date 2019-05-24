@@ -12,21 +12,22 @@ export class CalciteSwitch {
   @Prop() text = "";
 
   @Prop() position: "left" | "right" = "left";
+  
+  @Prop() destructive = false;
 
   @State() switched = this.checked;
 
   @Event() switchChange: EventEmitter;
 
   render() {
-    const checkedClass = this.switched ? "toggle-switch-input--checked" : "";
     return (
-      <label class="toggle-switch">
+      <label class={this.destructive ? "toggle-switch-destructive" : "toggle-switch"}>
         {this.position === "right" && (
           <span class="toggle-switch-label">{this.text}</span>
         )}
         <input
           type="checkbox"
-          class={`toggle-switch-input ${checkedClass}`}
+          class={`toggle-switch-input`}
           onChange={this.toggle}
         />
         <span
@@ -41,7 +42,6 @@ export class CalciteSwitch {
 
   toggle() {
     this.switched = !this.switched;
-    console.log(this.switchChange);
     this.switchChange && this.switchChange.emit(this.switched);
   }
 }

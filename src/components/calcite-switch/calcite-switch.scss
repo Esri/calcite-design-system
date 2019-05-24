@@ -184,7 +184,7 @@ $switch-handle-margin: 18px;
   }
 }
 
-@mixin toggle-switch-destructive {
+.toggle-switch-destructive {
   & .toggle-switch-input:hover + .toggle-switch-track:after { border-color: $handle-destructive-hover-border-color; }
   & .toggle-switch-input:active + .toggle-switch-track:after { border-color: $handle-destructive-checked-border-color; }
   & .toggle-switch-input:checked:active + .toggle-switch-track {
