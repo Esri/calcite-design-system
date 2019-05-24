@@ -1,4 +1,5 @@
-import { Component, h, Prop, State } from "@stencil/core";
+import { Component, h, Prop, State, Event } from "@stencil/core";
+import { EventEmitter } from "@stencil/state-tunnel/dist/types/stencil.core";
 
 @Component({
   tag: "calcite-switch",
@@ -14,15 +15,23 @@ export class CalciteSwitch {
 
   @State() switched = this.checked;
 
+  @Event() onchange: EventEmitter; 
+
   render() {
     const checkedClass = this.switched ? "toggle-switch-input--checked" : "";
     return (
       <label class="toggle-switch">
         { this.position === "right" && <span class="toggle-switch-label">{this.text}</span> } 
-        <input type="checkbox" class={`toggle-switch-input ${checkedClass}`}/>
+        <input type="checkbox" class={`toggle-switch-input ${checkedClass}`} onChange={this.toggle}/>
         <span class={`toggle-switch-track toggle-switch-track--${this.position}`}></span>
         { this.position === "left" && <span class="toggle-switch-label">{this.text}</span> } 
       </label>
     );
   }
+
+  toggle() {
+    this.switched = !this.switched;
+    this.onchange.emit(this.switched);
+  }
+
 }
