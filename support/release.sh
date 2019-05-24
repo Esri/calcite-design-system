@@ -23,12 +23,6 @@ git push https://github.com/ArcGIS/calcite-components.git master
 # push the new tag, not the old tags
 git push https://github.com/ArcGIS/calcite-components.git v$VERSION
 
-# checkout master
-git checkout $BRANCH
-
-# delete the release branch
-git branch -d v$VERSION
-
 # create a ZIP archive of the dist files
 TEMP_FOLDER=calcite-components-v$VERSION;
 mv dist $TEMP_FOLDER
@@ -40,3 +34,9 @@ gh-release --t v$VERSION -a $TEMP_FOLDER.zip
 
 # Delete the ZIP archive
 rm $TEMP_FOLDER.zip
+
+# checkout master
+git checkout $BRANCH
+
+# delete the release branch
+git branch -d v$VERSION
