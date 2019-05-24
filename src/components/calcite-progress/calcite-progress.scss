@@ -34,6 +34,10 @@ $looping-progress-bar-params: 1500ms linear infinite !default;
   width: var(--percentage-value);
 }
 
+.calcite-progress__text {
+  text-align: center;
+}
+
 @keyframes looping-progresss-bar-ani {
   0% {
     left: 0%;

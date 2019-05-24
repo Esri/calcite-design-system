@@ -2,9 +2,10 @@
 
 # props
 
-percentage number
+value number between 0 and 1
 text string
-type indeterminate | indeterminate-reversed | percentage
+type "indeterminate" | "determinate" = "determinate";
+reversed boolean
 
 # todo
 

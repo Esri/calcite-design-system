@@ -21,11 +21,13 @@ export class CalciteProgress {
       <Host
         class="calcite-progress"
         type={this.type}
+        reversed={this.reversed}
         style={{
           "--percentage-value": `${this.value * 100}%`
         }}
       >
-        <slot name="progress-content" />
+        <div class="calcite-progress__text">{this.text}</div>
+        <slot />
       </Host>
     );
   }
