@@ -20,12 +20,12 @@ describe('calcite-switch', () => {
   it('renders switch at correct position', async() => {
     element.setProperty('position', 'right');
     await page.waitForChanges();
-    let pageEl = await page.find('calcite-switch >>> .toggle-switch-track');
-    expect( pageEl).toHaveClass('toggle-switch-track--right');
+    let pageEl = await page.find('calcite-switch >>> .toggle-switch__track');
+    expect( pageEl).toHaveClass('toggle-switch__track--right');
 
     element.setProperty('position', 'left');
     await page.waitForChanges();
-    expect( pageEl).toHaveClass('toggle-switch-track--left');
+    expect( pageEl).toHaveClass('toggle-switch__track--left');
   });
 
   it('changes the internal state of checked', async () => {

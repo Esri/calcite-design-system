@@ -24,22 +24,22 @@ export class CalciteSwitch {
   render() {
     return [
       <label
-        class={this.destructive ? "toggle-switch-destructive" : "toggle-switch"}
+        class={this.destructive ? "toggle-switch--destructive" : "toggle-switch"}
       >
         {(this.position === "right" || this.position === "after") && (
-          <span class="toggle-switch-label">{this.text}</span>
+          <span class="toggle-switch__label">{this.text}</span>
         )}
         <input
           type="checkbox"
-          class="toggle-switch-input"
+          class="toggle-switch__input"
           checked={this.switched}
           onChange={this.setInputSlot.bind(this)}
         />
         <span
-          class={`toggle-switch-track toggle-switch-track--${this.position}`}
+          class={`toggle-switch__track toggle-switch__track--${this.position}`}
         />
         {(this.position === "left" || this.position === "before") && (
-          <span class="toggle-switch-label">{this.text}</span>
+          <span class="toggle-switch__label">{this.text}</span>
         )}
       </label>,
       <slot />
@@ -48,6 +48,6 @@ export class CalciteSwitch {
   setInputSlot(): void {
     const input = this.el.querySelector("input");
     this.switched = !this.switched;
-    input && input.setAttribute("checked", this.switched.toString());
+    input && (input.checked = this.switched);
   }
 }
