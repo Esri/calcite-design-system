@@ -226,28 +226,66 @@
           <a slot="alert-link" href="">Take action</a>
         </calcite-alert>
       </calcite-alerts>
-      <calcite-switch
-        switched="true"
-        text="doing thingz&hellip;"
+      <div><calcite-switch
+        checked="true"
+        text="doing thingz before&hellip;"
+        position="before"
+      >
+      <input type="checkbox" > 
+      </calcite-switch></div>
+      <div><calcite-switch
+      checked="true"
+      text="doing thingz after&hellip;"
+      position="after"
+      >
+      <input type="checkbox" > 
+      </calcite-switch></div>
+      <div><calcite-switch
+        checked="true"
+        text="doing thingz on left&hellip;"
         position="left"
-      ></calcite-switch>
-      <calcite-switch
-      switched="true"
+      >
+      <input type="checkbox" > 
+      </calcite-switch></div>
+      <div><calcite-switch
+      checked="true"
       text="doing thingz on right&hellip;"
       position="right"
-    ></calcite-switch>
-      <calcite-switch
-        switched="true"
-        text="doing something bad&hellip;"
-        position="right"
-        destructive="true"
-      ></calcite-switch>
-      <calcite-switch
-        switched="true"
+      >
+      <input type="checkbox" > 
+      </calcite-switch></div>
+      <div><calcite-switch
+        checked="true"
         text="doing something bad on left&hellip;"
         position="left"
         destructive="true"
-      ></calcite-switch>
+      >
+        <input type="checkbox" > 
+      </calcite-switch></div>
+      <div><calcite-switch
+        checked="true"
+        text="doing something bad on before&hellip;"
+        position="before"
+        destructive="true"
+      >
+        <input type="checkbox" > 
+      </calcite-switch></div>
+        
+      <div style="width:300px;"><calcite-switch
+        checked="true"
+        text="doing something bad on after&hellip;"
+        position="after"
+        destructive="true"
+      ><input type="checkbox" > 
+    </calcite-switch></div>
+      <div><calcite-switch
+        checked="true"
+        text="doing something bad on right&hellip;"
+        position="right"
+        destructive="true"
+      >
+        <input type="checkbox" > 
+      </calcite-switch></div>
       <div style="width:200px; height: 100px;">
         <calcite-loader
           is-Active="true"

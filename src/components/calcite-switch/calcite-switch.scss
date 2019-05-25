@@ -119,17 +119,32 @@ $switch-handle-margin: 18px;
 
   &--left{
     @extend %margin-right;
+    @include left();
   }
 
   &--right{
     @extend %margin-left;
+    @include right();
   }
+
+  &--before{
+    @extend %margin-right;
+  }
+
+  &--after{
+    @extend %margin-left;
+  }
+
   // alignment fixes for edge
   @supports (-ms-ime-align: auto) { & { top: .1em; }}
   // alignment fixes for ff
   @supports (-moz-appearance: none) { & { top: .1em; }}
   // alignment fixes for ios
   @supports (-webkit-overflow-scrolling: touch) { & { top: .15em; }}
+}
+
+::slotted(input) {
+  @include visually-hidden;
 }
 
 .toggle-switch-input {
