@@ -24,7 +24,9 @@ export class CalciteSwitch {
   render() {
     return [
       <label
-        class={this.destructive ? "toggle-switch--destructive" : "toggle-switch"}
+        class={
+          this.destructive ? "toggle-switch--destructive" : "toggle-switch"
+        }
       >
         {(this.position === "right" || this.position === "after") && (
           <span class="toggle-switch__label">{this.text}</span>
