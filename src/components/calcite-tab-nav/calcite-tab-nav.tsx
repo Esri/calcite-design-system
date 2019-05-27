@@ -12,6 +12,7 @@ import {
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 import { guid } from "../../utils/guid";
+import { getCookie, setCookie, hasCookie } from "../../utils/cookie";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -20,7 +21,11 @@ import { guid } from "../../utils/guid";
 })
 export class CalciteTabNav {
   @Element() el;
-  @Prop({ mutable: true, reflectToAttr: true }) id: string = `calite-tab-nav-${guid()}`;
+  @Prop() cookie: string;
+  @Prop() sync: string;
+
+  @Prop({ mutable: true, reflectToAttr: true })
+  id: string = `calite-tab-nav-${guid()}`;
 
   @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
 
@@ -29,6 +34,14 @@ export class CalciteTabNav {
 
   @Watch("selectedTab")
   selectedTabChanged() {
+    if (
+      this.cookie &&
+      this.selectedTab !== undefined &&
+      this.selectedTab !== null
+    ) {
+      setCookie(this.cookie, this.selectedTab);
+    }
+
     this.calciteTabChange.emit({
       tab: this.selectedTab
     });
@@ -69,12 +82,29 @@ export class CalciteTabNav {
     }
   }
 
+  @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
+    e: CustomEvent<TabChangeEventDetail>
+  ) {
+    if (
+      this.sync &&
+      e.target !== this.el &&
+      (e.target as HTMLCalciteTabNavElement).sync === this.sync &&
+      this.selectedTab !== e.detail.tab
+    ) {
+      this.selectedTab = e.detail.tab;
+    }
+  }
+
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
     const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
-    return [...tabs].indexOf(el);
+    return Array.prototype.slice.call(tabs).indexOf(el);
   }
 
   componentWillLoad() {
+    if (this.cookie && hasCookie(this.cookie)) {
+      this.selectedTab = getCookie(this.cookie) || this.selectedTab;
+    }
+
     this.selectedTabChanged();
   }
 

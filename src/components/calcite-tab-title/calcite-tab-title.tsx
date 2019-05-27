@@ -22,7 +22,8 @@ import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
   shadow: true
 })
 export class CalciteTabTitle {
-  @Prop({ mutable: true, reflectToAttr: true }) id: string = `calite-tab-title-${guid()}`;
+  @Prop({ mutable: true, reflectToAttr: true })
+  id: string = `calite-tab-title-${guid()}`;
   @State() private controls: string;
   @Element() el: HTMLElement;
 
@@ -45,7 +46,7 @@ export class CalciteTabTitle {
     TabRegisterEventDetail
   >;
 
-  @Listen('calciteTabChange', { target: 'parent' }) tabChangeHand(
+  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (this.tab) {
@@ -104,7 +105,12 @@ export class CalciteTabTitle {
 
   render() {
     return (
-      <Host aria-controls={this.controls} aria-expanded={this.isActive ? "true" : "false"} role="tab" tabindex="0">
+      <Host
+        aria-controls={this.controls}
+        aria-expanded={this.isActive ? "true" : "false"}
+        role="tab"
+        tabindex="0"
+      >
         <a>
           <slot />
         </a>

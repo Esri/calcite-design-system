@@ -20,7 +20,8 @@ import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
   shadow: true
 })
 export class CalciteTab {
-  @Prop({ mutable: true, reflectToAttr: true }) id: string = `calite-tab-${guid()}`;
+  @Prop({ mutable: true, reflectToAttr: true })
+  id: string = `calite-tab-${guid()}`;
 
   @State() private labeledBy: string;
 
@@ -38,9 +39,17 @@ export class CalciteTab {
   })
   isActive: boolean = false;
 
-  @Listen('calciteTabChange', { target: 'parent' }) tabChangeHandler(
+  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
+    if (
+      ![...(event.target as any).parentNode.children].some(
+        child => child == this.el
+      )
+    ) {
+      return;
+    }
+
     if (this.tab) {
       this.isActive = this.tab === event.detail.tab;
     } else {
@@ -65,7 +74,9 @@ export class CalciteTab {
   async getTabIndex() {
     return Promise.resolve(
       Array.prototype.indexOf.call(
-        this.el.parentElement.querySelectorAll("calcite-tab"),
+        [...(this as any).el.parentElement.children].filter(e =>
+          e.matches("calcite-tab")
+        ),
         this.el
       )
     );
@@ -78,7 +89,11 @@ export class CalciteTab {
 
   render() {
     return (
-      <Host aria-labeledby={this.labeledBy} aria-expanded={this.isActive ? "true" : "false"} role="tabpanel">
+      <Host
+        aria-labeledby={this.labeledBy}
+        aria-expanded={this.isActive ? "true" : "false"}
+        role="tabpanel"
+      >
         <section>
           <slot />
         </section>
