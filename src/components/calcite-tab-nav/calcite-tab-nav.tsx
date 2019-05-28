@@ -34,6 +34,7 @@ export class CalciteTabNav {
   @Watch("selectedTab")
   selectedTabChanged() {
     if (
+      localStorage &&
       this.storageId &&
       this.selectedTab !== undefined &&
       this.selectedTab !== null
@@ -104,6 +105,7 @@ export class CalciteTabNav {
 
   componentWillLoad() {
     if (
+      localStorage &&
       this.storageId &&
       localStorage.getItem(`calcite-tab-nav-${this.storageId}`)
     ) {
