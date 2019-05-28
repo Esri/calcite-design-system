@@ -28,6 +28,11 @@ export class CalciteTabs {
   })
   theme: "light" | "dark" = "light";
 
+  @Prop({
+    reflectToAttr: true
+  })
+  layout: "center" | "inline" = "inline";
+
   @Listen("calciteRegisterTabTitle") tabTitleRegistationHandler(
     e: CustomEvent<TabRegisterEventDetail>
   ) {
