@@ -1,13 +1,13 @@
 {
   "name": "calcite-components",
-  "version": "0.0.1",
+  "version": "0.0.0-alpha.1",
   "description": "Stencil Component Starter",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
   "es2017": "dist/esm/index.mjs",
   "jsnext:main": "dist/esm/index.mjs",
-  "unpkg": "dist/ionic.js",
+  "unpkg": "dist/calcite.js",
   "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "files": [
@@ -17,7 +17,14 @@
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watchAll"
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "prerelease:prepare": "npm run build",
+    "release:prepare": "npm version prerelease --preid=alpha --no-git-tag-version",
+    "release:publish": "./support/release.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArcGIS/calcite-components.git"
   },
   "dependencies": {
     "@esri/calcite-base": "github:ArcGIS/calcite-base",
@@ -33,7 +40,8 @@
     "@types/puppeteer": "1.12.4",
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
-    "puppeteer": "1.14.0"
+    "puppeteer": "1.14.0",
+    "gh-release": "^3.5.0"
   },
   "license": "MIT"
 }
