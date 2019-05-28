@@ -13,6 +13,7 @@ import {
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
+import { nodeListToArray } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tab",
@@ -21,7 +22,7 @@ import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 })
 export class CalciteTab {
   @Prop({ mutable: true, reflectToAttr: true })
-  id: string = `calite-tab-${guid()}`;
+  id: string = `calcite-tab-${guid()}`;
 
   @State() private labeledBy: string;
 
@@ -43,7 +44,7 @@ export class CalciteTab {
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (
-      ![...(event.target as any).parentNode.children].some(
+      !nodeListToArray((event.target as HTMLElement).parentNode.children).some(
         child => child == this.el
       )
     ) {
@@ -74,7 +75,7 @@ export class CalciteTab {
   async getTabIndex() {
     return Promise.resolve(
       Array.prototype.indexOf.call(
-        [...(this as any).el.parentElement.children].filter(e =>
+        nodeListToArray(this.el.parentElement.children).filter(e =>
           e.matches("calcite-tab")
         ),
         this.el

@@ -56,16 +56,16 @@ export namespace Components {
     'tab': string;
   }
   interface CalciteTabNav {
-    'cookie': string;
     'id': string;
     'selectedTab': number | string;
-    'sync': string;
+    'storageId': string;
+    'syncId': string;
   }
   interface CalciteTabTitle {
     'getTabIndex': () => Promise<any>;
     'id': string;
     'isActive': boolean;
-    'setControledBy': (id: string) => Promise<void>;
+    'setControlledBy': (id: string) => Promise<void>;
     'tab': string;
   }
   interface CalciteTabs {
@@ -117,11 +117,11 @@ declare namespace LocalJSX {
     'tab'?: string;
   }
   interface CalciteTabNav extends JSXBase.HTMLAttributes {
-    'cookie'?: string;
     'id'?: string;
     'onCalciteTabChange'?: (event: CustomEvent<TabChangeEventDetail>) => void;
     'selectedTab'?: number | string;
-    'sync'?: string;
+    'storageId'?: string;
+    'syncId'?: string;
   }
   interface CalciteTabTitle extends JSXBase.HTMLAttributes {
     'id'?: string;

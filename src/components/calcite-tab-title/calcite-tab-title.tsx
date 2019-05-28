@@ -23,7 +23,7 @@ import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
 })
 export class CalciteTabTitle {
   @Prop({ mutable: true, reflectToAttr: true })
-  id: string = `calite-tab-title-${guid()}`;
+  id: string = `calcite-tab-title-${guid()}`;
   @State() private controls: string;
   @Element() el: HTMLElement;
 
@@ -99,7 +99,7 @@ export class CalciteTabTitle {
   }
 
   @Method()
-  async setControledBy(id: string) {
+  async setControlledBy(id: string) {
     this.controls = id;
   }
 

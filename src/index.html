@@ -101,7 +101,10 @@
           <h1 class="leader-1">Save Active Tab To Cookie</h1>
 
           <calcite-tabs>
-            <calcite-tab-nav slot="tab-nav" cookie="calcite-tabs-cookie-demo">
+            <calcite-tab-nav
+              slot="tab-nav"
+              storage-id="calcite-tabs-cookie-demo"
+            >
               <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
               <calcite-tab-title>Tab 2 Title</calcite-tab-title>
               <calcite-tab-title>Tab 3 Title</calcite-tab-title>
@@ -117,7 +120,7 @@
           <h1 class="leader-1">Tab Sync Demo</h1>
 
           <calcite-tabs>
-            <calcite-tab-nav slot="tab-nav" sync="sync-demo">
+            <calcite-tab-nav slot="tab-nav" sync-id="sync-demo">
               <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
               <calcite-tab-title>Tab 2 Title</calcite-tab-title>
               <calcite-tab-title>Tab 3 Title</calcite-tab-title>
@@ -131,7 +134,7 @@
           </calcite-tabs>
 
           <calcite-tabs>
-            <calcite-tab-nav slot="tab-nav" sync="sync-demo">
+            <calcite-tab-nav slot="tab-nav" sync-id="sync-demo">
               <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
               <calcite-tab-title>Tab 2 Title</calcite-tab-title>
               <calcite-tab-title>Tab 3 Title</calcite-tab-title>
@@ -149,8 +152,8 @@
           <calcite-tabs>
             <calcite-tab-nav
               slot="tab-nav"
-              sync="sync-cookie-demo"
-              cookie="sync-cookie-demo"
+              sync-id="sync-cookie-demo"
+              storage-id="sync-cookie-demo"
             >
               <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
               <calcite-tab-title>Tab 2 Title</calcite-tab-title>
@@ -167,8 +170,8 @@
           <calcite-tabs>
             <calcite-tab-nav
               slot="tab-nav"
-              sync="sync-cookie-demo"
-              cookie="sync-cookie-demo"
+              sync-id="sync-cookie-demo"
+              storage-id="sync-cookie-demo"
             >
               <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
               <calcite-tab-title>Tab 2 Title</calcite-tab-title>
