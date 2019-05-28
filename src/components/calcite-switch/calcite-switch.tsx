@@ -51,6 +51,9 @@ export class CalciteSwitch {
     const input = this.el.querySelector("input");
     this.switched = !this.switched;
     input && (input.checked = this.switched);
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("change", true, false);
+    input && input.dispatchEvent(evt);
     this.switchChange && this.switchChange.emit(this.switched);
   }
 }
