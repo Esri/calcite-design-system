@@ -1,0 +1,86 @@
+body {
+  font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+}
+
+@keyframes dismissProgress {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+:host .loader-bars, :host .loader-bars:after, :host .loader-bars:before {
+  background: #007ac2;
+  -webkit-animation: load 0.8s infinite ease-in-out;
+  animation: load 0.8s infinite ease-in-out;
+  width: 0.85rem;
+  height: 2rem;
+}
+
+:host .loader-bars:after, :host .loader-bars:before {
+  position: absolute;
+  top: 0;
+  content: "";
+}
+
+:host {
+  position: relative;
+  display: none;
+  padding-bottom: 4.5rem;
+  padding-top: 4.5rem;
+}
+
+:host([is-active]) {
+  display: block;
+}
+
+:host .loader-bars {
+  text-indent: -9999em;
+  margin: auto;
+  position: absolute;
+  right: calc(50% - 0.425rem);
+  font-size: 11px;
+  -webkit-animation-delay: 0.16s;
+  animation-delay: 0.16s;
+}
+:host .loader-bars:before {
+  left: -1.25rem;
+}
+:host .loader-bars:after {
+  left: 1.25rem;
+  -webkit-animation-delay: 0.32s;
+  animation-delay: 0.32s;
+}
+
+:host .loader-text {
+  padding-top: 4rem;
+  text-align: center;
+}
+
+@-webkit-keyframes load {
+  0%, 80%, 100% {
+    opacity: 0.75;
+    box-shadow: 0 0 #007ac2;
+    height: 2rem;
+  }
+  40% {
+    opacity: 1;
+    box-shadow: 0 -0.5rem #007ac2;
+    height: 2.5rem;
+  }
+}
+@keyframes load {
+  0%, 80%, 100% {
+    opacity: 0.75;
+    box-shadow: 0 0 #007ac2;
+    height: 2rem;
+  }
+  40% {
+    opacity: 1;
+    box-shadow: 0 -0.5rem #007ac2;
+    height: 2.5rem;
+  }
+}
