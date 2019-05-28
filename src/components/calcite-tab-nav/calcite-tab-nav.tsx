@@ -20,7 +20,11 @@ import { guid } from "../../utils/guid";
 })
 export class CalciteTabNav {
   @Element() el;
-  @Prop({ mutable: true, reflectToAttr: true }) id: string = `calite-tab-nav-${guid()}`;
+  @Prop() storageId: string;
+  @Prop() syncId: string;
+
+  @Prop({ mutable: true, reflectToAttr: true })
+  id: string = `calcite-tab-nav-${guid()}`;
 
   @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
 
@@ -29,6 +33,18 @@ export class CalciteTabNav {
 
   @Watch("selectedTab")
   selectedTabChanged() {
+    if (
+      localStorage &&
+      this.storageId &&
+      this.selectedTab !== undefined &&
+      this.selectedTab !== null
+    ) {
+      localStorage.setItem(
+        `calcite-tab-nav-${this.storageId}`,
+        JSON.stringify(this.selectedTab)
+      );
+    }
+
     this.calciteTabChange.emit({
       tab: this.selectedTab
     });
@@ -54,7 +70,7 @@ export class CalciteTabNav {
 
   @Listen("calciteRegisterTabTitle")
   tabTitleRegistationHandler(e: CustomEvent<TabRegisterEventDetail>) {
-    (e.target as HTMLCalciteTabTitleElement).setControledBy(this.id);
+    (e.target as HTMLCalciteTabTitleElement).setControlledBy(this.id);
   }
 
   @Listen("calciteActivateTab") activateTabHandler(
@@ -69,12 +85,35 @@ export class CalciteTabNav {
     }
   }
 
+  @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
+    e: CustomEvent<TabChangeEventDetail>
+  ) {
+    if (
+      this.syncId &&
+      e.target !== this.el &&
+      (e.target as HTMLCalciteTabNavElement).syncId === this.syncId &&
+      this.selectedTab !== e.detail.tab
+    ) {
+      this.selectedTab = e.detail.tab;
+    }
+  }
+
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
     const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
-    return [...tabs].indexOf(el);
+    return Array.prototype.slice.call(tabs).indexOf(el);
   }
 
   componentWillLoad() {
+    if (
+      localStorage &&
+      this.storageId &&
+      localStorage.getItem(`calcite-tab-nav-${this.storageId}`)
+    ) {
+      this.selectedTab =
+        JSON.parse(localStorage.getItem(`calcite-tab-nav-${this.storageId}`)) ||
+        this.selectedTab;
+    }
+
     this.selectedTabChanged();
   }
 
