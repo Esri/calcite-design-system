@@ -6,6 +6,7 @@ export const config: Config = {
   bundles: [
     {
       components: [
+        "calcite-switch",
         "calcite-modal",
         "calcite-alerts",
         "calcite-alert",
