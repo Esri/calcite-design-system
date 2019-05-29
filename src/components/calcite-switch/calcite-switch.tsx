@@ -1,5 +1,6 @@
 import { Component, h, Prop, State, Event, Element } from "@stencil/core";
 import { EventEmitter } from "@stencil/state-tunnel/dist/types/stencil.core";
+import { ENTER } from "../../utils/keys";
 
 @Component({
   tag: "calcite-switch",
@@ -36,6 +37,9 @@ export class CalciteSwitch {
           class="toggle-switch__input"
           checked={this.switched}
           onChange={this.setInputSlot.bind(this)}
+          onKeyPress={(event: KeyboardEvent) => {
+            event.keyCode === ENTER && this.setInputSlot();
+          }}
         />
         <span
           class={`toggle-switch__track toggle-switch__track--${this.position}`}
@@ -50,10 +54,12 @@ export class CalciteSwitch {
   setInputSlot(): void {
     const input = this.el.querySelector("input");
     this.switched = !this.switched;
-    input && (input.checked = this.switched);
-    var evt = document.createEvent("HTMLEvents");
-    evt.initEvent("change", true, false);
-    input && input.dispatchEvent(evt);
+    if (input) {
+      const evt = document.createEvent("HTMLEvents");
+      evt.initEvent("change", false, true);
+      input.checked = this.switched;
+      input.dispatchEvent(evt);
+    }
     this.switchChange && this.switchChange.emit(this.switched);
   }
 }
