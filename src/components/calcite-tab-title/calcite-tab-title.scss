@@ -1,5 +1,5 @@
 :host {
-  flex: 0 1 auto;
+  flex: 0 1 var(--calcite-tabs-tab-basis);
   outline: none;
 }
 
@@ -33,4 +33,7 @@ a {
   // @include transition(all 0.15s ease-in-out);
   color: var(--calcite-tabs-color);
   outline: none;
+  width: 100%;
+  display: block;
+  text-align: var(--calcite-tabs-tab-text-align);
 }

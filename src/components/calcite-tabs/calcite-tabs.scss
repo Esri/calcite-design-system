@@ -1,9 +1,15 @@
 :host {
+  display: block;
   --calcite-tabs-color: #{$darkest-gray};
   --calcite-tabs-border: #{$lighter-gray};
   --calcite-tabs-border-hover: #{$light-gray};
   --calcite-tabs-color-active: #{$off-black};
   --calcite-tabs-border-active: #{$blue};
+  --calcite-tabs-layout: flex-start;
+  --calcite-tabs-tab-basis: auto;
+  --calcite-tabs-tab-text-align: start;
+  --calcite-tabs-tab-margin-start: 1.25rem;
+  --calcite-tabs-tab-margin-end: 0;
 }
 
 :host([theme="dark"]) {
@@ -14,7 +20,14 @@
   --calcite-tabs-border-active: #{$white};
 }
 
+:host([layout="center"]) {
+  --calcite-tabs-layout: center;
+  --calcite-tabs-tab-basis: 200px;
+  --calcite-tabs-tab-text-align: center;
+  --calcite-tabs-tab-margin-start: 1.25rem;
+  --calcite-tabs-tab-margin-end: 1.25rem;
+}
+
 .tab-contents {
-  margin-top: 1px;
   border-top: 1px solid var(--calcite-tabs-border);
 }
