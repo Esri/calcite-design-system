@@ -54,6 +54,7 @@ export namespace Components {
     'type': "indeterminate" | "determinate";
     'value': number;
   }
+  interface CalciteSelect {}
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;
     'id': string;
@@ -122,6 +123,7 @@ declare namespace LocalJSX {
     'type'?: "indeterminate" | "determinate";
     'value'?: number;
   }
+  interface CalciteSelect extends JSXBase.HTMLAttributes {}
   interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;
     'isActive'?: boolean;
@@ -155,6 +157,7 @@ declare namespace LocalJSX {
     'calcite-loader': CalciteLoader;
     'calcite-modal': CalciteModal;
     'calcite-progress': CalciteProgress;
+    'calcite-select': CalciteSelect;
     'calcite-tab': CalciteTab;
     'calcite-tab-nav': CalciteTabNav;
     'calcite-tab-title': CalciteTabTitle;
@@ -206,6 +209,12 @@ declare global {
     new (): HTMLCalciteProgressElement;
   };
 
+  interface HTMLCalciteSelectElement extends Components.CalciteSelect, HTMLStencilElement {}
+  var HTMLCalciteSelectElement: {
+    prototype: HTMLCalciteSelectElement;
+    new (): HTMLCalciteSelectElement;
+  };
+
   interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {}
   var HTMLCalciteTabElement: {
     prototype: HTMLCalciteTabElement;
@@ -236,6 +245,7 @@ declare global {
     'calcite-loader': HTMLCalciteLoaderElement;
     'calcite-modal': HTMLCalciteModalElement;
     'calcite-progress': HTMLCalciteProgressElement;
+    'calcite-select': HTMLCalciteSelectElement;
     'calcite-tab': HTMLCalciteTabElement;
     'calcite-tab-nav': HTMLCalciteTabNavElement;
     'calcite-tab-title': HTMLCalciteTabTitleElement;
