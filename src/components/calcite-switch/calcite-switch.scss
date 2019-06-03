@@ -53,20 +53,6 @@ $switch-handle-margin: 18px;
   }
 }
 
-%margin-right{
-  margin-right:  $switch-handle-margin;
-  html[dir="rtl"] & {
-    margin-left:  $switch-handle-margin;
-  }
-}
-
-%margin-left{
-  margin-left:  $switch-handle-margin;
-  html[dir="rtl"] & {
-    margin-right:  $switch-handle-margin;
-  }
-}
-
 // our containing block element
 .toggle-switch {
   display: block;
@@ -77,15 +63,6 @@ $switch-handle-margin: 18px;
   -ms-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
-}
-
-
-// spacing for label
-.toggle-switch__label {
-  width: calc((100% - 3em) - .5em);
-  padding: 0 .1em;
-  vertical-align: top;
 }
 
 // track
@@ -117,34 +94,12 @@ $switch-handle-margin: 18px;
     transition: all 0.25s ease;
   }
 
-  &--left{
-    @extend %margin-right;
-    @include left();
-  }
-
-  &--right{
-    @extend %margin-left;
-    @include right();
-  }
-
-  &--before{
-    @extend %margin-right;
-  }
-
-  &--after{
-    @extend %margin-left;
-  }
-
   // alignment fixes for edge
   @supports (-ms-ime-align: auto) { & { top: .1em; }}
   // alignment fixes for ff
   @supports (-moz-appearance: none) { & { top: .1em; }}
   // alignment fixes for ios
   @supports (-webkit-overflow-scrolling: touch) { & { top: .15em; }}
-}
-
-::slotted(input) {
-  @include visually-hidden;
 }
 
 .toggle-switch__input {
