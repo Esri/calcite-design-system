@@ -117,7 +117,48 @@ This will fetch the varaible `var(--calcite-tabs-color-active)` from its nearest
 
 ## Form Elements and Custom Inputs
 
-@TODO
+Custom form elements represent a particularly tricky part of Calcite Components. Other Stencil based frameworks such as a [Ionic](https://github.com/ionic-team/ionic) ship additional wrappers around their Web Components such as [`@ionic/react`](https://github.com/ionic-team/ionic/tree/master/react), [`@ionic/angular`](https://github.com/ionic-team/ionic/tree/master/angular) and [`@ionic.vue`](https://github.com/ionic-team/ionic/tree/master/vue). These wrapper adapt the custom events of the Ionic components like `ionChange` to work with things like Reacts synthetic `onChange={}` event, and Angular's `[(ngModel)]` to support standard form handling within those frameworks. However the additional effort to build and maintain these wrappers is likely not worth it.
+
+Instead we will allow a native `<input>` or `select` element to become the source of truth for a component.
+
+```html
+<!-- <calcite-checkbox> is the source of truth -->
+<calcite-checkbox checked disabled></calcite-checkbox>
+```
+
+and
+
+```html
+<calcite-checkbox>
+  <!-- the <input> is the source of truth -->
+  <input type="checkbox" checked disabled>
+</calcite-checkbox>
+```
+
+Frameworks can use their native tools to interact with the provided `<input>` while the input can also be omitted if the application only needs a more basic interaction. The input can be hidden inside the component like so:
+
+```html
+<div hidden>
+  <slot>
+    <!-- a default checkbox in case the user doesn't pass one-->
+    <input type="checkbox" checked disabled>
+  </slot>
+<div>
+```
+
+Several interactions are required to properly implement:
+
+* If the `value`, `disabled`, `selected`, or `checked` properties on the input change, update the state of the custom input. The attributes of the passed input can be observed with a [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe).
+* Update the state of the input when the user interacts with the custom input.
+* Focus the custom input when the user focuses the passed input. This allows the standard `<label>` element to be wrapped around the custom element.
+   ```html
+   <label>
+     My Checkbox
+     <calcite-checkbox>
+       <input type="checkbox" checked disabled>
+     </calcite-checkbox>
+   </label>
+   ```
 
 **Discussed In:**
 
