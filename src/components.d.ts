@@ -48,6 +48,12 @@ export namespace Components {
     */
     'middle': string;
   }
+  interface CalciteProgress {
+    'reversed': boolean;
+    'text': string;
+    'type': "indeterminate" | "determinate";
+    'value': number;
+  }
   interface CalciteSwitch {
     'color': "red" | "blue";
     'switched': boolean;
@@ -114,6 +120,12 @@ declare namespace LocalJSX {
     */
     'middle'?: string;
   }
+  interface CalciteProgress extends JSXBase.HTMLAttributes {
+    'reversed'?: boolean;
+    'text'?: string;
+    'type'?: "indeterminate" | "determinate";
+    'value'?: number;
+  }
   interface CalciteSwitch extends JSXBase.HTMLAttributes {
     'color'?: "red" | "blue";
     'onCalciteSwitchChange'?: (event: CustomEvent<any>) => void;
@@ -151,6 +163,7 @@ declare namespace LocalJSX {
     'calcite-alerts': CalciteAlerts;
     'calcite-loader': CalciteLoader;
     'calcite-modal': CalciteModal;
+    'calcite-progress': CalciteProgress;
     'calcite-switch': CalciteSwitch;
     'calcite-tab': CalciteTab;
     'calcite-tab-nav': CalciteTabNav;
@@ -197,6 +210,12 @@ declare global {
     new (): HTMLCalciteModalElement;
   };
 
+  interface HTMLCalciteProgressElement extends Components.CalciteProgress, HTMLStencilElement {}
+  var HTMLCalciteProgressElement: {
+    prototype: HTMLCalciteProgressElement;
+    new (): HTMLCalciteProgressElement;
+  };
+
   interface HTMLCalciteSwitchElement extends Components.CalciteSwitch, HTMLStencilElement {}
   var HTMLCalciteSwitchElement: {
     prototype: HTMLCalciteSwitchElement;
@@ -232,6 +251,7 @@ declare global {
     'calcite-alerts': HTMLCalciteAlertsElement;
     'calcite-loader': HTMLCalciteLoaderElement;
     'calcite-modal': HTMLCalciteModalElement;
+    'calcite-progress': HTMLCalciteProgressElement;
     'calcite-switch': HTMLCalciteSwitchElement;
     'calcite-tab': HTMLCalciteTabElement;
     'calcite-tab-nav': HTMLCalciteTabNavElement;

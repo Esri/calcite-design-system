@@ -36,6 +36,11 @@
     "@stencil/core": "one",
     "@stencil/sass": "^0.2.3",
     "@stencil/state-tunnel": "one",
+    "@types/jest": "23.3.14",
+    "@types/puppeteer": "1.12.4",
+    "jest": "23.6.0",
+    "jest-cli": "23.6.0",
+    "puppeteer": "1.14.0",
     "gh-release": "^3.5.0"
   },
   "license": "MIT"
