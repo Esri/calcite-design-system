@@ -121,12 +121,29 @@ This will fetch the varaible `var(--calcite-tabs-color-active)` from its nearest
 
 ## Component Responsibilities
 
-@TODO
+Calcite Components broadly targets 2 groups of projects inside Esri:
+
+* **Sites** like [esri.com](https://esri.com) and [developers.arcgis.com](https://developers.arcgis.com).
+* **Apps** like [ArcGIS Online](https://arcgis.com), [Vector Tile Style Editor](https://developers.arcgis.com/vector-tile-style-editor), [Workforce](https://www.esri.com/en-us/arcgis/products/workforce/overview), [ArcGIS Hub](https://hub.arcgis.com) ect...
+
+Components should present the the minimum possible implementation to be usable by both sites and apps and leave as much as possible to users.
+
+It is generally agreed on that components should not:
+
+* Make network requests. Authentication and the exact environment of hte request is difficult to mange and better left to the specific application or site.
+* Manage routing or manipulate the URL. managing the URL is the the domain and the specific site or app.
+* Implement any feature which can easily be achieved with simple CSS and HTML.
+* Implement any feature which might replace a browser feature. For example there will never be a `<calcite-button>` in Calcite Components because it already exists in the browser.
+
+However components are allowed to:
+
+* Use or implement `localStorage` if there is specific use case.
+* Communicate with other components if a specific use case exists.
 
 **Discussed In**:
 
-* Should tabs support syncing and loading from localstorage? https://github.com/ArcGIS/calcite-components/pull/27. Sync and localstorage = YES, routing and HTTP requests = NO. https://github.com/ArcGIS/calcite-components/pull/27#issuecomment-496596936
-* Should switch support a label? https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140, https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289426418
+* [Should tabs support syncing and loading from localstorage?](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to impliment for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
+* [Should switch support a label?](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
 
 
 ## Event Namespacing
