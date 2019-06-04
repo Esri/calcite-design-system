@@ -6,29 +6,14 @@ export const config: Config = {
   bundles: [
     {
       components: [
-        "calcite-modal",
-        "calcite-alerts",
-        "calcite-alert",
-        "calcite-loader",
         "calcite-tabs",
         "calcite-tab",
         "calcite-tab-title",
         "calcite-tab-nav"
       ]
     },
-    {
-      components: [
-        "calcite-switch",
-        "calcite-modal",
-        "calcite-alerts",
-        "calcite-alert",
-        "calcite-loader",
-        "calcite-tabs",
-        "calcite-tab",
-        "calcite-tab-title",
-        "calcite-tab-nav"
-      ]
-    }
+    { components: ["calcite-alerts", "calcite-alert"] },
+    { components: ["calcite-loader"] }
   ],
   outputTargets: [
     { type: "dist" },
