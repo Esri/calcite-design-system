@@ -12,6 +12,7 @@ export const config: Config = {
         "calcite-tab-nav"
       ]
     },
+    { components: ["calcite-progress"] },
     { components: ["calcite-alerts", "calcite-alert"] },
     { components: ["calcite-loader"] }
   ],
