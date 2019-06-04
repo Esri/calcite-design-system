@@ -2,6 +2,13 @@
 
 This is a living document defining our best practices and reasoning for authoring Calcite Components.
 
+## General Guidelines
+
+Generally we should try to adhere and follow these best practices for authoring components.
+
+* [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
+* [Custom Element Conformance - W3C Editor's Draft](https://w3c.github.io/webcomponents/spec/custom/#custom-element-conformance)
+
 ## Color Themes
 
 If a component has multiple color themes (for example Blue, Red, Green and Yellow) representing various state implement a `color` prop and reflect it to an attributes.
