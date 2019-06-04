@@ -22,6 +22,7 @@ export class CalciteSwitch {
   @Prop() value: string | number | string[];
   childInput: any;
   childOnchange: any;
+  @Prop() focus: any;
 
   componentWillLoad(){
     this.childInput = this.el.children[0] || (<input type="checkbox" checked={this.switched} disabled={this.disabled} name={this.name} value={this.value}/>);
@@ -33,7 +34,10 @@ export class CalciteSwitch {
 
   render() {
     return (
-      <Host class={`toggle-switch toggle-switch--${this.color}`} onClick={this.setInputSlot.bind(this)} innerHTML={this.childInput.outerHTML}>
+      <Host class={`toggle-switch toggle-switch--${this.color}`} onClick={this.setInputSlot.bind(this)} checked={this.checked} disabled={this.disabled} focus={this.focus} >
+        { 
+          this.childInput && <slot></slot>
+        }
         <span class={`toggle-switch__track`} />
       </Host>
     );

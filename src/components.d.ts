@@ -52,6 +52,7 @@ export namespace Components {
     'checked': boolean;
     'color': "red" | "green";
     'disabled': boolean;
+    'focus': any;
     'name': string;
     'value': string | number | string[];
   }
@@ -121,6 +122,7 @@ declare namespace LocalJSX {
     'checked'?: boolean;
     'color'?: "red" | "green";
     'disabled'?: boolean;
+    'focus'?: any;
     'name'?: string;
     'onSwitchChange'?: (event: CustomEvent<any>) => void;
     'value'?: string | number | string[];
