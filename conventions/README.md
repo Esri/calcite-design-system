@@ -4,14 +4,14 @@ This is a living document defining our best practices and reasoning for authorin
 
 ## General Guidelines
 
-Generally we should try to adhere and follow these best practices for authoring components.
+Generally adhere to and follow these best practices for authoring components.
 
 * [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
 * [Custom Element Conformance - W3C Editor's Draft](https://w3c.github.io/webcomponents/spec/custom/#custom-element-conformance)
 
 ## Color Themes
 
-If a component has multiple color themes (for example Blue, Red, Green and Yellow) representing various state implement a `color` prop and reflect it to an attributes.
+If a component has multiple color themes (for example Blue, Red, Green, and Yellow) representing various state implement a `color` prop and reflect it to an attributes.
 
 ```tsx
 enum Colors {
@@ -30,7 +30,7 @@ export class CalciteComponent {
 // ...
 ```
 
-You can then the `:host()` selector to define your custom colors:
+You can then use the `:host()` selector to define your custom colors:
 
 ```scss
 :host([color="blue"]) {
@@ -107,7 +107,7 @@ Using CSS variables you can then access these same variables in child components
 }
 ```
 
-This will fetch the varaible `var(--calcite-tabs-color-active)` from its nearest parent (in this case `<calcite-tabs>`) which will have the appropriate light/dark variables set.
+This will fetch the variable `var(--calcite-tabs-color-active)` from its nearest parent (in this case `<calcite-tabs>`) which will have the appropriate light/dark variables set.
 
 **Implemented In:**
 
@@ -190,8 +190,8 @@ However components are allowed to:
 
 **Discussed In**:
 
-* [Should tabs support syncing and loading from localstorage?](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to impliment for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
-* [Should switch support a label?](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
+* [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to impliment for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
+* [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
 
 
 ## Event Namespacing
@@ -324,7 +324,7 @@ Your component and its child components can then use `var(--calcite-tabs-tab-mar
 
 ## Bundling and Loading
 
-Stencil has the capability to build and distribute a large variety of outputs based on our needs. YOu can read more about this in the [output targets](https://github.com/ionic-team/stencil/blob/cc55401555ff5c28757cf99edf372dcada2c0b25/src/compiler/output-targets/readme.md) documentation.
+Stencil has the capability to build and distribute a large variety of outputs based on our needs. You can read more about this in the [output targets](https://github.com/ionic-team/stencil/blob/cc55401555ff5c28757cf99edf372dcada2c0b25/src/compiler/output-targets/readme.md) documentation.
 
 As a best practice we should follow [Ionic's configuration](https://github.com/ionic-team/ionic/blob/master/core/stencil.config.ts) and generate a `bundle` for each component. Stencil will then generate a loader that will dynamically load the components used on the page.
 
