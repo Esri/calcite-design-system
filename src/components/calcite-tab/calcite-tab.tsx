@@ -40,7 +40,7 @@ export class CalciteTab {
   })
   isActive: boolean = false;
 
-  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
+  @Listen("calciteTabsChange", { target: "parent" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (
@@ -60,11 +60,11 @@ export class CalciteTab {
     }
   }
 
-  @Event() calciteRegisterTab: EventEmitter<TabRegisterEventDetail>;
+  @Event() calciteTabsRegisterTab: EventEmitter<TabRegisterEventDetail>;
 
   componentDidLoad() {
     this.getTabIndex().then(index => {
-      this.calciteRegisterTab.emit({
+      this.calciteTabsRegisterTab.emit({
         id: this.id,
         index
       });
