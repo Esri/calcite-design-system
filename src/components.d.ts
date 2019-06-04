@@ -49,10 +49,8 @@ export namespace Components {
     'middle': string;
   }
   interface CalciteSwitch {
-    'checked': boolean;
-    'destructive': boolean;
-    'position': "left" | "right" | "after" | "before";
-    'text': string;
+    'color': "red" | "blue";
+    'switched': boolean;
   }
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;
@@ -117,11 +115,9 @@ declare namespace LocalJSX {
     'middle'?: string;
   }
   interface CalciteSwitch extends JSXBase.HTMLAttributes {
-    'checked'?: boolean;
-    'destructive'?: boolean;
-    'onSwitchChange'?: (event: CustomEvent<any>) => void;
-    'position'?: "left" | "right" | "after" | "before";
-    'text'?: string;
+    'color'?: "red" | "blue";
+    'onCalciteSwitchChange'?: (event: CustomEvent<any>) => void;
+    'switched'?: boolean;
   }
   interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;

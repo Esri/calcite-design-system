@@ -15,11 +15,7 @@
         padding: 1rem;
       }
     </style>
-    <script>
-      function sayHi(val) {
-        console.log(val);
-      }
-    </script>
+
     <link rel="stylesheet" href="/build/calcite.css" />
     <script type="module" src="build/calcite.esm.js"></script>
     <script nomodule src="build/calcite.js"></script>
@@ -278,87 +274,54 @@
             ></calcite-loader>
           </div>
         </calcite-tab>
+
         <calcite-tab>
           <div>
-            <calcite-switch
-              checked="true"
-              text="doing thingz before&hellip;"
-              position="before"
-            >
-              <input
-                class="toggle-switch__input"
-                type="checkbox"
-                id="inputTest"
-                onchange="sayHi();"
-              />
-            </calcite-switch>
-          </div>
-          <div>
-            <calcite-switch
-              checked="true"
-              text="doing thingz after&hellip;"
-              position="after"
-            >
-              <input type="checkbox" />
-            </calcite-switch>
-          </div>
-          <div>
-            <calcite-switch
-              checked="true"
-              text="doing thingz on left&hellip;"
-              position="left"
-            >
-              <input type="checkbox" />
-            </calcite-switch>
-          </div>
-          <div>
-            <calcite-switch
-              checked="true"
-              text="doing thingz on right&hellip;"
-              position="right"
-            >
-              <input type="checkbox" />
-            </calcite-switch>
-          </div>
-          <div>
-            <calcite-switch
-              checked="true"
-              text="doing something bad on left&hellip;"
-              position="left"
-              destructive="true"
-            >
-              <input type="checkbox" />
-            </calcite-switch>
-          </div>
-          <div>
-            <calcite-switch
-              checked="true"
-              text="doing something bad on before&hellip;"
-              position="before"
-              destructive="true"
-            >
-              <input type="checkbox" />
-            </calcite-switch>
+            <label>
+              <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
+              Without a proxy <code>input</code> element.
+              <script>
+                const basicSwitch = document.getElementById("basicSwitch");
+
+                basicSwitch.addEventListener("calciteSwitchChange", function(
+                  e
+                ) {
+                  console.log(
+                    "Basic Checkbox changed by <calcite-switch>",
+                    e.target.switched
+                  );
+                });
+              </script>
+            </label>
           </div>
 
-          <div style="width:300px;">
-            <calcite-switch
-              checked="true"
-              text="doing something bad on after&hellip;"
-              position="after"
-              destructive="true"
-              ><input type="checkbox" />
-            </calcite-switch>
-          </div>
           <div>
-            <calcite-switch
-              checked="true"
-              text="doing something bad on right&hellip;"
-              position="right"
-              destructive="true"
-            >
-              <input type="checkbox" />
-            </calcite-switch>
+            <label>
+              <calcite-switch switched="true">
+                <input id="proxySwitchCheckbox" type="checkbox" />
+              </calcite-switch>
+              With a proxy <code>input</code> element and changes on
+              <code>label</code> click.
+              <script>
+                const proxySwitchCheckbox = document.getElementById(
+                  "proxySwitchCheckbox"
+                );
+
+                proxySwitchCheckbox.addEventListener("change", function(e) {
+                  console.log(
+                    "Proxy Checkbox changed by <calcite-switch>",
+                    e.target.checked
+                  );
+                });
+              </script>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <calcite-switch switched="true" color="red"> </calcite-switch>
+              Red switch
+            </label>
           </div>
         </calcite-tab>
       </calcite-tabs>
