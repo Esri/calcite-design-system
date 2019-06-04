@@ -40,7 +40,7 @@ export class CalciteTab {
   })
   isActive: boolean = false;
 
-  @Listen("calciteTabsChange", { target: "parent" }) tabChangeHandler(
+  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (
