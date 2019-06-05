@@ -202,8 +202,7 @@ Event names should be treated like global variables since they can collide with 
 * Always prefix event names with `calcite` and never use an event name used by existing DOM standards https://developer.mozilla.org/en-US/docs/Web/Events.
 * For example:
    * Bad: `change`
-   * Good: `calciteChange`
-   * Better: `calciteTabsChange`
+   * Good: `calciteTabChange`
 
 **Discussed In:**
 
