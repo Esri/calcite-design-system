@@ -30,29 +30,25 @@ export namespace Components {
     'id': string;
     'open': (requestedAlert: any) => Promise<void>;
   }
+  interface CalciteExample {
+    'close': () => Promise<void>;
+    'property': string;
+  }
   interface CalciteLoader {
     'isActive': boolean;
     'text': string;
-  }
-  interface CalciteModal {
-    /**
-    * The first name
-    */
-    'first': string;
-    /**
-    * The last name
-    */
-    'last': string;
-    /**
-    * The middle name
-    */
-    'middle': string;
   }
   interface CalciteProgress {
     'reversed': boolean;
     'text': string;
     'type': "indeterminate" | "determinate";
     'value': number;
+  }
+  interface CalciteSwitch {
+    'color': "red" | "blue";
+    'name': string;
+    'switched': boolean;
+    'value': string;
   }
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;
@@ -98,29 +94,26 @@ declare namespace LocalJSX {
     'onAlertsClose'?: (event: CustomEvent<any>) => void;
     'onAlertsOpen'?: (event: CustomEvent<any>) => void;
   }
+  interface CalciteExample extends JSXBase.HTMLAttributes {
+    'onOpen'?: (event: CustomEvent<any>) => void;
+    'property'?: string;
+  }
   interface CalciteLoader extends JSXBase.HTMLAttributes {
     'isActive'?: boolean;
     'text'?: string;
-  }
-  interface CalciteModal extends JSXBase.HTMLAttributes {
-    /**
-    * The first name
-    */
-    'first'?: string;
-    /**
-    * The last name
-    */
-    'last'?: string;
-    /**
-    * The middle name
-    */
-    'middle'?: string;
   }
   interface CalciteProgress extends JSXBase.HTMLAttributes {
     'reversed'?: boolean;
     'text'?: string;
     'type'?: "indeterminate" | "determinate";
     'value'?: number;
+  }
+  interface CalciteSwitch extends JSXBase.HTMLAttributes {
+    'color'?: "red" | "blue";
+    'name'?: string;
+    'onCalciteSwitchChange'?: (event: CustomEvent<any>) => void;
+    'switched'?: boolean;
+    'value'?: string;
   }
   interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;
@@ -152,9 +145,10 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'calcite-alert': CalciteAlert;
     'calcite-alerts': CalciteAlerts;
+    'calcite-example': CalciteExample;
     'calcite-loader': CalciteLoader;
-    'calcite-modal': CalciteModal;
     'calcite-progress': CalciteProgress;
+    'calcite-switch': CalciteSwitch;
     'calcite-tab': CalciteTab;
     'calcite-tab-nav': CalciteTabNav;
     'calcite-tab-title': CalciteTabTitle;
@@ -188,22 +182,28 @@ declare global {
     new (): HTMLCalciteAlertsElement;
   };
 
+  interface HTMLCalciteExampleElement extends Components.CalciteExample, HTMLStencilElement {}
+  var HTMLCalciteExampleElement: {
+    prototype: HTMLCalciteExampleElement;
+    new (): HTMLCalciteExampleElement;
+  };
+
   interface HTMLCalciteLoaderElement extends Components.CalciteLoader, HTMLStencilElement {}
   var HTMLCalciteLoaderElement: {
     prototype: HTMLCalciteLoaderElement;
     new (): HTMLCalciteLoaderElement;
   };
 
-  interface HTMLCalciteModalElement extends Components.CalciteModal, HTMLStencilElement {}
-  var HTMLCalciteModalElement: {
-    prototype: HTMLCalciteModalElement;
-    new (): HTMLCalciteModalElement;
-  };
-
   interface HTMLCalciteProgressElement extends Components.CalciteProgress, HTMLStencilElement {}
   var HTMLCalciteProgressElement: {
     prototype: HTMLCalciteProgressElement;
     new (): HTMLCalciteProgressElement;
+  };
+
+  interface HTMLCalciteSwitchElement extends Components.CalciteSwitch, HTMLStencilElement {}
+  var HTMLCalciteSwitchElement: {
+    prototype: HTMLCalciteSwitchElement;
+    new (): HTMLCalciteSwitchElement;
   };
 
   interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {}
@@ -233,9 +233,10 @@ declare global {
   interface HTMLElementTagNameMap {
     'calcite-alert': HTMLCalciteAlertElement;
     'calcite-alerts': HTMLCalciteAlertsElement;
+    'calcite-example': HTMLCalciteExampleElement;
     'calcite-loader': HTMLCalciteLoaderElement;
-    'calcite-modal': HTMLCalciteModalElement;
     'calcite-progress': HTMLCalciteProgressElement;
+    'calcite-switch': HTMLCalciteSwitchElement;
     'calcite-tab': HTMLCalciteTabElement;
     'calcite-tab-nav': HTMLCalciteTabNavElement;
     'calcite-tab-title': HTMLCalciteTabTitleElement;

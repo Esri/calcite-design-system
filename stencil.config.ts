@@ -5,6 +5,9 @@ export const config: Config = {
   namespace: "calcite",
   bundles: [
     {
+      components: ["calcite-switch"]
+    },
+    {
       components: [
         "calcite-tabs",
         "calcite-tab",

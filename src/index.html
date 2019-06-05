@@ -29,6 +29,7 @@
         <calcite-tab-title>Alerts</calcite-tab-title>
         <calcite-tab-title>Loader</calcite-tab-title>
         <calcite-tab-title>Progress</calcite-tab-title>
+        <calcite-tab-title>Switches</calcite-tab-title>
       </calcite-tab-nav>
 
       <calcite-tab is-active>
@@ -246,6 +247,74 @@
         </calcite-progress>
         <calcite-progress type="determinate" value="0.5" text="Initializing flux capacitor&hellip;" />
       </calcite-tab>
+
+      <calcite-tab>
+        <div>
+          <label>
+            <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
+            Without a proxy <code>input</code> element.
+            <script>
+              const basicSwitch = document.getElementById("basicSwitch");
+
+              basicSwitch.addEventListener("calciteSwitchChange", function(
+                e
+              ) {
+                console.log(
+                  "Basic Checkbox changed by <calcite-switch>",
+                  e.target.switched
+                );
+              });
+            </script>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <calcite-switch switched="true">
+              <input id="proxySwitchCheckbox" type="checkbox" />
+            </calcite-switch>
+            With a proxy <code>input</code> element and changes on
+            <code>label</code> click.
+            <script>
+              const proxySwitchCheckbox = document.getElementById(
+                "proxySwitchCheckbox"
+              );
+
+              proxySwitchCheckbox.addEventListener("change", function(e) {
+                console.log(
+                  "Proxy Checkbox changed by <calcite-switch>",
+                  e.target.checked
+                );
+              });
+            </script>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <calcite-switch switched="true" color="red"> </calcite-switch>
+            Red switch
+          </label>
+        </div>
+
+        <div>
+          <calcite-switch></calcite-switch>
+          Switch with no wrapping <code>label</code>.
+        </div>
+
+        <div>
+          <calcite-switch id="switch-1"></calcite-switch>
+          <label for="switch-1">Switch with <code>label</code> but not wrapped in it.</label>
+        </div>
+
+        <div>
+          <calcite-switch>
+            <input id="switch-2" type="checkbox">
+          </calcite-switch>
+          <label for="switch-2">Switch with <code>label</code> but not wrapped in it.</label>
+        </div>
+      </calcite-tab>
+
     </calcite-tabs>
 
     <calcite-alerts id="my-alert-container">

@@ -4,10 +4,7 @@
     "allowUnreachableCode": false,
     "declaration": false,
     "experimentalDecorators": true,
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "module": "esnext",
     "target": "es2017",
@@ -16,12 +13,7 @@
     "jsx": "react",
     "jsxFactory": "h"
   },
-  "include": [
-    "src",
-    "types/jsx.d.ts".
-  ],
+  "include": ["src", "types/jsx.d.ts"],
   "typeRoots": ["node_modules/@types"],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
