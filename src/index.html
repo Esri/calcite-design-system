@@ -233,54 +233,59 @@
       </calcite-tab>
 
       <calcite-tab>
-          <div>
-            <label>
-              <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
-              Without a proxy <code>input</code> element.
-              <script>
-                const basicSwitch = document.getElementById("basicSwitch");
+        <div>
+          <label>
+            <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
+            Without a proxy <code>input</code> element.
+            <script>
+              const basicSwitch = document.getElementById("basicSwitch");
 
-                basicSwitch.addEventListener("calciteSwitchChange", function(
-                  e
-                ) {
-                  console.log(
-                    "Basic Checkbox changed by <calcite-switch>",
-                    e.target.switched
-                  );
-                });
-              </script>
-            </label>
-          </div>
-
-          <div>
-            <label>
-              <calcite-switch switched="true">
-                <input id="proxySwitchCheckbox" type="checkbox" />
-              </calcite-switch>
-              With a proxy <code>input</code> element and changes on
-              <code>label</code> click.
-              <script>
-                const proxySwitchCheckbox = document.getElementById(
-                  "proxySwitchCheckbox"
+              basicSwitch.addEventListener("calciteSwitchChange", function(
+                e
+              ) {
+                console.log(
+                  "Basic Checkbox changed by <calcite-switch>",
+                  e.target.switched
                 );
+              });
+            </script>
+          </label>
+        </div>
 
-                proxySwitchCheckbox.addEventListener("change", function(e) {
-                  console.log(
-                    "Proxy Checkbox changed by <calcite-switch>",
-                    e.target.checked
-                  );
-                });
-              </script>
-            </label>
-          </div>
+        <div>
+          <label>
+            <calcite-switch switched="true">
+              <input id="proxySwitchCheckbox" type="checkbox" />
+            </calcite-switch>
+            With a proxy <code>input</code> element and changes on
+            <code>label</code> click.
+            <script>
+              const proxySwitchCheckbox = document.getElementById(
+                "proxySwitchCheckbox"
+              );
 
-          <div>
-            <label>
-              <calcite-switch switched="true" color="red"> </calcite-switch>
-              Red switch
-            </label>
-          </div>
-        </calcite-tab>
+              proxySwitchCheckbox.addEventListener("change", function(e) {
+                console.log(
+                  "Proxy Checkbox changed by <calcite-switch>",
+                  e.target.checked
+                );
+              });
+            </script>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <calcite-switch switched="true" color="red"> </calcite-switch>
+            Red switch
+          </label>
+        </div>
+
+        <div>
+          <calcite-switch switched="true" color="red"> </calcite-switch>
+          Switch with no wrapping <code>label</code>.
+        </div>
+      </calcite-tab>
 
     </calcite-tabs>
 

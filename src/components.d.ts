@@ -56,7 +56,9 @@ export namespace Components {
   }
   interface CalciteSwitch {
     'color': "red" | "blue";
+    'name': string;
     'switched': boolean;
+    'value': string;
   }
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;
@@ -128,8 +130,10 @@ declare namespace LocalJSX {
   }
   interface CalciteSwitch extends JSXBase.HTMLAttributes {
     'color'?: "red" | "blue";
+    'name'?: string;
     'onCalciteSwitchChange'?: (event: CustomEvent<any>) => void;
     'switched'?: boolean;
+    'value'?: string;
   }
   interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;

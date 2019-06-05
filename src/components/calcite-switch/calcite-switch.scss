@@ -13,7 +13,7 @@
   tap-highlight-color: transparent;
 }
 
-.toggle-switch__track {
+.track {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -25,7 +25,7 @@
   transition: all 0.25s ease;
 }
 
-.toggle-switch__handle {
+.handle {
   position: absolute;
   display: block;
   width: 18px;
@@ -41,25 +41,25 @@
 }
 
 :host([switched]) {
-  .toggle-switch__handle {
+  .handle {
     right: -1px;
     left: auto;
     border-color: $darker-blue;
     box-shadow: 0 2px 1px 0px rgba($darkest-gray, 0.2);
   }
 
-  .toggle-switch__track {
+  .track {
     border-color: $dark-blue;
     background-color: $blue;
   }
 }
 
 :host([switched][color="red"]) {
-  .toggle-switch__handle {
+  .handle {
     border-color: $darker-red;
   }
 
-  .toggle-switch__track {
+  .track {
     border-color: $darker-red;
     background-color: $dark-red;
   }
@@ -69,46 +69,46 @@
 :host([switched]:focus) {
   outline: none;
 
-  .toggle-switch__track {
+  .track {
     box-shadow: 0 0 4px 2px rgba($light-gray, 0.9);
   }
 }
 
 :host(:hover) {
-  .toggle-switch__track {
+  .track {
     border-color: $lighter-gray;
     background-color: $lightest-gray;
   }
 
-  .toggle-switch__handle {
+  .handle {
     border-color: $blue;
     box-shadow: 0 1px 2px 0px rgba($darkest-gray, 0.2);
   }
 }
 
 :host([color="red"]:hover) {
-  .toggle-switch__handle {
+  .handle {
     border-color: $red;
   }
 }
 
 :host([switched]:hover) {
-  .toggle-switch__handle {
+  .handle {
     border-color: $darker-blue;
   }
 
-  .toggle-switch__track {
+  .track {
     border-color: $dark-blue;
     background-color: $blue;
   }
 }
 
 :host([switched][color="red"]:hover) {
-  .toggle-switch__handle {
+  .handle {
     border-color: $darker-red;
   }
 
-  .toggle-switch__track {
+  .track {
     border-color: $darker-red;
     background-color: $dark-red;
   }
