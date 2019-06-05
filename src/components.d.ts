@@ -45,10 +45,10 @@ export namespace Components {
     'value': number;
   }
   interface CalciteSwitch {
-    'color': "red" | "blue";
-    'name': string;
-    'switched': boolean;
-    'value': string;
+    'color'?: "red" | "blue";
+    'name'?: string;
+    'switched'?: boolean;
+    'value'?: string;
   }
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;

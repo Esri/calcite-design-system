@@ -19,11 +19,11 @@ import { SPACE, ENTER } from "../../utils/keys";
 export class CalciteSwitch {
   @Element() el: HTMLElement;
 
-  @Prop({ reflect: true }) switched: boolean = false;
-  @Prop({ reflect: true }) name: string;
-  @Prop({ reflect: true }) value: string;
+  @Prop({ reflect: true }) switched?: boolean = false;
+  @Prop({ reflect: true }) name?: string;
+  @Prop({ reflect: true }) value?: string;
 
-  @Prop() color: "red" | "blue" = "blue";
+  @Prop() color?: "red" | "blue" = "blue";
 
   @Event() calciteSwitchChange: EventEmitter;
 
