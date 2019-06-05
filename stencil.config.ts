@@ -5,19 +5,19 @@ export const config: Config = {
   namespace: "calcite",
   bundles: [
     {
+      components: ["calcite-switch"]
+    },
+    {
       components: [
-        "calcite-switch",
-        "calcite-modal",
-        "calcite-alerts",
-        "calcite-alert",
-        "calcite-loader",
-        "calcite-progress",
         "calcite-tabs",
         "calcite-tab",
         "calcite-tab-title",
         "calcite-tab-nav"
       ]
-    }
+    },
+    { components: ["calcite-progress"] },
+    { components: ["calcite-alerts", "calcite-alert"] },
+    { components: ["calcite-loader"] }
   ],
   outputTargets: [
     { type: "dist" },

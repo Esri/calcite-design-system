@@ -50,30 +50,36 @@ export class CalciteTabNav {
     });
   }
 
-  @Listen("calciteFocusPreviousTab") focusPreviousTabHandler(e: CustomEvent) {
+  @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent) {
     const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement
     );
     const previousTab = tabs[currentIndex - 1] || tabs[tabs.length - 1];
     previousTab.focus();
+
+    e.stopPropagation();
+    e.preventDefault();
   }
 
-  @Listen("calciteFocusNextTab") focusNextTabHandler(e: CustomEvent) {
+  @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent) {
     const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement
     );
     const nextTab = tabs[currentIndex + 1] || tabs[0];
     nextTab.focus();
+
+    e.stopPropagation();
+    e.preventDefault();
   }
 
-  @Listen("calciteRegisterTabTitle")
+  @Listen("calciteTabsRegisterTitle")
   tabTitleRegistationHandler(e: CustomEvent<TabRegisterEventDetail>) {
     (e.target as HTMLCalciteTabTitleElement).setControlledBy(this.id);
   }
 
-  @Listen("calciteActivateTab") activateTabHandler(
+  @Listen("calciteTabsActivate") activateTabHandler(
     e: CustomEvent<TabChangeEventDetail>
   ) {
     if (e.detail.tab) {
@@ -83,9 +89,12 @@ export class CalciteTabNav {
         e.target as HTMLCalciteTabTitleElement
       );
     }
+
+    e.stopPropagation();
+    e.preventDefault();
   }
 
-  @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
+  @Listen("calciteTabsChange", { target: "body" }) globalTabChangeHandler(
     e: CustomEvent<TabChangeEventDetail>
   ) {
     if (

@@ -6,3 +6,7 @@ export function nodeListToArray(domNodeList): Element[] {
     return Array.prototype.slice.call(domNodeList);
   }
 }
+
+export function getElementDir(el: HTMLElement) {
+  return (el.closest("[dir='rtl']") && "rtl") || "ltr";
+}
