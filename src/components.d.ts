@@ -125,7 +125,7 @@ declare namespace LocalJSX {
   interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;
     'isActive'?: boolean;
-    'onCalciteRegisterTab'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
+    'onCalciteTabsRegisterTab'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
     'tab'?: string;
   }
   interface CalciteTabNav extends JSXBase.HTMLAttributes {
@@ -138,10 +138,10 @@ declare namespace LocalJSX {
   interface CalciteTabTitle extends JSXBase.HTMLAttributes {
     'id'?: string;
     'isActive'?: boolean;
-    'onCalciteActivateTab'?: (event: CustomEvent<TabChangeEventDetail>) => void;
-    'onCalciteFocusNextTab'?: (event: CustomEvent<any>) => void;
-    'onCalciteFocusPreviousTab'?: (event: CustomEvent<any>) => void;
-    'onCalciteRegisterTabTitle'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
+    'onCalciteTabsActivate'?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    'onCalciteTabsFocusNext'?: (event: CustomEvent<any>) => void;
+    'onCalciteTabsFocusPrevious'?: (event: CustomEvent<any>) => void;
+    'onCalciteTabsRegisterTitle'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
     'tab'?: string;
   }
   interface CalciteTabs extends JSXBase.HTMLAttributes {

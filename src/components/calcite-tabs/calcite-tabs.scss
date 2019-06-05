@@ -20,6 +20,11 @@
   --calcite-tabs-border-active: #{$white};
 }
 
+:host([dir="rtl"]) {
+  --calcite-tabs-tab-margin-start: 0;
+  --calcite-tabs-tab-margin-end: 1.25rem;
+}
+
 :host([layout="center"]) {
   --calcite-tabs-layout: center;
   --calcite-tabs-tab-basis: 200px;

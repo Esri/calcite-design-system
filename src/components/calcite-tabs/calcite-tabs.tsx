@@ -1,5 +1,14 @@
-import { Component, Prop, Listen, State, h } from "@stencil/core";
+import {
+  Component,
+  Prop,
+  Listen,
+  State,
+  h,
+  Host,
+  Element
+} from "@stencil/core";
 import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
+import { getElementDir } from "../../utils/dom";
 
 interface TabRegister {
   [key: string]: {
@@ -21,6 +30,7 @@ interface TabTitleRegister {
   shadow: true
 })
 export class CalciteTabs {
+  @Element() el: HTMLElement;
   @State() tabs: TabRegister = {};
   @State() tabTitles: TabTitleRegister = {};
   @Prop({
@@ -33,7 +43,7 @@ export class CalciteTabs {
   })
   layout: "center" | "inline" = "inline";
 
-  @Listen("calciteRegisterTabTitle") tabTitleRegistationHandler(
+  @Listen("calciteTabsRegisterTitle") tabTitleRegistationHandler(
     e: CustomEvent<TabRegisterEventDetail>
   ) {
     const { index, id } = e.detail;
@@ -46,9 +56,12 @@ export class CalciteTabs {
     if (this.tabs[index]) {
       this.tabs[index].tab.registerLabeledBy(id);
     }
+
+    e.stopPropagation();
+    e.preventDefault();
   }
 
-  @Listen("calciteRegisterTab") tabRegistationHandler(
+  @Listen("calciteTabsRegisterTab") tabRegistationHandler(
     e: CustomEvent<TabRegisterEventDetail>
   ) {
     const { index, id } = e.detail;
@@ -60,16 +73,23 @@ export class CalciteTabs {
     if (this.tabTitles[index]) {
       this.tabs[index].tab.registerLabeledBy(this.tabTitles[index].id);
     }
+
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   render() {
+    const dir = getElementDir(this.el);
+
     return (
-      <div>
-        <slot name="tab-nav" />
-        <section class="tab-contents">
-          <slot />
-        </section>
-      </div>
+      <Host dir={dir}>
+        <div>
+          <slot name="tab-nav" />
+          <section class="tab-contents">
+            <slot />
+          </section>
+        </div>
+      </Host>
     );
   }
 }
