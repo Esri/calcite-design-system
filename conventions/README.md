@@ -2,6 +2,23 @@
 
 This is a living document defining our best practices and reasoning for authoring Calcite Components.
 
+<!-- TOC depthFrom:2 -->
+
+- [General Guidelines](#general-guidelines)
+- [Color](#color)
+- [Light Theme/Dark Theme](#light-themedark-theme)
+- [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
+- [Component Responsibilities](#component-responsibilities)
+- [Event Namespacing](#event-namespacing)
+- [Private Events](#private-events)
+- [Event Details](#event-details)
+- [CSS Class Names](#css-class-names)
+- [a11y](#a11y)
+- [i18n](#i18n)
+- [Bundling and Loading](#bundling-and-loading)
+
+<!-- /TOC -->
+
 ## General Guidelines
 
 Generally adhere to and follow these best practices for authoring components.
@@ -9,7 +26,7 @@ Generally adhere to and follow these best practices for authoring components.
 * [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
 * [Custom Element Conformance - W3C Editor's Draft](https://w3c.github.io/webcomponents/spec/custom/#custom-element-conformance)
 
-## Color Themes
+## Color
 
 If a component has multiple color themes (for example Blue, Red, Green, and Yellow) representing various state implement a `color` prop and reflect it to an attributes.
 
@@ -193,7 +210,6 @@ However components are allowed to:
 * [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to impliment for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
 * [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
 
-
 ## Event Namespacing
 
 Event names should be treated like global variables since they can collide with any other event names and global variables. As such follow these guidelines when naming events.
@@ -317,6 +333,11 @@ You can then implement direction specific CSS with CSS variables:
 
 Your component and its child components can then use `var(--calcite-tabs-tab-margin-start)` to access their proper values based on the direction of the document.
 
+In future it will likely become necessary to provide sting translations for components. An example would be the `aria-label` for the `<calcite-modal>` close button. Initial research looks promising and we could likely implement one of these approaches and set a `lang` for each component similar to how we set `dir`.
+
+* https://medium.com/stencil-tricks/implementing-internationalisation-i18n-with-stencil-5e6559554117 and https://codesandbox.io/s/43pmx55vo9
+* https://github.com/ionic-team/ionic-stencil-conference-app/issues/69
+
 *** **Implemented By:**
 
 * [`<calcite-tabs>`](../src/components/calcite-tabs/calcite-tabs.tsx);
@@ -327,4 +348,4 @@ Stencil has the capability to build and distribute a large variety of outputs ba
 
 As a best practice we should follow [Ionic's configuration](https://github.com/ionic-team/ionic/blob/master/core/stencil.config.ts) and generate a `bundle` for each component. Stencil will then generate a loader that will dynamically load the components used on the page.
 
-**Note:** This is highly likely to change as we move closer to our first release and as stencil improves their documentation around their specific methods and build processes.
+**Note:** This is highly likely to change as we move closer to our first release and as Stencil improves their documentation around their specific methods and build processes.
