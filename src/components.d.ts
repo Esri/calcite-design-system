@@ -54,7 +54,10 @@ export namespace Components {
     'type': "indeterminate" | "determinate";
     'value': number;
   }
-  interface CalciteSelect {}
+  interface CalciteSelect {
+    'enhanced': boolean;
+    'name': string;
+  }
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;
     'id': string;
@@ -123,7 +126,10 @@ declare namespace LocalJSX {
     'type'?: "indeterminate" | "determinate";
     'value'?: number;
   }
-  interface CalciteSelect extends JSXBase.HTMLAttributes {}
+  interface CalciteSelect extends JSXBase.HTMLAttributes {
+    'enhanced'?: boolean;
+    'name'?: string;
+  }
   interface CalciteTab extends JSXBase.HTMLAttributes {
     'id'?: string;
     'isActive'?: boolean;
