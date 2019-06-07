@@ -43,5 +43,5 @@
     "jest-cli": "23.6.0",
     "puppeteer": "1.14.0"
   },
-  "license": "MIT"
+  "license": "Apache-2.0"
 }
