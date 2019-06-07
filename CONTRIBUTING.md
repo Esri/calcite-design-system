@@ -7,6 +7,12 @@ Calcite Components is still in its early stages. You can help most by:
 * Adding ideas for components to out [wishlist project](https://github.com/ArcGIS/calcite-components/projects/2) We are using the wishlist to gather ideas about what components teams are using that we might be able to reproduce as a part of Calcite Components.
 * If you want to help develop components take a look at out [1.0.0 components](https://github.com/ArcGIS/calcite-components/projects/1) which are the components we are targeting for the first release of Calcite Components. Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/host-element). We also have a basic [`<calcite-element>`](./components/calcite-example) component that can be copied as a starter point for a new component.
 
+If you aren't familiar with the basics of WebComponents and Shadow DOM please read through some of the following resources before contributing:
+
+* [Google - Custom Elements v1: Reusable Web Components ](https://developers.google.com/web/fundamentals/web-components/customelements)
+* [Google - Shadow DOM v1: Self-Contained Web Components ](https://developers.google.com/web/fundamentals/web-components/shadowdom)
+* [CSS Tricks - An Introduction to Web Components ](https://css-tricks.com/an-introduction-to-web-components/)
+
 ### Before filing an issue
 
 If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/ArcGIS/calcite-components/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [love](https://github.com/ArcGIS/calcite-components/issues/new) to hear from you.
