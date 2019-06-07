@@ -20,22 +20,26 @@ export class CalciteSwitch {
   @Element() el: HTMLElement;
 
   @Prop({ reflect: true }) switched?: boolean = false;
-  @Prop({ reflect: true }) name?: string;
-  @Prop({ reflect: true }) value?: string;
+  @Prop({ reflect: true }) name?: string = "";
+  @Prop({ reflect: true }) value?: string = "";
 
   @Prop() color?: "red" | "blue" = "blue";
 
   @Event() calciteSwitchChange: EventEmitter;
 
+  private observer: MutationObserver;
+
   @Listen("click") onClick(e) {
     // If this is contained by a label only toggle if the target is our input
     // proxy to prevent duplicate toggles when <calcite-switch> is contained by
     // a <label> and the switch is clicked causing a click from BOTH the switch
-    // and input. If this is NOT contained by a label only switch if the target
+    // and input.
+    // If this is NOT contained by a label only switch if the target
     // is the switch.
-    if (this.el.closest("label") && e.target === this.inputProxy) {
-      this.switched = !this.switched;
-    } else if (!this.el.closest("label") && e.target === this.el) {
+    if (
+      (this.el.closest("label") && e.target === this.inputProxy) ||
+      (!this.el.closest("label") && e.target === this.el)
+    ) {
       this.switched = !this.switched;
     }
   }
@@ -62,16 +66,11 @@ export class CalciteSwitch {
   }
 
   disconnectedCallback() {
-    if (this.inputProxy) {
-      this.inputProxy.removeEventListener(
-        "change",
-        this.proxyInputChangeHandler
-      );
-    }
+    this.observer.disconnect();
   }
 
   componentWillRender() {
-    this.syncProxyInput();
+    this.syncProxyInputToThis();
   }
 
   render() {
@@ -93,25 +92,24 @@ export class CalciteSwitch {
     if (!this.inputProxy) {
       this.inputProxy = document.createElement("input");
       this.inputProxy.type = "checkbox";
-      this.syncProxyInput();
+      this.syncProxyInputToThis();
       this.el.appendChild(this.inputProxy);
     }
 
-    // bind the proxy input to update our state
+    this.syncThisToProxyInput();
+    this.observer = new MutationObserver(this.syncThisToProxyInput);
+    this.observer.observe(this.inputProxy, { attributes: true });
+  }
+
+  private syncThisToProxyInput = () => {
     this.switched = this.inputProxy.checked;
     this.name = this.inputProxy.name;
     this.value = this.inputProxy.value;
-    this.proxyInputChangeHandler = this.proxyInputChangeHandler.bind(this);
-    this.inputProxy.addEventListener("change", this.proxyInputChangeHandler);
-  }
+  };
 
-  private syncProxyInput() {
+  private syncProxyInputToThis = () => {
     this.inputProxy.checked = this.switched;
     this.inputProxy.name = this.name;
     this.inputProxy.value = this.value;
-  }
-
-  private proxyInputChangeHandler() {
-    this.switched = this.inputProxy.hasAttribute("checked");
-  }
+  };
 }
