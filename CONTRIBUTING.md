@@ -35,8 +35,14 @@ You don't _have to_ but we recommend installing TypeScript, TSLint, Prettier and
 
 To start the local development environment run `npm start` this will start the local Stencil development server on http://localhost:3333. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another `<calcite-tab>`and `<calcite-tab-title>` and start working.
 
+### Adding a new component
+
+Before adding a new component, have a read through the [component conventions guide](./conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that exist already.
+
 ### Running the tests
 
-Calcite Compoennts include Stencils default testing tools which are built on [Jest](https://jestjs.io/) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+`npm test` will run the current test suite.
+
+Calcite Components include Stencil's default testing tools which are built on [Jest](https://jestjs.io/) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
 Please refer to the [Stencil testing documentation](https://stenciljs.com/docs/testing-overview) for more information.
