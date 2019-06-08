@@ -45,10 +45,10 @@ export namespace Components {
     'value': number;
   }
   interface CalciteSwitch {
-    'color': "red" | "blue";
-    'name': string;
-    'switched': boolean;
-    'value': string;
+    'color'?: "red" | "blue";
+    'name'?: string;
+    'switched'?: boolean;
+    'value'?: string;
   }
   interface CalciteTab {
     'getTabIndex': () => Promise<any>;
@@ -76,98 +76,7 @@ export namespace Components {
   }
 }
 
-declare namespace LocalJSX {
-  interface CalciteAlert extends JSXBase.HTMLAttributes {
-    'color'?: string;
-    'currentAlert'?: string;
-    'dismiss'?: boolean;
-    'duration'?: string;
-    'icon'?: boolean;
-    'id'?: string;
-    'onAlertClose'?: (event: CustomEvent<any>) => void;
-    'onAlertOpen'?: (event: CustomEvent<any>) => void;
-    'queueLength'?: number;
-    'theme'?: string;
-  }
-  interface CalciteAlerts extends JSXBase.HTMLAttributes {
-    'id'?: string;
-    'onAlertsClose'?: (event: CustomEvent<any>) => void;
-    'onAlertsOpen'?: (event: CustomEvent<any>) => void;
-  }
-  interface CalciteExample extends JSXBase.HTMLAttributes {
-    'onOpen'?: (event: CustomEvent<any>) => void;
-    'property'?: string;
-  }
-  interface CalciteLoader extends JSXBase.HTMLAttributes {
-    'isActive'?: boolean;
-    'text'?: string;
-  }
-  interface CalciteProgress extends JSXBase.HTMLAttributes {
-    'reversed'?: boolean;
-    'text'?: string;
-    'type'?: "indeterminate" | "determinate";
-    'value'?: number;
-  }
-  interface CalciteSwitch extends JSXBase.HTMLAttributes {
-    'color'?: "red" | "blue";
-    'name'?: string;
-    'onCalciteSwitchChange'?: (event: CustomEvent<any>) => void;
-    'switched'?: boolean;
-    'value'?: string;
-  }
-  interface CalciteTab extends JSXBase.HTMLAttributes {
-    'id'?: string;
-    'isActive'?: boolean;
-    'onCalciteTabsRegisterTab'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
-    'tab'?: string;
-  }
-  interface CalciteTabNav extends JSXBase.HTMLAttributes {
-    'id'?: string;
-    'onCalciteTabChange'?: (event: CustomEvent<TabChangeEventDetail>) => void;
-    'selectedTab'?: number | string;
-    'storageId'?: string;
-    'syncId'?: string;
-  }
-  interface CalciteTabTitle extends JSXBase.HTMLAttributes {
-    'id'?: string;
-    'isActive'?: boolean;
-    'onCalciteTabsActivate'?: (event: CustomEvent<TabChangeEventDetail>) => void;
-    'onCalciteTabsFocusNext'?: (event: CustomEvent<any>) => void;
-    'onCalciteTabsFocusPrevious'?: (event: CustomEvent<any>) => void;
-    'onCalciteTabsRegisterTitle'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
-    'tab'?: string;
-  }
-  interface CalciteTabs extends JSXBase.HTMLAttributes {
-    'layout'?: "center" | "inline";
-    'theme'?: "light" | "dark";
-  }
-
-  interface IntrinsicElements {
-    'calcite-alert': CalciteAlert;
-    'calcite-alerts': CalciteAlerts;
-    'calcite-example': CalciteExample;
-    'calcite-loader': CalciteLoader;
-    'calcite-progress': CalciteProgress;
-    'calcite-switch': CalciteSwitch;
-    'calcite-tab': CalciteTab;
-    'calcite-tab-nav': CalciteTabNav;
-    'calcite-tab-title': CalciteTabTitle;
-    'calcite-tabs': CalciteTabs;
-  }
-}
-
-export { LocalJSX as JSX };
-
-
-declare module "@stencil/core" {
-  export namespace JSX {
-    interface IntrinsicElements extends LocalJSX.IntrinsicElements {}
-  }
-}
-
-
 declare global {
-
 
 
   interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {}
@@ -229,7 +138,6 @@ declare global {
     prototype: HTMLCalciteTabsElement;
     new (): HTMLCalciteTabsElement;
   };
-
   interface HTMLElementTagNameMap {
     'calcite-alert': HTMLCalciteAlertElement;
     'calcite-alerts': HTMLCalciteAlertsElement;
@@ -242,7 +150,95 @@ declare global {
     'calcite-tab-title': HTMLCalciteTabTitleElement;
     'calcite-tabs': HTMLCalciteTabsElement;
   }
-
-  interface ElementTagNameMap extends HTMLElementTagNameMap {}
 }
+
+declare namespace LocalJSX {
+  interface CalciteAlert extends JSXBase.HTMLAttributes<HTMLCalciteAlertElement> {
+    'color'?: string;
+    'currentAlert'?: string;
+    'dismiss'?: boolean;
+    'duration'?: string;
+    'icon'?: boolean;
+    'id'?: string;
+    'onAlertClose'?: (event: CustomEvent<any>) => void;
+    'onAlertOpen'?: (event: CustomEvent<any>) => void;
+    'queueLength'?: number;
+    'theme'?: string;
+  }
+  interface CalciteAlerts extends JSXBase.HTMLAttributes<HTMLCalciteAlertsElement> {
+    'id'?: string;
+    'onAlertsClose'?: (event: CustomEvent<any>) => void;
+    'onAlertsOpen'?: (event: CustomEvent<any>) => void;
+  }
+  interface CalciteExample extends JSXBase.HTMLAttributes<HTMLCalciteExampleElement> {
+    'onOpen'?: (event: CustomEvent<any>) => void;
+    'property'?: string;
+  }
+  interface CalciteLoader extends JSXBase.HTMLAttributes<HTMLCalciteLoaderElement> {
+    'isActive'?: boolean;
+    'text'?: string;
+  }
+  interface CalciteProgress extends JSXBase.HTMLAttributes<HTMLCalciteProgressElement> {
+    'reversed'?: boolean;
+    'text'?: string;
+    'type'?: "indeterminate" | "determinate";
+    'value'?: number;
+  }
+  interface CalciteSwitch extends JSXBase.HTMLAttributes<HTMLCalciteSwitchElement> {
+    'color'?: "red" | "blue";
+    'name'?: string;
+    'onCalciteSwitchChange'?: (event: CustomEvent<any>) => void;
+    'switched'?: boolean;
+    'value'?: string;
+  }
+  interface CalciteTab extends JSXBase.HTMLAttributes<HTMLCalciteTabElement> {
+    'id'?: string;
+    'isActive'?: boolean;
+    'onCalciteTabsRegisterTab'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
+    'tab'?: string;
+  }
+  interface CalciteTabNav extends JSXBase.HTMLAttributes<HTMLCalciteTabNavElement> {
+    'id'?: string;
+    'onCalciteTabChange'?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    'selectedTab'?: number | string;
+    'storageId'?: string;
+    'syncId'?: string;
+  }
+  interface CalciteTabTitle extends JSXBase.HTMLAttributes<HTMLCalciteTabTitleElement> {
+    'id'?: string;
+    'isActive'?: boolean;
+    'onCalciteTabsActivate'?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    'onCalciteTabsFocusNext'?: (event: CustomEvent<any>) => void;
+    'onCalciteTabsFocusPrevious'?: (event: CustomEvent<any>) => void;
+    'onCalciteTabsRegisterTitle'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
+    'tab'?: string;
+  }
+  interface CalciteTabs extends JSXBase.HTMLAttributes<HTMLCalciteTabsElement> {
+    'layout'?: "center" | "inline";
+    'theme'?: "light" | "dark";
+  }
+
+  interface IntrinsicElements {
+    'calcite-alert': CalciteAlert;
+    'calcite-alerts': CalciteAlerts;
+    'calcite-example': CalciteExample;
+    'calcite-loader': CalciteLoader;
+    'calcite-progress': CalciteProgress;
+    'calcite-switch': CalciteSwitch;
+    'calcite-tab': CalciteTab;
+    'calcite-tab-nav': CalciteTabNav;
+    'calcite-tab-title': CalciteTabTitle;
+    'calcite-tabs': CalciteTabs;
+  }
+}
+
+export { LocalJSX as JSX };
+
+
+declare module "@stencil/core" {
+  export namespace JSX {
+    interface IntrinsicElements extends LocalJSX.IntrinsicElements {}
+  }
+}
+
 
