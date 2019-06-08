@@ -29,7 +29,10 @@ export class CalciteExample {
   //  Properties
   //
   //--------------------------------------------------------------------------
-
+  /**
+  * Be sure to add a jsdoc comment describing your propery for the generated readme file.
+  * If your property should be hidden from documentation, you can use the `@internal` tag
+  */
   @Prop() property: string = "default";
 
   //--------------------------------------------------------------------------
@@ -57,7 +60,9 @@ export class CalciteExample {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-
+  /**
+  * Add a jsdoc comment describing your method and it's parameters (use `@param`).
+  */
   @Method() async close(): Promise<void> {
     return Promise.resolve(this._privateMethod());
   }
