@@ -20,16 +20,28 @@ import { guid } from "../../utils/guid";
 })
 export class CalciteTabNav {
   @Element() el;
+  /**
+   * Name to use when saving selected tab data to localStorage
+  */
   @Prop() storageId: string;
+  /**
+   * Pass the same string to multiple tab navs to keep them all in sync if one changes
+  */
   @Prop() syncId: string;
-
+  /**
+   * @internal
+  */
   @Prop({ mutable: true, reflectToAttr: true })
   id: string = `calcite-tab-nav-${guid()}`;
-
-  @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
-
+  /**
+   * @internal
+  */
   @Prop({ mutable: true })
   selectedTab: number | string = 0;
+  /**
+   * Emitted when the active tab changes
+  */
+  @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
 
   @Watch("selectedTab")
   selectedTabChanged() {
@@ -107,7 +119,7 @@ export class CalciteTabNav {
     }
   }
 
-  getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
+  private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
     const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
     return Array.prototype.slice.call(tabs).indexOf(el);
   }

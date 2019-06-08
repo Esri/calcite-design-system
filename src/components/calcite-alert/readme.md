@@ -1,18 +1,56 @@
 # calcite-alert
 
-# props
-color string (red,yellow,green,blue(default))
-dismiss bool
-duration string (fast,slow,medium(default))
-icon bool (determined and set by color state)
+Single alert for toast notifications. These will be shown docked to the bottom of the screen and centered. If you may have multiple alerts, it's recommended you use the [calcite-alerts](../calcite-alerts/) component as it can manage several alerts at a time with a queue.
 
-# slots
-
-alert-title (div)
-alert-message (div)
-alert-link (a)
+<!-- Auto Generated Below -->
 
 
-# todo
-- tests
-- verify aria
+## Properties
+
+| Property   | Attribute  | Description                                                                   | Type                                     | Default    |
+| ---------- | ---------- | ----------------------------------------------------------------------------- | ---------------------------------------- | ---------- |
+| `color`    | `color`    | Color for the alert (will apply to top border and icon)                       | `"blue" \| "green" \| "red" \| "yellow"` | `'blue'`   |
+| `dismiss`  | `dismiss`  | Close the alert automatically (recommended for passive, non-blocking alerts)  | `boolean`                                | `false`    |
+| `duration` | `duration` | Length before autodismissal (only used with `dismiss`)                        | `"fast" \| "medium" \| "slow"`           | `'medium'` |
+| `icon`     | `icon`     | Optionally specify an icon to use in place of the default success/error icons | `boolean`                                | `false`    |
+| `id`       | `id`       | Unique ID for this alert                                                      | `string`                                 | `'1'`      |
+| `theme`    | `theme`    | Select theme (light or dark)                                                  | `"dark" \| "light"`                      | `'light'`  |
+
+
+## Events
+
+| Event        | Description | Type               |
+| ------------ | ----------- | ------------------ |
+| `alertClose` |             | `CustomEvent<any>` |
+| `alertOpen`  |             | `CustomEvent<any>` |
+
+
+## Methods
+
+### `close() => Promise<void>`
+
+Close the alert and emit the `alertClose` event
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
+## Dependencies
+
+### Depends on
+
+- context-consumer
+
+### Graph
+```mermaid
+graph TD;
+  calcite-alert --> context-consumer
+  style calcite-alert fill:#f9f,stroke:#333,stroke-width:4px
+```
+
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

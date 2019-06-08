@@ -8,8 +8,14 @@ import { Component, Element, h, Host, Prop } from "@stencil/core";
 export class CalciteLoader {
   @Element() el: HTMLElement;
 
+  /**
+  * Loader is visible when active
+  */
   @Prop() isActive = false;
 
+  /**
+  * Text which should appear under the loading indicator
+  */
   @Prop() text = "Loading...";
 
   render() {

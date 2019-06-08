@@ -9,16 +9,25 @@ import AlertInterface from '../../interfaces/AlertInterface';
 
 export class CalciteAlerts {
   @Element() el: HTMLElement;
-
+  /**
+   * Unique ID for this instance of calcite-alerts
+   */
   @Prop() id: string = '1';
 
   @State() currentAlert: string = '';
   @State() isActive: boolean = false;
   @State() queue: string[] = [];
 
+  /**
+   * @todo document what gets passed to the handler for these events
+   */
   @Event() alertsClose: EventEmitter;
   @Event() alertsOpen: EventEmitter;
 
+  /**
+   * Open a specific alert by id
+  * @param requestedAlert {string} id of the alert you wish to open
+  */
   @Method() async open(requestedAlert) {
     if (!this.queue.includes(requestedAlert)) {
       this.isActive = true;
