@@ -58,7 +58,13 @@ export namespace Components {
     'open': (requestedAlert: any) => Promise<void>;
   }
   interface CalciteExample {
+    /**
+    * Add a jsdoc comment describing your method and it's parameters (use `@param`).
+    */
     'close': () => Promise<void>;
+    /**
+    * Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag
+    */
     'property': string;
   }
   interface CalciteLoader {
@@ -284,6 +290,9 @@ declare namespace LocalJSX {
   }
   interface CalciteExample extends JSXBase.HTMLAttributes<HTMLCalciteExampleElement> {
     'onOpen'?: (event: CustomEvent<any>) => void;
+    /**
+    * Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag
+    */
     'property'?: string;
   }
   interface CalciteLoader extends JSXBase.HTMLAttributes<HTMLCalciteLoaderElement> {

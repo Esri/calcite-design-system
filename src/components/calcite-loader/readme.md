@@ -6,6 +6,11 @@ The calcite-loader component is a simple, indeterminate loading indicator. Simpl
 <calcite-loader text="Fetching data..." is-active></calcite-loader>
 ```
 
+## TODO
+
+- tests
+- verify designs and api
+
 <!-- Auto Generated Below -->
 
 

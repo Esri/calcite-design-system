@@ -3,9 +3,9 @@
 The `calcite-alerts` component is meant to wrap one or multiple [calcite-alert](../calcite-alert) components. If multiple alerts are open it will manage them via a queue. Simply place multiple alerts within the `calcite-alerts` element:
 
 ```html
-<calcite-alerts id="my-alert-container">
-      <calcite-alert color="red" id="one" dismiss>...</calcite-alert>
-      <calcite-alert color="green" id="two">...</calcite-alert>
+<calcite-alerts>
+  <calcite-alert color="red" id="one" dismiss>...</calcite-alert>
+  <calcite-alert color="green" id="two">...</calcite-alert>
 </calcite-alerts>
 ```
 

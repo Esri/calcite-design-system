@@ -2,6 +2,24 @@
 
 Single alert for toast notifications. These will be shown docked to the bottom of the screen and centered. If you may have multiple alerts, it's recommended you use the [calcite-alerts](../calcite-alerts/) component as it can manage several alerts at a time with a queue.
 
+The alert comonent relies on three named slots (title, message, and link) to supply your content:
+
+```html
+<calcite-alert>
+  <div slot="alert-title">Title of alert</div>
+  <div slot="alert-message">
+    Message text of the alert
+  </div>
+  <a slot="alert-link" href="#">Retry</a>
+</calcite-alert>
+```
+
+## TODO
+
+- tests
+- verify aria
+- document events
+
 <!-- Auto Generated Below -->
 
 

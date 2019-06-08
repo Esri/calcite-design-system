@@ -1,6 +1,17 @@
 # calcite-progress
 
+The `calcite-progress` component is used to show progress on some async task to the user. Wrap your content in the progress element to add an animated progress indicator above it:
 
+```html
+<calcite-progress type="indeterminate">
+  <h1>Hello World!</h1>
+</calcite-progress>
+```
+
+## TODO
+
+- tests
+- verify designs and api
 
 <!-- Auto Generated Below -->
 
