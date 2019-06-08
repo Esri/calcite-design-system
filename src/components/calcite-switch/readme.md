@@ -21,12 +21,12 @@ calcite-switch is used to toggle a value on or off. You can optionally pass in a
 
 ## Properties
 
-| Property   | Attribute  | Description                                                               | Type              | Default     |
-| ---------- | ---------- | ------------------------------------------------------------------------- | ----------------- | ----------- |
-| `color`    | `color`    | Color of the switch. Use red to denote destructive settings/actions.      | `"blue" \| "red"` | `"blue"`    |
-| `name`     | `name`     | Name of the form control (useful for specifying input/label relationship) | `string`          | `undefined` |
-| `switched` | `switched` | True if the control should be switched on                                 | `boolean`         | `false`     |
-| `value`    | `value`    | Value of the form control                                                 | `string`          | `undefined` |
+| Property   | Attribute  | Description                                                               | Type              | Default  |
+| ---------- | ---------- | ------------------------------------------------------------------------- | ----------------- | -------- |
+| `color`    | `color`    | Color of the switch. Use red to denote destructive settings/actions.      | `"blue" \| "red"` | `"blue"` |
+| `name`     | `name`     | Name of the form control (useful for specifying input/label relationship) | `string`          | `""`     |
+| `switched` | `switched` | True if the control should be switched on                                 | `boolean`         | `false`  |
+| `value`    | `value`    | Value of the form control                                                 | `string`          | `""`     |
 
 
 ## Events

@@ -99,19 +99,19 @@ export namespace Components {
     /**
     * Color of the switch. Use red to denote destructive settings/actions.
     */
-    'color': "red" | "blue";
+    'color'?: "red" | "blue";
     /**
     * Name of the form control (useful for specifying input/label relationship)
     */
-    'name': string;
+    'name'?: string;
     /**
     * True if the control should be switched on
     */
-    'switched': boolean;
+    'switched'?: boolean;
     /**
     * Value of the form control
     */
-    'value': string;
+    'value'?: string;
   }
   interface CalciteTab {
     /**
