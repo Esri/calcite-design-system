@@ -61,13 +61,13 @@ export class CalciteAlert {
 
   @State() isActive: boolean = this.id === this.currentAlert;
 
-  private _durationDefaults = {
+  private durationDefaults = {
     slow: 14000,
     medium: 10000,
     fast: 6000
   }
 
-  private _iconDefaults = {
+  private iconDefaults = {
     green: checkCircle24F,
     yellow: exclamationMarkTriangle24F,
     red: exclamationMarkTriangle24F,
@@ -78,12 +78,12 @@ export class CalciteAlert {
     this.isActive = this.currentAlert === this.id;
     if (this.isActive) this.alertOpen.emit(this.id);
     if (this.isActive && this.dismiss) {
-      setTimeout(() => this.close(), this._durationDefaults[this.duration]);
+      setTimeout(() => this.close(), this.durationDefaults[this.duration]);
     }
   }
 
   setIcon() {
-    var path = this._iconDefaults[this.color];
+    var path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
         <svg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'><path d={path} /></svg>
