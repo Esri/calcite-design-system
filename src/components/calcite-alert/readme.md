@@ -1,8 +1,8 @@
 # calcite-alert
 
-Single alert for toast notifications. These will be shown docked to the bottom of the screen and centered. If you may have multiple alerts, it's recommended you use the [calcite-alerts](../calcite-alerts/) component as it can manage several alerts at a time with a queue.
+Single alert for toast notifications. To position the alert correctly and manage multiple alerts, it's recommended you wrap the alert inside the [calcite-alerts](../calcite-alerts/) component.
 
-The alert comonent relies on three named slots (title, message, and link) to supply your content:
+The alert component relies on three named slots (title, message, and link) to supply your content:
 
 ```html
 <calcite-alert>
@@ -25,14 +25,14 @@ The alert comonent relies on three named slots (title, message, and link) to sup
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                   | Type                                     | Default    |
-| ---------- | ---------- | ----------------------------------------------------------------------------- | ---------------------------------------- | ---------- |
-| `color`    | `color`    | Color for the alert (will apply to top border and icon)                       | `"blue" \| "green" \| "red" \| "yellow"` | `'blue'`   |
-| `dismiss`  | `dismiss`  | Close the alert automatically (recommended for passive, non-blocking alerts)  | `boolean`                                | `false`    |
-| `duration` | `duration` | Length before autodismissal (only used with `dismiss`)                        | `"fast" \| "medium" \| "slow"`           | `'medium'` |
-| `icon`     | `icon`     | Optionally specify an icon to use in place of the default success/error icons | `boolean`                                | `false`    |
-| `id`       | `id`       | Unique ID for this alert                                                      | `string`                                 | `'1'`      |
-| `theme`    | `theme`    | Select theme (light or dark)                                                  | `"dark" \| "light"`                      | `'light'`  |
+| Property   | Attribute  | Description                                                                  | Type                                     | Default    |
+| ---------- | ---------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ---------- |
+| `color`    | `color`    | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `'blue'`   |
+| `dismiss`  | `dismiss`  | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`    |
+| `duration` | `duration` | Length before autodismissal (only used with `dismiss`)                       | `"fast" \| "medium" \| "slow"`           | `'medium'` |
+| `icon`     | `icon`     | If false, no icon will be shown in the alert                                 | `boolean`                                | `false`    |
+| `id`       | `id`       | Unique ID for this alert                                                     | `string`                                 | `'1'`      |
+| `theme`    | `theme`    | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `'light'`  |
 
 
 ## Events

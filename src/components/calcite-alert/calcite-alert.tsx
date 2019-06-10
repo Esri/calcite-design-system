@@ -27,7 +27,7 @@ export class CalciteAlert {
    */
   @Prop({ reflectToAttr: true }) theme: 'light' | 'dark' = 'light';
   /**
-   * Optionally specify an icon to use in place of the default success/error icons
+   * If false, no icon will be shown in the alert
    */
   @Prop() icon: boolean = false;
   /**

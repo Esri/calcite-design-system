@@ -34,7 +34,7 @@ export namespace Components {
     */
     'duration': 'fast' | 'medium' | 'slow';
     /**
-    * Optionally specify an icon to use in place of the default success/error icons
+    * If false, no icon will be shown in the alert
     */
     'icon': boolean;
     /**
@@ -266,7 +266,7 @@ declare namespace LocalJSX {
     */
     'duration'?: 'fast' | 'medium' | 'slow';
     /**
-    * Optionally specify an icon to use in place of the default success/error icons
+    * If false, no icon will be shown in the alert
     */
     'icon'?: boolean;
     /**
