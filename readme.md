@@ -8,11 +8,11 @@ Documentation for each component can be found within that component's directory 
 
 The current lineup of components is:
 
-- [alerts](components/calcite-alerts/)
-- [loader](components/calcite-loader/)
-- [progress](components/calcite-progress/)
-- [switch](components/calcite-switch/)
-- [tabs](components/calcite-tabs/)
+- [alerts](src/components/calcite-alerts/)
+- [loader](src/components/calcite-loader/)
+- [progress](src/components/calcite-progress/)
+- [switch](src/components/calcite-switch/)
+- [tabs](src/components/calcite-tabs/)
 
 ## Installation
 
