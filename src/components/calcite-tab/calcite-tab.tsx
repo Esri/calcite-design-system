@@ -70,6 +70,9 @@ export class CalciteTab {
     }
   }
 
+  /**
+  * @internal
+  */
   @Event() calciteTabsRegisterTab: EventEmitter<TabRegisterEventDetail>;
 
   componentDidLoad() {

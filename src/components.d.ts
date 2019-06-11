@@ -347,7 +347,6 @@ declare namespace LocalJSX {
     * when active, the tab will be visible
     */
     'isActive'?: boolean;
-    'onCalciteTabsRegisterTab'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
     /**
     * Optionally include a unique name for this tab, be sure to also set this name on the associated title.
     */
@@ -372,10 +371,10 @@ declare namespace LocalJSX {
     * Show this title as selected
     */
     'isActive'?: boolean;
+    /**
+    * Fires when a specific tab is activated. `event.details`: [TabChangeEventDetail](../../interfaces/TabChange.ts)
+    */
     'onCalciteTabsActivate'?: (event: CustomEvent<TabChangeEventDetail>) => void;
-    'onCalciteTabsFocusNext'?: (event: CustomEvent<any>) => void;
-    'onCalciteTabsFocusPrevious'?: (event: CustomEvent<any>) => void;
-    'onCalciteTabsRegisterTitle'?: (event: CustomEvent<TabRegisterEventDetail>) => void;
     /**
     * Optionally include a unique name for the tab title, be sure to also set this name on the associated tab.
     */

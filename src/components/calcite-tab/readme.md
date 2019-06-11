@@ -20,13 +20,6 @@ calcite-tab wraps the content you would like to appear when that tab is selected
 | `tab`      | `tab`       | Optionally include a unique name for this tab, be sure to also set this name on the associated title. | `string`  | `undefined` |
 
 
-## Events
-
-| Event                    | Description | Type                                  |
-| ------------------------ | ----------- | ------------------------------------- |
-| `calciteTabsRegisterTab` |             | `CustomEvent<TabRegisterEventDetail>` |
-
-
 ## Methods
 
 ### `getTabIndex() => Promise<number>`

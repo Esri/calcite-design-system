@@ -50,11 +50,20 @@ export class CalciteTabTitle {
   isActive: boolean = false;
 
   /**
-  * @todo document what gets passed to the handler for these events
-  */
+   * Fires when a specific tab is activated. `event.details`: [TabChangeEventDetail](../../interfaces/TabChange.ts)
+   */
   @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
+  /**
+  * @internal
+  */
   @Event() calciteTabsFocusNext: EventEmitter;
+  /**
+  * @internal
+  */
   @Event() calciteTabsFocusPrevious: EventEmitter;
+  /**
+  * @internal
+  */
   @Event() private calciteTabsRegisterTitle: EventEmitter<
     TabRegisterEventDetail
   >;
