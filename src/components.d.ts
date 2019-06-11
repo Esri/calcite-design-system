@@ -273,7 +273,13 @@ declare namespace LocalJSX {
     * Unique ID for this alert
     */
     'id'?: string;
+    /**
+    * Fired when an alert is closed
+    */
     'onAlertClose'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when an alert is opened
+    */
     'onAlertOpen'?: (event: CustomEvent<any>) => void;
     /**
     * Select theme (light or dark)

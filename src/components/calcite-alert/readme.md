@@ -1,17 +1,17 @@
 # calcite-alert
 
-Single alert for toast notifications. To position the alert correctly and manage multiple alerts, it's recommended you wrap the alert inside the [calcite-alerts](../calcite-alerts/) component.
-
-The alert component relies on three named slots (title, message, and link) to supply your content:
+Single alert for toast notifications. To position the alert correctly and manage multiple alerts, it's recommended you wrap the alert inside the [calcite-alerts](../calcite-alerts/) component:
 
 ```html
-<calcite-alert>
-  <div slot="alert-title">Title of alert</div>
-  <div slot="alert-message">
-    Message text of the alert
-  </div>
-  <a slot="alert-link" href="#">Retry</a>
-</calcite-alert>
+<calcite-alerts>
+  <calcite-alert>
+    <div slot="alert-title">Title of alert</div>
+    <div slot="alert-message">
+      Message text of the alert
+    </div>
+    <a slot="alert-link" href="#">Retry</a>
+  </calcite-alert>
+</calcite-alerts>
 ```
 
 ## TODO
@@ -37,10 +37,10 @@ The alert component relies on three named slots (title, message, and link) to su
 
 ## Events
 
-| Event        | Description | Type               |
-| ------------ | ----------- | ------------------ |
-| `alertClose` |             | `CustomEvent<any>` |
-| `alertOpen`  |             | `CustomEvent<any>` |
+| Event        | Description                   | Type               |
+| ------------ | ----------------------------- | ------------------ |
+| `alertClose` | Fired when an alert is closed | `CustomEvent<any>` |
+| `alertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
 
 
 ## Methods
@@ -54,6 +54,15 @@ Close the alert and emit the `alertClose` event
 Type: `Promise<void>`
 
 
+
+
+## Slots
+
+| Slot              | Description                                                    |
+| ----------------- | -------------------------------------------------------------- |
+| `"alert-link"`    | Optional action to take from the alert (undo, try again, etc.) |
+| `"alert-message"` | Main text of the alert                                         |
+| `"alert-title"`   | Title of the alert (optional)                                  |
 
 
 ## Dependencies

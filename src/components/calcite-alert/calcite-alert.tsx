@@ -2,6 +2,11 @@ import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State }
 import { lightbulb24F, exclamationMarkTriangle24F, checkCircle24F, x32 } from '@esri/calcite-ui-icons';
 import AlertInterface from '../../interfaces/AlertInterface';
 
+/**
+ * @slot alert-title - Title of the alert (optional)
+ * @slot alert-message - Main text of the alert
+ * @slot alert-link - Optional action to take from the alert (undo, try again, etc.)
+ */
 @Component({
   tag: 'calcite-alert',
   styleUrl: 'calcite-alert.scss',
@@ -42,13 +47,14 @@ export class CalciteAlert {
    * @internal 
    */
   @Prop() queueLength: number = 0;
-
   /**
-   * @todo document what gets passed to the handler for these events
+   * Fired when an alert is closed
    */
   @Event() alertClose: EventEmitter;
+  /**
+   * Fired when an alert is opened
+   */
   @Event() alertOpen: EventEmitter;
-
   /**
   * Close the alert and emit the `alertClose` event
   */
