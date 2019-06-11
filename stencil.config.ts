@@ -9,19 +9,19 @@ export const config: Config = {
     },
     {
       components: [
-        "calcite-tabs",
         "calcite-tab",
         "calcite-tab-title",
-        "calcite-tab-nav"
+        "calcite-tab-nav",
+        "calcite-tabs"
       ]
     },
     { components: ["calcite-progress"] },
-    { components: ["calcite-alerts", "calcite-alert"] },
+    { components: ["calcite-alert", "calcite-alerts"] },
     { components: ["calcite-loader"] }
   ],
   outputTargets: [
     { type: "dist" },
-    // { type: "docs-readme" },
+    { type: "docs-readme" },
     {
       type: "www",
       serviceWorker: null // disable service workers

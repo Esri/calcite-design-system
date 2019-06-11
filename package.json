@@ -14,8 +14,8 @@
     "dist/"
   ],
   "scripts": {
-    "build": "stencil build",
-    "start": "stencil build --dev --watch --serve",
+    "build": "stencil build --docs-readme",
+    "start": "stencil build --dev --watch --serve --docs-readme",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "prerelease:prepare": "npm run build",
