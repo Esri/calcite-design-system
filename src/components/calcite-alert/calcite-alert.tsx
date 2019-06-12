@@ -2,6 +2,12 @@ import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State }
 import { lightbulb24F, exclamationMarkTriangle24F, checkCircle24F, x32 } from '@esri/calcite-ui-icons';
 import AlertInterface from '../../interfaces/AlertInterface';
 
+
+/** Alerts are not meant to be used inline with content, or be present in view on page load.
+ * As such, calcite-alert relies on calcite-alerts for positioning - displaying an alert on its own
+ * will lead to unexpected and potentially undesireable results
+*/
+
 /**
  * @slot alert-title - Title of the alert (optional)
  * @slot alert-message - Main text of the alert
@@ -22,15 +28,15 @@ export class CalciteAlert {
   /**
    * Length before autodismissal (only used with `dismiss`)
    */
-  @Prop({ reflectToAttr: true }) duration: 'fast' | 'medium' | 'slow' = 'medium';
+  @Prop({ reflect: true }) duration: 'fast' | 'medium' | 'slow' = this.dismiss ? 'medium' : null;
   /**
    * Color for the alert (will apply to top border and icon)
    */
-  @Prop({ reflectToAttr: true }) color: 'blue' | 'green' | 'red' | 'yellow' = 'blue';
+  @Prop({ reflect: true }) color: 'blue' | 'green' | 'red' | 'yellow' = 'blue';
   /**
    * Select theme (light or dark)
    */
-  @Prop({ reflectToAttr: true }) theme: 'light' | 'dark' = 'light';
+  @Prop({ reflect: true }) theme: 'light' | 'dark' = 'light';
   /**
    * If false, no icon will be shown in the alert
    */
@@ -39,33 +45,33 @@ export class CalciteAlert {
    * Unique ID for this alert
    */
   @Prop() id: string = '1';
-  /** 
-   * @internal 
+  /**
+   * @internal
    */
   @Prop() currentAlert: string = '';
-  /** 
-   * @internal 
+  /**
+   * @internal
    */
   @Prop() queueLength: number = 0;
   /**
    * Fired when an alert is closed
    */
-  @Event() alertClose: EventEmitter;
+  @Event() calciteAlertClose: EventEmitter;
   /**
    * Fired when an alert is opened
    */
-  @Event() alertOpen: EventEmitter;
+  @Event() calciteAlertOpen: EventEmitter;
   /**
-  * Close the alert and emit the `alertClose` event
+  * Close the alert and emit the `calciteAlertClose` event
   */
   @Method() async close() {
-    if (this.isActive) {
-      this.isActive = false;
-      this.alertClose.emit(this.id);
+    if (this.active) {
+      this.active = false;
+      this.calciteAlertClose.emit(this.id);
     }
   }
 
-  @State() isActive: boolean = this.id === this.currentAlert;
+  @State() active: boolean = this.id === this.currentAlert;
 
   private durationDefaults = {
     slow: 14000,
@@ -80,10 +86,28 @@ export class CalciteAlert {
     blue: lightbulb24F
   }
 
+  connectedCallback() {
+    this.determineActiveAlert();
+
+    // prop validations
+    let colors = ['blue', 'red', 'green', 'yellow']
+    if (!colors.includes(this.color)) this.color = 'blue';
+
+    let durations = ['slow', 'medium', 'fast']
+    if (this.duration !== null && !durations.includes(this.duration)) this.duration = 'medium';
+
+    let themes = ['dark', 'light']
+    if (!themes.includes(this.theme)) this.theme = 'light';
+  }
+
   componentWillUpdate() {
-    this.isActive = this.currentAlert === this.id;
-    if (this.isActive) this.alertOpen.emit(this.id);
-    if (this.isActive && this.dismiss) {
+    this.determineActiveAlert();
+  }
+
+  determineActiveAlert() {
+    this.active = this.currentAlert === this.id;
+    if (this.active) this.calciteAlertOpen.emit(this.id);
+    if (this.active && this.dismiss) {
       setTimeout(() => this.close(), this.durationDefaults[this.duration]);
     }
   }
@@ -106,10 +130,10 @@ export class CalciteAlert {
 
     const close = !this.dismiss ? closeButton : '';
     const icon = this.icon ? this.setIcon() : '';
-    const count = <div class={`${this.queueLength > 0 ? 'is-active ' : ''}alert-count`}>+{this.queueLength > 0 ? this.queueLength : 1}</div>
-    const progress = this.isActive && this.dismiss ? <div class="alert-dismiss"></div> : '';
+    const count = <div class={`${this.queueLength > 0 ? 'active ' : ''}alert-count`}>+{this.queueLength > 0 ? this.queueLength : 1}</div>
+    const progress = this.active && this.dismiss ? <div class="alert-dismiss"></div> : '';
     return (
-      <Host theme={this.theme} is-active={!!this.isActive} duration={this.duration}>
+      <Host theme={this.theme} active={!!this.active} duration={this.duration}>
         {icon}
         <div class="alert-content">
           <slot name="alert-title"></slot>

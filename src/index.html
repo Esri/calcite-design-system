@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="/build/calcite.css" />
   <script type="module" src="build/calcite.esm.js"></script>
   <script nomodule src="build/calcite.js"></script>
-  <!-- <script src="/assets/demo/createAlert.js"></script> -->
+  <script src="/assets/demo/createAlert.js"></script>
 </head>
 
 <body>
@@ -235,6 +235,9 @@
           Autodismiss (medium)</button><br />
         <button onclick="document.querySelector('#my-alert-container').open('eleven')">
           Autodismiss (slow),link</button><br />
+          <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
+          <button onclick=createExampleAlert('created-1')>created alert</button><br />
+          <button onclick=createExampleAlert('created-2')>created alert 2</button><br />
       </calcite-tab>
 
       <calcite-tab>
@@ -326,7 +329,8 @@
         <a slot="alert-link" href="">Retry</a>
       </calcite-alert>
 
-      <calcite-alert color="green" id="two" icon>
+      <!-- test prop validation theme -->
+      <calcite-alert color="green" id="two" icon theme="bleme">
         <div slot="alert-message">
           Succesfully updated <em>Portland Restaurants</em> feature layer
         </div>
@@ -351,7 +355,8 @@
         <div slot="alert-message">A general piece of information</div>
       </calcite-alert>
 
-      <calcite-alert color="red" id="six" icon>
+      <!-- test prop validation color -->
+      <calcite-alert color="misspelled" id="six" icon>
         <div slot="alert-title">You can't add a polygon to this layer</div>
         <div slot="alert-message">
           Some kind of made up thing about another thing
@@ -367,12 +372,14 @@
         <a slot="alert-link" href="">View layer</a>
       </calcite-alert>
 
+
       <calcite-alert color="red" id="eight" dismiss icon>
         <div slot="alert-title">You can't do that</div>
         <div slot="alert-message">Sorry bud</div>
       </calcite-alert>
 
-      <calcite-alert id="nine" theme="dark" dismiss duration="fast">
+      <!-- test prop validation duration -->
+      <calcite-alert id="nine" theme="dark" dismiss duration="blast">
         <div slot="alert-message">A general piece of information</div>
         <a slot="alert-link" href="">Take action</a>
       </calcite-alert>

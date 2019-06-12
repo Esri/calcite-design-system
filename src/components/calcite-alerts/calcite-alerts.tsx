@@ -15,46 +15,46 @@ export class CalciteAlerts {
   @Prop() id: string = '1';
 
   @State() currentAlert: string = '';
-  @State() isActive: boolean = false;
-  @State() queue: string[] = [];
+  @State() active: boolean = false;
+  @State() alertQueue: string[] = [];
 
   /**
    * @todo document what gets passed to the handler for these events
    */
-  @Event() alertsClose: EventEmitter;
-  @Event() alertsOpen: EventEmitter;
+  @Event() calciteAlertsClose: EventEmitter;
+  @Event() calciteAlertsOpen: EventEmitter;
 
   /**
    * Open a specific alert by id
   * @param requestedAlert {string} id of the alert you wish to open
   */
   @Method() async open(requestedAlert) {
-    if (!this.queue.includes(requestedAlert)) {
-      this.isActive = true;
+    if (!this.alertQueue.includes(requestedAlert)) {
+      this.active = true;
       this.currentAlert = requestedAlert;
-      this.queue.push(requestedAlert);
-      this.alertsOpen.emit({ id: this.id, currentAlert: this.currentAlert, queue: this.queue });
+      this.alertQueue.push(requestedAlert);
+      this.calciteAlertsOpen.emit({ id: this.id, currentAlert: this.currentAlert, alertQueue: this.alertQueue });
     }
   }
 
-  @Listen('alertClose') updateQueue(event: CustomEvent) {
-    if (this.queue.includes(event.detail)) this.queue = this.queue.filter(e => e !== event.detail);
-    if (this.queue.length < 1) setTimeout(() => { this.isActive = false }, 300);
-    this.alertsClose.emit({ id: this.id, currentAlert: this.currentAlert, queue: this.queue });
+  @Listen('calciteAlertClose') updateQueue(event: CustomEvent) {
+    if (this.alertQueue.includes(event.detail)) this.alertQueue = this.alertQueue.filter(e => e !== event.detail);
+    if (this.alertQueue.length < 1) setTimeout(() => { this.active = false }, 300);
+    this.calciteAlertsClose.emit({ id: this.id, currentAlert: this.currentAlert, alertQueue: this.alertQueue });
   }
 
   componentWillUpdate() {
-    this.currentAlert = this.queue.length > 0 ? this.queue[0] : '';
+    this.currentAlert = this.alertQueue.length > 0 ? this.alertQueue[0] : '';
   }
 
   render() {
     const alertState = {
       currentAlert: this.currentAlert,
-      queueLength: this.queue.length >= 2 ? this.queue.length - 1 : 0
+      queueLength: this.alertQueue.length >= 2 ? this.alertQueue.length - 1 : 0
     };
 
     return (
-      <Host is-active={!!this.isActive}>
+      <Host active={!!this.active}>
         <AlertInterface.Provider state={alertState}>
           <slot />
         </AlertInterface.Provider>

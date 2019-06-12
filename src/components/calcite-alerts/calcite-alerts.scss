@@ -1,23 +1,13 @@
 :host {
+  display: none;
   position: fixed;
-  visibility: hidden;
-  opacity: 0;
   left: 0;
   right: 0;
-  bottom: $baseline;
-  height: 0;
-  z-index: 101;
+  bottom: 0;
   pointer-events: none;
-  transition: all .15s ease-in-out;
-  transition-delay: 300ms;
+  z-index: 101;
 
-  @media only screen and (max-width: 600px) {
-    bottom: 0px;
+  &:host([active]) {
+    display: block;
   }
-}
-
-:host([is-active]) {
-  height: auto;
-  visibility: visible;
-  opacity: 1;
 }
