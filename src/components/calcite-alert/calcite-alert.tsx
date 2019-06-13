@@ -61,7 +61,7 @@ export class CalciteAlert {
   /**
   * watch for changes to currentAlert passed from <calcite-alerts>
   */
-  @Watch("currentAlert") switchWatcher() {
+  @Watch("currentAlert") watchCurrentAlert() {
     this.active = this.currentAlert === this.id;
     if (this.active) this.openCalciteAlert();
     if (this.active && this.dismiss) setTimeout(() => this.closeCalciteAlert(), this.durationDefaults[this.duration]);
