@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State, Watch } from '@stencil/core';
 import { lightbulb24F, exclamationMarkTriangle24F, checkCircle24F, x32 } from '@esri/calcite-ui-icons';
 import AlertInterface from '../../interfaces/AlertInterface';
 
@@ -13,6 +13,7 @@ import AlertInterface from '../../interfaces/AlertInterface';
  * @slot alert-message - Main text of the alert
  * @slot alert-link - Optional action to take from the alert (undo, try again, etc.)
  */
+
 @Component({
   tag: 'calcite-alert',
   styleUrl: 'calcite-alert.scss',
@@ -21,6 +22,10 @@ import AlertInterface from '../../interfaces/AlertInterface';
 
 export class CalciteAlert {
   @Element() el: HTMLElement;
+  /**
+  * Is the alert currently active or not
+  */
+  @State() active: boolean = false;
   /**
    * Close the alert automatically (recommended for passive, non-blocking alerts)
    */
@@ -54,6 +59,14 @@ export class CalciteAlert {
    */
   @Prop() queueLength: number = 0;
   /**
+  * watch for changes to currentAlert passed from <calcite-alerts>
+  */
+  @Watch("currentAlert") switchWatcher() {
+    this.active = this.currentAlert === this.id;
+    if (this.active) this.openCalciteAlert();
+    if (this.active && this.dismiss) setTimeout(() => this.closeCalciteAlert(), this.durationDefaults[this.duration]);
+  }
+  /**
    * Fired when an alert is closed
    */
   @Event() calciteAlertClose: EventEmitter;
@@ -62,16 +75,17 @@ export class CalciteAlert {
    */
   @Event() calciteAlertOpen: EventEmitter;
   /**
-  * Close the alert and emit the `calciteAlertClose` event
+  * emit the `calciteAlerClose` event - <calcite-alerts> listens for this, if the alert is not active, but is the queue, this will remove it from the queue
   */
-  @Method() async close() {
-    if (this.active) {
-      this.active = false;
-      this.calciteAlertClose.emit(this.id);
-    }
+  @Method() async closeCalciteAlert() {
+    this.calciteAlertClose.emit(this.id);
   }
-
-  @State() active: boolean = this.id === this.currentAlert;
+  /**
+  * emit the `calciteAlertOpen` event - <calcite-alerts> listens for this, and determines if it should open the alert or add it to the queue
+  */
+  @Method() async openCalciteAlert() {
+    this.calciteAlertOpen.emit(this.id);
+  }
 
   private durationDefaults = {
     slow: 14000,
@@ -87,8 +101,6 @@ export class CalciteAlert {
   }
 
   connectedCallback() {
-    this.determineActiveAlert();
-
     // prop validations
     let colors = ['blue', 'red', 'green', 'yellow']
     if (!colors.includes(this.color)) this.color = 'blue';
@@ -98,18 +110,6 @@ export class CalciteAlert {
 
     let themes = ['dark', 'light']
     if (!themes.includes(this.theme)) this.theme = 'light';
-  }
-
-  componentWillUpdate() {
-    this.determineActiveAlert();
-  }
-
-  determineActiveAlert() {
-    this.active = this.currentAlert === this.id;
-    if (this.active) this.calciteAlertOpen.emit(this.id);
-    if (this.active && this.dismiss) {
-      setTimeout(() => this.close(), this.durationDefaults[this.duration]);
-    }
   }
 
   setIcon() {
@@ -123,7 +123,7 @@ export class CalciteAlert {
 
   render() {
     const closeButton = (
-      <button class="alert-close" aria-label="close" onClick={() => this.close()}>
+      <button class="alert-close" aria-label="close" onClick={() => this.closeCalciteAlert()}>
         <svg xmlns='http://www.w3.org/2000/svg' height='32' width='32' viewBox='0 0 32 32'><path d={x32} /></svg>
       </button>
     )

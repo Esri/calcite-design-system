@@ -17,9 +17,9 @@ import {
 export namespace Components {
   interface CalciteAlert {
     /**
-    * Close the alert and emit the `calciteAlertClose` event
+    * emit the `calciteAlerClose` event - <calcite-alerts> listens for this, if the alert is not active, but is the queue, this will remove it from the queue
     */
-    'close': () => Promise<void>;
+    'closeCalciteAlert': () => Promise<void>;
     /**
     * Color for the alert (will apply to top border and icon)
     */
@@ -41,6 +41,10 @@ export namespace Components {
     * Unique ID for this alert
     */
     'id': string;
+    /**
+    * emit the `calciteAlertOpen` event - <calcite-alerts> listens for this, and determines if it should open the alert or add it to the queue
+    */
+    'openCalciteAlert': () => Promise<void>;
     'queueLength': number;
     /**
     * Select theme (light or dark)
@@ -52,10 +56,6 @@ export namespace Components {
     * Unique ID for this instance of calcite-alerts
     */
     'id': string;
-    /**
-    * Open a specific alert by id
-    */
-    'open': (requestedAlert: any) => Promise<void>;
   }
   interface CalciteExample {
     /**

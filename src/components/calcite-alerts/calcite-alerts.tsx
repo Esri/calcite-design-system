@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Host, Listen, Method, Prop, State } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop, State } from '@stencil/core';
 import AlertInterface from '../../interfaces/AlertInterface';
 
 @Component({
@@ -25,10 +25,10 @@ export class CalciteAlerts {
   @Event() calciteAlertsOpen: EventEmitter;
 
   /**
-   * Open a specific alert by id
-  * @param requestedAlert {string} id of the alert you wish to open
-  */
-  @Method() async open(requestedAlert) {
+   * Adds the requested alert to the alert queue, if not present
+   */
+  @Listen('calciteAlertOpen') updateQueueOnOpen(event: CustomEvent) {
+    let requestedAlert = (event.target as HTMLElement).id
     if (!this.alertQueue.includes(requestedAlert)) {
       this.active = true;
       this.currentAlert = requestedAlert;
@@ -36,9 +36,12 @@ export class CalciteAlerts {
       this.calciteAlertsOpen.emit({ id: this.id, currentAlert: this.currentAlert, alertQueue: this.alertQueue });
     }
   }
-
-  @Listen('calciteAlertClose') updateQueue(event: CustomEvent) {
-    if (this.alertQueue.includes(event.detail)) this.alertQueue = this.alertQueue.filter(e => e !== event.detail);
+  /**
+   * Closes the requested alert and removes from the queue
+   */
+  @Listen('calciteAlertClose') updateQueueOnClose(event: CustomEvent) {
+    let requestedAlert = (event.target as HTMLElement).id
+    if (this.alertQueue.includes(requestedAlert)) this.alertQueue = this.alertQueue.filter(e => e !== requestedAlert);
     if (this.alertQueue.length < 1) setTimeout(() => { this.active = false }, 300);
     this.calciteAlertsClose.emit({ id: this.id, currentAlert: this.currentAlert, alertQueue: this.alertQueue });
   }
