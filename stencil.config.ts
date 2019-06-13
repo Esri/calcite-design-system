@@ -18,6 +18,9 @@ export const config: Config = {
     { components: ["calcite-progress"] },
     { components: ["calcite-alert", "calcite-alerts"] },
     { components: ["calcite-loader"] },
+    {
+      components: ["calcite-radio-group", "calcite-radio-group-item"]
+    },
     { components: ["calcite-slider"] }
   ],
   outputTargets: [

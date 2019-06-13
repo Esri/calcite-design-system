@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  --calcite-radio-group-color-active: #{$lightest-blue};
+  --calcite-radio-group-border-color: #{$lighter-gray};
+  --calcite-radio-group-border-color-active: #{$blue};
+  --calcite-radio-group-item-background-color: #{$white};
+  --calcite-radio-group-item-color: #{$black};
+
+  @include font-size(-1);
+}
+
+:host([theme="dark"]) {
+  --calcite-radio-group-color-active: #{$dark-blue};
+  --calcite-radio-group-border-color: #{$darker-gray};
+  --calcite-radio-group-border-color-active: #{$blue};
+  --calcite-radio-group-item-background-color: #{$black};
+  --calcite-radio-group-item-color: #{$white};
+}
+
+::slotted(calcite-radio-group-item[checked]),
+::slotted(calcite-radio-group-item:focus) {
+  z-index: 0;
+}
+
+slot {
+  display: flex;
+  flex-direction: row;
+}
