@@ -32,9 +32,9 @@ export class CalciteTab {
   @Element() el: HTMLElement;
 
   /**
-   * Optionally include a unique name for this tab,
-   * be sure to also set this name on the associated title.
-   */
+  * Optionally include a unique name for this tab,
+  * be sure to also set this name on the associated title.
+  */
   @Prop({
     reflectToAttr: true,
     mutable: true
@@ -42,8 +42,8 @@ export class CalciteTab {
   tab: string;
 
   /**
-   * when active, the tab will be visible
-   */
+  * when active, the tab will be visible
+  */
   @Prop({
     reflectToAttr: true,
     mutable: true
@@ -71,8 +71,8 @@ export class CalciteTab {
   }
 
   /**
-   * @internal
-   */
+  * @internal
+  */
   @Event() calciteTabsRegisterTab: EventEmitter<TabRegisterEventDetail>;
 
   componentDidLoad() {
@@ -86,9 +86,9 @@ export class CalciteTab {
 
   /**
    * Return the index of this tab within the tab array
-   */
+  */
   @Method()
-  async getTabIndex(): Promise<number> {
+  async getTabIndex():Promise<number> {
     return Promise.resolve(
       Array.prototype.indexOf.call(
         nodeListToArray(this.el.parentElement.children).filter(e =>
@@ -100,8 +100,8 @@ export class CalciteTab {
   }
 
   /**
-   * Set which element is the aria label for this tab
-   */
+  * Set which element is the aria label for this tab
+  */
   @Method()
   async registerLabeledBy(id) {
     this.labeledBy = id;

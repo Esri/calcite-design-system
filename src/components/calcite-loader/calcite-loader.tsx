@@ -9,13 +9,13 @@ export class CalciteLoader {
   @Element() el: HTMLElement;
 
   /**
-   * Loader is visible when active
-   */
+  * Loader is visible when active
+  */
   @Prop() isActive = false;
 
   /**
-   * Text which should appear under the loading indicator
-   */
+  * Text which should appear under the loading indicator
+  */
   @Prop() text = "Loading...";
 
   render() {

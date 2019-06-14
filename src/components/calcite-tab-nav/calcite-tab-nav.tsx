@@ -22,25 +22,25 @@ export class CalciteTabNav {
   @Element() el;
   /**
    * Name to use when saving selected tab data to localStorage
-   */
+  */
   @Prop() storageId: string;
   /**
    * Pass the same string to multiple tab navs to keep them all in sync if one changes
-   */
+  */
   @Prop() syncId: string;
   /**
    * @internal
-   */
+  */
   @Prop({ mutable: true, reflectToAttr: true })
   id: string = `calcite-tab-nav-${guid()}`;
   /**
    * @internal
-   */
+  */
   @Prop({ mutable: true })
   selectedTab: number | string = 0;
   /**
    * Emitted when the active tab changes
-   */
+  */
   @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
 
   @Watch("selectedTab")

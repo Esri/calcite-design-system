@@ -1,30 +1,20 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State
-} from "@stencil/core";
-import AlertInterface from "../../interfaces/AlertInterface";
+import { Component, Element, Event, EventEmitter, h, Host, Listen, Method, Prop, State } from '@stencil/core';
+import AlertInterface from '../../interfaces/AlertInterface';
 
 @Component({
-  tag: "calcite-alerts",
-  styleUrl: "calcite-alerts.scss",
+  tag: 'calcite-alerts',
+  styleUrl: 'calcite-alerts.scss',
   shadow: true
 })
+
 export class CalciteAlerts {
   @Element() el: HTMLElement;
   /**
    * Unique ID for this instance of calcite-alerts
    */
-  @Prop() id: string = "1";
+  @Prop() id: string = '1';
 
-  @State() currentAlert: string = "";
+  @State() currentAlert: string = '';
   @State() isActive: boolean = false;
   @State() queue: string[] = [];
 
@@ -36,37 +26,25 @@ export class CalciteAlerts {
 
   /**
    * Open a specific alert by id
-   * @param requestedAlert {string} id of the alert you wish to open
-   */
+  * @param requestedAlert {string} id of the alert you wish to open
+  */
   @Method() async open(requestedAlert) {
     if (!this.queue.includes(requestedAlert)) {
       this.isActive = true;
       this.currentAlert = requestedAlert;
       this.queue.push(requestedAlert);
-      this.alertsOpen.emit({
-        id: this.id,
-        currentAlert: this.currentAlert,
-        queue: this.queue
-      });
+      this.alertsOpen.emit({ id: this.id, currentAlert: this.currentAlert, queue: this.queue });
     }
   }
 
-  @Listen("alertClose") updateQueue(event: CustomEvent) {
-    if (this.queue.includes(event.detail))
-      this.queue = this.queue.filter(e => e !== event.detail);
-    if (this.queue.length < 1)
-      setTimeout(() => {
-        this.isActive = false;
-      }, 300);
-    this.alertsClose.emit({
-      id: this.id,
-      currentAlert: this.currentAlert,
-      queue: this.queue
-    });
+  @Listen('alertClose') updateQueue(event: CustomEvent) {
+    if (this.queue.includes(event.detail)) this.queue = this.queue.filter(e => e !== event.detail);
+    if (this.queue.length < 1) setTimeout(() => { this.isActive = false }, 300);
+    this.alertsClose.emit({ id: this.id, currentAlert: this.currentAlert, queue: this.queue });
   }
 
   componentWillUpdate() {
-    this.currentAlert = this.queue.length > 0 ? this.queue[0] : "";
+    this.currentAlert = this.queue.length > 0 ? this.queue[0] : '';
   }
 
   render() {

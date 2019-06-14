@@ -31,9 +31,9 @@ export class CalciteTabTitle {
   @Element() el: HTMLElement;
 
   /**
-   * Optionally include a unique name for the tab title,
-   * be sure to also set this name on the associated tab.
-   */
+  * Optionally include a unique name for the tab title,
+  * be sure to also set this name on the associated tab.
+  */
   @Prop({
     reflectToAttr: true,
     mutable: true
@@ -41,8 +41,8 @@ export class CalciteTabTitle {
   tab: string;
 
   /**
-   * Show this title as selected
-   */
+  * Show this title as selected
+  */
   @Prop({
     reflectToAttr: true,
     mutable: true
@@ -54,16 +54,16 @@ export class CalciteTabTitle {
    */
   @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
   /**
-   * @internal
-   */
+  * @internal
+  */
   @Event() calciteTabsFocusNext: EventEmitter;
   /**
-   * @internal
-   */
+  * @internal
+  */
   @Event() calciteTabsFocusPrevious: EventEmitter;
   /**
-   * @internal
-   */
+  * @internal
+  */
   @Event() private calciteTabsRegisterTitle: EventEmitter<
     TabRegisterEventDetail
   >;
@@ -112,9 +112,9 @@ export class CalciteTabTitle {
 
   /**
    * Return the index of this title within the nav
-   */
+  */
   @Method()
-  async getTabIndex(): Promise<number> {
+  async getTabIndex():Promise<number> {
     return Promise.resolve(
       Array.prototype.indexOf.call(
         this.el.parentElement.querySelectorAll("calcite-tab-title"),
@@ -124,8 +124,8 @@ export class CalciteTabTitle {
   }
 
   /**
-   * Set which tab this title controls
-   */
+  * Set which tab this title controls
+  */
   @Method()
   async setControlledBy(id: string) {
     this.controls = id;

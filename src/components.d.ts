@@ -4,437 +4,420 @@
  * It contains typing information for all components that exist in this project.
  */
 
-import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { TabRegisterEventDetail } from "./interfaces/TabRegister";
-import { TabChangeEventDetail } from "./interfaces/TabChange";
+
+import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
+import {
+  TabRegisterEventDetail,
+} from './interfaces/TabRegister';
+import {
+  TabChangeEventDetail,
+} from './interfaces/TabChange';
+
 
 export namespace Components {
   interface CalciteAlert {
     /**
-     * Close the alert and emit the `alertClose` event
-     */
-    close: () => Promise<void>;
+    * Close the alert and emit the `alertClose` event
+    */
+    'close': () => Promise<void>;
     /**
-     * Color for the alert (will apply to top border and icon)
-     */
-    color: "blue" | "green" | "red" | "yellow";
-    currentAlert: string;
+    * Color for the alert (will apply to top border and icon)
+    */
+    'color': 'blue' | 'green' | 'red' | 'yellow';
+    'currentAlert': string;
     /**
-     * Close the alert automatically (recommended for passive, non-blocking alerts)
-     */
-    dismiss: boolean;
+    * Close the alert automatically (recommended for passive, non-blocking alerts)
+    */
+    'dismiss': boolean;
     /**
-     * Length before autodismissal (only used with `dismiss`)
-     */
-    duration: "fast" | "medium" | "slow";
+    * Length before autodismissal (only used with `dismiss`)
+    */
+    'duration': 'fast' | 'medium' | 'slow';
     /**
-     * If false, no icon will be shown in the alert
-     */
-    icon: boolean;
+    * If false, no icon will be shown in the alert
+    */
+    'icon': boolean;
     /**
-     * Unique ID for this alert
-     */
-    id: string;
-    queueLength: number;
+    * Unique ID for this alert
+    */
+    'id': string;
+    'queueLength': number;
     /**
-     * Select theme (light or dark)
-     */
-    theme: "light" | "dark";
+    * Select theme (light or dark)
+    */
+    'theme': 'light' | 'dark';
   }
   interface CalciteAlerts {
     /**
-     * Unique ID for this instance of calcite-alerts
-     */
-    id: string;
+    * Unique ID for this instance of calcite-alerts
+    */
+    'id': string;
     /**
-     * Open a specific alert by id
-     */
-    open: (requestedAlert: any) => Promise<void>;
+    * Open a specific alert by id
+    */
+    'open': (requestedAlert: any) => Promise<void>;
   }
   interface CalciteExample {
     /**
-     * Add a jsdoc comment describing your method and it's parameters (use `@param`).
-     */
-    close: () => Promise<void>;
+    * Add a jsdoc comment describing your method and it's parameters (use `@param`).
+    */
+    'close': () => Promise<void>;
     /**
-     * Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag
-     */
-    property: string;
+    * Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag
+    */
+    'property': string;
   }
   interface CalciteLoader {
     /**
-     * Loader is visible when active
-     */
-    isActive: boolean;
+    * Loader is visible when active
+    */
+    'isActive': boolean;
     /**
-     * Text which should appear under the loading indicator
-     */
-    text: string;
+    * Text which should appear under the loading indicator
+    */
+    'text': string;
   }
   interface CalciteProgress {
     /**
-     * Fill bar in the opposite direction
-     */
-    reversed: boolean;
+    * Fill bar in the opposite direction
+    */
+    'reversed': boolean;
     /**
-     * Text label for the progress indicator
-     */
-    text: string;
+    * Text label for the progress indicator
+    */
+    'text': string;
     /**
-     * Use indeterminate if finding actual progress value is impossible
-     */
-    type: "indeterminate" | "determinate";
+    * Use indeterminate if finding actual progress value is impossible
+    */
+    'type': "indeterminate" | "determinate";
     /**
-     * Percent complete of 100
-     */
-    value: number;
+    * Percent complete of 100
+    */
+    'value': number;
   }
   interface CalciteSwitch {
     /**
-     * Color of the switch. Use red to denote destructive settings/actions.
-     */
-    color?: "red" | "blue";
+    * Color of the switch. Use red to denote destructive settings/actions.
+    */
+    'color'?: "red" | "blue";
     /**
-     * Name of the form control (useful for specifying input/label relationship)
-     */
-    name?: string;
+    * Name of the form control (useful for specifying input/label relationship)
+    */
+    'name'?: string;
     /**
-     * True if the control should be switched on
-     */
-    switched?: boolean;
+    * True if the control should be switched on
+    */
+    'switched'?: boolean;
     /**
-     * Value of the form control
-     */
-    value?: string;
+    * Value of the form control
+    */
+    'value'?: string;
   }
   interface CalciteTab {
     /**
-     * Return the index of this tab within the tab array
-     */
-    getTabIndex: () => Promise<number>;
-    id: string;
+    * Return the index of this tab within the tab array
+    */
+    'getTabIndex': () => Promise<number>;
+    'id': string;
     /**
-     * when active, the tab will be visible
-     */
-    isActive: boolean;
+    * when active, the tab will be visible
+    */
+    'isActive': boolean;
     /**
-     * Set which element is the aria label for this tab
-     */
-    registerLabeledBy: (id: any) => Promise<void>;
+    * Set which element is the aria label for this tab
+    */
+    'registerLabeledBy': (id: any) => Promise<void>;
     /**
-     * Optionally include a unique name for this tab, be sure to also set this name on the associated title.
-     */
-    tab: string;
+    * Optionally include a unique name for this tab, be sure to also set this name on the associated title.
+    */
+    'tab': string;
   }
   interface CalciteTabNav {
-    id: string;
-    selectedTab: number | string;
+    'id': string;
+    'selectedTab': number | string;
     /**
-     * Name to use when saving selected tab data to localStorage
-     */
-    storageId: string;
+    * Name to use when saving selected tab data to localStorage
+    */
+    'storageId': string;
     /**
-     * Pass the same string to multiple tab navs to keep them all in sync if one changes
-     */
-    syncId: string;
+    * Pass the same string to multiple tab navs to keep them all in sync if one changes
+    */
+    'syncId': string;
   }
   interface CalciteTabTitle {
     /**
-     * Return the index of this title within the nav
-     */
-    getTabIndex: () => Promise<number>;
-    id: string;
+    * Return the index of this title within the nav
+    */
+    'getTabIndex': () => Promise<number>;
+    'id': string;
     /**
-     * Show this title as selected
-     */
-    isActive: boolean;
+    * Show this title as selected
+    */
+    'isActive': boolean;
     /**
-     * Set which tab this title controls
-     */
-    setControlledBy: (id: string) => Promise<void>;
+    * Set which tab this title controls
+    */
+    'setControlledBy': (id: string) => Promise<void>;
     /**
-     * Optionally include a unique name for the tab title, be sure to also set this name on the associated tab.
-     */
-    tab: string;
+    * Optionally include a unique name for the tab title, be sure to also set this name on the associated tab.
+    */
+    'tab': string;
   }
   interface CalciteTabs {
     /**
-     * Align tab titles to the edge or fully justify them across the tab nav ("center")
-     */
-    layout: "center" | "inline";
+    * Align tab titles to the edge or fully justify them across the tab nav ("center")
+    */
+    'layout': "center" | "inline";
     /**
-     * Select theme (light or dark)
-     */
-    theme: "light" | "dark";
+    * Select theme (light or dark)
+    */
+    'theme': "light" | "dark";
   }
 }
 
 declare global {
-  interface HTMLCalciteAlertElement
-    extends Components.CalciteAlert,
-      HTMLStencilElement {}
+
+
+  interface HTMLCalciteAlertElement extends Components.CalciteAlert, HTMLStencilElement {}
   var HTMLCalciteAlertElement: {
     prototype: HTMLCalciteAlertElement;
     new (): HTMLCalciteAlertElement;
   };
 
-  interface HTMLCalciteAlertsElement
-    extends Components.CalciteAlerts,
-      HTMLStencilElement {}
+  interface HTMLCalciteAlertsElement extends Components.CalciteAlerts, HTMLStencilElement {}
   var HTMLCalciteAlertsElement: {
     prototype: HTMLCalciteAlertsElement;
     new (): HTMLCalciteAlertsElement;
   };
 
-  interface HTMLCalciteExampleElement
-    extends Components.CalciteExample,
-      HTMLStencilElement {}
+  interface HTMLCalciteExampleElement extends Components.CalciteExample, HTMLStencilElement {}
   var HTMLCalciteExampleElement: {
     prototype: HTMLCalciteExampleElement;
     new (): HTMLCalciteExampleElement;
   };
 
-  interface HTMLCalciteLoaderElement
-    extends Components.CalciteLoader,
-      HTMLStencilElement {}
+  interface HTMLCalciteLoaderElement extends Components.CalciteLoader, HTMLStencilElement {}
   var HTMLCalciteLoaderElement: {
     prototype: HTMLCalciteLoaderElement;
     new (): HTMLCalciteLoaderElement;
   };
 
-  interface HTMLCalciteProgressElement
-    extends Components.CalciteProgress,
-      HTMLStencilElement {}
+  interface HTMLCalciteProgressElement extends Components.CalciteProgress, HTMLStencilElement {}
   var HTMLCalciteProgressElement: {
     prototype: HTMLCalciteProgressElement;
     new (): HTMLCalciteProgressElement;
   };
 
-  interface HTMLCalciteSwitchElement
-    extends Components.CalciteSwitch,
-      HTMLStencilElement {}
+  interface HTMLCalciteSwitchElement extends Components.CalciteSwitch, HTMLStencilElement {}
   var HTMLCalciteSwitchElement: {
     prototype: HTMLCalciteSwitchElement;
     new (): HTMLCalciteSwitchElement;
   };
 
-  interface HTMLCalciteTabElement
-    extends Components.CalciteTab,
-      HTMLStencilElement {}
+  interface HTMLCalciteTabElement extends Components.CalciteTab, HTMLStencilElement {}
   var HTMLCalciteTabElement: {
     prototype: HTMLCalciteTabElement;
     new (): HTMLCalciteTabElement;
   };
 
-  interface HTMLCalciteTabNavElement
-    extends Components.CalciteTabNav,
-      HTMLStencilElement {}
+  interface HTMLCalciteTabNavElement extends Components.CalciteTabNav, HTMLStencilElement {}
   var HTMLCalciteTabNavElement: {
     prototype: HTMLCalciteTabNavElement;
     new (): HTMLCalciteTabNavElement;
   };
 
-  interface HTMLCalciteTabTitleElement
-    extends Components.CalciteTabTitle,
-      HTMLStencilElement {}
+  interface HTMLCalciteTabTitleElement extends Components.CalciteTabTitle, HTMLStencilElement {}
   var HTMLCalciteTabTitleElement: {
     prototype: HTMLCalciteTabTitleElement;
     new (): HTMLCalciteTabTitleElement;
   };
 
-  interface HTMLCalciteTabsElement
-    extends Components.CalciteTabs,
-      HTMLStencilElement {}
+  interface HTMLCalciteTabsElement extends Components.CalciteTabs, HTMLStencilElement {}
   var HTMLCalciteTabsElement: {
     prototype: HTMLCalciteTabsElement;
     new (): HTMLCalciteTabsElement;
   };
   interface HTMLElementTagNameMap {
-    "calcite-alert": HTMLCalciteAlertElement;
-    "calcite-alerts": HTMLCalciteAlertsElement;
-    "calcite-example": HTMLCalciteExampleElement;
-    "calcite-loader": HTMLCalciteLoaderElement;
-    "calcite-progress": HTMLCalciteProgressElement;
-    "calcite-switch": HTMLCalciteSwitchElement;
-    "calcite-tab": HTMLCalciteTabElement;
-    "calcite-tab-nav": HTMLCalciteTabNavElement;
-    "calcite-tab-title": HTMLCalciteTabTitleElement;
-    "calcite-tabs": HTMLCalciteTabsElement;
+    'calcite-alert': HTMLCalciteAlertElement;
+    'calcite-alerts': HTMLCalciteAlertsElement;
+    'calcite-example': HTMLCalciteExampleElement;
+    'calcite-loader': HTMLCalciteLoaderElement;
+    'calcite-progress': HTMLCalciteProgressElement;
+    'calcite-switch': HTMLCalciteSwitchElement;
+    'calcite-tab': HTMLCalciteTabElement;
+    'calcite-tab-nav': HTMLCalciteTabNavElement;
+    'calcite-tab-title': HTMLCalciteTabTitleElement;
+    'calcite-tabs': HTMLCalciteTabsElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface CalciteAlert
-    extends JSXBase.HTMLAttributes<HTMLCalciteAlertElement> {
+  interface CalciteAlert extends JSXBase.HTMLAttributes<HTMLCalciteAlertElement> {
     /**
-     * Color for the alert (will apply to top border and icon)
-     */
-    color?: "blue" | "green" | "red" | "yellow";
+    * Color for the alert (will apply to top border and icon)
+    */
+    'color'?: 'blue' | 'green' | 'red' | 'yellow';
     /**
-     * Close the alert automatically (recommended for passive, non-blocking alerts)
-     */
-    dismiss?: boolean;
+    * Close the alert automatically (recommended for passive, non-blocking alerts)
+    */
+    'dismiss'?: boolean;
     /**
-     * Length before autodismissal (only used with `dismiss`)
-     */
-    duration?: "fast" | "medium" | "slow";
+    * Length before autodismissal (only used with `dismiss`)
+    */
+    'duration'?: 'fast' | 'medium' | 'slow';
     /**
-     * If false, no icon will be shown in the alert
-     */
-    icon?: boolean;
+    * If false, no icon will be shown in the alert
+    */
+    'icon'?: boolean;
     /**
-     * Unique ID for this alert
-     */
-    id?: string;
+    * Unique ID for this alert
+    */
+    'id'?: string;
     /**
-     * Fired when an alert is closed
-     */
-    onAlertClose?: (event: CustomEvent<any>) => void;
+    * Fired when an alert is closed
+    */
+    'onAlertClose'?: (event: CustomEvent<any>) => void;
     /**
-     * Fired when an alert is opened
-     */
-    onAlertOpen?: (event: CustomEvent<any>) => void;
+    * Fired when an alert is opened
+    */
+    'onAlertOpen'?: (event: CustomEvent<any>) => void;
     /**
-     * Select theme (light or dark)
-     */
-    theme?: "light" | "dark";
+    * Select theme (light or dark)
+    */
+    'theme'?: 'light' | 'dark';
   }
-  interface CalciteAlerts
-    extends JSXBase.HTMLAttributes<HTMLCalciteAlertsElement> {
+  interface CalciteAlerts extends JSXBase.HTMLAttributes<HTMLCalciteAlertsElement> {
     /**
-     * Unique ID for this instance of calcite-alerts
-     */
-    id?: string;
-    onAlertsClose?: (event: CustomEvent<any>) => void;
-    onAlertsOpen?: (event: CustomEvent<any>) => void;
+    * Unique ID for this instance of calcite-alerts
+    */
+    'id'?: string;
+    'onAlertsClose'?: (event: CustomEvent<any>) => void;
+    'onAlertsOpen'?: (event: CustomEvent<any>) => void;
   }
-  interface CalciteExample
-    extends JSXBase.HTMLAttributes<HTMLCalciteExampleElement> {
-    onOpen?: (event: CustomEvent<any>) => void;
+  interface CalciteExample extends JSXBase.HTMLAttributes<HTMLCalciteExampleElement> {
+    'onOpen'?: (event: CustomEvent<any>) => void;
     /**
-     * Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag
-     */
-    property?: string;
+    * Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag
+    */
+    'property'?: string;
   }
-  interface CalciteLoader
-    extends JSXBase.HTMLAttributes<HTMLCalciteLoaderElement> {
+  interface CalciteLoader extends JSXBase.HTMLAttributes<HTMLCalciteLoaderElement> {
     /**
-     * Loader is visible when active
-     */
-    isActive?: boolean;
+    * Loader is visible when active
+    */
+    'isActive'?: boolean;
     /**
-     * Text which should appear under the loading indicator
-     */
-    text?: string;
+    * Text which should appear under the loading indicator
+    */
+    'text'?: string;
   }
-  interface CalciteProgress
-    extends JSXBase.HTMLAttributes<HTMLCalciteProgressElement> {
+  interface CalciteProgress extends JSXBase.HTMLAttributes<HTMLCalciteProgressElement> {
     /**
-     * Fill bar in the opposite direction
-     */
-    reversed?: boolean;
+    * Fill bar in the opposite direction
+    */
+    'reversed'?: boolean;
     /**
-     * Text label for the progress indicator
-     */
-    text?: string;
+    * Text label for the progress indicator
+    */
+    'text'?: string;
     /**
-     * Use indeterminate if finding actual progress value is impossible
-     */
-    type?: "indeterminate" | "determinate";
+    * Use indeterminate if finding actual progress value is impossible
+    */
+    'type'?: "indeterminate" | "determinate";
     /**
-     * Percent complete of 100
-     */
-    value?: number;
+    * Percent complete of 100
+    */
+    'value'?: number;
   }
-  interface CalciteSwitch
-    extends JSXBase.HTMLAttributes<HTMLCalciteSwitchElement> {
+  interface CalciteSwitch extends JSXBase.HTMLAttributes<HTMLCalciteSwitchElement> {
     /**
-     * Color of the switch. Use red to denote destructive settings/actions.
-     */
-    color?: "red" | "blue";
+    * Color of the switch. Use red to denote destructive settings/actions.
+    */
+    'color'?: "red" | "blue";
     /**
-     * Name of the form control (useful for specifying input/label relationship)
-     */
-    name?: string;
-    onCalciteSwitchChange?: (event: CustomEvent<any>) => void;
+    * Name of the form control (useful for specifying input/label relationship)
+    */
+    'name'?: string;
+    'onCalciteSwitchChange'?: (event: CustomEvent<any>) => void;
     /**
-     * True if the control should be switched on
-     */
-    switched?: boolean;
+    * True if the control should be switched on
+    */
+    'switched'?: boolean;
     /**
-     * Value of the form control
-     */
-    value?: string;
+    * Value of the form control
+    */
+    'value'?: string;
   }
   interface CalciteTab extends JSXBase.HTMLAttributes<HTMLCalciteTabElement> {
     /**
-     * when active, the tab will be visible
-     */
-    isActive?: boolean;
+    * when active, the tab will be visible
+    */
+    'isActive'?: boolean;
     /**
-     * Optionally include a unique name for this tab, be sure to also set this name on the associated title.
-     */
-    tab?: string;
+    * Optionally include a unique name for this tab, be sure to also set this name on the associated title.
+    */
+    'tab'?: string;
   }
-  interface CalciteTabNav
-    extends JSXBase.HTMLAttributes<HTMLCalciteTabNavElement> {
+  interface CalciteTabNav extends JSXBase.HTMLAttributes<HTMLCalciteTabNavElement> {
     /**
-     * Emitted when the active tab changes
-     */
-    onCalciteTabChange?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    * Emitted when the active tab changes
+    */
+    'onCalciteTabChange'?: (event: CustomEvent<TabChangeEventDetail>) => void;
     /**
-     * Name to use when saving selected tab data to localStorage
-     */
-    storageId?: string;
+    * Name to use when saving selected tab data to localStorage
+    */
+    'storageId'?: string;
     /**
-     * Pass the same string to multiple tab navs to keep them all in sync if one changes
-     */
-    syncId?: string;
+    * Pass the same string to multiple tab navs to keep them all in sync if one changes
+    */
+    'syncId'?: string;
   }
-  interface CalciteTabTitle
-    extends JSXBase.HTMLAttributes<HTMLCalciteTabTitleElement> {
+  interface CalciteTabTitle extends JSXBase.HTMLAttributes<HTMLCalciteTabTitleElement> {
     /**
-     * Show this title as selected
-     */
-    isActive?: boolean;
+    * Show this title as selected
+    */
+    'isActive'?: boolean;
     /**
-     * Fires when a specific tab is activated. `event.details`: [TabChangeEventDetail](../../interfaces/TabChange.ts)
-     */
-    onCalciteTabsActivate?: (event: CustomEvent<TabChangeEventDetail>) => void;
+    * Fires when a specific tab is activated. `event.details`: [TabChangeEventDetail](../../interfaces/TabChange.ts)
+    */
+    'onCalciteTabsActivate'?: (event: CustomEvent<TabChangeEventDetail>) => void;
     /**
-     * Optionally include a unique name for the tab title, be sure to also set this name on the associated tab.
-     */
-    tab?: string;
+    * Optionally include a unique name for the tab title, be sure to also set this name on the associated tab.
+    */
+    'tab'?: string;
   }
   interface CalciteTabs extends JSXBase.HTMLAttributes<HTMLCalciteTabsElement> {
     /**
-     * Align tab titles to the edge or fully justify them across the tab nav ("center")
-     */
-    layout?: "center" | "inline";
+    * Align tab titles to the edge or fully justify them across the tab nav ("center")
+    */
+    'layout'?: "center" | "inline";
     /**
-     * Select theme (light or dark)
-     */
-    theme?: "light" | "dark";
+    * Select theme (light or dark)
+    */
+    'theme'?: "light" | "dark";
   }
 
   interface IntrinsicElements {
-    "calcite-alert": CalciteAlert;
-    "calcite-alerts": CalciteAlerts;
-    "calcite-example": CalciteExample;
-    "calcite-loader": CalciteLoader;
-    "calcite-progress": CalciteProgress;
-    "calcite-switch": CalciteSwitch;
-    "calcite-tab": CalciteTab;
-    "calcite-tab-nav": CalciteTabNav;
-    "calcite-tab-title": CalciteTabTitle;
-    "calcite-tabs": CalciteTabs;
+    'calcite-alert': CalciteAlert;
+    'calcite-alerts': CalciteAlerts;
+    'calcite-example': CalciteExample;
+    'calcite-loader': CalciteLoader;
+    'calcite-progress': CalciteProgress;
+    'calcite-switch': CalciteSwitch;
+    'calcite-tab': CalciteTab;
+    'calcite-tab-nav': CalciteTabNav;
+    'calcite-tab-title': CalciteTabTitle;
+    'calcite-tabs': CalciteTabs;
   }
 }
 
 export { LocalJSX as JSX };
+
 
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements extends LocalJSX.IntrinsicElements {}
   }
 }
+
+
