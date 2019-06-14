@@ -1,80 +1,57 @@
 :host {
+  display: flex;
   position: relative;
   justify-content: center;
-  right: 0;
-  left: 0;
-  margin-right: auto;
-  margin-left: auto;
-  z-index: 100;
+  pointer-events: none;
+  z-index: 102;
+  margin: 0 auto;
   width: 50em;
   max-width: 90%;
-  border-radius: 2px;
+  max-height: 0;
   background-color: $blk-000;
-  box-shadow: 0 0 12px 0 rgba($blk-240, 0.15);
-  height: 0;
+  box-shadow: 0 0 16px 0 rgba($blk-240, 0.15);
+  border-radius: 2px;
   opacity: 0;
-  overflow: visible;
-  display: flex;
-  border-top: 3px solid;
-  transition: visibility 0ms linear 300ms, opacity 300ms $easing-function, all .15s ease-in-out;
   transform: translate3d(0, $baseline, 0);
-  pointer-events: none;
-  border-width: 0px;
+  transition: 300ms $easing-function, opacity 300ms $easing-function, all .15s ease-in-out;
+  border-block-start: 0px solid transparent;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: $viewport-medium) {
     max-width: 100%;
     border-radius: 2px 2px 0 0;
-    box-shadow: 0 -6px 12px 0 rgba($blk-240, 0.15);
+    box-shadow: 0 -8px 16px 0 rgba($blk-240, 0.15);
   }
-}
 
-:host([is-active]) {
-  visibility: visible;
-  border-width: 3px;
-  opacity: 1;
-  height: 100%;
-  transition-delay: 300ms;
-  transform: translate3d(0, 0, 0);
-  pointer-events: initial;
+  &:host([active]) {
+    visibility: visible;
+    opacity: 1;
+    max-height: 100%;
+    transition-delay: 300ms;
+    transform: translate3d(0, -$baseline, 0);
+    pointer-events: initial;
+    border-block-start-width: 3px;
+
+    @media only screen and (max-width: $viewport-medium) {
+      transform: translate3d(0, 0, 0);
+    }
+  }
 }
 
 :host slot[name=alert-title]::slotted(div) {
-  display: block;
+  @include font-size(0);
   font-weight: 500;
-  font-size: 16px;
 }
 
 :host slot[name=alert-link]::slotted(a) {
-  display: inline-block;
-  font-size: 15px;
+  @include font-size(-1);
   color: $h-bb-060;
+  margin-left: $baseline/2;
 }
 
 :host slot[name=alert-message]::slotted(div) {
-  font-size: 15px;
+  @include font-size(-1);
   color: $blk-160;
   display: inline;
-  margin-inline-end: $baseline/2;
-}
-
-:host([theme="dark"]) {
-  background-color: $darkest-gray;
-}
-
-:host([theme="dark"]) slot[name=alert-title]::slotted(div) {
-  color: $blk-005;
-}
-
-:host([theme="dark"]) slot[name=alert-message]::slotted(div) {
-  color: $blk-010;
-}
-
-@mixin alert-color($color) {
-  border-top-color: $color;
-
-  & .alert-icon svg {
-    fill: $color;
-  }
 }
 
 @mixin alert-element-base() {
@@ -83,15 +60,14 @@
   transition-delay: 300ms;
   transition: all .15s ease-in-out;
 
-  @media only screen and (max-width: 600px) {
-    padding: $baseline;
-  }
-
   & svg {
-    position: relative;
-    vertical-align: top;
     height: 16px;
     width: 16px;
+    vertical-align: top;
+  }
+
+  @media only screen and (max-width: $viewport-medium) {
+    padding: $baseline;
   }
 }
 
@@ -109,7 +85,7 @@
     padding-inline-start: $baseline;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: $viewport-medium) {
     padding-block-start: $baseline;
     padding-block-end: $baseline;
     padding-inline-end: $baseline/2;
@@ -125,8 +101,8 @@
 
 .alert-close {
   @include alert-element-base;
-  -webkit-appearance: none;
   background-color: transparent;
+  -webkit-appearance: none;
   border: none;
   outline: none;
   cursor: pointer;
@@ -135,92 +111,70 @@
   & svg {
     fill: $blk-220;
   }
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     background-color: $blk-010;
   }
+
   &:active {
     background-color: $blk-020;
   }
+
   &:last-child {
     border-radius: 0 0 2px 0;
-
-    :host([dir="rtl"]) & {
-      border-radius: 0 0 0 2px;
-    }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: $viewport-medium) {
     border-radius: 0;
   }
 }
 
-:host([theme="dark"]) .alert-close {
-  & svg {
-    fill: $blk-040;
-  }
-
-  &:hover, &:focus {
-    background-color: $blk-210;
-  }
-
-  &:active {
-    background-color: $blk-220;
-  }
-}
-
 .alert-count {
+  @include font-size(-2);
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  transition: all .15s ease-in;
+  overflow: hidden;
   width: 0;
-  font-size: 14px;
   visibility: hidden;
-  padding: 0;
   font-weight: 500;
   text-align: center;
-  background-color: transparent;
-  color: $gray;
+  color: $blk-180;
   opacity: 0;
-  border-left: 1px solid transparent;
-  border-right: 1px solid transparent;
+  border-inline-start: 0px solid transparent;
+  border-inline-end: 0px solid transparent;
   cursor: default;
+  transition: all .15s ease-in-out;
 
-  &.is-active {
+  &.active {
     visibility: visible;
     transition-delay: 300ms;
     opacity: 1;
     padding: 0 $baseline/4;
     width: $baseline*2;
-    border-left: 1px solid $lightest-gray;
-    border-right: 1px solid $lightest-gray;
+    border-inline-start: 1px solid $blk-010;
+    border-inline-end: 1px solid $blk-010;
 
     &:last-child {
-      border-right-color: transparent;
+      border-inline-end: 0px solid transparent;
     }
   }
-  @media only screen and (max-width: 600px) {
-    border-radius: 0;
-  }
-}
 
-:host([theme="dark"]) .alert-count {
-  color: $blk-040;
-  &.is-active {
-    border-left: 1px solid $blk-210;
-    border-right: 1px solid $blk-210;
+  @media only screen and (max-width: $viewport-medium) {
+    border-radius: 0;
   }
 }
 
 .alert-dismiss {
   display: block;
   position: absolute;
-  top: 0;
   left: 0;
   right: 0;
   top: 0;
+  width: 100%;
   height: 3px;
-  z-index: 101;
+  z-index: 103;
 
   &:after {
     height: 3px;
@@ -230,41 +184,66 @@
     position: absolute;
     border-radius: 2px 2px 0 0;
     content: '';
-    width: 50%;
-    background-color: rgba($white, 0.6);
-    animation: dismissProgress 10000ms linear;
-    transition: all .15s ease-in-out;
-    z-index: 200;
+    background-color: rgba($blk-000, 0.6);
+    transition: all 300ms linear;
+    z-index: 104;
   }
 }
 
-:host([theme="dark"]) .alert-dismiss:after {
-  background-color: rgba($darkest-gray, 0.6);
-}
-:host([duration="fast"]) .alert-dismiss:after {
-  animation: dismissProgress 6000ms linear;
-}
+:host([theme="dark"]) {
+  background-color: $blk-200;
 
-:host([duration="medium"]) .alert-dismiss:after {
-  animation: dismissProgress 10000ms linear;
-}
-
-:host([duration="slow"]) .alert-dismiss:after {
-  animation: dismissProgress 14000ms linear;
-}
-
-@keyframes dismissProgress {
-  0% {
-    width: 0;
-    opacity: 0
+  & slot[name=alert-title]::slotted(div) {
+    color: $blk-005;
   }
-  100% {
-    width: 100%;
-    opacity: 1;
+
+  & slot[name=alert-message]::slotted(div) {
+    color: $blk-010;
+  }
+
+  & .alert-close {
+    & svg {
+      fill: $blk-040;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $blk-210;
+    }
+
+    &:active {
+      background-color: $blk-220;
+    }
+  }
+
+  & .alert-count {
+    color: $blk-040;
+
+    &.active {
+      border-left: 1px solid $blk-210;
+      border-right: 1px solid $blk-210;
+    }
+  }
+
+  & .alert-dismiss:after {
+    background-color: rgba($blk-200, 0.6);
   }
 }
 
-$alertColors: 'blue'$h-bb-060,
+// this should eventually be handled by a top-level config component
+:host([dir="rtl"]) {
+  & .alert-close:last-child {
+    border-radius: 0 0 0 2px;
+  }
+
+  & slot[name=alert-link]::slotted(a) {
+    margin-left: unset;
+    margin-right: $baseline/2;
+  }
+}
+
+$alertColors:
+'blue'$h-bb-060,
 'red'$h-rr-060,
 'yellow'$h-yy-060,
 'green'$h-gg-060;
@@ -274,6 +253,30 @@ $alertColors: 'blue'$h-bb-060,
   $color: nth($alertColor, 2);
 
   :host([color="#{$name}"]) {
-    @include alert-color($color);
+    border-block-start-color: $color;
+
+    & .alert-icon svg {
+      fill: $color;
+    }
   }
+}
+
+$alertDurations:
+'fast'6000ms,
+'medium'10000ms,
+'slow'14000ms;
+
+@each $alertDuration in $alertDurations {
+  $name: nth($alertDuration, 1);
+  $duration: nth($alertDuration, 2);
+
+  :host([duration="#{$name}"]) .alert-dismiss:after {
+    animation: dismissProgress $duration linear;
+  }
+}
+
+// should be handled by auto prefixer
+@keyframes dismissProgress {
+  0% { width: 0; opacity: 0; }
+  100% { width: 100%; opacity: 1; }
 }
