@@ -16,7 +16,8 @@
   overflow: visible;
   display: flex;
   border-top: 3px solid;
-  transition: visibility 0ms linear 300ms, opacity 300ms $easing-function, all .15s ease-in-out;
+  transition: visibility 0ms linear 300ms, opacity 300ms $easing-function,
+    all 0.15s ease-in-out;
   transform: translate3d(0, $baseline, 0);
   pointer-events: none;
   border-width: 0px;
@@ -38,19 +39,19 @@
   pointer-events: initial;
 }
 
-:host slot[name=alert-title]::slotted(div) {
+:host slot[name="alert-title"]::slotted(div) {
   display: block;
   font-weight: 500;
   font-size: 16px;
 }
 
-:host slot[name=alert-link]::slotted(a) {
+:host slot[name="alert-link"]::slotted(a) {
   display: inline-block;
   font-size: 15px;
   color: $h-bb-060;
 }
 
-:host slot[name=alert-message]::slotted(div) {
+:host slot[name="alert-message"]::slotted(div) {
   font-size: 15px;
   color: $blk-160;
   display: inline;
@@ -61,11 +62,11 @@
   background-color: $darkest-gray;
 }
 
-:host([theme="dark"]) slot[name=alert-title]::slotted(div) {
+:host([theme="dark"]) slot[name="alert-title"]::slotted(div) {
   color: $blk-005;
 }
 
-:host([theme="dark"]) slot[name=alert-message]::slotted(div) {
+:host([theme="dark"]) slot[name="alert-message"]::slotted(div) {
   color: $blk-010;
 }
 
@@ -81,7 +82,7 @@
   padding: $baseline/2 $baseline;
   flex: 0 0 auto;
   transition-delay: 300ms;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
 
   @media only screen and (max-width: 600px) {
     padding: $baseline;
@@ -135,7 +136,8 @@
   & svg {
     fill: $blk-220;
   }
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: $blk-010;
   }
   &:active {
@@ -159,7 +161,8 @@
     fill: $blk-040;
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: $blk-210;
   }
 
@@ -172,7 +175,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  transition: all .15s ease-in;
+  transition: all 0.15s ease-in;
   width: 0;
   font-size: 14px;
   visibility: hidden;
@@ -191,7 +194,7 @@
     transition-delay: 300ms;
     opacity: 1;
     padding: 0 $baseline/4;
-    width: $baseline*2;
+    width: $baseline * 2;
     border-left: 1px solid $lightest-gray;
     border-right: 1px solid $lightest-gray;
 
@@ -229,11 +232,11 @@
     display: block;
     position: absolute;
     border-radius: 2px 2px 0 0;
-    content: '';
+    content: "";
     width: 50%;
     background-color: rgba($white, 0.6);
     animation: dismissProgress 10000ms linear;
-    transition: all .15s ease-in-out;
+    transition: all 0.15s ease-in-out;
     z-index: 200;
   }
 }
@@ -256,7 +259,7 @@
 @keyframes dismissProgress {
   0% {
     width: 0;
-    opacity: 0
+    opacity: 0;
   }
   100% {
     width: 100%;
@@ -264,10 +267,8 @@
   }
 }
 
-$alertColors: 'blue'$h-bb-060,
-'red'$h-rr-060,
-'yellow'$h-yy-060,
-'green'$h-gg-060;
+$alertColors: "blue" $h-bb-060, "red" $h-rr-060, "yellow" $h-yy-060,
+  "green" $h-gg-060;
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);

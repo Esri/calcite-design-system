@@ -34,15 +34,15 @@ export class CalciteTabs {
   @State() tabs: TabRegister = {};
   @State() tabTitles: TabTitleRegister = {};
   /**
-  * Select theme (light or dark)
-  */
+   * Select theme (light or dark)
+   */
   @Prop({
     reflectToAttr: true
   })
   theme: "light" | "dark" = "light";
   /**
-  * Align tab titles to the edge or fully justify them across the tab nav ("center")
-  */
+   * Align tab titles to the edge or fully justify them across the tab nav ("center")
+   */
   @Prop({
     reflectToAttr: true
   })

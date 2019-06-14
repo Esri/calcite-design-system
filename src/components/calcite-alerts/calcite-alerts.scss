@@ -8,7 +8,7 @@
   height: 0;
   z-index: 101;
   pointer-events: none;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
   transition-delay: 300ms;
 
   @media only screen and (max-width: 600px) {
