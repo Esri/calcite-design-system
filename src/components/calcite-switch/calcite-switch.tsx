@@ -16,24 +16,23 @@ import { SPACE, ENTER } from "../../utils/keys";
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-
 export class CalciteSwitch {
   @Element() el: HTMLElement;
   /**
-  * True if the control should be switched on
-  */
+   * True if the control should be switched on
+   */
   @Prop({ reflect: true }) switched?: boolean = false;
   /**
-  * Name of the form control (useful for specifying input/label relationship)
-  */
+   * Name of the form control (useful for specifying input/label relationship)
+   */
   @Prop({ reflect: true }) name?: string = "";
   /**
-  * Value of the form control
-  */
+   * Value of the form control
+   */
   @Prop({ reflect: true }) value?: string = "";
   /**
-  * Color of the switch. Use red to denote destructive settings/actions.
-  */
+   * Color of the switch. Use red to denote destructive settings/actions.
+   */
   @Prop() color?: "red" | "blue" = "blue";
   /**
    * @todo document what gets passed to the handler for these events

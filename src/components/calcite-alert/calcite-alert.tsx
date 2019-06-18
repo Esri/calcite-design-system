@@ -1,20 +1,45 @@
-import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State } from '@stencil/core';
-import { lightbulb24F, exclamationMarkTriangle24F, checkCircle24F, x32 } from '@esri/calcite-ui-icons';
-import AlertInterface from '../../interfaces/AlertInterface';
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Method,
+  Prop,
+  State,
+  Watch
+} from "@stencil/core";
+import {
+  lightbulb24F,
+  exclamationMarkTriangle24F,
+  checkCircle24F,
+  x32
+} from "@esri/calcite-ui-icons";
+import AlertInterface from "../../interfaces/AlertInterface";
+
+/** Alerts are not meant to be used inline with content, or be present in view on page load.
+ * As such, calcite-alert relies on calcite-alerts for positioning - displaying an alert on its own
+ * will lead to unexpected and potentially undesireable results
+ */
 
 /**
  * @slot alert-title - Title of the alert (optional)
  * @slot alert-message - Main text of the alert
  * @slot alert-link - Optional action to take from the alert (undo, try again, etc.)
  */
+
 @Component({
-  tag: 'calcite-alert',
-  styleUrl: 'calcite-alert.scss',
+  tag: "calcite-alert",
+  styleUrl: "calcite-alert.scss",
   shadow: true
 })
-
 export class CalciteAlert {
   @Element() el: HTMLElement;
+  /**
+   * Is the alert currently active or not
+   */
+  @State() active: boolean = false;
   /**
    * Close the alert automatically (recommended for passive, non-blocking alerts)
    */
@@ -22,15 +47,17 @@ export class CalciteAlert {
   /**
    * Length before autodismissal (only used with `dismiss`)
    */
-  @Prop({ reflectToAttr: true }) duration: 'fast' | 'medium' | 'slow' = 'medium';
+  @Prop({ reflect: true }) duration: "fast" | "medium" | "slow" = this.dismiss
+    ? "medium"
+    : null;
   /**
    * Color for the alert (will apply to top border and icon)
    */
-  @Prop({ reflectToAttr: true }) color: 'blue' | 'green' | 'red' | 'yellow' = 'blue';
+  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
   /**
    * Select theme (light or dark)
    */
-  @Prop({ reflectToAttr: true }) theme: 'light' | 'dark' = 'light';
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
   /**
    * If false, no icon will be shown in the alert
    */
@@ -38,78 +65,119 @@ export class CalciteAlert {
   /**
    * Unique ID for this alert
    */
-  @Prop() id: string = '1';
-  /** 
-   * @internal 
+  @Prop() id: string = "1";
+  /**
+   * @internal
    */
-  @Prop() currentAlert: string = '';
-  /** 
-   * @internal 
+  @Prop() currentAlert: string = "";
+  /**
+   * @internal
    */
   @Prop() queueLength: number = 0;
   /**
+   * watch for changes to currentAlert passed from <calcite-alerts>
+   */
+  @Watch("currentAlert") watchCurrentAlert() {
+    this.active = this.currentAlert === this.id;
+    if (this.active) this.openCalciteAlert();
+    if (this.active && this.dismiss)
+      setTimeout(
+        () => this.closeCalciteAlert(),
+        this.durationDefaults[this.duration]
+      );
+  }
+  /**
    * Fired when an alert is closed
    */
-  @Event() alertClose: EventEmitter;
+  @Event() calciteAlertClose: EventEmitter;
   /**
    * Fired when an alert is opened
    */
-  @Event() alertOpen: EventEmitter;
+  @Event() calciteAlertOpen: EventEmitter;
   /**
-  * Close the alert and emit the `alertClose` event
-  */
-  @Method() async close() {
-    if (this.isActive) {
-      this.isActive = false;
-      this.alertClose.emit(this.id);
-    }
+   * emit the `calciteAlerClose` event - <calcite-alerts> listens for this, if the alert is not active, but is the queue, this will remove it from the queue
+   */
+  @Method() async closeCalciteAlert() {
+    this.calciteAlertClose.emit(this.id);
   }
-
-  @State() isActive: boolean = this.id === this.currentAlert;
+  /**
+   * emit the `calciteAlertOpen` event - <calcite-alerts> listens for this, and determines if it should open the alert or add it to the queue
+   */
+  @Method() async openCalciteAlert() {
+    this.calciteAlertOpen.emit(this.id);
+  }
 
   private durationDefaults = {
     slow: 14000,
     medium: 10000,
     fast: 6000
-  }
+  };
 
   private iconDefaults = {
     green: checkCircle24F,
     yellow: exclamationMarkTriangle24F,
     red: exclamationMarkTriangle24F,
     blue: lightbulb24F
-  }
+  };
 
-  componentWillUpdate() {
-    this.isActive = this.currentAlert === this.id;
-    if (this.isActive) this.alertOpen.emit(this.id);
-    if (this.isActive && this.dismiss) {
-      setTimeout(() => this.close(), this.durationDefaults[this.duration]);
-    }
+  connectedCallback() {
+    // prop validations
+    let colors = ["blue", "red", "green", "yellow"];
+    if (!colors.includes(this.color)) this.color = "blue";
+
+    let durations = ["slow", "medium", "fast"];
+    if (this.duration !== null && !durations.includes(this.duration))
+      this.duration = "medium";
+
+    let themes = ["dark", "light"];
+    if (!themes.includes(this.theme)) this.theme = "light";
   }
 
   setIcon() {
     var path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
-        <svg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'><path d={path} /></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24"
+          width="24"
+          viewBox="0 0 24 24"
+        >
+          <path d={path} />
+        </svg>
       </div>
-    )
+    );
   }
 
   render() {
     const closeButton = (
-      <button class="alert-close" aria-label="close" onClick={() => this.close()}>
-        <svg xmlns='http://www.w3.org/2000/svg' height='32' width='32' viewBox='0 0 32 32'><path d={x32} /></svg>
+      <button
+        class="alert-close"
+        aria-label="close"
+        onClick={() => this.closeCalciteAlert()}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="32"
+          width="32"
+          viewBox="0 0 32 32"
+        >
+          <path d={x32} />
+        </svg>
       </button>
-    )
+    );
 
-    const close = !this.dismiss ? closeButton : '';
-    const icon = this.icon ? this.setIcon() : '';
-    const count = <div class={`${this.queueLength > 0 ? 'is-active ' : ''}alert-count`}>+{this.queueLength > 0 ? this.queueLength : 1}</div>
-    const progress = this.isActive && this.dismiss ? <div class="alert-dismiss"></div> : '';
+    const close = !this.dismiss ? closeButton : "";
+    const icon = this.icon ? this.setIcon() : "";
+    const count = (
+      <div class={`${this.queueLength > 0 ? "active " : ""}alert-count`}>
+        +{this.queueLength > 0 ? this.queueLength : 1}
+      </div>
+    );
+    const progress =
+      this.active && this.dismiss ? <div class="alert-dismiss"></div> : "";
     return (
-      <Host theme={this.theme} is-active={!!this.isActive} duration={this.duration}>
+      <Host theme={this.theme} active={!!this.active} duration={this.duration}>
         {icon}
         <div class="alert-content">
           <slot name="alert-title"></slot>
@@ -124,4 +192,4 @@ export class CalciteAlert {
   }
 }
 
-AlertInterface.injectProps(CalciteAlert, ['currentAlert', 'queueLength']);
+AlertInterface.injectProps(CalciteAlert, ["currentAlert", "queueLength"]);
