@@ -209,6 +209,46 @@
           <calcite-tab>Tab 3 Content</calcite-tab>
           <calcite-tab>Tab 4 Content</calcite-tab>
         </calcite-tabs>
+
+        <h1 class="leader-1">Custom Colors</h1>
+
+        <style>
+          calcite-tabs.green {
+            --calcite-tabs-border-active: #338033;
+          }
+          calcite-tabs[theme="dark"].green {
+            --calcite-tabs-border-active: #5a9359;
+          }
+        </style>
+        <calcite-tabs class="green">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab is-active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+          <calcite-tab>Tab 4 Content</calcite-tab>
+        </calcite-tabs>
+
+        <div class="dark-tabs-demo">
+            <calcite-tabs class="green" theme="dark">
+              <calcite-tab-nav slot="tab-nav">
+                <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+                <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+                <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+                <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+              </calcite-tab-nav>
+
+              <calcite-tab is-active>Tab 1 Content</calcite-tab>
+              <calcite-tab>Tab 2 Content</calcite-tab>
+              <calcite-tab>Tab 3 Content</calcite-tab>
+              <calcite-tab>Tab 4 Content</calcite-tab>
+            </calcite-tabs>
+          </div>
       </calcite-tab>
 
       <calcite-tab>

@@ -16,6 +16,8 @@ This is a living document defining our best practices and reasoning for authorin
 - [a11y](#a11y)
 - [i18n](#i18n)
 - [Bundling and Loading](#bundling-and-loading)
+- [Custom Themes](#custom-themes)
+- [Unique IDs for Components](#unique-ids-for-components)
 
 <!-- /TOC -->
 
@@ -349,3 +351,91 @@ Stencil has the capability to build and distribute a large variety of outputs ba
 As a best practice we should follow [Ionic's configuration](https://github.com/ionic-team/ionic/blob/master/core/stencil.config.ts) and generate a `bundle` for each component. Stencil will then generate a loader that will dynamically load the components used on the page.
 
 **Note:** This is highly likely to change as we move closer to our first release and as Stencil improves their documentation around their specific methods and build processes.
+
+## Custom Themes
+
+Since Calcite Components might be used in many different contexts such as configurable apps multiple themes and appearances need to be supported.
+
+This can be achived with [CSS Custom Properties (CSS Variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/--*). To allow consumers to theme your components from the outside define a custom property like:
+
+```css
+:host {
+  --calcite-tabs-border-active: #0079c1;
+}
+```
+
+To interpolate a SCSS variable into a CSS custom property you can do this:
+
+```scss
+:host {
+  --calcite-tabs-border-active: #{$blue};
+}
+```
+
+Once you property is defined you can use it in your component or any of your components children if it has child components. This will lookup the most specific (CSS selector) value of `--calcite-tabs-border-active` from this elements parents.
+
+```scss
+:host {
+  border-bottom: 1px solid var(--calcite-tabs-border-active);
+}
+```
+
+To override the value as a consumer you'll need to redefine the variable at a more specific selector. For example to make a new "green" class for tabs you could do:
+
+```css
+/** Makes green calcite tabs green. **/
+calcite-tabs.green {
+  --calcite-tabs-border-active: #338033;
+}
+calcite-tabs[theme="dark"].green {
+  --calcite-tabs-border-active: #5a9359;
+}
+```
+
+Then tabs like `<calcite-tabs class="green">` and ``<calcite-tabs class="green" theme="dark">` will use the new green colors.
+
+If you want to provide new values for ALL calcite tabs on the page you can simply redefine the variable with a tag selector:
+
+```css
+/** Makes ALL calcite tabs green. **/
+calcite-tabs {
+  --calcite-tabs-border-active: #338033;
+}
+calcite-tabs[theme="dark"] {
+  --calcite-tabs-border-active: #5a9359;
+}
+```
+
+**Discussed In**:
+
+* https://teams.microsoft.com/l/message/19:fd15b51dacd24e70895ec1218a54ae06@thread.skype/1559932065529?tenantId=aee6e3c9-711e-4c7c-bd27-04f2307db20d&groupId=56fae21a-9407-4943-859f-a9bfcf0bbad3&parentMessageId=1559932065529&teamName=Calcite&channelName=Calcite%20Components&createdTime=1559932065529
+
+*** **Implemented By:**
+
+* [`<calcite-tabs>`](../src/components/calcite-tabs/calcite-tabs.tsx);
+
+## Unique IDs for Components
+
+Many times it is necessary for components to have a `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component but to also allow a user supplied `id` attribute to work follow the following pattern:
+
+
+```ts
+import { guid } from "../../utils/guid";
+
+@Component({
+  tag: "calcite-exampe",
+  styleUrl: "calcite-example.scss",
+  shadow: true
+})
+export class CalciteExample {
+
+  // ...
+
+  @Prop({ mutable: true, reflectToAttr: true })
+  id: string = `calcite-example-${guid()}`;
+
+  // ...
+}
+```
+
+This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"` which should have a VERY low collision change since `guid()` generates IDs with `window.crypto.getRandomValues`. If a user supplies an ID `reflectToAttr` will prefer the user supplied ID to the randomly generated one.
