@@ -10,7 +10,6 @@ import {
   Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
-import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -84,11 +83,6 @@ export class CalciteTabNav {
 
     e.stopPropagation();
     e.preventDefault();
-  }
-
-  @Listen("calciteTabsRegisterTitle")
-  tabTitleRegistationHandler(e: CustomEvent<TabRegisterEventDetail>) {
-    (e.target as HTMLCalciteTabTitleElement).setControlledBy(this.id);
   }
 
   @Listen("calciteTabsActivate") activateTabHandler(

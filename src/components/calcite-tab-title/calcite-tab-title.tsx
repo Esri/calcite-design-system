@@ -11,7 +11,6 @@ import {
   Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
-import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 
 import { guid } from "../../utils/guid";
 import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
@@ -61,12 +60,6 @@ export class CalciteTabTitle {
    * @internal
    */
   @Event() calciteTabsFocusPrevious: EventEmitter;
-  /**
-   * @internal
-   */
-  @Event() private calciteTabsRegisterTitle: EventEmitter<
-    TabRegisterEventDetail
-  >;
 
   @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
@@ -101,15 +94,6 @@ export class CalciteTabTitle {
     }
   }
 
-  componentDidLoad() {
-    this.getTabIndex().then(index => {
-      this.calciteTabsRegisterTitle.emit({
-        id: this.id,
-        index
-      });
-    });
-  }
-
   /**
    * Return the index of this title within the nav
    */
@@ -121,14 +105,6 @@ export class CalciteTabTitle {
         this.el
       )
     );
-  }
-
-  /**
-   * Set which tab this title controls
-   */
-  @Method()
-  async setControlledBy(id: string) {
-    this.controls = id;
   }
 
   render() {
@@ -144,5 +120,12 @@ export class CalciteTabTitle {
         </a>
       </Host>
     );
+  }
+
+  componentDidRender() {
+    const tabs = this.el.closest("calcite-tabs").tabIds;
+    const titles = this.el.closest("calcite-tabs").titleIds;
+    const index = titles.indexOf(this.id);
+    this.controls = tabs[index];
   }
 }

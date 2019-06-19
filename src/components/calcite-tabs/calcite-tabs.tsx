@@ -1,28 +1,5 @@
-import {
-  Component,
-  Prop,
-  Listen,
-  State,
-  h,
-  Host,
-  Element
-} from "@stencil/core";
-import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
-import { getElementDir } from "../../utils/dom";
-
-interface TabRegister {
-  [key: string]: {
-    id: string;
-    tab: HTMLCalciteTabElement;
-  };
-}
-
-interface TabTitleRegister {
-  [key: string]: {
-    id: string;
-    title: HTMLCalciteTabTitleElement;
-  };
-}
+import { Component, Prop, h, Host, Element } from "@stencil/core";
+import { getElementDir, nodeListToArray } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tabs",
@@ -31,8 +8,12 @@ interface TabTitleRegister {
 })
 export class CalciteTabs {
   @Element() el: HTMLElement;
-  @State() tabs: TabRegister = {};
-  @State() tabTitles: TabTitleRegister = {};
+  @Prop({ mutable: true }) titleIds: string[];
+  @Prop({ mutable: true }) tabIds: string[];
+
+  navMutationObserver: MutationObserver;
+  tabsMutationObserver: MutationObserver;
+
   /**
    * Select theme (light or dark)
    */
@@ -40,6 +21,7 @@ export class CalciteTabs {
     reflectToAttr: true
   })
   theme: "light" | "dark" = "light";
+
   /**
    * Align tab titles to the edge or fully justify them across the tab nav ("center")
    */
@@ -48,39 +30,42 @@ export class CalciteTabs {
   })
   layout: "center" | "inline" = "inline";
 
-  @Listen("calciteTabsRegisterTitle") tabTitleRegistationHandler(
-    e: CustomEvent<TabRegisterEventDetail>
-  ) {
-    const { index, id } = e.detail;
+  componentWillLoad() {
+    this.tabIds = this.tabElements.map(e => e.id);
+    this.titleIds = this.titleElements.map(e => e.id);
 
-    this.tabTitles[index] = {
-      id: id,
-      title: e.target as HTMLCalciteTabTitleElement
-    };
+    this.tabsMutationObserver = new MutationObserver(() => {
+      this.tabIds = this.tabElements.map(e => e.id);
+    });
+    this.tabsMutationObserver.observe(this.el, { childList: true });
 
-    if (this.tabs[index]) {
-      this.tabs[index].tab.registerLabeledBy(id);
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
+    this.navMutationObserver = new MutationObserver(() => {
+      this.titleIds = this.titleElements.map(e => e.id);
+    });
+    this.navMutationObserver.observe(this.navElement, { childList: true });
   }
 
-  @Listen("calciteTabsRegisterTab") tabRegistationHandler(
-    e: CustomEvent<TabRegisterEventDetail>
-  ) {
-    const { index, id } = e.detail;
-    this.tabs[index] = {
-      id: id,
-      tab: e.target as HTMLCalciteTabElement
-    };
+  componentWillUnload() {
+    this.tabsMutationObserver.disconnect();
+    this.navMutationObserver.disconnect();
+  }
 
-    if (this.tabTitles[index]) {
-      this.tabs[index].tab.registerLabeledBy(this.tabTitles[index].id);
-    }
+  private get tabElements() {
+    return nodeListToArray(this.el.children).filter(e =>
+      e.matches("calcite-tab")
+    ) as HTMLCalciteTabElement[];
+  }
 
-    e.stopPropagation();
-    e.preventDefault();
+  private get navElement() {
+    return nodeListToArray(this.el.children).find(e =>
+      e.matches("calcite-tab-nav")
+    ) as HTMLCalciteTabNavElement;
+  }
+
+  private get titleElements() {
+    return nodeListToArray(this.navElement.children).filter(e =>
+      e.matches("calcite-tab-title")
+    ) as HTMLCalciteTabTitleElement[];
   }
 
   render() {

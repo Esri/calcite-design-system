@@ -4,15 +4,12 @@ import {
   Element,
   Listen,
   Method,
-  Event,
-  EventEmitter,
   State,
   h,
   Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
-import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 import { nodeListToArray } from "../../utils/dom";
 
 @Component({
@@ -69,21 +66,6 @@ export class CalciteTab {
       });
     }
   }
-
-  /**
-   * @internal
-   */
-  @Event() calciteTabsRegisterTab: EventEmitter<TabRegisterEventDetail>;
-
-  componentDidLoad() {
-    this.getTabIndex().then(index => {
-      this.calciteTabsRegisterTab.emit({
-        id: this.id,
-        index
-      });
-    });
-  }
-
   /**
    * Return the index of this tab within the tab array
    */
@@ -99,14 +81,6 @@ export class CalciteTab {
     );
   }
 
-  /**
-   * Set which element is the aria label for this tab
-   */
-  @Method()
-  async registerLabeledBy(id) {
-    this.labeledBy = id;
-  }
-
   render() {
     return (
       <Host
@@ -119,5 +93,12 @@ export class CalciteTab {
         </section>
       </Host>
     );
+  }
+
+  componentDidRender() {
+    const tabs = this.el.closest("calcite-tabs").tabIds;
+    const titles = this.el.closest("calcite-tabs").titleIds;
+    const index = tabs.indexOf(this.id);
+    this.labeledBy = titles[index];
   }
 }
