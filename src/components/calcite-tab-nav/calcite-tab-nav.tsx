@@ -116,11 +116,14 @@ export class CalciteTabNav {
    * @internal
    */
   @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent) {
-    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement
     );
-    const previousTab = tabs[currentIndex - 1] || tabs[tabs.length - 1];
+
+    const previousTab =
+      this.tabTitles[currentIndex - 1] ||
+      this.tabTitles[this.tabTitles.length - 1];
+
     previousTab.focus();
 
     e.stopPropagation();
@@ -131,11 +134,12 @@ export class CalciteTabNav {
    * @internal
    */
   @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent) {
-    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement
     );
-    const nextTab = tabs[currentIndex + 1] || tabs[0];
+
+    const nextTab = this.tabTitles[currentIndex + 1] || this.tabTitles[0];
+
     nextTab.focus();
 
     e.stopPropagation();
