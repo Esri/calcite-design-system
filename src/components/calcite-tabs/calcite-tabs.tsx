@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Element } from "@stencil/core";
+import { Component, Prop, h, Host, Element, Listen } from "@stencil/core";
 import { getElementDir, nodeListToArray } from "../../utils/dom";
 
 @Component({
@@ -30,24 +30,21 @@ export class CalciteTabs {
   })
   layout: "center" | "inline" = "inline";
 
-  componentWillLoad() {
-    this.tabIds = this.tabElements.map(e => e.id);
-    this.titleIds = this.titleElements.map(e => e.id);
-
-    this.tabsMutationObserver = new MutationObserver(() => {
+  updateRegistry() {
+    if (
+      this.tabElements.some(e => e.tab) ||
+      this.titleElements.some(e => e.tab)
+    ) {
+      this.tabIds = this.tabElements
+        .sort((a, b) => a.tab.localeCompare(b.tab))
+        .map(e => e.id);
+      this.titleIds = this.titleElements
+        .sort((a, b) => a.tab.localeCompare(b.tab))
+        .map(e => e.id);
+    } else {
       this.tabIds = this.tabElements.map(e => e.id);
-    });
-    this.tabsMutationObserver.observe(this.el, { childList: true });
-
-    this.navMutationObserver = new MutationObserver(() => {
       this.titleIds = this.titleElements.map(e => e.id);
-    });
-    this.navMutationObserver.observe(this.navElement, { childList: true });
-  }
-
-  componentWillUnload() {
-    this.tabsMutationObserver.disconnect();
-    this.navMutationObserver.disconnect();
+    }
   }
 
   private get tabElements() {
@@ -66,6 +63,32 @@ export class CalciteTabs {
     return nodeListToArray(this.navElement.children).filter(e =>
       e.matches("calcite-tab-title")
     ) as HTMLCalciteTabTitleElement[];
+  }
+
+  @Listen("calciteTabTitleRegister") calciteTabTitleRegister(e: CustomEvent) {
+    this.registryHandler(e);
+  }
+
+  @Listen("calciteTabTitleUnregister") calciteTabTitleUnregister(
+    e: CustomEvent
+  ) {
+    this.registryHandler(e);
+  }
+
+  @Listen("calciteTabRegister") calciteTabRegister(e: CustomEvent) {
+    this.registryHandler(e);
+  }
+
+  @Listen("calciteTabUnregister") calciteTabUnregister(e: CustomEvent) {
+    this.registryHandler(e);
+  }
+
+  registryHandler(e: CustomEvent) {
+    this.updateRegistry();
+    (e.target as
+      | HTMLCalciteTabTitleElement
+      | HTMLCalciteTabElement).forceUpdate();
+    e.stopPropagation();
   }
 
   render() {

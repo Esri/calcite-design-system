@@ -6,7 +6,6 @@ import {
   Listen,
   Element,
   Method,
-  State,
   h,
   Host
 } from "@stencil/core";
@@ -21,12 +20,6 @@ import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
   shadow: true
 })
 export class CalciteTabTitle {
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true, reflectToAttr: true })
-  id: string = `calcite-tab-title-${guid()}`;
-  @State() private controls: string;
   @Element() el: HTMLElement;
 
   /**
@@ -94,6 +87,8 @@ export class CalciteTabTitle {
     }
   }
 
+  guid = `calcite-tab-title-${guid()}`;
+
   /**
    * Return the index of this title within the nav
    */
@@ -108,9 +103,15 @@ export class CalciteTabTitle {
   }
 
   render() {
+    const parentTabs = this.el.closest("calcite-tabs");
+    const { titleIds, tabIds } = parentTabs;
+    const id = this.el.id || this.guid;
+    const index = titleIds.indexOf(id);
+    const controls = tabIds[index];
     return (
       <Host
-        aria-controls={this.controls}
+        id={id}
+        aria-controls={controls}
         aria-expanded={this.isActive ? "true" : "false"}
         role="tab"
         tabindex="0"
@@ -122,10 +123,14 @@ export class CalciteTabTitle {
     );
   }
 
-  componentDidRender() {
-    const tabs = this.el.closest("calcite-tabs").tabIds;
-    const titles = this.el.closest("calcite-tabs").titleIds;
-    const index = titles.indexOf(this.id);
-    this.controls = tabs[index];
+  @Event() calciteTabTitleRegister: EventEmitter;
+  @Event() calciteTabTitleUnregister: EventEmitter;
+
+  componentDidLoad() {
+    this.calciteTabTitleRegister.emit();
+  }
+
+  componentDidUnload() {
+    this.calciteTabTitleUnregister.emit();
   }
 }

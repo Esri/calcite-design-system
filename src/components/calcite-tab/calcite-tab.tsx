@@ -4,7 +4,8 @@ import {
   Element,
   Listen,
   Method,
-  State,
+  Event,
+  EventEmitter,
   h,
   Host
 } from "@stencil/core";
@@ -23,8 +24,6 @@ export class CalciteTab {
    */
   @Prop({ mutable: true, reflectToAttr: true })
   id: string = `calcite-tab-${guid()}`;
-
-  @State() private labeledBy: string;
 
   @Element() el: HTMLElement;
 
@@ -82,9 +81,16 @@ export class CalciteTab {
   }
 
   render() {
+    const parentTabs = this.el.closest("calcite-tabs");
+    const { titleIds, tabIds } = parentTabs;
+    const id = this.el.id || this.guid;
+    const index = tabIds && tabIds.indexOf(id);
+    const labeledBy = titleIds && titleIds[index];
+
     return (
       <Host
-        aria-labeledby={this.labeledBy}
+        id={id}
+        aria-labeledby={labeledBy}
         aria-expanded={this.isActive ? "true" : "false"}
         role="tabpanel"
       >
@@ -95,10 +101,16 @@ export class CalciteTab {
     );
   }
 
-  componentDidRender() {
-    const tabs = this.el.closest("calcite-tabs").tabIds;
-    const titles = this.el.closest("calcite-tabs").titleIds;
-    const index = tabs.indexOf(this.id);
-    this.labeledBy = titles[index];
+  guid = `calcite-tab-title-${guid()}`;
+
+  @Event() calciteTabRegister: EventEmitter;
+  @Event() calciteTabUnregister: EventEmitter;
+
+  componentDidLoad() {
+    this.calciteTabRegister.emit();
+  }
+
+  componentDidUnload() {
+    this.calciteTabUnregister.emit();
   }
 }
