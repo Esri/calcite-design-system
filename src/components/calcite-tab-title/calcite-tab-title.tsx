@@ -109,8 +109,8 @@ export class CalciteTabTitle {
     var controls = null;
     if (parentTabs) {
       const { titleIds, tabIds } = parentTabs;
-      const index = titleIds.indexOf(id);
-      controls = tabIds[index];
+      const index = titleIds && titleIds.indexOf(id);
+      controls = tabIds && tabIds[index];
     }
 
     return (
