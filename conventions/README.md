@@ -2,7 +2,24 @@
 
 This is a living document defining our best practices and reasoning for authoring Calcite Components.
 
-<!-- TOC depthFrom:2 -->autoauto- [General Guidelines](#general-guidelines)auto- [Color](#color)auto- [Light Theme/Dark Theme](#light-themedark-theme)auto- [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)auto- [Component Responsibilities](#component-responsibilities)auto- [Event Namespacing](#event-namespacing)auto- [Private Events](#private-events)auto- [Event Details](#event-details)auto- [CSS Class Names](#css-class-names)auto- [a11y](#a11y)auto- [i18n](#i18n)auto- [Bundling and Loading](#bundling-and-loading)auto- [Custom Themes](#custom-themes)auto- [Unique IDs for Components](#unique-ids-for-components)autoauto<!-- /TOC -->
+<!-- TOC depthFrom:2 -->
+
+- [General Guidelines](#general-guidelines)
+- [Color](#color)
+- [Light Theme/Dark Theme](#light-themedark-theme)
+- [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
+- [Component Responsibilities](#component-responsibilities)
+- [Event Namespacing](#event-namespacing)
+- [Private Events](#private-events)
+- [Event Details](#event-details)
+- [CSS Class Names](#css-class-names)
+- [a11y](#a11y)
+- [i18n](#i18n)
+- [Bundling and Loading](#bundling-and-loading)
+- [Custom Themes](#custom-themes)
+- [Unique IDs for Components](#unique-ids-for-components)
+
+<!-- /TOC -->
 
 ## General Guidelines
 
