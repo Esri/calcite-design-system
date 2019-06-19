@@ -81,11 +81,15 @@ export class CalciteTab {
   }
 
   render() {
-    const parentTabs = this.el.closest("calcite-tabs");
-    const { titleIds, tabIds } = parentTabs;
     const id = this.el.id || this.guid;
-    const index = tabIds && tabIds.indexOf(id);
-    const labeledBy = titleIds && titleIds[index];
+    const parentTabs = this.el.closest("calcite-tabs");
+
+    var labeledBy = null;
+    if (parentTabs) {
+      const { titleIds, tabIds } = parentTabs;
+      const index = tabIds && tabIds.indexOf(id);
+      labeledBy = titleIds && titleIds[index];
+    }
 
     return (
       <Host

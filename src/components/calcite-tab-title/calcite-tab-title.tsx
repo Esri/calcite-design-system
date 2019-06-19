@@ -104,10 +104,15 @@ export class CalciteTabTitle {
 
   render() {
     const parentTabs = this.el.closest("calcite-tabs");
-    const { titleIds, tabIds } = parentTabs;
     const id = this.el.id || this.guid;
-    const index = titleIds.indexOf(id);
-    const controls = tabIds[index];
+
+    var controls = null;
+    if (parentTabs) {
+      const { titleIds, tabIds } = parentTabs;
+      const index = titleIds.indexOf(id);
+      controls = tabIds[index];
+    }
+
     return (
       <Host
         id={id}
