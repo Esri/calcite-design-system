@@ -2,24 +2,7 @@
 
 This is a living document defining our best practices and reasoning for authoring Calcite Components.
 
-<!-- TOC depthFrom:2 -->
-
-- [General Guidelines](#general-guidelines)
-- [Color](#color)
-- [Light Theme/Dark Theme](#light-themedark-theme)
-- [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
-- [Component Responsibilities](#component-responsibilities)
-- [Event Namespacing](#event-namespacing)
-- [Private Events](#private-events)
-- [Event Details](#event-details)
-- [CSS Class Names](#css-class-names)
-- [a11y](#a11y)
-- [i18n](#i18n)
-- [Bundling and Loading](#bundling-and-loading)
-- [Custom Themes](#custom-themes)
-- [Unique IDs for Components](#unique-ids-for-components)
-
-<!-- /TOC -->
+<!-- TOC depthFrom:2 -->autoauto- [General Guidelines](#general-guidelines)auto- [Color](#color)auto- [Light Theme/Dark Theme](#light-themedark-theme)auto- [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)auto- [Component Responsibilities](#component-responsibilities)auto- [Event Namespacing](#event-namespacing)auto- [Private Events](#private-events)auto- [Event Details](#event-details)auto- [CSS Class Names](#css-class-names)auto- [a11y](#a11y)auto- [i18n](#i18n)auto- [Bundling and Loading](#bundling-and-loading)auto- [Custom Themes](#custom-themes)auto- [Unique IDs for Components](#unique-ids-for-components)autoauto<!-- /TOC -->
 
 ## General Guidelines
 
@@ -419,7 +402,7 @@ calcite-tabs[theme="dark"] {
 Many times it is necessary for components to have a `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component but to also allow a user supplied `id` attribute to work follow the following pattern:
 
 
-```ts
+```tsx
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -431,8 +414,14 @@ export class CalciteExample {
 
   // ...
 
-  @Prop({ mutable: true, reflectToAttr: true })
-  id: string = `calcite-example-${guid()}`;
+  guid: string = `calcite-example-${guid()}`;
+
+  render() {
+    const id = this.el.id || this.guid;
+    return (
+      <Host id={id}></Host>
+    );
+  }
 
   // ...
 }

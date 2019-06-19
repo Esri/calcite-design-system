@@ -99,27 +99,32 @@ describe("calcite-tabs", () => {
       <calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
           <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title id="insert-after-title">Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           <calcite-tab-title>Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
         <calcite-tab is-active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab id="insert-after-tab">Tab 2 Content</calcite-tab>
         <calcite-tab>Tab 3 Content</calcite-tab>
         <calcite-tab>Tab 4 Content</calcite-tab>
       </calcite-tabs>
     `);
 
     await page.$eval("calcite-tabs", (element: HTMLCalciteTabsElement) => {
-      element.children[2].insertAdjacentHTML(
-        "afterend",
-        "<calcite-tab>Test</calcite-tab>"
-      );
-      element.children[0].children[1].insertAdjacentHTML(
-        "afterend",
-        "<calcite-tab-title>Test</calcite-tab-title>"
-      );
+      element.ownerDocument
+        .getElementById("insert-after-title")
+        .insertAdjacentHTML(
+          "afterend",
+          `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`
+        );
+
+      element.ownerDocument
+        .getElementById("insert-after-tab")
+        .insertAdjacentHTML(
+          "afterend",
+          `<calcite-tab id="inserted-tab">Test</calcite-tab>`
+        );
     });
 
     await page.waitForChanges();
