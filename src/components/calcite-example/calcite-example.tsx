@@ -30,6 +30,7 @@ export class CalciteExample {
   //  Properties
   //
   //--------------------------------------------------------------------------
+
   /**
    * Be sure to add a jsdoc comment describing your propery for the generated readme file.
    * If your property should be hidden from documentation, you can use the `@internal` tag
@@ -45,16 +46,19 @@ export class CalciteExample {
   componentWillUpdate(): void {}
 
   render() {
+    console.log(this.state);
     return <Host />;
   }
 
   //--------------------------------------------------------------------------
   //
-  //  Events Listeners
+  //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(e: Event) {}
+  @Listen("click") onClick(e: Event) {
+    console.log(e);
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -69,11 +73,12 @@ export class CalciteExample {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
+
   /**
    * Add a jsdoc comment describing your method and it's parameters (use `@param`).
    */
-  @Method() async close(): Promise<void> {
-    return Promise.resolve(this._privateMethod());
+  @Method() async doThing(): Promise<void> {
+    return Promise.resolve(this.privateMethod());
   }
 
   //--------------------------------------------------------------------------
@@ -90,5 +95,5 @@ export class CalciteExample {
   //
   //--------------------------------------------------------------------------
 
-  private _privateMethod(): void {}
+  private privateMethod(): void {}
 }

@@ -7,12 +7,13 @@ import {
   Element,
   Method,
   h,
-  Host
+  Host,
+  State
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
-
 import { guid } from "../../utils/guid";
 import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tab-title",
@@ -20,7 +21,19 @@ import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
   shadow: true
 })
 export class CalciteTabTitle {
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Optionally include a unique name for the tab title,
@@ -30,10 +43,10 @@ export class CalciteTabTitle {
     reflectToAttr: true,
     mutable: true
   })
-  tab: string;
+  tab?: string;
 
   /**
-   * Show this title as selected
+   * Show this tab title as selected
    */
   @Prop({
     reflectToAttr: true,
@@ -41,18 +54,43 @@ export class CalciteTabTitle {
   })
   isActive: boolean = false;
 
-  /**
-   * Fires when a specific tab is activated. `event.details`: [TabChangeEventDetail](../../interfaces/TabChange.ts)
-   */
-  @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
-  /**
-   * @internal
-   */
-  @Event() calciteTabsFocusNext: EventEmitter;
-  /**
-   * @internal
-   */
-  @Event() calciteTabsFocusPrevious: EventEmitter;
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  render() {
+    const id = this.el.id || this.guid;
+
+    return (
+      <Host
+        id={id}
+        aria-controls={this.controls}
+        aria-expanded={this.isActive ? "true" : "false"}
+        role="tab"
+        tabindex="0"
+      >
+        <a>
+          <slot />
+        </a>
+      </Host>
+    );
+  }
+
+  componentDidLoad() {
+    this.calciteTabTitleRegister.emit();
+  }
+
+  componentDidUnload() {
+    this.calciteTabTitleUnregister.emit();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events Listeners
+  //
+  //--------------------------------------------------------------------------
 
   @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
@@ -76,18 +114,64 @@ export class CalciteTabTitle {
     switch (e.keyCode) {
       case SPACE:
       case ENTER:
-        this.onClick();
+        this.calciteTabsActivate.emit({
+          tab: this.tab
+        });
+        e.preventDefault();
         break;
       case RIGHT:
-        this.calciteTabsFocusNext.emit();
+        if (getElementDir(this.el) === "ltr") {
+          this.calciteTabsFocusNext.emit();
+        } else {
+          this.calciteTabsFocusPrevious.emit();
+        }
         break;
       case LEFT:
-        this.calciteTabsFocusPrevious.emit();
+        if (getElementDir(this.el) === "ltr") {
+          this.calciteTabsFocusPrevious.emit();
+        } else {
+          this.calciteTabsFocusNext.emit();
+        }
         break;
     }
   }
 
-  guid = `calcite-tab-title-${guid()}`;
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Fires when a specific tab is activated. `event.details`: [TabChangeEventDetail](../../interfaces/TabChange.ts)
+   */
+  @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
+
+  /**
+   * @internal
+   */
+  @Event() calciteTabsFocusNext: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteTabsFocusPrevious: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteTabTitleRegister: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteTabTitleUnregister: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Return the index of this title within the nav
@@ -102,40 +186,33 @@ export class CalciteTabTitle {
     );
   }
 
-  render() {
-    const parentTabs = this.el.closest("calcite-tabs");
-    const id = this.el.id || this.guid;
-
-    var controls = null;
-    if (parentTabs) {
-      const { titleIds, tabIds } = parentTabs;
-      const index = titleIds && titleIds.indexOf(id);
-      controls = tabIds && tabIds[index];
-    }
-
-    return (
-      <Host
-        id={id}
-        aria-controls={controls}
-        aria-expanded={this.isActive ? "true" : "false"}
-        role="tab"
-        tabindex="0"
-      >
-        <a>
-          <slot />
-        </a>
-      </Host>
-    );
+  /**
+   * @internal
+   */
+  @Method() async updateAriaInfo(
+    tabIds: string[] = [],
+    titleIds: string[] = []
+  ) {
+    this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
+    return Promise.resolve();
   }
 
-  @Event() calciteTabTitleRegister: EventEmitter;
-  @Event() calciteTabTitleUnregister: EventEmitter;
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
 
-  componentDidLoad() {
-    this.calciteTabTitleRegister.emit();
-  }
+  @State() private controls: string;
 
-  componentDidUnload() {
-    this.calciteTabTitleUnregister.emit();
-  }
+  /**
+   * @internal
+   */
+  private guid = `calcite-tab-title-${guid()}`;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
 }

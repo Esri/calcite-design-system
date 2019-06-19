@@ -1,5 +1,13 @@
-import { Component, Prop, h, Host, Element, Listen } from "@stencil/core";
-import { getElementDir, nodeListToArray } from "../../utils/dom";
+import {
+  Component,
+  Prop,
+  h,
+  Host,
+  Element,
+  Listen,
+  State
+} from "@stencil/core";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tabs",
@@ -64,36 +72,41 @@ export class CalciteTabs {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Listen("calciteTabTitleRegister") calciteTabTitleRegister(e: CustomEvent) {
-    this.registryHandler(e);
+    this.titles = [...this.titles, e.target as HTMLCalciteTabTitleElement];
+    this.registryHandler();
+    e.stopPropagation();
   }
 
+  /**
+   * @internal
+   */
   @Listen("calciteTabTitleUnregister") calciteTabTitleUnregister(
     e: CustomEvent
   ) {
-    this.registryHandler(e);
+    this.titles = this.titles.filter(el => el !== e.target);
+    this.registryHandler();
+    e.stopPropagation();
   }
 
+  /**
+   * @internal
+   */
   @Listen("calciteTabRegister") calciteTabRegister(e: CustomEvent) {
-    this.registryHandler(e);
+    this.tabs = [...this.tabs, e.target as HTMLCalciteTabElement];
+    this.registryHandler();
+    e.stopPropagation();
   }
 
+  /**
+   * @internal
+   */
   @Listen("calciteTabUnregister") calciteTabUnregister(e: CustomEvent) {
-    this.registryHandler(e);
-  }
-
-  private registryHandler(e: CustomEvent) {
-    // update the `tabIds` and `titleIds` properties from the slotted elements
-    this.updateRegistry();
-
-    // force the element that triggered this event to re-render causing it to
-    // re-render from the updated `tabIds` and `titleIds` properties.
-    (e.target as
-      | HTMLCalciteTabTitleElement
-      | HTMLCalciteTabElement).forceUpdate();
-
-    // stop propagation to prevent this event from bubbling to other
-    // `<calcite-tabs>` elements.
+    this.tabs = this.tabs.filter(el => el !== e.target);
+    this.registryHandler();
     e.stopPropagation();
   }
 
@@ -110,18 +123,19 @@ export class CalciteTabs {
   //--------------------------------------------------------------------------
 
   /**
-   * internal
-   * Stores an array of ids of <calcite-tab-titles> ids. Needs to be a `Prop` so
-   * that child components can access it.
+   * @internal
+   *
+   * Stores an array of ids of `<calcite-tab-titles>`s to match up ARIA
+   * attributes.
    */
-  @Prop({ mutable: true }) titleIds: string[];
+  @State() titles: HTMLCalciteTabTitleElement[] = [];
 
   /**
-   * internal
-   * Stores an array of ids of <calcite-tab> ids. Needs to be a `Prop` so
-   * that child components can access it.
+   * @internal
+   *
+   * Stores an array of ids of `<calcite-tab>`s to match up ARIA attributes.
    */
-  @Prop({ mutable: true }) tabIds: string[];
+  @State() tabs: HTMLCalciteTabElement[] = [];
 
   //--------------------------------------------------------------------------
   //
@@ -129,52 +143,58 @@ export class CalciteTabs {
   //
   //--------------------------------------------------------------------------
 
-  private updateRegistry() {
+  /**
+   * @internal
+   *
+   * Matches up elements from the internal `tabs` and `titles` to automatically
+   * update the ARIA attributes and link `<calcite-tab>` and
+   * `<calcite-tab-title>` components.
+   */
+  private async registryHandler() {
+    var tabIds;
+    var titleIds;
+
     // determine if we are using `tab` based or `index` based tab identifiers.
-    if (
-      this.tabElements.some(e => e.tab) ||
-      this.titleElements.some(e => e.tab)
-    ) {
+    if (this.tabs.some(e => e.tab) || this.titles.some(e => e.tab)) {
       // if we are using `tab` based identifiers sort by `tab` to account for
-      // possible out of order tabs.
-      this.tabIds = this.tabElements
+      // possible out of order tabs and get the id of each tab
+      tabIds = this.tabs
         .sort((a, b) => a.tab.localeCompare(b.tab))
         .map(e => e.id);
-      this.titleIds = this.titleElements
+      titleIds = this.titles
         .sort((a, b) => a.tab.localeCompare(b.tab))
         .map(e => e.id);
     } else {
-      // if we are using `index` based identifiers the dom order is enough.
-      this.tabIds = this.tabElements.map(e => e.id);
-      this.titleIds = this.titleElements.map(e => e.id);
+      // if we are using index based tabs then the `<calcite-tab>` and
+      // `<calcite-tab-title>` might have been rendered out of order so the
+      // order of `this.tabs` and `this.titles` might not reflect the DOM state,
+      // and might not match each other so we need to get the index of all the
+      // tabs and titles in the DOM order to match them up as a source of truth
+      const tabDomIndexes = await Promise.all(
+        this.tabs.map(el => el.getTabIndex())
+      );
+
+      const titleDomIndexes = await Promise.all(
+        this.titles.map(el => el.getTabIndex())
+      );
+
+      // once we have the DOM order as a source of truth we can build the
+      // matching tabIds and titleIds arrays
+      tabIds = tabDomIndexes.reduce((ids, indexInDOM, registryIndex) => {
+        ids[indexInDOM] = this.tabs[registryIndex].id;
+        return ids;
+      }, []);
+
+      titleIds = titleDomIndexes.reduce((ids, indexInDOM, registryIndex) => {
+        ids[indexInDOM] = this.titles[registryIndex].id;
+        return ids;
+      }, []);
     }
-  }
 
-  /**
-   * internal
-   *
-   * Returns the child `<calcite-tab>` elements from the `<slot>`.
-   */
-  private get tabElements() {
-    return nodeListToArray(this.el.children).filter(e =>
-      e.matches("calcite-tab")
-    ) as HTMLCalciteTabElement[];
-  }
-
-  /**
-   * internal
-   *
-   * Returns the child `<calcite-tab>` elements from the `<slot>`.
-   */
-  private get navElement() {
-    return nodeListToArray(this.el.children).find(e =>
-      e.matches("calcite-tab-nav")
-    ) as HTMLCalciteTabNavElement;
-  }
-
-  private get titleElements() {
-    return nodeListToArray(this.navElement.children).filter(e =>
-      e.matches("calcite-tab-title")
-    ) as HTMLCalciteTabTitleElement[];
+    // pass all our new aria information to each `<calcite-tab>` and
+    // `<calcite-tab-title>` which will check if they can update their internal
+    // `controlled` or `labeledBy` states and re-render if necessary
+    this.tabs.forEach(el => el.updateAriaInfo(tabIds, titleIds));
+    this.titles.forEach(el => el.updateAriaInfo(tabIds, titleIds));
   }
 }

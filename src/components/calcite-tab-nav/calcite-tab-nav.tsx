@@ -6,11 +6,11 @@ import {
   Event,
   EventEmitter,
   Element,
+  State,
   h,
   Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
-import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -18,29 +18,35 @@ import { guid } from "../../utils/guid";
   shadow: true
 })
 export class CalciteTabNav {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
+
   /**
    * Name to use when saving selected tab data to localStorage
    */
   @Prop() storageId: string;
+
   /**
    * Pass the same string to multiple tab navs to keep them all in sync if one changes
    */
   @Prop() syncId: string;
+
   /**
    * @internal
    */
-  @Prop({ mutable: true, reflectToAttr: true })
-  id: string = `calcite-tab-nav-${guid()}`;
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true })
+  @State()
   selectedTab: number | string = 0;
-  /**
-   * Emitted when the active tab changes
-   */
-  @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
 
   @Watch("selectedTab")
   selectedTabChanged() {
@@ -61,62 +67,11 @@ export class CalciteTabNav {
     });
   }
 
-  @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent) {
-    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
-    const currentIndex = this.getIndexOfTabTitle(
-      e.target as HTMLCalciteTabTitleElement
-    );
-    const previousTab = tabs[currentIndex - 1] || tabs[tabs.length - 1];
-    previousTab.focus();
-
-    e.stopPropagation();
-    e.preventDefault();
-  }
-
-  @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent) {
-    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
-    const currentIndex = this.getIndexOfTabTitle(
-      e.target as HTMLCalciteTabTitleElement
-    );
-    const nextTab = tabs[currentIndex + 1] || tabs[0];
-    nextTab.focus();
-
-    e.stopPropagation();
-    e.preventDefault();
-  }
-
-  @Listen("calciteTabsActivate") activateTabHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ) {
-    if (e.detail.tab) {
-      this.selectedTab = e.detail.tab;
-    } else {
-      this.selectedTab = this.getIndexOfTabTitle(
-        e.target as HTMLCalciteTabTitleElement
-      );
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
-  }
-
-  @Listen("calciteTabsChange", { target: "body" }) globalTabChangeHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ) {
-    if (
-      this.syncId &&
-      e.target !== this.el &&
-      (e.target as HTMLCalciteTabNavElement).syncId === this.syncId &&
-      this.selectedTab !== e.detail.tab
-    ) {
-      this.selectedTab = e.detail.tab;
-    }
-  }
-
-  private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
-    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
-    return Array.prototype.slice.call(tabs).indexOf(el);
-  }
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
 
   componentWillLoad() {
     if (
@@ -140,5 +95,109 @@ export class CalciteTabNav {
         </nav>
       </Host>
     );
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent) {
+    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
+    const currentIndex = this.getIndexOfTabTitle(
+      e.target as HTMLCalciteTabTitleElement
+    );
+    const previousTab = tabs[currentIndex - 1] || tabs[tabs.length - 1];
+    previousTab.focus();
+
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  /**
+   * @internal
+   */
+  @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent) {
+    const tabs = this.el.parentElement.querySelectorAll("calcite-tab-title");
+    const currentIndex = this.getIndexOfTabTitle(
+      e.target as HTMLCalciteTabTitleElement
+    );
+    const nextTab = tabs[currentIndex + 1] || tabs[0];
+    nextTab.focus();
+
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  /**
+   * @internal
+   */
+  @Listen("calciteTabsActivate") activateTabHandler(
+    e: CustomEvent<TabChangeEventDetail>
+  ) {
+    if (e.detail.tab) {
+      this.selectedTab = e.detail.tab;
+    } else {
+      this.selectedTab = this.getIndexOfTabTitle(
+        e.target as HTMLCalciteTabTitleElement
+      );
+    }
+
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  /**
+   * @internal
+   */
+  @Listen("calciteTabsChange", { target: "body" }) globalTabChangeHandler(
+    e: CustomEvent<TabChangeEventDetail>
+  ) {
+    if (
+      this.syncId &&
+      e.target !== this.el &&
+      (e.target as HTMLCalciteTabNavElement).syncId === this.syncId &&
+      this.selectedTab !== e.detail.tab
+    ) {
+      this.selectedTab = e.detail.tab;
+    }
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Emitted when the active tab changes
+   */
+  @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
+    const tabs = this.el.shadowRoot.querySelector("slot").assignedElements();
+    return Array.prototype.slice.call(tabs).indexOf(el);
   }
 }

@@ -61,16 +61,16 @@ describe("calcite-tabs", () => {
     await page.setContent(`
       <calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title id="title-1" is-active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title id="title-2" >Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title id="title-3" >Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title id="title-4" >Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab is-active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-        <calcite-tab>Tab 3 Content</calcite-tab>
-        <calcite-tab>Tab 4 Content</calcite-tab>
+        <calcite-tab id="tab-1" is-active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
+        <calcite-tab id="tab-3">Tab 3 Content</calcite-tab>
+        <calcite-tab id="tab-4">Tab 4 Content</calcite-tab>
       </calcite-tabs>
     `);
 

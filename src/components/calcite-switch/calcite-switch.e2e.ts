@@ -8,7 +8,7 @@ beforeEach(async () => {
   switchElement = await page.find("calcite-switch >>> label");
 });
 
-describe("calcite-switch", () => {
+xdescribe("calcite-switch", () => {
   it("renders", async () => {
     expect(element).toHaveClass("hydrated");
   });
