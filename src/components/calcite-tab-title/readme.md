@@ -9,7 +9,7 @@ The tab-title is the link that switches between panes in [calcite-tabs](../calci
 
 | Property   | Attribute   | Description                                                                                              | Type      | Default     |
 | ---------- | ----------- | -------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `isActive` | `is-active` | Show this title as selected                                                                              | `boolean` | `false`     |
+| `isActive` | `is-active` | Show this tab title as selected                                                                          | `boolean` | `false`     |
 | `tab`      | `tab`       | Optionally include a unique name for the tab title, be sure to also set this name on the associated tab. | `string`  | `undefined` |
 
 
@@ -29,16 +29,6 @@ Return the index of this title within the nav
 #### Returns
 
 Type: `Promise<number>`
-
-
-
-### `setControlledBy(id: string) => Promise<void>`
-
-Set which tab this title controls
-
-#### Returns
-
-Type: `Promise<void>`
 
 
 
