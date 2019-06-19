@@ -60,6 +60,14 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
+  componentWillLoad() {
+    if (this.tab && this.isActive) {
+      this.calciteTabsActivate.emit({
+        tab: this.tab
+      });
+    }
+  }
+
   render() {
     const id = this.el.id || this.guid;
 
@@ -184,6 +192,11 @@ export class CalciteTabTitle {
         this.el
       )
     );
+  }
+
+  @Method()
+  async getTabIdentifier(): Promise<string | number> {
+    return this.tab ? Promise.resolve(this.tab) : this.getTabIndex();
   }
 
   /**

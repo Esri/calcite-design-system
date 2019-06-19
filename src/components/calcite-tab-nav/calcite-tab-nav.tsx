@@ -82,9 +82,11 @@ export class CalciteTabNav {
       this.selectedTab =
         JSON.parse(localStorage.getItem(`calcite-tab-nav-${this.storageId}`)) ||
         this.selectedTab;
-    }
 
-    this.selectedTabChanged();
+      this.calciteTabChange.emit({
+        tab: this.selectedTab
+      });
+    }
   }
 
   render() {
@@ -95,6 +97,16 @@ export class CalciteTabNav {
         </nav>
       </Host>
     );
+  }
+
+  componentDidRender() {
+    if (this.tabTitles.every(title => !title.isActive)) {
+      this.tabTitles[0].getTabIdentifier().then(tab => {
+        this.calciteTabChange.emit({
+          tab
+        });
+      });
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -197,7 +209,10 @@ export class CalciteTabNav {
   //--------------------------------------------------------------------------
 
   private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
-    const tabs = this.el.shadowRoot.querySelector("slot").assignedElements();
-    return Array.prototype.slice.call(tabs).indexOf(el);
+    return this.tabTitles.indexOf(el);
+  }
+
+  private get tabTitles(): HTMLCalciteTabTitleElement[] {
+    return this.el.shadowRoot.querySelector("slot").assignedElements();
   }
 }
