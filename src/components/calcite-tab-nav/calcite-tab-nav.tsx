@@ -46,7 +46,7 @@ export class CalciteTabNav {
    * @internal
    */
   @State()
-  selectedTab: number | string = 0;
+  selectedTab: number | string;
 
   @Watch("selectedTab")
   selectedTabChanged() {
@@ -74,14 +74,10 @@ export class CalciteTabNav {
   //--------------------------------------------------------------------------
 
   componentWillLoad() {
-    if (
-      localStorage &&
-      this.storageId &&
-      localStorage.getItem(`calcite-tab-nav-${this.storageId}`)
-    ) {
-      this.selectedTab =
-        JSON.parse(localStorage.getItem(`calcite-tab-nav-${this.storageId}`)) ||
-        this.selectedTab;
+    const storageKey = `calcite-tab-nav-${this.storageId}`;
+
+    if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
+      this.selectedTab = JSON.parse(localStorage.getItem(storageKey));
 
       this.calciteTabChange.emit({
         tab: this.selectedTab
@@ -100,7 +96,8 @@ export class CalciteTabNav {
   }
 
   componentDidRender() {
-    if (this.tabTitles.every(title => !title.isActive)) {
+    // if every tab title is active select the first tab.
+    if (this.tabTitles.every(title => !title.isActive) && !this.selectedTab) {
       this.tabTitles[0].getTabIdentifier().then(tab => {
         this.calciteTabChange.emit({
           tab
@@ -166,7 +163,7 @@ export class CalciteTabNav {
   /**
    * @internal
    */
-  @Listen("calciteTabsChange", { target: "body" }) globalTabChangeHandler(
+  @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
     e: CustomEvent<TabChangeEventDetail>
   ) {
     if (
