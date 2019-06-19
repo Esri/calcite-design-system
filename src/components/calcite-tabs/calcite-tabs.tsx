@@ -7,12 +7,19 @@ import { getElementDir, nodeListToArray } from "../../utils/dom";
   shadow: true
 })
 export class CalciteTabs {
-  @Element() el: HTMLElement;
-  @Prop({ mutable: true }) titleIds: string[];
-  @Prop({ mutable: true }) tabIds: string[];
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
 
-  navMutationObserver: MutationObserver;
-  tabsMutationObserver: MutationObserver;
+  @Element() el: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Properties
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Select theme (light or dark)
@@ -30,40 +37,32 @@ export class CalciteTabs {
   })
   layout: "center" | "inline" = "inline";
 
-  updateRegistry() {
-    if (
-      this.tabElements.some(e => e.tab) ||
-      this.titleElements.some(e => e.tab)
-    ) {
-      this.tabIds = this.tabElements
-        .sort((a, b) => a.tab.localeCompare(b.tab))
-        .map(e => e.id);
-      this.titleIds = this.titleElements
-        .sort((a, b) => a.tab.localeCompare(b.tab))
-        .map(e => e.id);
-    } else {
-      this.tabIds = this.tabElements.map(e => e.id);
-      this.titleIds = this.titleElements.map(e => e.id);
-    }
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  render() {
+    const dir = getElementDir(this.el);
+
+    return (
+      <Host dir={dir}>
+        <div>
+          <slot name="tab-nav" />
+          <section class="tab-contents">
+            <slot />
+          </section>
+        </div>
+      </Host>
+    );
   }
 
-  private get tabElements() {
-    return nodeListToArray(this.el.children).filter(e =>
-      e.matches("calcite-tab")
-    ) as HTMLCalciteTabElement[];
-  }
-
-  private get navElement() {
-    return nodeListToArray(this.el.children).find(e =>
-      e.matches("calcite-tab-nav")
-    ) as HTMLCalciteTabNavElement;
-  }
-
-  private get titleElements() {
-    return nodeListToArray(this.navElement.children).filter(e =>
-      e.matches("calcite-tab-title")
-    ) as HTMLCalciteTabTitleElement[];
-  }
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
 
   @Listen("calciteTabTitleRegister") calciteTabTitleRegister(e: CustomEvent) {
     this.registryHandler(e);
@@ -83,26 +82,99 @@ export class CalciteTabs {
     this.registryHandler(e);
   }
 
-  registryHandler(e: CustomEvent) {
+  private registryHandler(e: CustomEvent) {
+    // update the `tabIds` and `titleIds` properties from the slotted elements
     this.updateRegistry();
+
+    // force the element that triggered this event to re-render causing it to
+    // re-render from the updated `tabIds` and `titleIds` properties.
     (e.target as
       | HTMLCalciteTabTitleElement
       | HTMLCalciteTabElement).forceUpdate();
+
+    // stop propagation to prevent this event from bubbling to other
+    // `<calcite-tabs>` elements.
     e.stopPropagation();
   }
 
-  render() {
-    const dir = getElementDir(this.el);
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
 
-    return (
-      <Host dir={dir}>
-        <div>
-          <slot name="tab-nav" />
-          <section class="tab-contents">
-            <slot />
-          </section>
-        </div>
-      </Host>
-    );
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * internal
+   * Stores an array of ids of <calcite-tab-titles> ids. Needs to be a `Prop` so
+   * that child components can access it.
+   */
+  @Prop({ mutable: true }) titleIds: string[];
+
+  /**
+   * internal
+   * Stores an array of ids of <calcite-tab> ids. Needs to be a `Prop` so
+   * that child components can access it.
+   */
+  @Prop({ mutable: true }) tabIds: string[];
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private updateRegistry() {
+    // determine if we are using `tab` based or `index` based tab identifiers.
+    if (
+      this.tabElements.some(e => e.tab) ||
+      this.titleElements.some(e => e.tab)
+    ) {
+      // if we are using `tab` based identifiers sort by `tab` to account for
+      // possible out of order tabs.
+      this.tabIds = this.tabElements
+        .sort((a, b) => a.tab.localeCompare(b.tab))
+        .map(e => e.id);
+      this.titleIds = this.titleElements
+        .sort((a, b) => a.tab.localeCompare(b.tab))
+        .map(e => e.id);
+    } else {
+      // if we are using `index` based identifiers the dom order is enough.
+      this.tabIds = this.tabElements.map(e => e.id);
+      this.titleIds = this.titleElements.map(e => e.id);
+    }
+  }
+
+  /**
+   * internal
+   *
+   * Returns the child `<calcite-tab>` elements from the `<slot>`.
+   */
+  private get tabElements() {
+    return nodeListToArray(this.el.children).filter(e =>
+      e.matches("calcite-tab")
+    ) as HTMLCalciteTabElement[];
+  }
+
+  /**
+   * internal
+   *
+   * Returns the child `<calcite-tab>` elements from the `<slot>`.
+   */
+  private get navElement() {
+    return nodeListToArray(this.el.children).find(e =>
+      e.matches("calcite-tab-nav")
+    ) as HTMLCalciteTabNavElement;
+  }
+
+  private get titleElements() {
+    return nodeListToArray(this.navElement.children).filter(e =>
+      e.matches("calcite-tab-title")
+    ) as HTMLCalciteTabTitleElement[];
   }
 }
