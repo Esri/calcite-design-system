@@ -406,7 +406,7 @@ Many times it is necessary for components to have a `id="something"` attribute f
 import { guid } from "../../utils/guid";
 
 @Component({
-  tag: "calcite-exampe",
+  tag: "calcite-example",
   styleUrl: "calcite-example.scss",
   shadow: true
 })
@@ -427,4 +427,4 @@ export class CalciteExample {
 }
 ```
 
-This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"` which should have a VERY low collision change since `guid()` generates IDs with `window.crypto.getRandomValues`. If a user supplies an ID `reflectToAttr` will prefer the user supplied ID to the randomly generated one.
+This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"` which should have a VERY low collision change since `guid()` generates IDs with `window.crypto.getRandomValues`. If a user supplies an `id` this will respect the users `id`.
