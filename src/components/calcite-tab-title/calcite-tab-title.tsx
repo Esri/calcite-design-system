@@ -194,6 +194,9 @@ export class CalciteTabTitle {
     );
   }
 
+  /**
+   * @internal
+   */
   @Method()
   async getTabIdentifier(): Promise<string | number> {
     return this.tab ? Promise.resolve(this.tab) : this.getTabIndex();
