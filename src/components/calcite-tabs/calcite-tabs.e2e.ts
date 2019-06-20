@@ -1,32 +1,146 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-describe("my-component", () => {
-  it("renders", async () => {
+describe("calcite-tabs", () => {
+  it("renders with a light theme", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<my-component></my-component>");
-    const element = await page.find("my-component");
+    await page.setContent(`
+      <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab is-active>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+      </calcite-tabs>
+    `);
+    const element = await page.find("calcite-tabs");
     expect(element).toHaveClass("hydrated");
+
+    const results = await page.compareScreenshot();
+
+    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
   });
 
-  it("renders changes to the name data", async () => {
+  it("renders with a dark theme", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<my-component></my-component>");
-    const component = await page.find("my-component");
-    const element = await page.find("my-component >>> div");
-    expect(element.textContent).toEqual(`Hello, World! I'm `);
+    await page.setContent(`
+      <div style="background: black">
+        <calcite-tabs theme="dark">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+          </calcite-tab-nav>
 
-    component.setProperty("first", "James");
-    await page.waitForChanges();
-    expect(element.textContent).toEqual(`Hello, World! I'm James`);
+          <calcite-tab is-active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+          <calcite-tab>Tab 4 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+    `);
+    const element = await page.find("calcite-tabs");
+    expect(element).toHaveClass("hydrated");
 
-    component.setProperty("last", "Quincy");
-    await page.waitForChanges();
-    expect(element.textContent).toEqual(`Hello, World! I'm James Quincy`);
+    const results = await page.compareScreenshot();
 
-    component.setProperty("middle", "Earl");
+    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
+  });
+
+  it("sets up basic aria attributes", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`
+      <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title id="title-1" is-active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title id="title-2" >Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title id="title-3" >Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title id="title-4" >Tab 4 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab id="tab-1" is-active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
+        <calcite-tab id="tab-3">Tab 3 Content</calcite-tab>
+        <calcite-tab id="tab-4">Tab 4 Content</calcite-tab>
+      </calcite-tabs>
+    `);
+
     await page.waitForChanges();
-    expect(element.textContent).toEqual(`Hello, World! I'm James Earl Quincy`);
+
+    const tabs = await page.findAll("calcite-tab");
+    const titles = await page.findAll("calcite-tab-title");
+
+    expect(tabs[0]).toEqualAttribute("aria-expanded", "true");
+    expect(tabs[1]).toEqualAttribute("aria-expanded", "false");
+    expect(tabs[2]).toEqualAttribute("aria-expanded", "false");
+    expect(tabs[3]).toEqualAttribute("aria-expanded", "false");
+
+    for (let index = 0; index < tabs.length; index++) {
+      const tab = tabs[index];
+      const title = titles[index];
+      expect(title).toEqualAttribute("aria-controls", tab.id);
+      expect(tab).toEqualAttribute("aria-labeledby", title.id);
+    }
+  });
+
+  it("keeps aria attributes in sync across DOM mutations", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`
+      <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title id="insert-after-title">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab is-active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="insert-after-tab">Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+      </calcite-tabs>
+    `);
+
+    await page.$eval("calcite-tabs", (element: HTMLCalciteTabsElement) => {
+      element.ownerDocument
+        .getElementById("insert-after-title")
+        .insertAdjacentHTML(
+          "afterend",
+          `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`
+        );
+
+      element.ownerDocument
+        .getElementById("insert-after-tab")
+        .insertAdjacentHTML(
+          "afterend",
+          `<calcite-tab id="inserted-tab">Test</calcite-tab>`
+        );
+    });
+
+    await page.waitForChanges();
+
+    const tabs = await page.findAll("calcite-tab");
+    const titles = await page.findAll("calcite-tab-title");
+
+    for (let index = 0; index < tabs.length; index++) {
+      const tab = tabs[index];
+      const title = titles[index];
+      expect(title).toEqualAttribute("aria-controls", tab.id);
+      expect(tab).toEqualAttribute("aria-labeledby", title.id);
+    }
+
+    const results = await page.compareScreenshot();
+
+    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
   });
 });

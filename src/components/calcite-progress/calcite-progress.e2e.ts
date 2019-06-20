@@ -1,11 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-describe("my-component", () => {
+describe("calcite-progress", () => {
   it("renders", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<my-component></my-component>");
-    const element = await page.find("my-component");
+    await page.setContent("<calcite-progress></calcite-progress>");
+    const element = await page.find("calcite-progress");
     expect(element).toBeDefined();
   });
 });

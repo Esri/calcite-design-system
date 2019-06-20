@@ -6,13 +6,12 @@ import {
   Method,
   Event,
   EventEmitter,
-  State,
   h,
+  State,
   Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
-import { TabRegisterEventDetail } from "../../interfaces/TabRegister";
 import { nodeListToArray } from "../../utils/dom";
 
 @Component({
@@ -21,15 +20,19 @@ import { nodeListToArray } from "../../utils/dom";
   shadow: true
 })
 export class CalciteTab {
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true, reflectToAttr: true })
-  id: string = `calcite-tab-${guid()}`;
-
-  @State() private labeledBy: string;
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
 
   @Element() el: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Optionally include a unique name for this tab,
@@ -42,7 +45,7 @@ export class CalciteTab {
   tab: string;
 
   /**
-   * when active, the tab will be visible
+   * Show this tab
    */
   @Prop({
     reflectToAttr: true,
@@ -50,13 +53,68 @@ export class CalciteTab {
   })
   isActive: boolean = false;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  render() {
+    const id = this.el.id || this.guid;
+
+    return (
+      <Host
+        id={id}
+        aria-labeledby={this.labeledBy}
+        aria-expanded={this.isActive ? "true" : "false"}
+        role="tabpanel"
+      >
+        <section>
+          <slot />
+        </section>
+      </Host>
+    );
+  }
+
+  componentDidLoad() {
+    this.calciteTabRegister.emit();
+  }
+
+  componentDidUnload() {
+    this.calciteTabUnregister.emit();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event() calciteTabRegister: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteTabUnregister: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
   @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
+    // to allow `<calcite-tabs>` to be nested we need to make sure this
+    // `calciteTabChange` event was actually fired from a title that is a
+    // child of the `<calcite-tabs>` that is the a parent of this tab.
     if (
-      !nodeListToArray((event.target as HTMLElement).parentNode.children).some(
-        child => child == this.el
-      )
+      (event.target as HTMLElement).closest("calcite-tabs") !==
+      this.el.closest("calcite-tabs")
     ) {
       return;
     }
@@ -70,19 +128,11 @@ export class CalciteTab {
     }
   }
 
-  /**
-   * @internal
-   */
-  @Event() calciteTabsRegisterTab: EventEmitter<TabRegisterEventDetail>;
-
-  componentDidLoad() {
-    this.getTabIndex().then(index => {
-      this.calciteTabsRegisterTab.emit({
-        id: this.id,
-        index
-      });
-    });
-  }
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Return the index of this tab within the tab array
@@ -99,25 +149,29 @@ export class CalciteTab {
     );
   }
 
-  /**
-   * Set which element is the aria label for this tab
-   */
-  @Method()
-  async registerLabeledBy(id) {
-    this.labeledBy = id;
-  }
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
 
-  render() {
-    return (
-      <Host
-        aria-labeledby={this.labeledBy}
-        aria-expanded={this.isActive ? "true" : "false"}
-        role="tabpanel"
-      >
-        <section>
-          <slot />
-        </section>
-      </Host>
-    );
+  /**
+   * @internal
+   */
+  private guid = `calcite-tab-title-${guid()}`;
+
+  @State() private labeledBy: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Method() updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []) {
+    this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
   }
 }

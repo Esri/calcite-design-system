@@ -16,28 +16,15 @@ The `calcite-alerts` component is meant to wrap one or multiple [calcite-alert](
 
 | Property | Attribute | Description                                   | Type     | Default |
 | -------- | --------- | --------------------------------------------- | -------- | ------- |
-| `id`     | `id`      | Unique ID for this instance of calcite-alerts | `string` | `'1'`   |
+| `id`     | `id`      | Unique ID for this instance of calcite-alerts | `string` | `"1"`   |
 
 
 ## Events
 
-| Event         | Description | Type               |
-| ------------- | ----------- | ------------------ |
-| `alertsClose` |             | `CustomEvent<any>` |
-| `alertsOpen`  |             | `CustomEvent<any>` |
-
-
-## Methods
-
-### `open(requestedAlert: any) => Promise<void>`
-
-Open a specific alert by id
-
-#### Returns
-
-Type: `Promise<void>`
-
-
+| Event                | Description | Type               |
+| -------------------- | ----------- | ------------------ |
+| `calciteAlertsClose` |             | `CustomEvent<any>` |
+| `calciteAlertsOpen`  |             | `CustomEvent<any>` |
 
 
 ## Dependencies

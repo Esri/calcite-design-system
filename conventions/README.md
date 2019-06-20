@@ -419,11 +419,11 @@ calcite-tabs[theme="dark"] {
 Many times it is necessary for components to have a `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component but to also allow a user supplied `id` attribute to work follow the following pattern:
 
 
-```ts
+```tsx
 import { guid } from "../../utils/guid";
 
 @Component({
-  tag: "calcite-exampe",
+  tag: "calcite-example",
   styleUrl: "calcite-example.scss",
   shadow: true
 })
@@ -431,11 +431,17 @@ export class CalciteExample {
 
   // ...
 
-  @Prop({ mutable: true, reflectToAttr: true })
-  id: string = `calcite-example-${guid()}`;
+  guid: string = `calcite-example-${guid()}`;
+
+  render() {
+    const id = this.el.id || this.guid;
+    return (
+      <Host id={id}></Host>
+    );
+  }
 
   // ...
 }
 ```
 
-This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"` which should have a VERY low collision change since `guid()` generates IDs with `window.crypto.getRandomValues`. If a user supplies an ID `reflectToAttr` will prefer the user supplied ID to the randomly generated one.
+This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"` which should have a VERY low collision change since `guid()` generates IDs with `window.crypto.getRandomValues`. If a user supplies an `id` this will respect the users `id`.

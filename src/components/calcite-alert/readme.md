@@ -25,29 +25,39 @@ Single alert for toast notifications. To position the alert correctly and manage
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                  | Type                                     | Default    |
-| ---------- | ---------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ---------- |
-| `color`    | `color`    | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `'blue'`   |
-| `dismiss`  | `dismiss`  | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`    |
-| `duration` | `duration` | Length before autodismissal (only used with `dismiss`)                       | `"fast" \| "medium" \| "slow"`           | `'medium'` |
-| `icon`     | `icon`     | If false, no icon will be shown in the alert                                 | `boolean`                                | `false`    |
-| `id`       | `id`       | Unique ID for this alert                                                     | `string`                                 | `'1'`      |
-| `theme`    | `theme`    | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `'light'`  |
+| Property   | Attribute  | Description                                                                  | Type                                     | Default                                  |
+| ---------- | ---------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `color`    | `color`    | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`                                 |
+| `dismiss`  | `dismiss`  | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`                                  |
+| `duration` | `duration` | Length before autodismissal (only used with `dismiss`)                       | `"fast" \| "medium" \| "slow"`           | `this.dismiss     ? "medium"     : null` |
+| `icon`     | `icon`     | If false, no icon will be shown in the alert                                 | `boolean`                                | `false`                                  |
+| `id`       | `id`       | Unique ID for this alert                                                     | `string`                                 | `"1"`                                    |
+| `theme`    | `theme`    | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `"light"`                                |
 
 
 ## Events
 
-| Event        | Description                   | Type               |
-| ------------ | ----------------------------- | ------------------ |
-| `alertClose` | Fired when an alert is closed | `CustomEvent<any>` |
-| `alertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
+| Event               | Description                   | Type               |
+| ------------------- | ----------------------------- | ------------------ |
+| `calciteAlertClose` | Fired when an alert is closed | `CustomEvent<any>` |
+| `calciteAlertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
 
 
 ## Methods
 
-### `close() => Promise<void>`
+### `closeCalciteAlert() => Promise<void>`
 
-Close the alert and emit the `alertClose` event
+emit the `calciteAlerClose` event - <calcite-alerts> listens for this, if the alert is not active, but is the queue, this will remove it from the queue
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `openCalciteAlert() => Promise<void>`
+
+emit the `calciteAlertOpen` event - <calcite-alerts> listens for this, and determines if it should open the alert or add it to the queue
 
 #### Returns
 

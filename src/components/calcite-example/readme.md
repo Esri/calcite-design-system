@@ -21,7 +21,7 @@ Any further explanation or examples for your component can be written here above
 
 ## Methods
 
-### `close() => Promise<void>`
+### `doThing() => Promise<void>`
 
 Add a jsdoc comment describing your method and it's parameters (use `@param`).
 

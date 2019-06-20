@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
+    <title>Calcite Component Starter</title>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-  <title>Calcite Component Starter</title>
+    <style>
+      .dark-tabs-demo {
+        background: #323232;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
 
-  <style>
-    .dark-tabs-demo {
-      background: #323232;
-      color: white;
-      padding: 1rem;
-    }
-  </style>
+    <link rel="stylesheet" href="/build/calcite.css" />
+    <script type="module" src="build/calcite.esm.js"></script>
+    <script nomodule src="build/calcite.js"></script>
+    <script src="/assets/demo/createAlert.js"></script>
+  </head>
 
-  <link rel="stylesheet" href="/build/calcite.css" />
-  <script type="module" src="build/calcite.esm.js"></script>
-  <script nomodule src="build/calcite.js"></script>
-  <script src="/assets/demo/createAlert.js"></script>
-</head>
+  <body>
+    <div class="example-container">
+      <h2>Calcite Component Examples - WIP !</h2>
 
-<body>
-  <div class="example-container">
-    <h2>Calcite Component Examples - WIP !</h2>
     <calcite-tabs>
       <calcite-tab-nav slot="tab-nav" storage-id="calcite-demo-main-nav-tabs">
         <calcite-tab-title is-active>Tabs</calcite-tab-title>
@@ -83,17 +86,17 @@
           <calcite-tab>Tab 4 Content</calcite-tab>
         </calcite-tabs>
 
-        <h1 class="leader-1">Named Tabs with selected tab</h1>
+        <h1 class="leader-1">Named Tabs</h1>
         <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav" selected-tab="tab2">
+          <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title tab="tab2" is-active>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
             <calcite-tab-title tab="tab4">Tab 4 Title</calcite-tab-title>
           </calcite-tab-nav>
 
           <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
-          <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
+          <calcite-tab tab="tab2" is-active>Tab 2 Content</calcite-tab>
           <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
           <calcite-tab tab="tab4">Tab 4 Content</calcite-tab>
         </calcite-tabs>
@@ -112,6 +115,21 @@
           <calcite-tab>Tab 2 Content</calcite-tab>
           <calcite-tab>Tab 3 Content</calcite-tab>
           <calcite-tab>Tab 4 Content</calcite-tab>
+        </calcite-tabs>
+
+        <h1 class="leader-1">Named Tabs w/ Cookie</h1>
+        <calcite-tabs>
+          <calcite-tab-nav slot="tab-nav" storage-id="calcite-tabs-named-cookie-demo">
+            <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title tab="tab2" is-active>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title tab="tab4">Tab 4 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
+          <calcite-tab tab="tab2" is-active>Tab 2 Content</calcite-tab>
+          <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
+          <calcite-tab tab="tab4">Tab 4 Content</calcite-tab>
         </calcite-tabs>
 
         <h1 class="leader-1">Tab Sync Demo</h1>
@@ -198,13 +216,13 @@
 
         <calcite-tabs dir="rtl">
           <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
           </calcite-tab-nav>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
           <calcite-tab>Tab 3 Content</calcite-tab>
           <calcite-tab>Tab 4 Content</calcite-tab>
@@ -369,80 +387,79 @@
 
     </calcite-tabs>
 
-    <calcite-alerts id="my-alert-container">
-      <calcite-alert color="red" id="alert-one" dismiss>
-        <div slot="alert-title">Something failed</div>
-        <div slot="alert-message">
-          1 That thing you wanted to do didn't work as expected
-        </div>
-        <a slot="alert-link" href="">Retry</a>
-      </calcite-alert>
+      <calcite-alerts id="my-alert-container">
+        <calcite-alert color="red" id="alert-one" dismiss>
+          <div slot="alert-title">Something failed</div>
+          <div slot="alert-message">
+            1 That thing you wanted to do didn't work as expected
+          </div>
+          <a slot="alert-link" href="">Retry</a>
+        </calcite-alert>
 
-      <!-- test prop validation theme -->
-      <calcite-alert color="green" id="alert-two" icon theme="bleme">
-        <div slot="alert-message">
-          2 Succesfully updated <em>Portland Restaurants</em> feature layer
-        </div>
-        <a slot="alert-link" href="">View layer</a>
-      </calcite-alert>
+        <!-- test prop validation theme -->
+        <calcite-alert color="green" id="alert-two" icon theme="bleme">
+          <div slot="alert-message">
+            2 Succesfully updated <em>Portland Restaurants</em> feature layer
+          </div>
+          <a slot="alert-link" href="">View layer</a>
+        </calcite-alert>
 
-      <calcite-alert id="alert-three" icon theme="dark">
-        <div slot="alert-message">3 A general piece of information</div>
-      </calcite-alert>
+        <calcite-alert id="alert-three" icon theme="dark">
+          <div slot="alert-message">3 A general piece of information</div>
+        </calcite-alert>
 
-      <calcite-alert color="yellow" id="alert-four" icon>
-        <div slot="alert-title">
-          This may put you close to your credit limit
-        </div>
-        <div slot="alert-message">
-          4 You can view your credit settings at any time in User Preferences
-        </div>
-        <a slot="alert-link" href="">Manage credits</a>
-      </calcite-alert>
+        <calcite-alert color="yellow" id="alert-four" icon>
+          <div slot="alert-title">
+            This may put you close to your credit limit
+          </div>
+          <div slot="alert-message">
+            4 You can view your credit settings at any time in User Preferences
+          </div>
+          <a slot="alert-link" href="">Manage credits</a>
+        </calcite-alert>
 
-      <calcite-alert id="alert-five">
-        <div slot="alert-message">5 A general piece of information</div>
-      </calcite-alert>
+        <calcite-alert id="alert-five">
+          <div slot="alert-message">5 A general piece of information</div>
+        </calcite-alert>
 
-      <!-- test prop validation color -->
-      <calcite-alert color="misspelled" id="alert-six" icon>
-        <div slot="alert-title">You can't add a polygon to this layer</div>
-        <div slot="alert-message">
-          6 Some kind of made up thing about another thing
-        </div>
-        <a slot="alert-link" href="">Take action</a>
-      </calcite-alert>
+        <!-- test prop validation color -->
+        <calcite-alert color="misspelled" id="alert-six" icon>
+          <div slot="alert-title">You can't add a polygon to this layer</div>
+          <div slot="alert-message">
+            6 Some kind of made up thing about another thing
+          </div>
+          <a slot="alert-link" href="">Take action</a>
+        </calcite-alert>
 
-      <calcite-alert color="green" id="alert-seven" theme="dark">
-        <div slot="alert-title">Layer duplicated</div>
-        <div slot="alert-message">
-          7 Successfully duplicated <em>Portland Restaurants</em> feature layer
-        </div>
-        <a slot="alert-link" href="">View layer</a>
-      </calcite-alert>
+        <calcite-alert color="green" id="alert-seven" theme="dark">
+          <div slot="alert-title">Layer duplicated</div>
+          <div slot="alert-message">
+            7 Successfully duplicated <em>Portland Restaurants</em> feature
+            layer
+          </div>
+          <a slot="alert-link" href="">View layer</a>
+        </calcite-alert>
 
+        <calcite-alert color="red" id="alert-eight" dismiss icon>
+          <div slot="alert-title">You can't do that</div>
+          <div slot="alert-message">8 Sorry bud</div>
+        </calcite-alert>
 
-      <calcite-alert color="red" id="alert-eight" dismiss icon>
-        <div slot="alert-title">You can't do that</div>
-        <div slot="alert-message">8 Sorry bud</div>
-      </calcite-alert>
+        <!-- test prop validation duration -->
+        <calcite-alert id="alert-nine" theme="dark" dismiss duration="blast">
+          <div slot="alert-message">9 A general piece of information</div>
+          <a slot="alert-link" href="">Take action</a>
+        </calcite-alert>
 
-      <!-- test prop validation duration -->
-      <calcite-alert id="alert-nine" theme="dark" dismiss duration="blast">
-        <div slot="alert-message">9 A general piece of information</div>
-        <a slot="alert-link" href="">Take action</a>
-      </calcite-alert>
+        <calcite-alert id="alert-ten" dismiss duration="medium">
+          <div slot="alert-message">10 A general piece of information</div>
+        </calcite-alert>
 
-      <calcite-alert id="alert-ten" dismiss duration="medium">
-        <div slot="alert-message">10 A general piece of information</div>
-      </calcite-alert>
-
-      <calcite-alert id="alert-eleven" dismiss duration="slow">
-        <div slot="alert-message">11 A general piece of information</div>
-        <a slot="alert-link" href="">Take action</a>
-      </calcite-alert>
-    </calcite-alerts>
-
-  </div>
-</body>
+        <calcite-alert id="alert-eleven" dismiss duration="slow">
+          <div slot="alert-message">11 A general piece of information</div>
+          <a slot="alert-link" href="">Take action</a>
+        </calcite-alert>
+      </calcite-alerts>
+    </div>
+  </body>
 </html>
