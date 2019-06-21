@@ -17,11 +17,7 @@ import {
   x32
 } from "@esri/calcite-ui-icons";
 import AlertInterface from "../../interfaces/AlertInterface";
-
-/** Alerts are not meant to be used inline with content, or be present in view on page load.
- * As such, calcite-alert relies on calcite-alerts for positioning - displaying an alert on its own
- * will lead to unexpected and potentially undesireable results
- */
+import ConfigInterface from "../../interfaces/ConfigInterface";
 
 /**
  * @slot alert-title - Title of the alert (optional)
@@ -36,47 +32,46 @@ import AlertInterface from "../../interfaces/AlertInterface";
 })
 export class CalciteAlert {
   @Element() el: HTMLElement;
-  /**
-   * Is the alert currently active or not
-   */
+
+  /** Is the alert currently active or not */
   @State() active: boolean = false;
-  /**
-   * Close the alert automatically (recommended for passive, non-blocking alerts)
-   */
+
+  /** Unique ID for this alert */
+  @Prop() id: string = "1";
+
+  /** Color for the alert (will apply to top border and icon) */
+  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: string;
+
+  /** If false, no icon will be shown in the alert */
+  @Prop() icon: boolean = false;
+
+  /** Close the alert automatically (recommended for passive, non-blocking alerts) */
   @Prop() dismiss: boolean = false;
-  /**
-   * Length before autodismissal (only used with `dismiss`)
-   */
+
+  /** Length before autodismissal (only used with `dismiss`) */
   @Prop({ reflect: true }) duration: "fast" | "medium" | "slow" = this.dismiss
     ? "medium"
     : null;
-  /**
-   * Color for the alert (will apply to top border and icon)
-   */
-  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
-  /**
-   * Select theme (light or dark)
-   */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-  /**
-   * If false, no icon will be shown in the alert
-   */
-  @Prop() icon: boolean = false;
-  /**
-   * Unique ID for this alert
-   */
-  @Prop() id: string = "1";
-  /**
-   * @internal
-   */
+
+  /** @internal */
   @Prop() currentAlert: string = "";
-  /**
-   * @internal
-   */
+
+  /** @internal */
   @Prop() queueLength: number = 0;
-  /**
-   * watch for changes to currentAlert passed from <calcite-alerts>
-   */
+
+  /** @internal */
+  /** make the globalTheme available as a prop */
+  @Prop() globalTheme: string;
+
+  /** @internal */
+  /** set an initial value for requested theme */
+  @Prop() initialTheme: string = this.theme;
+
+
+  /** watch for changes to currentAlert passed from <calcite-alerts> */
   @Watch("currentAlert") watchCurrentAlert() {
     this.active = this.currentAlert === this.id;
     if (this.active) this.openCalciteAlert();
@@ -86,23 +81,19 @@ export class CalciteAlert {
         this.durationDefaults[this.duration]
       );
   }
-  /**
-   * Fired when an alert is closed
-   */
+
+  /** Fired when an alert is closed */
   @Event() calciteAlertClose: EventEmitter;
-  /**
-   * Fired when an alert is opened
-   */
+
+  /** Fired when an alert is opened  */
   @Event() calciteAlertOpen: EventEmitter;
-  /**
-   * emit the `calciteAlerClose` event - <calcite-alerts> listens for this, if the alert is not active, but is the queue, this will remove it from the queue
-   */
+
+  /** emit the `calciteAlertClose` event - <calcite-alerts> listens for this */
   @Method() async closeCalciteAlert() {
     this.calciteAlertClose.emit(this.id);
   }
-  /**
-   * emit the `calciteAlertOpen` event - <calcite-alerts> listens for this, and determines if it should open the alert or add it to the queue
-   */
+
+  /** emit the `calciteAlertOpen` event - <calcite-alerts> listens for this */
   @Method() async openCalciteAlert() {
     this.calciteAlertOpen.emit(this.id);
   }
@@ -130,7 +121,11 @@ export class CalciteAlert {
       this.duration = "medium";
 
     let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
+    if (!themes.includes(this.theme)) this.theme = this.globalTheme;
+  }
+
+  componentWillUpdate() {
+    if (!this.initialTheme) this.theme = this.globalTheme;
   }
 
   setIcon() {
@@ -175,14 +170,14 @@ export class CalciteAlert {
       </div>
     );
     const progress =
-      this.active && this.dismiss ? <div class="alert-dismiss"></div> : "";
+      this.active && this.dismiss ? <div class="alert-dismiss" /> : "";
     return (
-      <Host theme={this.theme} active={!!this.active} duration={this.duration}>
+      <Host active={!!this.active} duration={this.duration}>
         {icon}
         <div class="alert-content">
-          <slot name="alert-title"></slot>
-          <slot name="alert-message"></slot>
-          <slot name="alert-link"></slot>
+          <slot name="alert-title" />
+          <slot name="alert-message" />
+          <slot name="alert-link" />
         </div>
         {count}
         {close}
@@ -193,3 +188,4 @@ export class CalciteAlert {
 }
 
 AlertInterface.injectProps(CalciteAlert, ["currentAlert", "queueLength"]);
+ConfigInterface.injectProps(CalciteAlert, ["globalTheme"]);

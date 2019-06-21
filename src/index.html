@@ -14,6 +14,15 @@
     }
   </style>
 
+  <script>
+    function setLightTheme() {
+      document.querySelector('#config').setAttribute("theme", "light")
+    }
+    function setDarkTheme() {
+      document.querySelector('#config').setAttribute("theme", "dark")
+    }
+  </script>
+
   <link rel="stylesheet" href="/build/calcite.css" />
   <script type="module" src="build/calcite.esm.js"></script>
   <script nomodule src="build/calcite.js"></script>
@@ -21,38 +30,25 @@
 </head>
 
 <body>
-  <div class="example-container">
-    <h2>Calcite Component Examples - WIP !</h2>
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav" storage-id="calcite-demo-main-nav-tabs">
-        <calcite-tab-title is-active>Tabs</calcite-tab-title>
-        <calcite-tab-title>Alerts</calcite-tab-title>
-        <calcite-tab-title>Loader</calcite-tab-title>
-        <calcite-tab-title>Progress</calcite-tab-title>
-        <calcite-tab-title>Switches</calcite-tab-title>
-      </calcite-tab-nav>
+  <calcite-config id="config" theme="dark">
+    <div class="example-container">
+      <button onClick="setLightTheme()">Set Light Theme</button>
+      <button onClick="setDarkTheme()">Set Dark Theme</button>
 
-      <calcite-tab is-active>
-        <h1 class="leader-1">Light Theme Tabs</h1>
+      <h2>Calcite Component Examples - WIP !</h2>
+      <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav" storage-id="calcite-demo-main-nav-tabs">
+          <calcite-tab-title is-active>Tabs</calcite-tab-title>
+          <calcite-tab-title>Alerts</calcite-tab-title>
+          <calcite-tab-title>Loader</calcite-tab-title>
+          <calcite-tab-title>Progress</calcite-tab-title>
+          <calcite-tab-title>Switches</calcite-tab-title>
+        </calcite-tab-nav>
 
-        <calcite-tabs is-active>
-          <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+        <calcite-tab is-active>
+          <h1 class="leader-1">Light Theme Tabs</h1>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
-
-        <h1 class="leader-1">Dark Theme Tabs</h1>
-
-        <div class="dark-tabs-demo">
-          <calcite-tabs theme="dark">
+          <calcite-tabs is-active theme="light">
             <calcite-tab-nav slot="tab-nav">
               <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
               <calcite-tab-title>Tab 2 Title</calcite-tab-title>
@@ -65,176 +61,193 @@
             <calcite-tab>Tab 3 Content</calcite-tab>
             <calcite-tab>Tab 4 Content</calcite-tab>
           </calcite-tabs>
-        </div>
 
-        <h1 class="leader-1">Select First Tab By Default</h1>
+          <h1 class="leader-1">Dark Theme Tabs</h1>
 
-        <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <div class="dark-tabs-demo">
+            <calcite-tabs theme="dark">
+              <calcite-tab-nav slot="tab-nav">
+                <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+                <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+                <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+                <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+              </calcite-tab-nav>
 
-          <calcite-tab>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
+              <calcite-tab is-active>Tab 1 Content</calcite-tab>
+              <calcite-tab>Tab 2 Content</calcite-tab>
+              <calcite-tab>Tab 3 Content</calcite-tab>
+              <calcite-tab>Tab 4 Content</calcite-tab>
+            </calcite-tabs>
+          </div>
 
-        <h1 class="leader-1">Named Tabs with selected tab</h1>
-        <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav" selected-tab="tab2">
-            <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title tab="tab4">Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <h1 class="leader-1">Select First Tab By Default</h1>
 
-          <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
-          <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
-          <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
-          <calcite-tab tab="tab4">Tab 4 Content</calcite-tab>
-        </calcite-tabs>
+          <calcite-tabs>
+            <calcite-tab-nav slot="tab-nav">
+              <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-        <h1 class="leader-1">Save Active Tab To Cookie</h1>
+            <calcite-tab>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+          </calcite-tabs>
 
-        <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav" storage-id="calcite-tabs-cookie-demo">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <h1 class="leader-1">Named Tabs with selected tab</h1>
+          <calcite-tabs>
+            <calcite-tab-nav slot="tab-nav" selected-tab="tab2">
+              <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title tab="tab4">Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
+            <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
+            <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
+            <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
+            <calcite-tab tab="tab4">Tab 4 Content</calcite-tab>
+          </calcite-tabs>
 
-        <h1 class="leader-1">Tab Sync Demo</h1>
+          <h1 class="leader-1">Save Active Tab To Cookie</h1>
 
-        <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav" sync-id="sync-demo">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <calcite-tabs>
+            <calcite-tab-nav slot="tab-nav" storage-id="calcite-tabs-cookie-demo">
+              <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
+            <calcite-tab is-active>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+          </calcite-tabs>
 
-        <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav" sync-id="sync-demo">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <h1 class="leader-1">Tab Sync Demo</h1>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
+          <calcite-tabs>
+            <calcite-tab-nav slot="tab-nav" sync-id="sync-demo">
+              <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-        <h1 class="leader-1">Tab Sync + Cookie Demo</h1>
+            <calcite-tab is-active>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+          </calcite-tabs>
 
-        <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav" sync-id="sync-cookie-demo" storage-id="sync-cookie-demo">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <calcite-tabs>
+            <calcite-tab-nav slot="tab-nav" sync-id="sync-demo">
+              <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
+            <calcite-tab is-active>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+          </calcite-tabs>
 
-        <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav" sync-id="sync-cookie-demo" storage-id="sync-cookie-demo">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <h1 class="leader-1">Tab Sync + Cookie Demo</h1>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
+          <calcite-tabs>
+            <calcite-tab-nav slot="tab-nav" sync-id="sync-cookie-demo" storage-id="sync-cookie-demo">
+              <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-        <h1 class="leader-1">Centered Tabs</h1>
+            <calcite-tab is-active>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+          </calcite-tabs>
 
-        <calcite-tabs layout="center">
-          <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 5 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 6 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <calcite-tabs>
+            <calcite-tab-nav slot="tab-nav" sync-id="sync-cookie-demo" storage-id="sync-cookie-demo">
+              <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-          <calcite-tab>Tab 5 Content</calcite-tab>
-          <calcite-tab>Tab 6 Content</calcite-tab>
-        </calcite-tabs>
+            <calcite-tab is-active>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+          </calcite-tabs>
 
-        <h1 class="leader-1">RTL Tabs</h1>
+          <h1 class="leader-1">Centered Tabs</h1>
 
-        <calcite-tabs dir="rtl">
-          <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
+          <calcite-tabs layout="center">
+            <calcite-tab-nav slot="tab-nav">
+              <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 5 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 6 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
-      </calcite-tab>
+            <calcite-tab is-active>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+            <calcite-tab>Tab 5 Content</calcite-tab>
+            <calcite-tab>Tab 6 Content</calcite-tab>
+          </calcite-tabs>
 
-      <calcite-tab>
-        <h5>Multiple alerts will be added to a queue.</h5>
-        <button onclick="document.querySelector('#alert-one').openCalciteAlert()">
-          1 Autodismiss, title, link, red</button><br />
-        <button onclick="document.querySelector('#alert-two').openCalciteAlert()">
-          2 Icon, link, green</button><br />
-        <button onclick="document.querySelector('#alert-three').openCalciteAlert()">
-          3 Icon, dark theme</button><br />
-        <button onclick="document.querySelector('#alert-four').openCalciteAlert()">
-          4 Icon, title, yellow, link</button><br />
-        <button onclick="document.querySelector('#alert-five').openCalciteAlert()">
-          5 Default</button><br />
-        <button onclick="document.querySelector('#alert-six').openCalciteAlert()">
-          6 Icon, title, link, red</button><br />
-        <button onclick="document.querySelector('#alert-seven').openCalciteAlert()">
-          7 title, link, green, dark theme</button><br />
-        <button onclick="document.querySelector('#alert-eight').openCalciteAlert()">
-          8 Autodismiss, icon, title, red</button><br />
-        <button onclick="document.querySelector('#alert-nine').openCalciteAlert()">
-          9 Autodismiss (fast),link, dark theme</button><br />
-        <button onclick="document.querySelector('#alert-ten').openCalciteAlert()">
-          10 Autodismiss (medium)</button><br />
-        <button onclick="document.querySelector('#alert-eleven').openCalciteAlert()">
-          11 Autodismiss (slow),link</button><br />
+          <h1 class="leader-1">RTL Tabs</h1>
+
+          <calcite-tabs dir="rtl">
+            <calcite-tab-nav slot="tab-nav">
+              <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab is-active>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+          </calcite-tabs>
+        </calcite-tab>
+
+        <calcite-tab>
+          <h5>Multiple alerts will be added to a queue.</h5>
+          <button onclick="document.querySelector('#alert-one').openCalciteAlert()">
+            1 Autodismiss, title, link, red</button><br />
+          <button onclick="document.querySelector('#alert-two').openCalciteAlert()">
+            2 Icon, link, green</button><br />
+          <button onclick="document.querySelector('#alert-three').openCalciteAlert()">
+            3 Icon, dark theme</button><br />
+          <button onclick="document.querySelector('#alert-four').openCalciteAlert()">
+            4 Icon, title, yellow, link</button><br />
+          <button onclick="document.querySelector('#alert-five').openCalciteAlert()">
+            5 Default</button><br />
+          <button onclick="document.querySelector('#alert-six').openCalciteAlert()">
+            6 Icon, title, link, red</button><br />
+          <button onclick="document.querySelector('#alert-seven').openCalciteAlert()">
+            7 title, link, green, dark theme</button><br />
+          <button onclick="document.querySelector('#alert-eight').openCalciteAlert()">
+            8 Autodismiss, icon, title, red</button><br />
+          <button onclick="document.querySelector('#alert-nine').openCalciteAlert()">
+            9 Autodismiss (fast),link, dark theme</button><br />
+          <button onclick="document.querySelector('#alert-ten').openCalciteAlert()">
+            10 Autodismiss (medium)</button><br />
+          <button onclick="document.querySelector('#alert-eleven').openCalciteAlert()">
+            11 Autodismiss (slow),link</button><br />
 
           <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
           <button onclick=createExampleAlert('created-1')>created alert</button><br />
@@ -242,167 +255,167 @@
 
           <h5>You can close opened alerts</h5>
           <button onclick="document.querySelector('#alert-six').closeCalciteAlert()">
-           Close alert 6 if its open, or remove from the queue if its queued but not active</button><br />
-           <button onclick="document.querySelector('#alert-four').closeCalciteAlert()">
+            Close alert 6 if its open, or remove from the queue if its queued but not active</button><br />
+          <button onclick="document.querySelector('#alert-four').closeCalciteAlert()">
             Close alert 4 if its open, or remove from the queue if its queued but not active</button><br />
-            <button onclick="document.querySelector('#created-2').closeCalciteAlert()">
-            Close alert created 2 if its present in DOM and open, or remove from the queue if its queued but not active</button><br />
-      </calcite-tab>
+          <button onclick="document.querySelector('#created-2').closeCalciteAlert()">
+            Close alert created 2 if its present in DOM and open, or remove from the queue if its queued but not
+            active</button><br />
+        </calcite-tab>
 
-      <calcite-tab>
-        <calcite-loader is-active text="doing thihngz&hellip;"></calcite-loader>
-      </calcite-tab>
+        <calcite-tab>
+          <calcite-loader is-active text="doing thihngz&hellip;"></calcite-loader>
+        </calcite-tab>
 
-      <calcite-tab>
-        <calcite-progress type="indeterminate">
-          <h1>Hello World!</h1>
-        </calcite-progress>
-        <calcite-progress type="determinate" value="0.5" text="Initializing flux capacitor&hellip;" />
-      </calcite-tab>
+        <calcite-tab>
+          <calcite-progress type="indeterminate">
+            <h1>Hello World!</h1>
+          </calcite-progress>
+          <calcite-progress type="determinate" value="0.5" text="Initializing flux capacitor&hellip;" />
+        </calcite-tab>
 
-      <calcite-tab>
-        <div>
-          <label>
-            <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
-            Without a proxy <code>input</code> element.
-            <script>
-              const basicSwitch = document.getElementById("basicSwitch");
+        <calcite-tab>
+          <div>
+            <label>
+              <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
+              Without a proxy <code>input</code> element.
+              <script>
+                const basicSwitch = document.getElementById("basicSwitch");
 
-              basicSwitch.addEventListener("calciteSwitchChange", function(
-                e
-              ) {
-                console.log(
-                  "Basic Checkbox changed by <calcite-switch>",
-                  e.target.switched
+                basicSwitch.addEventListener("calciteSwitchChange", function (e) {
+                  console.log(
+                    "Basic Checkbox changed by <calcite-switch>",
+                    e.target.switched
+                  );
+                });
+              </script>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <calcite-switch switched="true">
+                <input id="proxySwitchCheckbox" type="checkbox" />
+              </calcite-switch>
+              With a proxy <code>input</code> element and changes on
+              <code>label</code> click.
+              <script>
+                const proxySwitchCheckbox = document.getElementById(
+                  "proxySwitchCheckbox"
                 );
-              });
-            </script>
-          </label>
-        </div>
 
-        <div>
-          <label>
-            <calcite-switch switched="true">
-              <input id="proxySwitchCheckbox" type="checkbox" />
+                proxySwitchCheckbox.addEventListener("change", function (e) {
+                  console.log(
+                    "Proxy Checkbox changed by <calcite-switch>",
+                    e.target.checked
+                  );
+                });
+              </script>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <calcite-switch switched="true" color="red"> </calcite-switch>
+              Red switch
+            </label>
+          </div>
+
+          <div>
+            <calcite-switch></calcite-switch>
+            Switch with no wrapping <code>label</code>.
+          </div>
+
+          <div>
+            <calcite-switch id="switch-1"></calcite-switch>
+            <label for="switch-1">Switch with <code>label</code> but not wrapped in it.</label>
+          </div>
+
+          <div>
+            <calcite-switch>
+              <input id="switch-2" type="checkbox">
             </calcite-switch>
-            With a proxy <code>input</code> element and changes on
-            <code>label</code> click.
-            <script>
-              const proxySwitchCheckbox = document.getElementById(
-                "proxySwitchCheckbox"
-              );
+            <label for="switch-2">Switch with <code>label</code> but not wrapped in it.</label>
+          </div>
+        </calcite-tab>
 
-              proxySwitchCheckbox.addEventListener("change", function(e) {
-                console.log(
-                  "Proxy Checkbox changed by <calcite-switch>",
-                  e.target.checked
-                );
-              });
-            </script>
-          </label>
-        </div>
+      </calcite-tabs>
 
-        <div>
-          <label>
-            <calcite-switch switched="true" color="red"> </calcite-switch>
-            Red switch
-          </label>
-        </div>
+      <calcite-alerts id="my-alert-container">
+        <calcite-alert color="red" id="alert-one" dismiss>
+          <div slot="alert-title">Something failed</div>
+          <div slot="alert-message">
+            1 That thing you wanted to do didn't work as expected
+          </div>
+          <a slot="alert-link" href="">Retry</a>
+        </calcite-alert>
 
-        <div>
-          <calcite-switch></calcite-switch>
-          Switch with no wrapping <code>label</code>.
-        </div>
+        <!-- test prop validation theme -->
+        <calcite-alert color="green" id="alert-two" icon theme="bleme">
+          <div slot="alert-message">
+            2 Succesfully updated <em>Portland Restaurants</em> feature layer
+          </div>
+          <a slot="alert-link" href="">View layer</a>
+        </calcite-alert>
 
-        <div>
-          <calcite-switch id="switch-1"></calcite-switch>
-          <label for="switch-1">Switch with <code>label</code> but not wrapped in it.</label>
-        </div>
+        <calcite-alert id="alert-three" icon theme="dark">
+          <div slot="alert-message">3 A general piece of information</div>
+        </calcite-alert>
 
-        <div>
-          <calcite-switch>
-            <input id="switch-2" type="checkbox">
-          </calcite-switch>
-          <label for="switch-2">Switch with <code>label</code> but not wrapped in it.</label>
-        </div>
-      </calcite-tab>
+        <calcite-alert color="yellow" id="alert-four" icon>
+          <div slot="alert-title">
+            This may put you close to your credit limit
+          </div>
+          <div slot="alert-message">
+            4 You can view your credit settings at any time in User Preferences
+          </div>
+          <a slot="alert-link" href="">Manage credits</a>
+        </calcite-alert>
 
-    </calcite-tabs>
+        <calcite-alert id="alert-five">
+          <div slot="alert-message">5 A general piece of information</div>
+        </calcite-alert>
 
-    <calcite-alerts id="my-alert-container">
-      <calcite-alert color="red" id="alert-one" dismiss>
-        <div slot="alert-title">Something failed</div>
-        <div slot="alert-message">
-          1 That thing you wanted to do didn't work as expected
-        </div>
-        <a slot="alert-link" href="">Retry</a>
-      </calcite-alert>
+        <!-- test prop validation color -->
+        <calcite-alert color="misspelled" id="alert-six" icon>
+          <div slot="alert-title">You can't add a polygon to this layer</div>
+          <div slot="alert-message">
+            6 Some kind of made up thing about another thing
+          </div>
+          <a slot="alert-link" href="">Take action</a>
+        </calcite-alert>
 
-      <!-- test prop validation theme -->
-      <calcite-alert color="green" id="alert-two" icon theme="bleme">
-        <div slot="alert-message">
-          2 Succesfully updated <em>Portland Restaurants</em> feature layer
-        </div>
-        <a slot="alert-link" href="">View layer</a>
-      </calcite-alert>
-
-      <calcite-alert id="alert-three" icon theme="dark">
-        <div slot="alert-message">3 A general piece of information</div>
-      </calcite-alert>
-
-      <calcite-alert color="yellow" id="alert-four" icon>
-        <div slot="alert-title">
-          This may put you close to your credit limit
-        </div>
-        <div slot="alert-message">
-          4 You can view your credit settings at any time in User Preferences
-        </div>
-        <a slot="alert-link" href="">Manage credits</a>
-      </calcite-alert>
-
-      <calcite-alert id="alert-five">
-        <div slot="alert-message">5 A general piece of information</div>
-      </calcite-alert>
-
-      <!-- test prop validation color -->
-      <calcite-alert color="misspelled" id="alert-six" icon>
-        <div slot="alert-title">You can't add a polygon to this layer</div>
-        <div slot="alert-message">
-          6 Some kind of made up thing about another thing
-        </div>
-        <a slot="alert-link" href="">Take action</a>
-      </calcite-alert>
-
-      <calcite-alert color="green" id="alert-seven" theme="dark">
-        <div slot="alert-title">Layer duplicated</div>
-        <div slot="alert-message">
-          7 Successfully duplicated <em>Portland Restaurants</em> feature layer
-        </div>
-        <a slot="alert-link" href="">View layer</a>
-      </calcite-alert>
+        <calcite-alert color="green" id="alert-seven" theme="dark">
+          <div slot="alert-title">Layer duplicated</div>
+          <div slot="alert-message">
+            7 Successfully duplicated <em>Portland Restaurants</em> feature layer
+          </div>
+          <a slot="alert-link" href="">View layer</a>
+        </calcite-alert>
 
 
-      <calcite-alert color="red" id="alert-eight" dismiss icon>
-        <div slot="alert-title">You can't do that</div>
-        <div slot="alert-message">8 Sorry bud</div>
-      </calcite-alert>
+        <calcite-alert color="red" id="alert-eight" dismiss icon>
+          <div slot="alert-title">You can't do that</div>
+          <div slot="alert-message">8 Sorry bud</div>
+        </calcite-alert>
 
-      <!-- test prop validation duration -->
-      <calcite-alert id="alert-nine" theme="dark" dismiss duration="blast">
-        <div slot="alert-message">9 A general piece of information</div>
-        <a slot="alert-link" href="">Take action</a>
-      </calcite-alert>
+        <!-- test prop validation duration -->
+        <calcite-alert id="alert-nine" theme="dark" dismiss duration="blast">
+          <div slot="alert-message">9 A general piece of information</div>
+          <a slot="alert-link" href="">Take action</a>
+        </calcite-alert>
 
-      <calcite-alert id="alert-ten" dismiss duration="medium">
-        <div slot="alert-message">10 A general piece of information</div>
-      </calcite-alert>
+        <calcite-alert id="alert-ten" dismiss duration="medium">
+          <div slot="alert-message">10 A general piece of information</div>
+        </calcite-alert>
 
-      <calcite-alert id="alert-eleven" dismiss duration="slow">
-        <div slot="alert-message">11 A general piece of information</div>
-        <a slot="alert-link" href="">Take action</a>
-      </calcite-alert>
-    </calcite-alerts>
-
-  </div>
+        <calcite-alert id="alert-eleven" dismiss duration="slow">
+          <div slot="alert-message">11 A general piece of information</div>
+          <a slot="alert-link" href="">Take action</a>
+        </calcite-alert>
+      </calcite-alerts>
+    </div>
+  </calcite-config>
 </body>
+
 </html>
