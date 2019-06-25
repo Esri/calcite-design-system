@@ -308,7 +308,38 @@
       </calcite-tab>
 
       <calcite-tab>
-        <calcite-loader is-active text="doing thihngz&hellip;"></calcite-loader>
+        <calcite-loader is-active></calcite-loader>
+        <calcite-loader is-active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
+        <calcite-loader is-active class="green" text="Custom theme..."></calcite-loader>
+        <style>
+          calcite-loader.green {
+            --calcite-loader-spot-light: #50ba5f;
+            --calcite-loader-spot-dark: #1a6324;
+            --calcite-loader-spot: #338033;
+          }
+        </style>
+        <p style="text-align: center;"><calcite-loader is-active inline></calcite-loader>Inline Loader</p>
+        <calcite-loader is-active type="determinate" value="0" id="loader-determinate" text="Determinate loader"></calcite-loader>
+        <script>
+          // Preview the loading progress
+          (function () {
+            var loader = document.querySelector("#loader-determinate");
+            var randoms = [0, 0, 0, 0, 0, 0, 1, 3];
+            function updateLoader () {
+              var random = randoms[Math.floor(Math.random() * randoms.length)];
+              if (loader.value + random > 100) {
+                loader.value = 0;
+                setTimeout(function () {
+                  requestAnimationFrame(updateLoader);
+                }, 50);
+              } else {
+                loader.value = loader.value + random;
+                requestAnimationFrame(updateLoader);
+              }
+            }
+            updateLoader();
+          })();
+        </script>
       </calcite-tab>
 
       <calcite-tab>

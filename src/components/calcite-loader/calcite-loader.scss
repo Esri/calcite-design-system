@@ -1,87 +1,155 @@
-$loader-width: 0.85rem;
-$loader-height: 2rem;
-$loader-zoom: 0.5rem;
-$loader-spacing: 1.25rem;
-$loader-speed: 0.8s;
-$loader-delay: 0.16s;
-
-%loader-styles {
-  background: $blue;
-  -webkit-animation: load $loader-speed infinite ease-in-out;
-  animation: load $loader-speed infinite ease-in-out;
-  width: $loader-width;
-  height: $loader-height;
+:host {
+  --calcite-loader-spot: #{$h-bb-060};
+  --calcite-loader-spot-light: #{$v-bb-160};
+  --calcite-loader-spot-dark: #{$h-bb-070};
+  --calcite-loader-neutral: #{$blk-020};
 }
 
-%loader-pseudoelements {
-  @extend %loader-styles;
-  position: absolute;
-  top: 0;
-  content: "";
+:host([theme="dark"]) {
+  --calcite-loader-neutral: #{$blk-220};
 }
+
+$loader-width: 54px;
+$loader-width-inline: 16px;
+$loader-stroke-width: 6px;
+$loader-stroke-width-inline: 4px;
+$loader-padding: 4rem;
 
 :host {
   position: relative;
   display: none;
-  padding-bottom: 4.5rem;
-  padding-top: 4.5rem;
+  padding-bottom: $loader-padding;
+  padding-top: $loader-padding;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: $loader-width;
+  stroke: var(--calcite-loader-light);
+  stroke-width: $loader-stroke-width;
+  stroke-dashoffset: 0;
+  fill: none;
+  animation: loader-color-shift 2s alternate-reverse infinite linear;
 }
 
 :host([is-active]) {
   display: block;
 }
 
-:host .loader-bars {
-  @extend %loader-styles;
-  text-indent: -9999em;
-  margin: auto;
-  position: absolute;
-  right: calc(50% - #{$loader-width / 2});
-  font-size: 11px;
-  -webkit-animation-delay: $loader-delay;
-  animation-delay: $loader-delay;
-  &:before {
-    @extend %loader-pseudoelements;
-    left: -$loader-spacing;
-  }
-  &:after {
-    @extend %loader-pseudoelements;
-    left: $loader-spacing;
-    -webkit-animation-delay: 2 * $loader-delay;
-    animation-delay: 2 * $loader-delay;
-  }
-}
-
-:host .loader-text {
-  padding-top: 4rem;
+:host .loader__text {
+  display: block;
+  margin-top: $loader-padding;
   text-align: center;
+  @include font-size(-2);
 }
 
-@-webkit-keyframes load {
-  0%,
-  80%,
-  100% {
-    opacity: 0.75;
-    box-shadow: 0 0 $blue;
-    height: $loader-height;
+:host .loader__percentage {
+  display: block;
+  width: $loader-width;
+  position: absolute;
+  top: $loader-padding;
+  left: 50%;
+  margin-left: -$loader-width / 2;
+  margin-top: ($loader-width / 2);
+  text-align: center;
+  font-size: .875rem;
+  line-height: .25;
+}
+
+:host .loader__square {
+  width: $loader-width;
+  height: $loader-width;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  left: 50%;
+  margin-left: -$loader-width / 2;
+  stroke-dasharray: 50% 350%; // must add up to 400% to loop seamlessly
+  animation: loader-clockwise 2s infinite linear;
+}
+
+:host .loader__square--2 {
+  stroke-dasharray: 100% 225% 50% 25%;
+  animation: loader-clockwise 1s infinite linear;
+}
+
+:host .loader__square--3 {
+  stroke-dasharray: 50% 50% 75% 225%;
+  animation: loader-clockwise 1.85s infinite linear;
+}
+
+// Edge can't animate stroke dash offset, so offset will be animated via JavaScript
+@supports (-ms-ime-align:auto) {
+  :host .loader__square {
+    stroke-dashoffset: var(--calcite-loader-offset);
+    animation: none;
   }
-  40% {
-    opacity: 1;
-    box-shadow: 0 -1 * $loader-zoom $blue;
-    height: $loader-height + $loader-zoom;
+  :host .loader__square--2 {
+    stroke-dashoffset: var(--calcite-loader-offset2);
+  }
+  :host .loader__square--3 {
+    stroke-dashoffset: var(--calcite-loader-offset3);
   }
 }
-@keyframes load {
-  0%,
-  80%,
-  100% {
-    opacity: 0.75;
-    box-shadow: 0 0 $blue;
-    height: $loader-height;
+
+:host([type="determinate"]) {
+  stroke: var(--calcite-loader-neutral);
+  animation: none;
+  .loader__square--3 {
+    stroke: var(--calcite-loader-spot);
+    stroke-dasharray: 400%;
+    stroke-dashoffset: var(--calcite-loader-progress);
+    transition: 50ms linear all;
+    transform: rotate(90deg);
+    animation: none;
   }
-  40% {
-    opacity: 1;
-    box-shadow: 0 -1 * $loader-zoom $blue;
-    height: $loader-height + $loader-zoom;
+}
+
+:host([inline]) {
+  stroke: currentColor;
+  stroke-width: $loader-stroke-width-inline;
+  animation: none;
+  margin: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  position: relative;
+  height: $loader-width-inline;
+  min-height: $loader-width-inline;
+  width: $loader-width-inline;
+  margin-right: $loader-width-inline / 2;
+  vertical-align: -$loader-width-inline / 8;
+}
+
+:host([inline][dir="rtl"]) {
+  margin-left: $loader-width-inline / 2;
+  margin-right: 0;
+}
+
+:host([is-active][inline]) {
+  display: inline-block;
+}
+
+:host([inline]) .loader__square {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: $loader-width-inline;
+  height: $loader-width-inline;
+}
+
+@keyframes loader-color-shift {
+  0% {
+    stroke: var(--calcite-loader-spot-light);
+  }
+  100% {
+    stroke: var(--calcite-loader-spot-dark);
+  }
+}
+
+@keyframes loader-clockwise {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -400%;
   }
 }

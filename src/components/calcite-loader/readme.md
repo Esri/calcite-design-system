@@ -16,10 +16,13 @@ The calcite-loader component is a simple, indeterminate loading indicator. Simpl
 
 ## Properties
 
-| Property   | Attribute   | Description                                          | Type      | Default        |
-| ---------- | ----------- | ---------------------------------------------------- | --------- | -------------- |
-| `isActive` | `is-active` | Loader is visible when active                        | `boolean` | `false`        |
-| `text`     | `text`      | Text which should appear under the loading indicator | `string`  | `"Loading..."` |
+| Property   | Attribute   | Description                                                        | Type                               | Default           |
+| ---------- | ----------- | ------------------------------------------------------------------ | ---------------------------------- | ----------------- |
+| `inline`   | `inline`    | Inline loaders are smaller and will appear to the left of the text | `boolean`                          | `false`           |
+| `isActive` | `is-active` | Show the loader                                                    | `boolean`                          | `false`           |
+| `text`     | `text`      | Text which should appear under the loading indicator (optional)    | `string`                           | `""`              |
+| `type`     | `type`      | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `"indeterminate"` |
+| `value`    | `value`     | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`               |
 
 
 ----------------------------------------------
