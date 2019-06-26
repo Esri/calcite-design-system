@@ -8,6 +8,9 @@ export const config: Config = {
       components: ["calcite-switch"]
     },
     {
+      components: ["calcite-config"]
+    },
+    {
       components: [
         "calcite-tab",
         "calcite-tab-title",
