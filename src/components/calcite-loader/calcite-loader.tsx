@@ -88,7 +88,9 @@ export class CalciteLoader {
       styleProperties["--calcite-loader-offset2"] = `${this.offset2}%`;
       styleProperties["--calcite-loader-offset3"] = `${this.offset3}%`;
     }
-    const progress = { "--calcite-loader-progress": `${-400 - this.value * 4}%` };
+    const progress = {
+      "--calcite-loader-progress": `${-400 - this.value * 4}%`
+    };
     return (
       <Host
         id={id}
@@ -110,12 +112,12 @@ export class CalciteLoader {
         >
           <rect width={size} height={size} />
         </svg>
-        {
-          this.text ? <div class="loader__text">{this.text}</div> : ""
-        }
-        {
-          this.value ? <div class="loader__percentage">{Math.floor(this.value)}</div> : ""
-        }
+        {this.text ? <div class="loader__text">{this.text}</div> : ""}
+        {this.value ? (
+          <div class="loader__percentage">{Math.floor(this.value)}</div>
+        ) : (
+          ""
+        )}
       </Host>
     );
   }
