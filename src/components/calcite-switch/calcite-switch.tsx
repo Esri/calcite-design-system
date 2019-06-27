@@ -114,7 +114,7 @@ export class CalciteSwitch {
   }
 
   private syncThisToProxyInput = () => {
-    this.switched = this.inputProxy.checked;
+    this.switched = this.inputProxy.hasAttribute("checked");
     this.name = this.inputProxy.name;
     this.value = this.inputProxy.value;
   };
