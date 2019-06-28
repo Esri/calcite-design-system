@@ -8,6 +8,27 @@ describe("calcite-loader", () => {
     expect(loader).toHaveClass("hydrated");
   });
 
+  it("becomes visible when is-active prop is set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-loader></calcite-loader>`);
+    const loader = await page.find("calcite-loader");
+    let isVisible = await loader.isIntersectingViewport();
+    expect(isVisible).toBe(false);
+    loader.setProperty("is-active", true);
+    await page.waitForChanges();
+    isVisible = await loader.isIntersectingViewport();
+    expect(isVisible).toBe(false);
+  });
+
+  it("displays label from text prop", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-loader is-active text="testing"></calcite-loader>`
+    );
+    const elm = await page.find("calcite-loader >>> div");
+    expect(elm).toEqualText("testing");
+  });
+
   it("sets aria attributes properly for indeterminate loader", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-loader></calcite-loader>`);
@@ -31,5 +52,12 @@ describe("calcite-loader", () => {
     loader.setProperty("value", 24);
     await page.waitForChanges();
     expect(loader).toEqualAttribute("aria-valuenow", 24);
+  });
+
+  it("displays inline with text from inline prop", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-loader is-active inline></calcite-loader>`);
+    const rect = await page.find("calcite-loader >>> rect");
+    expect(rect).toEqualAttribute("width", "16");
   });
 });

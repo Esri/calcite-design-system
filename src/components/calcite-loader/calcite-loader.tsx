@@ -24,7 +24,7 @@ export class CalciteLoader {
    * Show the loader
    */
   @Prop({
-    reflectToAttr: true,
+    reflect: true,
     mutable: true
   })
   isActive: boolean = false;
@@ -32,7 +32,7 @@ export class CalciteLoader {
    * Inline loaders are smaller and will appear to the left of the text
    */
   @Prop({
-    reflectToAttr: true,
+    reflect: true,
     mutable: true
   })
   inline: boolean = false;
@@ -40,7 +40,7 @@ export class CalciteLoader {
    * Use indeterminate if finding actual progress value is impossible
    */
   @Prop({
-    reflectToAttr: true,
+    reflect: true,
     mutable: true
   })
   type: "indeterminate" | "determinate" = "indeterminate";
@@ -84,9 +84,15 @@ export class CalciteLoader {
     const isDeterminate = this.type === "determinate";
     const styleProperties = {};
     if (this.isEdge) {
-      styleProperties["--calcite-loader-offset"] = `${this.offset}%`;
-      styleProperties["--calcite-loader-offset2"] = `${this.offset2}%`;
-      styleProperties["--calcite-loader-offset3"] = `${this.offset3}%`;
+      styleProperties[
+        "--calcite-loader-offset"
+      ] = `${this.loaderBarOffsets[0]}%`;
+      styleProperties[
+        "--calcite-loader-offset2"
+      ] = `${this.loaderBarOffsets[1]}%`;
+      styleProperties[
+        "--calcite-loader-offset3"
+      ] = `${this.loaderBarOffsets[2]}%`;
     }
     const progress = {
       "--calcite-loader-progress": `${-400 - this.value * 4}%`
@@ -130,17 +136,12 @@ export class CalciteLoader {
   /**
    * @internal
    */
-  @State() private offset: number = 0;
+  @State() private loaderBarOffsets: number[] = [0, 0, 0];
 
   /**
    * @internal
    */
-  @State() private offset2: number = 0;
-
-  /**
-   * @internal
-   */
-  @State() private offset3: number = 0;
+  private loaderBarRates: number[] = [1, 2.25, 3.5];
 
   /**
    * @internal
@@ -166,20 +167,20 @@ export class CalciteLoader {
    * @internal
    */
   private updateOffset(): void {
-    this.offset = this.incrementOffset(this.offset, 1);
-    this.offset2 = this.incrementOffset(this.offset2, 2);
-    this.offset3 = this.incrementOffset(this.offset3, 3);
+    this.loaderBarOffsets = this.rotateLoaderBars(this.loaderBarOffsets);
     this.animationID = window.requestAnimationFrame(() => this.updateOffset());
   }
 
   /**
    * @internal
    */
-  private incrementOffset(offset: number, rate: number): number {
-    if (offset > -400) {
-      return offset - rate;
-    } else {
-      return 0;
-    }
+  private rotateLoaderBars(barOffsets: number[]): number[] {
+    return barOffsets.map((offset, i) => {
+      if (offset > -400) {
+        return offset - this.loaderBarRates[i];
+      } else {
+        return 0;
+      }
+    });
   }
 }

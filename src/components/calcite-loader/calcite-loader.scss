@@ -34,14 +34,14 @@ $loader-padding: 4rem;
   display: block;
 }
 
-:host .loader__text {
+.loader__text {
   display: block;
   margin-top: $loader-padding;
   text-align: center;
   @include font-size(-2);
 }
 
-:host .loader__percentage {
+.loader__percentage {
   display: block;
   width: $loader-width;
   position: absolute;
@@ -54,7 +54,7 @@ $loader-padding: 4rem;
   line-height: 0.25;
 }
 
-:host .loader__square {
+.loader__square {
   width: $loader-width;
   height: $loader-width;
   position: absolute;
@@ -66,26 +66,26 @@ $loader-padding: 4rem;
   animation: loader-clockwise 2s infinite linear;
 }
 
-:host .loader__square--2 {
+.loader__square--2 {
   stroke-dasharray: 100% 225% 50% 25%;
   animation: loader-clockwise 1s infinite linear;
 }
 
-:host .loader__square--3 {
+.loader__square--3 {
   stroke-dasharray: 50% 50% 75% 225%;
   animation: loader-clockwise 1.85s infinite linear;
 }
 
 // Edge can't animate stroke dash offset, so offset will be animated via JavaScript
 @supports (-ms-ime-align: auto) {
-  :host .loader__square {
+  .loader__square {
     stroke-dashoffset: var(--calcite-loader-offset);
     animation: none;
   }
-  :host .loader__square--2 {
+  .loader__square--2 {
     stroke-dashoffset: var(--calcite-loader-offset2);
   }
-  :host .loader__square--3 {
+  .loader__square--3 {
     stroke-dashoffset: var(--calcite-loader-offset3);
   }
 }
