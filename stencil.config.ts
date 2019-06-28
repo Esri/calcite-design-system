@@ -17,7 +17,8 @@ export const config: Config = {
     },
     { components: ["calcite-progress"] },
     { components: ["calcite-alert", "calcite-alerts"] },
-    { components: ["calcite-loader"] }
+    { components: ["calcite-loader"] },
+    { components: ["calcite-slider"] }
   ],
   outputTargets: [
     { type: "dist" },

@@ -1,0 +1,197 @@
+$calcite-slider-thumb-size: 28px;
+$calcite-slider-handle-size: 14px;
+$calcite-slider-thumb-padding: (
+    $calcite-slider-thumb-size - $calcite-slider-handle-size
+  ) / 2;
+$calcite-slider-track-height: 2px;
+$calcite-slider-tick-height: 4px;
+
+:host {
+  --calcite-slider-spot: #{$h-bb-060};
+  display: block;
+  padding: $calcite-slider-handle-size / 2 0;
+  margin: $calcite-slider-handle-size / 2 0;
+  position: relative;
+}
+
+:host([disabled]) {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/*
+ * Ensure we have enough space on variants
+ * with text elements to prevent overlap
+ */
+:host([label-handles]),
+:host([precise]) {
+  margin-top: $calcite-slider-handle-size + $calcite-slider-thumb-padding;
+}
+
+:host([label-ticks]),
+:host([precise][is-range]) {
+  margin-bottom: $calcite-slider-handle-size + $calcite-slider-thumb-padding;
+}
+
+:host([precise][label-handles]) {
+  margin-top: $calcite-slider-thumb-size + $calcite-slider-thumb-padding;
+}
+
+:host([precise][label-handles][is-range]) {
+  margin-bottom: $calcite-slider-thumb-size + $calcite-slider-thumb-padding;
+}
+
+.slider__thumb {
+  position: absolute;
+  right: var(--calcite-slider-range-max);
+  height: $calcite-slider-thumb-size;
+  width: $calcite-slider-thumb-size;
+  margin: -$calcite-slider-thumb-size / 2;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  z-index: 3;
+}
+
+.slider__thumb--min {
+  right: auto;
+  left: var(--calcite-slider-range-min);
+}
+
+.slider__handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: $calcite-slider-handle-size;
+  width: $calcite-slider-handle-size;
+  margin: $calcite-slider-thumb-padding;
+  box-sizing: border-box;
+  border-radius: 100%;
+  background-color: $blk-000;
+  border: 2px solid $blk-100;
+  transition: border 0.25s ease, background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.slider__handle__label {
+  position: absolute;
+  left: 0;
+  bottom: $calcite-slider-thumb-size;
+  width: $calcite-slider-thumb-size;
+  height: 0.75em;
+  @include font-size(-3);
+  line-height: 1;
+  color: $blk-160;
+  text-align: center;
+}
+
+.slider__thumb:hover .slider__handle {
+  border-color: var(--calcite-slider-spot);
+  @include shadow(1, "hover");
+}
+
+.slider__thumb:focus,
+.slider__thumb--active {
+  outline: none;
+  z-index: 4;
+  .slider__handle {
+    background-color: var(--calcite-slider-spot);
+    border-color: var(--calcite-slider-spot);
+    @include shadow(1, "press");
+  }
+}
+
+.slider__thumb--precise {
+  margin-top: -$calcite-slider-thumb-size;
+}
+
+.slider__thumb--precise:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: $calcite-slider-handle-size;
+  left: 50%;
+  width: 2px;
+  height: $calcite-slider-thumb-padding;
+  background-color: $blk-100;
+  margin-left: -1px;
+  margin-top: $calcite-slider-thumb-padding;
+  z-index: 2;
+}
+
+.slider__thumb:focus.slider__thumb--precise:after,
+.slider__thumb--active.slider__thumb--precise:after {
+  background-color: var(--calcite-slider-spot);
+}
+
+.slider__thumb--precise.slider__thumb--min {
+  margin-top: -$calcite-slider-track-height;
+  .slider__handle__label {
+    bottom: unset;
+    top: $calcite-slider-thumb-size;
+  }
+}
+
+.slider__thumb--precise.slider__thumb--min:after {
+  top: 0;
+  margin-top: 0;
+}
+
+.slider__track {
+  height: $calcite-slider-track-height;
+  border-radius: 0;
+  z-index: 2;
+  background-color: $blk-050;
+  transition: all 250ms ease-in;
+  position: relative;
+}
+
+.slider__track__range {
+  position: absolute;
+  top: 0;
+  right: var(--calcite-slider-range-max);
+  left: var(--calcite-slider-range-min);
+  height: $calcite-slider-track-height;
+  background-color: var(--calcite-slider-spot);
+}
+
+.slider__tick {
+  position: absolute;
+  top: -$calcite-slider-tick-height / 2;
+  width: 2px;
+  height: $calcite-slider-tick-height;
+  left: var(--calcite-slider-tick-offset);
+  margin-left: -2px;
+  border: 1px solid $blk-000;
+  background-color: $blk-100;
+}
+
+.slider__tick--active {
+  background-color: var(--calcite-slider-spot);
+}
+
+.slider__tick__label {
+  position: absolute;
+  @include font-size(-3);
+  color: $blk-160;
+  width: 4em;
+  margin: $calcite-slider-thumb-size / 2 -2em;
+  text-align: center;
+  display: block;
+  pointer-events: none;
+}
+
+.slider__tick__label--min {
+  left: 0;
+  margin: $calcite-slider-thumb-size / 2 -3px;
+  text-align: left;
+}
+
+.slider__tick__label--max {
+  left: unset;
+  right: 0;
+  margin: $calcite-slider-thumb-size / 2 -3px;
+  text-align: right;
+}
