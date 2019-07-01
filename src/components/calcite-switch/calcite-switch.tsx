@@ -18,25 +18,10 @@ import { SPACE, ENTER } from "../../utils/keys";
 })
 export class CalciteSwitch {
   @Element() el: HTMLElement;
-  /**
-   * True if the control should be switched on
-   */
   @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
-  /**
-   * Name of the form control (useful for specifying input/label relationship)
-   */
   @Prop({ reflect: true, mutable: true }) name?: string = "";
-  /**
-   * Value of the form control
-   */
   @Prop({ reflect: true, mutable: true }) value?: string = "";
-  /**
-   * Color of the switch. Use red to denote destructive settings/actions.
-   */
   @Prop() color?: "red" | "blue" = "blue";
-  /**
-   * @todo document what gets passed to the handler for these events
-   */
   @Event() calciteSwitchChange: EventEmitter;
 
   private observer: MutationObserver;
@@ -64,11 +49,9 @@ export class CalciteSwitch {
 
   @Watch("switched") switchWatcher() {
     this.calciteSwitchChange.emit();
-    if (this.switched) {
-      this.inputProxy.setAttribute("checked", "");
-    } else {
-      this.inputProxy.removeAttribute("checked");
-    }
+    this.switched
+      ? this.inputProxy.setAttribute("checked", "")
+      : this.inputProxy.removeAttribute("checked");
   }
 
   private inputProxy: HTMLInputElement;

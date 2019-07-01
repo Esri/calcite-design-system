@@ -32,8 +32,7 @@
         <calcite-tab-title>Alerts</calcite-tab-title>
         <calcite-tab-title>Loader</calcite-tab-title>
         <calcite-tab-title>Progress</calcite-tab-title>
-        <calcite-tab-title>Switches</calcite-tab-title>
-        <calcite-tab-title>Checkbox</calcite-tab-title>
+        <calcite-tab-title>Switch and Checkbox</calcite-tab-title>
       </calcite-tab-nav>
 
       <calcite-tab is-active>
@@ -320,6 +319,7 @@
       </calcite-tab>
 
       <calcite-tab>
+        <h2>calcite-switch</h2>
         <div>
           <label>
             <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
@@ -331,7 +331,7 @@
                 e
               ) {
                 console.log(
-                  "Basic Checkbox changed by <calcite-switch>",
+                  "Basic switch changed by <calcite-switch>",
                   e.target.switched
                 );
               });
@@ -340,25 +340,24 @@
         </div>
 
         <div>
-          <label>
-            <calcite-switch switched="true">
-              <input id="proxySwitchCheckbox" type="checkbox" />
-            </calcite-switch>
-            With a proxy <code>input</code> element and changes on
-            <code>label</code> click.
-            <script>
-              const proxySwitchCheckbox = document.getElementById(
-                "proxySwitchCheckbox"
-              );
+          <calcite-switch>
+            <input id="proxySwitchCheckbox" type="checkbox" />
+          </calcite-switch>
+          <span id='proxySwitchSpan'>
+            With a proxy <code>input</code> element and changes on click.
+          </span>
+          <script>
+            const proxySwitchSpan = document.getElementById(
+              "proxySwitchSpan"
+            );
+            const proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
 
-              proxySwitchCheckbox.addEventListener("change", function(e) {
-                console.log(
-                  "Proxy Checkbox changed by <calcite-switch>",
-                  e.target.checked
-                );
-              });
-            </script>
-          </label>
+            proxySwitchSpan.addEventListener('click', () => {
+              proxySwitchCheckbox.hasAttribute('checked') ?
+                proxySwitchCheckbox.removeAttribute('checked') :
+                proxySwitchCheckbox.setAttribute('checked', '')
+            })
+          </script>
         </div>
 
         <div>
@@ -373,21 +372,8 @@
           Switch with no wrapping <code>label</code>.
         </div>
 
-        <div>
-          <calcite-switch id="switch-1"></calcite-switch>
-          <label for="switch-1">Switch with <code>label</code> but not wrapped in it.</label>
-        </div>
+        <h2>calcite-checkbox</h2>
 
-        <div>
-          <calcite-switch>
-            <input id="switch-2" type="checkbox">
-          </calcite-switch>
-          <label for="switch-2">Switch with <code>label</code> but not wrapped in it.</label>
-        </div>
-      </calcite-tab>
-
-
-      <calcite-tab>
         <div>
           <label>
             <calcite-checkbox id="basicCheckbox" checked="true"></calcite-checkbox>
@@ -408,49 +394,30 @@
         </div>
 
         <div>
-          <label>
-            <calcite-checkbox checked="true">
-              <input id="proxyCheckbox" type="checkbox" />
+          <calcite-checkbox>
+              <input id="proxyCheckboxCheckbox" type="checkbox" />
             </calcite-checkbox>
-            With a proxy <code>input</code> element and changes on
-            <code>label</code> click.
+            <span id='proxyCheckboxSpan'>
+              With a proxy <code>input</code> element and changes on click.
+            </span>
             <script>
-              const proxyCheckbox = document.getElementById(
-                "proxyCheckbox"
+              const proxyCheckboxSpan = document.getElementById(
+                "proxyCheckboxSpan"
               );
+              const proxyCheckboxCheckbox = document.getElementById('proxyCheckboxCheckbox');
 
-              proxyCheckbox.addEventListener("change", function(e) {
-                console.log(
-                  "Proxy Checkbox changed by <calcite-checkbox>",
-                  e.target.checked
-                );
-              });
+              proxyCheckboxSpan.addEventListener('click', () => {
+                proxyCheckboxCheckbox.hasAttribute('checked') ?
+                  proxyCheckboxCheckbox.removeAttribute('checked') :
+                  proxyCheckboxCheckbox.setAttribute('checked', '')
+              })
             </script>
-          </label>
-        </div>
 
-        <div>
-          <label>
-            <calcite-checkbox checked="true" color="red"> </calcite-checkbox>
-            Red switch
-          </label>
         </div>
 
         <div>
           <calcite-checkbox></calcite-checkbox>
-          Switch with no wrapping <code>label</code>.
-        </div>
-
-        <div>
-          <calcite-checkbox id="switch-1"></calcite-checkbox>
-          <label for="switch-1">Switch with <code>label</code> but not wrapped in it.</label>
-        </div>
-
-        <div>
-          <calcite-checkbox>
-            <input id="switch-2" type="checkbox">
-          </calcite-checkbox>
-          <label for="switch-2">Switch with <code>label</code> but not wrapped in it.</label>
+          Checkbox with no wrapping <code>label</code>.
         </div>
       </calcite-tab>
 

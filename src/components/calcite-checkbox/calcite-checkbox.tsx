@@ -18,25 +18,11 @@ import { SPACE, ENTER } from "../../utils/keys";
 })
 export class CalciteCheckbox {
   @Element() el: HTMLElement;
-  /**
-   * True if the control should be checked
-   */
-  @Prop({ reflect: true }) checked?: boolean = false;
-  /**
-   * Name of the form control (useful for specifying input/label relationship)
-   */
-  @Prop({ reflect: true }) name?: string = "";
-  /**
-   * Value of the form control
-   */
-  @Prop({ reflect: true }) value?: string = "";
-  /**
-   * Color of the check. Use red to denote destructive settings/actions.
-   */
+  @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) name?: string = "";
+  @Prop({ reflect: true, mutable: true }) value?: string = "";
+
   @Prop() color?: "red" | "blue" = "blue";
-  /**
-   * @todo document what gets passed to the handler for these events
-   */
   @Event() calciteCheckboxChange: EventEmitter;
 
   private observer: MutationObserver;
@@ -62,13 +48,11 @@ export class CalciteCheckbox {
     }
   }
 
-  @Watch("checked") checkWatcher() {
+  @Watch("checked") checkedWatcher() {
     this.calciteCheckboxChange.emit();
-    if (this.checked) {
-      this.inputProxy.setAttribute("checked", "");
-    } else {
-      this.inputProxy.removeAttribute("checked");
-    }
+    this.checked
+      ? this.inputProxy.setAttribute("checked", "")
+      : this.inputProxy.removeAttribute("checked");
   }
 
   private inputProxy: HTMLInputElement;
@@ -120,7 +104,9 @@ export class CalciteCheckbox {
   };
 
   private syncProxyInputToThis = () => {
-    this.inputProxy.checked = this.checked;
+    this.checked
+      ? this.inputProxy.setAttribute("checked", "")
+      : this.inputProxy.removeAttribute("checked");
     this.inputProxy.name = this.name;
     this.inputProxy.value = this.value;
   };
