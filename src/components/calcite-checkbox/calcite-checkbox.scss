@@ -13,103 +13,65 @@
   tap-highlight-color: transparent;
 }
 
-.track {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  width: 36px;
-  height: 20px;
-  background-color: $off-white;
-  border-radius: 30px;
-  border: 1px solid $lighter-gray;
-  transition: all 0.25s ease;
-}
-
-.handle {
-  position: absolute;
-  display: block;
+.check-svg {
   width: 18px;
   height: 18px;
-  top: -1px;
-  left: -1px;
-  right: auto;
-  background-color: $white;
-  border-radius: 30px;
-  border: 2px solid $gray;
-  box-shadow: 0 1px 1px 0px rgba($darkest-gray, 0.2);
-  transition: all 0.25s ease;
+  overflow: hidden;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  vertical-align: -0.25em;
+  margin-right: 0.25em;
+  cursor: pointer;
+  -webkit-transition: all 150ms linear;
+  -o-transition: all 150ms linear;
+  transition: all 150ms linear;
+  box-sizing: border-box;
 }
 
 :host([checked]) {
-  .handle {
-    right: -1px;
-    left: auto;
-    border-color: $darker-blue;
-    box-shadow: 0 2px 1px 0px rgba($darkest-gray, 0.2);
-  }
+  // .handle {
+  //   right: -1px;
+  //   left: auto;
+  //   border-color: $darker-blue;
+  //   box-shadow: 0 2px 1px 0px rgba($darkest-gray, 0.2);
+  // }
 
-  .track {
-    border-color: $dark-blue;
-    background-color: $blue;
-  }
-}
-
-:host([checked][color="red"]) {
-  .handle {
-    border-color: $darker-red;
-  }
-
-  .track {
-    border-color: $darker-red;
-    background-color: $dark-red;
-  }
+  // .track {
+  //   border-color: $dark-blue;
+  //   background-color: $blue;
+  // }
 }
 
 :host(:focus),
 :host([checked]:focus) {
-  outline: none;
+  // outline: none;
 
-  .track {
-    box-shadow: 0 0 4px 2px rgba($light-gray, 0.9);
-  }
+  // .track {
+  //   box-shadow: 0 0 4px 2px rgba($light-gray, 0.9);
+  // }
 }
 
 :host(:hover) {
-  .track {
-    border-color: $lighter-gray;
-    background-color: $lightest-gray;
-  }
+  // .track {
+  //   border-color: $lighter-gray;
+  //   background-color: $lightest-gray;
+  // }
 
-  .handle {
-    border-color: $blue;
-    box-shadow: 0 1px 2px 0px rgba($darkest-gray, 0.2);
-  }
-}
-
-:host([color="red"]:hover) {
-  .handle {
-    border-color: $red;
-  }
+  // .handle {
+  //   border-color: $blue;
+  //   box-shadow: 0 1px 2px 0px rgba($darkest-gray, 0.2);
+  // }
 }
 
 :host([checked]:hover) {
-  .handle {
-    border-color: $darker-blue;
-  }
+  // .handle {
+  //   border-color: $darker-blue;
+  // }
 
-  .track {
-    border-color: $dark-blue;
-    background-color: $blue;
-  }
-}
-
-:host([checked][color="red"]:hover) {
-  .handle {
-    border-color: $darker-red;
-  }
-
-  .track {
-    border-color: $darker-red;
-    background-color: $dark-red;
-  }
+  // .track {
+  //   border-color: $dark-blue;
+  //   background-color: $blue;
+  // }
 }

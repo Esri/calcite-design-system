@@ -27,12 +27,9 @@ export class CalciteSwitch {
   private observer: MutationObserver;
 
   @Listen("click") onClick(e) {
-    // If this is contained by a label only toggle if the target is our input
-    // proxy to prevent duplicate toggles when <calcite-switch> is contained by
-    // a <label> and the switch is clicked causing a click from BOTH the switch
-    // and input.
-    // If this is NOT contained by a label only switch if the target
-    // is the switch.
+    // prevent duplicate click events that occur
+    // when the component is wrapped in a label and checkbox is clicked
+
     if (
       (this.el.closest("label") && e.target === this.inputProxy) ||
       (!this.el.closest("label") && e.target === this.el)

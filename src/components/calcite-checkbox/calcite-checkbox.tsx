@@ -19,26 +19,26 @@ import { SPACE, ENTER } from "../../utils/keys";
 export class CalciteCheckbox {
   @Element() el: HTMLElement;
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) indeterminate?: boolean = false;
   @Prop({ reflect: true, mutable: true }) name?: string = "";
   @Prop({ reflect: true, mutable: true }) value?: string = "";
 
   @Prop() color?: "red" | "blue" = "blue";
+
   @Event() calciteCheckboxChange: EventEmitter;
 
   private observer: MutationObserver;
 
   @Listen("click") onClick(e) {
-    // If this is contained by a label only toggle if the target is our input
-    // proxy to prevent duplicate toggles when <calcite-checkbox> is contained by
-    // a <label> and the checkbox is clicked causing a click from BOTH the checkbox
-    // and input.
-    // If this is NOT contained by a label only check if the target
-    // is the checkbox.
+    // prevent duplicate click events that occur
+    // when the component is wrapped in a label and checkbox is clicked
+
     if (
       (this.el.closest("label") && e.target === this.inputProxy) ||
       (!this.el.closest("label") && e.target === this.el)
     ) {
       this.checked = !this.checked;
+      this.indeterminate = false;
     }
   }
 
@@ -70,11 +70,19 @@ export class CalciteCheckbox {
   }
 
   render() {
+    const path = this.indeterminate
+      ? "M4 7h8v2H4z"
+      : this.checked
+      ? "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z"
+      : "";
     return (
       <Host role="checkbox" aria-checked={this.checked} tabindex="0">
-        <div class="track">
+        <svg class="check-svg" viewBox="0 0 16 16">
+          <path d={path} />
+        </svg>
+        {/* <div class="track">
           <div class="handle" />
-        </div>
+        </div> */}
         <slot />
       </Host>
     );
