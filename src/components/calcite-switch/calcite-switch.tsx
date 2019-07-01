@@ -21,15 +21,15 @@ export class CalciteSwitch {
   /**
    * True if the control should be switched on
    */
-  @Prop({ reflect: true }) switched?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
   /**
    * Name of the form control (useful for specifying input/label relationship)
    */
-  @Prop({ reflect: true }) name?: string = "";
+  @Prop({ reflect: true, mutable: true }) name?: string = "";
   /**
    * Value of the form control
    */
-  @Prop({ reflect: true }) value?: string = "";
+  @Prop({ reflect: true, mutable: true }) value?: string = "";
   /**
    * Color of the switch. Use red to denote destructive settings/actions.
    */
@@ -120,8 +120,10 @@ export class CalciteSwitch {
   };
 
   private syncProxyInputToThis = () => {
-    this.inputProxy.checked = this.switched;
-    this.inputProxy.name = this.name;
-    this.inputProxy.value = this.value;
+    this.switched
+      ? this.inputProxy.setAttribute("checked", "")
+      : this.inputProxy.removeAttribute("checked");
+    this.inputProxy.setAttribute("name", this.name);
+    this.inputProxy.setAttribute("value", this.value);
   };
 }
