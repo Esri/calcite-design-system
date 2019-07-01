@@ -74,7 +74,6 @@ export class CalciteCheckbox {
   private inputProxy: HTMLInputElement;
 
   connectedCallback() {
-    console.log("it happened!");
     this.setupProxyInput();
   }
 

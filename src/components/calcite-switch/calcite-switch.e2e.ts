@@ -66,6 +66,26 @@ describe("calcite-switch", () => {
     expect(input).toHaveAttribute("checked");
   });
 
+  // Not sure why this is failing
+  xit("toggles the switched and checked attributes when the checkbox is toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-switch>
+      <input type="checkbox" />
+    </calcite-switch>`);
+
+    const calciteSwitch = await page.find("calcite-switch");
+    const input = await page.find("input");
+
+    expect(calciteSwitch).not.toHaveAttribute("switched");
+    expect(input).not.toHaveAttribute("checked");
+
+    await input.setAttribute("checked", "");
+
+    expect(calciteSwitch).toHaveAttribute("switched");
+    expect(input).toHaveAttribute("checked");
+  });
+
   it("toggles when the wrapping label is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`
