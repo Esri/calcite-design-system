@@ -47,6 +47,7 @@ export class CalciteCheckbox {
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     if (e.keyCode === SPACE || e.keyCode === ENTER) {
       this.checked = !this.checked;
+      this.indeterminate = false;
     }
   }
 
