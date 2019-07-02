@@ -22,21 +22,28 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
-| Property   | Attribute  | Description                                                               | Type              | Default  |
-| ---------- | ---------- | ------------------------------------------------------------------------- | ----------------- | -------- |
-| `color`    | `color`    | Color of the switch. Use red to denote destructive settings/actions.      | `"blue" \| "red"` | `"blue"` |
-| `name`     | `name`     | Name of the form control (useful for specifying input/label relationship) | `string`          | `""`     |
-| `switched` | `switched` | True if the control should be switched on                                 | `boolean`         | `false`  |
-| `value`    | `value`    | Value of the form control                                                 | `string`          | `""`     |
+| Property        | Attribute       | Description                                                                                                                                   | Type                | Default   |
+| --------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | --------- |
+| `checked`       | `checked`       | True if the checkbox is initially checked                                                                                                     | `boolean`           | `false`   |
+| `disabled`      | `disabled`      | True if the checkbox is disabled                                                                                                              | `boolean`           | `false`   |
+| `indeterminate` | `indeterminate` | True if the checkbox is initially indeterminate, which is independent from its checked state https://css-tricks.com/indeterminate-checkboxes/ | `boolean`           | `false`   |
+| `large`         | `large`         | True if the checkbox is large                                                                                                                 | `boolean`           | `false`   |
+| `name`          | `name`          | The name of the checkbox input                                                                                                                | `string`            | `""`      |
+| `small`         | `small`         | True if the checkbox is small                                                                                                                 | `boolean`           | `false`   |
+| `theme`         | `theme`         | Determines what theme to use                                                                                                                  | `"dark" \| "light"` | `"light"` |
+| `value`         | `value`         | The value of the checkbox input                                                                                                               | `string`            | `""`      |
+
 
 ## Events
 
-| Event                 | Description | Type               |
-| --------------------- | ----------- | ------------------ |
-| `calciteSwitchChange` |             | `CustomEvent<any>` |
+| Event                   | Description                                      | Type               |
+| ----------------------- | ------------------------------------------------ | ------------------ |
+| `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*
