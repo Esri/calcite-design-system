@@ -72,6 +72,24 @@ describe("calcite-checkbox", () => {
     expect(input).toHaveAttribute("checked");
   });
 
+  it("does not toggle when clicked if disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-checkbox disabled></calcite-checkbox>");
+
+    const calciteCheckbox = await page.find("calcite-checkbox");
+    const input = await page.find("input");
+
+    expect(calciteCheckbox).not.toHaveAttribute("checked");
+    expect(input).not.toHaveAttribute("checked");
+
+    calciteCheckbox.click();
+
+    await page.waitForChanges();
+
+    expect(calciteCheckbox).not.toHaveAttribute("checked");
+    expect(input).not.toHaveAttribute("checked");
+  });
+
   it("removes the indeterminate attribute when clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -87,7 +105,7 @@ describe("calcite-checkbox", () => {
     expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
   });
 
-  // Not sure why this is failing
+  // Not sure why this is failing; it works in real life
   xit("toggles the checked attributes when the inner checkbox is toggled", async () => {
     const page = await newE2EPage();
     await page.setContent(`
