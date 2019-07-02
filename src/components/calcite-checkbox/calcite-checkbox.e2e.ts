@@ -72,6 +72,23 @@ describe("calcite-checkbox", () => {
     expect(input).toHaveAttribute("checked");
   });
 
+  it("appropriately triggers the custom change event", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-checkbox></calcite-checkbox>`);
+
+    const calciteCheckbox = await page.find("calcite-checkbox");
+
+    const changeEvent = await calciteCheckbox.spyOnEvent(
+      "calciteCheckboxChange"
+    );
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await calciteCheckbox.click();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
   it("does not toggle when clicked if disabled", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-checkbox disabled></calcite-checkbox>");

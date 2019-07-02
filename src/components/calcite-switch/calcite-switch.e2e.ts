@@ -66,6 +66,21 @@ describe("calcite-switch", () => {
     expect(input).toHaveAttribute("checked");
   });
 
+  it("appropriately triggers the custom change event", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-switch></calcite-switch>`);
+
+    const calciteSwitch = await page.find("calcite-switch");
+
+    const changeEvent = await calciteSwitch.spyOnEvent("calciteSwitchChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await calciteSwitch.click();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
   // Not sure why this is failing
   xit("toggles the switched and checked attributes when the checkbox is toggled", async () => {
     const page = await newE2EPage();
