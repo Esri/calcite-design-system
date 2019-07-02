@@ -18,15 +18,36 @@ import { SPACE, ENTER } from "../../utils/keys";
 })
 export class CalciteCheckbox {
   @Element() el: HTMLElement;
+
+  /** True if the checkbox is initially checked */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
+
+  /**
+   * True if the checkbox is initially indeterminate,
+   * which is independent from its checked state
+   * https://css-tricks.com/indeterminate-checkboxes/
+   * */
   @Prop({ reflect: true, mutable: true }) indeterminate?: boolean = false;
+
+  /** The name of the checkbox input */
   @Prop({ reflect: true, mutable: true }) name?: string = "";
+
+  /** The value of the checkbox input */
   @Prop({ reflect: true, mutable: true }) value?: string = "";
+
+  /** True if the checkbox is large  */
   @Prop({ reflect: true }) large?: boolean = false;
+
+  /** True if the checkbox is small  */
   @Prop({ reflect: true }) small?: boolean = false;
+
+  /** True if the checkbox is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
+
+  /** Determines what theme to use */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
+  /** Emitted when the checkbox checked status changes */
   @Event() calciteCheckboxChange: EventEmitter;
 
   private observer: MutationObserver;

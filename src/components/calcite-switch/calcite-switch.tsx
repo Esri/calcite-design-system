@@ -18,10 +18,19 @@ import { SPACE, ENTER } from "../../utils/keys";
 })
 export class CalciteSwitch {
   @Element() el: HTMLElement;
+
+  /** True if the switch is initially on */
   @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
+
+  /** The name of the checkbox input */
   @Prop({ reflect: true, mutable: true }) name?: string = "";
+
+  /** The value of the checkbox input */
   @Prop({ reflect: true, mutable: true }) value?: string = "";
+
+  /** What color the switch should be */
   @Prop() color?: "red" | "blue" = "blue";
+
   @Event() calciteSwitchChange: EventEmitter;
 
   private observer: MutationObserver;
