@@ -24,30 +24,34 @@ export class CalciteCheckbox {
   @Prop({ reflect: true, mutable: true }) value?: string = "";
   @Prop({ reflect: true }) large?: boolean = false;
   @Prop({ reflect: true }) small?: boolean = false;
-
-  @Prop() color?: "red" | "blue" = "blue";
+  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
   @Event() calciteCheckboxChange: EventEmitter;
 
   private observer: MutationObserver;
 
-  @Listen("click") onClick(e) {
-    // prevent duplicate click events that occur
-    // when the component is wrapped in a label and checkbox is clicked
-
-    if (
-      (this.el.closest("label") && e.target === this.inputProxy) ||
-      (!this.el.closest("label") && e.target === this.el)
-    ) {
+  private toggle = () => {
+    if (!this.disabled) {
       this.checked = !this.checked;
       this.indeterminate = false;
     }
+  };
+
+  @Listen("click") onClick({ target }: MouseEvent) {
+    // prevent duplicate click events that occur
+    // when the component is wrapped in a label and checkbox is clicked
+    if (
+      (this.el.closest("label") && target === this.inputProxy) ||
+      (!this.el.closest("label") && target === this.el)
+    ) {
+      this.toggle();
+    }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    if (e.keyCode === SPACE || e.keyCode === ENTER) {
-      this.checked = !this.checked;
-      this.indeterminate = false;
+  @Listen("keydown") keyDownHandler({ keyCode }: KeyboardEvent) {
+    if (keyCode === SPACE || keyCode === ENTER) {
+      this.toggle();
     }
   }
 
@@ -85,7 +89,11 @@ export class CalciteCheckbox {
 
   render() {
     return (
-      <Host role="checkbox" aria-checked={this.checked} tabindex="0">
+      <Host
+        role="checkbox"
+        aria-checked={this.checked}
+        tabindex={this.disabled ? "-1" : "0"}
+      >
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} fill="white" />
         </svg>

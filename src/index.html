@@ -429,11 +429,50 @@
         </div>
 
         <div>
-          <calcite-checkbox></calcite-checkbox>
-          Checkbox with no wrapping <code>label</code>.
+          <label>
+            <calcite-checkbox large></calcite-checkbox>
+            Large checkbox
+          </label>
+        </div>
+        <div>
+          <label>
+            <calcite-checkbox small></calcite-checkbox>
+            Small checkbox
+          </label>
+        </div>
+        <div style='background-color: black; color: white; padding: 5px;'>
+          <label >
+            <calcite-checkbox theme='dark' large></calcite-checkbox>
+            Dark large
+          </label>
+        </div>
+
+        <div style='background-color: black; color: white; padding: 5px;'>
+          <label>
+            <calcite-checkbox theme='dark' checked disabled></calcite-checkbox>
+            Dark checked disabled
+          </label>
+        </div>
+        <div style='background-color: black; color: white; padding: 5px;'>
+          <label>
+            <calcite-checkbox theme='dark' indeterminate disabled small></calcite-checkbox>
+            Dark indeterminate disabled small
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <calcite-checkbox disabled checked></calcite-checkbox>
+            Disabled and checked
+          </label>
+        </div>
+        <div>
+          <label>
+            <calcite-checkbox disabled></calcite-checkbox>
+            Disabled and unchecked
+          </label>
         </div>
       </calcite-tab>
-
     </calcite-tabs>
 
       <calcite-alerts id="my-alert-container">
