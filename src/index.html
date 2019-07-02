@@ -395,39 +395,38 @@
 
         <div>
           <calcite-checkbox>
-              <input id="proxyCheckboxCheckbox" type="checkbox" />
-            </calcite-checkbox>
-            <span id='proxyCheckboxSpan'>
-              With a proxy <code>input</code> element and changes on click.
-            </span>
-            <script>
-              const proxyCheckboxSpan = document.getElementById(
-                "proxyCheckboxSpan"
-              );
-              const proxyCheckboxCheckbox = document.getElementById('proxyCheckboxCheckbox');
+            <input id="proxyCheckboxCheckbox" type="checkbox" />
+          </calcite-checkbox>
+          <span id='proxyCheckboxSpan'>
+            With a proxy <code>input</code> element and changes on click.
+          </span>
+          <script>
+            const proxyCheckboxSpan = document.getElementById(
+              "proxyCheckboxSpan"
+            );
+            const proxyCheckboxCheckbox = document.getElementById('proxyCheckboxCheckbox');
 
-              proxyCheckboxSpan.addEventListener('click', () => {
-                proxyCheckboxCheckbox.hasAttribute('checked') ?
-                  proxyCheckboxCheckbox.removeAttribute('checked') :
-                  proxyCheckboxCheckbox.setAttribute('checked', '')
-              })
-            </script>
-
+            proxyCheckboxSpan.addEventListener('click', () => {
+              proxyCheckboxCheckbox.hasAttribute('checked') ?
+                proxyCheckboxCheckbox.removeAttribute('checked') :
+                proxyCheckboxCheckbox.setAttribute('checked', '')
+            })
+          </script>
         </div>
-<!--
+
         <div>
-          <label >
+          <label>
             <calcite-checkbox indeterminate></calcite-checkbox>
             Initially indeterminate and unchecked
           </label>
         </div>
 
         <div>
-          <label >
+          <label>
             <calcite-checkbox indeterminate checked></calcite-checkbox>
             Initially indeterminate and checked
           </label>
-        </div> -->
+        </div>
 
         <div>
           <calcite-checkbox></calcite-checkbox>

@@ -22,6 +22,8 @@ export class CalciteCheckbox {
   @Prop({ reflect: true, mutable: true }) indeterminate?: boolean = false;
   @Prop({ reflect: true, mutable: true }) name?: string = "";
   @Prop({ reflect: true, mutable: true }) value?: string = "";
+  @Prop({ reflect: true }) large?: boolean = false;
+  @Prop({ reflect: true }) small?: boolean = false;
 
   @Prop() color?: "red" | "blue" = "blue";
 
@@ -69,20 +71,23 @@ export class CalciteCheckbox {
     this.syncProxyInputToThis();
   }
 
-  render() {
-    const path = this.indeterminate
-      ? "M4 7h8v2H4z"
+  private readonly indeterminatePath = "M4 7h8v2H4z";
+  private readonly checkedPath =
+    "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z";
+
+  private getPath = (): string =>
+    this.indeterminate
+      ? this.indeterminatePath
       : this.checked
-      ? "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z"
+      ? this.checkedPath
       : "";
+
+  render() {
     return (
       <Host role="checkbox" aria-checked={this.checked} tabindex="0">
         <svg class="check-svg" viewBox="0 0 16 16">
-          <path d={path} />
+          <path d={this.getPath()} fill="white" />
         </svg>
-        {/* <div class="track">
-          <div class="handle" />
-        </div> */}
         <slot />
       </Host>
     );

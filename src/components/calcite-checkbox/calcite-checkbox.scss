@@ -30,48 +30,20 @@
   box-sizing: border-box;
 }
 
-:host([checked]) {
-  // .handle {
-  //   right: -1px;
-  //   left: auto;
-  //   border-color: $darker-blue;
-  //   box-shadow: 0 2px 1px 0px rgba($darkest-gray, 0.2);
-  // }
-
-  // .track {
-  //   border-color: $dark-blue;
-  //   background-color: $blue;
-  // }
+:host([checked]),
+:host([indeterminate]) {
+  .check-svg {
+    background-color: #0079c1;
+    border: 1px solid #0079c1;
+    opacity: 1;
+  }
 }
 
-:host(:focus),
-:host([checked]:focus) {
-  // outline: none;
-
-  // .track {
-  //   box-shadow: 0 0 4px 2px rgba($light-gray, 0.9);
-  // }
-}
-
-:host(:hover) {
-  // .track {
-  //   border-color: $lighter-gray;
-  //   background-color: $lightest-gray;
-  // }
-
-  // .handle {
-  //   border-color: $blue;
-  //   box-shadow: 0 1px 2px 0px rgba($darkest-gray, 0.2);
-  // }
-}
-
-:host([checked]:hover) {
-  // .handle {
-  //   border-color: $darker-blue;
-  // }
-
-  // .track {
-  //   border-color: $dark-blue;
-  //   background-color: $blue;
-  // }
+:host(:hover),
+:host(:focus) {
+  .check-svg {
+    border-color: #0079c1 !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075),
+      0 0 5px rgba(81, 167, 232, 0.5), 0 0 5px rgba(81, 167, 232, 0.5);
+  }
 }
