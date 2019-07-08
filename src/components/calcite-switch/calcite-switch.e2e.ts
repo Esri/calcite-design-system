@@ -82,7 +82,7 @@ describe("calcite-switch", () => {
   });
 
   // Not sure why this is failing
-  xit("toggles the switched and checked attributes when the checkbox is toggled", async () => {
+  it("toggles the switched and checked attributes when the checkbox is toggled", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-switch>
@@ -95,7 +95,11 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).not.toHaveAttribute("switched");
     expect(input).not.toHaveAttribute("checked");
 
-    await input.setAttribute("checked", "");
+    await page.$eval("input", element => {
+      element.setAttribute("checked", "");
+    });
+
+    await page.waitForChanges();
 
     expect(calciteSwitch).toHaveAttribute("switched");
     expect(input).toHaveAttribute("checked");

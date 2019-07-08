@@ -123,7 +123,7 @@ describe("calcite-checkbox", () => {
   });
 
   // Not sure why this is failing; it works in real life
-  xit("toggles the checked attributes when the inner checkbox is toggled", async () => {
+  it("toggles the checked attributes when the inner checkbox is toggled", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-checkbox>
@@ -136,7 +136,11 @@ describe("calcite-checkbox", () => {
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(input).not.toHaveAttribute("checked");
 
-    await input.setAttribute("checked", "");
+    await page.$eval("input", element => {
+      element.setAttribute("checked", "");
+    });
+
+    await page.waitForChanges();
 
     expect(calciteCheckbox).toHaveAttribute("checked");
     expect(input).toHaveAttribute("checked");
