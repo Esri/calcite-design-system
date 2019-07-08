@@ -5,11 +5,7 @@
 :host {
   display: inline-block;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
   tap-highlight-color: transparent;
 }
 
@@ -24,8 +20,6 @@
   vertical-align: -0.25em;
   margin-right: 0.25em;
   cursor: pointer;
-  -webkit-transition: all 150ms linear;
-  -o-transition: all 150ms linear;
   transition: all 150ms linear;
   box-sizing: border-box;
 }
