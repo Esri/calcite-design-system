@@ -138,7 +138,7 @@ export class CalciteCheckbox {
   }
 
   private syncThisToProxyInput = () => {
-    this.checked = this.inputProxy.checked;
+    this.checked = this.inputProxy.hasAttribute("checked");
     this.name = this.inputProxy.name;
     this.value = this.inputProxy.value;
   };
