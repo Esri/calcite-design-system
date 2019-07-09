@@ -14,8 +14,8 @@
   height: 20px;
   overflow: hidden;
   display: inline-block;
-  background-color: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: white;
+  border: 1px solid $gray;
   border-radius: 2px;
   vertical-align: -0.25em;
   margin-right: 0.25em;
@@ -26,14 +26,22 @@
 
 :host([theme="dark"]) {
   .check-svg {
-    border-color: white;
+    background-color: transparent;
+    border-color: $lighter-gray;
+  }
+}
+
+:host([theme="dark"][disabled]) {
+  .check-svg {
+    border-color: $gray;
+    background-color: $darkest-gray;
   }
 }
 
 :host([theme="dark"][checked]),
 :host([theme="dark"][indeterminate]) {
   .check-svg {
-    background-color: #49b0f2;
+    background-color: $v-bb-140;
   }
 }
 
@@ -57,24 +65,24 @@
   cursor: default;
 
   .check-svg {
-    background-color: #f8f8f8;
-    border-color: #efefef;
+    background-color: $lightest-gray;
+    border-color: $lighter-gray;
   }
 }
 
 :host([disabled][checked]),
 :host([disabled][indeterminate]) {
   .check-svg {
-    background-color: #99c9e7;
-    border-color: #99c9e7;
+    background-color: $m-bb-050;
+    border-color: $m-bb-050;
   }
 }
 
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    background-color: #0079c1;
-    border: 1px solid #0079c1;
+    background-color: $blue;
+    border: 1px solid $blue;
   }
 }
 
