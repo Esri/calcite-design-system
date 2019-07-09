@@ -37,7 +37,7 @@
   }
 }
 
-:host([large]) {
+:host([size="large"]) {
   .check-svg {
     width: 24px;
     height: 24px;
@@ -45,7 +45,7 @@
   }
 }
 
-:host([small]) {
+:host([size="small"]) {
   .check-svg {
     width: 16px;
     height: 16px;

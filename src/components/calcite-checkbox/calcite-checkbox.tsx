@@ -35,11 +35,8 @@ export class CalciteCheckbox {
   /** The value of the checkbox input */
   @Prop({ reflect: true, mutable: true }) value?: string = "";
 
-  /** True if the checkbox is large  */
-  @Prop({ reflect: true }) large?: boolean = false;
-
-  /** True if the checkbox is small  */
-  @Prop({ reflect: true }) small?: boolean = false;
+  /** Size of the checkbox  */
+  @Prop({ reflect: true }) size?: "small" | "large" = null;
 
   /** True if the checkbox is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
