@@ -1,0 +1,134 @@
+::slotted(input) {
+  display: none;
+}
+
+:host {
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &.host-expanded {
+    background-color: $white;
+    border: 1px solid $light-gray;
+    box-shadow: 16px 16px 40px 8px rgba($blk-240, 0.15);
+  }
+  
+  .date-input-wrapper {
+    padding: 12px;
+    border: 1px solid $light-gray;
+  
+    &.expanded {
+      border: none;
+      border-bottom: 1px solid $light-gray;
+    }
+  
+    &:active,
+    &:focus,
+    &.open {
+      border: none;
+      border-bottom: 1px solid $light-gray;
+    }
+  
+    .calendar-icon {
+      fill: $darkest-gray;
+    }
+  
+    .date-input {
+      color: $darkest-gray;
+      border: none;
+      font-weight: 400;
+      font-size: inherit;
+      margin-left: 12px;
+  
+      &:active,
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  
+  .month-year {
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0px;
+    text-align: center;
+  
+    .right-icon,
+    .left-icon {
+      fill: $light-gray;
+      font-weight: 400;
+      &:hover {
+        fill: $black;
+      }
+    }
+  
+    .month,
+    .year {
+      font-size: medium;
+      color: black;
+      font-weight: 400;
+    }
+  
+    .year {
+      border: none;
+    }
+  }
+  
+  .calendar-picker-wrapper {
+    padding: 12px;
+  }
+  
+  .calender {
+  
+    .week-headers {
+      display: flex;
+  
+      .week-header {
+        padding: 6px;
+        color: $gray;
+        font-weight: 700;
+        font-size: 12px;
+        flex-grow: 1;
+        flex-basis: 0;
+      }
+      border-bottom: 1px solid $lighter-gray;
+    }
+  
+    .week-days {
+      outline: none;
+      display: flex;
+      flex-direction: row;
+      align-items: space-around;
+      padding: 4px 0px;
+  
+      .day {
+        flex-grow: 1;
+        flex-basis: 0;
+  
+        &:hover {
+          background-color: $light-gray;
+          border-radius: 50%;
+          outline: none;
+        }
+  
+        &:active,
+        &:focus,
+        &.selected-day {
+          background-color: $blue;
+          border-radius: 50%;
+          color: $white;
+          outline: none;
+        }
+  
+        font-size: 16px;
+        color: $darkest-gray;
+        padding: 6px;
+        text-align: center;
+      }
+    }
+  }  
+}

@@ -33,6 +33,7 @@
         <calcite-tab-title>Loader</calcite-tab-title>
         <calcite-tab-title>Progress</calcite-tab-title>
         <calcite-tab-title>Switches</calcite-tab-title>
+        <calcite-tab-title>Date picker</calcite-tab-title>
       </calcite-tab-nav>
 
       <calcite-tab is-active>
@@ -416,6 +417,22 @@
         </div>
       </calcite-tab>
 
+      <calcite-tab>
+        <calcite-date id="dateSample" value="12/12/2019" ></calcite-date>
+        <script>
+          const dateSample = document.getElementById("dateSample");
+
+          dateSample.addEventListener("calciteDateChange", function(
+            e
+          ) {
+            dateSample.value = e.target.value;
+            console.log(
+              "Date selected <calcite-date>",
+                e.target.value
+            );
+          });
+        </script>
+      </calcite-tab>
     </calcite-tabs>
 
       <calcite-alerts id="my-alert-container">
