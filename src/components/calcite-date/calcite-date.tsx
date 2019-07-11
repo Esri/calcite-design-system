@@ -105,11 +105,10 @@ export class CalciteDate {
     selectedDate.setMonth(this.month || selectedDate.getMonth());
     selectedDate.setFullYear(this.year || selectedDate.getFullYear());
     return (
-      <Host role="application" class={this.showCalendar ? "host-expanded" : ""}>
-      <div>
+      <Host role="application">
         <div
           class={`date-input-wrapper ${this.showCalendar ? "expanded" : ""}`}
-          role="application"
+          role="application" onBlur={() => this.closeCalendar()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +127,6 @@ export class CalciteDate {
             onFocus={() => this.expandCalendar()}
           />
         </div>
-        <div onBlur={() => this.closeCalendar()}>
         {this.showCalendar && (
           <div class="calendar-picker-wrapper">
             {this.renderMonths(
@@ -142,8 +140,6 @@ export class CalciteDate {
             )}
           </div>
         )}
-        </div>
-        </div>
         <slot />
       </Host>
     );
