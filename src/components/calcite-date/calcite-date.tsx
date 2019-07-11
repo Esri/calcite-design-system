@@ -70,36 +70,6 @@ export class CalciteDate {
     this.syncProxyInputToThis();
   }
 
-  selectPrevMonth() {
-    if (this.month === 0) {
-      this.year = this.year - 1;
-    }
-    this.month = (12 + this.month - 1) % 12;
-  }
-
-  selectPrevMonthOnEnter(event: KeyboardEvent) {
-    if (event.keyCode === ENTER) {
-      this.selectPrevMonth();
-    }
-  }
-
-  selectNextMonth() {
-    if (this.month === 11) {
-      this.year = this.year + 1;
-    }
-    this.month = (this.month + 1) % 12;
-  }
-
-  selectNextMonthOnEnter(event: KeyboardEvent) {
-    if (event.keyCode === ENTER) {
-      this.selectNextMonth();
-    }
-  }
-
-  onYearChange(event) {
-    this.year = parseInt(event.target.value);
-  }
-
   render() {
     const selectedDate = this.value ? new Date(`${this.value} `) : new Date();
     selectedDate.setMonth(this.month || selectedDate.getMonth());
@@ -161,133 +131,8 @@ export class CalciteDate {
     return this.year === undefined ? date.getFullYear() : this.year;
   }
 
-  getLocalizedMonths() {
-    let m = 0,
-      months = [],
-      date = new Date();
-    for (; m < 12; m++) {
-      date.setMonth(m);
-      months.push(
-        new Intl.DateTimeFormat(this.locale, {
-          month: "long"
-        }).format(date)
-      );
-    }
-
-    return months;
-  }
-
-  getLocalizedWeekday() {
-    let w = 1,
-      startWeek = [],
-      endWeek = [],
-      date = new Date();
-    for (; w < 8; w++) {
-      date.setDate(w);
-      let day = new Intl.DateTimeFormat(this.locale, {
-        weekday: "short"
-      }).format(date);
-      date.getDay() === this.startOfWeek || startWeek.length > 0
-        ? startWeek.push(day)
-        : endWeek.push(day);
-    }
-
-    return [...startWeek, ...endWeek];
-  }
-
   renderMonths(month, year) {
-    const localizedMonth = this.getLocalizedMonths()[month];
 
-    return (
-      <div class="month-year" aria-hidden="true">
-        <span
-          role="button"
-          aria-label={this.prevMonthLabel}
-          tabindex={0}
-          onClick={() => this.selectPrevMonth()}
-          onKeyDown={event => this.selectPrevMonthOnEnter(event)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="left-icon"
-            viewBox="0 0 16 16"
-            height="16"
-            width="16"
-          >
-            <path d="M11.783 14H9.017l-6-6 6-6h2.766l-6 6z" />
-          </svg>
-        </span>
-        <span class="month" role="heading">
-          {localizedMonth}
-        </span>
-        <input
-          role="input"
-          tabindex={0}
-          class="year"
-          type="number"
-          value={year}
-          style={{ width: `${(`${year}`.length + 1) * 11}px` }}
-          onChange={event => this.onYearChange(event)}
-        />
-        <span
-          role="button"
-          aria-label={this.nextMonthLabel}
-          tabindex={0}
-          onClick={() => this.selectNextMonth()}
-          onKeyDown={event => this.selectNextMonthOnEnter(event)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="right-icon"
-            viewBox="0 0 16 16"
-            height="16"
-            width="16"
-          >
-            <path d="M10.217 8l-6-6h2.766l6 6-6 6H4.217z" />
-          </svg>
-        </span>
-      </div>
-    );
-  }
-
-  getPrevMonthdays(month, year) {
-    let startDay = new Date(year, month, 1).getDay(),
-      days = [],
-      prevMonDays = new Date(year, month, 0).getDate();
-
-    if (startDay === this.startOfWeek) {
-      return days;
-    }
-
-    for (let i = (6 - this.startOfWeek + startDay) % 7; i >= 0; i--) {
-      days.push(prevMonDays - i);
-    }
-
-    return days;
-  }
-
-  getNextMonthdays(month, year) {
-    let endDay = new Date(year, month + 1, 0).getDay(),
-      days = [];
-    if (endDay === (this.startOfWeek + 6) % 7) {
-      return days;
-    }
-
-    return [...Array((6 - (endDay - this.startOfWeek)) % 7).keys()];
-  }
-
-  renderDay(day, cname, isSelected, callback) {
-    return (
-      <span
-        class={`${cname} day ${isSelected ? "selected-day" : ""}`}
-        onClick={() => callback && callback(day)}
-        onKeyPress={event => this.keyPress(event, day, callback)}
-        role="gridcell"
-        tabindex={isSelected ? 0 : -1}
-      >
-        {day}
-      </span>
-    );
   }
 
   keyPress(event, day, callback) {
@@ -297,38 +142,7 @@ export class CalciteDate {
   }
 
   renderCalendar(month, year, selectedDate) {
-    let weekDays = this.getLocalizedWeekday(),
-      curMonDays = [...Array(new Date(year, month + 1, 0).getDate()).keys()],
-      prevMonDays = this.getPrevMonthdays(month, year),
-      nextMonDays = this.getNextMonthdays(month, year),
-      splitDays = [],
-      days = [
-        ...prevMonDays.map(prev => this.renderDay(prev, "previous-month-day", false, undefined)),
-        ...curMonDays.map(cur =>
-          this.renderDay(cur + 1, "current-month-day", cur + 1 === selectedDate, this.setDate)
-        ),
-        ...nextMonDays.map(next => this.renderDay(next + 1, "next-month-day", false, undefined))
-      ];
-
-    for (let i = 0; i < days.length; i += 7)
-      splitDays.push(days.slice(i, i + 7));
-
-    return (
-      <div class="calender" role="grid">
-        <div class="week-headers" role="presentation">
-          {weekDays.map(weekday => (
-            <span class="week-header" role="columnheader">
-              {weekday}
-            </span>
-          ))}
-        </div>
-        {splitDays.map(days => (
-          <div class="week-days" role="row">
-            {days}
-          </div>
-        ))}
-      </div>
-    );
+    console.log(month, year, selectedDate);
   }
 
   setDate(day) {
