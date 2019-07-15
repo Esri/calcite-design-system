@@ -1,22 +1,28 @@
 .month-year {
   display: flex;
   justify-content: space-around;
-  padding: 12px 0px;
+  margin: .50rem 0 1rem 0;
   text-align: center;
+
+  input {
+    font-family: inherit;
+    margin-left: .25rem;
+  }
 
   .right-icon,
   .left-icon {
     fill: $light-gray;
-    font-weight: 400;
     &:hover {
       fill: $black;
+      cursor: pointer;
+      transition: all $transition;
     }
   }
 
   .month,
   .year {
-    font-size: medium;
-    color: black;
+    font-size: 1.25rem;
+    color: $black;
     font-weight: 400;
   }
 

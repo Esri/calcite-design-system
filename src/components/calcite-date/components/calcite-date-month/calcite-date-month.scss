@@ -1,17 +1,18 @@
 .calender {
-  
+
   .week-headers {
     display: flex;
+    border-bottom: 1px solid $lighter-gray;
+    margin-bottom: .75rem;
 
     .week-header {
-      padding: 6px;
+      margin: .55rem .85rem .75rem;
       color: $gray;
-      font-weight: 700;
-      font-size: 12px;
+      font-weight: 500;
+      font-size: 13px;
       flex-grow: 1;
       flex-basis: 0;
     }
-    border-bottom: 1px solid $lighter-gray;
   }
 
   .week-days {
@@ -19,29 +20,41 @@
     display: flex;
     flex-direction: row;
     align-items: space-around;
-    padding: 4px 0px;
+    margin: .20rem 0;
 
     .day {
       flex-grow: 1;
       flex-basis: 0;
+      border-radius: 100%;
 
       &:hover {
         background-color: $light-gray;
-        border-radius: 50%;
         outline: none;
+        cursor: pointer;
+        transition: all $transition;
       }
 
       &.selected-day {
         background-color: $blue;
-        border-radius: 50%;
+        border-radius: 100%;
         color: $white;
         outline: none;
+        font-weight: 500;
       }
 
       font-size: 16px;
       color: $darkest-gray;
-      padding: 6px;
+      padding: .5rem;
+      margin: .30rem;
       text-align: center;
+    }
+
+    .disabled {
+      color: $light-gray;
+      &:hover {
+        cursor: default;
+        background: none;
+      }
     }
   }
 }  

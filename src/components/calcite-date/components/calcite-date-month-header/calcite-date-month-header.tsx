@@ -77,18 +77,20 @@ export class CalciteDateMonth {
               <path d="M11.783 14H9.017l-6-6 6-6h2.766l-6 6z" />
             </svg>
           </span>
-          <span class="month" role="heading">
-            {localizedMonth}
-          </span>
-          <input
-            role="input"
-            tabindex={0}
-            class="year"
-            type="number"
-            value={this.year}
-            style={{ width: `${(`${this.year}`.length + 1) * 11}px` }}
-            onChange={event => this.onYearChange(event)}
-          />
+          <div>
+            <span class="month" role="heading">
+              {localizedMonth}
+            </span>
+            <input
+              role="input"
+              tabindex={0}
+              class="year"
+              type="number"
+              value={this.year}
+              style={{ width: `${(`${this.year}`.length + 1) * 12}px` }}
+              onChange={event => this.onYearChange(event)}
+            />
+          </div>
           <span
             role="button"
             aria-label={this.nextMonthLabel}
