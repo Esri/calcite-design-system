@@ -12,6 +12,9 @@
   .right-icon,
   .left-icon {
     fill: $light-gray;
+    position: relative;
+    top: .3rem;
+    width: 4rem;
     &:hover {
       fill: $black;
       cursor: pointer;
