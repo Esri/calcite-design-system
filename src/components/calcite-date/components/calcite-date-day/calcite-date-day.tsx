@@ -6,8 +6,7 @@ import {
   Event,
   EventEmitter,
   Listen,
-  h,
-  Watch
+  h
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../../../utils/keys";
 
@@ -68,12 +67,17 @@ export class CalciteDateDay {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick() {
-    this.enable && (this.selected = true);
+    this.enable 
+    && (this.selected = true) 
+    && this.calciteDaySelect.emit();
+    
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     if (e.keyCode === SPACE || e.keyCode === ENTER) {
-      this.enable && (this.selected = true);
+      this.enable 
+      && (this.selected = true) 
+      && this.calciteDaySelect.emit();
     }
   }
   //--------------------------------------------------------------------------
@@ -83,8 +87,4 @@ export class CalciteDateDay {
   //--------------------------------------------------------------------------
 
   @Event() calciteDaySelect: EventEmitter;
-
-  @Watch("selected") switchWatcher() {
-    this.calciteDaySelect.emit();
-  }
 }

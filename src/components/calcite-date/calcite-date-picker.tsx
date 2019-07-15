@@ -74,11 +74,10 @@ export class CalciteDatePicker {
     selectedDate.setMonth(this.month || selectedDate.getMonth());
     selectedDate.setFullYear(this.year || selectedDate.getFullYear());
     return (
-      <Host role="application" expanded = {this.showCalendar}>
+      <Host role="application" expanded = {this.showCalendar} onBlur={() => this.closeCalendar()}>
         <div
           class={`date-input-wrapper ${this.showCalendar ? "expanded" : ""}`}
           role="application"
-          onBlur={() => this.closeCalendar()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -106,16 +105,20 @@ export class CalciteDatePicker {
               prevMonthLabel={this.prevMonthLabel}
               nextMonthLabel={this.nextMonthLabel}
               locale={this.locale}
+              min = {this.min ? new Date(this.min) : null}
+              max = {this.max ? new Date(this.max) : null}
               onCalciteMonthChange = {(evt) => this.setMonth(evt.target)}
               onCalciteYearChange = {(evt) => this.setYear(evt.target)}
             />
             <calcite-date-month
               month={this.getMonth(selectedDate)}
               year={this.getYear(selectedDate)}
+              min = {this.min ? new Date(this.min) : null}
+              max = {this.max ? new Date(this.max) : null}
               selectedDate={selectedDate}
               startOfWeek={this.startOfWeek}
               locale={this.locale}
-              onCalciteDateSelect={this.setDate}
+              onCalciteDateSelect={(evt) => this.setDate(evt.target)}
             />
           </div>
         )}
@@ -129,7 +132,7 @@ export class CalciteDatePicker {
   }
 
   private closeCalendar() {
-    this.showCalendar = false;
+    this.showCalendar = true;
   }
 
   private getMonth(date) {
@@ -148,8 +151,8 @@ export class CalciteDatePicker {
     this.year = target.year;
   }
 
-  setDate(day) {
-    this.value = new Date(this.year, this.month, day)
+  private setDate(target) {
+    this.value = target.selectedDate
       .toISOString()
       .substr(0, 10);
     this.syncProxyInputToThis();

@@ -5,8 +5,7 @@ import {
   Host,
   Event,
   EventEmitter,
-  h,
-  Watch
+  h
 } from "@stencil/core";
 
 @Component({
@@ -39,6 +38,10 @@ export class CalciteDateMonth {
 
   @Prop() selectedDate: Date;
 
+  @Prop() min: Date;
+
+  @Prop() max: Date;
+
   /**
    * Sun by default
    * 0: Sunday
@@ -69,7 +72,7 @@ export class CalciteDateMonth {
       splitDays = [],
       days = [
         ...prevMonDays.map(prev => <calcite-date-day class="day" day={prev} enable={false} /> ),
-        ...curMonDays.map(cur => <calcite-date-day day={cur+1} enable={true} selected = {cur+1 === this.selectedDate.getDate()} class="day" onCalciteDaySelect={() => this.onSelectDate(cur+1)} />),
+        ...curMonDays.map(cur => <calcite-date-day day={cur+1} enable={this.validateDate(cur+1)} selected = {cur+1 === this.selectedDate.getDate()} class="day" onCalciteDaySelect={() => this.onSelectDate(cur+1)} />),
         ...nextMonDays.map(next => <calcite-date-day class="day" day={next+1} enable={false} />)
       ];
 
@@ -103,12 +106,27 @@ export class CalciteDateMonth {
   //--------------------------------------------------------------------------
   @Event() calciteDateSelect: EventEmitter;
 
-  @Watch("selectedDay") switchWatcher() {
+  private onSelectDate(date): void {
+    this.selectedDate = new Date(this.year, this.month, date);
     this.calciteDateSelect.emit();
   }
 
-  private onSelectDate(date): void {
-    this.selectedDate = new Date(this.year, this.month, date);
+  private validateDate(day){
+    let isValid = true;
+    if( this.min ){
+      let minYear = this.min.getFullYear();
+      let minMonth = this.min.getMonth();
+      let minDay = this.min.getDate();
+      
+      isValid = isValid && (minYear < this.year ? true : minYear === this.year && minMonth < this.month ? true : minMonth === this.month && minDay < day? true: false); 
+    }
+    if( this.max ){
+      let maxYear = this.max.getFullYear();
+      let maxMonth = this.max.getMonth();
+      let maxDay = this.max.getDate();
+      isValid = isValid && (maxYear > this.year ? true : maxYear === this.year && maxMonth > this.month ? true : maxMonth === this.month && maxDay > day? true: false); 
+    }
+     return isValid;
   }
 
   private getPrevMonthdays(month, year) {

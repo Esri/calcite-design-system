@@ -40,6 +40,10 @@ export class CalciteDateMonth {
 
   @Prop() selectedDate: Date;
 
+  @Prop() min: Date;
+
+  @Prop() max: Date;
+
   @Prop() locale: string = "en-US";
 
   @Prop() prevMonthLabel: string = "";
@@ -87,6 +91,8 @@ export class CalciteDateMonth {
               class="year"
               type="number"
               value={this.year}
+              min = {this.min && this.min.getFullYear()}
+              max = {this.max && this.max.getFullYear()}
               style={{ width: `${(`${this.year}`.length + 1) * 12}px` }}
               onChange={event => this.onYearChange(event)}
             />
@@ -134,7 +140,9 @@ export class CalciteDateMonth {
     if (this.month === 0) {
       this.year = this.year - 1;
     }
-    this.month = (12 + this.month - 1) % 12;
+    if(this.validateMonth((12 + this.month - 1) % 12, this.year)){
+      this.month = (12 + this.month - 1) % 12;
+    }
   }
 
   private selectPrevMonthOnEnter(event: KeyboardEvent) {
@@ -145,15 +153,44 @@ export class CalciteDateMonth {
 
   private selectNextMonth() {
     if (this.month === 11) {
-      this.year = this.year + 1;
+      if(this.validateYear(this.year + 1)){
+        this.year += 1;
+        return;
+      }
     }
-    this.month = (this.month + 1) % 12;
+    if(this.validateMonth((this.month + 1) % 12, this.year)) {
+      this.month = (this.month + 1) % 12;
+    } 
   }
 
   private selectNextMonthOnEnter(event: KeyboardEvent) {
     if (event.keyCode === ENTER || event.keyCode === SPACE) {
       this.selectNextMonth();
     }
+  }
+
+  private validateYear(year){
+    let isValid = true;
+    if(this.min){
+      isValid = isValid && (year > this.min.getFullYear())
+    }
+    if(this.max){
+      isValid = isValid && (year < this.max.getFullYear())
+    }
+
+    return isValid;
+  }
+
+  private validateMonth(month, year){
+    let isValid = true;
+    if(this.min){
+      isValid = isValid && (this.validateYear(year) ? true : year === this.min.getFullYear() && (month >= this.min.getMonth()))
+    }
+    if(this.max){
+      isValid = isValid && (this.validateYear(year) ? true : year === this.max.getFullYear() && (month <= this.max.getMonth()))
+    }
+
+    return isValid;
   }
 
   private onYearChange(event) {
