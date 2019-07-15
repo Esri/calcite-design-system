@@ -51,16 +51,12 @@ export class CalciteDateDay {
 
   render() {
     return (
-      <Host>
-        <span
-          class={`${this.enable ? "enabled" : "disabled"} day ${
-            this.selected ? "selected-day" : ""
-          }`}
-          role="gridcell"
-          tabindex={this.selected ? 0 : -1}
-        >
+      <Host class={`${this.enable ? "enabled" : "disabled"} day ${
+        this.selected ? "selected-day" : ""
+      }`}
+      role="gridcell"
+      tabindex={this.selected ? 0 : -1}>
           {this.day}
-        </span>
       </Host>
     );
   }
@@ -72,12 +68,12 @@ export class CalciteDateDay {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick() {
-    this.selected = true;
+    this.enable && (this.selected = true);
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     if (e.keyCode === SPACE || e.keyCode === ENTER) {
-      this.selected = true;
+      this.enable && (this.selected = true);
     }
   }
   //--------------------------------------------------------------------------

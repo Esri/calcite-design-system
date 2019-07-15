@@ -37,7 +37,7 @@ export class CalciteDateMonth {
 
   @Prop() year: number = 0;
 
-  @Prop() selectedDay: Date;
+  @Prop() selectedDate: Date;
 
   /**
    * Sun by default
@@ -68,9 +68,9 @@ export class CalciteDateMonth {
       nextMonDays = this.getNextMonthdays(this.month, this.year),
       splitDays = [],
       days = [
-        ...prevMonDays.map(prev => <calcite-date-day day={prev} enable={false} /> ),
-        ...curMonDays.map(cur => <calcite-date-day day={cur+1} enable={true} selected = {cur+1 === this.selectedDay.getDate()} onCalciteDaySelect={this.onSelectDate} />),
-        ...nextMonDays.map(next => <calcite-date-day day={next+1} enable={false} />)
+        ...prevMonDays.map(prev => <calcite-date-day class="day" day={prev} enable={false} /> ),
+        ...curMonDays.map(cur => <calcite-date-day day={cur+1} enable={true} selected = {cur+1 === this.selectedDate.getDate()} class="day" onCalciteDaySelect={() => this.onSelectDate(cur+1)} />),
+        ...nextMonDays.map(next => <calcite-date-day class="day" day={next+1} enable={false} />)
       ];
 
     for (let i = 0; i < days.length; i += 7)
@@ -79,17 +79,17 @@ export class CalciteDateMonth {
     return (
       <Host>
         <div class="calender" role="grid">
-        <div class="week-headers" role="presentation">
-          {weekDays.map(weekday => (
-            <span class="week-header" role="columnheader">
-              {weekday}
-            </span>
-          ))}
-        </div>
-        {splitDays.map(days => (
-          <div class="week-days" role="row">
-            {days}
+          <div class="week-headers" role="presentation">
+            {weekDays.map(weekday => (
+              <span class="week-header" role="columnheader">
+                {weekday}
+              </span>
+            ))}
           </div>
+          {splitDays.map(days => (
+            <div class="week-days" role="row">
+              {days}
+            </div>
         ))}
       </div>
       </Host>
@@ -108,7 +108,7 @@ export class CalciteDateMonth {
   }
 
   private onSelectDate(date): void {
-    this.selectedDay = new Date(this.year, this.month, date);
+    this.selectedDate = new Date(this.year, this.month, date);
   }
 
   private getPrevMonthdays(month, year) {

@@ -1,0 +1,47 @@
+.calender {
+  
+  .week-headers {
+    display: flex;
+
+    .week-header {
+      padding: 6px;
+      color: $gray;
+      font-weight: 700;
+      font-size: 12px;
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+    border-bottom: 1px solid $lighter-gray;
+  }
+
+  .week-days {
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    align-items: space-around;
+    padding: 4px 0px;
+
+    .day {
+      flex-grow: 1;
+      flex-basis: 0;
+
+      &:hover {
+        background-color: $light-gray;
+        border-radius: 50%;
+        outline: none;
+      }
+
+      &.selected-day {
+        background-color: $blue;
+        border-radius: 50%;
+        color: $white;
+        outline: none;
+      }
+
+      font-size: 16px;
+      color: $darkest-gray;
+      padding: 6px;
+      text-align: center;
+    }
+  }
+}  

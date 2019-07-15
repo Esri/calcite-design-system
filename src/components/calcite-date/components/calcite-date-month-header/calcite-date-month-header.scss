@@ -1,0 +1,26 @@
+.month-year {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0px;
+  text-align: center;
+
+  .right-icon,
+  .left-icon {
+    fill: $light-gray;
+    font-weight: 400;
+    &:hover {
+      fill: $black;
+    }
+  }
+
+  .month,
+  .year {
+    font-size: medium;
+    color: black;
+    font-weight: 400;
+  }
+
+  .year {
+    border: none;
+  }
+}

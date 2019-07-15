@@ -8,14 +8,13 @@ import {
   EventEmitter,
   State
 } from "@stencil/core";
-import { ENTER } from "../../utils/keys";
 
 @Component({
-  tag: "calcite-date",
-  styleUrl: "calcite-date.scss",
+  tag: "calcite-date-picker",
+  styleUrl: "calcite-date-picker.scss",
   shadow: true
 })
-export class CalciteDate {
+export class CalciteDatePicker {
   @Element() el: HTMLElement;
   /**
    * Value of the form control
@@ -75,10 +74,11 @@ export class CalciteDate {
     selectedDate.setMonth(this.month || selectedDate.getMonth());
     selectedDate.setFullYear(this.year || selectedDate.getFullYear());
     return (
-      <Host role="application">
+      <Host role="application" expanded = {this.showCalendar}>
         <div
           class={`date-input-wrapper ${this.showCalendar ? "expanded" : ""}`}
-          role="application" onBlur={() => this.closeCalendar()}
+          role="application"
+          onBlur={() => this.closeCalendar()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -99,15 +99,24 @@ export class CalciteDate {
         </div>
         {this.showCalendar && (
           <div class="calendar-picker-wrapper">
-            {this.renderMonths(
-              this.getMonth(selectedDate),
-              this.getYear(selectedDate)
-            )}
-            {this.renderCalendar(
-              this.getMonth(selectedDate),
-              this.getYear(selectedDate),
-              selectedDate.getDate()
-            )}
+            <calcite-date-month-header
+              month={this.getMonth(selectedDate)}
+              year={this.getYear(selectedDate)}
+              selectedDate={selectedDate}
+              prevMonthLabel={this.prevMonthLabel}
+              nextMonthLabel={this.nextMonthLabel}
+              locale={this.locale}
+              onCalciteMonthChange = {(evt) => this.setMonth(evt.target)}
+              onCalciteYearChange = {(evt) => this.setYear(evt.target)}
+            />
+            <calcite-date-month
+              month={this.getMonth(selectedDate)}
+              year={this.getYear(selectedDate)}
+              selectedDate={selectedDate}
+              startOfWeek={this.startOfWeek}
+              locale={this.locale}
+              onCalciteDateSelect={this.setDate}
+            />
           </div>
         )}
         <slot />
@@ -115,34 +124,28 @@ export class CalciteDate {
     );
   }
 
-  expandCalendar() {
+  private expandCalendar() {
     this.showCalendar = true;
   }
 
-  closeCalendar() {
+  private closeCalendar() {
     this.showCalendar = false;
   }
 
-  getMonth(date) {
+  private getMonth(date) {
     return this.month === undefined ? date.getMonth() : this.month;
   }
 
-  getYear(date) {
+  private getYear(date) {
     return this.year === undefined ? date.getFullYear() : this.year;
   }
 
-  renderMonths(month, year) {
-
+  private setMonth(target) {
+    this.month = target.month;
   }
 
-  keyPress(event, day, callback) {
-    if (event.keyCode === ENTER) {
-      callback && callback(day);
-    }
-  }
-
-  renderCalendar(month, year, selectedDate) {
-    console.log(month, year, selectedDate);
+  private setYear(target) {
+    this.year = target.year;
   }
 
   setDate(day) {

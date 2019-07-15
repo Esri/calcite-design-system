@@ -25,6 +25,22 @@
 | `calciteDateChange` |             | `CustomEvent<any>` |
 
 
+## Dependencies
+
+### Depends on
+
+- [calcite-date-month-header](components/calcite-date-month-header)
+- [calcite-date-month](components/calcite-date-month)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-date --> calcite-date-month-header
+  calcite-date --> calcite-date-month
+  calcite-date-month --> calcite-date-day
+  style calcite-date fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

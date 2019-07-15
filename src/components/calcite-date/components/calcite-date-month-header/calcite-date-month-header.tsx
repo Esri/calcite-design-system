@@ -11,8 +11,8 @@ import {
 import { ENTER, SPACE } from "../../../../utils/keys";
 
 @Component({
-  tag: "calcite-date-month",
-  styleUrl: "calcite-date-month.scss",
+  tag: "calcite-date-month-header",
+  styleUrl: "calcite-date-month-header.scss",
   shadow: true
 })
 export class CalciteDateMonth {
@@ -38,7 +38,7 @@ export class CalciteDateMonth {
 
   @Prop() year: number = 0;
 
-  @Prop() selectedDay: Date;
+  @Prop() selectedDate: Date;
 
   @Prop() locale: string = "en-US";
 
@@ -55,7 +55,7 @@ export class CalciteDateMonth {
   componentWillUpdate(): void {}
   
   render() {
-    let localizedMonth = this.getLocalizedMonths()[this.month-1];
+    let localizedMonth = this.getLocalizedMonths()[this.month];
 
     return (
       <Host>
