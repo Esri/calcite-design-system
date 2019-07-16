@@ -138,7 +138,12 @@ export class CalciteDateMonth {
 
   private selectPrevMonth() {
     if (this.month === 0) {
-      this.year = this.year - 1;
+      if(this.validateYear(this.year - 1)){
+        this.year -= 1;
+      }
+      else{
+        return;
+      }
     }
     if(this.validateMonth((12 + this.month - 1) % 12, this.year)){
       this.month = (12 + this.month - 1) % 12;
@@ -155,6 +160,8 @@ export class CalciteDateMonth {
     if (this.month === 11) {
       if(this.validateYear(this.year + 1)){
         this.year += 1;
+      }
+      else{
         return;
       }
     }
@@ -172,10 +179,10 @@ export class CalciteDateMonth {
   private validateYear(year){
     let isValid = true;
     if(this.min){
-      isValid = isValid && (year > this.min.getFullYear())
+      isValid = isValid && (year >= this.min.getFullYear())
     }
     if(this.max){
-      isValid = isValid && (year < this.max.getFullYear())
+      isValid = isValid && (year <= this.max.getFullYear())
     }
 
     return isValid;
@@ -184,10 +191,10 @@ export class CalciteDateMonth {
   private validateMonth(month, year){
     let isValid = true;
     if(this.min){
-      isValid = isValid && (this.validateYear(year) ? true : year === this.min.getFullYear() && (month >= this.min.getMonth()))
+      isValid = isValid && (this.validateYear(year) ? year === this.min.getFullYear() ? (month >= this.min.getMonth()) : true : false )
     }
     if(this.max){
-      isValid = isValid && (this.validateYear(year) ? true : year === this.max.getFullYear() && (month <= this.max.getMonth()))
+      isValid = isValid && (this.validateYear(year) ? year === this.max.getFullYear() ? (month <= this.max.getMonth()) : true : false)
     }
 
     return isValid;
