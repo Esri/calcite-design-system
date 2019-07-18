@@ -1,8 +1,12 @@
-export const ESCAPE: number = 27;
-export const ENTER: number = 13;
-export const SPACE: number = 32;
 export const TAB: number = 9;
-export const UP: number = 38;
-export const DOWN: number = 40;
+export const ENTER: number = 13;
+export const ESCAPE: number = 27;
+export const SPACE: number = 32;
+export const PAGE_UP: number = 33;
+export const PAGE_DOWN: number = 34;
+export const END: number = 35;
+export const HOME: number = 36;
 export const LEFT: number = 37;
+export const UP: number = 38;
 export const RIGHT: number = 39;
+export const DOWN: number = 40;
