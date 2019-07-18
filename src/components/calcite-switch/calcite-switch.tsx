@@ -18,36 +18,27 @@ import { SPACE, ENTER } from "../../utils/keys";
 })
 export class CalciteSwitch {
   @Element() el: HTMLElement;
-  /**
-   * True if the control should be switched on
-   */
-  @Prop({ reflect: true }) switched?: boolean = false;
-  /**
-   * Name of the form control (useful for specifying input/label relationship)
-   */
-  @Prop({ reflect: true }) name?: string = "";
-  /**
-   * Value of the form control
-   */
-  @Prop({ reflect: true }) value?: string = "";
-  /**
-   * Color of the switch. Use red to denote destructive settings/actions.
-   */
+
+  /** True if the switch is initially on */
+  @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
+
+  /** The name of the checkbox input */
+  @Prop({ reflect: true, mutable: true }) name?: string = "";
+
+  /** The value of the checkbox input */
+  @Prop({ reflect: true, mutable: true }) value?: string = "";
+
+  /** What color the switch should be */
   @Prop() color?: "red" | "blue" = "blue";
-  /**
-   * @todo document what gets passed to the handler for these events
-   */
+
   @Event() calciteSwitchChange: EventEmitter;
 
   private observer: MutationObserver;
 
   @Listen("click") onClick(e) {
-    // If this is contained by a label only toggle if the target is our input
-    // proxy to prevent duplicate toggles when <calcite-switch> is contained by
-    // a <label> and the switch is clicked causing a click from BOTH the switch
-    // and input.
-    // If this is NOT contained by a label only switch if the target
-    // is the switch.
+    // prevent duplicate click events that occur
+    // when the component is wrapped in a label and checkbox is clicked
+
     if (
       (this.el.closest("label") && e.target === this.inputProxy) ||
       (!this.el.closest("label") && e.target === this.el)
@@ -64,11 +55,9 @@ export class CalciteSwitch {
 
   @Watch("switched") switchWatcher() {
     this.calciteSwitchChange.emit();
-    if (this.switched) {
-      this.inputProxy.setAttribute("checked", "");
-    } else {
-      this.inputProxy.removeAttribute("checked");
-    }
+    this.switched
+      ? this.inputProxy.setAttribute("checked", "")
+      : this.inputProxy.removeAttribute("checked");
   }
 
   private inputProxy: HTMLInputElement;
@@ -114,14 +103,16 @@ export class CalciteSwitch {
   }
 
   private syncThisToProxyInput = () => {
-    this.switched = this.inputProxy.checked;
+    this.switched = this.inputProxy.hasAttribute("checked");
     this.name = this.inputProxy.name;
     this.value = this.inputProxy.value;
   };
 
   private syncProxyInputToThis = () => {
-    this.inputProxy.checked = this.switched;
-    this.inputProxy.name = this.name;
-    this.inputProxy.value = this.value;
+    this.switched
+      ? this.inputProxy.setAttribute("checked", "")
+      : this.inputProxy.removeAttribute("checked");
+    this.inputProxy.setAttribute("name", this.name);
+    this.inputProxy.setAttribute("value", this.value);
   };
 }
