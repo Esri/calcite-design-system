@@ -16,11 +16,24 @@ The current lineup of components is:
 
 ## Installation
 
-*Note: Some of the below instructions won't work yet, as this library is not yet published to npm.*
+*Note: Some of the below instructions won't work, as this library is not yet published to npm.*
 
 ```
 npm install --save @esri/calcite-components
 ```
+
+### Script tag (in progress)
+
+Calcite components can be loaded via two `<script>` tags in the head of your HTML document:
+
+```
+<script type="module" src="https://unpkg.com/@esri/calcite-components@0.0.0-alpha.3/dist/calcite/calcite.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/@esri/calcite-components@0.0.0-alpha.3/dist/calcite/calcite.js"></script>
+```
+
+Browsers that support modules will load the first, while older browsers will load the second, bundled version.
+
+Once these script tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
 
 ### Webpack (in progress)
 
@@ -51,16 +64,6 @@ import '@esri/calcite-components/dist/calcite.js';
 ```
 
 This will add the initial stencil loader to your bundle, and copy over the actual component code to the output directory you've configured for Webpack. Components will still be lazy-loaded as they are needed. *Note:* you must use the `.js` file path for the Webpack plugin to work correctly, even if your bundle file is a TypeScript file.
-
-### Script tag (in progress)
-
-If you don't use Webpack, you can also add these components via a `<script>` tag in the head of your HTML document:
-
-```
-<script src='https://unpkg.com/@esri/calcite-components@0.0.0-alpha.3/dist/calcite.js'></script>
-```
-
-After that, components can be used just like any other HTML element. Only components that are actually used will be loaded.
 
 ## TypeScript
 
