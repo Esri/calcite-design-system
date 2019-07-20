@@ -40,7 +40,7 @@ export class CalciteRadioGroupItem {
   checked = false;
 
   @Watch("checked")
-  handleCheckedChange(): void {
+  protected handleCheckedChange(): void {
     this.calciteRadioGroupItemChange.emit();
     this.syncToExternalInput();
   }
@@ -104,9 +104,9 @@ export class CalciteRadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
-  inputProxy: HTMLInputElement;
+  private inputProxy: HTMLInputElement;
 
-  mutationObserver = new MutationObserver(() => this.syncFromExternalInput());
+  private mutationObserver = new MutationObserver(() => this.syncFromExternalInput());
 
   //--------------------------------------------------------------------------
   //
@@ -114,14 +114,14 @@ export class CalciteRadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
-  syncFromExternalInput(): void {
+  private syncFromExternalInput(): void {
     if (this.inputProxy) {
       this.value = this.inputProxy.value;
       this.checked = this.inputProxy.checked;
     }
   };
 
-  syncToExternalInput(): void {
+  private syncToExternalInput(): void {
     if (!this.inputProxy) {
       return;
     }

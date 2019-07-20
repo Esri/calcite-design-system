@@ -48,7 +48,7 @@ export class CalciteRadioGroup {
   name: string;
 
   @Watch("name")
-  handleNameChange(value): void {
+  protected handleNameChange(value): void {
     this.hiddenInput.name = value;
   }
 
@@ -59,7 +59,7 @@ export class CalciteRadioGroup {
   selectedItem: HTMLCalciteRadioGroupItemElement;
 
   @Watch("selectedItem")
-  handleSelectedItemChange<T extends HTMLCalciteRadioGroupItemElement>(
+  protected handleSelectedItemChange<T extends HTMLCalciteRadioGroupItemElement>(
     newItem: T,
     oldItem: T
   ) {
@@ -67,7 +67,7 @@ export class CalciteRadioGroup {
       return;
     }
 
-    let match: HTMLCalciteRadioGroupItemElement = null;
+    let match: HTMLCalciteRadioGroupItemElement;
 
     const items = this.getItems();
 
@@ -151,7 +151,7 @@ export class CalciteRadioGroup {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  handleClick(event: MouseEvent): void {
+  protected handleClick(event: MouseEvent): void {
     if (
       (event.target as HTMLElement).localName === "calcite-radio-group-item"
     ) {
@@ -160,14 +160,14 @@ export class CalciteRadioGroup {
   }
 
   @Listen("calciteRadioGroupItemChange")
-  handleSelected(event: Event): void {
+  protected handleSelected(event: Event): void {
     event.stopPropagation();
     event.preventDefault();
     this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
   }
 
   @Listen("keydown")
-  handleKeyDown(event: KeyboardEvent): void {
+  protected handleKeyDown(event: KeyboardEvent): void {
     const { key } = event;
 
     if (Object.values(navigationKeys).indexOf(key) === -1) {
@@ -236,7 +236,7 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  hiddenInput: HTMLInputElement = (() => {
+  private hiddenInput: HTMLInputElement = (() => {
     const input = document.createElement("input");
     input.type = "hidden";
     this.el.appendChild(input);
@@ -249,11 +249,11 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  getItems(): NodeListOf<HTMLCalciteRadioGroupItemElement> {
+  private getItems(): NodeListOf<HTMLCalciteRadioGroupItemElement> {
     return this.el.querySelectorAll("calcite-radio-group-item");
   }
 
-  selectItem(selected: HTMLCalciteRadioGroupItemElement): void {
+  private selectItem(selected: HTMLCalciteRadioGroupItemElement): void {
     if (selected === this.selectedItem) {
       return;
     }
@@ -277,7 +277,7 @@ export class CalciteRadioGroup {
     match && match.focus();
   }
 
-  syncWithInputProxy(item: HTMLCalciteRadioGroupItemElement): void {
+  private syncWithInputProxy(item: HTMLCalciteRadioGroupItemElement): void {
     this.hiddenInput.value = item ? item.value : "";
   }
 }
