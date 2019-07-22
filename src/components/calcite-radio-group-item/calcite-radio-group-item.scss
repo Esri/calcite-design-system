@@ -18,5 +18,5 @@
 }
 
 ::slotted(input) {
-  @include visually-hidden();
+  display: none;
 }
