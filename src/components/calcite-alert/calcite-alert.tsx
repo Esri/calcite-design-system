@@ -26,7 +26,7 @@ import AlertInterface from "../../interfaces/AlertInterface";
 /**
  * @slot alert-title - Title of the alert (optional)
  * @slot alert-message - Main text of the alert
- * @slot alert-link - Optional action to take from the alert (undo, try again, etc.)
+ * @slot alert-link - Optional action to take from the alert (undo, try again, link to page, etc.)
  */
 
 @Component({
@@ -36,47 +36,37 @@ import AlertInterface from "../../interfaces/AlertInterface";
 })
 export class CalciteAlert {
   @Element() el: HTMLElement;
-  /**
-   * Is the alert currently active or not
-   */
+
+  /** Is the alert currently active or not */
   @State() active: boolean = false;
-  /**
-   * Close the alert automatically (recommended for passive, non-blocking alerts)
-   */
+
+  /** Close the alert automatically (recommended for passive, non-blocking alerts) */
   @Prop() dismiss: boolean = false;
-  /**
-   * Length before autodismissal (only used with `dismiss`)
-   */
+
+  /** Length before autodismissal (only used with `dismiss`) */
   @Prop({ reflect: true }) duration: "fast" | "medium" | "slow" = this.dismiss
     ? "medium"
     : null;
-  /**
-   * Color for the alert (will apply to top border and icon)
-   */
+
+  /** Color for the alert (will apply to top border and icon) */
   @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
-  /**
-   * Select theme (light or dark)
-   */
+
+  /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-  /**
-   * If false, no icon will be shown in the alert
-   */
+
+  /** If false, no icon will be shown in the alert */
   @Prop() icon: boolean = false;
-  /**
-   * Unique ID for this alert
-   */
+
+  /** Unique ID for this alert */
   @Prop() id: string = "1";
-  /**
-   * @internal
-   */
+
+  /** @internal */
   @Prop() currentAlert: string = "";
-  /**
-   * @internal
-   */
+
+  /** @internal */
   @Prop() queueLength: number = 0;
-  /**
-   * watch for changes to currentAlert passed from <calcite-alerts>
-   */
+
+  /** watch for changes to currentAlert passed from <calcite-alerts> */
   @Watch("currentAlert") watchCurrentAlert() {
     this.active = this.currentAlert === this.id;
     if (this.active) this.openCalciteAlert();
@@ -86,23 +76,19 @@ export class CalciteAlert {
         this.durationDefaults[this.duration]
       );
   }
-  /**
-   * Fired when an alert is closed
-   */
+
+  /** Fired when an alert is closed */
   @Event() calciteAlertClose: EventEmitter;
-  /**
-   * Fired when an alert is opened
-   */
+
+  /** Fired when an alert is opened */
   @Event() calciteAlertOpen: EventEmitter;
-  /**
-   * emit the `calciteAlerClose` event - <calcite-alerts> listens for this, if the alert is not active, but is the queue, this will remove it from the queue
-   */
+
+  /** emit the `calciteAlerClose` event - <calcite-alerts> listens for this */
   @Method() async closeCalciteAlert() {
     this.calciteAlertClose.emit(this.id);
   }
-  /**
-   * emit the `calciteAlertOpen` event - <calcite-alerts> listens for this, and determines if it should open the alert or add it to the queue
-   */
+
+  /**  emit the `calciteAlertOpen` event - <calcite-alerts> listens for this  */
   @Method() async openCalciteAlert() {
     this.calciteAlertOpen.emit(this.id);
   }
@@ -177,7 +163,7 @@ export class CalciteAlert {
     const progress =
       this.active && this.dismiss ? <div class="alert-dismiss"></div> : "";
     return (
-      <Host theme={this.theme} active={!!this.active} duration={this.duration}>
+      <Host active={!!this.active}>
         {icon}
         <div class="alert-content">
           <slot name="alert-title"></slot>

@@ -18,24 +18,21 @@ import AlertInterface from "../../interfaces/AlertInterface";
 })
 export class CalciteAlerts {
   @Element() el: HTMLElement;
-  /**
-   * Unique ID for this instance of calcite-alerts
-   */
+
+  /** Unique ID for this instance of calcite-alerts */
   @Prop() id: string = "1";
 
   @State() currentAlert: string = "";
   @State() active: boolean = false;
   @State() alertQueue: string[] = [];
 
-  /**
-   * @todo document what gets passed to the handler for these events
-   */
+  /** emits the id of the alert ot be closed, and the current alertQueue and currentAlert */
   @Event() calciteAlertsClose: EventEmitter;
+
+  /** emits the id of the alert to be opened, and the current alertQueue and currentAlert */
   @Event() calciteAlertsOpen: EventEmitter;
 
-  /**
-   * Adds the requested alert to the alert queue, if not present
-   */
+  /** Adds the requested alert to the alert queue, if not present */
   @Listen("calciteAlertOpen") updateQueueOnOpen(event: CustomEvent) {
     let requestedAlert = (event.target as HTMLElement).id;
     if (!this.alertQueue.includes(requestedAlert)) {
@@ -49,9 +46,8 @@ export class CalciteAlerts {
       });
     }
   }
-  /**
-   * Closes the requested alert and removes from the queue
-   */
+
+  /** Closes the requested alert and removes from the queue */
   @Listen("calciteAlertClose") updateQueueOnClose(event: CustomEvent) {
     let requestedAlert = (event.target as HTMLElement).id;
     if (this.alertQueue.includes(requestedAlert))
