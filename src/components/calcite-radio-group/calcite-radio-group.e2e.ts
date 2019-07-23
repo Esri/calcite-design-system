@@ -58,7 +58,7 @@ describe("calcite-radio-group", () => {
         </calcite-radio-group>`
       );
       const element = await page.find("calcite-radio-group");
-      const spy = await element.spyOnEvent("calciteRadioGroupItemSelect");
+      const spy = await element.spyOnEvent("calciteRadioGroupChange");
 
       const firstElement = await element.find(
         "calcite-radio-group-item[checked]"
@@ -131,7 +131,7 @@ describe("calcite-radio-group", () => {
         </calcite-radio-group>`
       );
       const element = await page.find("calcite-radio-group");
-      const spy = await element.spyOnEvent("calciteRadioGroupItemSelect");
+      const spy = await element.spyOnEvent("calciteRadioGroupChange");
 
       const firstElement = await element.find(
         "calcite-radio-group-item[checked]"
