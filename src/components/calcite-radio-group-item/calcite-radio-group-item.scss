@@ -1,7 +1,7 @@
 :host {
   display: flex;
-  background-color: var(--calcite-radio-group-item-background-color);
-  color: var(--calcite-radio-group-item-color);
+  background-color: var(--calcite-radio-group-color);
+  color: var(--calcite-radio-group-text-color);
   cursor: pointer;
   padding: 0.5rem 1rem;
   line-height: 1.25;
@@ -12,9 +12,19 @@
   cursor: pointer;
 }
 
+:host(:hover) {
+  background-color: var(--calcite-radio-group-color-hover);
+}
+
 :host([checked]) {
   background-color: var(--calcite-radio-group-color-active);
-  border-color: var(--calcite-radio-group-border-color-active);
+  border-color: var(--calcite-radio-group-color-active);
+  color: var(--calcite-radio-group-text-color-active);
+  cursor: default;
+}
+
+label {
+  cursor: pointer;
 }
 
 ::slotted(input) {

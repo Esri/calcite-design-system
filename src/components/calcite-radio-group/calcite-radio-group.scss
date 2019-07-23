@@ -1,20 +1,22 @@
 :host {
   display: block;
-  --calcite-radio-group-color-active: #{$lightest-blue};
-  --calcite-radio-group-border-color: #{$lighter-gray};
-  --calcite-radio-group-border-color-active: #{$blue};
-  --calcite-radio-group-item-background-color: #{$white};
-  --calcite-radio-group-item-color: #{$black};
+  --calcite-radio-group-color: #{$white};
+  --calcite-radio-group-border-color: #{$gray};
+  --calcite-radio-group-color-active: #{$blue};
+  --calcite-radio-group-text-color: #{$black};
+  --calcite-radio-group-text-color-active: #{$white};
+  --calcite-radio-group-color-hover: #{$off-white};
 
   @include font-size(-1);
 }
 
 :host([theme="dark"]) {
-  --calcite-radio-group-color-active: #{$dark-blue};
-  --calcite-radio-group-border-color: #{$darker-gray};
-  --calcite-radio-group-border-color-active: #{$blue};
-  --calcite-radio-group-item-background-color: #{$black};
-  --calcite-radio-group-item-color: #{$white};
+  --calcite-radio-group-color: #{$darkest-gray};
+  --calcite-radio-group-border-color: #{$blk-210};
+  --calcite-radio-group-color-active: #{$v-bb-160};
+  --calcite-radio-group-text-color: #{$white};
+  --calcite-radio-group-text-color-active: #{$white};
+  --calcite-radio-group-color-hover: #{$blk-190};
 }
 
 ::slotted(calcite-radio-group-item[checked]),
