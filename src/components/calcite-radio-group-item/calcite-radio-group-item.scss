@@ -1,0 +1,32 @@
+:host {
+  display: flex;
+  background-color: var(--calcite-radio-group-color);
+  color: var(--calcite-radio-group-text-color);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  line-height: 1.25;
+  margin: 0.25rem -1px 0 0px;
+  border: 1px solid var(--calcite-radio-group-border-color);
+  box-sizing: border-box;
+  transition: background 0.1s ease-in-out, border-color 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+:host(:hover) {
+  background-color: var(--calcite-radio-group-color-hover);
+}
+
+:host([checked]) {
+  background-color: var(--calcite-radio-group-color-active);
+  border-color: var(--calcite-radio-group-color-active);
+  color: var(--calcite-radio-group-text-color-active);
+  cursor: default;
+}
+
+label {
+  cursor: pointer;
+}
+
+::slotted(input) {
+  display: none;
+}

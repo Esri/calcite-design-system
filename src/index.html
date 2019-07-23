@@ -32,6 +32,7 @@
         <calcite-tab-title>Alerts</calcite-tab-title>
         <calcite-tab-title>Loader</calcite-tab-title>
         <calcite-tab-title>Progress</calcite-tab-title>
+        <calcite-tab-title>Radio Groups</calcite-tab-title>
         <calcite-tab-title>Slider</calcite-tab-title>
         <calcite-tab-title>Switch and Checkbox</calcite-tab-title>
       </calcite-tab-nav>
@@ -348,6 +349,88 @@
           <h1>Hello World!</h1>
         </calcite-progress>
         <calcite-progress type="determinate" value="0.5" text="Initializing flux capacitor&hellip;" />
+      </calcite-tab>
+
+      <calcite-tab>
+        <div>
+          <h3  class="leader-1">Simple</h3>
+
+          <calcite-radio-group>
+            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3  class="leader-1">With labels</h3>
+
+          <calcite-radio-group>
+            <calcite-radio-group-item value="1">Uno</calcite-radio-group-item>
+            <calcite-radio-group-item value="2" checked>Dos</calcite-radio-group-item>
+            <calcite-radio-group-item value="3">Tres</calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3  class="leader-1">Uses value as label if missing</h3>
+
+          <calcite-radio-group>
+            <calcite-radio-group-item value="1"></calcite-radio-group-item>
+            <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+            <calcite-radio-group-item value="3"></calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3  class="leader-1">None checked</h3>
+
+          <calcite-radio-group>
+            <calcite-radio-group-item value="1"></calcite-radio-group-item>
+            <calcite-radio-group-item value="2"></calcite-radio-group-item>
+            <calcite-radio-group-item value="3"></calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3  class="leader-1">Only one selected value (last wins)</h3>
+
+          <calcite-radio-group>
+            <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
+            <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+            <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3  class="leader-1">Dark theme</h3>
+
+          <calcite-radio-group theme="dark">
+            <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
+            <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+            <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3  class="leader-1">RTL</h3>
+
+          <calcite-radio-group>
+            <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
+            <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+            <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3  class="leader-1">External inputs</h3>
+
+          <calcite-radio-group name="grouped">
+            <calcite-radio-group-item><input type="radio" slot="input" value="1"></calcite-radio-group-item>
+            <calcite-radio-group-item><input type="radio" slot="input" value="2"></calcite-radio-group-item>
+            <calcite-radio-group-item><input type="radio" slot="input" value="3"></calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3  class="leader-1">Within form</h3>
+
+          <form>
+            <label>
+              Choose wisely
+              <calcite-radio-group name="within-form">
+                <calcite-radio-group-item value="1"></calcite-radio-group-item>
+                <calcite-radio-group-item value="2"></calcite-radio-group-item>
+                <calcite-radio-group-item value="3"></calcite-radio-group-item>
+              </calcite-radio-group>
+            </label>
+          </form>
+        </div>
       </calcite-tab>
 
       <calcite-tab>
