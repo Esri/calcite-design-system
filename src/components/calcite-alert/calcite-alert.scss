@@ -46,11 +46,11 @@
 :host slot[name="alert-link"]::slotted(a) {
   @include font-size(-1);
   color: $h-bb-060;
-  margin-left: $baseline/2;
 }
 
 :host slot[name="alert-message"]::slotted(div) {
   @include font-size(-1);
+  margin-right: $baseline/2;
   color: $blk-160;
   display: inline;
 }
@@ -237,7 +237,7 @@
     border-radius: 0 0 0 2px;
   }
 
-  & slot[name="alert-link"]::slotted(a) {
+  & slot[name="alert-message"]::slotted(div) {
     margin-left: unset;
     margin-right: $baseline/2;
   }

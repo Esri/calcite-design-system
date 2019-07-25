@@ -1,0 +1,218 @@
+// button base
+:host button,
+:host a {
+  position: relative;
+  display: inline-block;
+  padding: $baseline/4 1rem;
+  text-decoration: none;
+  width: auto;
+  outline: none;
+  border-radius: 0;
+  border: none;
+  line-height: inherit;
+  font-family: inherit;
+  -webkit-appearance: none;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.15s ease-in-out;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// button scale
+@mixin btn-scale($font-size, $padding-y, $padding-x) {
+  padding: $padding-y $padding-x;
+  @include font-size($font-size);
+}
+
+// button width
+:host([width="half"]) button,
+:host([width="half"]) a {
+  width: 50%;
+}
+
+:host([width="full"]) button,
+:host([width="full"]) a {
+  width: 100%;
+}
+
+// icon style and loader {
+.calcite-button--icon {
+  height: 16px;
+  width: 16px;
+  line-height: inherit;
+  margin-inline-end: $baseline/4;
+  transition: all 0.15s ease-in-out;
+}
+
+.calcite-button--graphic {
+  display: inline-flex;
+  top: 3px;
+  position: relative;
+  width: $baseline;
+}
+
+// button styles
+// solid
+@mixin btn-solid($bg-color, $bg-color-hover, $bg-color-press, $color) {
+  color: $color;
+  background-color: $bg-color;
+  border: 1px solid $bg-color;
+  box-shadow: inset 0 0 0 1px transparent;
+  &:hover {
+    background-color: $bg-color-hover;
+    box-shadow: inset 0 0 0 1px $bg-color;
+  }
+  &:active {
+    background-color: $bg-color;
+    border-color: $bg-color-press;
+    box-shadow: inset 0 0 0 2px $bg-color-press;
+  }
+  & .calcite-button--icon {
+    fill: $color;
+  }
+}
+
+:host([appearance=solid][color=blue]) button,
+:host([appearance=solid][color=blue]) a {
+  @include btn-solid($blue, $light-blue, $dark-blue, $white);
+}
+:host([appearance=solid][color=red]) button,
+:host([appearance=solid][color=red]) a {
+  @include btn-solid($red, $light-red, $dark-red, $white);
+}
+:host([appearance=solid][color=light]) button,
+:host([appearance=solid][color=light]) a {
+  @include btn-solid($lightest-gray, $white, $lighter-gray, $black);
+}
+:host([appearance=solid][color=dark]) button,
+:host([appearance=solid][color=dark]) a {
+  @include btn-solid($darkest-gray, $darker-gray, $black, $white);
+}
+
+// outline and clear
+@mixin btn-outline-clear($bg-color, $border-color, $border-color-hover, $border-color-press, $color, $color-press) {
+  color: $color;
+  background-color: $bg-color;
+  border: 1px solid $border-color;
+  box-shadow: inset 0 0 0 1px transparent;
+  &:hover {
+    border-color: 1px solid $border-color;
+    box-shadow: inset 0 0 0 1px $border-color;
+  }
+  &:active {
+    color: $color-press;
+    border-color: $border-color-press;
+    box-shadow: inset 0 0 0 2px $border-color-press;
+  }
+  & .calcite-button--icon {
+    fill: $color;
+  }
+}
+
+:host([appearance=outline][color=blue]) button,
+:host([appearance=outline][color=blue]) a {
+  @include btn-outline-clear($white, $blue, $light-blue, $dark-blue, $blue, $dark-blue);
+}
+:host([appearance=outline][color=red]) button,
+:host([appearance=outline][color=red]) a {
+  @include btn-outline-clear($white, $red, $light-red, $dark-red, $red, $dark-red);
+}
+:host([appearance=outline][color=light]) button,
+:host([appearance=outline][color=light]) a {
+  @include btn-outline-clear($white, $lightest-gray, $white, $lighter-gray, $off-black, $black);
+}
+:host([appearance=outline][color=dark]) button,
+:host([appearance=outline][color=dark]) a {
+  @include btn-outline-clear($white, $darkest-gray, $darker-gray, $black, $off-black, $black);
+}
+:host([appearance=clear][color=blue]) button,
+:host([appearance=clear][color=blue]) a {
+  @include btn-outline-clear(transparent, $blue, $light-blue, $dark-blue, $blue, $dark-blue);
+}
+:host([appearance=clear][color=red]) button,
+:host([appearance=clear][color=red]) a {
+  @include btn-outline-clear(transparent, $red, $light-red, $dark-red, $red, $dark-red);
+}
+:host([appearance=clear][color=light]) button,
+:host([appearance=clear][color=light]) a {
+  @include btn-outline-clear(transparent, $lightest-gray, $white, $lighter-gray, $off-white, $white);
+}
+:host([appearance=clear][color=dark]) button,
+:host([appearance=clear][color=dark]) a {
+  @include btn-outline-clear(transparent, $darkest-gray, $darker-gray, $black, $off-black, $black);
+}
+
+// inline
+@mixin btn-inline($color, $color-hover) {
+  display: inline;
+  padding: 0;
+  outline: none;
+  border: none;
+  color: $color;
+  font-weight: 500;
+  font-size: inherit;
+  white-space: initial;
+  background-color: transparent;
+  position: relative;
+  background-image: linear-gradient(currentColor, currentColor),
+    linear-gradient(rgba($color, 0.4), rgba($color, 0.4));
+  background-position: 0% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 2px, 100% 1px;
+  transition: all 0.15s ease-in-out, background-size 0.5s ease-in-out;
+
+  &:hover,
+  &:focus {
+    color: $color-hover;
+    background-size: 100% 2px, 100% 1px;
+  }
+  &:active {
+    color: $color;
+    background-size: 100% 2px, 100% 1px;
+  }
+  & .calcite-button--icon {
+    fill: $color;
+    max-height: $baseline/1.75;
+    margin-inline-end: $baseline/4;
+  }
+}
+
+:host([appearance=inline][color=blue]) button,
+:host([appearance=inline][color=blue]) a {
+  @include btn-inline($blue, $light-blue);
+}
+:host([appearance=inline][color=red]) button,
+:host([appearance=inline][color=red]) a {
+  @include btn-inline($red, $light-red);
+}
+:host([appearance=inline][color=light]) button,
+:host([appearance=inline][color=light]) a {
+  @include btn-inline($lightest-gray, $white);
+}
+:host([appearance=inline][color=dark]) button,
+:host([appearance=inline][color=dark]) a {
+  @include btn-inline($darkest-gray, $darker-gray);
+}
+
+// generate button scales
+$btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3),
+  "s" -2 calc(#{$baseline}/ 4) calc(#{$baseline}* 0.5),
+  "m" -1 calc(#{$baseline}/ 3) calc(#{$baseline}* 0.75),
+  "l" 1 calc(#{$baseline} / 2) calc(#{$baseline}* 1),
+  "xl" 2 calc(#{$baseline} / 1.5) calc(#{$baseline}* 1.25);
+
+@each $btnScale in $btnScales {
+  $name: nth($btnScale, 1);
+  $font-size: nth($btnScale, 2);
+  $padding-y: nth($btnScale, 3);
+  $padding-x: nth($btnScale, 4);
+
+  :host([scale="#{$name}"]:not([appearance="inline"])) button,
+  :host([scale="#{$name}"]:not([appearance="inline"])) a {
+    @include btn-scale($font-size, $padding-y, $padding-x);
+  }
+}
