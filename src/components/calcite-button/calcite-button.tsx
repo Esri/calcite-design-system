@@ -10,7 +10,9 @@ import { Component, Element, h, Host, Prop } from "@stencil/core";
 
 /** Any attributes placed on <calcite-button> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
+/** Using appearance=inline will also render as an anchor link. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
+
 export class CalciteButton {
   @Element() el: HTMLElement;
 
@@ -21,7 +23,7 @@ export class CalciteButton {
     | "light"
     | "red" = "blue";
 
-  /** specify the appearance style of the button, defaults to solid */
+  /** specify the appearance style of the button, defaults to solid. Specifying "inline" will render the component as an anchor */
   @Prop({ mutable: true, reflect: true }) appearance:
     | "solid"
     | "outline"
@@ -64,36 +66,29 @@ export class CalciteButton {
     // spreadable attributes to pass to component child, if they aren't props
     let props = ["appearance", "color", "loading", "scale", "width", "icon"];
     return Array.from(this.el.attributes)
-      .map(a => [a.name, a.value])
-      .filter(a => {
-        return !props.includes(a[0]);
-      })
-      .reduce((acc, attr) => {
-        acc[attr[0]] = attr[1];
-        return acc;
-      }, {});
+      .filter(a => !props.includes(a.name))
+      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   render() {
-    let attributes = this.getAttributes();
-    let Type = this.href || this.appearance === "inline" ? "a" : "button";
-    let role = Type === "a" ? "link" : "button";
-    let loader = <calcite-loader is-active inline></calcite-loader>;
-    let graphic =
-      (this.loading && this.icon) || this.loading ? (
-        <div class="calcite-button--graphic">{loader}</div>
-      ) : this.icon ? (
-        <div class="calcite-button--graphic">
-          <svg
-            class="calcite-button--icon"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="xMidYMid meet"
-            viewBox="0 0 24 24"
-          >
-            <path d={this.icon} />
-          </svg>
-        </div>
-      ) : null;
+    const attributes = this.getAttributes();
+    const Type = this.href || this.appearance === "inline" ? "a" : "button";
+    const role = Type === "a" ? "link" : "button";
+    const loader = <calcite-loader is-active inline></calcite-loader>;
+    const graphic = this.loading ? (
+      <div class="calcite-button--graphic">{loader}</div>
+    ) : this.icon ? (
+      <div class="calcite-button--graphic">
+        <svg
+          class="calcite-button--icon"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 24 24"
+        >
+          <path d={this.icon} />
+        </svg>
+      </div>
+    ) : null;
     return (
       <Host>
         <Type {...attributes} role={role}>

@@ -42,10 +42,9 @@
   @include font-size(0);
   font-weight: 500;
 }
-
+:host slot[name="alert-link"]::slotted(calcite-button),
 :host slot[name="alert-link"]::slotted(a) {
   @include font-size(-1);
-  color: $h-bb-060;
 }
 
 :host slot[name="alert-message"]::slotted(div) {

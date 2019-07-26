@@ -25,9 +25,7 @@ describe("calcite-button", () => {
     expect(icon).toBeNull();
     expect(loader).toBeNull();
   });
-});
 
-describe("calcite-button", () => {
   it("renders as a link with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button href="/">Continue</calcite-button>`);
@@ -51,9 +49,7 @@ describe("calcite-button", () => {
     expect(icon).toBeNull();
     expect(loader).toBeNull();
   });
-});
 
-describe("calcite-button", () => {
   it("renders as a button with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -79,9 +75,7 @@ describe("calcite-button", () => {
     expect(icon).toBeNull();
     expect(loader).toBeNull();
   });
-});
 
-describe("calcite-button", () => {
   it("renders as a link with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -107,9 +101,7 @@ describe("calcite-button", () => {
     expect(icon).toBeNull();
     expect(loader).toBeNull();
   });
-});
 
-describe("calcite-button", () => {
   it("passes attributes to rendered child link", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -134,9 +126,7 @@ describe("calcite-button", () => {
     expect(icon).toBeNull();
     expect(loader).toBeNull();
   });
-});
 
-describe("calcite-button", () => {
   it("passes attributes to rendered child button", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -160,9 +150,7 @@ describe("calcite-button", () => {
     expect(icon).toBeNull();
     expect(loader).toBeNull();
   });
-});
 
-describe("calcite-button", () => {
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -187,9 +175,7 @@ describe("calcite-button", () => {
     expect(icon).toBeNull();
     expect(loader).toBeNull();
   });
-});
 
-describe("calcite-button", () => {
   it("renders with an icon", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -210,9 +196,7 @@ describe("calcite-button", () => {
     expect(icon).not.toBeNull();
     expect(loader).toBeNull();
   });
-});
 
-describe("calcite-button", () => {
   it("renders with a loader when both icon and loader are present", async () => {
     const page = await newE2EPage();
     await page.setContent(
