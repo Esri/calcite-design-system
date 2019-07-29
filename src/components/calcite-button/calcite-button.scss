@@ -40,19 +40,28 @@
 }
 
 // icon style and loader {
+:host([hastext]) .calcite-button--graphic {
+  margin-right: $baseline/3;
+}
+
+:host([hastext][dir="rtl"]) .calcite-button--graphic {
+  margin-right: 0;
+  margin-left: $baseline/3;
+}
 .calcite-button--icon {
   height: 16px;
   width: 16px;
+  margin: 0 auto;
   line-height: inherit;
-  margin-inline-end: $baseline/4;
   transition: all 0.15s ease-in-out;
 }
 
 .calcite-button--graphic {
   display: inline-flex;
-  top: 3px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
   position: relative;
-  width: $baseline;
 }
 
 // button styles

@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
@@ -12,7 +13,6 @@ import { Component, Element, h, Host, Prop } from "@stencil/core";
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** Using appearance=inline will also render as an anchor link. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
-
 export class CalciteButton {
   @Element() el: HTMLElement;
 
@@ -47,6 +47,12 @@ export class CalciteButton {
   /** optionally pass icon path data to be positioned within the button - pass only raw path data from calcite ui helper  */
   @Prop({ reflect: true }) icon?: string = null;
 
+  /**
+   * @internal
+   */
+  // hastext prop for spacing graphic when text is present in slot
+  @Prop({ mutable: true }) hastext: boolean = false;
+
   connectedCallback() {
     // prop validations
     let appearance = ["solid", "outline", "clear", "inline"];
@@ -62,15 +68,31 @@ export class CalciteButton {
     if (!width.includes(this.width)) this.width = "auto";
   }
 
+  componentDidLoad() {
+    let textSlot = this.el.shadowRoot.querySelector("slot");
+    let textNode = textSlot ? textSlot.assignedNodes() : null;
+    if (textNode && (textNode[0] !== undefined && textNode[0] !== null))
+      this.hastext = true;
+  }
+
   getAttributes() {
     // spreadable attributes to pass to component child, if they aren't props
-    let props = ["appearance", "color", "loading", "scale", "width", "icon"];
+    let props = [
+      "appearance",
+      "color",
+      "loading",
+      "scale",
+      "width",
+      "icon",
+      "dir"
+    ];
     return Array.from(this.el.attributes)
       .filter(a => !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   render() {
+    const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
     const Type = this.href || this.appearance === "inline" ? "a" : "button";
     const role = Type === "a" ? "link" : "button";
@@ -90,7 +112,7 @@ export class CalciteButton {
       </div>
     ) : null;
     return (
-      <Host>
+      <Host dir={dir} hastext={this.hastext}>
         <Type {...attributes} role={role}>
           {graphic}
           <slot />

@@ -217,4 +217,22 @@ describe("calcite-button", () => {
     expect(icon).toBeNull();
     expect(loader).not.toBeNull();
   });
+
+  it("hastext is true when text is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-button>Continue</calcite-button>`
+    );
+    const element = await page.find("calcite-button");
+    expect(element).toHaveAttribute("hastext");
+  });
+
+  it("hastext is false when text is not present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-button icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'></calcite-button>`
+    );
+    const element = await page.find("calcite-button");
+    expect(element).not.toHaveAttribute("hastext");
+  });
 });
