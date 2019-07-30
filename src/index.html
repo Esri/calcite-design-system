@@ -31,6 +31,7 @@
         <calcite-tab-title is-active>Tabs</calcite-tab-title>
         <calcite-tab-title>Alerts</calcite-tab-title>
         <calcite-tab-title>Loader</calcite-tab-title>
+        <calcite-tab-title>Modals</calcite-tab-title>
         <calcite-tab-title>Progress</calcite-tab-title>
         <calcite-tab-title>Radio Groups</calcite-tab-title>
         <calcite-tab-title>Slider</calcite-tab-title>
@@ -345,6 +346,101 @@
       </calcite-tab>
 
       <calcite-tab>
+        <calcite-modal class="js-modal-1" size="small">
+          <h3 slot="header">Small Modal</h3>
+          <div slot="content">
+            <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+          </div>
+          <nav slot="footer"><button>Save</button><button>Cancel</button></nav>
+        </calcite-modal>
+        <calcite-modal class="js-modal-2" size="medium">
+          <h3 slot="header">Medium Modal</h3>
+          <div slot="content">
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>The medium modal is large enough to fit a two column layout where both columns will have a readable line-length on
+                      most desktop devices.</p>
+                  </td>
+                  <td>
+                    <p>Single column layouts will still be within a readable line length on the medium size.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <nav slot="footer"><button>Save</button><button>Cancel</button></nav>
+        </calcite-modal>
+        <calcite-modal class="js-modal-3" size="large">
+          <h3 slot="header">Large modal</h3>
+          <div slot="content">
+            <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you to use gridded
+            layouts within the modal and keeps your modal from growing beyond a readable line length.</p>
+          </div>
+          <nav slot="footer"><button>Save</button><button>Cancel</button></nav>
+        </calcite-modal>
+        <calcite-modal class="js-modal-4" size="fullscreen">
+          <h3 slot="header">Fullscreen modal</h3>
+          <div slot="content">
+            <p>This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your modal
+              need the full screen realestate (maps, etc)</p>
+          </div>
+          <nav slot="footer"><button>Save</button><button>Cancel</button></nav>
+        </calcite-modal>
+        <calcite-modal class="js-modal-5" status="destructive">
+          <h3 slot="header">Delete</h3>
+          <div slot="content">
+            <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
+          </div>
+          <nav slot="footer"><button>Delete</button><button>Cancel</button></nav>
+        </calcite-modal>
+        <calcite-modal class="js-modal-6" status="info">
+          <h3 slot="header">Information</h3>
+          <div slot="content">
+            <p>This dialog should be used when choosing two viable paths.</p>
+          </div>
+          <nav slot="footer"><button>Start with no members</button><button>Add members now</button></nav>
+        </calcite-modal>
+        <calcite-modal class="js-modal-7" status="info" docked>
+          <h3 slot="header">Docked</h3>
+          <div slot="content">
+            <p>For devices smaller than a tablet this modal will "dock" to the bottom. This makes action selection more thumb-friendly.</p>
+          </div>
+          <nav slot="footer"><button>Start with no members</button><button>Add members now</button></nav>
+        </calcite-modal>
+        <calcite-modal class="js-modal-8" status="info" docked>
+          <h3 slot="header">Tab Fencing</h3>
+          <div slot="content">
+            <p>When you open a modal, the focus should be set to the first focusable element. <button>LIKE THIS</button>.</p>
+            <div><a href="#">Anchors</a>, <input type="text" value="inputs">, <calcite-slider></calcite-slider></div>
+          </div>
+          <nav slot="footer"><button>Start with no members</button><button>Add members now</button></nav>
+        </calcite-modal>
+        <calcite-modal theme="dark" class="js-modal-9">
+          <h3 slot="header">Dark Theme</h3>
+          <div slot="content">
+            <p>Example of a modal rendered in dark theme. The text will become light on dark, but notice box shadows are still dark.
+          </div>
+          <nav slot="footer"><button>OK</button><button>Cancel</button></nav>
+        </calcite-modal>
+        <button onClick="openModal('.js-modal-1')">Small Modal</button>
+        <button onClick="openModal('.js-modal-2')">Medium Modal</button>
+        <button onClick="openModal('.js-modal-3')">Large Modal</button>
+        <button onClick="openModal('.js-modal-4')">Fullscreen Modal</button>
+        <button onClick="openModal('.js-modal-5')">Error Status Modal</button>
+        <button onClick="openModal('.js-modal-6')">Info Status Modal</button>
+        <button onClick="openModal('.js-modal-7')">Docked</button>
+        <button onClick="openModal('.js-modal-8')">Tab Fencing</button>
+        <button onClick="openModal('.js-modal-9')">Dark Theme</button>
+        <script>
+          function openModal(selector) {
+            document.querySelector(selector).open();
+          }
+        </script>
+      </calcite-tab>
+
+      <calcite-tab>
         <calcite-progress type="indeterminate">
           <h1>Hello World!</h1>
         </calcite-progress>
@@ -445,7 +541,6 @@
         ></calcite-slider>
         <h3>Disabled</h3>
         <calcite-slider
-          id="mySlider"
           min="0"
           max="100"
           value="40"

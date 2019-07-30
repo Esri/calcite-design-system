@@ -5,6 +5,10 @@ body {
   font-family: $avenir-family;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 calcite-tabs {
   display: block;
 }
