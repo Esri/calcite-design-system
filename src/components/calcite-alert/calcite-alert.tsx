@@ -58,7 +58,8 @@ export class CalciteAlert {
   @Prop() icon: boolean = false;
 
   /** Unique ID for this alert */
-  @Prop() id: string = "1";
+   /** @internal */
+  @Prop() alertId: string = this.el.id;
 
   /** @internal */
   @Prop() currentAlert: string = "";
@@ -68,13 +69,16 @@ export class CalciteAlert {
 
   /** watch for changes to currentAlert passed from <calcite-alerts> */
   @Watch("currentAlert") watchCurrentAlert() {
-    this.active = this.currentAlert === this.id;
-    if (this.active) this.openCalciteAlert();
-    if (this.active && this.dismiss)
-      setTimeout(
-        () => this.closeCalciteAlert(),
-        this.durationDefaults[this.duration]
-      );
+    if (!this.active && this.currentAlert === this.alertId) {
+      if (this.dismiss)
+        setTimeout(
+          () => this.closeCalciteAlert(),
+          this.durationDefaults[this.duration]
+        );
+      setTimeout(() => (this.active = true), 300);
+    } else {
+      this.active = false;
+    }
   }
 
   /** Fired when an alert is closed */
@@ -85,12 +89,12 @@ export class CalciteAlert {
 
   /** emit the `calciteAlerClose` event - <calcite-alerts> listens for this */
   @Method() async closeCalciteAlert() {
-    this.calciteAlertClose.emit(this.id);
+    this.calciteAlertClose.emit({ requestedAlert: this.alertId });
   }
 
   /**  emit the `calciteAlertOpen` event - <calcite-alerts> listens for this  */
   @Method() async openCalciteAlert() {
-    this.calciteAlertOpen.emit(this.id);
+    this.calciteAlertOpen.emit({ requestedAlert: this.alertId });
   }
 
   private durationDefaults = {
