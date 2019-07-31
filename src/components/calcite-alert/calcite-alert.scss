@@ -23,14 +23,21 @@
     box-shadow: 0 -8px 16px 0 rgba($blk-240, 0.15);
   }
 
+  &:host(.hydrated) {
+    visibility: hidden !important;
+  }
+
   &:host([active]) {
-    visibility: visible;
     opacity: 1;
     max-height: 100%;
     transition-delay: 300ms;
     transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
     border-block-start-width: 3px;
+
+    &:host(.hydrated) {
+      visibility: visible !important;
+    }
 
     @media only screen and (max-width: $viewport-medium) {
       transform: translate3d(0, 0, 0);
@@ -42,15 +49,14 @@
   @include font-size(0);
   font-weight: 500;
 }
-
+:host slot[name="alert-link"]::slotted(calcite-button),
 :host slot[name="alert-link"]::slotted(a) {
   @include font-size(-1);
-  color: $h-bb-060;
-  margin-left: $baseline/2;
 }
 
 :host slot[name="alert-message"]::slotted(div) {
   @include font-size(-1);
+  margin-right: $baseline/2;
   color: $blk-160;
   display: inline;
 }
@@ -237,7 +243,7 @@
     border-radius: 0 0 0 2px;
   }
 
-  & slot[name="alert-link"]::slotted(a) {
+  & slot[name="alert-message"]::slotted(div) {
     margin-left: unset;
     margin-right: $baseline/2;
   }
