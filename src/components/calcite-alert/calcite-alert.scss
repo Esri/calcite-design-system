@@ -16,8 +16,8 @@
   transition: 300ms $easing-function, opacity 300ms $easing-function,
     all 0.15s ease-in-out;
   border-block-start: 0px solid transparent;
-
   @media only screen and (max-width: $viewport-medium) {
+    width: 100%;
     max-width: 100%;
     border-radius: 2px 2px 0 0;
     box-shadow: 0 -8px 16px 0 rgba($blk-240, 0.15);
@@ -30,7 +30,6 @@
   &:host([active]) {
     opacity: 1;
     max-height: 100%;
-    transition-delay: 300ms;
     transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
     border-block-start-width: 3px;
@@ -49,15 +48,14 @@
   @include font-size(0);
   font-weight: 500;
 }
-
+:host slot[name="alert-link"]::slotted(calcite-button),
 :host slot[name="alert-link"]::slotted(a) {
   @include font-size(-1);
-  color: $ui-blue;
-  margin-left: $baseline/2;
 }
 
 :host slot[name="alert-message"]::slotted(div) {
   @include font-size(-1);
+  margin-right: $baseline/2;
   color: $blk-160;
   display: inline;
 }
@@ -65,7 +63,6 @@
 @mixin alert-element-base() {
   padding: $baseline/2 $baseline;
   flex: 0 0 auto;
-  transition-delay: 300ms;
   transition: all 0.15s ease-in-out;
 
   & svg {
@@ -157,7 +154,6 @@
 
   &.active {
     visibility: visible;
-    transition-delay: 300ms;
     opacity: 1;
     padding: 0 $baseline/4;
     width: $baseline * 2;
@@ -193,7 +189,6 @@
     border-radius: 2px 2px 0 0;
     content: "";
     background-color: rgba($blk-000, 0.6);
-    transition: all 300ms linear;
     z-index: 104;
   }
 }
@@ -244,24 +239,32 @@
     border-radius: 0 0 0 2px;
   }
 
-  & slot[name="alert-link"]::slotted(a) {
+  & slot[name="alert-message"]::slotted(div) {
     margin-left: unset;
     margin-right: $baseline/2;
   }
 }
 
-$alertColors: "blue" $ui-blue, "red" $ui-red, "yellow" $ui-yellow,
-  "green" $ui-green;
+$alertColors: "blue" $ui-blue $ui-blue-dark, "red" $ui-red $ui-red-dark,
+  "yellow" $ui-yellow $ui-yellow-dark, "green" $ui-green $ui-green-dark;
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);
-  $color: nth($alertColor, 2);
+  $lightThemeColor: nth($alertColor, 2);
+  $darkThemeColor: nth($alertColor, 3);
 
-  :host([color="#{$name}"]) {
-    border-block-start-color: $color;
+  :host([theme="light"][color="#{$name}"]) {
+    border-block-start-color: $lightThemeColor;
 
     & .alert-icon svg {
-      fill: $color;
+      fill: $lightThemeColor;
+    }
+  }
+
+  :host([theme="dark"][color="#{$name}"]) {
+    border-block-start-color: $darkThemeColor;
+    & .alert-icon svg {
+      fill: $darkThemeColor;
     }
   }
 }
@@ -273,7 +276,7 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   $duration: nth($alertDuration, 2);
 
   :host([duration="#{$name}"]) .alert-dismiss:after {
-    animation: dismissProgress $duration linear;
+    animation: dismissProgress $duration ease-out;
   }
 }
 
