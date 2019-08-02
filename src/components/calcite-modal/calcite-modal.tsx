@@ -13,7 +13,7 @@ import {
 import { x24 } from "@esri/calcite-ui-icons";
 import "@a11y/focus-trap";
 import { FocusTrap } from "@a11y/focus-trap";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getElementTheme, hasSlottedContent } from "../../utils/dom";
 
 @Component({
   tag: "calcite-modal",
@@ -38,18 +38,18 @@ export class CalciteModal {
     Promise.resolve();
   /** Aria label for the close button */
   @Prop() closeLabel: string = "Close";
+  /** Prevent the modal from taking up the entire screen on mobile */
+  @Prop({ reflect: true }) docked: boolean;
   /** Specify an element to focus when the modal is first opened */
   @Prop() firstFocus?: HTMLElement;
-  /** Dock the modal to the bottom of the screen on mobile ("sheet") */
-  @Prop({ reflect: true }) docked: boolean;
   /** Set the overall size of the modal */
   @Prop({ reflect: true }) size: "small" | "medium" | "large" | "fullscreen" =
     "small";
   /** Adds a color bar at the top for visual impact,
-   * Use status to add importance to desctructive/workflow dialogs. */
-  @Prop({ reflect: true }) status?: "desctructive" | "info";
+   * Use color to add importance to desctructive/workflow dialogs. */
+  @Prop({ reflect: true }) color?: "red" | "blue";
   /** Select theme (light or dark) */
-  @Prop({ reflect: true})
+  @Prop({ reflect: true })
   theme: "light" | "dark" = "light";
 
   //--------------------------------------------------------------------------
@@ -57,10 +57,32 @@ export class CalciteModal {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+  componentDidLoad() {
+    const back = this.el.shadowRoot.querySelector(
+      "slot[name=back]"
+    ) as HTMLSlotElement;
+    const secondary = this.el.shadowRoot.querySelector(
+      "slot[name=secondary]"
+    ) as HTMLSlotElement;
+    back.addEventListener("slotchange", () => {
+      this.hideBackButton = !hasSlottedContent(back);
+    });
+    secondary.addEventListener("slotchange", () => {
+      this.hideSecondaryButton = !hasSlottedContent(secondary);
+    });
+  }
+
   render() {
     const dir = getElementDir(this.el);
+    const theme = getElementTheme(this.el);
     return (
-      <Host role="dialog" class={{ "is-active": this.isActive }} dir={dir}>
+      <Host
+        role="dialog"
+        aria-modal="true"
+        class={{ "is-active": this.isActive }}
+        dir={dir}
+        theme={theme}
+      >
         <div class="modal">
           <focus-trap ref={el => (this.trap = el as FocusTrap)}>
             <div class="modal__header">
@@ -86,8 +108,16 @@ export class CalciteModal {
             <div class="modal__content">
               <slot name="content"></slot>
             </div>
-            <div class="modal__footer">
-              <slot name="footer"></slot>
+            <div
+              class={{
+                modal__footer: true,
+                "modal__footer--hide-back": this.hideBackButton,
+                "modal__footer--hide-secondary": this.hideSecondaryButton
+              }}
+            >
+              <slot name="back"></slot>
+              <slot name="secondary"></slot>
+              <slot name="primary"></slot>
             </div>
           </focus-trap>
         </div>
@@ -158,6 +188,8 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   @State() isActive: boolean;
+  @State() hideBackButton: boolean = true;
+  @State() hideSecondaryButton: boolean = true;
   private previousActiveElement: HTMLElement;
   private trap: FocusTrap;
 }

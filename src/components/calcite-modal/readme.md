@@ -1,6 +1,6 @@
 # calcite-modal
 
-calcite modal allows you to show a modal/dialog to your users. The modal handles fencing focus and animating in/out. Customize the modal by passing your content into three named slots: `header` (title-area of the modal), `content` (main body of the modal), and `footer` (action bar at the bottom of the modal):
+calcite modal allows you to show a modal/dialog to your users. The modal handles fencing focus and animating in/out. Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back.
 
 ```html
 <calcite-modal aria-labelledby="modal-title">
@@ -8,9 +8,15 @@ calcite modal allows you to show a modal/dialog to your users. The modal handles
   <div slot="content">
     The actual content of the modal
   </div>
-  <nav slot="footer">
-    <button>OK</button><button>Cancel</button>
-  </nav>
+  <calcite-button slot="back" color="light" appearance="outline" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z" width="full">
+    Back
+  </calcite-button>
+  <calcite-button slot="secondary" width="full" appearance="outline">
+    Cancel
+  </calcite-button>
+  <calcite-button slot="primary" width="full">
+    Save
+  </calcite-button>
 </calcite-modal>
 ```
 
@@ -47,15 +53,15 @@ modal.open();
 
 ## Properties
 
-| Property      | Attribute     | Description                                                                                                   | Type                                             | Default                       |
-| ------------- | ------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------- |
-| `beforeClose` | --            | Optionally pass a function to run before close                                                                | `(el: HTMLElement) => Promise<void>`             | `() =>     Promise.resolve()` |
-| `closeLabel`  | `close-label` | Aria label for the close button                                                                               | `string`                                         | `"Close"`                     |
-| `docked`      | `docked`      | Dock the modal to the bottom of the screen on mobile ("sheet")                                                | `boolean`                                        | `undefined`                   |
-| `firstFocus`  | --            | Specify an element to focus when the modal is first opened                                                    | `HTMLElement`                                    | `undefined`                   |
-| `size`        | `size`        | Set the overall size of the modal                                                                             | `"fullscreen" \| "large" \| "medium" \| "small"` | `"small"`                     |
-| `status`      | `status`      | Adds a color bar at the top for visual impact, Use status to add importance to desctructive/workflow dialogs. | `"desctructive" \| "info"`                       | `undefined`                   |
-| `theme`       | `theme`       | Select theme (light or dark)                                                                                  | `"dark" \| "light"`                              | `"light"`                     |
+| Property      | Attribute     | Description                                                                                                  | Type                                             | Default                       |
+| ------------- | ------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ | ----------------------------- |
+| `beforeClose` | --            | Optionally pass a function to run before close                                                               | `(el: HTMLElement) => Promise<void>`             | `() =>     Promise.resolve()` |
+| `closeLabel`  | `close-label` | Aria label for the close button                                                                              | `string`                                         | `"Close"`                     |
+| `color`       | `color`       | Adds a color bar at the top for visual impact, Use color to add importance to desctructive/workflow dialogs. | `"blue" \| "red"`                                | `undefined`                   |
+| `docked`      | `docked`      | Prevent the modal from taking up the entire screen on mobile                                                 | `boolean`                                        | `undefined`                   |
+| `firstFocus`  | --            | Specify an element to focus when the modal is first opened                                                   | `HTMLElement`                                    | `undefined`                   |
+| `size`        | `size`        | Set the overall size of the modal                                                                            | `"fullscreen" \| "large" \| "medium" \| "small"` | `"small"`                     |
+| `theme`       | `theme`       | Select theme (light or dark)                                                                                 | `"dark" \| "light"`                              | `"light"`                     |
 
 
 ## Events

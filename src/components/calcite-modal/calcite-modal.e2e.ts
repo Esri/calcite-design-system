@@ -135,11 +135,12 @@ describe("calcite-modal accessibility checks", () => {
     expect(document.activeElement).toEqual($button);
   });
 
-  it("has correct aria role", async () => {
+  it("has correct aria role/attribute", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     expect(modal).toEqualAttribute("role", "dialog");
+    expect(modal).toEqualAttribute("aria-modal", "true");
   });
 
   it("closes when Escape key is pressed", async () => {
