@@ -1,3 +1,38 @@
+// theme variables
+// light theme
+:host {
+  --calcite-alert-background: #{$blk-000};
+  --calcite-alert-title-text: #{$blk-180};
+  --calcite-alert-message-text: #{$blk-160};
+  --calcite-alert-icon-fill: #{$blk-220};
+  --calcite-alert-close-background-hover: #{$blk-010};
+  --calcite-alert-close-background-pressed: #{$blk-020};
+  --calcite-alert-count-text: #{$blk-180};
+  --calcite-alert-count-border: #{$blk-010};
+  --calcite-alert-dismiss-background: #{rgba($blk-000, 0.6)};
+  --calcite-alert-border-blue: #{$ui-blue};
+  --calcite-alert-border-green: #{$ui-green};
+  --calcite-alert-border-red: #{$ui-red};
+  --calcite-alert-border-yellow: #{$ui-yellow};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-alert-background: #{$blk-200};
+  --calcite-alert-title-text: #{$blk-005};
+  --calcite-alert-message-text: #{$blk-010};
+  --calcite-alert-icon-fill: #{$blk-040};
+  --calcite-alert-close-background-hover: #{$blk-210};
+  --calcite-alert-close-background-pressed: #{$blk-220};
+  --calcite-alert-count-text: #{$blk-040};
+  --calcite-alert-count-border: #{$blk-210};
+  --calcite-alert-dismiss-background: #{rgba($blk-200, 0.6)};
+  --calcite-alert-border-blue: #{$ui-blue-dark};
+  --calcite-alert-border-green: #{$ui-green-dark};
+  --calcite-alert-border-red: #{$ui-red-dark};
+  --calcite-alert-border-yellow: #{$ui-yellow-dark};
+}
+
 :host {
   display: flex;
   position: relative;
@@ -8,8 +43,8 @@
   width: 50em;
   max-width: 90%;
   max-height: 0;
-  background-color: $blk-000;
-  box-shadow: 0 0 16px 0 rgba($blk-240, 0.15);
+  background-color: var(--calcite-alert-background);
+  box-shadow: $shadow-2;
   border-radius: 2px;
   opacity: 0;
   transform: translate3d(0, $baseline, 0);
@@ -46,6 +81,7 @@
 
 :host slot[name="alert-title"]::slotted(div) {
   @include font-size(0);
+  color: var(--calcite-alert-title-text);
   font-weight: 500;
 }
 :host slot[name="alert-link"]::slotted(calcite-button),
@@ -54,10 +90,17 @@
 }
 
 :host slot[name="alert-message"]::slotted(div) {
-  @include font-size(-1);
-  margin-right: $baseline/2;
-  color: $blk-160;
   display: inline;
+  margin-right: $baseline/2;
+  @include font-size(-1);
+  color: var(--calcite-alert-message-text);
+}
+
+:host([dir="rtl"]) {
+  & slot[name="alert-message"]::slotted(div) {
+    margin-right: unset;
+    margin-left: $baseline/2;
+  }
 }
 
 @mixin alert-element-base() {
@@ -114,24 +157,25 @@
   border-radius: 0 0 2px 0;
 
   & svg {
-    fill: $blk-220;
+    fill: var(--calcite-alert-icon-fill);
   }
 
   &:hover,
   &:focus {
-    background-color: $blk-010;
+    background-color: var(--calcite-alert-close-background-hover);
   }
 
   &:active {
-    background-color: $blk-020;
+    background-color: var(--calcite-alert-close-background-pressed);
   }
+}
 
-  &:last-child {
-    border-radius: 0 0 2px 0;
-  }
-
-  @media only screen and (max-width: $viewport-medium) {
-    border-radius: 0;
+:host([dir="rtl"]) {
+  .alert-close {
+    border-radius: 0 0 0 2px;
+    @media only screen and (max-width: $viewport-medium) {
+      border-radius: 0;
+    }
   }
 }
 
@@ -145,7 +189,7 @@
   visibility: hidden;
   font-weight: 500;
   text-align: center;
-  color: $blk-180;
+  color: var(--calcite-alert-count-text);
   opacity: 0;
   border-inline-start: 0px solid transparent;
   border-inline-end: 0px solid transparent;
@@ -157,8 +201,8 @@
     opacity: 1;
     padding: 0 $baseline/4;
     width: $baseline * 2;
-    border-inline-start: 1px solid $blk-010;
-    border-inline-end: 1px solid $blk-010;
+    border-inline-start: 1px solid var(--calcite-alert-count-border);
+    border-inline-end: 1px solid var(--calcite-alert-count-border);
 
     &:last-child {
       border-inline-end: 0px solid transparent;
@@ -188,83 +232,25 @@
     position: absolute;
     border-radius: 2px 2px 0 0;
     content: "";
-    background-color: rgba($blk-000, 0.6);
+    background-color: var(--calcite-alert-dismiss-background);
     z-index: 104;
   }
 }
 
-:host([theme="dark"]) {
-  background-color: $blk-200;
-
-  & slot[name="alert-title"]::slotted(div) {
-    color: $blk-005;
-  }
-
-  & slot[name="alert-message"]::slotted(div) {
-    color: $blk-010;
-  }
-
-  & .alert-close {
-    & svg {
-      fill: $blk-040;
-    }
-
-    &:hover,
-    &:focus {
-      background-color: $blk-210;
-    }
-
-    &:active {
-      background-color: $blk-220;
-    }
-  }
-
-  & .alert-count {
-    color: $blk-040;
-
-    &.active {
-      border-left: 1px solid $blk-210;
-      border-right: 1px solid $blk-210;
-    }
-  }
-
-  & .alert-dismiss:after {
-    background-color: rgba($blk-200, 0.6);
-  }
-}
-
-// this should eventually be handled by a top-level config component
-:host([dir="rtl"]) {
-  & .alert-close:last-child {
-    border-radius: 0 0 0 2px;
-  }
-
-  & slot[name="alert-message"]::slotted(div) {
-    margin-left: unset;
-    margin-right: $baseline/2;
-  }
-}
-
-$alertColors: "blue" $ui-blue $ui-blue-dark, "red" $ui-red $ui-red-dark,
-  "yellow" $ui-yellow $ui-yellow-dark, "green" $ui-green $ui-green-dark;
+$alertColors: "blue" var(--calcite-alert-border-blue),
+  "red" var(--calcite-alert-border-red),
+  "yellow" var(--calcite-alert-border-yellow),
+  "green" var(--calcite-alert-border-green);
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);
-  $lightThemeColor: nth($alertColor, 2);
-  $darkThemeColor: nth($alertColor, 3);
+  $color: nth($alertColor, 2);
 
-  :host([theme="light"][color="#{$name}"]) {
-    border-block-start-color: $lightThemeColor;
+  :host([color="#{$name}"]) {
+    border-block-start-color: $color;
 
     & .alert-icon svg {
-      fill: $lightThemeColor;
-    }
-  }
-
-  :host([theme="dark"][color="#{$name}"]) {
-    border-block-start-color: $darkThemeColor;
-    & .alert-icon svg {
-      fill: $darkThemeColor;
+      fill: $color;
     }
   }
 }
