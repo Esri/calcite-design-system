@@ -36,6 +36,19 @@ For instances when you don't have room for the full loader, you can use the smal
 | `value`    | `value`     | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`               |
 
 
+## Dependencies
+
+### Used by
+
+ - [calcite-button](../calcite-button)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-button --> calcite-loader
+  style calcite-loader fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
