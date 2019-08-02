@@ -1,0 +1,317 @@
+:host {
+  --calcite-modal-background: #{$white};
+  --calcite-modal-hover: #{$blk-010};
+  --calcite-modal-pressed: #{$blk-020};
+  --calcite-modal-header-text: #{$blk-220};
+  --calcite-modal-body-text: #{$blk-220};
+  --calcite-modal-scrim: #{$transparent-black};
+  --calcite-modal-border: #{$lightest-gray};
+  --calcite-modal-red: #{$h-rr-060};
+  --calcite-modal-blue: #{$h-bb-060};
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: hidden;
+  color: var(--calcite-modal-body-text);
+  opacity: 0;
+  visibility: hidden !important;
+  background: var(--calcite-modal-scrim);
+  transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
+  z-index: 101;
+}
+
+:host([theme="dark"]) {
+  --calcite-modal-background: #{$blk-190};
+  --calcite-modal-hover: #{$blk-200};
+  --calcite-modal-pressed: #{$blk-210};
+  --calcite-modal-header-text: #{$blk-000};
+  --calcite-modal-body-text: #{$blk-010};
+  --calcite-modal-scrim: #{$transparent-black};
+  --calcite-modal-border: #{$blk-200};
+  --calcite-modal-hover: #{$darkest-gray};
+  --calcite-modal-red: #{$v-rr-160};
+  --calcite-modal-blue: #{$v-bb-160};
+}
+
+.modal {
+  box-sizing: border-box;
+  max-height: 80vh;
+  z-index: 102;
+  float: none;
+  text-align: left;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: row-wrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 300ms $easing-function, visibility 0ms linear 300ms,
+    opacity 300ms $easing-function;
+  transform: translate3d(0, 20px, 0);
+  box-shadow: $shadow-2;
+  margin: $baseline;
+}
+
+:host(.is-active) {
+  visibility: visible !important;
+  opacity: 1;
+  transition-delay: 0ms;
+  .modal {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0ms;
+    transform: translate3d(0, 0, 0);
+    transition: transform 300ms $easing-function, visibility 0ms linear,
+      opacity 300ms $easing-function, max-width 300ms $easing-function,
+      max-height 300ms $easing-function;
+  }
+}
+
+:host([dir="rtl"]) .modal {
+  text-align: right;
+}
+
+:host([theme="dark"]) .modal {
+  border: 1px solid $blk-210;
+}
+
+focus-trap {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/**
+ * Header
+ */
+.modal__header {
+  background-color: var(--calcite-modal-background);
+  flex: 0;
+  display: flex;
+  max-width: 100%;
+  min-width: 0;
+  z-index: 2;
+  border-bottom: 1px solid var(--calcite-modal-border);
+}
+
+.modal__close {
+  padding: $baseline * 0.75;
+  order: 2;
+  flex: 0 0 auto;
+  transition-delay: 300ms;
+  transition: all 0.15s ease-in-out;
+  background-color: transparent;
+  -webkit-appearance: none;
+  border: none;
+  color: var(--calcite-modal-body-text);
+  outline: none;
+  cursor: pointer;
+  svg {
+    pointer-events: none;
+  }
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-modal-hover);
+  }
+  &:active {
+    background-color: var(--calcite-modal-pressed);
+  }
+}
+
+.modal__title {
+  display: flex;
+  align-items: center;
+  padding: $baseline / 2 $baseline;
+  flex: 1 1 auto;
+  order: 1;
+  min-width: 0;
+}
+
+slot[name="header"]::slotted(*) {
+  margin: 0;
+  font-weight: 400;
+  @include font-size(2);
+  color: var(--calcite-modal-header-text);
+}
+
+/**
+ * Content area
+ */
+.modal__content {
+  position: relative;
+  padding: $baseline;
+  height: 100%;
+  flex: 0;
+  overflow: auto;
+  display: block;
+  background-color: var(--calcite-modal-background);
+  z-index: 1;
+}
+
+slot[name="content"]::slotted(*) {
+  @include font-size(0);
+}
+
+/**
+ * Footer
+ */
+.modal__footer {
+  background-color: var(--calcite-modal-background);
+  flex: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: $baseline/1.25 $baseline * 0.75;
+  border-top: 1px solid var(--calcite-modal-border);
+  z-index: 2;
+}
+
+.modal__footer--hide-back slot[name="back"],
+.modal__footer--hide-secondary slot[name="secondary"] {
+  display: none;
+}
+
+slot[name="back"] {
+  display: block;
+  margin-right: auto;
+}
+
+:host([dir="rtl"]) slot[name="back"] {
+  margin-left: auto;
+  margin-right: unset;
+}
+
+slot[name="secondary"] {
+  display: block;
+  margin: 0 $baseline * 0.25;
+}
+
+slot[name="primary"] {
+  display: block;
+}
+
+/**
+ * Sizes
+ */
+@mixin modal-size ($size, $width) {
+  :host([size="#{$size}"]) {
+    .modal {
+      max-width: $width;
+    }
+  }
+  @media screen and (max-width: $width + 2 * $baseline) {
+    :host([size="#{$size}"]) {
+      .modal {
+        height: 100vh;
+        max-height: 100vh;
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0;
+      }
+      .modal__content {
+        flex: 1 1 auto;
+      }
+    }
+    :host([size="#{$size}"][docked]) {
+      align-items: flex-end;
+    }
+  }
+}
+
+@include modal-size("small", 32rem);
+@include modal-size("medium", 64rem);
+@include modal-size("large", 94rem);
+
+/**
+ * Fullscreen
+ */
+:host([size="fullscreen"]) {
+  background-color: transparent;
+  .modal {
+    transform: translate3D(0, 20px, 0) scale(0.95);
+    height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+  }
+  .modal__content {
+    flex: 1 1 auto;
+  }
+}
+
+:host(.is-active[size="fullscreen"]) {
+  .modal {
+    transform: translate3D(0, 0, 0) scale(1);
+  }
+}
+
+/**
+ * Docked
+ */
+:host([docked]) {
+  .modal {
+    height: auto !important;
+  }
+  .modal__content {
+    flex: 0;
+    height: auto;
+  }
+}
+
+/**
+ * Colors
+ */
+:host([color="red"]) {
+  .modal {
+    border-top: 4px solid var(--calcite-modal-red);
+    border-radius: 2px 2px 0 0;
+  }
+}
+
+:host([color="blue"]) {
+  .modal {
+    border-top: 4px solid var(--calcite-modal-blue);
+    border-radius: 2px 2px 0 0;
+  }
+}
+
+/**
+ * Tablet
+ */
+@media screen and (max-width: $viewport-medium) {
+  slot[name="header"]::slotted(*) {
+    @include font-size(1);
+  }
+  .modal__title {
+    padding: $baseline * 0.25 $baseline * 0.675;
+  }
+  .modal__close {
+    padding: $baseline * 0.675;
+  }
+  .modal__content {
+    padding: $baseline * 0.675;
+  }
+  .modal__footer {
+    position: sticky;
+    bottom: 0;
+  }
+}
+
+/**
+ * Mobile
+ */
+@media screen and (max-width: $viewport-small) {
+  .modal__footer {
+    flex-direction: column;
+  }
+  slot[name="back"],
+  slot[name="secondary"] {
+    margin: 0 0 $baseline * 0.25 0;
+  }
+}
