@@ -6,14 +6,12 @@
   padding: $baseline/4 1rem;
   text-decoration: none;
   width: auto;
-  outline: none;
   border-radius: 0;
   border: none;
   line-height: inherit;
   font-family: inherit;
   -webkit-appearance: none;
   cursor: pointer;
-  white-space: nowrap;
   text-align: center;
   box-sizing: border-box;
   transition: all 0.15s ease-in-out;
@@ -76,7 +74,7 @@
     box-shadow: inset 0 0 0 1px $bg-color;
   }
   &:active {
-    background-color: $bg-color;
+    background-color: $bg-color-press;
     border-color: $bg-color-press;
     box-shadow: inset 0 0 0 2px $bg-color-press;
   }
@@ -88,13 +86,13 @@
 :host([appearance="solid"][color="blue"]) {
   button,
   a {
-    @include btn-solid($blue, $light-blue, $dark-blue, $white);
+    @include btn-solid($ui-blue, $ui-blue-hover, $ui-blue-pressed, $white);
   }
 }
 :host([appearance="solid"][color="red"]) {
   button,
   a {
-    @include btn-solid($red, $light-red, $dark-red, $white);
+    @include btn-solid($ui-red, $ui-red-hover, $ui-red-pressed, $white);
   }
 }
 :host([appearance="solid"][color="light"]) {
@@ -141,11 +139,11 @@
   a {
     @include btn-outline-clear(
       $white,
-      $blue,
-      $light-blue,
-      $dark-blue,
-      $blue,
-      $dark-blue
+      $ui-blue,
+      $ui-blue-hover,
+      $ui-blue-pressed,
+      $ui-blue,
+      $ui-blue-pressed
     );
   }
 }
@@ -154,11 +152,11 @@
   a {
     @include btn-outline-clear(
       $white,
-      $red,
-      $light-red,
-      $dark-red,
-      $red,
-      $dark-red
+      $ui-red,
+      $ui-red-hover,
+      $ui-red-pressed,
+      $ui-red,
+      $ui-red-pressed
     );
   }
 }
@@ -193,11 +191,11 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $blue,
-      $light-blue,
-      $dark-blue,
-      $blue,
-      $dark-blue
+      $ui-blue,
+      $ui-blue-hover,
+      $ui-blue-pressed,
+      $ui-blue,
+      $ui-blue-pressed
     );
   }
 }
@@ -206,11 +204,11 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $red,
-      $light-red,
-      $dark-red,
-      $red,
-      $dark-red
+      $ui-red,
+      $ui-red-hover,
+      $ui-red-pressed,
+      $ui-red,
+      $ui-red-pressed
     );
   }
 }
@@ -278,13 +276,13 @@
 :host([appearance="inline"][color="blue"]) {
   button,
   a {
-    @include btn-inline($blue, $light-blue);
+    @include btn-inline($ui-blue, $ui-blue-hover);
   }
 }
 :host([appearance="inline"][color="red"]) {
   button,
   a {
-    @include btn-inline($red, $light-red);
+    @include btn-inline($ui-red, $ui-red-hover);
   }
 }
 :host([appearance="inline"][color="light"]) {
@@ -297,6 +295,12 @@
   button,
   a {
     @include btn-inline($darkest-gray, $darker-gray);
+  }
+}
+:host([appearance="inline"][dir="rtl"]) {
+  button,
+  a {
+    background-position: 100% 100%, 100% 100%;
   }
 }
 
