@@ -22,10 +22,10 @@ export class CalciteAlerts {
   @State() active: boolean = false;
   @State() alertQueue: string[] = [];
 
-  /** emits the id of the alert ot be closed, and the current alertQueue and currentAlert */
+  /** emits the ID of the alert to be closed, and the current alertQueue and currentAlert */
   @Event() calciteAlertsClose: EventEmitter;
 
-  /** emits the id of the alert to be opened, and the current alertQueue and currentAlert */
+  /** emits the ID of the alert to be opened, and the current alertQueue and currentAlert */
   @Event() calciteAlertsOpen: EventEmitter;
 
   /** Adds the requested alert to the alert queue, if not present */
@@ -41,7 +41,7 @@ export class CalciteAlerts {
     }
   }
 
-  /** Closes the requested alert and removes from the queue */
+  /** Closes the requested alert and removes from the queue, or removes from queue if not active */
   @Listen("calciteAlertClose") updateQueueOnClose(event: CustomEvent) {
     if (this.alertQueue.includes(event.detail.requestedAlert))
       this.alertQueue = this.alertQueue.filter(

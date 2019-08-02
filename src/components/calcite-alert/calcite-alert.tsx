@@ -16,6 +16,7 @@ import {
   checkCircle24F,
   x32
 } from "@esri/calcite-ui-icons";
+import { getElementDir } from "../../utils/dom";
 import AlertInterface from "../../interfaces/AlertInterface";
 
 /** Alerts are not meant to be used inline with content, or be present in view on page load.
@@ -87,7 +88,7 @@ export class CalciteAlert {
   /** Fired when an alert is opened */
   @Event() calciteAlertOpen: EventEmitter;
 
-  /** emit the `calciteAlerClose` event - <calcite-alerts> listens for this */
+  /** emit the `calciteAlertClose` event - <calcite-alerts> listens for this */
   @Method() async closeCalciteAlert() {
     this.calciteAlertClose.emit({ requestedAlert: this.alertId });
   }
@@ -140,6 +141,7 @@ export class CalciteAlert {
   }
 
   render() {
+    const dir = getElementDir(this.el);
     const closeButton = (
       <button
         class="alert-close"
@@ -167,7 +169,7 @@ export class CalciteAlert {
     const progress =
       this.active && this.dismiss ? <div class="alert-dismiss"></div> : "";
     return (
-      <Host active={!!this.active}>
+      <Host active={!!this.active} dir={dir}>
         {icon}
         <div class="alert-content">
           <slot name="alert-title"></slot>
