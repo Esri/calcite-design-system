@@ -12,19 +12,12 @@ The `calcite-alerts` component is meant to wrap one or multiple [calcite-alert](
 <!-- Auto Generated Below -->
 
 
-## Properties
-
-| Property | Attribute | Description                                   | Type     | Default |
-| -------- | --------- | --------------------------------------------- | -------- | ------- |
-| `id`     | `id`      | Unique ID for this instance of calcite-alerts | `string` | `"1"`   |
-
-
 ## Events
 
-| Event                | Description | Type               |
-| -------------------- | ----------- | ------------------ |
-| `calciteAlertsClose` |             | `CustomEvent<any>` |
-| `calciteAlertsOpen`  |             | `CustomEvent<any>` |
+| Event                | Description                                                                         | Type               |
+| -------------------- | ----------------------------------------------------------------------------------- | ------------------ |
+| `calciteAlertsClose` | emits the id of the alert ot be closed, and the current alertQueue and currentAlert | `CustomEvent<any>` |
+| `calciteAlertsOpen`  | emits the id of the alert to be opened, and the current alertQueue and currentAlert | `CustomEvent<any>` |
 
 
 ## Dependencies

@@ -16,9 +16,9 @@
 
 ## Events
 
-| Event                         | Description | Type               |
-| ----------------------------- | ----------- | ------------------ |
-| `calciteRadioGroupItemSelect` |             | `CustomEvent<any>` |
+| Event                     | Description | Type               |
+| ------------------------- | ----------- | ------------------ |
+| `calciteRadioGroupChange` |             | `CustomEvent<any>` |
 
 
 ----------------------------------------------

@@ -31,7 +31,6 @@ Single alert for toast notifications. To position the alert correctly and manage
 | `dismiss`  | `dismiss`  | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`                                  |
 | `duration` | `duration` | Length before autodismissal (only used with `dismiss`)                       | `"fast" \| "medium" \| "slow"`           | `this.dismiss     ? "medium"     : null` |
 | `icon`     | `icon`     | If false, no icon will be shown in the alert                                 | `boolean`                                | `false`                                  |
-| `id`       | `id`       | Unique ID for this alert                                                     | `string`                                 | `"1"`                                    |
 | `theme`    | `theme`    | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `"light"`                                |
 
 
@@ -47,7 +46,7 @@ Single alert for toast notifications. To position the alert correctly and manage
 
 ### `closeCalciteAlert() => Promise<void>`
 
-emit the `calciteAlerClose` event - <calcite-alerts> listens for this, if the alert is not active, but is the queue, this will remove it from the queue
+emit the `calciteAlerClose` event - <calcite-alerts> listens for this
 
 #### Returns
 
@@ -57,7 +56,7 @@ Type: `Promise<void>`
 
 ### `openCalciteAlert() => Promise<void>`
 
-emit the `calciteAlertOpen` event - <calcite-alerts> listens for this, and determines if it should open the alert or add it to the queue
+emit the `calciteAlertOpen` event - <calcite-alerts> listens for this
 
 #### Returns
 
@@ -68,11 +67,11 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot              | Description                                                    |
-| ----------------- | -------------------------------------------------------------- |
-| `"alert-link"`    | Optional action to take from the alert (undo, try again, etc.) |
-| `"alert-message"` | Main text of the alert                                         |
-| `"alert-title"`   | Title of the alert (optional)                                  |
+| Slot              | Description                                                                  |
+| ----------------- | ---------------------------------------------------------------------------- |
+| `"alert-link"`    | Optional action to take from the alert (undo, try again, link to page, etc.) |
+| `"alert-message"` | Main text of the alert                                                       |
+| `"alert-title"`   | Title of the alert (optional)                                                |
 
 
 ## Dependencies

@@ -24,6 +24,7 @@ export const config: Config = {
     { components: ["calcite-slider"] }
   ],
   outputTargets: [
+    { type: "dist-hydrate-script" },
     { type: "dist" },
     { type: "docs-readme" },
     {

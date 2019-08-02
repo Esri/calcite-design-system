@@ -1,34 +1,34 @@
 {
-  "name": "calcite-components",
-  "version": "0.0.0-alpha.4",
-  "description": "Stencil Component Starter",
+  "name": "@esri/calcite-components",
+  "version": "1.0.0-beta.0",
+  "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
   "es2017": "dist/esm/index.mjs",
-  "jsnext:main": "dist/esm/index.mjs",
-  "unpkg": "dist/calcite.js",
   "types": "dist/types/components.d.ts",
-  "collection": "dist/collection/collection-manifest.json",
+  "unpkg": "dist/calcite/calcite.js",
   "collection:main": "dist/collection/index.js",
+  "collection": "dist/collection/collection-manifest.json",
   "files": [
-    "dist/"
+    "dist/",
+    "hydrate/"
   ],
   "scripts": {
     "build": "stencil build --docs-readme",
     "start": "stencil build --dev --watch --serve --docs-readme",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "prerelease:prepare": "npm run build",
     "prettier": "npm-run-all --parallel prettier:**",
     "prettier:ts": "prettier --write \"src/**/*.ts?(x)\"",
     "prettier:styles": "prettier --write \"src/**/*.scss\"",
-    "release:prepare": "npm version prerelease --preid=alpha --no-git-tag-version",
+    "prerelease:prepare": "npm run build",
+    "release:prepare": "npm version prerelease --preid=beta --no-git-tag-version ",
     "release:publish": "./support/release.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArcGIS/calcite-components.git"
+    "url": "git+https://github.com/Esri/calcite-components.git"
   },
   "dependencies": {
     "@esri/calcite-base": "github:ArcGIS/calcite-base",
