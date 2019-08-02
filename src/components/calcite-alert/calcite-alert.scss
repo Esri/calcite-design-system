@@ -245,8 +245,8 @@
   }
 }
 
-$alertColors: "blue" $h-bb-060 $v-bb-160, "red" $h-rr-060 $v-rr-160,
-  "yellow" $h-yy-060 $v-yy-160, "green" $h-gg-060 $v-gg-160;
+$alertColors: "blue" $ui-blue $ui-blue-dark, "red" $ui-red $ui-red-dark,
+  "yellow" $ui-yellow $ui-yellow-dark, "green" $ui-green $ui-green-dark;
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);
