@@ -52,7 +52,7 @@
 
 :host slot[name="alert-link"]::slotted(a) {
   @include font-size(-1);
-  color: $h-bb-060;
+  color: $ui-blue;
   margin-left: $baseline/2;
 }
 
@@ -250,8 +250,8 @@
   }
 }
 
-$alertColors: "blue" $h-bb-060, "red" $h-rr-060, "yellow" $h-yy-060,
-  "green" $h-gg-060;
+$alertColors: "blue" $ui-blue, "red" $ui-red, "yellow" $ui-yellow,
+  "green" $ui-green;
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);

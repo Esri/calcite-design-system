@@ -1,11 +1,11 @@
 :host {
   display: block;
 
-  --calcite-tabs-color: #{$darkest-gray};
-  --calcite-tabs-border: #{$lighter-gray};
-  --calcite-tabs-border-hover: #{$light-gray};
+  --calcite-tabs-color: #{$blk-200};
+  --calcite-tabs-border: #{$blk-020};
+  --calcite-tabs-border-hover: #{$blk-030};
   --calcite-tabs-color-active: #{$off-black};
-  --calcite-tabs-border-active: #{$blue};
+  --calcite-tabs-border-active: #{$ui-blue};
   --calcite-tabs-layout: flex-start;
   --calcite-tabs-tab-basis: auto;
   --calcite-tabs-tab-text-align: start;
@@ -14,9 +14,9 @@
 }
 
 :host([theme="dark"]) {
-  --calcite-tabs-color: #{$lightest-gray};
-  --calcite-tabs-border: #{$darker-gray};
-  --calcite-tabs-border-hover: #{$gray};
+  --calcite-tabs-color: #{$blk-010};
+  --calcite-tabs-border: #{$blk-180};
+  --calcite-tabs-border-hover: #{$blk-130};
   --calcite-tabs-color-active: #{$off-white};
   --calcite-tabs-border-active: #{$white};
 }

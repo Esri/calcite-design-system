@@ -1,8 +1,8 @@
 :host {
   display: block;
   --calcite-radio-group-color: #{$white};
-  --calcite-radio-group-border-color: #{$gray};
-  --calcite-radio-group-color-active: #{$blue};
+  --calcite-radio-group-border-color: #{$blk-130};
+  --calcite-radio-group-color-active: #{$ui-blue};
   --calcite-radio-group-text-color: #{$black};
   --calcite-radio-group-text-color-active: #{$white};
   --calcite-radio-group-color-hover: #{$off-white};
@@ -11,7 +11,7 @@
 }
 
 :host([theme="dark"]) {
-  --calcite-radio-group-color: #{$darkest-gray};
+  --calcite-radio-group-color: #{$blk-200};
   --calcite-radio-group-border-color: #{$blk-210};
   --calcite-radio-group-color-active: #{$v-bb-160};
   --calcite-radio-group-text-color: #{$white};

@@ -15,7 +15,7 @@
   overflow: hidden;
   display: inline-block;
   background-color: white;
-  border: 1px solid $gray;
+  border: 1px solid $blk-130;
   border-radius: 2px;
   vertical-align: -0.25em;
   margin-right: 0.25em;
@@ -27,14 +27,14 @@
 :host([theme="dark"]) {
   .check-svg {
     background-color: transparent;
-    border-color: $lighter-gray;
+    border-color: $blk-020;
   }
 }
 
 :host([theme="dark"][disabled]) {
   .check-svg {
-    border-color: $gray;
-    background-color: $darkest-gray;
+    border-color: $blk-130;
+    background-color: $blk-200;
   }
 }
 
@@ -65,8 +65,8 @@
   cursor: default;
 
   .check-svg {
-    background-color: $lightest-gray;
-    border-color: $lighter-gray;
+    background-color: $blk-010;
+    border-color: $blk-020;
   }
 }
 
@@ -81,8 +81,8 @@
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    background-color: $blue;
-    border: 1px solid $blue;
+    background-color: $ui-blue;
+    border: 1px solid $ui-blue;
   }
 }
 

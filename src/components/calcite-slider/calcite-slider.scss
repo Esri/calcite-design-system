@@ -7,7 +7,7 @@ $calcite-slider-track-height: 2px;
 $calcite-slider-tick-height: 4px;
 
 :host {
-  --calcite-slider-spot: #{$h-bb-060};
+  --calcite-slider-spot: #{$ui-blue};
   display: block;
   padding: $calcite-slider-handle-size / 2 0;
   margin: $calcite-slider-handle-size / 2 0;
