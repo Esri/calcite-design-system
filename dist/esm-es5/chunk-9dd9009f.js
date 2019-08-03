@@ -1,0 +1,11 @@
+var ENTER = 13;
+var SPACE = 32;
+var PAGE_UP = 33;
+var PAGE_DOWN = 34;
+var END = 35;
+var HOME = 36;
+var LEFT = 37;
+var UP = 38;
+var RIGHT = 39;
+var DOWN = 40;
+export { DOWN as D, ENTER as E, HOME as H, LEFT as L, PAGE_UP as P, RIGHT as R, SPACE as S, UP as U, PAGE_DOWN as a, END as b };

@@ -1,0 +1,564 @@
+body {
+  font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+calcite-tabs {
+  display: block;
+}
+
+:host button,
+:host a {
+  position: relative;
+  display: inline-block;
+  padding: 0.375rem 1rem;
+  text-decoration: none;
+  width: auto;
+  border-radius: 0;
+  border: none;
+  line-height: inherit;
+  font-family: inherit;
+  -webkit-appearance: none;
+  cursor: pointer;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.15s ease-in-out;
+}
+:host button:hover,
+:host a:hover {
+  text-decoration: none;
+}
+
+:host([width=half]) button,
+:host([width=half]) a {
+  width: 50%;
+}
+
+:host([width=full]) button,
+:host([width=full]) a {
+  width: 100%;
+}
+
+:host([hastext]) .calcite-button--graphic {
+  margin-right: 0.5rem;
+}
+
+:host([hastext][dir=rtl]) .calcite-button--graphic {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+.calcite-button--icon {
+  height: 16px;
+  width: 16px;
+  margin: 0 auto;
+  line-height: inherit;
+  transition: all 0.15s ease-in-out;
+}
+
+.calcite-button--graphic {
+  display: inline-flex;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+:host([appearance=solid][color=blue]) button,
+:host([appearance=solid][color=blue]) a {
+  color: #fff;
+  background-color: #007ac2;
+  border: 1px solid #007ac2;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=solid][color=blue]) button:hover, :host([appearance=solid][color=blue]) button:focus,
+:host([appearance=solid][color=blue]) a:hover,
+:host([appearance=solid][color=blue]) a:focus {
+  background-color: #2890ce;
+  box-shadow: inset 0 0 0 1px #007ac2;
+}
+:host([appearance=solid][color=blue]) button:active,
+:host([appearance=solid][color=blue]) a:active {
+  background-color: #007ac2;
+  border-color: #00619b;
+  box-shadow: inset 0 0 0 2px #00619b;
+}
+:host([appearance=solid][color=blue]) button .calcite-button--icon,
+:host([appearance=solid][color=blue]) a .calcite-button--icon {
+  fill: #fff;
+}
+
+:host([appearance=solid][color=red]) button,
+:host([appearance=solid][color=red]) a {
+  color: #fff;
+  background-color: #d83020;
+  border: 1px solid #d83020;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=solid][color=red]) button:hover, :host([appearance=solid][color=red]) button:focus,
+:host([appearance=solid][color=red]) a:hover,
+:host([appearance=solid][color=red]) a:focus {
+  background-color: #e65240;
+  box-shadow: inset 0 0 0 1px #d83020;
+}
+:host([appearance=solid][color=red]) button:active,
+:host([appearance=solid][color=red]) a:active {
+  background-color: #d83020;
+  border-color: #a82b1e;
+  box-shadow: inset 0 0 0 2px #a82b1e;
+}
+:host([appearance=solid][color=red]) button .calcite-button--icon,
+:host([appearance=solid][color=red]) a .calcite-button--icon {
+  fill: #fff;
+}
+
+:host([appearance=solid][color=light]) button,
+:host([appearance=solid][color=light]) a {
+  color: #000;
+  background-color: #f3f3f3;
+  border: 1px solid #f3f3f3;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=solid][color=light]) button:hover, :host([appearance=solid][color=light]) button:focus,
+:host([appearance=solid][color=light]) a:hover,
+:host([appearance=solid][color=light]) a:focus {
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px #f3f3f3;
+}
+:host([appearance=solid][color=light]) button:active,
+:host([appearance=solid][color=light]) a:active {
+  background-color: #f3f3f3;
+  border-color: #eaeaea;
+  box-shadow: inset 0 0 0 2px #eaeaea;
+}
+:host([appearance=solid][color=light]) button .calcite-button--icon,
+:host([appearance=solid][color=light]) a .calcite-button--icon {
+  fill: #000;
+}
+
+:host([appearance=solid][color=dark]) button,
+:host([appearance=solid][color=dark]) a {
+  color: #fff;
+  background-color: #2b2b2b;
+  border: 1px solid #2b2b2b;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=solid][color=dark]) button:hover, :host([appearance=solid][color=dark]) button:focus,
+:host([appearance=solid][color=dark]) a:hover,
+:host([appearance=solid][color=dark]) a:focus {
+  background-color: #404040;
+  box-shadow: inset 0 0 0 1px #2b2b2b;
+}
+:host([appearance=solid][color=dark]) button:active,
+:host([appearance=solid][color=dark]) a:active {
+  background-color: #2b2b2b;
+  border-color: #000;
+  box-shadow: inset 0 0 0 2px #000;
+}
+:host([appearance=solid][color=dark]) button .calcite-button--icon,
+:host([appearance=solid][color=dark]) a .calcite-button--icon {
+  fill: #fff;
+}
+
+:host([appearance=outline][color=blue]) button,
+:host([appearance=outline][color=blue]) a {
+  color: #007ac2;
+  background-color: #fff;
+  border: 1px solid #007ac2;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=outline][color=blue]) button:hover,
+:host([appearance=outline][color=blue]) a:hover {
+  border-color: 1px solid #007ac2;
+  box-shadow: inset 0 0 0 1px #007ac2;
+}
+:host([appearance=outline][color=blue]) button:active, :host([appearance=outline][color=blue]) button:focus,
+:host([appearance=outline][color=blue]) a:active,
+:host([appearance=outline][color=blue]) a:focus {
+  color: #00619b;
+  border-color: #00619b;
+  box-shadow: inset 0 0 0 2px #00619b;
+}
+:host([appearance=outline][color=blue]) button .calcite-button--icon,
+:host([appearance=outline][color=blue]) a .calcite-button--icon {
+  fill: #007ac2;
+}
+
+:host([appearance=outline][color=red]) button,
+:host([appearance=outline][color=red]) a {
+  color: #d83020;
+  background-color: #fff;
+  border: 1px solid #d83020;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=outline][color=red]) button:hover,
+:host([appearance=outline][color=red]) a:hover {
+  border-color: 1px solid #d83020;
+  box-shadow: inset 0 0 0 1px #d83020;
+}
+:host([appearance=outline][color=red]) button:active, :host([appearance=outline][color=red]) button:focus,
+:host([appearance=outline][color=red]) a:active,
+:host([appearance=outline][color=red]) a:focus {
+  color: #a82b1e;
+  border-color: #a82b1e;
+  box-shadow: inset 0 0 0 2px #a82b1e;
+}
+:host([appearance=outline][color=red]) button .calcite-button--icon,
+:host([appearance=outline][color=red]) a .calcite-button--icon {
+  fill: #d83020;
+}
+
+:host([appearance=outline][color=light]) button,
+:host([appearance=outline][color=light]) a {
+  color: #151515;
+  background-color: #fff;
+  border: 1px solid #f3f3f3;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=outline][color=light]) button:hover,
+:host([appearance=outline][color=light]) a:hover {
+  border-color: 1px solid #f3f3f3;
+  box-shadow: inset 0 0 0 1px #f3f3f3;
+}
+:host([appearance=outline][color=light]) button:active, :host([appearance=outline][color=light]) button:focus,
+:host([appearance=outline][color=light]) a:active,
+:host([appearance=outline][color=light]) a:focus {
+  color: #000;
+  border-color: #eaeaea;
+  box-shadow: inset 0 0 0 2px #eaeaea;
+}
+:host([appearance=outline][color=light]) button .calcite-button--icon,
+:host([appearance=outline][color=light]) a .calcite-button--icon {
+  fill: #151515;
+}
+
+:host([appearance=outline][color=dark]) button,
+:host([appearance=outline][color=dark]) a {
+  color: #151515;
+  background-color: #fff;
+  border: 1px solid #2b2b2b;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=outline][color=dark]) button:hover,
+:host([appearance=outline][color=dark]) a:hover {
+  border-color: 1px solid #2b2b2b;
+  box-shadow: inset 0 0 0 1px #2b2b2b;
+}
+:host([appearance=outline][color=dark]) button:active, :host([appearance=outline][color=dark]) button:focus,
+:host([appearance=outline][color=dark]) a:active,
+:host([appearance=outline][color=dark]) a:focus {
+  color: #000;
+  border-color: #000;
+  box-shadow: inset 0 0 0 2px #000;
+}
+:host([appearance=outline][color=dark]) button .calcite-button--icon,
+:host([appearance=outline][color=dark]) a .calcite-button--icon {
+  fill: #151515;
+}
+
+:host([appearance=clear][color=blue]) button,
+:host([appearance=clear][color=blue]) a {
+  color: #007ac2;
+  background-color: transparent;
+  border: 1px solid #007ac2;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=clear][color=blue]) button:hover,
+:host([appearance=clear][color=blue]) a:hover {
+  border-color: 1px solid #007ac2;
+  box-shadow: inset 0 0 0 1px #007ac2;
+}
+:host([appearance=clear][color=blue]) button:active, :host([appearance=clear][color=blue]) button:focus,
+:host([appearance=clear][color=blue]) a:active,
+:host([appearance=clear][color=blue]) a:focus {
+  color: #00619b;
+  border-color: #00619b;
+  box-shadow: inset 0 0 0 2px #00619b;
+}
+:host([appearance=clear][color=blue]) button .calcite-button--icon,
+:host([appearance=clear][color=blue]) a .calcite-button--icon {
+  fill: #007ac2;
+}
+
+:host([appearance=clear][color=red]) button,
+:host([appearance=clear][color=red]) a {
+  color: #d83020;
+  background-color: transparent;
+  border: 1px solid #d83020;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=clear][color=red]) button:hover,
+:host([appearance=clear][color=red]) a:hover {
+  border-color: 1px solid #d83020;
+  box-shadow: inset 0 0 0 1px #d83020;
+}
+:host([appearance=clear][color=red]) button:active, :host([appearance=clear][color=red]) button:focus,
+:host([appearance=clear][color=red]) a:active,
+:host([appearance=clear][color=red]) a:focus {
+  color: #a82b1e;
+  border-color: #a82b1e;
+  box-shadow: inset 0 0 0 2px #a82b1e;
+}
+:host([appearance=clear][color=red]) button .calcite-button--icon,
+:host([appearance=clear][color=red]) a .calcite-button--icon {
+  fill: #d83020;
+}
+
+:host([appearance=clear][color=light]) button,
+:host([appearance=clear][color=light]) a {
+  color: #f8f8f8;
+  background-color: transparent;
+  border: 1px solid #f3f3f3;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=clear][color=light]) button:hover,
+:host([appearance=clear][color=light]) a:hover {
+  border-color: 1px solid #f3f3f3;
+  box-shadow: inset 0 0 0 1px #f3f3f3;
+}
+:host([appearance=clear][color=light]) button:active, :host([appearance=clear][color=light]) button:focus,
+:host([appearance=clear][color=light]) a:active,
+:host([appearance=clear][color=light]) a:focus {
+  color: #fff;
+  border-color: #eaeaea;
+  box-shadow: inset 0 0 0 2px #eaeaea;
+}
+:host([appearance=clear][color=light]) button .calcite-button--icon,
+:host([appearance=clear][color=light]) a .calcite-button--icon {
+  fill: #f8f8f8;
+}
+
+:host([appearance=clear][color=dark]) button,
+:host([appearance=clear][color=dark]) a {
+  color: #151515;
+  background-color: transparent;
+  border: 1px solid #2b2b2b;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+:host([appearance=clear][color=dark]) button:hover,
+:host([appearance=clear][color=dark]) a:hover {
+  border-color: 1px solid #2b2b2b;
+  box-shadow: inset 0 0 0 1px #2b2b2b;
+}
+:host([appearance=clear][color=dark]) button:active, :host([appearance=clear][color=dark]) button:focus,
+:host([appearance=clear][color=dark]) a:active,
+:host([appearance=clear][color=dark]) a:focus {
+  color: #000;
+  border-color: #000;
+  box-shadow: inset 0 0 0 2px #000;
+}
+:host([appearance=clear][color=dark]) button .calcite-button--icon,
+:host([appearance=clear][color=dark]) a .calcite-button--icon {
+  fill: #151515;
+}
+
+:host([appearance=inline][color=blue]) button,
+:host([appearance=inline][color=blue]) a {
+  display: inline;
+  padding: 0;
+  outline: none;
+  border: none;
+  color: #007ac2;
+  font-weight: 500;
+  font-size: inherit;
+  white-space: initial;
+  background-color: transparent;
+  position: relative;
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(rgba(0, 122, 194, 0.4), rgba(0, 122, 194, 0.4));
+  background-position: 0% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 2px, 100% 1px;
+  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+}
+:host([appearance=inline][color=blue]) button:hover, :host([appearance=inline][color=blue]) button:focus,
+:host([appearance=inline][color=blue]) a:hover,
+:host([appearance=inline][color=blue]) a:focus {
+  color: #2890ce;
+  background-size: 100% 2px, 100% 1px;
+}
+:host([appearance=inline][color=blue]) button:active,
+:host([appearance=inline][color=blue]) a:active {
+  color: #007ac2;
+  background-size: 100% 2px, 100% 1px;
+}
+:host([appearance=inline][color=blue]) button .calcite-button--icon,
+:host([appearance=inline][color=blue]) a .calcite-button--icon {
+  fill: #007ac2;
+  max-height: 0.8571428571rem;
+  margin-inline-end: 0.375rem;
+}
+
+:host([appearance=inline][color=red]) button,
+:host([appearance=inline][color=red]) a {
+  display: inline;
+  padding: 0;
+  outline: none;
+  border: none;
+  color: #d83020;
+  font-weight: 500;
+  font-size: inherit;
+  white-space: initial;
+  background-color: transparent;
+  position: relative;
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(rgba(216, 48, 32, 0.4), rgba(216, 48, 32, 0.4));
+  background-position: 0% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 2px, 100% 1px;
+  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+}
+:host([appearance=inline][color=red]) button:hover, :host([appearance=inline][color=red]) button:focus,
+:host([appearance=inline][color=red]) a:hover,
+:host([appearance=inline][color=red]) a:focus {
+  color: #e65240;
+  background-size: 100% 2px, 100% 1px;
+}
+:host([appearance=inline][color=red]) button:active,
+:host([appearance=inline][color=red]) a:active {
+  color: #d83020;
+  background-size: 100% 2px, 100% 1px;
+}
+:host([appearance=inline][color=red]) button .calcite-button--icon,
+:host([appearance=inline][color=red]) a .calcite-button--icon {
+  fill: #d83020;
+  max-height: 0.8571428571rem;
+  margin-inline-end: 0.375rem;
+}
+
+:host([appearance=inline][color=light]) button,
+:host([appearance=inline][color=light]) a {
+  display: inline;
+  padding: 0;
+  outline: none;
+  border: none;
+  color: #f3f3f3;
+  font-weight: 500;
+  font-size: inherit;
+  white-space: initial;
+  background-color: transparent;
+  position: relative;
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(rgba(243, 243, 243, 0.4), rgba(243, 243, 243, 0.4));
+  background-position: 0% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 2px, 100% 1px;
+  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+}
+:host([appearance=inline][color=light]) button:hover, :host([appearance=inline][color=light]) button:focus,
+:host([appearance=inline][color=light]) a:hover,
+:host([appearance=inline][color=light]) a:focus {
+  color: #fff;
+  background-size: 100% 2px, 100% 1px;
+}
+:host([appearance=inline][color=light]) button:active,
+:host([appearance=inline][color=light]) a:active {
+  color: #f3f3f3;
+  background-size: 100% 2px, 100% 1px;
+}
+:host([appearance=inline][color=light]) button .calcite-button--icon,
+:host([appearance=inline][color=light]) a .calcite-button--icon {
+  fill: #f3f3f3;
+  max-height: 0.8571428571rem;
+  margin-inline-end: 0.375rem;
+}
+
+:host([appearance=inline][color=dark]) button,
+:host([appearance=inline][color=dark]) a {
+  display: inline;
+  padding: 0;
+  outline: none;
+  border: none;
+  color: #2b2b2b;
+  font-weight: 500;
+  font-size: inherit;
+  white-space: initial;
+  background-color: transparent;
+  position: relative;
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(rgba(43, 43, 43, 0.4), rgba(43, 43, 43, 0.4));
+  background-position: 0% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 2px, 100% 1px;
+  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+}
+:host([appearance=inline][color=dark]) button:hover, :host([appearance=inline][color=dark]) button:focus,
+:host([appearance=inline][color=dark]) a:hover,
+:host([appearance=inline][color=dark]) a:focus {
+  color: #404040;
+  background-size: 100% 2px, 100% 1px;
+}
+:host([appearance=inline][color=dark]) button:active,
+:host([appearance=inline][color=dark]) a:active {
+  color: #2b2b2b;
+  background-size: 100% 2px, 100% 1px;
+}
+:host([appearance=inline][color=dark]) button .calcite-button--icon,
+:host([appearance=inline][color=dark]) a .calcite-button--icon {
+  fill: #2b2b2b;
+  max-height: 0.8571428571rem;
+  margin-inline-end: 0.375rem;
+}
+
+:host([appearance=inline][dir=rtl]) button,
+:host([appearance=inline][dir=rtl]) a {
+  background-position: 100% 100%, 100% 100%;
+}
+
+:host([scale=xs]:not([appearance=inline])) button,
+:host([scale=xs]:not([appearance=inline])) a {
+  padding: calc(1.5rem/ 6) calc(1.5rem* 0.3);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+:host([scale=s]:not([appearance=inline])) button,
+:host([scale=s]:not([appearance=inline])) a {
+  padding: calc(1.5rem/ 4) calc(1.5rem* 0.5);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+:host([scale=m]:not([appearance=inline])) button,
+:host([scale=m]:not([appearance=inline])) a {
+  padding: calc(1.5rem/ 3) calc(1.5rem* 0.75);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+:host([scale=l]:not([appearance=inline])) button,
+:host([scale=l]:not([appearance=inline])) a {
+  padding: calc(1.5rem / 2) calc(1.5rem* 1);
+  font-size: 1.2019rem;
+  line-height: 1.5;
+}
+@media screen and (max-width: 859px) {
+  :host([scale=l]:not([appearance=inline])) button,
+:host([scale=l]:not([appearance=inline])) a {
+    font-size: 1.1305rem;
+  }
+}
+@media screen and (max-width: 479px) {
+  :host([scale=l]:not([appearance=inline])) button,
+:host([scale=l]:not([appearance=inline])) a {
+    font-size: 1.0625rem;
+  }
+}
+
+:host([scale=xl]:not([appearance=inline])) button,
+:host([scale=xl]:not([appearance=inline])) a {
+  padding: calc(1.5rem / 1.5) calc(1.5rem* 1.25);
+  font-size: 1.414rem;
+  line-height: 1.5;
+}
+@media screen and (max-width: 859px) {
+  :host([scale=xl]:not([appearance=inline])) button,
+:host([scale=xl]:not([appearance=inline])) a {
+    font-size: 1.33rem;
+  }
+}
+@media screen and (max-width: 479px) {
+  :host([scale=xl]:not([appearance=inline])) button,
+:host([scale=xl]:not([appearance=inline])) a {
+    font-size: 1.25rem;
+  }
+}
