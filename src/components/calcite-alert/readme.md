@@ -46,7 +46,7 @@ Single alert for toast notifications. To position the alert correctly and manage
 
 ### `closeCalciteAlert() => Promise<void>`
 
-emit the `calciteAlerClose` event - <calcite-alerts> listens for this
+emit the `calciteAlertClose` event - <calcite-alerts> listens for this
 
 #### Returns
 

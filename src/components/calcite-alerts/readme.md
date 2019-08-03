@@ -16,8 +16,8 @@ The `calcite-alerts` component is meant to wrap one or multiple [calcite-alert](
 
 | Event                | Description                                                                         | Type               |
 | -------------------- | ----------------------------------------------------------------------------------- | ------------------ |
-| `calciteAlertsClose` | emits the id of the alert ot be closed, and the current alertQueue and currentAlert | `CustomEvent<any>` |
-| `calciteAlertsOpen`  | emits the id of the alert to be opened, and the current alertQueue and currentAlert | `CustomEvent<any>` |
+| `calciteAlertsClose` | emits the ID of the alert to be closed, and the current alertQueue and currentAlert | `CustomEvent<any>` |
+| `calciteAlertsOpen`  | emits the ID of the alert to be opened, and the current alertQueue and currentAlert | `CustomEvent<any>` |
 
 
 ## Dependencies
