@@ -2,31 +2,33 @@
 
 # Calcite Components
 
-Shared Web Components for Esri's Calcite design framework. To see the components in action, check out [the example site](https://esri.github.io/calcite-components/) (TODO: set up gh-pages).
+Shared Web Components for Esri's Calcite design framework.
 
 Documentation for each component can be found within that component's directory in a generated `readme.md` file. This file will cover all the events and attributes each component uses.
 
 The current lineup of components is:
 
 - [alerts](src/components/calcite-alerts/)
+- [button](src/components/calcite-button/)
 - [loader](src/components/calcite-loader/)
+- [modal](src/components/calcite-modal/)
 - [progress](src/components/calcite-progress/)
+- [radio-group](src/components/calcite-radio-group/)
+- [slider](src/components/calcite-slider/)
 - [switch](src/components/calcite-switch/)
 - [tabs](src/components/calcite-tabs/)
 
 ## Installation
 
-*Note: Some of the below instructions won't work, as this library is not yet published to npm.*
-
 ```
 npm install --save @esri/calcite-components
 ```
 
-### Script tag (in progress)
+### Script tag
 
 Calcite components can be loaded via two `<script>` tags in the head of your HTML document:
 
-```
+```html
 <script type="module" src="https://unpkg.com/@esri/calcite-components@0.0.0-alpha.3/dist/calcite/calcite.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/@esri/calcite-components@0.0.0-alpha.3/dist/calcite/calcite.js"></script>
 ```
@@ -35,7 +37,7 @@ Browsers that support modules will load the first, while older browsers will loa
 
 Once these script tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
 
-### Webpack (in progress)
+### Webpack
 
 If you already have a webpack build for your project, you can use [@stencil/webpack](https://github.com/ionic-team/stencil-webpack) to add calcite-components to your bundle.
 
