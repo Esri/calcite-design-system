@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
-### [v1.0.0-beta.1]
+## [v1.0.0-beta.1]## - Aug 2nd 2019
 
 First initial beta release.
 

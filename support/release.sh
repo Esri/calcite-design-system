@@ -28,7 +28,7 @@ git push https://github.com/ArcGIS/calcite-components.git master
 git push https://github.com/ArcGIS/calcite-components.git v$VERSION
 
 # publish to NPM
-npm publish
+npm publish --access=public
 
 # create a ZIP archive of the dist files
 TEMP_FOLDER=calcite-components-v$VERSION;
