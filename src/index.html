@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
-    />
-    <title>Calcite Component Starter</title>
 
-    <style>
-      .dark-tabs-demo {
-        background: #323232;
-        color: white;
-        padding: 1rem;
-      }
-    </style>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Calcite Component Starter</title>
 
-    <link rel="stylesheet" href="/build/calcite.css" />
-    <script type="module" src="build/calcite.esm.js"></script>
-    <script nomodule src="build/calcite.js"></script>
-    <script src="/assets/demo/createAlert.js"></script>
-  </head>
+  <style>
+    .demo-background-dark {
+      background: #2b2b2b;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="/build/calcite.css" />
+  <script type="module" src="build/calcite.esm.js"></script>
+  <script nomodule src="build/calcite.js"></script>
+  <script src="/assets/demo/createAlert.js"></script>
+  <script src="/assets/demo/loadingButton.js"></script>
+</head>
 
-  <body>
-    <div class="example-container">
-      <h2>Calcite Component Examples - WIP !</h2>
+<body>
+  <div class="example-container">
+    <h2>Calcite Component Examples - WIP !</h2>
 
     <calcite-tabs>
       <calcite-tab-nav slot="tab-nav" storage-id="calcite-demo-main-nav-tabs">
         <calcite-tab-title is-active>Tabs</calcite-tab-title>
         <calcite-tab-title>Alerts</calcite-tab-title>
         <calcite-tab-title>Loader</calcite-tab-title>
+        <calcite-tab-title>Modals</calcite-tab-title>
         <calcite-tab-title>Progress</calcite-tab-title>
-        <calcite-tab-title>Switches</calcite-tab-title>
+        <calcite-tab-title>Slider</calcite-tab-title>
+        <calcite-tab-title>Switch and Checkbox</calcite-tab-title>
+        <calcite-tab-title>Buttons</calcite-tab-title>
         <calcite-tab-title>Date picker</calcite-tab-title>
       </calcite-tab-nav>
 
@@ -55,7 +56,7 @@
 
         <h1 class="leader-1">Dark Theme Tabs</h1>
 
-        <div class="dark-tabs-demo">
+        <div class="demo-background-dark">
           <calcite-tabs theme="dark">
             <calcite-tab-nav slot="tab-nav">
               <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
@@ -235,6 +236,7 @@
           calcite-tabs.green {
             --calcite-tabs-border-active: #338033;
           }
+
           calcite-tabs[theme="dark"].green {
             --calcite-tabs-border-active: #5a9359;
           }
@@ -253,65 +255,75 @@
           <calcite-tab>Tab 4 Content</calcite-tab>
         </calcite-tabs>
 
-        <div class="dark-tabs-demo">
-            <calcite-tabs class="green" theme="dark">
-              <calcite-tab-nav slot="tab-nav">
-                <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
-                <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-                <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-                <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-              </calcite-tab-nav>
+        <div class="demo-background-dark">
+          <calcite-tabs class="green" theme="dark">
+            <calcite-tab-nav slot="tab-nav">
+              <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+            </calcite-tab-nav>
 
-              <calcite-tab is-active>Tab 1 Content</calcite-tab>
-              <calcite-tab>Tab 2 Content</calcite-tab>
-              <calcite-tab>Tab 3 Content</calcite-tab>
-              <calcite-tab>Tab 4 Content</calcite-tab>
-            </calcite-tabs>
-          </div>
+            <calcite-tab is-active>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+            <calcite-tab>Tab 4 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
       </calcite-tab>
 
       <calcite-tab>
         <h5>Multiple alerts will be added to a queue.</h5>
-        <button onclick="document.querySelector('#alert-one').openCalciteAlert()">
-          1 Autodismiss, title, link, red</button><br />
-        <button onclick="document.querySelector('#alert-two').openCalciteAlert()">
-          2 Icon, link, green</button><br />
-        <button onclick="document.querySelector('#alert-three').openCalciteAlert()">
-          3 Icon, dark theme</button><br />
-        <button onclick="document.querySelector('#alert-four').openCalciteAlert()">
-          4 Icon, title, yellow, link</button><br />
-        <button onclick="document.querySelector('#alert-five').openCalciteAlert()">
-          5 Default</button><br />
-        <button onclick="document.querySelector('#alert-six').openCalciteAlert()">
-          6 Icon, title, link, red</button><br />
-        <button onclick="document.querySelector('#alert-seven').openCalciteAlert()">
-          7 title, link, green, dark theme</button><br />
-        <button onclick="document.querySelector('#alert-eight').openCalciteAlert()">
-          8 Autodismiss, icon, title, red</button><br />
-        <button onclick="document.querySelector('#alert-nine').openCalciteAlert()">
-          9 Autodismiss (fast),link, dark theme</button><br />
-        <button onclick="document.querySelector('#alert-ten').openCalciteAlert()">
-          10 Autodismiss (medium)</button><br />
-        <button onclick="document.querySelector('#alert-eleven').openCalciteAlert()">
-          11 Autodismiss (slow),link</button><br />
+        <calcite-button title="1 Autodismiss, title, link, red" color="red" scale="s"
+          onclick="document.querySelector('#alert-one').openCalciteAlert()">1 Autodismiss, title, link, red
+        </calcite-button>
+        <calcite-button title="2 Icon, link, green" scale="s"
+          onclick="document.querySelector('#alert-two').openCalciteAlert()">2 Icon, link, green</calcite-button>
+        <calcite-button title="3 Icon, dark theme" scale="s"
+          onclick="document.querySelector('#alert-three').openCalciteAlert()">3 Icon, dark theme</calcite-button>
+        <calcite-button title="4 Icon, title, yellow, link" scale="s"
+          onclick="document.querySelector('#alert-four').openCalciteAlert()">4 Icon, title, yellow, link
+        </calcite-button>
+        <calcite-button title="5 default" scale="s" onclick="document.querySelector('#alert-five').openCalciteAlert()">5
+          default</calcite-button>
+        <calcite-button title="6 Icon, title, link, red" scale="s"
+          onclick="document.querySelector('#alert-six').openCalciteAlert()">6 Icon, title, link, red</calcite-button>
+        <calcite-button title="7 title, link, green, dark theme" scale="s"
+          onclick="document.querySelector('#alert-seven').openCalciteAlert()">7 title, link, green, dark theme
+        </calcite-button>
+        <calcite-button title="8 Autodismiss, icon, title, red" scale="s"
+          onclick="document.querySelector('#alert-eight').openCalciteAlert()">8 Autodismiss, icon, title, red
+        </calcite-button>
+        <calcite-button title="9 Autodismiss (fast),link, dark theme" scale="s"
+          onclick="document.querySelector('#alert-nine').openCalciteAlert()">9 Autodismiss (fast),link, dark theme
+        </calcite-button>
+        <calcite-button title="10 Autodismiss (medium)" scale="s"
+          onclick="document.querySelector('#alert-ten').openCalciteAlert()">10 Autodismiss (medium)</calcite-button>
 
-          <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
-          <button onclick=createExampleAlert('created-1')>created alert</button><br />
-          <button onclick=createExampleAlert('created-2')>created alert 2</button><br />
+        <calcite-button title="11 Autodismiss (slow),link" scale="s"
+          onclick="document.querySelector('#alert-eleven').openCalciteAlert()">11 Autodismiss (slow),link
+        </calcite-button>
 
-          <h5>You can close opened alerts</h5>
-          <button onclick="document.querySelector('#alert-six').closeCalciteAlert()">
-           Close alert 6 if its open, or remove from the queue if its queued but not active</button><br />
-           <button onclick="document.querySelector('#alert-four').closeCalciteAlert()">
-            Close alert 4 if its open, or remove from the queue if its queued but not active</button><br />
-            <button onclick="document.querySelector('#created-2').closeCalciteAlert()">
-            Close alert created 2 if its present in DOM and open, or remove from the queue if its queued but not active</button><br />
+
+        <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
+        <calcite-button title="created alert" scale="xs" onclick="createExampleAlert('created-1')">created alert
+        </calcite-button>
+        <calcite-button title="created alert 2" scale="xs" onclick="createExampleAlert('created-2')">created alert 2
+        </calcite-button>
+        <h5>You can close opened alerts, or removed upcoming alerts from the queue</h5>
+        <calcite-button title="Close or remove alert 6" color="red" scale="xs"
+          onclick="document.querySelector('#alert-six').closeCalciteAlert()">Close or remove alert 6</calcite-button>
+        <calcite-button title="Close or remove alert 4" color="red" scale="xs"
+          onclick="document.querySelector('#alert-four').closeCalciteAlert()">Close or remove alert 4</calcite-button>
+        <calcite-button title="Close or remove alert created 2" color="red" scale="xs"
+          onclick="document.querySelector('#created-2').closeCalciteAlert()">Close or remove alert created 2
+        </calcite-button>
       </calcite-tab>
 
       <calcite-tab>
         <calcite-loader is-active></calcite-loader>
-        <calcite-loader is-active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
-        <calcite-loader is-active class="green" text="Custom theme..."></calcite-loader>
+        <calcite-loader is-active title="optional loading text&hellip;" type="indeterminate"></calcite-loader>
+        <calcite-loader is-active class="green" title="Custom theme..."></calcite-loader>
         <style>
           calcite-loader.green {
             --calcite-loader-spot-light: #50ba5f;
@@ -319,14 +331,17 @@
             --calcite-loader-spot: #338033;
           }
         </style>
-        <p style="text-align: center;"><calcite-loader is-active inline></calcite-loader>Inline Loader</p>
-        <calcite-loader is-active type="determinate" value="0" id="loader-determinate" text="Determinate loader"></calcite-loader>
+        <p style="text-align: center;">
+          <calcite-loader is-active inline></calcite-loader>Inline Loader
+        </p>
+        <calcite-loader is-active type="determinate" value="0" id="loader-determinate" text="Determinate loader">
+        </calcite-loader>
         <script>
           // Preview the loading progress
           (function () {
             var loader = document.querySelector("#loader-determinate");
             var randoms = [0, 0, 0, 0, 0, 0, 1, 3];
-            function updateLoader () {
+            function updateLoader() {
               var random = randoms[Math.floor(Math.random() * randoms.length)];
               if (loader.value + random > 100) {
                 loader.value = 0;
@@ -344,6 +359,117 @@
       </calcite-tab>
 
       <calcite-tab>
+        <calcite-modal class="js-modal-1" size="small">
+          <h3 slot="header">Small Modal</h3>
+          <div slot="content">
+            <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+          </div>
+          <calcite-button slot="back" color="light" appearance="outline"
+            icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z" width="full">Back</calcite-button>
+          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="primary" width="full">Save</calcite-button>
+        </calcite-modal>
+        <calcite-modal class="js-modal-2" size="medium">
+          <h3 slot="header">Medium Modal</h3>
+          <div slot="content">
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>The medium modal is large enough to fit a two column layout where both columns will have a readable line-length on
+                      most desktop devices.</p>
+                  </td>
+                  <td>
+                    <p>Single column layouts will still be within a readable line length on the medium size.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <calcite-button slot="back" width="full" color="light" appearance="outline"
+            icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">Back</calcite-button>
+          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="primary" width="full">Save</calcite-button>
+        </calcite-modal>
+        <calcite-modal class="js-modal-3" size="large">
+          <h3 slot="header">Large modal</h3>
+          <div slot="content">
+            <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you to use gridded
+            layouts within the modal and keeps your modal from growing beyond a readable line length.</p>
+          </div>
+          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="primary" width="full">Save</calcite-button>
+        </calcite-modal>
+        <calcite-modal class="js-modal-4" size="fullscreen">
+          <h3 slot="header">Fullscreen modal</h3>
+          <div slot="content">
+            <p>This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your modal
+              need the full screen realestate (maps, etc)</p>
+          </div>
+          <calcite-button slot="back" width="full" color="light" appearance="outline"
+            icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">Back</calcite-button>
+          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="primary" width="full">Save</calcite-button>
+        </calcite-modal>
+        <calcite-modal class="js-modal-5" color="red">
+          <h3 slot="header">Delete</h3>
+          <div slot="content">
+            <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
+          </div>
+          <calcite-button slot="secondary" width="full" appearance="outline" color="red">Cancel</calcite-button>
+          <calcite-button slot="primary" width="full" color="red">Delete</calcite-button>
+        </calcite-modal>
+        <calcite-modal class="js-modal-6" color="blue">
+          <h3 slot="header">Information</h3>
+          <div slot="content">
+            <p>This dialog should be used when choosing two viable paths.</p>
+          </div>
+          <calcite-button slot="secondary" width="full" appearance="outline">Start with no members</calcite-button>
+          <calcite-button slot="primary" width="full">Add members now</calcite-button>
+        </calcite-modal>
+        <calcite-modal class="js-modal-7" status="info" docked>
+          <h3 slot="header">Docked</h3>
+          <div slot="content">
+            <p>For devices smaller than a tablet this modal will "dock" to the bottom. This makes action selection more thumb-friendly.</p>
+          </div>
+          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="primary" width="full">Save</calcite-button>
+        </calcite-modal>
+        <calcite-modal class="js-modal-8" status="info" docked>
+          <h3 slot="header">Tab Fencing</h3>
+          <div slot="content">
+            <p>When you open a modal, the focus should be set to the first focusable element. <calcite-button>LIKE THIS</calcite-button>.</p>
+            <div><a href="#">Anchors</a>, <input type="text" value="inputs">, <calcite-slider></calcite-slider></div>
+          </div>
+          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="primary" width="full">Save</calcite-button>
+        </calcite-modal>
+        <calcite-modal theme="dark" class="js-modal-9">
+          <h3 slot="header">Dark Theme</h3>
+          <div slot="content">
+            <p>Example of a modal rendered in dark theme. The text will become light on dark, but notice box shadows are still dark.
+          </div>
+          <calcite-button slot="primary">OK</calcite-button>
+        </calcite-modal>
+        <ul>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-1')">Small Modal</calcite-button></li>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-2')">Medium Modal</calcite-button></li>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-3')">Large Modal</calcite-button></li>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-4')">Fullscreen Modal</calcite-button></li>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-5')">Destructive Modal</calcite-button></li>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-6')">Info Modal</calcite-button></li>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-7')">Docked</calcite-button></li>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-8')">Tab Fencing</calcite-button></li>
+          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-9')">Dark Theme</calcite-button></li>
+        </ul>
+        <script>
+          function openModal(selector) {
+            document.querySelector(selector).open();
+          }
+        </script>
+      </calcite-tab>
+
+      <calcite-tab>
         <calcite-progress type="indeterminate">
           <h1>Hello World!</h1>
         </calcite-progress>
@@ -351,6 +477,43 @@
       </calcite-tab>
 
       <calcite-tab>
+        <h3>Single Value</h3>
+        <calcite-slider id="mySlider" min="0" max="100" value="25" step="1" label="Temperature"></calcite-slider>
+        <h3>Disabled</h3>
+        <calcite-slider min="0" max="100" value="40" step="1" label="Temperature" disabled>
+        </calcite-slider>
+        <h3>Range</h3>
+        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"></calcite-slider>
+        <h3>Ticks</h3>
+        <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label="Temperature"></calcite-slider>
+        <h3>Handle Labels</h3>
+        <calcite-slider min="0" max="100" min-value="23" max-value="46" step="1" ticks="10" label-handles precise
+          label="Temperature"></calcite-slider>
+        <h3>Tick Labels</h3>
+        <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label-ticks label="Temperature">
+        </calcite-slider>
+        <h3>"Precise" handle</h3>
+        <calcite-slider min="0" max="100" value="23" step="1" label="Temperature" precise></calcite-slider>
+        <h3>"Precise" Range</h3>
+        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)" precise></calcite-slider>
+        <h3>Event listener</h3>
+        <calcite-slider id="sliderEvents" min="0" max="100" value="50" step="1" label="Temperature"></calcite-slider>
+        <p>Current slider value is: <span id="sliderEventDisplay"></span></p>
+        <script>
+          (function () {
+            var label = document.getElementById("sliderEventDisplay");
+            document.getElementById("sliderEvents").addEventListener("calciteSliderUpdate", function (e) {
+              label.innerHTML = e.target.value;
+            });
+          })();
+        </script>
+      </calcite-tab>
+
+
+      <calcite-tab>
+        <h2>calcite-switch</h2>
         <div>
           <label>
             <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
@@ -358,11 +521,11 @@
             <script>
               const basicSwitch = document.getElementById("basicSwitch");
 
-              basicSwitch.addEventListener("calciteSwitchChange", function(
+              basicSwitch.addEventListener("calciteSwitchChange", function (
                 e
               ) {
                 console.log(
-                  "Basic Checkbox changed by <calcite-switch>",
+                  "Basic switch changed by <calcite-switch>",
                   e.target.switched
                 );
               });
@@ -371,25 +534,24 @@
         </div>
 
         <div>
-          <label>
-            <calcite-switch switched="true">
-              <input id="proxySwitchCheckbox" type="checkbox" />
-            </calcite-switch>
-            With a proxy <code>input</code> element and changes on
-            <code>label</code> click.
-            <script>
-              const proxySwitchCheckbox = document.getElementById(
-                "proxySwitchCheckbox"
-              );
+          <calcite-switch>
+            <input id="proxySwitchCheckbox" type="checkbox" />
+          </calcite-switch>
+          <span id='proxySwitchSpan'>
+            With a proxy <code>input</code> element and changes on click.
+          </span>
+          <script>
+            const proxySwitchSpan = document.getElementById(
+              "proxySwitchSpan"
+            );
+            const proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
 
-              proxySwitchCheckbox.addEventListener("change", function(e) {
-                console.log(
-                  "Proxy Checkbox changed by <calcite-switch>",
-                  e.target.checked
-                );
-              });
-            </script>
-          </label>
+            proxySwitchSpan.addEventListener('click', () => {
+              proxySwitchCheckbox.hasAttribute('checked') ?
+                proxySwitchCheckbox.removeAttribute('checked') :
+                proxySwitchCheckbox.setAttribute('checked', '')
+            })
+          </script>
         </div>
 
         <div>
@@ -404,19 +566,268 @@
           Switch with no wrapping <code>label</code>.
         </div>
 
+        <h2>calcite-checkbox</h2>
+
         <div>
-          <calcite-switch id="switch-1"></calcite-switch>
-          <label for="switch-1">Switch with <code>label</code> but not wrapped in it.</label>
+          <label>
+            <calcite-checkbox id="basicCheckbox" checked="true"></calcite-checkbox>
+            Without a proxy <code>input</code> element.
+            <script>
+              const basicCheckbox = document.getElementById("basicCheckbox");
+
+              basicCheckbox.addEventListener("calciteCheckboxChange", function (
+                e
+              ) {
+                console.log(
+                  "Basic Checkbox changed by <calcite-checkbox>",
+                  e.target.checked
+                );
+              });
+            </script>
+          </label>
         </div>
 
         <div>
-          <calcite-switch>
-            <input id="switch-2" type="checkbox">
-          </calcite-switch>
-          <label for="switch-2">Switch with <code>label</code> but not wrapped in it.</label>
+          <calcite-checkbox>
+            <input id="proxyCheckboxCheckbox" type="checkbox" />
+          </calcite-checkbox>
+          <span id='proxyCheckboxSpan'>
+            With a proxy <code>input</code> element and changes on click.
+          </span>
+          <script>
+            const proxyCheckboxSpan = document.getElementById(
+              "proxyCheckboxSpan"
+            );
+            const proxyCheckboxCheckbox = document.getElementById('proxyCheckboxCheckbox');
+
+            proxyCheckboxSpan.addEventListener('click', () => {
+              proxyCheckboxCheckbox.hasAttribute('checked') ?
+                proxyCheckboxCheckbox.removeAttribute('checked') :
+                proxyCheckboxCheckbox.setAttribute('checked', '')
+            })
+          </script>
+        </div>
+
+        <div>
+          <label>
+            <calcite-checkbox indeterminate></calcite-checkbox>
+            Initially indeterminate and unchecked
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <calcite-checkbox indeterminate checked></calcite-checkbox>
+            Initially indeterminate and checked
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <calcite-checkbox size='large'></calcite-checkbox>
+            Large checkbox
+          </label>
+        </div>
+        <div>
+          <label>
+            <calcite-checkbox size='small'></calcite-checkbox>
+            Small checkbox
+          </label>
+        </div>
+        <div style='background-color: black; color: white; padding: 5px;'>
+          <label>
+            <calcite-checkbox theme='dark' size='large'></calcite-checkbox>
+            Dark large
+          </label>
+        </div>
+
+        <div style='background-color: black; color: white; padding: 5px;'>
+          <label>
+            <calcite-checkbox theme='dark' disabled></calcite-checkbox>
+            Dark disabled
+          </label>
+        </div>
+
+
+        <div style='background-color: black; color: white; padding: 5px;'>
+          <label>
+            <calcite-checkbox theme='dark' checked disabled></calcite-checkbox>
+            Dark checked disabled
+          </label>
+        </div>
+        <div style='background-color: black; color: white; padding: 5px;'>
+          <label>
+            <calcite-checkbox theme='dark' indeterminate disabled size='small'></calcite-checkbox>
+            Dark indeterminate disabled small
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <calcite-checkbox disabled checked></calcite-checkbox>
+            Disabled and checked
+          </label>
+        </div>
+        <div>
+          <label>
+            <calcite-checkbox disabled></calcite-checkbox>
+            Disabled and unchecked
+          </label>
         </div>
       </calcite-tab>
 
+      <calcite-tab>
+        <h3>Normal Lockup</h3>
+        <calcite-button title="Back" appearance='outline'>Back</calcite-button>
+        <calcite-button>Continue</calcite-button>
+        <calcite-button href="/">Continue with href</calcite-button>
+        <h3>Type: Solid (default)</h3>
+        <calcite-button title="blue solid button">blue solid button</calcite-button>
+        <calcite-button title="red solid button" color='red'>red solid button</calcite-button>
+        <calcite-button title="light solid button" color='light'>light solid button</calcite-button>
+        <calcite-button title="dark solid button" color='dark'>dark solid button</calcite-button>
+        <br />
+        <br />
+        <div class="demo-background-dark">
+          <calcite-button title="blue solid button">blue solid button</calcite-button>
+          <calcite-button title="red solid button" color='red'>red solid button</calcite-button>
+
+          <calcite-button title="light solid button" color='light'>light solid button</calcite-button>
+          <calcite-button title="dark solid button" color='dark'>dark solid button</calcite-button>
+        </div>
+
+
+        <h3>Type: Outline</h3>
+        <calcite-button title="blue outline button" appearance='outline'>blue outline button</calcite-button>
+        <calcite-button title="red outline button" appearance='outline' color='red'>red outline button</calcite-button>
+
+        <calcite-button title="light outline button" appearance='outline' color='light'>light outline button
+        </calcite-button>
+        <calcite-button title="dark outline button" appearance='outline' color='dark'>dark outline button
+        </calcite-button>
+        <br />
+        <br />
+        <div class="demo-background-dark">
+          <calcite-button title="blue outline button" appearance='outline'>blue outline button</calcite-button>
+          <calcite-button title="red outline button" appearance='outline' color='red'>red outline button
+          </calcite-button>
+          <calcite-button title="light outline button" appearance='outline' color='light'>light outline button
+          </calcite-button>
+          <calcite-button title="dark outline button" appearance='outline' color='dark'>dark outline button
+          </calcite-button>
+
+        </div>
+
+
+        <h3>Type: Clear</h3>
+        <calcite-button title="blue clear button" appearance='clear'>blue clear button</calcite-button>
+        <calcite-button title="light clear button" appearance='clear' color='light'>light clear button</calcite-button>
+        <calcite-button title="dark clear button" appearance='clear' color='dark'>dark clear button</calcite-button>
+        <calcite-button title="red clear button" appearance='clear' color='red'>red clear button</calcite-button>
+        <br />
+        <br />
+        <div class="demo-background-dark">
+          <calcite-button title="blue clear button" appearance='clear'>blue clear button</calcite-button>
+          <calcite-button title="light clear button" appearance='clear' color='light'>light clear button
+          </calcite-button>
+          <calcite-button title="dark clear button" appearance='clear' color='dark'>dark clear button</calcite-button>
+          <calcite-button title="red clear button" appearance='clear' color='red'>red clear button</calcite-button>
+        </div>
+
+        <h3>Type: Inline (render as anchor)</h3>
+        An anchor <calcite-button title="in the middle" href="/" appearance="inline">in the middle</calcite-button> of
+        some
+        text.<br />
+        An anchor <calcite-button href="/"
+          title="in the middle that might be long enough to wrap to illustrate animation" appearance="inline"
+          color='red'>in the middle that might be long enough to wrap to illustrate animation
+        </calcite-button> of some text.<br />
+        An anchor <calcite-button title="in the middle" href="/" appearance="inline">in the middle</calcite-button> of
+        some
+        text.<br />
+        An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer"
+          target="_blank" title="in the middle with an icon" color='dark'
+          icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>in the middle
+        </calcite-button> of some text.<br /><br />
+        <div class="demo-background-dark">
+          An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer"
+            target="_blank" title="in the middle">in
+            the middle</calcite-button> of some text.<br />
+          An anchor link <calcite-button href="http://google.com" appearance="inline" color='light'
+            rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
+            icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
+            icon
+          </calcite-button>in some text.<br />
+          An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer"
+            target="_blank" title="in the middle" color='red'>to Google.</calcite-button><br />
+        </div>
+
+        <h3>Scales</h3>
+        <calcite-button title="xl scale button" scale='xl'>xl scale button</calcite-button>
+        <calcite-button title="l scale button" scale='l'>l scale button</calcite-button>
+        <calcite-button title="m / default scale button">m scale button</calcite-button>
+        <calcite-button title="s scale button" scale='s'>s scale button</calcite-button>
+        <calcite-button title="xs scale button" scale='xs'>xs scale button</calcite-button>
+
+
+        <h3>Widths</h3>
+        <calcite-button title="Auto / default width button">Auto / default width button</calcite-button>
+        <br />
+        <calcite-button title="half width button" width='half'>half width button</calcite-button>
+        <br />
+        <calcite-button title="full width button" width='full'>full width button</calcite-button>
+
+        <h3>Anchor links</h3>
+        <h5>Passing a href will render the component as an anchor.</h5>
+        <calcite-button href='/anotherpage' title="internal anchor">Internal anchor
+        </calcite-button>
+        <calcite-button href='http://google.com' title="full width button" rel="noopener noreferrer" target="_blank">
+          External anchor
+        </calcite-button>
+        <calcite-button href='http://google.com' appearance="outline"
+          icon="M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z"
+          title="full width button" rel="noopener noreferrer" target="_blank">External anchor with icon
+        </calcite-button>
+
+        <h3>Loader</h3>
+        <h5>These examples remove on the consumer end, the loader attribute when done... We could also present a "done"
+          loader state somehow...</h5>
+        <calcite-button onclick="loadingButton(this, 5000)">Do something</calcite-button>
+        <calcite-button appearance="outline" onclick="loadingButton(this, 5000)">Do something</calcite-button>
+        <calcite-button color="red" onclick="loadingButton(this, 500000000)">Do something</calcite-button>
+        <calcite-button color="red" appearance="outline" onclick="loadingButton(this, 5000)">Do something
+        </calcite-button>
+
+        <h3>Icons, and icons in combination with loader</h3>
+        <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
+        <calcite-button appearance="outline" color="light"
+          icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
+          </calcite-button>
+          <calcite-button  onclick="loadingButton(this, 3000)"
+          icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
+          </calcite-button>
+        <calcite-button appearance="outline" color="dark"
+          icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
+          Download</calcite-button>
+          <calcite-button scale="l" appearance="outline"
+          icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
+          Download</calcite-button>
+        <calcite-button
+          icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
+          <em>Download</em></calcite-button>
+        <calcite-button color='red'
+          icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
+          Delete this</calcite-button>
+        <calcite-button color='red' appearance="outline" onclick="loadingButton(this, 3000)"
+          icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
+          Delete this (loader)</calcite-button>
+        <calcite-button color='red' scale="l" appearance="outline" onclick="loadingButton(this, 3000)"
+          icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
+          Delete this (loader)</calcite-button>
+        <calcite-button color='red' scale="xs" appearance="outline" onclick="loadingButton(this, 3000)"
+          icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
+          Delete this (loader)</calcite-button>
+      </calcite-tab>
       <calcite-tab>
         <calcite-date-picker id="dateSample" value="12/8/2019" min="08/09/2019" max="12/18/2021"></calcite-date-picker>
         <calcite-date-picker id="dateSample" value="12/12/2019" ></calcite-date-picker>
@@ -436,79 +847,84 @@
       </calcite-tab>
     </calcite-tabs>
 
-      <calcite-alerts id="my-alert-container">
-        <calcite-alert color="red" id="alert-one" dismiss>
-          <div slot="alert-title">Something failed</div>
-          <div slot="alert-message">
-            1 That thing you wanted to do didn't work as expected
-          </div>
-          <a slot="alert-link" href="">Retry</a>
-        </calcite-alert>
+    <calcite-alerts id="my-alert-container">
+      <calcite-alert color="red" id="alert-one" dismiss>
+        <div slot="alert-title">Something failed</div>
+        <div slot="alert-message">
+          1 That thing you wanted to do didn't work as expected
+        </div>
 
-        <!-- test prop validation theme -->
-        <calcite-alert color="green" id="alert-two" icon theme="bleme">
-          <div slot="alert-message">
-            2 Succesfully updated <em>Portland Restaurants</em> feature layer
-          </div>
-          <a slot="alert-link" href="">View layer</a>
-        </calcite-alert>
+        <calcite-button slot="alert-link" title="my action" appearance="inline">Retry</calcite-button>
 
-        <calcite-alert id="alert-three" icon theme="dark">
-          <div slot="alert-message">3 A general piece of information</div>
-        </calcite-alert>
+      </calcite-alert>
 
-        <calcite-alert color="yellow" id="alert-four" icon>
-          <div slot="alert-title">
-            This may put you close to your credit limit
-          </div>
-          <div slot="alert-message">
-            4 You can view your credit settings at any time in User Preferences
-          </div>
-          <a slot="alert-link" href="">Manage credits</a>
-        </calcite-alert>
+      <!-- test prop validation theme -->
+      <calcite-alert color="green" id="alert-two" icon theme="bleme">
+        <div slot="alert-message">
+          2 Succesfully updated <em>Portland Restaurants</em> feature layer
+        </div>
+        <calcite-button slot="alert-link" title="my action" appearance="inline">Do thing</calcite-button>
+      </calcite-alert>
 
-        <calcite-alert id="alert-five">
-          <div slot="alert-message">5 A general piece of information</div>
-        </calcite-alert>
+      <calcite-alert id="alert-three" icon theme="dark">
+        <div slot="alert-message">3 A general piece of information</div>
+      </calcite-alert>
 
-        <!-- test prop validation color -->
-        <calcite-alert color="misspelled" id="alert-six" icon>
-          <div slot="alert-title">You can't add a polygon to this layer</div>
-          <div slot="alert-message">
-            6 Some kind of made up thing about another thing
-          </div>
-          <a slot="alert-link" href="">Take action</a>
-        </calcite-alert>
+      <calcite-alert color="yellow" id="alert-four" icon>
+        <div slot="alert-title">
+          This may put you close to your credit limit
+        </div>
+        <div slot="alert-message">
+          4 You can view your credit settings at any time in User Preferences
+        </div>
+        <calcite-button slot="alert-link" title="my action" appearance="inline">Manage credits</calcite-button>
+      </calcite-alert>
 
-        <calcite-alert color="green" id="alert-seven" theme="dark">
-          <div slot="alert-title">Layer duplicated</div>
-          <div slot="alert-message">
-            7 Successfully duplicated <em>Portland Restaurants</em> feature
-            layer
-          </div>
-          <a slot="alert-link" href="">View layer</a>
-        </calcite-alert>
+      <calcite-alert id="alert-five">
+        <div slot="alert-message">5 A general piece of information</div>
+      </calcite-alert>
 
-        <calcite-alert color="red" id="alert-eight" dismiss icon>
-          <div slot="alert-title">You can't do that</div>
-          <div slot="alert-message">8 Sorry bud</div>
-        </calcite-alert>
+      <!-- test prop validation color -->
+      <calcite-alert color="misspelled" id="alert-six" icon>
+        <div slot="alert-title">You can't add a polygon to this layer</div>
+        <div slot="alert-message">
+          6 Some kind of made up thing about another thing
+        </div>
+        <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
+      </calcite-alert>
 
-        <!-- test prop validation duration -->
-        <calcite-alert id="alert-nine" theme="dark" dismiss duration="blast">
-          <div slot="alert-message">9 A general piece of information</div>
-          <a slot="alert-link" href="">Take action</a>
-        </calcite-alert>
+      <calcite-alert color="green" id="alert-seven" theme="dark">
+        <div slot="alert-title">Layer duplicated</div>
+        <div slot="alert-message">
+          7 Successfully duplicated <em>Portland Restaurants</em> feature
+          layer
+        </div>
+        <calcite-button slot="alert-link" color="light" title="my action" appearance="inline">View layer
+        </calcite-button>
+      </calcite-alert>
 
-        <calcite-alert id="alert-ten" dismiss duration="medium">
-          <div slot="alert-message">10 A general piece of information</div>
-        </calcite-alert>
+      <calcite-alert color="red" id="alert-eight" dismiss icon>
+        <div slot="alert-title">You can't do that</div>
+        <div slot="alert-message">8 Sorry bud</div>
+      </calcite-alert>
 
-        <calcite-alert id="alert-eleven" dismiss duration="slow">
-          <div slot="alert-message">11 A general piece of information</div>
-          <a slot="alert-link" href="">Take action</a>
-        </calcite-alert>
-      </calcite-alerts>
-    </div>
-  </body>
+      <!-- test prop validation duration -->
+      <calcite-alert id="alert-nine" theme="dark" dismiss duration="blast">
+        <div slot="alert-message">9 A general piece of information</div>
+        <calcite-button slot="alert-link" color="light" title="my action" appearance="inline">Take action
+        </calcite-button>
+      </calcite-alert>
+
+      <calcite-alert id="alert-ten" dismiss duration="medium">
+        <div slot="alert-message">10 A general piece of information</div>
+      </calcite-alert>
+
+      <calcite-alert id="alert-eleven" dismiss duration="slow">
+        <div slot="alert-message">11 A general piece of information</div>
+        <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
+      </calcite-alert>
+    </calcite-alerts>
+  </div>
+</body>
+
 </html>

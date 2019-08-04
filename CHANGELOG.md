@@ -7,24 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
-## [0.0.0-alpha.4] - June 20th 2019
+## [v1.0.0-beta.2] - Aug 2nd 2019
 
-Additional features and fixes for `<calcite-tab>` based on testing.
+Fix issue with previous release.
 
-## [0.0.0-alpha.3] - May 28rd 2019
+## [v1.0.0-beta.1] - Aug 2nd 2019
 
-Additional features and fixes for `<calcite-tab>` based on testing.
+First initial beta release.
 
-## [0.0.0-alpha.2] - May 28rd 2019
-
-Additional features and fixes for `<calcite-tab>` based on testing.
-
-## [0.0.0-alpha.1] - May 24rd 2019
-
-Initial alpha release for integration testing.
-
-[0.0.0-alpha.3]: https://github.com/Esri/arcgis-rest-js/compare/v0.0.0-alpha.3...v0.0.0-alpha.4 "v0.0.0-alpha.4"
-[0.0.0-alpha.3]: https://github.com/Esri/arcgis-rest-js/compare/v0.0.0-alpha.2...v0.0.0-alpha.3 "v0.0.0-alpha.3"
-[0.0.0-alpha.2]: https://github.com/Esri/arcgis-rest-js/compare/v0.0.0-alpha.1...v0.0.0-alpha.2 "v0.0.0-alpha.2"
-[0.0.0-alpha.1]: https://github.com/Esri/arcgis-rest-js/compare/dafb2312835ec6fef134d0d2b20aabd1dfe907cf...v0.0.0-alpha.1 "v0.0.0-alpha.1"
-[HEAD]: https://github.com/ArcGIS/calcite-components/compare/v0.0.0-alpha.1...HEAD "Unreleased Changes"
+[v1.0.0-beta.2]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.1...v1.0.0-beta.2 "v1.0.0-beta.2"
+[v1.0.0-beta.1]: https://github.com/ArcGIS/calcite-components/compare/dafb2312835ec6fef134d0d2b20aabd1dfe907cf...v1.0.0-beta.1 "v1.0.0-beta.1"
+[HEAD]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.1...HEAD "Unreleased Changes"

@@ -13,6 +13,7 @@ git checkout -b publish_v$VERSION
 
 # force add built files so they appear in git only on this tag
 git add dist --force
+git add hydrate --force
 
 # commit a new version
 git commit -am "v$VERSION - add built files" --no-verify
@@ -25,6 +26,9 @@ git push https://github.com/ArcGIS/calcite-components.git master
 
 # push the new tag, not the old tags
 git push https://github.com/ArcGIS/calcite-components.git v$VERSION
+
+# publish to NPM
+npm publish --access=public
 
 # create a ZIP archive of the dist files
 TEMP_FOLDER=calcite-components-v$VERSION;

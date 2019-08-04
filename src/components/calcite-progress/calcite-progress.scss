@@ -16,7 +16,7 @@ $looping-progress-bar-params: 1500ms linear infinite !default;
   transition: opacity 500ms ease-in-out;
 }
 .calcite-progress:before {
-  background-color: $h-bb-060;
+  background-color: $ui-blue;
   z-index: 0;
   width: 100%;
 }

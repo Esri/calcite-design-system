@@ -4,7 +4,7 @@ function createExampleAlert (id) {
   `<calcite-alert id=${id} color='red'>
       <div slot='alert-title'>Something failed</div>
       <div slot='alert-message'>${id} That thing you wanted to do didn't work as expected</div>
-      <a slot='alert-link' href=''>Retry</a>
+      <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
   </calcite-alert>`;
 
   // if the id element doesn't exist, insert into calcite-alerts

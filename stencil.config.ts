@@ -17,9 +17,15 @@ export const config: Config = {
     },
     { components: ["calcite-progress"] },
     { components: ["calcite-alert", "calcite-alerts"] },
-    { components: ["calcite-loader"] }
+    { components: ["calcite-loader"] },
+    {
+      components: ["calcite-radio-group", "calcite-radio-group-item"]
+    },
+    { components: ["calcite-slider"] },
+    { components: ["calcite-modal"] }
   ],
   outputTargets: [
+    { type: "dist-hydrate-script" },
     { type: "dist" },
     { type: "docs-readme" },
     {

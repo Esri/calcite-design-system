@@ -6,7 +6,6 @@ import {
   h,
   Host,
   Listen,
-  Prop,
   State
 } from "@stencil/core";
 import AlertInterface from "../../interfaces/AlertInterface";
@@ -18,50 +17,41 @@ import AlertInterface from "../../interfaces/AlertInterface";
 })
 export class CalciteAlerts {
   @Element() el: HTMLElement;
-  /**
-   * Unique ID for this instance of calcite-alerts
-   */
-  @Prop() id: string = "1";
 
   @State() currentAlert: string = "";
   @State() active: boolean = false;
   @State() alertQueue: string[] = [];
 
-  /**
-   * @todo document what gets passed to the handler for these events
-   */
+  /** emits the ID of the alert to be closed, and the current alertQueue and currentAlert */
   @Event() calciteAlertsClose: EventEmitter;
+
+  /** emits the ID of the alert to be opened, and the current alertQueue and currentAlert */
   @Event() calciteAlertsOpen: EventEmitter;
 
-  /**
-   * Adds the requested alert to the alert queue, if not present
-   */
+  /** Adds the requested alert to the alert queue, if not present */
   @Listen("calciteAlertOpen") updateQueueOnOpen(event: CustomEvent) {
-    let requestedAlert = (event.target as HTMLElement).id;
-    if (!this.alertQueue.includes(requestedAlert)) {
+    if (!this.alertQueue.includes(event.detail.requestedAlert)) {
       this.active = true;
-      this.currentAlert = requestedAlert;
-      this.alertQueue.push(requestedAlert);
+      this.currentAlert = event.detail.requestedAlert;
+      this.alertQueue.push(event.detail.requestedAlert);
       this.calciteAlertsOpen.emit({
-        id: this.id,
         currentAlert: this.currentAlert,
         alertQueue: this.alertQueue
       });
     }
   }
-  /**
-   * Closes the requested alert and removes from the queue
-   */
+
+  /** Closes the requested alert and removes from the queue, or removes from queue if not active */
   @Listen("calciteAlertClose") updateQueueOnClose(event: CustomEvent) {
-    let requestedAlert = (event.target as HTMLElement).id;
-    if (this.alertQueue.includes(requestedAlert))
-      this.alertQueue = this.alertQueue.filter(e => e !== requestedAlert);
+    if (this.alertQueue.includes(event.detail.requestedAlert))
+      this.alertQueue = this.alertQueue.filter(
+        e => e !== event.detail.requestedAlert
+      );
     if (this.alertQueue.length < 1)
       setTimeout(() => {
         this.active = false;
-      }, 300);
+      }, 400);
     this.calciteAlertsClose.emit({
-      id: this.id,
       currentAlert: this.currentAlert,
       alertQueue: this.alertQueue
     });
