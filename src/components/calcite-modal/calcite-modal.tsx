@@ -13,7 +13,11 @@ import {
 import { x24 } from "@esri/calcite-ui-icons";
 import "@a11y/focus-trap";
 import { FocusTrap } from "@a11y/focus-trap";
-import { getElementDir, getElementTheme, hasSlottedContent } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementTheme,
+  hasSlottedContent
+} from "../../utils/dom";
 
 @Component({
   tag: "calcite-modal",
@@ -51,7 +55,7 @@ export class CalciteModal {
   /** Select theme (light or dark) */
   @Prop({ reflect: true })
   theme: "light" | "dark" = "light";
-
+  trapFocus: boolean = false;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -70,11 +74,78 @@ export class CalciteModal {
     secondary.addEventListener("slotchange", () => {
       this.hideSecondaryButton = !hasSlottedContent(secondary);
     });
+    import("@a11y/focus-trap").then(() => {
+      this.trapFocus = true;
+    });
   }
 
   render() {
     const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
+
+    const modelContent = () => {
+      const header = (
+        <div class="modal__header">
+          <button
+            class="modal__close"
+            aria-label={this.closeLabel}
+            onClick={() => this.close()}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              width="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d={x24} />
+            </svg>
+          </button>
+          <header class="modal__title">
+            <slot name="header"></slot>
+          </header>
+        </div>
+      );
+
+      const body = (
+        <div class="modal__content">
+          <slot name="content"></slot>
+        </div>
+      );
+
+      const footer = (
+        <div
+          class={{
+            modal__footer: true,
+            "modal__footer--hide-back": this.hideBackButton,
+            "modal__footer--hide-secondary": this.hideSecondaryButton
+          }}
+        >
+          <slot name="back"></slot>
+          <slot name="secondary"></slot>
+          <slot name="primary"></slot>
+        </div>
+      );
+
+      if (this.trapFocus) {
+        return (
+          <focus-trap ref={el => (this.trap = el as FocusTrap)}>
+            {header}
+            {body}
+            {footer}
+          </focus-trap>
+        );
+      } else {
+        return (
+          <div>
+            {header}
+            {body}
+            {footer}
+          </div>
+        );
+      }
+    };
+
     return (
       <Host
         role="dialog"
@@ -83,44 +154,7 @@ export class CalciteModal {
         dir={dir}
         theme={theme}
       >
-        <div class="modal">
-          <focus-trap ref={el => (this.trap = el as FocusTrap)}>
-            <div class="modal__header">
-              <button
-                class="modal__close"
-                aria-label={this.closeLabel}
-                onClick={() => this.close()}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  width="24"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d={x24} />
-                </svg>
-              </button>
-              <header class="modal__title">
-                <slot name="header"></slot>
-              </header>
-            </div>
-            <div class="modal__content">
-              <slot name="content"></slot>
-            </div>
-            <div
-              class={{
-                modal__footer: true,
-                "modal__footer--hide-back": this.hideBackButton,
-                "modal__footer--hide-secondary": this.hideSecondaryButton
-              }}
-            >
-              <slot name="back"></slot>
-              <slot name="secondary"></slot>
-              <slot name="primary"></slot>
-            </div>
-          </focus-trap>
-        </div>
+        <div class="modal">{modelContent()}</div>
       </Host>
     );
   }
