@@ -4,7 +4,7 @@
   --calcite-tabs-color: #{$blk-200};
   --calcite-tabs-border: #{$blk-020};
   --calcite-tabs-border-hover: #{$blk-030};
-  --calcite-tabs-color-active: #{$off-black};
+  --calcite-tabs-color-active: #{$blk-220};
   --calcite-tabs-border-active: #{$ui-blue};
   --calcite-tabs-layout: flex-start;
   --calcite-tabs-tab-basis: auto;
@@ -17,8 +17,8 @@
   --calcite-tabs-color: #{$blk-010};
   --calcite-tabs-border: #{$blk-180};
   --calcite-tabs-border-hover: #{$blk-130};
-  --calcite-tabs-color-active: #{$off-white};
-  --calcite-tabs-border-active: #{$white};
+  --calcite-tabs-color-active: #{$blk-005};
+  --calcite-tabs-border-active: #{$blk-000};
 }
 
 :host([dir="rtl"]) {
