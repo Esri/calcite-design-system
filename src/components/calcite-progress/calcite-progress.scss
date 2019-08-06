@@ -21,7 +21,7 @@ $looping-progress-bar-params: 1500ms linear infinite !default;
   width: 100%;
 }
 .calcite-progress:after {
-  background-color: rgba($white, 0.6);
+  background-color: rgba($ui-background, 0.6);
   z-index: 0;
 }
 
