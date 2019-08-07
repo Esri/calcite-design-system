@@ -40,6 +40,8 @@ export class CalciteDateDay {
 
   @Prop() selected: boolean = false;
 
+  @Prop() active: boolean = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -52,9 +54,9 @@ export class CalciteDateDay {
     return (
       <Host class={`${this.enable ? "enabled" : "disabled"} day ${
         this.selected ? "selected-day" : ""
-      }`}
+      } ${this.active ? "active": ""}`}
       role="gridcell"
-      tabindex={this.selected ? 0 : -1}>
+      tabindex={this.selected || this.active ? 0 : -1}>
           {this.day}
       </Host>
     );

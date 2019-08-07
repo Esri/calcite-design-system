@@ -2,12 +2,12 @@
 
   .week-headers {
     display: flex;
-    border-bottom: 1px solid $lighter-gray;
+    border-bottom: 1px solid $blk-020;
     margin-bottom: .75rem;
 
     .week-header {
       margin: .55rem .85rem .75rem;
-      color: $gray;
+      color: $blk-130;
       font-weight: 500;
       font-size: 13px;
       flex-grow: 1;
@@ -27,30 +27,30 @@
       flex-basis: 0;
       border-radius: 100%;
 
-      &:hover {
-        background-color: $light-gray;
+      &:hover, &.active{
+        background-color: $blk-060;
         outline: none;
         cursor: pointer;
         transition: all $transition;
       }
 
       &.selected-day {
-        background-color: $blue;
+        background-color: $ui-blue;
         border-radius: 100%;
-        color: $white;
+        color: $blk-000;
         outline: none;
         font-weight: 500;
       }
 
       font-size: 16px;
-      color: $darkest-gray;
+      color: $blk-120;
       padding: .5rem;
       margin: .30rem;
       text-align: center;
     }
 
     .disabled {
-      color: $light-gray;
+      color: $blk-060;
       &:hover {
         cursor: default;
         background: none;

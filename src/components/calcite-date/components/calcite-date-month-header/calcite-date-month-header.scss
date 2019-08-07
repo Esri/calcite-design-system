@@ -11,12 +11,12 @@
 
   .right-icon,
   .left-icon {
-    fill: $light-gray;
+    fill: $blk-060;
     position: relative;
     top: .3rem;
     width: 4rem;
     &:hover {
-      fill: $black;
+      fill: $blk-240;
       cursor: pointer;
       transition: all $transition;
     }
@@ -25,7 +25,7 @@
   .month,
   .year {
     font-size: 1.25rem;
-    color: $black;
+    color: $blk-240;
     font-weight: 400;
   }
 
