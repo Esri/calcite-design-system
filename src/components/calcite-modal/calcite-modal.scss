@@ -1,13 +1,13 @@
 :host {
-  --calcite-modal-background: #{$white};
+  --calcite-modal-background: #{$blk-000};
   --calcite-modal-hover: #{$blk-010};
   --calcite-modal-pressed: #{$blk-020};
   --calcite-modal-header-text: #{$blk-220};
   --calcite-modal-body-text: #{$blk-220};
-  --calcite-modal-scrim: #{$transparent-black};
-  --calcite-modal-border: #{$lightest-gray};
-  --calcite-modal-red: #{$h-rr-060};
-  --calcite-modal-blue: #{$h-bb-060};
+  --calcite-modal-scrim: rgba(0, 0, 0, 0.75);
+  --calcite-modal-border: #{$blk-010};
+  --calcite-modal-red: #{$ui-red};
+  --calcite-modal-blue: #{$ui-blue};
   position: fixed;
   top: 0;
   right: 0;
@@ -31,11 +31,9 @@
   --calcite-modal-pressed: #{$blk-210};
   --calcite-modal-header-text: #{$blk-000};
   --calcite-modal-body-text: #{$blk-010};
-  --calcite-modal-scrim: #{$transparent-black};
   --calcite-modal-border: #{$blk-200};
-  --calcite-modal-hover: #{$darkest-gray};
-  --calcite-modal-red: #{$v-rr-160};
-  --calcite-modal-blue: #{$v-bb-160};
+  --calcite-modal-red: #{$ui-red-dark};
+  --calcite-modal-blue: #{$ui-blue-dark};
 }
 
 .modal {

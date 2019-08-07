@@ -87,25 +87,25 @@
 :host([appearance="solid"][color="blue"]) {
   button,
   a {
-    @include btn-solid($ui-blue, $ui-blue-hover, $ui-blue-pressed, $white);
+    @include btn-solid($ui-blue, $ui-blue-hover, $ui-blue-pressed, $blk-000);
   }
 }
 :host([appearance="solid"][color="red"]) {
   button,
   a {
-    @include btn-solid($ui-red, $ui-red-hover, $ui-red-pressed, $white);
+    @include btn-solid($ui-red, $ui-red-hover, $ui-red-pressed, $blk-000);
   }
 }
 :host([appearance="solid"][color="light"]) {
   button,
   a {
-    @include btn-solid($lightest-gray, $white, $lighter-gray, $black);
+    @include btn-solid($blk-010, $blk-000, $blk-020, $blk-240);
   }
 }
 :host([appearance="solid"][color="dark"]) {
   button,
   a {
-    @include btn-solid($darkest-gray, $darker-gray, $black, $white);
+    @include btn-solid($blk-200, $blk-180, $blk-240, $blk-000);
   }
 }
 // outline and clear
@@ -140,7 +140,7 @@
   button,
   a {
     @include btn-outline-clear(
-      $white,
+      $blk-000,
       $ui-blue,
       $ui-blue-hover,
       $ui-blue-pressed,
@@ -153,7 +153,7 @@
   button,
   a {
     @include btn-outline-clear(
-      $white,
+      $blk-000,
       $ui-red,
       $ui-red-hover,
       $ui-red-pressed,
@@ -166,12 +166,12 @@
   button,
   a {
     @include btn-outline-clear(
-      $white,
-      $lightest-gray,
-      $white,
-      $lighter-gray,
-      $off-black,
-      $black
+      $blk-000,
+      $blk-010,
+      $blk-000,
+      $blk-020,
+      $blk-220,
+      $blk-240
     );
   }
 }
@@ -179,12 +179,12 @@
   button,
   a {
     @include btn-outline-clear(
-      $white,
-      $darkest-gray,
-      $darker-gray,
-      $black,
-      $off-black,
-      $black
+      $blk-000,
+      $blk-200,
+      $blk-180,
+      $blk-240,
+      $blk-220,
+      $blk-240
     );
   }
 }
@@ -219,11 +219,11 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $lightest-gray,
-      $white,
-      $lighter-gray,
-      $off-white,
-      $white
+      $blk-010,
+      $blk-000,
+      $blk-020,
+      $blk-005,
+      $blk-000
     );
   }
 }
@@ -232,11 +232,11 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $darkest-gray,
-      $darker-gray,
-      $black,
-      $off-black,
-      $black
+      $blk-200,
+      $blk-180,
+      $blk-240,
+      $blk-220,
+      $blk-240
     );
   }
 }
@@ -290,13 +290,13 @@
 :host([appearance="inline"][color="light"]) {
   button,
   a {
-    @include btn-inline($lightest-gray, $white);
+    @include btn-inline($blk-010, $blk-000);
   }
 }
 :host([appearance="inline"][color="dark"]) {
   button,
   a {
-    @include btn-inline($darkest-gray, $darker-gray);
+    @include btn-inline($blk-200, $blk-180);
   }
 }
 :host([appearance="inline"][dir="rtl"]) {
