@@ -73,97 +73,99 @@ export class CalciteDateMonth {
   @Prop() locale: string = "en-US";
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    let currentActiveDate = this.activeDate || this.selectedDate;
     switch (e.keyCode) {
       case UP:
         e.preventDefault();
-        this.addDaysToActiveDate(currentActiveDate, 7, "dec");
+        this.addDaysToActiveDate(-7);
         break;
       case RIGHT:
         e.preventDefault();
-        this.addDaysToActiveDate(currentActiveDate, 1, "inc");
+        this.addDaysToActiveDate(1);
         break;
       case DOWN:
         e.preventDefault();
-        this.addDaysToActiveDate(currentActiveDate, 7, "inc");
+        this.addDaysToActiveDate(7);
         break;
       case LEFT:
         e.preventDefault();
-        this.addDaysToActiveDate(currentActiveDate, 1, "dec");
+        this.addDaysToActiveDate(1);
         break;
       case PAGE_UP:
         e.preventDefault();
         // TODO: decrease month
-        this.addDaysToActiveDate(currentActiveDate, 7, "dec");
+        this.addMonthToActiveDate(-1);
         break;
       case PAGE_DOWN:
         e.preventDefault();
         // TODO: increase month
-        this.addDaysToActiveDate(currentActiveDate, 7, "dec");
+        this.addMonthToActiveDate(1);
         break;
       case HOME:
         e.preventDefault();
-        currentActiveDate.setDate(1);
-        this.addDaysToActiveDate(currentActiveDate, 0, "dec");
+        this.activeDate.setDate(1);
+        this.addDaysToActiveDate();
         break;
       case END:
         e.preventDefault();
-        currentActiveDate.setDate(new Date(currentActiveDate.getFullYear(), currentActiveDate.getMonth()+1, 0).getDate());
-        this.addDaysToActiveDate(currentActiveDate, 0, "dec");
+        this.activeDate.setDate(new Date(this.activeDate.getFullYear(), this.activeDate.getMonth()+1, 0).getDate());
+        this.addDaysToActiveDate();
         break;
       case ENTER:
       case SPACE:
         e.preventDefault();
         this.selectedDate = new Date(this.activeDate);
         this.calciteDateSelect.emit();
-        this.addDaysToActiveDate(currentActiveDate, 0, "dec");
         break;
       case ESCAPE:
         e.preventDefault();
-        this.selectedDate = null;
+        this.activeDate = new Date(this.selectedDate);
         this.calciteActiveDateChange.emit();
-        this.addDaysToActiveDate(currentActiveDate, 0, "dec");
         break;
     }
   }
 
-  private addDaysToActiveDate(currentActiveDate: Date, step: number, type: string) {
-    let [activeDay, activeMonth, activeYear] = [currentActiveDate.getDate(), currentActiveDate.getMonth(), currentActiveDate.getFullYear()];
-    let noOfDaysInMonth = new Date(activeYear, activeMonth + 1, 0).getDate();
-    switch (type) {
-      case "inc":
-        activeDay += step;
-        if (activeDay > noOfDaysInMonth) {
-          activeDay -= noOfDaysInMonth;
-          activeMonth += 1;
-          if (activeMonth === 12) {
-            activeMonth = 1;
-            activeYear += 1;
-          }
-        }
-        if(this.validateDate(activeDay, activeMonth, activeYear)){
-          this.activeDate = new Date(activeYear, activeMonth, activeDay);
-          this.calciteActiveDateChange.emit();
-        }
-        break;
-      case "dec":
-        let noOfDaysInPrevMonth = new Date(activeYear, activeMonth, 0).getDate();
-        activeDay -= step;
-        if (activeDay < 0) {
-          activeDay = noOfDaysInPrevMonth + activeDay;
-          activeMonth -= 1;
-          if (activeMonth === -1) {
-            activeMonth = 11;
-            activeYear -= 1;
-          }
-        }
-        if(this.validateDate(activeDay, activeMonth, activeYear)){
-          this.activeDate = new Date(activeYear, activeMonth, activeDay);
-          this.calciteActiveDateChange.emit();
-        }
-      break;
+  private addMonthToActiveDate(step){
+    let [activeDay, activeMonth, activeYear] = [this.activeDate.getDate(), this.activeDate.getMonth(), this.activeDate.getFullYear()];
+    activeMonth += step;
+    if (activeMonth === 12) {
+      activeMonth = 0;
+      activeYear += 1;
     }
+    if (activeMonth === -1) {
+      activeMonth = 11;
+      activeYear -= 1;
+    }
+    if(this.validateDate(activeDay, activeMonth, activeYear)){
+      this.activeDate = new Date(activeYear, activeMonth, activeDay);
+      this.calciteActiveDateChange.emit();
+    }
+  }
 
+  private addDaysToActiveDate(step: number = 0) {
+    let [activeDay, activeMonth, activeYear] = [this.activeDate.getDate(), this.activeDate.getMonth(), this.activeDate.getFullYear()];
+    activeDay += step;
+    let noOfDaysInMonth = new Date(activeYear, activeMonth + 1, 0).getDate();
+    let noOfDaysInPrevMonth = new Date(activeYear, activeMonth, 0).getDate();
+    if (activeDay > noOfDaysInMonth) {
+      activeDay -= noOfDaysInMonth;
+      activeMonth += 1;
+      if (activeMonth === 12) {
+        activeMonth = 0;
+        activeYear += 1;
+      }
+    }
+    if (activeDay < 0) {
+      activeDay = noOfDaysInPrevMonth + activeDay;
+      activeMonth -= 1;
+      if (activeMonth === -1) {
+        activeMonth = 11;
+        activeYear -= 1;
+      }
+    }
+    if(this.validateDate(activeDay, activeMonth, activeYear)){
+      this.activeDate = new Date(activeYear, activeMonth, activeDay);
+      this.calciteActiveDateChange.emit();
+    }
   }
 
   //--------------------------------------------------------------------------

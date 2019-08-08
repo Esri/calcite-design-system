@@ -155,7 +155,7 @@ export class CalciteDatePicker {
   }
 
   private setDate(target) {
-    this.activeDate = null;
+    this.activeDate = new Date(target.selectedDate);
     this.value = target.selectedDate
       .toISOString()
       .substr(0, 10);
