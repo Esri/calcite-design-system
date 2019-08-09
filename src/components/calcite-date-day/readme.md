@@ -7,19 +7,19 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                                                                                                                 | Type      | Default |
-| ---------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------- |
-| `active`   | `active`   |                                                                                                                                                                             | `boolean` | `false` |
-| `day`      | `day`      | Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag | `number`  | `0`     |
-| `enable`   | `enable`   |                                                                                                                                                                             | `boolean` | `true`  |
-| `selected` | `selected` |                                                                                                                                                                             | `boolean` | `false` |
+| Property   | Attribute  | Description                                           | Type      | Default |
+| ---------- | ---------- | ----------------------------------------------------- | --------- | ------- |
+| `active`   | `active`   | Active tells whether day is Actively in focus.        | `boolean` | `false` |
+| `day`      | `day`      | day of the month to be shown.                         | `number`  | `0`     |
+| `enable`   | `enable`   | Enables tells whether day enabled for the user click. | `boolean` | `true`  |
+| `selected` | `selected` | Selected tells whether day is selected.               | `boolean` | `false` |
 
 
 ## Events
 
-| Event              | Description | Type               |
-| ------------------ | ----------- | ------------------ |
-| `calciteDaySelect` |             | `CustomEvent<any>` |
+| Event              | Description                               | Type               |
+| ------------------ | ----------------------------------------- | ------------------ |
+| `calciteDaySelect` | When user selects day it emits the event. | `CustomEvent<any>` |
 
 
 ## Dependencies

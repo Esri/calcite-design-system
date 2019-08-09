@@ -20,7 +20,7 @@ import {
   ENTER,
   SPACE,
   ESCAPE
-} from "../../../../utils/keys";
+} from "../../utils/keys";
 
 @Component({
   tag: "calcite-date-month",
@@ -43,21 +43,29 @@ export class CalciteDateMonth {
   //--------------------------------------------------------------------------
 
   /**
-   * Be sure to add a jsdoc comment describing your propery for the generated readme file.
-   * If your property should be hidden from documentation, you can use the `@internal` tag
+   * Month number starting 0 as January for which the calendar is shown.
    */
   @Prop() month: number = 0;
-
+  /**
+   * Year for which the calendar is shown.
+   */
   @Prop() year: number = 0;
-
+  /**
+   * Already selected date.
+   */
   @Prop() selectedDate: Date;
-
+  /**
+   * Date currently active.
+   */
   @Prop() activeDate: Date;
-
+  /**
+   * Minimum date of the calendar below which is disabled.
+   */
   @Prop() min: Date;
-
+  /**
+   * Maximum date of the calendar above which is disabled.
+   */
   @Prop() max: Date;
-
   /**
    * Sun by default
    * 0: Sunday
@@ -69,8 +77,67 @@ export class CalciteDateMonth {
    * 6: Saturday
    */
   @Prop() startOfWeek: number = 0;
-
+  /**
+   * pass the locale in which user wants to show the date.
+   */
   @Prop() locale: string = "en-US";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+  /**
+   * Event emitted when user selects the date.
+   */
+  @Event() calciteDateSelect: EventEmitter;
+  /**
+   * Active date for the user keyboard access.
+   */
+  @Event() calciteActiveDateChange: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillUpdate(): void { }
+
+  render() {
+    let weekDays = this.getLocalizedWeekday(),
+      curMonDays = [...Array(new Date(this.year, this.month + 1, 0).getDate()).keys()],
+      prevMonDays = this.getPrevMonthdays(this.month, this.year),
+      nextMonDays = this.getNextMonthdays(this.month, this.year),
+      splitDays = [],
+      days = [
+        ...prevMonDays.map(prev => <calcite-date-day day={prev} enable={false} />),
+        ...curMonDays.map(cur => <calcite-date-day day={cur + 1} enable={this.validateDate(cur + 1, this.month, this.year)} selected={this.isSelectedDate(this.year, this.month, cur + 1)} active={this.activeDate.getDate() === cur + 1} onCalciteDaySelect={() => this.onSelectDate(cur + 1)} />),
+        ...nextMonDays.map(next => <calcite-date-day day={next + 1} enable={false} />)
+      ];
+
+    for (let i = 0; i < days.length; i += 7)
+      splitDays.push(days.slice(i, i + 7));
+
+    return (
+      <Host>
+        <div class="calender" role="grid">
+          <div class="week-headers" role="presentation">
+            {weekDays.map(weekday => (
+              <span class="week-header" role="columnheader">
+                {weekday}
+              </span>
+            ))}
+          </div>
+          {splitDays.map(days => (
+            <div class="week-days" role="row">
+              {days}
+            </div>
+          ))}
+        </div>
+      </Host>
+    );
+  }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     switch (e.keyCode) {
@@ -92,12 +159,10 @@ export class CalciteDateMonth {
         break;
       case PAGE_UP:
         e.preventDefault();
-        // TODO: decrease month
         this.addMonthToActiveDate(-1);
         break;
       case PAGE_DOWN:
         e.preventDefault();
-        // TODO: increase month
         this.addMonthToActiveDate(1);
         break;
       case HOME:
@@ -167,57 +232,6 @@ export class CalciteDateMonth {
       this.calciteActiveDateChange.emit();
     }
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillUpdate(): void { }
-
-  render() {
-    let weekDays = this.getLocalizedWeekday(),
-      curMonDays = [...Array(new Date(this.year, this.month + 1, 0).getDate()).keys()],
-      prevMonDays = this.getPrevMonthdays(this.month, this.year),
-      nextMonDays = this.getNextMonthdays(this.month, this.year),
-      splitDays = [],
-      days = [
-        ...prevMonDays.map(prev => <calcite-date-day day={prev} enable={false} />),
-        ...curMonDays.map(cur => <calcite-date-day day={cur + 1} enable={this.validateDate(cur + 1, this.month, this.year)} selected={this.isSelectedDate(this.year, this.month, cur + 1)} active={this.activeDate.getDate() === cur + 1} onCalciteDaySelect={() => this.onSelectDate(cur + 1)} />),
-        ...nextMonDays.map(next => <calcite-date-day day={next + 1} enable={false} />)
-      ];
-
-    for (let i = 0; i < days.length; i += 7)
-      splitDays.push(days.slice(i, i + 7));
-
-    return (
-      <Host>
-        <div class="calender" role="grid">
-          <div class="week-headers" role="presentation">
-            {weekDays.map(weekday => (
-              <span class="week-header" role="columnheader">
-                {weekday}
-              </span>
-            ))}
-          </div>
-          {splitDays.map(days => (
-            <div class="week-days" role="row">
-              {days}
-            </div>
-          ))}
-        </div>
-      </Host>
-    );
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-  @Event() calciteDateSelect: EventEmitter;
-  @Event() calciteActiveDateChange: EventEmitter;
 
   private onSelectDate(date): void {
     this.selectedDate = new Date(this.year, this.month, date);

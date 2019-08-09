@@ -8,7 +8,7 @@ import {
   Listen,
   h
 } from "@stencil/core";
-import { SPACE, ENTER } from "../../../../utils/keys";
+import { SPACE, ENTER } from "../../utils/keys";
 
 @Component({
   tag: "calcite-date-day",
@@ -31,16 +31,32 @@ export class CalciteDateDay {
   //--------------------------------------------------------------------------
 
   /**
-   * Be sure to add a jsdoc comment describing your propery for the generated readme file.
-   * If your property should be hidden from documentation, you can use the `@internal` tag
+   * day of the month to be shown.
    */
   @Prop() day: number = 0;
-
+  /**
+   * Enables tells whether day enabled for the user click.
+   */
   @Prop() enable: boolean = true;
-
+  /**
+   * Selected tells whether day is selected.
+   */
   @Prop() selected: boolean = false;
-
+  /**
+   * Active tells whether day is Actively in focus.
+   */
   @Prop() active: boolean = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+  
+  /**
+   * When user selects day it emits the event.
+   */
+  @Event() calciteDaySelect: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -82,11 +98,4 @@ export class CalciteDateDay {
       && this.calciteDaySelect.emit();
     }
   }
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  @Event() calciteDaySelect: EventEmitter;
 }

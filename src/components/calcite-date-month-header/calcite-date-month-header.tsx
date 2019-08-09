@@ -8,7 +8,7 @@ import {
   h,
   Watch
 } from "@stencil/core";
-import { ENTER, SPACE } from "../../../../utils/keys";
+import { ENTER, SPACE } from "../../utils/keys";
 
 @Component({
   tag: "calcite-date-month-header",
@@ -31,25 +31,59 @@ export class CalciteDateMonth {
   //--------------------------------------------------------------------------
 
   /**
-   * Be sure to add a jsdoc comment describing your propery for the generated readme file.
-   * If your property should be hidden from documentation, you can use the `@internal` tag
+   * Month number starting 0 as January for which the calendar is shown.
    */
   @Prop() month: number = 0;
-
+  /**
+   * Year for which the calendar is shown.
+   */
   @Prop() year: number = 0;
-
+  /**
+   * Already selected date.
+   */
   @Prop() selectedDate: Date;
-
+  /**
+   * Minimum date of the calendar below which is disabled.
+   */
   @Prop() min: Date;
-
+  /**
+   * Maximum date of the calendar above which is disabled.
+   */
   @Prop() max: Date;
-
+  /**
+   * pass the locale in which user wants to show the date.
+   */
   @Prop() locale: string = "en-US";
-
+  /**
+   * Localized string for previous month.
+   */
   @Prop() prevMonthLabel: string = "";
-
+  /**
+   * Localized string for next month.
+   */
   @Prop() nextMonthLabel: string = "";
 
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+  /**
+   *  Event triggered when user change month.
+   */
+  @Event() calciteMonthChange: EventEmitter;
+  /**
+   *  Event triggered when user change year.
+   */
+  @Event() calciteYearChange: EventEmitter;
+
+  @Watch("month") monthChange() {
+    this.calciteMonthChange.emit();
+  }
+
+  @Watch("year") yearChange() {
+    this.calciteYearChange.emit();
+  }
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -117,23 +151,6 @@ export class CalciteDateMonth {
         </div>
       </Host>
     );
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-  @Event() calciteMonthChange: EventEmitter;
-
-  @Event() calciteYearChange: EventEmitter;
-
-  @Watch("month") monthChange() {
-    this.calciteMonthChange.emit();
-  }
-
-  @Watch("year") yearChange() {
-    this.calciteYearChange.emit();
   }
 
   private selectPrevMonth() {

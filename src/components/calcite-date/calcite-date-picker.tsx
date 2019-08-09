@@ -28,8 +28,13 @@ export class CalciteDatePicker {
    * Value of the form control
    */
   @Prop({ reflect: true }) max?: string = "";
-
+  /**
+   * Localized string for previous month.
+   */
   @Prop() prevMonthLabel?: string = "";
+  /**
+   * Localized string for next month.
+   */
   @Prop() nextMonthLabel?: string = "";
   /**
    * Sun by default
@@ -42,16 +47,25 @@ export class CalciteDatePicker {
    * 6: Saturday
    */
   @Prop() startOfWeek?: number = 0;
-
-  @Prop() locale?: string = "en-US";
-
   /**
-   * @todo document what gets passed to the handler for these events
+   * pass the locale in which user wants to show the date.
+   */
+  @Prop() locale?: string = "en-US";
+  /**
+   * Trigger calcite date change when a user changes the date.
    */
   @Event() calciteDateChange: EventEmitter;
 
   observer: MutationObserver;
+  
+  /**
+   * Expanded state of the calander.
+   */
   @State() showCalendar: boolean = false;
+
+  /**
+   * Active date. 
+   */
   @State() activeDate = new Date(this.value) || new Date();
 
   inputProxy: HTMLInputElement;
@@ -135,7 +149,7 @@ export class CalciteDatePicker {
   }
 
   private closeCalendar() {
-    this.showCalendar = true;
+    this.showCalendar = false;
   }
 
   private getMonth() {
@@ -155,6 +169,7 @@ export class CalciteDatePicker {
   }
 
   private setDate(target) {
+    // Set date to in dd/mm/yyyy format.
     this.activeDate = new Date(target.selectedDate);
     this.value = target.selectedDate
       .toISOString()

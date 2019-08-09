@@ -7,31 +7,31 @@
 
 ## Properties
 
-| Property         | Attribute          | Description                                                                                                                                                                 | Type     | Default     |
-| ---------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------- |
-| `locale`         | `locale`           |                                                                                                                                                                             | `string` | `"en-US"`   |
-| `max`            | --                 |                                                                                                                                                                             | `Date`   | `undefined` |
-| `min`            | --                 |                                                                                                                                                                             | `Date`   | `undefined` |
-| `month`          | `month`            | Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag | `number` | `0`         |
-| `nextMonthLabel` | `next-month-label` |                                                                                                                                                                             | `string` | `""`        |
-| `prevMonthLabel` | `prev-month-label` |                                                                                                                                                                             | `string` | `""`        |
-| `selectedDate`   | --                 |                                                                                                                                                                             | `Date`   | `undefined` |
-| `year`           | `year`             |                                                                                                                                                                             | `number` | `0`         |
+| Property         | Attribute          | Description                                                         | Type     | Default     |
+| ---------------- | ------------------ | ------------------------------------------------------------------- | -------- | ----------- |
+| `locale`         | `locale`           | pass the locale in which user wants to show the date.               | `string` | `"en-US"`   |
+| `max`            | --                 | Maximum date of the calendar above which is disabled.               | `Date`   | `undefined` |
+| `min`            | --                 | Minimum date of the calendar below which is disabled.               | `Date`   | `undefined` |
+| `month`          | `month`            | Month number starting 0 as January for which the calendar is shown. | `number` | `0`         |
+| `nextMonthLabel` | `next-month-label` | Localized string for next month.                                    | `string` | `""`        |
+| `prevMonthLabel` | `prev-month-label` | Localized string for previous month.                                | `string` | `""`        |
+| `selectedDate`   | --                 | Already selected date.                                              | `Date`   | `undefined` |
+| `year`           | `year`             | Year for which the calendar is shown.                               | `number` | `0`         |
 
 
 ## Events
 
-| Event                | Description | Type               |
-| -------------------- | ----------- | ------------------ |
-| `calciteMonthChange` |             | `CustomEvent<any>` |
-| `calciteYearChange`  |             | `CustomEvent<any>` |
+| Event                | Description                             | Type               |
+| -------------------- | --------------------------------------- | ------------------ |
+| `calciteMonthChange` | Event triggered when user change month. | `CustomEvent<any>` |
+| `calciteYearChange`  | Event triggered when user change year.  | `CustomEvent<any>` |
 
 
 ## Dependencies
 
 ### Used by
 
- - [calcite-date-picker](../..)
+ - [calcite-date-picker](../calcite-date)
 
 ### Graph
 ```mermaid
