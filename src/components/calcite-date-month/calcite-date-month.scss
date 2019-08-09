@@ -1,16 +1,18 @@
 .calender {
   .week-headers {
     display: flex;
+    flex-direction: row;
     border-bottom: 1px solid $blk-020;
     margin-bottom: 0.75rem;
 
     .week-header {
-      margin: 0.55rem 0.85rem 0.75rem;
+      margin: 0.55rem 1.2rem 0.75rem;
       color: $blk-130;
       font-weight: 500;
       font-size: 13px;
       flex-grow: 1;
       flex-basis: 0;
+      align-self: center;
     }
   }
 
@@ -19,11 +21,11 @@
     display: flex;
     flex-direction: row;
     align-items: space-around;
-    margin: 0.2rem 0;
 
     .day-wrapper {
       flex-grow: 1;
       flex-basis: 0;
+      align-self: center;
     }
   }
 }

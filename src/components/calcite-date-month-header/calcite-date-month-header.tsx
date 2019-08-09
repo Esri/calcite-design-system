@@ -98,10 +98,8 @@ export class CalciteDateMonth {
     return (
       <Host>
         <div class="month-year" aria-hidden="true">
-          <span
-            role="button"
+          <button
             aria-label={this.prevMonthLabel}
-            tabindex={0}
             onClick={() => this.selectPrevMonth()}
             onKeyDown={event => this.selectPrevMonthOnEnter(event)}
           >
@@ -114,14 +112,12 @@ export class CalciteDateMonth {
             >
               <path d="M11.783 14H9.017l-6-6 6-6h2.766l-6 6z" />
             </svg>
-          </span>
+          </button>
           <div>
             <span class="month" role="heading">
               {localizedMonth}
             </span>
             <input
-              role="input"
-              tabindex={0}
               class="year"
               type="number"
               value={this.year}
@@ -131,10 +127,8 @@ export class CalciteDateMonth {
               onChange={event => this.onYearChange(event)}
             />
           </div>
-          <span
-            role="button"
+          <button
             aria-label={this.nextMonthLabel}
-            tabindex={0}
             onClick={() => this.selectNextMonth()}
             onKeyDown={event => this.selectNextMonthOnEnter(event)}
           >
@@ -147,7 +141,7 @@ export class CalciteDateMonth {
             >
               <path d="M10.217 8l-6-6h2.766l6 6-6 6H4.217z" />
             </svg>
-          </span>
+          </button>
         </div>
       </Host>
     );

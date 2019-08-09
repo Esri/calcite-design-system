@@ -21,6 +21,7 @@ import {
   SPACE,
   ESCAPE
 } from "../../utils/keys";
+import { CalciteDateDay } from "../calcite-date-day/calcite-date-day";
 
 @Component({
   tag: "calcite-date-month",
@@ -206,6 +207,21 @@ export class CalciteDateMonth {
         this.activeDate = new Date(this.selectedDate);
         this.calciteActiveDateChange.emit();
         break;
+    }
+  }
+
+  @Listen("mouseover") mouseoverHandler(e) {
+    let day = e.target.day || this.activeDate.getDate();
+    if(day != this.activeDate.getDate()){
+      let [activeDay, activeMonth, activeYear] = [
+        day,
+        this.activeDate.getMonth(),
+        this.activeDate.getFullYear()
+      ];
+      if(this.validateDate(activeDay, activeMonth, activeYear)){
+        this.activeDate = new Date(activeYear, activeMonth, activeDay);
+        this.calciteActiveDateChange.emit();
+      }
     }
   }
 

@@ -71,7 +71,7 @@ export class CalciteDateDay {
   render() {
     return (
       <Host
-        class="day-wrapper"
+        class={`${this.active ? "active" : ""} day-wrapper`}
         role="gridcell"
         tabindex={this.selected || this.active ? 0 : -1}
       >
