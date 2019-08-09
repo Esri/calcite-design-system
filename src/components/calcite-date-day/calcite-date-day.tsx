@@ -52,7 +52,7 @@ export class CalciteDateDay {
   //  Events
   //
   //--------------------------------------------------------------------------
-  
+
   /**
    * When user selects day it emits the event.
    */
@@ -68,12 +68,14 @@ export class CalciteDateDay {
 
   render() {
     return (
-      <Host class={`${this.enable ? "enabled" : "disabled"} day ${
-        this.selected ? "selected-day" : ""
-      } ${this.active ? "active": ""}`}
-      role="gridcell"
-      tabindex={this.selected || this.active ? 0 : -1}>
-          {this.day}
+      <Host
+        class={`${this.enable ? "enabled" : "disabled"} day ${
+          this.selected ? "selected-day" : ""
+        } ${this.active ? "active" : ""}`}
+        role="gridcell"
+        tabindex={this.selected || this.active ? 0 : -1}
+      >
+        {this.day}
       </Host>
     );
   }
@@ -85,17 +87,12 @@ export class CalciteDateDay {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick() {
-    this.enable 
-    && (this.selected = true) 
-    && this.calciteDaySelect.emit();
-    
+    this.enable && (this.selected = true) && this.calciteDaySelect.emit();
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     if (e.keyCode === SPACE || e.keyCode === ENTER) {
-      this.enable 
-      && (this.selected = true) 
-      && this.calciteDaySelect.emit();
+      this.enable && (this.selected = true) && this.calciteDaySelect.emit();
     }
   }
 }

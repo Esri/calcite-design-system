@@ -102,18 +102,32 @@ export class CalciteDateMonth {
   //
   //--------------------------------------------------------------------------
 
-  componentWillUpdate(): void { }
+  componentWillUpdate(): void {}
 
   render() {
     let weekDays = this.getLocalizedWeekday(),
-      curMonDays = [...Array(new Date(this.year, this.month + 1, 0).getDate()).keys()],
+      curMonDays = [
+        ...Array(new Date(this.year, this.month + 1, 0).getDate()).keys()
+      ],
       prevMonDays = this.getPrevMonthdays(this.month, this.year),
       nextMonDays = this.getNextMonthdays(this.month, this.year),
       splitDays = [],
       days = [
-        ...prevMonDays.map(prev => <calcite-date-day day={prev} enable={false} />),
-        ...curMonDays.map(cur => <calcite-date-day day={cur + 1} enable={this.validateDate(cur + 1, this.month, this.year)} selected={this.isSelectedDate(this.year, this.month, cur + 1)} active={this.activeDate.getDate() === cur + 1} onCalciteDaySelect={() => this.onSelectDate(cur + 1)} />),
-        ...nextMonDays.map(next => <calcite-date-day day={next + 1} enable={false} />)
+        ...prevMonDays.map(prev => (
+          <calcite-date-day day={prev} enable={false} />
+        )),
+        ...curMonDays.map(cur => (
+          <calcite-date-day
+            day={cur + 1}
+            enable={this.validateDate(cur + 1, this.month, this.year)}
+            selected={this.isSelectedDate(this.year, this.month, cur + 1)}
+            active={this.activeDate.getDate() === cur + 1}
+            onCalciteDaySelect={() => this.onSelectDate(cur + 1)}
+          />
+        )),
+        ...nextMonDays.map(next => (
+          <calcite-date-day day={next + 1} enable={false} />
+        ))
       ];
 
     for (let i = 0; i < days.length; i += 7)
@@ -172,7 +186,13 @@ export class CalciteDateMonth {
         break;
       case END:
         e.preventDefault();
-        this.activeDate.setDate(new Date(this.activeDate.getFullYear(), this.activeDate.getMonth()+1, 0).getDate());
+        this.activeDate.setDate(
+          new Date(
+            this.activeDate.getFullYear(),
+            this.activeDate.getMonth() + 1,
+            0
+          ).getDate()
+        );
         this.addDaysToActiveDate();
         break;
       case ENTER:
@@ -189,8 +209,12 @@ export class CalciteDateMonth {
     }
   }
 
-  private addMonthToActiveDate(step){
-    let [activeDay, activeMonth, activeYear] = [this.activeDate.getDate(), this.activeDate.getMonth(), this.activeDate.getFullYear()];
+  private addMonthToActiveDate(step) {
+    let [activeDay, activeMonth, activeYear] = [
+      this.activeDate.getDate(),
+      this.activeDate.getMonth(),
+      this.activeDate.getFullYear()
+    ];
     activeMonth += step;
     if (activeMonth === 12) {
       activeMonth = 0;
@@ -200,14 +224,18 @@ export class CalciteDateMonth {
       activeMonth = 11;
       activeYear -= 1;
     }
-    if(this.validateDate(activeDay, activeMonth, activeYear)){
+    if (this.validateDate(activeDay, activeMonth, activeYear)) {
       this.activeDate = new Date(activeYear, activeMonth, activeDay);
       this.calciteActiveDateChange.emit();
     }
   }
 
   private addDaysToActiveDate(step: number = 0) {
-    let [activeDay, activeMonth, activeYear] = [this.activeDate.getDate(), this.activeDate.getMonth(), this.activeDate.getFullYear()];
+    let [activeDay, activeMonth, activeYear] = [
+      this.activeDate.getDate(),
+      this.activeDate.getMonth(),
+      this.activeDate.getFullYear()
+    ];
     activeDay += step;
     let noOfDaysInMonth = new Date(activeYear, activeMonth + 1, 0).getDate();
     let noOfDaysInPrevMonth = new Date(activeYear, activeMonth, 0).getDate();
@@ -227,7 +255,7 @@ export class CalciteDateMonth {
         activeYear -= 1;
       }
     }
-    if(this.validateDate(activeDay, activeMonth, activeYear)){
+    if (this.validateDate(activeDay, activeMonth, activeYear)) {
       this.activeDate = new Date(activeYear, activeMonth, activeDay);
       this.calciteActiveDateChange.emit();
     }
@@ -250,13 +278,29 @@ export class CalciteDateMonth {
       let minMonth = this.min.getMonth();
       let minDay = this.min.getDate();
 
-      isValid = isValid && (minYear < year ? true : minYear === year && minMonth < month ? true : minMonth === month && minDay < day ? true : false);
+      isValid =
+        isValid &&
+        (minYear < year
+          ? true
+          : minYear === year && minMonth < month
+          ? true
+          : minMonth === month && minDay < day
+          ? true
+          : false);
     }
     if (this.max) {
       let maxYear = this.max.getFullYear();
       let maxMonth = this.max.getMonth();
       let maxDay = this.max.getDate();
-      isValid = isValid && (maxYear > year ? true : maxYear === year && maxMonth > month ? true : maxMonth === month && maxDay > day ? true : false);
+      isValid =
+        isValid &&
+        (maxYear > year
+          ? true
+          : maxYear === year && maxMonth > month
+          ? true
+          : maxMonth === month && maxDay > day
+          ? true
+          : false);
     }
     return isValid;
   }

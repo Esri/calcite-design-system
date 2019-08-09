@@ -57,14 +57,14 @@ export class CalciteDatePicker {
   @Event() calciteDateChange: EventEmitter;
 
   observer: MutationObserver;
-  
+
   /**
    * Expanded state of the calander.
    */
   @State() showCalendar: boolean = false;
 
   /**
-   * Active date. 
+   * Active date.
    */
   @State() activeDate = new Date(this.value) || new Date();
 
@@ -85,7 +85,11 @@ export class CalciteDatePicker {
   render() {
     let selectedDate = this.value ? new Date(`${this.value}`) : new Date();
     return (
-      <Host role="application" expanded = {this.showCalendar} onBlur={() => this.closeCalendar()}>
+      <Host
+        role="application"
+        expanded={this.showCalendar}
+        onBlur={() => this.closeCalendar()}
+      >
         <div
           class={`date-input-wrapper ${this.showCalendar ? "expanded" : ""}`}
           role="application"
@@ -116,22 +120,22 @@ export class CalciteDatePicker {
               prevMonthLabel={this.prevMonthLabel}
               nextMonthLabel={this.nextMonthLabel}
               locale={this.locale}
-              min = {this.min ? new Date(this.min) : null}
-              max = {this.max ? new Date(this.max) : null}
-              onCalciteMonthChange = {(e) => this.setMonth(e.target)}
-              onCalciteYearChange = {(e) => this.setYear(e.target)}
+              min={this.min ? new Date(this.min) : null}
+              max={this.max ? new Date(this.max) : null}
+              onCalciteMonthChange={e => this.setMonth(e.target)}
+              onCalciteYearChange={e => this.setYear(e.target)}
             />
             <calcite-date-month
               month={this.getMonth()}
               year={this.getYear()}
-              min = {this.min ? new Date(this.min) : null}
-              max = {this.max ? new Date(this.max) : null}
+              min={this.min ? new Date(this.min) : null}
+              max={this.max ? new Date(this.max) : null}
               selectedDate={selectedDate}
               activeDate={this.activeDate}
               startOfWeek={this.startOfWeek}
               locale={this.locale}
-              onCalciteDateSelect={(evt) => this.setDate(evt.target)}
-              onCalciteActiveDateChange={(evt) => this.setActiveDate(evt.target)}
+              onCalciteDateSelect={evt => this.setDate(evt.target)}
+              onCalciteActiveDateChange={evt => this.setActiveDate(evt.target)}
             />
           </div>
         )}
@@ -171,9 +175,7 @@ export class CalciteDatePicker {
   private setDate(target) {
     // Set date to in dd/mm/yyyy format.
     this.activeDate = new Date(target.selectedDate);
-    this.value = target.selectedDate
-      .toISOString()
-      .substr(0, 10);
+    this.value = target.selectedDate.toISOString().substr(0, 10);
     this.syncProxyInputToThis();
     this.calciteDateChange.emit();
   }

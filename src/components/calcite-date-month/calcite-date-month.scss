@@ -1,12 +1,11 @@
 .calender {
-
   .week-headers {
     display: flex;
     border-bottom: 1px solid $blk-020;
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
 
     .week-header {
-      margin: .55rem .85rem .75rem;
+      margin: 0.55rem 0.85rem 0.75rem;
       color: $blk-130;
       font-weight: 500;
       font-size: 13px;
@@ -20,14 +19,15 @@
     display: flex;
     flex-direction: row;
     align-items: space-around;
-    margin: .20rem 0;
+    margin: 0.2rem 0;
 
     .day {
       flex-grow: 1;
       flex-basis: 0;
       border-radius: 100%;
 
-      &:hover, &.active{
+      &:hover,
+      &.active {
         background-color: $blk-060;
         outline: none;
         cursor: pointer;
@@ -44,8 +44,8 @@
 
       font-size: 16px;
       color: $blk-120;
-      padding: .5rem;
-      margin: .30rem;
+      padding: 0.5rem;
+      margin: 0.3rem;
       text-align: center;
     }
 
@@ -57,4 +57,4 @@
       }
     }
   }
-}  
+}

@@ -1,19 +1,19 @@
 .month-year {
   display: flex;
   justify-content: space-around;
-  margin: .50rem 0 1rem 0;
+  margin: 0.5rem 0 1rem 0;
   text-align: center;
 
   input {
     font-family: inherit;
-    margin-left: .25rem;
+    margin-left: 0.25rem;
   }
 
   .right-icon,
   .left-icon {
     fill: $blk-060;
     position: relative;
-    top: .3rem;
+    top: 0.3rem;
     width: 4rem;
     &:hover {
       fill: $blk-240;

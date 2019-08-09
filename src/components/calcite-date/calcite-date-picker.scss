@@ -4,41 +4,41 @@
 
 :host {
   display: inline-block;
-  
+
   .calendar-picker-wrapper {
-    padding: .5rem 1.25rem;
+    padding: 0.5rem 1.25rem;
   }
 
   .date-input-wrapper {
-    padding: 1.10rem 1rem;
+    padding: 1.1rem 1rem;
     border: 1px solid $blk-060;
-  
+
     &.expanded {
       border: none;
       border-bottom: 1px solid $blk-060;
     }
-  
+
     &:active,
     &:focus,
     &.open {
       border: none;
       border-bottom: 1px solid $blk-060;
     }
-  
+
     .calendar-icon {
       fill: $blk-120;
       position: relative;
       top: 2px;
     }
-  
+
     .date-input {
       color: $blk-120;
       border: none;
       font-weight: 400;
       font-size: inherit;
       font-family: inherit;
-      margin-left: .75rem;
-  
+      margin-left: 0.75rem;
+
       &:active,
       &:focus {
         outline: none;

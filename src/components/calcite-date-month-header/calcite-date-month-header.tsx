@@ -91,7 +91,7 @@ export class CalciteDateMonth {
   //--------------------------------------------------------------------------
 
   componentWillUpdate(): void {}
-  
+
   render() {
     let localizedMonth = this.getLocalizedMonths()[this.month];
 
@@ -125,8 +125,8 @@ export class CalciteDateMonth {
               class="year"
               type="number"
               value={this.year}
-              min = {this.min && this.min.getFullYear()}
-              max = {this.max && this.max.getFullYear()}
+              min={this.min && this.min.getFullYear()}
+              max={this.max && this.max.getFullYear()}
               style={{ width: `${(`${this.year}`.length + 1) * 12}px` }}
               onChange={event => this.onYearChange(event)}
             />
@@ -155,14 +155,13 @@ export class CalciteDateMonth {
 
   private selectPrevMonth() {
     if (this.month === 0) {
-      if(this.validateYear(this.year - 1)){
+      if (this.validateYear(this.year - 1)) {
         this.year -= 1;
-      }
-      else{
+      } else {
         return;
       }
     }
-    if(this.validateMonth((12 + this.month - 1) % 12, this.year)){
+    if (this.validateMonth((12 + this.month - 1) % 12, this.year)) {
       this.month = (12 + this.month - 1) % 12;
     }
   }
@@ -175,16 +174,15 @@ export class CalciteDateMonth {
 
   private selectNextMonth() {
     if (this.month === 11) {
-      if(this.validateYear(this.year + 1)){
+      if (this.validateYear(this.year + 1)) {
         this.year += 1;
-      }
-      else{
+      } else {
         return;
       }
     }
-    if(this.validateMonth((this.month + 1) % 12, this.year)) {
+    if (this.validateMonth((this.month + 1) % 12, this.year)) {
       this.month = (this.month + 1) % 12;
-    } 
+    }
   }
 
   private selectNextMonthOnEnter(event: KeyboardEvent) {
@@ -193,25 +191,37 @@ export class CalciteDateMonth {
     }
   }
 
-  private validateYear(year){
+  private validateYear(year) {
     let isValid = true;
-    if(this.min){
-      isValid = isValid && (year >= this.min.getFullYear())
+    if (this.min) {
+      isValid = isValid && year >= this.min.getFullYear();
     }
-    if(this.max){
-      isValid = isValid && (year <= this.max.getFullYear())
+    if (this.max) {
+      isValid = isValid && year <= this.max.getFullYear();
     }
 
     return isValid;
   }
 
-  private validateMonth(month, year){
+  private validateMonth(month, year) {
     let isValid = true;
-    if(this.min){
-      isValid = isValid && (this.validateYear(year) ? year === this.min.getFullYear() ? (month >= this.min.getMonth()) : true : false )
+    if (this.min) {
+      isValid =
+        isValid &&
+        (this.validateYear(year)
+          ? year === this.min.getFullYear()
+            ? month >= this.min.getMonth()
+            : true
+          : false);
     }
-    if(this.max){
-      isValid = isValid && (this.validateYear(year) ? year === this.max.getFullYear() ? (month <= this.max.getMonth()) : true : false)
+    if (this.max) {
+      isValid =
+        isValid &&
+        (this.validateYear(year)
+          ? year === this.max.getFullYear()
+            ? month <= this.max.getMonth()
+            : true
+          : false);
     }
 
     return isValid;
