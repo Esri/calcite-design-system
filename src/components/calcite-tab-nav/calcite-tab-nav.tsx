@@ -97,7 +97,11 @@ export class CalciteTabNav {
 
   componentDidRender() {
     // if every tab title is active select the first tab.
-    if (this.tabTitles.every(title => !title.isActive) && !this.selectedTab) {
+    if (
+      this.tabTitles.length &&
+      this.tabTitles.every(title => !title.isActive) &&
+      !this.selectedTab
+    ) {
       this.tabTitles[0].getTabIdentifier().then(tab => {
         this.calciteTabChange.emit({
           tab
@@ -214,6 +218,8 @@ export class CalciteTabNav {
   }
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {
-    return this.el.shadowRoot.querySelector("slot").assignedElements();
+    return this.el.shadowRoot
+      ? this.el.shadowRoot.querySelector("slot").assignedElements()
+      : [];
   }
 }

@@ -10,5 +10,9 @@ body {
 }
 
 calcite-tabs {
+  display: none;
+}
+
+calcite-tabs[is-active] {
   display: block;
 }
