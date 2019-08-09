@@ -35,10 +35,10 @@
 ### Graph
 ```mermaid
 graph TD;
-  calcite-date --> calcite-date-month-header
-  calcite-date --> calcite-date-month
+  calcite-date-picker --> calcite-date-month-header
+  calcite-date-picker --> calcite-date-month
   calcite-date-month --> calcite-date-day
-  style calcite-date fill:#f9f,stroke:#333,stroke-width:4px
+  style calcite-date-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

@@ -9,6 +9,7 @@
 
 | Property   | Attribute  | Description                                                                                                                                                                 | Type      | Default |
 | ---------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------- |
+| `active`   | `active`   |                                                                                                                                                                             | `boolean` | `false` |
 | `day`      | `day`      | Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag | `number`  | `0`     |
 | `enable`   | `enable`   |                                                                                                                                                                             | `boolean` | `true`  |
 | `selected` | `selected` |                                                                                                                                                                             | `boolean` | `false` |

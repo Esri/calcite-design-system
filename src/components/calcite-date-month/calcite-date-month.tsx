@@ -88,7 +88,7 @@ export class CalciteDateMonth {
         break;
       case LEFT:
         e.preventDefault();
-        this.addDaysToActiveDate(1);
+        this.addDaysToActiveDate(-1);
         break;
       case PAGE_UP:
         e.preventDefault();
