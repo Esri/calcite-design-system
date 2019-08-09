@@ -7,8 +7,8 @@
   border-radius: 100%;
   font-size: 16px;
   color: $blk-120;
-  padding: 0.5rem;
   text-align: center;
+  padding: 1rem;
 }
 
 :host(:active),
@@ -45,10 +45,13 @@
   font-weight: 500;
 }
 
+.day {
+  border-radius: 100%;
+  padding: 0.5rem;
+}
+
 .disabled {
   color: $blk-060;
-  &:hover {
-    cursor: default;
-    background: none;
-  }
+  cursor: default;
+  background: none;
 }
