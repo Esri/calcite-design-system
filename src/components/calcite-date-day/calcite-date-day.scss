@@ -4,4 +4,51 @@
 :host(:hover),
 :host(:visited) {
   outline: none;
+  border-radius: 100%;
+  font-size: 16px;
+  color: $blk-120;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+:host(:active),
+:host(:focus),
+:host(:hover),
+:host(:visited) {
+  .day {
+    background-color: $blk-060;
+    outline: none;
+    cursor: pointer;
+    transition: all $transition;
+
+    &.selected-day {
+      background-color: $ui-blue;
+      border-radius: 100%;
+      color: $blk-000;
+      outline: none;
+      font-weight: 500;
+    }
+
+    &.disabled {
+      color: $blk-060;
+      cursor: default;
+      background: none;
+    }
+  }
+}
+
+.selected-day {
+  background-color: $ui-blue;
+  border-radius: 100%;
+  color: $blk-000;
+  outline: none;
+  font-weight: 500;
+}
+
+.disabled {
+  color: $blk-060;
+  &:hover {
+    cursor: default;
+    background: none;
+  }
 }

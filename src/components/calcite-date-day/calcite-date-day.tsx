@@ -6,7 +6,8 @@ import {
   Event,
   EventEmitter,
   Listen,
-  h
+  h,
+  State
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../utils/keys";
 
@@ -57,6 +58,7 @@ export class CalciteDateDay {
    * When user selects day it emits the event.
    */
   @Event() calciteDaySelect: EventEmitter;
+  @State() hover: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -69,13 +71,13 @@ export class CalciteDateDay {
   render() {
     return (
       <Host
-        class={`${this.enable ? "enabled" : "disabled"} day ${
-          this.selected ? "selected-day" : ""
-        } ${this.active ? "active" : ""}`}
+        class="day-wrapper"
         role="gridcell"
         tabindex={this.selected || this.active ? 0 : -1}
       >
-        {this.day}
+        <span class={`${this.enable ? "enabled" : "disabled"} day ${
+          this.selected ? "selected-day" : ""
+        }`}> {this.day} </span>
       </Host>
     );
   }

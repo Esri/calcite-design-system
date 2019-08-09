@@ -21,40 +21,9 @@
     align-items: space-around;
     margin: 0.2rem 0;
 
-    .day {
+    .day-wrapper {
       flex-grow: 1;
       flex-basis: 0;
-      border-radius: 100%;
-
-      &:hover,
-      &.active {
-        background-color: $blk-060;
-        outline: none;
-        cursor: pointer;
-        transition: all $transition;
-      }
-
-      &.selected-day {
-        background-color: $ui-blue;
-        border-radius: 100%;
-        color: $blk-000;
-        outline: none;
-        font-weight: 500;
-      }
-
-      font-size: 16px;
-      color: $blk-120;
-      padding: 0.5rem;
-      margin: 0.3rem;
-      text-align: center;
-    }
-
-    .disabled {
-      color: $blk-060;
-      &:hover {
-        cursor: default;
-        background: none;
-      }
     }
   }
 }
