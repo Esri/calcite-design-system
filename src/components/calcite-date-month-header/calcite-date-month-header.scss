@@ -1,46 +1,51 @@
 .month-year {
   display: flex;
-  justify-content: space-around;
-  margin: 0.5rem 0 1rem 0;
+}
+input {
+  font-family: inherit;
   text-align: center;
+}
 
-  input {
-    font-family: inherit;
-    margin-left: 0.25rem;
+.right-icon,
+.left-icon {
+  fill: $blk-060;
+  flex-grow: 1;
+  outline: none;
+  padding: 0;
+  border: none;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+
+  &:hover,
+  &:focus {
+    fill: $blk-240;
+    background-color: $blk-010;
   }
 
-  .right-icon,
-  .left-icon {
-    fill: $blk-060;
-    position: relative;
-    top: 0.3rem;
-    width: 4rem;
-    &:hover {
-      fill: $blk-240;
-      cursor: pointer;
-      transition: all $transition;
-    }
-  }
-
-  .month,
-  .year {
-    font-size: 1.25rem;
-    color: $blk-240;
-    font-weight: 400;
-  }
-
-  .year {
-    border: none;
+  &:active {
+    background-color: $blk-020;
   }
 }
 
-button {
-  padding: 0;
+.month-year-text {
+  padding: 0.5rem;
+  display: inline-flex;
+  flex-grow: 1;
+  width: 50%;
+  justify-content: center;
+}
+.month,
+.year {
+  color: $blk-240;
+  @include font-size(0);
+  font-weight: 500;
+}
+
+.year {
   border: none;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
-  /* show a hand cursor on hover; some argue that we
-  should keep the default arrow cursor for buttons */
-  cursor: pointer;
+  width: 60px;
+  padding: 0;
+  margin: 0;
 }

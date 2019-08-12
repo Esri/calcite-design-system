@@ -99,13 +99,13 @@ export class CalciteDateMonth {
       <Host>
         <div class="month-year" aria-hidden="true">
           <button
+            class="left-icon"
             aria-label={this.prevMonthLabel}
             onClick={() => this.selectPrevMonth()}
             onKeyDown={event => this.selectPrevMonthOnEnter(event)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="left-icon"
               viewBox="0 0 16 16"
               height="16"
               width="16"
@@ -113,7 +113,7 @@ export class CalciteDateMonth {
               <path d="M11.783 14H9.017l-6-6 6-6h2.766l-6 6z" />
             </svg>
           </button>
-          <div>
+          <div class="month-year-text">
             <span class="month" role="heading">
               {localizedMonth}
             </span>
@@ -123,18 +123,17 @@ export class CalciteDateMonth {
               value={this.year}
               min={this.min && this.min.getFullYear()}
               max={this.max && this.max.getFullYear()}
-              style={{ width: `${(`${this.year}`.length + 1) * 12}px` }}
               onChange={event => this.onYearChange(event)}
             />
           </div>
           <button
+            class="right-icon"
             aria-label={this.nextMonthLabel}
             onClick={() => this.selectNextMonth()}
             onKeyDown={event => this.selectNextMonthOnEnter(event)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="right-icon"
               viewBox="0 0 16 16"
               height="16"
               width="16"

@@ -211,13 +211,13 @@ export class CalciteDateMonth {
 
   @Listen("mouseover") mouseoverHandler(e) {
     let day = e.target.day || this.activeDate.getDate();
-    if(day != this.activeDate.getDate()){
+    if (day != this.activeDate.getDate()) {
       let [activeDay, activeMonth, activeYear] = [
         day,
         this.activeDate.getMonth(),
         this.activeDate.getFullYear()
       ];
-      if(this.validateDate(activeDay, activeMonth, activeYear)){
+      if (this.validateDate(activeDay, activeMonth, activeYear)) {
         this.activeDate = new Date(activeYear, activeMonth, activeDay);
         this.calciteActiveDateChange.emit();
       }

@@ -71,13 +71,13 @@ export class CalciteDateDay {
   render() {
     return (
       <Host
-        class={`${this.active ? "active" : ""} day-wrapper`}
+        class={`${this.active ? "active" : ""}
+        ${this.enable ? "enabled" : "disabled"}
+        ${this.selected ? "selected-day" : ""}`}
         role="gridcell"
         tabindex={this.selected || this.active ? 0 : -1}
       >
-        <span class={`${this.enable ? "enabled" : "disabled"} day ${
-          this.selected ? "selected-day" : ""
-        }`}> {this.day} </span>
+        <span class="day">{this.day}</span>
       </Host>
     );
   }

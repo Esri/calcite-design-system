@@ -2,17 +2,17 @@
   .week-headers {
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid $blk-020;
-    margin-bottom: 0.75rem;
+    border-bottom: 1px solid $blk-010;
+    border-top: 1px solid $blk-010;
 
     .week-header {
-      margin: 0.55rem 1rem 0.75rem;
-      color: $blk-130;
-      font-weight: 500;
-      font-size: 13px;
-      flex-grow: 1;
-      flex-basis: 0;
-      align-self: center;
+      color: $blk-160;
+      padding: 0.75rem 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 11px;
+      width: calc(100% / 7);
+      text-align: center;
     }
   }
 
@@ -20,12 +20,5 @@
     outline: none;
     display: flex;
     flex-direction: row;
-    align-items: space-around;
-
-    .day-wrapper {
-      flex-grow: 1;
-      flex-basis: 0;
-      align-self: center;
-    }
   }
 }
