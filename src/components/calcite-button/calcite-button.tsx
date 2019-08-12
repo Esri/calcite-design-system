@@ -96,28 +96,41 @@ export class CalciteButton {
     const attributes = this.getAttributes();
     const Type = this.href || this.appearance === "inline" ? "a" : "button";
     const role = Type === "a" ? "link" : "button";
-    const loader = <calcite-loader is-active inline></calcite-loader>;
-    const graphic = this.loading ? (
-      <div class="calcite-button--graphic">{loader}</div>
-    ) : this.icon ? (
-      <div class="calcite-button--graphic">
-        <svg
-          class="calcite-button--icon"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 24 24"
-        >
-          <path d={this.icon} />
-        </svg>
+    const loader = this.loading ? (
+      <div class="calcite-button--loader">
+        <calcite-loader is-active inline></calcite-loader>
       </div>
     ) : null;
-    return (
-      <Host dir={dir} hastext={this.hastext}>
-        <Type {...attributes} role={role}>
-          {graphic}
-          <slot />
-        </Type>
-      </Host>
-    );
+    const icon = this.icon ? (
+      <svg
+        class="calcite-button--icon"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 24 24"
+      >
+        <path d={this.icon} />
+      </svg>
+    ) : null;
+    if (this.appearance === "inline") {
+      return (
+        <Host dir={dir} hastext={this.hastext}>
+          <Type {...attributes} role={role}>
+            {loader}
+            <slot />
+            {icon}
+          </Type>
+        </Host>
+      );
+    } else {
+      return (
+        <Host dir={dir} hastext={this.hastext}>
+          <Type {...attributes} role={role}>
+            {loader}
+            {icon}
+            <slot />
+          </Type>
+        </Host>
+      );
+    }
   }
 }
