@@ -9,10 +9,10 @@ body {
   overflow: hidden;
 }
 
-calcite-tabs {
+calcite-tab {
   display: none;
 }
 
-calcite-tabs[is-active] {
+calcite-tab[is-active] {
   display: block;
 }

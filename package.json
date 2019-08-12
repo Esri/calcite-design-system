@@ -19,6 +19,7 @@
     "start": "stencil build --dev --watch --serve --docs-readme",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
+    "posttest": "stencil build --prerender",
     "prettier": "npm-run-all --parallel prettier:**",
     "prettier:ts": "prettier --write \"src/**/*.ts?(x)\"",
     "prettier:styles": "prettier --write \"src/**/*.scss\"",
@@ -47,7 +48,8 @@
     "jest-cli": "23.6.0",
     "npm-run-all": "4.1.5",
     "prettier": "1.18.2",
-    "puppeteer": "1.14.0"
+    "puppeteer": "1.14.0",
+    "workbox-build": "4.3.1"
   },
   "license": "Apache-2.0"
 }
