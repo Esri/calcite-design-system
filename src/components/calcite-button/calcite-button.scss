@@ -37,16 +37,10 @@
   width: 100%;
 }
 
-// icon style and loader {
-:host([hastext]) .calcite-button--graphic {
-  margin-right: $baseline/3;
-}
-
-:host([hastext][dir="rtl"]) .calcite-button--graphic {
-  margin-right: 0;
-  margin-left: $baseline/3;
-}
 .calcite-button--icon {
+  display: inline-flex;
+  top: 2px;
+  position: relative;
   height: 16px;
   width: 16px;
   margin: 0 auto;
@@ -54,12 +48,50 @@
   transition: all 0.15s ease-in-out;
 }
 
-.calcite-button--graphic {
-  display: inline-flex;
-  top: 2px;
-  width: 16px;
-  height: 16px;
-  position: relative;
+:host([hastext]) .calcite-button--icon {
+  margin-right: $baseline/3;
+}
+
+:host([hastext][dir="rtl"]) .calcite-button--icon {
+  margin-right: 0;
+  margin-left: $baseline/3;
+}
+
+:host([appearance="inline"]) .calcite-button--icon {
+  margin-left: $baseline/8;
+  margin-right: 0;
+  max-height: $baseline/2;
+  top: 0;
+}
+
+:host([appearance="inline"][dir="rtl"]) .calcite-button--icon {
+  margin-left: 0;
+  margin-right: $baseline/8;
+}
+
+.calcite-button--loader {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  calcite-loader {
+    margin: 0;
+  }
+}
+
+:host([loading]) {
+  button,
+  a {
+    color: transparent !important;
+    pointer-events: none;
+    .calcite-button--icon {
+      opacity: 0;
+    }
+  }
 }
 
 // button styles
@@ -70,7 +102,7 @@
   border: 1px solid $bg-color;
   box-shadow: inset 0 0 0 1px transparent;
   &:hover,
-  &:focus  {
+  &:focus {
     background-color: $bg-color-hover;
     box-shadow: inset 0 0 0 1px $bg-color;
   }
@@ -81,6 +113,9 @@
   }
   & .calcite-button--icon {
     fill: $color;
+  }
+  & calcite-loader {
+    color: $color;
   }
 }
 
@@ -108,6 +143,7 @@
     @include btn-solid($blk-200, $blk-180, $blk-240, $blk-000);
   }
 }
+
 // outline and clear
 @mixin btn-outline-clear(
   $bg-color,
@@ -133,6 +169,9 @@
   }
   & .calcite-button--icon {
     fill: $color;
+  }
+  & calcite-loader {
+    color: $color;
   }
 }
 
@@ -260,18 +299,19 @@
   transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
 
   &:hover,
-  &:focus  {
+  &:focus {
     color: $color-hover;
     background-size: 100% 2px, 100% 1px;
   }
-  &:active{
+  &:active {
     color: $color;
     background-size: 100% 2px, 100% 1px;
   }
   & .calcite-button--icon {
     fill: $color;
-    max-height: $baseline/1.75;
-    margin-inline-end: $baseline/4;
+  }
+  & calcite-loader {
+    color: $color;
   }
 }
 
