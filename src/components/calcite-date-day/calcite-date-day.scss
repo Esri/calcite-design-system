@@ -8,6 +8,7 @@
   color: $blk-120;
   text-align: center;
   padding: 0.5rem;
+  cursor: pointer;
 }
 
 :host(:hover),
@@ -15,8 +16,8 @@
   .day {
     background-color: $blk-060;
     outline: none;
-    cursor: pointer;
     transition: all $transition;
+    cursor: pointer;
 
     &.selected-day {
       background-color: $ui-blue;

@@ -21,7 +21,6 @@ import {
   SPACE,
   ESCAPE
 } from "../../utils/keys";
-import { CalciteDateDay } from "../calcite-date-day/calcite-date-day";
 
 @Component({
   tag: "calcite-date-month",
