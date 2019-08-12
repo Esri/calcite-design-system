@@ -18,6 +18,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Bundling and Loading](#bundling-and-loading)
 - [Custom Themes](#custom-themes)
 - [Unique IDs for Components](#unique-ids-for-components)
+- [Prerendering/SSR](#prerendering-and-ssr)
 
 <!-- /TOC -->
 
@@ -445,3 +446,32 @@ export class CalciteExample {
 ```
 
 This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"` which should have a VERY low collision change since `guid()` generates IDs with `window.crypto.getRandomValues`. If a user supplies an `id` this will respect the users `id`.
+
+## Prerendering and SSR
+
+Stencil provide the capability to render web components on the server and seamlessly hydrate them on the client. This is handled by the `dist-hydrate-script` output target in `stencil.config.ts`.
+
+This generates a `hydrate` directory which expsoses `renderToString()` (for the server) and `hydarteDocument()` for the client.
+
+Since many of the same lifecycles methods are called on the client and server you may need to differentiate any code that relies on browser APIs like so:
+
+```ts
+import { Build } from "@stencil/core";
+
+if (Build.isBrowser) {
+  // client side
+} else {
+  // server side
+}
+```
+
+
+Checking if the neccessary APIs are present is also acceptable:
+
+```ts
+const elements = this.el.shadowRoot
+  ? this.el.shadowRoot.querySelector("slot").assignedElements()
+  : [];
+```
+
+To ensure that all components are compatible for prerendering a prerender build is done as part of `npm test`.
