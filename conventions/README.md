@@ -451,9 +451,9 @@ This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-
 
 Stencil provide the capability to render web components on the server and seamlessly hydrate them on the client. This is handled by the `dist-hydrate-script` output target in `stencil.config.ts`.
 
-This generates a `hydrate` directory which expsoses `renderToString()` (for the server) and `hydarteDocument()` for the client.
+This generates a `hydrate` directory which expsoses `renderToString()` (for the server) and `hydrateDocument()` for the client.
 
-Since many of the same lifecycles methods are called on the client and server you may need to differentiate any code that relies on browser APIs like so:
+Since many of the same lifecycle methods are called on the client and server you may need to differentiate any code that relies on browser APIs like so:
 
 ```ts
 import { Build } from "@stencil/core";
