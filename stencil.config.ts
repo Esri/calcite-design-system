@@ -15,6 +15,7 @@ export const config: Config = {
         "calcite-tabs"
       ]
     },
+    { components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-alert", "calcite-alerts"] },
     { components: ["calcite-loader"] },

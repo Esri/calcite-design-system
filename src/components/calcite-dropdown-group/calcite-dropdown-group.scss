@@ -1,0 +1,11 @@
+:host .dropdown-title {
+  display: block;
+  margin: 0 $baseline/1.5 -1px $baseline/1.5;
+  padding: $baseline/2 0;
+  border-bottom: 1px solid $lightest-gray;
+  color: $darkest-gray;
+  font-weight: 600;
+  word-wrap: break-word;
+  cursor: default;
+  @include font-size(-2);
+}

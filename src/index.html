@@ -13,7 +13,6 @@
       padding: 1rem;
     }
   </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.2.0/fonts.css" />
   <link rel="stylesheet" href="/build/calcite.css" />
   <script type="module" src="build/calcite.esm.js"></script>
   <script nomodule src="build/calcite.js"></script>
@@ -35,6 +34,8 @@
         <calcite-tab-title>Slider</calcite-tab-title>
         <calcite-tab-title>Switch and Checkbox</calcite-tab-title>
         <calcite-tab-title>Buttons</calcite-tab-title>
+        <calcite-tab-title>Dropdowns</calcite-tab-title>
+
       </calcite-tab-nav>
 
       <calcite-tab is-active>
@@ -362,7 +363,8 @@
         <calcite-modal class="js-modal-1" size="small">
           <h3 slot="header">Small Modal</h3>
           <div slot="content">
-            <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+            <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
+            </p>
           </div>
           <calcite-button slot="back" color="light" appearance="outline"
             icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z" width="full">Back</calcite-button>
@@ -376,7 +378,8 @@
               <tbody>
                 <tr>
                   <td>
-                    <p>The medium modal is large enough to fit a two column layout where both columns will have a readable line-length on
+                    <p>The medium modal is large enough to fit a two column layout where both columns will have a
+                      readable line-length on
                       most desktop devices.</p>
                   </td>
                   <td>
@@ -394,8 +397,9 @@
         <calcite-modal class="js-modal-3" size="large">
           <h3 slot="header">Large modal</h3>
           <div slot="content">
-            <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you to use gridded
-            layouts within the modal and keeps your modal from growing beyond a readable line length.</p>
+            <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you
+              to use gridded
+              layouts within the modal and keeps your modal from growing beyond a readable line length.</p>
           </div>
           <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
           <calcite-button slot="primary" width="full">Save</calcite-button>
@@ -403,7 +407,8 @@
         <calcite-modal class="js-modal-4" size="fullscreen">
           <h3 slot="header">Fullscreen modal</h3>
           <div slot="content">
-            <p>This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your modal
+            <p>This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your
+              modal
               need the full screen realestate (maps, etc)</p>
           </div>
           <calcite-button slot="back" width="full" color="light" appearance="outline"
@@ -430,7 +435,8 @@
         <calcite-modal class="js-modal-7" status="info" docked>
           <h3 slot="header">Docked</h3>
           <div slot="content">
-            <p>For devices smaller than a tablet this modal will "dock" to the bottom. This makes action selection more thumb-friendly.</p>
+            <p>For devices smaller than a tablet this modal will "dock" to the bottom. This makes action selection more
+              thumb-friendly.</p>
           </div>
           <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
           <calcite-button slot="primary" width="full">Save</calcite-button>
@@ -438,8 +444,10 @@
         <calcite-modal class="js-modal-8" status="info" docked>
           <h3 slot="header">Tab Fencing</h3>
           <div slot="content">
-            <p>When you open a modal, the focus should be set to the first focusable element. <calcite-button>LIKE THIS</calcite-button>.</p>
-            <div><a href="#">Anchors</a>, <input type="text" value="inputs">, <calcite-slider></calcite-slider></div>
+            <p>When you open a modal, the focus should be set to the first focusable element. <calcite-button>LIKE THIS
+              </calcite-button>.</p>
+            <div><a href="#">Anchors</a>, <input type="text" value="inputs">, <calcite-slider></calcite-slider>
+            </div>
           </div>
           <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
           <calcite-button slot="primary" width="full">Save</calcite-button>
@@ -447,20 +455,39 @@
         <calcite-modal theme="dark" class="js-modal-9">
           <h3 slot="header">Dark Theme</h3>
           <div slot="content">
-            <p>Example of a modal rendered in dark theme. The text will become light on dark, but notice box shadows are still dark.
+            <p>Example of a modal rendered in dark theme. The text will become light on dark, but notice box shadows are
+              still dark.
           </div>
           <calcite-button slot="primary">OK</calcite-button>
         </calcite-modal>
         <ul>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-1')">Small Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-2')">Medium Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-3')">Large Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-4')">Fullscreen Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-5')">Destructive Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-6')">Info Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-7')">Docked</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-8')">Tab Fencing</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-9')">Dark Theme</calcite-button></li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-1')">Small Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-2')">Medium Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-3')">Large Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-4')">Fullscreen Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-5')">Destructive Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-6')">Info Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-7')">Docked</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-8')">Tab Fencing</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-9')">Dark Theme</calcite-button>
+          </li>
         </ul>
         <script>
           function openModal(selector) {
@@ -678,9 +705,12 @@
 
       <calcite-tab>
         <h3>Normal Lockup</h3>
-        <calcite-button title="Back" appearance='outline'>Back</calcite-button>
+        <calcite-button color="light" appearance='outline' icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+          Back</calcite-button>
+        <calcite-button appearance='outline'>Cancel</calcite-button>
         <calcite-button>Continue</calcite-button>
-        <calcite-button href="/">Continue with href</calcite-button>
+
+
         <h3>Type: Solid (default)</h3>
         <calcite-button title="blue solid button">blue solid button</calcite-button>
         <calcite-button title="red solid button" color='red'>red solid button</calcite-button>
@@ -700,7 +730,6 @@
         <h3>Type: Outline</h3>
         <calcite-button title="blue outline button" appearance='outline'>blue outline button</calcite-button>
         <calcite-button title="red outline button" appearance='outline' color='red'>red outline button</calcite-button>
-
         <calcite-button title="light outline button" appearance='outline' color='light'>light outline button
         </calcite-button>
         <calcite-button title="dark outline button" appearance='outline' color='dark'>dark outline button
@@ -757,7 +786,7 @@
             rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
             icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
             icon
-          </calcite-button> in some text.<br />
+          </calcite-button>in some text.<br />
           An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer"
             target="_blank" title="in the middle" color='red'>to Google.</calcite-button><br />
         </div>
@@ -790,7 +819,8 @@
         </calcite-button>
 
         <h3>Loader</h3>
-        <h5>These examples show a loader when the attribute is present, and remove it when the attribute is removed</h5>
+        <h5>These examples remove on the consumer end, the loader attribute when done... We could also present a "done"
+          loader state somehow...</h5>
         <calcite-button onclick="loadingButton(this, 5000)">Do something</calcite-button>
         <calcite-button appearance="outline" onclick="loadingButton(this, 5000)">Do something</calcite-button>
         <calcite-button color="red" onclick="loadingButton(this, 500000000)">Do something</calcite-button>
@@ -801,14 +831,14 @@
         <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
         <calcite-button appearance="outline" color="light"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
-          </calcite-button>
-          <calcite-button  onclick="loadingButton(this, 3000)"
+        </calcite-button>
+        <calcite-button onclick="loadingButton(this, 3000)"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
-          </calcite-button>
+        </calcite-button>
         <calcite-button appearance="outline" color="dark"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
           Download</calcite-button>
-          <calcite-button scale="l" appearance="outline"
+        <calcite-button scale="l" appearance="outline"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
           Download</calcite-button>
         <calcite-button
@@ -827,6 +857,95 @@
           icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
           Delete this (loader)</calcite-button>
       </calcite-tab>
+
+
+
+      <calcite-tab>
+        <h3>Dropdowns</h3>
+
+        <calcite-dropdown>
+          <calcite-button slot="dropdown-trigger">Dropdown with Two Groups</calcite-button>
+          <calcite-dropdown-group grouptitle="Sort by">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group grouptitle="Sort Direction">
+            <calcite-dropdown-item>Least recent</calcite-dropdown-item>
+            <calcite-dropdown-item active>Most recent</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-dropdown>
+            <calcite-button slot="dropdown-trigger">Dropdown with Three Groups</calcite-button>
+            <calcite-dropdown-group grouptitle="Sort by">
+              <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+              <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+              <calcite-dropdown-item>Title</calcite-dropdown-item>
+            </calcite-dropdown-group>
+            <calcite-dropdown-group grouptitle="Sort Direction">
+              <calcite-dropdown-item active>Least recent</calcite-dropdown-item>
+              <calcite-dropdown-item>Most recent</calcite-dropdown-item>
+            </calcite-dropdown-group>
+            <calcite-dropdown-group grouptitle="Price">
+                <calcite-dropdown-item>Less</calcite-dropdown-item>
+                <calcite-dropdown-item active>More</calcite-dropdown-item>
+              </calcite-dropdown-group>
+          </calcite-dropdown>
+
+        <calcite-dropdown alignment="right">
+          <calcite-button slot="dropdown-trigger">Open Dropdown right aligned</calcite-button>
+
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
+        <calcite-dropdown alignment="center">
+
+          <calcite-button slot="dropdown-trigger">Open Dropdown center aligned</calcite-button>
+
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Mint</calcite-dropdown-item>
+            <calcite-dropdown-item active>Chocolate</calcite-dropdown-item>
+            <calcite-dropdown-item>Banana</calcite-dropdown-item>
+            <calcite-dropdown-item>Vanilla</calcite-dropdown-item>
+            <calcite-dropdown-item>Strawberry</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+
+        <calcite-dropdown>
+          <span slot="dropdown-trigger" tabIndex="0">I'm a span trigger</span>
+
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+        <calcite-dropdown>
+          <button slot="dropdown-trigger" tabIndex="0">I'm not a "not calcite-button" button trigger</button>
+
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+
+        <calcite-dropdown>
+          <a slot="dropdown-trigger" tabIndex="0">I'm not an anchor trigger</a>
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
     </calcite-tabs>
 
     <calcite-alerts id="my-alert-container">
@@ -905,6 +1024,7 @@
         <div slot="alert-message">11 A general piece of information</div>
         <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
       </calcite-alert>
+
     </calcite-alerts>
   </div>
 </body>
