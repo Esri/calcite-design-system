@@ -30,7 +30,11 @@ export const config: Config = {
     { type: "docs-readme" },
     {
       type: "www",
-      serviceWorker: null // disable service workers
+      baseUrl: "https://stenciljs.com/",
+      prerenderConfig: "./prerender.config.js",
+      serviceWorker: {
+        unregister: true
+      }
     }
   ],
   globalStyle: "src/assets/styles/includes.scss",
