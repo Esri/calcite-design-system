@@ -19,7 +19,7 @@ import {
   END,
   SPACE
 } from "../../utils/keys";
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import { getElementDir, getElementTheme, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import DropdownInterface from "../../interfaces/DropdownInterface";
 
@@ -85,11 +85,13 @@ export class CalciteDropdownItem {
   render() {
     const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
+    const scale = getElementProp(this.el, "scale", "m");
     const selected = this.active ? "true" : null;
     return (
       <Host
         theme={theme}
         dir={dir}
+        scale={scale}
         id={this.dropdownItemId}
         tabindex="0"
         role="menuitem"

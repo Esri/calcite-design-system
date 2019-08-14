@@ -10,7 +10,7 @@ import {
   State
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getElementTheme } from "../../utils/dom";
+import { getElementTheme, getElementProp } from "../../utils/dom";
 import DropdownInterface from "../../interfaces/DropdownInterface";
 
 @Component({
@@ -64,6 +64,7 @@ export class CalciteDropdownGroup {
 
   render() {
     const theme = getElementTheme(this.el);
+    const scale = getElementProp(this.el, "scale", "m");
     const dropdownState = {
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem
@@ -74,7 +75,7 @@ export class CalciteDropdownGroup {
     ) : null;
 
     return (
-      <Host theme={theme} id={this.dropdownGroupId}>
+      <Host theme={theme} scale={scale} id={this.dropdownGroupId}>
         {grouptitle}
         <DropdownInterface.Provider state={dropdownState}>
           <slot />
@@ -134,19 +135,12 @@ export class CalciteDropdownGroup {
   //--------------------------------------------------------------------------
 
   private getGroupPosition() {
-    const groupPosition = Array.prototype.indexOf.call(
+    return Array.prototype.indexOf.call(
       this.el.parentElement.querySelectorAll("calcite-dropdown-group"),
       this.el
     );
-    return groupPosition;
   }
 
   private sortItems = (items: any[]): any[] =>
-    items
-      .sort(function(a, b) {
-        return a.position - b.position;
-      })
-      .map(function(a) {
-        return a.item;
-      });
+    items.sort((a, b) => a.position - b.position).map(a => a.item);
 }

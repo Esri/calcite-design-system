@@ -51,6 +51,9 @@ export class CalciteDropdown {
   /** specify the alignment of dropdrown, defaults to left */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
+  /** specify the scale of dropdrown, defaults to m */
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -64,6 +67,9 @@ export class CalciteDropdown {
 
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme)) this.theme = "light";
+
+    let scale = ["s", "m", "l"];
+    if (!scale.includes(this.scale)) this.scale = "m";
   }
 
   componentWillUpdate() {

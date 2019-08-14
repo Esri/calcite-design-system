@@ -8,11 +8,16 @@ export function nodeListToArray(domNodeList): Element[] {
 }
 
 export function getElementDir(el: HTMLElement) {
-  return (el.closest("[dir='rtl']") && "rtl") || "ltr";
+  return getElementProp(el, "dir", "ltr");
 }
 
 export function getElementTheme(el: HTMLElement) {
-  return (el.closest("[theme='dark']") && "dark") || "light";
+  return getElementProp(el, "theme", "light");
+}
+
+export function getElementProp(el: HTMLElement, prop, value) {
+  const closestWithProp = el.closest(`[${prop}]`);
+  return closestWithProp ? closestWithProp.getAttribute(prop) : value;
 }
 
 export function hasSlottedContent(el: HTMLSlotElement) {
