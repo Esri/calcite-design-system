@@ -23,7 +23,15 @@ export const config: Config = {
       components: ["calcite-radio-group", "calcite-radio-group-item"]
     },
     { components: ["calcite-slider"] },
-    { components: ["calcite-modal"] }
+    { components: ["calcite-modal"] },
+    {
+      components: [
+        "calcite-date-picker",
+        "calcite-date-month",
+        "calcite-date-month-header",
+        "calcite-date-day"
+      ]
+    }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
@@ -31,7 +39,11 @@ export const config: Config = {
     { type: "docs-readme" },
     {
       type: "www",
-      serviceWorker: null // disable service workers
+      baseUrl: "https://stenciljs.com/",
+      prerenderConfig: "./prerender.config.js",
+      serviceWorker: {
+        unregister: true
+      }
     }
   ],
   globalStyle: "src/assets/styles/includes.scss",

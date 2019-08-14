@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { Component, Element, h, Host, Prop, Build } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -69,10 +69,12 @@ export class CalciteButton {
   }
 
   componentDidLoad() {
-    let textSlot = this.el.shadowRoot.querySelector("slot");
-    let textNode = textSlot ? textSlot.assignedNodes() : null;
-    if (textNode && (textNode[0] !== undefined && textNode[0] !== null))
-      this.hastext = true;
+    if (Build.isBrowser) {
+      let textSlot = this.el.shadowRoot.querySelector("slot");
+      let textNode = textSlot ? textSlot.assignedNodes() : null;
+      if (textNode && (textNode[0] !== undefined && textNode[0] !== null))
+        this.hastext = true;
+    }
   }
 
   getAttributes() {
@@ -87,7 +89,7 @@ export class CalciteButton {
       "dir"
     ];
     return Array.from(this.el.attributes)
-      .filter(a => !props.includes(a.name))
+      .filter(a => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
