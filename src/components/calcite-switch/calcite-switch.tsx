@@ -7,7 +7,8 @@ import {
   Host,
   EventEmitter,
   Listen,
-  Watch
+  Watch,
+  Build
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../utils/keys";
 
@@ -98,8 +99,10 @@ export class CalciteSwitch {
     }
 
     this.syncThisToProxyInput();
-    this.observer = new MutationObserver(this.syncThisToProxyInput);
-    this.observer.observe(this.inputProxy, { attributes: true });
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.syncThisToProxyInput);
+      this.observer.observe(this.inputProxy, { attributes: true });
+    }
   }
 
   private syncThisToProxyInput = () => {

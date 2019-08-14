@@ -1,0 +1,24 @@
+.calender {
+  .week-headers {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid $blk-010;
+    border-top: 1px solid $blk-010;
+
+    .week-header {
+      color: $blk-160;
+      padding: 0.75rem 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 11px;
+      width: calc(100% / 7);
+      text-align: center;
+    }
+  }
+
+  .week-days {
+    outline: none;
+    display: flex;
+    flex-direction: row;
+  }
+}

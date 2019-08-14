@@ -173,5 +173,6 @@ export class CalciteTab {
    */
   @Method() updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []) {
     this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
+    return Promise.resolve();
   }
 }

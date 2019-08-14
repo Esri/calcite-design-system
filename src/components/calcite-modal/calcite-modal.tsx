@@ -8,12 +8,17 @@ import {
   Listen,
   h,
   Method,
-  State
+  State,
+  Build
 } from "@stencil/core";
 import { x24 } from "@esri/calcite-ui-icons";
 import "@a11y/focus-trap";
 import { FocusTrap } from "@a11y/focus-trap";
-import { getElementDir, getElementTheme, hasSlottedContent } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementTheme,
+  hasSlottedContent
+} from "../../utils/dom";
 
 @Component({
   tag: "calcite-modal",
@@ -58,18 +63,20 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   componentDidLoad() {
-    const back = this.el.shadowRoot.querySelector(
-      "slot[name=back]"
-    ) as HTMLSlotElement;
-    const secondary = this.el.shadowRoot.querySelector(
-      "slot[name=secondary]"
-    ) as HTMLSlotElement;
-    back.addEventListener("slotchange", () => {
-      this.hideBackButton = !hasSlottedContent(back);
-    });
-    secondary.addEventListener("slotchange", () => {
-      this.hideSecondaryButton = !hasSlottedContent(secondary);
-    });
+    if (Build.isBrowser) {
+      const back = this.el.shadowRoot.querySelector(
+        "slot[name=back]"
+      ) as HTMLSlotElement;
+      const secondary = this.el.shadowRoot.querySelector(
+        "slot[name=secondary]"
+      ) as HTMLSlotElement;
+      back.addEventListener("slotchange", () => {
+        this.hideBackButton = !hasSlottedContent(back);
+      });
+      secondary.addEventListener("slotchange", () => {
+        this.hideSecondaryButton = !hasSlottedContent(secondary);
+      });
+    }
   }
 
   render() {

@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { Component, Element, h, Host, Prop, Build } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -29,6 +29,9 @@ export class CalciteButton {
     | "outline"
     | "clear"
     | "inline" = "solid";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
@@ -66,13 +69,18 @@ export class CalciteButton {
 
     let width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
+
+    let theme = ["dark", "light"];
+    if (!theme.includes(this.theme)) this.theme = "light";
   }
 
   componentDidLoad() {
-    let textSlot = this.el.shadowRoot.querySelector("slot");
-    let textNode = textSlot ? textSlot.assignedNodes() : null;
-    if (textNode && (textNode[0] !== undefined && textNode[0] !== null))
-      this.hastext = true;
+    if (Build.isBrowser) {
+      let textSlot = this.el.shadowRoot.querySelector("slot");
+      let textNode = textSlot ? textSlot.assignedNodes() : null;
+      if (textNode && (textNode[0] !== undefined && textNode[0] !== null))
+        this.hastext = true;
+    }
   }
 
   getAttributes() {
@@ -87,7 +95,7 @@ export class CalciteButton {
       "dir"
     ];
     return Array.from(this.el.attributes)
-      .filter(a => !props.includes(a.name))
+      .filter(a => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 

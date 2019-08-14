@@ -58,7 +58,7 @@ export class CalciteTabs {
       <Host dir={dir}>
         <div>
           <slot name="tab-nav" />
-          <section class="tab-contents">
+          <section>
             <slot />
           </section>
         </div>

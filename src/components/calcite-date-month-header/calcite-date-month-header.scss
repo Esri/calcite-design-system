@@ -1,0 +1,51 @@
+.month-year {
+  display: flex;
+}
+input {
+  font-family: inherit;
+  text-align: center;
+}
+
+.right-icon,
+.left-icon {
+  fill: $blk-060;
+  flex-grow: 1;
+  outline: none;
+  padding: 0;
+  border: none;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+
+  &:hover,
+  &:focus {
+    fill: $blk-240;
+    background-color: $blk-010;
+  }
+
+  &:active {
+    background-color: $blk-020;
+  }
+}
+
+.month-year-text {
+  padding: 0.5rem;
+  display: inline-flex;
+  flex-grow: 1;
+  width: 50%;
+  justify-content: center;
+}
+.month,
+.year {
+  color: $blk-240;
+  @include font-size(0);
+  font-weight: 500;
+}
+
+.year {
+  border: none;
+  width: 60px;
+  padding: 0;
+  margin: 0;
+}
