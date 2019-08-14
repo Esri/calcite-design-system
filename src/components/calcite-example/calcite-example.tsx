@@ -32,7 +32,7 @@ export class CalciteExample {
   //--------------------------------------------------------------------------
 
   /**
-   * Be sure to add a jsdoc comment describing your propery for the generated readme file.
+   * Be sure to add a jsdoc comment describing your property for the generated readme file.
    * If your property should be hidden from documentation, you can use the `@internal` tag
    */
   @Prop() property: string = "default";

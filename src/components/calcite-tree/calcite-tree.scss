@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  --calcite-tree-text: #{$blk-160};
+  --calcite-tree-text-hover: #{$blk-200};
+  --calcite-tree-line: transparent;
+  --calcite-tree-line-active: transparent;
+  --calcite-tree-chevron: #{$blk-060};
+  --calcite-tree-chevron-active: #{$ui-blue};
+  --calcite-tree-indicator: #{$blk-060};
+  --calcite-tree-indicator-active: #{$ui-blue};
+  --calcite-tree-padding: 1;
+}
+
+:host([theme="dark"]) {
+  --calcite-tree-text: #{$blk-060};
+  --calcite-tree-text-hover: #{$blk-020};
+  --calcite-tree-line: transparent;
+  --calcite-tree-line-active: transparent;
+  --calcite-tree-chevron: #{$blk-160};
+  --calcite-tree-chevron-active: #{$ui-blue-dark};
+  --calcite-tree-indicator: #{$blk-160};
+  --calcite-tree-indicator-active: #{$ui-blue-dark};
+}
+
+:host([lines]) {
+  --calcite-tree-line: #{$blk-040};
+  --calcite-tree-line-active: #{$ui-blue};
+}
+
+:host([lines][theme="dark"]) {
+  --calcite-tree-line: #{$blk-180};
+  --calcite-tree-line-active: #{$ui-blue-dark};
+}
+
+:host([root]) ::slotted(calcite-tree-item) {
+  border-left: none;
+  margin-left: 0;
+  padding-left: 0;
+}

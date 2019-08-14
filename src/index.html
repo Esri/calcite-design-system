@@ -35,6 +35,7 @@
         <calcite-tab-title>Slider</calcite-tab-title>
         <calcite-tab-title>Switch and Checkbox</calcite-tab-title>
         <calcite-tab-title>Buttons</calcite-tab-title>
+        <calcite-tab-title>Tree</calcite-tab-title>
       </calcite-tab-nav>
 
       <calcite-tab is-active>
@@ -511,7 +512,6 @@
         </script>
       </calcite-tab>
 
-
       <calcite-tab>
         <h2>calcite-switch</h2>
         <div>
@@ -826,6 +826,367 @@
         <calcite-button color='red' scale="xs" appearance="outline" onclick="loadingButton(this, 3000)"
           icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
           Delete this (loader)</calcite-button>
+      </calcite-tab>
+
+      <calcite-tab>
+        <h3>Nav Tree</h3>
+
+        <calcite-tree>
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <a href="#">Grandchild 2</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Dark Theme</h3>
+        <div class="demo-background-dark">
+          <calcite-tree theme="dark">
+            <calcite-tree-item>
+              <a href="#">Child 1</a>
+            </calcite-tree-item>
+
+            <calcite-tree-item>
+              <a href="#">Child 2</a>
+
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a href="#">Grandchild 1</a>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <a href="#">Grandchild 2</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a href="#">Great-Grandchild 1</a>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <a href="#">Great-Grandchild 2</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+
+        <h3>Nav Tree (Lines)</h3>
+
+        <calcite-tree lines>
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <a href="#">Grandchild 2</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Dark Theme (Lines)</h3>
+        <div class="demo-background-dark">
+          <calcite-tree theme="dark" lines>
+            <calcite-tree-item>
+              <a href="#">Child 1</a>
+            </calcite-tree-item>
+
+            <calcite-tree-item>
+              <a href="#">Child 2</a>
+
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a href="#">Grandchild 1</a>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <a href="#">Grandchild 2</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a href="#">Great-Grandchild 1</a>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <a href="#">Great-Grandchild 2</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+
+        <h3>Active and Expanded States</h3>
+
+        <calcite-tree lines>
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item expanded>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+
+              <calcite-tree-item selected expanded>
+                <a href="#">Grandchild 2</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item  selected>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item selected>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Without Links</h3>
+
+        <calcite-tree lines>
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+
+        <h3>Single Select Mode</h3>
+
+        <calcite-tree lines selection-mode="single">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Child Select Mode</h3>
+
+        <calcite-tree lines selection-mode="children">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+
+        <h3>Multi Select Mode</h3>
+
+        <calcite-tree lines selection-mode="multi">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Multi-Child Select Mode</h3>
+
+        <calcite-tree lines selection-mode="multi-children">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Child 2
+
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Grandchild 1
+                  </calcite-tree-item>
+
+                  <calcite-tree-item>
+                    Grandchild 2
+                  </calcite-tree-item>
+
+                  <calcite-tree-item>
+                    Grandchild 3
+                    <calcite-tree slot="children">
+                      <calcite-tree-item>
+                        Great-Grandchild 1
+                      </calcite-tree-item>
+                      <calcite-tree-item>
+                        Great-Grandchild 2
+                      </calcite-tree-item>
+                      <calcite-tree-item>
+                        Great-Grandchild 3
+                      </calcite-tree-item>
+                    </calcite-tree>
+                  </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
       </calcite-tab>
     </calcite-tabs>
 
