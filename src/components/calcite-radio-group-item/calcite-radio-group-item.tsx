@@ -84,10 +84,10 @@ export class CalciteRadioGroupItem {
 
     return (
       <Host role="radio" aria-checked={checked ? "true" : "false"}>
-          <label>
-            {this.hasLabel ? <slot /> : value}
-            <slot name="input" />
-          </label>
+        <label>
+          {this.hasLabel ? <slot /> : value}
+          <slot name="input" />
+        </label>
       </Host>
     );
   }
