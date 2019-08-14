@@ -9,7 +9,17 @@ import {
   Prop,
   State
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import {
+  UP,
+  DOWN,
+  TAB,
+  ENTER,
+  ESCAPE,
+  HOME,
+  END,
+  SPACE
+} from "../../utils/keys";
+import { getElementDir, getElementTheme } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import DropdownInterface from "../../interfaces/DropdownInterface";
 
@@ -34,9 +44,6 @@ export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
-
-  /** @internal */
-  @Prop() currentDropdownGroup: string = this.el.parentElement.id;
 
   /** @internal */
   @Prop() requestedDropdownGroup: string = "";
@@ -77,9 +84,11 @@ export class CalciteDropdownItem {
 
   render() {
     const dir = getElementDir(this.el);
+    const theme = getElementTheme(this.el);
     const selected = this.active ? "true" : null;
     return (
       <Host
+        theme={theme}
         dir={dir}
         id={this.dropdownItemId}
         tabindex="0"
@@ -102,19 +111,19 @@ export class CalciteDropdownItem {
   }
 
   @Listen("keydown") keyDownHandler(e) {
-    switch (e.key) {
-      case " ":
-      case "Enter":
+    switch (e.keyCode) {
+      case SPACE:
+      case ENTER:
         this.emitRequestedItem(e);
         break;
-      case "Escape":
+      case ESCAPE:
         this.closeCalciteDropdown.emit();
         break;
-      case "Tab":
-      case "ArrowUp":
-      case "ArrowDown":
-      case "Home":
-      case "End":
+      case TAB:
+      case UP:
+      case DOWN:
+      case HOME:
+      case END:
         this.calciteDropdownItemKeyEvent.emit({ item: e });
         break;
     }
@@ -130,8 +139,13 @@ export class CalciteDropdownItem {
   /** @internal */
   private dropdownItemId = `calcite-dropdown-item-${guid()}`;
 
+  /** position withing group */
   /** @internal */
   @State() private itemPosition: number;
+
+  /** id of containing group */
+  /** @internal */
+  @State() private currentDropdownGroup: string = this.el.parentElement.id;
 
   //--------------------------------------------------------------------------
   //
@@ -156,11 +170,10 @@ export class CalciteDropdownItem {
   }
 
   private getItemPosition() {
-    const itemPosition = Array.prototype.indexOf.call(
+    return Array.prototype.indexOf.call(
       this.el.parentElement.querySelectorAll("calcite-dropdown-item"),
       this.el
     );
-    return itemPosition;
   }
 }
 

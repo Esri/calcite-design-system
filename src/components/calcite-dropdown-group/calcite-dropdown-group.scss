@@ -1,9 +1,21 @@
+// light theme
+:host {
+  --calcite-dropdown-group-color: #{$blk-180};
+  --calcite-dropdown-group-border-color: #{$blk-020};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-dropdown-group-color: #{$blk-000};
+  --calcite-dropdown-group-border-color: #{$blk-180};
+}
+
 :host .dropdown-title {
   display: block;
   margin: 0 $baseline/1.5 -1px $baseline/1.5;
   padding: $baseline/2 0;
-  border-bottom: 1px solid $lightest-gray;
-  color: $darkest-gray;
+  border-bottom: 1px solid var(--calcite-dropdown-group-border-color);
+  color: var(--calcite-dropdown-group-color);
   font-weight: 600;
   word-wrap: break-word;
   cursor: default;

@@ -1,3 +1,16 @@
+// theme variables
+// light theme
+:host {
+  --calcite-dropdown-background-color: #{$blk-000};
+  --calcite-dropdown-border-color: #{$blk-020};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-dropdown-background-color: #{$blk-200};
+  --calcite-dropdown-border-color: #{$blk-220};
+}
+
 :host {
   position: relative;
   display: inline-block;
@@ -21,9 +34,9 @@
   overflow: auto;
   width: auto;
   width: 12.5rem;
-  background: $white;
-  border: 1px solid $lighter-gray;
-  box-shadow: 0 0 12px 0 rgba($black, 0.15);
+  background: var(--calcite-dropdown-background-color);
+  border: 1px solid var(--calcite-dropdown-border-color);
+  box-shadow: 0 0 12px 0 rgba($blk-240, 0.15);
 }
 
 :host([dir="rtl"]) .calcite-dropdown-wrapper {
@@ -46,11 +59,4 @@
   left: 0;
   margin-right: auto;
   margin-left: auto;
-}
-
-@mixin dropdown-element-base() {
-  @include font-size(-2);
-  display: block;
-  color: $dark-gray;
-  background-color: transparent;
 }

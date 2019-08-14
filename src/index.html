@@ -915,10 +915,38 @@
           </calcite-dropdown-group>
         </calcite-dropdown>
         <br />
+        <br />
+        <calcite-dropdown theme="dark">
+        <calcite-button color="dark" slot="dropdown-trigger">Open Dropdown dark mode</calcite-button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item>Mint</calcite-dropdown-item>
+          <calcite-dropdown-item active>Chocolate</calcite-dropdown-item>
+          <calcite-dropdown-item>Banana</calcite-dropdown-item>
+          <calcite-dropdown-item>Vanilla</calcite-dropdown-item>
+          <calcite-dropdown-item>Strawberry</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
 
+        <calcite-dropdown theme="dark">
+          <calcite-button color="dark" slot="dropdown-trigger">Open Dropdown dark mode with groups</calcite-button>
+          <calcite-dropdown-group grouptitle="Flavors">
+            <calcite-dropdown-item>Mint</calcite-dropdown-item>
+            <calcite-dropdown-item active>Chocolate</calcite-dropdown-item>
+            <calcite-dropdown-item>Banana</calcite-dropdown-item>
+            <calcite-dropdown-item>Vanilla</calcite-dropdown-item>
+            <calcite-dropdown-item>Strawberry</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group grouptitle="Genres">
+            <calcite-dropdown-item>Rock</calcite-dropdown-item>
+            <calcite-dropdown-item active>Country</calcite-dropdown-item>
+            <calcite-dropdown-item>Western</calcite-dropdown-item>
+            <calcite-dropdown-item>R&B</calcite-dropdown-item>
+          </calcite-dropdown-group>
+      </calcite-dropdown>
+      <br />
+      <br />
         <calcite-dropdown>
           <span slot="dropdown-trigger" tabIndex="0">I'm a span trigger</span>
-
           <calcite-dropdown-group grouptitle="View">
             <calcite-dropdown-item active>List</calcite-dropdown-item>
             <calcite-dropdown-item>Grid</calcite-dropdown-item>

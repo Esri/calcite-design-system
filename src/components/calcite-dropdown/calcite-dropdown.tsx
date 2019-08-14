@@ -7,6 +7,16 @@ import {
   Prop,
   State
 } from "@stencil/core";
+import {
+  UP,
+  DOWN,
+  TAB,
+  ENTER,
+  ESCAPE,
+  HOME,
+  END,
+  SPACE
+} from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
@@ -38,6 +48,9 @@ export class CalciteDropdown {
     | "right"
     | "center" = "left";
 
+  /** specify the alignment of dropdrown, defaults to left */
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -48,17 +61,23 @@ export class CalciteDropdown {
     // validate props
     let alignment = ["left", "right", "center"];
     if (!alignment.includes(this.alignment)) this.alignment = "left";
+
+    let theme = ["light", "dark"];
+    if (!theme.includes(this.theme)) this.theme = "light";
   }
 
   componentWillUpdate() {
-    if (!this.sorted) this.sortItems();
+    if (!this.sorted) {
+      this.items = this.sortItems(this.items);
+      this.sorted = true;
+    }
   }
 
   render() {
     const dir = getElementDir(this.el);
-    const expanded = this.active ? "true" : "false";
+    const expanded = this.active.toString();
     return (
-      <Host dir={dir} active={!!this.active} id={this.dropdownId}>
+      <Host dir={dir} active={this.active} id={this.dropdownId}>
         <slot
           name="dropdown-trigger"
           aria-haspopup="true"
@@ -98,16 +117,16 @@ export class CalciteDropdown {
         e.target.nodeName !== "BUTTON" &&
         e.target.nodeName !== "CALCITE-BUTTON"
       ) {
-        switch (e.key) {
-          case " ":
-          case "Enter":
+        switch (e.keyCode) {
+          case SPACE:
+          case ENTER:
             this.openCalciteDropdown();
             break;
-          case "Escape":
+          case ESCAPE:
             this.closeCalciteDropdown();
             break;
         }
-      } else if (e.key === "Escape" || (e.shiftKey && e.key === "Tab")) {
+      } else if (e.keyCode === ESCAPE || (e.shiftKey && e.keyCode === TAB)) {
         this.closeCalciteDropdown();
       }
     }
@@ -119,21 +138,21 @@ export class CalciteDropdown {
     let e = item.detail.item;
     let isFirstItem = this.itemIndex(e.target) === 0;
     let isLastItem = this.itemIndex(e.target) === this.items.length - 1;
-    switch (e.key) {
-      case "Tab":
+    switch (e.keyCode) {
+      case TAB:
         if (isLastItem && !e.shiftKey) this.closeCalciteDropdown();
         if (isFirstItem && e.shiftKey) this.closeCalciteDropdown();
         break;
-      case "ArrowDown":
+      case DOWN:
         this.focusNextItem(e.target);
         break;
-      case "ArrowUp":
+      case UP:
         this.focusPrevItem(e.target);
         break;
-      case "Home":
+      case HOME:
         this.focusFirstItem();
         break;
-      case "End":
+      case END:
         this.focusLastItem();
         break;
     }
@@ -158,6 +177,7 @@ export class CalciteDropdown {
   /** created list of dropdown items */
   @State() private items = [];
 
+  /** keep track of whether the groups have been sorted so we don't re-sort */
   @State() private sorted = false;
 
   /** unique id for dropdown */
@@ -204,13 +224,8 @@ export class CalciteDropdown {
     this.active = !this.active;
     this.focusFirstItem();
   }
-
-  private sortItems() {
-    this.items = this.items
-      .sort(function(a, b) {
-        return a.position - b.position;
-      })
+  private sortItems = (items: any[]): any[] =>
+    items
+      .sort((a, b) => a.position - b.position)
       .concat.apply([], this.items.map(item => item.items));
-    this.sorted = true;
-  }
 }
