@@ -2,9 +2,8 @@ import { h } from "@stencil/core";
 import { createProviderConsumer } from "@stencil/state-tunnel";
 
 export interface DropdownInterface {
-  requestedDropdownGroup: string,
-  requestedDropdownItem: string
-
+  requestedDropdownGroup: string;
+  requestedDropdownItem: string;
 }
 
 export default createProviderConsumer<DropdownInterface>(
