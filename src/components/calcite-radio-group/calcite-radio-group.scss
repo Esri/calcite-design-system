@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  display: flex;
+
   --calcite-radio-group-color: #{$blk-000};
   --calcite-radio-group-border-color: #{$blk-130};
   --calcite-radio-group-color-active: #{$ui-blue};
@@ -24,7 +25,3 @@
   z-index: 0;
 }
 
-slot {
-  display: flex;
-  flex-direction: row;
-}
