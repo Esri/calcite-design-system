@@ -364,7 +364,8 @@
         <calcite-modal class="js-modal-1" size="small">
           <h3 slot="header">Small Modal</h3>
           <div slot="content">
-            <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+            <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
+            </p>
           </div>
           <calcite-button slot="back" color="light" appearance="outline"
             icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z" width="full">Back</calcite-button>
@@ -378,7 +379,8 @@
               <tbody>
                 <tr>
                   <td>
-                    <p>The medium modal is large enough to fit a two column layout where both columns will have a readable line-length on
+                    <p>The medium modal is large enough to fit a two column layout where both columns will have a
+                      readable line-length on
                       most desktop devices.</p>
                   </td>
                   <td>
@@ -396,8 +398,9 @@
         <calcite-modal class="js-modal-3" size="large">
           <h3 slot="header">Large modal</h3>
           <div slot="content">
-            <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you to use gridded
-            layouts within the modal and keeps your modal from growing beyond a readable line length.</p>
+            <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you
+              to use gridded
+              layouts within the modal and keeps your modal from growing beyond a readable line length.</p>
           </div>
           <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
           <calcite-button slot="primary" width="full">Save</calcite-button>
@@ -405,7 +408,8 @@
         <calcite-modal class="js-modal-4" size="fullscreen">
           <h3 slot="header">Fullscreen modal</h3>
           <div slot="content">
-            <p>This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your modal
+            <p>This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your
+              modal
               need the full screen realestate (maps, etc)</p>
           </div>
           <calcite-button slot="back" width="full" color="light" appearance="outline"
@@ -432,7 +436,8 @@
         <calcite-modal class="js-modal-7" status="info" docked>
           <h3 slot="header">Docked</h3>
           <div slot="content">
-            <p>For devices smaller than a tablet this modal will "dock" to the bottom. This makes action selection more thumb-friendly.</p>
+            <p>For devices smaller than a tablet this modal will "dock" to the bottom. This makes action selection more
+              thumb-friendly.</p>
           </div>
           <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
           <calcite-button slot="primary" width="full">Save</calcite-button>
@@ -440,8 +445,10 @@
         <calcite-modal class="js-modal-8" status="info" docked>
           <h3 slot="header">Tab Fencing</h3>
           <div slot="content">
-            <p>When you open a modal, the focus should be set to the first focusable element. <calcite-button>LIKE THIS</calcite-button>.</p>
-            <div><a href="#">Anchors</a>, <input type="text" value="inputs">, <calcite-slider></calcite-slider></div>
+            <p>When you open a modal, the focus should be set to the first focusable element. <calcite-button>LIKE THIS
+              </calcite-button>.</p>
+            <div><a href="#">Anchors</a>, <input type="text" value="inputs">, <calcite-slider></calcite-slider>
+            </div>
           </div>
           <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
           <calcite-button slot="primary" width="full">Save</calcite-button>
@@ -449,20 +456,39 @@
         <calcite-modal theme="dark" class="js-modal-9">
           <h3 slot="header">Dark Theme</h3>
           <div slot="content">
-            <p>Example of a modal rendered in dark theme. The text will become light on dark, but notice box shadows are still dark.
+            <p>Example of a modal rendered in dark theme. The text will become light on dark, but notice box shadows are
+              still dark.
           </div>
           <calcite-button slot="primary">OK</calcite-button>
         </calcite-modal>
         <ul>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-1')">Small Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-2')">Medium Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-3')">Large Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-4')">Fullscreen Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-5')">Destructive Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-6')">Info Modal</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-7')">Docked</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-8')">Tab Fencing</calcite-button></li>
-          <li><calcite-button appearance="inline" onClick="openModal('.js-modal-9')">Dark Theme</calcite-button></li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-1')">Small Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-2')">Medium Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-3')">Large Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-4')">Fullscreen Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-5')">Destructive Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-6')">Info Modal</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-7')">Docked</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-8')">Tab Fencing</calcite-button>
+          </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-9')">Dark Theme</calcite-button>
+          </li>
         </ul>
         <script>
           function openModal(selector) {
@@ -480,7 +506,7 @@
 
       <calcite-tab>
         <div>
-          <h3  class="leader-1">Simple</h3>
+          <h3 class="leader-1">Simple</h3>
 
           <calcite-radio-group>
             <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
@@ -489,7 +515,7 @@
             <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
           </calcite-radio-group>
 
-          <h3  class="leader-1">With labels</h3>
+          <h3 class="leader-1">With labels</h3>
 
           <calcite-radio-group>
             <calcite-radio-group-item value="1">Uno</calcite-radio-group-item>
@@ -497,7 +523,7 @@
             <calcite-radio-group-item value="3">Tres</calcite-radio-group-item>
           </calcite-radio-group>
 
-          <h3  class="leader-1">Uses value as label if missing</h3>
+          <h3 class="leader-1">Uses value as label if missing</h3>
 
           <calcite-radio-group>
             <calcite-radio-group-item value="1"></calcite-radio-group-item>
@@ -505,7 +531,7 @@
             <calcite-radio-group-item value="3"></calcite-radio-group-item>
           </calcite-radio-group>
 
-          <h3  class="leader-1">None checked</h3>
+          <h3 class="leader-1">None checked</h3>
 
           <calcite-radio-group>
             <calcite-radio-group-item value="1"></calcite-radio-group-item>
@@ -513,7 +539,7 @@
             <calcite-radio-group-item value="3"></calcite-radio-group-item>
           </calcite-radio-group>
 
-          <h3  class="leader-1">Only one selected value (last wins)</h3>
+          <h3 class="leader-1">Only one selected value (last wins)</h3>
 
           <calcite-radio-group>
             <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
@@ -521,7 +547,7 @@
             <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
           </calcite-radio-group>
 
-          <h3  class="leader-1">Dark theme</h3>
+          <h3 class="leader-1">Dark theme</h3>
 
           <calcite-radio-group theme="dark">
             <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
@@ -529,7 +555,7 @@
             <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
           </calcite-radio-group>
 
-          <h3  class="leader-1">RTL</h3>
+          <h3 class="leader-1">RTL</h3>
 
           <calcite-radio-group>
             <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
@@ -537,7 +563,7 @@
             <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
           </calcite-radio-group>
 
-          <h3  class="leader-1">External inputs</h3>
+          <h3 class="leader-1">External inputs</h3>
 
           <calcite-radio-group name="grouped">
             <calcite-radio-group-item><input type="radio" slot="input" value="1"></calcite-radio-group-item>
@@ -545,7 +571,7 @@
             <calcite-radio-group-item><input type="radio" slot="input" value="3"></calcite-radio-group-item>
           </calcite-radio-group>
 
-          <h3  class="leader-1">Within form</h3>
+          <h3 class="leader-1">Within form</h3>
 
           <form>
             <label>
@@ -772,9 +798,10 @@
         <calcite-button title="dark solid button" color='dark'>dark solid button</calcite-button>
         <br />
         <br />
+        <h5>Theme="dark" on blue /red (no effect on light / dark)</h5>
         <div class="demo-background-dark">
-          <calcite-button title="blue solid button">blue solid button</calcite-button>
-          <calcite-button title="red solid button" color='red'>red solid button</calcite-button>
+          <calcite-button theme="dark" title="blue solid button">blue solid button</calcite-button>
+          <calcite-button theme="dark" title="red solid button" color='red'>red solid button</calcite-button>
 
           <calcite-button title="light solid button" color='light'>light solid button</calcite-button>
           <calcite-button title="dark solid button" color='dark'>dark solid button</calcite-button>
@@ -791,31 +818,34 @@
         </calcite-button>
         <br />
         <br />
+        <h5>Theme="dark" on blue /red (no effect on light / dark)</h5>
         <div class="demo-background-dark">
-          <calcite-button title="blue outline button" appearance='outline'>blue outline button</calcite-button>
-          <calcite-button title="red outline button" appearance='outline' color='red'>red outline button
+          <calcite-button theme="dark" title="blue outline button" appearance='outline'>blue outline button
+          </calcite-button>
+          <calcite-button theme="dark" title="red outline button" appearance='outline' color='red'>red outline button
           </calcite-button>
           <calcite-button title="light outline button" appearance='outline' color='light'>light outline button
           </calcite-button>
           <calcite-button title="dark outline button" appearance='outline' color='dark'>dark outline button
           </calcite-button>
-
         </div>
-
 
         <h3>Type: Clear</h3>
         <calcite-button title="blue clear button" appearance='clear'>blue clear button</calcite-button>
+        <calcite-button title="red clear button" appearance='clear' color='red'>red clear button</calcite-button>
+
         <calcite-button title="light clear button" appearance='clear' color='light'>light clear button</calcite-button>
         <calcite-button title="dark clear button" appearance='clear' color='dark'>dark clear button</calcite-button>
-        <calcite-button title="red clear button" appearance='clear' color='red'>red clear button</calcite-button>
         <br />
         <br />
+        <h5>Theme="dark" on blue /red (no effect on light / dark)</h5>
         <div class="demo-background-dark">
-          <calcite-button title="blue clear button" appearance='clear'>blue clear button</calcite-button>
+          <calcite-button theme="dark" title="blue clear button" appearance='clear'>blue clear button</calcite-button>
+          <calcite-button theme="dark" title="red clear button" appearance='clear' color='red'>red clear button
+          </calcite-button>
           <calcite-button title="light clear button" appearance='clear' color='light'>light clear button
           </calcite-button>
           <calcite-button title="dark clear button" appearance='clear' color='dark'>dark clear button</calcite-button>
-          <calcite-button title="red clear button" appearance='clear' color='red'>red clear button</calcite-button>
         </div>
 
         <h3>Type: Inline (render as anchor)</h3>
@@ -826,24 +856,32 @@
           title="in the middle that might be long enough to wrap to illustrate animation" appearance="inline"
           color='red'>in the middle that might be long enough to wrap to illustrate animation
         </calcite-button> of some text.<br />
-        An anchor <calcite-button title="in the middle" href="/" appearance="inline">in the middle</calcite-button> of
-        some
-        text.<br />
+        An anchor link <calcite-button href="http://google.com" appearance="inline" color='light'
+          rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
+          icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
+          icon
+        </calcite-button> in some text.<br />
         An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer"
           target="_blank" title="in the middle with an icon" color='dark'
           icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>in the middle
         </calcite-button> of some text.<br /><br />
         <div class="demo-background-dark">
-          An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer"
+          An anchor link <calcite-button theme="dark" href="http://google.com" appearance="inline" rel="noopener noreferrer"
             target="_blank" title="in the middle">in
             the middle</calcite-button> of some text.<br />
+          An anchor link <calcite-button theme="dark" href="http://google.com" appearance="inline" rel="noopener noreferrer"
+            target="_blank" title="in the middle" color='red'>to Google.</calcite-button><br />
           An anchor link <calcite-button href="http://google.com" appearance="inline" color='light'
             rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
             icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
             icon
           </calcite-button> in some text.<br />
-          An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer"
-            target="_blank" title="in the middle" color='red'>to Google.</calcite-button><br />
+          An anchor link <calcite-button href="http://google.com" appearance="inline" color='dark'
+            rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
+            icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
+            icon
+          </calcite-button> in some text.<br />
+
         </div>
 
         <h3>Scales</h3>
@@ -885,14 +923,14 @@
         <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
         <calcite-button appearance="outline" color="light"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
-          </calcite-button>
-          <calcite-button  onclick="loadingButton(this, 3000)"
+        </calcite-button>
+        <calcite-button onclick="loadingButton(this, 3000)"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
-          </calcite-button>
+        </calcite-button>
         <calcite-button appearance="outline" color="dark"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
           Download</calcite-button>
-          <calcite-button scale="l" appearance="outline"
+        <calcite-button scale="l" appearance="outline"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
           Download</calcite-button>
         <calcite-button
@@ -913,17 +951,17 @@
       </calcite-tab>
       <calcite-tab>
         <calcite-date-picker id="dateSample" value="12/8/2019" min="08/09/2019" max="12/18/2021"></calcite-date-picker>
-        <calcite-date-picker id="dateSample" value="12/12/2019" ></calcite-date-picker>
+        <calcite-date-picker id="dateSample" value="12/12/2019"></calcite-date-picker>
         <script>
           const dateSample = document.getElementById("dateSample");
 
-          dateSample.addEventListener("calciteDateChange", function(
+          dateSample.addEventListener("calciteDateChange", function (
             e
           ) {
             dateSample.value = e.target.value;
             console.log(
               "Date selected <calcite-date>",
-                e.target.value
+              e.target.value
             );
           });
         </script>
