@@ -1,3 +1,32 @@
+// theme variables
+// light theme
+:host {
+  --calcite-button-blue: #{$ui-blue};
+  --calcite-button-blue-hover: #{$ui-blue-hover};
+  --calcite-button-blue-pressed: #{$ui-blue-pressed};
+  --calcite-button-red: #{$ui-red};
+  --calcite-button-red-hover: #{$ui-red-hover};
+  --calcite-button-red-pressed: #{$ui-red-pressed};
+  --calcite-button-blue-inline-underline: #{rgba($ui-blue, 0.4)};
+  --calcite-button-red-inline-underline: #{rgba($ui-red, 0.4)};
+  --calcite-button-blue-solid-color: #{$blk-000};
+  --calcite-button-red-solid-color: #{$blk-000};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-button-blue: #{$ui-blue-dark};
+  --calcite-button-blue-hover: #{$ui-blue-hover-dark};
+  --calcite-button-blue-pressed: #{$ui-blue-pressed-dark};
+  --calcite-button-red: #{$ui-red-dark};
+  --calcite-button-red-hover: #{$ui-red-hover-dark};
+  --calcite-button-red-pressed: #{$ui-red-pressed-dark};
+  --calcite-button-blue-inline-underline: #{rgba($ui-blue-dark, 0.4)};
+  --calcite-button-red-inline-underline: #{rgba($ui-red-dark, 0.4)};
+  --calcite-button-blue-solid-color: #{$blk-230};
+  --calcite-button-red-solid-color: #{$blk-230};
+}
+
 // button base
 :host button,
 :host a {
@@ -122,13 +151,23 @@
 :host([appearance="solid"][color="blue"]) {
   button,
   a {
-    @include btn-solid($ui-blue, $ui-blue-hover, $ui-blue-pressed, $blk-000);
+    @include btn-solid(
+      var(--calcite-button-blue),
+      var(--calcite-button-blue-hover),
+      var(--calcite-button-blue-pressed),
+      var(--calcite-button-blue-solid-color)
+    );
   }
 }
 :host([appearance="solid"][color="red"]) {
   button,
   a {
-    @include btn-solid($ui-red, $ui-red-hover, $ui-red-pressed, $blk-000);
+    @include btn-solid(
+      var(--calcite-button-red),
+      var(--calcite-button-red-hover),
+      var(--calcite-button-red-pressed),
+      var(--calcite-button-red-solid-color)
+    );
   }
 }
 :host([appearance="solid"][color="light"]) {
@@ -180,11 +219,11 @@
   a {
     @include btn-outline-clear(
       $blk-000,
-      $ui-blue,
-      $ui-blue-hover,
-      $ui-blue-pressed,
-      $ui-blue,
-      $ui-blue-pressed
+      var(--calcite-button-blue),
+      var(--calcite-button-blue-hover),
+      var(--calcite-button-blue-pressed),
+      var(--calcite-button-blue),
+      var(--calcite-button-blue-pressed)
     );
   }
 }
@@ -193,11 +232,11 @@
   a {
     @include btn-outline-clear(
       $blk-000,
-      $ui-red,
-      $ui-red-hover,
-      $ui-red-pressed,
-      $ui-red,
-      $ui-red-pressed
+      var(--calcite-button-red),
+      var(--calcite-button-red-hover),
+      var(--calcite-button-red-pressed),
+      var(--calcite-button-red),
+      var(--calcite-button-red-pressed)
     );
   }
 }
@@ -232,11 +271,11 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $ui-blue,
-      $ui-blue-hover,
-      $ui-blue-pressed,
-      $ui-blue,
-      $ui-blue-pressed
+      var(--calcite-button-blue),
+      var(--calcite-button-blue-hover),
+      var(--calcite-button-blue-pressed),
+      var(--calcite-button-blue),
+      var(--calcite-button-blue-pressed)
     );
   }
 }
@@ -245,11 +284,11 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $ui-red,
-      $ui-red-hover,
-      $ui-red-pressed,
-      $ui-red,
-      $ui-red-pressed
+      var(--calcite-button-red),
+      var(--calcite-button-red-hover),
+      var(--calcite-button-red-pressed),
+      var(--calcite-button-red),
+      var(--calcite-button-red-pressed)
     );
   }
 }
@@ -280,7 +319,7 @@
   }
 }
 // inline
-@mixin btn-inline($color, $color-hover) {
+@mixin btn-inline($color, $color-hover, $border-color) {
   display: inline;
   padding: 0;
   outline: none;
@@ -292,7 +331,7 @@
   background-color: transparent;
   position: relative;
   background-image: linear-gradient(currentColor, currentColor),
-    linear-gradient(rgba($color, 0.4), rgba($color, 0.4));
+    linear-gradient($border-color, $border-color);
   background-position: 0% 100%, 100% 100%;
   background-repeat: no-repeat, no-repeat;
   background-size: 0% 2px, 100% 1px;
@@ -318,25 +357,34 @@
 :host([appearance="inline"][color="blue"]) {
   button,
   a {
-    @include btn-inline($ui-blue, $ui-blue-hover);
+    @include btn-inline(
+      var(--calcite-button-blue),
+      var(--calcite-button-blue-hover),
+      var(--calcite-button-blue-inline-underline)
+    );
   }
 }
+
 :host([appearance="inline"][color="red"]) {
   button,
   a {
-    @include btn-inline($ui-red, $ui-red-hover);
+    @include btn-inline(
+      var(--calcite-button-red),
+      var(--calcite-button-red-hover),
+      var(--calcite-button-red-inline-underline)
+    );
   }
 }
 :host([appearance="inline"][color="light"]) {
   button,
   a {
-    @include btn-inline($blk-010, $blk-000);
+    @include btn-inline($blk-010, $blk-000, rgba($blk-000, 0.4));
   }
 }
 :host([appearance="inline"][color="dark"]) {
   button,
   a {
-    @include btn-inline($blk-200, $blk-180);
+    @include btn-inline($blk-200, $blk-180, rgba($blk-180, 0.4));
   }
 }
 :host([appearance="inline"][dir="rtl"]) {
