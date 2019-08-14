@@ -1,0 +1,55 @@
+::slotted(input) {
+  display: none;
+}
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+
+  .date-input-wrapper {
+    border: 1px solid $blk-030;
+    position: relative;
+
+    &.expanded {
+      border: none;
+      border-bottom: 1px solid $blk-030;
+    }
+
+    &:active,
+    &:focus,
+    &.open {
+      border-color: transparent;
+      border-bottom: 1px solid $blk-030;
+    }
+
+    .calendar-icon {
+      fill: $blk-120;
+      position: absolute;
+      top: $baseline/1.8;
+      left: $baseline/1.15;
+    }
+
+    .date-input {
+      color: $blk-160;
+      box-sizing: border-box;
+      border: none;
+      font-weight: 400;
+      font-size: 16px;
+      font-family: inherit;
+      padding: .75rem;
+      width: 100%;
+      margin: 0;
+      padding-left: $baseline*2;
+      &:active,
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+
+:host([expanded]) {
+  background-color: $blk-000;
+  border: 1px solid $blk-030;
+  box-shadow: $shadow-2;
+}

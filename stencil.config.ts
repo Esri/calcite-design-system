@@ -22,7 +22,15 @@ export const config: Config = {
       components: ["calcite-radio-group", "calcite-radio-group-item"]
     },
     { components: ["calcite-slider"] },
-    { components: ["calcite-modal"] }
+    { components: ["calcite-modal"] },
+    {
+      components: [
+        "calcite-date-picker",
+        "calcite-date-month",
+        "calcite-date-month-header",
+        "calcite-date-day"
+      ]
+    }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
