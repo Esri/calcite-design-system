@@ -19,7 +19,11 @@ import {
   END,
   SPACE
 } from "../../utils/keys";
-import { getElementDir, getElementTheme, getElementProp } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementTheme,
+  getElementProp
+} from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import DropdownInterface from "../../interfaces/DropdownInterface";
 

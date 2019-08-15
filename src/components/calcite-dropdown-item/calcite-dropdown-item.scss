@@ -35,7 +35,7 @@
     $baseline * 1.5};
 }
 
-:host slot {
+:host {
   display: block;
   @include font-size(-2);
   color: var(--calcite-dropdown-item-color);
@@ -43,33 +43,34 @@
   padding: var(--calcite-dropdown-item-padding);
   cursor: pointer;
   text-decoration: none;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: var(--calcite-dropdown-item-background-color-hover);
-    color: var(--calcite-dropdown-item-color-hover);
-    text-decoration: none;
-  }
-  &:active {
-    background-color: var(--calcite-dropdown-item-background-color-pressed);
-  }
-  &:before {
-    content: "\2022";
-    position: absolute;
-    left: 1rem;
-    opacity: 0;
-    color: $blk-120;
-    transition: 0.15s ease-in-out;
-  }
-  &:hover:before,
-  &:active:before,
-  &:focus:before {
-    opacity: 1;
-  }
+  position: relative;
 }
 
-:host([dir="rtl"]) slot {
+:host(:hover),
+:host(:focus),
+:host(:active) {
+  background-color: var(--calcite-dropdown-item-background-color-hover);
+  color: var(--calcite-dropdown-item-color-hover);
+  text-decoration: none;
+}
+:host(:active) {
+  background-color: var(--calcite-dropdown-item-background-color-pressed);
+}
+:host:before {
+  content: "\2022";
+  position: absolute;
+  left: 1rem;
+  opacity: 0;
+  color: $blk-120;
+  transition: 0.15s ease-in-out;
+}
+:host(:hover):before,
+:host(:active):before,
+:host(:focus):before {
+  opacity: 1;
+}
+
+:host([dir="rtl"]) {
   padding: $baseline/3 $baseline * 1.5 $baseline/3 $baseline/1.5;
   &:before {
     left: unset;
@@ -77,7 +78,7 @@
   }
 }
 
-:host([active]) slot {
+:host([active]) {
   color: var(--calcite-dropdown-item-color-active);
   font-weight: 500;
   &:before {
