@@ -145,7 +145,6 @@ slot[name="header"]::slotted(*) {
   position: relative;
   padding: $baseline;
   height: 100%;
-  flex: 0;
   overflow: auto;
   display: block;
   background-color: var(--calcite-modal-background);
@@ -257,7 +256,6 @@ slot[name="primary"] {
     height: auto !important;
   }
   .modal__content {
-    flex: 0;
     height: auto;
   }
 }
