@@ -100,6 +100,7 @@ focus-trap {
 
 .modal__close {
   padding: $baseline * 0.75;
+  margin: 0;
   order: 2;
   flex: 0 0 auto;
   transition-delay: 300ms;
@@ -145,7 +146,6 @@ slot[name="header"]::slotted(*) {
   position: relative;
   padding: $baseline;
   height: 100%;
-  flex: 0;
   overflow: auto;
   display: block;
   background-color: var(--calcite-modal-background);
@@ -257,7 +257,6 @@ slot[name="primary"] {
     height: auto !important;
   }
   .modal__content {
-    flex: 0;
     height: auto;
   }
 }
