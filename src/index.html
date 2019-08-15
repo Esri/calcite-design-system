@@ -997,6 +997,36 @@
           </calcite-tree-item>
         </calcite-tree>
 
+        <h3>Compact</h3>
+
+        <calcite-tree size="s" lines>
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <a href="#">Grandchild 2</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
         <h3>Dark Theme</h3>
         <div class="demo-background-dark">
           <calcite-tree theme="dark">

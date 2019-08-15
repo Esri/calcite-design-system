@@ -41,6 +41,7 @@ export class CalciteTree {
   @Prop({ mutable: true, reflect: true }) lines: boolean = false;
   @Prop({ mutable: true, reflect: true }) root: boolean = true;
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) size: "s" | "m" = "m";
   @Prop({ mutable: true, reflect: true })
   selectionMode: TreeSelectionMode = TreeSelectionMode.None;
 
@@ -58,6 +59,7 @@ export class CalciteTree {
     );
     this.theme = getElementTheme(this.el);
     this.lines = parent ? parent.lines : this.lines;
+    this.size = parent ? parent.size : this.size;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
     this.root = parent ? false : true;
   }

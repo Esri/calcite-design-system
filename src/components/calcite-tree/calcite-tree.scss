@@ -8,7 +8,17 @@
   --calcite-tree-chevron-active: #{$ui-blue};
   --calcite-tree-indicator: #{$blk-060};
   --calcite-tree-indicator-active: #{$ui-blue};
-  --calcite-tree-padding: 1;
+  --calcite-tree-vertical-padding: #{$baseline/4};
+  --calcite-tree-icon-padding: #{$baseline/4};
+  --calcite-tree-children-padding: #{$baseline/3};
+  --calcite-tree-line-position: -1rem;
+}
+
+:host([size="s"]) {
+  --calcite-tree-vertical-padding: #{$baseline/8};
+  --calcite-tree-icon-padding: #{$baseline/8};
+  --calcite-tree-children-padding: #{$baseline/6};
+  --calcite-tree-line-position: -0.25rem;
 }
 
 :host([theme="dark"]) {
