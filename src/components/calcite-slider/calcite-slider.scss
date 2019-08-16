@@ -8,10 +8,22 @@ $calcite-slider-tick-height: 4px;
 
 :host {
   --calcite-slider-spot: #{$ui-blue};
+  --calcite-slider-tick: #{$blk-100};
+  --calcite-slider-label: #{$blk-160};
+  --calcite-slider-track: #{$blk-050};
+  --calcite-slider-handle: #{$blk-000};
   display: block;
   padding: $calcite-slider-handle-size / 2 0;
   margin: $calcite-slider-handle-size / 2 0;
   position: relative;
+}
+
+:host([theme="dark"]) {
+  --calcite-slider-spot: #{$ui-blue-dark};
+  --calcite-slider-tick: #{$blk-180};
+  --calcite-slider-label: #{$blk-050};
+  --calcite-slider-track: #{$blk-170};
+  --calcite-slider-handle: #{$blk-200};
 }
 
 :host([disabled]) {
@@ -69,8 +81,8 @@ $calcite-slider-tick-height: 4px;
   margin: $calcite-slider-thumb-padding;
   box-sizing: border-box;
   border-radius: 100%;
-  background-color: $blk-000;
-  border: 2px solid $blk-100;
+  background-color: var(--calcite-slider-handle);
+  border: 2px solid var(--calcite-slider-tick);
   transition: border 0.25s ease, background-color 0.25s ease,
     box-shadow 0.25s ease;
 }
@@ -83,7 +95,7 @@ $calcite-slider-tick-height: 4px;
   height: 0.75em;
   @include font-size(-3);
   line-height: 1;
-  color: $blk-160;
+  color: var(--calcite-slider-label);
   text-align: center;
 }
 
@@ -115,7 +127,7 @@ $calcite-slider-tick-height: 4px;
   left: 50%;
   width: 2px;
   height: $calcite-slider-thumb-padding;
-  background-color: $blk-100;
+  background-color: var(--calcite-slider-tick);
   margin-left: -1px;
   margin-top: $calcite-slider-thumb-padding;
   z-index: 2;
@@ -143,7 +155,7 @@ $calcite-slider-tick-height: 4px;
   height: $calcite-slider-track-height;
   border-radius: 0;
   z-index: 2;
-  background-color: $blk-050;
+  background-color: var(--calcite-slider-track);
   transition: all 250ms ease-in;
   position: relative;
 }
@@ -163,9 +175,11 @@ $calcite-slider-tick-height: 4px;
   width: 2px;
   height: $calcite-slider-tick-height;
   left: var(--calcite-slider-tick-offset);
-  margin-left: -2px;
-  border: 1px solid $blk-000;
-  background-color: $blk-100;
+  margin-left: -3px;
+  border: 1px solid var(--calcite-slider-handle);
+  border-right-width: 2px;
+  border-left-width: 2px;
+  background-color: var(--calcite-slider-tick);
 }
 
 .slider__tick--active {
@@ -175,7 +189,7 @@ $calcite-slider-tick-height: 4px;
 .slider__tick__label {
   position: absolute;
   @include font-size(-3);
-  color: $blk-160;
+  color: var(--calcite-slider-label);
   width: 4em;
   margin: $calcite-slider-thumb-size / 2 -2em;
   text-align: center;

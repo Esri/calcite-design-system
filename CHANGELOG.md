@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+### [Unreleased][HEAD]
+
+### Added
+- dark theme for `calcite-slider`
+
+### Fixed
+- solved issue with incorrect positioning of handle in `calcite-slider`
+
 ## [v1.0.0-beta.3] - Aug 16th 2019
 
 ### Added
@@ -29,4 +37,4 @@ First initial beta release.
 [v1.0.0-beta.3]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.2...v1.0.0-beta.3 "v1.0.0-beta.3"
 [v1.0.0-beta.2]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.1...v1.0.0-beta.2 "v1.0.0-beta.2"
 [v1.0.0-beta.1]: https://github.com/ArcGIS/calcite-components/compare/dafb2312835ec6fef134d0d2b20aabd1dfe907cf...v1.0.0-beta.1 "v1.0.0-beta.1"
-[HEAD]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.1...HEAD "Unreleased Changes"
+[HEAD]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.3...HEAD "Unreleased Changes"
