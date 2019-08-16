@@ -3,8 +3,8 @@ import {
   Element,
   Prop,
   Host,
-  // Event,
-  // EventEmitter,
+  Event,
+  EventEmitter,
   // Method,
   Listen,
   // State,
@@ -13,7 +13,9 @@ import {
 import { getElementDir, getElementTheme } from "../../utils/dom";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
+import { TreeSelectDetail } from "../../interfaces/TreeSelect";
 import { nodeListToArray } from "../../utils/dom";
+
 @Component({
   tag: "calcite-tree",
   styleUrl: "calcite-tree.scss",
@@ -169,6 +171,17 @@ export class CalciteTree {
         });
       }
     }
+
+    if (this.root) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    this.calciteTreeSelect.emit({
+      selected: (nodeListToArray(
+        this.el.querySelectorAll("calcite-tree-item")
+      ) as HTMLCalciteTreeItemElement[]).filter(i => i.selected)
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -177,13 +190,18 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
 
-  // @Event() open: EventEmitter;
+  @Event() calciteTreeSelect: EventEmitter<TreeSelectDetail>;
 
   //--------------------------------------------------------------------------
   //
   //  Public Methods
   //
   //--------------------------------------------------------------------------
+
+  // @Method() async function sele() {
+  //   return Promise.resolve(nodeListToArray(
+
+  // }
 
   /**
    * Add a jsdoc comment describing your method and it's parameters (use `@param`).
