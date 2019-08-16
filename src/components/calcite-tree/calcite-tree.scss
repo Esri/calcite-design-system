@@ -1,5 +1,6 @@
 :host {
   display: block;
+  outline: none;
   --calcite-tree-text: #{$blk-180};
   --calcite-tree-text-hover: #{$blk-200};
   --calcite-tree-line: transparent;

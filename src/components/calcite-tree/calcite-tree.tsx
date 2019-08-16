@@ -5,9 +5,7 @@ import {
   Host,
   Event,
   EventEmitter,
-  // Method,
   Listen,
-  // State,
   h
 } from "@stencil/core";
 import { getElementDir, getElementTheme } from "../../utils/dom";
@@ -71,6 +69,7 @@ export class CalciteTree {
 
     return (
       <Host
+        tabindex={this.root ? "1" : undefined}
         dir={dir}
         aria-role={this.root ? "tree" : undefined}
         aria-multiselectable={
@@ -89,9 +88,22 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTreeItemSelect") onClick(
-    e: CustomEvent<TreeItemSelectDetail>
-  ) {
+  @Listen("focus") onFocus(e) {
+    console.log("focus from", e.target, this.root);
+    if (this.root) {
+      const selectedNode = this.el.querySelector(
+        "calcite-tree-item[selected]"
+      ) as HTMLCalciteTreeItemElement;
+      const firstNode = this.el.querySelector(
+        "calcite-tree-item"
+      ) as HTMLCalciteTreeItemElement;
+
+      (selectedNode || firstNode).focus();
+    }
+  }
+
+  @Listen("calciteTreeItemSelect")
+  onClick(e: CustomEvent<TreeItemSelectDetail>) {
     const target = e.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")
@@ -198,22 +210,11 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
 
-  // @Method() async function sele() {
-  //   return Promise.resolve(nodeListToArray(
-
-  // }
-
-  /**
-   * Add a jsdoc comment describing your method and it's parameters (use `@param`).
-   */
-
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  // @State() private currentSelection: HTMLCalciteTreeItemElement[] = [];
 
   //--------------------------------------------------------------------------
   //

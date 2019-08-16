@@ -5,7 +5,6 @@ import {
   Host,
   Event,
   EventEmitter,
-  // Method,
   State,
   Listen,
   h
@@ -14,6 +13,17 @@ import { chevronRight16F } from "@esri/calcite-ui-icons";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 import { getElementDir } from "../../utils/dom";
+import {
+  SPACE,
+  ENTER,
+  LEFT,
+  RIGHT,
+  UP,
+  DOWN,
+  HOME,
+  END
+} from "../../utils/keys";
+import { nodeListToArray } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tree-item",
@@ -96,7 +106,7 @@ export class CalciteTreeItem {
 
     return (
       <Host
-        tabindex="-1"
+        tabindex="1"
         dir={dir}
         aria-role="treeitem"
         aria-selected={
@@ -147,6 +157,105 @@ export class CalciteTreeItem {
         modifyCurrentSelection: (e as any).shiftKey,
         forceCollapse: originalTarget && !!originalTarget.closest("svg")
       });
+    }
+  }
+
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+    let root;
+
+    switch (e.keyCode) {
+      case SPACE:
+        this.selected = !this.selected;
+        break;
+      case ENTER:
+        // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
+        const link = nodeListToArray(this.el.children).find(e =>
+          e.matches("a")
+        ) as HTMLAnchorElement;
+
+        if (link) {
+          link.click();
+          this.selected = true;
+        } else {
+          this.selected = !this.selected;
+        }
+        break;
+      case LEFT:
+        // When focus is on an open node, closes the node.
+        if (this.hasChildren && this.expanded) {
+          this.expanded = false;
+
+          e.preventDefault();
+          e.stopPropagation();
+          break;
+        }
+
+        // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+        const parentItem = this.el.parentElement.closest("calcite-tree-item");
+
+        if (parentItem && (!this.hasChildren || this.expanded === false)) {
+          parentItem.focus();
+
+          e.preventDefault();
+          e.stopPropagation();
+          break;
+        }
+
+        // When focus is on a root node that is also either an end node or a closed node, does nothing.
+        break;
+      case RIGHT:
+        // When focus is on a closed node, opens the node; focus does not move.
+        if (this.hasChildren && this.expanded === false) {
+          this.expanded = true;
+          e.preventDefault();
+          e.stopPropagation();
+          break;
+        }
+
+        // When focus is on a open node, moves focus to the first child node.
+        if (this.hasChildren && this.expanded) {
+          this.el.querySelector("calcite-tree-item").focus();
+          break;
+        }
+
+        // When focus is on an end node, does nothing.
+        break;
+      case UP:
+        const previous = this.el
+          .previousElementSibling as HTMLCalciteTreeItemElement;
+        if (previous && previous.matches("calcite-tree-item")) {
+          previous.focus();
+        }
+        break;
+      case DOWN:
+        const next = this.el.nextElementSibling as HTMLCalciteTreeItemElement;
+        if (next && next.matches("calcite-tree-item")) {
+          next.focus();
+        }
+        break;
+      case HOME:
+        root = this.el.closest("calcite-tree[root]") as HTMLCalciteTreeElement;
+
+        const firstNode = root.querySelector("calcite-tree-item");
+
+        firstNode.focus();
+
+        break;
+      case END:
+        root = this.el.closest("calcite-tree[root]");
+
+        let currentNode = root.children[root.children.length - 1]; // last child
+        let currentTree = nodeListToArray(currentNode.children).find(e =>
+          e.matches("calcite-tree")
+        );
+        while (currentTree) {
+          currentNode = currentTree.children[root.children.length - 1];
+          currentTree = nodeListToArray(currentNode.children).find(e =>
+            e.matches("calcite-tree")
+          );
+        }
+        currentNode.focus();
+        break;
     }
   }
 

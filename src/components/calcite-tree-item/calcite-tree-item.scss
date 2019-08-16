@@ -24,7 +24,7 @@
   padding-right: var(--calcite-tree-children-padding-end);
 
   :host([expanded]) & {
-    transform:  scaleY(1);
+    transform: scaleY(1);
     opacity: 1;
     height: auto;
   }
@@ -75,31 +75,29 @@
   }
 }
 
-.calcite-tree-node,
-:host([selected]) .calcite-tree-node {
-  &:hover,
-  &:focus {
-    font-weight: 500;
+.calcite-tree-node:hover,
+:host([selected]) .calcite-tree-node:hover,
+:host(:focus) .calcite-tree-node {
+  font-weight: 500;
+  color: var(--calcite-tree-text-hover);
+
+  &:before {
+    background: var(--calcite-tree-line-hover);
+  }
+
+  ::slotted(a) {
     color: var(--calcite-tree-text-hover);
+  }
 
-    &:before {
-      background: var(--calcite-tree-line-hover);
-    }
+  .calcite-tree-indicator {
+    opacity: 1;
+  }
 
-    ::slotted(a) {
-      color: var(--calcite-tree-text-hover);
-    }
-
-    .calcite-tree-indicator {
-      opacity: 1;
-    }
-
-    .calcite-tree-chevron {
-      fill: var(--calcite-tree-chevron-hover);
-    }
-    .calcite-tree-indicator {
-      fill: var(--calcite-tree-indicator-hover);
-    }
+  .calcite-tree-chevron {
+    fill: var(--calcite-tree-chevron-hover);
+  }
+  .calcite-tree-indicator {
+    fill: var(--calcite-tree-indicator-hover);
   }
 }
 
