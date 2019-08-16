@@ -13,6 +13,7 @@ import {
 import { chevronRight16F } from "@esri/calcite-ui-icons";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tree-item",
@@ -70,6 +71,7 @@ export class CalciteTreeItem {
   }
 
   render() {
+    const dir = getElementDir(this.el);
     const icon = this.hasChildren ? (
       <svg
         class="calcite-tree-chevron"
@@ -93,12 +95,30 @@ export class CalciteTreeItem {
     );
 
     return (
-      <Host aria-role="treeitem" aria-selected={this.selected ? "true" : (this.selectionMode === TreeSelectionMode.Multi || this.selectionMode === TreeSelectionMode.MultiChildren) ? "false": undefined} aria-expanded={this.hasChildren ? this.expanded ? "true" : "false" : undefined}>
+      <Host
+        tabindex="-1"
+        dir={dir}
+        aria-role="treeitem"
+        aria-selected={
+          this.selected
+            ? "true"
+            : this.selectionMode === TreeSelectionMode.Multi ||
+              this.selectionMode === TreeSelectionMode.MultiChildren
+            ? "false"
+            : undefined
+        }
+        aria-expanded={
+          this.hasChildren ? (this.expanded ? "true" : "false") : undefined
+        }
+      >
         <div class="calcite-tree-node">
           {icon}
           <slot></slot>
         </div>
-        <div class="calcite-tree-children" role={this.hasChildren ? "group" : undefined}>
+        <div
+          class="calcite-tree-children"
+          role={this.hasChildren ? "group" : undefined}
+        >
           <slot name="children"></slot>
         </div>
       </Host>

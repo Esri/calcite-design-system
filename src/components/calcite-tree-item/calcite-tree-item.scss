@@ -2,6 +2,7 @@
   display: block;
   color: var(--calcite-tree-text);
   cursor: pointer;
+  outline: none;
 }
 
 ::slotted(a) {
@@ -17,19 +18,15 @@
   transform: scaleY(0);
   opacity: 0;
   transform-origin: top;
-  margin-left: 0.5rem;
-  padding-left:  var(--calcite-tree-children-padding);
-}
+  margin-left: var(--calcite-tree-children-indent-start);
+  margin-right: var(--calcite-tree-children-indent-end);
+  padding-left: var(--calcite-tree-children-padding-start);
+  padding-right: var(--calcite-tree-children-padding-end);
 
-:host([expanded]) .calcite-tree-children {
-  transform: scaleY(1);
-  opacity: 1;
-  height: auto;
-}
-
-:host([depth="1"]) .calcite-tree-node {
-  &:before {
-    display: none;
+  :host([expanded]) & {
+    transform:  scaleY(1);
+    opacity: 1;
+    height: auto;
   }
 }
 
@@ -43,17 +40,50 @@
     height: 100%;
     width: 2px;
     background: var(--calcite-tree-line);
-    left: var(--calcite-tree-line-position);
+    left: var(--calcite-tree-line-position-start);
+    right: var(--calcite-tree-line-position-end);
     top: 0;
     position: absolute;
+
+    :host([depth="1"]) & {
+      display: none;
+    }
+  }
+}
+
+:host([selected]) .calcite-tree-node {
+  color: var(--calcite-tree-text-active);
+  font-weight: 500;
+
+  &:before {
+    background: var(--calcite-tree-line-active);
   }
 
+  ::slotted(a) {
+    color: var(--calcite-tree-text-active);
+  }
+
+  .calcite-tree-indicator {
+    opacity: 1;
+  }
+
+  .calcite-tree-chevron {
+    fill: var(--calcite-tree-chevron-active);
+  }
+  .calcite-tree-indicator {
+    fill: var(--calcite-tree-indicator-active);
+  }
+}
+
+.calcite-tree-node,
+:host([selected]) .calcite-tree-node {
   &:hover,
-  :host([selected]) & {
+  &:focus {
+    font-weight: 500;
     color: var(--calcite-tree-text-hover);
 
     &:before {
-      background: var(--calcite-tree-line-active);
+      background: var(--calcite-tree-line-hover);
     }
 
     ::slotted(a) {
@@ -65,10 +95,10 @@
     }
 
     .calcite-tree-chevron {
-      fill: var(--calcite-tree-chevron-active);
+      fill: var(--calcite-tree-chevron-hover);
     }
     .calcite-tree-indicator {
-      fill: var(--calcite-tree-indicator-active);
+      fill: var(--calcite-tree-indicator-hover);
     }
   }
 }
@@ -78,7 +108,8 @@
   flex: 0 0 1rem;
   width: 1rem;
   height: 1rem;
-  margin-right: var(--calcite-tree-icon-padding);
+  margin-right: var(--calcite-tree-icon-padding-start);
+  margin-left: var(--calcite-tree-icon-padding-end);
   margin-top: 0.125rem;
 }
 
@@ -86,18 +117,22 @@
   transition: transform 0.15s $easing-function;
   transform: rotate(0deg);
   fill: var(--calcite-tree-chevron);
-}
 
-:host([expanded]) .calcite-tree-chevron {
-  transform: rotate(90deg);
+  :host([dir="rtl"]) & {
+    transform: rotate(180deg);
+  }
+
+  :host([expanded]) & {
+    transform: rotate(90deg);
+  }
 }
 
 .calcite-tree-indicator {
   transition: opacity 0.15s $easing-function;
   opacity: 0;
   fill: transparent;
-}
 
-:host([children]) .calcite-tree-indicator {
-  opacity: 0;
+  :host([children]) & {
+    opacity: 0;
+  }
 }

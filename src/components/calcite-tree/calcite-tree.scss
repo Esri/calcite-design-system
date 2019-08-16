@@ -1,45 +1,81 @@
 :host {
   display: block;
-  --calcite-tree-text: #{$blk-160};
+  --calcite-tree-text: #{$blk-180};
   --calcite-tree-text-hover: #{$blk-200};
   --calcite-tree-line: transparent;
+  --calcite-tree-line-hover: transparent;
   --calcite-tree-line-active: transparent;
   --calcite-tree-chevron: #{$blk-060};
+  --calcite-tree-chevron-hover: #{$h-bb-040};
   --calcite-tree-chevron-active: #{$ui-blue};
   --calcite-tree-indicator: #{$blk-060};
+  --calcite-tree-indicator-hover: #{$h-bb-040};
   --calcite-tree-indicator-active: #{$ui-blue};
   --calcite-tree-vertical-padding: #{$baseline/4};
-  --calcite-tree-icon-padding: #{$baseline/4};
-  --calcite-tree-children-padding: #{$baseline/3};
-  --calcite-tree-line-position: -1rem;
+  --calcite-tree-icon-padding-start: #{$baseline/4};
+  --calcite-tree-icon-padding-end: 0;
+  --calcite-tree-children-indent-start: 0.5rem;
+  --calcite-tree-children-indent-end: 0;
+  --calcite-tree-children-padding-start: #{$baseline/2};
+  --calcite-tree-children-padding-end: 0;
+  --calcite-tree-line-position-start: -0.75rem;
+  --calcite-tree-line-position-end: 0;
 }
 
 :host([size="s"]) {
   --calcite-tree-vertical-padding: #{$baseline/6};
-  --calcite-tree-icon-padding: #{$baseline/6};
-  --calcite-tree-children-padding: #{$baseline/4};
-  --calcite-tree-line-position: -0.5rem;
+  --calcite-tree-icon-padding-start: #{$baseline/6};
+  --calcite-tree-icon-padding-end: 0;
+  --calcite-tree-children-padding-start: #{$baseline/4};
+  --calcite-tree-children-padding-end: 0;
+  --calcite-tree-line-position-start: -0.375rem;
+  --calcite-tree-line-position-end: 0;
 }
 
 :host([theme="dark"]) {
-  --calcite-tree-text: #{$blk-060};
+  --calcite-tree-text: #{$blk-040};
   --calcite-tree-text-hover: #{$blk-020};
   --calcite-tree-line: transparent;
+  --calcite-tree-line-hover: transparent;
   --calcite-tree-line-active: transparent;
   --calcite-tree-chevron: #{$blk-160};
+  --calcite-tree-chevron-hover: #{$h-bb-060};
   --calcite-tree-chevron-active: #{$ui-blue-dark};
   --calcite-tree-indicator: #{$blk-160};
+  --calcite-tree-indicator-hover: #{$h-bb-060};
   --calcite-tree-indicator-active: #{$ui-blue-dark};
 }
 
 :host([lines]) {
   --calcite-tree-line: #{$blk-040};
   --calcite-tree-line-active: #{$ui-blue};
+  --calcite-tree-line-hover: #{$h-bb-040};
 }
 
 :host([lines][theme="dark"]) {
   --calcite-tree-line: #{$blk-180};
   --calcite-tree-line-active: #{$ui-blue-dark};
+  --calcite-tree-line-hover: #{$h-bb-060};
+}
+
+:host([dir="rtl"]) {
+  --calcite-tree-icon-padding-start: 0;
+  --calcite-tree-icon-padding-end: #{$baseline/4};
+  --calcite-tree-children-indent-start: 0;
+  --calcite-tree-children-indent-end: 0.5rem;
+  --calcite-tree-children-padding-start: 0;
+  --calcite-tree-children-padding-end: #{$baseline/2};
+  --calcite-tree-line-position-start: 0;
+  --calcite-tree-line-position-end: -0.75rem;
+}
+
+:host([dir="rtl"][size="s"]) {
+  --calcite-tree-icon-padding-start: 0;
+  --calcite-tree-icon-padding-end: #{$baseline/6};
+  --calcite-tree-children-padding-start: 0;
+  --calcite-tree-children-padding-end: #{$baseline/4};
+  --calcite-tree-line-position-start: 0;
+  --calcite-tree-line-position-end: -0.375rem;
 }
 
 :host([root]) ::slotted(calcite-tree-item) {

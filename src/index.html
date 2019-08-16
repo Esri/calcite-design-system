@@ -13,7 +13,7 @@
       padding: 1rem;
     }
   </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.2.0/fonts.css" />
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.3.0/fonts.css" />
   <link rel="stylesheet" href="/build/calcite.css" />
   <script type="module" src="build/calcite.esm.js"></script>
   <script nomodule src="build/calcite.js"></script>
@@ -1323,37 +1323,88 @@
                   </calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
-
-              <calcite-tree-item>
-                Child 2
-
-                <calcite-tree slot="children">
-                  <calcite-tree-item>
-                    Grandchild 1
-                  </calcite-tree-item>
-
-                  <calcite-tree-item>
-                    Grandchild 2
-                  </calcite-tree-item>
-
-                  <calcite-tree-item>
-                    Grandchild 3
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        Great-Grandchild 1
-                      </calcite-tree-item>
-                      <calcite-tree-item>
-                        Great-Grandchild 2
-                      </calcite-tree-item>
-                      <calcite-tree-item>
-                        Great-Grandchild 3
-                      </calcite-tree-item>
-                    </calcite-tree>
-                  </calcite-tree-item>
             </calcite-tree>
 
           </calcite-tree-item>
         </calcite-tree>
+
+        <h3>RTL</h3>
+
+        <calcite-tree lines dir="rtl">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+
+        <h3>RTL (Compact)</h3>
+
+        <calcite-tree lines dir="rtl" size="s">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
       </calcite-tab>
     </calcite-tabs>
 
