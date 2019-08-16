@@ -1,0 +1,1 @@
+System.register([],function(r){"use strict";return{execute:function(){r({a:n,g:e,h:i,n:t});function t(r){if(Array.isArray(r)){return r}else{return Array.prototype.slice.call(r)}}function e(r){return r.closest("[dir='rtl']")&&"rtl"||"ltr"}function n(r){return r.closest("[theme='dark']")&&"dark"||"light"}function i(r){var t=r&&r.assignedNodes();return t&&t.length>0}}}});
