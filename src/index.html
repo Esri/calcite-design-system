@@ -608,7 +608,12 @@
         <h3>"Precise" Range</h3>
         <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
           max-label="Temperature range (upper)" precise></calcite-slider>
-        <h3>Event listener</h3>
+        <div class="demo-background-dark">
+          <h3>Dark Theme</h3>
+          <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)" theme="dark" label-ticks ticks="10"></calcite-slider>
+        </div>
+        <h3>Event Listener</h3>
         <calcite-slider id="sliderEvents" min="0" max="100" value="50" step="1" label="Temperature"></calcite-slider>
         <p>Current slider value is: <span id="sliderEventDisplay"></span></p>
         <script>
