@@ -6,12 +6,13 @@ import {
   Event,
   EventEmitter,
   // Method,
-  // State,
+  State,
   Listen,
   h
 } from "@stencil/core";
 import { chevronRight16F } from "@esri/calcite-ui-icons";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
+import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 
 @Component({
   tag: "calcite-tree-item",
@@ -53,7 +54,7 @@ export class CalciteTreeItem {
 
     let parentTree = this.el.closest("calcite-tree");
 
-    // this.selectionMode = parentTree.selectionMode;
+    this.selectionMode = parentTree.selectionMode;
 
     this.depth = 0;
     let nextParentTree;
@@ -92,12 +93,12 @@ export class CalciteTreeItem {
     );
 
     return (
-      <Host>
+      <Host aria-role="treeitem" aria-selected={this.selected ? "true" : (this.selectionMode === TreeSelectionMode.Multi || this.selectionMode === TreeSelectionMode.MultiChildren) ? "false": undefined} aria-expanded={this.hasChildren ? this.expanded ? "true" : "false" : undefined}>
         <div class="calcite-tree-node">
           {icon}
           <slot></slot>
         </div>
-        <div class="calcite-tree-children">
+        <div class="calcite-tree-children" role={this.hasChildren ? "group" : undefined}>
           <slot name="children"></slot>
         </div>
       </Host>
@@ -149,7 +150,7 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  // @State() private selectionMode: TreeSelectionMode;
+  @State() private selectionMode: TreeSelectionMode;
 
   //--------------------------------------------------------------------------
   //

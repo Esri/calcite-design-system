@@ -68,7 +68,7 @@ export class CalciteTree {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir}>
+      <Host dir={dir} aria-role={this.root ? "tree" : undefined} aria-multiselectable={this.selectionMode === TreeSelectionMode.Multi || this.selectionMode === TreeSelectionMode.MultiChildren}>
         <slot></slot>
       </Host>
     );
