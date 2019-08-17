@@ -15,6 +15,7 @@
 | `icon`       | `icon`       | optionally pass icon path data to be positioned within the button - pass only raw path data from calcite ui helper                     | `string`                                      | `null`      |
 | `loading`    | `loading`    | optionally add a calcite-loader component inline to indicate loading is occuring. You can add and remove this prop depending on status | `boolean`                                     | `false`     |
 | `scale`      | `scale`      | specify the scale of the button, defaults to m                                                                                         | `"l" \| "m" \| "s" \| "xl" \| "xs"`           | `"m"`       |
+| `theme`      | `theme`      | Select theme (light or dark)                                                                                                           | `"dark" \| "light"`                           | `"light"`   |
 | `width`      | `width`      | specify the width of the button, defaults to auto                                                                                      | `"auto" \| "full" \| "half"`                  | `"auto"`    |
 
 
