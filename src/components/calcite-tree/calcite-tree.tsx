@@ -88,8 +88,7 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("focus") onFocus(e) {
-    console.log("focus from", e.target, this.root);
+  @Listen("focus") onFocus() {
     if (this.root) {
       const selectedNode = this.el.querySelector(
         "calcite-tree-item[selected]"
