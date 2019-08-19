@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [v1.0.0-beta.4] - Aug 19th 2019
+
 ### Added
 - dark theme for `calcite-slider`
+- added `<calcite-dropdown>`
+- added `<calcite-tree>`
+
 
 ### Fixed
 - solved issue with incorrect positioning of handle in `calcite-slider`
+- fix various issue in Edge
 
 ## [v1.0.0-beta.3] - Aug 16th 2019
 
@@ -34,6 +40,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.4]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.3...v1.0.0-beta.4 "v1.0.0-beta.4"
 [v1.0.0-beta.3]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.2...v1.0.0-beta.3 "v1.0.0-beta.3"
 [v1.0.0-beta.2]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.1...v1.0.0-beta.2 "v1.0.0-beta.2"
 [v1.0.0-beta.1]: https://github.com/ArcGIS/calcite-components/compare/dafb2312835ec6fef134d0d2b20aabd1dfe907cf...v1.0.0-beta.1 "v1.0.0-beta.1"
