@@ -11,6 +11,7 @@ import {
   Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
+import { getSlottedElements } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -88,7 +89,7 @@ export class CalciteTabNav {
   render() {
     return (
       <Host role="tablist">
-        <nav class="tab-nav">
+        <nav class="tab-nav" ref={el => (this.tabNavEl = el as HTMLElement)}>
           <slot />
         </nav>
       </Host>
@@ -207,6 +208,8 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
+  private tabNavEl: HTMLElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -218,8 +221,12 @@ export class CalciteTabNav {
   }
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {
-    return this.el.shadowRoot
-      ? this.el.shadowRoot.querySelector("slot").assignedElements()
-      : [];
+    if (this.tabNavEl) {
+      return getSlottedElements<HTMLCalciteTabTitleElement>(
+        this.tabNavEl,
+        "calcite-tab-title"
+      );
+    }
+    return [];
   }
 }

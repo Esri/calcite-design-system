@@ -13,7 +13,7 @@
       padding: 1rem;
     }
   </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.2.0/fonts.css" />
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.3.0/fonts.css" />
   <link rel="stylesheet" href="/build/calcite.css" />
   <script type="module" src="build/calcite.esm.js"></script>
   <script nomodule src="build/calcite.js"></script>
@@ -37,6 +37,7 @@
         <calcite-tab-title>Switch and Checkbox</calcite-tab-title>
         <calcite-tab-title>Buttons</calcite-tab-title>
         <calcite-tab-title>Date picker</calcite-tab-title>
+        <calcite-tab-title>Tree</calcite-tab-title>
       </calcite-tab-nav>
 
       <calcite-tab is-active>
@@ -501,7 +502,7 @@
         <calcite-progress type="indeterminate">
           <h1>Hello World!</h1>
         </calcite-progress>
-        <calcite-progress type="determinate" value="0.5" text="Initializing flux capacitor&hellip;" />
+        <calcite-progress type="determinate" value="0.5" text="Initializing flux capacitor&hellip;"></calcite-progress>
       </calcite-tab>
 
       <calcite-tab>
@@ -626,7 +627,6 @@
         </script>
       </calcite-tab>
 
-
       <calcite-tab>
         <h2>calcite-switch</h2>
         <div>
@@ -634,7 +634,7 @@
             <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
             Without a proxy <code>input</code> element.
             <script>
-              const basicSwitch = document.getElementById("basicSwitch");
+              var basicSwitch = document.getElementById("basicSwitch");
 
               basicSwitch.addEventListener("calciteSwitchChange", function (
                 e
@@ -656,12 +656,12 @@
             With a proxy <code>input</code> element and changes on click.
           </span>
           <script>
-            const proxySwitchSpan = document.getElementById(
+            var proxySwitchSpan = document.getElementById(
               "proxySwitchSpan"
             );
-            const proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
+            var proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
 
-            proxySwitchSpan.addEventListener('click', () => {
+            proxySwitchSpan.addEventListener('click', function () {
               proxySwitchCheckbox.hasAttribute('checked') ?
                 proxySwitchCheckbox.removeAttribute('checked') :
                 proxySwitchCheckbox.setAttribute('checked', '')
@@ -688,7 +688,7 @@
             <calcite-checkbox id="basicCheckbox" checked="true"></calcite-checkbox>
             Without a proxy <code>input</code> element.
             <script>
-              const basicCheckbox = document.getElementById("basicCheckbox");
+              var basicCheckbox = document.getElementById("basicCheckbox");
 
               basicCheckbox.addEventListener("calciteCheckboxChange", function (
                 e
@@ -710,12 +710,12 @@
             With a proxy <code>input</code> element and changes on click.
           </span>
           <script>
-            const proxyCheckboxSpan = document.getElementById(
+            var proxyCheckboxSpan = document.getElementById(
               "proxyCheckboxSpan"
             );
-            const proxyCheckboxCheckbox = document.getElementById('proxyCheckboxCheckbox');
+            var proxyCheckboxCheckbox = document.getElementById('proxyCheckboxCheckbox');
 
-            proxyCheckboxSpan.addEventListener('click', () => {
+            proxyCheckboxSpan.addEventListener('click', function () {
               proxyCheckboxCheckbox.hasAttribute('checked') ?
                 proxyCheckboxCheckbox.removeAttribute('checked') :
                 proxyCheckboxCheckbox.setAttribute('checked', '')
@@ -955,10 +955,10 @@
           Delete this (loader)</calcite-button>
       </calcite-tab>
       <calcite-tab>
-        <calcite-date-picker id="dateSample" value="12/8/2019" min="08/09/2019" max="12/18/2021"></calcite-date-picker>
+        <calcite-date-picker value="12/8/2019" min="08/09/2019" max="12/18/2021"></calcite-date-picker>
         <calcite-date-picker id="dateSample" value="12/12/2019"></calcite-date-picker>
         <script>
-          const dateSample = document.getElementById("dateSample");
+          var dateSample = document.getElementById("dateSample");
 
           dateSample.addEventListener("calciteDateChange", function (
             e
@@ -970,6 +970,496 @@
             );
           });
         </script>
+      </calcite-tab>
+      <calcite-tab>
+        <h3>Nav Tree</h3>
+        <button>Focus Test</button>
+        <calcite-tree>
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <a href="#">Grandchild 2</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Compact</h3>
+
+        <calcite-tree size="s" lines>
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <a href="#">Grandchild 2</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Dark Theme</h3>
+        <div class="demo-background-dark">
+          <calcite-tree theme="dark">
+            <calcite-tree-item>
+              <a href="#">Child 1</a>
+            </calcite-tree-item>
+
+            <calcite-tree-item>
+              <a href="#">Child 2</a>
+
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a href="#">Grandchild 1</a>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <a href="#">Grandchild 2</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a href="#">Great-Grandchild 1</a>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <a href="#">Great-Grandchild 2</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+
+        <h3>Nav Tree (Lines)</h3>
+
+        <calcite-tree lines>
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <a href="#">Grandchild 2</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Dark Theme (Lines)</h3>
+        <div class="demo-background-dark">
+          <calcite-tree theme="dark" lines>
+            <calcite-tree-item>
+              <a href="#">Child 1</a>
+            </calcite-tree-item>
+
+            <calcite-tree-item>
+              <a href="#">Child 2</a>
+
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a href="#">Grandchild 1</a>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <a href="#">Grandchild 2</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a href="#">Great-Grandchild 1</a>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <a href="#">Great-Grandchild 2</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+
+        <h3>Active and Expanded States</h3>
+
+        <calcite-tree lines>
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item expanded>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+
+              <calcite-tree-item selected expanded>
+                <a href="#">Grandchild 2</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item  selected>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item selected>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Without Links</h3>
+
+        <calcite-tree lines>
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+
+        <h3>Single Select Mode</h3>
+
+        <calcite-tree lines selection-mode="single">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Child Select Mode</h3>
+
+        <calcite-tree lines selection-mode="children">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+
+        <h3>Multi Select Mode</h3>
+
+        <calcite-tree lines selection-mode="multi">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <h3>Multi-Child Select Mode</h3>
+
+        <calcite-tree lines selection-mode="multi-children">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+
+        <h3>Events</h3>
+        <p id="tree-events-demo-result">0 Selected</p>
+        <calcite-tree id="tree-events-demo-tree" lines selection-mode="multi-children">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+        <script>
+          (function (){
+            var tree = document.getElementById("tree-events-demo-tree");
+            var result = document.getElementById("tree-events-demo-result");
+            tree.addEventListener("calciteTreeSelect", function (e) {
+              console.log(e.detail.selected);
+              result.textContent = e.detail.selected.length + " Selected";
+            });
+          })()
+        </script>
+
+        <h3>RTL</h3>
+
+        <calcite-tree lines dir="rtl">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
+
+        <h3>RTL (Compact)</h3>
+
+        <calcite-tree lines dir="rtl" size="s">
+          <calcite-tree-item>
+            Child 1
+          </calcite-tree-item>
+
+          <calcite-tree-item>
+            Child 2
+
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Grandchild 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 2
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Great-Grandchild 1
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 2
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    Great-Grandchild 3
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+
+          </calcite-tree-item>
+        </calcite-tree>
+
       </calcite-tab>
     </calcite-tabs>
 
