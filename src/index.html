@@ -37,6 +37,7 @@
         <calcite-tab-title>Switch and Checkbox</calcite-tab-title>
         <calcite-tab-title>Buttons</calcite-tab-title>
         <calcite-tab-title>Date picker</calcite-tab-title>
+        <calcite-tab-title>Dropdown</calcite-tab-title>
         <calcite-tab-title>Tree</calcite-tab-title>
       </calcite-tab-nav>
 
@@ -793,9 +794,12 @@
 
       <calcite-tab>
         <h3>Normal Lockup</h3>
-        <calcite-button title="Back" appearance='outline'>Back</calcite-button>
+        <calcite-button color="light" appearance='outline' icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+          Back</calcite-button>
+        <calcite-button appearance='outline'>Cancel</calcite-button>
         <calcite-button>Continue</calcite-button>
-        <calcite-button href="/">Continue with href</calcite-button>
+
+
         <h3>Type: Solid (default)</h3>
         <calcite-button title="blue solid button">blue solid button</calcite-button>
         <calcite-button title="red solid button" color='red'>red solid button</calcite-button>
@@ -816,7 +820,6 @@
         <h3>Type: Outline</h3>
         <calcite-button title="blue outline button" appearance='outline'>blue outline button</calcite-button>
         <calcite-button title="red outline button" appearance='outline' color='red'>red outline button</calcite-button>
-
         <calcite-button title="light outline button" appearance='outline' color='light'>light outline button
         </calcite-button>
         <calcite-button title="dark outline button" appearance='outline' color='dark'>dark outline button
@@ -917,7 +920,8 @@
         </calcite-button>
 
         <h3>Loader</h3>
-        <h5>These examples show a loader when the attribute is present, and remove it when the attribute is removed</h5>
+        <h5>These examples remove on the consumer end, the loader attribute when done... We could also present a "done"
+          loader state somehow...</h5>
         <calcite-button onclick="loadingButton(this, 5000)">Do something</calcite-button>
         <calcite-button appearance="outline" onclick="loadingButton(this, 5000)">Do something</calcite-button>
         <calcite-button color="red" onclick="loadingButton(this, 500000000)">Do something</calcite-button>
@@ -971,6 +975,139 @@
           });
         </script>
       </calcite-tab>
+
+      <calcite-tab>
+        <h3>Dropdowns</h3>
+
+        <calcite-dropdown>
+          <calcite-button slot="dropdown-trigger">Dropdown with Two Groups</calcite-button>
+          <calcite-dropdown-group grouptitle="Sort by">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group grouptitle="Sort Direction">
+            <calcite-dropdown-item>Least recent</calcite-dropdown-item>
+            <calcite-dropdown-item active>Most recent</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-dropdown>
+          <calcite-button slot="dropdown-trigger">Dropdown with Three Groups</calcite-button>
+          <calcite-dropdown-group grouptitle="Sort by">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group grouptitle="Sort Direction">
+            <calcite-dropdown-item active>Least recent</calcite-dropdown-item>
+            <calcite-dropdown-item>Most recent</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group grouptitle="Price">
+            <calcite-dropdown-item>Less</calcite-dropdown-item>
+            <calcite-dropdown-item active>More</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
+        <calcite-dropdown alignment="right">
+          <calcite-button slot="dropdown-trigger">Open Dropdown right aligned</calcite-button>
+
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
+        <calcite-dropdown alignment="center">
+
+          <calcite-button slot="dropdown-trigger">Open Dropdown center aligned</calcite-button>
+
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Mint</calcite-dropdown-item>
+            <calcite-dropdown-item active>Chocolate</calcite-dropdown-item>
+            <calcite-dropdown-item>Banana</calcite-dropdown-item>
+            <calcite-dropdown-item>Vanilla</calcite-dropdown-item>
+            <calcite-dropdown-item>Strawberry</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+        <br />
+        <calcite-dropdown theme="dark">
+          <calcite-button color="dark" slot="dropdown-trigger">Open Dropdown dark mode</calcite-button>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Mint</calcite-dropdown-item>
+            <calcite-dropdown-item active>Chocolate</calcite-dropdown-item>
+            <calcite-dropdown-item>Banana</calcite-dropdown-item>
+            <calcite-dropdown-item>Vanilla</calcite-dropdown-item>
+            <calcite-dropdown-item>Strawberry</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
+        <calcite-dropdown theme="dark">
+          <calcite-button color="dark" slot="dropdown-trigger">Open Dropdown dark mode with groups</calcite-button>
+          <calcite-dropdown-group grouptitle="Flavors">
+            <calcite-dropdown-item>Mint</calcite-dropdown-item>
+            <calcite-dropdown-item active>Chocolate</calcite-dropdown-item>
+            <calcite-dropdown-item>Banana</calcite-dropdown-item>
+            <calcite-dropdown-item>Vanilla</calcite-dropdown-item>
+            <calcite-dropdown-item>Strawberry</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group grouptitle="Genres">
+            <calcite-dropdown-item>Rock</calcite-dropdown-item>
+            <calcite-dropdown-item active>Country</calcite-dropdown-item>
+            <calcite-dropdown-item>Western</calcite-dropdown-item>
+            <calcite-dropdown-item>R&B</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+        <br />
+        <calcite-dropdown scale="s">
+          <calcite-button scale="s" slot="dropdown-trigger">Scale S small</calcite-button>
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
+        <calcite-dropdown scale="m">
+          <calcite-button scale="m" slot="dropdown-trigger">Scale M medium</calcite-button>
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
+        <calcite-dropdown scale="l">
+          <calcite-button color="dark" scale="l" slot="dropdown-trigger">Scale L large</calcite-button>
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+        <calcite-dropdown>
+          <button slot="dropdown-trigger" tabIndex="0">I'm not a "not calcite-button" button trigger</button>
+
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+
+        <calcite-dropdown>
+          <a slot="dropdown-trigger" tabIndex="0">I'm not an anchor trigger</a>
+          <calcite-dropdown-group grouptitle="View">
+            <calcite-dropdown-item active>List</calcite-dropdown-item>
+            <calcite-dropdown-item>Grid</calcite-dropdown-item>
+            <calcite-dropdown-item>Table</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
       <calcite-tab>
         <h3>Nav Tree</h3>
         <button>Focus Test</button>
@@ -1539,6 +1676,7 @@
         <div slot="alert-message">11 A general piece of information</div>
         <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
       </calcite-alert>
+
     </calcite-alerts>
   </div>
 </body>
