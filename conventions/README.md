@@ -45,7 +45,7 @@ export class CalciteComponent {
 
 // ...
 
-@Prop({ reflectToAttr: true }) color: Colors = 'blue'
+@Prop({ reflect: true }) color: Colors = 'blue'
 
 // ...
 ```
@@ -85,7 +85,7 @@ export class CalciteComponent {
 
 // ...
 
-@Prop({ reflectToAttr: true }) theme: "light" | "dark" = 'light';
+@Prop({ reflect: true }) theme: "light" | "dark" = 'light';
 
 // ...
 ```
@@ -201,7 +201,7 @@ It is generally agreed on that components should not:
 * Make network requests. Authentication and the exact environment of hte request is difficult to mange and better left to the specific application or site.
 * Manage routing or manipulate the URL. managing the URL is the the domain and the specific site or app.
 * Implement any feature which can easily be achieved with simple CSS and HTML. E.x. it was decided that `<calcite-switch>` should not support `text` or `position` properties because those could be easily duplicated with CSS ([ref](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140))
-* Implement any feature which might replace a browser feature. For example there will never be a `<calcite-button>` in Calcite Components because it already exists in the browser.
+* Implement any component which might replace a browser feature, without adding functionality that goes above and beyond what browser defaults would provide.
 
 However components are allowed to:
 

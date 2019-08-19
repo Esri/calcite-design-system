@@ -19,7 +19,7 @@ import {
   HOME,
   END
 } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getElementTheme } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 type activeSliderProperty = "minValue" | "maxValue" | "value";
 
@@ -41,81 +41,37 @@ export class CalciteSlider {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /**
-   * Disable and gray out the slider
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  disabled: boolean = false;
-  /**
-   * Minimum selectable value
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  min: number = 0;
-  /**
-   * Maximum selectable value
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  max: number = 100;
-  /**
-   * Currently selected number (if single select)
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  value: null | number = null;
-  /**
-   * Currently selected lower number (if multi-select)
-   */
+  /** Select theme (light or dark) */
+  @Prop({ reflectToAttr: true }) theme: "light" | "dark" = "light";
+  /** Disable and gray out the slider */
+  @Prop({ reflect: true, mutable: true }) disabled: boolean = false;
+  /** Minimum selectable value */
+  @Prop({ reflect: true, mutable: true }) min: number = 0;
+  /** Maximum selectable value */
+  @Prop({ reflect: true, mutable: true }) max: number = 100;
+  /** Currently selected number (if single select) */
+  @Prop({ reflect: true, mutable: true }) value: null | number = null;
+  /** Currently selected lower number (if multi-select) */
   @Prop() minValue?: number;
-  /**
-   * Currently selected upper number (if multi-select)
-   */
+  /** Currently selected upper number (if multi-select) */
   @Prop() maxValue?: number;
-  /**
-   * Label for first (or only) handle (ex. "Temperature, lower bound")
-   */
+  /** Label for first (or only) handle (ex. "Temperature, lower bound") */
   @Prop() minLabel: string;
-  /**
-   * Label for second handle if needed (ex. "Temperature, upper bound")
-   */
+  /** Label for second handle if needed (ex. "Temperature, upper bound") */
   @Prop() maxLabel?: string;
-  /**
-   * Snap selection along the step interval
-   */
+  /** Snap selection along the step interval */
   @Prop() snap?: boolean = true;
-  /**
-   * Interval to move on up/down keys
-   */
+  /** Interval to move on up/down keys */
   @Prop() step?: number = 1;
-  /**
-   * Interval to move on page up/page down keys
-   */
+  /** Interval to move on page up/page down keys */
   @Prop() pageStep?: number;
-  /**
-   * Show tick marks on the number line at provided interval
-   */
+  /** Show tick marks on the number line at provided interval */
   @Prop() ticks?: number;
-  /**
-   * Label tick marks with their numeric value.
-   */
+  /** Label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks?: boolean;
-  /**
-   * Label handles with their numeric value
-   */
+  /** Label handles with their numeric value */
   @Prop({ reflect: true }) labelHandles?: boolean;
-  /**
-   * Use finer point for handles
-   */
+  /** Use finer point for handles */
   @Prop() precise?: boolean;
   //--------------------------------------------------------------------------
   //
@@ -135,12 +91,14 @@ export class CalciteSlider {
   render() {
     const id = this.el.id || this.guid;
     const dir = getElementDir(this.el);
+    const theme = getElementTheme(this.el);
     const min = this.minValue || this.min;
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
     return (
       <Host
         dir={dir}
+        theme={theme}
         id={id}
         is-range={this.isRange}
         style={{
@@ -380,6 +338,9 @@ export class CalciteSlider {
     if (e) {
       e.preventDefault();
     }
+    if (this.dragListener) {
+      this.dragEnd();
+    }
     this.dragProp = prop;
     this.activeProp = prop;
     this.dragListener = this.dragListener || this.dragUpdate.bind(this);
@@ -429,7 +390,8 @@ export class CalciteSlider {
    */
   private translate(x: number): number {
     const range = this.max - this.min;
-    const percent = (x - this.el.offsetLeft) / this.el.offsetWidth;
+    const { left, width } = this.el.getBoundingClientRect();
+    const percent = (x - left) / width;
     let value = this.bound(this.min + range * percent);
     if (this.snap && this.step) {
       value = this.getClosestStep(value);
