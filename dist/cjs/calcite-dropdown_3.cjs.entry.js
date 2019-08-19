@@ -1,0 +1,377 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const core = require('./core-9cd06664.js');
+const keys = require('./keys-7f994354.js');
+const guid = require('./guid-7f841849.js');
+const dom = require('./dom-dcb5a4ba.js');
+const index$1 = require('./index-c41eeb4b.js');
+
+const CalciteDropdown = class {
+    constructor(hostRef) {
+        core.registerInstance(this, hostRef);
+        //--------------------------------------------------------------------------
+        //
+        //  Public Properties
+        //
+        //--------------------------------------------------------------------------
+        this.active = false;
+        /** specify the alignment of dropdrown, defaults to left */
+        this.alignment = "left";
+        /** specify the alignment of dropdrown, defaults to left */
+        this.theme = "light";
+        /** specify the scale of dropdrown, defaults to m */
+        this.scale = "m";
+        //--------------------------------------------------------------------------
+        //
+        //  Private State/Props
+        //
+        //--------------------------------------------------------------------------
+        /** created list of dropdown items */
+        this.items = [];
+        /** keep track of whether the groups have been sorted so we don't re-sort */
+        this.sorted = false;
+        /** unique id for dropdown */
+        /** @internal */
+        this.dropdownId = `calcite-dropdown-${guid.guid()}`;
+        this.sortItems = (items) => items
+            .sort((a, b) => a.position - b.position)
+            .concat.apply([], this.items.map(item => item.items));
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Lifecycle
+    //
+    //--------------------------------------------------------------------------
+    connectedCallback() {
+        // validate props
+        let alignment = ["left", "right", "center"];
+        if (!alignment.includes(this.alignment))
+            this.alignment = "left";
+        let theme = ["light", "dark"];
+        if (!theme.includes(this.theme))
+            this.theme = "light";
+        let scale = ["s", "m", "l"];
+        if (!scale.includes(this.scale))
+            this.scale = "m";
+    }
+    componentWillUpdate() {
+        if (!this.sorted) {
+            this.items = this.sortItems(this.items);
+            this.sorted = true;
+        }
+    }
+    render() {
+        const dir = dom.getElementDir(this.el);
+        const expanded = this.active.toString();
+        return (core.h(core.Host, { dir: dir, active: this.active, id: this.dropdownId }, core.h("slot", { name: "dropdown-trigger", "aria-haspopup": "true", "aria-expanded": expanded }), core.h("div", { class: "calcite-dropdown-wrapper", role: "menu" }, core.h("slot", null))));
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Event Listeners
+    //
+    //--------------------------------------------------------------------------
+    openDropdown(e) {
+        if (e.target.slot === "dropdown-trigger") {
+            this.openCalciteDropdown();
+        }
+    }
+    closeCalciteDropdownOnClick(e) {
+        if (this.active && e.target.offsetParent.id !== this.dropdownId)
+            this.closeCalciteDropdown();
+    }
+    closeCalciteDropdownOnEvent() {
+        this.closeCalciteDropdown();
+    }
+    keyDownHandler(e) {
+        if (e.target.slot === "dropdown-trigger") {
+            if (e.target.nodeName !== "BUTTON" &&
+                e.target.nodeName !== "CALCITE-BUTTON") {
+                switch (e.keyCode) {
+                    case keys.SPACE:
+                    case keys.ENTER:
+                        this.openCalciteDropdown();
+                        break;
+                    case keys.ESCAPE:
+                        this.closeCalciteDropdown();
+                        break;
+                }
+            }
+            else if (e.keyCode === keys.ESCAPE || (e.shiftKey && e.keyCode === keys.TAB)) {
+                this.closeCalciteDropdown();
+            }
+        }
+    }
+    calciteDropdownItemKeyEvent(item) {
+        let e = item.detail.item;
+        let isFirstItem = this.itemIndex(e.target) === 0;
+        let isLastItem = this.itemIndex(e.target) === this.items.length - 1;
+        switch (e.keyCode) {
+            case keys.TAB:
+                if (isLastItem && !e.shiftKey)
+                    this.closeCalciteDropdown();
+                if (isFirstItem && e.shiftKey)
+                    this.closeCalciteDropdown();
+                break;
+            case keys.DOWN:
+                this.focusNextItem(e.target);
+                break;
+            case keys.UP:
+                this.focusPrevItem(e.target);
+                break;
+            case keys.HOME:
+                this.focusFirstItem();
+                break;
+            case keys.END:
+                this.focusLastItem();
+                break;
+        }
+    }
+    registerCalciteDropdownGroup(e) {
+        const items = {
+            items: e.detail.items,
+            position: e.detail.position
+        };
+        this.items.push(items);
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Private Methods
+    //
+    //--------------------------------------------------------------------------
+    closeCalciteDropdown() {
+        this.active = false;
+    }
+    focusFirstItem() {
+        const firstItem = this.items[0];
+        firstItem.focus();
+    }
+    focusLastItem() {
+        const lastItem = this.items[this.items.length - 1];
+        lastItem.focus();
+    }
+    focusNextItem(e) {
+        const index = this.itemIndex(e);
+        const nextItem = this.items[index + 1] || this.items[0];
+        nextItem.focus();
+    }
+    focusPrevItem(e) {
+        const index = this.itemIndex(e);
+        const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
+        prevItem.focus();
+    }
+    itemIndex(e) {
+        return this.items.indexOf(e);
+    }
+    openCalciteDropdown() {
+        this.active = !this.active;
+        this.focusFirstItem();
+    }
+    get el() { return core.getElement(this); }
+    static get style() { return "body{font-family:Avenir Next W01,Avenir Next W00,Avenir Next,Avenir,Helvetica Neue,sans-serif}.overflow-hidden{overflow:hidden}calcite-tab{display:none}calcite-tab[is-active]{display:block}:host{--calcite-dropdown-background-color:#fff;--calcite-dropdown-border-color:#eaeaea}:host([theme=dark]){--calcite-dropdown-background-color:#2b2b2b;--calcite-dropdown-border-color:#151515}:host{position:relative;display:inline-block}:host([active]) .calcite-dropdown-wrapper{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1;visibility:visible}:host .calcite-dropdown-wrapper{-webkit-transform:translate3d(0,1.5rem,0);transform:translate3d(0,1.5rem,0);-webkit-transition:.3s cubic-bezier(.215,.44,.42,.88),opacity .3s cubic-bezier(.215,.44,.42,.88),all .15s ease-in-out;transition:.3s cubic-bezier(.215,.44,.42,.88),opacity .3s cubic-bezier(.215,.44,.42,.88),all .15s ease-in-out;visibility:hidden;opacity:0;display:block;position:absolute;left:0;z-index:200;overflow:auto;width:auto;width:12.5rem;background:var(--calcite-dropdown-background-color);border:1px solid var(--calcite-dropdown-border-color);-webkit-box-shadow:0 0 12px 0 rgba(0,0,0,.15);box-shadow:0 0 12px 0 rgba(0,0,0,.15)}:host([alignment=right]) .calcite-dropdown-wrapper,:host([dir=rtl]) .calcite-dropdown-wrapper{right:0;left:unset}:host([dir=rtl][alignment=right]) .calcite-dropdown-wrapper{right:unset;left:0}:host([alignment=center]) .calcite-dropdown-wrapper{right:0;left:0;margin-right:auto;margin-left:auto}"; }
+};
+
+const DropdownInterface = index$1.createProviderConsumer({
+    requestedDropdownGroup: "",
+    requestedDropdownItem: ""
+}, (subscribe, child) => (core.h("context-consumer", { subscribe: subscribe, renderer: child })));
+
+const CalciteDropdownGroup = class {
+    constructor(hostRef) {
+        core.registerInstance(this, hostRef);
+        //--------------------------------------------------------------------------
+        //
+        //  Public Properties
+        //
+        //--------------------------------------------------------------------------
+        this.requestedDropdownGroup = "";
+        this.requestedDropdownItem = "";
+        /** optionally set a group title for display */
+        this.grouptitle = null;
+        //--------------------------------------------------------------------------
+        //
+        //  Private State/Props
+        //
+        //--------------------------------------------------------------------------
+        /** created list of dropdown items */
+        this.items = [];
+        /** unique id for dropdown group */
+        /** @internal */
+        this.dropdownGroupId = `calcite-dropdown-group-${guid.guid()}`;
+        this.sortItems = (items) => items.sort((a, b) => a.position - b.position).map(a => a.item);
+        this.calciteDropdownItemHasChanged = core.createEvent(this, "calciteDropdownItemHasChanged", 7);
+        this.registerCalciteDropdownGroup = core.createEvent(this, "registerCalciteDropdownGroup", 7);
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Lifecycle
+    //
+    //--------------------------------------------------------------------------
+    componentDidLoad() {
+        this.groupPosition = this.getGroupPosition();
+        this.items = this.sortItems(this.items);
+        this.registerCalciteDropdownGroup.emit({
+            items: this.items,
+            position: this.groupPosition
+        });
+    }
+    render() {
+        const theme = dom.getElementTheme(this.el);
+        const scale = dom.getElementProp(this.el, "scale", "m");
+        const dropdownState = {
+            requestedDropdownGroup: this.requestedDropdownGroup,
+            requestedDropdownItem: this.requestedDropdownItem
+        };
+        const grouptitle = this.grouptitle ? (core.h("span", { class: "dropdown-title" }, this.grouptitle)) : null;
+        return (core.h(core.Host, { theme: theme, scale: scale, id: this.dropdownGroupId }, grouptitle, core.h(DropdownInterface.Provider, { state: dropdownState }, core.h("slot", null))));
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Event Listeners
+    //
+    //--------------------------------------------------------------------------
+    updateActiveItemOnChange(event) {
+        this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
+        this.requestedDropdownItem = event.detail.requestedDropdownItem;
+        this.calciteDropdownItemHasChanged.emit({
+            requestedDropdownGroup: this.requestedDropdownGroup,
+            requestedDropdownItem: this.requestedDropdownItem
+        });
+    }
+    registerCalciteDropdownItem(e) {
+        const item = {
+            item: e.detail.item,
+            position: e.detail.position
+        };
+        this.items.push(item);
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Private Methods
+    //
+    //--------------------------------------------------------------------------
+    getGroupPosition() {
+        return Array.prototype.indexOf.call(this.el.parentElement.querySelectorAll("calcite-dropdown-group"), this.el);
+    }
+    get el() { return core.getElement(this); }
+    static get style() { return "body{font-family:Avenir Next W01,Avenir Next W00,Avenir Next,Avenir,Helvetica Neue,sans-serif}.overflow-hidden{overflow:hidden}calcite-tab{display:none}calcite-tab[is-active]{display:block}:host{--calcite-dropdown-group-color:#404040;--calcite-dropdown-group-border-color:#eaeaea}:host([theme=dark]){--calcite-dropdown-group-color:#fff;--calcite-dropdown-group-border-color:#404040}:host([scale=s]){--calcite-dropdown-group-padding:0.5rem 0}:host([scale=m]){--calcite-dropdown-group-padding:0.75rem 0}:host([scale=l]){--calcite-dropdown-group-padding:1rem 0}:host .dropdown-title{display:block;margin:0 1rem -1px 1rem;padding:var(--calcite-dropdown-group-padding);border-bottom:1px solid var(--calcite-dropdown-group-border-color);color:var(--calcite-dropdown-group-color);font-weight:600;word-wrap:break-word;cursor:default;font-size:.875rem;line-height:1.5}"; }
+};
+
+const CalciteDropdownItem = class {
+    constructor(hostRef) {
+        core.registerInstance(this, hostRef);
+        //--------------------------------------------------------------------------
+        //
+        //  Public Properties
+        //
+        //--------------------------------------------------------------------------
+        this.active = false;
+        /** @internal */
+        this.requestedDropdownGroup = "";
+        /** @internal */
+        this.requestedDropdownItem = "";
+        //--------------------------------------------------------------------------
+        //
+        //  Private State/Props
+        //
+        //--------------------------------------------------------------------------
+        /** unique id for dropdown item */
+        /** @internal */
+        this.dropdownItemId = `calcite-dropdown-item-${guid.guid()}`;
+        /** id of containing group */
+        /** @internal */
+        this.currentDropdownGroup = this.el.parentElement.id;
+        this.calciteDropdownItemSelected = core.createEvent(this, "calciteDropdownItemSelected", 7);
+        this.calciteDropdownItemKeyEvent = core.createEvent(this, "calciteDropdownItemKeyEvent", 7);
+        this.closeCalciteDropdown = core.createEvent(this, "closeCalciteDropdown", 7);
+        this.registerCalciteDropdownItem = core.createEvent(this, "registerCalciteDropdownItem", 7);
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Lifecycle
+    //
+    //--------------------------------------------------------------------------
+    componentDidLoad() {
+        this.currentDropdownGroup = this.el.parentElement.id;
+        this.itemPosition = this.getItemPosition();
+        this.registerCalciteDropdownItem.emit({
+            item: this.el,
+            position: this.itemPosition
+        });
+    }
+    componentDidUpdate() {
+        this.determineActiveItem();
+    }
+    render() {
+        const dir = dom.getElementDir(this.el);
+        const theme = dom.getElementTheme(this.el);
+        const scale = dom.getElementProp(this.el, "scale", "m");
+        const selected = this.active ? "true" : null;
+        return (core.h(core.Host, { theme: theme, dir: dir, scale: scale, id: this.dropdownItemId, tabindex: "0", role: "menuitem", "aria-selected": selected }, core.h("slot", null)));
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Event Listeners
+    //
+    //--------------------------------------------------------------------------
+    onClick(e) {
+        this.emitRequestedItem(e);
+    }
+    keyDownHandler(e) {
+        switch (e.keyCode) {
+            case keys.SPACE:
+            case keys.ENTER:
+                this.emitRequestedItem(e);
+                break;
+            case keys.ESCAPE:
+                this.closeCalciteDropdown.emit();
+                break;
+            case keys.TAB:
+            case keys.UP:
+            case keys.DOWN:
+            case keys.HOME:
+            case keys.END:
+                this.calciteDropdownItemKeyEvent.emit({ item: e });
+                break;
+        }
+    }
+    //--------------------------------------------------------------------------
+    //
+    //  Private Methods
+    //
+    //--------------------------------------------------------------------------
+    determineActiveItem() {
+        if (this.requestedDropdownItem === this.dropdownItemId) {
+            this.active = true;
+        }
+        else if (this.requestedDropdownGroup === this.currentDropdownGroup) {
+            this.active = false;
+        }
+    }
+    emitRequestedItem(e) {
+        this.calciteDropdownItemSelected.emit({
+            requestedDropdownItem: e.target.id,
+            requestedDropdownGroup: e.target.parentElement.id
+        });
+        this.closeCalciteDropdown.emit();
+    }
+    getItemPosition() {
+        return Array.prototype.indexOf.call(this.el.parentElement.querySelectorAll("calcite-dropdown-item"), this.el);
+    }
+    get el() { return core.getElement(this); }
+    static get style() { return "\@charset \"UTF-8\";body{font-family:Avenir Next W01,Avenir Next W00,Avenir Next,Avenir,Helvetica Neue,sans-serif}.overflow-hidden{overflow:hidden}calcite-tab{display:none}calcite-tab[is-active]{display:block}:host{--calcite-dropdown-item-color:#6a6a6a;--calcite-dropdown-item-color-hover:#555;--calcite-dropdown-item-color-active:#404040;--calcite-dropdown-item-background-color-hover:#f3f3f3;--calcite-dropdown-item-background-color-pressed:#eaeaea;--calcite-dropdown-item-dot-active-color:#007ac2}:host([theme=dark]){--calcite-dropdown-item-color:#d4d4d4;--calcite-dropdown-item-color-hover:#eaeaea;--calcite-dropdown-item-color-active:#fff;--calcite-dropdown-item-background-color-hover:#202020;--calcite-dropdown-item-background-color-pressed:#151515;--calcite-dropdown-item-dot-active-color:#3db8ff}:host([scale=s]){--calcite-dropdown-item-padding:0.3rem 1rem 0.3rem 2.25rem}:host([scale=m]){--calcite-dropdown-item-padding:0.5rem 1rem 0.5rem 2.25rem}:host([scale=l]){--calcite-dropdown-item-padding:0.75rem 1rem 0.75rem 2.25rem}:host{display:block;font-size:.875rem;line-height:1.5;color:var(--calcite-dropdown-item-color);-webkit-transition:all .15s ease-in-out;transition:all .15s ease-in-out;padding:var(--calcite-dropdown-item-padding);cursor:pointer;text-decoration:none;position:relative}:host(:active),:host(:focus),:host(:hover){background-color:var(--calcite-dropdown-item-background-color-hover);color:var(--calcite-dropdown-item-color-hover);text-decoration:none}:host(:active){background-color:var(--calcite-dropdown-item-background-color-pressed)}:host:before{content:\"•\";position:absolute;left:1rem;opacity:0;color:grey;-webkit-transition:.15s ease-in-out;transition:.15s ease-in-out}:host(:active):before,:host(:focus):before,:host(:hover):before{opacity:1}:host([dir=rtl]){padding:.5rem 2.25rem .5rem 1rem}:host([dir=rtl]):before{left:unset;right:1rem}:host([active]){color:var(--calcite-dropdown-item-color-active);font-weight:500}:host([active]):before{opacity:1;color:var(--calcite-dropdown-item-dot-active-color)}"; }
+};
+//--------------------------------------------------------------------------
+//
+//  Inject Props
+//
+//--------------------------------------------------------------------------
+DropdownInterface.injectProps(CalciteDropdownItem, [
+    "requestedDropdownItem",
+    "requestedDropdownGroup"
+]);
+
+exports.calcite_dropdown = CalciteDropdown;
+exports.calcite_dropdown_group = CalciteDropdownGroup;
+exports.calcite_dropdown_item = CalciteDropdownItem;

@@ -1,0 +1,151 @@
+body {
+  font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+calcite-tab {
+  display: none;
+}
+
+calcite-tab[is-active] {
+  display: block;
+}
+
+:host {
+  display: block;
+  color: var(--calcite-tree-text);
+  cursor: pointer;
+  outline: none;
+}
+
+::slotted(a) {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--calcite-tree-text);
+  text-decoration: none;
+}
+
+.calcite-tree-children {
+  transition: 0.15s cubic-bezier(0.215, 0.44, 0.42, 0.88), opacity 0.15s cubic-bezier(0.215, 0.44, 0.42, 0.88), all 0.15s ease-in-out;
+  height: 0;
+  transform: scaleY(0);
+  opacity: 0;
+  transform-origin: top;
+  margin-left: var(--calcite-tree-children-indent-start);
+  margin-right: var(--calcite-tree-children-indent-end);
+  padding-left: var(--calcite-tree-children-padding-start);
+  padding-right: var(--calcite-tree-children-padding-end);
+  border-left: 2px solid var(--calcite-tree-line);
+}
+:host([expanded]) .calcite-tree-children {
+  transform: scaleY(1);
+  opacity: 1;
+  height: auto;
+}
+
+.calcite-tree-node {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  display: flex;
+  padding: var(--calcite-tree-vertical-padding) 0;
+  position: relative;
+}
+.calcite-tree-node:before {
+  content: "";
+  height: 100%;
+  width: 2px;
+  background: var(--calcite-tree-line);
+  left: var(--calcite-tree-line-position-start);
+  right: var(--calcite-tree-line-position-end);
+  top: 0;
+  position: absolute;
+}
+:host([depth="1"]) .calcite-tree-node:before {
+  display: none;
+}
+
+:host([selected]) .calcite-tree-node {
+  color: var(--calcite-tree-text-active);
+  font-weight: 500;
+}
+:host([selected]) .calcite-tree-node:before {
+  background: var(--calcite-tree-line-active);
+}
+:host([selected]) .calcite-tree-node ::slotted(a) {
+  color: var(--calcite-tree-text-active);
+}
+:host([selected]) .calcite-tree-node .calcite-tree-indicator {
+  opacity: 1;
+}
+:host([selected]) .calcite-tree-node .calcite-tree-chevron {
+  fill: var(--calcite-tree-chevron-active);
+}
+:host([selected]) .calcite-tree-node .calcite-tree-indicator {
+  fill: var(--calcite-tree-indicator-active);
+}
+
+.calcite-tree-node:hover,
+:host([selected]) .calcite-tree-node:hover,
+:host(:focus) .calcite-tree-node {
+  font-weight: 500;
+  color: var(--calcite-tree-text-hover);
+}
+.calcite-tree-node:hover:before,
+:host([selected]) .calcite-tree-node:hover:before,
+:host(:focus) .calcite-tree-node:before {
+  background: var(--calcite-tree-line-hover);
+}
+.calcite-tree-node:hover ::slotted(a),
+:host([selected]) .calcite-tree-node:hover ::slotted(a),
+:host(:focus) .calcite-tree-node ::slotted(a) {
+  color: var(--calcite-tree-text-hover);
+}
+.calcite-tree-node:hover .calcite-tree-indicator,
+:host([selected]) .calcite-tree-node:hover .calcite-tree-indicator,
+:host(:focus) .calcite-tree-node .calcite-tree-indicator {
+  opacity: 1;
+}
+.calcite-tree-node:hover .calcite-tree-chevron,
+:host([selected]) .calcite-tree-node:hover .calcite-tree-chevron,
+:host(:focus) .calcite-tree-node .calcite-tree-chevron {
+  fill: var(--calcite-tree-chevron-hover);
+}
+.calcite-tree-node:hover .calcite-tree-indicator,
+:host([selected]) .calcite-tree-node:hover .calcite-tree-indicator,
+:host(:focus) .calcite-tree-node .calcite-tree-indicator {
+  fill: var(--calcite-tree-indicator-hover);
+}
+
+.calcite-tree-chevron,
+.calcite-tree-indicator {
+  flex: 0 0 1rem;
+  width: 1rem;
+  height: 1rem;
+  margin-right: var(--calcite-tree-icon-padding-start);
+  margin-left: var(--calcite-tree-icon-padding-end);
+  margin-top: 0.125rem;
+}
+
+.calcite-tree-chevron {
+  transition: transform 0.15s cubic-bezier(0.215, 0.44, 0.42, 0.88);
+  transform: rotate(0deg);
+  fill: var(--calcite-tree-chevron);
+}
+:host([dir=rtl]) .calcite-tree-chevron {
+  transform: rotate(180deg);
+}
+:host([expanded]) .calcite-tree-chevron {
+  transform: rotate(90deg);
+}
+
+.calcite-tree-indicator {
+  transition: opacity 0.15s cubic-bezier(0.215, 0.44, 0.42, 0.88);
+  opacity: 0;
+  fill: transparent;
+}
+:host([children]) .calcite-tree-indicator {
+  opacity: 0;
+}
