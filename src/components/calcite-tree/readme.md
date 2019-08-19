@@ -1,6 +1,6 @@
 # calcite-tree
 
-Any further explanation or examples for your component can be written here above the auto-generated line. The content below the line should not be edited as it is generated from the component tsx file.
+`<calcite-tree>` can be used as a sidebar navigation tree with optional lines and different selection modes.
 
 ```html
 <calcite-tree>
