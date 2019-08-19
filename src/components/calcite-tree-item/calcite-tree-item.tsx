@@ -9,7 +9,7 @@ import {
   Listen,
   h
 } from "@stencil/core";
-import { chevronRight16F } from "@esri/calcite-ui-icons";
+import { chevronRight16 } from "@esri/calcite-ui-icons";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 import { getElementDir } from "../../utils/dom";
@@ -90,19 +90,9 @@ export class CalciteTreeItem {
         width="16"
         viewBox="0 0 16 16"
       >
-        <path d={chevronRight16F} />
+        <path d={chevronRight16} />
       </svg>
-    ) : (
-      <svg
-        class="calcite-tree-indicator"
-        height="16"
-        width="16"
-        viewBox="0 0 16 16"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="8" cy="8" r="3" />
-      </svg>
-    );
+    ) : null;
 
     return (
       <Host
