@@ -15,7 +15,13 @@ export const config: Config = {
         "calcite-tabs"
       ]
     },
-    { components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"] },
+    {
+      components: [
+        "calcite-dropdown",
+        "calcite-dropdown-group",
+        "calcite-dropdown-item"
+      ]
+    },
     { components: ["calcite-progress"] },
     { components: ["calcite-alert", "calcite-alerts"] },
     { components: ["calcite-loader"] },
@@ -31,7 +37,8 @@ export const config: Config = {
         "calcite-date-month-header",
         "calcite-date-day"
       ]
-    }
+    },
+    { components: ["calcite-tree", "calcite-tree-item"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
