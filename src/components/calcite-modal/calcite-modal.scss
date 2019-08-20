@@ -54,6 +54,7 @@
   transform: translate3d(0, 20px, 0);
   box-shadow: $shadow-2;
   margin: $baseline;
+  width: 100%;
 }
 
 :host(.is-active) {
@@ -219,6 +220,10 @@ slot[name="primary"] {
       align-items: flex-end;
     }
   }
+}
+
+:host([size="small"]) .modal {
+  width: auto;
 }
 
 @include modal-size("small", 32rem);

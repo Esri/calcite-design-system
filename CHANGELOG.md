@@ -11,9 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - adds transparent appearance style for `calcite-button`
 - adds `iconposition` prop to `calcite-button`
 - updates dark theme style for `calcite-button`
-  
-### Fixed
 
+### Fixed
+- fix width of medium/large modals with narrow contents
 
 ## [v1.0.0-beta.4] - Aug 19th 2019
 
