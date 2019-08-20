@@ -7,6 +7,7 @@ import {
   EventEmitter,
   State,
   Listen,
+  Watch,
   h
 } from "@stencil/core";
 import { chevronRight16 } from "@esri/calcite-ui-icons";
@@ -23,7 +24,7 @@ import {
   HOME,
   END
 } from "../../utils/keys";
-import { nodeListToArray } from "../../utils/dom";
+import { nodeListToArray, getSlottedElements } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tree-item",
@@ -49,10 +50,27 @@ export class CalciteTreeItem {
    * Be sure to add a jsdoc comment describing your property for the generated readme file.
    * If your property should be hidden from documentation, you can use the `@internal` tag
    */
-  @Prop({ mutable: true, reflect: true }) expanded: boolean = false;
+
   @Prop({ mutable: true, reflect: true }) selected: boolean = false;
   @Prop({ mutable: true, reflect: true }) depth: number = -1;
   @Prop({ mutable: true, reflect: true }) hasChildren: boolean = null;
+  @Prop({ mutable: true, reflect: true }) expanded: boolean = false;
+  @Prop({ mutable: true }) parentExpanded: boolean = false;
+
+  @Watch("expanded")
+  expandedHandler(newValue: boolean) {
+    const [childTree] = getSlottedElements(
+      this.childrenSlotWrapper,
+      "calcite-tree"
+    );
+
+    const items = getSlottedElements<HTMLCalciteTreeItemElement>(
+      childTree,
+      "calcite-tree-item"
+    );
+
+    items.forEach(item => (item.parentExpanded = newValue));
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -66,7 +84,6 @@ export class CalciteTreeItem {
     let parentTree = this.el.closest("calcite-tree");
 
     this.selectionMode = parentTree.selectionMode;
-
     this.depth = 0;
     let nextParentTree;
     while (parentTree) {
@@ -96,9 +113,12 @@ export class CalciteTreeItem {
 
     return (
       <Host
-        tabindex="1"
+        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
         dir={dir}
         aria-role="treeitem"
+        aria-hidden={
+          this.parentExpanded || this.depth === 1 ? undefined : "true"
+        }
         aria-selected={
           this.selected
             ? "true"
@@ -118,6 +138,7 @@ export class CalciteTreeItem {
         <div
           class="calcite-tree-children"
           role={this.hasChildren ? "group" : undefined}
+          ref={el => (this.childrenSlotWrapper = el as HTMLElement)}
         >
           <slot name="children"></slot>
         </div>
@@ -276,6 +297,8 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   @State() private selectionMode: TreeSelectionMode;
+
+  childrenSlotWrapper!: HTMLElement;
 
   //--------------------------------------------------------------------------
   //
