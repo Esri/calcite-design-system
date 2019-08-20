@@ -48,7 +48,10 @@ export class CalciteButton {
   @Prop({ reflect: true }) href?: string;
 
   /** optionally pass icon path data to be positioned within the button - pass only raw path data from calcite ui helper  */
-  @Prop({ reflect: true }) icon?: string = null;
+  @Prop({ reflect: true }) icon?: string;
+
+  /** optionally used with icon, select where to position the icon */
+  @Prop({ reflect: true }) iconposition?: "start" | "end" = "start";
 
   /**
    * @internal
@@ -58,7 +61,7 @@ export class CalciteButton {
 
   connectedCallback() {
     // prop validations
-    let appearance = ["solid", "outline", "clear", "inline"];
+    let appearance = ["solid", "outline", "clear", "inline", "transparent"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
 
     let color = ["blue", "red", "dark", "light"];
@@ -72,6 +75,10 @@ export class CalciteButton {
 
     let theme = ["dark", "light"];
     if (!theme.includes(this.theme)) this.theme = "light";
+
+    let iconposition = ["start", "end"];
+    if (this.icon !== null && !iconposition.includes(this.iconposition))
+      this.iconposition = "start";
   }
 
   componentDidLoad() {
@@ -84,15 +91,18 @@ export class CalciteButton {
   }
 
   getAttributes() {
-    // spreadable attributes to pass to component child, if they aren't props
+    // spread attributes specified on the compoennt to component child, if they aren't props
     let props = [
       "appearance",
       "color",
+      "dir",
+      "hastext",
+      "icon",
+      "iconposition",
       "loading",
       "scale",
       "width",
-      "icon",
-      "dir"
+      "theme"
     ];
     return Array.from(this.el.attributes)
       .filter(a => a && !props.includes(a.name))
@@ -119,7 +129,17 @@ export class CalciteButton {
         <path d={this.icon} />
       </svg>
     ) : null;
-    if (this.appearance === "inline") {
+    if (this.iconposition === "start") {
+      return (
+        <Host dir={dir} hastext={this.hastext}>
+          <Type {...attributes} role={role}>
+            {loader}
+            {icon}
+            <slot />
+          </Type>
+        </Host>
+      );
+    } else if (this.iconposition === "end") {
       return (
         <Host dir={dir} hastext={this.hastext}>
           <Type {...attributes} role={role}>
@@ -130,15 +150,12 @@ export class CalciteButton {
         </Host>
       );
     } else {
-      return (
-        <Host dir={dir} hastext={this.hastext}>
-          <Type {...attributes} role={role}>
-            {loader}
-            {icon}
-            <slot />
-          </Type>
-        </Host>
-      );
+      <Host dir={dir} hastext={this.hastext}>
+        <Type {...attributes} role={role}>
+          {loader}
+          <slot />
+        </Type>
+      </Host>;
     }
   }
 }
