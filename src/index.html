@@ -8,7 +8,7 @@
 
   <style>
     .demo-background-dark {
-      background: #2b2b2b;
+      background: #202020;
       color: white;
       padding: 1rem;
     }
@@ -517,6 +517,30 @@
             <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
           </calcite-radio-group>
 
+          <h3 class="leader-1">Scale s</h3>
+
+          <calcite-radio-group scale="s">
+            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3 class="leader-1">Scale m</h3>
+
+          <calcite-radio-group scale="m">
+            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+          </calcite-radio-group>
+
+          <h3 class="leader-1">Scale l</h3>
+
+          <calcite-radio-group scale="l">
+            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+          </calcite-radio-group>
+
           <h3 class="leader-1">With labels</h3>
 
           <calcite-radio-group>
@@ -548,15 +572,38 @@
             <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
             <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
           </calcite-radio-group>
+          <br />
+          <br />
+          <div class="demo-background-dark">
+            <h3 class="leader-1">Dark theme</h3>
 
-          <h3 class="leader-1">Dark theme</h3>
+            <calcite-radio-group theme="dark">
+              <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
+              <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+              <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
+            </calcite-radio-group>
 
-          <calcite-radio-group theme="dark">
-            <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
-            <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
-            <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
-          </calcite-radio-group>
+            <h3 class="leader-1">Scale s</h3>
+            <calcite-radio-group theme="dark" scale="s">
+              <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+              <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
 
+            <h3 class="leader-1">Scale m</h3>
+            <calcite-radio-group theme="dark" scale="m">
+              <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+              <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+
+            <h3 class="leader-1">Scale l</h3>
+            <calcite-radio-group theme="dark" scale="l">
+              <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+              <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+          </div>
           <h3 class="leader-1">RTL</h3>
 
           <calcite-radio-group>
@@ -610,6 +657,7 @@
         <h3>"Precise" Range</h3>
         <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
           max-label="Temperature range (upper)" precise></calcite-slider>
+
         <div class="demo-background-dark">
           <h3>Dark Theme</h3>
           <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"

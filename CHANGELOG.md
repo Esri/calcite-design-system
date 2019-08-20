@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+### Added
+- adds scale prop  `calcite-radio-group`
+- updates style of  `calcite-radio-group`
+  
+### Fixed
+
+
 ## [v1.0.0-beta.4] - Aug 19th 2019
 
 ### Added

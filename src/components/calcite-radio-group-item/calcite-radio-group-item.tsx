@@ -8,7 +8,7 @@ import {
   Host,
   Watch
 } from "@stencil/core";
-
+import { getElementProp } from "../../utils/dom";
 @Component({
   tag: "calcite-radio-group-item",
   styleUrl: "calcite-radio-group-item.scss",
@@ -72,7 +72,9 @@ export class CalciteRadioGroupItem {
     this.inputProxy = inputProxy;
 
     const futureSlotted = Array.from(this.el.childNodes);
-    this.hasLabel = futureSlotted.some((child) => child.nodeType === Node.TEXT_NODE);
+    this.hasLabel = futureSlotted.some(
+      child => child.nodeType === Node.TEXT_NODE
+    );
   }
 
   disconnectedCallback() {
@@ -81,9 +83,9 @@ export class CalciteRadioGroupItem {
 
   render() {
     const { checked, value } = this;
-
+    const scale = getElementProp(this.el, "scale", "m");
     return (
-      <Host role="radio" aria-checked={checked ? "true" : "false"}>
+      <Host role="radio" aria-checked={checked ? "true" : "false"} scale={scale}>
         <label>
           {this.hasLabel ? <slot /> : value}
           <slot name="input" />
@@ -111,7 +113,9 @@ export class CalciteRadioGroupItem {
 
   private inputProxy: HTMLInputElement;
 
-  private mutationObserver = new MutationObserver(() => this.syncFromExternalInput());
+  private mutationObserver = new MutationObserver(() =>
+    this.syncFromExternalInput()
+  );
 
   //--------------------------------------------------------------------------
   //
@@ -124,7 +128,7 @@ export class CalciteRadioGroupItem {
       this.value = this.inputProxy.value;
       this.checked = this.inputProxy.checked;
     }
-  };
+  }
 
   private syncToExternalInput(): void {
     if (!this.inputProxy) {
