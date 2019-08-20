@@ -15,12 +15,20 @@
 
 .calcite-tree-children {
   z-index: 1;
-  display: none;
   margin-left: var(--calcite-tree-children-indent-start);
   margin-right: var(--calcite-tree-children-indent-end);
   padding-left: var(--calcite-tree-children-padding-start);
   padding-right: var(--calcite-tree-children-padding-end);
   position: relative;
+
+  transform: scaleY(0);
+  opacity: 0;
+  overflow: hidden;
+  transition: 0.15s $easing-function, opacity 0.15s $easing-function,
+    all 0.15s ease-in-out; // note that we're transitioning transform, not height!
+  height: 0;
+  transform-origin: top; // keep the top of the element in the same place. this is optional.
+
   &:after {
     transition: all $transition;
     content: "";
@@ -33,15 +41,19 @@
     position: absolute;
   }
   :host([expanded]) & {
-    display: block;
+    transform: scaleY(1);
+    opacity: 1;
+    height: auto;
   }
 }
+
 :host([has-children]) .calcite-tree-children:hover,
 :host([has-children]) .calcite-tree-children:focus {
   &:after {
     background: var(--calcite-tree-line-hover);
   }
 }
+
 .calcite-tree-node {
   display: flex;
   padding: var(--calcite-tree-vertical-padding) 0;
@@ -70,7 +82,7 @@
     top: 0;
     position: absolute;
 
-    :host([depth="1"]) & {
+    :host([depth="1"]) > & {
       display: none;
     }
   }
@@ -83,6 +95,7 @@
     display: none;
   }
 }
+
 :host([depth="1"]) .calcite-tree-node,
 :host([depth="1"]) .calcite-tree-children {
   &:before {
@@ -90,6 +103,7 @@
     right: var(--calcite-tree-indicator-first-end);
   }
 }
+
 .calcite-tree-node:hover,
 :host([selected]) .calcite-tree-node:hover,
 :host(:focus) .calcite-tree-node {
@@ -112,6 +126,7 @@
     fill: var(--calcite-tree-indicator-hover);
   }
 }
+
 :host([selected]) .calcite-tree-node,
 :host([selected]) .calcite-tree-node:hover {
   color: var(--calcite-tree-text-active);
@@ -146,6 +161,7 @@
     color: var(--calcite-tree-text-active);
   }
 }
+
 // dropdown expanded and selected
 :host([has-children][expanded][selected]) .calcite-tree-node:after {
   background: var(--calcite-tree-line-active);
