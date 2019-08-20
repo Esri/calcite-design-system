@@ -8,11 +8,14 @@ import {
   Listen,
   h
 } from "@stencil/core";
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import {
+  nodeListToArray,
+  getElementDir,
+  getElementTheme
+} from "../../utils/dom";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectDetail } from "../../interfaces/TreeSelect";
-import { nodeListToArray } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tree",
