@@ -613,7 +613,7 @@
         <div class="demo-background-dark">
           <h3>Dark Theme</h3>
           <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" theme="dark" label-ticks ticks="10"></calcite-slider>
+            max-label="Temperature range (upper)" theme="dark" label-ticks ticks="10"></calcite-slider>
         </div>
         <h3>Event Listener</h3>
         <calcite-slider id="sliderEvents" min="0" max="100" value="50" step="1" label="Temperature"></calcite-slider>
@@ -874,11 +874,12 @@
           icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>in the middle
         </calcite-button> of some text.<br /><br />
         <div class="demo-background-dark">
-          An anchor link <calcite-button theme="dark" href="http://google.com" appearance="inline" rel="noopener noreferrer"
-            target="_blank" title="in the middle">in
+          An anchor link <calcite-button theme="dark" href="http://google.com" appearance="inline"
+            rel="noopener noreferrer" target="_blank" title="in the middle">in
             the middle</calcite-button> of some text.<br />
-          An anchor link <calcite-button theme="dark" href="http://google.com" appearance="inline" rel="noopener noreferrer"
-            target="_blank" title="in the middle" color='red'>to Google.</calcite-button><br />
+          An anchor link <calcite-button theme="dark" href="http://google.com" appearance="inline"
+            rel="noopener noreferrer" target="_blank" title="in the middle" color='red'>to Google.</calcite-button>
+          <br />
           An anchor link <calcite-button href="http://google.com" appearance="inline" color='light'
             rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
             icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
@@ -1107,11 +1108,10 @@
             <calcite-dropdown-item>Table</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
-
+      </calcite-tab>
       <calcite-tab>
         <h3>Nav Tree</h3>
-        <button>Focus Test</button>
-        <calcite-tree>
+        <calcite-tree lines>
           <calcite-tree-item>
             <a href="#">Child 1</a>
           </calcite-tree-item>
@@ -1131,13 +1131,38 @@
                   </calcite-tree-item>
                   <calcite-tree-item>
                     <a href="#">Great-Grandchild 2</a>
+                    <calcite-tree slot="children">
+                      <calcite-tree-item>
+                        <a href="#">Great-Great-Grandchild 1</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item>
+                        <a href="#">Great-Great-Grandchild 2</a>
+                        <calcite-tree slot="children">
+                          <calcite-tree-item>
+                            <a href="#">Great-Great-Great-Grandchild 1</a>
+                          </calcite-tree-item>
+                          <calcite-tree-item>
+                            <a href="#">Great-Great-Great-Grandchild 2</a>
+                          </calcite-tree-item>
+                      </calcite-tree-item>
+                    </calcite-tree>
                   </calcite-tree-item>
-                </calcite-tree>
               </calcite-tree-item>
             </calcite-tree>
-
           </calcite-tree-item>
+          <calcite-tree-item>
+            <a href="#">Child 3</a>
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <a href="#">Grandchild 2</a>
+              </calcite-tree-item>
+          </calcite-tree-item>
+
         </calcite-tree>
+
 
         <h3>Compact</h3>
 
@@ -1161,13 +1186,38 @@
                   </calcite-tree-item>
                   <calcite-tree-item>
                     <a href="#">Great-Grandchild 2</a>
+                    <calcite-tree slot="children">
+                      <calcite-tree-item>
+                        <a href="#">Great-Great-Grandchild 1</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item>
+                        <a href="#">Great-Great-Grandchild 2</a>
+                        <calcite-tree slot="children">
+                          <calcite-tree-item>
+                            <a href="#">Great-Great-Great-Grandchild 1</a>
+                          </calcite-tree-item>
+                          <calcite-tree-item>
+                            <a href="#">Great-Great-Great-Grandchild 2</a>
+                          </calcite-tree-item>
+                      </calcite-tree-item>
+                    </calcite-tree>
                   </calcite-tree-item>
-                </calcite-tree>
               </calcite-tree-item>
             </calcite-tree>
-
           </calcite-tree-item>
+          <calcite-tree-item>
+            <a href="#">Child 3</a>
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <a href="#">Grandchild 2</a>
+              </calcite-tree-item>
+          </calcite-tree-item>
+
         </calcite-tree>
+
 
         <h3>Dark Theme</h3>
         <div class="demo-background-dark">
@@ -1279,7 +1329,7 @@
               <calcite-tree-item selected expanded>
                 <a href="#">Grandchild 2</a>
                 <calcite-tree slot="children">
-                  <calcite-tree-item  selected>
+                  <calcite-tree-item selected>
                     <a href="#">Great-Grandchild 1</a>
                   </calcite-tree-item>
                   <calcite-tree-item selected>
@@ -1510,7 +1560,7 @@
         </calcite-tree>
 
         <script>
-          (function (){
+          (function () {
             var tree = document.getElementById("tree-events-demo-tree");
             var result = document.getElementById("tree-events-demo-result");
             tree.addEventListener("calciteTreeSelect", function (e) {

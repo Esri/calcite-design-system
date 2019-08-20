@@ -3,47 +3,70 @@
   color: var(--calcite-tree-text);
   cursor: pointer;
   outline: none;
+  @include font-size(-2);
+  max-width: 100%;
 }
 
-::slotted(a) {
-  @include font-size(-2);
+::slotted(*) {
   color: var(--calcite-tree-text);
+  @include font-size(-2);
   text-decoration: none;
 }
 
 .calcite-tree-children {
-  transition: 0.15s $easing-function, opacity 0.15s $easing-function,
-    all 0.15s ease-in-out;
-  height: 0;
-  transform: scaleY(0);
-  opacity: 0;
-  transform-origin: top;
+  z-index: 1;
+  display: none;
   margin-left: var(--calcite-tree-children-indent-start);
   margin-right: var(--calcite-tree-children-indent-end);
   padding-left: var(--calcite-tree-children-padding-start);
   padding-right: var(--calcite-tree-children-padding-end);
-  border-left: 2px solid var(--calcite-tree-line);
-
-  :host([expanded]) & {
-    transform: scaleY(1);
-    opacity: 1;
-    height: auto;
-  }
-}
-
-.calcite-tree-node {
-  @include font-size(-2);
-  display: flex;
-  padding: var(--calcite-tree-vertical-padding) 0;
   position: relative;
-
-  &:before {
+  &:after {
+    transition: all $transition;
     content: "";
     height: 100%;
-    width: 2px;
+    width: var(--calcite-tree-line-width);
     background: var(--calcite-tree-line);
     left: var(--calcite-tree-line-position-start);
     right: var(--calcite-tree-line-position-end);
+    top: 0;
+    position: absolute;
+  }
+  :host([expanded]) & {
+    display: block;
+  }
+}
+:host([has-children]) .calcite-tree-children:hover,
+:host([has-children]) .calcite-tree-children:focus {
+  &:after {
+    background: var(--calcite-tree-line-hover);
+  }
+}
+.calcite-tree-node {
+  display: flex;
+  padding: var(--calcite-tree-vertical-padding) 0;
+  padding-left: var(--calcite-tree-indent-start);
+  padding-right: var(--calcite-tree-indent-end);
+  position: relative;
+
+  &:before {
+    content: "\2022";
+    position: absolute;
+    left: var(--calcite-tree-indicator-distance-start);
+    right: var(--calcite-tree-indicator-distance-end);
+    opacity: 0;
+    color: var(--calcite-tree-indicator);
+    transition: all $transition;
+  }
+
+  &:after {
+    transition: all $transition;
+    content: "";
+    height: 100%;
+    width: var(--calcite-tree-line-width);
+    background: var(--calcite-tree-line);
+    left: var(--calcite-tree-parent-line-position-start);
+    right: var(--calcite-tree-parent-line-position-end);
     top: 0;
     position: absolute;
 
@@ -53,46 +76,33 @@
   }
 }
 
-:host([selected]) .calcite-tree-node {
-  color: var(--calcite-tree-text-active);
-  font-weight: 500;
-
+:host([has-children]) .calcite-tree-node {
+  padding-left: 0;
+  padding-right: 0;
   &:before {
-    background: var(--calcite-tree-line-active);
-  }
-
-  ::slotted(a) {
-    color: var(--calcite-tree-text-active);
-  }
-
-  .calcite-tree-indicator {
-    opacity: 1;
-  }
-
-  .calcite-tree-chevron {
-    fill: var(--calcite-tree-chevron-active);
-  }
-  .calcite-tree-indicator {
-    fill: var(--calcite-tree-indicator-active);
+    display: none;
   }
 }
-
+:host([depth="1"]) .calcite-tree-node,
+:host([depth="1"]) .calcite-tree-children {
+  &:before {
+    left: var(--calcite-tree-indicator-first-start);
+    right: var(--calcite-tree-indicator-first-end);
+  }
+}
 .calcite-tree-node:hover,
 :host([selected]) .calcite-tree-node:hover,
 :host(:focus) .calcite-tree-node {
-  font-weight: 500;
-  color: var(--calcite-tree-text-hover);
-
   &:before {
-    background: var(--calcite-tree-line-hover);
-  }
-
-  ::slotted(a) {
-    color: var(--calcite-tree-text-hover);
-  }
-
-  .calcite-tree-indicator {
     opacity: 1;
+  }
+  &:after {
+    width: var(--calcite-tree-hover-line-width);
+    background: var(--calcite-tree-line-hover);
+    z-index: 2;
+  }
+  ::slotted(*) {
+    color: var(--calcite-tree-text-hover);
   }
 
   .calcite-tree-chevron {
@@ -102,19 +112,56 @@
     fill: var(--calcite-tree-indicator-hover);
   }
 }
+:host([selected]) .calcite-tree-node,
+:host([selected]) .calcite-tree-node:hover {
+  color: var(--calcite-tree-text-active);
+  font-weight: 500;
 
-.calcite-tree-chevron,
-.calcite-tree-indicator {
-  flex: 0 0 1rem;
-  width: 1rem;
-  height: 1rem;
-  margin-right: var(--calcite-tree-icon-padding-start);
-  margin-left: var(--calcite-tree-icon-padding-end);
-  margin-top: 0.125rem;
+  &:before {
+    opacity: 1;
+    color: var(--calcite-tree-indicator-active);
+  }
+  &:after {
+    background: var(--calcite-tree-line-active);
+    width: var(--calcite-tree-hover-line-width);
+    z-index: 2;
+  }
+  ::slotted(*) {
+    color: var(--calcite-tree-text-active);
+  }
+}
+
+// dropdown expanded and not selected
+:host([has-children][expanded]) .calcite-tree-node {
+  color: var(--calcite-tree-text-active);
+  font-weight: 500;
+  &:after {
+    background: var(--calcite-tree-line-active);
+  }
+  &:before {
+    opacity: 1;
+    color: var(--calcite-tree-indicator-active);
+  }
+  ::slotted(*) {
+    color: var(--calcite-tree-text-active);
+  }
+}
+// dropdown expanded and selected
+:host([has-children][expanded][selected]) .calcite-tree-node:after {
+  background: var(--calcite-tree-line-active);
+  width: var(--calcite-tree-hover-line-width);
+  z-index: 2;
 }
 
 .calcite-tree-chevron {
-  transition: transform 0.15s $easing-function;
+  transition: all $transition;
+  flex: 0 0 1;
+  position: relative;
+  align-self: center;
+  left: var(--calcite-tree-icon-edge-distance-start);
+  right: var(--calcite-tree-icon-edge-distance-end);
+  margin-right: var(--calcite-tree-icon-content-distance-start);
+  margin-left: var(--calcite-tree-icon-content-distance-end);
   transform: rotate(0deg);
   fill: var(--calcite-tree-chevron);
 
@@ -122,17 +169,17 @@
     transform: rotate(180deg);
   }
 
+  :host(:hover) &,
+  :host(:focus) & {
+    fill: var(--calcite-tree-chevron-hover);
+    stroke: var(--calcite-tree-chevron-hover);
+    stroke-width: 0.75;
+  }
+
   :host([expanded]) & {
     transform: rotate(90deg);
-  }
-}
-
-.calcite-tree-indicator {
-  transition: opacity 0.15s $easing-function;
-  opacity: 0;
-  fill: transparent;
-
-  :host([children]) & {
-    opacity: 0;
+    fill: var(--calcite-tree-chevron-active);
+    stroke-width: 0.75;
+    stroke: var(--calcite-tree-chevron-active);
   }
 }
