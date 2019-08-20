@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### [Unreleased][HEAD]
 
 ### Added
-- adds scale prop  `calcite-radio-group`
+- adds scale prop to `calcite-radio-group`
 - updates style of  `calcite-radio-group`
   
 ### Fixed
