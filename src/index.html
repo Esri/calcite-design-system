@@ -826,15 +826,16 @@
         </calcite-button>
         <br />
         <br />
-        <h5>Theme="dark" on blue /red (no effect on light / dark)</h5>
+        <h5>Theme="dark" on blue /red (no effect on light / dark except outline)</h5>
         <div class="demo-background-dark">
           <calcite-button theme="dark" title="blue outline button" appearance='outline'>blue outline button
           </calcite-button>
           <calcite-button theme="dark" title="red outline button" appearance='outline' color='red'>red outline button
           </calcite-button>
-          <calcite-button title="light outline button" appearance='outline' color='light'>light outline button
+          <calcite-button theme="dark" title="light outline button" appearance='outline' color='light'>light outline
+            button
           </calcite-button>
-          <calcite-button title="dark outline button" appearance='outline' color='dark'>dark outline button
+          <calcite-button theme="dark" title="dark outline button" appearance='outline' color='dark'>dark outline button
           </calcite-button>
         </div>
 
@@ -856,19 +857,73 @@
           <calcite-button title="dark clear button" appearance='clear' color='dark'>dark clear button</calcite-button>
         </div>
 
+        <h3>Type: Outline</h3>
+        <calcite-button title="blue outline button" appearance='outline'>blue outline button</calcite-button>
+        <calcite-button title="red outline button" appearance='outline' color='red'>red outline button</calcite-button>
+        <calcite-button title="light outline button" appearance='outline' color='light'>light outline button
+        </calcite-button>
+        <calcite-button title="dark outline button" appearance='outline' color='dark'>dark outline button
+        </calcite-button>
+        <br />
+        <br />
+        <h5>Theme="dark" on blue /red (no effect on light / dark except outline)</h5>
+        <div class="demo-background-dark">
+          <calcite-button theme="dark" title="blue outline button" appearance='outline'>blue outline button
+          </calcite-button>
+          <calcite-button theme="dark" title="red outline button" appearance='outline' color='red'>red outline button
+          </calcite-button>
+          <calcite-button theme="dark" title="light outline button" appearance='outline' color='light'>light outline
+            button
+          </calcite-button>
+          <calcite-button theme="dark" title="dark outline button" appearance='outline' color='dark'>dark outline button
+          </calcite-button>
+        </div>
+
+        <h3>Type: Transparent</h3>
+        <calcite-button title="blue transparent button" appearance='transparent'
+          icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
+          transparent and icon</calcite-button>
+        <calcite-button title="blue transparent button" iconposition="end" appearance='transparent'
+          icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
+          transparent and end icon</calcite-button>
+        <calcite-button title="blue transparent button" appearance='transparent'>blue transparent button
+        </calcite-button>
+        <calcite-button title="red transparent button" appearance='transparent' color='red'>red transparent button
+        </calcite-button>
+
+        <calcite-button title="light transparent button" appearance='transparent' color='light'>light transparent button
+        </calcite-button>
+        <calcite-button title="dark transparent button" appearance='transparent' color='dark'>dark transparent button
+        </calcite-button>
+        <br />
+        <br />
+        <h5>Theme="dark" on blue /red (no effect on light / dark)</h5>
+        <div class="demo-background-dark">
+          <calcite-button theme="dark" title="blue transparent button" appearance='transparent'>blue transparent button
+          </calcite-button>
+          <calcite-button theme="dark" title="red transparent button" appearance='transparent' color='red'>red
+            transparent button
+          </calcite-button>
+          <calcite-button title="light transparent button" appearance='transparent' color='light'>light transparent
+            button
+          </calcite-button>
+          <calcite-button title="dark transparent button" appearance='transparent' color='dark'>dark transparent button
+          </calcite-button>
+        </div>
+
         <h3>Type: Inline (render as anchor)</h3>
         An anchor <calcite-button title="in the middle" href="/" appearance="inline">in the middle</calcite-button> of
         some
         text.<br />
         An anchor <calcite-button href="/"
           title="in the middle that might be long enough to wrap to illustrate animation" appearance="inline"
-          color='red'>in the middle that might be long enough to wrap to illustrate animation
-        </calcite-button> of some text.<br />
+          color='red'>in the middle that might be long enough to wrap to illustrate animation</calcite-button> of some
+        text.<br />
         An anchor link <calcite-button href="http://google.com" appearance="inline" color='light'
           rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
           icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
-          icon
-        </calcite-button> in some text.<br />
+          icon</calcite-button> in some text.<br />
+
         An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer"
           target="_blank" title="in the middle with an icon" color='dark'
           icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>in the middle
@@ -882,14 +937,21 @@
           <br />
           An anchor link <calcite-button href="http://google.com" appearance="inline" color='light'
             rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
+            icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'
+            iconposition="end"> to Google with an
+            icon</calcite-button> in some text.<br />
+          An anchor link <calcite-button href="http://google.com" appearance="inline" color='light'
+            rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
             icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
-            icon
-          </calcite-button> in some text.<br />
+            icon</calcite-button> in some text.<br />
+          An anchor link <calcite-button href="http://google.com" appearance="inline" color='light'
+            rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
+            icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
+            icon</calcite-button> in some text.<br />
           An anchor link <calcite-button href="http://google.com" appearance="inline" color='dark'
             rel="noopener noreferrer" target="_blank" title="in the middle with an icon"
             icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>to Google with an
-            icon
-          </calcite-button> in some text.<br />
+            icon</calcite-button> in some text.<br />
 
         </div>
 
@@ -937,9 +999,9 @@
         <calcite-button onclick="loadingButton(this, 3000)"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
         </calcite-button>
-        <calcite-button appearance="outline" color="dark"
+        <calcite-button appearance="outline" color="dark" iconposition="end"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
-          Download</calcite-button>
+          Download icon end</calcite-button>
         <calcite-button scale="l" appearance="outline"
           icon='M24 11.226A4.695 4.695 0 0 1 19.596 16H14v-2h5.595a2.708 2.708 0 0 0 2.406-2.774A3.175 3.175 0 0 0 19.797 8.2l-1.19-.387-.173-1.24A5.16 5.16 0 0 0 13.482 2a4.992 4.992 0 0 0-4.37 2.732L8.365 6.14l-1.538-.41a1.986 1.986 0 0 0-.504-.082 1.474 1.474 0 0 0-1.533 1.39l-.083 1.127-1.008.51a3.03 3.03 0 0 0-1.698 2.695A2.623 2.623 0 0 0 4.406 14H10v2H4.406a4.606 4.606 0 0 1-4.405-4.63 5.04 5.04 0 0 1 2.794-4.479 3.47 3.47 0 0 1 3.529-3.244 3.952 3.952 0 0 1 1.02.15A6.971 6.971 0 0 1 13.482 0a7.131 7.131 0 0 1 6.933 6.297 5.186 5.186 0 0 1 3.586 4.929zm-8 6.315l-3 2.93V12h-2v8.47l-3-2.93v2.153l4 4 4-4z'>
           Download</calcite-button>
@@ -952,7 +1014,8 @@
         <calcite-button color='red' appearance="outline" onclick="loadingButton(this, 3000)"
           icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
           Delete this (loader)</calcite-button>
-        <calcite-button color='red' scale="l" appearance="outline" onclick="loadingButton(this, 3000)"
+        <calcite-button color='red' scale="l" appearance="outline" iconposition="end"
+          onclick="loadingButton(this, 3000)"
           icon='M4 5l1.067 16.86A1.29 1.29 0 0 0 6.348 23h10.304a1.29 1.29 0 0 0 1.281-1.14L19 5zm4 15.5a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zm4 0a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 1 0zM19 2l1 2H3l1-2h4l1-1h5l1 1z'>
           Delete this (loader)</calcite-button>
         <calcite-button color='red' scale="xs" appearance="outline" onclick="loadingButton(this, 3000)"
