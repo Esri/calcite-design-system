@@ -40,7 +40,7 @@
     top: 0;
     position: absolute;
   }
-  :host([expanded]) & {
+  :host([expanded]) > & {
     transform: scaleY(1);
     opacity: 1;
     height: auto;
@@ -88,7 +88,7 @@
   }
 }
 
-:host([has-children]) .calcite-tree-node {
+:host([has-children]) > .calcite-tree-node {
   padding-left: 0;
   padding-right: 0;
   &:before {
@@ -96,8 +96,8 @@
   }
 }
 
-:host([depth="1"]) .calcite-tree-node,
-:host([depth="1"]) .calcite-tree-children {
+:host([depth="1"]) > .calcite-tree-node,
+:host([depth="1"]) > .calcite-tree-children {
   &:before {
     left: var(--calcite-tree-indicator-first-start);
     right: var(--calcite-tree-indicator-first-end);
@@ -127,8 +127,8 @@
   }
 }
 
-:host([selected]) .calcite-tree-node,
-:host([selected]) .calcite-tree-node:hover {
+:host([selected]) > .calcite-tree-node,
+:host([selected]) > .calcite-tree-node:hover {
   color: var(--calcite-tree-text-active);
   font-weight: 500;
 
@@ -147,7 +147,7 @@
 }
 
 // dropdown expanded and not selected
-:host([has-children][expanded]) .calcite-tree-node {
+:host([has-children][expanded]) > .calcite-tree-node {
   color: var(--calcite-tree-text-active);
   font-weight: 500;
   &:after {
@@ -163,7 +163,7 @@
 }
 
 // dropdown expanded and selected
-:host([has-children][expanded][selected]) .calcite-tree-node:after {
+:host([has-children][expanded][selected]) > .calcite-tree-node:after {
   background: var(--calcite-tree-line-active);
   width: var(--calcite-tree-hover-line-width);
   z-index: 2;
@@ -192,7 +192,7 @@
     stroke-width: 0.75;
   }
 
-  :host([expanded]) & {
+  :host([expanded]) > .calcite-tree-node > & {
     transform: rotate(90deg);
     fill: var(--calcite-tree-chevron-active);
     stroke-width: 0.75;

@@ -57,7 +57,7 @@
 
 :host([size="s"]) {
   --calcite-tree-hover-line-width: #{2px};
-  --calcite-tree-vertical-padding: #{$baseline/6};
+  --calcite-tree-vertical-padding: #{$baseline/8};
   --calcite-tree-children-indent-start: 0rem;
   --calcite-tree-children-padding-start: 0.8rem;
   --calcite-tree-line-position-start: 0.3rem;
