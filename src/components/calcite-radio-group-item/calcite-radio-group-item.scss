@@ -3,13 +3,25 @@
   background-color: var(--calcite-radio-group-color);
   color: var(--calcite-radio-group-text-color);
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: var(--calcite-radio-group-padding);
   line-height: 1.25;
   margin: 0.25rem -1px 0 0px;
   border: 1px solid var(--calcite-radio-group-border-color);
   box-sizing: border-box;
   transition: background 0.1s ease-in-out, border-color 0.1s ease-in-out;
   cursor: pointer;
+}
+
+:host([scale="s"]) {
+  @include font-size(-3);
+}
+
+:host([scale="m"]) {
+  @include font-size(-1);
+}
+
+:host([scale="l"]) {
+  @include font-size(0);
 }
 
 :host(:hover) {

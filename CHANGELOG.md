@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### [Unreleased][HEAD]
 
 ### Added
+- adds scale prop to `calcite-radio-group`
+- updates style of  `calcite-radio-group`
 - adds transparent appearance style for `calcite-button`
 - adds `iconposition` prop to `calcite-button`
 - updates dark theme style for `calcite-button`

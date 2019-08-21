@@ -1,19 +1,29 @@
 :host {
   display: flex;
-
   --calcite-radio-group-color: #{$blk-000};
-  --calcite-radio-group-border-color: #{$blk-130};
+  --calcite-radio-group-border-color: #{$blk-040};
   --calcite-radio-group-color-active: #{$ui-blue};
   --calcite-radio-group-text-color: #{$blk-240};
   --calcite-radio-group-text-color-active: #{$blk-000};
   --calcite-radio-group-color-hover: #{$blk-005};
+  --calcite-radio-group-padding: 0.5rem 1rem;
+}
 
-  @include font-size(-1);
+:host([scale="s"]) {
+  --calcite-radio-group-padding: 0.25rem 0.75rem;
+}
+
+:host([scale="m"]) {
+  --calcite-radio-group-padding: 0.4rem 1rem;
+}
+
+:host([scale="l"]) {
+  --calcite-radio-group-padding: 0.5rem 1.5rem;
 }
 
 :host([theme="dark"]) {
   --calcite-radio-group-color: #{$blk-200};
-  --calcite-radio-group-border-color: #{$blk-210};
+  --calcite-radio-group-border-color: #{$blk-190};
   --calcite-radio-group-color-active: #{$v-bb-160};
   --calcite-radio-group-text-color: #{$blk-000};
   --calcite-radio-group-text-color-active: #{$blk-000};
@@ -24,4 +34,3 @@
 ::slotted(calcite-radio-group-item:focus) {
   z-index: 0;
 }
-

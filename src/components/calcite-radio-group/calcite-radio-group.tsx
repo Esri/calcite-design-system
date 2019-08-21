@@ -59,10 +59,9 @@ export class CalciteRadioGroup {
   selectedItem: HTMLCalciteRadioGroupItemElement;
 
   @Watch("selectedItem")
-  protected handleSelectedItemChange<T extends HTMLCalciteRadioGroupItemElement>(
-    newItem: T,
-    oldItem: T
-  ) {
+  protected handleSelectedItemChange<
+    T extends HTMLCalciteRadioGroupItemElement
+  >(newItem: T, oldItem: T) {
     if (newItem === oldItem) {
       return;
     }
@@ -87,13 +86,11 @@ export class CalciteRadioGroup {
     }
   }
 
-  /**
-   * The component's theme.
-   */
-  @Prop({
-    reflect: true
-  })
-  theme: "light" | "dark" = "light";
+  /** The component's theme. */
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+
+  /** The scale of the button */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -102,6 +99,14 @@ export class CalciteRadioGroup {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+
+    // prop validations
+    let scale = ["s", "m", "l"];
+    if (!scale.includes(this.scale)) this.scale = "m";
+
+    let theme = ["dark", "light"];
+    if (!theme.includes(this.theme)) this.theme = "light";
+
     const items = this.getItems();
     let lastChecked: HTMLCalciteRadioGroupItemElement;
 
@@ -179,9 +184,9 @@ export class CalciteRadioGroup {
     const { el, selectedItem } = this;
     const dir = getElementDir(el);
     const moveBackwardKey =
-            (dir === "rtl"
-             ? key === navigationKeys.right
-             : key === navigationKeys.left) || key === navigationKeys.up;
+      (dir === "rtl"
+        ? key === navigationKeys.right
+        : key === navigationKeys.left) || key === navigationKeys.up;
     const items = this.getItems();
 
     let selectedIndex = -1;
@@ -194,23 +199,23 @@ export class CalciteRadioGroup {
 
     if (moveBackwardKey) {
       const previous =
-              selectedIndex === -1 || selectedIndex === 0
-              ? items.item(items.length - 1)
-              : items.item(selectedIndex - 1);
+        selectedIndex === -1 || selectedIndex === 0
+          ? items.item(items.length - 1)
+          : items.item(selectedIndex - 1);
       this.selectItem(previous);
       return;
     }
 
     const moveForwardKey =
-            (dir === "rtl"
-             ? key === navigationKeys.left
-             : key === navigationKeys.right) || key === navigationKeys.down;
+      (dir === "rtl"
+        ? key === navigationKeys.left
+        : key === navigationKeys.right) || key === navigationKeys.down;
 
     if (moveForwardKey) {
       const next =
-              selectedIndex === -1
-              ? items.item(1)
-              : items.item(selectedIndex + 1) || items.item(0);
+        selectedIndex === -1
+          ? items.item(1)
+          : items.item(selectedIndex + 1) || items.item(0);
       this.selectItem(next);
       return;
     }
