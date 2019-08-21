@@ -1,0 +1,22 @@
+export const CSS = {
+  colorPalette: "color-palette",
+  hueSlider: "hue-slider",
+  controlSection: "control-section",
+  colorHexOptions: "color-hex-options",
+  section: "section",
+  header: "header",
+  control: "control",
+  splitSection: "section--split",
+  underlinedHeader: "header--underlined",
+  colorModeContainer: "color-mode-container",
+  colorModeSelection: "color-mode-selection",
+  colorMode: "color-mode",
+  colorModeSelected: "color-mode-selected",
+  colorModeParts: "color-mode-parts",
+  colorModePart: "color-mode-part",
+  colorModePartLabel: "color-mode-part-label",
+  colorModePartInput: "color-mode-part-input",
+  savedColors: "saved-colors",
+  savedColorsSection: "saved-colors-section",
+  saveColor: "save-color"
+};

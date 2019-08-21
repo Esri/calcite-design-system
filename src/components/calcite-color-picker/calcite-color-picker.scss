@@ -1,0 +1,164 @@
+:host {
+  border: 1px solid var(--calcite-ui-border-1);
+  display: inline-block;
+}
+
+:host([scale=s]) {
+  width: 170px;
+}
+
+:host([scale=m]) {
+  width: 240px;
+}
+
+:host([scale=l]) {
+  width: 370px;
+
+  .control-section {
+    flex-wrap: nowrap;
+  }
+
+  .color-hex-options {
+    flex-grow: 0;
+  }
+
+  .color-mode-container {
+    margin-top: 0;
+    flex-grow: 0.5;
+  }
+}
+
+.color-palette,
+.hue-slider {
+  display: block;
+  cursor: pointer;
+}
+
+.control-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.section {
+  padding: 16px 12px 0;
+
+  &:last-child {
+    padding-bottom: 16px;
+  }
+}
+
+.control-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.color-hex-options {
+  flex-grow: 1;
+}
+
+.section--split {
+  margin-top: 16px;
+  flex-grow: 1;
+}
+
+.header {
+  display: flex;
+
+  &.header--underlined {
+    border-bottom: 1px solid var(--calcite-ui-border-1);
+  }
+}
+
+.control {
+  padding-top: 8px;
+}
+
+.color-mode {
+  cursor: pointer;
+}
+
+.color-mode-selection {
+  justify-content: space-between;
+
+  &::after {
+    content: "";
+    flex-grow: 0.5;
+  }
+}
+
+.color-mode-selection,
+.color-mode-parts {
+  display: flex;
+}
+
+.color-mode {
+  color: var(--calcite-ui-border-1)
+}
+
+.color-mode-part {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+
+  &:last-child {
+    margin-right: unset;
+  }
+}
+
+.color-mode-parts {
+  display: flex;
+  justify-content: space-between;
+}
+
+.color-mode-selected {
+  cursor: none;
+  color: var(--calcite-ui-text-1);
+  border-bottom: 2px solid var(--calcite-ui-blue);
+}
+
+.color-mode-part-input {
+  width: 5ch;
+  padding-left: 16px;
+  height: 27px;
+  font-size: 0.9em;
+  background-color: var(--calcite-ui-background);
+  border-color: var(--calcite-ui-border-1);
+  color: var(--calcite-ui-text-1);
+}
+
+.color-mode-part-label {
+  position: absolute;
+  left: 4px;
+  font-size: 0.9em;
+  color: var(--calcite-ui-text-3);
+}
+
+.save-color {
+  cursor: pointer;
+  background: var(--calcite-ui-border-1);
+  color: var(--calcite-ui-text-3);
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.saved-colors {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+calcite-color-swatch,
+.save-color {
+  margin: 4px 8px 0 0;
+}
+
+calcite-color-swatch:not([is-active]):hover {
+  cursor: pointer;
+}
+
+// TODO: rtl

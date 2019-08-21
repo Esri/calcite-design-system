@@ -1,0 +1,47 @@
+$height: 28px;
+
+:host {
+  display: block;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: .25rem 0 0 0;
+  height: $height;
+  @include avenir-regular();
+}
+
+.preview {
+  position: absolute;
+  left: 2px;
+}
+
+.hash {
+  position: absolute;
+  font-size: 0.9em;
+  color: var(--calcite-ui-text-3);
+  left: 16px;
+  padding: 2px 0 0 14px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  height: inherit;
+}
+
+.input {
+  @include avenir-regular();
+
+  margin-top: 0;
+  padding: 0;
+  margin: 0;
+  padding-left: 40px;
+  text-transform: uppercase;
+  height: inherit;
+  font-size: 0.95em;
+  width: 65px;
+  background-color: var(--calcite-ui-background);
+  border-color: var(--calcite-ui-border-1);
+  color: var(--calcite-ui-text-1);
+}

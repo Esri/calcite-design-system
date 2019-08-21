@@ -7,6 +7,7 @@ export const config: Config = {
     { components: ["calcite-accordion", "calcite-accordion-item"] },
     { components: ["calcite-alert"] },
     { components: ["calcite-button"] },
+    { components: ["calcite-color-picker"] },
     {
       components: [
         "calcite-date-picker",

@@ -1,0 +1,26 @@
+$size: 20px;
+
+.swatch {
+  display: inline-block;
+  box-sizing: border-box;
+  height: $size;
+  width: $size;
+  border: 1px solid;
+}
+
+.swatch--active {
+  border-radius: 50%;
+  border-width: 1px;
+  position: relative;
+
+  &::after {
+    content: "";
+    border: 2px solid var(--calcite-ui-border-3);
+    border-radius: 50%;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+  }
+}

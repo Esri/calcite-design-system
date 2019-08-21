@@ -69,7 +69,7 @@ export async function reflects(
 
   for (const propAndValue of propsToTest) {
     const { propertyName, value } = propAndValue;
-    const componentAttributeSelector = `${componentTag}[${propertyName}]`;
+    const componentAttributeSelector = `${componentTag}[${propToAttr(propertyName)}]`;
 
     element.setProperty(propertyName, value);
     await page.waitForChanges();
@@ -88,6 +88,10 @@ export async function reflects(
       expect(await page.find(componentAttributeSelector)).toBeTruthy();
     }
   }
+}
+
+function propToAttr(name: string): string {
+  return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
 export async function defaults(
