@@ -1,0 +1,79 @@
+body {
+  font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+calcite-tab {
+  display: none;
+}
+
+calcite-tab[is-active] {
+  display: block;
+}
+
+a {
+  color: #007ac2;
+}
+
+:host {
+  --calcite-dropdown-background-color: #ffffff;
+  --calcite-dropdown-border-color: #eaeaea;
+}
+
+:host([theme=dark]) {
+  --calcite-dropdown-background-color: #2b2b2b;
+  --calcite-dropdown-border-color: #151515;
+}
+
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+:host([active]) .calcite-dropdown-wrapper {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  visibility: visible;
+}
+
+:host .calcite-dropdown-wrapper {
+  transform: translate3d(0, 1.5rem, 0);
+  transition: 300ms cubic-bezier(0.215, 0.44, 0.42, 0.88), opacity 300ms cubic-bezier(0.215, 0.44, 0.42, 0.88), all 0.15s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  display: block;
+  position: absolute;
+  left: 0;
+  z-index: 200;
+  overflow: auto;
+  width: auto;
+  width: 12.5rem;
+  background: var(--calcite-dropdown-background-color);
+  border: 1px solid var(--calcite-dropdown-border-color);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.15);
+}
+
+:host([dir=rtl]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: unset;
+}
+
+:host([alignment=right]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: unset;
+}
+
+:host([dir=rtl][alignment=right]) .calcite-dropdown-wrapper {
+  right: unset;
+  left: 0;
+}
+
+:host([alignment=center]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+}
