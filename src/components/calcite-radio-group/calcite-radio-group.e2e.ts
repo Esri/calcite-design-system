@@ -203,6 +203,16 @@ describe("calcite-radio-group", () => {
     expect(element).toEqualAttribute("scale", "m");
   });
 
+  it("renders default props", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      "<calcite-radio-group></calcite-radio-group>"
+    );
+    const element = await page.find("calcite-radio-group");
+    expect(element).toEqualAttribute("theme", "light");
+    expect(element).toEqualAttribute("scale", "m");
+  });
+
   it("passes requested scale prop to child components", async () => {
     const page = await newE2EPage();
     await page.setContent(
