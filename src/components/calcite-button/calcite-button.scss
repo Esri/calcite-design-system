@@ -43,6 +43,7 @@
   width: auto;
   border-radius: 0;
   border: none;
+  user-select: none;
   line-height: inherit;
   font-family: inherit;
   -webkit-appearance: none;
@@ -83,6 +84,14 @@
   transition: all 0.15s ease-in-out;
 }
 
+// disabled styles
+:host([disabled]) {
+  button,
+  a {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+}
 // icon positioning and styles
 :host([hastext][iconposition="start"]) .calcite-button--icon {
   margin-right: $baseline/3;
@@ -421,6 +430,7 @@
   font-weight: 500;
   font-size: inherit;
   white-space: initial;
+  user-select: text;
   background-color: transparent;
   position: relative;
   background-image: linear-gradient(currentColor, currentColor),

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - adds `iconposition` prop to `calcite-button`
 - updates dark theme style for `calcite-button`
 - updates theme for `calcite-tree`
+- adds support for disabled `calcite-button`
 
 ### Fixed
 - fix width of medium/large modals with narrow contents
