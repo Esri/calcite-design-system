@@ -51,12 +51,14 @@ export class CalciteButton {
   @Prop({ reflect: true }) icon?: string;
 
   /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true }) iconposition?: "start" | "end" = "start";
+  @Prop({ reflect: true, mutable: true }) iconposition?: "start" | "end" =
+    "start";
 
-  /**
-   * @internal
-   */
-  // hastext prop for spacing graphic when text is present in slot
+  /** is the button disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
+
+  /** @internal */
+  // hastext prop for spacing icon when text is present in slot
   @Prop({ mutable: true }) hastext: boolean = false;
 
   connectedCallback() {
@@ -112,8 +114,8 @@ export class CalciteButton {
   render() {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
-    const Type = this.href || this.appearance === "inline" ? "a" : "button";
-    const role = Type === "a" ? "link" : "button";
+    const Tag = this.href || this.appearance === "inline" ? "a" : "button";
+    const role = Tag === "a" ? "link" : "button";
     const loader = this.loading ? (
       <div class="calcite-button--loader">
         <calcite-loader is-active inline></calcite-loader>
@@ -132,29 +134,29 @@ export class CalciteButton {
     if (this.iconposition === "start") {
       return (
         <Host dir={dir} hastext={this.hastext}>
-          <Type {...attributes} role={role}>
+          <Tag {...attributes} role={role} disabled={this.disabled}>
             {loader}
             {icon}
             <slot />
-          </Type>
+          </Tag>
         </Host>
       );
     } else if (this.iconposition === "end") {
       return (
         <Host dir={dir} hastext={this.hastext}>
-          <Type {...attributes} role={role}>
+          <Tag {...attributes} role={role} disabled={this.disabled}>
             {loader}
             <slot />
             {icon}
-          </Type>
+          </Tag>
         </Host>
       );
     } else {
       <Host dir={dir} hastext={this.hastext}>
-        <Type {...attributes} role={role}>
+        <Tag {...attributes} role={role} disabled={this.disabled}>
           {loader}
           <slot />
-        </Type>
+        </Tag>
       </Host>;
     }
   }

@@ -842,11 +842,15 @@
 
       <calcite-tab>
         <h3>Normal Lockup</h3>
+
         <calcite-button color="light" appearance='outline' icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
           Back</calcite-button>
         <calcite-button appearance='outline'>Cancel</calcite-button>
-        <calcite-button>Continue</calcite-button>
 
+        <h3>Type prop passed to child (submit)</h3>
+        <calcite-button type="submit">Submit</calcite-button>
+        <calcite-button type="button">button</calcite-button>
+        <calcite-button type="reset">reset</calcite-button>
 
         <h3>Type: Solid (default)</h3>
         <calcite-button title="blue solid button">blue solid button</calcite-button>
@@ -886,6 +890,7 @@
           <calcite-button theme="dark" title="dark outline button" appearance='outline' color='dark'>dark outline button
           </calcite-button>
         </div>
+
 
         <h3>Type: Clear</h3>
         <calcite-button title="blue clear button" appearance='clear'>blue clear button</calcite-button>
@@ -1003,13 +1008,36 @@
 
         </div>
 
+
+        <h3>Disabled</h3>
+        <calcite-button title="blue solid button" disabled>blue solid button</calcite-button>
+        <calcite-button icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'
+          title="dark solid button" color='dark' disabled>dark solid button</calcite-button>
+        <calcite-button title="blue clear button" appearance='clear' disabled>blue clear button</calcite-button>
+        <calcite-button title="blue clear button" appearance='transparent' disabled>blue clear button</calcite-button>
+        <calcite-button title="red clear button" appearance='inline' color='red' disabled>red clear button
+        </calcite-button>
+        <br />
+        <br />
+        <div class="demo-background-dark">
+          <calcite-button theme="dark" title="blue solid button" disabled>blue solid button</calcite-button>
+          <calcite-button theme="dark"
+            icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'
+            title="dark solid button" color='dark' disabled>dark solid button</calcite-button>
+          <calcite-button theme="dark" title="blue clear button" appearance='clear' disabled>blue clear button
+          </calcite-button>
+          <calcite-button theme="dark" title="blue clear button" appearance='transparent' disabled>blue clear button
+          </calcite-button>
+          <calcite-button theme="dark" title="red clear button" appearance='inline' color='red' disabled>red clear
+            button</calcite-button>
+        </div>
+
         <h3>Scales</h3>
         <calcite-button title="xl scale button" scale='xl'>xl scale button</calcite-button>
         <calcite-button title="l scale button" scale='l'>l scale button</calcite-button>
         <calcite-button title="m / default scale button">m scale button</calcite-button>
         <calcite-button title="s scale button" scale='s'>s scale button</calcite-button>
         <calcite-button title="xs scale button" scale='xs'>xs scale button</calcite-button>
-
 
         <h3>Widths</h3>
         <calcite-button title="Auto / default width button">Auto / default width button</calcite-button>
