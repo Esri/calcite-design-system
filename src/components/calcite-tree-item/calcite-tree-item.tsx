@@ -153,6 +153,7 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick(e: Event) {
+    console.log(e);
     const target = e.target as Element;
     const originalTarget = (e as any).originalTarget as Element;
 
@@ -163,11 +164,22 @@ export class CalciteTreeItem {
       this.expanded = !this.expanded;
     }
 
+    const forceCollapse = originalTarget && !!originalTarget.closest("svg");
+
     if (shouldSelect) {
       this.calciteTreeItemSelect.emit({
         modifyCurrentSelection: (e as any).shiftKey,
-        forceCollapse: originalTarget && !!originalTarget.closest("svg")
+        forceCollapse
       });
+    }
+
+    const link = nodeListToArray(this.el.children).find(e =>
+      e.matches("a")
+    ) as HTMLAnchorElement;
+
+    if (!forceCollapse && link) {
+      this.selected = true;
+      link.click();
     }
   }
 
