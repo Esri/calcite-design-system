@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [v1.0.0-beta.6] - Aug 26th 2019
+
+### Fixed
+
+- `calcite-tree-item`s with both a `<a>` and a `calcite-tree`
+
 ## [v1.0.0-beta.5] - Aug 21th 2019
 
 ### Added
@@ -54,6 +60,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.6]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.5...v1.0.0-beta.6 "v1.0.0-beta.6"
 [v1.0.0-beta.5]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.4...v1.0.0-beta.5 "v1.0.0-beta.5"
 [v1.0.0-beta.4]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.3...v1.0.0-beta.4 "v1.0.0-beta.4"
 [v1.0.0-beta.3]: https://github.com/ArcGIS/calcite-components/compare/v1.0.0-beta.2...v1.0.0-beta.3 "v1.0.0-beta.3"
