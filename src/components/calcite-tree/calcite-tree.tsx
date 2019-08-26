@@ -164,7 +164,7 @@ export class CalciteTree {
         });
       }
 
-      if (shouldExpandTarget && !e.detail.forceCollapse) {
+      if (shouldExpandTarget && !e.detail.forceToggle) {
         target.expanded = true;
       }
 
@@ -174,7 +174,7 @@ export class CalciteTree {
 
       if (
         (shouldModifyToCurrentSelection && target.selected) ||
-        (shouldSelectChildren && e.detail.forceCollapse)
+        (shouldSelectChildren && e.detail.forceToggle)
       ) {
         targetItems.forEach(treeItem => {
           treeItem.selected = false;

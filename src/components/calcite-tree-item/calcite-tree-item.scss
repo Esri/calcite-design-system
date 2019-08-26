@@ -10,7 +10,11 @@
 ::slotted(*) {
   color: var(--calcite-tree-text) !important;
   @include font-size(-2);
-  text-decoration: none;
+  text-decoration: none !important;
+
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 
 .calcite-tree-children {
@@ -171,7 +175,7 @@
 
 .calcite-tree-chevron {
   transition: all $transition;
-  flex: 0 0 1;
+  flex: 0 0 auto;
   position: relative;
   align-self: center;
   left: var(--calcite-tree-icon-edge-distance-start);

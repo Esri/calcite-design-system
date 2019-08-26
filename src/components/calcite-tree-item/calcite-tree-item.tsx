@@ -153,11 +153,28 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick(e: Event) {
+    // the target of this event (remapped from Shadow DOM)
     const target = e.target as Element;
-    const originalTarget = (e as any).originalTarget as Element;
+
+    // the original target of this event (inside shadow DOM)
+    const originalTarget = ((e as any).originalTarget ||
+      (e as any).path[0]) as Element;
+
+    // if the user clicked on an SVG we should al
+    const forceToggle = originalTarget && !!originalTarget.closest("svg");
 
     const shouldSelect =
       target.parentElement === this.el || this.el === e.target;
+
+    const link = nodeListToArray(this.el.children).find(e =>
+      e.matches("a")
+    ) as HTMLAnchorElement;
+
+    if (!forceToggle && (link || target === this.el)) {
+      this.selected = true;
+      link.click();
+      return;
+    }
 
     if (shouldSelect && this.hasChildren) {
       this.expanded = !this.expanded;
@@ -166,7 +183,7 @@ export class CalciteTreeItem {
     if (shouldSelect) {
       this.calciteTreeItemSelect.emit({
         modifyCurrentSelection: (e as any).shiftKey,
-        forceCollapse: originalTarget && !!originalTarget.closest("svg")
+        forceToggle
       });
     }
   }

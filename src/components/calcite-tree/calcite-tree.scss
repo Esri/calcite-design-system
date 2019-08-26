@@ -28,6 +28,8 @@
   --calcite-tree-line-position-end: 0;
   --calcite-tree-parent-line-position-start: -0.95rem;
   --calcite-tree-parent-line-position-end: 0;
+  --calcite-tree-line-width: #{1px};
+  --calcite-tree-hover-line-width: #{3px};
 }
 
 :host([theme="dark"]) {
@@ -42,8 +44,6 @@
 }
 
 :host([lines]) {
-  --calcite-tree-line-width: #{1px};
-  --calcite-tree-hover-line-width: #{3px};
   --calcite-tree-line: #{$blk-020};
   --calcite-tree-line-hover: #{$blk-050};
   --calcite-tree-line-active: #{$ui-blue};
