@@ -153,7 +153,6 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick(e: Event) {
-    console.log(e);
     const target = e.target as Element;
     const originalTarget = (e as any).originalTarget as Element;
 
