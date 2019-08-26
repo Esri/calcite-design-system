@@ -169,8 +169,6 @@ export class CalciteTreeItem {
     const link = nodeListToArray(this.el.children).find(e =>
       e.matches("a")
     ) as HTMLAnchorElement;
-    debugger;
-    console.log({ target, originalTarget, forceToggle, shouldSelect, link });
 
     if (!forceToggle && (link || target === this.el)) {
       this.selected = true;
