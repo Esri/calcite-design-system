@@ -4,7 +4,7 @@ export interface TreeItemSelectDetail {
    */
   modifyCurrentSelection: boolean;
   /**
-   * Indicate if an item should collapsed even if child selection is enabled.
+   * Indicate if an item should collapsed/expanded even if child selection is enabled.
    */
-  forceCollapse: boolean;
+  forceToggle: boolean;
 }
