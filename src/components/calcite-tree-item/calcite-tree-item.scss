@@ -175,7 +175,7 @@
 
 .calcite-tree-chevron {
   transition: all $transition;
-  flex: 0 0 1;
+  flex: 0 0 auto;
   position: relative;
   align-self: center;
   left: var(--calcite-tree-icon-edge-distance-start);
