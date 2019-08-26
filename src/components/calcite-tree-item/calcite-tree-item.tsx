@@ -156,8 +156,9 @@ export class CalciteTreeItem {
     // the target of this event (remapped from Shadow DOM)
     const target = e.target as Element;
 
-    // the original tagrget of this event (inside shadow DOM)
-    const originalTarget = (e as any).originalTarget as Element;
+    // the original target of this event (inside shadow DOM)
+    const originalTarget = ((e as any).originalTarget ||
+      (e as any).path[0]) as Element;
 
     // if the user clicked on an SVG we should al
     const forceToggle = originalTarget && !!originalTarget.closest("svg");
@@ -168,8 +169,10 @@ export class CalciteTreeItem {
     const link = nodeListToArray(this.el.children).find(e =>
       e.matches("a")
     ) as HTMLAnchorElement;
+    debugger;
+    console.log({ target, originalTarget, forceToggle, shouldSelect, link });
 
-    if (!forceToggle && link && target === this.el) {
+    if (!forceToggle && (link || target === this.el)) {
       this.selected = true;
       link.click();
       return;
