@@ -22,7 +22,7 @@
 }
 
 :host .calcite-dropdown-wrapper {
-  transform: translate3d(0, $baseline, 0);
+  transform: translate3d(0, -$baseline, 0);
   transition: 300ms $easing-function, opacity 300ms $easing-function,
     all 0.15s ease-in-out;
   visibility: hidden;
