@@ -1,111 +1,193 @@
+// theme variables
+// light theme
+:host {
+  --calcite-switch-track-background: #{$blk-010};
+  --calcite-switch-track-border: #{$blk-040};
+  --calcite-switch-handle-background: #{$blk-000};
+  --calcite-switch-handle-border: #{$blk-100};
+  --calcite-switch-hover-handle-border: #{$ui-blue-hover};
+  --calcite-switch-hover-track-background: #{$blk-020};
+  --calcite-switch-hover-track-border: #{$blk-060};
+  --calcite-switch-switched-track-background: #{$ui-blue-hover};
+  --calcite-switch-switched-track-border: #{$ui-blue-pressed};
+  --calcite-switch-switched-handle-border: #{$ui-blue};
+  --calcite-switch-switched-hover-track-background: #{$ui-blue};
+  --calcite-switch-switched-hover-track-border: #{$ui-blue-hover};
+  --calcite-switch-switched-hover-handle-border: #{$ui-blue-pressed};
+  --calcite-switch-box-shadow-color: #{rgba($blk-130, 0.5)};
+  --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue, 0.5)};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-switch-track-background: #{$blk-190};
+  --calcite-switch-track-border: #{$blk-160};
+  --calcite-switch-handle-background: #{$blk-200};
+  --calcite-switch-handle-border: #{$blk-100};
+  --calcite-switch-hover-handle-border: #{$ui-blue-hover-dark};
+  --calcite-switch-hover-track-background: #{$blk-180};
+  --calcite-switch-hover-track-border: #{$blk-120};
+  --calcite-switch-switched-track-background: #{$ui-blue-hover-dark};
+  --calcite-switch-switched-track-border: #{$ui-blue-dark};
+  --calcite-switch-switched-handle-border: #{$ui-blue-dark};
+  --calcite-switch-switched-hover-track-background: #{$ui-blue-dark};
+  --calcite-switch-switched-hover-track-border: #{$ui-blue-dark};
+  --calcite-switch-switched-hover-handle-border: #{$ui-blue-hover-dark};
+  --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue-dark, 0.5)};
+}
+
+:host([color="red"]) {
+  --calcite-switch-switched-track-background: #{$ui-red-hover};
+  --calcite-switch-switched-track-border: #{$ui-red};
+  --calcite-switch-hover-handle-border: #{$ui-red-hover};
+  --calcite-switch-switched-handle-border: #{$ui-red};
+  --calcite-switch-switched-hover-track-background: #{$ui-red};
+  --calcite-switch-switched-hover-track-border: #{$ui-red-hover};
+  --calcite-switch-switched-hover-handle-border: #{$ui-red-pressed};
+  --calcite-switch-switched-box-shadow-color: #{rgba($ui-red, 0.5)};
+}
+:host([theme="dark"][color="red"]) {
+  --calcite-switch-switched-track-background: #{$ui-red-hover-dark};
+  --calcite-switch-switched-track-border: #{$ui-red-dark};
+  --calcite-switch-hover-handle-border: #{$ui-red-hover-dark};
+  --calcite-switch-switched-handle-border: #{$ui-red-dark};
+  --calcite-switch-switched-hover-track-background: #{$ui-red-dark};
+  --calcite-switch-switched-hover-track-border: #{$ui-red-pressed-dark};
+  --calcite-switch-switched-hover-handle-border: #{$ui-red-pressed-dark};
+  --calcite-switch-switched-box-shadow-color: #{rgba($ui-red-dark, 0.5)};
+}
+
+// sizes
+:host([scale="s"]) {
+  --calcite-switch-track-width: 28px;
+  --calcite-switch-track-height: 16px;
+  --calcite-switch-handle-size: 14px;
+}
+
+:host([scale="m"]) {
+  --calcite-switch-track-width: 36px;
+  --calcite-switch-track-height: 20px;
+  --calcite-switch-handle-size: 18px;
+}
+
+:host([scale="l"]) {
+  --calcite-switch-track-width: 44px;
+  --calcite-switch-track-height: 24px;
+  --calcite-switch-handle-size: 22px;
+}
+
 ::slotted(input) {
   display: none;
 }
 
 :host {
   display: inline-block;
+  position: relative;
   cursor: pointer;
   user-select: none;
+  vertical-align: middle;
+  top: -0.1em;
   tap-highlight-color: transparent;
+  margin-right: 0.5em;
 }
 
 .track {
   position: relative;
   display: inline-block;
   vertical-align: top;
-  width: 36px;
-  height: 20px;
-  background-color: $blk-005;
+  width: var(--calcite-switch-track-width);
+  height: var(--calcite-switch-track-height);
+  background-color: var(--calcite-switch-track-background);
   border-radius: 30px;
-  border: 1px solid $blk-020;
-  transition: all 0.25s ease;
+  border: 1px solid var(--calcite-switch-track-border);
+  transition: all $transition;
 }
 
 .handle {
   position: absolute;
   display: block;
-  width: 18px;
-  height: 18px;
+  width: var(--calcite-switch-handle-size);
+  height: var(--calcite-switch-handle-size);
   top: -1px;
   left: -1px;
   right: auto;
-  background-color: $blk-000;
+  background-color: var(--calcite-switch-handle-background);
   border-radius: 30px;
-  border: 2px solid $blk-130;
-  box-shadow: 0 1px 1px 0px rgba($blk-200, 0.2);
-  transition: all 0.25s ease;
+  border: 2px solid var(--calcite-switch-handle-border);
+  transition: all $transition;
+}
+
+:host(:hover),
+:host(:focus) {
+  outline: none;
+  .track {
+    background-color: var(--calcite-switch-hover-track-background);
+    border-color: var(--calcite-switch-hover-track-border);
+    box-shadow: 0 0 6px 1px var(--calcite-switch-box-shadow-color);
+  }
+
+  .handle {
+    border-color: var(--calcite-switch-hover-handle-border);
+    box-shadow: $shadow-1;
+    right: auto;
+    left: 0px;
+  }
+}
+
+:host(:hover) .handle {
+  right: auto;
+  left: 1px;
 }
 
 :host([switched]) {
+  .track {
+    background-color: var(--calcite-switch-switched-track-background);
+    border-color: var(--calcite-switch-switched-track-border);
+  }
   .handle {
     right: -1px;
     left: auto;
-    border-color: $h-bb-080;
-    box-shadow: 0 2px 1px 0px rgba($blk-200, 0.2);
-  }
-
-  .track {
-    border-color: $ui-blue-pressed;
-    background-color: $ui-blue;
+    border-color: var(--calcite-switch-switched-handle-border);
+    box-shadow: $shadow-1;
   }
 }
 
-:host([switched][color="red"]) {
-  .handle {
-    border-color: $h-rr-080;
-  }
-
-  .track {
-    border-color: $h-rr-080;
-    background-color: $ui-red-pressed;
-  }
-}
-
-:host(:focus),
-:host([switched]:focus) {
-  outline: none;
-
-  .track {
-    box-shadow: 0 0 4px 2px rgba($blk-130, 0.9);
-  }
-}
-
-:host(:hover) {
-  .track {
-    border-color: $blk-020;
-    background-color: $blk-130;
-  }
-
-  .handle {
-    border-color: $ui-blue;
-    box-shadow: 0 1px 2px 0px rgba($blk-200, 0.2);
-  }
-}
-
-:host([color="red"]:hover) {
-  .handle {
-    border-color: $ui-red;
-  }
+:host([switched]:focus) .track {
+  box-shadow: 0 0 6px 1px var(--calcite-switch-switched-box-shadow-color);
 }
 
 :host([switched]:hover) {
-  .handle {
-    border-color: $h-bb-080;
-  }
-
   .track {
-    border-color: $ui-blue-pressed;
-    background-color: $ui-blue;
+    background-color: var(--calcite-switch-switched-hover-track-background);
+    border-color: var(--calcite-switch-switched-hover-track-border);
+  }
+  .handle {
+    border-color: var(--calcite-switch-switched-hover-handle-border);
   }
 }
 
-:host([switched][color="red"]:hover) {
-  .handle {
-    border-color: $h-rr-080;
+// rtl
+:host([dir="rtl"]) {
+  margin-right: 0;
+  margin-left: 0.5em;
+  & .handle {
+    left: auto;
+    right: -1px;
   }
+}
 
-  .track {
-    border-color: $h-rr-080;
-    background-color: $ui-red-pressed;
-  }
+:host([dir="rtl"]:hover) .handle {
+  right: 1px;
+  left: auto;
+}
+
+:host([dir="rtl"][switched]) .handle {
+  right: auto;
+  left: -1px;
+}
+
+:host([dir="rtl"][switched]:active) .handle,
+:host([dir="rtl"][switched]:focus) .handle {
+  right: auto;
+  left: -1px;
 }
