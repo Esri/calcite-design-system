@@ -11,6 +11,7 @@ import {
   Build
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../utils/keys";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-switch",
@@ -30,7 +31,13 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) value?: string = "";
 
   /** What color the switch should be */
-  @Prop() color?: "red" | "blue" = "blue";
+  @Prop({ reflect: true, mutable: true }) color: "red" | "blue" = "blue";
+
+  /** The scale of the button */
+  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
+
+  /** The component's theme. */
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
 
   @Event() calciteSwitchChange: EventEmitter;
 
@@ -64,6 +71,16 @@ export class CalciteSwitch {
   private inputProxy: HTMLInputElement;
 
   connectedCallback() {
+    // prop validations
+    let color = ["blue", "red"];
+    if (!color.includes(this.color)) this.color = "blue";
+
+    let scale = ["s", "m", "l"];
+    if (!scale.includes(this.scale)) this.scale = "m";
+
+    let theme = ["dark", "light"];
+    if (!theme.includes(this.theme)) this.theme = "light";
+
     this.setupProxyInput();
   }
 
@@ -76,8 +93,9 @@ export class CalciteSwitch {
   }
 
   render() {
+    const dir = getElementDir(this.el);
     return (
-      <Host role="checkbox" aria-checked={this.switched} tabindex="0">
+      <Host role="checkbox" dir={dir} aria-checked={this.switched} tabindex="0">
         <div class="track">
           <div class="handle" />
         </div>

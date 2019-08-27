@@ -696,7 +696,7 @@
             </script>
           </label>
         </div>
-
+        <br />
         <div>
           <calcite-switch>
             <input id="proxySwitchCheckbox" type="checkbox" />
@@ -717,19 +717,86 @@
             })
           </script>
         </div>
-
+        <br />
         <div>
           <label>
-            <calcite-switch switched="true" color="red"> </calcite-switch>
-            Red switch
+            <calcite-switch scale="s" switched="true" color="red"> </calcite-switch>
+            Red switch scale small
           </label>
         </div>
-
+        <br />
+        <div>
+          <label>
+            <calcite-switch scale="m" switched="true" color="red"> </calcite-switch>
+            Red switch scale medium
+          </label>
+        </div>
+        <br />
+        <div>
+          <label>
+            <calcite-switch scale="l" switched="true" color="red"> </calcite-switch>
+            Red switch scale large
+          </label>
+        </div>
+        <br />
         <div>
           <calcite-switch></calcite-switch>
           Switch with no wrapping <code>label</code>.
         </div>
+        <br />
+        <div class="demo-background-dark">
+          <div>
+            <label>
+              <calcite-switch theme="dark" id="basicSwitch" switched="true"></calcite-switch>
+              Without a proxy <code>input</code> element.
+              <script>
+                var basicSwitch = document.getElementById("basicSwitch");
 
+                basicSwitch.addEventListener("calciteSwitchChange", function (
+                  e
+                ) {
+                  console.log(
+                    "Basic switch changed by <calcite-switch>",
+                    e.target.switched
+                  );
+                });
+              </script>
+            </label>
+          </div>
+          <br />
+          <div>
+            <calcite-switch theme="dark">
+              <input id="proxySwitchCheckbox" type="checkbox" />
+            </calcite-switch>
+            <span id='proxySwitchSpan'>
+              With a proxy <code>input</code> element and changes on click.
+            </span>
+            <script>
+              var proxySwitchSpan = document.getElementById(
+                "proxySwitchSpan"
+              );
+              var proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
+
+              proxySwitchSpan.addEventListener('click', function () {
+                proxySwitchCheckbox.hasAttribute('checked') ?
+                  proxySwitchCheckbox.removeAttribute('checked') :
+                  proxySwitchCheckbox.setAttribute('checked', '')
+              })
+            </script>
+          </div>
+          <br />
+          <div>
+            <label>
+              <calcite-switch theme="dark" switched="true" color="red"> </calcite-switch>
+              Red switch
+            </label>
+          </div>
+          <br />
+          <div>
+            <calcite-switch theme="dark"></calcite-switch>
+            Switch with no wrapping <code>label</code>.
+          </div>
+        </div>
         <h2>calcite-checkbox</h2>
 
         <div>
@@ -1451,10 +1518,12 @@
         </div>
 
         <h3>Big Tree</h3>
-        <p>Parent Items in this tree also have links. Click the chevron icon to toggle expand/collapse or anywhere else to click the link.</p>
+        <p>Parent Items in this tree also have links. Click the chevron icon to toggle expand/collapse or anywhere else
+          to click the link.</p>
         <calcite-tree lines>
           <calcite-tree-item>
-            <a href="/guide/developing-extensions-with-arcgis-enterprise-sdk/">Developing Extensions with ArcGIS Enterprise SDK</a>
+            <a href="/guide/developing-extensions-with-arcgis-enterprise-sdk/">Developing Extensions with ArcGIS
+              Enterprise SDK</a>
             <calcite-tree slot="children" id="test">
               <calcite-tree-item>
                 <a href="/guide/developing-with-net/">Developing with .NET</a>
@@ -1462,8 +1531,10 @@
                   <calcite-tree-item>
                     <a href="/guide/migrating-extensions-1/">Migrating Extensions</a>
                     <calcite-tree slot="children">
-                      <calcite-tree-item><a href="/guide/how-to-migrate-a-net-soe-to-arcgis-enterprise-sdk/">How to migrate a .NET SOE to ArcGIS Enterprise SDK</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/migration-strategies/">Migration Strategies</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/how-to-migrate-a-net-soe-to-arcgis-enterprise-sdk/">How to
+                          migrate a .NET SOE to ArcGIS Enterprise SDK</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/migration-strategies/">Migration Strategies</a>
+                      </calcite-tree-item>
                       <calcite-tree-item><a href="/guide/migration-steps-1/">Migration Steps</a></calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
@@ -1471,16 +1542,25 @@
                     <a href="/guide/net-samples/">.NET Samples</a>
                     <calcite-tree slot="children">
                       <calcite-tree-item><a href="/guide/simple-logger-soi/">Simple Logger SOI</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/operation-access-soi/">Operation Access SOI</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/apply-watermark-soi/">Apply Watermark SOI</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/before-using-samples/">Before using Samples</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/spatial-query-rest-soe/">Spatial Query REST SOE</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/find-near-features-rest-soe/">Find near Features REST SOE</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/operation-access-soi/">Operation Access SOI</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/apply-watermark-soi/">Apply Watermark SOI</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/before-using-samples/">Before using Samples</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/spatial-query-rest-soe/">Spatial Query REST SOE</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/find-near-features-rest-soe/">Find near Features REST SOE</a>
+                      </calcite-tree-item>
                       <calcite-tree-item><a href="/guide/layer-access-soi/">Layer Access SOI</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/simple-rest-soe-with-capabilities-1/">Simple REST SOE with Capabilities</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/edit-features-rest-soe/">Edit Features REST SOE</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/simple-rest-soe-with-properties-1/">Simple REST SOE with Properties</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/find-near-features-soap-soe/">Find near Features SOAP SOE</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/simple-rest-soe-with-capabilities-1/">Simple REST SOE with
+                          Capabilities</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/edit-features-rest-soe/">Edit Features REST SOE</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/simple-rest-soe-with-properties-1/">Simple REST SOE with
+                          Properties</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/find-near-features-soap-soe/">Find near Features SOAP SOE</a>
+                      </calcite-tree-item>
                       <calcite-tree-item><a href="/guide/simple-rest-soe/">Simple REST SOE</a></calcite-tree-item>
                       <calcite-tree-item><a href="/guide/simple-soap-soe-1/">Simple SOAP SOE</a></calcite-tree-item>
                     </calcite-tree>
@@ -1489,51 +1569,90 @@
                     <a href="/guide/developing-server-object-extensions/">Developing Server Object Extensions</a>
                     <calcite-tree slot="children">
                       <calcite-tree-item>
-                        <a href="/guide/developing-rest-server-object-extensions/">Developing REST Server Object Extensions</a>
+                        <a href="/guide/developing-rest-server-object-extensions/">Developing REST Server Object
+                          Extensions</a>
                         <calcite-tree slot="children">
                           <calcite-tree-item>
-                            <a href="/guide/walkthrough-for-creating-a-rest-server-object-extension-arcobjects-net-10-sdk/">Walkthrough for Creating a REST Server Object Extension (ArcObjects .NET 10 SDK)</a>
+                            <a
+                              href="/guide/walkthrough-for-creating-a-rest-server-object-extension-arcobjects-net-10-sdk/">Walkthrough
+                              for Creating a REST Server Object Extension (ArcObjects .NET 10 SDK)</a>
                             <calcite-tree slot="children">
-                              <calcite-tree-item><a href="/guide/how-to-deploy-the-rest-soe/">How to Deploy the REST SOE</a></calcite-tree-item>
-                              <calcite-tree-item><a href="/guide/how-to-enable-and-test-the-rest-soe-on-a-service/">How to Enable and Test the REST SOE on a Service</a></calcite-tree-item>
-                              <calcite-tree-item><a href="/guide/how-to-develop-a-property-page-for-the-rest-soe/">How to Develop a Property Page for the REST SOE</a></calcite-tree-item>
-                              <calcite-tree-item><a href="/guide/how-to-use-the-rest-soe-in-a-web-application/">How to Use the REST SOE in a Web Application</a></calcite-tree-item>
-                              <calcite-tree-item><a href="/guide/how-to-develop-the-rest-soe/">How to Develop the REST SOE</a></calcite-tree-item>
+                              <calcite-tree-item><a href="/guide/how-to-deploy-the-rest-soe/">How to Deploy the REST
+                                  SOE</a></calcite-tree-item>
+                              <calcite-tree-item><a href="/guide/how-to-enable-and-test-the-rest-soe-on-a-service/">How
+                                  to Enable and Test the REST SOE on a Service</a></calcite-tree-item>
+                              <calcite-tree-item><a href="/guide/how-to-develop-a-property-page-for-the-rest-soe/">How
+                                  to Develop a Property Page for the REST SOE</a></calcite-tree-item>
+                              <calcite-tree-item><a href="/guide/how-to-use-the-rest-soe-in-a-web-application/">How to
+                                  Use the REST SOE in a Web Application</a></calcite-tree-item>
+                              <calcite-tree-item><a href="/guide/how-to-develop-the-rest-soe/">How to Develop the REST
+                                  SOE</a></calcite-tree-item>
                             </calcite-tree>
                           </calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/building-the-schema-of-a-rest-server-object-extension/">Building the Schema of a REST Server Object Extension</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/handling-requests-to-a-rest-server-object-extension/">Handling Requests to a REST Server Object Extension</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/working-with-json-in-a-rest-server-object-extension/">Working with JSON in a REST server object extension</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/walkthrough-for-creating-a-rest-server-object-extension-arcobjects-net-10-sdk/">Walkthrough for Creating a REST Server Object Extension (ArcObjects .NET 10 SDK)</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/using-a-rest-server-object-extension-in-a-client-application/">Using a REST Server Object Extension in a Client Application</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/quick-tour-of-the-rest-server-object-extension-template/">Quick Tour of the REST Server Object Extension Template</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/how-to-open-the-rest-server-object-extension-template-in-visual-studio/">How to Open the REST Server Object Extension Template in Visual Studio</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/strategies-for-building-rest-server-object-extensions/">Strategies for Building REST Server Object Extensions</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/what-is-a-rest-server-object-extension/">What is a REST Server Object Extension?</a></calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/building-the-schema-of-a-rest-server-object-extension/">Building the Schema
+                              of a REST Server Object Extension</a></calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/handling-requests-to-a-rest-server-object-extension/">Handling Requests to a
+                              REST Server Object Extension</a></calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/working-with-json-in-a-rest-server-object-extension/">Working with JSON in a
+                              REST server object extension</a></calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/walkthrough-for-creating-a-rest-server-object-extension-arcobjects-net-10-sdk/">Walkthrough
+                              for Creating a REST Server Object Extension (ArcObjects .NET 10 SDK)</a>
+                          </calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/using-a-rest-server-object-extension-in-a-client-application/">Using a REST
+                              Server Object Extension in a Client Application</a></calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/quick-tour-of-the-rest-server-object-extension-template/">Quick Tour of the
+                              REST Server Object Extension Template</a></calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/how-to-open-the-rest-server-object-extension-template-in-visual-studio/">How
+                              to Open the REST Server Object Extension Template in Visual Studio</a></calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/strategies-for-building-rest-server-object-extensions/">Strategies for
+                              Building REST Server Object Extensions</a></calcite-tree-item>
+                          <calcite-tree-item><a href="/guide/what-is-a-rest-server-object-extension/">What is a REST
+                              Server Object Extension?</a></calcite-tree-item>
                         </calcite-tree>
                       </calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/overview-of-developing-a-server-object-extension/">Overview of Developing a Server Object Extension</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/developing-soap-server-object-extensions/">Developing SOAP Server Object Extensions</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/developing-rest-server-object-extensions/">Developing REST Server Object Extensions</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/overview-of-developing-a-server-object-extension/">Overview of
+                          Developing a Server Object Extension</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/developing-soap-server-object-extensions/">Developing SOAP
+                          Server Object Extensions</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/developing-rest-server-object-extensions/">Developing REST
+                          Server Object Extensions</a></calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
                   <calcite-tree-item>
                     <a href="/guide/developing-server-object-interceptors-1/">Developing Server Object Interceptors</a>
                     <calcite-tree slot="children">
-                      <calcite-tree-item><a href="/guide/quick-tour-of-a-simple-soi-1/">Quick tour of a simple SOI</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/how-to-audit-requests-in-sois/">How to audit requests in SOIs</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/quick-tour-of-a-simple-soi-1/">Quick tour of a simple SOI</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/how-to-audit-requests-in-sois/">How to audit requests in
+                          SOIs</a></calcite-tree-item>
                       <calcite-tree-item><a href="/guide/soi-properties/">SOI properties</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/overview-of-developing-server-object-interceptors/">Overview of developing server object interceptors</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/how-to-handle-rest-requests-and-responses-in-sois-1/">How to handle REST requests and responses in SOIs</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/what-is-a-server-object-interceptor/">What is a server object interceptor?</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/overview-of-developing-server-object-interceptors/">Overview of
+                          developing server object interceptors</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/how-to-handle-rest-requests-and-responses-in-sois-1/">How to
+                          handle REST requests and responses in SOIs</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/what-is-a-server-object-interceptor/">What is a server object
+                          interceptor?</a></calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/developing-server-object-extensions/">Developing Server Object Extensions</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/visual-studio-integration/">Visual Studio Integration</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/migrating-extensions-1/">Migrating Extensions</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/debugging-net-extensions/">Debugging .NET extensions</a></calcite-tree-item>
+                  <calcite-tree-item><a href="/guide/developing-server-object-extensions/">Developing Server Object
+                      Extensions</a></calcite-tree-item>
+                  <calcite-tree-item><a href="/guide/visual-studio-integration/">Visual Studio Integration</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item><a href="/guide/migrating-extensions-1/">Migrating Extensions</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item><a href="/guide/debugging-net-extensions/">Debugging .NET extensions</a>
+                  </calcite-tree-item>
                   <calcite-tree-item><a href="/guide/net-samples/">.NET Samples</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/developing-server-object-interceptors-1/">Developing Server Object Interceptors</a></calcite-tree-item>
+                  <calcite-tree-item><a href="/guide/developing-server-object-interceptors-1/">Developing Server Object
+                      Interceptors</a></calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
               <calcite-tree-item>
@@ -1542,29 +1661,40 @@
                   <calcite-tree-item>
                     <a href="/guide/developing-server-object-interceptors/">Developing Server Object Interceptors</a>
                     <calcite-tree slot="children">
-                      <calcite-tree-item><a href="/guide/quick-tour-of-a-simple-soi/">Quick tour of a simple SOI</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/how-to-audit-requests-in-sois-1/">How to audit requests in SOIs</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/quick-tour-of-a-simple-soi/">Quick tour of a simple SOI</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/how-to-audit-requests-in-sois-1/">How to audit requests in
+                          SOIs</a></calcite-tree-item>
                       <calcite-tree-item><a href="/guide/soi-properties-1/">SOI properties</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/how-to-handle-rest-requests-and-responses-in-sois/">How to handle REST requests and responses in SOIs</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/overview-of-developing-server-object-interceptors-1/">Overview of developing server object interceptors</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/what-is-a-server-object-interceptor-1/">What is a server object interceptor?</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/how-to-handle-rest-requests-and-responses-in-sois/">How to
+                          handle REST requests and responses in SOIs</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/overview-of-developing-server-object-interceptors-1/">Overview
+                          of developing server object interceptors</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/what-is-a-server-object-interceptor-1/">What is a server object
+                          interceptor?</a></calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
                   <calcite-tree-item>
                     <a href="/guide/exporting-extensions/">Exporting Extensions</a>
                     <calcite-tree slot="children">
-                      <calcite-tree-item><a href="/guide/exporting-soes-and-sois-with-dependencies/">Exporting SOEs and SOIs with Dependencies</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/exporting-soes-and-sois/">Exporting SOEs and SOIs</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/exporting-soes-and-sois-using-command-line/">Exporting SOEs and SOIs using Command Line</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/exporting-soes-and-sois-with-dependencies/">Exporting SOEs and
+                          SOIs with Dependencies</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/exporting-soes-and-sois/">Exporting SOEs and SOIs</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/exporting-soes-and-sois-using-command-line/">Exporting SOEs and
+                          SOIs using Command Line</a></calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
                   <calcite-tree-item><a href="/guide/exporting-extensions/">Exporting Extensions</a></calcite-tree-item>
                   <calcite-tree-item>
                     <a href="/guide/using-arcgis-eclipse-plugin/">Using ArcGIS Eclipse plugin</a>
                     <calcite-tree slot="children">
-                      <calcite-tree-item><a href="/guide/uninstalling-arcgis-eclipse-plugin/">Uninstalling ArcGIS Eclipse Plugin</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/installing-arcgis-eclipse-plugin/">Installing ArcGIS Eclipse Plugin</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/adding-the-arcgis-enterprise-sdk-library/">Adding the ArcGIS Enterprise SDK Library</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/uninstalling-arcgis-eclipse-plugin/">Uninstalling ArcGIS
+                          Eclipse Plugin</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/installing-arcgis-eclipse-plugin/">Installing ArcGIS Eclipse
+                          Plugin</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/adding-the-arcgis-enterprise-sdk-library/">Adding the ArcGIS
+                          Enterprise SDK Library</a></calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
                   <calcite-tree-item>
@@ -1573,26 +1703,39 @@
                       <calcite-tree-item>
                         <a href="/guide/server-object-extension-properties/">Server Object Extension Properties</a>
                         <calcite-tree slot="children">
-                          <calcite-tree-item><a href="/guide/adding-properties-to-java-soes/">Adding Properties to Java SOEs</a></calcite-tree-item>
-                          <calcite-tree-item><a href="/guide/creating-custom-property-pages-for-arcgis-server-manager/">Creating Custom Property Pages for ArcGIS Server Manager</a></calcite-tree-item>
+                          <calcite-tree-item><a href="/guide/adding-properties-to-java-soes/">Adding Properties to Java
+                              SOEs</a></calcite-tree-item>
+                          <calcite-tree-item><a
+                              href="/guide/creating-custom-property-pages-for-arcgis-server-manager/">Creating Custom
+                              Property Pages for ArcGIS Server Manager</a></calcite-tree-item>
                         </calcite-tree>
                       </calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/adding-capabilities-to-server-object-extension/">Adding Capabilities to Server Object Extension</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/overview-of-developing-server-object-extension/">Overview of Developing Server Object Extension</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/developing-rest-server-object-extension/">Developing REST Server Object Extension</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/developing-soap-server-object-extension/">Developing SOAP Server Object Extension</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/adding-capabilities-to-server-object-extension/">Adding
+                          Capabilities to Server Object Extension</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/overview-of-developing-server-object-extension/">Overview of
+                          Developing Server Object Extension</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/developing-rest-server-object-extension/">Developing REST
+                          Server Object Extension</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/developing-soap-server-object-extension/">Developing SOAP
+                          Server Object Extension</a></calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
                   <calcite-tree-item>
                     <a href="/guide/java-samples/">Java Samples</a>
                     <calcite-tree slot="children">
                       <calcite-tree-item><a href="/guide/simple-soap-soe/">Simple SOAP SOE</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/server-operation-access-soi/">Server Operation Access SOI</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/apply-watermark-soi-1/">Apply Watermark SOI</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/simple-rest-soe-with-properties/">Simple REST SOE With Properties</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/simple-rest-soe-with-capabilities/">Simple REST SOE With Capabilities</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/find-nearby-features-rest-soe/">Find Nearby Features REST SOE</a></calcite-tree-item>
-                      <calcite-tree-item><a href="/guide/find-nearby-features-soap-soe/">Find Nearby Features SOAP SOE</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/server-operation-access-soi/">Server Operation Access SOI</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/apply-watermark-soi-1/">Apply Watermark SOI</a>
+                      </calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/simple-rest-soe-with-properties/">Simple REST SOE With
+                          Properties</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/simple-rest-soe-with-capabilities/">Simple REST SOE With
+                          Capabilities</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/find-nearby-features-rest-soe/">Find Nearby Features REST
+                          SOE</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/find-nearby-features-soap-soe/">Find Nearby Features SOAP
+                          SOE</a></calcite-tree-item>
                       <calcite-tree-item><a href="/guide/simple-logger-soi-1/">Simple Logger SOI</a></calcite-tree-item>
                       <calcite-tree-item><a href="/guide/layer-access-soi-1/">Layer Access SOI</a></calcite-tree-item>
                       <calcite-tree-item><a href="/guide/simple-rest-soe-1/">Simple REST SOE</a></calcite-tree-item>
@@ -1602,15 +1745,19 @@
                   <calcite-tree-item>
                     <a href="/guide/migrating-extensions/">Migrating Extensions</a>
                     <calcite-tree slot="children">
-                      <calcite-tree-item><a href="/guide/migration-strategies-1/">Migration Strategies</a></calcite-tree-item>
+                      <calcite-tree-item><a href="/guide/migration-strategies-1/">Migration Strategies</a>
+                      </calcite-tree-item>
                       <calcite-tree-item><a href="/guide/migration-steps/">Migration Steps</a></calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
                   <calcite-tree-item><a href="/guide/java-samples/">Java Samples</a></calcite-tree-item>
                   <calcite-tree-item><a href="/guide/logging-messages/">Logging Messages</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/developing-server-object-interceptors/">Developing Server Object Interceptors</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/using-arcgis-eclipse-plugin/">Using ArcGIS Eclipse plugin</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/developing-server-object-extensions-1/">Developing Server Object Extensions</a></calcite-tree-item>
+                  <calcite-tree-item><a href="/guide/developing-server-object-interceptors/">Developing Server Object
+                      Interceptors</a></calcite-tree-item>
+                  <calcite-tree-item><a href="/guide/using-arcgis-eclipse-plugin/">Using ArcGIS Eclipse plugin</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item><a href="/guide/developing-server-object-extensions-1/">Developing Server Object
+                      Extensions</a></calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
               <calcite-tree-item><a href="/guide/deploying-extensions/">Deploying extensions</a></calcite-tree-item>
@@ -1623,13 +1770,18 @@
           <calcite-tree-item>
             <a href="/guide/installation/">Installation</a>
             <calcite-tree slot="children">
-              <calcite-tree-item><a href="/guide/post-installation-steps-for-java/">Post-Installation Steps for Java</a></calcite-tree-item>
-              <calcite-tree-item><a href="/guide/installing-arcgis-enterprise-sdk/">Installing ArcGIS Enterprise SDK</a></calcite-tree-item>
+              <calcite-tree-item><a href="/guide/post-installation-steps-for-java/">Post-Installation Steps for Java</a>
+              </calcite-tree-item>
+              <calcite-tree-item><a href="/guide/installing-arcgis-enterprise-sdk/">Installing ArcGIS Enterprise SDK</a>
+              </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
-          <calcite-tree-item><a href="/guide/frequently-asked-questions/">Frequently Asked Questions</a></calcite-tree-item>
-          <calcite-tree-item><a href="/guide/what-is-arcgis-enterprise-sdk/">What is ArcGIS Enterprise SDK</a></calcite-tree-item>
-          <calcite-tree-item><a href="/guide/design-philosophy-for-arcgis-enterprise-sdk/">Design Philosophy for ArcGIS Enterprise SDK</a></calcite-tree-item>
+          <calcite-tree-item><a href="/guide/frequently-asked-questions/">Frequently Asked Questions</a>
+          </calcite-tree-item>
+          <calcite-tree-item><a href="/guide/what-is-arcgis-enterprise-sdk/">What is ArcGIS Enterprise SDK</a>
+          </calcite-tree-item>
+          <calcite-tree-item><a href="/guide/design-philosophy-for-arcgis-enterprise-sdk/">Design Philosophy for ArcGIS
+              Enterprise SDK</a></calcite-tree-item>
           <calcite-tree-item><a href="/guide/system-requirements/">System Requirements</a></calcite-tree-item>
         </calcite-tree>
 
