@@ -55,6 +55,12 @@ export class CalciteDropdownItem {
   /** @internal */
   @Prop() requestedDropdownItem: string = "";
 
+  /** pass an optional href to render an anchor around the link items */
+  @Prop() href?: string;
+
+  /** pass an optional title for rendered href */
+  @Prop() linktitle?: string;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -75,7 +81,6 @@ export class CalciteDropdownItem {
   componentDidLoad() {
     this.currentDropdownGroup = this.el.parentElement.id;
     this.itemPosition = this.getItemPosition();
-
     this.registerCalciteDropdownItem.emit({
       item: this.el,
       position: this.itemPosition
@@ -91,19 +96,38 @@ export class CalciteDropdownItem {
     const theme = getElementTheme(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const selected = this.active ? "true" : null;
-    return (
-      <Host
-        theme={theme}
-        dir={dir}
-        scale={scale}
-        id={this.dropdownItemId}
-        tabindex="0"
-        role="menuitem"
-        aria-selected={selected}
-      >
-        <slot />
-      </Host>
-    );
+    if (!this.href) {
+      return (
+        <Host
+          theme={theme}
+          dir={dir}
+          scale={scale}
+          id={this.dropdownItemId}
+          tabindex="0"
+          role="menuitem"
+          aria-selected={selected}
+        >
+          <slot />
+        </Host>
+      );
+    } else {
+      return (
+        <Host
+          theme={theme}
+          dir={dir}
+          scale={scale}
+          id={this.dropdownItemId}
+          tabindex="0"
+          role="menuitem"
+          aria-selected={selected}
+          islink="true"
+        >
+          <a href={this.href} title={this.linktitle}>
+            <slot />
+          </a>
+        </Host>
+      );
+    }
   }
 
   //--------------------------------------------------------------------------

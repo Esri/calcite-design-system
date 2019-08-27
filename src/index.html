@@ -1239,6 +1239,33 @@
         </calcite-dropdown>
         <br />
         <br />
+        <h3> Dropdowns with items as links</h3>
+        <calcite-dropdown>
+          <calcite-button slot="dropdown-trigger">Dropdowns with items as links</calcite-button>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item href="/mypage" linktitle="My Page">Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage2" linktitle="My Page 2" active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage3" linktitle="My Page 3">Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+        <br />
+        <h3> Dropdowns with items as links mixed with not links</h3>
+        <calcite-dropdown>
+          <calcite-button slot="dropdown-trigger">Dropdowns with items as links</calcite-button>
+          <calcite-dropdown-group grouptitle="Not Links">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group grouptitle="Link">
+            <calcite-dropdown-item href="/mypage" linktitle="My Page">Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage2" linktitle="My Page 3" active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage3" linktitle="My Page 3">Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <br />
+        <br />
         <calcite-dropdown theme="dark">
           <calcite-button color="dark" slot="dropdown-trigger">Open Dropdown dark mode</calcite-button>
           <calcite-dropdown-group>

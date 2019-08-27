@@ -144,10 +144,13 @@ export class CalciteDropdown {
     let e = item.detail.item;
     let isFirstItem = this.itemIndex(e.target) === 0;
     let isLastItem = this.itemIndex(e.target) === this.items.length - 1;
+    e.preventDefault();
     switch (e.keyCode) {
       case TAB:
         if (isLastItem && !e.shiftKey) this.closeCalciteDropdown();
-        if (isFirstItem && e.shiftKey) this.closeCalciteDropdown();
+        else if (isFirstItem && e.shiftKey) this.closeCalciteDropdown();
+        else if (e.shiftKey) this.focusPrevItem(e.target);
+        else this.focusNextItem(e.target);
         break;
       case DOWN:
         this.focusNextItem(e.target);
@@ -202,34 +205,44 @@ export class CalciteDropdown {
 
   private focusFirstItem() {
     const firstItem = this.items[0];
-    firstItem.focus();
+    const focusableItem = this.getFocusableElement(firstItem);
+    focusableItem.focus();
   }
 
   private focusLastItem() {
     const lastItem = this.items[this.items.length - 1];
-    lastItem.focus();
+    const focusableItem = this.getFocusableElement(lastItem);
+    focusableItem.focus();
   }
 
   private focusNextItem(e) {
     const index = this.itemIndex(e);
     const nextItem = this.items[index + 1] || this.items[0];
-    nextItem.focus();
+    const focusableItem = this.getFocusableElement(nextItem);
+    focusableItem.focus();
   }
 
   private focusPrevItem(e) {
     const index = this.itemIndex(e);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
-    prevItem.focus();
+    const focusableItem = this.getFocusableElement(prevItem);
+    focusableItem.focus();
   }
 
   private itemIndex(e) {
     return this.items.indexOf(e);
   }
 
+  private getFocusableElement(item) {
+    return item.attributes.islink ? item.shadowRoot.querySelector("a") : item;
+  }
+
   private openCalciteDropdown() {
     this.active = !this.active;
-    this.focusFirstItem();
+    // time for animation
+    setTimeout(() => this.focusFirstItem(), 50);
   }
+
   private sortItems = (items: any[]): any[] =>
     items
       .sort((a, b) => a.position - b.position)

@@ -35,6 +35,21 @@
     $baseline * 1.5};
 }
 
+:host([dir="rtl"][scale="s"]) {
+  --calcite-dropdown-item-padding: #{$baseline/5 $baseline * 1.5 $baseline/5
+    $baseline/1.5};
+}
+
+:host([dir="rtl"][scale="m"]) {
+  --calcite-dropdown-item-padding: #{$baseline/3 $baseline * 1.5 $baseline/3
+    $baseline / 1.5};
+}
+
+:host([dir="rtl"][scale="l"]) {
+  --calcite-dropdown-item-padding: #{$baseline/2 $baseline * 1.5 $baseline/2
+    $baseline / 1.5};
+}
+
 :host {
   display: block;
   @include font-size(-2);
@@ -43,6 +58,7 @@
   padding: var(--calcite-dropdown-item-padding);
   cursor: pointer;
   text-decoration: none;
+  outline: none;
   position: relative;
 }
 
@@ -53,9 +69,11 @@
   color: var(--calcite-dropdown-item-color-hover);
   text-decoration: none;
 }
+
 :host(:active) {
   background-color: var(--calcite-dropdown-item-background-color-pressed);
 }
+
 :host:before {
   content: "\2022";
   position: absolute;
@@ -71,7 +89,6 @@
 }
 
 :host([dir="rtl"]) {
-  padding: $baseline/3 $baseline * 1.5 $baseline/3 $baseline/1.5;
   &:before {
     left: unset;
     right: 1rem;
@@ -84,5 +101,60 @@
   &:before {
     opacity: 1;
     color: var(--calcite-dropdown-item-dot-active-color);
+  }
+}
+
+// when used as link move styling anchor
+:host([islink]) {
+  padding: 0;
+  &:before {
+    display: none;
+  }
+  & a {
+    display: block;
+    position: relative;
+    padding: var(--calcite-dropdown-item-padding);
+    color: var(--calcite-dropdown-item-color);
+    text-decoration: none;
+    outline: none;
+    &:before {
+      content: "\2022";
+      position: absolute;
+      left: 1rem;
+      opacity: 0;
+      color: $blk-120;
+      transition: 0.15s ease-in-out;
+    }
+  }
+}
+
+:host([islink]) a:hover,
+:host([islink]) a:focus,
+:host([islink]) a:active {
+  background-color: var(--calcite-dropdown-item-background-color-hover);
+  text-decoration: none;
+  &:before {
+    opacity: 1;
+  }
+}
+
+:host([islink]) a:active {
+  background-color: var(--calcite-dropdown-item-background-color-pressed);
+}
+
+:host([islink][active]) a {
+  color: var(--calcite-dropdown-item-color-active);
+  font-weight: 500;
+  &:before {
+    opacity: 1;
+    color: var(--calcite-dropdown-item-dot-active-color);
+  }
+}
+
+:host([islink][dir="rtl"]) a {
+  padding: var(--calcite-dropdown-item-padding);
+  &:before {
+    left: unset;
+    right: 1rem;
   }
 }
