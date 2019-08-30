@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [v1.0.0-beta.7] - Aug 30th 2019
+
+### Added
+
+* Adds support for dropdown items as links
+*	Updates toggle styling and adds props for scale
+
 ## [v1.0.0-beta.6] - Aug 26th 2019
 
 ### Fixed

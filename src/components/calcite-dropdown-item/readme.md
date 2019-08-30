@@ -7,9 +7,11 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type      | Default |
-| -------- | --------- | ----------- | --------- | ------- |
-| `active` | `active`  |             | `boolean` | `false` |
+| Property    | Attribute   | Description                                                     | Type      | Default     |
+| ----------- | ----------- | --------------------------------------------------------------- | --------- | ----------- |
+| `active`    | `active`    |                                                                 | `boolean` | `false`     |
+| `href`      | `href`      | pass an optional href to render an anchor around the link items | `string`  | `undefined` |
+| `linktitle` | `linktitle` | pass an optional title for rendered href                        | `string`  | `undefined` |
 
 
 ## Events
