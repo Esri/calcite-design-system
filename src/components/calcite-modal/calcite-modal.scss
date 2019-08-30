@@ -38,11 +38,9 @@
 
 .modal {
   box-sizing: border-box;
-  max-height: 80vh;
   z-index: 102;
   float: none;
   text-align: left;
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
@@ -148,6 +146,8 @@ slot[name="header"]::slotted(*) {
   padding: $baseline;
   height: 100%;
   overflow: auto;
+  max-height: calc(100vh - 14rem);
+  overflow-y: auto;
   display: block;
   background-color: var(--calcite-modal-background);
   z-index: 1;
@@ -213,7 +213,8 @@ slot[name="primary"] {
         margin: 0;
       }
       .modal__content {
-        flex: 1 1 auto;
+        flex: 1 1 0;
+        max-height: unset;
       }
     }
     :host([size="#{$size}"][docked]) {
