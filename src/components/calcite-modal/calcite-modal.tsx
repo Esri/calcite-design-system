@@ -47,6 +47,8 @@ export class CalciteModal {
   @Prop({ reflect: true }) docked: boolean;
   /** Specify an element to focus when the modal is first opened */
   @Prop() firstFocus?: HTMLElement;
+  /** Flag to disable the default close on escape behavior */
+  @Prop() disableEscape?: boolean;
   /** Set the overall size of the modal */
   @Prop({ reflect: true }) size: "small" | "medium" | "large" | "fullscreen" =
     "small";
@@ -91,7 +93,7 @@ export class CalciteModal {
         theme={theme}
       >
         <div class="modal">
-          <focus-trap ref={el => (this.trap = el as FocusTrap)}>
+          <focus-trap ref={(el: FocusTrap) => (this.trap = el)}>
             <div class="modal__header">
               <button
                 class="modal__close"
@@ -138,7 +140,7 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   @Listen("keyup") handleEscape(e: KeyboardEvent) {
-    if (e.key === "Escape") {
+    if (e.key === "Escape" && !this.disableEscape) {
       this.close();
     }
   }

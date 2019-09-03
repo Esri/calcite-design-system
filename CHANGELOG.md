@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [v1.0.0-beta.8] - Sep 3rd 2019
+
+### Added
+
+* Adds a boolean "disableEscape" prop to calcite-modal to make closing on escape optional.
+
 ## [v1.0.0-beta.7] - Aug 30th 2019
 
 ### Added

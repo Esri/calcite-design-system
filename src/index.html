@@ -463,6 +463,13 @@
           </div>
           <calcite-button slot="primary">OK</calcite-button>
         </calcite-modal>
+        <calcite-modal class="js-modal-10" disable-escape>
+          <div slot="content">
+            <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
+          </div>
+          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+        </calcite-modal>
+
         <ul>
           <li>
             <calcite-button appearance="inline" onClick="openModal('.js-modal-1')">Small Modal</calcite-button>
@@ -491,6 +498,10 @@
           <li>
             <calcite-button appearance="inline" onClick="openModal('.js-modal-9')">Dark Theme</calcite-button>
           </li>
+          <li>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-10')">Close on escape press disabled</calcite-button>
+          </li>
+
         </ul>
         <script>
           function openModal(selector) {
