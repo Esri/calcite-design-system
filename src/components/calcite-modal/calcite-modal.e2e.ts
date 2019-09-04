@@ -154,4 +154,16 @@ describe("calcite-modal accessibility checks", () => {
     await page.waitForChanges();
     expect(modal).not.toHaveClass("is-active");
   });
+
+  it("does not close when Escape is pressed and disable-escape is set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal disable-escape></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    await modal.callMethod("open");
+    await page.waitForChanges();
+    expect(modal).toHaveClass("is-active");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(modal).toHaveClass("is-active");
+  });
 });
