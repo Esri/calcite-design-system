@@ -48,7 +48,7 @@ export class CalciteModal {
   /** Specify an element to focus when the modal is first opened */
   @Prop() firstFocus?: HTMLElement;
   /** Flag to disable the default close on escape behavior */
-  @Prop() disableEscape?: boolean;
+  @Prop({ reflect: true }) disableEscape?: boolean;
   /** Set the overall size of the modal */
   @Prop({ reflect: true }) size: "small" | "medium" | "large" | "fullscreen" =
     "small";
