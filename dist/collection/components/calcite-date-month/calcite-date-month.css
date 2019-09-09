@@ -1,0 +1,40 @@
+body {
+  font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+calcite-tab {
+  display: none;
+}
+
+calcite-tab[is-active] {
+  display: block;
+}
+
+a {
+  color: #007ac2;
+}
+
+.calender .week-headers {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #f3f3f3;
+  border-top: 1px solid #f3f3f3;
+}
+.calender .week-headers .week-header {
+  color: #555555;
+  padding: 0.75rem 0;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 11px;
+  width: calc(100% / 7);
+  text-align: center;
+}
+.calender .week-days {
+  outline: none;
+  display: flex;
+  flex-direction: row;
+}
