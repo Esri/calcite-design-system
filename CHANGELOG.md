@@ -78,6 +78,7 @@ Fix issue with previous release.
 First initial beta release.
 
 
+[v1.0.0-beta.9]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.8...v1.0.0-beta.9 "v1.0.0-beta.9"
 [v1.0.0-beta.8]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.7...v1.0.0-beta.8 "v1.0.0-beta.8"
 [v1.0.0-beta.7]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.6...v1.0.0-beta.7 "v1.0.0-beta.7"
 [v1.0.0-beta.6]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.5...v1.0.0-beta.6 "v1.0.0-beta.6"
