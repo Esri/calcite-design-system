@@ -103,7 +103,7 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   @Listen("click") openDropdown(e) {
-    if (e.target.slot === "dropdown-trigger") {
+    if (e.target.outerHTML.includes(`slot="dropdown-trigger"`)) {
       this.openCalciteDropdown();
     }
   }
@@ -118,7 +118,7 @@ export class CalciteDropdown {
   }
 
   @Listen("keydown") keyDownHandler(e) {
-    if (e.target.slot === "dropdown-trigger") {
+    if (e.target.outerHTML.includes(`slot="dropdown-trigger"`)) {
       if (
         e.target.nodeName !== "BUTTON" &&
         e.target.nodeName !== "CALCITE-BUTTON"
@@ -142,21 +142,23 @@ export class CalciteDropdown {
     item: CustomEvent
   ) {
     let e = item.detail.item;
-    let isFirstItem = this.itemIndex(e.target) === 0;
-    let isLastItem = this.itemIndex(e.target) === this.items.length - 1;
-    e.preventDefault();
+    // handle edge
+    let itemToFocus =
+      e.target.nodeName !== "A" ? e.target : e.target.parentNode;
+    let isFirstItem = this.itemIndex(itemToFocus) === 0;
+    let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
     switch (e.keyCode) {
       case TAB:
         if (isLastItem && !e.shiftKey) this.closeCalciteDropdown();
         else if (isFirstItem && e.shiftKey) this.closeCalciteDropdown();
-        else if (e.shiftKey) this.focusPrevItem(e.target);
-        else this.focusNextItem(e.target);
+        else if (e.shiftKey) this.focusPrevItem(itemToFocus);
+        else this.focusNextItem(itemToFocus);
         break;
       case DOWN:
-        this.focusNextItem(e.target);
+        this.focusNextItem(itemToFocus);
         break;
       case UP:
-        this.focusPrevItem(e.target);
+        this.focusPrevItem(itemToFocus);
         break;
       case HOME:
         this.focusFirstItem();
@@ -165,6 +167,7 @@ export class CalciteDropdown {
         this.focusLastItem();
         break;
     }
+    e.preventDefault();
   }
 
   @Listen("registerCalciteDropdownGroup") registerCalciteDropdownGroup(

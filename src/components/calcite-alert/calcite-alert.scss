@@ -9,7 +9,7 @@
   --calcite-alert-close-background-pressed: #{$blk-020};
   --calcite-alert-count-text: #{$blk-180};
   --calcite-alert-count-border: #{$blk-010};
-  --calcite-alert-dismiss-background: #{rgba($blk-000, 0.6)};
+  --calcite-alert-dismiss-background: #{rgba($blk-000, 0.8)};
   --calcite-alert-border-blue: #{$ui-blue};
   --calcite-alert-border-green: #{$ui-green};
   --calcite-alert-border-red: #{$ui-red};
@@ -26,7 +26,7 @@
   --calcite-alert-close-background-pressed: #{$blk-220};
   --calcite-alert-count-text: #{$blk-040};
   --calcite-alert-count-border: #{$blk-210};
-  --calcite-alert-dismiss-background: #{rgba($blk-200, 0.6)};
+  --calcite-alert-dismiss-background: #{rgba($blk-200, 0.8)};
   --calcite-alert-border-blue: #{$ui-blue-dark};
   --calcite-alert-border-green: #{$ui-green-dark};
   --calcite-alert-border-red: #{$ui-red-dark};
@@ -50,7 +50,7 @@
   transform: translate3d(0, $baseline, 0);
   transition: 300ms $easing-function, opacity 300ms $easing-function,
     all 0.15s ease-in-out;
-  border-block-start: 0px solid transparent;
+  border-top: 0px solid transparent;
   @media only screen and (max-width: $viewport-medium) {
     width: 100%;
     max-width: 100%;
@@ -61,35 +61,37 @@
   &:host(.hydrated) {
     visibility: hidden !important;
   }
+}
 
-  &:host([active]) {
-    opacity: 1;
-    max-height: 100%;
-    transform: translate3d(0, -$baseline, 0);
-    pointer-events: initial;
-    border-block-start-width: 3px;
+:host([active]) {
+  opacity: 1;
+  max-height: 100%;
+  transform: translate3d(0, -$baseline, 0);
+  pointer-events: initial;
+  border-top-width: 3px;
 
-    &:host(.hydrated) {
-      visibility: visible !important;
-    }
+  &:host(.hydrated) {
+    visibility: visible !important;
+  }
 
-    @media only screen and (max-width: $viewport-medium) {
-      transform: translate3d(0, 0, 0);
-    }
+  @media only screen and (max-width: $viewport-medium) {
+    transform: translate3d(0, 0, 0);
   }
 }
 
-:host slot[name="alert-title"]::slotted(div) {
+slot[name="alert-title"]::slotted(div),
+div::slotted([slot="alert-title"]) {
   @include font-size(0);
   color: var(--calcite-alert-title-text);
   font-weight: 500;
 }
-:host slot[name="alert-link"]::slotted(calcite-button),
-:host slot[name="alert-link"]::slotted(a) {
+
+::slotted(calcite-button) {
   @include font-size(-1);
 }
 
-:host slot[name="alert-message"]::slotted(div) {
+slot[name="alert-message"]::slotted(div),
+div::slotted([slot="alert-message"]) {
   display: inline;
   margin-right: $baseline/2;
   @include font-size(-1);
@@ -97,7 +99,8 @@
 }
 
 :host([dir="rtl"]) {
-  & slot[name="alert-message"]::slotted(div) {
+  & slot[name="alert-message"]::slotted(div),
+  & div::slotted([slot="alert-message"]) {
     margin-right: unset;
     margin-left: $baseline/2;
   }
@@ -124,23 +127,28 @@
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
-  padding-block-start: $baseline/2;
-  padding-block-end: $baseline/2;
-  padding-inline-end: $baseline/2;
-  padding-inline-start: 0;
+  padding: $baseline/2 $baseline/2 $baseline/2 0;
 
   &:first-of-type {
-    padding-inline-start: $baseline;
+    padding-left: $baseline;
   }
 
   @media only screen and (max-width: $viewport-medium) {
-    padding-block-start: $baseline;
-    padding-block-end: $baseline;
-    padding-inline-end: $baseline/2;
-    padding-inline-start: 0;
+    padding: $baseline $baseline/2 $baseline 0;
   }
 }
 
+:host([dir="rtl"]) {
+  .alert-content {
+    &:first-of-type {
+      padding-right: $baseline;
+      padding-left: none;
+    }
+    @media only screen and (max-width: $viewport-medium) {
+      padding: $baseline 0 $baseline $baseline/2;
+    }
+  }
+}
 .alert-icon {
   @include alert-element-base;
   display: flex;
@@ -183,7 +191,7 @@
   @include font-size(-2);
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
   overflow: hidden;
   width: 0;
   visibility: hidden;
@@ -191,8 +199,8 @@
   text-align: center;
   color: var(--calcite-alert-count-text);
   opacity: 0;
-  border-inline-start: 0px solid transparent;
-  border-inline-end: 0px solid transparent;
+  border-left: 0px solid transparent;
+  border-right: 0px solid transparent;
   cursor: default;
   transition: all 0.15s ease-in-out;
 
@@ -201,11 +209,11 @@
     opacity: 1;
     padding: 0 $baseline/4;
     width: $baseline * 2;
-    border-inline-start: 1px solid var(--calcite-alert-count-border);
-    border-inline-end: 1px solid var(--calcite-alert-count-border);
+    border-left: 1px solid var(--calcite-alert-count-border);
+    border-right: 1px solid var(--calcite-alert-count-border);
 
     &:last-child {
-      border-inline-end: 0px solid transparent;
+      border-right: 0px solid transparent;
     }
   }
 
@@ -213,7 +221,12 @@
     border-radius: 0;
   }
 }
-
+:host([dir="rtl"]) {
+  &.active:last-child {
+    border-left: 1px solid var(--calcite-alert-count-border);
+    border-right: 0px solid transparent;
+  }
+}
 .alert-dismiss {
   display: block;
   position: absolute;
@@ -247,7 +260,7 @@ $alertColors: "blue" var(--calcite-alert-border-blue),
   $color: nth($alertColor, 2);
 
   :host([color="#{$name}"]) {
-    border-block-start-color: $color;
+    border-top-color: $color;
 
     & .alert-icon svg {
       fill: $color;
@@ -270,7 +283,7 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 @keyframes dismissProgress {
   0% {
     width: 0;
-    opacity: 0;
+    opacity: 0.8;
   }
   100% {
     width: 100%;

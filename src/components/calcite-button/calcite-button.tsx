@@ -85,10 +85,7 @@ export class CalciteButton {
 
   componentDidLoad() {
     if (Build.isBrowser) {
-      let textSlot = this.el.shadowRoot.querySelector("slot");
-      let textNode = textSlot ? textSlot.assignedNodes() : null;
-      if (textNode && (textNode[0] !== undefined && textNode[0] !== null))
-        this.hastext = true;
+      this.hastext = this.el.textContent.length > 0;
     }
   }
 

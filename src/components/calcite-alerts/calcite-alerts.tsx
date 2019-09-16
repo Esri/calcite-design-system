@@ -68,7 +68,7 @@ export class CalciteAlerts {
     };
 
     return (
-      <Host active={!!this.active}>
+      <Host active={this.active}>
         <AlertInterface.Provider state={alertState}>
           <slot />
         </AlertInterface.Provider>
