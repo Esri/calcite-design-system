@@ -11,8 +11,6 @@ import {
 
 import { CSS } from "./resources";
 
-import classnames from "classnames";
-
 import Popper from "popper.js";
 
 @Component({
@@ -207,7 +205,10 @@ export class CalcitePopover {
     return (
       <Host>
         <div
-          class={classnames(CSS.container, { [CSS.containerOpen]: this.open })}
+          class={{
+            [CSS.container]: true,
+            [CSS.containerOpen]: this.open
+          }}
         >
           <slot />
         </div>

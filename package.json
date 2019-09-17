@@ -44,7 +44,6 @@
     "@stencil/state-tunnel": "^1.0.1",
     "@types/jest": "24.0.17",
     "@types/puppeteer": "1.12.4",
-    "classnames": "2.2.6",
     "gh-release": "^3.5.0",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
