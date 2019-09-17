@@ -157,6 +157,7 @@ export class CalciteDropdownItem {
         this.calciteDropdownItemKeyEvent.emit({ item: e });
         break;
     }
+    e.preventDefault();
   }
 
   //--------------------------------------------------------------------------

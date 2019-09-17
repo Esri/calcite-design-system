@@ -6,8 +6,8 @@
   bottom: 0;
   pointer-events: none;
   z-index: 101;
+}
 
-  &:host([active]) {
-    display: block;
-  }
+:host([active]) {
+  display: block;
 }

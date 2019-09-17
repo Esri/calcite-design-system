@@ -1,6 +1,7 @@
 // theme variables
 // light theme
 :host {
+  display: inline-block;
   --calcite-button-blue: #{$ui-blue};
   --calcite-button-blue-hover: #{$ui-blue-hover};
   --calcite-button-blue-pressed: #{$ui-blue-pressed};
@@ -33,11 +34,16 @@
   --calcite-button-outline-color-pressed: #{$blk-000};
 }
 
+// inline parent
+:host([appearance="inline"]) {
+  display: inline;
+}
+
 // button base
 :host button,
 :host a {
   position: relative;
-  display: inline-block;
+  display: block;
   padding: $baseline/4 1rem;
   text-decoration: none;
   width: auto;

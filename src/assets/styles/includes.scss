@@ -24,3 +24,10 @@ calcite-tab[is-active] {
 a {
   color: $ui-blue;
 }
+
+@mixin slotted($selector, $tag) {
+  slot[name="#{$selector}"]::slotted(#{$tag}),
+  #{$tag}::slotted([slot="#{$selector}"]) {
+    @content;
+  }
+}
