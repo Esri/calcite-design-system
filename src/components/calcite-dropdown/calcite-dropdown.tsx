@@ -103,8 +103,9 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   @Listen("click") openDropdown(e) {
-    if (e.target.outerHTML.includes(`slot="dropdown-trigger"`)) {
+    if (e.target.getAttribute("slot") === "dropdown-trigger") {
       this.openCalciteDropdown();
+      e.preventDefault();
     }
   }
 
@@ -118,7 +119,7 @@ export class CalciteDropdown {
   }
 
   @Listen("keydown") keyDownHandler(e) {
-    if (e.target.outerHTML.includes(`slot="dropdown-trigger"`)) {
+    if (e.target.getAttribute("slot") === "dropdown-trigger") {
       if (
         e.target.nodeName !== "BUTTON" &&
         e.target.nodeName !== "CALCITE-BUTTON"

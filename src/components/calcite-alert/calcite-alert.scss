@@ -79,8 +79,7 @@
   }
 }
 
-slot[name="alert-title"]::slotted(div),
-div::slotted([slot="alert-title"]) {
+@include slotted("alert-title", "div") {
   @include font-size(0);
   color: var(--calcite-alert-title-text);
   font-weight: 500;
@@ -90,8 +89,7 @@ div::slotted([slot="alert-title"]) {
   @include font-size(-1);
 }
 
-slot[name="alert-message"]::slotted(div),
-div::slotted([slot="alert-message"]) {
+@include slotted("alert-message", "div") {
   display: inline;
   margin-right: $baseline/2;
   @include font-size(-1);
@@ -99,8 +97,7 @@ div::slotted([slot="alert-message"]) {
 }
 
 :host([dir="rtl"]) {
-  & slot[name="alert-message"]::slotted(div),
-  & div::slotted([slot="alert-message"]) {
+  @include slotted("alert-message", "div") {
     margin-right: unset;
     margin-left: $baseline/2;
   }
