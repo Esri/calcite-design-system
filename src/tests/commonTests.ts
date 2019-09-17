@@ -1,16 +1,20 @@
 import { newE2EPage } from "@stencil/core/testing";
-import * as pd from "@stencil/core/dist/testing/puppeteer/puppeteer-declarations";
+import { E2EPage } from "@stencil/core/dist/testing/puppeteer/puppeteer-declarations";
 import { JSX } from "../components";
 
 type CalciteComponentTag = keyof JSX.IntrinsicElements;
 
-async function simplePageSetup(componentTag: CalciteComponentTag): Promise<pd.E2EPage> {
+async function simplePageSetup(
+  componentTag: CalciteComponentTag
+): Promise<E2EPage> {
   const page = await newE2EPage();
   await page.setContent(`<${componentTag}><${componentTag}/>`);
   return page;
 }
 
-export async function renders(componentTag: CalciteComponentTag): Promise<void> {
+export async function renders(
+  componentTag: CalciteComponentTag
+): Promise<void> {
   const page = await simplePageSetup(componentTag);
   const element = await page.find(componentTag);
 
