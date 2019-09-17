@@ -22,6 +22,7 @@ export const config: Config = {
         "calcite-dropdown-item"
       ]
     },
+    { components: ["calcite-popover"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-alert", "calcite-alerts"] },
     { components: ["calcite-loader"] },

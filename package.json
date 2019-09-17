@@ -32,7 +32,8 @@
     "url": "git+https://github.com/Esri/calcite-components.git"
   },
   "dependencies": {
-    "@a11y/focus-trap": "git+https://github.com/patrickarlt/focus-trap.git#conditional-define-build"
+    "@a11y/focus-trap": "git+https://github.com/patrickarlt/focus-trap.git#conditional-define-build",
+    "popper.js": "1.15.0"
   },
   "devDependencies": {
     "@esri/calcite-base": "^1.0.0",
@@ -43,6 +44,7 @@
     "@stencil/state-tunnel": "^1.0.1",
     "@types/jest": "24.0.17",
     "@types/puppeteer": "1.12.4",
+    "classnames": "2.2.6",
     "gh-release": "^3.5.0",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
