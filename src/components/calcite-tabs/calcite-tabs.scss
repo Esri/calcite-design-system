@@ -18,7 +18,7 @@
   --calcite-tabs-border: #{$blk-180};
   --calcite-tabs-border-hover: #{$blk-130};
   --calcite-tabs-color-active: #{$blk-005};
-  --calcite-tabs-border-active: #{$blk-000};
+  --calcite-tabs-border-active: #{$ui-blue-dark};
 }
 
 :host([dir="rtl"]) {
