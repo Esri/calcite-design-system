@@ -90,7 +90,7 @@ export class CalciteButton {
   }
 
   getAttributes() {
-    // spread attributes specified on the compoennt to component child, if they aren't props
+    // spread attributes specified on the component to rendered child, if they aren't props
     let props = [
       "appearance",
       "color",
@@ -111,8 +111,13 @@ export class CalciteButton {
   render() {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
-    const Tag = this.href || this.appearance === "inline" ? "a" : "button";
-    const role = Tag === "a" ? "link" : "button";
+    const Tag = this.href
+      ? "a"
+      : this.appearance === "inline"
+      ? "span"
+      : "button";
+    const role = Tag === "span" ? "button" : null;
+    const tabIndex = Tag === "span" ? 0 : null;
     const loader = this.loading ? (
       <div class="calcite-button--loader">
         <calcite-loader is-active inline></calcite-loader>
@@ -132,9 +137,9 @@ export class CalciteButton {
       return (
         <Host dir={dir} hastext={this.hastext}>
           <Tag
-            tabindex="0"
             {...attributes}
             role={role}
+            tabindex={tabIndex}
             disabled={this.disabled}
           >
             {loader}
@@ -147,9 +152,9 @@ export class CalciteButton {
       return (
         <Host dir={dir} hastext={this.hastext}>
           <Tag
-            tabindex="0"
             {...attributes}
             role={role}
+            tabindex={tabIndex}
             disabled={this.disabled}
           >
             {loader}
@@ -162,9 +167,9 @@ export class CalciteButton {
       return (
         <Host dir={dir} hastext={this.hastext}>
           <Tag
-            tabindex="0"
             {...attributes}
             role={role}
+            tabindex={tabIndex}
             disabled={this.disabled}
           >
             {loader}

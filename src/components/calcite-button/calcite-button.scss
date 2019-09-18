@@ -42,7 +42,8 @@
 
 // button base
 :host button,
-:host a {
+:host a,
+:host span {
   position: relative;
   display: block;
   padding: $baseline/4 1rem;
@@ -470,7 +471,7 @@
 }
 
 :host([appearance="inline"][color="blue"]) {
-  button,
+  span,
   a {
     @include btn-inline(
       var(--calcite-button-blue),
@@ -481,7 +482,7 @@
 }
 
 :host([appearance="inline"][color="red"]) {
-  button,
+  span,
   a {
     @include btn-inline(
       var(--calcite-button-red),
@@ -491,19 +492,19 @@
   }
 }
 :host([appearance="inline"][color="light"]) {
-  button,
+  span,
   a {
     @include btn-inline($blk-010, $blk-000, rgba($blk-000, 0.2));
   }
 }
 :host([appearance="inline"][color="dark"]) {
-  button,
+  span,
   a {
     @include btn-inline($blk-200, $blk-180, rgba($blk-180, 0.2));
   }
 }
 :host([appearance="inline"][dir="rtl"]) {
-  button,
+  span,
   a {
     background-position: 100% 100%, 100% 100%;
   }
