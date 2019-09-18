@@ -106,6 +106,7 @@ export class CalciteTreeItem {
         height="16"
         width="16"
         viewBox="0 0 16 16"
+        onClick={this.iconClickHandler}
       >
         <path d={chevronRight16} />
       </svg>
@@ -139,6 +140,7 @@ export class CalciteTreeItem {
           class="calcite-tree-children"
           role={this.hasChildren ? "group" : undefined}
           ref={el => (this.childrenSlotWrapper = el as HTMLElement)}
+          onClick={this.childrenClickHandler}
         >
           <slot name="children"></slot>
         </div>
@@ -153,40 +155,25 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick(e: Event) {
-    // the target of this event (remapped from Shadow DOM)
-    const target = e.target as Element;
-
-    // the original target of this event (inside shadow DOM)
-    const originalTarget = ((e as any).originalTarget ||
-      (e as any).path[0]) as Element;
-
-    // if the user clicked on an SVG we should al
-    const forceToggle = originalTarget && !!originalTarget.closest("svg");
-
-    const shouldSelect =
-      target.parentElement === this.el || this.el === e.target;
-
-    const link = nodeListToArray(this.el.children).find(e =>
-      e.matches("a")
-    ) as HTMLAnchorElement;
-
-    if (!forceToggle && (link || target === this.el)) {
-      this.selected = true;
-      link.click();
-      return;
-    }
-
-    if (shouldSelect && this.hasChildren) {
-      this.expanded = !this.expanded;
-    }
-
-    if (shouldSelect) {
-      this.calciteTreeItemSelect.emit({
-        modifyCurrentSelection: (e as any).shiftKey,
-        forceToggle
-      });
-    }
+    // Children was not clicked
+    // Icon was not clicked
+    this.selected = true;
+    this.expanded = !this.expanded;
+    this.calciteTreeItemSelect.emit({
+      modifyCurrentSelection: (e as any).shiftKey,
+      forceToggle: false
+    });
   }
+
+  iconClickHandler = (event: Event) => {
+    event.stopPropagation();
+    this.calciteTreeItemSelect.emit({
+      modifyCurrentSelection: (event as any).shiftKey,
+      forceToggle: true
+    });
+    this.expanded = !this.expanded;
+  }
+  childrenClickHandler = (event) => event.stopPropagation();
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     let root;
