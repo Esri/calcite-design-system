@@ -2,6 +2,7 @@
 // light theme
 :host {
   display: inline-block;
+  width: auto;
   --calcite-button-blue: #{$ui-blue};
   --calcite-button-blue-hover: #{$ui-blue-hover};
   --calcite-button-blue-pressed: #{$ui-blue-pressed};
@@ -46,7 +47,7 @@
   display: block;
   padding: $baseline/4 1rem;
   text-decoration: none;
-  width: auto;
+  width: 100%;
   border-radius: 0;
   border: none;
   user-select: none;
@@ -69,13 +70,15 @@
 }
 
 // button width
-:host([width="half"]) button,
-:host([width="half"]) a {
+:host([width="auto"]) {
+  width: auto;
+}
+
+:host([width="half"]) {
   width: 50%;
 }
 
-:host([width="full"]) button,
-:host([width="full"]) a {
+:host([width="full"]) {
   width: 100%;
 }
 

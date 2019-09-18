@@ -131,7 +131,12 @@ export class CalciteButton {
     if (this.iconposition === "start") {
       return (
         <Host dir={dir} hastext={this.hastext}>
-          <Tag {...attributes} role={role} disabled={this.disabled}>
+          <Tag
+            tabindex="0"
+            {...attributes}
+            role={role}
+            disabled={this.disabled}
+          >
             {loader}
             {icon}
             <slot />
@@ -141,7 +146,12 @@ export class CalciteButton {
     } else if (this.iconposition === "end") {
       return (
         <Host dir={dir} hastext={this.hastext}>
-          <Tag {...attributes} role={role} disabled={this.disabled}>
+          <Tag
+            tabindex="0"
+            {...attributes}
+            role={role}
+            disabled={this.disabled}
+          >
             {loader}
             <slot />
             {icon}
@@ -149,12 +159,19 @@ export class CalciteButton {
         </Host>
       );
     } else {
-      <Host dir={dir} hastext={this.hastext}>
-        <Tag {...attributes} role={role} disabled={this.disabled}>
-          {loader}
-          <slot />
-        </Tag>
-      </Host>;
+      return (
+        <Host dir={dir} hastext={this.hastext}>
+          <Tag
+            tabindex="0"
+            {...attributes}
+            role={role}
+            disabled={this.disabled}
+          >
+            {loader}
+            <slot />
+          </Tag>
+        </Host>
+      );
     }
   }
 }
