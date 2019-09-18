@@ -160,7 +160,7 @@ export class CalciteTreeItem {
     const originalTarget = ((e as any).originalTarget ||
       (e as any).path[0]) as Element;
 
-    // if the user clicked on an SVG we should al
+    // if the user clicked on an SVG we should always toggle
     const forceToggle = originalTarget && !!originalTarget.closest("svg");
 
     const shouldSelect =
@@ -170,9 +170,16 @@ export class CalciteTreeItem {
       e.matches("a")
     ) as HTMLAnchorElement;
 
-    if (!forceToggle && (link || target === this.el)) {
-      this.selected = true;
-      link.click();
+    if (link && !forceToggle && target === this.el) {
+      this.calciteTreeItemSelect.emit({
+        modifyCurrentSelection: (e as any).shiftKey,
+        forceToggle
+      });
+
+      if (originalTarget.tagName !== "A") {
+        link.click();
+      }
+
       return;
     }
 
