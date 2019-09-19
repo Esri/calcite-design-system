@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property           | Attribute   | Description                                                                                                                                                                     | Type                         | Default        |
@@ -12,20 +13,30 @@
 | `xOffset`          | `x-offset`  | Offset the position of the popover in the horizontal direction.                                                                                                                 | `number`                     | `0`            |
 | `yOffset`          | `y-offset`  | Offset the position of the popover in the vertical direction.                                                                                                                   | `number`                     | `0`            |
 
+
 ## Methods
 
 ### `reposition() => Promise<void>`
 
+
+
 #### Returns
 
 Type: `Promise<void>`
+
+
 
 ### `toggle() => Promise<void>`
 
+
+
 #### Returns
 
 Type: `Promise<void>`
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+
+
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*
