@@ -32,7 +32,8 @@
     "url": "git+https://github.com/Esri/calcite-components.git"
   },
   "dependencies": {
-    "@a11y/focus-trap": "git+https://github.com/patrickarlt/focus-trap.git#conditional-define-build"
+    "@a11y/focus-trap": "git+https://github.com/patrickarlt/focus-trap.git#conditional-define-build",
+    "popper.js": "1.15.0"
   },
   "devDependencies": {
     "@esri/calcite-base": "^1.0.0",

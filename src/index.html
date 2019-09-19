@@ -31,6 +31,7 @@
         <calcite-tab-title>Alerts</calcite-tab-title>
         <calcite-tab-title>Loader</calcite-tab-title>
         <calcite-tab-title>Modals</calcite-tab-title>
+        <calcite-tab-title>Popover</calcite-tab-title>
         <calcite-tab-title>Progress</calcite-tab-title>
         <calcite-tab-title>Radio Groups</calcite-tab-title>
         <calcite-tab-title>Slider</calcite-tab-title>
@@ -510,6 +511,26 @@
             document.querySelector(selector).open();
           }
         </script>
+      </calcite-tab>
+
+      <calcite-tab>
+          <h1>CalcitePopover</h1>
+
+          <calcite-popover placement="horizontal" id="popover">
+            <div style="background-color: cornflowerblue; color:white; padding:20px">Hello! I am some popover content!</div>
+          </calcite-popover>
+
+          <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+            Click Me!</calcite-button>
+
+          <script>
+            var popover = document.getElementById("popover");
+            var popoverButton = document.getElementById("popover-button");
+            popover.referenceElement = popoverButton;
+            popoverButton.addEventListener("click", function() {
+              popover.toggle();
+            });
+          </script>
       </calcite-tab>
 
       <calcite-tab>

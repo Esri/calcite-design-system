@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  position: absolute;
+  z-index: 999;
+  top: -999999px;
+  left: -999999px;
+}
+
+.container {
+  visibility: hidden;
+}
+
+.container--open {
+  visibility: visible;
+}
