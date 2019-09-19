@@ -90,7 +90,7 @@ export class CalciteButton {
   }
 
   getAttributes() {
-    // spread attributes specified on the compoennt to component child, if they aren't props
+    // spread attributes specified on the component to rendered child, if they aren't props
     let props = [
       "appearance",
       "color",
@@ -111,8 +111,13 @@ export class CalciteButton {
   render() {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
-    const Tag = this.href || this.appearance === "inline" ? "a" : "button";
-    const role = Tag === "a" ? "link" : "button";
+    const Tag = this.href
+      ? "a"
+      : this.appearance === "inline"
+      ? "span"
+      : "button";
+    const role = Tag === "span" ? "button" : null;
+    const tabIndex = Tag === "span" ? 0 : null;
     const loader = this.loading ? (
       <div class="calcite-button--loader">
         <calcite-loader is-active inline></calcite-loader>
@@ -131,7 +136,12 @@ export class CalciteButton {
     if (this.iconposition === "start") {
       return (
         <Host dir={dir} hastext={this.hastext}>
-          <Tag {...attributes} role={role} disabled={this.disabled}>
+          <Tag
+            {...attributes}
+            role={role}
+            tabindex={tabIndex}
+            disabled={this.disabled}
+          >
             {loader}
             {icon}
             <slot />
@@ -141,7 +151,12 @@ export class CalciteButton {
     } else if (this.iconposition === "end") {
       return (
         <Host dir={dir} hastext={this.hastext}>
-          <Tag {...attributes} role={role} disabled={this.disabled}>
+          <Tag
+            {...attributes}
+            role={role}
+            tabindex={tabIndex}
+            disabled={this.disabled}
+          >
             {loader}
             <slot />
             {icon}
@@ -149,12 +164,19 @@ export class CalciteButton {
         </Host>
       );
     } else {
-      <Host dir={dir} hastext={this.hastext}>
-        <Tag {...attributes} role={role} disabled={this.disabled}>
-          {loader}
-          <slot />
-        </Tag>
-      </Host>;
+      return (
+        <Host dir={dir} hastext={this.hastext}>
+          <Tag
+            {...attributes}
+            role={role}
+            tabindex={tabIndex}
+            disabled={this.disabled}
+          >
+            {loader}
+            <slot />
+          </Tag>
+        </Host>
+      );
     }
   }
 }
