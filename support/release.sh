@@ -22,10 +22,10 @@ git commit -am "v$VERSION - add built files" --no-verify
 git tag v$VERSION
 
 # push everything up to this point to master
-git push https://github.com/ArcGIS/calcite-components.git master
+git push origin master
 
 # push the new tag, not the old tags
-git push https://github.com/ArcGIS/calcite-components.git v$VERSION
+git push origin v$VERSION
 
 # publish to NPM
 npm publish --access=public
