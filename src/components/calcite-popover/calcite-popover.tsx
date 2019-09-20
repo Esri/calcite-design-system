@@ -113,65 +113,9 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   @Method() async reposition(): Promise<void> {
-    const {
-      el,
-      placement: componentPlacement,
-      open,
-      popper,
-      referenceElement,
-      xOffset,
-      yOffset
-    } = this;
+    const { popper } = this;
 
-    const placement =
-      componentPlacement === "vertical" ? "bottom-start" : "auto-start";
-    const offsetEnabled = !!(yOffset || xOffset);
-
-    const modifiers: Popper.Modifiers = {
-      hide: {
-        enabled: false
-      },
-      offset: {
-        enabled: offsetEnabled,
-        offset: `${yOffset}, ${xOffset}`
-      },
-      preventOverflow: {
-        enabled: false
-      }
-    };
-
-    if (popper) {
-      popper.options.placement = placement;
-      popper.options.modifiers = { ...popper.options.modifiers, ...modifiers };
-      popper.scheduleUpdate();
-      return;
-    }
-
-    if (referenceElement && open) {
-      const newPopper = new Popper(referenceElement, el, {
-        eventsEnabled: false,
-        placement,
-        modifiers,
-        onCreate: data => {
-          if (
-            data.originalPlacement === "bottom-start" &&
-            document.body.clientWidth &&
-            data.offsets &&
-            data.offsets.reference &&
-            data.offsets.reference.left > document.body.clientWidth / 2
-          ) {
-            data.instance.options.placement = "bottom-end";
-            data.instance.scheduleUpdate();
-          }
-        }
-      });
-
-      window.addEventListener("resize", newPopper.scheduleUpdate, {
-        passive: true
-      });
-
-      this.popper = newPopper;
-    }
+    popper ? this.updatePopper(popper) : this.createPopper();
   }
 
   @Method() async toggle(): Promise<void> {
@@ -183,6 +127,70 @@ export class CalcitePopover {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  getPlacement(): Popper.Placement {
+    return this.placement === "vertical" ? "bottom-start" : "auto-start";
+  }
+
+  getModifiers(): Popper.Modifiers {
+    const { xOffset, yOffset } = this;
+    const offsetEnabled = !!(yOffset || xOffset);
+    const offset = `${yOffset}, ${xOffset}`;
+
+    return {
+      hide: {
+        enabled: false
+      },
+      offset: {
+        enabled: offsetEnabled,
+        offset
+      },
+      preventOverflow: {
+        enabled: false
+      }
+    };
+  }
+
+  createPopper(): void {
+    const { el, open, referenceElement } = this;
+
+    if (!referenceElement || !open) {
+      return;
+    }
+
+    const newPopper = new Popper(referenceElement, el, {
+      eventsEnabled: false,
+      placement: this.getPlacement(),
+      modifiers: this.getModifiers(),
+      onCreate: data => {
+        if (
+          data.originalPlacement === "bottom-start" &&
+          document.body.clientWidth &&
+          data.offsets &&
+          data.offsets.reference &&
+          data.offsets.reference.left > document.body.clientWidth / 2
+        ) {
+          data.instance.options.placement = "bottom-end";
+          data.instance.scheduleUpdate();
+        }
+      }
+    });
+
+    window.addEventListener("resize", newPopper.scheduleUpdate, {
+      passive: true
+    });
+
+    this.popper = newPopper;
+  }
+
+  updatePopper(popper: Popper): void {
+    popper.options.placement = this.getPlacement();
+    popper.options.modifiers = {
+      ...popper.options.modifiers,
+      ...this.getModifiers()
+    };
+    popper.scheduleUpdate();
+  }
 
   destroyPopper(): void {
     const { popper } = this;
