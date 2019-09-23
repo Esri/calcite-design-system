@@ -108,6 +108,22 @@ export class CalciteButton {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
+  // if a button has an associated form, create a proxy button and click it
+  private handleClick = (e: Event) => {
+    const requestedForm = this.el.getAttribute("form");
+    const targetForm = requestedForm
+      ? document.querySelector(`#${requestedForm}`)
+      : this.el.closest("form");
+    if (targetForm) {
+      const proxyElement = document.createElement("button");
+      proxyElement.style.display = "none";
+      targetForm.appendChild(proxyElement);
+      proxyElement.click();
+      proxyElement.remove();
+      e.preventDefault();
+    }
+  };
+
   render() {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
@@ -133,6 +149,7 @@ export class CalciteButton {
         <path d={this.icon} />
       </svg>
     ) : null;
+
     if (this.iconposition === "start") {
       return (
         <Host dir={dir} hastext={this.hastext}>
@@ -140,6 +157,7 @@ export class CalciteButton {
             {...attributes}
             role={role}
             tabindex={tabIndex}
+            onClick={e => this.handleClick(e)}
             disabled={this.disabled}
           >
             {loader}
@@ -155,6 +173,7 @@ export class CalciteButton {
             {...attributes}
             role={role}
             tabindex={tabIndex}
+            onClick={e => this.handleClick(e)}
             disabled={this.disabled}
           >
             {loader}
@@ -170,6 +189,7 @@ export class CalciteButton {
             {...attributes}
             role={role}
             tabindex={tabIndex}
+            onClick={e => this.handleClick(e)}
             disabled={this.disabled}
           >
             {loader}
