@@ -112,7 +112,7 @@ export class CalciteButton {
   private handleClick = (e: Event) => {
     const requestedForm = this.el.getAttribute("form");
     const targetForm = requestedForm
-      ? document.querySelector(`#${requestedForm}`)
+      ? document.getElementsByName(`${requestedForm}`)[0]
       : this.el.closest("form");
     if (targetForm) {
       const proxyElement = document.createElement("button");
