@@ -54,10 +54,11 @@ export class CalcitePopover {
   /**
    * Reference HTMLElement used to position this component according to the placement property.
    */
-  @Prop() referenceElement: HTMLElement;
+  @Prop() referenceElement: HTMLElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler() {
+    this._referenceElement = this.getReferenceElement();
     this.destroyPopper();
     this.reposition();
   }
@@ -91,6 +92,8 @@ export class CalcitePopover {
   @Element() el: HTMLCalcitePopoverElement;
 
   @State() popper: Popper;
+
+  @State() _referenceElement: HTMLElement = this.getReferenceElement();
 
   // --------------------------------------------------------------------------
   //
@@ -128,6 +131,16 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
+  getReferenceElement(): HTMLElement {
+    const { referenceElement } = this;
+
+    return (
+      (typeof referenceElement === "string"
+        ? document.getElementById(referenceElement)
+        : referenceElement) || null
+    );
+  }
+
   getPlacement(): Popper.Placement {
     return this.placement === "vertical" ? "bottom-start" : "auto-start";
   }
@@ -152,13 +165,13 @@ export class CalcitePopover {
   }
 
   createPopper(): void {
-    const { el, open, referenceElement } = this;
+    const { el, open, _referenceElement } = this;
 
-    if (!referenceElement || !open) {
+    if (!_referenceElement || !open) {
       return;
     }
 
-    const newPopper = new Popper(referenceElement, el, {
+    const newPopper = new Popper(_referenceElement, el, {
       eventsEnabled: false,
       placement: this.getPlacement(),
       modifiers: this.getModifiers(),
@@ -210,12 +223,14 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   render() {
+    const { _referenceElement, open } = this;
+
     return (
       <Host>
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: this.open
+            [CSS.containerOpen]: _referenceElement && open
           }}
         >
           <slot />

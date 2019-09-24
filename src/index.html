@@ -520,8 +520,27 @@
             <div style="background-color: cornflowerblue; color:white; padding:20px">Hello! I am some popover content!</div>
           </calcite-popover>
 
-          <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-            Click Me!</calcite-button>
+          <calcite-popover reference-element="popover-button-two" placement="vertical" id="popover-two">
+            <div style="background-color: cornflowerblue; color:white; padding:20px">Hello! I am some popover content!</div>
+          </calcite-popover>
+
+          <style>
+          .popover-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+          }
+          .popover-list li{
+            margin: 8px 0;
+          }
+          </style>
+
+          <ul class="popover-list">
+            <li><calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Click Me!</calcite-button></li>
+              <li><calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+                Click Me!</calcite-button></li>
+          </ul>
 
           <script>
             var popover = document.getElementById("popover");
@@ -529,6 +548,12 @@
             popover.referenceElement = popoverButton;
             popoverButton.addEventListener("click", function() {
               popover.toggle();
+            });
+
+            var popoverTwo = document.getElementById("popover-two");
+            var popoverButtonTwo = document.getElementById("popover-button-two");
+            popoverButtonTwo.addEventListener("click", function() {
+              popoverTwo.toggle();
             });
           </script>
       </calcite-tab>
@@ -1599,7 +1624,7 @@
             </calcite-tree>
           </calcite-tree-item>
         </calcite-tree>
-         
+
 
         <h3>Big Tree</h3>
         <p>Parent Items in this tree also have links. Click the chevron icon to toggle expand/collapse or anywhere else
