@@ -1,6 +1,10 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
+:host([hidden]) {
+  display: none;
+}
+
 body {
   font-family: $avenir-family;
 }
@@ -19,4 +23,11 @@ calcite-tab[is-active] {
 
 a {
   color: $ui-blue;
+}
+
+@mixin slotted($selector, $tag) {
+  slot[name="#{$selector}"]::slotted(#{$tag}),
+  #{$tag}::slotted([slot="#{$selector}"]) {
+    @content;
+  }
 }

@@ -31,6 +31,7 @@
         <calcite-tab-title>Alerts</calcite-tab-title>
         <calcite-tab-title>Loader</calcite-tab-title>
         <calcite-tab-title>Modals</calcite-tab-title>
+        <calcite-tab-title>Popover</calcite-tab-title>
         <calcite-tab-title>Progress</calcite-tab-title>
         <calcite-tab-title>Radio Groups</calcite-tab-title>
         <calcite-tab-title>Slider</calcite-tab-title>
@@ -500,7 +501,8 @@
             <calcite-button appearance="inline" onClick="openModal('.js-modal-9')">Dark Theme</calcite-button>
           </li>
           <li>
-            <calcite-button appearance="inline" onClick="openModal('.js-modal-10')">Close on escape press disabled</calcite-button>
+            <calcite-button appearance="inline" onClick="openModal('.js-modal-10')">Close on escape press disabled
+            </calcite-button>
           </li>
 
         </ul>
@@ -509,6 +511,51 @@
             document.querySelector(selector).open();
           }
         </script>
+      </calcite-tab>
+
+      <calcite-tab>
+          <h1>CalcitePopover</h1>
+
+          <calcite-popover placement="horizontal" id="popover">
+            <div style="background-color: cornflowerblue; color:white; padding:20px">Hello! I am some popover content!</div>
+          </calcite-popover>
+
+          <calcite-popover reference-element="popover-button-two" placement="vertical" id="popover-two">
+            <div style="background-color: cornflowerblue; color:white; padding:20px">Hello! I am some popover content!</div>
+          </calcite-popover>
+
+          <style>
+          .popover-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+          }
+          .popover-list li{
+            margin: 8px 0;
+          }
+          </style>
+
+          <ul class="popover-list">
+            <li><calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Click Me!</calcite-button></li>
+              <li><calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+                Click Me!</calcite-button></li>
+          </ul>
+
+          <script>
+            var popover = document.getElementById("popover");
+            var popoverButton = document.getElementById("popover-button");
+            popover.referenceElement = popoverButton;
+            popoverButton.addEventListener("click", function() {
+              popover.toggle();
+            });
+
+            var popoverTwo = document.getElementById("popover-two");
+            var popoverButtonTwo = document.getElementById("popover-button-two");
+            popoverButtonTwo.addEventListener("click", function() {
+              popoverTwo.toggle();
+            });
+          </script>
       </calcite-tab>
 
       <calcite-tab>
@@ -1044,6 +1091,10 @@
         </div>
 
         <h3>Type: Inline (render as anchor)</h3>
+        An anchor <calcite-button title="in the middle" appearance="inline"> with no href in the middle</calcite-button>
+        of
+        some
+        text.<br />
         An anchor <calcite-button title="in the middle" href="/" appearance="inline">in the middle</calcite-button> of
         some
         text.<br />
@@ -1555,6 +1606,25 @@
             </calcite-tree-item>
           </calcite-tree>
         </div>
+
+        <h3>Strange Nesting</h3>
+        <p>In this example a nested item has no link but others have links. The parent link should NOT be clicked when the child text is clicked.</p>
+        <calcite-tree>
+          <calcite-tree-item>
+            <a href="#calcite-tree-strange-nesting-1" id="calcite-tree-strange-nesting-1">Parent with Link</a>
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                Parent Without Link
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a href="#calcite-tree-strange-nesting-2" id="calcite-tree-strange-nesting-2">Child Link</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+
 
         <h3>Big Tree</h3>
         <p>Parent Items in this tree also have links. Click the chevron icon to toggle expand/collapse or anywhere else

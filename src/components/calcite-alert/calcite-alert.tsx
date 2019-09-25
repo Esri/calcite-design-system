@@ -59,7 +59,7 @@ export class CalciteAlert {
   @Prop() icon: boolean = false;
 
   /** Unique ID for this alert */
-   /** @internal */
+  /** @internal */
   @Prop() alertId: string = this.el.id;
 
   /** @internal */
@@ -169,7 +169,7 @@ export class CalciteAlert {
     const progress =
       this.active && this.dismiss ? <div class="alert-dismiss"></div> : "";
     return (
-      <Host active={!!this.active} dir={dir}>
+      <Host active={this.active} dir={dir}>
         {icon}
         <div class="alert-content">
           <slot name="alert-title"></slot>
