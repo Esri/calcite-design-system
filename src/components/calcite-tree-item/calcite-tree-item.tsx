@@ -109,6 +109,7 @@ export class CalciteTreeItem {
         width="16"
         viewBox="0 0 16 16"
         onClick={this.iconClickHandler}
+        data-test-id="icon"
       >
         <path d={chevronRight16} />
       </svg>
@@ -134,12 +135,13 @@ export class CalciteTreeItem {
           this.hasChildren ? (this.expanded ? "true" : "false") : undefined
         }
       >
-        <div class="calcite-tree-node">
+        <div class="calcite-tree-node" ref={el => (this.defaultSlotWrapper = el as HTMLElement)}>
           {icon}
           <slot></slot>
         </div>
         <div
           class="calcite-tree-children"
+          data-test-id="calcite-tree-children"
           role={this.hasChildren ? "group" : undefined}
           ref={el => (this.childrenSlotWrapper = el as HTMLElement)}
           onClick={this.childrenClickHandler}
@@ -157,8 +159,13 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick(e: Event) {
-    // Children was not clicked
-    // Icon was not clicked
+    // Solve for if the item is clicked somewhere outside the slotted anchor.
+    // Anchor is triggered anywhere you click
+    const [link] = getSlottedElements( this.defaultSlotWrapper, "a" );
+    if( link && ((e.composedPath()[0] as any).tagName.toLowerCase() !== "a") ) {
+      const target = link.target === "" ? "_self" : link.target;
+      window.open(link.href , target);
+    }
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection: (e as any).shiftKey,
@@ -304,6 +311,7 @@ export class CalciteTreeItem {
   @State() private selectionMode: TreeSelectionMode;
 
   childrenSlotWrapper!: HTMLElement;
+  defaultSlotWrapper!: HTMLElement;
 
   //--------------------------------------------------------------------------
   //
