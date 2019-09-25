@@ -59,17 +59,19 @@ export class CalciteTreeItem {
 
   @Watch("expanded")
   expandedHandler(newValue: boolean) {
-    const [childTree] = getSlottedElements(
-      this.childrenSlotWrapper,
-      "calcite-tree"
-    );
-
-    const items = getSlottedElements<HTMLCalciteTreeItemElement>(
-      childTree,
-      "calcite-tree-item"
-    );
-
-    items.forEach(item => (item.parentExpanded = newValue));
+    if ( this.childrenSlotWrapper ) {
+      const [childTree] = getSlottedElements(
+        this.childrenSlotWrapper,
+        "calcite-tree"
+      );
+      if ( childTree ) {
+        const items = getSlottedElements<HTMLCalciteTreeItemElement>(
+          childTree,
+          "calcite-tree-item"
+        );
+        items.forEach(item => (item.parentExpanded = newValue));
+      }
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -157,7 +159,6 @@ export class CalciteTreeItem {
   @Listen("click") onClick(e: Event) {
     // Children was not clicked
     // Icon was not clicked
-    this.selected = true;
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection: (e as any).shiftKey,
@@ -167,11 +168,11 @@ export class CalciteTreeItem {
 
   iconClickHandler = (event: Event) => {
     event.stopPropagation();
+    this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection: (event as any).shiftKey,
       forceToggle: true
     });
-    this.expanded = !this.expanded;
   }
   childrenClickHandler = (event) => event.stopPropagation();
 
