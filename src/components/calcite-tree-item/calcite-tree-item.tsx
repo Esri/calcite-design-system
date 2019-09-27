@@ -59,17 +59,19 @@ export class CalciteTreeItem {
 
   @Watch("expanded")
   expandedHandler(newValue: boolean) {
-    const [childTree] = getSlottedElements(
-      this.childrenSlotWrapper,
-      "calcite-tree"
-    );
-
-    const items = getSlottedElements<HTMLCalciteTreeItemElement>(
-      childTree,
-      "calcite-tree-item"
-    );
-
-    items.forEach(item => (item.parentExpanded = newValue));
+    if ( this.childrenSlotWrapper ) {
+      const [childTree] = getSlottedElements(
+        this.childrenSlotWrapper,
+        "calcite-tree"
+      );
+      if ( childTree ) {
+        const items = getSlottedElements<HTMLCalciteTreeItemElement>(
+          childTree,
+          "calcite-tree-item"
+        );
+        items.forEach(item => (item.parentExpanded = newValue));
+      }
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -106,6 +108,8 @@ export class CalciteTreeItem {
         height="16"
         width="16"
         viewBox="0 0 16 16"
+        onClick={this.iconClickHandler}
+        data-test-id="icon"
       >
         <path d={chevronRight16} />
       </svg>
@@ -131,14 +135,16 @@ export class CalciteTreeItem {
           this.hasChildren ? (this.expanded ? "true" : "false") : undefined
         }
       >
-        <div class="calcite-tree-node">
+        <div class="calcite-tree-node" ref={el => (this.defaultSlotWrapper = el as HTMLElement)}>
           {icon}
           <slot></slot>
         </div>
         <div
           class="calcite-tree-children"
+          data-test-id="calcite-tree-children"
           role={this.hasChildren ? "group" : undefined}
           ref={el => (this.childrenSlotWrapper = el as HTMLElement)}
+          onClick={this.childrenClickHandler}
         >
           <slot name="children"></slot>
         </div>
@@ -153,47 +159,29 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick(e: Event) {
-    // the target of this event (remapped from Shadow DOM)
-    const target = e.target as Element;
-
-    // the original target of this event (inside shadow DOM)
-    const originalTarget = ((e as any).originalTarget ||
-      (e as any).path[0]) as Element;
-
-    // if the user clicked on an SVG we should always toggle
-    const forceToggle = originalTarget && !!originalTarget.closest("svg");
-
-    const shouldSelect =
-      target.parentElement === this.el || this.el === e.target;
-
-    const link = nodeListToArray(this.el.children).find(e =>
-      e.matches("a")
-    ) as HTMLAnchorElement;
-
-    if (link && !forceToggle && target === this.el) {
-      this.calciteTreeItemSelect.emit({
-        modifyCurrentSelection: (e as any).shiftKey,
-        forceToggle
-      });
-
-      if (originalTarget.tagName !== "A") {
-        link.click();
-      }
-
-      return;
+    // Solve for if the item is clicked somewhere outside the slotted anchor.
+    // Anchor is triggered anywhere you click
+    const [link] = getSlottedElements( this.defaultSlotWrapper, "a" );
+    if( link && ((e.composedPath()[0] as any).tagName.toLowerCase() !== "a") ) {
+      const target = link.target === "" ? "_self" : link.target;
+      window.open(link.href , target);
     }
-
-    if (shouldSelect && this.hasChildren) {
-      this.expanded = !this.expanded;
-    }
-
-    if (shouldSelect) {
-      this.calciteTreeItemSelect.emit({
-        modifyCurrentSelection: (e as any).shiftKey,
-        forceToggle
-      });
-    }
+    this.expanded = !this.expanded;
+    this.calciteTreeItemSelect.emit({
+      modifyCurrentSelection: (e as any).shiftKey,
+      forceToggle: false
+    });
   }
+
+  iconClickHandler = (event: Event) => {
+    event.stopPropagation();
+    this.expanded = !this.expanded;
+    this.calciteTreeItemSelect.emit({
+      modifyCurrentSelection: (event as any).shiftKey,
+      forceToggle: true
+    });
+  }
+  childrenClickHandler = (event) => event.stopPropagation();
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     let root;
@@ -323,6 +311,7 @@ export class CalciteTreeItem {
   @State() private selectionMode: TreeSelectionMode;
 
   childrenSlotWrapper!: HTMLElement;
+  defaultSlotWrapper!: HTMLElement;
 
   //--------------------------------------------------------------------------
   //
