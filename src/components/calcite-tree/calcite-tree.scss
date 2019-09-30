@@ -11,9 +11,9 @@
   --calcite-tree-indicator: #{$blk-060};
   --calcite-tree-indicator-active: #{$ui-blue};
   --calcite-tree-indicator-first-start: 0.1rem;
-  --calcite-tree-indicator-first-end: 0;
+  --calcite-tree-indicator-first-end: auto;
   --calcite-tree-indicator-distance-start: 0.15rem;
-  --calcite-tree-indicator-distance-end: 0;
+  --calcite-tree-indicator-distance-end: auto;
   --calcite-tree-icon-edge-distance-start: -0.2rem;
   --calcite-tree-icon-edge-distance-end: 0;
   --calcite-tree-icon-content-distance-start: #{$baseline/4};
@@ -67,9 +67,9 @@
 :host([dir="rtl"]) {
   --calcite-tree-indicator-first-start: 0;
   --calcite-tree-indicator-first-end: 0.1rem;
-  --calcite-tree-indicator-distance-start: 0;
+  --calcite-tree-indicator-distance-start: auto;
   --calcite-tree-indicator-distance-end: 0.15rem;
-  --calcite-tree-icon-edge-distance-start: 0;
+  --calcite-tree-icon-edge-distance-start: auto;
   --calcite-tree-icon-edge-distance-end: -0.2rem;
   --calcite-tree-icon-content-distance-start: 0;
   --calcite-tree-icon-content-distance-end: #{$baseline/4};

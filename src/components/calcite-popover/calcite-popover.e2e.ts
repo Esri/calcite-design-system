@@ -36,7 +36,9 @@ describe("calcite-popover", () => {
   it("popover positions when referenceElement is set", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-popover open placement="horizontal"></calcite-popover><div>referenceElement</div>`);
+    await page.setContent(
+      `<calcite-popover open placement="horizontal"></calcite-popover><div>referenceElement</div>`
+    );
 
     const element = await page.find("calcite-popover");
 
@@ -56,7 +58,9 @@ describe("calcite-popover", () => {
   it("open popover should be visible", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-popover placement="horizontal"></calcite-popover><div>referenceElement</div>`);
+    await page.setContent(
+      `<calcite-popover placement="horizontal"></calcite-popover><div>referenceElement</div>`
+    );
 
     const element = await page.find("calcite-popover");
 
@@ -77,5 +81,27 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await container.isVisible()).toBe(true);
+  });
+
+  it("should accept referenceElement as string id", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="horizontal" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const container = await page.find(`calcite-popover >>> .${CSS.container}`);
+
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(true);
+
+    const element = await page.find("calcite-popover");
+
+    const computedStyle = await element.getComputedStyle();
+
+    expect(computedStyle.transform).not.toBe("none");
   });
 });
