@@ -97,6 +97,7 @@
 // disabled styles
 :host([disabled]) {
   button,
+  span,
   a {
     pointer-events: none;
     opacity: 0.4;

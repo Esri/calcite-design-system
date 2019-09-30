@@ -514,11 +514,12 @@
       </calcite-tab>
 
       <calcite-tab>
-          <h1>CalcitePopover</h1>
+        <h1>CalcitePopover</h1>
 
-          <calcite-popover placement="horizontal" id="popover">
-            <div style="background-color: cornflowerblue; color:white; padding:20px">Hello! I am some popover content!</div>
-          </calcite-popover>
+        <calcite-popover placement="horizontal" id="popover">
+          <div style="background-color: cornflowerblue; color:white; padding:20px">Hello! I am some popover content!
+          </div>
+        </calcite-popover>
 
           <calcite-popover reference-element="popover-button-two" placement="vertical" id="popover-two">
             <div style="background-color: cornflowerblue; color:white; padding:20px">Hello! I am some popover content!</div>
@@ -968,13 +969,29 @@
 
       <calcite-tab>
         <h3>Normal Lockup</h3>
+        <h5>calcite button inside form</h5>
+        <form name="form1" id="form1">
+          <input type="text" name="name1" required />
+          <calcite-button id="submit-button1">Go</calcite-button>
+        </form>
+        <h5>multiple calcite buttons outside form</h5>
+        <form name="form2" id="form2">
+          <input type="text" name="name2" required />
+        </form>
+        <form name="form3" id="form3">
+          <input type="text" name="name3" required />
+        </form>
+        <calcite-button form="form2" id="submit-button2">Go</calcite-button>
+        <calcite-button form="form3" id="submit-button3">Go</calcite-button>
+        <br />
+        <br />
 
         <calcite-button color="light" appearance='outline' icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
           Back</calcite-button>
         <calcite-button appearance='outline'>Cancel</calcite-button>
 
-        <h3>Type prop passed to child (submit)</h3>
-        <calcite-button type="submit">Submit</calcite-button>
+        <h3>Type prop passed to child</h3>
+        <calcite-button>Submit</calcite-button>
         <calcite-button type="button">button</calcite-button>
         <calcite-button type="reset">reset</calcite-button>
 
@@ -1608,18 +1625,19 @@
         </div>
 
         <h3>Strange Nesting</h3>
-        <p>In this example a nested item has no link but others have links. The parent link should NOT be clicked when the child text is clicked.</p>
+        <p>In this example a nested item has no link but others have links. The parent link should NOT be clicked when
+          the child text is clicked.</p>
         <calcite-tree>
           <calcite-tree-item>
             <a href="#calcite-tree-strange-nesting-1" id="calcite-tree-strange-nesting-1">Parent with Link</a>
             <calcite-tree slot="children">
               <calcite-tree-item>
                 Parent Without Link
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a href="#calcite-tree-strange-nesting-2" id="calcite-tree-strange-nesting-2">Child Link</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <a href="#calcite-tree-strange-nesting-2" id="calcite-tree-strange-nesting-2">Child Link</a>
+                  </calcite-tree-item>
+                </calcite-tree>
               </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
