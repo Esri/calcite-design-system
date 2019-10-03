@@ -971,13 +971,13 @@
       <calcite-tab>
         <h1>CalciteTooltip</h1>
 
-        <calcite-tooltip interaction="hover" id="tooltip" text="hello world!"></calcite-tooltip>
+        <calcite-tooltip interaction="hover" placement="auto" id="tooltip" text="hello world!"></calcite-tooltip>
 
-        <calcite-tooltip interaction="click" id="tooltip-two" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." reference-element="tooltip-button-two"></calcite-tooltip>
+        <calcite-tooltip interaction="click" placement="auto" id="tooltip-two" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." reference-element="tooltip-button-two"></calcite-tooltip>
 
-        <calcite-tooltip interaction="click" text="here kitty" image="http://placekitten.com/200/300" reference-element="tooltip-button-three"></calcite-tooltip>
+        <calcite-tooltip interaction="click" placement="auto" text="here kitty" image="http://placekitten.com/200/300" reference-element="tooltip-button-three"></calcite-tooltip>
 
-        <calcite-tooltip theme="dark" text="Dark side"reference-element="tooltip-button-four"></calcite-tooltip>
+        <calcite-tooltip theme="dark" text="This tooltip has the dark theme."reference-element="tooltip-button-four"></calcite-tooltip>
 
 
           <style>
@@ -1002,7 +1002,7 @@
               Pet Me!</calcite-button>
             </li>
             <li><calcite-button id="tooltip-button-four" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-              Hover Me!</calcite-button>
+              Hover/Focus Me (dark theme)!</calcite-button>
             </li>
           </ul>
 
