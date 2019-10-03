@@ -12,6 +12,7 @@ import {
 import { CSS } from "./resources";
 
 import Popper from "popper.js";
+import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 
 @Component({
   tag: "calcite-tooltip",
@@ -24,6 +25,16 @@ export class CalciteTooltip {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * @todo document.
+   */
+  @Prop({ reflect: true }) image: string;
+
+  /**
+   * @todo document.
+   */
+  @Prop({ reflect: true }) interaction: "hover" | "click" = "hover";
 
   /**
    * Display and position the component.
@@ -51,6 +62,14 @@ export class CalciteTooltip {
     this.reposition();
   }
 
+  /**
+   * @todo document.
+   */
+  @Prop({ reflect: true }) text: string;
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -74,6 +93,7 @@ export class CalciteTooltip {
   }
 
   componentDidUnload() {
+    this.removeReferenceListeners();
     this.destroyPopper();
   }
 
@@ -86,11 +106,10 @@ export class CalciteTooltip {
   @Method() async reposition(): Promise<void> {
     const { popper } = this;
 
-    popper ? this.updatePopper(popper) : this.createPopper();
-  }
+    this.removeReferenceListeners();
+    this.addReferenceListeners();
 
-  @Method() async toggle(): Promise<void> {
-    this.open = !this.open;
+    popper ? this.updatePopper(popper) : this.createPopper();
   }
 
   // --------------------------------------------------------------------------
@@ -98,6 +117,39 @@ export class CalciteTooltip {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  addReferenceListeners = (): void => {
+    if (this.interaction === "click") {
+      this._referenceElement.addEventListener("click", this.toggle);
+    }
+
+    if (this.interaction === "hover") {
+      this._referenceElement.addEventListener("mouseenter", this.show);
+      this._referenceElement.addEventListener("mouseleave", this.hide);
+      this._referenceElement.addEventListener("focus", this.show);
+      this._referenceElement.addEventListener("blur", this.hide);
+    }
+  };
+
+  removeReferenceListeners = (): void => {
+    this._referenceElement.removeEventListener("click", this.toggle);
+    this._referenceElement.removeEventListener("mouseenter", this.show);
+    this._referenceElement.removeEventListener("mouseleave", this.hide);
+    this._referenceElement.removeEventListener("focus", this.show);
+    this._referenceElement.removeEventListener("blur", this.hide);
+  };
+
+  toggle = (): void => {
+    this.open = !this.open;
+  };
+
+  show = (): void => {
+    this.open = true;
+  };
+
+  hide = (): void => {
+    this.open = false;
+  };
 
   getReferenceElement(): HTMLElement {
     const { referenceElement } = this;
@@ -165,8 +217,20 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
+  renderImage(): VNode {
+    const { image, text } = this;
+
+    return image ? <img class={CSS.image} alt={text} src={image} /> : null;
+  }
+
+  renderCloseButton(): VNode {
+    const { interaction } = this;
+
+    return interaction === "click" ? <button /> : null;
+  }
+
   render() {
-    const { _referenceElement, open } = this;
+    const { _referenceElement, open, text } = this;
 
     return (
       <Host>
@@ -176,6 +240,9 @@ export class CalciteTooltip {
             [CSS.containerOpen]: _referenceElement && open
           }}
         >
+          {this.renderImage()}
+          {this.renderCloseButton()}
+          {text}
           <slot />
         </div>
       </Host>

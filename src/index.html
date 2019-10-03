@@ -971,9 +971,9 @@
       <calcite-tab>
         <h1>CalciteTooltip</h1>
 
-        <calcite-tooltip id="tooltip"></calcite-tooltip>
+        <calcite-tooltip interaction="hover" id="tooltip" text="hello world!"></calcite-tooltip>
 
-        <calcite-tooltip id="tooltip-two" reference-element="tooltip-button-two"></calcite-tooltip>
+        <calcite-tooltip interaction="click" id="tooltip-two" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." reference-element="tooltip-button-two"></calcite-tooltip>
 
 
           <style>
@@ -989,7 +989,7 @@
 
           <ul class="tooltip-list">
             <li><calcite-button id="tooltip-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-              Click Me!</calcite-button></li>
+              Hover/Focus Me!</calcite-button></li>
               <li><calcite-button id="tooltip-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
                 Click Me!</calcite-button></li>
           </ul>
@@ -998,15 +998,6 @@
             var tooltip = document.getElementById("tooltip");
             var tooltipButton = document.getElementById("tooltip-button");
             tooltip.referenceElement = tooltipButton;
-            tooltipButton.addEventListener("click", function() {
-              tooltip.toggle();
-            });
-
-            var tooltipTwo = document.getElementById("tooltip-two");
-            var tooltipButtonTwo = document.getElementById("tooltip-button-two");
-            tooltipButtonTwo.addEventListener("click", function() {
-              tooltip.toggle();
-            });
           </script>
       </calcite-tab>
 

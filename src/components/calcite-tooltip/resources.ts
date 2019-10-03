@@ -1,4 +1,5 @@
 export const CSS = {
   container: "container",
-  containerOpen: "container--open"
+  containerOpen: "container--open",
+  image: "image"
 };
