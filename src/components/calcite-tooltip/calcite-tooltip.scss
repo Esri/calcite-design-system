@@ -43,26 +43,54 @@
   display: block;
 }
 
-/*
-'top-start'
-    | 'top'
-    | 'top-end'
-    | 'right-start'
-    | 'right'
-    | 'right-end'
-    | 'bottom-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'left-end'
-    | 'left'
-    | 'left-start'
-    */
+.arrow {
+  display: block;
+}
 
-/*
+:host([x-placement="top"]) .arrow {
+  display: block;
+}
+
+:host([x-placement="top-end"]) .arrow {
+  display: block;
+}
+
 :host([x-placement="right"]) .arrow {
-  // todo
+  display: block;
 }
+
 :host([x-placement="right-start"]) .arrow {
-  // todo
+  display: block;
 }
-*/
+
+:host([x-placement="right-end"]) .arrow {
+  display: block;
+}
+
+:host([x-placement="bottom-end"]) .arrow {
+  display: block;
+}
+
+:host([x-placement="right-end"]) .arrow {
+  display: block;
+}
+
+:host([x-placement="bottom"]) .arrow {
+  display: block;
+}
+
+:host([x-placement="bottom-start"]) .arrow {
+  display: block;
+}
+
+:host([x-placement="left-end"]) .arrow {
+  display: block;
+}
+
+:host([x-placement="left"]) .arrow {
+  display: block;
+}
+
+:host([x-placement="left-start"]) .arrow {
+  display: block;
+}
