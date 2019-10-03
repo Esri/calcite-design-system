@@ -40,7 +40,7 @@ export class CalcitePopover {
   }
 
   /**
-   * Determines where the element will be positioned.
+   * Determines where the component will be positioned relative to the referenceElement.
    * horizontal: Positioned to the left or right of the referenceElement.
    * vertical: Positioned above or below the referenceElement.
    */

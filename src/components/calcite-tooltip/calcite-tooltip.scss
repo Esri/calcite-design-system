@@ -8,8 +8,35 @@
 
 .container {
   visibility: hidden;
+  background-color: #fff;
+  padding: 5px 10px;
+  box-shadow: $shadow-2;
+  border-radius: 2px;
+  max-width: 200px;
 }
 
 .container--open {
   visibility: visible;
+}
+
+.image {
+  max-width: 200px;
+}
+
+.content {
+  position: relative;
+  overflow: auto;
+  max-height: 100px;
+  width: 100%;
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  right: 0;
+  background: transparent;
+  padding: 5px;
+  border: none;
+  display: block;
 }

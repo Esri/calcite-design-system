@@ -12,12 +12,36 @@ describe("calcite-tooltip", () => {
   it("has property defaults", async () =>
     defaults("calcite-tooltip", [
       {
-        propertyName: "referenceElement",
+        propertyName: "image",
         defaultValue: undefined
+      },
+      {
+        propertyName: "imageLabel",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "interaction",
+        defaultValue: "hover"
       },
       {
         propertyName: "open",
         defaultValue: false
+      },
+      {
+        propertyName: "placement",
+        defaultValue: "auto"
+      },
+      {
+        propertyName: "referenceElement",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "text",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "theme",
+        defaultValue: "light"
       }
     ]));
 
@@ -92,4 +116,12 @@ describe("calcite-tooltip", () => {
 
     expect(computedStyle.transform).not.toBe("none");
   });
+
+  it.skip("should honor hover interaction", async () => {});
+
+  it.skip("should honor click interaction", async () => {});
+
+  it.skip("should honor image & imageLabel", async () => {});
+
+  it.skip("should honor text", async () => {});
 });

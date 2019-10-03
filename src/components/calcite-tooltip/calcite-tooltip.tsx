@@ -8,11 +8,11 @@ import {
   Watch,
   h
 } from "@stencil/core";
-
-import { CSS } from "./resources";
-
+import { CSS, TooltipInteraction, TooltipPlacement } from "./resources";
 import Popper from "popper.js";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
+import { x16 } from "@esri/calcite-ui-icons";
+import CalciteIcon from "../../utils/CalciteIcon";
 
 @Component({
   tag: "calcite-tooltip",
@@ -27,14 +27,30 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   /**
-   * @todo document.
+   * Image source URL used to display an image above the text.
    */
   @Prop({ reflect: true }) image: string;
 
   /**
-   * @todo document.
+   * Image label.
    */
-  @Prop({ reflect: true }) interaction: "hover" | "click" = "hover";
+  @Prop({ reflect: true }) imageLabel: string;
+
+  /**
+   * Defines the way the user will interact with the tooltip.
+   * 'click' - Displays the tooltip on first click and hides on second click. Also provides the user with a close button within the tooltip.
+   * 'hover' - Displays the tooltip on mousover and hides on mouseout and displays the tooltip on focus and hides the tooltip on blur.
+   */
+  @Prop({ reflect: true }) interaction: TooltipInteraction = "hover";
+
+  @Watch("interaction")
+  interactionElementHandler(
+    newValue: TooltipInteraction,
+    oldValue: TooltipInteraction
+  ) {
+    this.removeReferenceListeners(oldValue);
+    this.addReferenceListeners(newValue);
+  }
 
   /**
    * Display and position the component.
@@ -51,19 +67,31 @@ export class CalciteTooltip {
   }
 
   /**
+   * Determines where the component will be positioned relative to the referenceElement.
+   */
+  @Prop({ reflect: true }) placement: TooltipPlacement = "auto";
+
+  @Watch("placement")
+  placementHandler() {
+    this.reposition();
+  }
+
+  /**
    * Reference HTMLElement used to position this component.
    */
   @Prop() referenceElement: HTMLElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler() {
+    this.removeReferenceListeners();
     this._referenceElement = this.getReferenceElement();
+    this.addReferenceListeners();
     this.destroyPopper();
     this.reposition();
   }
 
   /**
-   * @todo document.
+   * Tooltip text value to display.
    */
   @Prop({ reflect: true }) text: string;
 
@@ -89,6 +117,7 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   componentDidLoad() {
+    this.addReferenceListeners();
     this.reposition();
   }
 
@@ -106,9 +135,6 @@ export class CalciteTooltip {
   @Method() async reposition(): Promise<void> {
     const { popper } = this;
 
-    this.removeReferenceListeners();
-    this.addReferenceListeners();
-
     popper ? this.updatePopper(popper) : this.createPopper();
   }
 
@@ -118,25 +144,46 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  addReferenceListeners = (): void => {
-    if (this.interaction === "click") {
-      this._referenceElement.addEventListener("click", this.toggle);
+  addReferenceListeners = (
+    interaction: TooltipInteraction = this.interaction
+  ): void => {
+    const { _referenceElement } = this;
+
+    if (!_referenceElement || !interaction) {
+      return;
     }
 
-    if (this.interaction === "hover") {
-      this._referenceElement.addEventListener("mouseenter", this.show);
-      this._referenceElement.addEventListener("mouseleave", this.hide);
-      this._referenceElement.addEventListener("focus", this.show);
-      this._referenceElement.addEventListener("blur", this.hide);
+    if (interaction === "click") {
+      _referenceElement.addEventListener("click", this.toggle);
+    }
+
+    if (interaction === "hover") {
+      _referenceElement.addEventListener("mouseenter", this.show);
+      _referenceElement.addEventListener("mouseleave", this.hide);
+      _referenceElement.addEventListener("focus", this.show);
+      _referenceElement.addEventListener("blur", this.hide);
     }
   };
 
-  removeReferenceListeners = (): void => {
-    this._referenceElement.removeEventListener("click", this.toggle);
-    this._referenceElement.removeEventListener("mouseenter", this.show);
-    this._referenceElement.removeEventListener("mouseleave", this.hide);
-    this._referenceElement.removeEventListener("focus", this.show);
-    this._referenceElement.removeEventListener("blur", this.hide);
+  removeReferenceListeners = (
+    interaction: TooltipInteraction = this.interaction
+  ): void => {
+    const { _referenceElement } = this;
+
+    if (!_referenceElement || !interaction) {
+      return;
+    }
+
+    if (interaction === "click") {
+      _referenceElement.removeEventListener("click", this.toggle);
+    }
+
+    if (interaction === "hover") {
+      _referenceElement.removeEventListener("mouseenter", this.show);
+      _referenceElement.removeEventListener("mouseleave", this.hide);
+      _referenceElement.removeEventListener("focus", this.show);
+      _referenceElement.removeEventListener("blur", this.hide);
+    }
   };
 
   toggle = (): void => {
@@ -173,7 +220,7 @@ export class CalciteTooltip {
   }
 
   createPopper(): void {
-    const { el, open, _referenceElement } = this;
+    const { _referenceElement, el, open, placement } = this;
 
     if (!_referenceElement || !open) {
       return;
@@ -181,7 +228,7 @@ export class CalciteTooltip {
 
     const newPopper = new Popper(_referenceElement, el, {
       eventsEnabled: false,
-      placement: "auto",
+      placement,
       modifiers: this.getModifiers()
     });
 
@@ -193,6 +240,7 @@ export class CalciteTooltip {
   }
 
   updatePopper(popper: Popper): void {
+    popper.options.placement = this.placement;
     popper.options.modifiers = {
       ...popper.options.modifiers,
       ...this.getModifiers()
@@ -218,15 +266,21 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   renderImage(): VNode {
-    const { image, text } = this;
+    const { image, imageLabel, text } = this;
 
-    return image ? <img class={CSS.image} alt={text} src={image} /> : null;
+    return image ? (
+      <img class={CSS.image} alt={imageLabel || text} src={image} />
+    ) : null;
   }
 
   renderCloseButton(): VNode {
     const { interaction } = this;
 
-    return interaction === "click" ? <button /> : null;
+    return interaction === "click" ? (
+      <button class={CSS.closeButton} onClick={this.hide}>
+        <CalciteIcon size="16" path={x16} />
+      </button>
+    ) : null;
   }
 
   render() {
@@ -241,9 +295,11 @@ export class CalciteTooltip {
           }}
         >
           {this.renderImage()}
-          {this.renderCloseButton()}
-          {text}
-          <slot />
+          <div class={CSS.content}>
+            {this.renderCloseButton()}
+            {text}
+            <slot />
+          </div>
         </div>
       </Host>
     );
