@@ -36,6 +36,7 @@
         <calcite-tab-title>Radio Groups</calcite-tab-title>
         <calcite-tab-title>Slider</calcite-tab-title>
         <calcite-tab-title>Switch and Checkbox</calcite-tab-title>
+        <calcite-tab-title>Tooltip</calcite-tab-title>
         <calcite-tab-title>Buttons</calcite-tab-title>
         <calcite-tab-title>Date picker</calcite-tab-title>
         <calcite-tab-title>Dropdown</calcite-tab-title>
@@ -965,6 +966,48 @@
             Disabled and unchecked
           </label>
         </div>
+      </calcite-tab>
+
+      <calcite-tab>
+        <h1>CalciteTooltip</h1>
+
+        <calcite-tooltip id="tooltip"></calcite-tooltip>
+
+        <calcite-tooltip id="tooltip-two" reference-element="tooltip-button-two"></calcite-tooltip>
+
+
+          <style>
+          .tooltip-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+          }
+          .tooltip-list li{
+            margin: 8px 0;
+          }
+          </style>
+
+          <ul class="tooltip-list">
+            <li><calcite-button id="tooltip-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Click Me!</calcite-button></li>
+              <li><calcite-button id="tooltip-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+                Click Me!</calcite-button></li>
+          </ul>
+
+          <script>
+            var tooltip = document.getElementById("tooltip");
+            var tooltipButton = document.getElementById("tooltip-button");
+            tooltip.referenceElement = tooltipButton;
+            tooltipButton.addEventListener("click", function() {
+              tooltip.toggle();
+            });
+
+            var tooltipTwo = document.getElementById("tooltip-two");
+            var tooltipButtonTwo = document.getElementById("tooltip-button-two");
+            tooltipButtonTwo.addEventListener("click", function() {
+              tooltip.toggle();
+            });
+          </script>
       </calcite-tab>
 
       <calcite-tab>
