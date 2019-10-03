@@ -117,11 +117,79 @@ describe("calcite-tooltip", () => {
     expect(computedStyle.transform).not.toBe("none");
   });
 
-  it.skip("should honor hover interaction", async () => {});
+  it("should honor hover interaction", async () => {
+    const page = await newE2EPage();
 
-  it.skip("should honor click interaction", async () => {});
+    await page.setContent(
+      `<calcite-tooltip reference-element="ref" interaction="hover">content</calcite-tooltip><div id="ref">referenceElement</div>`
+    );
 
-  it.skip("should honor image & imageLabel", async () => {});
+    await page.waitForChanges();
 
-  it.skip("should honor text", async () => {});
+    const container = await page.find(`calcite-tooltip >>> .${CSS.container}`);
+
+    expect(await container.isVisible()).toBe(false);
+
+    const ref = await page.find("#ref");
+
+    await ref.hover();
+
+    expect(await container.isVisible()).toBe(true);
+  });
+
+  it("should honor click interaction", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tooltip reference-element="ref" interaction="click">content</calcite-tooltip><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const container = await page.find(`calcite-tooltip >>> .${CSS.container}`);
+
+    expect(await container.isVisible()).toBe(false);
+
+    const ref = await page.find("#ref");
+
+    await ref.click();
+
+    expect(await container.isVisible()).toBe(true);
+
+    await ref.click();
+
+    expect(await container.isVisible()).toBe(false);
+  });
+
+  it("should honor image & imageLabel", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tooltip reference-element="ref" image="http://placekitten.com/200/300" image-label="hi" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const image = await page.find(`calcite-tooltip >>> .${CSS.image}`);
+
+    expect(await image.isVisible()).toBe(true);
+
+    expect(image.getAttribute("alt")).toBe("hi");
+  });
+
+  it("should honor text", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tooltip reference-element="ref" text="hi" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const content = await page.find(`calcite-tooltip >>> .${CSS.content}`);
+
+    expect(await content.isVisible()).toBe(true);
+
+    expect(content.textContent).toBe("hi");
+  });
 });
