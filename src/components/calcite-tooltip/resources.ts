@@ -1,6 +1,7 @@
 import Popper from "popper.js";
 
 export const CSS = {
+  arrow: "arrow",
   container: "container",
   containerOpen: "container--open",
   image: "image",

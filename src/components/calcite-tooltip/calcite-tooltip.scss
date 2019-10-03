@@ -13,6 +13,9 @@
   box-shadow: $shadow-2;
   border-radius: 2px;
   max-width: 200px;
+  max-height: 200px;
+  display: flex;
+  flex-direction: column;
 }
 
 .container--open {
@@ -20,14 +23,12 @@
 }
 
 .image {
-  max-width: 200px;
+  flex: 1;
 }
 
 .content {
   position: relative;
-  overflow: auto;
-  max-height: 100px;
-  width: 100%;
+  flex: 1;
 }
 
 .close-button {
@@ -40,3 +41,27 @@
   border: none;
   display: block;
 }
+
+/*
+'top-start'
+    | 'top'
+    | 'top-end'
+    | 'right-start'
+    | 'right'
+    | 'right-end'
+    | 'bottom-end'
+    | 'bottom'
+    | 'bottom-start'
+    | 'left-end'
+    | 'left'
+    | 'left-start'
+    */
+
+/*
+:host([x-placement="right"]) .arrow {
+  // todo
+}
+:host([x-placement="right-start"]) .arrow {
+  // todo
+}
+*/
