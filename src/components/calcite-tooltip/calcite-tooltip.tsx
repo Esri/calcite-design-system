@@ -292,7 +292,7 @@ export class CalciteTooltip {
           {this.renderImage()}
           <div class={CSS.message}>
             {this.renderCloseButton()}
-            <div class={CSS.content}>
+            <div class={{ [CSS.content]: true, [CSS.contentFont]: true }}>
               {text}
               <slot />
             </div>

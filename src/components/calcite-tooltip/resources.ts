@@ -5,7 +5,8 @@ export const CSS = {
   containerOpen: "container--open",
   imageContainer: "image-container",
   closeButton: "close-button",
-  content: "content font-size-3",
+  content: "content",
+  contentFont: "font-size-3",
   message: "message"
 };
 
