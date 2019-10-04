@@ -290,10 +290,12 @@ export class CalciteTooltip {
           }}
         >
           {this.renderImage()}
-          <div class={CSS.content}>
+          <div class={CSS.message}>
             {this.renderCloseButton()}
-            {text}
-            <slot />
+            <div class={CSS.content}>
+              {text}
+              <slot />
+            </div>
           </div>
         </div>
         <div class={CSS.arrow} />

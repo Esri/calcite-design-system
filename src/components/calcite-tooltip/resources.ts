@@ -6,7 +6,8 @@ export const CSS = {
   containerOpen: "container--open",
   imageContainer: "image-container",
   closeButton: "close-button",
-  content: "content"
+  content: "content font-size-3",
+  message: "message"
 };
 
 export type TooltipInteraction = "hover" | "click";

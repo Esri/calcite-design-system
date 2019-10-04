@@ -8,13 +8,13 @@
 
 .container {
   visibility: hidden;
-  background-color: #fff;
-  padding: 5px 10px;
+  background-color: $blk-000;
   box-shadow: $shadow-2;
+  max-width: 300px;
+  max-height: 300px;
   border-radius: 2px;
-  max-width: 200px;
-  max-height: 200px;
   display: flex;
+  justify-content: flex-start;
   flex-direction: column;
 }
 
@@ -26,20 +26,37 @@
   display: block;
 }
 
+.message {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .content {
+  @include font-size(-3);
+  font-weight: 500;
+  padding: 12px;
   position: relative;
   flex: 1;
 }
 
 .close-button {
-  position: absolute;
-  top: 0;
+  // position: absolute;
+  // top: 0;
+  // right: 0;
+  width: 40px;
+  height: 45px;
   z-index: 1;
-  right: 0;
-  background: transparent;
-  padding: 5px;
+  background: $ui-foreground;
+  padding: 12px;
   border: none;
   display: block;
+  cursor: pointer;
+  &:hover {
+    background: $ui-foreground-hover;
+  }
+  &:active {
+    background: $ui-foreground-pressed;
+  }
 }
 
 .arrow {
