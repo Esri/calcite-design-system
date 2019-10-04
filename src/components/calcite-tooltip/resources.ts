@@ -4,7 +4,7 @@ export const CSS = {
   arrow: "arrow",
   container: "container",
   containerOpen: "container--open",
-  image: "image",
+  imageContainer: "image-container",
   closeButton: "close-button",
   content: "content"
 };

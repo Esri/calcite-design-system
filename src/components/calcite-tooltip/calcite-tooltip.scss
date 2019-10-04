@@ -22,9 +22,8 @@
   visibility: visible;
 }
 
-.image {
-  flex: 1;
-  overflow: hidden;
+.image-container {
+  display: block;
 }
 
 .content {

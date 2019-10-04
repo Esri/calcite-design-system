@@ -161,22 +161,6 @@ describe("calcite-tooltip", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
-  it("should honor image & imageLabel", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-tooltip reference-element="ref" image="http://placekitten.com/200/300" image-label="hi" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
-    );
-
-    await page.waitForChanges();
-
-    const image = await page.find(`calcite-tooltip >>> .${CSS.image}`);
-
-    expect(await image.isVisible()).toBe(true);
-
-    expect(image.getAttribute("alt")).toBe("hi");
-  });
-
   it("should honor text", async () => {
     const page = await newE2EPage();
 

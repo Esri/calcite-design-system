@@ -27,16 +27,6 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   /**
-   * Image source URL used to display an image above the text.
-   */
-  @Prop({ reflect: true }) image: string;
-
-  /**
-   * Image label.
-   */
-  @Prop({ reflect: true }) imageLabel: string;
-
-  /**
    * Defines the way the user will interact with the tooltip.
    * 'click' - Displays the tooltip on first click and hides on second click. Also provides the user with a close button within the tooltip.
    * 'hover' - Displays the tooltip on mousover and hides on mouseout and displays the tooltip on focus and hides the tooltip on blur.
@@ -266,10 +256,12 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   renderImage(): VNode {
-    const { image, imageLabel, text } = this;
+    const slottedImage = this.el.querySelector("[slot=image]");
 
-    return image ? (
-      <img class={CSS.image} alt={imageLabel || text} src={image} />
+    return slottedImage ? (
+      <div class={CSS.imageContainer}>
+        <slot name="image" />
+      </div>
     ) : null;
   }
 
