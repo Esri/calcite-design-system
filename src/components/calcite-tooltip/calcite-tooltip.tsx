@@ -106,9 +106,9 @@ export class CalciteTooltip {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() popper: Popper;
-
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
+
+  popper: Popper;
 
   // --------------------------------------------------------------------------
   //
