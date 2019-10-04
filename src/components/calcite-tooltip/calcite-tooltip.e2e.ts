@@ -12,14 +12,6 @@ describe("calcite-tooltip", () => {
   it("has property defaults", async () =>
     defaults("calcite-tooltip", [
       {
-        propertyName: "image",
-        defaultValue: undefined
-      },
-      {
-        propertyName: "imageLabel",
-        defaultValue: undefined
-      },
-      {
         propertyName: "interaction",
         defaultValue: "hover"
       },
