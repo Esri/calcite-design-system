@@ -14,6 +14,9 @@ import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
 
+/**
+ * @slot image - A slot for adding an image. The image will appear above the text.
+ */
 @Component({
   tag: "calcite-tooltip",
   styleUrl: "calcite-tooltip.scss",

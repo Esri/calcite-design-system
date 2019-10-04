@@ -28,6 +28,13 @@ Type: `Promise<void>`
 
 
 
+## Slots
+
+| Slot      | Description                                                       |
+| --------- | ----------------------------------------------------------------- |
+| `"image"` | A slot for adding an image. The image will appear above the text. |
+
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
