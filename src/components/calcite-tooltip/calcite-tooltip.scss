@@ -80,54 +80,121 @@ slot[name="image"]::slotted(img) {
   }
 }
 
-.arrow {
-  display: block;
+.container:after {
+  position: absolute;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
 }
 
-:host([x-placement="top"]) .arrow {
-  display: block;
+:host([x-placement="top-start"]) .container:after {
+  top: 100%;
+  left: 5px;
+  width: 0;
+  border-top: 5px solid #{$ui-foreground};
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 
-:host([x-placement="top-end"]) .arrow {
-  display: block;
+:host([x-placement="top"]) .container:after {
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #{$ui-foreground};
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 
-:host([x-placement="right"]) .arrow {
-  display: block;
+:host([x-placement="top-end"]) .container:after {
+  top: 100%;
+  right: 5px;
+  width: 0;
+  border-top: 5px solid #{$ui-foreground};
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 
-:host([x-placement="right-start"]) .arrow {
-  display: block;
+:host([x-placement="right-start"]) .container:after {
+  right: 100%;
+  top: 5px;
+  width: 0;
+  border-right: 5px solid #{$ui-foreground};
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
 }
 
-:host([x-placement="right-end"]) .arrow {
-  display: block;
+:host([x-placement="right"]) .container:after {
+  right: 100%;
+  top: 50%;
+  margin-top: -5px;
+  width: 0;
+  border-right: 5px solid #{$ui-foreground};
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
 }
 
-:host([x-placement="bottom-end"]) .arrow {
-  display: block;
+:host([x-placement="right-end"]) .container:after {
+  right: 100%;
+  bottom: 5px;
+  width: 0;
+  border-right: 5px solid #{$ui-foreground};
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
 }
 
-:host([x-placement="right-end"]) .arrow {
-  display: block;
+:host([x-placement="bottom-start"]) .container:after {
+  bottom: 100%;
+  left: 5px;
+  width: 0;
+  border-bottom: 5px solid #{$ui-foreground};
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 
-:host([x-placement="bottom"]) .arrow {
-  display: block;
+:host([x-placement="bottom"]) .container:after {
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-bottom: 5px solid #{$ui-foreground};
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 
-:host([x-placement="bottom-start"]) .arrow {
-  display: block;
+:host([x-placement="bottom-end"]) .container:after {
+  bottom: 100%;
+  right: 5px;
+  width: 0;
+  border-bottom: 5px solid #{$ui-foreground};
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 
-:host([x-placement="left-end"]) .arrow {
-  display: block;
+:host([x-placement="left-start"]) .container:after {
+  left: 100%;
+  top: 5px;
+  width: 0;
+  border-left: 5px solid #{$ui-foreground};
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
 }
 
-:host([x-placement="left"]) .arrow {
-  display: block;
+:host([x-placement="left"]) .container:after {
+  left: 100%;
+  top: 50%;
+  margin-top: -5px;
+  width: 0;
+  border-left: 5px solid #{$ui-foreground};
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
 }
 
-:host([x-placement="left-start"]) .arrow {
-  display: block;
+:host([x-placement="left-end"]) .container:after {
+  left: 100%;
+  bottom: 5px;
+  width: 0;
+  border-left: 5px solid #{$ui-foreground};
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
 }

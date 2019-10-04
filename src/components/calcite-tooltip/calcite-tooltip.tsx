@@ -298,7 +298,6 @@ export class CalciteTooltip {
             </div>
           </div>
         </div>
-        <div class={CSS.arrow} />
       </Host>
     );
   }
