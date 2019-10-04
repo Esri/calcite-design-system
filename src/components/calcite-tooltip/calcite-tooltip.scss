@@ -1,3 +1,5 @@
+$image_max_height: 200px;
+
 :host {
   --calcite-tooltip-primary-text: #{$ui-text-1};
   --calcite-tooltip-background: #{$ui-foreground};
@@ -34,7 +36,16 @@
 }
 
 .image-container {
-  display: block;
+  overflow: hidden;
+  max-height: $image_max_height;
+}
+
+slot[name="image"]::slotted(img) {
+  height: auto;
+  width: 100%;
+  max-height: $image_max_height;
+  object-position: 50% 50%;
+  object-fit: cover;
 }
 
 .message {
