@@ -92,7 +92,7 @@ slot[name="image"]::slotted(img) {
   top: 100%;
   left: $pointer_arrow_size;
   width: 0;
-  border-top: $pointer_arrow_size solid #{$ui-foreground};
+  border-top: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-right: $pointer_arrow_size solid transparent;
   border-left: $pointer_arrow_size solid transparent;
 }
@@ -102,7 +102,7 @@ slot[name="image"]::slotted(img) {
   left: 50%;
   margin-left: -$pointer_arrow_size;
   width: 0;
-  border-top: $pointer_arrow_size solid #{$ui-foreground};
+  border-top: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-right: $pointer_arrow_size solid transparent;
   border-left: $pointer_arrow_size solid transparent;
 }
@@ -111,7 +111,7 @@ slot[name="image"]::slotted(img) {
   top: 100%;
   right: $pointer_arrow_size;
   width: 0;
-  border-top: $pointer_arrow_size solid #{$ui-foreground};
+  border-top: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-right: $pointer_arrow_size solid transparent;
   border-left: $pointer_arrow_size solid transparent;
 }
@@ -120,7 +120,7 @@ slot[name="image"]::slotted(img) {
   right: 100%;
   top: $pointer_arrow_size;
   width: 0;
-  border-right: $pointer_arrow_size solid #{$ui-foreground};
+  border-right: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-top: $pointer_arrow_size solid transparent;
   border-bottom: $pointer_arrow_size solid transparent;
 }
@@ -130,7 +130,7 @@ slot[name="image"]::slotted(img) {
   top: 50%;
   margin-top: -$pointer_arrow_size;
   width: 0;
-  border-right: $pointer_arrow_size solid #{$ui-foreground};
+  border-right: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-top: $pointer_arrow_size solid transparent;
   border-bottom: $pointer_arrow_size solid transparent;
 }
@@ -139,7 +139,7 @@ slot[name="image"]::slotted(img) {
   right: 100%;
   bottom: $pointer_arrow_size;
   width: 0;
-  border-right: $pointer_arrow_size solid #{$ui-foreground};
+  border-right: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-top: $pointer_arrow_size solid transparent;
   border-bottom: $pointer_arrow_size solid transparent;
 }
@@ -148,7 +148,7 @@ slot[name="image"]::slotted(img) {
   bottom: 100%;
   left: $pointer_arrow_size;
   width: 0;
-  border-bottom: $pointer_arrow_size solid #{$ui-foreground};
+  border-bottom: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-right: $pointer_arrow_size solid transparent;
   border-left: $pointer_arrow_size solid transparent;
 }
@@ -158,7 +158,7 @@ slot[name="image"]::slotted(img) {
   left: 50%;
   margin-left: -$pointer_arrow_size;
   width: 0;
-  border-bottom: $pointer_arrow_size solid #{$ui-foreground};
+  border-bottom: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-right: $pointer_arrow_size solid transparent;
   border-left: $pointer_arrow_size solid transparent;
 }
@@ -167,7 +167,7 @@ slot[name="image"]::slotted(img) {
   bottom: 100%;
   right: $pointer_arrow_size;
   width: 0;
-  border-bottom: $pointer_arrow_size solid #{$ui-foreground};
+  border-bottom: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-right: $pointer_arrow_size solid transparent;
   border-left: $pointer_arrow_size solid transparent;
 }
@@ -176,7 +176,7 @@ slot[name="image"]::slotted(img) {
   left: 100%;
   top: $pointer_arrow_size;
   width: 0;
-  border-left: $pointer_arrow_size solid #{$ui-foreground};
+  border-left: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-top: $pointer_arrow_size solid transparent;
   border-bottom: $pointer_arrow_size solid transparent;
 }
@@ -186,7 +186,7 @@ slot[name="image"]::slotted(img) {
   top: 50%;
   margin-top: -$pointer_arrow_size;
   width: 0;
-  border-left: $pointer_arrow_size solid #{$ui-foreground};
+  border-left: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-top: $pointer_arrow_size solid transparent;
   border-bottom: $pointer_arrow_size solid transparent;
 }
@@ -195,7 +195,7 @@ slot[name="image"]::slotted(img) {
   left: 100%;
   bottom: $pointer_arrow_size;
   width: 0;
-  border-left: $pointer_arrow_size solid #{$ui-foreground};
+  border-left: $pointer_arrow_size solid var(--calcite-tooltip-background);
   border-top: $pointer_arrow_size solid transparent;
   border-bottom: $pointer_arrow_size solid transparent;
 }
