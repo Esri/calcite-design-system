@@ -11,6 +11,7 @@ $pointer_arrow_size: 5px;
   z-index: 999;
   top: -999999px;
   left: -999999px;
+  margin: $pointer_arrow_size;
 }
 
 :host([theme="dark"]) {
