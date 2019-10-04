@@ -1,6 +1,6 @@
 :host {
   --calcite-tooltip-primary-text: #{$ui-text-1};
-  --calcite-tooltip-background: #{$blk-000};
+  --calcite-tooltip-background: #{$ui-foreground};
   --calcite-tooltip-close-hover: #{$ui-foreground-hover};
   --calcite-tooltip-close-pressed: #{$ui-foreground-pressed};
   display: block;
@@ -12,7 +12,7 @@
 
 :host([theme="dark"]) {
   --calcite-tooltip-primary-text: #{$ui-text-1-dark};
-  --calcite-tooltip-background: #{$blk-190};
+  --calcite-tooltip-background: #{$ui-foreground-dark};
   --calcite-tooltip-close-hover: #{$ui-foreground-hover-dark};
   --calcite-tooltip-close-pressed: #{$ui-foreground-pressed-dark};
 }

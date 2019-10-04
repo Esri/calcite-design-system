@@ -985,14 +985,26 @@
           <br>
         </calcite-tooltip>
 
-        <calcite-tooltip theme="dark" text="This tooltip should have the dark theme."reference-element="tooltip-button-five"></calcite-tooltip>
 
+        <calcite-tooltip theme="dark" text="This is the message of the tooltip."reference-element="tooltip-button-five"></calcite-tooltip>
+
+        <calcite-tooltip theme="dark" interaction="click" placement="auto" id="tooltip-six" text="Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard printer of type and scrambled it to make a type specimen book." reference-element="tooltip-button-six"></calcite-tooltip>
+
+        <calcite-tooltip theme="dark" interaction="click" placement="auto" text="here kitty kitty" reference-element="tooltip-button-seven">
+          <img slot="image" src="http://placekitten.com/200/300" />
+        </calcite-tooltip>
+
+        <calcite-tooltip theme="dark" interaction="click" placement="auto" text="Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard printer of type and scrambled it to make a type specimen book." reference-element="tooltip-button-eight">
+          <br><br>
+          <calcite-button title="Inline button" appearance="inline" dir="ltr" color="blue" theme="dark" scale="s" width="auto" iconposition="start" class="hydrated" hastext="">Inline button </calcite-button>
+          <br>
+        </calcite-tooltip>
 
           <style>
           .tooltip-list {
             list-style: none;
+            padding: 80px 20px;
             margin: 0;
-            padding: 0;
           }
           .tooltip-list li{
             margin: 8px 0;
@@ -1000,20 +1012,33 @@
           </style>
 
           <ul class="tooltip-list">
-            <li><calcite-button id="tooltip-button">
-              Hover/Focus Me!</calcite-button>
+            <li>
+              <calcite-button id="tooltip-button">Hover/Focus Me!</calcite-button>
             </li>
-            <li><calcite-button id="tooltip-button-two">
-              Click Me!</calcite-button>
+            <li>
+              <calcite-button id="tooltip-button-two">Click Me!</calcite-button>
             </li>
-            <li><calcite-button id="tooltip-button-three">
-              Pet Me!</calcite-button>
+            <li>
+              <calcite-button id="tooltip-button-three">Pet Me!</calcite-button>
             </li>
-            <li><calcite-button id="tooltip-button-four">
-              With inline button</calcite-button>
+            <li>
+              <calcite-button id="tooltip-button-four">With inline button</calcite-button>
             </li>
-            <li><calcite-button id="tooltip-button-five">
-              Hover/Focus Me (dark theme)!</calcite-button>
+          </ul>
+
+          <ul class="tooltip-list demo-background-dark">
+            <h3>dark theme</h3>
+            <li>
+              <calcite-button id="tooltip-button-five">Hover/Focus Me!</calcite-button>
+            </li>
+            <li>
+              <calcite-button id="tooltip-button-six">Click Me!</calcite-button>
+            </li>
+            <li>
+              <calcite-button id="tooltip-button-seven">Pet Me!</calcite-button>
+            </li>
+            <li>
+              <calcite-button id="tooltip-button-eight">With inline button</calcite-button>
             </li>
           </ul>
 
