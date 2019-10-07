@@ -74,6 +74,7 @@ slot[name="image"]::slotted(img) {
   border: none;
   display: block;
   cursor: pointer;
+  border-radius: 2px;
   &:hover {
     background: var(--calcite-tooltip-close-hover);
   }
