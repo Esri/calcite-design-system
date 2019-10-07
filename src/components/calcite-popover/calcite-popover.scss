@@ -1,18 +1,17 @@
-$pointer_arrow_size: 5px;
-
 :host {
   --calcite-popover-background: #{$ui-foreground};
+  --calcite-popper-background: #{$ui-foreground};
   --calcite-popover-primary-text: #{$ui-text-1};
   display: block;
   position: absolute;
   z-index: 999;
   top: -999999px;
   left: -999999px;
-  margin: $pointer_arrow_size;
 }
 
 :host([theme="dark"]) {
   --calcite-popover-background: #{$ui-foreground-dark};
+  --calcite-popper-background: #{$ui-foreground-dark};
   --calcite-popover-primary-text: #{$ui-text-1-dark};
 }
 
@@ -27,121 +26,4 @@ $pointer_arrow_size: 5px;
   visibility: visible;
 }
 
-.container:after {
-  position: absolute;
-  content: " ";
-  font-size: 0;
-  line-height: 0;
-}
-
-:host([x-placement="top-start"]) .container:after {
-  top: 100%;
-  left: $pointer_arrow_size;
-  width: 0;
-  border-top: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-right: $pointer_arrow_size solid transparent;
-  border-left: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="top"]) .container:after {
-  top: 100%;
-  left: 50%;
-  margin-left: -$pointer_arrow_size;
-  width: 0;
-  border-top: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-right: $pointer_arrow_size solid transparent;
-  border-left: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="top-end"]) .container:after {
-  top: 100%;
-  right: $pointer_arrow_size;
-  width: 0;
-  border-top: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-right: $pointer_arrow_size solid transparent;
-  border-left: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="right-start"]) .container:after {
-  right: 100%;
-  top: $pointer_arrow_size;
-  width: 0;
-  border-right: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-top: $pointer_arrow_size solid transparent;
-  border-bottom: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="right"]) .container:after {
-  right: 100%;
-  top: 50%;
-  margin-top: -$pointer_arrow_size;
-  width: 0;
-  border-right: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-top: $pointer_arrow_size solid transparent;
-  border-bottom: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="right-end"]) .container:after {
-  right: 100%;
-  bottom: $pointer_arrow_size;
-  width: 0;
-  border-right: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-top: $pointer_arrow_size solid transparent;
-  border-bottom: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="bottom-start"]) .container:after {
-  bottom: 100%;
-  left: $pointer_arrow_size;
-  width: 0;
-  border-bottom: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-right: $pointer_arrow_size solid transparent;
-  border-left: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="bottom"]) .container:after {
-  bottom: 100%;
-  left: 50%;
-  margin-left: -$pointer_arrow_size;
-  width: 0;
-  border-bottom: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-right: $pointer_arrow_size solid transparent;
-  border-left: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="bottom-end"]) .container:after {
-  bottom: 100%;
-  right: $pointer_arrow_size;
-  width: 0;
-  border-bottom: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-right: $pointer_arrow_size solid transparent;
-  border-left: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="left-start"]) .container:after {
-  left: 100%;
-  top: $pointer_arrow_size;
-  width: 0;
-  border-left: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-top: $pointer_arrow_size solid transparent;
-  border-bottom: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="left"]) .container:after {
-  left: 100%;
-  top: 50%;
-  margin-top: -$pointer_arrow_size;
-  width: 0;
-  border-left: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-top: $pointer_arrow_size solid transparent;
-  border-bottom: $pointer_arrow_size solid transparent;
-}
-
-:host([x-placement="left-end"]) .container:after {
-  left: 100%;
-  bottom: $pointer_arrow_size;
-  width: 0;
-  border-left: $pointer_arrow_size solid var(--calcite-popover-background);
-  border-top: $pointer_arrow_size solid transparent;
-  border-bottom: $pointer_arrow_size solid transparent;
-}
+@include popperPointer();
