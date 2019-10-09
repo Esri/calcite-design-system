@@ -30,6 +30,14 @@ describe("calcite-popover", () => {
       {
         propertyName: "open",
         defaultValue: false
+      },
+      {
+        propertyName: "addClickHandle",
+        defaultValue: false
+      },
+      {
+        propertyName: "closeButton",
+        defaultValue: false
       }
     ]));
 
@@ -103,5 +111,65 @@ describe("calcite-popover", () => {
     const computedStyle = await element.getComputedStyle();
 
     expect(computedStyle.transform).not.toBe("none");
+  });
+
+  it("should show closeButton when enabled", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="horizontal" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    let closeButton = await page.find(
+      `calcite-popover >>> .${CSS.closeButton}`
+    );
+
+    expect(closeButton).toBe(null);
+
+    const element = await page.find("calcite-popover");
+
+    element.setProperty("closeButton", true);
+
+    await page.waitForChanges();
+
+    closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
+
+    expect(await closeButton.isVisible()).toBe(true);
+  });
+
+  it("should have image container", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="horizontal" reference-element="ref" open><img slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    const imageContainer = await page.find(
+      `calcite-popover >>> .${CSS.imageContainer}`
+    );
+
+    expect(await imageContainer.isVisible()).toBe(true);
+  });
+
+  it("should honor click interaction", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="horizontal" reference-element="ref" add-click-handle>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const container = await page.find(`calcite-popover >>> .${CSS.container}`);
+
+    expect(await container.isVisible()).toBe(false);
+
+    const ref = await page.find("#ref");
+
+    await ref.click();
+
+    expect(await container.isVisible()).toBe(true);
   });
 });
