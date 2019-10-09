@@ -517,36 +517,105 @@
       <calcite-tab>
         <h1>CalcitePopover</h1>
 
-        <calcite-popover placement="horizontal" id="popover" close-button>
+        <calcite-popover placement="horizontal" reference-element="popover-button" id="popover" close-button>
           <img slot="image" src="http://placekitten.com/200/300" />
-          <div style="padding:20px">Here kitty kitty!
+          <div style="padding:12px 16px;">Here kitty kitty!
           </div>
         </calcite-popover>
 
         <calcite-popover reference-element="popover-button-two" placement="vertical" id="popover-two" add-click-handle>
-          <div style="padding:20px">Hello! I am some popover content!</div>
+          <div style="padding:12px 16px">Hello! I am some popover content!</div>
+        </calcite-popover>
+
+        <calcite-popover reference-element="popover-button-three" placement="horizontal" id="popover-three" add-click-handle close-button>
+          <div style="padding:12px 16px">
+            <b>I am a title!</b> <br>
+            <p>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </p> 
+            <calcite-button title="Inline button" appearance="inline" scale=>I am an inline button</calcite-button>
+          </div>
+        </calcite-popover>
+
+        <calcite-popover reference-element="popover-button-four" placement="horizontal" id="popover-four" add-click-handle close-button>
+          <div style="padding:12px 16px">I am a popover with a close button!</div>
+        </calcite-popover>
+
+        <calcite-popover theme="dark" reference-element="popover-button-five" placement="horizontal" id="popover-five" add-click-handle close-button>
+          <img slot="image" src="http://placekitten.com/200/300" />
+          <div style="padding:12px 16px;">Here kitty kitty!
+          </div>
+        </calcite-popover>
+
+        <calcite-popover theme="dark" reference-element="popover-button-six" placement="vertical" id="popover-six" add-click-handle>
+          <div style="padding:12px 16px">Hello! I am some popover content!</div>
+        </calcite-popover>
+
+        <calcite-popover theme="dark" reference-element="popover-button-seven" placement="horizontal" id="popover-seven" add-click-handle close-button>
+          <div style="padding:12px 16px">
+            <b>I am a title!</b> <br>
+            <p>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </p> 
+            <calcite-button theme="dark" title="Inline button" appearance="inline" scale=>I am an inline button</calcite-button>
+          </div>
+        </calcite-popover>
+
+        <calcite-popover theme="dark" reference-element="popover-button-eight" placement="horizontal" id="popover-eight" add-click-handle close-button>
+          <div style="padding:12px 16px">I am a popover with a close button!</div>
+        </calcite-popover>
+
+        <calcite-popover theme="dark" reference-element="popover-button-nine" placement="horizontal" id="popover-nine" add-click-handle>
+          <div style="padding:12px 16px">I am a popover with a close button!</div>
         </calcite-popover>
 
         <style>
           .popover-list {
             list-style: none;
             margin: 0;
-            padding: 0;
+            padding: 20px 10px 220px 10px;
           }
 
           .popover-list li {
-            margin: 8px 0;
+            margin: 30px 0;
           }
         </style>
 
         <ul class="popover-list">
           <li>
-            <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-              Pet Me!</calcite-button>
+            <calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Clickable popover</calcite-button>
           </li>
           <li>
-            <calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-              Click Me!</calcite-button>
+            <calcite-button id="popover-button-four" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              With close button</calcite-button>
+          </li>
+          <li>
+            <calcite-button id="popover-button-three" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Title, content & CTA</calcite-button>
+          </li>
+          <li>
+            <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Popover with picture</calcite-button>
+          </li>
+        </ul>
+
+        <ul class="popover-list demo-background-dark">
+          <li>
+            <calcite-button id="popover-button-six" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Clickable popover</calcite-button>
+          </li>
+          <li>
+            <calcite-button id="popover-button-eight" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              With close button</calcite-button>
+          </li>
+          <li>
+            <calcite-button id="popover-button-seven" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Title, content & CTA</calcite-button>
+          </li>
+          <li>
+            <calcite-button id="popover-button-five" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+              Popover with picture</calcite-button>
           </li>
         </ul>
 

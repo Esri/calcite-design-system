@@ -4,6 +4,8 @@ $image_max_height: 200px;
   --calcite-popover-background: #{$ui-foreground};
   --calcite-popper-background: #{$ui-foreground};
   --calcite-popover-primary-text: #{$ui-text-1};
+  --calcite-popover-close-hover: #{$ui-foreground-hover};
+  --calcite-popover-close-pressed: #{$ui-foreground-pressed};
   display: block;
   position: absolute;
   z-index: 999;
@@ -15,9 +17,14 @@ $image_max_height: 200px;
   --calcite-popover-background: #{$ui-foreground-dark};
   --calcite-popper-background: #{$ui-foreground-dark};
   --calcite-popover-primary-text: #{$ui-text-1-dark};
+  --calcite-popover-close-hover: #{$ui-foreground-hover-dark};
+  --calcite-popover-close-pressed: #{$ui-foreground-pressed-dark};
 }
 
 .container {
+  display: flex;
+  max-width: 350px;
+  flex-direction: column;
   visibility: hidden;
   box-shadow: $shadow-2;
   background: var(--calcite-popover-background);
@@ -28,22 +35,31 @@ $image_max_height: 200px;
   visibility: visible;
 }
 
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  line-height: 24px;
+}
+
 .close-button {
+  display: flex;
+  justify-content: flex-end;
   width: 40px;
   height: 45px;
   z-index: 1;
-  background: var(--calcite-tooltip-background);
-  color: var(--calcite-tooltip-primary-text);
-  padding: 12px;
+  background: var(--calcite-popover-background);
+  color: var(--calcite-popover-primary-text);
+  padding: 16px 12px;
   border: none;
   display: block;
   cursor: pointer;
   border-radius: 2px;
   &:hover {
-    background: var(--calcite-tooltip-close-hover);
+    background: var(--calcite-popover-close-hover);
   }
   &:active {
-    background: var(--calcite-tooltip-close-pressed);
+    background: var(--calcite-popover-close-pressed);
   }
 }
 

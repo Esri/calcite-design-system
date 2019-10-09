@@ -309,10 +309,10 @@ export class CalcitePopover {
             [CSS.containerOpen]: _referenceElement && open
           }}
         >
-          {this.renderCloseButton()}
           {this.renderImage()}
           <div class={CSS.content}>
             <slot />
+            {this.renderCloseButton()}
           </div>
         </div>
       </Host>
