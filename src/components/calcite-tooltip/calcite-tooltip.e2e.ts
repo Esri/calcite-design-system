@@ -12,10 +12,6 @@ describe("calcite-tooltip", () => {
   it("has property defaults", async () =>
     defaults("calcite-tooltip", [
       {
-        propertyName: "interaction",
-        defaultValue: "hover"
-      },
-      {
         propertyName: "open",
         defaultValue: false
       },
@@ -25,10 +21,6 @@ describe("calcite-tooltip", () => {
       },
       {
         propertyName: "referenceElement",
-        defaultValue: undefined
-      },
-      {
-        propertyName: "text",
         defaultValue: undefined
       },
       {
@@ -113,7 +105,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref" interaction="hover">content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
@@ -129,40 +121,16 @@ describe("calcite-tooltip", () => {
     expect(await container.isVisible()).toBe(true);
   });
 
-  it("should honor click interaction", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-tooltip reference-element="ref" interaction="click">content</calcite-tooltip><div id="ref">referenceElement</div>`
-    );
-
-    await page.waitForChanges();
-
-    const container = await page.find(`calcite-tooltip >>> .${CSS.container}`);
-
-    expect(await container.isVisible()).toBe(false);
-
-    const ref = await page.find("#ref");
-
-    await ref.click();
-
-    expect(await container.isVisible()).toBe(true);
-
-    await ref.click();
-
-    expect(await container.isVisible()).toBe(false);
-  });
-
   it("should honor text", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref" text="hi" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref" open>hi</calcite-tooltip><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
 
-    const content = await page.find(`calcite-tooltip >>> .${CSS.content}`);
+    const content = await page.find("calcite-tooltip");
 
     expect(await content.isVisible()).toBe(true);
 

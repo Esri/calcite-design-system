@@ -8,15 +8,9 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS, TooltipInteraction, TooltipPlacement } from "./resources";
+import { CSS, TooltipPlacement } from "./resources";
 import Popper from "popper.js";
-import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
-import { x16 } from "@esri/calcite-ui-icons";
-import CalciteIcon from "../../utils/CalciteIcon";
 
-/**
- * @slot image - A slot for adding an image. The image will appear above the text.
- */
 @Component({
   tag: "calcite-tooltip",
   styleUrl: "calcite-tooltip.scss",
@@ -28,22 +22,6 @@ export class CalciteTooltip {
   //  Properties
   //
   // --------------------------------------------------------------------------
-
-  /**
-   * Defines the way the user will interact with the tooltip.
-   * 'click' - Displays the tooltip on first click and hides on second click. Also provides the user with a close button within the tooltip.
-   * 'hover' - Displays the tooltip on mousover and hides on mouseout and displays the tooltip on focus and hides the tooltip on blur.
-   */
-  @Prop({ reflect: true }) interaction: TooltipInteraction = "hover";
-
-  @Watch("interaction")
-  interactionElementHandler(
-    newValue: TooltipInteraction,
-    oldValue: TooltipInteraction
-  ) {
-    this.removeReferenceListeners(oldValue);
-    this.addReferenceListeners(newValue);
-  }
 
   /**
    * Display and position the component.
@@ -82,11 +60,6 @@ export class CalciteTooltip {
     this.destroyPopper();
     this.reposition();
   }
-
-  /**
-   * Tooltip text value to display.
-   */
-  @Prop({ reflect: true }) text: string;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
@@ -137,50 +110,30 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  addReferenceListeners = (
-    interaction: TooltipInteraction = this.interaction
-  ): void => {
+  addReferenceListeners = (): void => {
     const { _referenceElement } = this;
 
-    if (!_referenceElement || !interaction) {
+    if (!_referenceElement) {
       return;
     }
 
-    if (interaction === "click") {
-      _referenceElement.addEventListener("click", this.toggle);
-    }
-
-    if (interaction === "hover") {
-      _referenceElement.addEventListener("mouseenter", this.show);
-      _referenceElement.addEventListener("mouseleave", this.hide);
-      _referenceElement.addEventListener("focus", this.show);
-      _referenceElement.addEventListener("blur", this.hide);
-    }
+    _referenceElement.addEventListener("mouseenter", this.show);
+    _referenceElement.addEventListener("mouseleave", this.hide);
+    _referenceElement.addEventListener("focus", this.show);
+    _referenceElement.addEventListener("blur", this.hide);
   };
 
-  removeReferenceListeners = (
-    interaction: TooltipInteraction = this.interaction
-  ): void => {
+  removeReferenceListeners = (): void => {
     const { _referenceElement } = this;
 
-    if (!_referenceElement || !interaction) {
+    if (!_referenceElement) {
       return;
     }
 
-    if (interaction === "click") {
-      _referenceElement.removeEventListener("click", this.toggle);
-    }
-
-    if (interaction === "hover") {
-      _referenceElement.removeEventListener("mouseenter", this.show);
-      _referenceElement.removeEventListener("mouseleave", this.hide);
-      _referenceElement.removeEventListener("focus", this.show);
-      _referenceElement.removeEventListener("blur", this.hide);
-    }
-  };
-
-  toggle = (): void => {
-    this.open = !this.open;
+    _referenceElement.removeEventListener("mouseenter", this.show);
+    _referenceElement.removeEventListener("mouseleave", this.hide);
+    _referenceElement.removeEventListener("focus", this.show);
+    _referenceElement.removeEventListener("blur", this.hide);
   };
 
   show = (): void => {
@@ -258,45 +211,19 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  renderImage(): VNode {
-    const slottedImage = this.el.querySelector("[slot=image]");
-
-    return slottedImage ? (
-      <div class={CSS.imageContainer}>
-        <slot name="image" />
-      </div>
-    ) : null;
-  }
-
-  renderCloseButton(): VNode {
-    const { interaction } = this;
-
-    return interaction === "click" ? (
-      <button class={CSS.closeButton} onClick={this.hide}>
-        <CalciteIcon size="16" path={x16} />
-      </button>
-    ) : null;
-  }
-
   render() {
-    const { _referenceElement, open, text } = this;
+    const { _referenceElement, open } = this;
 
     return (
       <Host>
         <div
           class={{
             [CSS.container]: true,
+            [CSS.containerFont]: true,
             [CSS.containerOpen]: _referenceElement && open
           }}
         >
-          {this.renderImage()}
-          <div class={CSS.message}>
-            {this.renderCloseButton()}
-            <div class={{ [CSS.content]: true, [CSS.contentFont]: true }}>
-              {text}
-              <slot />
-            </div>
-          </div>
+          <slot />
         </div>
       </Host>
     );
