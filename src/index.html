@@ -518,11 +518,12 @@
         <h1>CalcitePopover</h1>
 
         <calcite-popover placement="horizontal" id="popover" close-button>
-          <div style="padding:20px">Hello! I am some popover content!
+          <img slot="image" src="http://placekitten.com/200/300" />
+          <div style="padding:20px">Here kitty kitty!
           </div>
         </calcite-popover>
 
-        <calcite-popover reference-element="popover-button-two" placement="vertical" id="popover-two">
+        <calcite-popover reference-element="popover-button-two" placement="vertical" id="popover-two" add-click-handle>
           <div style="padding:20px">Hello! I am some popover content!</div>
         </calcite-popover>
 
@@ -541,7 +542,7 @@
         <ul class="popover-list">
           <li>
             <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-              Click Me!</calcite-button>
+              Pet Me!</calcite-button>
           </li>
           <li>
             <calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
@@ -555,12 +556,6 @@
           popover.referenceElement = popoverButton;
           popoverButton.addEventListener("click", function () {
             popover.toggle();
-          });
-
-          var popoverTwo = document.getElementById("popover-two");
-          var popoverButtonTwo = document.getElementById("popover-button-two");
-          popoverButtonTwo.addEventListener("click", function () {
-            popoverTwo.toggle();
           });
         </script>
       </calcite-tab>
@@ -1003,7 +998,8 @@
         <p>
           Lorem <a id="tooltip-button" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation <strong
-            id="tooltip-button-two" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+            id="tooltip-button-two" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat. Duis
+          aute irure
           dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
           cupidatat non proident, sunt in culpa qui <calcite-button id="tooltip-button-four">officia deserunt
           </calcite-button> mollit anim id est laborum.
@@ -1012,7 +1008,8 @@
         <p class="demo-background-dark">
           Lorem <a id="tooltip-button-five" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          <strong id="tooltip-button-six" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+          <strong id="tooltip-button-six" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute
           irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
           occaecat cupidatat non proident, sunt in culpa qui <calcite-button id="tooltip-button-eight">officia deserunt
           </calcite-button> mollit anim id est laborum.

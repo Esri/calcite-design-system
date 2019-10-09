@@ -1,4 +1,4 @@
-$image_max_height: 200;
+$image_max_height: 200px;
 
 :host {
   --calcite-popover-background: #{$ui-foreground};
@@ -50,6 +50,7 @@ $image_max_height: 200;
 .image-container {
   overflow: hidden;
   max-height: $image_max_height;
+  margin: 5px;
 }
 
 slot[name="image"]::slotted(img) {

@@ -14,6 +14,10 @@ import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
 
+/**
+ * @slot image - A slot for adding an image. The image will appear above the other slot content.
+ */
+
 @Component({
   tag: "calcite-popover",
   styleUrl: "calcite-popover.scss",
@@ -25,6 +29,17 @@ export class CalcitePopover {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Adds a click handler to the referenceElement to toggle open the Popover.
+   */
+  @Prop({ reflect: true }) addClickHandle = false;
+
+  @Watch("addClickHandle")
+  interactionElementHandler() {
+    this.removeReferenceListener();
+    this.addReferenceListener();
+  }
 
   /**
    * Display a close button within the Popover.
@@ -64,7 +79,9 @@ export class CalcitePopover {
 
   @Watch("referenceElement")
   referenceElementHandler() {
+    this.removeReferenceListener();
     this._referenceElement = this.getReferenceElement();
+    this.addReferenceListener();
     this.destroyPopper();
     this.reposition();
   }
@@ -109,9 +126,11 @@ export class CalcitePopover {
 
   componentDidLoad() {
     this.reposition();
+    this.addReferenceListener();
   }
 
   componentDidUnload() {
+    this.removeReferenceListener();
     this.destroyPopper();
   }
 
@@ -136,6 +155,30 @@ export class CalcitePopover {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  clickHandler = (): void => {
+    this.toggle();
+  };
+
+  addReferenceListener = (): void => {
+    const { _referenceElement, addClickHandle } = this;
+
+    if (!_referenceElement || !addClickHandle) {
+      return;
+    }
+
+    _referenceElement.addEventListener("click", this.clickHandler);
+  };
+
+  removeReferenceListener = (): void => {
+    const { _referenceElement } = this;
+
+    if (!_referenceElement) {
+      return;
+    }
+
+    _referenceElement.removeEventListener("click", this.clickHandler);
+  };
 
   getReferenceElement(): HTMLElement {
     const { referenceElement } = this;
@@ -265,7 +308,9 @@ export class CalcitePopover {
         >
           {this.renderCloseButton()}
           {this.renderImage()}
-          <slot />
+          <div class={CSS.content}>
+            <slot />
+          </div>
         </div>
       </Host>
     );
