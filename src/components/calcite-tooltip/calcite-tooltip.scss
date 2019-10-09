@@ -1,0 +1,42 @@
+:host {
+  --calcite-tooltip-primary-text: #{$ui-text-1};
+  --calcite-tooltip-background: #{$ui-foreground};
+  --calcite-popper-background: #{$ui-foreground};
+  --calcite-tooltip-close-hover: #{$ui-foreground-hover};
+  --calcite-tooltip-close-pressed: #{$ui-foreground-pressed};
+  display: block;
+  position: absolute;
+  z-index: 999;
+  top: -999999px;
+  left: -999999px;
+}
+
+:host([theme="dark"]) {
+  --calcite-tooltip-primary-text: #{$ui-text-1-dark};
+  --calcite-tooltip-background: #{$ui-foreground-dark};
+  --calcite-popper-background: #{$ui-foreground-dark};
+  --calcite-tooltip-close-hover: #{$ui-foreground-hover-dark};
+  --calcite-tooltip-close-pressed: #{$ui-foreground-pressed-dark};
+}
+
+.container {
+  visibility: hidden;
+  background: var(--calcite-tooltip-background);
+  box-shadow: $shadow-2;
+  max-width: 300px;
+  max-height: 300px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  @include font-size(-3);
+  font-weight: 500;
+  color: var(--calcite-tooltip-primary-text);
+  padding: 12px;
+}
+
+.container--open {
+  visibility: visible;
+}
+
+@include popperPointer();

@@ -1,4 +1,9 @@
+$image_max_height: 200;
+
 :host {
+  --calcite-popover-background: #{$ui-foreground};
+  --calcite-popper-background: #{$ui-foreground};
+  --calcite-popover-primary-text: #{$ui-text-1};
   display: block;
   position: absolute;
   z-index: 999;
@@ -6,8 +11,17 @@
   left: -999999px;
 }
 
+:host([theme="dark"]) {
+  --calcite-popover-background: #{$ui-foreground-dark};
+  --calcite-popper-background: #{$ui-foreground-dark};
+  --calcite-popover-primary-text: #{$ui-text-1-dark};
+}
+
 .container {
   visibility: hidden;
+  box-shadow: $shadow-2;
+  background: var(--calcite-popover-background);
+  color: var(--calcite-popover-primary-text);
 }
 
 .container--open {
@@ -45,3 +59,5 @@ slot[name="image"]::slotted(img) {
   object-position: 50% 50%;
   object-fit: cover;
 }
+
+@include popperPointer();
