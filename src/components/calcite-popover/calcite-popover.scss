@@ -13,3 +13,35 @@
 .container--open {
   visibility: visible;
 }
+
+.close-button {
+  width: 40px;
+  height: 45px;
+  z-index: 1;
+  background: var(--calcite-tooltip-background);
+  color: var(--calcite-tooltip-primary-text);
+  padding: 12px;
+  border: none;
+  display: block;
+  cursor: pointer;
+  border-radius: 2px;
+  &:hover {
+    background: var(--calcite-tooltip-close-hover);
+  }
+  &:active {
+    background: var(--calcite-tooltip-close-pressed);
+  }
+}
+
+.image-container {
+  overflow: hidden;
+  max-height: $image_max_height;
+}
+
+slot[name="image"]::slotted(img) {
+  height: auto;
+  width: 100%;
+  max-height: $image_max_height;
+  object-position: 50% 50%;
+  object-fit: cover;
+}

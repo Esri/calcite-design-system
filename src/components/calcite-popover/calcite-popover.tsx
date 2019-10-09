@@ -8,10 +8,11 @@ import {
   Watch,
   h
 } from "@stencil/core";
-
 import { CSS } from "./resources";
-
 import Popper from "popper.js";
+import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
+import { x16 } from "@esri/calcite-ui-icons";
+import CalciteIcon from "../../utils/CalciteIcon";
 
 @Component({
   tag: "calcite-popover",
@@ -221,6 +222,26 @@ export class CalcitePopover {
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+
+  renderImage(): VNode {
+    const slottedImage = this.el.querySelector("[slot=image]");
+
+    return slottedImage ? (
+      <div class={CSS.imageContainer}>
+        <slot name="image" />
+      </div>
+    ) : null;
+  }
+
+  renderCloseButton(): VNode {
+    const { closeButton } = this;
+
+    return closeButton ? (
+      <button class={CSS.closeButton} onClick={this.hide}>
+        <CalciteIcon size="16" path={x16} />
+      </button>
+    ) : null;
+  }
 
   render() {
     const { _referenceElement, open } = this;
