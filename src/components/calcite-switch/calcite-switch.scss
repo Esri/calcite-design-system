@@ -123,20 +123,14 @@
   .track {
     background-color: var(--calcite-switch-hover-track-background);
     border-color: var(--calcite-switch-hover-track-border);
-    box-shadow: 0 0 6px 1px var(--calcite-switch-box-shadow-color);
+    box-shadow: $shadow-1--hover;
   }
 
   .handle {
     border-color: var(--calcite-switch-hover-handle-border);
     box-shadow: $shadow-1;
     right: auto;
-    left: 0px;
   }
-}
-
-:host(:hover) .handle {
-  right: auto;
-  left: 1px;
 }
 
 :host([switched]) {
