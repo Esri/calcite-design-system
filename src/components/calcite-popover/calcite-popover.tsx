@@ -27,6 +27,11 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   /**
+   * Display a close button within the Popover.
+   */
+  @Prop({ reflect: true }) closeButton = false;
+
+  /**
    * Display and position the component.
    */
   @Prop({ reflect: true }) open = false;
@@ -217,6 +222,10 @@ export class CalcitePopover {
     this.popper = null;
   }
 
+  hide = (): void => {
+    this.open = false;
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -254,6 +263,8 @@ export class CalcitePopover {
             [CSS.containerOpen]: _referenceElement && open
           }}
         >
+          {this.renderCloseButton()}
+          {this.renderImage()}
           <slot />
         </div>
       </Host>
