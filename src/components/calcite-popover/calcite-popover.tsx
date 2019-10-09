@@ -86,6 +86,9 @@ export class CalcitePopover {
     this.reposition();
   }
 
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+
   /**
    * Offset the position of the popover in the horizontal direction.
    */
