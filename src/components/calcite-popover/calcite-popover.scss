@@ -63,23 +63,6 @@ $image_max_height: 200px;
   }
 }
 
-.close-button--below {
-  border-top-right-radius: unset;
-  border-bottom-right-radius: 2px;
-}
-
-:host([dir="rtl"]) {
-  .close-button {
-    border-top-right-radius: unset;
-    border-top-left-radius: 2px;
-  }
-
-  .close-button--below {
-    border-top-left-radius: unset;
-    border-bottom-left-radius: 2px;
-  }
-}
-
 .image-container {
   overflow: hidden;
   max-height: $image_max_height;
