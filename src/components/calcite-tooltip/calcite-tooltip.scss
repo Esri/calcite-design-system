@@ -19,7 +19,7 @@
   --calcite-tooltip-close-pressed: #{$ui-foreground-pressed-dark};
 }
 
-.container {
+.tooltip-container {
   visibility: hidden;
   background: var(--calcite-tooltip-background);
   box-shadow: $shadow-2;
@@ -29,13 +29,13 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  @include font-size(-3);
   font-weight: 500;
   color: var(--calcite-tooltip-primary-text);
-  padding: 12px;
+  padding: 12px 16px;
+  @include font-size(-3);
 }
 
-.container--open {
+.tooltip-container--open {
   visibility: visible;
 }
 
