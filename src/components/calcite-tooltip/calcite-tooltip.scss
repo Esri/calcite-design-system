@@ -1,8 +1,6 @@
 :host {
   --calcite-tooltip-primary-text: #{$ui-text-1};
   --calcite-tooltip-background: #{$ui-foreground};
-  --calcite-tooltip-close-hover: #{$ui-foreground-hover};
-  --calcite-tooltip-close-pressed: #{$ui-foreground-pressed};
   display: block;
   position: absolute;
   z-index: 999;
@@ -13,8 +11,6 @@
 :host([theme="dark"]) {
   --calcite-tooltip-primary-text: #{$ui-text-1-dark};
   --calcite-tooltip-background: #{$ui-foreground-dark};
-  --calcite-tooltip-close-hover: #{$ui-foreground-hover-dark};
-  --calcite-tooltip-close-pressed: #{$ui-foreground-pressed-dark};
 }
 
 .tooltip-container {
