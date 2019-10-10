@@ -44,7 +44,7 @@ export class CalciteAlert {
   @State() active: boolean = false;
 
   /** Determine if the alert contains an alert-link slot */
-  @State() hasLink = false;
+  @State() hasLink: boolean = false;
 
   /** Close the alert automatically (recommended for passive, non-blocking alerts) */
   @Prop() dismiss: boolean = false;
