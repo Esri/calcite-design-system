@@ -219,7 +219,6 @@ export class CalciteTooltip {
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerFont]: true,
             [CSS.containerOpen]: _referenceElement && open
           }}
         >
