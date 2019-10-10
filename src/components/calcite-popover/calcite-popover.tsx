@@ -13,6 +13,7 @@ import Popper from "popper.js";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -82,9 +83,13 @@ export class CalcitePopover {
     this.removeReferenceListener();
     this._referenceElement = this.getReferenceElement();
     this.addReferenceListener();
+    this.addReferenceAria();
     this.destroyPopper();
     this.reposition();
   }
+
+  /** Text for close button. */
+  @Prop() textClose = "Close";
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
@@ -130,6 +135,7 @@ export class CalcitePopover {
   componentDidLoad() {
     this.reposition();
     this.addReferenceListener();
+    this.addReferenceAria();
   }
 
   componentDidUnload() {
@@ -158,6 +164,21 @@ export class CalcitePopover {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  getId = (): string => {
+    return this.el.id || `calcite-popover-${guid()}`;
+  };
+
+  addReferenceAria = (): void => {
+    const { _referenceElement } = this;
+
+    if (
+      _referenceElement &&
+      !_referenceElement.hasAttribute("aria-describedby")
+    ) {
+      _referenceElement.setAttribute("aria-describedby", this.getId());
+    }
+  };
 
   clickHandler = (): void => {
     this.toggle();
@@ -287,10 +308,15 @@ export class CalcitePopover {
   }
 
   renderCloseButton(): VNode {
-    const { closeButton } = this;
+    const { closeButton, textClose } = this;
 
     return closeButton ? (
-      <button class={{ [CSS.closeButton]: true }} onClick={this.hide}>
+      <button
+        aria-label={textClose}
+        title={textClose}
+        class={{ [CSS.closeButton]: true }}
+        onClick={this.hide}
+      >
         <CalciteIcon size="16" path={x16} />
       </button>
     ) : null;
@@ -298,13 +324,18 @@ export class CalcitePopover {
 
   render() {
     const { _referenceElement, open } = this;
+    const displayed = _referenceElement && open;
 
     return (
-      <Host>
+      <Host
+        role="dialog"
+        aria-hidden={!displayed ? "true" : "false"}
+        id={this.getId()}
+      >
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: _referenceElement && open
+            [CSS.containerOpen]: displayed
           }}
         >
           {this.renderImage()}

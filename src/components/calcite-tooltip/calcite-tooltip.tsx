@@ -78,8 +78,6 @@ export class CalciteTooltip {
 
   popper: Popper;
 
-  id = `calcite-tooltip-${guid()}`;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -115,14 +113,18 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
+  getId = (): string => {
+    return this.el.id || `calcite-tooltip-${guid()}`;
+  };
+
   addReferenceAria = (): void => {
-    const { _referenceElement, id } = this;
+    const { _referenceElement } = this;
 
     if (
       _referenceElement &&
       !_referenceElement.hasAttribute("aria-describedby")
     ) {
-      _referenceElement.setAttribute("aria-describedby", id);
+      _referenceElement.setAttribute("aria-describedby", this.getId());
     }
   };
 
@@ -228,11 +230,15 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   render() {
-    const { _referenceElement, id, open } = this;
+    const { _referenceElement, open } = this;
     const displayed = _referenceElement && open;
 
     return (
-      <Host role="tooltip" aria-hidden={!displayed ? "true" : "false"} id={id}>
+      <Host
+        role="tooltip"
+        aria-hidden={!displayed ? "true" : "false"}
+        id={this.getId()}
+      >
         <div
           class={{
             [CSS.container]: true,
