@@ -6,6 +6,7 @@
   z-index: 999;
   top: -999999px;
   left: -999999px;
+  box-shadow: $shadow-2;
 }
 
 :host([theme="dark"]) {
@@ -16,7 +17,6 @@
 .tooltip-container {
   visibility: hidden;
   background: var(--calcite-tooltip-background);
-  box-shadow: $shadow-2;
   max-width: 300px;
   max-height: 300px;
   display: flex;

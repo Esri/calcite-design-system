@@ -11,6 +11,7 @@ $image_max_height: 200px;
   z-index: 999;
   top: -999999px;
   left: -999999px;
+  box-shadow: $shadow-2;
 }
 
 :host([theme="dark"]) {
@@ -26,7 +27,6 @@ $image_max_height: 200px;
   max-width: 350px;
   flex-direction: column;
   visibility: hidden;
-  box-shadow: $shadow-2;
   background: var(--calcite-popover-background);
   color: var(--calcite-popover-primary-text);
 }
