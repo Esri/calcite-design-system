@@ -10,6 +10,7 @@ import {
 } from "@stencil/core";
 import { CSS, TooltipPlacement } from "./resources";
 import Popper from "popper.js";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-tooltip",
@@ -57,6 +58,7 @@ export class CalciteTooltip {
     this.removeReferenceListeners();
     this._referenceElement = this.getReferenceElement();
     this.addReferenceListeners();
+    this.addReferenceAria();
     this.destroyPopper();
     this.reposition();
   }
@@ -76,6 +78,8 @@ export class CalciteTooltip {
 
   popper: Popper;
 
+  id = `calcite-tooltip-${guid()}`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -84,6 +88,7 @@ export class CalciteTooltip {
 
   componentDidLoad() {
     this.addReferenceListeners();
+    this.addReferenceAria();
     this.reposition();
   }
 
@@ -109,6 +114,17 @@ export class CalciteTooltip {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  addReferenceAria = (): void => {
+    const { _referenceElement, id } = this;
+
+    if (
+      _referenceElement &&
+      !_referenceElement.hasAttribute("aria-describedby")
+    ) {
+      _referenceElement.setAttribute("aria-describedby", id);
+    }
+  };
 
   addReferenceListeners = (): void => {
     const { _referenceElement } = this;
@@ -212,14 +228,15 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   render() {
-    const { _referenceElement, open } = this;
+    const { _referenceElement, id, open } = this;
+    const displayed = _referenceElement && open;
 
     return (
-      <Host>
+      <Host role="tooltip" aria-hidden={!displayed ? "true" : "false"} id={id}>
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: _referenceElement && open
+            [CSS.containerOpen]: displayed
           }}
         >
           <slot />

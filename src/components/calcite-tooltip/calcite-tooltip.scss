@@ -32,4 +32,4 @@
   visibility: visible;
 }
 
-@include popperPointer();
+@include popperPointer(".tooltip-container");
