@@ -24,6 +24,8 @@ import AlertInterface from "../../interfaces/AlertInterface";
  * will lead to unexpected and potentially undesireable results
  */
 
+/** Due to accessibility concerns, alerts containing the "alert-link" slot will not autodismiss, even if the dismiss attribute is present */
+
 /**
  * @slot alert-title - Title of the alert (optional)
  * @slot alert-message - Main text of the alert
@@ -40,6 +42,9 @@ export class CalciteAlert {
 
   /** Is the alert currently active or not */
   @State() active: boolean = false;
+
+  /** Determine if the alert contains an alert-link slot */
+  @State() hasLink = false;
 
   /** Close the alert automatically (recommended for passive, non-blocking alerts) */
   @Prop() dismiss: boolean = false;
@@ -122,6 +127,10 @@ export class CalciteAlert {
 
     let themes = ["dark", "light"];
     if (!themes.includes(this.theme)) this.theme = "light";
+
+    // prevent auto dismissing of alerts with action links
+    this.hasLink = !!this.el.querySelector("[slot=alert-link]");
+    if (this.hasLink) this.dismiss = false;
   }
 
   setIcon() {
@@ -158,7 +167,6 @@ export class CalciteAlert {
         </svg>
       </button>
     );
-
     const close = !this.dismiss ? closeButton : "";
     const icon = this.icon ? this.setIcon() : "";
     const count = (
@@ -168,8 +176,14 @@ export class CalciteAlert {
     );
     const progress =
       this.active && this.dismiss ? <div class="alert-dismiss"></div> : "";
+    const role =
+      this.active && this.dismiss
+        ? "alert"
+        : this.active
+        ? "alertdialog"
+        : null;
     return (
-      <Host active={this.active} dir={dir}>
+      <Host active={this.active} dir={dir} role={role}>
         {icon}
         <div class="alert-content">
           <slot name="alert-title"></slot>
