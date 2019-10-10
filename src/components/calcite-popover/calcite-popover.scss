@@ -54,12 +54,29 @@ $image_max_height: 200px;
   border: none;
   display: block;
   cursor: pointer;
-  border-radius: 2px;
+  border-top-right-radius: 2px;
   &:hover {
     background: var(--calcite-popover-close-hover);
   }
   &:active {
     background: var(--calcite-popover-close-pressed);
+  }
+}
+
+.close-button--below {
+  border-top-right-radius: unset;
+  border-bottom-right-radius: 2px;
+}
+
+:host([dir="rtl"]) {
+  .close-button {
+    border-top-right-radius: unset;
+    border-top-left-radius: 2px;
+  }
+
+  .close-button--below {
+    border-top-left-radius: unset;
+    border-bottom-left-radius: 2px;
   }
 }
 

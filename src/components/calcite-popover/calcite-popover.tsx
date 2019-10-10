@@ -119,6 +119,8 @@ export class CalcitePopover {
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
 
+  @State() hasImage = false;
+
   popper: Popper;
 
   // --------------------------------------------------------------------------
@@ -279,9 +281,7 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   renderImage(): VNode {
-    const slottedImage = this.el.querySelector("[slot=image]");
-
-    return slottedImage ? (
+    return this.hasImage ? (
       <div class={CSS.imageContainer}>
         <slot name="image" />
       </div>
@@ -289,10 +289,13 @@ export class CalcitePopover {
   }
 
   renderCloseButton(): VNode {
-    const { closeButton } = this;
+    const { closeButton, hasImage } = this;
 
     return closeButton ? (
-      <button class={CSS.closeButton} onClick={this.hide}>
+      <button
+        class={{ [CSS.closeButton]: true, [CSS.closeButtonBelow]: hasImage }}
+        onClick={this.hide}
+      >
         <CalciteIcon size="16" path={x16} />
       </button>
     ) : null;
@@ -300,6 +303,8 @@ export class CalcitePopover {
 
   render() {
     const { _referenceElement, open } = this;
+
+    this.hasImage = !!this.el.querySelector("[slot=image]");
 
     return (
       <Host>
