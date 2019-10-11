@@ -98,6 +98,7 @@ export class CalciteButton {
       "hastext",
       "icon",
       "iconposition",
+      "id",
       "loading",
       "scale",
       "width",
