@@ -15,8 +15,8 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "stencil build --docs-readme",
-    "start": "stencil build --dev --watch --serve --docs-readme",
+    "build": "stencil build",
+    "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "posttest": "stencil build --prerender",
@@ -25,7 +25,11 @@
     "prettier:styles": "prettier --write \"src/**/*.scss\"",
     "prerelease:prepare": "npm run build",
     "release:prepare": "npm version prerelease --preid=beta --no-git-tag-version ",
-    "release:publish": "./support/release.sh"
+    "release:publish": "./support/release.sh",
+    "storybook": "start-storybook -p 9001 -s ./www",
+    "build-storybook": "build-storybook -s ./www",
+    "deploy-storybook": "storybook-to-ghpages",
+    "deploy": "npm-run-all build deploy-storybook"
   },
   "repository": {
     "type": "git",
@@ -36,21 +40,30 @@
     "popper.js": "1.15.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.6.4",
     "@esri/calcite-base": "^1.0.0",
     "@esri/calcite-colors": "^1.3.1",
     "@esri/calcite-ui-icons": "^2.0.1",
     "@stencil/core": "^1.2.2",
     "@stencil/sass": "^1.0.1",
     "@stencil/state-tunnel": "^1.0.1",
+    "@storybook/addon-backgrounds": "^5.2.4",
+    "@storybook/addon-centered": "^5.2.4",
+    "@storybook/addon-knobs": "^5.2.3",
+    "@storybook/addon-notes": "^5.2.4",
+    "@storybook/cli": "^5.2.3",
+    "@storybook/html": "^5.2.3",
+    "@storybook/storybook-deployer": "^2.8.1",
     "@types/jest": "24.0.17",
     "@types/puppeteer": "1.12.4",
+    "babel-loader": "^8.0.6",
     "gh-release": "^3.5.0",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
     "npm-run-all": "4.1.5",
     "prettier": "1.18.2",
     "puppeteer": "1.19.0",
-    "workbox-build": "4.3.1"
+    "storybook": "^5.1.11"
   },
   "license": "Apache-2.0"
 }
