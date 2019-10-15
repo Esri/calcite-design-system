@@ -5,8 +5,7 @@ import theme from './theme';
 addDecorator(centered);
 addParameters({
   backgrounds: [
-    { name: 'Light', value: '#f8f8f8', default: true },
-    { name: 'Dark', value: '#202020' }
+    { name: 'Light', value: '#f8f8f8', default: true }
   ],
   options: {theme}
 });

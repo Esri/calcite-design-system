@@ -17,6 +17,5 @@ storiesOf('Switch', module)
       Enable setting
     </label>
   `, { notes })
-  .add('Dark mode', () => `
-    <calcite-switch theme="dark"/>
-  `, { notes, backgrounds: darkBackground });
+  .add('Dark mode', () => `<calcite-switch theme="dark"></calcite-switch>`,
+   { notes, backgrounds: darkBackground });

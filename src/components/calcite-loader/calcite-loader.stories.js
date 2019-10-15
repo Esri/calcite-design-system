@@ -32,7 +32,7 @@ storiesOf('Loader', module)
   }, { notes })
   .add('Dark mode', () => {
     return `
-      <calcite-loader is-active text="Loading" theme="dark" />
+      <calcite-loader is-active theme="dark" />
     `
   }, { notes, backgrounds: darkBackground })
   .add('Custom theme', () => {

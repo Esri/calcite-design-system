@@ -1,12 +1,11 @@
 import { storiesOf } from '@storybook/html';
-import { withKnobs, text, number, boolean, select } from '@storybook/addon-knobs'
-import { darkBackground, scaleOptions, colorOptions } from "../../../.storybook/helpers";
+import { withKnobs, select } from '@storybook/addon-knobs'
+import { darkBackground } from "../../../.storybook/helpers";
 import notes from './readme.md';
 
 storiesOf('Tabs', module)
   .addDecorator(withKnobs)
-  .add('Simple', () => {
-    return `
+  .add('Simple', () => `
     <calcite-tabs
       layout="${select("layout", {inline: "inline", center: "center" })}"
     >
@@ -22,8 +21,7 @@ storiesOf('Tabs', module)
       <calcite-tab><p>Tab 3 Content</p></calcite-tab>
       <calcite-tab><p>Tab 4 Content</p></calcite-tab>
     </calcite-tabs>
-    `
-  }, { notes })
+  `, { notes })
   .add('Dark mode', () => `
     <calcite-tabs theme="dark">
       <calcite-tab-nav slot="tab-nav">
