@@ -3,23 +3,6 @@ import { withKnobs, text, number, boolean, color } from '@storybook/addon-knobs'
 import { darkBackground } from "../../../.storybook/helpers";
 import notes from './readme.md';
 
-
-// <calcite-loader is-active></calcite-loader>
-// <calcite-loader is-active title="optional loading text&hellip;" type="indeterminate"></calcite-loader>
-// <calcite-loader is-active class="green" title="Custom theme..."></calcite-loader>
-// <style>
-//   calcite-loader.green {
-//     --calcite-loader-spot-light: #50ba5f;
-//     --calcite-loader-spot-dark: #1a6324;
-//     --calcite-loader-spot: #338033;
-//   }
-// </style>
-// <p style="text-align: center;">
-//   <calcite-loader is-active inline></calcite-loader>Inline Loader
-// </p>
-// <calcite-loader is-active type="determinate" value="0" id="loader-determinate" text="Determinate loader">
-// </calcite-loader>
-
 storiesOf('calcite-loader', module)
   .addDecorator(withKnobs)
   .add('Indeterminate', () => {
