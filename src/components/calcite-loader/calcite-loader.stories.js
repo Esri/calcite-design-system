@@ -3,7 +3,7 @@ import { withKnobs, text, number, boolean, color } from '@storybook/addon-knobs'
 import { darkBackground } from "../../../.storybook/helpers";
 import notes from './readme.md';
 
-storiesOf('calcite-loader', module)
+storiesOf('Loader', module)
   .addDecorator(withKnobs)
   .add('Indeterminate', () => {
     return `
