@@ -1,0 +1,131 @@
+$pointer_arrow_size: 5px;
+
+@mixin popperPointer($selector) {
+  :host {
+    margin: $pointer_arrow_size;
+    --calcite-popper-background: #{$ui-foreground};
+  }
+
+  :host([theme="dark"]) {
+    --calcite-popper-background: #{$ui-foreground-dark};
+  }
+
+  #{$selector}:after {
+    position: absolute;
+    content: "";
+    font-size: 0;
+    line-height: 0;
+  }
+
+  :host([x-placement="top-start"]) #{$selector}:after {
+    top: 100%;
+    left: $pointer_arrow_size;
+    width: 0;
+    border-top: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid transparent;
+    border-left: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="top"]) #{$selector}:after {
+    top: 100%;
+    left: 50%;
+    margin-left: -$pointer_arrow_size;
+    width: 0;
+    border-top: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid transparent;
+    border-left: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="top-end"]) #{$selector}:after {
+    top: 100%;
+    right: $pointer_arrow_size;
+    width: 0;
+    border-top: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid transparent;
+    border-left: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="right-start"]) #{$selector}:after {
+    right: 100%;
+    top: $pointer_arrow_size;
+    width: 0;
+    border-right: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid transparent;
+    border-bottom: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="right"]) #{$selector}:after {
+    right: 100%;
+    top: 50%;
+    margin-top: -$pointer_arrow_size;
+    width: 0;
+    border-right: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid transparent;
+    border-bottom: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="right-end"]) #{$selector}:after {
+    right: 100%;
+    bottom: $pointer_arrow_size;
+    width: 0;
+    border-right: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid transparent;
+    border-bottom: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="bottom-start"]) #{$selector}:after {
+    bottom: 100%;
+    left: $pointer_arrow_size;
+    width: 0;
+    border-bottom: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid transparent;
+    border-left: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="bottom"]) #{$selector}:after {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -$pointer_arrow_size;
+    width: 0;
+    border-bottom: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid transparent;
+    border-left: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="bottom-end"]) #{$selector}:after {
+    bottom: 100%;
+    right: $pointer_arrow_size;
+    width: 0;
+    border-bottom: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid transparent;
+    border-left: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="left-start"]) #{$selector}:after {
+    left: 100%;
+    top: $pointer_arrow_size;
+    width: 0;
+    border-left: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid transparent;
+    border-bottom: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="left"]) #{$selector}:after {
+    left: 100%;
+    top: 50%;
+    margin-top: -$pointer_arrow_size;
+    width: 0;
+    border-left: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid transparent;
+    border-bottom: $pointer_arrow_size solid transparent;
+  }
+
+  :host([x-placement="left-end"]) #{$selector}:after {
+    left: 100%;
+    bottom: $pointer_arrow_size;
+    width: 0;
+    border-left: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid transparent;
+    border-bottom: $pointer_arrow_size solid transparent;
+  }
+}

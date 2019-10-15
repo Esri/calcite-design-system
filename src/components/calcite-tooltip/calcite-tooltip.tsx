@@ -8,44 +8,21 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, TooltipPlacement } from "./resources";
 import Popper from "popper.js";
-import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
-import { x16 } from "@esri/calcite-ui-icons";
-import CalciteIcon from "../../utils/CalciteIcon";
 import { guid } from "../../utils/guid";
 
-/**
- * @slot image - A slot for adding an image. The image will appear above the other slot content.
- */
-
 @Component({
-  tag: "calcite-popover",
-  styleUrl: "calcite-popover.scss",
+  tag: "calcite-tooltip",
+  styleUrl: "calcite-tooltip.scss",
   shadow: true
 })
-export class CalcitePopover {
+export class CalciteTooltip {
   // --------------------------------------------------------------------------
   //
   //  Properties
   //
   // --------------------------------------------------------------------------
-
-  /**
-   * Adds a click handler to the referenceElement to toggle open the Popover.
-   */
-  @Prop({ reflect: true }) addClickHandle = false;
-
-  @Watch("addClickHandle")
-  interactionElementHandler() {
-    this.removeReferenceListener();
-    this.addReferenceListener();
-  }
-
-  /**
-   * Display a close button within the Popover.
-   */
-  @Prop({ reflect: true }) closeButton = false;
 
   /**
    * Display and position the component.
@@ -63,10 +40,8 @@ export class CalcitePopover {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
-   * horizontal: Positioned to the left or right of the referenceElement.
-   * vertical: Positioned above or below the referenceElement.
    */
-  @Prop({ reflect: true }) placement: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) placement: TooltipPlacement = "auto";
 
   @Watch("placement")
   placementHandler() {
@@ -74,45 +49,22 @@ export class CalcitePopover {
   }
 
   /**
-   * Reference HTMLElement used to position this component according to the placement property.
+   * Reference HTMLElement used to position this component.
    */
   @Prop() referenceElement: HTMLElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler() {
-    this.removeReferenceListener();
+    this.removeReferenceListeners();
     this._referenceElement = this.getReferenceElement();
-    this.addReferenceListener();
+    this.addReferenceListeners();
     this.addReferenceAria();
     this.destroyPopper();
     this.reposition();
   }
 
-  /** Text for close button. */
-  @Prop() textClose = "Close";
-
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-
-  /**
-   * Offset the position of the popover in the horizontal direction.
-   */
-  @Prop({ reflect: true }) xOffset = 0;
-
-  @Watch("xOffset")
-  xOffsetHandler() {
-    this.reposition();
-  }
-
-  /**
-   * Offset the position of the popover in the vertical direction.
-   */
-  @Prop({ reflect: true }) yOffset = 0;
-
-  @Watch("yOffset")
-  yOffsetHandler() {
-    this.reposition();
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -120,7 +72,7 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalcitePopoverElement;
+  @Element() el: HTMLCalciteTooltipElement;
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
 
@@ -133,13 +85,13 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   componentDidLoad() {
-    this.reposition();
-    this.addReferenceListener();
+    this.addReferenceListeners();
     this.addReferenceAria();
+    this.reposition();
   }
 
   componentDidUnload() {
-    this.removeReferenceListener();
+    this.removeReferenceListeners();
     this.destroyPopper();
   }
 
@@ -155,10 +107,6 @@ export class CalcitePopover {
     popper ? this.updatePopper(popper) : this.createPopper();
   }
 
-  @Method() async toggle(): Promise<void> {
-    this.open = !this.open;
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -166,7 +114,7 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   getId = (): string => {
-    return this.el.id || `calcite-popover-${guid()}`;
+    return this.el.id || `calcite-tooltip-${guid()}`;
   };
 
   addReferenceAria = (): void => {
@@ -180,28 +128,38 @@ export class CalcitePopover {
     }
   };
 
-  clickHandler = (): void => {
-    this.toggle();
-  };
-
-  addReferenceListener = (): void => {
-    const { _referenceElement, addClickHandle } = this;
-
-    if (!_referenceElement || !addClickHandle) {
-      return;
-    }
-
-    _referenceElement.addEventListener("click", this.clickHandler);
-  };
-
-  removeReferenceListener = (): void => {
+  addReferenceListeners = (): void => {
     const { _referenceElement } = this;
 
     if (!_referenceElement) {
       return;
     }
 
-    _referenceElement.removeEventListener("click", this.clickHandler);
+    _referenceElement.addEventListener("mouseenter", this.show);
+    _referenceElement.addEventListener("mouseleave", this.hide);
+    _referenceElement.addEventListener("focus", this.show);
+    _referenceElement.addEventListener("blur", this.hide);
+  };
+
+  removeReferenceListeners = (): void => {
+    const { _referenceElement } = this;
+
+    if (!_referenceElement) {
+      return;
+    }
+
+    _referenceElement.removeEventListener("mouseenter", this.show);
+    _referenceElement.removeEventListener("mouseleave", this.hide);
+    _referenceElement.removeEventListener("focus", this.show);
+    _referenceElement.removeEventListener("blur", this.hide);
+  };
+
+  show = (): void => {
+    this.open = true;
+  };
+
+  hide = (): void => {
+    this.open = false;
   };
 
   getReferenceElement(): HTMLElement {
@@ -214,22 +172,10 @@ export class CalcitePopover {
     );
   }
 
-  getPlacement(): Popper.Placement {
-    return this.placement === "vertical" ? "bottom-start" : "auto-start";
-  }
-
   getModifiers(): Popper.Modifiers {
-    const { xOffset, yOffset } = this;
-    const offsetEnabled = !!(yOffset || xOffset);
-    const offset = `${yOffset}, ${xOffset}`;
-
     return {
       hide: {
         enabled: false
-      },
-      offset: {
-        enabled: offsetEnabled,
-        offset
       },
       preventOverflow: {
         enabled: false
@@ -238,7 +184,7 @@ export class CalcitePopover {
   }
 
   createPopper(): void {
-    const { el, open, _referenceElement } = this;
+    const { _referenceElement, el, open, placement } = this;
 
     if (!_referenceElement || !open) {
       return;
@@ -246,20 +192,8 @@ export class CalcitePopover {
 
     const newPopper = new Popper(_referenceElement, el, {
       eventsEnabled: false,
-      placement: this.getPlacement(),
-      modifiers: this.getModifiers(),
-      onCreate: data => {
-        if (
-          data.originalPlacement === "bottom-start" &&
-          document.body.clientWidth &&
-          data.offsets &&
-          data.offsets.reference &&
-          data.offsets.reference.left > document.body.clientWidth / 2
-        ) {
-          data.instance.options.placement = "bottom-end";
-          data.instance.scheduleUpdate();
-        }
-      }
+      placement,
+      modifiers: this.getModifiers()
     });
 
     window.addEventListener("resize", newPopper.scheduleUpdate, {
@@ -270,7 +204,7 @@ export class CalcitePopover {
   }
 
   updatePopper(popper: Popper): void {
-    popper.options.placement = this.getPlacement();
+    popper.options.placement = this.placement;
     popper.options.modifiers = {
       ...popper.options.modifiers,
       ...this.getModifiers()
@@ -289,38 +223,11 @@ export class CalcitePopover {
     this.popper = null;
   }
 
-  hide = (): void => {
-    this.open = false;
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
-
-  renderImage(): VNode {
-    return this.el.querySelector("[slot=image]") ? (
-      <div class={CSS.imageContainer}>
-        <slot name="image" />
-      </div>
-    ) : null;
-  }
-
-  renderCloseButton(): VNode {
-    const { closeButton, textClose } = this;
-
-    return closeButton ? (
-      <button
-        aria-label={textClose}
-        title={textClose}
-        class={{ [CSS.closeButton]: true }}
-        onClick={this.hide}
-      >
-        <CalciteIcon size="16" path={x16} />
-      </button>
-    ) : null;
-  }
 
   render() {
     const { _referenceElement, open } = this;
@@ -328,7 +235,7 @@ export class CalcitePopover {
 
     return (
       <Host
-        role="dialog"
+        role="tooltip"
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >
@@ -338,11 +245,7 @@ export class CalcitePopover {
             [CSS.containerOpen]: displayed
           }}
         >
-          {this.renderImage()}
-          <div class={CSS.content}>
-            <slot />
-            {this.renderCloseButton()}
-          </div>
+          <slot />
         </div>
       </Host>
     );

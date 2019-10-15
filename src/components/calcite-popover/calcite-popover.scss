@@ -1,15 +1,78 @@
+$image_max_height: 200px;
+
 :host {
+  --calcite-popover-background: #{$ui-foreground};
+  --calcite-popover-primary-text: #{$ui-text-1};
+  --calcite-popover-close-hover: #{$ui-foreground-hover};
+  --calcite-popover-close-pressed: #{$ui-foreground-pressed};
   display: block;
   position: absolute;
   z-index: 999;
   top: -999999px;
   left: -999999px;
+  box-shadow: $shadow-2;
+}
+
+:host([theme="dark"]) {
+  --calcite-popover-background: #{$ui-foreground-dark};
+  --calcite-popover-primary-text: #{$ui-text-1-dark};
+  --calcite-popover-close-hover: #{$ui-foreground-hover-dark};
+  --calcite-popover-close-pressed: #{$ui-foreground-pressed-dark};
 }
 
 .container {
+  display: flex;
+  max-width: 350px;
+  flex-direction: column;
   visibility: hidden;
+  background: var(--calcite-popover-background);
+  color: var(--calcite-popover-primary-text);
 }
 
 .container--open {
   visibility: visible;
 }
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  line-height: 24px;
+}
+
+.close-button {
+  display: flex;
+  justify-content: flex-end;
+  width: 40px;
+  height: 45px;
+  z-index: 1;
+  background: var(--calcite-popover-background);
+  color: var(--calcite-popover-primary-text);
+  padding: 16px 12px;
+  border: none;
+  display: block;
+  cursor: pointer;
+  border-top-right-radius: 2px;
+  &:hover {
+    background: var(--calcite-popover-close-hover);
+  }
+  &:active {
+    background: var(--calcite-popover-close-pressed);
+  }
+}
+
+.image-container {
+  overflow: hidden;
+  max-height: $image_max_height;
+  margin: 5px;
+}
+
+slot[name="image"]::slotted(img) {
+  height: auto;
+  width: 100%;
+  max-height: $image_max_height;
+  object-position: 50% 50%;
+  object-fit: cover;
+}
+
+@include popperPointer(".container");
