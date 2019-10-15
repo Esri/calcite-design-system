@@ -1,0 +1,6 @@
+@mixin slotted($selector, $tag) {
+    slot[name="#{$selector}"]::slotted(#{$tag}),
+    #{$tag}::slotted([slot="#{$selector}"]) {
+      @content;
+    }
+  }

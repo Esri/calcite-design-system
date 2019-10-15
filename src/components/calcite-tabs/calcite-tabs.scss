@@ -1,11 +1,9 @@
 :host {
   display: block;
 
-  --calcite-tabs-color: #{$blk-200};
   --calcite-tabs-border: #{$blk-020};
   --calcite-tabs-border-hover: #{$blk-030};
   --calcite-tabs-color-active: #{$blk-220};
-  --calcite-tabs-border-active: #{$ui-blue};
   --calcite-tabs-layout: flex-start;
   --calcite-tabs-tab-basis: auto;
   --calcite-tabs-tab-text-align: start;
@@ -14,11 +12,9 @@
 }
 
 :host([theme="dark"]) {
-  --calcite-tabs-color: #{$blk-010};
   --calcite-tabs-border: #{$blk-180};
   --calcite-tabs-border-hover: #{$blk-130};
   --calcite-tabs-color-active: #{$blk-005};
-  --calcite-tabs-border-active: #{$ui-blue-dark};
 }
 
 :host([dir="rtl"]) {
