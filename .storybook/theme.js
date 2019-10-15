@@ -1,8 +1,9 @@
 import { create } from '@storybook/theming';
+import logo from "./logo.svg";
 
 export default create({
   base: 'light',
   brandTitle: 'Calcite Components',
   brandUrl: './',
-  // brandImage: './assets/demo/gemmy.png',
+  brandImage: logo
 });
