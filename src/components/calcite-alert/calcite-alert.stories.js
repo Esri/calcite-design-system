@@ -32,7 +32,7 @@ storiesOf('Alerts', module)
     el.color = select('color', {blue: 'blue', green: 'green', red: 'red', yellow: 'yellow'}, 'blue');
     el.icon = boolean('icon', false);
     el.dismiss = boolean('dismiss', false);
-    el.duration	= select('duration', {fast: 'fast', medium: 'medium', slow: 'slow'}, 'medium');
+    el.duration = select('duration', {fast: 'fast', medium: 'medium', slow: 'slow'}, 'medium');
     setTimeout(function () {
       el.setAttribute('active', true);
     }, 200);
@@ -43,7 +43,7 @@ storiesOf('Alerts', module)
     el.color = select('color', {blue: 'blue', green: 'green', red: 'red', yellow: 'yellow'}, 'blue');
     el.icon = boolean('icon', false);
     el.dismiss = boolean('dismiss', false);
-    el.duration	= select('duration', {fast: 'fast', medium: 'medium', slow: 'slow'}, 'medium');
+    el.duration = select('duration', {fast: 'fast', medium: 'medium', slow: 'slow'}, 'medium');
     el.theme = 'dark';
     setTimeout(function () {
       el.setAttribute('active', true);
