@@ -7,7 +7,10 @@ addParameters({
   backgrounds: [
     { name: 'Light', value: '#f8f8f8', default: true }
   ],
-  options: {theme}
+  options: {
+    theme,
+     isToolshown: false,
+  }
 });
 
 configure(require.context('../src/components', true, /\.stories\.js$/), module);
