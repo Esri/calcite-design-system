@@ -26,8 +26,10 @@
     "prerelease:prepare": "npm run build",
     "release:prepare": "npm version prerelease --preid=beta --no-git-tag-version ",
     "release:publish": "./support/release.sh",
-    "storybook": "start-storybook -p 9001 -s ./www",
-    "build-storybook": "build-storybook -s ./www",
+    "prestorybook": "npm run build",
+    "storybook": "start-storybook -s ./dist",
+    "prebuild-storybook": "npm run build",
+    "build-storybook": "build-storybook -s ./dist -o .docs",
     "deploy-storybook": "storybook-to-ghpages",
     "deploy": "npm-run-all build deploy-storybook"
   },
@@ -63,7 +65,8 @@
     "npm-run-all": "4.1.5",
     "prettier": "1.18.2",
     "puppeteer": "1.19.0",
-    "storybook": "^5.1.11"
+    "storybook": "^5.1.11",
+    "workbox-build": "4.3.1"
   },
   "license": "Apache-2.0"
 }
