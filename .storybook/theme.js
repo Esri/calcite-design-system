@@ -5,5 +5,10 @@ export default create({
   base: 'light',
   brandTitle: 'Calcite Components',
   brandUrl: './',
-  brandImage: logo
+  brandImage: logo,
+  addonNotesTheme: {
+    code: {
+      whiteSpace: 'normal !important',
+    }
+  }
 });

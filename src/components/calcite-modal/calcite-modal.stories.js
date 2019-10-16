@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/html';
 import { withKnobs, boolean, select, text } from '@storybook/addon-knobs'
-import { darkBackground } from '../../../.storybook/helpers';
-import notes from './readme.md';
+import { darkBackground, parseReadme } from '../../../.storybook/helpers';
+import readme from './readme.md';
+const notes = parseReadme(readme);
 
 storiesOf('Modal', module)
   .addDecorator(withKnobs)

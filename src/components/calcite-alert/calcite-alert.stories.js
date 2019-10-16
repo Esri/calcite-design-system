@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/html';
 import { withKnobs, boolean, select } from '@storybook/addon-knobs'
-import { darkBackground } from '../../../.storybook/helpers';
-import notes from './readme.md';
+import { darkBackground, parseReadme } from '../../../.storybook/helpers';
+import readme from './readme.md';
+const notes = parseReadme(readme);
 
 function createAlert (d) {
   const el = d.createElement('calcite-alert');

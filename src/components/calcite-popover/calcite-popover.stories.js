@@ -1,6 +1,8 @@
 import { storiesOf } from '@storybook/html';
-import { withKnobs, select, number, boolean } from '@storybook/addon-knobs'
-import notes from './readme.md';
+import { withKnobs, select, number } from '@storybook/addon-knobs'
+import { parseReadme } from '../../../.storybook/helpers';
+import readme from './readme.md';
+const notes = parseReadme(readme);
 
 storiesOf('Popover', module)
   .addDecorator(withKnobs)

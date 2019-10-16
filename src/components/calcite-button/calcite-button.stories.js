@@ -1,8 +1,9 @@
 import { storiesOf } from '@storybook/html';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs'
-import { darkBackground } from "../../../.storybook/helpers";
 import { images24 } from "@esri/calcite-ui-icons/js/images24";
-import notes from './readme.md';
+import { darkBackground, parseReadme } from '../../../.storybook/helpers';
+import readme from './readme.md';
+const notes = parseReadme(readme);
 
 storiesOf('Button', module)
   .addDecorator(withKnobs)
