@@ -8,7 +8,7 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, PopoverPlacement } from "./resources";
 import Popper from "popper.js";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
@@ -63,10 +63,8 @@ export class CalcitePopover {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
-   * horizontal: Positioned to the left or right of the referenceElement.
-   * vertical: Positioned above or below the referenceElement.
    */
-  @Prop({ reflect: true }) placement: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) placement: PopoverPlacement = "auto";
 
   @Watch("placement")
   placementHandler() {
@@ -214,10 +212,6 @@ export class CalcitePopover {
     );
   }
 
-  getPlacement(): Popper.Placement {
-    return this.placement === "vertical" ? "bottom-start" : "auto-start";
-  }
-
   getModifiers(): Popper.Modifiers {
     const { xOffset, yOffset } = this;
     const offsetEnabled = !!(yOffset || xOffset);
@@ -238,7 +232,7 @@ export class CalcitePopover {
   }
 
   createPopper(): void {
-    const { el, open, _referenceElement } = this;
+    const { el, open, placement, _referenceElement } = this;
 
     if (!_referenceElement || !open) {
       return;
@@ -246,20 +240,8 @@ export class CalcitePopover {
 
     const newPopper = new Popper(_referenceElement, el, {
       eventsEnabled: false,
-      placement: this.getPlacement(),
-      modifiers: this.getModifiers(),
-      onCreate: data => {
-        if (
-          data.originalPlacement === "bottom-start" &&
-          document.body.clientWidth &&
-          data.offsets &&
-          data.offsets.reference &&
-          data.offsets.reference.left > document.body.clientWidth / 2
-        ) {
-          data.instance.options.placement = "bottom-end";
-          data.instance.scheduleUpdate();
-        }
-      }
+      placement,
+      modifiers: this.getModifiers()
     });
 
     window.addEventListener("resize", newPopper.scheduleUpdate, {
@@ -270,7 +252,7 @@ export class CalcitePopover {
   }
 
   updatePopper(popper: Popper): void {
-    popper.options.placement = this.getPlacement();
+    popper.options.placement = this.placement;
     popper.options.modifiers = {
       ...popper.options.modifiers,
       ...this.getModifiers()
