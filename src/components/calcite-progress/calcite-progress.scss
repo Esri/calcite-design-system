@@ -1,3 +1,11 @@
+:host {
+  --calcite-tooltip-primary-text: #{$ui-text-1};
+}
+
+:host([theme="dark"]) {
+  --calcite-tooltip-primary-text: #{$ui-text-1-dark};
+}
+
 $looping-progress-bar-width: 20% !default;
 $looping-progress-bar-params: 1500ms linear infinite !default;
 
@@ -16,12 +24,12 @@ $looping-progress-bar-params: 1500ms linear infinite !default;
   transition: opacity 500ms ease-in-out;
 }
 .calcite-progress:before {
-  background-color: $ui-blue;
+  background: rgba($ui-blue, 0.3);
   z-index: 0;
   width: 100%;
 }
 .calcite-progress:after {
-  background-color: rgba($ui-background, 0.6);
+  background: $ui-blue;
   z-index: 0;
 }
 
@@ -35,7 +43,7 @@ $looping-progress-bar-params: 1500ms linear infinite !default;
 }
 
 .calcite-progress__text {
-  text-align: center;
+  padding: 20px 0 0 0;
 }
 
 @keyframes looping-progresss-bar-ani {
