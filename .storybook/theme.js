@@ -9,6 +9,11 @@ export default create({
   addonNotesTheme: {
     code: {
       whiteSpace: 'normal !important',
+    },
+    pre: {
+      code: {
+        whiteSpace: 'pre !important'
+      }
     }
   }
 });
