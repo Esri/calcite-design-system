@@ -99,6 +99,7 @@ export class CalcitePopover {
 
   @Watch("xOffset")
   xOffsetHandler() {
+    this.destroyPopper();
     this.reposition();
   }
 
@@ -109,6 +110,7 @@ export class CalcitePopover {
 
   @Watch("yOffset")
   yOffsetHandler() {
+    this.destroyPopper();
     this.reposition();
   }
 
