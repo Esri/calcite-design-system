@@ -68,6 +68,7 @@ export class CalcitePopover {
 
   @Watch("placement")
   placementHandler() {
+    this.destroyPopper();
     this.reposition();
   }
 
