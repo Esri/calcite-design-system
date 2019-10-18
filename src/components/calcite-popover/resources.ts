@@ -1,3 +1,5 @@
+import Popper from "popper.js";
+
 export const CSS = {
   container: "container",
   containerOpen: "container--open",
@@ -5,3 +7,5 @@ export const CSS = {
   closeButton: "close-button",
   content: "content"
 };
+
+export type PopoverPlacement = Popper.Placement;

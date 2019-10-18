@@ -13,7 +13,7 @@
       padding: 1rem;
     }
   </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.3.1/fonts.css" />
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.3.2/fonts.css" />
   <link rel="stylesheet" href="/build/calcite.css" />
   <script type="module" src="build/calcite.esm.js"></script>
   <script nomodule src="build/calcite.js"></script>
@@ -517,17 +517,17 @@
       <calcite-tab>
         <h1>CalcitePopover</h1>
 
-        <calcite-popover placement="horizontal" reference-element="popover-button" id="popover" close-button>
+        <calcite-popover placement="auto" reference-element="popover-button" id="popover" close-button>
           <img slot="image" src="http://placekitten.com/200/300" />
           <div style="padding:12px 16px;">Here kitty kitty!
           </div>
         </calcite-popover>
 
-        <calcite-popover reference-element="popover-button-two" placement="vertical" id="popover-two" add-click-handle>
+        <calcite-popover reference-element="popover-button-two" placement="right-start" id="popover-two" add-click-handle>
           <div style="padding:12px 16px">Hello! I am some popover content!</div>
         </calcite-popover>
 
-        <calcite-popover reference-element="popover-button-three" placement="horizontal" id="popover-three" add-click-handle close-button>
+        <calcite-popover reference-element="popover-button-three" placement="right-end" id="popover-three" add-click-handle close-button>
           <div style="padding:12px 16px">
             <b>I am a title!</b> <br>
             <p>
@@ -537,21 +537,21 @@
           </div>
         </calcite-popover>
 
-        <calcite-popover reference-element="popover-button-four" placement="horizontal" id="popover-four" add-click-handle close-button>
+        <calcite-popover reference-element="popover-button-four" placement="auto" id="popover-four" add-click-handle close-button>
           <div style="padding:12px 16px">I am a popover with a close button!</div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-five" placement="horizontal" id="popover-five" add-click-handle close-button>
+        <calcite-popover theme="dark" reference-element="popover-button-five" placement="bottom" id="popover-five" add-click-handle close-button>
           <img slot="image" src="http://placekitten.com/200/300" />
           <div style="padding:12px 16px;">Here kitty kitty!
           </div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-six" placement="vertical" id="popover-six" add-click-handle>
+        <calcite-popover theme="dark" reference-element="popover-button-six" placement="top" id="popover-six" add-click-handle>
           <div style="padding:12px 16px">Hello! I am some popover content!</div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-seven" placement="horizontal" id="popover-seven" add-click-handle close-button>
+        <calcite-popover theme="dark" reference-element="popover-button-seven" placement="auto" id="popover-seven" add-click-handle close-button>
           <div style="padding:12px 16px">
             <b>I am a title!</b> <br>
             <p>
@@ -561,11 +561,11 @@
           </div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-eight" placement="horizontal" id="popover-eight" add-click-handle close-button>
+        <calcite-popover theme="dark" reference-element="popover-button-eight" placement="auto" id="popover-eight" add-click-handle close-button>
           <div style="padding:12px 16px">I am a popover with a close button!</div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-nine" placement="horizontal" id="popover-nine" add-click-handle>
+        <calcite-popover theme="dark" reference-element="popover-button-nine" placement="auto" id="popover-nine" add-click-handle>
           <div style="padding:12px 16px">I am a popover with a close button!</div>
         </calcite-popover>
 
