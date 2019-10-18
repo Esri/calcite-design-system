@@ -22,23 +22,23 @@
   }
   
   :host([theme="dark"]) {
-    --calcite-global-ui-blue: #00A0FF;
-    --calcite-global-ui-blue-hover: #0087D7;
-    --calcite-global-ui-blue-pressed: #47BBFF;
-    --calcite-global-ui-green: #36DA43;
-    --calcite-global-ui-green-hover: #11AD1D;
-    --calcite-global-ui-green-pressed: #44ED51;
-    --calcite-global-ui-yellow: #FFC900;
-    --calcite-global-ui-yellow-hover: #F4B000;
-    --calcite-global-ui-yellow-pressed: #FFE24D;
-    --calcite-global-ui-red: #FE583E;
-    --calcite-global-ui-red-hover: #F3381B;
-    --calcite-global-ui-red-pressed: #FF7465;
-    --calcite-global-ui-background: #{$blk-210};
-    --calcite-global-ui-foreground: #{$blk-200};
-    --calcite-global-ui-foreground-hover: #{$blk-190};
-    --calcite-global-ui-foreground-pressed: #{$blk-180};
-    --calcite-global-ui-text-1: #{$blk-000};
-    --calcite-global-ui-text-2: #{$blk-060};
-    --calcite-global-ui-text-3: #{$blk-090};
+    --calcite-global-ui-blue-dark: $d-bb-420;
+    --calcite-global-ui-blue-hover-dark: $d-bb-430;
+    --calcite-global-ui-blue-pressed-dark: $d-bb-410;
+    --calcite-global-ui-green-dark: $d-gg-420;
+    --calcite-global-ui-green-hover-dark: $d-gg-430;
+    --calcite-global-ui-green-pressed-dark: $d-gg-410;
+    --calcite-global-ui-yellow-dark: $d-yy-420;
+    --calcite-global-ui-yellow-hover-dark: $d-yy-430;
+    --calcite-global-ui-yellow-pressed-dark: $d-yy-410;
+    --calcite-global-ui-red-dark: $d-rr-420;
+    --calcite-global-ui-red-hover-dark: $d-rr-430;
+    --calcite-global-ui-red-pressed-dark: $d-rr-410;
+    --calcite-global-ui-background-dark: $blk-210;
+    --calcite-global-ui-foreground-dark: $blk-200;
+    --calcite-global-ui-foreground-hover-dark: $blk-190;
+    --calcite-global-ui-foreground-pressed-dark: $blk-180;
+    --calcite-global-ui-text-1-dark: $blk-000;
+    --calcite-global-ui-text-2-dark:$blk-060;
+    --calcite-global-ui-text-3-dark: $blk-090;;
   }
