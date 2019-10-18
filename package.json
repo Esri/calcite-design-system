@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@esri/calcite-base": "^1.1.0",
-    "@esri/calcite-colors": "^1.4.1",
+    "@esri/calcite-colors": "^1.5.0",
     "@esri/calcite-ui-icons": "^2.0.1",
     "@stencil/core": "^1.2.2",
     "@stencil/sass": "^1.0.1",

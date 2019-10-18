@@ -1,6 +1,8 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
-@import "popper";
+@import "_popper";
+@import "_mixins";
+@import "_colors";
 
 :host([hidden]) {
   display: none;
@@ -24,11 +26,4 @@ calcite-tab[is-active] {
 
 a {
   color: $ui-blue;
-}
-
-@mixin slotted($selector, $tag) {
-  slot[name="#{$selector}"]::slotted(#{$tag}),
-  #{$tag}::slotted([slot="#{$selector}"]) {
-    @content;
-  }
 }
