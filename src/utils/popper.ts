@@ -16,9 +16,8 @@ export function getPlacement(
   placement: CalcitePlacement
 ): Popper.Placement {
   const values = ["left", "right"];
-  const dir = getElementDir(el);
 
-  if (dir === "rtl") {
+  if (getElementDir(el) === "rtl") {
     values.reverse();
   }
 
