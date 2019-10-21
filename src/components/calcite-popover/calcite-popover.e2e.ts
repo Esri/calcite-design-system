@@ -13,7 +13,7 @@ describe("calcite-popover", () => {
     defaults("calcite-popover", [
       {
         propertyName: "placement",
-        defaultValue: "horizontal"
+        defaultValue: "auto"
       },
       {
         propertyName: "referenceElement",
@@ -45,7 +45,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover open placement="horizontal"></calcite-popover><div>referenceElement</div>`
+      `<calcite-popover open placement="auto"></calcite-popover><div>referenceElement</div>`
     );
 
     const element = await page.find("calcite-popover");
@@ -67,7 +67,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="horizontal"></calcite-popover><div>referenceElement</div>`
+      `<calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`
     );
 
     const element = await page.find("calcite-popover");
@@ -95,7 +95,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="horizontal" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
@@ -117,7 +117,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="horizontal" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
@@ -143,7 +143,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="horizontal" reference-element="ref" open><img slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref" open><img slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
     );
 
     const imageContainer = await page.find(
@@ -157,7 +157,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="horizontal" reference-element="ref" add-click-handle>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref" add-click-handle>content</calcite-popover><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
