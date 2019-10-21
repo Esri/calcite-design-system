@@ -24,7 +24,6 @@ describe("calcite-radio-group", () => {
     expect(selected).not.toBeDefined();
   });
 
-  // skipped. always failing
   it.skip("when multiple items are checked, last one wins", async () => {
     const page = await newE2EPage();
     await page.setContent(
