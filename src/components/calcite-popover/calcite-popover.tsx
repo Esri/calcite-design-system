@@ -8,7 +8,8 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS, PopoverPlacement } from "./resources";
+import { CSS } from "./resources";
+import { CalcitePlacement, getPlacement } from "../../utils/popper";
 import Popper from "popper.js";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
@@ -64,7 +65,7 @@ export class CalcitePopover {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
-  @Prop({ reflect: true }) placement: PopoverPlacement = "auto";
+  @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
 
   @Watch("placement")
   placementHandler() {
@@ -243,7 +244,7 @@ export class CalcitePopover {
 
     const newPopper = new Popper(_referenceElement, el, {
       eventsEnabled: false,
-      placement,
+      placement: getPlacement(el, placement),
       modifiers: this.getModifiers()
     });
 
@@ -255,7 +256,7 @@ export class CalcitePopover {
   }
 
   updatePopper(popper: Popper): void {
-    popper.options.placement = this.placement;
+    popper.options.placement = getPlacement(this.el, this.placement);
     popper.options.modifiers = {
       ...popper.options.modifiers,
       ...this.getModifiers()

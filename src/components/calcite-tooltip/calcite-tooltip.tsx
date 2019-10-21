@@ -8,9 +8,10 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS, TooltipPlacement } from "./resources";
+import { CSS } from "./resources";
 import Popper from "popper.js";
 import { guid } from "../../utils/guid";
+import { CalcitePlacement, getPlacement } from "../../utils/popper";
 
 @Component({
   tag: "calcite-tooltip",
@@ -41,7 +42,7 @@ export class CalciteTooltip {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
-  @Prop({ reflect: true }) placement: TooltipPlacement = "auto";
+  @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
 
   @Watch("placement")
   placementHandler() {
@@ -192,7 +193,7 @@ export class CalciteTooltip {
 
     const newPopper = new Popper(_referenceElement, el, {
       eventsEnabled: false,
-      placement,
+      placement: getPlacement(el, placement),
       modifiers: this.getModifiers()
     });
 
@@ -204,7 +205,7 @@ export class CalciteTooltip {
   }
 
   updatePopper(popper: Popper): void {
-    popper.options.placement = this.placement;
+    popper.options.placement = getPlacement(this.el, this.placement);
     popper.options.modifiers = {
       ...popper.options.modifiers,
       ...this.getModifiers()
