@@ -217,17 +217,23 @@ export class CalcitePopover {
   }
 
   getModifiers(): Popper.Modifiers {
-    const { xOffset, yOffset } = this;
-    const offsetEnabled = !!(yOffset || xOffset);
-    const offset = `${yOffset}, ${xOffset}`;
+    const verticalRE = /top|bottom/gi;
+    const autoRE = /auto/gi;
+    const { placement, xOffset, yOffset } = this;
+    const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
+    const offsets = [yOffset, xOffset];
+
+    if (verticalRE.test(placement)) {
+      offsets.reverse();
+    }
 
     return {
       hide: {
         enabled: false
       },
       offset: {
-        enabled: offsetEnabled,
-        offset
+        enabled: !!offsetEnabled,
+        offset: offsets.join(",")
       },
       preventOverflow: {
         enabled: false
