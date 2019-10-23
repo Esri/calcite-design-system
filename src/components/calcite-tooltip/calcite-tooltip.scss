@@ -6,7 +6,6 @@
   z-index: 999;
   top: -999999px;
   left: -999999px;
-  box-shadow: $shadow-2;
 }
 
 :host([theme="dark"]) {
@@ -16,6 +15,15 @@
 
 .tooltip-container {
   visibility: hidden;
+  position: relative;
+  box-shadow: $shadow-2;
+}
+
+.tooltip-container--open {
+  visibility: visible;
+}
+
+.tooltip-content-container {
   background: var(--calcite-tooltip-background);
   max-width: 300px;
   max-height: 300px;
@@ -28,8 +36,5 @@
   @include font-size(-3);
 }
 
-.tooltip-container--open {
-  visibility: visible;
-}
-
-@include popperPointer(".tooltip-container");
+@include popperPointer(".tooltip-content-container");
+@include popperMargin(".tooltip-container");

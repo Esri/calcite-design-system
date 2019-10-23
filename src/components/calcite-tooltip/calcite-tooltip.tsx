@@ -246,7 +246,9 @@ export class CalciteTooltip {
             [CSS.containerOpen]: displayed
           }}
         >
-          <slot />
+          <div class={CSS.contentContainer}>
+            <slot />
+          </div>
         </div>
       </Host>
     );
