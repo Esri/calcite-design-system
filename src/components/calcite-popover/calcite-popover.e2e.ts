@@ -38,6 +38,10 @@ describe("calcite-popover", () => {
       {
         propertyName: "closeButton",
         defaultValue: false
+      },
+      {
+        propertyName: "disablePointer",
+        defaultValue: false
       }
     ]));
 

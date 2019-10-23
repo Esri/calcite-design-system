@@ -1,8 +1,19 @@
 $pointer_arrow_size: 5px;
 
+@mixin popperMargin($selector) {
+  :host([x-placement*="bottom"]) #{$selector},
+  :host([x-placement*="top"]) #{$selector} {
+    margin: $pointer_arrow_size 0;
+  }
+
+  :host([x-placement*="left"]) #{$selector},
+  :host([x-placement*="right"]) #{$selector} {
+    margin: 0 $pointer_arrow_size;
+  }
+}
+
 @mixin popperPointer($selector) {
   :host {
-    margin: $pointer_arrow_size;
     --calcite-popper-background: #{$ui-foreground};
   }
 
