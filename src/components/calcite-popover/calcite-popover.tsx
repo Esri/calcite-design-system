@@ -49,9 +49,9 @@ export class CalcitePopover {
   @Prop({ reflect: true }) closeButton = false;
 
   /**
-   * Hides the caret pointer.
+   * Removes the caret pointer.
    */
-  @Prop({ reflect: true }) hidePointer = false;
+  @Prop({ reflect: true }) disablePointer = false;
 
   /**
    * Display and position the component.
@@ -320,7 +320,7 @@ export class CalcitePopover {
   }
 
   render() {
-    const { _referenceElement, open, hidePointer } = this;
+    const { _referenceElement, open, disablePointer } = this;
     const displayed = _referenceElement && open;
 
     return (
@@ -333,7 +333,7 @@ export class CalcitePopover {
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: displayed,
-            [CSS.containerPointer]: !hidePointer
+            [CSS.containerPointer]: !disablePointer
           }}
         >
           <div class={CSS.contentContainer}>
