@@ -1,18 +1,20 @@
 :host {
   --calcite-progress-color: #{$ui-blue};
+  --calcite-track-color: #{$blk-020};
   position: relative;
   display: block;
 }
 
 :host([theme="dark"]) {
   --calcite-progress-color: #{$ui-blue-dark};
+  --calcite-track-color: #{$blk-180};
 }
 
 $looping-progress-bar-width: 20% !default;
 $looping-progress-bar-params: 1500ms linear infinite !default;
 
-.calcite-progress__track,
-.calcite-progress__bar {
+.calcite-progress--track,
+.calcite-progress--bar {
   content: "";
   opacity: 1;
   position: absolute;
@@ -21,27 +23,31 @@ $looping-progress-bar-params: 1500ms linear infinite !default;
   transition: opacity 500ms ease-in-out;
 }
 
-.calcite-progress__track {
-  background: $blk-020;
+.calcite-progress--track {
+  background: var(--calcite-track-color);
   z-index: 0;
   width: 100%;
 }
 
-.calcite-progress__bar {
+.calcite-progress--bar {
   background-color: var(--calcite-progress-color);
   z-index: 0;
 }
 
 .--indeterminate {
   width: $looping-progress-bar-width;
-  animation: looping-progresss-bar-ani $looping-progress-bar-params;
+  animation: looping-progress-bar-ani $looping-progress-bar-params;
 }
 
-.calcite-progress__text {
+.--determinate {
+  width: var(--percentage-value);
+}
+
+.calcite-progress--text {
   padding: 20px 0 0 0;
 }
 
-@keyframes looping-progresss-bar-ani {
+@keyframes looping-progress-bar-ani {
   0% {
     left: 0%;
     width: 0%;

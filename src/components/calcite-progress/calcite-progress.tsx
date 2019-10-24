@@ -12,6 +12,7 @@ export class CalciteProgress {
    * Use indeterminate if finding actual progress value is impossible
    */
   @Prop() type: "indeterminate" | "determinate" = "determinate";
+
   /**
    * Percent complete of 100
    */
@@ -40,14 +41,14 @@ export class CalciteProgress {
         }}
         theme={theme}
       >
-        <div class="calcite-progress__track" />
+        <div class="calcite-progress--track" />
         <div class={{
-            "calcite-progress__bar": true,
+            "calcite-progress--bar": true,
             "--indeterminate": this.type === "indeterminate",
             "--determinate": this.type === "determinate"
           }}
         />
-        <div class="calcite-progress__text">{this.text}</div>
+        <div class="calcite-progress--text">{this.text}</div>
         <slot />
       </Host>
     );
