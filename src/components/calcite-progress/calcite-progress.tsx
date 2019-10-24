@@ -1,9 +1,10 @@
 import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { getElementTheme } from "../../utils/dom";
 
 @Component({
   tag: "calcite-progress",
   styleUrl: "calcite-progress.scss",
-  shadow: false
+  shadow: true
 })
 export class CalciteProgress {
   @Element() el: HTMLElement;
@@ -23,8 +24,12 @@ export class CalciteProgress {
    * Fill bar in the opposite direction
    */
   @Prop() reversed = false;
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true })
+  theme: "light" | "dark" = "light";
 
   render() {
+    const theme = getElementTheme(this.el);
     return (
       <Host
         class="calcite-progress"
@@ -33,7 +38,15 @@ export class CalciteProgress {
         style={{
           "--percentage-value": `${this.value * 100}%`
         }}
+        theme={theme}
       >
+        <div class="calcite-progress__track" />
+        <div class={{
+            "calcite-progress__bar": true,
+            "--indeterminate": this.type === "indeterminate",
+            "--determinate": this.type === "determinate"
+          }}
+        />
         <div class="calcite-progress__text">{this.text}</div>
         <slot />
       </Host>
