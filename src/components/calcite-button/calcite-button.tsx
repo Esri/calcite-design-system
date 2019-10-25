@@ -199,7 +199,8 @@ export class CalciteButton {
 
   // act on a requested or nearby form based on type
   private handleClick = (e: Event) => {
-    if (this.type && this.type !== "button") {
+    // this.type refers to type attribute, not child element type
+    if (this.childEl === "button" && this.type !== "button") {
       const requestedForm = this.el.getAttribute("form");
       const targetForm = requestedForm
         ? (document.getElementsByName(`${requestedForm}`)[0] as HTMLFormElement)
