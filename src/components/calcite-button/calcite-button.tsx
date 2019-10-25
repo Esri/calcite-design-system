@@ -14,7 +14,18 @@ import { getElementDir } from "../../utils/dom";
 /** Using appearance=inline will also render as an anchor link. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
 export class CalciteButton {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
   @Element() el: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
 
   /** specify the color of the button, defaults to blue */
   @Prop({ mutable: true, reflect: true }) color:
@@ -41,30 +52,47 @@ export class CalciteButton {
   @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
     "auto";
 
-  /** optionally add a calcite-loader component inline to indicate loading is occuring. You can add and remove this prop depending on status  */
+  /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
 
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass icon path data to be positioned within the button - pass only raw path data from calcite ui helper  */
+  /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
   @Prop({ reflect: true }) icon?: string;
 
   /** optionally used with icon, select where to position the icon */
   @Prop({ reflect: true, mutable: true }) iconposition?: "start" | "end" =
     "start";
 
+  /** if type is present, assign as prop */
+  @Prop() type?: "submit" | "reset" | "button" = "submit";
+
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
   /** @internal */
-  // hastext prop for spacing icon when text is present in slot
-  @Prop({ mutable: true }) hastext: boolean = false;
+  /** hastext prop for spacing icon when text is present in slot */
+  @Prop({ mutable: true }) hasText: boolean = false;
+
+  /** @internal */
+  /** keep track of the rendered child type -  */
+  @Prop() childType?: "a" | "span" | "button" = "button";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
 
   connectedCallback() {
     // prop validations
     let appearance = ["solid", "outline", "clear", "inline", "transparent"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
+
+    let type = ["submit", "reset", "button"];
+    if (this.childType === "button" && !type.includes(this.type))
+      this.type = "submit";
 
     let color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
@@ -81,21 +109,75 @@ export class CalciteButton {
     let iconposition = ["start", "end"];
     if (this.icon !== null && !iconposition.includes(this.iconposition))
       this.iconposition = "start";
+
+    this.childType = this.href
+      ? "a"
+      : this.appearance === "inline"
+      ? "span"
+      : "button";
   }
 
-  componentDidLoad() {
+  componentWillLoad() {
     if (Build.isBrowser) {
-      this.hastext = this.el.textContent.length > 0;
+      this.hasText = this.el.textContent.length > 0;
     }
   }
 
-  getAttributes() {
-    // spread attributes specified on the component to rendered child, if they aren't props
+  render() {
+    const dir = getElementDir(this.el);
+    const attributes = this.getAttributes();
+    const Tag = this.childType;
+    const role = this.childType === "span" ? "button" : null;
+    const tabIndex = this.childType === "span" ? 0 : null;
+
+    const loader = (
+      <div class="calcite-button--loader">
+        <calcite-loader is-active inline></calcite-loader>
+      </div>
+    );
+
+    const icon = (
+      <svg
+        class="calcite-button--icon"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 24 24"
+      >
+        <path d={this.icon} />
+      </svg>
+    );
+
+    return (
+      <Host dir={dir} hasText={this.hasText}>
+        <Tag
+          {...attributes}
+          role={role}
+          tabindex={tabIndex}
+          onClick={e => this.handleClick(e)}
+          disabled={this.disabled}
+        >
+          {this.icon && this.iconposition === "start" ? icon : null}
+          {this.loading ? loader : null}
+          <slot />
+          {this.icon && this.iconposition === "end" ? icon : null}
+        </Tag>
+      </Host>
+    );
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private getAttributes() {
+    // spread attributes from the component to rendered child, filtering out props
     let props = [
       "appearance",
       "color",
       "dir",
-      "hastext",
+      "hasText",
       "icon",
       "iconposition",
       "id",
@@ -111,93 +193,24 @@ export class CalciteButton {
 
   // if a button has an associated form, create a proxy button and click it
   private handleClick = (e: Event) => {
-    const requestedForm = this.el.getAttribute("form");
-    const targetForm = requestedForm
-      ? document.getElementsByName(`${requestedForm}`)[0]
-      : this.el.closest("form");
-    if (targetForm) {
-      const proxyElement = document.createElement("button");
-      proxyElement.style.display = "none";
-      targetForm.appendChild(proxyElement);
-      proxyElement.click();
-      proxyElement.remove();
+    if (this.childType === "button" && this.type !== "button") {
+      const requestedForm = this.el.getAttribute("form");
+      const targetForm = requestedForm
+        ? (document.getElementsByName(`${requestedForm}`)[0] as HTMLFormElement)
+        : (this.el.closest("form") as HTMLFormElement);
+
+      if (targetForm) {
+        switch (this.type) {
+          case "submit":
+            if (targetForm.checkValidity()) targetForm.submit();
+            else targetForm.reportValidity();
+            break;
+          case "reset":
+            targetForm.reset();
+            break;
+        }
+      }
       e.preventDefault();
     }
   };
-
-  render() {
-    const dir = getElementDir(this.el);
-    const attributes = this.getAttributes();
-    const Tag = this.href
-      ? "a"
-      : this.appearance === "inline"
-      ? "span"
-      : "button";
-    const role = Tag === "span" ? "button" : null;
-    const tabIndex = Tag === "span" ? 0 : null;
-    const loader = this.loading ? (
-      <div class="calcite-button--loader">
-        <calcite-loader is-active inline></calcite-loader>
-      </div>
-    ) : null;
-    const icon = this.icon ? (
-      <svg
-        class="calcite-button--icon"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid meet"
-        viewBox="0 0 24 24"
-      >
-        <path d={this.icon} />
-      </svg>
-    ) : null;
-
-    if (this.iconposition === "start") {
-      return (
-        <Host dir={dir} hastext={this.hastext}>
-          <Tag
-            {...attributes}
-            role={role}
-            tabindex={tabIndex}
-            onClick={e => this.handleClick(e)}
-            disabled={this.disabled}
-          >
-            {loader}
-            {icon}
-            <slot />
-          </Tag>
-        </Host>
-      );
-    } else if (this.iconposition === "end") {
-      return (
-        <Host dir={dir} hastext={this.hastext}>
-          <Tag
-            {...attributes}
-            role={role}
-            tabindex={tabIndex}
-            onClick={e => this.handleClick(e)}
-            disabled={this.disabled}
-          >
-            {loader}
-            <slot />
-            {icon}
-          </Tag>
-        </Host>
-      );
-    } else {
-      return (
-        <Host dir={dir} hastext={this.hastext}>
-          <Tag
-            {...attributes}
-            role={role}
-            tabindex={tabIndex}
-            onClick={e => this.handleClick(e)}
-            disabled={this.disabled}
-          >
-            {loader}
-            <slot />
-          </Tag>
-        </Host>
-      );
-    }
-  }
 }
