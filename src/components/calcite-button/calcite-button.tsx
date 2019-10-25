@@ -19,6 +19,7 @@ export class CalciteButton {
   //  Element
   //
   //--------------------------------------------------------------------------
+
   @Element() el: HTMLElement;
 
   //--------------------------------------------------------------------------
@@ -65,9 +66,6 @@ export class CalciteButton {
   @Prop({ reflect: true, mutable: true }) iconposition?: "start" | "end" =
     "start";
 
-  /** if type is present, assign as prop */
-  @Prop() type?: "submit" | "reset" | "button" = "submit";
-
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
@@ -77,7 +75,7 @@ export class CalciteButton {
 
   /** @internal */
   /** keep track of the rendered child type -  */
-  @Prop() childType?: "a" | "span" | "button" = "button";
+  @Prop() childEl?: "a" | "span" | "button" = "button";
 
   //--------------------------------------------------------------------------
   //
@@ -89,10 +87,6 @@ export class CalciteButton {
     // prop validations
     let appearance = ["solid", "outline", "clear", "inline", "transparent"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
-
-    let type = ["submit", "reset", "button"];
-    if (this.childType === "button" && !type.includes(this.type))
-      this.type = "submit";
 
     let color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
@@ -110,7 +104,7 @@ export class CalciteButton {
     if (this.icon !== null && !iconposition.includes(this.iconposition))
       this.iconposition = "start";
 
-    this.childType = this.href
+    this.childEl = this.href
       ? "a"
       : this.appearance === "inline"
       ? "span"
@@ -120,15 +114,17 @@ export class CalciteButton {
   componentWillLoad() {
     if (Build.isBrowser) {
       this.hasText = this.el.textContent.length > 0;
+      const elType = this.el.getAttribute("type");
+      this.type = this.childEl === "button" && elType ? elType : "submit";
     }
   }
 
   render() {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
-    const Tag = this.childType;
-    const role = this.childType === "span" ? "button" : null;
-    const tabIndex = this.childType === "span" ? 0 : null;
+    const Tag = this.childEl;
+    const role = this.childEl === "span" ? "button" : null;
+    const tabIndex = this.childEl === "span" ? 0 : null;
 
     const loader = (
       <div class="calcite-button--loader">
@@ -167,6 +163,16 @@ export class CalciteButton {
 
   //--------------------------------------------------------------------------
   //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  /** @internal */
+  /** if button type is present, assign as prop */
+  private type?: string;
+
+  //--------------------------------------------------------------------------
+  //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
@@ -191,9 +197,9 @@ export class CalciteButton {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
-  // if a button has an associated form, create a proxy button and click it
+  // act on a requested or nearby form based on type
   private handleClick = (e: Event) => {
-    if (this.childType === "button" && this.type !== "button") {
+    if (this.type && this.type !== "button") {
       const requestedForm = this.el.getAttribute("form");
       const targetForm = requestedForm
         ? (document.getElementsByName(`${requestedForm}`)[0] as HTMLFormElement)

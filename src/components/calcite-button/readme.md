@@ -10,7 +10,7 @@
 | Property       | Attribute      | Description                                                                                                               | Type                                          | Default     |
 | -------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ----------- |
 | `appearance`   | `appearance`   | specify the appearance style of the button, defaults to solid. Specifying "inline" will render the component as an anchor | `"clear" \| "inline" \| "outline" \| "solid"` | `"solid"`   |
-| `childType`    | `child-type`   | keep track of the rendered child type -                                                                                   | `"a" \| "button" \| "span"`                   | `"button"`  |
+| `childEl`      | `child-el`     | keep track of the rendered child type -                                                                                   | `"a" \| "button" \| "span"`                   | `"button"`  |
 | `color`        | `color`        | specify the color of the button, defaults to blue                                                                         | `"blue" \| "dark" \| "light" \| "red"`        | `"blue"`    |
 | `disabled`     | `disabled`     | is the button disabled                                                                                                    | `boolean`                                     | `undefined` |
 | `hasText`      | `has-text`     | hastext prop for spacing icon when text is present in slot                                                                | `boolean`                                     | `false`     |
@@ -20,7 +20,6 @@
 | `loading`      | `loading`      | optionally add a calcite-loader component to the button, disabling interaction.                                           | `boolean`                                     | `false`     |
 | `scale`        | `scale`        | specify the scale of the button, defaults to m                                                                            | `"l" \| "m" \| "s" \| "xl" \| "xs"`           | `"m"`       |
 | `theme`        | `theme`        | Select theme (light or dark)                                                                                              | `"dark" \| "light"`                           | `"light"`   |
-| `type`         | `type`         | if type is present, assign as prop                                                                                        | `"button" \| "reset" \| "submit"`             | `"submit"`  |
 | `width`        | `width`        | specify the width of the button, defaults to auto                                                                         | `"auto" \| "full" \| "half"`                  | `"auto"`    |
 
 
