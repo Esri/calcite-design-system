@@ -523,49 +523,62 @@
           </div>
         </calcite-popover>
 
-        <calcite-popover reference-element="popover-button-two" placement="right-start" id="popover-two" add-click-handle>
+        <calcite-popover reference-element="popover-button-two" placement="right-start" id="popover-two"
+          add-click-handle>
           <div style="padding:12px 16px">Hello! I am some popover content!</div>
         </calcite-popover>
 
-        <calcite-popover reference-element="popover-button-three" placement="right-end" id="popover-three" add-click-handle close-button>
+        <calcite-popover reference-element="popover-button-three" placement="right-end" id="popover-three"
+          add-click-handle close-button>
           <div style="padding:12px 16px">
             <b>I am a title!</b> <br>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.
             </p>
             <calcite-button title="Inline button" appearance="inline" scale=>I am an inline button</calcite-button>
           </div>
         </calcite-popover>
 
-        <calcite-popover reference-element="popover-button-four" placement="auto" id="popover-four" add-click-handle close-button>
+        <calcite-popover reference-element="popover-button-four" placement="auto" id="popover-four" add-click-handle
+          close-button>
           <div style="padding:12px 16px">I am a popover with a close button!</div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-five" placement="bottom" id="popover-five" add-click-handle close-button>
+        <calcite-popover theme="dark" reference-element="popover-button-five" placement="bottom" id="popover-five"
+          add-click-handle close-button>
           <img slot="image" src="http://placekitten.com/200/300" />
           <div style="padding:12px 16px;">Here kitty kitty!
           </div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-six" placement="top" id="popover-six" add-click-handle>
+        <calcite-popover theme="dark" reference-element="popover-button-six" placement="top" id="popover-six"
+          add-click-handle>
           <div style="padding:12px 16px">Hello! I am some popover content!</div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-seven" placement="auto" id="popover-seven" add-click-handle close-button>
+        <calcite-popover theme="dark" reference-element="popover-button-seven" placement="auto" id="popover-seven"
+          add-click-handle close-button>
           <div style="padding:12px 16px">
             <b>I am a title!</b> <br>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.
             </p>
-            <calcite-button theme="dark" title="Inline button" appearance="inline" scale=>I am an inline button</calcite-button>
+            <calcite-button theme="dark" title="Inline button" appearance="inline" scale=>I am an inline button
+            </calcite-button>
           </div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-eight" placement="auto" id="popover-eight" add-click-handle close-button>
+        <calcite-popover theme="dark" reference-element="popover-button-eight" placement="auto" id="popover-eight"
+          add-click-handle close-button>
           <div style="padding:12px 16px">I am a popover with a close button!</div>
         </calcite-popover>
 
-        <calcite-popover theme="dark" reference-element="popover-button-nine" placement="auto" id="popover-nine" add-click-handle>
+        <calcite-popover theme="dark" reference-element="popover-button-nine" placement="auto" id="popover-nine"
+          add-click-handle>
           <div style="padding:12px 16px">I am a popover with a close button!</div>
         </calcite-popover>
 
@@ -1111,31 +1124,40 @@
 
       <calcite-tab>
         <h3>Normal Lockup</h3>
-        <h5>calcite button inside form</h5>
-        <form name="form1" id="form1">
-          <input type="text" name="name1" required />
-          <calcite-button id="submit-button1">Go</calcite-button>
-        </form>
-        <h5>multiple calcite buttons outside form</h5>
-        <form name="form2" id="form2">
-          <input type="text" name="name2" required />
-        </form>
-        <form name="form3" id="form3">
-          <input type="text" name="name3" required />
-        </form>
-        <calcite-button form="form2" id="submit-button2">Go</calcite-button>
-        <calcite-button form="form3" id="submit-button3">Go</calcite-button>
-        <br />
-        <br />
-
         <calcite-button color="light" appearance='outline' icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
           Back</calcite-button>
         <calcite-button appearance='outline'>Cancel</calcite-button>
-
-        <h3>Type prop passed to child</h3>
         <calcite-button>Submit</calcite-button>
-        <calcite-button type="button">button</calcite-button>
-        <calcite-button type="reset">reset</calcite-button>
+
+
+        <h5>calcite button inside form</h5>
+        <form name="form1" id="form1">
+          <label>form 1</label>
+          <input type="text" name="name1" required />
+          <calcite-button id="submit-button1">Go</calcite-button>
+          <calcite-button type="button">I should not submit the form (type button)</calcite-button>
+          <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
+        </form>
+        <h5>multiple calcite buttons outside form</h5>
+        <form name="form2" id="form2">
+          <label>form 2</label>
+          <input type="text" name="name2" required />
+        </form>
+        <form name="form3" id="form3">
+          <label>form 3</label>
+          <input type="text" name="name3" required />
+        </form>
+        <calcite-button form="form2" id="submit-button2">Submit form 2</calcite-button>
+        <calcite-button form="form2" type="button" id="button-button2">no action (form 2)</calcite-button>
+        <calcite-button form="form2" type="reset" id="reset-button2">reset form 2</calcite-button>
+        <br />
+        <calcite-button form="form3" id="submit-button3">Submit form 3</calcite-button>
+        <calcite-button form="form2" type="button" id="button-button3">no action (form 3)</calcite-button>
+        <calcite-button form="form3" type="reset" id="reset-button3">reset form 3</calcite-button>
+
+        <br />
+        <br />
+
 
         <h3>Type: Solid (default)</h3>
         <calcite-button title="blue solid button">blue solid button</calcite-button>
