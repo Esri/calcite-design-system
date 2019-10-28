@@ -19,7 +19,7 @@ The current lineup of components is:
 - [tabs](src/components/calcite-tabs/)
 
 ## Sketch library
-If you are a designer 👨‍🎨, all of the Calcite components are available in the [calcite-sketch-library](https://github.com/Esri/calcite-sketch-libraries) with all variations and sizes.
+All of the Calcite Components are available in the [calcite-sketch-library](https://github.com/Esri/calcite-sketch-libraries) with all variations and sizes.
 
 ## Installation
 
