@@ -2,21 +2,7 @@
 
 # Calcite Components
 
-Shared Web Components for Esri's Calcite design framework.
-
-Documentation for each component can be found within that component's directory in a generated `readme.md` file. This file will cover all the events and attributes each component uses.
-
-The current lineup of components is:
-
-- [alerts](src/components/calcite-alerts/)
-- [button](src/components/calcite-button/)
-- [loader](src/components/calcite-loader/)
-- [modal](src/components/calcite-modal/)
-- [progress](src/components/calcite-progress/)
-- [radio-group](src/components/calcite-radio-group/)
-- [slider](src/components/calcite-slider/)
-- [switch](src/components/calcite-switch/)
-- [tabs](src/components/calcite-tabs/)
+Shared Web Components for Esri's Calcite design framework. To see the components in action, [view the documentation](https://esri.github.io/calcite-components/).
 
 ## Sketch library
 All of the Calcite Components are available in the [calcite-sketch-library](https://github.com/Esri/calcite-sketch-libraries) with all variations and sizes.
@@ -46,13 +32,13 @@ If you already have a webpack build for your project, you can use [@stencil/webp
 
 After installing calcite-components, install the plugin as a dev dependency:
 
-```
+```bash
 npm install --save-dev @stencil/webpack
 ```
 
 Then import and call the plugin in `webpack.config.js`:
 
-```
+```js
 const stencil = require('@stencil/webpack');
 module.exports = {
   ...
@@ -64,7 +50,7 @@ module.exports = {
 
 Lastly, add the import in your main bundle js (or ts) file:
 
-```
+```js
 import '@esri/calcite-components/dist/calcite.js';
 ```
 
@@ -74,13 +60,13 @@ This will add the initial stencil loader to your bundle, and copy over the actua
 
 Stencil provides a full set of typings for all the components in this repo. To make TypeScript aware of these components, just import the library:
 
-```
+```ts
 import '@esri/calcite-components';
 ```
 
 This will provide autocomplete of component names/properties, as well as additional HTML element types:
 
-```
+```ts
 // created elements will implicitly have the correct type already
 const loader = document.createElement('calcite-loader');
 document.body.appendChild(loader);
