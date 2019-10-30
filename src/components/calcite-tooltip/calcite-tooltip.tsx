@@ -177,6 +177,9 @@ export class CalciteTooltip {
     return {
       preventOverflow: {
         enabled: false
+      },
+      hide: {
+        enabled: false
       }
     };
   }
