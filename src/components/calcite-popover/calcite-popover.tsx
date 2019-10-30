@@ -233,9 +233,6 @@ export class CalcitePopover {
     }
 
     return {
-      hide: {
-        enabled: false
-      },
       offset: {
         enabled: !!offsetEnabled,
         offset: offsets.join(",")
