@@ -54,6 +54,11 @@ export class CalcitePopover {
   @Prop({ reflect: true }) disablePointer = false;
 
   /**
+   * Makes the popover flow toward the inner of the reference element.
+   */
+  @Prop({ reflect: true }) flowInner = false;
+
+  /**
    * Display and position the component.
    */
   @Prop({ reflect: true }) open = false;
@@ -224,7 +229,7 @@ export class CalcitePopover {
   getModifiers(): Popper.Modifiers {
     const verticalRE = /top|bottom/gi;
     const autoRE = /auto/gi;
-    const { placement, xOffset, yOffset } = this;
+    const { flowInner, placement, xOffset, yOffset } = this;
     const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
     const offsets = [yOffset, xOffset];
 
@@ -233,6 +238,9 @@ export class CalcitePopover {
     }
 
     return {
+      inner: {
+        enabled: flowInner
+      },
       offset: {
         enabled: !!offsetEnabled,
         offset: offsets.join(",")
