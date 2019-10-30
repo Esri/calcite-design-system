@@ -1,21 +1,21 @@
 // theme variables
 // light theme
 :host {
-  --calcite-dropdown-item-color: #{$blk-140};
-  --calcite-dropdown-item-color-hover: #{$blk-160};
-  --calcite-dropdown-item-color-active: #{$blk-180};
-  --calcite-dropdown-item-background-color-hover: #{$blk-010};
-  --calcite-dropdown-item-background-color-pressed: #{$blk-020};
+  --calcite-dropdown-item-color: #{$ui-text-2};
+  --calcite-dropdown-item-color-hover: #{$ui-text-1};
+  --calcite-dropdown-item-color-active: #{$ui-text-1};
+  --calcite-dropdown-item-background-color-hover: #{$ui-foreground-hover};
+  --calcite-dropdown-item-background-color-pressed: #{$ui-foreground-pressed};
   --calcite-dropdown-item-dot-active-color: #{$ui-blue};
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-dropdown-item-color: #{$blk-040};
-  --calcite-dropdown-item-color-hover: #{$blk-020};
-  --calcite-dropdown-item-color-active: #{$blk-000};
-  --calcite-dropdown-item-background-color-hover: #{$blk-210};
-  --calcite-dropdown-item-background-color-pressed: #{$blk-220};
+  --calcite-dropdown-item-color: #{$ui-text-2};
+  --calcite-dropdown-item-color-hover: #{$ui-text-1-dark};
+  --calcite-dropdown-item-color-active: #{$ui-text-1-dark};
+  --calcite-dropdown-item-background-color-hover: #{$ui-foreground-hover-dark};
+  --calcite-dropdown-item-background-color-pressed: #{$ui-foreground-pressed-dark};
   --calcite-dropdown-item-dot-active-color: #{$ui-blue-dark};
 }
 

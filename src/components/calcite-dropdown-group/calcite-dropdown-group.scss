@@ -1,12 +1,12 @@
 // light theme
 :host {
-  --calcite-dropdown-group-color: #{$blk-180};
+  --calcite-dropdown-group-color: #{$ui-text-2};
   --calcite-dropdown-group-border-color: #{$blk-020};
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-dropdown-group-color: #{$blk-000};
+  --calcite-dropdown-group-color: #{$ui-text-2-dark};
   --calcite-dropdown-group-border-color: #{$blk-180};
 }
 
