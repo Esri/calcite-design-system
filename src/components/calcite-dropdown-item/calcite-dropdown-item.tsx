@@ -104,7 +104,7 @@ export class CalciteDropdownItem {
           id={this.dropdownItemId}
           tabindex="0"
           role="menuitem"
-          aria-selected={this.active ? "true" : null}
+          aria-selected={this.active ? "true" : "false"}
         >
           <slot />
         </Host>
@@ -118,7 +118,7 @@ export class CalciteDropdownItem {
           id={this.dropdownItemId}
           tabindex="0"
           role="menuitem"
-          aria-selected={this.active ? "true" : null}
+          aria-selected={this.active ? "true" : "false"}
           isLink
         >
           <a href={this.href} title={this.linktitle}>
