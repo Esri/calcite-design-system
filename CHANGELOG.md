@@ -5,16 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v1.0.0-beta.12] - Nov 1st 2019
 
 ### Updated
 - medium modals are now a more readable line length (#205)
+- Popover modifier enhancements (#207)
+- progress component style
+- button component style
+- dropdown component style
+- popover and tooltip shadow / caret style
 
 ### Fixed
 - fix back and secondary slots in modal (#209)
 - make docked modal's content section visible on mobile (#203)
 - fix display of modals in edge (#135)
 - fix escape key press when no element is focused but modal is open (#130)
+- fix for button form submission (#193)
 
 ## [v1.0.0-beta.11] - Oct 22nd 2019
 
@@ -118,6 +124,7 @@ Fix issue with previous release.
 ## [v1.0.0-beta.1] - Aug 2nd 2019
 
 First initial beta release.
+[v1.0.0-beta.12]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.8...v1.0.0-beta.12 "v1.0.0-beta.12"
 [v1.0.0-beta.11]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.8...v1.0.0-beta.11 "v1.0.0-beta.11"
 [v1.0.0-beta.10]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.8...v1.0.0-beta.10 "v1.0.0-beta.10"
 [v1.0.0-beta.9]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.8...v1.0.0-beta.9 "v1.0.0-beta.9"
