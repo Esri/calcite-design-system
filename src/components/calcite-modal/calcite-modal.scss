@@ -8,6 +8,20 @@
   --calcite-modal-border: #{$blk-010};
   --calcite-modal-red: #{$ui-red};
   --calcite-modal-blue: #{$ui-blue};
+}
+
+:host([theme="dark"]) {
+  --calcite-modal-background: #{$blk-190};
+  --calcite-modal-hover: #{$blk-200};
+  --calcite-modal-pressed: #{$blk-210};
+  --calcite-modal-header-text: #{$blk-000};
+  --calcite-modal-body-text: #{$blk-010};
+  --calcite-modal-border: #{$blk-200};
+  --calcite-modal-red: #{$ui-red-dark};
+  --calcite-modal-blue: #{$ui-blue-dark};
+}
+
+:host {
   position: fixed;
   top: 0;
   right: 0;
@@ -23,17 +37,6 @@
   background: var(--calcite-modal-scrim);
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
-}
-
-:host([theme="dark"]) {
-  --calcite-modal-background: #{$blk-190};
-  --calcite-modal-hover: #{$blk-200};
-  --calcite-modal-pressed: #{$blk-210};
-  --calcite-modal-header-text: #{$blk-000};
-  --calcite-modal-body-text: #{$blk-010};
-  --calcite-modal-border: #{$blk-200};
-  --calcite-modal-red: #{$ui-red-dark};
-  --calcite-modal-blue: #{$ui-blue-dark};
 }
 
 .modal {
@@ -76,12 +79,6 @@
 
 :host([theme="dark"]) .modal {
   border: 1px solid $blk-210;
-}
-
-focus-trap {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
 }
 
 /**
@@ -131,7 +128,7 @@ focus-trap {
   min-width: 0;
 }
 
-slot[name="header"]::slotted(*) {
+@include slotted("header", "*") {
   margin: 0;
   font-weight: 400;
   @include font-size(2);
@@ -146,14 +143,14 @@ slot[name="header"]::slotted(*) {
   padding: $baseline;
   height: 100%;
   overflow: auto;
-  max-height: calc(100vh - 14rem);
+  max-height: calc(100vh - 12rem);
   overflow-y: auto;
   display: block;
   background-color: var(--calcite-modal-background);
   z-index: 1;
 }
 
-slot[name="content"]::slotted(*) {
+@include slotted("content", "*") {
   @include font-size(0);
 }
 
@@ -161,31 +158,34 @@ slot[name="content"]::slotted(*) {
  * Footer
  */
 .modal__footer {
-  background-color: var(--calcite-modal-background);
-  flex: 0;
   display: flex;
+  flex: 0;
   justify-content: flex-end;
   padding: $baseline/1.25 $baseline * 0.75;
+  margin-top: auto;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--calcite-modal-background);
   border-top: 1px solid var(--calcite-modal-border);
   z-index: 2;
 }
 
-.modal__footer--hide-back slot[name="back"],
-.modal__footer--hide-secondary slot[name="secondary"] {
+.modal__footer--hide-back .modal__back,
+.modal__footer--hide-secondary .modal__secondary {
   display: none;
 }
 
-slot[name="back"] {
+.modal__back {
   display: block;
   margin-right: auto;
 }
 
-:host([dir="rtl"]) slot[name="back"] {
+:host([dir="rtl"]) .modal__back {
   margin-left: auto;
   margin-right: unset;
 }
 
-slot[name="secondary"] {
+.modal__secondary {
   display: block;
   margin: 0 $baseline * 0.25;
 }
@@ -264,6 +264,7 @@ slot[name="primary"] {
   }
   .modal__content {
     height: auto;
+    flex: 1;
   }
 }
 
@@ -288,7 +289,7 @@ slot[name="primary"] {
  * Tablet
  */
 @media screen and (max-width: $viewport-medium) {
-  slot[name="header"]::slotted(*) {
+  @include slotted("header", "*") {
     @include font-size(1);
   }
   .modal__title {
@@ -313,8 +314,13 @@ slot[name="primary"] {
   .modal__footer {
     flex-direction: column;
   }
-  slot[name="back"],
-  slot[name="secondary"] {
-    margin: 0 0 $baseline * 0.25 0;
+  .modal__secondary {
+    margin: 0;
+  }
+  @include slotted("secondary", "calcite-button") {
+    margin-bottom: $baseline * 0.25;
+  }
+  @include slotted("back", "calcite-button") {
+    margin-bottom: $baseline * 0.25;
   }
 }

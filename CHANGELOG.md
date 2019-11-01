@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- fix back and secondary slots in modal (#209)
+- make docked modal's content section visible on mobile (#203)
+- fix display of modals in edge (#135)
+
 ## [v1.0.0-beta.11] - Oct 22nd 2019
 
 ### Fixed
