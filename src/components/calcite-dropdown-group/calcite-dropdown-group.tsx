@@ -95,7 +95,6 @@ export class CalciteDropdownGroup {
   ) {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
-
     this.calciteDropdownItemHasChanged.emit({
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem
@@ -119,10 +118,10 @@ export class CalciteDropdownGroup {
   //--------------------------------------------------------------------------
 
   /** created list of dropdown items */
-  @State() private items = [];
+  private items = [];
 
   /** @internal */
-  @State() private groupPosition: number;
+  private groupPosition: number;
 
   /** unique id for dropdown group */
   /** @internal */
