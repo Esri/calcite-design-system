@@ -643,12 +643,12 @@
       </calcite-tab>
 
       <calcite-tab>
-          <h1>Indeterminate</h1>
+        <h1>Indeterminate</h1>
         <calcite-progress type="indeterminate">
           <br>
         </calcite-progress>
-          <br>
-          <br>
+        <br>
+        <br>
         <h1>Determinate</h1>
         <calcite-progress type="determinate" value="0.5" text="50% Complete (optional text)"></calcite-progress>
         <br>
@@ -660,10 +660,11 @@
           <calcite-progress theme="dark" type="indeterminate">
             <br>
           </calcite-progress>
-            <br>
-            <br>
+          <br>
+          <br>
           <h1>Determinate</h1>
-          <calcite-progress theme="dark" type="determinate" value="0.5" text="50% Complete (optional text)"></calcite-progress>
+          <calcite-progress theme="dark" type="determinate" value="0.5" text="50% Complete (optional text)">
+          </calcite-progress>
         </div>
       </calcite-tab>
 
@@ -1130,7 +1131,7 @@
         <calcite-button>Submit</calcite-button>
 
 
-        <h5>calcite button inside form</h5>
+        <h5>calcite button inside form with no custom onsubmit</h5>
         <form name="form1" id="form1">
           <label>form 1</label>
           <input type="text" name="name1" required />
@@ -1138,27 +1139,34 @@
           <calcite-button type="button">I should not submit the form (type button)</calcite-button>
           <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
         </form>
+        <h5>with a custom defined onsubmit on form</h5>
+        <form name="form4" id="form4" onsubmit="alert('submitted')">
+          <label>form 4</label>
+          <input type="text" name="name4" required />
+          <calcite-button id="submit-button4">Go (custom onsubmit - alert)</calcite-button>
+          <calcite-button onclick="alert('clicked')" type="button">I should not submit the form (type button) but I
+            should perform my onclick</calcite-button>
+          <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
+        </form>
         <h5>multiple calcite buttons outside form</h5>
         <form name="form2" id="form2">
-          <label>form 2</label>
+          <label>form 2 (no custom onsubmit)</label>
           <input type="text" name="name2" required />
         </form>
-        <form name="form3" id="form3">
-          <label>form 3</label>
+        <form name="form3" id="form3" onsubmit="alert('submitted')">
+          <label>form 3 (has custom onsubmit)</label>
           <input type="text" name="name3" required />
         </form>
         <calcite-button form="form2" id="submit-button2">Submit form 2</calcite-button>
         <calcite-button form="form2" type="button" id="button-button2">no action (form 2)</calcite-button>
         <calcite-button form="form2" type="reset" id="reset-button2">reset form 2</calcite-button>
         <br />
-        <calcite-button form="form3" id="submit-button3">Submit form 3</calcite-button>
-        <calcite-button form="form2" type="button" id="button-button3">no action (form 3)</calcite-button>
+        <calcite-button form="form3" id="submit-button3">Submit form 3 (custom fn)</calcite-button>
+        <calcite-button form="form3" type="button" id="button-button3">no action (form 3)</calcite-button>
         <calcite-button form="form3" type="reset" id="reset-button3">reset form 3</calcite-button>
 
         <br />
         <br />
-
-
         <h3>Type: Solid (default)</h3>
         <calcite-button title="blue solid button">blue solid button</calcite-button>
         <calcite-button title="red solid button" color='red'>red solid button</calcite-button>
@@ -1377,6 +1385,8 @@
         <calcite-button color="red" onclick="loadingButton(this, 500000000)">Do something</calcite-button>
         <calcite-button color="red" appearance="outline" onclick="loadingButton(this, 5000)">Do something
         </calcite-button>
+
+
 
         <h3>Icons, and icons in combination with loader</h3>
         <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
