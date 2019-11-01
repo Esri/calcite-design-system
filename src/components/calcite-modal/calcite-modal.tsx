@@ -8,17 +8,11 @@ import {
   Listen,
   h,
   Method,
-  State,
-  Build
+  State
 } from "@stencil/core";
 import { x24 } from "@esri/calcite-ui-icons";
-import "@a11y/focus-trap";
-import { FocusTrap } from "@a11y/focus-trap";
-import {
-  getElementDir,
-  getElementTheme,
-  hasSlottedContent
-} from "../../utils/dom";
+import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
+import { getElementDir, getElementTheme } from "../../utils/dom";
 
 @Component({
   tag: "calcite-modal",
@@ -64,23 +58,6 @@ export class CalciteModal {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentDidLoad() {
-    if (Build.isBrowser) {
-      const back = this.el.shadowRoot.querySelector(
-        "slot[name=back]"
-      ) as HTMLSlotElement;
-      const secondary = this.el.shadowRoot.querySelector(
-        "slot[name=secondary]"
-      ) as HTMLSlotElement;
-      back.addEventListener("slotchange", () => {
-        this.hideBackButton = !hasSlottedContent(back);
-      });
-      secondary.addEventListener("slotchange", () => {
-        this.hideSecondaryButton = !hasSlottedContent(secondary);
-      });
-    }
-  }
-
   render() {
     const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
@@ -93,42 +70,51 @@ export class CalciteModal {
         theme={theme}
       >
         <div class="modal">
-          <focus-trap ref={(el: FocusTrap) => (this.trap = el)}>
-            <div class="modal__header">
-              <button
-                class="modal__close"
-                aria-label={this.closeLabel}
-                onClick={() => this.close()}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  width="24"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d={x24} />
-                </svg>
-              </button>
-              <header class="modal__title">
-                <slot name="header"></slot>
-              </header>
-            </div>
-            <div class="modal__content">
-              <slot name="content"></slot>
-            </div>
-            <div
-              class={{
-                modal__footer: true,
-                "modal__footer--hide-back": this.hideBackButton,
-                "modal__footer--hide-secondary": this.hideSecondaryButton
-              }}
+          <div
+            data-focus-fence="true"
+            tabindex="0"
+            onFocus={this.focusLastElement.bind(this)}
+          />
+          <div class="modal__header">
+            <button
+              class="modal__close"
+              aria-label={this.closeLabel}
+              ref={(el) => this.closeButton = el}
+              onClick={() => this.close()}
             >
-              <slot name="back"></slot>
-              <slot name="secondary"></slot>
-              <slot name="primary"></slot>
-            </div>
-          </focus-trap>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                width="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d={x24} />
+              </svg>
+            </button>
+            <header class="modal__title">
+              <slot name="header" />
+            </header>
+          </div>
+          <div class="modal__content">
+            <slot name="content" />
+          </div>
+          <div class="modal__footer">
+            <span class="modal__back">
+              <slot name="back" />
+            </span>
+            <span class="modal__secondary">
+              <slot name="secondary" />
+            </span>
+            <span class="modal__primary">
+              <slot name="primary" />
+            </span>
+          </div>
+          <div
+            data-focus-fence="true"
+            tabindex="0"
+            onFocus={this.focusFirstElement.bind(this)}
+          />
         </div>
       </Host>
     );
@@ -139,8 +125,8 @@ export class CalciteModal {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("keyup") handleEscape(e: KeyboardEvent) {
-    if (e.key === "Escape" && !this.disableEscape) {
+  @Listen("keyup", { target: "window" }) handleEscape(e:KeyboardEvent) {
+    if (this.isActive && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
   }
@@ -170,7 +156,12 @@ export class CalciteModal {
         if (this.firstFocus) {
           this.firstFocus.focus();
         } else {
-          this.trap.focusFirstElement();
+          const focusableElements = queryShadowRoot(this.el, isHidden, isFocusable);
+          if (focusableElements.length > 0) {
+            focusableElements[0].focus();
+          } else {
+            this.closeButton && this.closeButton.focus();
+          }
         }
         resolve(this.el);
       }, 300);
@@ -197,8 +188,20 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   @State() isActive: boolean;
-  @State() hideBackButton: boolean = true;
-  @State() hideSecondaryButton: boolean = true;
   private previousActiveElement: HTMLElement;
-  private trap: FocusTrap;
+  private closeButton: HTMLButtonElement;
+
+  private focusFirstElement() {
+    this.closeButton && this.closeButton.focus();
+  }
+
+  private focusLastElement() {
+    const focusableElements = queryShadowRoot(this.el, isHidden, isFocusable)
+      .filter(el => !el.getAttribute("data-focus-fence"));
+    if (focusableElements.length > 0) {
+      focusableElements[focusableElements.length - 1].focus();
+    } else {
+      this.closeButton && this.closeButton.focus();
+    }
+  }
 }
