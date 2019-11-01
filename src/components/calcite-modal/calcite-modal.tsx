@@ -125,8 +125,8 @@ export class CalciteModal {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("keyup") handleEscape(e: KeyboardEvent) {
-    if (e.key === "Escape" && !this.disableEscape) {
+  @Listen("keyup", { target: "window" }) handleEscape(e:KeyboardEvent) {
+    if (this.isActive && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
   }
