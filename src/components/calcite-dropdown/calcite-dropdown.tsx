@@ -72,7 +72,10 @@ export class CalciteDropdown {
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
-  componentWillUpdate() {
+  componentDidLoad() {
+    this.trigger = this.el.querySelector(
+      "[slot=dropdown-trigger]"
+    ) as HTMLSlotElement;
     if (!this.sorted) {
       this.items = this.sortItems(this.items);
       this.sorted = true;
@@ -104,7 +107,7 @@ export class CalciteDropdown {
 
   @Listen("click") openDropdown(e) {
     if (e.target.getAttribute("slot") === "dropdown-trigger") {
-      this.openCalciteDropdown();
+      this.openCalciteDropdown(e);
       e.preventDefault();
     }
   }
@@ -127,7 +130,7 @@ export class CalciteDropdown {
         switch (e.keyCode) {
           case SPACE:
           case ENTER:
-            this.openCalciteDropdown();
+            this.openCalciteDropdown(e);
             break;
           case ESCAPE:
             this.closeCalciteDropdown();
@@ -168,14 +171,20 @@ export class CalciteDropdown {
         this.focusLastItem();
         break;
     }
-    e.preventDefault();
+  }
+
+  @Listen("calciteDropdownItemMouseover") calciteDropdownMouseover(
+    item: CustomEvent
+  ) {
+    const itemToFocus = item.detail.target as HTMLCalciteDropdownItemElement;
+    itemToFocus.focus();
   }
 
   @Listen("registerCalciteDropdownGroup") registerCalciteDropdownGroup(
     e: CustomEvent
   ) {
     const items = {
-      items: e.detail.items as HTMLCalciteDropdownItemElement,
+      items: e.detail.items,
       position: e.detail.position
     };
     this.items.push(items);
@@ -187,11 +196,14 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** trigger element */
+  private trigger: HTMLSlotElement;
+
   /** created list of dropdown items */
-  @State() private items = [];
+  private items = [];
 
   /** keep track of whether the groups have been sorted so we don't re-sort */
-  @State() private sorted = false;
+  private sorted = false;
 
   /** unique id for dropdown */
   /** @internal */
@@ -205,32 +217,29 @@ export class CalciteDropdown {
 
   private closeCalciteDropdown() {
     this.active = false;
+    this.trigger.focus();
   }
 
   private focusFirstItem() {
     const firstItem = this.items[0];
-    const focusableItem = this.getFocusableElement(firstItem);
-    focusableItem.focus();
+    this.getFocusableElement(firstItem);
   }
 
   private focusLastItem() {
     const lastItem = this.items[this.items.length - 1];
-    const focusableItem = this.getFocusableElement(lastItem);
-    focusableItem.focus();
+    this.getFocusableElement(lastItem);
   }
 
   private focusNextItem(e) {
     const index = this.itemIndex(e);
     const nextItem = this.items[index + 1] || this.items[0];
-    const focusableItem = this.getFocusableElement(nextItem);
-    focusableItem.focus();
+    this.getFocusableElement(nextItem);
   }
 
   private focusPrevItem(e) {
     const index = this.itemIndex(e);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
-    const focusableItem = this.getFocusableElement(prevItem);
-    focusableItem.focus();
+    this.getFocusableElement(prevItem);
   }
 
   private itemIndex(e) {
@@ -238,13 +247,18 @@ export class CalciteDropdown {
   }
 
   private getFocusableElement(item) {
-    return item.attributes.islink ? item.shadowRoot.querySelector("a") : item;
+    const target = item.attributes.isLink
+      ? item.shadowRoot.querySelector("a")
+      : (item as HTMLCalciteDropdownItemElement);
+    target.focus();
   }
 
-  private openCalciteDropdown() {
+  private openCalciteDropdown(e) {
     this.active = !this.active;
-    // time for animation
-    setTimeout(() => this.focusFirstItem(), 50);
+    // if invoked by key, focus item, and accomodate animation time
+    if (!e.detail) {
+      setTimeout(() => this.focusFirstItem(), 50);
+    }
   }
 
   private sortItems = (items: any[]): any[] =>
