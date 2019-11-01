@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Updated
+- medium modals are now a more readable line length (#205)
+
 ### Fixed
 - fix back and secondary slots in modal (#209)
 - make docked modal's content section visible on mobile (#203)
