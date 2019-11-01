@@ -49,9 +49,19 @@ export class CalcitePopover {
   @Prop({ reflect: true }) closeButton = false;
 
   /**
+   * Prevents flipping the popover's placement when it starts to overlap its reference element.
+   */
+  @Prop({ reflect: true }) disableFlip = false;
+
+  /**
    * Removes the caret pointer.
    */
   @Prop({ reflect: true }) disablePointer = false;
+
+  /**
+   * Makes the popover flow toward the inner of the reference element.
+   */
+  @Prop({ reflect: true }) flowInner = false;
 
   /**
    * Display and position the component.
@@ -224,7 +234,7 @@ export class CalcitePopover {
   getModifiers(): Popper.Modifiers {
     const verticalRE = /top|bottom/gi;
     const autoRE = /auto/gi;
-    const { placement, xOffset, yOffset } = this;
+    const { disableFlip, flowInner, placement, xOffset, yOffset } = this;
     const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
     const offsets = [yOffset, xOffset];
 
@@ -233,15 +243,21 @@ export class CalcitePopover {
     }
 
     return {
+      preventOverflow: {
+        enabled: false
+      },
+      flip: {
+        enabled: !disableFlip
+      },
       hide: {
         enabled: false
+      },
+      inner: {
+        enabled: flowInner
       },
       offset: {
         enabled: !!offsetEnabled,
         offset: offsets.join(",")
-      },
-      preventOverflow: {
-        enabled: false
       }
     };
   }

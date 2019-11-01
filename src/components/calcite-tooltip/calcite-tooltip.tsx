@@ -175,10 +175,10 @@ export class CalciteTooltip {
 
   getModifiers(): Popper.Modifiers {
     return {
-      hide: {
+      preventOverflow: {
         enabled: false
       },
-      preventOverflow: {
+      hide: {
         enabled: false
       }
     };
