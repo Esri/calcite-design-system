@@ -372,7 +372,7 @@
               The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
             </p>
           </div>
-          <calcite-button slot="back" color="light" appearance="outline"
+          <calcite-button slot="back" width="full" color="light" appearance="outline"
             icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z" width="full">Back</calcite-button>
           <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
           <calcite-button slot="primary" width="full">Save</calcite-button>
@@ -467,6 +467,7 @@
           <calcite-button slot="primary">OK</calcite-button>
         </calcite-modal>
         <calcite-modal class="js-modal-10" disable-escape>
+          <h3 slot="header">Modal title</h3>
           <div slot="content">
             <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
           </div>
