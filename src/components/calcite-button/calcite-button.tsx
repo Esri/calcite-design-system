@@ -207,9 +207,11 @@ export class CalciteButton {
         : (this.el.closest("form") as HTMLFormElement);
 
       if (targetForm) {
+        const targetFormSubmitFunction = targetForm.onsubmit as Function;
         switch (this.type) {
           case "submit":
-            if (targetForm.checkValidity()) targetForm.submit();
+            if (targetFormSubmitFunction) targetFormSubmitFunction();
+            else if (targetForm.checkValidity()) targetForm.submit();
             else targetForm.reportValidity();
             break;
           case "reset":
