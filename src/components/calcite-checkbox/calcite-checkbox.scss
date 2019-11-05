@@ -6,7 +6,7 @@
   display: inline-block;
   cursor: pointer;
   user-select: none;
-  tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .check-svg {
@@ -19,7 +19,7 @@
   border-radius: 2px;
   vertical-align: -0.25em;
   margin-right: 0.25em;
-  cursor: pointer;
+  pointer-events: none;
   transition: all 150ms linear;
   box-sizing: border-box;
 }

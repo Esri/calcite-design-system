@@ -58,7 +58,7 @@ export class CalciteLoader {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentDidLoad() {
+  componentWillLoad() {
     this.isEdge = /Edge/.test(navigator.userAgent);
     if (this.isEdge) {
       this.updateOffset();

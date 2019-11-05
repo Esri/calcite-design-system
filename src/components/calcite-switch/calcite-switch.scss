@@ -100,6 +100,7 @@
   background-color: var(--calcite-switch-track-background);
   border-radius: 30px;
   border: 1px solid var(--calcite-switch-track-border);
+  pointer-events: none;
   transition: all $transition;
 }
 
@@ -114,6 +115,7 @@
   background-color: var(--calcite-switch-handle-background);
   border-radius: 30px;
   border: 2px solid var(--calcite-switch-handle-border);
+  pointer-events: none;
   transition: all $transition;
 }
 

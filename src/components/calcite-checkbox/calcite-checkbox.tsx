@@ -68,8 +68,9 @@ export class CalciteCheckbox {
     }
   }
 
-  @Listen("keydown") keyDownHandler({ keyCode }: KeyboardEvent) {
-    if (keyCode === SPACE || keyCode === ENTER) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+    if (e.keyCode === SPACE || e.keyCode === ENTER) {
+      e.preventDefault();
       this.toggle();
     }
   }
