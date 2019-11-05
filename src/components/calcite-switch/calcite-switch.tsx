@@ -57,6 +57,7 @@ export class CalciteSwitch {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     if (e.keyCode === SPACE || e.keyCode === ENTER) {
+      e.preventDefault();
       this.switched = !this.switched;
     }
   }
