@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Fix clicks of radio group item in Edge (#139)
+- Fix clicks of calcite-switch in Edge (#138)
 
 ## [v1.0.0-beta.12] - Nov 1st 2019
 
