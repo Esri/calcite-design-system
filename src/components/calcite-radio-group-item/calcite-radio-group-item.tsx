@@ -70,11 +70,6 @@ export class CalciteRadioGroupItem {
     }
 
     this.inputProxy = inputProxy;
-
-    const futureSlotted = Array.from(this.el.childNodes);
-    this.hasLabel = futureSlotted.some(
-      child => child.nodeType === Node.TEXT_NODE
-    );
   }
 
   disconnectedCallback() {
@@ -87,7 +82,7 @@ export class CalciteRadioGroupItem {
     return (
       <Host role="radio" aria-checked={checked ? "true" : "false"} scale={scale}>
         <label>
-          {this.hasLabel ? <slot /> : value}
+          <slot>{value}</slot>
           <slot name="input" />
         </label>
       </Host>
@@ -108,9 +103,6 @@ export class CalciteRadioGroupItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  private hasLabel = false;
-
   private inputProxy: HTMLInputElement;
 
   private mutationObserver = new MutationObserver(() =>
