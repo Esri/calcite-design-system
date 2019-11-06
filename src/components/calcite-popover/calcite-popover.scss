@@ -20,9 +20,11 @@ $image_max_height: 200px;
 }
 
 .container {
+  border-radius: 3px;
   box-shadow: $shadow-2;
-  visibility: hidden;
+  overflow: hidden;
   position: relative;
+  visibility: hidden;
 }
 
 .container--open {
