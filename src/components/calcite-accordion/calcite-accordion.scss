@@ -1,0 +1,89 @@
+// theme variables
+// light theme
+:host {
+  --calcite-accordion-border-color: #{$blk-030};
+  // vars for child
+  --calcite-accordion-item-background-color: #{$ui-foreground};
+  --calcite-accordion-item-color: #{$ui-text-3};
+  --calcite-accordion-item-color-hover: #{$ui-text-2};
+  --calcite-accordion-item-color-active: #{$ui-text-1};
+  --calcite-accordion-item-border-color: #{$blk-030};
+  --calcite-accordion-item-hover-icon-fill: #{$ui-blue};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-accordion-border-color: #{$blk-180};
+  // vars for child
+  --calcite-accordion-item-background-color: #{$ui-foreground-dark};
+  --calcite-accordion-item-color: #{$ui-text-3-dark};
+  --calcite-accordion-item-color-hover: #{$ui-text-2-dark};
+  --calcite-accordion-item-color-active: #{$ui-text-1-dark};
+  --calcite-accordion-item-border-color: #{$blk-180};
+  --calcite-accordion-item-hover-icon-fill: #{$ui-blue-dark};
+}
+
+// scale variants for child
+:host([scale="s"]) {
+  --calcite-accordion-item-spacing-unit: #{$baseline/3};
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
+    var(--calcite-accordion-item-spacing-unit);
+  @include font-size(-3);
+}
+
+:host([scale="m"]) {
+  --calcite-accordion-item-spacing-unit: #{$baseline/2};
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
+    var(--calcite-accordion-item-spacing-unit);
+  @include font-size(-2);
+}
+
+:host([scale="l"]) {
+  --calcite-accordion-item-spacing-unit: #{$baseline};
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
+    var(--calcite-accordion-item-spacing-unit);
+  @include font-size(-1);
+}
+
+// icon position variants for child
+:host([icon-position="start"]) {
+  --calcite-accordion-item-flex-direction: row-reverse;
+  --calcite-accordion-item-icon-rotation: 180deg;
+  --calcite-accordion-item-active-icon-rotation: 270deg;
+  --calcite-accordion-item-icon-rotation-rtl: 0deg;
+  --calcite-accordion-item-active-icon-rotation-rtl: -90deg;
+  --calcite-accordion-item-icon-spacing-start: 0;
+  --calcite-accordion-item-icon-spacing-end: var(
+    --calcite-accordion-item-spacing-unit
+  );
+}
+:host([icon-position="end"]) {
+  --calcite-accordion-item-flex-direction: row;
+  --calcite-accordion-item-icon-rotation: 0deg;
+  --calcite-accordion-item-active-icon-rotation: -90deg;
+  --calcite-accordion-item-icon-rotation-rtl: 180deg;
+  --calcite-accordion-item-active-icon-rotation-rtl: 270deg;
+  --calcite-accordion-item-icon-spacing-start: var(
+    --calcite-accordion-item-spacing-unit
+  );
+  --calcite-accordion-item-icon-spacing-end: 0;
+}
+
+:host([appearance="minimal"]) {
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
+}
+
+:host {
+  display: block;
+  position: relative;
+  max-width: 100%;
+}
+
+:host {
+  border: 1px solid var(--calcite-accordion-border-color);
+  border-bottom: none;
+}
+
+:host([appearance="minimal"]) {
+  border: 1px solid transparent;
+}

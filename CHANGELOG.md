@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Added accordion component
 
 ### Fixed
 - Fix clicks of radio group item in Edge (#139)
@@ -133,7 +135,7 @@ Fix issue with previous release.
 ## [v1.0.0-beta.1] - Aug 2nd 2019
 
 First initial beta release.
-[Unrelease]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.12...master "master"
+[Unreleased]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.12...master "master"
 [v1.0.0-beta.12]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.11...v1.0.0-beta.12 "v1.0.0-beta.12"
 [v1.0.0-beta.11]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.10...v1.0.0-beta.11 "v1.0.0-beta.11"
 [v1.0.0-beta.10]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.9...v1.0.0-beta.10 "v1.0.0-beta.10"

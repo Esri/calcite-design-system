@@ -1,0 +1,97 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--calcite-accordion-item-background-color);
+  color: var(--calcite-accordion-item-color);
+  transition: $transition;
+  text-decoration: none;
+  outline: none;
+  position: relative;
+}
+
+:host([active]) {
+  color: var(--calcite-accordion-item-color-active);
+  & .accordion-item-content {
+    display: block;
+  }
+}
+
+// .accordion-item-header / content
+.accordion-item-header {
+  display: flex;
+  flex-direction: var(--calcite-accordion-item-flex-direction);
+  align-items: center;
+  cursor: pointer;
+}
+
+.accordion-item-content,
+.accordion-item-header {
+  padding: var(--calcite-accordion-item-padding);
+  border-bottom: 1px solid var(--calcite-accordion-item-border-color);
+  transition: $transition;
+}
+
+.accordion-item-header * {
+  display: inline-flex;
+  align-items: center;
+  transition: $transition;
+}
+
+.accordion-item-content {
+  display: none;
+}
+
+// accordion item icon
+.accordion-item-icon {
+  margin-left: var(--calcite-accordion-item-icon-spacing-start);
+  margin-right: var(--calcite-accordion-item-icon-spacing-end);
+  & svg {
+    fill: var(--calcite-accordion-item-color);
+    transform: rotate(var(--calcite-accordion-item-icon-rotation));
+  }
+}
+
+:host(:hover),
+:host(:focus) {
+  .accordion-item-icon svg {
+    fill: var(--calcite-accordion-item-hover-icon-fill);
+  }
+}
+:host([dir="rtl"]) .accordion-item-icon {
+  margin-left: var(--calcite-accordion-item-icon-spacing-end);
+  margin-right: var(--calcite-accordion-item-icon-spacing-start);
+  & svg {
+    transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
+  }
+}
+
+:host([active]) .accordion-item-icon svg {
+  fill: var(--calcite-accordion-item-color-active);
+  transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
+}
+:host([active][dir="rtl"]) .accordion-item-icon svg {
+  transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
+}
+
+// accordion item title
+.accordion-item-title {
+  margin-right: auto;
+}
+:host([dir="rtl"]) .accordion-item-title {
+  margin-right: 0;
+  margin-left: auto;
+}
+:host(:focus),
+:host(:hover) {
+  .accordion-item-title {
+    color: var(--calcite-accordion-item-color-hover);
+  }
+}
+:host(:focus),
+:host(:active),
+:host([active]) {
+  & .accordion-item-title {
+    color: var(--calcite-accordion-item-color-active);
+    font-weight: 500;
+  }
+}
