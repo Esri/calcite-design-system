@@ -7,7 +7,8 @@ import {
   Element,
   Prop,
   Watch,
-  Host
+  Host,
+  Build
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
@@ -65,18 +66,10 @@ export class CalciteRadioGroup {
     if (newItem === oldItem) {
       return;
     }
-
-    let match: HTMLCalciteRadioGroupItemElement;
-
     const items = this.getItems();
-
-    items.forEach(item => {
-      const matches = item === newItem;
-
-      if (matches) {
-        match = item;
-      }
-    });
+    const match = Array.from(items)
+      .filter(item => item === newItem)
+      .pop();
 
     if (match) {
       this.selectItem(match);
@@ -99,7 +92,6 @@ export class CalciteRadioGroup {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-
     // prop validations
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
@@ -108,21 +100,9 @@ export class CalciteRadioGroup {
     if (!theme.includes(this.theme)) this.theme = "light";
 
     const items = this.getItems();
-    let lastChecked: HTMLCalciteRadioGroupItemElement;
-
-    items.forEach((item, index) => {
-      item.tabIndex = -1;
-
-      const next = items[index + 1];
-
-      if (item.checked) {
-        lastChecked = item;
-      }
-
-      if (next && next.checked && item.checked) {
-        item.checked = false;
-      }
-    });
+    let lastChecked = Array.from(items)
+      .filter(item => item.checked)
+      .pop();
 
     if (lastChecked) {
       this.selectItem(lastChecked);
@@ -130,15 +110,19 @@ export class CalciteRadioGroup {
       items[0].tabIndex = 0;
     }
 
-    const { hiddenInput } = this;
+    const { hiddenInput, name } = this;
 
-    if (this.name) {
-      hiddenInput.name = this.name;
+    if (name) {
+      hiddenInput.name = name;
     }
 
     if (lastChecked) {
       hiddenInput.value = lastChecked.value;
     }
+  }
+
+  componentDidLoad() {
+    this.hasLoaded = true;
   }
 
   render() {
@@ -166,9 +150,12 @@ export class CalciteRadioGroup {
 
   @Listen("calciteRadioGroupItemChange")
   protected handleSelected(event: Event): void {
-    event.stopPropagation();
-    event.preventDefault();
-    this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+    // only fire after initial setup to prevent semi-infinite loops
+    if (this.hasLoaded) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+    }
   }
 
   @Listen("keydown")
@@ -248,6 +235,8 @@ export class CalciteRadioGroup {
     return input;
   })();
 
+  private hasLoaded: boolean;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -269,7 +258,10 @@ export class CalciteRadioGroup {
     items.forEach(item => {
       const matches = item.value === selected.value;
 
-      item.checked = matches;
+      if ((matches && !item.checked) || (!matches && item.checked)) {
+        item.checked = matches;
+      }
+
       item.tabIndex = matches ? 0 : -1;
 
       if (matches) {
@@ -279,7 +271,9 @@ export class CalciteRadioGroup {
 
     this.selectedItem = match;
     this.syncWithInputProxy(match);
-    match && match.focus();
+    if (Build.isBrowser && match) {
+      match.focus();
+    }
   }
 
   private syncWithInputProxy(item: HTMLCalciteRadioGroupItemElement): void {

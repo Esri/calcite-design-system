@@ -6,7 +6,8 @@ import {
   Prop,
   Element,
   Host,
-  Watch
+  Watch,
+  Build
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 @Component({
@@ -65,16 +66,12 @@ export class CalciteRadioGroupItem {
     if (inputProxy) {
       this.value = inputProxy.value;
       this.checked = inputProxy.checked;
-
-      this.mutationObserver.observe(inputProxy, { attributes: true });
+      if (Build.isBrowser) {
+        this.mutationObserver.observe(inputProxy, { attributes: true });
+      }
     }
 
     this.inputProxy = inputProxy;
-
-    const futureSlotted = Array.from(this.el.childNodes);
-    this.hasLabel = futureSlotted.some(
-      child => child.nodeType === Node.TEXT_NODE
-    );
   }
 
   disconnectedCallback() {
@@ -85,9 +82,13 @@ export class CalciteRadioGroupItem {
     const { checked, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
     return (
-      <Host role="radio" aria-checked={checked ? "true" : "false"} scale={scale}>
+      <Host
+        role="radio"
+        aria-checked={checked ? "true" : "false"}
+        scale={scale}
+      >
         <label>
-          {this.hasLabel ? <slot /> : value}
+          <slot>{value}</slot>
           <slot name="input" />
         </label>
       </Host>
@@ -108,20 +109,22 @@ export class CalciteRadioGroupItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  private hasLabel = false;
-
   private inputProxy: HTMLInputElement;
 
-  private mutationObserver = new MutationObserver(() =>
-    this.syncFromExternalInput()
-  );
+  private mutationObserver = this.getMutationObserver();
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private getMutationObserver(): MutationObserver | null {
+    return (
+      Build.isBrowser &&
+      new MutationObserver(() => this.syncFromExternalInput())
+    );
+  }
 
   private syncFromExternalInput(): void {
     if (this.inputProxy) {
