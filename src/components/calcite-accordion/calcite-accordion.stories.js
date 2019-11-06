@@ -7,14 +7,14 @@ const notes = parseReadme(readme);
 storiesOf("Accordion", module)
   .addDecorator(withKnobs)
   .add(
-    "Accordion - Base",
+    "Simple",
     () => `
     <div style="width:300px;max-width:100%">
     <calcite-accordion
-      theme="${select("theme", ["light", "dark"], "light")}",
-      scale="${select("scale", ["s", "m", "l"], "m")}",
-      appearance="${select("appearance", ["default", "minimal"], "default")}",
-      icon-position="${select("icon-position", ["start", "end"], "end")}",
+      theme="light"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      appearance="${select("appearance", ["default", "minimal"], "default")}"
+      icon-position="${select("icon-position", ["start", "end"], "end")}"
       selection-mode="${select(
         "selection-mode",
         ["multi", "single", "single-persist"],
@@ -35,14 +35,14 @@ storiesOf("Accordion", module)
     { notes }
   )
   .add(
-    "Accordion - RTL",
+    "Dark Mode",
     () => `
-    <div style="width:300px;max-width:100%" dir="rtl">
+    <div style="width:300px;max-width:100%">
     <calcite-accordion
-      theme="${select("theme", ["light", "dark"], "light")}",
-      scale="${select("scale", ["s", "m", "l"], "m")}",
-      appearance="${select("appearance", ["default", "minimal"], "default")}",
-      icon-position="${select("icon-position", ["start", "end"], "end")}",
+      theme="dark"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      appearance="${select("appearance", ["default", "minimal"], "default")}"
+      icon-position="${select("icon-position", ["start", "end"], "end")}"
       selection-mode="${select(
         "selection-mode",
         ["multi", "single", "single-persist"],
@@ -59,6 +59,34 @@ storiesOf("Accordion", module)
     </calcite-accordion-item>
     </calcite-accordion>
     </div>
-  `,
+    `,
+    { notes, backgrounds: darkBackground }
+  )
+  .add(
+    "RTL",
+    () => `
+      <div style="width:300px;max-width:100%" dir="rtl">
+      <calcite-accordion
+        theme="light"
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        appearance="${select("appearance", ["default", "minimal"], "default")}"
+        icon-position="${select("icon-position", ["start", "end"], "end")}"
+        selection-mode="${select(
+          "selection-mode",
+          ["multi", "single", "single-persist"],
+          "multi"
+        )}"
+      >
+      <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
+      </calcite-accordion-item>
+      <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
+      </calcite-accordion-item>
+      <calcite-accordion-item item-title="Accordion Item 3"><img src="http://placekitten.com/100/200" />
+      </calcite-accordion-item>
+      <calcite-accordion-item item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
+      </calcite-accordion-item>
+      </calcite-accordion>
+      </div>
+      `,
     { notes }
   );

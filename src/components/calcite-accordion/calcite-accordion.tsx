@@ -10,7 +10,6 @@ import {
 } from "@stencil/core";
 import { UP, DOWN, HOME, END } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-accordion",
@@ -32,20 +31,21 @@ export class CalciteAccordion {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the theme of dropdrown, defaults to light */
+  /** specify the theme of accordion, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
-  /** specify the scale of dropdrown, defaults to m */
+  /** specify the scale of accordion, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the appearance, defaults to default */
+  /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
   @Prop({ mutable: true, reflect: true }) appearance: "default" | "minimal" =
     "default";
 
-  /** specify the placement of the icon, defaults to end */
+  /** specify the placement of the icon in the header, defaults to end */
   @Prop({ mutable: true, reflect: true }) iconPosition: "start" | "end" = "end";
 
-  /** specify the selection mode - defaults to multi */
+  /** specify the selection mode - multi (allow any number of open items), single (allow one open item),
+   * or single-persist (allow and require one open item), defaults to multi */
   @Prop({ mutable: true, reflect: true }) selectionMode:
     | "multi"
     | "single"
@@ -94,10 +94,8 @@ export class CalciteAccordion {
   render() {
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir} id={this.accordionId} tabindex="-1">
-        <div class="calcite-accordion-wrapper" role="menu">
-          <slot />
-        </div>
+      <Host dir={dir} tabindex="-1">
+        <slot />
       </Host>
     );
   }
@@ -109,13 +107,13 @@ export class CalciteAccordion {
   //--------------------------------------------------------------------------
 
   @Listen("calciteAccordionItemKeyEvent") calciteAccordionItemKeyEvent(
-    item: CustomEvent
+    e: CustomEvent
   ) {
-    let e = item.detail.item;
+    let item = e.detail.item;
     let itemToFocus = e.target;
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (e.keyCode) {
+    switch (item.keyCode) {
       case DOWN:
         if (isLastItem) this.focusFirstItem();
         else this.focusNextItem(itemToFocus);
@@ -137,7 +135,7 @@ export class CalciteAccordion {
     e: CustomEvent
   ) {
     const item = {
-      item: e.detail.item as HTMLCalciteAccordionItemElement,
+      item: e.target as HTMLCalciteAccordionItemElement,
       position: e.detail.position
     };
     this.items.push(item);
@@ -167,9 +165,6 @@ export class CalciteAccordion {
   /** keep track of the requested item for multi mode */
   private requestedAccordionItem: string = "";
 
-  /** unique id for accordion */
-  private accordionId = `calcite-accordion-${guid()}`;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -178,31 +173,31 @@ export class CalciteAccordion {
 
   private focusFirstItem() {
     const firstItem = this.items[0];
-    this.getFocusableElement(firstItem);
+    this.focusElement(firstItem);
   }
 
   private focusLastItem() {
     const lastItem = this.items[this.items.length - 1];
-    this.getFocusableElement(lastItem);
+    this.focusElement(lastItem);
   }
 
   private focusNextItem(e) {
     const index = this.itemIndex(e);
     const nextItem = this.items[index + 1] || this.items[0];
-    this.getFocusableElement(nextItem);
+    this.focusElement(nextItem);
   }
 
   private focusPrevItem(e) {
     const index = this.itemIndex(e);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
-    this.getFocusableElement(prevItem);
+    this.focusElement(prevItem);
   }
 
   private itemIndex(e) {
     return this.items.indexOf(e);
   }
 
-  private getFocusableElement(item) {
+  private focusElement(item) {
     const target = item as HTMLCalciteAccordionItemElement;
     target.focus();
   }

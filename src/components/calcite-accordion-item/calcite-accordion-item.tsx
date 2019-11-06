@@ -9,11 +9,7 @@ import {
   Prop
 } from "@stencil/core";
 import { UP, DOWN, ENTER, HOME, END, SPACE } from "../../utils/keys";
-import {
-  getElementDir,
-  getElementTheme,
-  getElementProp
-} from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { chevronLeft16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
@@ -63,33 +59,20 @@ export class CalciteAccordionItem {
   componentDidLoad() {
     this.itemPosition = this.getItemPosition();
     this.registerCalciteAccordionItem.emit({
-      item: this.el,
       position: this.itemPosition
     });
   }
 
   render() {
     const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
-    const scale = getElementProp(this.el, "scale", "m");
-    const appearance = getElementProp(this.el, "appearance", "default");
-    const iconPosition = getElementProp(this.el, "icon-position", "end");
+
     return (
       <Host
-        theme={theme}
         dir={dir}
-        scale={scale}
-        appearance={appearance}
-        icon-position={iconPosition}
-        id={this.accordionItemId}
         tabindex="0"
-        role="menuitem"
         aria-expanded={this.active ? "true" : "false"}
       >
-        <div
-          class="accordion-item-header"
-          onClick={() => this.emitRequestedItem()}
-        >
+        <div class="accordion-item-header" onClick={this.itemHeaderClickHander}>
           <span class="accordion-item-title">{this.itemTitle}</span>
           <div class="accordion-item-icon">
             <CalciteIcon size="16" path={chevronLeft16} />
@@ -149,6 +132,8 @@ export class CalciteAccordionItem {
   /** what selection mode is the parent accordion in */
   private selectionMode = getElementProp(this.el, "selection-mode", "multi");
 
+  /** handle clicks on item header */
+  private itemHeaderClickHander = () => this.emitRequestedItem();
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -176,7 +161,7 @@ export class CalciteAccordionItem {
 
   private emitRequestedItem() {
     this.calciteAccordionItemSelected.emit({
-      requestedAccordionItem: this.el.id
+      requestedAccordionItem: this.accordionItemId
     });
   }
 
