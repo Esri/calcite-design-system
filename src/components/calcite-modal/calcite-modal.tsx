@@ -96,7 +96,7 @@ export class CalciteModal {
               <slot name="header" />
             </header>
           </div>
-          <div class="modal__content">
+          <div class="modal__content" ref={(el) => this.modalContent = el}>
             <slot name="content" />
           </div>
           <div class="modal__footer">
@@ -182,6 +182,18 @@ export class CalciteModal {
     });
   }
 
+  /** Set the scroll top of the modal content */
+  @Method() async scrollContent(top: number = 0, left: number = 0): Promise<void> {
+    if (this.modalContent) {
+      if (this.modalContent.scrollTo) {
+        this.modalContent.scrollTo({top, left, behavior: 'smooth'});
+      } else {
+        this.modalContent.scrollTop = top;
+        this.modalContent.scrollLeft = left;
+      }
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -190,6 +202,7 @@ export class CalciteModal {
   @State() isActive: boolean;
   private previousActiveElement: HTMLElement;
   private closeButton: HTMLButtonElement;
+  private modalContent: HTMLDivElement;
 
   private focusFirstElement() {
     this.closeButton && this.closeButton.focus();

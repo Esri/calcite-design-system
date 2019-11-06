@@ -95,6 +95,16 @@ Type: `Promise<HTMLElement>`
 
 
 
+### `scrollContent(top?: number, left?: number) => Promise<void>`
+
+Set the scroll top of the modal content
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 
 ----------------------------------------------
 
