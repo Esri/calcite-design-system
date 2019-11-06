@@ -6,7 +6,8 @@ import {
   Prop,
   Element,
   Host,
-  Watch
+  Watch,
+  Build
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 @Component({
@@ -65,8 +66,9 @@ export class CalciteRadioGroupItem {
     if (inputProxy) {
       this.value = inputProxy.value;
       this.checked = inputProxy.checked;
-
-      this.mutationObserver.observe(inputProxy, { attributes: true });
+      if (Build.isBrowser) {
+        this.mutationObserver.observe(inputProxy, { attributes: true });
+      }
     }
 
     this.inputProxy = inputProxy;
@@ -105,15 +107,19 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
   private inputProxy: HTMLInputElement;
 
-  private mutationObserver = new MutationObserver(() =>
-    this.syncFromExternalInput()
-  );
+  private mutationObserver = this.getMutationObserver();
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private getMutationObserver(): MutationObserver|null {
+    return Build.isBrowser && new MutationObserver(() =>
+      this.syncFromExternalInput()
+    );
+  }
 
   private syncFromExternalInput(): void {
     if (this.inputProxy) {

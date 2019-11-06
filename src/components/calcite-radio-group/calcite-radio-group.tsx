@@ -7,7 +7,8 @@ import {
   Element,
   Prop,
   Watch,
-  Host
+  Host,
+  Build
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
@@ -270,7 +271,9 @@ export class CalciteRadioGroup {
 
     this.selectedItem = match;
     this.syncWithInputProxy(match);
-    match && match.focus();
+    if (Build.isBrowser && match) {
+      match.focus();
+    }
   }
 
   private syncWithInputProxy(item: HTMLCalciteRadioGroupItemElement): void {
