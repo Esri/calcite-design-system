@@ -1,6 +1,6 @@
-# calcite-dropdown-item
+# calcite-accordion-item
 
-
+individual `calcite-accordion` item
 
 <!-- Auto Generated Below -->
 
