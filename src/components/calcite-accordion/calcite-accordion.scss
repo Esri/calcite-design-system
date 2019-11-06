@@ -1,0 +1,25 @@
+// theme variables
+// light theme
+:host {
+  --calcite-accordion-border-color: #{$blk-030};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-accordion-border-color: #{$blk-180};
+}
+
+:host {
+  display: block;
+  position: relative;
+  max-width: 100%;
+}
+
+:host .calcite-accordion-wrapper {
+  border: 1px solid var(--calcite-accordion-border-color);
+  border-bottom: none;
+}
+
+:host([appearance="minimal"]) .calcite-accordion-wrapper {
+  border: 1px solid transparent;
+}
