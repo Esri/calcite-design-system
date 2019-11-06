@@ -82,7 +82,11 @@ export class CalciteRadioGroupItem {
     const { checked, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
     return (
-      <Host role="radio" aria-checked={checked ? "true" : "false"} scale={scale}>
+      <Host
+        role="radio"
+        aria-checked={checked ? "true" : "false"}
+        scale={scale}
+      >
         <label>
           <slot>{value}</slot>
           <slot name="input" />
@@ -115,9 +119,10 @@ export class CalciteRadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
-  private getMutationObserver(): MutationObserver|null {
-    return Build.isBrowser && new MutationObserver(() =>
-      this.syncFromExternalInput()
+  private getMutationObserver(): MutationObserver | null {
+    return (
+      Build.isBrowser &&
+      new MutationObserver(() => this.syncFromExternalInput())
     );
   }
 
