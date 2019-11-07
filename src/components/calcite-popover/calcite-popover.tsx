@@ -91,7 +91,7 @@ export class CalcitePopover {
   /**
    * Reference HTMLElement used to position this component according to the placement property.
    */
-  @Prop() referenceElement: HTMLElement | string;
+  @Prop() referenceElement!: HTMLElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler() {
