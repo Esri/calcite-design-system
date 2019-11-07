@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property     | Attribute    | Description                              | Type     | Default |
-| ------------ | ------------ | ---------------------------------------- | -------- | ------- |
-| `grouptitle` | `grouptitle` | optionally set a group title for display | `string` | `null`  |
+| Property     | Attribute     | Description                              | Type     | Default |
+| ------------ | ------------- | ---------------------------------------- | -------- | ------- |
+| `groupTitle` | `group-title` | optionally set a group title for display | `string` | `null`  |
 
 
 ## Events

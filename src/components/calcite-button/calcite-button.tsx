@@ -63,7 +63,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) icon?: string;
 
   /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconposition?: "start" | "end" =
+  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
     "start";
 
   /** is the button disabled  */
@@ -100,9 +100,9 @@ export class CalciteButton {
     let theme = ["dark", "light"];
     if (!theme.includes(this.theme)) this.theme = "light";
 
-    let iconposition = ["start", "end"];
-    if (this.icon !== null && !iconposition.includes(this.iconposition))
-      this.iconposition = "start";
+    let iconPosition = ["start", "end"];
+    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
+      this.iconPosition = "start";
 
     this.childEl = this.href
       ? "a"
@@ -152,10 +152,10 @@ export class CalciteButton {
           onClick={e => this.handleClick(e)}
           disabled={this.disabled}
         >
-          {this.icon && this.iconposition === "start" ? icon : null}
+          {this.icon && this.iconPosition === "start" ? icon : null}
           {this.loading ? loader : null}
           <slot />
-          {this.icon && this.iconposition === "end" ? icon : null}
+          {this.icon && this.iconPosition === "end" ? icon : null}
         </Tag>
       </Host>
     );
@@ -185,7 +185,7 @@ export class CalciteButton {
       "dir",
       "hasText",
       "icon",
-      "iconposition",
+      "iconPosition",
       "id",
       "loading",
       "scale",

@@ -110,20 +110,20 @@
   }
 }
 // icon positioning and styles
-:host([hastext][iconposition="start"]) .calcite-button--icon {
+:host([hastext][icon-position="start"]) .calcite-button--icon {
   margin-right: $baseline/3;
 }
 
-:host([hastext][iconposition="start"][dir="rtl"]) .calcite-button--icon {
+:host([hastext][icon-position="start"][dir="rtl"]) .calcite-button--icon {
   margin-right: 0;
   margin-left: $baseline/3;
 }
 
-:host([hastext][iconposition="end"]) .calcite-button--icon {
+:host([hastext][icon-position="end"]) .calcite-button--icon {
   margin-left: $baseline/3;
 }
 
-:host([hastext][iconposition="end"][dir="rtl"]) .calcite-button--icon {
+:host([hastext][icon-position="end"][dir="rtl"]) .calcite-button--icon {
   margin-left: 0;
   margin-right: $baseline/3;
 }
@@ -134,20 +134,20 @@
   top: 0;
 }
 
-:host([appearance="inline"][iconposition="start"]) .calcite-button--icon {
+:host([appearance="inline"][icon-position="start"]) .calcite-button--icon {
   margin-right: $baseline/4;
 }
 
-:host([appearance="inline"][iconposition="start"][dir="rtl"])
+:host([appearance="inline"][icon-position="start"][dir="rtl"])
   .calcite-button--icon {
   margin-left: $baseline/4;
   margin-right: 0;
 }
 
-:host([appearance="inline"][iconposition="end"]) .calcite-button--icon {
+:host([appearance="inline"][icon-position="end"]) .calcite-button--icon {
   margin-left: $baseline/4;
 }
-:host([appearance="inline"][iconposition="end"][dir="rtl"])
+:host([appearance="inline"][icon-position="end"][dir="rtl"])
   .calcite-button--icon {
   margin-left: 0;
   margin-right: $baseline/4;
