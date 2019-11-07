@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Breaking Changes
+- calcite-button "iconposition" attribute updated to "icon-position"
+- calcite-dropdown-group "grouptitle" attribute updated to "group-title"
+- calcite-dropdown-item "linktitle" attribute updated to "link-title"
+  
 ## [v1.0.0-beta.13] - Nov 11th 2019
 
 ### Added

@@ -22,7 +22,7 @@ storiesOf('Button', module)
   .add('With icon', () => `
     <calcite-button
       icon="${text("icon", images24)}"
-      iconposition="${select("iconposition", {start: "start", end: "end"}, "start")}"
+      icon-position="${select("icon-position", {start: "start", end: "end"}, "start")}"
     >
       Button text
     </calcite-button>
