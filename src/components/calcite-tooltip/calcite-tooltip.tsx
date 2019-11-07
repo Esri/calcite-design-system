@@ -52,7 +52,7 @@ export class CalciteTooltip {
   /**
    * Reference HTMLElement used to position this component.
    */
-  @Prop() referenceElement: HTMLElement | string;
+  @Prop() referenceElement!: HTMLElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler() {
