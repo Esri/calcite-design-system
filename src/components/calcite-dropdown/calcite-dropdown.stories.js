@@ -12,7 +12,7 @@ storiesOf('Dropdown', module)
       scale="${select("scale", {s: "s", m: "m", l: "l"}, "m")}"
     >
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
-      <calcite-dropdown-group group-title="Sort by">
+      <calcite-dropdown-group selection-mode="${select("group selection mode", {single: "single", multi: "multi", none: "none"}, "single")}" group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
         <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item>Title</calcite-dropdown-item>
@@ -48,7 +48,7 @@ storiesOf('Dropdown', module)
       scale="${select("scale", {s: "s", m: "m", l: "l"}, "m")}"
     >
       <calcite-button slot="dropdown-trigger" theme="dark">Open Dropdown</calcite-button>
-      <calcite-dropdown-group group-title="Sort by">
+      <calcite-dropdown-group selection-mode="${select("group selection mode", {single: "single", multi: "multi", none: "none"}, "single")}" group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
         <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item>Title</calcite-dropdown-item>
