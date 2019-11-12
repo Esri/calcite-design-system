@@ -61,6 +61,7 @@ modal.open();
 | `disableEscape` | `disable-escape` | Flag to disable the default close on escape behavior                                                         | `boolean`                                        | `undefined`                   |
 | `docked`        | `docked`         | Prevent the modal from taking up the entire screen on mobile                                                 | `boolean`                                        | `undefined`                   |
 | `firstFocus`    | --               | Specify an element to focus when the modal is first opened                                                   | `HTMLElement`                                    | `undefined`                   |
+| `noPadding`     | `no-padding`     | Turn off spacing around the content area slot                                                                | `boolean`                                        | `undefined`                   |
 | `size`          | `size`           | Set the overall size of the modal                                                                            | `"fullscreen" \| "large" \| "medium" \| "small"` | `"small"`                     |
 | `theme`         | `theme`          | Select theme (light or dark)                                                                                 | `"dark" \| "light"`                              | `"light"`                     |
 
