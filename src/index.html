@@ -1441,7 +1441,28 @@
 
       <calcite-tab>
         <h3>Dropdowns</h3>
-
+        <h3> Dropdown selection modes</h3>
+        <calcite-dropdown>
+          <calcite-button slot="dropdown-trigger">Selection mode example</calcite-button>
+          <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single - default">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="multi" group-title="Selection Mode: Multi">
+            <calcite-dropdown-item active>This</calcite-dropdown-item>
+            <calcite-dropdown-item>That</calcite-dropdown-item>
+            <calcite-dropdown-item active>Also this</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="none" group-title="Selection Mode: None">
+            <calcite-dropdown-item>Less</calcite-dropdown-item>
+            <calcite-dropdown-item>More</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        </calcite-dropdown>
+        <br />
+        <br />
+        <h3> Examples</h3>
         <calcite-dropdown>
           <calcite-button slot="dropdown-trigger">Dropdown with Two Groups</calcite-button>
           <calcite-dropdown-group group-title="Sort by">
@@ -1454,6 +1475,8 @@
             <calcite-dropdown-item active>Most recent</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
+
+
         <calcite-dropdown>
           <calcite-button slot="dropdown-trigger">Dropdown with Three Groups</calcite-button>
           <calcite-dropdown-group group-title="Sort by">
@@ -1495,6 +1518,7 @@
         </calcite-dropdown>
         <br />
         <br />
+
         <h3> Dropdowns with items as links</h3>
         <calcite-dropdown>
           <calcite-button slot="dropdown-trigger">Dropdowns with items as links</calcite-button>

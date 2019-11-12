@@ -24,7 +24,6 @@ import {
   getElementProp
 } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import DropdownInterface from "../../interfaces/DropdownInterface";
 
 @Component({
   tag: "calcite-dropdown-item",
@@ -47,12 +46,6 @@ export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
-
-  /** @internal */
-  @Prop() requestedDropdownGroup: string = "";
-
-  /** @internal */
-  @Prop() requestedDropdownItem: string = "";
 
   /** pass an optional href to render an anchor around the link items */
   @Prop() href?: string;
@@ -79,16 +72,10 @@ export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
 
   componentDidLoad() {
-    this.currentDropdownGroup = this.el.parentElement.id;
     this.itemPosition = this.getItemPosition();
     this.registerCalciteDropdownItem.emit({
-      item: this.el,
       position: this.itemPosition
     });
-  }
-
-  componentDidUpdate() {
-    this.determineActiveItem();
   }
 
   render() {
@@ -101,7 +88,6 @@ export class CalciteDropdownItem {
           theme={theme}
           dir={dir}
           scale={scale}
-          id={this.dropdownItemId}
           tabindex="0"
           role="menuitem"
           aria-selected={this.active ? "true" : "false"}
@@ -115,7 +101,6 @@ export class CalciteDropdownItem {
           theme={theme}
           dir={dir}
           scale={scale}
-          id={this.dropdownItemId}
           tabindex="0"
           role="menuitem"
           aria-selected={this.active ? "true" : "false"}
@@ -135,8 +120,8 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(e) {
-    this.emitRequestedItem(e);
+  @Listen("click") onClick() {
+    this.emitRequestedItem();
   }
 
   @Listen("mouseover") onMouseover(e) {
@@ -147,7 +132,7 @@ export class CalciteDropdownItem {
     switch (e.keyCode) {
       case SPACE:
       case ENTER:
-        this.emitRequestedItem(e);
+        this.emitRequestedItem();
         if (e.path && e.path[0].nodeName === "A") e.click();
         break;
       case ESCAPE:
@@ -164,62 +149,81 @@ export class CalciteDropdownItem {
     e.preventDefault();
   }
 
+  @Listen("registerCalciteDropdownGroup", { target: "parent" })
+  registerCalciteDropdownGroup(event: CustomEvent) {
+    this.currentDropdownGroup = event.detail.groupId;
+  }
+
+  @Listen("calciteDropdownItemHasChanged", { target: "parent" })
+  updateActiveItemOnChange(event: CustomEvent) {
+    this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
+    this.requestedDropdownItem = event.detail.requestedDropdownItem;
+    this.determineActiveItem();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  /** unique id for dropdown item */
-  /** @internal */
   private dropdownItemId = `calcite-dropdown-item-${guid()}`;
 
   /** position withing group */
-  /** @internal */
   private itemPosition: number;
 
   /** id of containing group */
-  /** @internal */
   private currentDropdownGroup: string;
+
+  /** requested group */
+  private requestedDropdownGroup: string;
+
+  /** requested item */
+  private requestedDropdownItem: string;
+
+  /** what selection mode is the parent dropdown group in */
+  private selectionMode = getElementProp(this.el, "selection-mode", "single");
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
   private determineActiveItem() {
-    if (this.requestedDropdownItem === this.dropdownItemId) {
-      this.active = true;
-    } else if (this.requestedDropdownGroup === this.currentDropdownGroup) {
-      this.active = false;
+    switch (this.selectionMode) {
+      case "multi":
+        if (this.dropdownItemId === this.requestedDropdownItem)
+          this.active = !this.active;
+        break;
+
+      case "single":
+        if (this.dropdownItemId === this.requestedDropdownItem)
+          this.active = true;
+        else if (this.requestedDropdownGroup === this.currentDropdownGroup)
+          this.active = false;
+        break;
+
+      case "none":
+        this.active = false;
+        break;
     }
   }
 
-  private emitRequestedItem(e) {
+  private emitRequestedItem() {
     this.calciteDropdownItemSelected.emit({
-      requestedDropdownItem: e.target.id,
-      requestedDropdownGroup: (e.target
-        .parentElement as HTMLCalciteDropdownGroupElement).id
+      requestedDropdownItem: this.dropdownItemId,
+      requestedDropdownGroup: this.currentDropdownGroup
     });
     this.closeCalciteDropdown.emit();
   }
 
   private getItemPosition() {
-    const group = this.el.parentElement as HTMLCalciteDropdownGroupElement;
+    const group = this.el.closest(
+      "calcite-dropdown-group"
+    ) as HTMLCalciteDropdownGroupElement;
     return Array.prototype.indexOf.call(
       group.querySelectorAll("calcite-dropdown-item"),
       this.el
     );
   }
 }
-
-//--------------------------------------------------------------------------
-//
-//  Inject Props
-//
-//--------------------------------------------------------------------------
-
-DropdownInterface.injectProps(CalciteDropdownItem, [
-  "requestedDropdownItem",
-  "requestedDropdownGroup"
-]);

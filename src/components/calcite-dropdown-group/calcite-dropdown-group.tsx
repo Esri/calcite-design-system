@@ -6,12 +6,10 @@ import {
   h,
   Host,
   Listen,
-  Prop,
-  State
+  Prop
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
 import { getElementTheme, getElementProp } from "../../utils/dom";
-import DropdownInterface from "../../interfaces/DropdownInterface";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-dropdown-group",
@@ -32,11 +30,15 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @State() requestedDropdownGroup: string = "";
-  @State() requestedDropdownItem: string = "";
-
   /** optionally set a group title for display */
-  @Prop({ reflect: true }) groupTitle?: string = null;
+  @Prop({ reflect: true }) groupTitle?: string;
+
+  /** specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
+   none (no active items), defaults to single */
+  @Prop({ mutable: true, reflect: true }) selectionMode:
+    | "multi"
+    | "single"
+    | "none" = "single";
 
   //--------------------------------------------------------------------------
   //
@@ -53,33 +55,34 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback() {
+    // validate props
+    let selectionMode = ["multi", "single", "none"];
+    if (!selectionMode.includes(this.selectionMode))
+      this.selectionMode = "single";
+  }
+
   componentDidLoad() {
     this.groupPosition = this.getGroupPosition();
     this.items = this.sortItems(this.items);
     this.registerCalciteDropdownGroup.emit({
       items: this.items,
-      position: this.groupPosition
+      position: this.groupPosition,
+      groupId: this.dropdownGroupId
     });
   }
 
   render() {
     const theme = getElementTheme(this.el);
     const scale = getElementProp(this.el, "scale", "m");
-    const dropdownState = {
-      requestedDropdownGroup: this.requestedDropdownGroup,
-      requestedDropdownItem: this.requestedDropdownItem
-    };
-
     const groupTitle = this.groupTitle ? (
       <span class="dropdown-title">{this.groupTitle}</span>
     ) : null;
 
     return (
-      <Host theme={theme} scale={scale} id={this.dropdownGroupId}>
+      <Host theme={theme} scale={scale}>
         {groupTitle}
-        <DropdownInterface.Provider state={dropdownState}>
-          <slot />
-        </DropdownInterface.Provider>
+        <slot />
       </Host>
     );
   }
@@ -89,6 +92,17 @@ export class CalciteDropdownGroup {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("registerCalciteDropdownItem") registerCalciteDropdownItem(
+    event: CustomEvent
+  ) {
+    const item = {
+      item: event.target as HTMLCalciteDropdownItemElement,
+      position: event.detail.position
+    };
+    this.items.push(item);
+    this.requestedDropdownItem = event.detail.requestedDropdownItem;
+  }
 
   @Listen("calciteDropdownItemSelected") updateActiveItemOnChange(
     event: CustomEvent
@@ -101,16 +115,6 @@ export class CalciteDropdownGroup {
     });
   }
 
-  @Listen("registerCalciteDropdownItem") registerCalciteDropdownItem(
-    e: CustomEvent
-  ) {
-    const item = {
-      item: e.detail.item as HTMLCalciteDropdownItemElement,
-      position: e.detail.position
-    };
-    this.items.push(item);
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -120,12 +124,17 @@ export class CalciteDropdownGroup {
   /** created list of dropdown items */
   private items = [];
 
-  /** @internal */
+  /** unique id for dropdown group */
+  private dropdownGroupId = `calcite-dropdown-group-${guid()}`;
+
+  /** position of group within a dropdown */
   private groupPosition: number;
 
-  /** unique id for dropdown group */
-  /** @internal */
-  private dropdownGroupId = `calcite-dropdown-group-${guid()}`;
+  /** the requested group */
+  private requestedDropdownGroup: string;
+
+  /** the requested item */
+  private requestedDropdownItem: string;
 
   //--------------------------------------------------------------------------
   //

@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property     | Attribute     | Description                              | Type     | Default |
-| ------------ | ------------- | ---------------------------------------- | -------- | ------- |
-| `groupTitle` | `group-title` | optionally set a group title for display | `string` | `null`  |
+| Property        | Attribute        | Description                                                                                                                                                           | Type                            | Default     |
+| --------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----------- |
+| `groupTitle`    | `group-title`    | optionally set a group title for display                                                                                                                              | `string`                        | `undefined` |
+| `selectionMode` | `selection-mode` | specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item), none (no active items), defaults to single | `"multi" \| "none" \| "single"` | `"single"`  |
 
 
 ## Events
@@ -19,19 +20,6 @@
 | `calciteDropdownItemHasChanged` |             | `CustomEvent<any>` |
 | `registerCalciteDropdownGroup`  |             | `CustomEvent<any>` |
 
-
-## Dependencies
-
-### Depends on
-
-- context-consumer
-
-### Graph
-```mermaid
-graph TD;
-  calcite-dropdown-group --> context-consumer
-  style calcite-dropdown-group fill:#f9f,stroke:#333,stroke-width:4px
-```
 
 ----------------------------------------------
 
