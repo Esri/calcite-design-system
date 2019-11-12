@@ -1,16 +1,9 @@
 :host {
-  --calcite-tooltip-primary-text: #{$ui-text-1};
-  --calcite-tooltip-background: #{$ui-foreground};
   display: block;
   position: absolute;
   z-index: 999;
   top: -999999px;
   left: -999999px;
-}
-
-:host([theme="dark"]) {
-  --calcite-tooltip-primary-text: #{$ui-text-1-dark};
-  --calcite-tooltip-background: #{$ui-foreground-dark};
 }
 
 .tooltip-container {
@@ -24,14 +17,14 @@
 }
 
 .tooltip-content-container {
-  background: var(--calcite-tooltip-background);
+  background: var(--calcite-global-ui-foreground);
   max-width: 300px;
   max-height: 300px;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   font-weight: 500;
-  color: var(--calcite-tooltip-primary-text);
+  color: var(--calcite-global-ui-text-1);
   padding: 12px 16px;
   @include font-size(-3);
 }

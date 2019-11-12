@@ -1,10 +1,6 @@
 $image_max_height: 200px;
 
 :host {
-  --calcite-popover-background: #{$ui-foreground};
-  --calcite-popover-primary-text: var(--calcite-global-ui-text-1);
-  --calcite-popover-close-hover: #{$ui-foreground-hover};
-  --calcite-popover-close-pressed: #{$ui-foreground-pressed};
   display: block;
   position: absolute;
   z-index: 999;
@@ -13,10 +9,6 @@ $image_max_height: 200px;
 }
 
 :host([theme="dark"]) {
-  --calcite-popover-background: #{$ui-foreground-dark};
-  --calcite-popover-primary-text: #{$ui-text-1-dark};
-  --calcite-popover-close-hover: #{$ui-foreground-hover-dark};
-  --calcite-popover-close-pressed: #{$ui-foreground-pressed-dark};
 }
 
 .container {
@@ -35,8 +27,8 @@ $image_max_height: 200px;
   display: flex;
   max-width: 350px;
   flex-direction: column;
-  background: var(--calcite-popover-background);
-  color: var(--calcite-popover-primary-text);
+  background: var(--calcite-global-ui-foreground);
+  color: var(--calcite-global-ui-text-1);
 }
 
 .content {
@@ -52,18 +44,18 @@ $image_max_height: 200px;
   width: 40px;
   height: 45px;
   z-index: 1;
-  background: var(--calcite-popover-background);
-  color: var(--calcite-popover-primary-text);
+  background: var(--calcite-global-ui-foreground);
+  color: var(--calcite-global-ui-text-1);
   padding: 16px 12px;
   border: none;
   display: block;
   cursor: pointer;
   border-top-right-radius: 2px;
   &:hover {
-    background: var(--calcite-popover-close-hover);
+    background: var(--calcite-global-ui-foreground-hover);
   }
   &:active {
-    background: var(--calcite-popover-close-pressed);
+    background: var(--calcite-global-ui-foreground-pressed);
   }
 }
 
