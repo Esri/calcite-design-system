@@ -1,13 +1,11 @@
 // theme variables
 // light theme
 :host {
-  --calcite-dropdown-background-color: #{$ui-foreground};
   --calcite-dropdown-border-color: #{$blk-020};
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-dropdown-background-color: #{$ui-foreground-dark};
   --calcite-dropdown-border-color: #{$blk-180};
 }
 
@@ -34,7 +32,7 @@
   overflow: auto;
   width: auto;
   width: 12.5rem;
-  background: var(--calcite-dropdown-background-color);
+  background: var(--calcite-global-ui-foreground);
   border: 1px solid var(--calcite-dropdown-border-color);
   border-radius: 2px;
   box-shadow: 0 0 12px 0 rgba($blk-240, 0.15);
