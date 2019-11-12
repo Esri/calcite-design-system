@@ -12,7 +12,6 @@ $calcite-slider-tick-height: 4px;
   --calcite-slider-track: #{$blk-040};
   --calcite-slider-handle: #{$blk-000};
   --calcite-slider-handle-border: #{$blk-140};
-  --calcite-slider-handle-precise: #{$blk-140};
   display: block;
   padding: $calcite-slider-handle-size / 2 0;
   margin: $calcite-slider-handle-size / 2 0;
@@ -25,7 +24,6 @@ $calcite-slider-tick-height: 4px;
   --calcite-slider-track: #{$blk-170};
   --calcite-slider-handle: #{$blk-200};
   --calcite-slider-handle-border: #{$blk-090};
-  --calcite-slider-handle-precise: #{$blk-090};
 }
 
 :host([disabled]) {
@@ -131,12 +129,13 @@ $calcite-slider-tick-height: 4px;
   left: 50%;
   width: 2px;
   height: $calcite-slider-thumb-padding;
-  background-color: var(--calcite-slider-handle-precise);
+  background-color: var(--calcite-slider-handle-border);
   margin-left: -1px;
   margin-top: $calcite-slider-thumb-padding;
   z-index: 2;
 }
 
+.slider__thumb:hover.slider__thumb--precise:after,
 .slider__thumb:focus.slider__thumb--precise:after,
 .slider__thumb--active.slider__thumb--precise:after {
   background-color: var(--calcite-global-ui-blue);
