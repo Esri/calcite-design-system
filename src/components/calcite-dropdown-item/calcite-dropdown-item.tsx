@@ -58,7 +58,7 @@ export class CalciteDropdownItem {
   @Prop() href?: string;
 
   /** pass an optional title for rendered href */
-  @Prop() linktitle?: string;
+  @Prop() linkTitle?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -121,7 +121,7 @@ export class CalciteDropdownItem {
           aria-selected={this.active ? "true" : "false"}
           isLink
         >
-          <a href={this.href} title={this.linktitle}>
+          <a href={this.href} title={this.linkTitle}>
             <slot />
           </a>
         </Host>

@@ -36,7 +36,7 @@ export class CalciteDropdownGroup {
   @State() requestedDropdownItem: string = "";
 
   /** optionally set a group title for display */
-  @Prop({ reflect: true }) grouptitle?: string = null;
+  @Prop({ reflect: true }) groupTitle?: string = null;
 
   //--------------------------------------------------------------------------
   //
@@ -70,13 +70,13 @@ export class CalciteDropdownGroup {
       requestedDropdownItem: this.requestedDropdownItem
     };
 
-    const grouptitle = this.grouptitle ? (
-      <span class="dropdown-title">{this.grouptitle}</span>
+    const groupTitle = this.groupTitle ? (
+      <span class="dropdown-title">{this.groupTitle}</span>
     ) : null;
 
     return (
       <Host theme={theme} scale={scale} id={this.dropdownGroupId}>
-        {grouptitle}
+        {groupTitle}
         <DropdownInterface.Provider state={dropdownState}>
           <slot />
         </DropdownInterface.Provider>
