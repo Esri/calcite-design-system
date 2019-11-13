@@ -11,7 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - calcite-button "iconposition" attribute updated to "icon-position"
 - calcite-dropdown-group "grouptitle" attribute updated to "group-title"
 - calcite-dropdown-item "linktitle" attribute updated to "link-title"
-  
+
+### Added
+- `no-padding` attribute for modals allowing modal content to fill space
+
 ## [v1.0.0-beta.13] - Nov 11th 2019
 
 ### Added

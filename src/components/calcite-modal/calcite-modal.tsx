@@ -50,8 +50,9 @@ export class CalciteModal {
    * Use color to add importance to desctructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
   /** Select theme (light or dark) */
-  @Prop({ reflect: true })
-  theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  /** Turn off spacing around the content area slot */
+  @Prop() noPadding?: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -79,7 +80,7 @@ export class CalciteModal {
             <button
               class="modal__close"
               aria-label={this.closeLabel}
-              ref={(el) => this.closeButton = el}
+              ref={el => (this.closeButton = el)}
               onClick={() => this.close()}
             >
               <svg
@@ -96,7 +97,13 @@ export class CalciteModal {
               <slot name="header" />
             </header>
           </div>
-          <div class="modal__content" ref={(el) => this.modalContent = el}>
+          <div
+            class={{
+              "modal__content": true,
+              "modal__content--spaced": !this.noPadding
+            }}
+            ref={el => (this.modalContent = el)}
+          >
             <slot name="content" />
           </div>
           <div class="modal__footer">
@@ -125,7 +132,7 @@ export class CalciteModal {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("keyup", { target: "window" }) handleEscape(e:KeyboardEvent) {
+  @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent) {
     if (this.isActive && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
@@ -156,7 +163,11 @@ export class CalciteModal {
         if (this.firstFocus) {
           this.firstFocus.focus();
         } else {
-          const focusableElements = queryShadowRoot(this.el, isHidden, isFocusable);
+          const focusableElements = queryShadowRoot(
+            this.el,
+            isHidden,
+            isFocusable
+          );
           if (focusableElements.length > 0) {
             focusableElements[0].focus();
           } else {
@@ -183,10 +194,13 @@ export class CalciteModal {
   }
 
   /** Set the scroll top of the modal content */
-  @Method() async scrollContent(top: number = 0, left: number = 0): Promise<void> {
+  @Method() async scrollContent(
+    top: number = 0,
+    left: number = 0
+  ): Promise<void> {
     if (this.modalContent) {
       if (this.modalContent.scrollTo) {
-        this.modalContent.scrollTo({top, left, behavior: 'smooth'});
+        this.modalContent.scrollTo({ top, left, behavior: "smooth" });
       } else {
         this.modalContent.scrollTop = top;
         this.modalContent.scrollLeft = left;
@@ -209,8 +223,11 @@ export class CalciteModal {
   }
 
   private focusLastElement() {
-    const focusableElements = queryShadowRoot(this.el, isHidden, isFocusable)
-      .filter(el => !el.getAttribute("data-focus-fence"));
+    const focusableElements = queryShadowRoot(
+      this.el,
+      isHidden,
+      isFocusable
+    ).filter(el => !el.getAttribute("data-focus-fence"));
     if (focusableElements.length > 0) {
       focusableElements[focusableElements.length - 1].focus();
     } else {

@@ -127,7 +127,7 @@
  */
 .modal__content {
   position: relative;
-  padding: $baseline;
+  padding: 0;
   height: 100%;
   overflow: auto;
   max-height: calc(100vh - 12rem);
@@ -135,6 +135,10 @@
   display: block;
   background-color: var(--calcite-global-ui-foreground);
   z-index: 1;
+}
+
+.modal__content--spaced {
+  padding: $baseline;
 }
 
 @include slotted("content", "*") {
@@ -321,7 +325,7 @@ slot[name="primary"] {
   .modal__close {
     padding: $baseline * 0.675;
   }
-  .modal__content {
+  .modal__content--spaced {
     padding: $baseline * 0.675;
   }
   .modal__footer {

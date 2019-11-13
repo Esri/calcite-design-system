@@ -16,6 +16,7 @@ storiesOf('Modal', module)
         size="${select("size", ["small", "medium", "large", "fullscreen"], "small")}"
         docked="${boolean("docked", false)}"
         disable-escape="${boolean("disable-escape", false)}"
+        no-padding="${boolean("no-padding", false)}"
         close-label="${text("close-label", "Close")}"
       >
         <h3 slot="header">Small Modal</h3>
@@ -42,6 +43,7 @@ storiesOf('Modal', module)
         size="${select("size", ["small", "medium", "large", "fullscreen"], "small")}"
         docked="${boolean("docked", false)}"
         disable-escape="${boolean("disable-escape", false)}"
+        no-padding="${boolean("no-padding", false)}"
         close-label="${text("close-label", "Close")}"
       >
         <h3 slot="header">Small Modal</h3>
