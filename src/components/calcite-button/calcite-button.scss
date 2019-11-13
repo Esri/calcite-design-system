@@ -3,12 +3,9 @@
 :host {
   display: inline-block;
   width: auto;
-  --calcite-button-blue: #{$ui-blue};
-  --calcite-button-blue-hover: #{$ui-blue-hover};
-  --calcite-button-blue-pressed: #{$ui-blue-pressed};
-  --calcite-button-red: #{$ui-red};
-  --calcite-button-red-hover: #{$ui-red-hover};
-  --calcite-button-red-pressed: #{$ui-red-pressed};
+  --calcite-button-light: #{$blk-010};
+  --calcite-button-light-hover: #{$blk-000};
+  --calcite-button-light-pressed: #{$blk-020};
   --calcite-button-dark: #{$blk-190};
   --calcite-button-dark-hover: #{$blk-180};
   --calcite-button-dark-pressed: #{$blk-200};
@@ -23,12 +20,9 @@
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-button-blue: #{$ui-blue-dark};
-  --calcite-button-blue-hover: #{$ui-blue-hover-dark};
-  --calcite-button-blue-pressed: #{$ui-blue-pressed-dark};
-  --calcite-button-red: #{$ui-red-dark};
-  --calcite-button-red-hover: #{$ui-red-hover-dark};
-  --calcite-button-red-pressed: #{$ui-red-pressed-dark};
+  --calcite-button-light: #{$blk-010};
+  --calcite-button-light-hover: #{$blk-020};
+  --calcite-button-light-pressed: #{$blk-000};
   --calcite-button-dark: #{$blk-190};
   --calcite-button-dark-hover: #{$blk-200};
   --calcite-button-dark-pressed: #{$blk-180};
@@ -203,9 +197,9 @@
   button,
   a {
     @include btn-solid(
-      var(--calcite-button-blue),
-      var(--calcite-button-blue-hover),
-      var(--calcite-button-blue-pressed),
+      var(--calcite-global-ui-blue),
+      var(--calcite-global-ui-blue-hover),
+      var(--calcite-global-ui-blue-pressed),
       var(--calcite-button-blue-solid-color)
     );
   }
@@ -214,9 +208,9 @@
   button,
   a {
     @include btn-solid(
-      var(--calcite-button-red),
-      var(--calcite-button-red-hover),
-      var(--calcite-button-red-pressed),
+      var(--calcite-global-ui-red),
+      var(--calcite-global-ui-red-hover),
+      var(--calcite-global-ui-red-pressed),
       var(--calcite-button-red-solid-color)
     );
   }
@@ -224,7 +218,12 @@
 :host([appearance="solid"][color="light"]) {
   button,
   a {
-    @include btn-solid($blk-010, $blk-000, $blk-020, $blk-240);
+    @include btn-solid(
+      var(--calcite-button-light),
+      var(--calcite-button-light-hover),
+      var(--calcite-button-light-pressed),
+      $blk-220
+      );
   }
 }
 :host([appearance="solid"][color="dark"]) {
@@ -278,11 +277,11 @@
   a {
     @include btn-outline-clear(
       var(--calcite-button-outline-background),
-      var(--calcite-button-blue),
-      var(--calcite-button-blue-hover),
-      var(--calcite-button-blue-pressed),
-      var(--calcite-button-blue),
-      var(--calcite-button-blue-pressed)
+      var(--calcite-global-ui-blue),
+      var(--calcite-global-ui-blue-hover),
+      var(--calcite-global-ui-blue-pressed),
+      var(--calcite-global-ui-blue),
+      var(--calcite-global-ui-blue-pressed)
     );
   }
 }
@@ -291,11 +290,11 @@
   a {
     @include btn-outline-clear(
       var(--calcite-button-outline-background),
-      var(--calcite-button-red),
-      var(--calcite-button-red-hover),
-      var(--calcite-button-red-pressed),
-      var(--calcite-button-red),
-      var(--calcite-button-red-pressed)
+      var(--calcite-global-ui-red),
+      var(--calcite-global-ui-red-hover),
+      var(--calcite-global-ui-red-pressed),
+      var(--calcite-global-ui-red),
+      var(--calcite-global-ui-red-pressed)
     );
   }
 }
@@ -319,7 +318,7 @@
       var(--calcite-button-outline-background),
       $blk-200,
       $blk-180,
-      $blk-240,
+      $blk-220,
       var(--calcite-button-outline-color),
       var(--calcite-button-outline-pressed)
     );
@@ -330,11 +329,11 @@
   a {
     @include btn-outline-clear(
       transparent,
-      var(--calcite-button-blue),
-      var(--calcite-button-blue-hover),
-      var(--calcite-button-blue-pressed),
-      var(--calcite-button-blue),
-      var(--calcite-button-blue-pressed)
+      var(--calcite-global-ui-blue),
+      var(--calcite-global-ui-blue-hover),
+      var(--calcite-global-ui-blue-pressed),
+      var(--calcite-global-ui-blue),
+      var(--calcite-global-ui-blue-pressed)
     );
   }
 }
@@ -343,11 +342,11 @@
   a {
     @include btn-outline-clear(
       transparent,
-      var(--calcite-button-red),
-      var(--calcite-button-red-hover),
-      var(--calcite-button-red-pressed),
-      var(--calcite-button-red),
-      var(--calcite-button-red-pressed)
+      var(--calcite-global-ui-red),
+      var(--calcite-global-ui-red-hover),
+      var(--calcite-global-ui-red-pressed),
+      var(--calcite-global-ui-red),
+      var(--calcite-global-ui-red-pressed)
     );
   }
 }
@@ -371,9 +370,9 @@
       transparent,
       $blk-200,
       $blk-180,
-      $blk-240,
       $blk-220,
-      $blk-240
+      $blk-220,
+      $blk-220
     );
   }
 }
@@ -408,9 +407,9 @@
   button,
   a {
     @include btn-transparent(
-      var(--calcite-button-blue),
-      var(--calcite-button-blue-hover),
-      var(--calcite-button-blue-pressed)
+      var(--calcite-global-ui-blue),
+      var(--calcite-global-ui-blue-hover),
+      var(--calcite-global-ui-blue-pressed)
     );
   }
 }
@@ -419,9 +418,9 @@
   button,
   a {
     @include btn-transparent(
-      var(--calcite-button-red),
-      var(--calcite-button-red-hover),
-      var(--calcite-button-red-pressed)
+      var(--calcite-global-ui-red),
+      var(--calcite-global-ui-red-hover),
+      var(--calcite-global-ui-red-pressed)
     );
   }
 }
@@ -482,9 +481,9 @@
   span,
   a {
     @include btn-inline(
-      var(--calcite-button-blue),
-      var(--calcite-button-blue-hover),
-      var(--calcite-button-blue-inline-underline)
+      var(--calcite-global-ui-blue),
+      var(--calcite-global-ui-blue-hover),
+      var(--calcite-global-ui-blue-inline-underline)
     );
   }
 }
@@ -493,9 +492,9 @@
   span,
   a {
     @include btn-inline(
-      var(--calcite-button-red),
-      var(--calcite-button-red-hover),
-      var(--calcite-button-red-inline-underline)
+      var(--calcite-global-ui-red),
+      var(--calcite-global-ui-red-hover),
+      var(--calcite-global-ui-red-inline-underline)
     );
   }
 }

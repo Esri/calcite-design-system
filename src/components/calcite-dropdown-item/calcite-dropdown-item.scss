@@ -1,24 +1,3 @@
-// theme variables
-// light theme
-:host {
-  --calcite-dropdown-item-color: #{$ui-text-2};
-  --calcite-dropdown-item-color-hover: #{$ui-text-1};
-  --calcite-dropdown-item-color-active: #{$ui-text-1};
-  --calcite-dropdown-item-background-color-hover: #{$ui-foreground-hover};
-  --calcite-dropdown-item-background-color-pressed: #{$ui-foreground-pressed};
-  --calcite-dropdown-item-dot-active-color: #{$ui-blue};
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-dropdown-item-color: #{$ui-text-2-dark};
-  --calcite-dropdown-item-color-hover: #{$ui-text-1-dark};
-  --calcite-dropdown-item-color-active: #{$ui-text-1-dark};
-  --calcite-dropdown-item-background-color-hover: #{$ui-foreground-hover-dark};
-  --calcite-dropdown-item-background-color-pressed: #{$ui-foreground-pressed-dark};
-  --calcite-dropdown-item-dot-active-color: #{$ui-blue-dark};
-}
-
 // scale: s
 :host([scale="s"]) {
   --calcite-dropdown-item-padding: #{$baseline/5 $baseline/1.5 $baseline/5
@@ -53,7 +32,7 @@
 :host {
   display: block;
   @include font-size(-2);
-  color: var(--calcite-dropdown-item-color);
+  color: var(--calcite-global-ui-text-3);
   transition: 0.15s all ease-in-out;
   padding: var(--calcite-dropdown-item-padding);
   cursor: pointer;
@@ -65,13 +44,13 @@
 :host(:hover),
 :host(:focus),
 :host(:active) {
-  background-color: var(--calcite-dropdown-item-background-color-hover);
-  color: var(--calcite-dropdown-item-color-hover);
+  background-color: var(--calcite-global-ui-foreground-hover);
+  color: var(--calcite-global-ui-text-1);
   text-decoration: none;
 }
 
 :host(:active) {
-  background-color: var(--calcite-dropdown-item-background-color-pressed);
+  background-color: var(--calcite-global-ui-foreground-pressed);
 }
 
 :host:before {
@@ -96,11 +75,11 @@
 }
 
 :host([active]) {
-  color: var(--calcite-dropdown-item-color-active);
+  color: var(--calcite-global-ui-text-1);
   font-weight: 500;
   &:before {
     opacity: 1;
-    color: var(--calcite-dropdown-item-dot-active-color);
+    color: var(--calcite-global-ui-blue);
   }
 }
 
@@ -114,7 +93,7 @@
     display: block;
     position: relative;
     padding: var(--calcite-dropdown-item-padding);
-    color: var(--calcite-dropdown-item-color);
+    color: var(--calcite-global-ui-text-3);
     text-decoration: none;
     outline: none;
     &:before {
@@ -131,7 +110,7 @@
 :host([islink]) a:hover,
 :host([islink]) a:focus,
 :host([islink]) a:active {
-  background-color: var(--calcite-dropdown-item-background-color-hover);
+  background-color: var(--calcite-global-ui-foreground-hover);
   text-decoration: none;
   &:before {
     opacity: 1;
@@ -139,15 +118,15 @@
 }
 
 :host([islink]) a:active {
-  background-color: var(--calcite-dropdown-item-background-color-pressed);
+  background-color: var(--calcite-global-ui-foreground-pressed);
 }
 
 :host([islink][active]) a {
-  color: var(--calcite-dropdown-item-color-active);
+  color: var(--calcite-global-ui-text-1);
   font-weight: 500;
   &:before {
     opacity: 1;
-    color: var(--calcite-dropdown-item-dot-active-color);
+    color: var(--calcite-global-ui-blue);
   }
 }
 

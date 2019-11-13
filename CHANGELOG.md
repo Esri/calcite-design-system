@@ -12,9 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-dropdown-group` - `grouptitle` attribute updated to `group-title`
 - `calcite-dropdown-item` - `linktitle` attribute updated to `link-title`
   
-
 ### Added
 - `calcite-dropdown` now has configurable `selection-mode` (#220)
+- `no-padding` attribute for modals allowing modal content to fill space
 
 ### Fixed
 - Fix for `calcite-dropdown` taking up height when closed (#213)

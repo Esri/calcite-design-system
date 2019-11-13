@@ -1,13 +1,6 @@
 :host {
-  --calcite-modal-background: #{$ui-foreground};
-  --calcite-modal-hover: #{$ui-foreground-hover};
-  --calcite-modal-pressed: #{$ui-foreground-pressed};
-  --calcite-modal-header-text: #{$blk-220};
-  --calcite-modal-body-text: #{$blk-220};
   --calcite-modal-scrim: rgba(0, 0, 0, 0.75);
   --calcite-modal-border: #{$blk-010};
-  --calcite-modal-accent-red: #{$ui-red};
-  --calcite-modal-accent-blue: #{$ui-blue};
   position: fixed;
   top: 0;
   right: 0;
@@ -17,7 +10,7 @@
   justify-content: center;
   align-items: center;
   overflow-y: hidden;
-  color: var(--calcite-modal-body-text);
+  color: var(--calcite-global-ui-text-2);
   opacity: 0;
   visibility: hidden !important;
   background: var(--calcite-modal-scrim);
@@ -26,14 +19,7 @@
 }
 
 :host([theme="dark"]) {
-  --calcite-modal-background: #{$ui-foreground-dark};
-  --calcite-modal-hover: #{$ui-foreground-hover-dark};
-  --calcite-modal-pressed: #{$ui-foreground-pressed-dark};
-  --calcite-modal-header-text: #{$blk-000};
-  --calcite-modal-body-text: #{$blk-010};
   --calcite-modal-border: #{$ui-foreground-hover-dark};
-  --calcite-modal-accent-red: #{$ui-red-dark};
-  --calcite-modal-accent-blue: #{$ui-blue-dark};
 }
 
 .modal {
@@ -50,7 +36,7 @@
   transition: transform 300ms $easing-function, visibility 0ms linear 300ms,
     opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
-  background-color: var(--calcite-modal-background);
+  background-color: var(--calcite-global-ui-foreground);
   box-shadow: $shadow-2--press;
   border-radius: 2px;
   margin: $baseline;
@@ -80,7 +66,7 @@
  * Header
  */
 .modal__header {
-  background-color: var(--calcite-modal-background);
+  background-color: var(--calcite-global-ui-foreground);
   flex: 0;
   display: flex;
   max-width: 100%;
@@ -100,7 +86,7 @@
   background-color: transparent;
   -webkit-appearance: none;
   border: none;
-  color: var(--calcite-modal-body-text);
+  color: var(--calcite-global-ui-text-1);
   outline: none;
   cursor: pointer;
   border-radius: 0 2px 0 0;
@@ -109,10 +95,10 @@
   }
   &:hover,
   &:focus {
-    background-color: var(--calcite-modal-hover);
+    background-color: var(--calcite-global-ui-foreground-hover);
   }
   &:active {
-    background-color: var(--calcite-modal-pressed);
+    background-color: var(--calcite-global-ui-foreground-pressed);
   }
 }
 
@@ -133,7 +119,7 @@
   margin: 0;
   font-weight: 400;
   @include font-size(2);
-  color: var(--calcite-modal-header-text);
+  color: var(--calcite-global-ui-text-1);
 }
 
 /**
@@ -141,14 +127,18 @@
  */
 .modal__content {
   position: relative;
-  padding: $baseline;
+  padding: 0;
   height: 100%;
   overflow: auto;
   max-height: calc(100vh - 12rem);
   overflow-y: auto;
   display: block;
-  background-color: var(--calcite-modal-background);
+  background-color: var(--calcite-global-ui-foreground);
   z-index: 1;
+}
+
+.modal__content--spaced {
+  padding: $baseline;
 }
 
 @include slotted("content", "*") {
@@ -167,7 +157,7 @@
   box-sizing: border-box;
   border-radius: 0 0 2px 2px;
   width: 100%;
-  background-color: var(--calcite-modal-background);
+  background-color: var(--calcite-global-ui-foreground);
   border-top: 1px solid var(--calcite-modal-border);
   z-index: 2;
 }
@@ -305,13 +295,13 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-modal-accent-red);
+    border-top: 4px solid var(--calcite-global-ui-red);
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-modal-accent-blue);
+    border-top: 4px solid var(--calcite-global-ui-blue);
   }
 }
 
@@ -335,7 +325,7 @@ slot[name="primary"] {
   .modal__close {
     padding: $baseline * 0.675;
   }
-  .modal__content {
+  .modal__content--spaced {
     padding: $baseline * 0.675;
   }
   .modal__footer {

@@ -1,36 +1,16 @@
 // theme variables
 // light theme
 :host {
-  --calcite-alert-background: #{$blk-000};
-  --calcite-alert-title-text: #{$blk-180};
-  --calcite-alert-message-text: #{$blk-160};
   --calcite-alert-icon-fill: #{$blk-220};
-  --calcite-alert-close-background-hover: #{$blk-010};
-  --calcite-alert-close-background-pressed: #{$blk-020};
-  --calcite-alert-count-text: #{$blk-180};
   --calcite-alert-count-border: #{$blk-010};
   --calcite-alert-dismiss-background: #{rgba($blk-000, 0.8)};
-  --calcite-alert-border-blue: #{$ui-blue};
-  --calcite-alert-border-green: #{$ui-green};
-  --calcite-alert-border-red: #{$ui-red};
-  --calcite-alert-border-yellow: #{$ui-yellow};
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-alert-background: #{$blk-200};
-  --calcite-alert-title-text: #{$blk-005};
-  --calcite-alert-message-text: #{$blk-010};
   --calcite-alert-icon-fill: #{$blk-040};
-  --calcite-alert-close-background-hover: #{$blk-210};
-  --calcite-alert-close-background-pressed: #{$blk-220};
-  --calcite-alert-count-text: #{$blk-040};
   --calcite-alert-count-border: #{$blk-210};
   --calcite-alert-dismiss-background: #{rgba($blk-200, 0.8)};
-  --calcite-alert-border-blue: #{$ui-blue-dark};
-  --calcite-alert-border-green: #{$ui-green-dark};
-  --calcite-alert-border-red: #{$ui-red-dark};
-  --calcite-alert-border-yellow: #{$ui-yellow-dark};
 }
 
 :host {
@@ -43,7 +23,7 @@
   width: 50em;
   max-width: 90%;
   max-height: 0;
-  background-color: var(--calcite-alert-background);
+  background-color: var(--calcite-global-ui-foreground);
   box-shadow: $shadow-2;
   border-radius: 2px;
   opacity: 0;
@@ -81,7 +61,7 @@
 
 @include slotted("alert-title", "div") {
   @include font-size(0);
-  color: var(--calcite-alert-title-text);
+  color: var(--calcite-global-ui-text-1);
   font-weight: 500;
 }
 
@@ -93,7 +73,7 @@
   display: inline;
   margin-right: $baseline/2;
   @include font-size(-1);
-  color: var(--calcite-alert-message-text);
+  color: var(--calcite-global-ui-text-2);
 }
 
 :host([dir="rtl"]) {
@@ -167,11 +147,11 @@
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-alert-close-background-hover);
+    background-color: var(--calcite-global-ui-foreground-hover);
   }
 
   &:active {
-    background-color: var(--calcite-alert-close-background-pressed);
+    background-color: var(--calcite-global-ui-foreground-pressed);
   }
 }
 
@@ -194,7 +174,7 @@
   visibility: hidden;
   font-weight: 500;
   text-align: center;
-  color: var(--calcite-alert-count-text);
+  color: var(--calcite-global-ui-text-2);
   opacity: 0;
   border-left: 0px solid transparent;
   border-right: 0px solid transparent;
@@ -247,10 +227,10 @@
   }
 }
 
-$alertColors: "blue" var(--calcite-alert-border-blue),
-  "red" var(--calcite-alert-border-red),
-  "yellow" var(--calcite-alert-border-yellow),
-  "green" var(--calcite-alert-border-green);
+$alertColors: "blue" var(--calcite-global-ui-blue),
+  "red" var(--calcite-global-ui-red),
+  "yellow" var(--calcite-global-ui-yellow),
+  "green" var(--calcite-global-ui-green);
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);
