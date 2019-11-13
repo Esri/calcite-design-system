@@ -8,12 +8,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Breaking Changes
-- calcite-button "iconposition" attribute updated to "icon-position"
-- calcite-dropdown-group "grouptitle" attribute updated to "group-title"
-- calcite-dropdown-item "linktitle" attribute updated to "link-title"
-
+- `calcite-button` - `iconposition` attribute updated to `icon-position`
+- `calcite-dropdown-group` - `grouptitle` attribute updated to `group-title`
+- `calcite-dropdown-item` - `linktitle` attribute updated to `link-title`
+  
 ### Added
+- `calcite-dropdown` now has configurable `selection-mode` (#220)
 - `no-padding` attribute for modals allowing modal content to fill space
+
+### Fixed
+- Fix for `calcite-dropdown` taking up height when closed (#213)
+- Fixed incorrect dark theme color, other styling updates
+  
+### Updated
 
 ## [v1.0.0-beta.13] - Nov 11th 2019
 

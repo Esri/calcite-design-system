@@ -4,8 +4,7 @@ import {
   h,
   Host,
   Listen,
-  Prop,
-  State
+  Prop
 } from "@stencil/core";
 import {
   UP,
@@ -40,7 +39,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
-  @State() active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** specify the alignment of dropdrown, defaults to left */
   @Prop({ mutable: true, reflect: true }) alignment:

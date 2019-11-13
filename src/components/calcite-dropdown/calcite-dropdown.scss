@@ -13,29 +13,30 @@
   position: relative;
   display: inline-block;
 }
+
 :host([active]) .calcite-dropdown-wrapper {
   transform: translate3d(0, 0, 0);
   opacity: 1;
+  max-height: 100vh;
   visibility: visible;
 }
 
 :host .calcite-dropdown-wrapper {
   transform: translate3d(0, -$baseline, 0);
-  transition: 300ms $easing-function, opacity 300ms $easing-function,
-    all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
   visibility: hidden;
   opacity: 0;
   display: block;
   position: absolute;
   left: 0;
   z-index: 200;
-  overflow: auto;
+  overflow: hidden;
+  max-height: 0;
   width: auto;
   width: 12.5rem;
   background: var(--calcite-global-ui-foreground);
-  border: 1px solid var(--calcite-dropdown-border-color);
   border-radius: 2px;
-  box-shadow: 0 0 12px 0 rgba($blk-240, 0.15);
+  box-shadow: $shadow-2;
 }
 
 :host([dir="rtl"]) .calcite-dropdown-wrapper {
