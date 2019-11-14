@@ -8,6 +8,9 @@ export const config: Config = {
       components: ["calcite-switch"]
     },
     {
+      components: ["calcite-notice"]
+    },
+    {
       components: [
         "calcite-tab",
         "calcite-tab-title",
@@ -30,7 +33,7 @@ export const config: Config = {
     },
     { components: ["calcite-popover"] },
     { components: ["calcite-progress"] },
-    { components: ["calcite-alert", "calcite-alerts"] },
+    { components: ["calcite-alert"] },
     { components: ["calcite-loader"] },
     {
       components: ["calcite-radio-group", "calcite-radio-group-item"]

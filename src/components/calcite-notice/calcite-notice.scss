@@ -1,0 +1,223 @@
+// theme variables
+// light theme
+:host {
+  --calcite-notice-background: #{$blk-000};
+  --calcite-notice-border-color: #{$blk-020};
+  --calcite-notice-title-text: #{$blk-180};
+  --calcite-notice-message-text: #{$blk-160};
+  --calcite-notice-icon-fill: #{$blk-220};
+  --calcite-notice-close-background-hover: #{$blk-010};
+  --calcite-notice-close-background-pressed: #{$blk-020};
+  --calcite-notice-count-text: #{$blk-180};
+  --calcite-notice-count-border: #{$blk-010};
+  --calcite-notice-border-blue: #{$ui-blue};
+  --calcite-notice-border-green: #{$ui-green};
+  --calcite-notice-border-red: #{$ui-red};
+  --calcite-notice-border-yellow: #{$ui-yellow};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-notice-background: #{$blk-200};
+  --calcite-notice-border-color: #{$blk-210};
+  --calcite-notice-title-text: #{$blk-005};
+  --calcite-notice-message-text: #{$blk-010};
+  --calcite-notice-icon-fill: #{$blk-040};
+  --calcite-notice-close-background-hover: #{$blk-210};
+  --calcite-notice-close-background-pressed: #{$blk-220};
+  --calcite-notice-count-text: #{$blk-040};
+  --calcite-notice-count-border: #{$blk-210};
+  --calcite-notice-border-blue: #{$ui-blue-dark};
+  --calcite-notice-border-green: #{$ui-green-dark};
+  --calcite-notice-border-red: #{$ui-red-dark};
+  --calcite-notice-border-yellow: #{$ui-yellow-dark};
+}
+
+:host([scale="s"]) {
+  --calcite-notice-spacing-token-small: #{$baseline/3};
+  --calcite-notice-spacing-token-large: #{$baseline/2};
+  @include slotted("notice-title", "div") {
+    @include font-size(-2);
+  }
+  @include slotted("notice-message", "div") {
+    @include font-size(-3);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-3);
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-notice-spacing-token-small: #{$baseline/1.5};
+  --calcite-notice-spacing-token-large: #{$baseline};
+  @include slotted("notice-title", "div") {
+    @include font-size(-1);
+  }
+  @include slotted("notice-message", "div") {
+    @include font-size(-2);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-2);
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-notice-spacing-token-small: #{$baseline};
+  --calcite-notice-spacing-token-large: #{$baseline * 1.5};
+  @include slotted("notice-title", "div") {
+    @include font-size(0);
+  }
+  @include slotted("notice-message", "div") {
+    @include font-size(-1);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-1);
+  }
+}
+
+:host([width="auto"]) {
+  --calcite-notice-width: auto;
+}
+
+:host([width="half"]) {
+  --calcite-notice-width: 50%;
+}
+
+:host([width="full"]) {
+  --calcite-notice-width: 100%;
+}
+
+:host {
+  display: none;
+  text-align: left;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: var(--calcite-notice-width);
+  max-height: 0;
+  background-color: var(--calcite-notice-background);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 101;
+  transition: $transition;
+  border: 0px solid var(--calcite-notice-border-color);
+  border-left: 0px solid transparent;
+}
+
+:host([dir="rtl"]) {
+  text-align: right;
+}
+
+:host([active]) {
+  display: inline-flex;
+  opacity: 1;
+  max-height: 100%;
+  pointer-events: initial;
+  border: 1px solid var(--calcite-notice-border-color);
+  border-left-width: 3px;
+}
+
+@include slotted("notice-title", "div") {
+  color: var(--calcite-notice-title-text);
+  font-weight: 500;
+}
+
+@include slotted("notice-message", "div") {
+  display: inline;
+  margin-right: var(--calcite-notice-spacing-token-small);
+  color: var(--calcite-notice-message-text);
+}
+
+:host([dir="rtl"]) {
+  @include slotted("notice-message", "div") {
+    margin-right: unset;
+    margin-left: var(--calcite-notice-spacing-token-small);
+  }
+}
+
+@mixin notice-element-base() {
+  box-sizing: border-box;
+  padding: var(--calcite-notice-spacing-token-small)
+    var(--calcite-notice-spacing-token-large);
+  flex: 0 0 auto;
+  transition: all 0.15s ease-in-out;
+
+  & svg {
+    height: 16px;
+    width: 16px;
+    vertical-align: top;
+  }
+}
+
+.notice-content {
+  @include notice-element-base;
+  flex: 1 1 auto;
+  min-width: 0;
+  word-wrap: break-word;
+  padding: var(--calcite-notice-spacing-token-small)
+    var(--calcite-notice-spacing-token-small)
+    var(--calcite-notice-spacing-token-small) 0;
+  &:first-of-type {
+    padding-left: var(--calcite-notice-spacing-token-large);
+  }
+}
+
+:host([dir="rtl"]) {
+  .notice-content {
+    &:first-of-type {
+      padding-right: var(--calcite-notice-spacing-token-large);
+      padding-left: none;
+    }
+  }
+}
+.notice-icon {
+  @include notice-element-base;
+  display: flex;
+  align-items: center;
+}
+
+.notice-close {
+  @include notice-element-base;
+  background-color: transparent;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  & svg {
+    fill: var(--calcite-notice-icon-fill);
+  }
+
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-notice-close-background-hover);
+  }
+
+  &:active {
+    background-color: var(--calcite-notice-close-background-pressed);
+  }
+}
+
+:host([dir="rtl"]) {
+  &.active:last-child {
+    border-left: 1px solid var(--calcite-notice-count-border);
+    border-right: 0px solid transparent;
+  }
+}
+
+$noticeColors: "blue" var(--calcite-notice-border-blue),
+  "red" var(--calcite-notice-border-red),
+  "yellow" var(--calcite-notice-border-yellow),
+  "green" var(--calcite-notice-border-green);
+
+@each $noticeColor in $noticeColors {
+  $name: nth($noticeColor, 1);
+  $color: nth($noticeColor, 2);
+
+  :host([color="#{$name}"]) {
+    border-left-color: $color;
+
+    & .notice-icon svg {
+      fill: $color;
+    }
+  }
+}

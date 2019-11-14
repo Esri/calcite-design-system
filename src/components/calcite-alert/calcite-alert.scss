@@ -3,30 +3,81 @@
 :host {
   --calcite-alert-icon-fill: #{$blk-220};
   --calcite-alert-count-border: #{$blk-010};
-  --calcite-alert-dismiss-background: #{rgba($blk-000, 0.8)};
+  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
 }
 
 // dark theme
 :host([theme="dark"]) {
   --calcite-alert-icon-fill: #{$blk-040};
   --calcite-alert-count-border: #{$blk-210};
-  --calcite-alert-dismiss-background: #{rgba($blk-200, 0.8)};
+  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
+}
+
+// scale variants for child
+:host([scale="s"]) {
+  --calcite-alert-width: 40em;
+  --calcite-alert-spacing-token-small: #{$baseline/3};
+  --calcite-alert-spacing-token-large: #{$baseline/2};
+  @include slotted("alert-title", "div") {
+    @include font-size(-2);
+  }
+  @include slotted("alert-message", "div") {
+    @include font-size(-3);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-3);
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-alert-width: 50em;
+  --calcite-alert-spacing-token-small: #{$baseline/1.5};
+  --calcite-alert-spacing-token-large: #{$baseline};
+  @include slotted("alert-title", "div") {
+    @include font-size(-1);
+  }
+  @include slotted("alert-message", "div") {
+    @include font-size(-2);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-2);
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-alert-width: 60em;
+  --calcite-alert-spacing-token-small: #{$baseline};
+  --calcite-alert-spacing-token-large: #{$baseline * 1.5};
+  @include slotted("alert-title", "div") {
+    @include font-size(0);
+  }
+  @include slotted("alert-message", "div") {
+    @include font-size(-1);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-1);
+  }
 }
 
 :host {
   display: flex;
-  position: relative;
+  position: fixed;
   justify-content: center;
   pointer-events: none;
   z-index: 102;
   margin: 0 auto;
-  width: 50em;
+  width: var(--calcite-alert-width);
   max-width: 90%;
   max-height: 0;
   background-color: var(--calcite-global-ui-foreground);
   box-shadow: $shadow-2;
   border-radius: 2px;
   opacity: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 101;
   transform: translate3d(0, $baseline, 0);
   transition: 300ms $easing-function, opacity 300ms $easing-function,
     all 0.15s ease-in-out;
@@ -35,7 +86,6 @@
     width: 100%;
     max-width: 100%;
     border-radius: 2px 2px 0 0;
-    box-shadow: 0 -8px 16px 0 rgba($blk-240, 0.15);
   }
 
   &:host(.hydrated) {
@@ -84,7 +134,8 @@
 }
 
 @mixin alert-element-base() {
-  padding: $baseline/2 $baseline;
+  padding: var(--calcite-alert-spacing-token-small)
+    var(--calcite-alert-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
 
@@ -104,25 +155,31 @@
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
-  padding: $baseline/2 $baseline/2 $baseline/2 0;
+  padding: var(--calcite-alert-spacing-token-small)
+    var(--calcite-alert-spacing-token-small)
+    var(--calcite-alert-spacing-token-small) 0;
 
   &:first-of-type {
-    padding-left: $baseline;
+    padding-left: var(--calcite-alert-spacing-token-large);
   }
 
   @media only screen and (max-width: $viewport-medium) {
-    padding: $baseline $baseline/2 $baseline 0;
+    padding: var(--calcite-alert-spacing-token-large)
+      var(--calcite-alert-spacing-token-small)
+      var(--calcite-alert-spacing-token-large) 0;
   }
 }
 
 :host([dir="rtl"]) {
   .alert-content {
     &:first-of-type {
-      padding-right: $baseline;
+      padding-right: var(--calcite-alert-spacing-token-large);
       padding-left: none;
     }
     @media only screen and (max-width: $viewport-medium) {
-      padding: $baseline 0 $baseline $baseline/2;
+      padding: var(--calcite-alert-spacing-token-large) 0
+        var(--calcite-alert-spacing-token-large)
+        var(--calcite-alert-spacing-token-small);
     }
   }
 }
@@ -204,7 +261,8 @@
     border-right: 0px solid transparent;
   }
 }
-.alert-dismiss {
+
+.alert-dismiss-progress {
   display: block;
   position: absolute;
   left: 0;
@@ -222,14 +280,13 @@
     position: absolute;
     border-radius: 2px 2px 0 0;
     content: "";
-    background-color: var(--calcite-alert-dismiss-background);
+    background-color: var(--calcite-alert-dismiss-progress-background);
     z-index: 104;
   }
 }
 
 $alertColors: "blue" var(--calcite-global-ui-blue),
-  "red" var(--calcite-global-ui-red),
-  "yellow" var(--calcite-global-ui-yellow),
+  "red" var(--calcite-global-ui-red), "yellow" var(--calcite-global-ui-yellow),
   "green" var(--calcite-global-ui-green);
 
 @each $alertColor in $alertColors {
@@ -251,7 +308,7 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   $name: nth($alertDuration, 1);
   $duration: nth($alertDuration, 2);
 
-  :host([duration="#{$name}"]) .alert-dismiss:after {
+  :host([auto-dismiss-duration="#{$name}"]) .alert-dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
   }
 }
