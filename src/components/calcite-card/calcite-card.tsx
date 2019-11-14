@@ -10,14 +10,21 @@ import {
     h
 } from "@stencil/core";
 
-import { CSS } from "./resources";
+import { getElementDir } from "../utils/dom";
+import classnames from "classnames";
+import { CSS_UTILITY } from "../utils/resources";
+import { VNode } from "@stencil/core/dist/declarations";
+
+import { CSS, SLOTS } from "./resources";
 import CalciteIcon from "../utils/CalciteIcon";
 import CalciteScrim from "../utils/CalciteScrim";
+import { renders } from "../../tests/commonTests";
+import { classicNameResolver } from "typescript";
 
 /**
  * @slot thumbnail - [Required] A slot for adding a thumnail to the card.
  * @slot heading - A slot for adding a heading and an icon to the card.
- * * @slot action - A slot for adding a single action as a button.
+ * @slot action - A slot for adding a single action as a button.
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
  */
@@ -105,8 +112,8 @@ export class CalciteCard {
 
   emitChangeEvent(event: MouseEvent) {
       this.calciteCardChange.emit({
-          item: this.selected, 
-          selected: this.isSelected
+          item: this.el,
+          selected: this.isSelected,
       });
   };
 
@@ -116,7 +123,64 @@ export class CalciteCard {
   //
   // --------------------------------------------------------------------------
 
+    renderHeader(): VNode {
+      const hasHeader = this.el.querySelector(`[slot]=${SLOTS.header}`);
 
+      return hasHeader ? (
+        <header class={CSS.header}>
+          <slot name={SLOTS.header} />
+        </header>
+      ) : null;
+    }
 
+    renderThumbnail(): VNode {
+      const hasThumbnail = this.el.querySelector(`[slot]=${SLOTS.thumbnail}`);
 
+      return hasThumbnail ? (
+        <img class={CSS.thumbnail} src={SLOTS.thumbnail}></img>
+      ) : null;
+    }
+
+    renderFooter(): VNode {
+      const leadingFooter = this.el.querySelector(`[slot]=${SLOTS.footerLeading}`);
+      const trailingFooter = this.el.querySelector(`[slot]=${SLOTS.footerTrailing}`);
+
+      const hasFooter = leadingFooter || trailingFooter;
+
+      return hasFooter ? (
+        <footer class={CSS.footer}>
+          <slot name={SLOTS.footerLeading} />
+          <slot name={SLOTS.footerTrailing} />
+        </footer>
+      ) : null;
+    }
+
+    renderScrim(): VNode {
+        return this.loading || this.disabled ? (
+          <CalciteScrim loading={this.loading}></CalciteScrim>
+        ) : null;
+      }
+    render() {
+        const {
+            loading,
+            el,
+          } = this;
+        const rtl = getElementDir(el) === "rtl";
+        return (
+        <Host selected={this.isSelected}>
+          <div
+            class={classnames(CSS.container, {
+              [CSS_UTILITY.rtl]: rtl,
+            })}
+            aria-busy={loading}
+          >
+            {this.renderThumbnail()}
+            {this.renderHeader()}
+            <slot name={SLOTS.buttonAction} />
+            {this.renderFooter()}
+          </div>
+          {this.renderScrim()}
+        </Host>
+    );
+  }
 }
