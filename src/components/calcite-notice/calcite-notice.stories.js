@@ -14,6 +14,7 @@ storiesOf("Notice", module)
     theme="light"
     icon="${boolean("icon", true)}"
     active="${boolean("active", true)}"
+    dismissible="${boolean("dismissible", false)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "half", "full"], "auto")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
@@ -35,6 +36,7 @@ storiesOf("Notice", module)
     theme="dark"
     icon="${boolean("icon", true)}"
     active="${boolean("active", true)}"
+    dismissible="${boolean("dismissible", false)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "half", "full"], "auto")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
@@ -56,6 +58,7 @@ storiesOf("Notice", module)
       theme="light"
       icon="${boolean("icon", true)}"
       active="${boolean("active", true)}"
+      dismissible="${boolean("dismissible", false)}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       color="${select(

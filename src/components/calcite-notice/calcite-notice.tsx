@@ -68,6 +68,9 @@ export class CalciteNotice {
   @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
     "auto";
 
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
+
   /** If false, no icon will be shown in the notice */
   @Prop() icon: boolean = false;
 
@@ -120,7 +123,7 @@ export class CalciteNotice {
           <slot name="notice-message"></slot>
           <slot name="notice-link"></slot>
         </div>
-        {closeButton}
+        {this.dismissible ? closeButton : null}
       </Host>
     );
   }
@@ -143,13 +146,13 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  /** emit the `calciteNoticeClose` event - <calcite-notices> listens for this */
+  /** emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
   @Method() async close() {
     this.active = false;
     this.calciteNoticeClose.emit({ requestedNotice: this.noticeId });
   }
 
-  /**  emit the `calciteNoticeOpen` event - <calcite-notices> listens for this  */
+  /**  emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
   @Method() async open() {
     this.active = true;
     this.calciteNoticeOpen.emit({ requestedNotice: this.noticeId });
