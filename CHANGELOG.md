@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-dropdown-item` - `linktitle` attribute updated to `link-title`
 - `calcite-alert` - `dismiss` attribute updated to `auto-dismiss`
 - `calcite-alert` - `duration` attribute updated to `auto-dismiss-duration`
+- `calcite-alert` - `.openCalciteAlert()` method updated to `.open()`
+- `calcite-alert` - `.closeCalciteAlert()` method updated to `.close()`
 - `calcite-alert` no longer requires a wrapping `calcite-alerts` component
 - `calcite-alerts` has been removed
   
