@@ -27,7 +27,7 @@ describe("calcite-notice", () => {
     expect(element).toHaveClass("hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("theme", "light");
-    expect(close).not.toBeNull();
+    expect(close).toBeNull();
     expect(icon).toBeNull();
   });
 
@@ -46,14 +46,14 @@ describe("calcite-notice", () => {
     expect(element).toHaveClass("hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("theme", "light");
-    expect(close).not.toBeNull();
+    expect(close).toBeNull();
     expect(icon).toBeNull();
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice theme="dark" color="yellow">
+    <calcite-notice theme="dark" color="yellow" dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
     <a slot="notice-link" href="">Action</a>
@@ -70,10 +70,10 @@ describe("calcite-notice", () => {
     expect(icon).toBeNull();
   });
 
-  it("renders with an icon", async () => {
+  it("renders an icon and close button when requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice icon>
+    <calcite-notice icon dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
     <a slot="notice-link" href="">Action</a>
@@ -87,10 +87,10 @@ describe("calcite-notice", () => {
     expect(icon).not.toBeNull();
   });
 
-  it("opens and then closes a single notice", async () => {
+  it("successfully closes a dismissible notice", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice id="notice-1" active>
+    <calcite-notice id="notice-1" active dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
     <a slot="notice-link" href="">Action</a>
