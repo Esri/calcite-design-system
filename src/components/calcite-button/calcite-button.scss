@@ -483,7 +483,7 @@
     @include btn-inline(
       var(--calcite-global-ui-blue),
       var(--calcite-global-ui-blue-hover),
-      var(--calcite-global-ui-blue-inline-underline)
+      var(--calcite-button-blue-inline-underline)
     );
   }
 }
@@ -494,7 +494,7 @@
     @include btn-inline(
       var(--calcite-global-ui-red),
       var(--calcite-global-ui-red-hover),
-      var(--calcite-global-ui-red-inline-underline)
+      var(--calcite-button-red-inline-underline)
     );
   }
 }
