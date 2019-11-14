@@ -1,8 +1,8 @@
 // theme variables
 // light theme
 :host {
-  --calcite-notice-background: #{$blk-000};
-  --calcite-notice-border-color: #{$blk-020};
+  --calcite-notice-background: #{$ui-foreground};
+  --calcite-notice-border-color: #{$blk-030};
   --calcite-notice-title-text: #{$blk-180};
   --calcite-notice-message-text: #{$blk-160};
   --calcite-notice-icon-fill: #{$blk-220};
@@ -18,8 +18,8 @@
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-notice-background: #{$blk-200};
-  --calcite-notice-border-color: #{$blk-210};
+  --calcite-notice-background: #{$ui-foreground-dark};
+  --calcite-notice-border-color: #{$blk-180};
   --calcite-notice-title-text: #{$blk-005};
   --calcite-notice-message-text: #{$blk-010};
   --calcite-notice-icon-fill: #{$blk-040};
@@ -99,8 +99,7 @@
   pointer-events: none;
   z-index: 101;
   transition: $transition;
-  border: 0px solid var(--calcite-notice-border-color);
-  border-left: 0px solid transparent;
+  border: 0px solid transparent;
 }
 
 :host([dir="rtl"]) {

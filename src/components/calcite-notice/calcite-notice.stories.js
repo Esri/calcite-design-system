@@ -9,7 +9,7 @@ storiesOf("Notice", module)
   .add(
     "Simple",
     () => `
-    <div style="width:600px;max-width:100%">
+    <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
     theme="light"
     icon="${boolean("icon", true)}"
@@ -31,7 +31,7 @@ storiesOf("Notice", module)
   .add(
     "Dark Mode",
     () => `
-    <div style="width:600px;max-width:100%">
+    <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
     theme="dark"
     icon="${boolean("icon", true)}"
@@ -53,7 +53,7 @@ storiesOf("Notice", module)
   .add(
     "RTL",
     () => `
-      <div dir="rtl" style="width:600px;max-width:100%">
+      <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
       <calcite-notice
       theme="light"
       icon="${boolean("icon", true)}"

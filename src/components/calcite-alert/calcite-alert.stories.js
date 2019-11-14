@@ -4,7 +4,7 @@ import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("Alerts", module)
+storiesOf("Alert", module)
   .addDecorator(withKnobs)
   .add(
     "Alert - title, message, link",
@@ -12,7 +12,8 @@ storiesOf("Alerts", module)
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
-    auto-dismiss="${boolean("auto-dismiss", true)}"
+    auto-dismiss="${boolean("auto-dismiss", false)}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select(
@@ -35,7 +36,8 @@ storiesOf("Alerts", module)
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
-    auto-dismiss="${boolean("auto-dismiss", true)}"
+    auto-dismiss="${boolean("auto-dismiss", false)}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select(
@@ -57,7 +59,8 @@ storiesOf("Alerts", module)
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
-    auto-dismiss="${boolean("auto-dismiss", true)}"
+    auto-dismiss="${boolean("auto-dismiss", false)}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
     auto-dismiss-duration="${select(
       "auto-dismiss-duration",
       ["fast", "medium", "slow"],
@@ -85,7 +88,8 @@ storiesOf("Alerts", module)
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
-    auto-dismiss="${boolean("auto-dismiss", true)}"
+    auto-dismiss="${boolean("auto-dismiss", false)}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
     auto-dismiss-duration="${select(
       "auto-dismiss-duration",
       ["fast", "medium", "slow"],
@@ -112,7 +116,8 @@ storiesOf("Alerts", module)
     <calcite-alert
     theme="dark"
     icon="${boolean("icon", true)}"
-    auto-dismiss="${boolean("auto-dismiss", true)}"
+    auto-dismiss="${boolean("auto-dismiss", false)}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
     auto-dismiss-duration="${select(
       "auto-dismiss-duration",
       ["fast", "medium", "slow"],
@@ -142,7 +147,8 @@ storiesOf("Alerts", module)
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
-    auto-dismiss="${boolean("auto-dismiss", true)}"
+    auto-dismiss="${boolean("auto-dismiss", false)}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
     auto-dismiss-duration="${select(
       "auto-dismiss-duration",
       ["fast", "medium", "slow"],
