@@ -13,19 +13,24 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
+    auto-dismiss-duration="${select("auto-dismiss-duration", [
+      "slow",
+      "medium",
+      "fast"
+    ])};
+    auto-dismiss-duration="${select(
+      "auto-dismiss-duration",
+      ["fast", "medium", "slow"],
+      "medium"
+    )}"
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    color="${select(
-      "color",
-      ["green", "red", "yellow", "blue"],
-      "blue"
-    )}" active>
-    <div slot="alert-title">Something failed</div>
+    color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
+    <div slot="alert-title">Here's a general bit of information</div></div>
     <div slot="alert-message">
-      That thing you wanted to do didn't work as expected
+      Some kind of contextually relevant content
     </div>
-    <calcite-button slot="alert-link" title="my action" appearance="inline">Retry</calcite-button>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
   </calcite-alert>
   `,
     { notes }
@@ -37,14 +42,19 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
+    auto-dismiss-duration="${select("auto-dismiss-duration", [
+      "slow",
+      "medium",
+      "fast"
+    ])};
+    auto-dismiss-duration="${select(
+      "auto-dismiss-duration",
+      ["fast", "medium", "slow"],
+      "medium"
+    )}"
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    color="${select(
-      "color",
-      ["green", "red", "yellow", "blue"],
-      "blue"
-    )}" active>
+    color="${select("color", ["green", "red", "yellow", "blue"], "red")}">
     <div slot="alert-title">Something failed</div>
     <div slot="alert-message">
       That thing you wanted to do didn't work as expected
@@ -60,24 +70,23 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
+    auto-dismiss-duration="${select("auto-dismiss-duration", [
+      "slow",
+      "medium",
+      "fast"
+    ])};
     auto-dismiss-duration="${select(
       "auto-dismiss-duration",
       ["fast", "medium", "slow"],
       "medium"
     )}"
-
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    color="${select(
-      "color",
-      ["green", "red", "yellow", "blue"],
-      "blue"
-    )}" active>
+    color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
     <div slot="alert-message">
-      That thing you wanted to do didn't work as expected
+     Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
     </div>
-    <calcite-button slot="alert-link" title="my action" appearance="inline">Retry</calcite-button>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
   </calcite-alert>
   `,
     { notes }
@@ -89,22 +98,21 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
+    auto-dismiss-duration="${select("auto-dismiss-duration", [
+      "slow",
+      "medium",
+      "fast"
+    ])};
     auto-dismiss-duration="${select(
       "auto-dismiss-duration",
       ["fast", "medium", "slow"],
       "medium"
     )}"
-
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    color="${select(
-      "color",
-      ["green", "red", "yellow", "blue"],
-      "blue"
-    )}" active>
+    color="${select("color", ["green", "red", "yellow", "blue"], "yellow")}">
     <div slot="alert-message">
-      That thing you wanted to do didn't work as expected
+      Network connection interruption detected
     </div>
   </calcite-alert>
   `,
@@ -117,20 +125,19 @@ storiesOf("Alert", module)
     theme="dark"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
+    auto-dismiss-duration="${select("auto-dismiss-duration", [
+      "slow",
+      "medium",
+      "fast"
+    ])};
     auto-dismiss-duration="${select(
       "auto-dismiss-duration",
       ["fast", "medium", "slow"],
       "medium"
     )}"
-
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    color="${select(
-      "color",
-      ["green", "red", "yellow", "blue"],
-      "blue"
-    )}" active>
+    color="${select("color", ["green", "red", "yellow", "blue"], "red")}">
     <div slot="alert-title">Something failed</div>
     <div slot="alert-message">
       That thing you wanted to do didn't work as expected
@@ -148,20 +155,19 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["slow", "medium", "fast"])};
+    auto-dismiss-duration="${select("auto-dismiss-duration", [
+      "slow",
+      "medium",
+      "fast"
+    ])};
     auto-dismiss-duration="${select(
       "auto-dismiss-duration",
       ["fast", "medium", "slow"],
       "medium"
     )}"
-
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    color="${select(
-      "color",
-      ["green", "red", "yellow", "blue"],
-      "blue"
-    )}" active>
+    color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
     <div slot="alert-title">Something failed</div>
     <div slot="alert-message">
       That thing you wanted to do didn't work as expected

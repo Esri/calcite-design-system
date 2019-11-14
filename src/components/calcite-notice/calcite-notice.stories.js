@@ -14,15 +14,15 @@ storiesOf("Notice", module)
     theme="light"
     icon="${boolean("icon", true)}"
     active="${boolean("active", true)}"
-    dismissible="${boolean("dismissible", false)}"
+    dismissible="${boolean("dismissible", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "half", "full"], "auto")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
-    <div slot="notice-title">Something failed</div>
+    <div slot="notice-title">Your settings area has changed</div>
     <div slot="notice-message">
-      That thing you wanted to do didn't work as expected
+      Look around and let us know what you think
     </div>
-      <calcite-button slot="notice-link" title="my action" appearance="inline">Retry</calcite-button>
+      <calcite-button slot="notice-link" title="my action" appearance="inline">Learn more</calcite-button>
     </calcite-notice>
     </div>
   `,
@@ -39,12 +39,11 @@ storiesOf("Notice", module)
     dismissible="${boolean("dismissible", false)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "half", "full"], "auto")}"
-    color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
-    <div slot="notice-title">Something failed</div>
+    color="${select("color", ["green", "red", "yellow", "blue"], "red")}">
+    <div slot="notice-title">This is a destructive action</div>
     <div slot="notice-message">
-      That thing you wanted to do didn't work as expected
+     Be sure you know what you are doin, folks.
     </div>
-    <calcite-button slot="notice-link" title="my action" appearance="inline">Retry</calcite-button>
     </calcite-notice>
     </div>
     `,
@@ -58,7 +57,7 @@ storiesOf("Notice", module)
       theme="light"
       icon="${boolean("icon", true)}"
       active="${boolean("active", true)}"
-      dismissible="${boolean("dismissible", false)}"
+      dismissible="${boolean("dismissible", true)}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       color="${select(
@@ -66,12 +65,12 @@ storiesOf("Notice", module)
         ["green", "red", "yellow", "blue"],
         "blue"
       )}" active>
-      <div slot="notice-title">Something failed</div>
+      <div slot="notice-title">Your settings area has changed</div>
       <div slot="notice-message">
-        That thing you wanted to do didn't work as expected
+        Look around and let us know what you think
       </div>
-      <calcite-button slot="notice-link" title="my action" appearance="inline">Retry</calcite-button>
-    </calcite-notice>
+        <calcite-button slot="notice-link" title="my action" appearance="inline">Learn more</calcite-button>
+      </calcite-notice>
       </div>
       `,
     { notes }

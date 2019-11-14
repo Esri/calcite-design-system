@@ -64,7 +64,6 @@
   position: fixed;
   justify-content: center;
   pointer-events: none;
-  z-index: 102;
   margin: 0 auto;
   width: var(--calcite-alert-width);
   max-width: 90%;
@@ -110,19 +109,13 @@
 }
 
 @include slotted("alert-title", "div") {
-  @include font-size(0);
   color: var(--calcite-global-ui-text-1);
   font-weight: 500;
-}
-
-::slotted(calcite-button) {
-  @include font-size(-1);
 }
 
 @include slotted("alert-message", "div") {
   display: inline;
   margin-right: $baseline/2;
-  @include font-size(-1);
   color: var(--calcite-global-ui-text-2);
 }
 
@@ -313,7 +306,6 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   }
 }
 
-// should be handled by auto prefixer
 @keyframes dismissProgress {
   0% {
     width: 0;

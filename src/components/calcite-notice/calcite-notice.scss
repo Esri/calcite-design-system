@@ -1,36 +1,14 @@
 // theme variables
 // light theme
 :host {
-  --calcite-notice-background: #{$ui-foreground};
   --calcite-notice-border-color: #{$blk-030};
-  --calcite-notice-title-text: #{$blk-180};
-  --calcite-notice-message-text: #{$blk-160};
   --calcite-notice-icon-fill: #{$blk-220};
-  --calcite-notice-close-background-hover: #{$blk-010};
-  --calcite-notice-close-background-pressed: #{$blk-020};
-  --calcite-notice-count-text: #{$blk-180};
-  --calcite-notice-count-border: #{$blk-010};
-  --calcite-notice-border-blue: #{$ui-blue};
-  --calcite-notice-border-green: #{$ui-green};
-  --calcite-notice-border-red: #{$ui-red};
-  --calcite-notice-border-yellow: #{$ui-yellow};
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-notice-background: #{$ui-foreground-dark};
   --calcite-notice-border-color: #{$blk-180};
-  --calcite-notice-title-text: #{$blk-005};
-  --calcite-notice-message-text: #{$blk-010};
   --calcite-notice-icon-fill: #{$blk-040};
-  --calcite-notice-close-background-hover: #{$blk-210};
-  --calcite-notice-close-background-pressed: #{$blk-220};
-  --calcite-notice-count-text: #{$blk-040};
-  --calcite-notice-count-border: #{$blk-210};
-  --calcite-notice-border-blue: #{$ui-blue-dark};
-  --calcite-notice-border-green: #{$ui-green-dark};
-  --calcite-notice-border-red: #{$ui-red-dark};
-  --calcite-notice-border-yellow: #{$ui-yellow-dark};
 }
 
 :host([scale="s"]) {
@@ -94,7 +72,7 @@
   box-sizing: border-box;
   width: var(--calcite-notice-width);
   max-height: 0;
-  background-color: var(--calcite-notice-background);
+  background-color: var(--calcite-global-ui-foreground);
   opacity: 0;
   pointer-events: none;
   z-index: 101;
@@ -116,14 +94,14 @@
 }
 
 @include slotted("notice-title", "div") {
-  color: var(--calcite-notice-title-text);
+  color: var(--calcite-global-ui-text-1);
   font-weight: 500;
 }
 
 @include slotted("notice-message", "div") {
   display: inline;
   margin-right: var(--calcite-notice-spacing-token-small);
-  color: var(--calcite-notice-message-text);
+  color: var(--calcite-global-ui-text-2);
 }
 
 :host([dir="rtl"]) {
@@ -195,25 +173,17 @@
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-notice-close-background-hover);
+    background-color: var(--calcite-global-ui-foreground-hover);
   }
 
   &:active {
-    background-color: var(--calcite-notice-close-background-pressed);
+    background-color: var(--calcite-global-ui-foreground-pressed);
   }
 }
 
-:host([dir="rtl"]) {
-  &.active:last-child {
-    border-left: 1px solid var(--calcite-notice-count-border);
-    border-right: 0px solid transparent;
-  }
-}
-
-$noticeColors: "blue" var(--calcite-notice-border-blue),
-  "red" var(--calcite-notice-border-red),
-  "yellow" var(--calcite-notice-border-yellow),
-  "green" var(--calcite-notice-border-green);
+$noticeColors: "blue" var(--calcite-global-ui-blue),
+  "red" var(--calcite-global-ui-red), "yellow" var(--calcite-global-ui-yellow),
+  "green" var(--calcite-global-ui-green);
 
 @each $noticeColor in $noticeColors {
   $name: nth($noticeColor, 1);
