@@ -159,13 +159,20 @@
   &:first-of-type {
     padding-left: var(--calcite-notice-spacing-token-large);
   }
+  &:last-of-type {
+    padding-right: var(--calcite-notice-spacing-token-large);
+  }
 }
 
 :host([dir="rtl"]) {
   .notice-content {
     &:first-of-type {
       padding-right: var(--calcite-notice-spacing-token-large);
-      padding-left: none;
+      padding-left: 0;
+    }
+    &:last-of-type {
+      padding-left: var(--calcite-notice-spacing-token-large);
+      padding-right: 0;
     }
   }
 }
