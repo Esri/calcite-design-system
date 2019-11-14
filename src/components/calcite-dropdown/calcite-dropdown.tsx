@@ -40,7 +40,7 @@ export class CalciteDropdown {
     | "right"
     | "center" = "left";
 
-  /** specify the alignment of dropdrown, defaults to left */
+  /** specify the theme of the dropdown, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of dropdrown, defaults to m */
