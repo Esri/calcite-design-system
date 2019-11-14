@@ -12,7 +12,7 @@ $image_max_height: 200px;
 }
 
 .container {
-  border-radius: 3px;
+  border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
   overflow: hidden;
   position: relative;
