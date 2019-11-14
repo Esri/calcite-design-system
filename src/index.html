@@ -42,6 +42,7 @@
         <calcite-tab-title>Dropdown</calcite-tab-title>
         <calcite-tab-title>Tree</calcite-tab-title>
         <calcite-tab-title>Accordion</calcite-tab-title>
+        <calcite-tab-title>Card</calcite-tab-title>
       </calcite-tab-nav>
 
       <calcite-tab is-active>
@@ -2981,6 +2982,19 @@
               </calcite-accordion>
             </div>
           </div>
+        </div>
+      </calcite-tab>
+
+      <calcite-tab>
+        <h3>Cards</h3>
+        <div style=display:flex;width:100%;border:5px;>
+          <calcite-card selected>
+            <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" />
+            <h3 class="header" slot="header">Hey der ima header!</h3>
+            <calcite-button slot="button-action">click me!</calcite-button>
+            <calcite-button slot="footer-leading">Lead fut</calcite-button>
+            <calcite-button slot="footer-trailing">Trail fut</calcite-button>
+          </calcite-card>
         </div>
       </calcite-tab>
     </calcite-tabs>

@@ -1,29 +1,16 @@
-import {
-    Component,
-    Element,
-    Event,
-    EventEmitter,
-    Host,
-    Prop,
-    State,
-    Watch,
-    h
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from "@stencil/core";
 
-import { getElementDir } from "../utils/dom";
-import classnames from "classnames";
-import { CSS_UTILITY } from "../utils/resources";
+import { getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 import { VNode } from "@stencil/core/dist/declarations";
 
 import { CSS, SLOTS } from "./resources";
-import CalciteIcon from "../utils/CalciteIcon";
-import CalciteScrim from "../utils/CalciteScrim";
-import { renders } from "../../tests/commonTests";
-import { classicNameResolver } from "typescript";
+import CalciteScrim from "../../utils/CalciteScrim";
+import classnames from "classnames";
 
 /**
  * @slot thumbnail - [Required] A slot for adding a thumnail to the card.
- * @slot heading - A slot for adding a heading and an icon to the card.
+ * @slot header - [Required] A slot for adding a heading and an icon to the card.
  * @slot action - A slot for adding a single action as a button.
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
@@ -52,7 +39,7 @@ export class CalciteCard {
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Indicates whether the image's height or width is prioritized. 
+   * Indicates whether the image's height or width is prioritized.
    */
   @Prop({ reflect: true }) imgHeightPriority = false;
 
@@ -68,9 +55,9 @@ export class CalciteCard {
 
   @Watch("selected")
   selectedWatchHandler(newValue) {
-      if(this.isSelected !== newValue) {
+      if (this.isSelected !== newValue) {
           this.isSelected = newValue;
-          this.emitChangeEvent();
+          this.emitChangeEvent(newValue);
       }
   }
 
@@ -108,14 +95,15 @@ export class CalciteCard {
       }
       this.isSelected = !this.isSelected;
       this.emitChangeEvent(event);
-  };
+  }
 
   emitChangeEvent(event: MouseEvent) {
-      this.calciteCardChange.emit({
-          item: this.el,
-          selected: this.isSelected,
-      });
-  };
+    event.preventDefault();
+    this.calciteCardChange.emit({
+        item: this.el,
+        selected: this.isSelected,
+    });
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -137,7 +125,9 @@ export class CalciteCard {
       const hasThumbnail = this.el.querySelector(`[slot]=${SLOTS.thumbnail}`);
 
       return hasThumbnail ? (
-        <img class={CSS.thumbnail} src={SLOTS.thumbnail}></img>
+        <div class={CSS.thumbnail}>
+          <slot name={SLOTS.thumbnail} />
+        </div>
       ) : null;
     }
 
