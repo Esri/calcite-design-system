@@ -1,6 +1,5 @@
 :host {
   --calcite-modal-scrim: rgba(0, 0, 0, 0.75);
-  --calcite-modal-border: #{$blk-010};
   position: fixed;
   top: 0;
   right: 0;
@@ -16,10 +15,6 @@
   background: var(--calcite-modal-scrim);
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
-}
-
-:host([theme="dark"]) {
-  --calcite-modal-border: #{$ui-foreground-hover-dark};
 }
 
 .modal {
@@ -38,7 +33,7 @@
   transform: translate3d(0, 20px, 0);
   background-color: var(--calcite-global-ui-foreground);
   box-shadow: $shadow-2--press;
-  border-radius: 2px;
+  border-radius: var(--calcite-border-radius);
   margin: $baseline;
   width: 100%;
 }
@@ -72,8 +67,8 @@
   max-width: 100%;
   min-width: 0;
   z-index: 2;
-  border-bottom: 1px solid var(--calcite-modal-border);
-  border-radius: 2px 2px 0 0;
+  border-bottom: 1px solid var(--calcite-global-ui-border-3);
+  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
 }
 
 .modal__close {
@@ -89,7 +84,7 @@
   color: var(--calcite-global-ui-text-1);
   outline: none;
   cursor: pointer;
-  border-radius: 0 2px 0 0;
+  border-radius: 0 var(--calcite-border-radius) 0 0;
   svg {
     pointer-events: none;
   }
@@ -103,7 +98,7 @@
 }
 
 :host([dir="rtl"]) .modal__close {
-  border-radius: 2px 0 0 0;
+  border-radius: var(--calcite-border-radius) 0 0 0;
 }
 
 .modal__title {
@@ -155,10 +150,10 @@
   padding: $baseline/1.25 $baseline * 0.75;
   margin-top: auto;
   box-sizing: border-box;
-  border-radius: 0 0 2px 2px;
+  border-radius: 0 0 var(--calcite-border-radius) var(--calcite-border-radius);
   width: 100%;
   background-color: var(--calcite-global-ui-foreground);
-  border-top: 1px solid var(--calcite-modal-border);
+  border-top: 1px solid var(--calcite-global-ui-border-3);
   z-index: 2;
 }
 
@@ -275,18 +270,18 @@ slot[name="primary"] {
   }
   @media screen and (max-width: $viewport-medium) {
     .modal {
-      border-radius: 2px 2px 0 0;
+      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
     }
 
     .modal__close {
-      border-radius: 0 2px 0 0;
+      border-radius: 0 var(--calcite-border-radius) 0 0;
     }
   }
 }
 
 @media screen and (max-width: $viewport-medium) {
   :host([docked][dir="rtl"]) .modal__close {
-    border-radius: 2px 0 0 0;
+    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
 
@@ -308,7 +303,7 @@ slot[name="primary"] {
 :host([color="red"]),
 :host([color="blue"]) {
   .modal__header {
-    border-radius: 0;
+    border-radius: var(--calcite-border-radius);
   }
 }
 
