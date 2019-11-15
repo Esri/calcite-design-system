@@ -2,14 +2,12 @@
 // light theme
 :host {
   --calcite-alert-icon-fill: #{$blk-220};
-  --calcite-alert-count-border: #{$blk-010};
   --calcite-alert-dismiss-background: #{rgba($blk-000, 0.8)};
 }
 
 // dark theme
 :host([theme="dark"]) {
   --calcite-alert-icon-fill: #{$blk-040};
-  --calcite-alert-count-border: #{$blk-210};
   --calcite-alert-dismiss-background: #{rgba($blk-200, 0.8)};
 }
 
@@ -186,8 +184,8 @@
     opacity: 1;
     padding: 0 $baseline/4;
     width: $baseline * 2;
-    border-left: 1px solid var(--calcite-alert-count-border);
-    border-right: 1px solid var(--calcite-alert-count-border);
+    border-left: 1px solid var(--calcite-global-ui-border-3);
+    border-right: 1px solid var(--calcite-global-ui-border-3);
 
     &:last-child {
       border-right: 0px solid transparent;
@@ -200,7 +198,7 @@
 }
 :host([dir="rtl"]) {
   &.active:last-child {
-    border-left: 1px solid var(--calcite-alert-count-border);
+    border-left: 1px solid var(--calcite-global-ui-border-3);
     border-right: 0px solid transparent;
   }
 }
