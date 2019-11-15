@@ -11,8 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-button` - `iconposition` attribute updated to `icon-position`
 - `calcite-dropdown-group` - `grouptitle` attribute updated to `group-title`
 - `calcite-dropdown-item` - `linktitle` attribute updated to `link-title`
+- `calcite-alert` - `dismiss` attribute updated to `auto-dismiss`
+- `calcite-alert` - `duration` attribute updated to `auto-dismiss-duration`
+- `calcite-alert` - `.openCalciteAlert()` method updated to `.open()`
+- `calcite-alert` - `.closeCalciteAlert()` method updated to `.close()`
+- `calcite-alert` no longer requires a wrapping `calcite-alerts` component
+- `calcite-alerts` has been removed
   
 ### Added
+- `calcite-notice` - new component has been added
+- `calcite-alert` - `scale` is now available as a configurable attribute
 - `calcite-dropdown` now has configurable `selection-mode` (#220)
 - `no-padding` attribute for modals allowing modal content to fill space
 - `calcite-dropdown` now has configurable `type` - click or hover (#220)

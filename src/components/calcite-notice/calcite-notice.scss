@@ -1,0 +1,197 @@
+// theme variables
+// light theme
+:host {
+  --calcite-notice-icon-fill: #{$blk-220};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-notice-icon-fill: #{$blk-040};
+}
+
+:host([scale="s"]) {
+  --calcite-notice-spacing-token-small: #{$baseline/3};
+  --calcite-notice-spacing-token-large: #{$baseline/2};
+  @include slotted("notice-title", "div") {
+    @include font-size(-2);
+  }
+  @include slotted("notice-message", "div") {
+    @include font-size(-3);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-3);
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-notice-spacing-token-small: #{$baseline/1.5};
+  --calcite-notice-spacing-token-large: #{$baseline};
+  @include slotted("notice-title", "div") {
+    @include font-size(-1);
+  }
+  @include slotted("notice-message", "div") {
+    @include font-size(-2);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-2);
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-notice-spacing-token-small: #{$baseline};
+  --calcite-notice-spacing-token-large: #{$baseline * 1.5};
+  @include slotted("notice-title", "div") {
+    @include font-size(0);
+  }
+  @include slotted("notice-message", "div") {
+    @include font-size(-1);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-1);
+  }
+}
+
+:host([width="auto"]) {
+  --calcite-notice-width: auto;
+}
+
+:host([width="half"]) {
+  --calcite-notice-width: 50%;
+}
+
+:host([width="full"]) {
+  --calcite-notice-width: 100%;
+}
+
+:host {
+  display: none;
+  text-align: left;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: var(--calcite-notice-width);
+  max-height: 0;
+  background-color: var(--calcite-ui-foreground);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 101;
+  transition: $transition;
+  border: 0px solid transparent;
+}
+
+:host([dir="rtl"]) {
+  text-align: right;
+}
+
+:host([active]) {
+  display: inline-flex;
+  opacity: 1;
+  max-height: 100%;
+  pointer-events: initial;
+  border: 1px solid var(--calcite-ui-border-3);
+  border-left-width: 3px;
+}
+
+@include slotted("notice-title", "div") {
+  color: var(--calcite-ui-text-1);
+  font-weight: 500;
+}
+
+@include slotted("notice-message", "div") {
+  display: inline;
+  margin-right: var(--calcite-notice-spacing-token-small);
+  color: var(--calcite-ui-text-2);
+}
+
+:host([dir="rtl"]) {
+  @include slotted("notice-message", "div") {
+    margin-right: unset;
+    margin-left: var(--calcite-notice-spacing-token-small);
+  }
+}
+
+@mixin notice-element-base() {
+  box-sizing: border-box;
+  padding: var(--calcite-notice-spacing-token-small)
+    var(--calcite-notice-spacing-token-large);
+  flex: 0 0 auto;
+  transition: all 0.15s ease-in-out;
+
+  & svg {
+    height: 16px;
+    width: 16px;
+    vertical-align: top;
+  }
+}
+
+.notice-content {
+  @include notice-element-base;
+  flex: 1 1 auto;
+  min-width: 0;
+  word-wrap: break-word;
+  padding: var(--calcite-notice-spacing-token-small)
+    var(--calcite-notice-spacing-token-small)
+    var(--calcite-notice-spacing-token-small) 0;
+  &:first-of-type {
+    padding-left: var(--calcite-notice-spacing-token-large);
+  }
+  &:last-of-type {
+    padding-right: var(--calcite-notice-spacing-token-large);
+  }
+}
+
+:host([dir="rtl"]) {
+  .notice-content {
+    &:first-of-type {
+      padding-right: var(--calcite-notice-spacing-token-large);
+      padding-left: 0;
+    }
+    &:last-of-type {
+      padding-left: var(--calcite-notice-spacing-token-large);
+      padding-right: 0;
+    }
+  }
+}
+.notice-icon {
+  @include notice-element-base;
+  display: flex;
+  align-items: center;
+}
+
+.notice-close {
+  @include notice-element-base;
+  background-color: transparent;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  & svg {
+    fill: var(--calcite-notice-icon-fill);
+  }
+
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-ui-foreground-hover);
+  }
+
+  &:active {
+    background-color: var(--calcite-ui-foreground-pressed);
+  }
+}
+
+$noticeColors: "blue" var(--calcite-ui-blue),
+  "red" var(--calcite-ui-red), "yellow" var(--calcite-ui-yellow),
+  "green" var(--calcite-ui-green);
+
+@each $noticeColor in $noticeColors {
+  $name: nth($noticeColor, 1);
+  $color: nth($noticeColor, 2);
+
+  :host([color="#{$name}"]) {
+    border-left-color: $color;
+
+    & .notice-icon svg {
+      fill: $color;
+    }
+  }
+}
