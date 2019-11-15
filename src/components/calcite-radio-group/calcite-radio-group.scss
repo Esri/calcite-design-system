@@ -1,6 +1,5 @@
 :host {
   display: flex;
-  --calcite-radio-group-color: #{$blk-000};
   --calcite-radio-group-text-color-active: #{$blk-000};
   --calcite-radio-group-padding: 0.5rem 1rem;
 }
@@ -18,7 +17,6 @@
 }
 
 :host([theme="dark"]) {
-  --calcite-radio-group-color: #{$blk-200};
   --calcite-radio-group-text-color-active: #{$blk-000};
 }
 
