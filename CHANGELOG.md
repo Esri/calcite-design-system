@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `calcite-dropdown` now has configurable `selection-mode` (#220)
 - `no-padding` attribute for modals allowing modal content to fill space
+- `calcite-dropdown` now has configurable `type` - click or hover (#220)
 
 ### Fixed
 - Fix for `calcite-dropdown` taking up height when closed (#213)
