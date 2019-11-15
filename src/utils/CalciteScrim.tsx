@@ -19,7 +19,9 @@ interface ScrimProps {
 }
 
 export const CalciteScrim: FunctionalComponent<ScrimProps> = ({ loading }) => (
-  <div style={divStyle}>{loading ? <calcite-loader is-active></calcite-loader> : null}</div>
+  <div style={divStyle}>
+    {loading ? <calcite-loader is-active></calcite-loader> : null}
+  </div>
 );
 
 export default CalciteScrim;

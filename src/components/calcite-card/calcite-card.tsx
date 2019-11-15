@@ -17,12 +17,12 @@ import classnames from "classnames";
  */
 
 @Component({
-    tag: "calcite-card",
-    styleUrl: "./calcite-card.scss",
-    shadow: true
+  tag: "calcite-card",
+  styleUrl: "./calcite-card.scss",
+  shadow: true
 })
 export class CalciteCard {
-// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   //
   //  Properties
   //
@@ -51,7 +51,7 @@ export class CalciteCard {
   /**
    * Indicates whether the card is selected. Toggles when a card is clicked.
    */
-  @Prop({ reflect: true}) selected = false;
+  @Prop({ reflect: true }) selected = false;
 
   // --------------------------------------------------------------------------
   //
@@ -75,7 +75,7 @@ export class CalciteCard {
       return;
     }
     this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
-    }
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -83,13 +83,13 @@ export class CalciteCard {
   //
   // --------------------------------------------------------------------------
 
-cardClickHandler = (event: MouseEvent): void => {
-  event.preventDefault();
-  if (this.disabled) {
-        return;
-      }
-  this.toggleSelected();
-}
+  cardClickHandler = (event: MouseEvent): void => {
+    event.preventDefault();
+    if (this.disabled) {
+      return;
+    }
+    this.toggleSelected();
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -97,67 +97,69 @@ cardClickHandler = (event: MouseEvent): void => {
   //
   // --------------------------------------------------------------------------
 
-renderHeader(): VNode {
-      const hasHeader = this.el.querySelector(`[slot]=${SLOTS.header}`);
+  renderHeader(): VNode {
+    const hasHeader = this.el.querySelector(`[slot=${SLOTS.header}]`);
 
-      return hasHeader ? (
-        <header class={CSS.header}>
-          <slot name={SLOTS.header} />
-        </header>
-      ) : null;
-    }
+    return hasHeader ? (
+      <header class={CSS.header}>
+        <slot name={SLOTS.header} />
+      </header>
+    ) : null;
+  }
 
-renderThumbnail(): VNode {
-      const hasThumbnail = this.el.querySelector(`[slot]=${SLOTS.thumbnail}`);
+  renderThumbnail(): VNode {
+    const hasThumbnail = this.el.querySelector(`[slot=${SLOTS.thumbnail}]`);
 
-      return hasThumbnail ? (
-        <div class={CSS.thumbnail}>
-          <slot name={SLOTS.thumbnail} />
+    return hasThumbnail ? (
+      <div class={CSS.thumbnail}>
+        <slot name={SLOTS.thumbnail} />
+      </div>
+    ) : null;
+  }
+
+  renderFooter(): VNode {
+    const leadingFooter = this.el.querySelector(
+      `[slot=${SLOTS.footerLeading}]`
+    );
+    const trailingFooter = this.el.querySelector(
+      `[slot=${SLOTS.footerTrailing}]`
+    );
+
+    const hasFooter = leadingFooter || trailingFooter;
+
+    return hasFooter ? (
+      <footer class={CSS.footer}>
+        <slot name={SLOTS.footerLeading} />
+        <slot name={SLOTS.footerTrailing} />
+      </footer>
+    ) : null;
+  }
+
+  renderScrim(): VNode {
+    return this.loading || this.disabled ? (
+      <CalciteScrim loading={this.loading}></CalciteScrim>
+    ) : null;
+  }
+  render() {
+    console.log("render");
+    const { loading, el } = this;
+    const rtl = getElementDir(el) === "rtl";
+    return (
+      <Host selected={this.selected}>
+        <div
+          class={classnames(CSS.container, {
+            [CSS_UTILITY.rtl]: rtl
+          })}
+          onClick={this.cardClickHandler}
+          aria-busy={loading}
+        >
+          {this.renderThumbnail()}
+          {this.renderHeader()}
+          <slot name={SLOTS.buttonAction} />
+          {this.renderFooter()}
         </div>
-      ) : null;
-    }
-
-renderFooter(): VNode {
-      const leadingFooter = this.el.querySelector(`[slot]=${SLOTS.footerLeading}`);
-      const trailingFooter = this.el.querySelector(`[slot]=${SLOTS.footerTrailing}`);
-
-      const hasFooter = leadingFooter || trailingFooter;
-
-      return hasFooter ? (
-        <footer class={CSS.footer}>
-          <slot name={SLOTS.footerLeading} />
-          <slot name={SLOTS.footerTrailing} />
-        </footer>
-      ) : null;
-    }
-
-renderScrim(): VNode {
-        return this.loading || this.disabled ? (
-          <CalciteScrim loading={this.loading}></CalciteScrim>
-        ) : null;
-      }
-render() {
-        const {
-            loading,
-            el,
-          } = this;
-        const rtl = getElementDir(el) === "rtl";
-        return (
-        <Host selected={this.selected}>
-          <div
-            class={classnames(CSS.container, {
-              [CSS_UTILITY.rtl]: rtl,
-            })}
-            onClick={this.cardClickHandler}
-            aria-busy={loading}
-          >
-            {this.renderThumbnail()}
-            {this.renderHeader()}
-            <slot name={SLOTS.buttonAction} />
-            {this.renderFooter()}
-          </div>
-          {this.renderScrim()}
-        </Host>
+        {this.renderScrim()}
+      </Host>
     );
   }
 }

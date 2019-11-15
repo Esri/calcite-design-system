@@ -1,10 +1,9 @@
-
 export const CSS = {
-  buttonAction:  "button-action",
-  container:  "container",
-  footer:  "footer",
-  header:  "header",
-  thumbnail:  "thumbnail",
+  buttonAction: "button-action",
+  container: "container",
+  footer: "footer",
+  header: "header",
+  thumbnail: "thumbnail"
 };
 
 export const enum SLOTS {
@@ -12,5 +11,5 @@ export const enum SLOTS {
   header = "header",
   buttonAction = "button-action",
   footerLeading = "footer-leading",
-  footerTrailing = "footer-trailing",
+  footerTrailing = "footer-trailing"
 }

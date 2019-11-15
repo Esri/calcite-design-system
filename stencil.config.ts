@@ -45,7 +45,8 @@ export const config: Config = {
         "calcite-date-day"
       ]
     },
-    { components: ["calcite-tree", "calcite-tree-item"] }
+    { components: ["calcite-tree", "calcite-tree-item"] },
+    { components: ["calcite-card"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
