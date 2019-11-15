@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from "@stencil/core";
+import { Component, Element, Host, Method, Prop, State, Watch, h } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -53,26 +53,6 @@ export class CalciteCard {
    */
   @Prop({ reflect: true}) selected = false;
 
-  @Watch("selected")
-  selectedWatchHandler(newValue) {
-      if (this.isSelected !== newValue) {
-          this.isSelected = newValue;
-          this.emitChangeEvent(newValue);
-      }
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Emitted whenever the card is selected or unselected.
-   * @event calciteCardChange
-   */
-  @Event() calciteCardChange: EventEmitter;
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -81,7 +61,21 @@ export class CalciteCard {
 
   @Element() el: HTMLCalciteCardElement;
 
-  @State() isSelected = this.selected;
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Used to toggle the selection state.
+   */
+  @Method() async toggleSelected(coerce?: boolean) {
+    if (this.disabled) {
+      return;
+    }
+    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
+    }
 
   // --------------------------------------------------------------------------
   //
@@ -89,21 +83,13 @@ export class CalciteCard {
   //
   // --------------------------------------------------------------------------
 
-  cardClickHandler = (event: MouseEvent): void => {
-      if (this.disabled) {
-          return;
+cardClickHandler = (event: MouseEvent): void => {
+  event.preventDefault();
+  if (this.disabled) {
+        return;
       }
-      this.isSelected = !this.isSelected;
-      this.emitChangeEvent(event);
-  }
-
-  emitChangeEvent(event: MouseEvent) {
-    event.preventDefault();
-    this.calciteCardChange.emit({
-        item: this.el,
-        selected: this.isSelected,
-    });
-  }
+  this.toggleSelected();
+}
 
   // --------------------------------------------------------------------------
   //
@@ -111,7 +97,7 @@ export class CalciteCard {
   //
   // --------------------------------------------------------------------------
 
-    renderHeader(): VNode {
+renderHeader(): VNode {
       const hasHeader = this.el.querySelector(`[slot]=${SLOTS.header}`);
 
       return hasHeader ? (
@@ -121,7 +107,7 @@ export class CalciteCard {
       ) : null;
     }
 
-    renderThumbnail(): VNode {
+renderThumbnail(): VNode {
       const hasThumbnail = this.el.querySelector(`[slot]=${SLOTS.thumbnail}`);
 
       return hasThumbnail ? (
@@ -131,7 +117,7 @@ export class CalciteCard {
       ) : null;
     }
 
-    renderFooter(): VNode {
+renderFooter(): VNode {
       const leadingFooter = this.el.querySelector(`[slot]=${SLOTS.footerLeading}`);
       const trailingFooter = this.el.querySelector(`[slot]=${SLOTS.footerTrailing}`);
 
@@ -145,23 +131,24 @@ export class CalciteCard {
       ) : null;
     }
 
-    renderScrim(): VNode {
+renderScrim(): VNode {
         return this.loading || this.disabled ? (
           <CalciteScrim loading={this.loading}></CalciteScrim>
         ) : null;
       }
-    render() {
+render() {
         const {
             loading,
             el,
           } = this;
         const rtl = getElementDir(el) === "rtl";
         return (
-        <Host selected={this.isSelected}>
+        <Host selected={this.selected}>
           <div
             class={classnames(CSS.container, {
               [CSS_UTILITY.rtl]: rtl,
             })}
+            onClick={this.cardClickHandler}
             aria-busy={loading}
           >
             {this.renderThumbnail()}
