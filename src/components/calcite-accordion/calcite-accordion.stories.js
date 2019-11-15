@@ -25,7 +25,11 @@ storiesOf("Accordion", module)
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 3"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item item-title="Accordion Item 3">
+    <calcite-radio-group scale="s">
+    <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+    <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+    </calcite-radio-group>
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
@@ -53,7 +57,11 @@ storiesOf("Accordion", module)
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 3"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item item-title="Accordion Item 3">
+    <calcite-radio-group scale="s">
+    <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+    <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+    </calcite-radio-group>
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
@@ -81,7 +89,11 @@ storiesOf("Accordion", module)
       </calcite-accordion-item>
       <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
       </calcite-accordion-item>
-      <calcite-accordion-item item-title="Accordion Item 3"><img src="http://placekitten.com/100/200" />
+      <calcite-accordion-item item-title="Accordion Item 3">
+      <calcite-radio-group scale="s">
+      <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+      <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+      </calcite-radio-group>
       </calcite-accordion-item>
       <calcite-accordion-item item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
       </calcite-accordion-item>
