@@ -17,14 +17,14 @@
 }
 
 .tooltip-content-container {
-  background: var(--calcite-global-ui-foreground);
+  background: var(--calcite-ui-foreground);
   max-width: 300px;
   max-height: 300px;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   font-weight: 500;
-  color: var(--calcite-global-ui-text-1);
+  color: var(--calcite-ui-text-1);
   padding: 12px 16px;
   @include font-size(-3);
 }

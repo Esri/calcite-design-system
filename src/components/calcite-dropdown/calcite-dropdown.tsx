@@ -1,11 +1,4 @@
-import {
-  Component,
-  Element,
-  h,
-  Host,
-  Listen,
-  Prop
-} from "@stencil/core";
+import { Component, Element, h, Host, Listen, Prop } from "@stencil/core";
 import {
   UP,
   DOWN,
@@ -47,11 +40,14 @@ export class CalciteDropdown {
     | "right"
     | "center" = "left";
 
-  /** specify the alignment of dropdrown, defaults to left */
+  /** specify the theme of the dropdown, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of dropdrown, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** specify whether the dropdown is opened by hover or click of the trigger element */
+  @Prop({ mutable: true, reflect: true }) type: "hover" | "click" = "click";
 
   //--------------------------------------------------------------------------
   //
@@ -69,6 +65,9 @@ export class CalciteDropdown {
 
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
+
+    let type = ["hover", "click"];
+    if (!type.includes(this.type)) this.type = "hover";
   }
 
   componentDidLoad() {
@@ -138,6 +137,18 @@ export class CalciteDropdown {
       } else if (e.keyCode === ESCAPE || (e.shiftKey && e.keyCode === TAB)) {
         this.closeCalciteDropdown();
       }
+    }
+  }
+
+  @Listen("mouseenter") mouseoverHandler(e) {
+    if (this.type === "hover") {
+      this.openCalciteDropdown(e);
+    }
+  }
+
+  @Listen("mouseleave") mouseoffHandler() {
+    if (this.type === "hover") {
+      this.closeCalciteDropdown();
     }
   }
 
@@ -246,16 +257,17 @@ export class CalciteDropdown {
   }
 
   private getFocusableElement(item) {
-    const target = item.attributes.isLink
-      ? item.shadowRoot.querySelector("a")
-      : (item as HTMLCalciteDropdownItemElement);
+    const target =
+      item && item.attributes.isLink
+        ? item.shadowRoot.querySelector("a")
+        : (item as HTMLCalciteDropdownItemElement);
     target.focus();
   }
 
   private openCalciteDropdown(e) {
     this.active = !this.active;
     // if invoked by key, focus item, and accomodate animation time
-    if (!e.detail) {
+    if (!e.detail && e.type !== "mouseenter") {
       setTimeout(() => this.focusFirstItem(), 50);
     }
   }

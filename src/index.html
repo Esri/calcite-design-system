@@ -1543,8 +1543,8 @@
           </calcite-dropdown-group>
         </calcite-dropdown>
 
-        <calcite-dropdown alignment="right">
-          <calcite-button slot="dropdown-trigger">Open Dropdown right aligned</calcite-button>
+        <calcite-dropdown alignment="right" type="hover">
+          <calcite-button slot="dropdown-trigger">Open Dropdown type hover right aligned</calcite-button>
 
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item active>List</calcite-dropdown-item>
@@ -2558,34 +2558,11 @@
               <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
               </calcite-accordion-item>
               <calcite-accordion-item item-title="Accordion Item 5">
-                <calcite-tree lines>
-                  <calcite-tree-item>
-                    Child 1
-                  </calcite-tree-item>
+                <calcite-radio-group scale="s">
+                  <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+                  <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+                </calcite-radio-group>
 
-                  <calcite-tree-item>
-                    Child 2
-
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        Grandchild 1
-                      </calcite-tree-item>
-
-                      <calcite-tree-item>
-                        Grandchild 2
-                        <calcite-tree slot="children">
-                          <calcite-tree-item>
-                            Great-Grandchild 1
-                          </calcite-tree-item>
-                          <calcite-tree-item>
-                            Great-Grandchild 2
-                          </calcite-tree-item>
-                        </calcite-tree>
-                      </calcite-tree-item>
-                    </calcite-tree>
-
-                  </calcite-tree-item>
-                </calcite-tree>
               </calcite-accordion-item>
             </calcite-accordion>
             <h4>Selection mode: "single" (only open one at a time)</h4>
@@ -2601,34 +2578,11 @@
               <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
               </calcite-accordion-item>
               <calcite-accordion-item item-title="Accordion Item 5">
-                <calcite-tree lines>
-                  <calcite-tree-item>
-                    Child 1
-                  </calcite-tree-item>
+                <calcite-radio-group scale="s">
+                  <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+                  <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+                </calcite-radio-group>
 
-                  <calcite-tree-item>
-                    Child 2
-
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        Grandchild 1
-                      </calcite-tree-item>
-
-                      <calcite-tree-item>
-                        Grandchild 2
-                        <calcite-tree slot="children">
-                          <calcite-tree-item>
-                            Great-Grandchild 1
-                          </calcite-tree-item>
-                          <calcite-tree-item>
-                            Great-Grandchild 2
-                          </calcite-tree-item>
-                        </calcite-tree>
-                      </calcite-tree-item>
-                    </calcite-tree>
-
-                  </calcite-tree-item>
-                </calcite-tree>
               </calcite-accordion-item>
             </calcite-accordion>
             <h4>Selection mode: "single-persist" (only open one at a time - force one to remain open)</h4>
@@ -2644,34 +2598,11 @@
               <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
               </calcite-accordion-item>
               <calcite-accordion-item item-title="Accordion Item 5">
-                <calcite-tree lines>
-                  <calcite-tree-item>
-                    Child 1
-                  </calcite-tree-item>
+                <calcite-radio-group scale="s">
+                  <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+                  <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+                </calcite-radio-group>
 
-                  <calcite-tree-item>
-                    Child 2
-
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        Grandchild 1
-                      </calcite-tree-item>
-
-                      <calcite-tree-item>
-                        Grandchild 2
-                        <calcite-tree slot="children">
-                          <calcite-tree-item>
-                            Great-Grandchild 1
-                          </calcite-tree-item>
-                          <calcite-tree-item>
-                            Great-Grandchild 2
-                          </calcite-tree-item>
-                        </calcite-tree>
-                      </calcite-tree-item>
-                    </calcite-tree>
-
-                  </calcite-tree-item>
-                </calcite-tree>
               </calcite-accordion-item>
             </calcite-accordion>
 
@@ -2857,7 +2788,12 @@
           <div style="display:inline-flex;flex-direction:column;width:33%;padding:10px">
             <h4>Scale s</h4>
             <calcite-accordion scale="s">
-              <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
+              <calcite-accordion-item item-title="Accordion Item">
+                <calcite-radio-group scale="s">
+                  <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+                  <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+                </calcite-radio-group>
+
               </calcite-accordion-item>
               <calcite-accordion-item item-title="Accordion Item 2" active><img
                   src="https://placem.at/places?w=200&txt=0" />
