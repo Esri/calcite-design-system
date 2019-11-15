@@ -1,20 +1,11 @@
 :host {
   display: block;
 
-  --calcite-tabs-border: #{$blk-020};
-  --calcite-tabs-border-hover: #{$blk-030};
-  --calcite-tabs-color-active: #{$blk-220};
   --calcite-tabs-layout: flex-start;
   --calcite-tabs-tab-basis: auto;
   --calcite-tabs-tab-text-align: start;
   --calcite-tabs-tab-margin-start: 1.25rem;
   --calcite-tabs-tab-margin-end: 0;
-}
-
-:host([theme="dark"]) {
-  --calcite-tabs-border: #{$blk-180};
-  --calcite-tabs-border-hover: #{$blk-170};
-  --calcite-tabs-color-active: #{$blk-005};
 }
 
 :host([dir="rtl"]) {
@@ -31,5 +22,5 @@
 }
 
 section {
-  border-top: 1px solid var(--calcite-tabs-border);
+  border-top: 1px solid var(--calcite-ui-border-1);
 }

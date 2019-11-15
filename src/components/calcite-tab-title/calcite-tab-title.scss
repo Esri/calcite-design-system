@@ -9,14 +9,14 @@
   a {
     outline: none;
     text-decoration: none;
-    color: var(--calcite-global-ui-text-1);
-    border-bottom-color: var(--calcite-tabs-border-hover);
+    color: var(--calcite-ui-text-1);
+    border-bottom-color: var(--calcite-ui-border-2);
   }
 }
 
 :host([is-active]) a {
-  color: var(--calcite-global-ui-text-1);
-  border-bottom-color: var(--calcite-global-ui-blue);
+  color: var(--calcite-ui-text-1);
+  border-bottom-color: var(--calcite-ui-blue);
   font-weight: 500;
 }
 
@@ -30,7 +30,7 @@ a {
   border-bottom: 3px solid transparent;
   cursor: pointer;
   transition: all 0.15s ease-in-out;
-  color: var(--calcite-global-ui-text-3);
+  color: var(--calcite-ui-text-3);
   outline: none;
   width: 100%;
   display: block;

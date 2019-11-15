@@ -1,6 +1,5 @@
 :host {
   --calcite-modal-scrim: rgba(0, 0, 0, 0.75);
-  --calcite-modal-border: #{$blk-010};
   position: fixed;
   top: 0;
   right: 0;
@@ -10,16 +9,12 @@
   justify-content: center;
   align-items: center;
   overflow-y: hidden;
-  color: var(--calcite-global-ui-text-2);
+  color: var(--calcite-ui-text-2);
   opacity: 0;
   visibility: hidden !important;
   background: var(--calcite-modal-scrim);
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
-}
-
-:host([theme="dark"]) {
-  --calcite-modal-border: #{$ui-foreground-hover-dark};
 }
 
 .modal {
@@ -36,9 +31,9 @@
   transition: transform 300ms $easing-function, visibility 0ms linear 300ms,
     opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
-  background-color: var(--calcite-global-ui-foreground);
+  background-color: var(--calcite-ui-foreground);
   box-shadow: $shadow-2--press;
-  border-radius: 2px;
+  border-radius: var(--calcite-border-radius);
   margin: $baseline;
   width: 100%;
 }
@@ -66,14 +61,14 @@
  * Header
  */
 .modal__header {
-  background-color: var(--calcite-global-ui-foreground);
+  background-color: var(--calcite-ui-foreground);
   flex: 0;
   display: flex;
   max-width: 100%;
   min-width: 0;
   z-index: 2;
-  border-bottom: 1px solid var(--calcite-modal-border);
-  border-radius: 2px 2px 0 0;
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
 }
 
 .modal__close {
@@ -86,24 +81,24 @@
   background-color: transparent;
   -webkit-appearance: none;
   border: none;
-  color: var(--calcite-global-ui-text-1);
+  color: var(--calcite-ui-text-1);
   outline: none;
   cursor: pointer;
-  border-radius: 0 2px 0 0;
+  border-radius: 0 var(--calcite-border-radius) 0 0;
   svg {
     pointer-events: none;
   }
   &:hover,
   &:focus {
-    background-color: var(--calcite-global-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-hover);
   }
   &:active {
-    background-color: var(--calcite-global-ui-foreground-pressed);
+    background-color: var(--calcite-ui-foreground-pressed);
   }
 }
 
 :host([dir="rtl"]) .modal__close {
-  border-radius: 2px 0 0 0;
+  border-radius: var(--calcite-border-radius) 0 0 0;
 }
 
 .modal__title {
@@ -119,7 +114,7 @@
   margin: 0;
   font-weight: 400;
   @include font-size(2);
-  color: var(--calcite-global-ui-text-1);
+  color: var(--calcite-ui-text-1);
 }
 
 /**
@@ -133,7 +128,7 @@
   max-height: calc(100vh - 12rem);
   overflow-y: auto;
   display: block;
-  background-color: var(--calcite-global-ui-foreground);
+  background-color: var(--calcite-ui-foreground);
   z-index: 1;
 }
 
@@ -155,10 +150,10 @@
   padding: $baseline/1.25 $baseline * 0.75;
   margin-top: auto;
   box-sizing: border-box;
-  border-radius: 0 0 2px 2px;
+  border-radius: 0 0 var(--calcite-border-radius) var(--calcite-border-radius);
   width: 100%;
-  background-color: var(--calcite-global-ui-foreground);
-  border-top: 1px solid var(--calcite-modal-border);
+  background-color: var(--calcite-ui-foreground);
+  border-top: 1px solid var(--calcite-ui-border-3);
   z-index: 2;
 }
 
@@ -275,18 +270,18 @@ slot[name="primary"] {
   }
   @media screen and (max-width: $viewport-medium) {
     .modal {
-      border-radius: 2px 2px 0 0;
+      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
     }
 
     .modal__close {
-      border-radius: 0 2px 0 0;
+      border-radius: 0 var(--calcite-border-radius) 0 0;
     }
   }
 }
 
 @media screen and (max-width: $viewport-medium) {
   :host([docked][dir="rtl"]) .modal__close {
-    border-radius: 2px 0 0 0;
+    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
 
@@ -295,20 +290,20 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-global-ui-red);
+    border-top: 4px solid var(--calcite-ui-red);
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-global-ui-blue);
+    border-top: 4px solid var(--calcite-ui-blue);
   }
 }
 
 :host([color="red"]),
 :host([color="blue"]) {
   .modal__header {
-    border-radius: 0;
+    border-radius: var(--calcite-border-radius);
   }
 }
 

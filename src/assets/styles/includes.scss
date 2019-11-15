@@ -4,6 +4,10 @@
 @import "_mixins";
 @import "_colors";
 
+:root {
+  --calcite-border-radius: 3px;
+}
+
 :host([hidden]) {
   display: none;
 }
