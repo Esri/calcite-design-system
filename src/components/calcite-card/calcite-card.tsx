@@ -1,4 +1,4 @@
-import { Component, Element, Host, Method, Prop, State, Watch, h } from "@stencil/core";
+import { Component, Element, Host, Method, Prop, h } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
