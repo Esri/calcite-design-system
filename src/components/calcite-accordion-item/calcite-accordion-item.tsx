@@ -92,19 +92,21 @@ export class CalciteAccordionItem {
   //--------------------------------------------------------------------------
 
   @Listen("keydown") keyDownHandler(e) {
-    switch (e.keyCode) {
-      case SPACE:
-      case ENTER:
-        this.emitRequestedItem();
-        e.preventDefault();
-        break;
-      case UP:
-      case DOWN:
-      case HOME:
-      case END:
-        this.calciteAccordionItemKeyEvent.emit({ item: e });
-        e.preventDefault();
-        break;
+    if (e.target === this.el) {
+      switch (e.keyCode) {
+        case SPACE:
+        case ENTER:
+          this.emitRequestedItem();
+          e.preventDefault();
+          break;
+        case UP:
+        case DOWN:
+        case HOME:
+        case END:
+          this.calciteAccordionItemKeyEvent.emit({ item: e });
+          e.preventDefault();
+          break;
+      }
     }
   }
 
