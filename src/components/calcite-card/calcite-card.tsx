@@ -53,6 +53,11 @@ export class CalciteCard {
    */
   @Prop({ reflect: true }) selected = false;
 
+  /**
+   * The theme of the card.
+   */
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -60,6 +65,21 @@ export class CalciteCard {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteCardElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback() {
+    //prop validations
+      let scales = ["s", "m", "l"];
+      if (!scales.includes(this.scale)) this.scale = "m";
+
+      let themes = ["dark", "light"];
+      if (!themes.includes(this.theme)) this.theme = "light";
+  }
 
   // --------------------------------------------------------------------------
   //
