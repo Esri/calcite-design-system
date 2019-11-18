@@ -2,31 +2,79 @@
 // light theme
 :host {
   --calcite-alert-icon-fill: #{$blk-220};
-  --calcite-alert-count-border: #{$blk-010};
-  --calcite-alert-dismiss-background: #{rgba($blk-000, 0.8)};
+  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
 }
 
 // dark theme
 :host([theme="dark"]) {
   --calcite-alert-icon-fill: #{$blk-040};
-  --calcite-alert-count-border: #{$blk-210};
-  --calcite-alert-dismiss-background: #{rgba($blk-200, 0.8)};
+  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
+}
+
+// scale variants for child
+:host([scale="s"]) {
+  --calcite-alert-width: 40em;
+  --calcite-alert-spacing-token-small: #{$baseline/3};
+  --calcite-alert-spacing-token-large: #{$baseline/2};
+  @include slotted("alert-title", "div") {
+    @include font-size(-2);
+  }
+  @include slotted("alert-message", "div") {
+    @include font-size(-3);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-3);
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-alert-width: 50em;
+  --calcite-alert-spacing-token-small: #{$baseline/1.5};
+  --calcite-alert-spacing-token-large: #{$baseline};
+  @include slotted("alert-title", "div") {
+    @include font-size(-1);
+  }
+  @include slotted("alert-message", "div") {
+    @include font-size(-2);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-2);
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-alert-width: 60em;
+  --calcite-alert-spacing-token-small: #{$baseline};
+  --calcite-alert-spacing-token-large: #{$baseline * 1.5};
+  @include slotted("alert-title", "div") {
+    @include font-size(0);
+  }
+  @include slotted("alert-message", "div") {
+    @include font-size(-1);
+  }
+  ::slotted(calcite-button) {
+    @include font-size(-1);
+  }
 }
 
 :host {
   display: flex;
-  position: relative;
+  position: fixed;
   justify-content: center;
   pointer-events: none;
-  z-index: 102;
   margin: 0 auto;
-  width: 50em;
+  width: var(--calcite-alert-width);
   max-width: 90%;
   max-height: 0;
-  background-color: var(--calcite-global-ui-foreground);
+  background-color: var(--calcite-ui-foreground);
   box-shadow: $shadow-2;
-  border-radius: 2px;
+  border-radius: var(--calcite-border-radius);
   opacity: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 101;
   transform: translate3d(0, $baseline, 0);
   transition: 300ms $easing-function, opacity 300ms $easing-function,
     all 0.15s ease-in-out;
@@ -34,8 +82,7 @@
   @media only screen and (max-width: $viewport-medium) {
     width: 100%;
     max-width: 100%;
-    border-radius: 2px 2px 0 0;
-    box-shadow: 0 -8px 16px 0 rgba($blk-240, 0.15);
+    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 
   &:host(.hydrated) {
@@ -61,19 +108,15 @@
 
 @include slotted("alert-title", "div") {
   @include font-size(0);
-  color: var(--calcite-global-ui-text-1);
+  color: var(--calcite-ui-text-1);
   font-weight: 500;
-}
-
-::slotted(calcite-button) {
-  @include font-size(-1);
 }
 
 @include slotted("alert-message", "div") {
   display: inline;
   margin-right: $baseline/2;
   @include font-size(-1);
-  color: var(--calcite-global-ui-text-2);
+  color: var(--calcite-ui-text-2);
 }
 
 :host([dir="rtl"]) {
@@ -84,7 +127,8 @@
 }
 
 @mixin alert-element-base() {
-  padding: $baseline/2 $baseline;
+  padding: var(--calcite-alert-spacing-token-small)
+    var(--calcite-alert-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
 
@@ -104,25 +148,31 @@
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
-  padding: $baseline/2 $baseline/2 $baseline/2 0;
+  padding: var(--calcite-alert-spacing-token-small)
+    var(--calcite-alert-spacing-token-small)
+    var(--calcite-alert-spacing-token-small) 0;
 
   &:first-of-type {
-    padding-left: $baseline;
+    padding-left: var(--calcite-alert-spacing-token-large);
   }
 
   @media only screen and (max-width: $viewport-medium) {
-    padding: $baseline $baseline/2 $baseline 0;
+    padding: var(--calcite-alert-spacing-token-large)
+      var(--calcite-alert-spacing-token-small)
+      var(--calcite-alert-spacing-token-large) 0;
   }
 }
 
 :host([dir="rtl"]) {
   .alert-content {
     &:first-of-type {
-      padding-right: $baseline;
+      padding-right: var(--calcite-alert-spacing-token-large);
       padding-left: none;
     }
     @media only screen and (max-width: $viewport-medium) {
-      padding: $baseline 0 $baseline $baseline/2;
+      padding: var(--calcite-alert-spacing-token-large) 0
+        var(--calcite-alert-spacing-token-large)
+        var(--calcite-alert-spacing-token-small);
     }
   }
 }
@@ -139,7 +189,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  border-radius: 0 0 2px 0;
+  border-radius: 0 0 var(--calcite-border-radius) 0;
 
   & svg {
     fill: var(--calcite-alert-icon-fill);
@@ -147,17 +197,17 @@
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-global-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-hover);
   }
 
   &:active {
-    background-color: var(--calcite-global-ui-foreground-pressed);
+    background-color: var(--calcite-ui-foreground-pressed);
   }
 }
 
 :host([dir="rtl"]) {
   .alert-close {
-    border-radius: 0 0 0 2px;
+    border-radius: 0 0 0 var(--calcite-border-radius);
     @media only screen and (max-width: $viewport-medium) {
       border-radius: 0;
     }
@@ -174,7 +224,7 @@
   visibility: hidden;
   font-weight: 500;
   text-align: center;
-  color: var(--calcite-global-ui-text-2);
+  color: var(--calcite-ui-text-2);
   opacity: 0;
   border-left: 0px solid transparent;
   border-right: 0px solid transparent;
@@ -186,8 +236,8 @@
     opacity: 1;
     padding: 0 $baseline/4;
     width: $baseline * 2;
-    border-left: 1px solid var(--calcite-alert-count-border);
-    border-right: 1px solid var(--calcite-alert-count-border);
+    border-left: 1px solid var(--calcite-ui-border-3);
+    border-right: 1px solid var(--calcite-ui-border-3);
 
     &:last-child {
       border-right: 0px solid transparent;
@@ -200,11 +250,12 @@
 }
 :host([dir="rtl"]) {
   &.active:last-child {
-    border-left: 1px solid var(--calcite-alert-count-border);
+    border-left: 1px solid var(--calcite-ui-border-3);
     border-right: 0px solid transparent;
   }
 }
-.alert-dismiss {
+
+.alert-dismiss-progress {
   display: block;
   position: absolute;
   left: 0;
@@ -220,17 +271,15 @@
     right: 0;
     display: block;
     position: absolute;
-    border-radius: 2px 2px 0 0;
+    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
     content: "";
-    background-color: var(--calcite-alert-dismiss-background);
+    background-color: var(--calcite-alert-dismiss-progress-background);
     z-index: 104;
   }
 }
 
-$alertColors: "blue" var(--calcite-global-ui-blue),
-  "red" var(--calcite-global-ui-red),
-  "yellow" var(--calcite-global-ui-yellow),
-  "green" var(--calcite-global-ui-green);
+$alertColors: "blue" var(--calcite-ui-blue), "red" var(--calcite-ui-red),
+  "yellow" var(--calcite-ui-yellow), "green" var(--calcite-ui-green);
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);
@@ -251,12 +300,11 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   $name: nth($alertDuration, 1);
   $duration: nth($alertDuration, 2);
 
-  :host([duration="#{$name}"]) .alert-dismiss:after {
+  :host([auto-dismiss-duration="#{$name}"]) .alert-dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
   }
 }
 
-// should be handled by auto prefixer
 @keyframes dismissProgress {
   0% {
     width: 0;

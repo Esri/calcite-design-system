@@ -1,12 +1,12 @@
 :host {
   display: flex;
-  background-color: var(--calcite-radio-group-color);
-  color: var(--calcite-global-ui-text-3);
+  background-color: var(--calcite-ui-foreground);
+  color: var(--calcite-ui-text-3);
   cursor: pointer;
   padding: var(--calcite-radio-group-padding);
   line-height: 1.25;
   margin: 0.25rem -1px 0 0px;
-  border: 1px solid var(--calcite-radio-group-border-color);
+  border: 1px solid var(--calcite-ui-border-1);
   box-sizing: border-box;
   transition: background 0.1s ease-in-out, border-color 0.1s ease-in-out;
   cursor: pointer;
@@ -25,16 +25,16 @@
 }
 
 :host(:hover) {
-  background-color: var(--calcite-global-ui-foreground-hover);
+  background-color: var(--calcite-ui-foreground-hover);
 }
 
 :host(:active) {
-  background-color: var(--calcite-global-ui-foreground-pressed);
+  background-color: var(--calcite-ui-foreground-pressed);
 }
 
 :host([checked]) {
-  background-color: var(--calcite-global-ui-blue);
-  border-color: var(--calcite-global-ui-blue);
+  background-color: var(--calcite-ui-blue);
+  border-color: var(--calcite-ui-blue);
   color: var(--calcite-radio-group-text-color-active);
   cursor: default;
 }

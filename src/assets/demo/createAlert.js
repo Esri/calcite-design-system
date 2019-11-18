@@ -13,10 +13,10 @@ function createExampleAlert(id) {
   // if the id element doesn't exist, insert into calcite-alerts
   if (!document.querySelector("#" + id)) {
     document
-      .querySelector("#my-alert-container")
-      .insertAdjacentHTML("beforeend", exampleAlert);
+      .querySelector("body")
+      .insertAdjacentHTML("afterend", exampleAlert);
   }
 
   // open the alert we just created
-  document.querySelector("#" + id).openCalciteAlert();
+  document.querySelector("#" + id).open();
 }

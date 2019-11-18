@@ -32,7 +32,7 @@
 :host {
   display: block;
   @include font-size(-2);
-  color: var(--calcite-global-ui-text-3);
+  color: var(--calcite-ui-text-3);
   transition: 0.15s all ease-in-out;
   padding: var(--calcite-dropdown-item-padding);
   cursor: pointer;
@@ -44,13 +44,13 @@
 :host(:hover),
 :host(:focus),
 :host(:active) {
-  background-color: var(--calcite-global-ui-foreground-hover);
-  color: var(--calcite-global-ui-text-1);
+  background-color: var(--calcite-ui-foreground-hover);
+  color: var(--calcite-ui-text-1);
   text-decoration: none;
 }
 
 :host(:active) {
-  background-color: var(--calcite-global-ui-foreground-pressed);
+  background-color: var(--calcite-ui-foreground-pressed);
 }
 
 :host:before {
@@ -75,11 +75,11 @@
 }
 
 :host([active]) {
-  color: var(--calcite-global-ui-text-1);
+  color: var(--calcite-ui-text-1);
   font-weight: 500;
   &:before {
     opacity: 1;
-    color: var(--calcite-global-ui-blue);
+    color: var(--calcite-ui-blue);
   }
 }
 
@@ -93,7 +93,7 @@
     display: block;
     position: relative;
     padding: var(--calcite-dropdown-item-padding);
-    color: var(--calcite-global-ui-text-3);
+    color: var(--calcite-ui-text-3);
     text-decoration: none;
     outline: none;
     &:before {
@@ -110,7 +110,7 @@
 :host([islink]) a:hover,
 :host([islink]) a:focus,
 :host([islink]) a:active {
-  background-color: var(--calcite-global-ui-foreground-hover);
+  background-color: var(--calcite-ui-foreground-hover);
   text-decoration: none;
   &:before {
     opacity: 1;
@@ -118,15 +118,15 @@
 }
 
 :host([islink]) a:active {
-  background-color: var(--calcite-global-ui-foreground-pressed);
+  background-color: var(--calcite-ui-foreground-pressed);
 }
 
 :host([islink][active]) a {
-  color: var(--calcite-global-ui-text-1);
+  color: var(--calcite-ui-text-1);
   font-weight: 500;
   &:before {
     opacity: 1;
-    color: var(--calcite-global-ui-blue);
+    color: var(--calcite-ui-blue);
   }
 }
 

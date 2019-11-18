@@ -1,13 +1,3 @@
-// light theme
-:host {
-  --calcite-dropdown-group-border-color: #{$blk-020};
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-dropdown-group-border-color: #{$blk-180};
-}
-
 // scale: s
 :host([scale="s"]) {
   --calcite-dropdown-group-padding: #{$baseline/3 0};
@@ -25,8 +15,8 @@
   display: block;
   margin: 0 $baseline/1.5 -1px $baseline/1.5;
   padding: var(--calcite-dropdown-group-padding);
-  border-bottom: 1px solid var(--calcite-dropdown-group-border-color);
-  color: var(--calcite-global-ui-text-2);
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+  color: var(--calcite-ui-text-2);
   font-weight: 600;
   word-wrap: break-word;
   cursor: default;

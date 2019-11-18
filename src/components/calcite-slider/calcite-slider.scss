@@ -102,7 +102,7 @@ $calcite-slider-tick-height: 4px;
 
 .slider__thumb:hover .slider__handle {
   border-width: 3px;
-  border-color: var(--calcite-global-ui-blue);
+  border-color: var(--calcite-ui-blue);
   @include shadow(1, "hover");
 }
 
@@ -111,8 +111,8 @@ $calcite-slider-tick-height: 4px;
   outline: none;
   z-index: 4;
   .slider__handle {
-    background-color: var(--calcite-global-ui-blue);
-    border-color: var(--calcite-global-ui-blue);
+    background-color: var(--calcite-ui-blue);
+    border-color: var(--calcite-ui-blue);
     @include shadow(1, "press");
   }
 }
@@ -138,7 +138,7 @@ $calcite-slider-tick-height: 4px;
 .slider__thumb:hover.slider__thumb--precise:after,
 .slider__thumb:focus.slider__thumb--precise:after,
 .slider__thumb--active.slider__thumb--precise:after {
-  background-color: var(--calcite-global-ui-blue);
+  background-color: var(--calcite-ui-blue);
 }
 
 .slider__thumb--precise.slider__thumb--min {
@@ -169,7 +169,7 @@ $calcite-slider-tick-height: 4px;
   right: var(--calcite-slider-range-max);
   left: var(--calcite-slider-range-min);
   height: $calcite-slider-track-height;
-  background-color: var(--calcite-global-ui-blue);
+  background-color: var(--calcite-ui-blue);
 }
 
 .slider__tick {
@@ -186,7 +186,7 @@ $calcite-slider-tick-height: 4px;
 }
 
 .slider__tick--active {
-  background-color: var(--calcite-global-ui-blue);
+  background-color: var(--calcite-ui-blue);
 }
 
 .slider__tick__label {

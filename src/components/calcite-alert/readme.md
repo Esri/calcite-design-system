@@ -1,9 +1,8 @@
 # calcite-alert
 
-Single alert for toast notifications. To position the alert correctly and manage multiple alerts, it's recommended you wrap the alert inside the [calcite-alerts](../calcite-alerts/) component:
+A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ```html
-<calcite-alerts>
   <calcite-alert>
     <div slot="alert-title">Title of alert</div>
     <div slot="alert-message">
@@ -11,27 +10,32 @@ Single alert for toast notifications. To position the alert correctly and manage
     </div>
     <a slot="alert-link" href="#">Retry</a>
   </calcite-alert>
-</calcite-alerts>
+  <calcite-alert>
+    <div slot="alert-title">Title of alert</div>
+    <div slot="alert-message">
+      Message text of the alert
+    </div>
+    <a slot="alert-link" href="#">Retry</a>
+  </calcite-alert>
 ```
-
-## TODO
-
-- tests
-- verify aria
-- document events
 
 <!-- Auto Generated Below -->
 
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                  | Type                                     | Default                                  |
-| ---------- | ---------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| `color`    | `color`    | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`                                 |
-| `dismiss`  | `dismiss`  | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`                                  |
-| `duration` | `duration` | Length before autodismissal (only used with `dismiss`)                       | `"fast" \| "medium" \| "slow"`           | `this.dismiss     ? "medium"     : null` |
-| `icon`     | `icon`     | If false, no icon will be shown in the alert                                 | `boolean`                                | `false`                                  |
-| `theme`    | `theme`    | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `"light"`                                |
+| Property              | Attribute               | Description                                                                  | Type                                     | Default                              |
+| --------------------- | ----------------------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------ |
+| `active`              | `active`                | Is the alert currently active or not                                         | `boolean`                                | `false`                              |
+| `alertQueue`          | --                      | a managed list of alerts                                                     | `string[]`                               | `[]`                                 |
+| `alertQueueLength`    | `alert-queue-length`    | a managed list of alerts                                                     | `number`                                 | `undefined`                          |
+| `autoDismiss`         | `auto-dismiss`          | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`                              |
+| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                       | `"fast" \| "medium" \| "slow"`           | `this.autoDismiss ? "medium" : null` |
+| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`                             |
+| `currentAlert`        | `current-alert`         | the determined current alert                                                 | `string`                                 | `undefined`                          |
+| `icon`                | `icon`                  | specify if the alert should display an icon                                  | `boolean`                                | `false`                              |
+| `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" \| "m" \| "s"`                      | `"m"`                                |
+| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `"light"`                            |
 
 
 ## Events
@@ -40,13 +44,14 @@ Single alert for toast notifications. To position the alert correctly and manage
 | ------------------- | ----------------------------- | ------------------ |
 | `calciteAlertClose` | Fired when an alert is closed | `CustomEvent<any>` |
 | `calciteAlertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
+| `calciteAlertSync`  | Fired when an alert is opened | `CustomEvent<any>` |
 
 
 ## Methods
 
-### `closeCalciteAlert() => Promise<void>`
+### `close() => Promise<void>`
 
-emit the `calciteAlertClose` event - <calcite-alerts> listens for this
+close alert and emit the closed alert
 
 #### Returns
 
@@ -54,9 +59,9 @@ Type: `Promise<void>`
 
 
 
-### `openCalciteAlert() => Promise<void>`
+### `open() => Promise<void>`
 
-emit the `calciteAlertOpen` event - <calcite-alerts> listens for this
+open alert and emit the opened alert
 
 #### Returns
 
@@ -73,19 +78,6 @@ Type: `Promise<void>`
 | `"alert-message"` | Main text of the alert                                                       |
 | `"alert-title"`   | Title of the alert (optional)                                                |
 
-
-## Dependencies
-
-### Depends on
-
-- context-consumer
-
-### Graph
-```mermaid
-graph TD;
-  calcite-alert --> context-consumer
-  style calcite-alert fill:#f9f,stroke:#333,stroke-width:4px
-```
 
 ----------------------------------------------
 
