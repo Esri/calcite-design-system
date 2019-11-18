@@ -141,7 +141,6 @@ export class CalciteCard {
     ) : null;
   }
   render() {
-    console.log("render");
     const { loading, el } = this;
     const rtl = getElementDir(el) === "rtl";
     return (
