@@ -13,14 +13,6 @@ $pointer_arrow_size: 5px;
 }
 
 @mixin popperPointer($selector) {
-  :host {
-    --calcite-popper-background: #{$ui-foreground};
-  }
-
-  :host([theme="dark"]) {
-    --calcite-popper-background: #{$ui-foreground-dark};
-  }
-
   #{$selector}:after {
     position: absolute;
     content: "";
@@ -32,7 +24,7 @@ $pointer_arrow_size: 5px;
     top: 100%;
     left: $pointer_arrow_size;
     width: 0;
-    border-top: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-right: $pointer_arrow_size solid transparent;
     border-left: $pointer_arrow_size solid transparent;
   }
@@ -42,7 +34,7 @@ $pointer_arrow_size: 5px;
     left: 50%;
     margin-left: -$pointer_arrow_size;
     width: 0;
-    border-top: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-right: $pointer_arrow_size solid transparent;
     border-left: $pointer_arrow_size solid transparent;
   }
@@ -51,7 +43,7 @@ $pointer_arrow_size: 5px;
     top: 100%;
     right: $pointer_arrow_size;
     width: 0;
-    border-top: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-top: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-right: $pointer_arrow_size solid transparent;
     border-left: $pointer_arrow_size solid transparent;
   }
@@ -60,7 +52,7 @@ $pointer_arrow_size: 5px;
     right: 100%;
     top: $pointer_arrow_size;
     width: 0;
-    border-right: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-top: $pointer_arrow_size solid transparent;
     border-bottom: $pointer_arrow_size solid transparent;
   }
@@ -70,7 +62,7 @@ $pointer_arrow_size: 5px;
     top: 50%;
     margin-top: -$pointer_arrow_size;
     width: 0;
-    border-right: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-top: $pointer_arrow_size solid transparent;
     border-bottom: $pointer_arrow_size solid transparent;
   }
@@ -79,7 +71,7 @@ $pointer_arrow_size: 5px;
     right: 100%;
     bottom: $pointer_arrow_size;
     width: 0;
-    border-right: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-right: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-top: $pointer_arrow_size solid transparent;
     border-bottom: $pointer_arrow_size solid transparent;
   }
@@ -88,7 +80,7 @@ $pointer_arrow_size: 5px;
     bottom: 100%;
     left: $pointer_arrow_size;
     width: 0;
-    border-bottom: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-bottom: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-right: $pointer_arrow_size solid transparent;
     border-left: $pointer_arrow_size solid transparent;
   }
@@ -98,7 +90,7 @@ $pointer_arrow_size: 5px;
     left: 50%;
     margin-left: -$pointer_arrow_size;
     width: 0;
-    border-bottom: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-bottom: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-right: $pointer_arrow_size solid transparent;
     border-left: $pointer_arrow_size solid transparent;
   }
@@ -107,7 +99,7 @@ $pointer_arrow_size: 5px;
     bottom: 100%;
     right: $pointer_arrow_size;
     width: 0;
-    border-bottom: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-bottom: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-right: $pointer_arrow_size solid transparent;
     border-left: $pointer_arrow_size solid transparent;
   }
@@ -116,7 +108,7 @@ $pointer_arrow_size: 5px;
     left: 100%;
     top: $pointer_arrow_size;
     width: 0;
-    border-left: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-left: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-top: $pointer_arrow_size solid transparent;
     border-bottom: $pointer_arrow_size solid transparent;
   }
@@ -126,7 +118,7 @@ $pointer_arrow_size: 5px;
     top: 50%;
     margin-top: -$pointer_arrow_size;
     width: 0;
-    border-left: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-left: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-top: $pointer_arrow_size solid transparent;
     border-bottom: $pointer_arrow_size solid transparent;
   }
@@ -135,7 +127,7 @@ $pointer_arrow_size: 5px;
     left: 100%;
     bottom: $pointer_arrow_size;
     width: 0;
-    border-left: $pointer_arrow_size solid var(--calcite-popper-background);
+    border-left: $pointer_arrow_size solid var(--calcite-ui-foreground);
     border-top: $pointer_arrow_size solid transparent;
     border-bottom: $pointer_arrow_size solid transparent;
   }
