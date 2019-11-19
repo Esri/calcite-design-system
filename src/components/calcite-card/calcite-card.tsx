@@ -75,7 +75,7 @@ export class CalciteCard {
   connectedCallback() {
     //prop validations
       let scales = ["s", "m", "l"];
-      if (!scales.includes(this.scale)) this.scale = "m";
+      if (!scales.includes(this.imageScale)) this.imageScale = "m";
 
       let themes = ["dark", "light"];
       if (!themes.includes(this.theme)) this.theme = "light";
