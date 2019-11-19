@@ -1,4 +1,4 @@
-import { Component, Element, Host, Method, Prop, h } from "@stencil/core";
+import { Component, Element, Host, Prop, h } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -6,7 +6,6 @@ import { VNode } from "@stencil/core/dist/declarations";
 
 import { CSS, SLOTS } from "./resources";
 import CalciteScrim from "../../utils/CalciteScrim";
-import classnames from "classnames";
 
 /**
  * @slot thumbnail - [Required] A slot for adding a thumnail to the card.
@@ -39,9 +38,9 @@ export class CalciteCard {
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Indicates whether the image's height or width is prioritized.
-   * When false, the image fills the whole thumbnail space.
-   * When true, the height of the thumbnail is used to crop.
+   * Indicates whether the image's height is respected for the crop of the thumbnail.
+   * When false (default), the image fills the whole thumbnail space.
+   * When true, the height of the thumbnail is used to crop and may not fill the container for the thumbnail.
    */
   @Prop({ reflect: true }) respectImageHeight = false;
 
@@ -51,7 +50,7 @@ export class CalciteCard {
   @Prop({ reflect: true }) imageScale: "s" | "m" | "l" = "m";
 
   /**
-   * Indicates whether the card is selected. Toggles when a card is clicked.
+   * Indicates whether the card is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -135,7 +134,7 @@ export class CalciteCard {
     const { loading, el } = this;
     const rtl = getElementDir(el) === "rtl";
     return (
-      <Host selected={this.selected}>
+      <Host>
         <section
           class={{
             [CSS.container]: true,
@@ -145,7 +144,7 @@ export class CalciteCard {
         >
           {this.renderThumbnail()}
           {this.renderHeader()}
-          <div>
+          <div class="action-button">
             <slot name={SLOTS.buttonAction} />
           </div>
           {this.renderFooter()}
