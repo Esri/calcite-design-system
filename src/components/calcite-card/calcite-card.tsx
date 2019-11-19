@@ -10,6 +10,7 @@ import CalciteScrim from "../../utils/CalciteScrim";
 /**
  * @slot thumbnail - [Required] A slot for adding a thumnail to the card.
  * @slot header - [Required] A slot for adding a heading and an icon to the card.
+ * @slot default - A slot for adding summary/description content.
  * @slot action - A slot for adding a single action as a button.
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
@@ -136,6 +137,7 @@ export class CalciteCard {
         >
           {this.renderThumbnail()}
           {this.renderHeader()}
+          < slot/>
           <div class="action-button">
             <slot name={SLOTS.buttonAction} />
           </div>
