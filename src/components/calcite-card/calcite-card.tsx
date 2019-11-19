@@ -45,11 +45,6 @@ export class CalciteCard {
   @Prop({ reflect: true }) respectImageHeight = false;
 
   /**
-   * The scale of the image.
-   */
-  @Prop({ reflect: true }) imageScale: "s" | "m" | "l" = "m";
-
-  /**
    * Indicates whether the card is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
@@ -74,9 +69,6 @@ export class CalciteCard {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
-      let scales = ["s", "m", "l"];
-      if (!scales.includes(this.imageScale)) this.imageScale = "m";
-
       let themes = ["dark", "light"];
       if (!themes.includes(this.theme)) this.theme = "light";
   }
