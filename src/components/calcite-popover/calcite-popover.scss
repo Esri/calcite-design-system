@@ -8,9 +8,6 @@ $image_max_height: 200px;
   left: -999999px;
 }
 
-:host([theme="dark"]) {
-}
-
 .container {
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
@@ -21,6 +18,10 @@ $image_max_height: 200px;
 
 .container--open {
   visibility: visible;
+}
+
+:host([x-out-of-boundaries]) .container {
+  visibility: hidden;
 }
 
 .content-container {

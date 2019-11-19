@@ -26,6 +26,18 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   /**
+   *  HTMLElement Used to position this component within the a boundary.
+   */
+  @Prop() boundariesElement?: HTMLElement | string;
+
+  @Watch("boundariesElement")
+  boundariesElementHandler() {
+    this._boundariesElement = this.getBoundariesElement();
+    this.destroyPopper();
+    this.reposition();
+  }
+
+  /**
    * Display and position the component.
    */
   @Prop({ reflect: true }) open = false;
@@ -76,6 +88,8 @@ export class CalciteTooltip {
   @Element() el: HTMLCalciteTooltipElement;
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
+
+  @State() _boundariesElement: HTMLElement = this.getBoundariesElement();
 
   popper: Popper;
 
@@ -173,13 +187,22 @@ export class CalciteTooltip {
     );
   }
 
+  getBoundariesElement(): HTMLElement {
+    const { boundariesElement } = this;
+
+    return (
+      (typeof boundariesElement === "string"
+        ? document.getElementById(boundariesElement)
+        : boundariesElement) || null
+    );
+  }
+
   getModifiers(): Popper.Modifiers {
     return {
       preventOverflow: {
-        enabled: false
-      },
-      hide: {
-        enabled: false
+        enabled: true,
+        boundariesElement: this._boundariesElement || "viewport",
+        escapeWithReference: true
       }
     };
   }
@@ -192,13 +215,8 @@ export class CalciteTooltip {
     }
 
     const newPopper = new Popper(_referenceElement, el, {
-      eventsEnabled: false,
       placement: getPlacement(el, placement),
       modifiers: this.getModifiers()
-    });
-
-    window.addEventListener("resize", newPopper.scheduleUpdate, {
-      passive: true
     });
 
     this.popper = newPopper;
@@ -217,7 +235,6 @@ export class CalciteTooltip {
     const { popper } = this;
 
     if (popper) {
-      window.removeEventListener("resize", popper.scheduleUpdate);
       popper.destroy();
     }
 

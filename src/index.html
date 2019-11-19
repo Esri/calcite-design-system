@@ -568,11 +568,13 @@
       <calcite-tab>
         <h1>CalcitePopover</h1>
 
-        <calcite-popover placement="auto" reference-element="popover-button" id="popover" close-button>
+
+        <calcite-popover placement="top-start" reference-element="popover-button" boundaries-element="popover-boundary" id="popover" close-button>
           <img slot="image" src="https://placem.at/places?w=200&txt=0" />
           <div style="padding:12px 16px;">Here kitty kitty!
           </div>
         </calcite-popover>
+
 
         <calcite-popover reference-element="popover-button-two" placement="right-start" id="popover-two"
           add-click-handle>
@@ -647,9 +649,10 @@
 
         <ul class="popover-list">
           <li>
-            <calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+
+      <calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
               Clickable popover</calcite-button>
-          </li>
+
           <li>
             <calcite-button id="popover-button-four" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
               With close button</calcite-button>
@@ -659,8 +662,42 @@
               Title, content & CTA</calcite-button>
           </li>
           <li>
+              <div id="popover-boundary" style="width:500px; height:500px; overflow:auto;">
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
+                <p>test</p>
             <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
               Popover with picture</calcite-button>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+              <p>test</p>
+            </div>
           </li>
         </ul>
 

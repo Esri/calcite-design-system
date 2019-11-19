@@ -275,14 +275,13 @@ export class CalcitePopover {
 
     return {
       preventOverflow: {
-        enabled: false
+        enabled: true,
+        boundariesElement: _boundariesElement || "viewport",
+        escapeWithReference: true
       },
       flip: {
         enabled: !disableFlip,
         boundariesElement: _boundariesElement || "viewport"
-      },
-      hide: {
-        enabled: false
       },
       inner: {
         enabled: flowInner
@@ -302,13 +301,8 @@ export class CalcitePopover {
     }
 
     const newPopper = new Popper(_referenceElement, el, {
-      eventsEnabled: false,
       placement: getPlacement(el, placement),
       modifiers: this.getModifiers()
-    });
-
-    window.addEventListener("resize", newPopper.scheduleUpdate, {
-      passive: true
     });
 
     this.popper = newPopper;
@@ -327,7 +321,6 @@ export class CalcitePopover {
     const { popper } = this;
 
     if (popper) {
-      window.removeEventListener("resize", popper.scheduleUpdate);
       popper.destroy();
     }
 
