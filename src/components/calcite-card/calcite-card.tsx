@@ -40,6 +40,8 @@ export class CalciteCard {
 
   /**
    * Indicates whether the image's height or width is prioritized.
+   * When false, the image fills the whole thumbnail space.
+   * When true, the height of the thumbnail is used to crop.
    */
   @Prop({ reflect: true }) imgHeightPriority = false;
 
