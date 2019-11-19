@@ -276,12 +276,12 @@ export class CalcitePopover {
     return {
       preventOverflow: {
         enabled: true,
-        boundariesElement: _boundariesElement || "scrollParent",
+        boundariesElement: _boundariesElement || "viewport",
         escapeWithReference: true
       },
       flip: {
         enabled: !disableFlip,
-        boundariesElement: _boundariesElement || "scrollParent"
+        boundariesElement: _boundariesElement || "viewport"
       },
       inner: {
         enabled: flowInner

@@ -201,7 +201,7 @@ export class CalciteTooltip {
     return {
       preventOverflow: {
         enabled: true,
-        boundariesElement: this._boundariesElement || "scrollParent",
+        boundariesElement: this._boundariesElement || "viewport",
         escapeWithReference: true
       }
     };
