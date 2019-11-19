@@ -43,7 +43,7 @@ export class CalciteCard {
    * When false, the image fills the whole thumbnail space.
    * When true, the height of the thumbnail is used to crop.
    */
-  @Prop({ reflect: true }) imgHeightPriority = false;
+  @Prop({ reflect: true }) respectImageHeight = false;
 
   /**
    * The scale of the image.
@@ -53,7 +53,7 @@ export class CalciteCard {
   /**
    * Indicates whether the card is selected. Toggles when a card is clicked.
    */
-  @Prop({ reflect: true }) selected = false;
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
    * The theme of the card.
@@ -75,43 +75,12 @@ export class CalciteCard {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
-    //prop validations
       let scales = ["s", "m", "l"];
       if (!scales.includes(this.imageScale)) this.imageScale = "m";
 
       let themes = ["dark", "light"];
       if (!themes.includes(this.theme)) this.theme = "light";
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Used to toggle the selection state.
-   */
-  @Method() async toggleSelected(coerce?: boolean) {
-    if (this.disabled) {
-      return;
-    }
-    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  cardClickHandler = (event: MouseEvent): void => {
-    event.preventDefault();
-    if (this.disabled) {
-      return;
-    }
-    this.toggleSelected();
-  };
 
   // --------------------------------------------------------------------------
   //
@@ -159,7 +128,7 @@ export class CalciteCard {
 
   renderScrim(): VNode {
     return this.loading || this.disabled ? (
-      <CalciteScrim loading={this.loading}></CalciteScrim>
+      <CalciteScrim loading={this.loading} disabled={this.disabled}></CalciteScrim>
     ) : null;
   }
   render() {
@@ -167,18 +136,20 @@ export class CalciteCard {
     const rtl = getElementDir(el) === "rtl";
     return (
       <Host selected={this.selected}>
-        <div
-          class={classnames(CSS.container, {
+        <section
+          class={{
+            [CSS.container]: true,
             [CSS_UTILITY.rtl]: rtl
-          })}
-          onClick={this.cardClickHandler}
+            }}
           aria-busy={loading}
         >
           {this.renderThumbnail()}
           {this.renderHeader()}
-          <slot name={SLOTS.buttonAction} />
+          <div>
+            <slot name={SLOTS.buttonAction} />
+          </div>
           {this.renderFooter()}
-        </div>
+        </section>
         {this.renderScrim()}
       </Host>
     );
