@@ -8,13 +8,9 @@ $image_max_height: 200px;
   left: -999999px;
 }
 
-:host([theme="dark"]) {
-}
-
 .container {
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
-  overflow: hidden;
   position: relative;
   visibility: hidden;
 }
@@ -26,6 +22,7 @@ $image_max_height: 200px;
 .content-container {
   display: flex;
   max-width: 350px;
+  overflow: hidden;
   flex-direction: column;
   background: var(--calcite-ui-foreground);
   color: var(--calcite-ui-text-1);
