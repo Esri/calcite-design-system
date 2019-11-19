@@ -198,11 +198,18 @@ export class CalciteTooltip {
   }
 
   getModifiers(): Popper.Modifiers {
+    const { _boundariesElement } = this;
+
     return {
       preventOverflow: {
         enabled: true,
-        boundariesElement: this._boundariesElement || "viewport",
+        boundariesElement: _boundariesElement || "viewport",
         escapeWithReference: true
+      },
+      flip: {
+        enabled: true,
+        boundariesElement: _boundariesElement || "viewport",
+        flipVariationsByContent: true
       }
     };
   }

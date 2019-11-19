@@ -281,7 +281,8 @@ export class CalcitePopover {
       },
       flip: {
         enabled: !disableFlip,
-        boundariesElement: _boundariesElement || "viewport"
+        boundariesElement: _boundariesElement || "viewport",
+        flipVariationsByContent: true
       },
       inner: {
         enabled: flowInner
