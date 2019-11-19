@@ -45,7 +45,7 @@
     "@esri/calcite-base": "^1.1.0",
     "@esri/calcite-colors": "^1.5.0",
     "@esri/calcite-ui-icons": "^2.5.4",
-    "@stencil/core": "^1.2.2",
+    "@stencil/core": "^1.8.1",
     "@stencil/sass": "^1.0.1",
     "@stencil/state-tunnel": "^1.0.1",
     "@storybook/addon-backgrounds": "^5.2.4",
