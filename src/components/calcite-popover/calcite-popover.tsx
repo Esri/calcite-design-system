@@ -76,6 +76,11 @@ export class CalcitePopover {
   @Prop({ reflect: true }) flowInner = false;
 
   /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: Popper.Position[];
+
+  /**
    * Display and position the component.
    */
   @Prop({ reflect: true }) open = false;
@@ -261,6 +266,7 @@ export class CalcitePopover {
     const {
       _boundariesElement,
       disableFlip,
+      flipPlacements,
       flowInner,
       placement,
       xOffset,
@@ -282,7 +288,8 @@ export class CalcitePopover {
       flip: {
         enabled: !disableFlip,
         boundariesElement: _boundariesElement || "viewport",
-        flipVariationsByContent: true
+        flipVariationsByContent: true,
+        behavior: flipPlacements || "flip"
       },
       inner: {
         enabled: flowInner
