@@ -67,7 +67,7 @@ export class CalciteDatePicker {
   /**
    * Active date.
    */
-  @State() activeDate = new Date(this.value) || new Date();
+  @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(this.value);
 
   inputProxy: HTMLInputElement;
 
@@ -84,7 +84,7 @@ export class CalciteDatePicker {
   }
 
   render() {
-    let selectedDate = this.value ? new Date(`${this.value}`) : new Date();
+    let selectedDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
     return (
       <Host
         role="application"
@@ -209,9 +209,8 @@ export class CalciteDatePicker {
   };
 
   syncProxyInputToThis = () => {
-    this.inputProxy.value = new Date(`${this.value} `)
-      .toISOString()
-      .substr(0, 10);
+    let date = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
+    this.inputProxy.value = date.toISOString().substr(0, 10);
     this.inputProxy.min = this.min;
     this.inputProxy.max = this.max;
   };
