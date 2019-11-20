@@ -154,7 +154,7 @@ export class CalciteDatePicker {
   }
 
   private closeCalendar() {
-    this.showCalendar = true;
+    this.showCalendar = false;
   }
 
   private getMonth() {
