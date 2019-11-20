@@ -16,6 +16,10 @@
   visibility: visible;
 }
 
+:host([x-out-of-boundaries]) .tooltip-container {
+  visibility: hidden;
+}
+
 .tooltip-content-container {
   background: var(--calcite-ui-foreground);
   max-width: 300px;

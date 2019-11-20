@@ -19,6 +19,10 @@ $image_max_height: 200px;
   visibility: visible;
 }
 
+:host([x-out-of-boundaries]) .container {
+  visibility: hidden;
+}
+
 .content-container {
   display: flex;
   max-width: 350px;
