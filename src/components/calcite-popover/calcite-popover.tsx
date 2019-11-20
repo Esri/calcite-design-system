@@ -9,7 +9,11 @@ import {
   h
 } from "@stencil/core";
 import { CSS } from "./resources";
-import { CalcitePlacement, getPlacement } from "../../utils/popper";
+import {
+  CalciteFlipPlacements,
+  CalcitePlacement,
+  getPlacement
+} from "../../utils/popper";
 import Popper from "popper.js";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
@@ -78,7 +82,7 @@ export class CalcitePopover {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: Popper.Position[];
+  @Prop() flipPlacements?: CalciteFlipPlacements;
 
   /**
    * Display and position the component.

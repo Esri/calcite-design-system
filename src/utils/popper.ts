@@ -11,6 +11,8 @@ type PlacementRtl =
 
 export type CalcitePlacement = Popper.Placement | PlacementRtl;
 
+export type CalciteFlipPlacements = Popper.Position[];
+
 export function getPlacement(
   el: HTMLElement,
   placement: CalcitePlacement
