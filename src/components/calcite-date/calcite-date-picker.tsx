@@ -7,7 +7,8 @@ import {
   Host,
   EventEmitter,
   State,
-  Build
+  Build,
+  Watch
 } from "@stencil/core";
 
 @Component({
@@ -69,6 +70,12 @@ export class CalciteDatePicker {
    */
   @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(this.value);
 
+  @Watch('value') 
+  onNameChanged(newValue: string) {
+    if(!isNaN(Date.parse(newValue))){
+      this.activeDate = new Date(newValue);
+    }
+  }
   inputProxy: HTMLInputElement;
 
   connectedCallback() {
@@ -110,6 +117,7 @@ export class CalciteDatePicker {
             value={this.value}
             class="date-input"
             onFocus={() => this.expandCalendar()}
+            onChange={(e) => { this.setDate(e.target) }}
           />
         </div>
         {this.showCalendar && (
@@ -175,8 +183,7 @@ export class CalciteDatePicker {
 
   private setDate(target) {
     // Set date to in dd/mm/yyyy format.
-    this.activeDate = new Date(target.selectedDate);
-    this.value = target.selectedDate.toISOString().substr(0, 10);
+    this.value = isNaN(Date.parse(target.value)) ? target.selectedDate.toISOString().substr(0, 10) : target.value;
     this.syncProxyInputToThis();
     this.calciteDateChange.emit();
   }
