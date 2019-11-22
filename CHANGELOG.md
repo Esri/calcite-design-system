@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- `calcite-date-picker` - Corrected date picker calendar opening up on null or no value property. 
+- `calcite-date-picker` - Change of input value updates the calendar to show same date. 
+
 ### Breaking Changes
 - `calcite-button` - `iconposition` attribute updated to `icon-position`
 - `calcite-dropdown-group` - `grouptitle` attribute updated to `group-title`
