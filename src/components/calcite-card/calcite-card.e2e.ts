@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, renders } from "../../tests/commonTests";
-import { createFalse } from "typescript";
+import { setUpPage } from "../../tests/utils";
 
 describe("calcite-card", () => {
   it("renders", async () => renders("calcite-card"));
@@ -29,5 +29,7 @@ describe("calcite-card", () => {
         defaultValue: "light"
       }
     ])
-  })
+  });
+
+
 })
