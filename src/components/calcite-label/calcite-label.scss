@@ -1,0 +1,31 @@
+// calcite-chec
+
+:host {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  text-align: left;
+  // rtl
+  margin: 0 0 $baseline 0;
+}
+
+:host label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  @include font-size(-2);
+}
+
+// status
+$inputStatusColors: "invalid" var(--calcite-ui-red),
+  "valid" var(--calcite-ui-text-2), "idle" var(--calcite-ui-text-2);
+
+@each $statusColor in $inputStatusColors {
+  $name: nth($statusColor, 1);
+  $color: nth($statusColor, 2);
+
+  :host([status="#{$name}"]) label{
+    color: $color;
+  }
+}

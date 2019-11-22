@@ -27,6 +27,19 @@ The `calcite-progress` component is used to show progress on some async task to 
 | `value`    | `value`    | Percent complete of 100                                          | `number`                           | `0`             |
 
 
+## Dependencies
+
+### Used by
+
+ - [calcite-input](../calcite-input)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-input --> calcite-progress
+  style calcite-progress fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

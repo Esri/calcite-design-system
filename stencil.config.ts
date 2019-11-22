@@ -19,10 +19,11 @@ export const config: Config = {
       ]
     },
     {
-      components: [
-        "calcite-accordion",
-        "calcite-accordion-item"
-      ]
+      components: ["calcite-accordion", "calcite-accordion-item"]
+    },
+    { components: ["calcite-label"] },
+    {
+      components: ["calcite-input", "calcite-input-message"]
     },
     {
       components: [

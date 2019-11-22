@@ -1,0 +1,105 @@
+:host {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  color: var(--calcite-ui-text-2);
+  background: var(--calcite-ui-foreground);
+  font-weight: 400;
+  @include font-size(-3);
+  transition: $transition;
+  visibility: hidden;
+  opacity: 0;
+  height:0;
+  margin-top:0;
+}
+
+:host([active]) {
+  opacity: 1;
+  margin-top: $baseline/4;
+  height: auto;
+  max-height: 100vh;
+  visibility: visible;
+}
+
+
+:host([type="floating"]) {
+  padding: $baseline/2;
+  transform: translate3d(0, -$baseline, 0);
+  background-color: var(--calcite-ui-foreground);
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: auto;
+  margin-top:0;
+  border-radius: var(--calcite-border-radius);
+  box-shadow: $shadow-2;
+  z-index: 101;
+}
+
+:host([type="floating"][active]) {
+  transform: translate3d(0, 0, 0);
+  margin:0;
+}
+
+//todo rtl
+.calcite-input-message-icon {
+  display: inline-flex;
+  pointer-events: none;
+  transition: $transition;
+  // todo rtl
+  margin: 2px $baseline/2.5 0;
+  line-height: inherit;
+  z-index: 9;
+  & svg {
+    transition: $transition;
+  }
+}
+
+// status
+$inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-red-hover)
+    var(--calcite-input-status-invalid-focus-shadow-color),
+  "valid" var(--calcite-ui-green) var(--calcite-ui-green-hover)
+    var(--calcite-input-status-valid-focus-shadow-color),
+  "idle" var(--calcite-ui-blue) var(--calcite-ui-blue-hover)
+    var(--calcite-input-status-valid-focus-shadow-color);
+
+@each $statusColor in $inputStatusColors {
+  $name: nth($statusColor, 1);
+  $color: nth($statusColor, 2);
+  $colorHover: nth($statusColor, 3);
+  $shadowColor: nth($statusColor, 4);
+
+  :host([status="#{$name}"]) {
+    & .calcite-input-message-icon svg {
+      fill: $color !important;
+    }
+  }
+}
+
+
+:host([type="floating"][active]) {
+    animation: floatingmessagepulse 0.5s ease-in-out;
+    animation-iteration-count: 1;
+}
+
+@keyframes floatingmessagepulse {
+  0% {
+    top: 100%;
+  }
+  25% {
+    top:110%;
+  }
+  50% {
+    top: 100%;
+  }
+  75% {
+    top: 105%;
+  }
+  100% {
+    top: 100%;
+  }
+}
