@@ -29,6 +29,14 @@ Example:
 
 `font-size: @include font-size(-2)`
 
+CSS ouput:
+```
+.font-size--2 {
+  font-size: 0.875rem;
+  line-height: 1.5; 
+}
+```
+
 #### Font-weight
 
 |  Weight  |  Value  |
@@ -43,6 +51,8 @@ Example:
 
 
 ### Shadows
+
+The shadow of an element usually corresponds to the priority or importance of the message or workflow. Consistently using shadow for elements like alerts, modals, page takeovers, and sheets provides users clear and familiar indications of importance.
 
 ```
 --shadow-1
