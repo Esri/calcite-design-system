@@ -148,7 +148,7 @@ export class CalciteDatePicker {
               activeDate={this.activeDate}
               startOfWeek={this.startOfWeek}
               locale={this.locale}
-              onCalciteDateSelect={evt => this.setDate(evt.target)}
+              onCalciteDateSelect={evt => { this.closeCalendar(); this.setDate(evt.target); }}
               onCalciteActiveDateChange={evt => this.setActiveDate(evt.target)}
             />
           </div>
