@@ -8,7 +8,8 @@ import {
   EventEmitter,
   State,
   Build,
-  Watch
+  Watch,
+  Listen
 } from "@stencil/core";
 
 @Component({
@@ -30,6 +31,10 @@ export class CalciteDatePicker {
    * Value of the form control
    */
   @Prop({ reflect: true }) max?: string = "";
+  /**
+   * Localized string for place holder to the date picker input.
+   */
+  @Prop({ reflect: true }) placeholder: string = "mm/dd/yyyy";
   /**
    * Localized string for previous month.
    */
@@ -76,6 +81,7 @@ export class CalciteDatePicker {
       this.activeDate = new Date(newValue);
     }
   }
+
   inputProxy: HTMLInputElement;
 
   connectedCallback() {
@@ -96,7 +102,6 @@ export class CalciteDatePicker {
       <Host
         role="application"
         expanded={this.showCalendar}
-        onBlur={() => this.closeCalendar()}
       >
         <div
           class={`date-input-wrapper ${this.showCalendar ? "expanded" : ""}`}
@@ -113,7 +118,7 @@ export class CalciteDatePicker {
           </svg>
           <input
             type="text"
-            placeholder="dd/mm/yyyy"
+            placeholder={this.placeholder}
             value={this.value}
             class="date-input"
             onFocus={() => this.expandCalendar()}
@@ -161,7 +166,8 @@ export class CalciteDatePicker {
     this.showCalendar = true;
   }
 
-  private closeCalendar() {
+  @Listen("blur")
+  closeCalendar() {
     this.showCalendar = false;
   }
 
@@ -182,8 +188,8 @@ export class CalciteDatePicker {
   }
 
   private setDate(target) {
-    // Set date to in dd/mm/yyyy format.
-    this.value = isNaN(Date.parse(target.value)) ? target.selectedDate.toISOString().substr(0, 10) : target.value;
+    this.value = isNaN(Date.parse(target.value)) ? 
+    new Intl.DateTimeFormat(this.locale).format(target.selectedDate) : target.value;
     this.syncProxyInputToThis();
     this.calciteDateChange.emit();
   }
@@ -208,8 +214,9 @@ export class CalciteDatePicker {
   }
 
   syncThisToProxyInput = () => {
+    let date = this.convertLocalDatetoUTCDate(this.inputProxy.valueAsDate ? this.inputProxy.valueAsDate : new Date());
     this.value = new Intl.DateTimeFormat(this.locale).format(
-      new Date(`${this.inputProxy.value} `)
+      date
     );
     this.min = this.inputProxy.min;
     this.max = this.inputProxy.max;
@@ -217,8 +224,16 @@ export class CalciteDatePicker {
 
   syncProxyInputToThis = () => {
     let date = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
-    this.inputProxy.value = date.toISOString().substr(0, 10);
+    this.inputProxy.valueAsDate = this.convertUTCDateToLocalDate(date);
     this.inputProxy.min = this.min;
     this.inputProxy.max = this.max;
   };
+
+  convertLocalDatetoUTCDate(date: Date){
+    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+  }
+
+  convertUTCDateToLocalDate(date) {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),  date.getHours(), date.getMinutes(), date.getSeconds()));
+  }
 }

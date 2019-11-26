@@ -211,6 +211,7 @@ export class CalciteDateMonth {
 
   @Listen("mouseover") mouseoverHandler(e) {
     let day = e.target.day || this.activeDate.getDate();
+    if(!e.target.enable) return;
     if (day != this.activeDate.getDate()) {
       let [activeDay, activeMonth, activeYear] = [
         day,

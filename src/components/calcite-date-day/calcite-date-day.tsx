@@ -58,7 +58,6 @@ export class CalciteDateDay {
    * When user selects day it emits the event.
    */
   @Event() calciteDaySelect: EventEmitter;
-  @State() hover: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -75,9 +74,9 @@ export class CalciteDateDay {
         ${this.enable ? "enabled" : "disabled"}
         ${this.selected ? "selected-day" : ""}`}
         role="gridcell"
-        tabindex={this.selected || this.active ? 0 : -1}
+        tabindex={this.selected ? 0 : this.active ? 0 : -1}
       >
-        <span class="day">{this.day}</span>
+        <span class="day" >{this.day}</span>
       </Host>
     );
   }

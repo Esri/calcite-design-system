@@ -5,6 +5,10 @@
   padding: .3rem .4rem;
   cursor: pointer;
   width: calc(100% / 7);
+
+  .disabled {
+    pointer-events: none;
+  }
 }
 
 
@@ -47,7 +51,8 @@
   }
 }
 :host(:hover),
-:host(.active) {
+:host(.active),
+:host(:focus.active) {
   .disabled .day {
     color: $blk-060;
     background: none;
