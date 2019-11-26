@@ -5,7 +5,6 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { VNode } from "@stencil/core/dist/declarations";
 
 import { CSS, SLOTS } from "./resources";
-import CalciteScrim from "../../utils/CalciteScrim";
 
 /**
  * @slot thumbnail - [Required] A slot for adding a thumnail to the card.
@@ -117,12 +116,6 @@ export class CalciteCard {
       </footer>
     ) : null;
   }
-
-  renderScrim(): VNode {
-    return this.loading || this.disabled ? (
-      <CalciteScrim loading={this.loading} disabled={this.disabled}></CalciteScrim>
-    ) : null;
-  }
   render() {
     const { loading, el } = this;
     const rtl = getElementDir(el) === "rtl";
@@ -143,7 +136,6 @@ export class CalciteCard {
           </div>
           {this.renderFooter()}
         </section>
-        {this.renderScrim()}
       </Host>
     );
   }

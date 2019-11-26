@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, renders } from "../../tests/commonTests";
+import { CSS } from "./resources";
 import { setUpPage } from "../../tests/utils";
 
 describe("calcite-card", () => {
@@ -14,7 +15,6 @@ describe("calcite-card", () => {
       {
         propertyName: "loading",
         defaultValue: false,
-
       },
       {
         propertyName: "respectImageHeight",
@@ -31,5 +31,35 @@ describe("calcite-card", () => {
     ])
   });
 
+  it("renders default props when none are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-card>
+      <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" />
+      <div slot="header">heyo</div>
+      <calcite-button slot="button-action">button</calcite-button>
+      <div slot="footer-leading">footer1</div>
+      <div slot="footer-trailing">footer2</div>
+    </calcite-card>
+    `);
+    const card = await page.find("calcite-card");
+    expect(card).toHaveClass("hydrated");
+    expect(card).toEqualAttribute("theme", "light");
+  });
+
+  it("should have an thumbnail container", async() => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-card>
+      <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" />
+      </calcite-card>
+    `);
+
+    const thumbContainer = await page.find(
+      `calcite-card >>> .${CSS.thumbnail}`
+    );
+
+    expect( await thumbContainer.isVisible()).toBe(true);
+  });
 
 })
