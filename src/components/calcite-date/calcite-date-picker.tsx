@@ -122,7 +122,7 @@ export class CalciteDatePicker {
             value={this.value}
             class="date-input"
             onFocus={() => this.expandCalendar()}
-            onChange={(e) => { this.setDate(e.target) }}
+            onChange={(e) => this.setDate(e.target)}
           />
         </div>
         {this.showCalendar && (

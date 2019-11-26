@@ -6,8 +6,7 @@ import {
   Event,
   EventEmitter,
   Listen,
-  h,
-  State
+  h
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../utils/keys";
 
