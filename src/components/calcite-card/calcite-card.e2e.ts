@@ -47,6 +47,18 @@ describe("calcite-card", () => {
     expect(card).toEqualAttribute("theme", "light");
   });
 
+  it("renders default props when invalid props are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-card theme="jungle">
+      <div>hi</div>
+    </calcite-card>
+    `);
+
+    const card = await page.find("calcite-card");
+    expect(card).toEqualAttribute("theme", "light");
+  })
+
   it("should have an thumbnail container", async() => {
     const page = await newE2EPage();
     await page.setContent(`
