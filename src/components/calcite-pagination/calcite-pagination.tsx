@@ -6,10 +6,13 @@ import {
   h,
   Host,
   // Listen,
-  Prop
+  Prop,
+  State,
+  Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { CSS, TEXT } from "./resources";
+// import { x16 } from "@esri/calcite-ui-icons";
 
 @Component({
   tag: "calcite-pagination",
@@ -23,14 +26,21 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
+  /** starting number of the pagination */
   @Prop({ reflect: true }) start = 1;
 
+  /** ending number of the pagination */
   @Prop({ reflect: true }) total = 2;
 
   /** specify the theme of accordion, defaults to light */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
+  /** starting selected index */
   @Prop({ reflect: true }) num = 1;
+  @Watch("num") numWatchHandler(newValue) {
+    this.selectedIndex = newValue;
+  }
+
 
   @Prop({ reflect: true }) textLabelNext:string = TEXT.nextLabel;
 
@@ -44,6 +54,30 @@ export class CalcitePagination {
 
   @Element() el: HTMLElement;
 
+  @State() selectedIndex = this.num;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  renderPage(num) {
+    return (
+      <button class={CSS.page}>{num}</button>
+    );
+  }
+
+  renderPages() {
+    let pages = [];
+    let currentNum = this.start;
+    while (currentNum <= this.total) {
+      pages.push(this.renderPage(currentNum));
+      currentNum ++;
+    }
+    return pages;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -52,8 +86,13 @@ export class CalcitePagination {
 
   render() {
     const dir = getElementDir(this.el);
+
     return (
-      <Host dir={dir}>hello world</Host>
+      <Host dir={dir}>
+        <button class={CSS.previous}>{this.textLabelPrevious}</button>
+        {this.renderPages()}
+        <button class={CSS.next}>{this.textLabelNext}</button>
+      </Host>
     );
   }
 }
