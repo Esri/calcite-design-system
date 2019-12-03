@@ -3,6 +3,7 @@
 :host {
   display: inline-block;
   width: auto;
+  vertical-align: middle;
   --calcite-blue-accessible: #{$h-bb-070};
   --calcite-red-accessible: #{$h-rr-070};
   --calcite-button-light: #{$blk-010};
@@ -72,6 +73,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: $baseline/4 1rem;
   text-decoration: none;
   width: 100%;
