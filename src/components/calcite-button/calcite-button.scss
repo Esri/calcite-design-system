@@ -55,7 +55,7 @@
 :host([isFloating]) {
   & a,
   & button {
-      box-shadow: $shadow-2;
+    box-shadow: $shadow-2;
     &:hover {
       box-shadow: $shadow-2--hover;
     }
@@ -98,7 +98,7 @@
 @mixin btn-scale-notext($font-size, $size) {
   height: $size;
   width: $size;
-  padding:$baseline/8;
+  padding: $baseline/8;
   @include font-size($font-size);
 }
 
@@ -303,8 +303,41 @@
     color: $color;
   }
 }
+// outline and clear floating
+@mixin btn-outline-clear-floating(
+  $bg-color,
+  $border-color,
+  $border-color-hover,
+  $border-color-press,
+  $color,
+  $color-press
+) {
+  color: $color;
+  background-color: $bg-color;
+  border: 1px solid $border-color;
+  box-shadow: inset 0 0 0 1px transparent, $shadow-2;
+  &:hover {
+    border-color: 1px solid $border-color;
+    box-shadow: inset 0 0 0 1px $border-color, $shadow-2--hover;
+  }
+  &:active,
+  &:focus {
+    color: $color-press;
+    border-color: $border-color-press;
+    box-shadow: inset 0 0 0 2px $border-color-press, $shadow-2--press;
+    & .calcite-button--icon {
+      fill: $color-press;
+    }
+  }
+  & .calcite-button--icon {
+    fill: $color;
+  }
+  & calcite-loader {
+    color: $color;
+  }
+}
 
-:host([appearance="outline"][color="blue"]) {
+:host([appearance="outline"][color="blue"]:not([isFloating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -317,7 +350,7 @@
     );
   }
 }
-:host([appearance="outline"][color="red"]) {
+:host([appearance="outline"][color="red"]:not([isFloating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -330,7 +363,7 @@
     );
   }
 }
-:host([appearance="outline"][color="light"]) {
+:host([appearance="outline"][color="light"]:not([isFloating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -343,7 +376,7 @@
     );
   }
 }
-:host([appearance="outline"][color="dark"]) {
+:host([appearance="outline"][color="dark"]:not([isFloating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -356,7 +389,7 @@
     );
   }
 }
-:host([appearance="clear"][color="blue"]) {
+:host([appearance="clear"][color="blue"]:not([isFloating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -369,7 +402,7 @@
     );
   }
 }
-:host([appearance="clear"][color="red"]) {
+:host([appearance="clear"][color="red"]:not([isFloating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -382,7 +415,7 @@
     );
   }
 }
-:host([appearance="clear"][color="light"]) {
+:host([appearance="clear"][color="light"]:not([isFloating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -395,10 +428,115 @@
     );
   }
 }
-:host([appearance="clear"][color="dark"]) {
+:host([appearance="clear"][color="dark"]:not([isFloating])) {
   button,
   a {
     @include btn-outline-clear(
+      transparent,
+      $blk-200,
+      $blk-180,
+      $blk-220,
+      $blk-220,
+      $blk-220
+    );
+  }
+}
+// floating variants
+:host([appearance="outline"][color="blue"]) {
+  button,
+  a {
+    @include btn-outline-clear-floating(
+      var(--calcite-button-outline-background),
+      var(--calcite-blue-accessible),
+      var(--calcite-ui-blue-hover),
+      var(--calcite-ui-blue-pressed),
+      var(--calcite-blue-accessible),
+      var(--calcite-ui-blue-pressed)
+    );
+  }
+}
+:host([appearance="outline"][color="red"]) {
+  button,
+  a {
+    @include btn-outline-clear-floating(
+      var(--calcite-button-outline-background),
+      var(--calcite-red-accessible),
+      var(--calcite-ui-red-hover),
+      var(--calcite-ui-red-pressed),
+      var(--calcite-red-accessible),
+      var(--calcite-ui-red-pressed)
+    );
+  }
+}
+:host([appearance="outline"][color="light"]) {
+  button,
+  a {
+    @include btn-outline-clear-floating(
+      var(--calcite-button-outline-background),
+      $blk-010,
+      $blk-000,
+      $blk-020,
+      var(--calcite-button-outline-color),
+      var(--calcite-button-outline-pressed)
+    );
+  }
+}
+:host([appearance="outline"][color="dark"]) {
+  button,
+  a {
+    @include btn-outline-clear-floating(
+      var(--calcite-button-outline-background),
+      $blk-200,
+      $blk-180,
+      $blk-220,
+      var(--calcite-button-outline-color),
+      var(--calcite-button-outline-pressed)
+    );
+  }
+}
+:host([appearance="clear"][color="blue"]) {
+  button,
+  a {
+    @include btn-outline-clear-floating(
+      transparent,
+      var(--calcite-blue-accessible),
+      var(--calcite-ui-blue-hover),
+      var(--calcite-ui-blue-pressed),
+      var(--calcite-blue-accessible),
+      var(--calcite-ui-blue-pressed)
+    );
+  }
+}
+:host([appearance="clear"][color="red"]) {
+  button,
+  a {
+    @include btn-outline-clear-floating(
+      transparent,
+      var(--calcite-red-accessible),
+      var(--calcite-ui-red-hover),
+      var(--calcite-ui-red-pressed),
+      var(--calcite-red-accessible),
+      var(--calcite-ui-red-pressed)
+    );
+  }
+}
+:host([appearance="clear"][color="light"]) {
+  button,
+  a {
+    @include btn-outline-clear-floating(
+      transparent,
+      $blk-010,
+      $blk-000,
+      $blk-020,
+      $blk-005,
+      $blk-000
+    );
+  }
+}
+:host([appearance="clear"][color="dark"]) {
+  button,
+  a {
+    @include btn-outline-clear-floating(
       transparent,
       $blk-200,
       $blk-180,
@@ -569,10 +707,8 @@ $btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3),
 }
 
 // generate fab scales
-$btnScales2: "xs" -3 calc(#{$baseline}* 1.5),
-  "s" -2 calc(#{$baseline}* 1.75),
-  "m" -1 calc(#{$baseline}* 2),
-  "l" 1 calc(#{$baseline} * 2.25),
+$btnScales2: "xs" -3 calc(#{$baseline}* 1.5), "s" -2 calc(#{$baseline}* 1.75),
+  "m" -1 calc(#{$baseline}* 2), "l" 1 calc(#{$baseline} * 2.25),
   "xl" 2 calc(#{$baseline} * 2.5);
 
 @each $btnScale in $btnScales2 {
