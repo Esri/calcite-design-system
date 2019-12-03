@@ -157,29 +157,18 @@ export class CalciteModal {
   @Method() async open(): Promise<HTMLElement> {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.isActive = true;
+
     // wait for the modal to open, then handle focus.
     return new Promise(resolve => {
       setTimeout(() => {
-        if (this.firstFocus) {
-          this.firstFocus.focus();
-        } else {
-          const focusableElements = queryShadowRoot(
-            this.el,
-            isHidden,
-            isFocusable
-          );
-          if (focusableElements.length > 0) {
-            focusableElements[0].focus();
-          } else {
-            this.closeButton && this.closeButton.focus();
-          }
-        }
+        this.focusElement(this.firstFocus);
         resolve(this.el);
       }, 300);
       document.documentElement.classList.add("overflow-hidden");
       this.calciteModalOpen.emit();
     });
   }
+
   /** Close the modal, first running the `beforeClose` method */
   @Method() async close(): Promise<HTMLElement> {
     return this.beforeClose(this.el).then(() => {
@@ -191,6 +180,24 @@ export class CalciteModal {
         setTimeout(() => resolve(this.el), 300);
       });
     });
+  }
+
+  /** Focus first interactive element */
+  @Method() async focusElement(el?: HTMLElement): Promise<void> {
+    if (el) {
+      el.focus();
+      return;
+    }
+    const focusableElements = queryShadowRoot(
+      this.el,
+      isHidden,
+      isFocusable
+    );
+    if (focusableElements.length > 0) {
+      focusableElements[0].focus();
+    } else {
+      this.closeButton && this.closeButton.focus();
+    }
   }
 
   /** Set the scroll top of the modal content */
