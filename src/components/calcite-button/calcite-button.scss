@@ -70,7 +70,8 @@
 :host a,
 :host span {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
   padding: $baseline/4 1rem;
   text-decoration: none;
   width: 100%;
@@ -117,13 +118,12 @@
 
 .calcite-button--icon {
   display: inline-flex;
-  top: 2px;
   position: relative;
   height: 16px;
   width: 16px;
   margin: 0 auto;
   line-height: inherit;
-  transition: all 0.15s ease-in-out;
+  transition: $transition;
 }
 
 // disabled styles
