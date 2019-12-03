@@ -12,6 +12,14 @@
       color: white;
       padding: 1rem;
     }
+
+    .sticky-example {
+      position: -webkit-sticky;
+      position: sticky;
+      bottom: 20px;
+      padding-top: 50px;
+      margin: 0 auto;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="/build/calcite.css" />
@@ -341,14 +349,14 @@
         </calcite-notice>
         <br /> <br />
         <div class="demo-background-dark">
-        <calcite-notice theme="dark" id="notice-one" width="auto" scale="m" active>
-          <div slot="notice-title">Something failed</div>
-          <div slot="notice-message">
-            That thing you wanted to do didn't work as expected
-          </div>
-          <calcite-button slot="notice-link" title="my action" appearance="inline">Retry</calcite-button>
-        </calcite-notice>
-      </div>
+          <calcite-notice theme="dark" id="notice-one" width="auto" scale="m" active>
+            <div slot="notice-title">Something failed</div>
+            <div slot="notice-message">
+              That thing you wanted to do didn't work as expected
+            </div>
+            <calcite-button slot="notice-link" title="my action" appearance="inline">Retry</calcite-button>
+          </calcite-notice>
+        </div>
         <br />
         <br />
         <calcite-notice id="notice-one" scale="l" width="half" active>
@@ -569,7 +577,8 @@
         <h1>CalcitePopover</h1>
 
 
-        <calcite-popover placement="top-start" reference-element="popover-button" boundaries-element="popover-boundary" id="popover" close-button>
+        <calcite-popover placement="top-start" reference-element="popover-button" boundaries-element="popover-boundary"
+          id="popover" close-button>
           <img slot="image" src="https://placem.at/places?w=200&txt=0" />
           <div style="padding:12px 16px;">Here kitty kitty!
           </div>
@@ -649,15 +658,15 @@
 
           .popover-scroller {
             margin: 20px 40px;
-            width:500px;
-            height:500px;
-            overflow:auto;
+            width: 500px;
+            height: 500px;
+            overflow: auto;
           }
         </style>
 
         <ul class="popover-list">
           <li>
-      <calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+            <calcite-button id="popover-button-two" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
               Clickable popover</calcite-button>
 
           <li>
@@ -672,37 +681,79 @@
 
         <div id="popover-boundary" class="popover-scroller">
           <p>
-            Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a id. Odio pharetra iaculis mattis fusce pharetra fusce. Venenatis suspendisse porta posuere torquent justo arcu. Viverra venenatis nisl mi. Integer laoreet cubilia, lobortis nisi fringilla. Dictum venenatis taciti arcu fringilla fames sociis.
-            </p>
-            <p>
-            Ultricies aliquam hac, commodo ullamcorper. At senectus blandit, magnis accumsan aptent vitae mi dapibus quis sagittis taciti nisi. Et aliquam leo nullam sagittis conubia nascetur? Euismod blandit aptent conubia. Curae; laoreet tortor urna eleifend dui ultrices vestibulum viverra dictumst risus? Vehicula diam vulputate cras volutpat inceptos nostra cras at auctor! Luctus inceptos dis eleifend eleifend tellus molestie. Ridiculus eget laoreet vitae.
-            </p>
-            <p>
-            Viverra mus velit interdum per pellentesque. Rutrum parturient risus feugiat habitasse magnis? Adipiscing vehicula natoque rutrum consectetur dui, euismod ultricies ante quam pulvinar. Taciti mauris nam vehicula sapien a taciti vel vitae cum id aenean! Torquent sapien fusce, class eros lectus. Ut sodales placerat phasellus, nostra platea lobortis cubilia porta elementum viverra. Imperdiet ultrices, rhoncus himenaeos cum risus. Egestas imperdiet velit, dapibus inceptos inceptos torquent. Dolor natoque, non imperdiet dictum eleifend diam. Eget sem, hendrerit vulputate consectetur metus class.
-            </p>
-            <p>
-            Habitant vel penatibus felis sapien integer, imperdiet felis porttitor porta. Nec ad natoque habitasse metus augue consequat sem tortor arcu tempor augue. Facilisi, magna amet cursus pellentesque. Nibh conubia tellus porta torquent sociis mauris laoreet et neque venenatis habitasse! Egestas eu est nunc malesuada justo, fames sociis ullamcorper? Sollicitudin inceptos, ipsum duis ullamcorper.
-            </p>
-            <p>
-            Fermentum mollis metus euismod netus ultricies ad gravida velit molestie integer. Accumsan amet litora ligula ligula metus diam vitae euismod aptent. Nunc eros ridiculus volutpat praesent scelerisque dignissim nunc cras. Ipsum diam dapibus cum sociis, elit adipiscing. Imperdiet vulputate neque elementum varius id, torquent quis. Aliquam pretium sapien primis. Nunc iaculis mi magnis malesuada nascetur. Nostra habitasse dictum dictum rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia risus quisque potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
-            </p>
-          <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-          Popover with picture</calcite-button>
+            Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor
+            habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a
+            id. Odio pharetra iaculis mattis fusce pharetra fusce. Venenatis suspendisse porta posuere torquent justo
+            arcu. Viverra venenatis nisl mi. Integer laoreet cubilia, lobortis nisi fringilla. Dictum venenatis taciti
+            arcu fringilla fames sociis.
+          </p>
           <p>
-            Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a id. Odio pharetra iaculis mattis fusce pharetra fusce. Venenatis suspendisse porta posuere torquent justo arcu. Viverra venenatis nisl mi. Integer laoreet cubilia, lobortis nisi fringilla. Dictum venenatis taciti arcu fringilla fames sociis.
-            </p>
-            <p>
-            Ultricies aliquam hac, commodo ullamcorper. At senectus blandit, magnis accumsan aptent vitae mi dapibus quis sagittis taciti nisi. Et aliquam leo nullam sagittis conubia nascetur? Euismod blandit aptent conubia. Curae; laoreet tortor urna eleifend dui ultrices vestibulum viverra dictumst risus? Vehicula diam vulputate cras volutpat inceptos nostra cras at auctor! Luctus inceptos dis eleifend eleifend tellus molestie. Ridiculus eget laoreet vitae.
-            </p>
-            <p>
-            Viverra mus velit interdum per pellentesque. Rutrum parturient risus feugiat habitasse magnis? Adipiscing vehicula natoque rutrum consectetur dui, euismod ultricies ante quam pulvinar. Taciti mauris nam vehicula sapien a taciti vel vitae cum id aenean! Torquent sapien fusce, class eros lectus. Ut sodales placerat phasellus, nostra platea lobortis cubilia porta elementum viverra. Imperdiet ultrices, rhoncus himenaeos cum risus. Egestas imperdiet velit, dapibus inceptos inceptos torquent. Dolor natoque, non imperdiet dictum eleifend diam. Eget sem, hendrerit vulputate consectetur metus class.
-            </p>
-            <p>
-            Habitant vel penatibus felis sapien integer, imperdiet felis porttitor porta. Nec ad natoque habitasse metus augue consequat sem tortor arcu tempor augue. Facilisi, magna amet cursus pellentesque. Nibh conubia tellus porta torquent sociis mauris laoreet et neque venenatis habitasse! Egestas eu est nunc malesuada justo, fames sociis ullamcorper? Sollicitudin inceptos, ipsum duis ullamcorper.
-            </p>
-            <p>
-            Fermentum mollis metus euismod netus ultricies ad gravida velit molestie integer. Accumsan amet litora ligula ligula metus diam vitae euismod aptent. Nunc eros ridiculus volutpat praesent scelerisque dignissim nunc cras. Ipsum diam dapibus cum sociis, elit adipiscing. Imperdiet vulputate neque elementum varius id, torquent quis. Aliquam pretium sapien primis. Nunc iaculis mi magnis malesuada nascetur. Nostra habitasse dictum dictum rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia risus quisque potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
-            </p>
+            Ultricies aliquam hac, commodo ullamcorper. At senectus blandit, magnis accumsan aptent vitae mi dapibus
+            quis sagittis taciti nisi. Et aliquam leo nullam sagittis conubia nascetur? Euismod blandit aptent conubia.
+            Curae; laoreet tortor urna eleifend dui ultrices vestibulum viverra dictumst risus? Vehicula diam vulputate
+            cras volutpat inceptos nostra cras at auctor! Luctus inceptos dis eleifend eleifend tellus molestie.
+            Ridiculus eget laoreet vitae.
+          </p>
+          <p>
+            Viverra mus velit interdum per pellentesque. Rutrum parturient risus feugiat habitasse magnis? Adipiscing
+            vehicula natoque rutrum consectetur dui, euismod ultricies ante quam pulvinar. Taciti mauris nam vehicula
+            sapien a taciti vel vitae cum id aenean! Torquent sapien fusce, class eros lectus. Ut sodales placerat
+            phasellus, nostra platea lobortis cubilia porta elementum viverra. Imperdiet ultrices, rhoncus himenaeos cum
+            risus. Egestas imperdiet velit, dapibus inceptos inceptos torquent. Dolor natoque, non imperdiet dictum
+            eleifend diam. Eget sem, hendrerit vulputate consectetur metus class.
+          </p>
+          <p>
+            Habitant vel penatibus felis sapien integer, imperdiet felis porttitor porta. Nec ad natoque habitasse metus
+            augue consequat sem tortor arcu tempor augue. Facilisi, magna amet cursus pellentesque. Nibh conubia tellus
+            porta torquent sociis mauris laoreet et neque venenatis habitasse! Egestas eu est nunc malesuada justo,
+            fames sociis ullamcorper? Sollicitudin inceptos, ipsum duis ullamcorper.
+          </p>
+          <p>
+            Fermentum mollis metus euismod netus ultricies ad gravida velit molestie integer. Accumsan amet litora
+            ligula ligula metus diam vitae euismod aptent. Nunc eros ridiculus volutpat praesent scelerisque dignissim
+            nunc cras. Ipsum diam dapibus cum sociis, elit adipiscing. Imperdiet vulputate neque elementum varius id,
+            torquent quis. Aliquam pretium sapien primis. Nunc iaculis mi magnis malesuada nascetur. Nostra habitasse
+            dictum dictum rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia
+            risus quisque potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
+          </p>
+          <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+            Popover with picture</calcite-button>
+          <p>
+            Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor
+            habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a
+            id. Odio pharetra iaculis mattis fusce pharetra fusce. Venenatis suspendisse porta posuere torquent justo
+            arcu. Viverra venenatis nisl mi. Integer laoreet cubilia, lobortis nisi fringilla. Dictum venenatis taciti
+            arcu fringilla fames sociis.
+          </p>
+          <p>
+            Ultricies aliquam hac, commodo ullamcorper. At senectus blandit, magnis accumsan aptent vitae mi dapibus
+            quis sagittis taciti nisi. Et aliquam leo nullam sagittis conubia nascetur? Euismod blandit aptent conubia.
+            Curae; laoreet tortor urna eleifend dui ultrices vestibulum viverra dictumst risus? Vehicula diam vulputate
+            cras volutpat inceptos nostra cras at auctor! Luctus inceptos dis eleifend eleifend tellus molestie.
+            Ridiculus eget laoreet vitae.
+          </p>
+          <p>
+            Viverra mus velit interdum per pellentesque. Rutrum parturient risus feugiat habitasse magnis? Adipiscing
+            vehicula natoque rutrum consectetur dui, euismod ultricies ante quam pulvinar. Taciti mauris nam vehicula
+            sapien a taciti vel vitae cum id aenean! Torquent sapien fusce, class eros lectus. Ut sodales placerat
+            phasellus, nostra platea lobortis cubilia porta elementum viverra. Imperdiet ultrices, rhoncus himenaeos cum
+            risus. Egestas imperdiet velit, dapibus inceptos inceptos torquent. Dolor natoque, non imperdiet dictum
+            eleifend diam. Eget sem, hendrerit vulputate consectetur metus class.
+          </p>
+          <p>
+            Habitant vel penatibus felis sapien integer, imperdiet felis porttitor porta. Nec ad natoque habitasse metus
+            augue consequat sem tortor arcu tempor augue. Facilisi, magna amet cursus pellentesque. Nibh conubia tellus
+            porta torquent sociis mauris laoreet et neque venenatis habitasse! Egestas eu est nunc malesuada justo,
+            fames sociis ullamcorper? Sollicitudin inceptos, ipsum duis ullamcorper.
+          </p>
+          <p>
+            Fermentum mollis metus euismod netus ultricies ad gravida velit molestie integer. Accumsan amet litora
+            ligula ligula metus diam vitae euismod aptent. Nunc eros ridiculus volutpat praesent scelerisque dignissim
+            nunc cras. Ipsum diam dapibus cum sociis, elit adipiscing. Imperdiet vulputate neque elementum varius id,
+            torquent quis. Aliquam pretium sapien primis. Nunc iaculis mi magnis malesuada nascetur. Nostra habitasse
+            dictum dictum rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia
+            risus quisque potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
+          </p>
         </div>
 
         <ul class="popover-list demo-background-dark">
@@ -1216,11 +1267,84 @@
       </calcite-tab>
 
       <calcite-tab>
+        <h3>Fab options</h3>
+        <div
+          style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
+          semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
+          volutpat massa aliquam a. In sit amet tortor lobortis, scelerisque dui quis, sodales tellus. Pellentesque
+          lobortis ligula nunc, ac convallis lacus sollicitudin id. Etiam bibendum mi sit amet enim auctor, eget porta
+          massa hendrerit. Phasellus in ex ut diam dictum mattis. Sed cursus placerat enim ut dignissim. Donec venenatis
+          maximus consequat.
+
+          Mauris sit amet odio mattis, aliquet quam sit amet, egestas leo. Ut auctor leo in tortor maximus, in aliquet
+          mauris venenatis. Curabitur fringilla odio sed hendrerit ornare. Donec sodales augue lacus, laoreet vulputate
+          odio feugiat id. Aliquam viverra a purus ultrices molestie. Integer faucibus urna felis, at feugiat eros
+          malesuada quis. Morbi luctus urna quis risus molestie egestas. Vestibulum magna est, mollis vitae tempor quis,
+          pulvinar aliquet erat. Maecenas a elit ut purus porttitor auctor. Suspendisse id ligula consectetur, venenatis
+          quam eget, aliquam erat. Sed lobortis sapien id scelerisque fringilla. Quisque eget erat a augue condimentum
+          ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
+          libero aliquam, imperdiet ipsum sed, volutpat nisl.
+
+          <div class="sticky-example">
+            <calcite-button isRound isFloating appearance="outline"
+              icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">
+            </calcite-button>
+          </div>
+        </div>
+        <div
+          style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
+          semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
+          volutpat massa aliquam a. In sit amet tortor lobortis, scelerisque dui quis, sodales tellus. Pellentesque
+          lobortis ligula nunc, ac convallis lacus sollicitudin id. Etiam bibendum mi sit amet enim auctor, eget porta
+          massa hendrerit. Phasellus in ex ut diam dictum mattis. Sed cursus placerat enim ut dignissim. Donec venenatis
+          maximus consequat.
+
+          Mauris sit amet odio mattis, aliquet quam sit amet, egestas leo. Ut auctor leo in tortor maximus, in aliquet
+          mauris venenatis. Curabitur fringilla odio sed hendrerit ornare. Donec sodales augue lacus, laoreet vulputate
+          odio feugiat id. Aliquam viverra a purus ultrices molestie. Integer faucibus urna felis, at feugiat eros
+          malesuada quis. Morbi luctus urna quis risus molestie egestas. Vestibulum magna est, mollis vitae tempor quis,
+          pulvinar aliquet erat. Maecenas a elit ut purus porttitor auctor. Suspendisse id ligula consectetur, venenatis
+          quam eget, aliquam erat. Sed lobortis sapien id scelerisque fringilla. Quisque eget erat a augue condimentum
+          ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
+          libero aliquam, imperdiet ipsum sed, volutpat nisl.
+
+          <div class="sticky-example">
+            <calcite-button scale="s"  isFloating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">
+            </calcite-button>
+          </div>
+        </div>
+
+        <div
+          style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
+          semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
+          volutpat massa aliquam a. In sit amet tortor lobortis, scelerisque dui quis, sodales tellus. Pellentesque
+          lobortis ligula nunc, ac convallis lacus sollicitudin id. Etiam bibendum mi sit amet enim auctor, eget porta
+          massa hendrerit. Phasellus in ex ut diam dictum mattis. Sed cursus placerat enim ut dignissim. Donec venenatis
+          maximus consequat.
+
+          Mauris sit amet odio mattis, aliquet quam sit amet, egestas leo. Ut auctor leo in tortor maximus, in aliquet
+          mauris venenatis. Curabitur fringilla odio sed hendrerit ornare. Donec sodales augue lacus, laoreet vulputate
+          odio feugiat id. Aliquam viverra a purus ultrices molestie. Integer faucibus urna felis, at feugiat eros
+          malesuada quis. Morbi luctus urna quis risus molestie egestas. Vestibulum magna est, mollis vitae tempor quis,
+          pulvinar aliquet erat. Maecenas a elit ut purus porttitor auctor. Suspendisse id ligula consectetur, venenatis
+          quam eget, aliquam erat. Sed lobortis sapien id scelerisque fringilla. Quisque eget erat a augue condimentum
+          ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
+          libero aliquam, imperdiet ipsum sed, volutpat nisl.
+
+          <div class="sticky-example">
+            <calcite-button isRound isFloating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">Do this thing
+            </calcite-button>
+          </div>
+        </div>
         <h3>Normal Lockup</h3>
         <calcite-button color="light" appearance='outline' icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
           Back</calcite-button>
         <calcite-button appearance='outline'>Cancel</calcite-button>
         <calcite-button>Submit</calcite-button>
+        <calcite-button isRound appearance="inline">Inline rounded button</calcite-button>
 
 
         <h5>calcite button inside form with no custom onsubmit</h5>
@@ -1514,14 +1638,8 @@
       <calcite-tab>
         <calcite-date-picker value="12/8/2019" min="08/09/2019" max="12/18/2021"></calcite-date-picker>
         <calcite-date-picker id="dateSample"></calcite-date-picker>
-        <calcite-date-picker
-          key="condition-value"
-          min="01/01/1970"
-          max="12/31/2030"
-          start-of-week="0"
-          tabIndex="0"
-          value="04/09/2000"
-        ></calcite-date-picker>
+        <calcite-date-picker key="condition-value" min="01/01/1970" max="12/31/2030" start-of-week="0" tabIndex="0"
+          value="04/09/2000"></calcite-date-picker>
         <script>
           var dateSample = document.getElementById("dateSample");
 

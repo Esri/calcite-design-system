@@ -44,6 +44,27 @@
   display: inline;
 }
 
+// fab variants
+:host([isRound]) {
+  & a,
+  & button {
+    border-radius: 50px;
+  }
+}
+
+:host([isFloating]) {
+  & a,
+  & button {
+      box-shadow: $shadow-2;
+    &:hover {
+      box-shadow: $shadow-2--hover;
+    }
+    &:active {
+      box-shadow: $shadow-2--press;
+    }
+  }
+}
+
 // button base
 :host button,
 :host a,
@@ -71,6 +92,13 @@
 // button scale
 @mixin btn-scale($font-size, $padding-y, $padding-x) {
   padding: $padding-y $padding-x;
+  @include font-size($font-size);
+}
+
+@mixin btn-scale-notext($font-size, $size) {
+  height: $size;
+  width: $size;
+  padding:$baseline/8;
   @include font-size($font-size);
 }
 
@@ -227,7 +255,7 @@
       var(--calcite-button-light-hover),
       var(--calcite-button-light-pressed),
       $blk-220
-      );
+    );
   }
 }
 :host([appearance="solid"][color="dark"]) {
@@ -534,8 +562,26 @@ $btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3),
   $padding-y: nth($btnScale, 3);
   $padding-x: nth($btnScale, 4);
 
-  :host([scale="#{$name}"]:not([appearance="inline"])) button,
-  :host([scale="#{$name}"]:not([appearance="inline"])) a {
+  :host([hastext][scale="#{$name}"]:not([appearance="inline"])) button,
+  :host([hastext][scale="#{$name}"]:not([appearance="inline"])) a {
     @include btn-scale($font-size, $padding-y, $padding-x);
+  }
+}
+
+// generate fab scales
+$btnScales2: "xs" -3 calc(#{$baseline}* 1.5),
+  "s" -2 calc(#{$baseline}* 1.75),
+  "m" -1 calc(#{$baseline}* 2),
+  "l" 1 calc(#{$baseline} * 2.25),
+  "xl" 2 calc(#{$baseline} * 2.5);
+
+@each $btnScale in $btnScales2 {
+  $name: nth($btnScale, 1);
+  $font-size: nth($btnScale, 2);
+  $size: nth($btnScale, 3);
+
+  :host([scale="#{$name}"]:not([hastext])) button,
+  :host([scale="#{$name}"]:not([hastext])) a {
+    @include btn-scale-notext($font-size, $size);
   }
 }
