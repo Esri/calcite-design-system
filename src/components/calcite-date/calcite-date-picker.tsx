@@ -7,7 +7,8 @@ import {
   Host,
   EventEmitter,
   State,
-  Build
+  Build,
+  Watch
 } from "@stencil/core";
 
 @Component({
@@ -67,8 +68,14 @@ export class CalciteDatePicker {
   /**
    * Active date.
    */
-  @State() activeDate = new Date(this.value) || new Date();
+  @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(this.value);
 
+  @Watch('value') 
+  onNameChanged(newValue: string) {
+    if(!isNaN(Date.parse(newValue))){
+      this.activeDate = new Date(newValue);
+    }
+  }
   inputProxy: HTMLInputElement;
 
   connectedCallback() {
@@ -84,7 +91,7 @@ export class CalciteDatePicker {
   }
 
   render() {
-    let selectedDate = this.value ? new Date(`${this.value}`) : new Date();
+    let selectedDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
     return (
       <Host
         role="application"
@@ -110,6 +117,7 @@ export class CalciteDatePicker {
             value={this.value}
             class="date-input"
             onFocus={() => this.expandCalendar()}
+            onChange={(e) => { this.setDate(e.target) }}
           />
         </div>
         {this.showCalendar && (
@@ -154,7 +162,7 @@ export class CalciteDatePicker {
   }
 
   private closeCalendar() {
-    this.showCalendar = true;
+    this.showCalendar = false;
   }
 
   private getMonth() {
@@ -175,8 +183,7 @@ export class CalciteDatePicker {
 
   private setDate(target) {
     // Set date to in dd/mm/yyyy format.
-    this.activeDate = new Date(target.selectedDate);
-    this.value = target.selectedDate.toISOString().substr(0, 10);
+    this.value = isNaN(Date.parse(target.value)) ? target.selectedDate.toISOString().substr(0, 10) : target.value;
     this.syncProxyInputToThis();
     this.calciteDateChange.emit();
   }
@@ -209,9 +216,8 @@ export class CalciteDatePicker {
   };
 
   syncProxyInputToThis = () => {
-    this.inputProxy.value = new Date(`${this.value} `)
-      .toISOString()
-      .substr(0, 10);
+    let date = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
+    this.inputProxy.value = date.toISOString().substr(0, 10);
     this.inputProxy.min = this.min;
     this.inputProxy.max = this.max;
   };

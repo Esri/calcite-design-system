@@ -9,7 +9,11 @@ import {
   h
 } from "@stencil/core";
 import { CSS } from "./resources";
-import { CalcitePlacement, getPlacement } from "../../utils/popper";
+import {
+  CalciteFlipPlacements,
+  CalcitePlacement,
+  getPlacement
+} from "../../utils/popper";
 import Popper from "popper.js";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
@@ -49,6 +53,18 @@ export class CalcitePopover {
   @Prop({ reflect: true }) closeButton = false;
 
   /**
+   *  HTMLElement Used to position this component within the a boundary.
+   */
+  @Prop() boundariesElement?: HTMLElement | string;
+
+  @Watch("boundariesElement")
+  boundariesElementHandler() {
+    this._boundariesElement = this.getBoundariesElement();
+    this.destroyPopper();
+    this.reposition();
+  }
+
+  /**
    * Prevents flipping the popover's placement when it starts to overlap its reference element.
    */
   @Prop({ reflect: true }) disableFlip = false;
@@ -62,6 +78,11 @@ export class CalcitePopover {
    * Makes the popover flow toward the inner of the reference element.
    */
   @Prop({ reflect: true }) flowInner = false;
+
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: CalciteFlipPlacements;
 
   /**
    * Display and position the component.
@@ -140,6 +161,8 @@ export class CalcitePopover {
   @Element() el: HTMLCalcitePopoverElement;
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
+
+  @State() _boundariesElement: HTMLElement = this.getBoundariesElement();
 
   popper: Popper;
 
@@ -231,10 +254,28 @@ export class CalcitePopover {
     );
   }
 
+  getBoundariesElement(): HTMLElement {
+    const { boundariesElement } = this;
+
+    return (
+      (typeof boundariesElement === "string"
+        ? document.getElementById(boundariesElement)
+        : boundariesElement) || null
+    );
+  }
+
   getModifiers(): Popper.Modifiers {
     const verticalRE = /top|bottom/gi;
     const autoRE = /auto/gi;
-    const { disableFlip, flowInner, placement, xOffset, yOffset } = this;
+    const {
+      _boundariesElement,
+      disableFlip,
+      flipPlacements,
+      flowInner,
+      placement,
+      xOffset,
+      yOffset
+    } = this;
     const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
     const offsets = [yOffset, xOffset];
 
@@ -244,13 +285,15 @@ export class CalcitePopover {
 
     return {
       preventOverflow: {
-        enabled: false
+        enabled: true,
+        boundariesElement: _boundariesElement || "viewport",
+        escapeWithReference: true
       },
       flip: {
-        enabled: !disableFlip
-      },
-      hide: {
-        enabled: false
+        enabled: !disableFlip,
+        boundariesElement: _boundariesElement || "viewport",
+        flipVariationsByContent: true,
+        behavior: flipPlacements || "flip"
       },
       inner: {
         enabled: flowInner
@@ -270,13 +313,8 @@ export class CalcitePopover {
     }
 
     const newPopper = new Popper(_referenceElement, el, {
-      eventsEnabled: false,
       placement: getPlacement(el, placement),
       modifiers: this.getModifiers()
-    });
-
-    window.addEventListener("resize", newPopper.scheduleUpdate, {
-      passive: true
     });
 
     this.popper = newPopper;
@@ -295,7 +333,6 @@ export class CalcitePopover {
     const { popper } = this;
 
     if (popper) {
-      window.removeEventListener("resize", popper.scheduleUpdate);
       popper.destroy();
     }
 
