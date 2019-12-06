@@ -57,10 +57,10 @@ export class CalciteButton {
   @Prop({ reflect: true }) loading?: boolean = false;
 
   /** optionally add a rounded style to the button  */
-  @Prop({ reflect: true }) isRound?: boolean = false;
+  @Prop({ reflect: true }) round?: boolean = false;
 
   /** optionally add a floating style to the button - this should be positioned fixed or sticky */
-  @Prop({ reflect: true }) isFloating?: boolean = false;
+  @Prop({ reflect: true }) floating?: boolean = false;
 
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;

@@ -46,14 +46,15 @@
 }
 
 // fab variants
-:host([isRound]) {
+:host([round]) {
+  border-radius: 50px;
   & a,
   & button {
     border-radius: 50px;
   }
 }
 
-:host([isFloating]) {
+:host([floating]) {
   & a,
   & button {
     box-shadow: $shadow-2;
@@ -339,7 +340,7 @@
   }
 }
 
-:host([appearance="outline"][color="blue"]:not([isFloating])) {
+:host([appearance="outline"][color="blue"]:not([floating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -352,7 +353,7 @@
     );
   }
 }
-:host([appearance="outline"][color="red"]:not([isFloating])) {
+:host([appearance="outline"][color="red"]:not([floating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -365,7 +366,7 @@
     );
   }
 }
-:host([appearance="outline"][color="light"]:not([isFloating])) {
+:host([appearance="outline"][color="light"]:not([floating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -378,7 +379,7 @@
     );
   }
 }
-:host([appearance="outline"][color="dark"]:not([isFloating])) {
+:host([appearance="outline"][color="dark"]:not([floating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -391,7 +392,7 @@
     );
   }
 }
-:host([appearance="clear"][color="blue"]:not([isFloating])) {
+:host([appearance="clear"][color="blue"]:not([floating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -404,7 +405,7 @@
     );
   }
 }
-:host([appearance="clear"][color="red"]:not([isFloating])) {
+:host([appearance="clear"][color="red"]:not([floating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -417,7 +418,7 @@
     );
   }
 }
-:host([appearance="clear"][color="light"]:not([isFloating])) {
+:host([appearance="clear"][color="light"]:not([floating])) {
   button,
   a {
     @include btn-outline-clear(
@@ -430,7 +431,7 @@
     );
   }
 }
-:host([appearance="clear"][color="dark"]:not([isFloating])) {
+:host([appearance="clear"][color="dark"]:not([floating])) {
   button,
   a {
     @include btn-outline-clear(
