@@ -12,7 +12,8 @@ import {
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { CSS, TEXT } from "./resources";
-// import { x16 } from "@esri/calcite-ui-icons";
+import { chevronLeft16, chevronRight16 } from "@esri/calcite-ui-icons";
+import CalciteIcon from "../../utils/CalciteIcon";
 
 @Component({
   tag: "calcite-pagination",
@@ -64,7 +65,7 @@ export class CalcitePagination {
 
   renderPage(num) {
     return (
-      <button class={CSS.page}>{num}</button>
+      <a class={CSS.page}>{num}</a>
     );
   }
 
@@ -89,9 +90,9 @@ export class CalcitePagination {
 
     return (
       <Host dir={dir}>
-        <button class={CSS.previous}>{this.textLabelPrevious}</button>
+        <a class={CSS.previous} title={this.textLabelPrevious}><CalciteIcon size="16" path={chevronLeft16} /></a>
         {this.renderPages()}
-        <button class={CSS.next}>{this.textLabelNext}</button>
+        <a class={CSS.next} title={this.textLabelNext}><CalciteIcon size="16" path={chevronRight16} /></a>
       </Host>
     );
   }
