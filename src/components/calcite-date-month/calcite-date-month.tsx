@@ -198,12 +198,12 @@ export class CalciteDateMonth {
       case ENTER:
       case SPACE:
         e.preventDefault();
-        this.selectedDate = new Date(this.activeDate);
+        this.selectedDate = this.activeDate;
         this.calciteDateSelect.emit();
         break;
       case ESCAPE:
         e.preventDefault();
-        this.activeDate = new Date(this.selectedDate);
+        this.activeDate = this.selectedDate;
         this.calciteActiveDateChange.emit();
         break;
     }
@@ -284,7 +284,7 @@ export class CalciteDateMonth {
 
   private isSelectedDate(year, month, day) {
     let date = new Date(year, month, day);
-    return date.toDateString() === this.selectedDate.toDateString();
+    return date.toDateString().substr(0,10) === this.selectedDate.toDateString().substr(0,10);
   }
 
   private validateDate(day, month, year) {

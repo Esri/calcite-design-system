@@ -35,6 +35,7 @@ export class CalciteDatePicker {
    * Localized string for place holder to the date picker input.
    */
   @Prop({ reflect: true }) placeholder: string = "mm/dd/yyyy";
+
   /**
    * Localized string for previous month.
    */
@@ -57,7 +58,11 @@ export class CalciteDatePicker {
   /**
    * pass the locale in which user wants to show the date.
    */
-  @Prop() locale?: string = "en-US";
+  @Prop() locale?: string = "en-GB";
+  /**
+   * Input as Date
+   */
+  @Prop() valueAsDate?: Date = !isNaN(Date.parse(this.value)) ? new Date(new Date(this.value).getUTCFullYear(), new Date(this.value).getUTCMonth(), new Date(this.value).getUTCDate()) : null;
   /**
    * Trigger calcite date change when a user changes the date.
    */
@@ -73,12 +78,14 @@ export class CalciteDatePicker {
   /**
    * Active date.
    */
-  @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(this.value);
+  @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() :
+  new Date(new Date(this.value).getUTCFullYear(), new Date(this.value).getUTCMonth(), new Date(this.value).getUTCDate());
 
   @Watch('value') 
-  onNameChanged(newValue: string) {
+  onNameChanged(newValue: string) {    
     if(!isNaN(Date.parse(newValue))){
-      this.activeDate = new Date(newValue);
+      this.valueAsDate = new Date(new Date(newValue).getUTCFullYear(), new Date(newValue).getUTCMonth(), new Date(newValue).getUTCDate());  
+      this.activeDate = new Date(new Date(newValue).getUTCFullYear(), new Date(newValue).getUTCMonth(), new Date(newValue).getUTCDate());
     }
   }
 
@@ -97,7 +104,7 @@ export class CalciteDatePicker {
   }
 
   render() {
-    let selectedDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
+    let selectedDate = this.valueAsDate || new Date();
     return (
       <Host
         role="application"
@@ -119,10 +126,10 @@ export class CalciteDatePicker {
           <input
             type="text"
             placeholder={this.placeholder}
-            value={this.value}
+            value={this.valueAsDate ? new Intl.DateTimeFormat(this.locale).format(this.valueAsDate): ""}
             class="date-input"
             onFocus={() => this.expandCalendar()}
-            onChange={(e) => this.setDate(e.target)}
+            onInput={(e) => this.setDate(e.target)}
           />
         </div>
         {this.showCalendar && (
@@ -159,7 +166,7 @@ export class CalciteDatePicker {
   }
 
   private setActiveDate(target): void {
-    this.activeDate = new Date(target.activeDate);
+    this.activeDate = target.activeDate;
   }
 
   private expandCalendar() {
@@ -188,8 +195,8 @@ export class CalciteDatePicker {
   }
 
   private setDate(target) {
-    this.value = isNaN(Date.parse(target.value)) ? 
-    new Intl.DateTimeFormat(this.locale).format(target.selectedDate) : target.value;
+    this.value = isNaN(Date.parse(target.value)) ? target.selectedDate ? target.selectedDate.toISOString() : this.value
+    : target.value;
     this.syncProxyInputToThis();
     this.calciteDateChange.emit();
   }
@@ -214,26 +221,14 @@ export class CalciteDatePicker {
   }
 
   syncThisToProxyInput = () => {
-    let date = this.convertLocalDatetoUTCDate(this.inputProxy.valueAsDate ? this.inputProxy.valueAsDate : new Date());
-    this.value = new Intl.DateTimeFormat(this.locale).format(
-      date
-    );
+    this.value = this.inputProxy.valueAsDate && this.inputProxy.valueAsDate.toISOString() || "";
     this.min = this.inputProxy.min;
     this.max = this.inputProxy.max;
   };
 
   syncProxyInputToThis = () => {
-    let date = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
-    this.inputProxy.valueAsDate = this.convertUTCDateToLocalDate(date);
+    this.inputProxy.valueAsDate = this.valueAsDate;
     this.inputProxy.min = this.min;
     this.inputProxy.max = this.max;
   };
-
-  convertLocalDatetoUTCDate(date: Date){
-    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-  }
-
-  convertUTCDateToLocalDate(date) {
-    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),  date.getHours(), date.getMinutes(), date.getSeconds()));
-  }
 }
