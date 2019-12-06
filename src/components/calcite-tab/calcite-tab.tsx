@@ -66,7 +66,7 @@ export class CalciteTab {
       <Host
         id={id}
         aria-labeledby={this.labeledBy}
-        aria-expanded={this.isActive.toString()}
+        aria-expanded={this.isActive ? "true" : "false"}
         role="tabpanel"
       >
         <section>

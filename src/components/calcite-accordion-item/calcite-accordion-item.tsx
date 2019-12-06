@@ -70,7 +70,7 @@ export class CalciteAccordionItem {
       <Host
         dir={dir}
         tabindex="0"
-        aria-expanded={this.active.toString()}
+        aria-expanded={this.active ? "true" : "false"}
       >
         <div class="accordion-item-header" onClick={this.itemHeaderClickHander}>
           <span class="accordion-item-title">{this.itemTitle}</span>

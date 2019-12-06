@@ -75,7 +75,7 @@ export class CalciteTabTitle {
       <Host
         id={id}
         aria-controls={this.controls}
-        aria-expanded={this.isActive.toString()}
+        aria-expanded={this.isActive ? "true" : "false"}
         role="tab"
         tabindex="0"
       >
