@@ -1,3 +1,23 @@
 :host {
   display: inline-flex;
+  background-color: var(--calcite-ui-background);
+  writing-mode: horizontal-tb;
+}
+.previous, .next, .page {
+  display: flex;
+  padding: .75em 1.25em;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  margin-right: 1.25rem;
+  align-items: center;
+  &:hover {
+    border-bottom-color: var(--calcite-ui-blue);
+  }
+}
+.previous {
+}
+.next {
+  margin-right: 0;
+}
+.page {
 }
