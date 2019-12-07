@@ -111,7 +111,7 @@ export class CalciteCheckbox {
     return (
       <Host
         role="checkbox"
-        aria-checked={this.checked}
+        aria-checked={this.checked.toString()}
         tabindex={this.disabled ? "-1" : "0"}
       >
         <svg class="check-svg" viewBox="0 0 16 16">
