@@ -1,3 +1,14 @@
+// theme variables
+// light theme
+:host {
+  --calcite-input-message-floating-background: #{rgba($ui-foreground, 0.96)};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-input-message-floating-background: #{rgba($ui-foreground-hover-dark, 0.96)};
+}
+
 :host {
   display: flex;
   align-items: center;
@@ -11,8 +22,8 @@
   transition: $transition;
   visibility: hidden;
   opacity: 0;
-  height:0;
-  margin-top:0;
+  height: 0;
+  margin-top: 0;
 }
 
 :host([active]) {
@@ -23,19 +34,18 @@
   visibility: visible;
 }
 
-
 :host([type="floating"]) {
   padding: $baseline/2;
   transform: translate3d(0, -$baseline, 0);
   //todo
-  background-color: rgba($blk-000,0.96);
+  background-color: var(--calcite-input-message-floating-background);
   position: absolute;
   width: 100%;
   top: 100%;
   left: 0;
   right: 0;
   height: auto;
-  margin-top:0;
+  margin-top: 0;
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
   z-index: 101;
@@ -43,7 +53,7 @@
 
 :host([type="floating"][active]) {
   transform: translate3d(0, 0, 0);
-  margin:0;
+  margin: 0;
 }
 
 //todo rtl
@@ -81,10 +91,9 @@ $inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-red-hover)
   }
 }
 
-
 :host([type="floating"][active]) {
-    animation: floatingmessagepulse 0.5s ease-in-out;
-    animation-iteration-count: 1;
+  animation: floatingmessagepulse 0.5s ease-in-out;
+  animation-iteration-count: 1;
 }
 
 @keyframes floatingmessagepulse {
@@ -92,7 +101,7 @@ $inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-red-hover)
     top: 100%;
   }
   25% {
-    top:110%;
+    top: 110%;
   }
   50% {
     top: 100%;

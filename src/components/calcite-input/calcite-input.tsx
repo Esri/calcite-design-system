@@ -9,7 +9,7 @@ import {
   Prop,
   State
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { getElementProp, getElementTheme } from "../../utils/dom";
 import { chevronUp16F } from "@esri/calcite-ui-icons";
 import { chevronDown16F } from "@esri/calcite-ui-icons";
 import { phone16F } from "@esri/calcite-ui-icons";
@@ -100,7 +100,10 @@ export class CalciteInput {
     if (!appearance.includes(this.appearance)) this.appearance = "default";
 
     let numberButtonType = ["vertical", "horizontal"];
-    if (this.inputType === "number" && !numberButtonType.includes(this.numberButtonType))
+    if (
+      this.inputType === "number" &&
+      !numberButtonType.includes(this.numberButtonType)
+    )
       this.numberButtonType = "vertical";
   }
 
@@ -124,14 +127,15 @@ export class CalciteInput {
   }
 
   render() {
+    const theme = getElementTheme(this.el);
     const dir = getElementDir(this.el);
+    const icon = this.setIcon(this.icon);
     const attributes = this.getAttributes();
     const loader = (
       <div class="calcite-input-loading">
         <calcite-progress type="indeterminate"></calcite-progress>
       </div>
     );
-    const icon = this.setIcon(this.icon);
 
     // todo cleanup
     const numberButtonClass =
@@ -182,7 +186,7 @@ export class CalciteInput {
         </textarea>
       );
     return (
-      <Host dir={dir}>
+      <Host dir={dir} theme={theme}>
         <div class="calcite-input-wrapper">
           {childEl}
           {this.icon ? icon : null}
@@ -280,7 +284,15 @@ export class CalciteInput {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = ["appearance", "icon", "loading", "scale", "status", "theme", "number-button-type"];
+    let props = [
+      "appearance",
+      "icon",
+      "loading",
+      "scale",
+      "status",
+      "theme",
+      "number-button-type"
+    ];
     return Array.from(this.el.attributes)
       .filter(a => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});

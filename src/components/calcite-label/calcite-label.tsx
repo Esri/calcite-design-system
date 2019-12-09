@@ -8,6 +8,7 @@ import {
   Prop,
   Listen
 } from "@stencil/core";
+import { getElementTheme } from "../../utils/dom";
 
 @Component({
   tag: "calcite-label",
@@ -55,9 +56,10 @@ export class CalciteLabel {
   }
 
   render() {
+    const theme = getElementTheme(this.el);
     const attributes = this.getAttributes();
     return (
-      <Host {...attributes}>
+      <Host {...attributes} theme={theme}>
         <label>
           <slot />
         </label>

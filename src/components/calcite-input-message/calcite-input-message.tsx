@@ -1,5 +1,5 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { getElementProp, getElementTheme } from "../../utils/dom";
 import { information16F } from "@esri/calcite-ui-icons";
 import { exclamationMarkTriangle16F } from "@esri/calcite-ui-icons";
 import { check16F } from "@esri/calcite-ui-icons";
@@ -25,6 +25,7 @@ export class CalciteInputMessage {
   //  Properties
   //
   //--------------------------------------------------------------------------
+
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** specify the status of the input field, determines message and icons */
@@ -63,9 +64,10 @@ export class CalciteInputMessage {
   }
 
   render() {
+    const theme = getElementTheme(this.el);
     const icon = this.setIcon(this.iconDefaults[this.status]);
     return (
-      <Host>
+      <Host theme={theme}>
         {icon}
         <slot />
       </Host>

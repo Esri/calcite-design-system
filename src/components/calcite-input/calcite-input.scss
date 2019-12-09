@@ -24,7 +24,7 @@ calcite-input input {
   max-height: 100%;
   box-sizing: border-box;
   font-family: inherit;
-  border: 1px solid $blk-030;
+  border: 1px solid var(--calcite-ui-border-1);
   margin: 0;
   padding: $baseline/2;
   font-weight: 500;
@@ -55,7 +55,7 @@ calcite-input[appearance="minimal"] {
   & textarea {
     border: 0;
     background-color: transparent;
-    border-bottom: 1px solid $blk-030;
+    border-bottom: 1px solid var(--calcite-ui-border-1);
     padding: $baseline/4 0;
   }
 
@@ -103,7 +103,7 @@ calcite-input input:not[value] {
 }
 calcite-input input:hover,
 calcite-input textarea:hover {
-  border-color: $blk-050;
+  border-color: var(--calcite-ui-border-2);
 }
 calcite-input textarea:focus,
 calcite-input input:focus {
@@ -153,7 +153,7 @@ calcite-input[icon] input {
   z-index: 9;
   & svg {
     transition: $transition;
-    fill: $blk-080;
+    fill: var(--calcite-ui-text-3);
   }
 }
 
@@ -179,7 +179,7 @@ calcite-input[icon] input {
   top: 0;
   bottom: 0;
   border: 1px solid transparent;
-  border-left: 1px solid $blk-030;
+  border-left: 1px solid var(--calcite-ui-border-1);
   transition: $transition;
     pointer-events: none;
   & svg {
@@ -189,7 +189,7 @@ calcite-input[icon] input {
 
 }
 :host(:hover) .calcite-input-number-button-wrapper {
-  border-color: $blk-050;
+  border-color: var(--calcite-ui-border-1);
 }
 
 calcite-input[appearance="minimal"] {
