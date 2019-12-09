@@ -8,14 +8,13 @@ import {
   h,
   Watch
 } from "@stencil/core";
-import { ENTER, SPACE } from "../../utils/keys";
 
 @Component({
   tag: "calcite-date-month-header",
   styleUrl: "calcite-date-month-header.scss",
   shadow: true
 })
-export class CalciteDateMonth {
+export class CalciteDateMonthHeader {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -101,8 +100,7 @@ export class CalciteDateMonth {
           <button
             class="left-icon"
             aria-label={this.prevMonthLabel}
-            onClick={() => this.selectPrevMonth()}
-            onKeyDown={event => this.selectPrevMonthOnEnter(event)}
+            onClick={ () => this.selectPrevMonth()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +128,6 @@ export class CalciteDateMonth {
             class="right-icon"
             aria-label={this.nextMonthLabel}
             onClick={() => this.selectNextMonth()}
-            onKeyDown={event => this.selectNextMonthOnEnter(event)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -159,12 +156,6 @@ export class CalciteDateMonth {
     }
   }
 
-  private selectPrevMonthOnEnter(event: KeyboardEvent) {
-    if (event.keyCode === ENTER || event.keyCode === SPACE) {
-      this.selectPrevMonth();
-    }
-  }
-
   private selectNextMonth() {
     if (this.month === 11) {
       if (this.validateYear(this.year + 1)) {
@@ -175,12 +166,6 @@ export class CalciteDateMonth {
     }
     if (this.validateMonth((this.month + 1) % 12, this.year)) {
       this.month = (this.month + 1) % 12;
-    }
-  }
-
-  private selectNextMonthOnEnter(event: KeyboardEvent) {
-    if (event.keyCode === ENTER || event.keyCode === SPACE) {
-      this.selectNextMonth();
     }
   }
 
