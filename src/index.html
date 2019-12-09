@@ -1286,11 +1286,12 @@
           ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
           libero aliquam, imperdiet ipsum sed, volutpat nisl.
 
-          <div class="sticky-example" id="calcite-fab-tooltip" >
+          <div class="sticky-example" id="calcite-fab-tooltip">
             <calcite-button round floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">
             </calcite-button>
           </div>
-          <calcite-tooltip theme="dark" placement="top" reference-element="calcite-fab-tooltip">Add new</calcite-tooltip>
+          <calcite-tooltip theme="dark" placement="top" reference-element="calcite-fab-tooltip">Add new
+          </calcite-tooltip>
         </div>
         <div
           style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
@@ -1335,7 +1336,7 @@
           libero aliquam, imperdiet ipsum sed, volutpat nisl.
 
           <div class="sticky-example">
-            <calcite-button round  floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">Do this thing
+            <calcite-button round floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">Do this thing
             </calcite-button>
           </div>
         </div>
@@ -1344,7 +1345,7 @@
           Back</calcite-button>
         <calcite-button appearance='outline'>Cancel</calcite-button>
         <calcite-button>Submit</calcite-button>
-        <calcite-button round >Inline rounded button</calcite-button>
+        <calcite-button round>Inline rounded button</calcite-button>
 
 
         <h5>calcite button inside form with no custom onsubmit</h5>
@@ -3165,7 +3166,8 @@
 
                 <calcite-label>
                   Number input - button type horizontal
-                  <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?"></calcite-input>
+                  <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?">
+                  </calcite-input>
                 </calcite-label>
 
 
@@ -3232,7 +3234,8 @@
 
                 <calcite-label>
                   Number input - button type horizontal
-                  <calcite-input appearance="minimal" type="number" number-button-type="horizontal" placeholder="How many apples?"></calcite-input>
+                  <calcite-input appearance="minimal" type="number" number-button-type="horizontal"
+                    placeholder="How many apples?"></calcite-input>
                 </calcite-label>
 
                 <calcite-label>
@@ -3350,10 +3353,6 @@
                 <input id="calcite-input-demo-2" />
                 <br />
 
-                <label for="calcite-input-demo-3">
-                  Focus a calcite-input from a non-wrapping native label</label>
-                <calcite-input id="calcite-input-demo-3"></calcite-input>
-
                 <label>
                   Focus a calcite-input from a wrapping native label
                   <calcite-input></calcite-input>
@@ -3388,29 +3387,29 @@
                 <form name="form-input-example-2" id="form-input-example-2">
                   <calcite-label>
                     Create username
-                    <calcite-input id="validate-input-example-username" placeholder="Enter username" required >
+                    <calcite-input id="validate-input-example-username" placeholder="Enter username" required>
                     </calcite-input>
                   </calcite-label>
 
                   <calcite-label>
                     Create password
-                    <calcite-input id="validate-input-example-password" type="password" placeholder="•••••" >
+                    <calcite-input id="validate-input-example-password" type="password" placeholder="•••••">
                     </calcite-input>
                   </calcite-label>
                   <calcite-label>
                     Confirm password
-                    <calcite-input id="validate-input-example-password-2" type="password" placeholder="•••••" >
+                    <calcite-input id="validate-input-example-password-2" type="password" placeholder="•••••">
                     </calcite-input>
                   </calcite-label>
                   <calcite-button width="full">Register</calcite-button>
                 </form>
-                <hr/>
+                <hr />
                 <calcite-notice width="full" id="validate-input-example-focus-notice">
-                  </calcite-notice>
-                  <calcite-notice width="full" id="validate-input-example-blur-notice">
-                  </calcite-notice>
-                  <calcite-notice width="full" id="validate-input-example-change-notice">
-                  </calcite-notice>
+                </calcite-notice>
+                <calcite-notice width="full" id="validate-input-example-blur-notice">
+                </calcite-notice>
+                <calcite-notice width="full" id="validate-input-example-change-notice">
+                </calcite-notice>
                 <script>
                   detectInputChanges("#validate-input-example-username");
                   detectInputChanges("#validate-input-example-password");
@@ -3428,20 +3427,21 @@
                 <form name="form-input-example-3" id="form-input-example-3">
                   <calcite-label>
                     Create username
-                    <calcite-input focusIn='nativeInlineEventFocusIn()'  focusOut='nativeInlineEventFocusOut()'
-                      id="validate-input-example-native-function-username" placeholder="Enter username" required autofocus>
+                    <calcite-input focusIn='nativeInlineEventFocusIn()' focusOut='nativeInlineEventFocusOut()'
+                      id="validate-input-example-native-function-username" placeholder="Enter username" required
+                      autofocus>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label>
                     Create password
-                    <calcite-input
-                      id="validate-input-example-native-function-password" type="password" placeholder="•••••" >
+                    <calcite-input id="validate-input-example-native-function-password" type="password"
+                      placeholder="•••••">
                     </calcite-input>
                   </calcite-label>
                   <calcite-label>
                     Confirm password
-                    <calcite-input  id="validate-input-example-native-function-password-2"
-                      type="password" placeholder="•••••" required>
+                    <calcite-input id="validate-input-example-native-function-password-2" type="password"
+                      placeholder="•••••" required>
                     </calcite-input>
                   </calcite-label>
                   <calcite-button width="full">Register</calcite-button>

@@ -27,7 +27,8 @@
 :host([type="floating"]) {
   padding: $baseline/2;
   transform: translate3d(0, -$baseline, 0);
-  background-color: var(--calcite-ui-foreground);
+  //todo
+  background-color: rgba($blk-000,0.96);
   position: absolute;
   width: 100%;
   top: 100%;

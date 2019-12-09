@@ -101,7 +101,17 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 ```
 
 ### With native elements
-While it’s not encouraged, you can also use calcite-label/input in combination with native elements / non-wrapping items (need to test more)
+While it’s not encouraged, you can also use calcite-label/input in combination with native elements / non-wrapping items (need to test more). 
+
+Working combinations:
+calcite-input outside calcite-label
+native-input outisde calcite-label
+calcite-input inside native-label
+native-input inside calcite-label
+
+
+Doesn't work:
+calcite-input outside native-label
 ```
 <label for=“my-calcite-input”>Label</label>
 <calcite-input id=“my-calcite-input”></calcite-input>

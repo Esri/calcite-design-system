@@ -1,12 +1,19 @@
-import { Component, Element, Host, h, Prop, Listen } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Host,
+  h,
+  Prop,
+  Listen
+} from "@stencil/core";
 
 @Component({
   tag: "calcite-label",
   styleUrl: "calcite-label.scss",
   shadow: true
 })
-
-// slot calcite-input-message - place <div slot="calcite-input-message">Inside your input component</div>. The status of the input will determine icon of message and styling
 export class CalciteLabel {
   //--------------------------------------------------------------------------
   //
@@ -22,14 +29,11 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the status of the input field, determines message and icons */
+  /** specify the status of the label and any child input / input messages */
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" =
     "idle";
 
-  /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
-  @Prop({ mutable: true, reflect: true }) icon?: string;
-
-  /** specify the alignment of dropdown, defaults to left */
+  /** specify theme of the lavel and its any child input / input messages */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   //--------------------------------------------------------------------------
@@ -45,10 +49,10 @@ export class CalciteLabel {
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme)) this.theme = "light";
   }
-  // todo fieldset
-  // todo check radio group
-  // todo separate input + label
-  //todo onclick on this.el, focus child input
+
+  componentDidLoad() {
+    this.requestedInput = this.el.getAttribute("for");
+  }
 
   render() {
     const attributes = this.getAttributes();
@@ -81,6 +85,8 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
+  @Event() calciteLabelSelectedEvent: EventEmitter;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -93,32 +99,35 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
+  /** the input requested with the for attribute */
+  private requestedInput: string;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  //todo cleanup
+
   private focusChildEl() {
-    let requestedFor = this.el.getAttribute("for");
-    var elToFocus = requestedFor
-      ? document.getElementById(requestedFor)
-      : this.el.querySelector("input")
-      ? this.el.querySelector("input")
-      : this.el.querySelector("textarea")
-      ? this.el.querySelector("textarea")
-      : this.el;
+    console.log(this.requestedInput);
+    var elToFocus;
+    if (this.requestedInput) {
+      this.calciteLabelSelectedEvent.emit({
+        requestedInput: this.requestedInput
+      });
+      elToFocus = document.getElementById(this.requestedInput);
+    } else {
+      elToFocus = this.el.querySelector("input")
+        ? this.el.querySelector("input")
+        : this.el.querySelector("textarea");
+      console.log(elToFocus);
+    }
     elToFocus.focus();
   }
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = [
-      "icon",
-      "id",
-      "status",
-      "theme"
-    ];
+    let props = ["status", "theme"];
     return Array.from(this.el.attributes)
       .filter(a => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
