@@ -26,7 +26,6 @@ import CalciteIcon from "../../utils/CalciteIcon";
   styleUrl: "calcite-input.scss",
   shadow: false
 })
-
 export class CalciteInput {
   //--------------------------------------------------------------------------
   //
@@ -63,7 +62,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) icon?: string;
 
   /** specify the placement of the number buttons */
-  @Prop({ mutable: true, reflect: true }) numberType?:
+  @Prop({ mutable: true, reflect: true }) numberButtonType?:
     | "vertical"
     | "horizontal" = "vertical";
 
@@ -100,9 +99,9 @@ export class CalciteInput {
     let appearance = ["minimal", "default"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
 
-    let numberType = ["vertical", "horizontal"];
-    if (this.inputType === "number" && !numberType.includes(this.numberType))
-      this.numberType = "vertical";
+    let numberButtonType = ["vertical", "horizontal"];
+    if (this.inputType === "number" && !numberButtonType.includes(this.numberButtonType))
+      this.numberButtonType = "vertical";
   }
 
   componentDidLoad() {
@@ -136,7 +135,7 @@ export class CalciteInput {
 
     // todo cleanup
     const numberButtonClass =
-      this.numberType === "horizontal"
+      this.numberButtonType === "horizontal"
         ? "calcite-input-number-button-wrapper-horizontal"
         : null;
 
@@ -281,14 +280,7 @@ export class CalciteInput {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = [
-      "appearance",
-      "icon",
-      "loading",
-      "scale",
-      "status",
-      "theme",
-    ];
+    let props = ["appearance", "icon", "loading", "scale", "status", "theme", "number-button-type"];
     return Array.from(this.el.attributes)
       .filter(a => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});

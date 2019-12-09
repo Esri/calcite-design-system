@@ -109,7 +109,6 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   private focusChildEl() {
-    console.log(this.requestedInput);
     var elToFocus;
     if (this.requestedInput) {
       this.calciteLabelSelectedEvent.emit({
@@ -120,7 +119,6 @@ export class CalciteLabel {
       elToFocus = this.el.querySelector("input")
         ? this.el.querySelector("input")
         : this.el.querySelector("textarea");
-      console.log(elToFocus);
     }
     elToFocus.focus();
   }
