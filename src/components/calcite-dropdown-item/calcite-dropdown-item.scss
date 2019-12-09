@@ -50,7 +50,7 @@
 }
 
 :host(:active) {
-  background-color: var(--calcite-ui-foreground-pressed);
+  background-color: var(--calcite-ui-foreground-press);
 }
 
 :host:before {
@@ -118,7 +118,7 @@
 }
 
 :host([islink]) a:active {
-  background-color: var(--calcite-ui-foreground-pressed);
+  background-color: var(--calcite-ui-foreground-press);
 }
 
 :host([islink][active]) a {

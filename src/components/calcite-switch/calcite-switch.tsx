@@ -96,7 +96,7 @@ export class CalciteSwitch {
   render() {
     const dir = getElementDir(this.el);
     return (
-      <Host role="checkbox" dir={dir} aria-checked={this.switched} tabindex="0">
+      <Host role="checkbox" dir={dir} checked={this.switched.toString()} tabindex="0">
         <div class="track">
           <div class="handle" />
         </div>
