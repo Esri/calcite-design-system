@@ -8,24 +8,24 @@ input {
 
 .right-icon,
 .left-icon {
-  fill: $blk-060;
+  fill: var(--calcite-ui-text-3);
   flex-grow: 1;
   outline: none;
   padding: 0;
   border: none;
   color: inherit;
-  background-color: transparent;
+  background-color: var(--calcite-ui-foreground);
   cursor: pointer;
   transition: all 0.15s ease-in-out;
 
   &:hover,
   &:focus {
-    fill: $blk-240;
-    background-color: $blk-010;
+    fill: var(--calcite-ui-text-1);
+    background-color: var(--calcite-ui-foreground-hover);
   }
 
   &:active {
-    background-color: $blk-020;
+    background-color: var(--calcite-ui-foreground-press);
   }
 }
 
@@ -38,7 +38,8 @@ input {
 }
 .month,
 .year {
-  color: $blk-240;
+  color: var(--calcite-ui-text-1);
+  background: var(--calcite-ui-foreground);
   @include font-size(0);
   font-weight: 500;
 }

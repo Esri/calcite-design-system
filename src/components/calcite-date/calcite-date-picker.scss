@@ -7,30 +7,31 @@
   vertical-align: top;
 
   .date-input-wrapper {
-    border: 1px solid $blk-030;
+    border: 1px solid var(--calcite-ui-border-1);
     position: relative;
 
     &.expanded {
       border: none;
-      border-bottom: 1px solid $blk-030;
+      border-bottom: 1px solid var(--calcite-ui-border-1);
     }
 
     &:active,
     &:focus,
     &.open {
       border-color: transparent;
-      border-bottom: 1px solid $blk-030;
+      border-bottom: 1px solid var(--calcite-ui-border-1);
     }
 
     .calendar-icon {
-      fill: $blk-120;
+      fill: var(--calcite-ui-text-3);
       position: absolute;
       top: $baseline/1.8;
       left: $baseline/1.15;
     }
 
     .date-input {
-      color: $blk-160;
+      color: var(--calcite-ui-text-3);
+      background: var(--calcite-ui-foreground);
       box-sizing: border-box;
       border: none;
       font-weight: 400;
@@ -55,7 +56,7 @@
 }
 
 :host([expanded]) {
-  background-color: $blk-000;
-  border: 1px solid $blk-030;
+  background-color: var(--calcite-ui-foreground);
+  border: 1px solid var(--calcite-ui-border-2);
   box-shadow: $shadow-2;
 }
