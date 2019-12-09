@@ -56,7 +56,7 @@ export class CalciteButton {
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
 
-  /** optionally add a rounded style to the button  */
+  /** optionally add a round style to the button  */
   @Prop({ reflect: true }) round?: boolean = false;
 
   /** optionally add a floating style to the button - this should be positioned fixed or sticky */
