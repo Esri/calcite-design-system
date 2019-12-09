@@ -9,11 +9,11 @@
   --calcite-switch-hover-track-background: #{$blk-020};
   --calcite-switch-hover-track-border: #{$blk-060};
   --calcite-switch-switched-track-background: #{$ui-blue-hover};
-  --calcite-switch-switched-track-border: #{$ui-blue-pressed};
+  --calcite-switch-switched-track-border: #{$ui-blue-press};
   --calcite-switch-switched-handle-border: #{$ui-blue};
   --calcite-switch-switched-hover-track-background: #{$ui-blue};
   --calcite-switch-switched-hover-track-border: #{$ui-blue-hover};
-  --calcite-switch-switched-hover-handle-border: #{$ui-blue-pressed};
+  --calcite-switch-switched-hover-handle-border: #{$ui-blue-press};
   --calcite-switch-box-shadow-color: #{rgba($blk-130, 0.5)};
   --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue, 0.5)};
 }
@@ -43,7 +43,7 @@
   --calcite-switch-switched-handle-border: #{$ui-red};
   --calcite-switch-switched-hover-track-background: #{$ui-red};
   --calcite-switch-switched-hover-track-border: #{$ui-red-hover};
-  --calcite-switch-switched-hover-handle-border: #{$ui-red-pressed};
+  --calcite-switch-switched-hover-handle-border: #{$ui-red-press};
   --calcite-switch-switched-box-shadow-color: #{rgba($ui-red, 0.5)};
 }
 :host([theme="dark"][color="red"]) {
@@ -52,8 +52,8 @@
   --calcite-switch-hover-handle-border: #{$ui-red-hover-dark};
   --calcite-switch-switched-handle-border: #{$ui-red-dark};
   --calcite-switch-switched-hover-track-background: #{$ui-red-dark};
-  --calcite-switch-switched-hover-track-border: #{$ui-red-pressed-dark};
-  --calcite-switch-switched-hover-handle-border: #{$ui-red-pressed-dark};
+  --calcite-switch-switched-hover-track-border: #{$ui-red-press-dark};
+  --calcite-switch-switched-hover-handle-border: #{$ui-red-press-dark};
   --calcite-switch-switched-box-shadow-color: #{rgba($ui-red-dark, 0.5)};
 }
 

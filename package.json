@@ -42,8 +42,8 @@
     "popper.js": "1.16.0"
   },
   "devDependencies": {
-    "@esri/calcite-base": "^1.1.0",
-    "@esri/calcite-colors": "^1.5.0",
+    "@esri/calcite-base": "^1.2.0",
+    "@esri/calcite-colors": "^1.6.0",
     "@esri/calcite-ui-icons": "^2.5.4",
     "@stencil/core": "^1.8.1",
     "@stencil/sass": "^1.0.1",
