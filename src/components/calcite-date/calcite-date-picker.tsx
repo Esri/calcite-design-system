@@ -62,7 +62,15 @@ export class CalciteDatePicker {
   /**
    * Input as Date
    */
-  @Prop() valueAsDate?: Date = !isNaN(Date.parse(this.value)) ? new Date(new Date(this.value).getUTCFullYear(), new Date(this.value).getUTCMonth(), new Date(this.value).getUTCDate()) : null;
+  @Prop() valueAsDate?: Date = !isNaN(Date.parse(this.value)) ? this.generateDate(this.value) : null;
+  /**
+   * Show no input for only calendar popup
+   */
+  @Prop() noCalendarInput?: boolean = false;
+  /**
+   * Expand or collapse when calendar does not have input.
+   */
+  @Prop() showCalendar: boolean = false;
   /**
    * Trigger calcite date change when a user changes the date.
    */
@@ -71,21 +79,15 @@ export class CalciteDatePicker {
   observer: MutationObserver;
 
   /**
-   * Expanded state of the calander.
-   */
-  @State() showCalendar: boolean = false;
-
-  /**
    * Active date.
    */
-  @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() :
-  new Date(new Date(this.value).getUTCFullYear(), new Date(this.value).getUTCMonth(), new Date(this.value).getUTCDate());
+  @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() : this.generateDate(this.value);
 
-  @Watch('value') 
-  onNameChanged(newValue: string) {    
+  @Watch('value')
+  onNameChanged(newValue: string) {
     if(!isNaN(Date.parse(newValue))){
-      this.valueAsDate = new Date(new Date(newValue).getUTCFullYear(), new Date(newValue).getUTCMonth(), new Date(newValue).getUTCDate());  
-      this.activeDate = new Date(new Date(newValue).getUTCFullYear(), new Date(newValue).getUTCMonth(), new Date(newValue).getUTCDate());
+      this.valueAsDate = this.generateDate(newValue);
+      this.activeDate = this.generateDate(newValue);
     }
   }
 
@@ -110,7 +112,7 @@ export class CalciteDatePicker {
         role="application"
         expanded={this.showCalendar}
       >
-        <div
+        { !this.noCalendarInput && <div
           class={`date-input-wrapper ${this.showCalendar ? "expanded" : ""}`}
           role="application"
         >
@@ -131,7 +133,7 @@ export class CalciteDatePicker {
             onFocus={() => this.expandCalendar()}
             onInput={(e) => this.setDate(e.target)}
           />
-        </div>
+        </div> }
         {this.showCalendar && (
           <div class="calendar-picker-wrapper">
             <calcite-date-month-header
@@ -231,4 +233,10 @@ export class CalciteDatePicker {
     this.inputProxy.min = this.min;
     this.inputProxy.max = this.max;
   };
+
+  private generateDate(dateString: string): Date {
+    let date = new Date(dateString);
+
+    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  }
 }

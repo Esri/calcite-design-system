@@ -1,7 +1,7 @@
 :host {
   display: flex;
   outline: none;
-  color: $blk-140;
+  color: var(--calcite-ui-text-3);
   padding: .3rem .4rem;
   cursor: pointer;
   width: calc(100% / 7);
@@ -17,7 +17,6 @@
   width: 100%;
   border-radius: 100%;
   font-size: 14px;
-  font-weight: 500;
   justify-content: center;
   align-items: center;
   height: 2.0rem;
@@ -28,18 +27,18 @@
 :host(:focus),
 :host(.active) {
   & .day {
-    background-color: $blk-020;
+    background-color: var(--calcite-ui-foreground-hover);
     transition: all $transition;
-    color: $blk-220;
+    color: var(--calcite-ui-text-1);
   }
 }
 
 :host(.selected-day) .day,
 :host(:focus.active) .day {
   transition: all $transition;
-  background-color: $ui-blue;
+  background-color: var(--calcite-ui-blue);
   border-radius: 100%;
-  color: $blk-000;
+  color: var(--calcite-ui-foreground);
   font-weight: 500;
 }
 

@@ -2,11 +2,11 @@
   .week-headers {
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid $blk-010;
-    border-top: 1px solid $blk-010;
+    border-bottom: 1px solid var(--calcite-ui-border-3);
+    border-top: 1px solid var(--calcite-ui-border-3);
 
     .week-header {
-      color: $blk-160;
+      color: var(--calcite-ui-text-2);
       padding: 0.75rem 0;
       text-transform: uppercase;
       font-weight: 600;
