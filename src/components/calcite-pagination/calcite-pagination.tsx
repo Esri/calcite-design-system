@@ -1,12 +1,13 @@
 import {
   Component,
   Element,
-  // Event,
-  // EventEmitter,
+  Event,
+  EventEmitter,
   h,
   Host,
   // Listen,
   Prop,
+  Method,
   State,
   Watch
 } from "@stencil/core";
@@ -56,6 +57,37 @@ export class CalcitePagination {
   @Element() el: HTMLElement;
 
   @State() selectedIndex = this.num;
+  @Watch('selectedIndex') selectedIndexWatchHandler() {
+    this.calcitePageChange.emit({
+      start: this.start,
+      total: this.total,
+      num: this.selectedIndex
+    });
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Event() calcitePageChange: EventEmitter;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  @Method()
+  async nextPage(): Promise<void> {
+    this.selectedIndex = Math.max(this.total, this.selectedIndex + 1);
+  }
+
+  @Method()
+  async previousPage(): Promise<void> {
+    this.selectedIndex = Math.min(1, this.selectedIndex - 1);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -63,9 +95,29 @@ export class CalcitePagination {
   //
   // --------------------------------------------------------------------------
 
+  previousClicked = (): void => {
+    this.previousPage();
+  };
+
+  nextClicked = (): void => {
+    this.nextPage();
+  };
+
+  pageClicked() {
+
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  //--------------------------------------------------------------------------
+
   renderPage(num) {
     return (
-      <a class={CSS.page}>{num}</a>
+      <a class={{[CSS.page]:true, [CSS.selected]: (num === this.selectedIndex) }} onClick={() => {
+        this.selectedIndex = num;
+      }}>{num}</a>
     );
   }
 
@@ -79,20 +131,18 @@ export class CalcitePagination {
     return pages;
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  //--------------------------------------------------------------------------
-
   render() {
     const dir = getElementDir(this.el);
 
     return (
       <Host dir={dir}>
-        <a class={CSS.previous} title={this.textLabelPrevious}><CalciteIcon size="16" path={chevronLeft16} /></a>
+        <a class={{[CSS.previous]: true, [CSS.disabled]: this.selectedIndex <= 1}} title={this.textLabelPrevious} onClick={this.previousClicked}>
+          <CalciteIcon size="16" path={chevronLeft16} />
+        </a>
         {this.renderPages()}
-        <a class={CSS.next} title={this.textLabelNext}><CalciteIcon size="16" path={chevronRight16} /></a>
+        <a class={{[CSS.next]: true, [CSS.disabled]: this.selectedIndex >= this.total}} title={this.textLabelNext} onClick={this.nextClicked}>
+          <CalciteIcon size="16" path={chevronRight16} />
+        </a>
       </Host>
     );
   }

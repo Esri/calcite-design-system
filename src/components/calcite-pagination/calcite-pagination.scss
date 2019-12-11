@@ -1,23 +1,33 @@
 :host {
   display: inline-flex;
-  background-color: var(--calcite-ui-background);
   writing-mode: horizontal-tb;
 }
+
 .previous, .next, .page {
   display: flex;
-  padding: .75em 1.25em;
-  border-bottom: 3px solid transparent;
-  cursor: pointer;
-  margin-right: 1.25rem;
   align-items: center;
+  margin-right: 1.25rem;
+  background-color: var(--calcite-ui-background);
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  color: var(--calcite-ui-text-1);
+  cursor: pointer;
   &:hover {
+    border-bottom-color: var(--calcite-ui-border-hover);
+  }
+  &.is-selected {
     border-bottom-color: var(--calcite-ui-blue);
   }
 }
-.previous {
+.previous, .next {
+  padding: .75em 1em;
+  &.is-disabled {
+    color: var(--calcite-ui-text-3);
+  }
 }
 .next {
   margin-right: 0;
 }
 .page {
+  padding: .75em 1.25em;
 }

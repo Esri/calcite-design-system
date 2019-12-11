@@ -1,7 +1,9 @@
 export const CSS = {
   page: "page",
+  selected: "is-selected",
   previous: "previous",
-  next: "next"
+  next: "next",
+  disabled: "is-disabled"
 };
 
 export const TEXT = {
