@@ -26,6 +26,15 @@ Browsers that support modules will load the first, while older browsers will loa
 
 Once these script tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
 
+### Styles
+
+You will also need to explicitly load the `calcite.css` file:
+
+```html
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/browse/@esri/calcite-components@1.0.0-beta.15/dist/calcite/calcite.css">
+```
+
+
 ### Webpack
 
 If you already have a webpack build for your project, you can use [@stencil/webpack](https://github.com/ionic-team/stencil-webpack) to add calcite-components to your bundle.
