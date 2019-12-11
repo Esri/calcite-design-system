@@ -90,7 +90,7 @@ To release a new version of Calcite Components you must:
 1. Run `npm run release:prepare`. This will:
    * Run a new build with `npm run build`.
    * Increment the version in `package.json` with `npm version`
-1. Make any changes to the `CHANGELOG.md` file, and update the example script tag src in `readme.md`. Make a new entry for the release and summarize any changes.
+1. Make any changes to the `CHANGELOG.md` file, and update the example script tags and stylesheet src in `readme.md`. Make a new entry for the release and summarize any changes.
 1. Run `npm run release:publish`. This will run the [`support/release.sh`](https://github.com/Esri/calcite-components/blob/master/support/release.sh) file which will:
    * Create a new commit on the master branch for the version.
    * Checkout a temporary branch for the release.
