@@ -1286,11 +1286,12 @@
           ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
           libero aliquam, imperdiet ipsum sed, volutpat nisl.
 
-          <div class="sticky-example" id="calcite-fab-tooltip" >
+          <div class="sticky-example" id="calcite-fab-tooltip">
             <calcite-button round floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">
             </calcite-button>
           </div>
-          <calcite-tooltip theme="dark" placement="top" reference-element="calcite-fab-tooltip">Add new</calcite-tooltip>
+          <calcite-tooltip theme="dark" placement="top" reference-element="calcite-fab-tooltip">Add new
+          </calcite-tooltip>
         </div>
         <div
           style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
@@ -1335,7 +1336,7 @@
           libero aliquam, imperdiet ipsum sed, volutpat nisl.
 
           <div class="sticky-example">
-            <calcite-button round  floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">Do this thing
+            <calcite-button round floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">Do this thing
             </calcite-button>
           </div>
         </div>
@@ -1344,7 +1345,7 @@
           Back</calcite-button>
         <calcite-button appearance='outline'>Cancel</calcite-button>
         <calcite-button>Submit</calcite-button>
-        <calcite-button round >Inline rounded button</calcite-button>
+        <calcite-button round>Inline rounded button</calcite-button>
 
 
         <h5>calcite button inside form with no custom onsubmit</h5>
@@ -1637,101 +1638,74 @@
       </calcite-tab>
       <calcite-tab>
         <div class="example-container" style="margin: 40px 0 100px 0;">
-        <calcite-date-picker value="2019-08-23" min="2019-08-09" max="2021-12-18"></calcite-date-picker>
-        <calcite-date-picker id="dateSample"></calcite-date-picker>
-        <calcite-date-picker
-          key="condition-value"
-          min="1970-01-01"
-          max="2030-12-31"
-          start-of-week="0"
-          tabIndex="0"
-          value="2000-11-27"
-        ></calcite-date-picker>
-        <button onclick="toggleCalendar()">date with no input</button>
-        <calcite-date-picker
-          id="dateWithNoInput"
-          key="condition-value"
-          min="1970-01-01"
-          max="2030-12-31"
-          start-of-week="0"
-          tabIndex="0"
-          value="2000-11-27"
-          no-calendar-input="true"
-          show-calendar="true"
-        ></calcite-date-picker>
-        <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
-        <script>
-          var dateSample = document.getElementById("dateSample");
+          <calcite-date-picker value="2019-08-23" min="2019-08-09" max="2021-12-18"></calcite-date-picker>
+          <calcite-date-picker id="dateSample"></calcite-date-picker>
+          <calcite-date-picker key="condition-value" min="1970-01-01" max="2030-12-31" start-of-week="0" tabIndex="0"
+            value="2000-11-27"></calcite-date-picker>
+          <button onclick="toggleCalendar()">date with no input</button>
+          <calcite-date-picker id="dateWithNoInput" key="condition-value" min="1970-01-01" max="2030-12-31"
+            start-of-week="0" tabIndex="0" value="2000-11-27" no-calendar-input="true" show-calendar="true">
+          </calcite-date-picker>
+          <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
+          <script>
+            var dateSample = document.getElementById("dateSample");
 
-          dateSample.addEventListener("calciteDateChange", function (
-            e
-          ) {
-            dateSample.value = e.target.value;
-            console.log(
-              "Date selected <calcite-date>",
-              e.target.value,
-              e.target.valueAsDate
-            );
-          });
+            dateSample.addEventListener("calciteDateChange", function (
+              e
+            ) {
+              dateSample.value = e.target.value;
+              console.log(
+                "Date selected <calcite-date>",
+                e.target.value,
+                e.target.valueAsDate
+              );
+            });
 
-          function toggleCalendar() {
-            var dateWithNoInput = document.getElementById("dateWithNoInput");
-            dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-          }
-        </script>
+            function toggleCalendar() {
+              var dateWithNoInput = document.getElementById("dateWithNoInput");
+              dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
+            }
+          </script>
         </div>
 
         <div class="demo-background-dark">
-        <div class="example-container" style="margin: 40px 0 100px 0;">
-          <h1>Dark theme</h1>
-        <calcite-date-picker theme="dark" value="2019-08-23" min="2019-08-09" max="2021-12-18"></calcite-date-picker>
-        <calcite-date-picker theme="dark" id="dateSample"></calcite-date-picker>
-        <calcite-date-picker theme="dark"
-          key="condition-value"
-          min="1970-01-01"
-          max="2030-12-31"
-          start-of-week="0"
-          tabIndex="0"
-          value="2000-11-27"
-        ></calcite-date-picker>
-        <button onclick="toggleDarkCalendar()">date with no input dark</button>
-        <calcite-date-picker theme="dark"
-          id="darkDateWithNoInput"
-          key="condition-value"
-          min="1970-01-01"
-          max="2030-12-31"
-          start-of-week="0"
-          tabIndex="0"
-          value="2000-11-27"
-          no-calendar-input="true"
-          show-calendar="true"
-        ></calcite-date-picker>
-        <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
-        <script>
-          var dateSample = document.getElementById("dateSample");
+          <div class="example-container" style="margin: 40px 0 100px 0;">
+            <h1>Dark theme</h1>
+            <calcite-date-picker theme="dark" value="2019-08-23" min="2019-08-09" max="2021-12-18">
+            </calcite-date-picker>
+            <calcite-date-picker theme="dark" id="dateSample"></calcite-date-picker>
+            <calcite-date-picker theme="dark" key="condition-value" min="1970-01-01" max="2030-12-31" start-of-week="0"
+              tabIndex="0" value="2000-11-27"></calcite-date-picker>
+            <button onclick="toggleDarkCalendar()">date with no input dark</button>
+            <calcite-date-picker theme="dark" id="darkDateWithNoInput" key="condition-value" min="1970-01-01"
+              max="2030-12-31" start-of-week="0" tabIndex="0" value="2000-11-27" no-calendar-input="true"
+              show-calendar="true"></calcite-date-picker>
+            <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
+            <script>
+              var dateSample = document.getElementById("dateSample");
 
-          dateSample.addEventListener("calciteDateChange", function (
-            e
-          ) {
-            dateSample.value = e.target.value;
-            console.log(
-              "Date selected <calcite-date>",
-              e.target.value,
-              e.target.valueAsDate
-            );
-          });
+              dateSample.addEventListener("calciteDateChange", function (
+                e
+              ) {
+                dateSample.value = e.target.value;
+                console.log(
+                  "Date selected <calcite-date>",
+                  e.target.value,
+                  e.target.valueAsDate
+                );
+              });
 
-          function toggleCalendar() {
-            var dateWithNoInput = document.getElementById("dateWithNoInput");
-            dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-          }
+              function toggleCalendar() {
+                var dateWithNoInput = document.getElementById("dateWithNoInput");
+                dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
+              }
 
-          function toggleDarkCalendar() {
-            var dateWithNoInput = document.getElementById("darkDateWithNoInput");
-            dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-          }
-        </script>
-        </div>
+              function toggleDarkCalendar() {
+                var dateWithNoInput = document.getElementById("darkDateWithNoInput");
+                dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
+              }
+            </script>
+          </div>
         </div>
       </calcite-tab>
 
@@ -3217,14 +3191,120 @@
       </calcite-tab>
 
       <calcite-tab>
-        <h3>Cards</h3>
-        <div>
-          <calcite-card selected>
-            <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" />
-            <h3 class="header" slot="header">Hey der ima header!</h3>
-            <calcite-button slot="button-action">click meh!</calcite-button>
-            <calcite-button slot="footer-leading">Lead füt</calcite-button>
-            <calcite-button slot="footer-trailing">Trail füt</calcite-button>
+        <div style="background-color:#f3f3f3">
+          <h3>Cards</h3>
+          <calcite-card>
+            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+          </calcite-card>
+
+          <calcite-card>
+            <img slot="thumbnail" src="../assets/demo/images/test-card-bg.png" />
+            <h3 slot="title">Portland Businesses</h3>
+            <span slot="subtitle">by
+              <calcite-button appearance="inline" href="">ATirella_heaths_org</calcite-button>
+            </span>
+            <div>
+              Created: Apr 22, 2019
+              <br />
+              Updated: Dec 9, 2019
+              <br />
+              View Count: 0
+            </div>
+            <calcite-button slot="footer-leading" color="light" scale="xs"
+              icon='M12 2.1A41.07 41.07 0 0 1 0 0v14a40.8 40.8 0 0 1 12-2.1A41.07 41.07 0 0 1 24 14V0a41.13 41.13 0 0 1-12 2.1zm0 8.9a40.21 40.21 0 0 0-8.59 1.1L8 8l1 1 2.92-2.92 2.94 3.93L17.4 8l3.45 4.12A40.33 40.33 0 0 0 12 11zm11 1.73l-.9-.25L17.5 7 15 9l-3-4-3 3-1-1-6.16 5.49-.84.24V1.27A42.06 42.06 0 0 0 12 3a42.06 42.06 0 0 0 11-1.73zM20.5 6A1.5 1.5 0 1 0 19 4.5 1.5 1.5 0 0 0 20.5 6zm0-2.17a.67.67 0 1 1-.67.67.67.67 0 0 1 .67-.67zM23 18.5c0 1.6-3.39 2.95-8 3.36V24l-3-2.5 3-2.5v2c4.62-.45 7-1.84 7-2.46s-3.4-2.6-10-2.6S2 17.75 2 18.5s2.72 2.21 8 2.5v.9c-5.12-.3-9-1.72-9-3.44C1 16.57 5.92 15 12 15s11 1.57 11 3.5z' />
+            </svg></calcite-button>
+            <div slot="footer-trailing">
+              <calcite-button scale="xs" color="light" id="card-icon-test-2"
+                icon='M7.2 5.5a4.3 4.3 0 1 0 4.3-4.3 4.305 4.305 0 0 0-4.3 4.3zm7.644 0A3.344 3.344 0 1 1 11.5 2.156 3.348 3.348 0 0 1 14.844 5.5zM14.5 11h-6A5.506 5.506 0 0 0 3 16.5V22h17v-5.5a5.506 5.506 0 0 0-5.5-5.5zM19 21H4v-4.5A4.505 4.505 0 0 1 8.5 12h6a4.505 4.505 0 0 1 4.5 4.5z' />
+              </svg></calcite-button>
+              <calcite-button scale="xs" color="light" id="card-icon-test-1"
+                icon='M12.003.3l2.827 8.725h9.14l-7.394 5.378 2.842 8.72-7.415-5.396-7.417 5.395 2.84-8.719-7.455-5.378h9.203z' />
+              </svg></calcite-button>
+              <calcite-dropdown>
+                <calcite-button slot="dropdown-trigger" scale="xs" color="light"
+                  icon='M5.8 12A1.8 1.8 0 1 1 4 10.2 1.8 1.8 0 0 1 5.8 12zm6.2 1.8a1.8 1.8 0 1 0-1.8-1.8 1.8 1.8 0 0 0 1.8 1.8zm8 0a1.8 1.8 0 1 0-1.8-1.8 1.8 1.8 0 0 0 1.8 1.8z' />
+                </svg></calcite-button>
+                <calcite-dropdown-group selection-mode="none">
+                  <calcite-dropdown-item>View details</calcite-dropdown-item>
+                  <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                  <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                </calcite-dropdown-group>
+              </calcite-dropdown>
+            </div>
+          </calcite-card>
+          <calcite-tooltip theme="dark" reference-element="card-icon-test-1">My great tooltip example</calcite-tooltip>
+          <calcite-tooltip theme="dark" reference-element="card-icon-test-2">Sharing level: 2</calcite-tooltip>
+
+          <calcite-card>
+            <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.png" />
+            <h3 slot="title">ArcGIS Pro Editing Workflows</h3>
+            <span slot="subtitle" A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span> <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+              <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+          </calcite-card>
+          <calcite-card selected selectable>
+            <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.jpeg" />
+
+            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+            <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+            <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+          </calcite-card>
+          <calcite-card selectable>
+            <img slot="thumbnail" src="../assets/demo/images/test-card-bg-3.png" />
+
+            <h3 slot="title">Untitled experience</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+          </calcite-card>
+          <calcite-card selectable>
+            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+            <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+            <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+          </calcite-card>
+        </div>
+
+        <div class="demo-background-dark">
+          <h3>Cards: Dark</h3>
+          <calcite-card theme="dark">
+            <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.jpeg" />
+            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+
+            <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+            <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+          </calcite-card>
+          <calcite-card theme="dark">
+            <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.png" />
+            <h3 slot="title">ArcGIS Pro Editing Workflows</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+            <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+            <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+          </calcite-card>
+          <calcite-card theme="dark" selected>
+            <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.png" />
+            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+
+            <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+            <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+          </calcite-card>
+          <calcite-card theme="dark" selected selectable>
+            <img slot="thumbnail" src="../assets/demo/images/test-card-bg.png" />
+            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+          </calcite-card>
+          <calcite-card theme="dark" selected>
+            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+            <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+            <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
           </calcite-card>
         </div>
       </calcite-tab>
