@@ -103,10 +103,6 @@ export class CalcitePagination {
     this.nextPage();
   };
 
-  pageClicked() {
-
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Render Methods
