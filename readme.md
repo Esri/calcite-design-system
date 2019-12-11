@@ -31,7 +31,7 @@ Once these script tags are added, components can be used just like any other HTM
 You will also need to explicitly load the `calcite.css` file:
 
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/browse/@esri/calcite-components@1.0.0-beta.15/dist/calcite/calcite.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.15/dist/calcite/calcite.css">
 ```
 
 
