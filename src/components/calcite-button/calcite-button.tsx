@@ -7,7 +7,7 @@ import {
   Prop,
   Build
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, setElementFocus } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
@@ -170,13 +170,13 @@ export class CalciteButton {
 
   //--------------------------------------------------------------------------
   //
-  //  Private Methods
+  //  Public Methods
   //
   //--------------------------------------------------------------------------
 
   @Method()
-  async focusCalciteButton() {
-    this.childEl.focus();
+  async setFocus() {
+    setElementFocus(this.childEl);
   }
 
   //--------------------------------------------------------------------------
@@ -216,6 +216,12 @@ export class CalciteButton {
       .filter(a => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
 
   // act on a requested or nearby form based on type
   private handleClick = (e: Event) => {
