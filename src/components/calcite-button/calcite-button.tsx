@@ -7,7 +7,7 @@ import {
   Prop,
   Build
 } from "@stencil/core";
-import { getElementDir, setElementFocus } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
@@ -176,7 +176,7 @@ export class CalciteButton {
 
   @Method()
   async setFocus() {
-    setElementFocus(this.childEl);
+    this.childEl.focus();
   }
 
   //--------------------------------------------------------------------------

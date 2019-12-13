@@ -35,15 +35,3 @@ export function getSlottedElements<T extends Element>(
     T
   >;
 }
-
-export function setElementFocus(
-  el: HTMLCalciteButtonElement | HTMLCalciteNoticeElement | HTMLElement
-): void {
-  if (!el) {
-    return;
-  }
-
-  "setFocus" in el && typeof el.setFocus === "function"
-    ? el.setFocus()
-    : el.focus();
-}
