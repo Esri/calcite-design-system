@@ -338,6 +338,10 @@
       </calcite-tab>
       <calcite-tab>
         <h3>Notice</h3>
+        <calcite-button onclick=document.querySelector('#notice-one').setFocus()>focus notice close button
+        </calcite-button>
+        <br />
+        <br />
 
         <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
           <div slot="notice-title">Something failed dismissible</div>
@@ -348,7 +352,7 @@
         </calcite-notice>
         <br /> <br />
         <div class="demo-background-dark">
-          <calcite-notice theme="dark" id="notice-one" width="auto" scale="m" active>
+          <calcite-notice theme="dark" id="notice-two" width="auto" scale="m" active>
             <div slot="notice-title">Something failed</div>
             <div slot="notice-message">
               That thing you wanted to do didn't work as expected
@@ -358,7 +362,7 @@
         </div>
         <br />
         <br />
-        <calcite-notice id="notice-one" scale="l" width="half" active>
+        <calcite-notice id="notice-three" scale="l" width="half" active>
           <div slot="notice-title">Something failed</div>
           <div slot="notice-message">
             That thing you wanted to do didn't work as expected
@@ -367,7 +371,7 @@
         </calcite-notice>
         <br />
         <br />
-        <calcite-notice size="l" id="notice-one" width="full" active>
+        <calcite-notice size="l" id="notice-four" width="full" active>
           <div slot="notice-title">Welcome to your new website</div>
           <div slot="notice-message">
             This is going to be a great ride
@@ -375,7 +379,7 @@
         </calcite-notice>
         <br />
         <br />
-        <calcite-notice icon color="green" size="l" id="notice-one" active dismissible>
+        <calcite-notice icon color="green" size="l" id="notice-five" active dismissible>
           <div slot="notice-message">
             That thing you wanted to do didn't work as expected
           </div>
@@ -1285,11 +1289,12 @@
           ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
           libero aliquam, imperdiet ipsum sed, volutpat nisl.
 
-          <div class="sticky-example" id="calcite-fab-tooltip" >
+          <div class="sticky-example" id="calcite-fab-tooltip">
             <calcite-button round floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">
             </calcite-button>
           </div>
-          <calcite-tooltip theme="dark" placement="top" reference-element="calcite-fab-tooltip">Add new</calcite-tooltip>
+          <calcite-tooltip theme="dark" placement="top" reference-element="calcite-fab-tooltip">Add new
+          </calcite-tooltip>
         </div>
         <div
           style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
@@ -1334,7 +1339,7 @@
           libero aliquam, imperdiet ipsum sed, volutpat nisl.
 
           <div class="sticky-example">
-            <calcite-button round  floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">Do this thing
+            <calcite-button round floating icon="M20 13h-7v7h-3v-7H3v-3h7V3h3v7h7z">Do this thing
             </calcite-button>
           </div>
         </div>
@@ -1343,8 +1348,19 @@
           Back</calcite-button>
         <calcite-button appearance='outline'>Cancel</calcite-button>
         <calcite-button>Submit</calcite-button>
-        <calcite-button round >Inline rounded button</calcite-button>
-
+        <calcite-button round>Inline rounded button</calcite-button>
+        <h3>Set focus</h3>
+        <calcite-button onclick=document.querySelector('#button-focus-example-1').setFocus()>focus button
+        </calcite-button>
+        <calcite-button onclick=document.querySelector('#button-focus-example-2').setFocus()>focus a
+        </calcite-button>
+        <calcite-button onclick=document.querySelector('#button-focus-example-3').setFocus()>focus span
+        </calcite-button>
+        <h4>Receive focus</h4>
+        <calcite-button id="button-focus-example-1">Button to gain focus</calcite-button>
+        <calcite-button href="http://google.com" target="_blank" id="button-focus-example-2">A to gain focus
+        </calcite-button>
+        <calcite-button appearance="inline" id="button-focus-example-3">span to gain focus</calcite-button>
 
         <h5>calcite button inside form with no custom onsubmit</h5>
         <form name="form1" id="form1">
@@ -1636,101 +1652,74 @@
       </calcite-tab>
       <calcite-tab>
         <div class="example-container" style="margin: 40px 0 100px 0;">
-        <calcite-date-picker value="2019-08-23" min="2019-08-09" max="2021-12-18"></calcite-date-picker>
-        <calcite-date-picker id="dateSample"></calcite-date-picker>
-        <calcite-date-picker
-          key="condition-value"
-          min="1970-01-01"
-          max="2030-12-31"
-          start-of-week="0"
-          tabIndex="0"
-          value="2000-11-27"
-        ></calcite-date-picker>
-        <button onclick="toggleCalendar()">date with no input</button>
-        <calcite-date-picker
-          id="dateWithNoInput"
-          key="condition-value"
-          min="1970-01-01"
-          max="2030-12-31"
-          start-of-week="0"
-          tabIndex="0"
-          value="2000-11-27"
-          no-calendar-input="true"
-          show-calendar="true"
-        ></calcite-date-picker>
-        <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
-        <script>
-          var dateSample = document.getElementById("dateSample");
+          <calcite-date-picker value="2019-08-23" min="2019-08-09" max="2021-12-18"></calcite-date-picker>
+          <calcite-date-picker id="dateSample"></calcite-date-picker>
+          <calcite-date-picker key="condition-value" min="1970-01-01" max="2030-12-31" start-of-week="0" tabIndex="0"
+            value="2000-11-27"></calcite-date-picker>
+          <button onclick="toggleCalendar()">date with no input</button>
+          <calcite-date-picker id="dateWithNoInput" key="condition-value" min="1970-01-01" max="2030-12-31"
+            start-of-week="0" tabIndex="0" value="2000-11-27" no-calendar-input="true" show-calendar="true">
+          </calcite-date-picker>
+          <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
+          <script>
+            var dateSample = document.getElementById("dateSample");
 
-          dateSample.addEventListener("calciteDateChange", function (
-            e
-          ) {
-            dateSample.value = e.target.value;
-            console.log(
-              "Date selected <calcite-date>",
-              e.target.value,
-              e.target.valueAsDate
-            );
-          });
+            dateSample.addEventListener("calciteDateChange", function (
+              e
+            ) {
+              dateSample.value = e.target.value;
+              console.log(
+                "Date selected <calcite-date>",
+                e.target.value,
+                e.target.valueAsDate
+              );
+            });
 
-          function toggleCalendar() {
-            var dateWithNoInput = document.getElementById("dateWithNoInput");
-            dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-          }
-        </script>
+            function toggleCalendar() {
+              var dateWithNoInput = document.getElementById("dateWithNoInput");
+              dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
+            }
+          </script>
         </div>
 
         <div class="demo-background-dark">
-        <div class="example-container" style="margin: 40px 0 100px 0;">
-          <h1>Dark theme</h1>
-        <calcite-date-picker theme="dark" value="2019-08-23" min="2019-08-09" max="2021-12-18"></calcite-date-picker>
-        <calcite-date-picker theme="dark" id="dateSample"></calcite-date-picker>
-        <calcite-date-picker theme="dark"
-          key="condition-value"
-          min="1970-01-01"
-          max="2030-12-31"
-          start-of-week="0"
-          tabIndex="0"
-          value="2000-11-27"
-        ></calcite-date-picker>
-        <button onclick="toggleDarkCalendar()">date with no input dark</button>
-        <calcite-date-picker theme="dark"
-          id="darkDateWithNoInput"
-          key="condition-value"
-          min="1970-01-01"
-          max="2030-12-31"
-          start-of-week="0"
-          tabIndex="0"
-          value="2000-11-27"
-          no-calendar-input="true"
-          show-calendar="true"
-        ></calcite-date-picker>
-        <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
-        <script>
-          var dateSample = document.getElementById("dateSample");
+          <div class="example-container" style="margin: 40px 0 100px 0;">
+            <h1>Dark theme</h1>
+            <calcite-date-picker theme="dark" value="2019-08-23" min="2019-08-09" max="2021-12-18">
+            </calcite-date-picker>
+            <calcite-date-picker theme="dark" id="dateSample"></calcite-date-picker>
+            <calcite-date-picker theme="dark" key="condition-value" min="1970-01-01" max="2030-12-31" start-of-week="0"
+              tabIndex="0" value="2000-11-27"></calcite-date-picker>
+            <button onclick="toggleDarkCalendar()">date with no input dark</button>
+            <calcite-date-picker theme="dark" id="darkDateWithNoInput" key="condition-value" min="1970-01-01"
+              max="2030-12-31" start-of-week="0" tabIndex="0" value="2000-11-27" no-calendar-input="true"
+              show-calendar="true"></calcite-date-picker>
+            <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
+            <script>
+              var dateSample = document.getElementById("dateSample");
 
-          dateSample.addEventListener("calciteDateChange", function (
-            e
-          ) {
-            dateSample.value = e.target.value;
-            console.log(
-              "Date selected <calcite-date>",
-              e.target.value,
-              e.target.valueAsDate
-            );
-          });
+              dateSample.addEventListener("calciteDateChange", function (
+                e
+              ) {
+                dateSample.value = e.target.value;
+                console.log(
+                  "Date selected <calcite-date>",
+                  e.target.value,
+                  e.target.valueAsDate
+                );
+              });
 
-          function toggleCalendar() {
-            var dateWithNoInput = document.getElementById("dateWithNoInput");
-            dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-          }
+              function toggleCalendar() {
+                var dateWithNoInput = document.getElementById("dateWithNoInput");
+                dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
+              }
 
-          function toggleDarkCalendar() {
-            var dateWithNoInput = document.getElementById("darkDateWithNoInput");
-            dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-          }
-        </script>
-        </div>
+              function toggleDarkCalendar() {
+                var dateWithNoInput = document.getElementById("darkDateWithNoInput");
+                dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
+              }
+            </script>
+          </div>
         </div>
       </calcite-tab>
 
