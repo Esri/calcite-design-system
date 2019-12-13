@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - new `CalciteModal.focusElement` method for restoring focus to an element in a modal
 - `calcite-button` now accepts boolean attributes `round` and `floating`
-
+- `calcite-button` can now be programmatically focused with the `focusCalciteButton()` method
 
 ## [v1.0.0-beta.15] - Nov 26th 2019
 
