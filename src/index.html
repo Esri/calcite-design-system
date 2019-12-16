@@ -339,6 +339,10 @@
       </calcite-tab>
       <calcite-tab>
         <h3>Notice</h3>
+        <calcite-button onclick=document.querySelector('#notice-one').setFocus()>focus notice close button
+        </calcite-button>
+        <br />
+        <br />
 
         <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
           <div slot="notice-title">Something failed dismissible</div>
@@ -349,7 +353,7 @@
         </calcite-notice>
         <br /> <br />
         <div class="demo-background-dark">
-          <calcite-notice theme="dark" id="notice-one" width="auto" scale="m" active>
+          <calcite-notice theme="dark" id="notice-two" width="auto" scale="m" active>
             <div slot="notice-title">Something failed</div>
             <div slot="notice-message">
               That thing you wanted to do didn't work as expected
@@ -359,7 +363,7 @@
         </div>
         <br />
         <br />
-        <calcite-notice id="notice-one" scale="l" width="half" active>
+        <calcite-notice id="notice-three" scale="l" width="half" active>
           <div slot="notice-title">Something failed</div>
           <div slot="notice-message">
             That thing you wanted to do didn't work as expected
@@ -368,7 +372,7 @@
         </calcite-notice>
         <br />
         <br />
-        <calcite-notice size="l" id="notice-one" width="full" active>
+        <calcite-notice size="l" id="notice-four" width="full" active>
           <div slot="notice-title">Welcome to your new website</div>
           <div slot="notice-message">
             This is going to be a great ride
@@ -376,7 +380,7 @@
         </calcite-notice>
         <br />
         <br />
-        <calcite-notice icon color="green" size="l" id="notice-one" active dismissible>
+        <calcite-notice icon color="green" size="l" id="notice-five" active dismissible>
           <div slot="notice-message">
             That thing you wanted to do didn't work as expected
           </div>
@@ -1346,7 +1350,19 @@
         <calcite-button appearance='outline'>Cancel</calcite-button>
         <calcite-button>Submit</calcite-button>
         <calcite-button round>Inline rounded button</calcite-button>
-
+        <calcite-button round>Inline rounded button</calcite-button>
+        <h3>Set focus</h3>
+        <calcite-button onclick=document.querySelector('#button-focus-example-1').setFocus()>focus button
+        </calcite-button>
+        <calcite-button onclick=document.querySelector('#button-focus-example-2').setFocus()>focus a
+        </calcite-button>
+        <calcite-button onclick=document.querySelector('#button-focus-example-3').setFocus()>focus span
+        </calcite-button>
+        <h4>Receive focus</h4>
+        <calcite-button id="button-focus-example-1">Button to gain focus</calcite-button>
+        <calcite-button href="http://google.com" target="_blank" id="button-focus-example-2">A to gain focus
+        </calcite-button>
+        <calcite-button appearance="inline" id="button-focus-example-3">span to gain focus</calcite-button>
 
         <h5>calcite button inside form with no custom onsubmit</h5>
         <form name="form1" id="form1">

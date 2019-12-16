@@ -102,6 +102,7 @@ export class CalciteNotice {
         class="notice-close"
         aria-label="close"
         onClick={() => this.close()}
+        ref={el => (this.closeButton = el)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -146,16 +147,25 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  /** emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
+  /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
   @Method() async close() {
     this.active = false;
     this.calciteNoticeClose.emit({ requestedNotice: this.noticeId });
   }
 
-  /**  emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
+  /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
   @Method() async open() {
     this.active = true;
     this.calciteNoticeOpen.emit({ requestedNotice: this.noticeId });
+  }
+
+  /** focus the close button, if present and requested */
+  @Method()
+  async setFocus() {
+    if (!this.closeButton) {
+      return;
+    }
+    this.closeButton.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -166,6 +176,9 @@ export class CalciteNotice {
 
   /** Unique ID for this notice */
   private noticeId: string = this.el.id;
+
+  /** the close button element */
+  private closeButton?: HTMLElement;
 
   private iconDefaults = {
     green: checkCircle24F,
