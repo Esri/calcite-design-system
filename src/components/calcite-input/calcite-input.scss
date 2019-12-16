@@ -6,21 +6,13 @@ calcite-input[theme="dark"] {
   --calcite-input-status-valid-focus-shadow-color: #{rgba($d-gg-420, 0.4)};
   --calcite-input-status-invalid-focus-shadow-color: #{rgba($d-rr-420, 0.4)};
 }
-// You can use any SASS from Calcite Base and Calcite Colors here.
-calcite-input {
-  display: block;
-  width: 100%;
-  position: relative;
-  text-align: left;
-  margin-top: $baseline/4;
-}
 
 calcite-input textarea,
 calcite-input input {
-  display: block;
-  width: 100%;
+  display: inline-flex;
+  flex: auto;
+  position: relative;
   max-width: 100%;
-  min-width: 100%;
   max-height: 100%;
   box-sizing: border-box;
   font-family: inherit;
@@ -34,6 +26,7 @@ calcite-input input {
   outline: 0;
   background-color: var(--calcite-ui-foreground);
   color: var(--calcite-ui-blue);
+  order: 3;
   &::placeholder {
     color: var(--calcite-ui-text-3);
     opacity: 0.7;
@@ -168,101 +161,82 @@ calcite-input[icon] input {
   justify-content: center;
 }
 
+.calcite-input-prefix,
+.calcite-input-suffix {
+  display: inline-flex;
+  max-width: calc(100% / 3);
+  width: auto;
+  height: 100%;
+  border: 1px solid var(--calcite-ui-border-1);
+  padding: $baseline/2;
+
+  & span {
+    display: flex;
+    font-weight: 600;
+    opacity: 0.7;
+    color: var(--calcite-ui-text-3);
+  }
+}
+.calcite-input-prefix {
+  order: 2;
+  border-right-width: 0px;
+}
+.calcite-input-suffix {
+  order: 4;
+  border-left-width: 0px;
+}
+
 .calcite-input-number-button-wrapper {
   box-sizing: border-box;
-  position: absolute;
   display: flex;
   align-items: center;
   flex-direction: column;
+  box-sizing: border-box;
   //rtl
   right: 0;
   top: 0;
   bottom: 0;
-  border: 1px solid transparent;
-  border-left: 1px solid var(--calcite-ui-border-1);
+  order: 35;
   transition: $transition;
-    pointer-events: none;
+  pointer-events: none;
   & svg {
     height: 8px;
     width: 8px;
   }
-
-}
-:host(:hover) .calcite-input-number-button-wrapper {
-  border-color: var(--calcite-ui-border-1);
 }
 
-calcite-input[appearance="minimal"] {
-& .calcite-input-number-button-wrapper {
-  border-color: transparent;
-
-}
-& .calcite-input-number-button-wrapper .calcite-input-number-button-item,
-& .calcite-input-number-button-wrapper-horizontal .calcite-input-number-button-item,
-& .calcite-input-number-button-wrapper-vertical .calcite-input-number-button-item {
-  background-color: transparent;
-  border-color: transparent;
-  &:hover,
-  &:focus {
-    background-color: var(--calcite-ui-foreground-hover);
-  }
-  &:active {
-    background-color: var(--calcite-ui-foreground-pressed);
-  }
-}
-}
 calcite-input[number-button-type="vertical"] .calcite-input-wrapper {
   flex-direction: row;
   display: flex;
 }
 calcite-input[number-button-type="vertical"] input,
 calcite-input[number-button-type="vertical"] textarea {
-  order:2;
+  order: 2;
 }
-
-calcite-input[number-button-type="horizontal"] input {
-  padding-left:$baseline * 2;
-  padding-right: $baseline * 2;
-}
-.calcite-input-number-button-wrapper-horizontal {
-  width: 100%;
-  border-left-color: transparent;
-}
-
-.calcite-input-number-button-wrapper-horizontal
-  .calcite-input-number-button-item {
-  &:first-of-type {
-    border-bottom: none;
-  }
-}
-
-.calcite-input-number-button-wrapper-horizontal
-  .calcite-input-number-button-item[data-adjustment="up"] {
-  min-height: 100%;
-  max-height: 100%;
-  order: 3;
-  position:absolute;
-  right:0;
-  // todo rtl
-  border-left: 1px solid $blk-030;
-  & svg {
-    transform: rotate(90deg);
-  }
-}
-.calcite-input-number-button-wrapper-horizontal
-  .calcite-input-number-button-item[data-adjustment="down"] {
+.calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"],
+.calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
   min-height: 100%;
   max-height: 100%;
   order: 1;
-  position:absolute;
-  left:0;
-  // todo rtl
-  border-right: 1px solid $blk-030;
-  border-left: 2px solid transparent;
   & svg {
     transform: rotate(90deg);
   }
 }
+
+.calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
+  border-left: 1px solid var(--calcite-ui-border-1);
+  border-right: 0px;
+  //rtil
+}
+.calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"] {
+  order: 6;
+}
+
+calcite-input[number-button-type="vertical"]
+  .calcite-input-number-button-item[data-adjustment="down"] {
+  border-top: 0;
+}
+
 .calcite-input-number-button-item {
   display: flex;
   align-items: center;
@@ -271,12 +245,11 @@ calcite-input[number-button-type="horizontal"] input {
   max-height: 50%;
   min-height: 50%;
   padding: 0 $baseline/2;
+  border: 1px solid var(--calcite-ui-border-1);
   transition: $transition;
   pointer-events: initial;
   background-color: var(--calcite-ui-foreground);
-  &:first-of-type {
-    border-bottom: 1px solid $blk-030;
-  }
+  border-left: none;
 
   & svg {
     pointer-events: none;
@@ -291,17 +264,15 @@ calcite-input[number-button-type="horizontal"] input {
     background-color: var(--calcite-ui-foreground-pressed);
   }
 }
-.calcite-input-wrapper,
-.calite-input-wrapper-2 {
+.calcite-input-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  margin-top: $baseline/4;
   position: relative;
 }
 
 //todo rtl
-calcite-input input[type="number"] {
-  padding-right: $baseline * 2;
-}
+
 calcite-input input[type="number"]::-webkit-inner-spin-button,
 calcite-input input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -319,8 +290,8 @@ calcite-input textarea::-webkit-resizer {
   bottom: 0;
   right: 0;
   cursor: row-resize;
-  border-top: 1px solid $blk-030;
-  border-left: 1px solid $blk-030;
+  border-top: 1px solid var(--calcite-ui-border-3);
+  border-left: 1px solid var(--calcite-ui-border-3);
   padding: 0 $baseline/4;
 }
 

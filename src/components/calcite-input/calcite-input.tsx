@@ -61,10 +61,17 @@ export class CalciteInput {
   /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
   @Prop({ mutable: true, reflect: true }) icon?: string;
 
+  /** optionally add prefix  **/
+  @Prop({ mutable: true }) prefixString?: string;
+
+  /** optionally add suffix  **/
+  @Prop({ mutable: true }) suffixString?: string;
+
   /** specify the placement of the number buttons */
   @Prop({ mutable: true, reflect: true }) numberButtonType?:
     | "vertical"
-    | "horizontal" = "vertical";
+    | "horizontal"
+    | "none" = "vertical";
 
   /** specify the alignment of dropdown, defaults to left */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
@@ -99,7 +106,7 @@ export class CalciteInput {
     let appearance = ["minimal", "default"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
 
-    let numberButtonType = ["vertical", "horizontal"];
+    let numberButtonType = ["vertical", "horizontal", "none"];
     if (
       this.inputType === "number" &&
       !numberButtonType.includes(this.numberButtonType)
@@ -137,28 +144,35 @@ export class CalciteInput {
       </div>
     );
 
-    // todo cleanup
-    const numberButtonClass =
+    const numberButtonClassModifier =
       this.numberButtonType === "horizontal"
-        ? "calcite-input-number-button-wrapper-horizontal"
+        ? "number-button-item-horizontal"
         : null;
 
-    const numberButtons = (
-      <div class={`calcite-input-number-button-wrapper ${numberButtonClass}`}>
-        <div
-          class="calcite-input-number-button-item"
-          onClick={e => this.handleNumberButtonClick(e)}
-          data-adjustment="up"
-        >
-          <CalciteIcon size="16" path={chevronUp16F} />
-        </div>
-        <div
-          class="calcite-input-number-button-item"
-          onClick={e => this.handleNumberButtonClick(e)}
-          data-adjustment="down"
-        >
-          <CalciteIcon size="16" path={chevronDown16F} />
-        </div>
+    const numberButtonsHorizontalUp = (
+      <div
+        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
+        onClick={e => this.handleNumberButtonClick(e)}
+        data-adjustment="up"
+      >
+        <CalciteIcon size="16" path={chevronUp16F} />
+      </div>
+    );
+
+    const numberButtonsHorizontalDown = (
+      <div
+        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
+        onClick={e => this.handleNumberButtonClick(e)}
+        data-adjustment="down"
+      >
+        <CalciteIcon size="16" path={chevronDown16F} />
+      </div>
+    );
+
+    const numberButtonsVertical = (
+      <div class={`calcite-input-number-button-wrapper`}>
+        {numberButtonsHorizontalUp}
+        {numberButtonsHorizontalDown}
       </div>
     );
 
@@ -185,13 +199,32 @@ export class CalciteInput {
           <slot />
         </textarea>
       );
+    // todo rtl for up / down button
     return (
       <Host dir={dir} theme={theme}>
         <div class="calcite-input-wrapper">
+          {this.inputType === "number" && this.numberButtonType === "horizontal"
+            ? numberButtonsHorizontalDown
+            : null}
+          {this.prefixString ? (
+            <div class="calcite-input-prefix">
+              <span>{this.prefixString}</span>
+            </div>
+          ) : null}
           {childEl}
+          {this.inputType === "number" && this.numberButtonType === "vertical"
+            ? numberButtonsVertical
+            : null}
+          {this.suffixString ? (
+            <div class="calcite-input-suffix">
+              <span>{this.suffixString}</span>
+            </div>
+          ) : null}
+          {this.inputType === "number" && this.numberButtonType === "horizontal"
+            ? numberButtonsHorizontalUp
+            : null}
           {this.icon ? icon : null}
           {this.loading ? loader : null}
-          {this.inputType === "number" ? numberButtons : null}
         </div>
       </Host>
     );
