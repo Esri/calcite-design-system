@@ -134,7 +134,6 @@ export class CalciteInput {
   }
 
   render() {
-    const theme = getElementTheme(this.el);
     const dir = getElementDir(this.el);
     const icon = this.setIcon(this.icon);
     const attributes = this.getAttributes();
@@ -199,9 +198,9 @@ export class CalciteInput {
           <slot />
         </textarea>
       );
-    // todo rtl for up / down button
+
     return (
-      <Host dir={dir} theme={theme}>
+      <Host dir={dir}>
         <div class="calcite-input-wrapper">
           {this.inputType === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown

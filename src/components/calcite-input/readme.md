@@ -10,6 +10,7 @@
 
 `icon` = [`path string`] - example: `<calcite-input icon={chevronUp24}>`
 
+`prefix-string` and `suffix-string` allow you position strings in a leading and trailing position.
 
 #### Native attributes
 In addition to custom attributes, you can pass any attribute to `<calcite-input>` you could to a native input element:
