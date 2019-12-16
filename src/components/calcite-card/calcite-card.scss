@@ -1,13 +1,5 @@
-// todo scale s m l
-// todo
-
 :host {
-  display: inline-flex;
-  flex-flow: column;
-  width: 260px;
   max-width: 100%;
-  // todo remove margin and inlineflex and sizing?
-  margin: $baseline/4;
   & > a {
     display: flex;
     height: 100%;
@@ -53,7 +45,6 @@
 
 // selectable and selected styles
 
-
 :host([selectable]) > a:active {
   box-shadow: $shadow-1--press;
 }
@@ -61,9 +52,6 @@
 :host([selected]) > a {
   border-color: var(--calcite-ui-blue);
 }
-
-
-
 
 // slotted content
 @include slotted("title", "*") {
