@@ -146,15 +146,22 @@ export class CalciteCard {
   private renderCheckbox(): VNode {
     const uniqueId = `calcite-card-checkbox-${guid()}`;
     return (
-      <div
-        class="card-checkbox-wrapper"
-        onClick={() => this.cardSelectClick()}
-        onKeyDown={e => this.cardSelectKeyDown(e)}
-      >
-        <calcite-checkbox
-          checked={this.selected}
+      <div>
+        <div
+          class="card-checkbox-wrapper"
+          onClick={() => this.cardSelectClick()}
+          onKeyDown={e => this.cardSelectKeyDown(e)}
           id={uniqueId}
-        ></calcite-checkbox>
+        >
+          <calcite-checkbox checked={this.selected}></calcite-checkbox>
+        </div>
+        <calcite-tooltip
+          id={`calcite-card-tooltip-${guid()}`}
+          referenceElement={uniqueId}
+          placement="bottom"
+        >
+          I'm tooltip
+        </calcite-tooltip>
       </div>
     );
   }
