@@ -48,7 +48,8 @@ export const config: Config = {
         "calcite-date-day"
       ]
     },
-    { components: ["calcite-tree", "calcite-tree-item"] }
+    { components: ["calcite-tree", "calcite-tree-item"] },
+    { components: ["calcite-ui-icon"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
@@ -68,5 +69,10 @@ export const config: Config = {
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     })
-  ]
+  ],
+  testing: {
+    moduleNameMapper: {
+      "^/assets/(.*)$": "<rootDir>/support/iconPathDataStub.js"
+    }
+  }
 };
