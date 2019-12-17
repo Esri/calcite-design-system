@@ -29,7 +29,9 @@ In addition to custom attributes, you can pass any attribute to `<calcite-input>
 * `file` type replaces browser "file" input with custom replacement
 
 * `tel`, `email`, `password`, `search` types will add type-specific icons
- 
+* 
+ ### Slots
+ - a  `calcite-action` slot is available for positioning a button next ot an input
 
 ### Events
 #### Custom events
@@ -128,18 +130,20 @@ calcite-input outside native-label
 
 ## Properties
 
-| Property      | Attribute      | Description                                                                                                                      | Type                             | Default     |
-| ------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `appearance`  | `appearance`   | specify the appearance type - minimal or default                                                                                 | `"default" \| "minimal"`         | `"default"` |
-| `autofocus`   | `autofocus`    | should the input autofocus                                                                                                       | `boolean`                        | `false`     |
-| `icon`        | `icon`         | optionally pass icon path data - pass only raw path data from calcite ui helper                                                  | `string`                         | `undefined` |
-| `loading`     | `loading`      | specify if the input is in loading state                                                                                         | `boolean`                        | `false`     |
-| `messageType` | `message-type` | specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) | `"default" \| "floating"`        | `"default"` |
-| `required`    | `required`     | is the input required                                                                                                            | `boolean`                        | `false`     |
-| `scale`       | `scale`        | specify the scale of the input, defaults to m                                                                                    | `"l" \| "m" \| "s"`              | `"m"`       |
-| `status`      | `status`       | specify the status of the input field, determines message and icons                                                              | `"idle" \| "invalid" \| "valid"` | `undefined` |
-| `theme`       | `theme`        | specify the alignment of dropdown, defaults to left                                                                             | `"dark" \| "light"`              | `"light"`   |
-| `width`       | `width`        | specify the width                                                                                                                | `"auto" \| "full" \| "half"`     | `"full"`    |
+| Property           | Attribute            | Description                                                                     | Type                                   | Default      |
+| ------------------ | -------------------- | ------------------------------------------------------------------------------- | -------------------------------------- | ------------ |
+| `appearance`       | `appearance`         | specify the appearance type - minimal or default                                | `"default" \| "minimal"`               | `"default"`  |
+| `autofocus`        | `autofocus`          | should the input autofocus                                                      | `boolean`                              | `false`      |
+| `icon`             | `icon`               | optionally pass icon path data - pass only raw path data from calcite ui helper | `string`                               | `undefined`  |
+| `loading`          | `loading`            | specify if the input is in loading state                                        | `boolean`                              | `false`      |
+| `numberButtonType` | `number-button-type` | specify the placement of the number buttons                                     | `"horizontal" \| "none" \| "vertical"` | `"vertical"` |
+| `prefixString`     | `prefix-string`      | optionally add prefix  *                                                        | `string`                               | `undefined`  |
+| `required`         | `required`           | is the input required                                                           | `boolean`                              | `false`      |
+| `scale`            | `scale`              | specify the scale of the input, defaults to m                                   | `"l" \| "m" \| "s"`                    | `"m"`        |
+| `status`           | `status`             | specify the status of the input field, determines message and icons             | `"idle" \| "invalid" \| "valid"`       | `undefined`  |
+| `suffixString`     | `suffix-string`      | optionally add suffix  *                                                        | `string`                               | `undefined`  |
+| `theme`            | `theme`              | specify the alignment of dropdown, defaults to left                             | `"dark" \| "light"`                    | `"light"`    |
+| `width`            | `width`              | specify the width                                                               | `"auto" \| "full" \| "half"`           | `"full"`     |
 
 
 ## Events

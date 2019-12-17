@@ -23,11 +23,17 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 
 ## Properties
 
-| Property | Attribute | Description                                                                     | Type                             | Default     |
-| -------- | --------- | ------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `icon`   | `icon`    | optionally pass icon path data - pass only raw path data from calcite ui helper | `string`                         | `undefined` |
-| `status` | `status`  | specify the status of the input field, determines message and icons             | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
-| `theme`  | `theme`   | specify the alignment of dropdown, defaults to left                            | `"dark" \| "light"`              | `"light"`   |
+| Property | Attribute | Description                                                          | Type                             | Default   |
+| -------- | --------- | -------------------------------------------------------------------- | -------------------------------- | --------- |
+| `status` | `status`  | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"` | `"idle"`  |
+| `theme`  | `theme`   | specify theme of the lavel and its any child input / input messages  | `"dark" \| "light"`              | `"light"` |
+
+
+## Events
+
+| Event                       | Description | Type               |
+| --------------------------- | ----------- | ------------------ |
+| `calciteLabelSelectedEvent` |             | `CustomEvent<any>` |
 
 
 ----------------------------------------------

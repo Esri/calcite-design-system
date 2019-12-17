@@ -43,11 +43,22 @@ storiesOf("Input", module)
         },
         "default"
       )}"
+      number-button-type="${select(
+        "number-button-type",
+        {
+          none: "none",
+          horizontal: "horizontal",
+          vertical: "vertical"
+        },
+        "horizontal"
+      )}"
+      prefix-string="${text("prefix-string", "")}"
+      suffix-string="${text("suffix-string", "")}"
       loading="${boolean("loading", false)}"
       autofocus="${boolean("autofocus", false)}"
       required="${boolean("required", false)}"
       value="${text("value", "")}"
-      placeholder="Enter your thing">
+      placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     <calcite-input-message
     active="${boolean("input-message-active", false)}"
@@ -104,7 +115,7 @@ storiesOf("Input", module)
       autofocus="${boolean("autofocus", false)}"
       required="${boolean("required", false)}"
       value="${text("value", "")}"
-      placeholder="Enter your thing">
+      placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     <calcite-input-message
     active="${boolean("input-message-active", false)}"
@@ -171,14 +182,25 @@ storiesOf("Input", module)
         },
         "default"
       )}"
+      number-button-type="${select(
+        "number-button-type",
+        {
+          none: "none",
+          horizontal: "horizontal",
+          vertical: "vertical"
+        },
+        "horizontal"
+      )}"
+      prefix-string="${text("prefix-string", "")}"
+      suffix-string="${text("suffix-string", "")}"
       loading="${boolean("loading", false)}"
       autofocus="${boolean("autofocus", false)}"
       required="${boolean("required", false)}"
       value="${text("value", "")}"
-      placeholder="Enter your thing">
+      placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     <calcite-input-message
-    active="${boolean("input-message-active", false)}"
+    active="${boolean("calcite-input-message:active", false)}"
     type="${select(
       "input message type",
       {

@@ -3235,7 +3235,8 @@
 
                 <calcite-label>
                   Number input - button type horizontal
-                  <calcite-input theme="dark" type="number" number-button-type="horizontal" placeholder="How many apples?">
+                  <calcite-input theme="dark" type="number" number-button-type="horizontal"
+                    placeholder="How many apples?">
                   </calcite-input>
                 </calcite-label>
 
@@ -3253,29 +3254,34 @@
                 </calcite-label>
 
                 <calcite-label>
-                 Enter your organization's URL below
-                  <calcite-input theme="dark" suffix-string=".maps.arcgis.com"
-                    placeholder="Email">
+                  Enter your organization's URL below
+                  <calcite-input theme="dark" suffix-string=".maps.arcgis.com" placeholder="Email">
                   </calcite-input>
                 </calcite-label>
                 <calcite-label>
                   prefix and suffix
-                  <calcite-input theme="dark" type="number" number-button-type="none" prefix-string="$" suffix-string=".00"
-                    placeholder="0">
+                  <calcite-input theme="dark" type="number" number-button-type="none" prefix-string="$"
+                    suffix-string=".00" placeholder="0">
+                    <calcite-button slot="input-action">Go</calcite-button>
                   </calcite-input>
                 </calcite-label>
                 <calcite-label>
-                    prefix and suffix w numbers
-                    <calcite-input theme="dark" type="number"  prefix-string="$" suffix-string=".00"
-                      placeholder="0">
-                    </calcite-input>
-                  </calcite-label>
-                  <calcite-label>
-                      prefix and suffix w numbers horizontal
-                      <calcite-input theme="dark" type="number" number-button-type="horizontal" prefix-string="$" suffix-string=".00"
-                        placeholder="0">
-                      </calcite-input>
-                    </calcite-label>
+                  prefix and suffix w numbers
+                  <calcite-input theme="dark" type="number" prefix-string="$" suffix-string=".00" placeholder="0">
+                  </calcite-input>
+                </calcite-label>
+                <calcite-label>
+                  prefix and suffix w numbers horizontal
+                  <calcite-input theme="dark" type="number" number-button-type="horizontal" prefix-string="$"
+                    suffix-string=".00" placeholder="0">
+                  </calcite-input>
+                </calcite-label>
+                <calcite-label>
+                  prefix and suffix w long text
+                  <calcite-input theme="dark" type="number" number-button-type="horizontal" prefix-string="$ (USD)"
+                    suffix-string="no cents here" placeholder="0">
+                  </calcite-input>
+                </calcite-label>
                 <calcite-label>
                   File input
                   <calcite-input theme="dark" type="file" placeholder="Drag 'em' here"></calcite-input>

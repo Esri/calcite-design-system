@@ -9,7 +9,7 @@ import {
   Prop,
   State
 } from "@stencil/core";
-import { getElementProp, getElementTheme } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { chevronUp16F } from "@esri/calcite-ui-icons";
 import { chevronDown16F } from "@esri/calcite-ui-icons";
 import { phone16F } from "@esri/calcite-ui-icons";
@@ -207,16 +207,17 @@ export class CalciteInput {
             : null}
           {this.prefixString ? (
             <div class="calcite-input-prefix">
-              <span>{this.prefixString}</span>
+              {this.prefixString}
             </div>
           ) : null}
           {childEl}
+          <slot name="input-action"></slot>
           {this.inputType === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical
             : null}
           {this.suffixString ? (
             <div class="calcite-input-suffix">
-              <span>{this.suffixString}</span>
+              {this.suffixString}
             </div>
           ) : null}
           {this.inputType === "number" && this.numberButtonType === "horizontal"

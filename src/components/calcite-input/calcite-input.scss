@@ -14,6 +14,8 @@ calcite-input input {
   position: relative;
   max-width: 100%;
   max-height: 100%;
+  min-width: 20%;
+  flex: 1;
   box-sizing: border-box;
   font-family: inherit;
   border: 1px solid var(--calcite-ui-border-1);
@@ -150,21 +152,18 @@ calcite-input[icon] input {
 
 .calcite-input-prefix,
 .calcite-input-suffix {
-  display: inline-flex;
+  display: flex;
+  height: auto;
+  min-height: 100%;
+  font-weight: 600;
+  padding: $baseline/2;
+  word-break: break-word;
   user-select: none;
-  width: auto;
-  height: 100%;
   border: 1px solid var(--calcite-ui-border-1);
   background-color: var(--calcite-ui-background);
-
-  & span {
-    word-break: break-word;
-    display: block;
-    font-weight: 600;
-    padding: $baseline/2;
-    opacity: 0.7;
-    color: var(--calcite-ui-text-3);
-  }
+  color: var(--calcite-ui-text-3);
+  align-items: center;
+  align-content: center;
 }
 .calcite-input-prefix {
   order: 2;
@@ -178,30 +177,23 @@ calcite-input[icon] input {
 .calcite-input-number-button-wrapper {
   box-sizing: border-box;
   display: flex;
-  align-items: center;
   flex-direction: column;
   box-sizing: border-box;
-  //rtl
-  right: 0;
-  top: 0;
-  bottom: 0;
-  order: 35;
   transition: $transition;
   pointer-events: none;
-  & svg {
-    height: 8px;
-    width: 8px;
-  }
+  order: 35;
 }
 
 calcite-input[number-button-type="vertical"] .calcite-input-wrapper {
   flex-direction: row;
   display: flex;
 }
+
 calcite-input[number-button-type="vertical"] input,
 calcite-input[number-button-type="vertical"] textarea {
   order: 2;
 }
+
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"],
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
   min-height: 100%;
@@ -255,8 +247,8 @@ calcite-input[number-button-type="vertical"]
 }
 
 calcite-input[appearance="minimal"] .calcite-input-number-button-item,
-calcite-input[appearance="minimal"] .calcite-input-number-button-item.number-button-item-horizontal
-{
+calcite-input[appearance="minimal"]
+  .calcite-input-number-button-item.number-button-item-horizontal {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
@@ -274,7 +266,9 @@ calcite-input[appearance="minimal"][number-button-type="vertical"]
 }
 
 //todo rtl
-
+calcite-input input[type="number"] {
+  text-align: right;
+}
 calcite-input input[type="number"]::-webkit-inner-spin-button,
 calcite-input input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
