@@ -1,4 +1,13 @@
-import { Component, h, Element, Prop, State, Watch, Host } from "@stencil/core";
+import {
+  Component,
+  h,
+  Element,
+  Prop,
+  State,
+  Watch,
+  Host,
+  Build
+} from "@stencil/core";
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
@@ -140,7 +149,7 @@ export class CalciteUIIcon {
   private async loadIconPathData(): Promise<void> {
     const { filled, icon, scale, visible } = this;
 
-    if (!icon || !visible) {
+    if (!Build.isBrowser || !icon || !visible) {
       return;
     }
 
@@ -148,8 +157,13 @@ export class CalciteUIIcon {
   }
 
   private waitUntilVisible(callback: () => void): void {
-    if (!(window as any).IntersectionObserver) {
+    if (
+      !Build.isBrowser ||
+      typeof window === "undefined" ||
+      !(window as any).IntersectionObserver
+    ) {
       callback();
+      return;
     }
 
     this.intersectionObserver = new IntersectionObserver(
