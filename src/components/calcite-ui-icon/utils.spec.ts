@@ -71,7 +71,7 @@ describe("utils", () => {
       expect(normalizeIconName("aZ")).toBe("aZ");
       expect(normalizeIconName("a-z")).toBe("aZ");
       expect(normalizeIconName("2d-explore")).toBe("i2DExplore");
-      expect(normalizeIconName("2dExplore")).toBe("i2dExplore");
+      expect(normalizeIconName("2DExplore")).toBe("i2DExplore");
     });
   });
 });
