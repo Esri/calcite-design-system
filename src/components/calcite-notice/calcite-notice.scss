@@ -1,6 +1,4 @@
-// theme variables
-// light theme
-
+// scale variables
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: #{$baseline/2};
   --calcite-notice-spacing-token-large: #{$baseline/1.5};
