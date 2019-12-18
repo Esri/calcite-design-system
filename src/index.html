@@ -338,7 +338,9 @@
       </calcite-tab>
       <calcite-tab>
         <h3>Notice</h3>
-        <calcite-button onclick=document.querySelector('#notice-one').setFocus()>focus notice close button
+        <calcite-button onclick=document.querySelector('#notice-one').setFocus()>focus first notice item
+        </calcite-button>
+        <calcite-button onclick=document.querySelector('#notice-six').setFocus()>focus first notice item
         </calcite-button>
         <br />
         <br />
@@ -352,12 +354,21 @@
         </calcite-notice>
         <br /> <br />
         <div class="demo-background-dark">
-          <calcite-notice theme="dark" id="notice-two" width="auto" scale="m" active>
-            <div slot="notice-title">Something failed</div>
+          <calcite-notice icon theme="dark" color="yellow" id="notice-two" width="auto" scale="m" active>
+            <div slot="notice-title">Something kind of worked</div>
             <div slot="notice-message">
-              That thing you wanted to do didn't work as expected
+              One part of that thing you wanted to do didn't work as expected
             </div>
-            <calcite-button slot="notice-link" title="my action" appearance="inline">Retry</calcite-button>
+            <calcite-button slot="notice-link" theme="dark" title="my action" appearance="inline">View item
+            </calcite-button>
+          </calcite-notice>
+          <br />
+          <br />
+          <calcite-notice icon color="green" theme="dark" id="notice-six" width="auto" scale="m" active dismissible>
+            <div slot="notice-title">Something worked</div>
+            <div slot="notice-message">
+              That thing you wanted to do worked as expected
+            </div>
           </calcite-notice>
         </div>
         <br />

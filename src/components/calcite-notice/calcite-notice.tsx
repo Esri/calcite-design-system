@@ -95,6 +95,15 @@ export class CalciteNotice {
     if (!widths.includes(this.width)) this.width = "auto";
   }
 
+  componentDidLoad() {
+    this.noticeLinkSlot = this.el.shadowRoot.querySelector(
+      'slot[name="notice-link"]'
+    );
+    let childEl = this.noticeLinkSlot.assignedNodes()[0];
+    if (childEl && childEl.nodeName === "CALCITE-BUTTON")
+      this.noticeLinkEl = childEl as HTMLCalciteButtonElement;
+  }
+
   render() {
     const dir = getElementDir(this.el);
     const closeButton = (
@@ -162,10 +171,13 @@ export class CalciteNotice {
   /** focus the close button, if present and requested */
   @Method()
   async setFocus() {
-    if (!this.closeButton) {
+    if (!this.closeButton && !this.noticeLinkEl) {
       return;
     }
-    this.closeButton.focus();
+    if (this.noticeLinkEl) this.noticeLinkEl.setFocus();
+    else if (this.closeButton) {
+      this.closeButton.focus();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -179,6 +191,12 @@ export class CalciteNotice {
 
   /** the close button element */
   private closeButton?: HTMLElement;
+
+  /** the notice link slot */
+  private noticeLinkSlot?: HTMLSlotElement;
+
+  /** the notice link child element  */
+  private noticeLinkEl?: HTMLCalciteButtonElement;
 
   private iconDefaults = {
     green: checkCircle24F,
