@@ -109,10 +109,10 @@ export class CalciteUIIcon {
       <Host role="img">
         <svg
           class={{
-            [CSS.icon]: true,
             [CSS.mirrored]: dir === "rtl" && mirrored
           }}
           xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
           height={size}
           width={size}
           viewBox={`0 0 ${size} ${size}`}
