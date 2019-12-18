@@ -72,7 +72,7 @@ export const config: Config = {
   ],
   testing: {
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/support/iconPathDataStub.js"
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js"
     }
   }
 };

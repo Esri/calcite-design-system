@@ -1,18 +1,20 @@
 import {
   fetchIcon,
   FetchIconProps,
-  iconCache, normalizeIconName,
+  iconCache,
+  normalizeIconName,
   requestCache,
   scaleToPx
 } from "./utils";
 
 describe("utils", () => {
-  describe("scaleToPx", () =>
+  describe("scaleToPx", () => {
     it("maps scale values to sizes", () => {
       expect(scaleToPx["s"]).toBe(16);
       expect(scaleToPx["m"]).toBe(24);
       expect(scaleToPx["l"]).toBe(32);
-    }));
+    });
+  });
 
   describe("fetchIcon", () => {
     it("avoids fetching if icon data is available", async () => {
