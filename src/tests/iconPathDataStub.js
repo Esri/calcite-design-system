@@ -1,2 +1,2 @@
-// used for testing utils for calcite-ui-icon
+// used for testing utils for calcite-icon
 module.exports = {};

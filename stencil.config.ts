@@ -49,7 +49,7 @@ export const config: Config = {
       ]
     },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-ui-icon"] }
+    { components: ["calcite-icon"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },

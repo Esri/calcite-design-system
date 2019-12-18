@@ -10,33 +10,33 @@ const iconNames = Object.keys(icons)
   .map(iconName => iconName.replace("16", ""));
 
 export default {
-  title: "UI Icon",
+  title: "Icon",
   decorators: [withKnobs],
   parameters: { notes }
 };
 
 export const simple = () =>
-  `<calcite-ui-icon icon="${select(
+  `<calcite-icon icon="${select(
     "icon",
     iconNames,
     iconNames[0]
   )}" scale="${select("size", ["s", "m", "l"], "m")}" filled="${boolean(
     "filled",
     false
-  )}"></calcite-ui-icon>`;
+  )}"></calcite-icon>`;
 
 export const RTL = () =>
-  `<calcite-ui-icon dir="rtl" icon="arrowBoldLeft" mirror="${boolean(
+  `<calcite-icon dir="rtl" icon="arrowBoldLeft" mirror="${boolean(
     "mirror",
     false
-  )}"></calcite-ui-icon>`;
+  )}"></calcite-icon>`;
 
 export const darkMode = () =>
-  `<calcite-ui-icon dir="rtl" icon="${select(
+  `<calcite-icon dir="rtl" icon="${select(
     "icon",
     iconNames,
     iconNames[0]
-  )}" theme="dark"></calcite-ui-icon>`;
+  )}" theme="dark"></calcite-icon>`;
 
 darkMode.story = {
   parameters: {

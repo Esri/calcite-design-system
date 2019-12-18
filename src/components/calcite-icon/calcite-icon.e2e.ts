@@ -3,9 +3,9 @@ import { defaults, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
-describe("calcite-ui-icon", () => {
+describe("calcite-icon", () => {
   it("has defaults", async () =>
-    defaults("calcite-ui-icon", [
+    defaults("calcite-icon", [
       { propertyName: "filled", defaultValue: false },
       { propertyName: "mirrored", defaultValue: false },
       { propertyName: "theme", defaultValue: "light" },
@@ -13,7 +13,7 @@ describe("calcite-ui-icon", () => {
     ]));
 
   it("reflects", async () =>
-    reflects("calcite-ui-icon", [
+    reflects("calcite-icon", [
       { propertyName: "filled", value: true },
       { propertyName: "mirrored", value: true },
       { propertyName: "theme", value: "light" },
@@ -22,9 +22,9 @@ describe("calcite-ui-icon", () => {
 
   it("mirrors icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-ui-icon icon='a-z'></calcite-ui-icon>`);
-    const icon = await page.find(`calcite-ui-icon`);
-    const mirroredIconSelector = `calcite-ui-icon >>> .${CSS.mirrored}`;
+    await page.setContent(`<calcite-icon icon='a-z'></calcite-icon>`);
+    const icon = await page.find(`calcite-icon`);
+    const mirroredIconSelector = `calcite-icon >>> .${CSS.mirrored}`;
 
     expect(await page.find(mirroredIconSelector)).toBeNull();
 
@@ -36,12 +36,12 @@ describe("calcite-ui-icon", () => {
   });
 
   describe("rendering", () => {
-    it("basic", async () => renders("calcite-ui-icon"));
+    it("basic", async () => renders("calcite-icon"));
 
     it("uses path data to render icon", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-ui-icon icon='a-z'></calcite-ui-icon>");
-      const path = await page.find(`calcite-ui-icon >>> path`);
+      await page.setContent("<calcite-icon icon='a-z'></calcite-icon>");
+      const path = await page.find(`calcite-icon >>> path`);
 
       expect(await path.getAttribute("d")).toBeTruthy();
 
@@ -49,9 +49,9 @@ describe("calcite-ui-icon", () => {
 
     it("supports both camelcase and kebab case for icon name", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-ui-icon icon='a-z'></calcite-ui-icon>");
-      const icon = await page.find(`calcite-ui-icon`);
-      const path = await page.find(`calcite-ui-icon >>> path`);
+      await page.setContent("<calcite-icon icon='a-z'></calcite-icon>");
+      const icon = await page.find(`calcite-icon`);
+      const path = await page.find(`calcite-icon >>> path`);
       const iconPathData = await path.getAttribute("d");
 
       icon.setProperty("icon", "aZ");
@@ -63,11 +63,11 @@ describe("calcite-ui-icon", () => {
     it("loads icon when it's close to viewport", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-ui-icon icon='a-z' style="margin-top: 1000px"></calcite-ui-icon>`
+        `<calcite-icon icon='a-z' style="margin-top: 1000px"></calcite-icon>`
       );
 
-      const icon = await page.find(`calcite-ui-icon`);
-      let path = await page.find(`calcite-ui-icon >>> path`);
+      const icon = await page.find(`calcite-icon`);
+      let path = await page.find(`calcite-icon >>> path`);
 
       expect(await path.getAttribute("d")).toBeNull();
 
@@ -84,9 +84,9 @@ describe("calcite-ui-icon", () => {
         it(`${scale} scale`, async () => {
           const page = await newE2EPage();
           await page.setContent(
-            `<calcite-ui-icon icon='a-z' scale='${scale}'></calcite-ui-icon>`
+            `<calcite-icon icon='a-z' scale='${scale}'></calcite-icon>`
           );
-          const svg = await page.find(`calcite-ui-icon >>> svg`);
+          const svg = await page.find(`calcite-icon >>> svg`);
           const sizeInPx = scaleToPx[scale];
 
           expect(await svg.getAttribute("width")).toBe(`${sizeInPx}`);

@@ -11,16 +11,16 @@ import {
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
-import { Scale } from "../../interfaces/UIIcon";
+import { Scale } from "../../interfaces/Icon";
 import { Theme } from "../../interfaces/common";
 
 @Component({
   assetsDirs: ["assets"],
-  tag: "calcite-ui-icon",
-  styleUrl: "calcite-ui-icon.scss",
+  tag: "calcite-icon",
+  styleUrl: "calcite-icon.scss",
   shadow: true
 })
-export class CalciteUIIcon {
+export class CalciteIcon {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -45,7 +45,7 @@ export class CalciteUIIcon {
   filled: boolean = false;
 
   /**
-   * The UI icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
+   * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
    */
   @Prop({
     reflect: true

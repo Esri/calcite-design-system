@@ -1,5 +1,5 @@
 import { getAssetPath } from "@stencil/core";
-import { Scale } from "../../interfaces/UIIcon";
+import { Scale } from "../../interfaces/Icon";
 
 export interface FetchIconProps {
   icon: string;

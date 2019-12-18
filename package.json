@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "npm run copy-icons && stencil build",
-    "copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.js ./src/components/calcite-ui-icon/assets",
+    "copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.js ./src/components/calcite-icon/assets",
     "start": "npm run copy-icons && stencil build --dev --watch --serve",
     "test": "npm run copy-icons && stencil test --spec --e2e",
     "test.watch": "npm run copy-icons && stencil test --spec --e2e --watchAll",
