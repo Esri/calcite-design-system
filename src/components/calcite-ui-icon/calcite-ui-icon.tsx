@@ -31,17 +31,15 @@ export class CalciteUIIcon {
    * When true, the icon will be filled.
    */
   @Prop({
-    reflect: true,
-    mutable: true
+    reflect: true
   })
   filled: boolean = false;
 
   /**
-   * The UI icon to display. Name must match icon from https://esri.github.io/calcite-ui-icons/.
+   * The UI icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
    */
   @Prop({
-    reflect: true,
-    mutable: true
+    reflect: true
   })
   icon: string = null;
 
@@ -49,8 +47,7 @@ export class CalciteUIIcon {
    * When true, the icon will be mirrored when the element direction is 'rtl'.
    */
   @Prop({
-    reflect: true,
-    mutable: true
+    reflect: true
   })
   mirrored: boolean = false;
 
@@ -58,8 +55,7 @@ export class CalciteUIIcon {
    * Icon scale. Can be "s" | "m" | "l".
    */
   @Prop({
-    reflect: true,
-    mutable: true
+    reflect: true
   })
   scale: Scale = "m";
 
