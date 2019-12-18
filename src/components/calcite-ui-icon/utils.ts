@@ -50,10 +50,15 @@ export async function fetchIcon({
   return pathData;
 }
 
-function normalizeIconName(name: string): string {
+/**
+ * Normalize the icon name to match the path data module exports.
+ * Exported for testing purposes.
+ * @private
+ */
+export function normalizeIconName(name: string): string {
   const parts = name.split("-");
 
-  if (parts.length === 0) {
+  if (parts.length === 1) {
     return name;
   }
 

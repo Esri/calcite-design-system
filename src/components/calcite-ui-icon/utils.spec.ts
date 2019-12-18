@@ -1,7 +1,7 @@
 import {
   fetchIcon,
   FetchIconProps,
-  iconCache,
+  iconCache, normalizeIconName,
   requestCache,
   scaleToPx
 } from "./utils";
@@ -14,7 +14,7 @@ describe("utils", () => {
       expect(scaleToPx["l"]).toBe(32);
     }));
 
-  describe("fetchIcon", () =>
+  describe("fetchIcon", () => {
     it("avoids fetching if icon data is available", async () => {
       expect(Object.keys(requestCache)).toHaveLength(0);
       expect(Object.keys(iconCache)).toHaveLength(0);
@@ -62,5 +62,12 @@ describe("utils", () => {
       await fetchIcon(mediumFilledCamera);
       expect(Object.keys(requestCache)).toHaveLength(4);
       expect(Object.keys(iconCache)).toHaveLength(4);
-    }));
+    });
+
+    it("normalizes icon name", () => {
+      // used internally by fetchIcon
+      expect(normalizeIconName("aZ")).toBe("aZ");
+      expect(normalizeIconName("a-z")).toBe("aZ");
+    });
+  });
 });
