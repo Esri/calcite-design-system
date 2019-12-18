@@ -70,6 +70,8 @@ describe("utils", () => {
       // used internally by fetchIcon
       expect(normalizeIconName("aZ")).toBe("aZ");
       expect(normalizeIconName("a-z")).toBe("aZ");
+      expect(normalizeIconName("2d-explore")).toBe("i2DExplore");
+      expect(normalizeIconName("2dExplore")).toBe("i2dExplore");
     });
   });
 });

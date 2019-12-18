@@ -56,16 +56,17 @@ export async function fetchIcon({
  * @private
  */
 export function normalizeIconName(name: string): string {
+  const numberLeadingName = !isNaN(Number(name.charAt(0)));
   const parts = name.split("-");
 
   if (parts.length === 1) {
-    return name;
+    return numberLeadingName ? `i${name}` : name;
   }
 
   return parts
     .map((part, index) => {
       if (index === 0) {
-        return part;
+        return numberLeadingName ? `i${part.toUpperCase()}` : part;
       }
 
       return part.charAt(0).toUpperCase() + part.slice(1);
