@@ -1,0 +1,1 @@
+export const minimize32 = "M9 2v8h1V7h19v12h-5v1h6V2zm20 4H10V3h19zM2 11v18h21V11zm20 17H3V16h19zm0-13H3v-3h19z";

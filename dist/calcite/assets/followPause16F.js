@@ -1,0 +1,1 @@
+export const followPause16F = "M9 5H8V4h1zM6 7H5v1h1zm4-2h3V4h-3zM4 5h3V4H4zm4-5v3h1V0zm0 6v3h1V6zm2 2v8h2V8zm4 0v8h2V8zM2 2h3V0H0v5h2zm12 3h2V0h-5v2h3zM2 14v-3H0v5h5v-2zm3-4V9H4v1zm-1 3v-1H3v1z";

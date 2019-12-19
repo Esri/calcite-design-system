@@ -1,0 +1,1 @@
+export const fileZip16 = "M7 9H6V7h1zm0-5H6v2h1zm1 8v1H5v-1l1-2h1zm-1-1H6v1h1zm8-7.4V16H2V0h9.4zM14 5h-4V1H7v2H6V1H3v14h11zm0-1.31L11.31 1H11v3h3z";

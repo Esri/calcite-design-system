@@ -1,0 +1,1 @@
+export const addIn24 = "M11 12V2H0v21h21V12H11zm-1 10H1v-9h9zm0-10H1V3h9zm10 10h-9v-9h9zM12 0v11h11V0zm10 10h-9V1h9z";

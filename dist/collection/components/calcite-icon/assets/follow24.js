@@ -1,0 +1,1 @@
+export const follow24 = "M6 23v1H0v-6h1v5zm12 0v1h6v-6h-1v5zM6 1V0H0v6h1V1zm17 0v5h1V0h-6v1zm-7 7.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75zM15 9h-1v1h1zm-4 3H9v2h2zm-3 3H6v2h2zm-2 4H4v2h2zm11-9h5V9h-5zM7 10h5V9H7zm7 2v5h1v-5zm0-10v5h1V2z";
