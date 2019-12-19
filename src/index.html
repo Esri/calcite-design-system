@@ -337,6 +337,11 @@
         <calcite-button title="Close or remove alert created 2" color="red" scale="xs"
           onclick="document.querySelector('#created-2').close()">Close or remove alert created 2
         </calcite-button>
+        <h5>using the setFocus() method (once opened)</h5>
+        <calcite-button onclick=document.querySelector('#alert-four').setFocus()>focus first alert 4 item
+        </calcite-button>
+        <calcite-button onclick=document.querySelector('#alert-five').setFocus()>focus first alert 5 item
+        </calcite-button>
       </calcite-tab>
       <calcite-tab>
         <h3>Notice</h3>
@@ -3624,6 +3629,7 @@
     </calcite-tabs>
 
     <calcite-alert color="red" id="alert-one" scale="s" auto-dismiss>
+
       <div slot="alert-title">Something failed - scale s</div>
       <div slot="alert-message">
         1 That thing you wanted to do didn't work as expected
@@ -3685,7 +3691,7 @@
     <!-- test prop validation duration -->
     <calcite-alert id="alert-nine" theme="dark" auto-dismiss auto-dismiss-duration="blast">
       <div slot="alert-message">9 A general piece of information</div>
-      <calcite-button slot="alert-link" title="my action" appearance="inline">Take action
+      <calcite-button slot="alert-link" theme="dark" title="my action" appearance="inline">Take action
       </calcite-button>
     </calcite-alert>
 

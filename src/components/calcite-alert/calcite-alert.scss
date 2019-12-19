@@ -1,21 +1,19 @@
 // theme variables
 // light theme
 :host {
-  --calcite-alert-icon-fill: #{$blk-220};
   --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-alert-icon-fill: #{$blk-040};
   --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
 }
 
-// scale variants for child
+// scale variables
 :host([scale="s"]) {
   --calcite-alert-width: 40em;
-  --calcite-alert-spacing-token-small: #{$baseline/3};
-  --calcite-alert-spacing-token-large: #{$baseline/2};
+  --calcite-alert-spacing-token-small: #{$baseline/2};
+  --calcite-alert-spacing-token-large: #{$baseline/1.5};
   @include slotted("alert-title", "div") {
     @include font-size(-2);
   }
@@ -44,8 +42,8 @@
 
 :host([scale="l"]) {
   --calcite-alert-width: 60em;
-  --calcite-alert-spacing-token-small: #{$baseline};
-  --calcite-alert-spacing-token-large: #{$baseline * 1.5};
+  --calcite-alert-spacing-token-small: #{$baseline/1.25};
+  --calcite-alert-spacing-token-large: #{$baseline * 1.25};
   @include slotted("alert-title", "div") {
     @include font-size(0);
   }
@@ -132,12 +130,6 @@
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
 
-  & svg {
-    height: 16px;
-    width: 16px;
-    vertical-align: top;
-  }
-
   @media only screen and (max-width: $viewport-medium) {
     padding: $baseline;
   }
@@ -189,11 +181,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  border-radius: 0 0 var(--calcite-border-radius) 0;
-
-  & svg {
-    fill: var(--calcite-alert-icon-fill);
-  }
+  color: var(--calcite-ui-text-2);
 
   &:hover,
   &:focus {
@@ -287,10 +275,7 @@ $alertColors: "blue" var(--calcite-ui-blue), "red" var(--calcite-ui-red),
 
   :host([color="#{$name}"]) {
     border-top-color: $color;
-
-    & .alert-icon svg {
-      fill: $color;
-    }
+    color: $color;
   }
 }
 
