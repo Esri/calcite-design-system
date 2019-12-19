@@ -1,17 +1,7 @@
-// theme variables
-// light theme
-:host {
-  --calcite-notice-icon-fill: #{$blk-220};
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-notice-icon-fill: #{$blk-040};
-}
-
+// scale variables
 :host([scale="s"]) {
-  --calcite-notice-spacing-token-small: #{$baseline/3};
-  --calcite-notice-spacing-token-large: #{$baseline/2};
+  --calcite-notice-spacing-token-small: #{$baseline/2};
+  --calcite-notice-spacing-token-large: #{$baseline/1.5};
   @include slotted("notice-title", "div") {
     @include font-size(-2);
   }
@@ -38,8 +28,8 @@
 }
 
 :host([scale="l"]) {
-  --calcite-notice-spacing-token-small: #{$baseline};
-  --calcite-notice-spacing-token-large: #{$baseline * 1.5};
+  --calcite-notice-spacing-token-small: #{$baseline/1.25};
+  --calcite-notice-spacing-token-large: #{$baseline * 1.25};
   @include slotted("notice-title", "div") {
     @include font-size(0);
   }
@@ -75,7 +65,8 @@
   pointer-events: none;
   z-index: 101;
   transition: $transition;
-  border: 0px solid transparent;
+  border-left: 0px solid;
+  box-shadow: 0 0 0 0 transparent;
 }
 
 :host([dir="rtl"]) {
@@ -87,8 +78,8 @@
   opacity: 1;
   max-height: 100%;
   pointer-events: initial;
-  border: 1px solid var(--calcite-ui-border-3);
   border-left-width: 3px;
+  box-shadow: $shadow-1;
 }
 
 @include slotted("notice-title", "div") {
@@ -115,12 +106,6 @@
     var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
-
-  & svg {
-    height: 16px;
-    width: 16px;
-    vertical-align: top;
-  }
 }
 
 .notice-content {
@@ -134,7 +119,7 @@
   &:first-of-type {
     padding-left: var(--calcite-notice-spacing-token-large);
   }
-  &:last-of-type {
+  &:last-of-type:not(:only-of-type) {
     padding-right: var(--calcite-notice-spacing-token-large);
   }
 }
@@ -143,11 +128,11 @@
   .notice-content {
     &:first-of-type {
       padding-right: var(--calcite-notice-spacing-token-large);
-      padding-left: 0;
+      padding-left: initial;
     }
-    &:last-of-type {
+    &:last-of-type:not(:only-of-type) {
       padding-left: var(--calcite-notice-spacing-token-large);
-      padding-right: 0;
+      padding-right: initial;
     }
   }
 }
@@ -164,10 +149,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-
-  & svg {
-    fill: var(--calcite-notice-icon-fill);
-  }
+  color: var(--calcite-ui-text-2);
 
   &:hover,
   &:focus {
@@ -179,9 +161,8 @@
   }
 }
 
-$noticeColors: "blue" var(--calcite-ui-blue),
-  "red" var(--calcite-ui-red), "yellow" var(--calcite-ui-yellow),
-  "green" var(--calcite-ui-green);
+$noticeColors: "blue" var(--calcite-ui-blue), "red" var(--calcite-ui-red),
+  "yellow" var(--calcite-ui-yellow), "green" var(--calcite-ui-green);
 
 @each $noticeColor in $noticeColors {
   $name: nth($noticeColor, 1);
@@ -189,9 +170,6 @@ $noticeColors: "blue" var(--calcite-ui-blue),
 
   :host([color="#{$name}"]) {
     border-left-color: $color;
-
-    & .notice-icon svg {
-      fill: $color;
-    }
+    color: $color;
   }
 }

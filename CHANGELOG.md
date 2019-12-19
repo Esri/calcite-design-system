@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Updated
+- `setFocus()` now focuses the first element in a `calcite-notice` - a slotted link or a close button, if present
+
 ## [v1.0.0-beta.16] - Dec 19th 2019
 
 ### Added
