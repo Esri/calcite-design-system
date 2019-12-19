@@ -16,6 +16,21 @@
 | `theme`    | `theme`    | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `"light"` |
 
 
+## Dependencies
+
+### Used by
+
+ - [calcite-alert](../calcite-alert)
+ - [calcite-notice](../calcite-notice)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-alert --> calcite-icon
+  calcite-notice --> calcite-icon
+  style calcite-icon fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

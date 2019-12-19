@@ -69,6 +69,16 @@ Type: `Promise<void>`
 
 
 
+### `setFocus() => Promise<void>`
+
+focus the close button, if present and requested
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 
 ## Slots
 
@@ -78,6 +88,19 @@ Type: `Promise<void>`
 | `"alert-message"` | Main text of the alert                                                       |
 | `"alert-title"`   | Title of the alert (optional)                                                |
 
+
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-alert --> calcite-icon
+  style calcite-alert fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 
