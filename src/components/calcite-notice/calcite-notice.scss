@@ -106,12 +106,6 @@
     var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
-
-  & svg {
-    height: 16px;
-    width: 16px;
-    vertical-align: top;
-  }
 }
 
 .notice-content {
@@ -125,7 +119,7 @@
   &:first-of-type {
     padding-left: var(--calcite-notice-spacing-token-large);
   }
-  &:last-of-type {
+  &:last-of-type:not(:only-of-type) {
     padding-right: var(--calcite-notice-spacing-token-large);
   }
 }
@@ -134,11 +128,11 @@
   .notice-content {
     &:first-of-type {
       padding-right: var(--calcite-notice-spacing-token-large);
-      padding-left: 0;
+      padding-left: initial;
     }
-    &:last-of-type {
+    &:last-of-type:not(:only-of-type) {
       padding-left: var(--calcite-notice-spacing-token-large);
-      padding-right: 0;
+      padding-right: initial;
     }
   }
 }
@@ -155,10 +149,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-
-  & svg {
-    fill: var(--calcite-ui-text-3);
-  }
+  color: var(--calcite-ui-text-2);
 
   &:hover,
   &:focus {
@@ -179,9 +170,6 @@ $noticeColors: "blue" var(--calcite-ui-blue), "red" var(--calcite-ui-red),
 
   :host([color="#{$name}"]) {
     border-left-color: $color;
-
-    & .notice-icon svg {
-      fill: $color;
-    }
+    color: $color;
   }
 }

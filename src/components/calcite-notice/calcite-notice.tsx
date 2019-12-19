@@ -8,12 +8,6 @@ import {
   Method,
   Prop
 } from "@stencil/core";
-import {
-  lightbulb24F,
-  exclamationMarkTriangle24F,
-  checkCircle24F,
-  x32
-} from "@esri/calcite-ui-icons";
 import { getElementDir } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -96,12 +90,9 @@ export class CalciteNotice {
   }
 
   componentDidLoad() {
-    this.noticeLinkSlot = this.el.shadowRoot.querySelector(
-      'slot[name="notice-link"]'
-    );
-    let childEl = this.noticeLinkSlot.assignedNodes()[0];
-    if (childEl && childEl.nodeName === "CALCITE-BUTTON")
-      this.noticeLinkEl = childEl as HTMLCalciteButtonElement;
+    this.noticeLinkEl = this.el.querySelectorAll(
+      "calcite-button"
+    )[0] as HTMLCalciteButtonElement;
   }
 
   render() {
@@ -113,21 +104,13 @@ export class CalciteNotice {
         onClick={() => this.close()}
         ref={el => (this.closeButton = el)}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="32"
-          width="32"
-          viewBox="0 0 32 32"
-        >
-          <path d={x32} />
-        </svg>
+        <calcite-icon icon="x" scale="s"></calcite-icon>
       </button>
     );
 
     return (
       <Host active={this.active} dir={dir}>
         {this.icon ? this.setIcon() : null}
-
         <div class="notice-content">
           <slot name="notice-title"></slot>
           <slot name="notice-message"></slot>
@@ -192,31 +175,21 @@ export class CalciteNotice {
   /** the close button element */
   private closeButton?: HTMLElement;
 
-  /** the notice link slot */
-  private noticeLinkSlot?: HTMLSlotElement;
-
   /** the notice link child element  */
   private noticeLinkEl?: HTMLCalciteButtonElement;
 
   private iconDefaults = {
-    green: checkCircle24F,
-    yellow: exclamationMarkTriangle24F,
-    red: exclamationMarkTriangle24F,
-    blue: lightbulb24F
+    green: "checkCircle",
+    yellow: "exclamationMarkTriangle",
+    red: "exclamationMarkTriangle",
+    blue: "lightbulb"
   };
 
   private setIcon() {
     var path = this.iconDefaults[this.color];
     return (
       <div class="notice-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24"
-          width="24"
-          viewBox="0 0 24 24"
-        >
-          <path d={path} />
-        </svg>
+        <calcite-icon icon={path} filled scale="s"></calcite-icon>
       </div>
     );
   }
