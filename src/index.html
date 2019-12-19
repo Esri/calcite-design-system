@@ -37,6 +37,7 @@
         <calcite-tab-title is-active>Tabs</calcite-tab-title>
         <calcite-tab-title>Alerts</calcite-tab-title>
         <calcite-tab-title>Notice</calcite-tab-title>
+        <calcite-tab-title>Icons</calcite-tab-title>
         <calcite-tab-title>Loader</calcite-tab-title>
         <calcite-tab-title>Modals</calcite-tab-title>
         <calcite-tab-title>Popover</calcite-tab-title>
@@ -388,6 +389,41 @@
         </calcite-notice>
 
       </calcite-tab>
+      <calcite-tab>
+        <h2>Default</h2>
+        <calcite-icon icon="aZ"></calcite-icon>
+        <calcite-icon icon="basemap"></calcite-icon>
+        <calcite-icon icon="camera"></calcite-icon>
+
+        <h2>Scale can be "s" | "m" | "l"</h2>
+        <calcite-icon icon="aZ" scale="s"></calcite-icon>
+        <calcite-icon icon="basemap" scale="m"></calcite-icon>
+        <calcite-icon icon="camera" scale="l"></calcite-icon>
+
+        <h2>Filled</h2>
+        <calcite-icon icon="aZ" filled></calcite-icon>
+        <calcite-icon icon="basemap" filled></calcite-icon>
+        <calcite-icon icon="camera" filled></calcite-icon>
+
+        <h2>Icon can be camel-case or kebab-case</h2>
+        <calcite-icon icon="arrow-bold-left"></calcite-icon>
+        <calcite-icon icon="arrowBoldLeft"></calcite-icon>
+
+        <h2>Dark theme</h2>
+        <div class="demo-background-dark">
+          <calcite-icon icon="aZ" theme="dark"></calcite-icon>
+          <calcite-icon icon="basemap" theme="dark"></calcite-icon>
+          <calcite-icon icon="camera" theme="dark"></calcite-icon>
+        </div>
+
+        <h2>Flips icon in RTL when mirrored</h2>
+        <div dir="rtl">
+          <calcite-icon icon="aZ" filled mirror></calcite-icon>
+          <calcite-icon icon="basemap" filled mirror></calcite-icon>
+          <calcite-icon icon="camera" filled mirror></calcite-icon>
+        </div>
+      </calcite-tab>
+
       <calcite-tab>
         <calcite-loader is-active></calcite-loader>
         <calcite-loader is-active title="optional loading text&hellip;" type="indeterminate"></calcite-loader>
@@ -1617,8 +1653,6 @@
         <calcite-button color="red" onclick="loadingButton(this, 500000000)">Do something</calcite-button>
         <calcite-button color="red" appearance="outline" onclick="loadingButton(this, 5000)">Do something
         </calcite-button>
-
-
 
         <h3>Icons, and icons in combination with loader</h3>
         <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
