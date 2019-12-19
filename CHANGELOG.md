@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 ### Added
-- `calcite-accordion` now has an `icon-type` attribute to specify icon type - "chevron" (default) or "plus-minus"
+- `calcite-accordion` now acecepts an `icon-type` attribute to specify icon type - "chevron" (default), "caret" or "plus-minus"
+- `calcite-accordion-item` now accepts an `item-subtitle` attribute to display beneath `item-title`
 
 ### Updated
 - `setFocus()` now focuses the first element in a `calcite-notice` - a slotted link or a close button, if present

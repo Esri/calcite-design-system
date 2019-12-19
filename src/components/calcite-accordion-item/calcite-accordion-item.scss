@@ -69,8 +69,20 @@
 }
 
 // accordion item title
-.accordion-item-title {
+.accordion-item-header-text {
   margin-right: auto;
+  flex-direction: column;
+}
+.accordion-item-title,
+.accordion-item-subtitle {
+  display: flex;
+  width: 100%;
+}
+.accordion-item-title {
+  color: var(--calcite-ui-text-2);
+}
+.accordion-item-subtitle {
+  color: var(--calcite-ui-text-3);
 }
 :host([dir="rtl"]) .accordion-item-title {
   margin-right: 0;
@@ -81,6 +93,9 @@
   .accordion-item-title {
     color: var(--calcite-ui-text-1);
   }
+  .accordion-item-subtitle {
+    color: var(--calcite-ui-text-2);
+  }
 }
 :host(:focus),
 :host(:active),
@@ -88,5 +103,8 @@
   & .accordion-item-title {
     color: var(--calcite-ui-text-1);
     font-weight: 500;
+  }
+  .accordion-item-subtitle {
+    color: var(--calcite-ui-text-2);
   }
 }

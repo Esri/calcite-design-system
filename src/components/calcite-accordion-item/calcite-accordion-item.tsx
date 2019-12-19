@@ -35,8 +35,10 @@ export class CalciteAccordionItem {
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** pass a title for the accordion item */
-  @Prop() itemTitle: string;
+  @Prop() itemTitle?: string;
 
+  /** pass a title for the accordion item */
+  @Prop() itemSubtitle?: string;
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -67,12 +69,17 @@ export class CalciteAccordionItem {
     return (
       <Host dir={dir} tabindex="0" aria-expanded={this.active.toString()}>
         <div class="accordion-item-header" onClick={this.itemHeaderClickHander}>
+          <div class="accordion-item-header-text">
           <span class="accordion-item-title">{this.itemTitle}</span>
+          <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+          </div>
           <calcite-icon
             class="accordion-item-icon"
             icon={
               this.iconType === "chevron"
                 ? "chevronUp"
+                : this.iconType === "caret"
+                ? "caretUp"
                 : this.active
                 ? "minus"
                 : "plus"
