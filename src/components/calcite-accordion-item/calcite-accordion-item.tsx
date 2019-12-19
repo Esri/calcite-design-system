@@ -11,8 +11,6 @@ import {
 import { UP, DOWN, ENTER, HOME, END, SPACE } from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { chevronLeft16 } from "@esri/calcite-ui-icons";
-import CalciteIcon from "../../utils/CalciteIcon";
 
 @Component({
   tag: "calcite-accordion-item",
@@ -67,16 +65,20 @@ export class CalciteAccordionItem {
     const dir = getElementDir(this.el);
 
     return (
-      <Host
-        dir={dir}
-        tabindex="0"
-        aria-expanded={this.active.toString()}
-      >
+      <Host dir={dir} tabindex="0" aria-expanded={this.active.toString()}>
         <div class="accordion-item-header" onClick={this.itemHeaderClickHander}>
           <span class="accordion-item-title">{this.itemTitle}</span>
-          <div class="accordion-item-icon">
-            <CalciteIcon size="16" path={chevronLeft16} />
-          </div>
+          <calcite-icon
+            class="accordion-item-icon"
+            icon={
+              this.iconType === "chevron"
+                ? "chevronUp"
+                : this.active
+                ? "minus"
+                : "plus"
+            }
+            scale="s"
+          ></calcite-icon>
         </div>
         <div class="accordion-item-content">
           <slot />
@@ -133,6 +135,9 @@ export class CalciteAccordionItem {
 
   /** what selection mode is the parent accordion in */
   private selectionMode = getElementProp(this.el, "selection-mode", "multi");
+
+  /** what icon type does the parent accordion specify */
+  private iconType = getElementProp(this.el, "icon-type", "chevron");
 
   /** handle clicks on item header */
   private itemHeaderClickHander = () => this.emitRequestedItem();

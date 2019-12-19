@@ -45,31 +45,26 @@
 .accordion-item-icon {
   margin-left: var(--calcite-accordion-item-icon-spacing-start);
   margin-right: var(--calcite-accordion-item-icon-spacing-end);
-  & svg {
-    fill: var(--calcite-ui-text-3);
-    transform: rotate(var(--calcite-accordion-item-icon-rotation));
-  }
+  color: var(--calcite-ui-text-3);
+  transform: rotate(var(--calcite-accordion-item-icon-rotation));
 }
 
 :host(:hover),
 :host(:focus) {
-  .accordion-item-icon svg {
-    fill: var(--calcite-ui-blue);
-  }
+  color: var(--calcite-ui-blue);
 }
+
 :host([dir="rtl"]) .accordion-item-icon {
   margin-left: var(--calcite-accordion-item-icon-spacing-end);
   margin-right: var(--calcite-accordion-item-icon-spacing-start);
-  & svg {
-    transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
-  }
+  transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
 }
 
-:host([active]) .accordion-item-icon svg {
-  fill: var(--calcite-ui-text-1);
+:host([active]) .accordion-item-icon {
+  color: var(--calcite-ui-text-1);
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
 }
-:host([active][dir="rtl"]) .accordion-item-icon svg {
+:host([active][dir="rtl"]) .accordion-item-icon {
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
 }
 

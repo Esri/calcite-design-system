@@ -20,6 +20,7 @@ storiesOf("Accordion", module)
         ["multi", "single", "single-persist"],
         "multi"
       )}"
+      icon-type="${select("icon-type", ["chevron", "plus-minus"], "chevron")}"
     >
     <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
@@ -52,6 +53,7 @@ storiesOf("Accordion", module)
         ["multi", "single", "single-persist"],
         "multi"
       )}"
+      icon-type="${select("icon-type", ["chevron", "plus-minus"], "chevron")}"
     >
     <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
@@ -84,6 +86,7 @@ storiesOf("Accordion", module)
           ["multi", "single", "single-persist"],
           "multi"
         )}"
+        icon-type="${select("icon-type", ["chevron", "plus-minus"], "chevron")}"
       >
       <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
       </calcite-accordion-item>

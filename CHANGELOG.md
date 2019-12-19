@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Added
+- `calcite-accordion` now has an `icon-type` attribute to specify icon type - "chevron" (default) or "plus-minus"
 
 ### Updated
 - `setFocus()` now focuses the first element in a `calcite-notice` - a slotted link or a close button, if present

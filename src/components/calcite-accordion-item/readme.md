@@ -23,6 +23,19 @@ individual `calcite-accordion` item
 | `registerCalciteAccordionItem` |             | `CustomEvent<any>` |
 
 
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-accordion-item --> calcite-icon
+  style calcite-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

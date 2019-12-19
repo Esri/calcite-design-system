@@ -44,6 +44,10 @@ export class CalciteAccordion {
   /** specify the placement of the icon in the header, defaults to end */
   @Prop({ mutable: true, reflect: true }) iconPosition: "start" | "end" = "end";
 
+  /** specify the placement of the icon in the header, defaults to end */
+  @Prop({ mutable: true, reflect: true }) iconType: "chevron" | "plus-minus" =
+    "chevron";
+
   /** specify the selection mode - multi (allow any number of open items), single (allow one open item),
    * or single-persist (allow and require one open item), defaults to multi */
   @Prop({ mutable: true, reflect: true }) selectionMode:
@@ -72,6 +76,9 @@ export class CalciteAccordion {
 
     let iconPosition = ["start", "end"];
     if (!iconPosition.includes(this.iconPosition)) this.iconPosition = "end";
+
+    let iconType = ["chevron", "plus-minus"];
+    if (!iconType.includes(this.iconType)) this.iconType = "chevron";
 
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme)) this.theme = "light";
