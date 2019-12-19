@@ -26,7 +26,7 @@ storiesOf("Accordion", module)
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item>
+    <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
     <calcite-radio-group scale="s">
     <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
     <calcite-radio-group-item value="No">No</calcite-radio-group-item>
@@ -59,7 +59,7 @@ storiesOf("Accordion", module)
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item>
+    <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
     <calcite-radio-group scale="s">
     <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
     <calcite-radio-group-item value="No">No</calcite-radio-group-item>
@@ -92,7 +92,7 @@ storiesOf("Accordion", module)
       </calcite-accordion-item>
       <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
       </calcite-accordion-item>
-      <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item>
+      <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
       <calcite-radio-group scale="s">
       <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
       <calcite-radio-group-item value="No">No</calcite-radio-group-item>

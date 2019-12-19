@@ -7,10 +7,11 @@ individual `calcite-accordion` item
 
 ## Properties
 
-| Property    | Attribute    | Description                         | Type      | Default     |
-| ----------- | ------------ | ----------------------------------- | --------- | ----------- |
-| `active`    | `active`     |                                     | `boolean` | `false`     |
-| `itemTitle` | `item-title` | pass a title for the accordion item | `string`  | `undefined` |
+| Property       | Attribute       | Description                         | Type      | Default     |
+| -------------- | --------------- | ----------------------------------- | --------- | ----------- |
+| `active`       | `active`        |                                     | `boolean` | `false`     |
+| `itemSubtitle` | `item-subtitle` | pass a title for the accordion item | `string`  | `undefined` |
+| `itemTitle`    | `item-title`    | pass a title for the accordion item | `string`  | `undefined` |
 
 
 ## Events
