@@ -181,7 +181,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  color: var(--calcite-ui-text-2);
+  color: var(--calcite-ui-text-3);
 
   &:hover,
   &:focus {
@@ -275,7 +275,9 @@ $alertColors: "blue" var(--calcite-ui-blue), "red" var(--calcite-ui-red),
 
   :host([color="#{$name}"]) {
     border-top-color: $color;
-    color: $color;
+    & .alert-icon {
+      color: $color;
+    }
   }
 }
 
