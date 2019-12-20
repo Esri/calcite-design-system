@@ -84,7 +84,7 @@ export class CalciteRadioGroupItem {
     return (
       <Host
         role="radio"
-        aria-checked={checked ? "true" : "false"}
+        aria-checked={checked.toString()}
         scale={scale}
       >
         <label>

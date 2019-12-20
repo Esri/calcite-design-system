@@ -86,6 +86,16 @@ Type: `Promise<HTMLElement>`
 
 
 
+### `focusElement(el?: HTMLElement) => Promise<void>`
+
+Focus first interactive element
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `open() => Promise<HTMLElement>`
 
 Open the modal

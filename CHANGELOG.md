@@ -5,11 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
+### Added
+- `setFocus()` added to `calcite-alert` - focuses a slotted link or a close button, if present
+
+### Updated
+- `setFocus()` now focuses the first element in a `calcite-notice` - a slotted link or a close button, if present
+
+## [v1.0.0-beta.16] - Dec 19th 2019
+
+### Added
+- new `calcite-icon` component
+- new `CalciteModal.focusElement` method for restoring focus to an element in a modal
+- `calcite-button` now accepts boolean attributes `round` and `floating`
+- `calcite-button` can now be programmatically focused with the `setFocus()` method
+- the close button of a `dismissible` `calcite-notice` can now be programmatically focused with the `setFocus()` method
 
 ### Fixed
-- `calcite-date-picker` - Corrected date picker calendar opening up on null or no value property. 
-- `calcite-date-picker` - Change of input value updates the calendar to show same date. 
+- fixes for date picker in Edge (#257)
+
+## [v1.0.0-beta.15] - Nov 26th 2019
+
+### Fixed
+- `calcite-date-picker` - Corrected date picker calendar opening up on null or no value property.
+- `calcite-date-picker` - Change of input value updates the calendar to show same date.
+
+## [v1.0.0-beta.14] - Nov 18th 2019
 
 ### Breaking Changes
 - `calcite-button` - `iconposition` attribute updated to `icon-position`
@@ -21,7 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-alert` - `.closeCalciteAlert()` method updated to `.close()`
 - `calcite-alert` no longer requires a wrapping `calcite-alerts` component
 - `calcite-alerts` has been removed
-  
+
 ### Added
 - `calcite-notice` - new component has been added
 - `calcite-alert` - `scale` is now available as a configurable attribute
@@ -32,11 +53,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Fix for `calcite-dropdown` taking up height when closed (#213)
 - Fixed incorrect dark theme color, other styling updates
-  
-### Updated
 
 ## [v1.0.0-beta.13] - Nov 11th 2019
-
 ### Added
 - Added accordion component (#10)
 - New `ScrollContent` method on modals, which allows manipulating scroll position of modal content
@@ -170,7 +188,10 @@ Fix issue with previous release.
 ## [v1.0.0-beta.1] - Aug 2nd 2019
 
 First initial beta release.
-[Unreleased]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.13...master "master"
+[Unreleased]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.16...master "master"
+[v1.0.0-beta.16]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.15...v1.0.0-beta.16 "v1.0.0-beta.16"
+[v1.0.0-beta.15]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.14...v1.0.0-beta.15 "v1.0.0-beta.15"
+[v1.0.0-beta.14]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.13...v1.0.0-beta.14 "v1.0.0-beta.14"
 [v1.0.0-beta.13]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.12...v1.0.0-beta.13 "v1.0.0-beta.13"
 [v1.0.0-beta.12]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.11...v1.0.0-beta.12 "v1.0.0-beta.12"
 [v1.0.0-beta.11]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.10...v1.0.0-beta.11 "v1.0.0-beta.11"

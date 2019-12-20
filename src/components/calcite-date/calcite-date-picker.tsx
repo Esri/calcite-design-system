@@ -8,7 +8,8 @@ import {
   EventEmitter,
   State,
   Build,
-  Watch
+  Watch,
+  Listen
 } from "@stencil/core";
 
 @Component({
@@ -31,6 +32,11 @@ export class CalciteDatePicker {
    */
   @Prop({ reflect: true }) max?: string = "";
   /**
+   * Localized string for place holder to the date picker input.
+   */
+  @Prop({ reflect: true }) placeholder: string = "mm/dd/yyyy";
+
+  /**
    * Localized string for previous month.
    */
   @Prop() prevMonthLabel?: string = "";
@@ -52,7 +58,19 @@ export class CalciteDatePicker {
   /**
    * pass the locale in which user wants to show the date.
    */
-  @Prop() locale?: string = "en-US";
+  @Prop() locale?: string = "en-GB";
+  /**
+   * Input as Date
+   */
+  @Prop() valueAsDate?: Date = !isNaN(Date.parse(this.value)) ? this.generateDate(this.value) : null;
+  /**
+   * Show no input for only calendar popup
+   */
+  @Prop() noCalendarInput?: boolean = false;
+  /**
+   * Expand or collapse when calendar does not have input.
+   */
+  @Prop() showCalendar: boolean = false;
   /**
    * Trigger calcite date change when a user changes the date.
    */
@@ -61,21 +79,18 @@ export class CalciteDatePicker {
   observer: MutationObserver;
 
   /**
-   * Expanded state of the calander.
-   */
-  @State() showCalendar: boolean = false;
-
-  /**
    * Active date.
    */
-  @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(this.value);
+  @State() activeDate = isNaN(Date.parse(this.value)) ? new Date() : this.generateDate(this.value);
 
-  @Watch('value') 
+  @Watch('value')
   onNameChanged(newValue: string) {
     if(!isNaN(Date.parse(newValue))){
-      this.activeDate = new Date(newValue);
+      this.valueAsDate = this.generateDate(newValue);
+      this.activeDate = this.generateDate(newValue);
     }
   }
+
   inputProxy: HTMLInputElement;
 
   connectedCallback() {
@@ -91,14 +106,13 @@ export class CalciteDatePicker {
   }
 
   render() {
-    let selectedDate = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
+    let selectedDate = this.valueAsDate || new Date();
     return (
       <Host
         role="application"
         expanded={this.showCalendar}
-        onBlur={() => this.closeCalendar()}
       >
-        <div
+        { !this.noCalendarInput && <div
           class={`date-input-wrapper ${this.showCalendar ? "expanded" : ""}`}
           role="application"
         >
@@ -113,13 +127,13 @@ export class CalciteDatePicker {
           </svg>
           <input
             type="text"
-            placeholder="dd/mm/yyyy"
-            value={this.value}
+            placeholder={this.placeholder}
+            value={this.valueAsDate ? new Intl.DateTimeFormat(this.locale).format(this.valueAsDate): ""}
             class="date-input"
             onFocus={() => this.expandCalendar()}
-            onChange={(e) => { this.setDate(e.target) }}
+            onInput={(e) => this.setDate(e.target)}
           />
-        </div>
+        </div> }
         {this.showCalendar && (
           <div class="calendar-picker-wrapper">
             <calcite-date-month-header
@@ -143,7 +157,7 @@ export class CalciteDatePicker {
               activeDate={this.activeDate}
               startOfWeek={this.startOfWeek}
               locale={this.locale}
-              onCalciteDateSelect={evt => this.setDate(evt.target)}
+              onCalciteDateSelect={evt => { this.closeCalendar(); this.setDate(evt.target); }}
               onCalciteActiveDateChange={evt => this.setActiveDate(evt.target)}
             />
           </div>
@@ -154,14 +168,15 @@ export class CalciteDatePicker {
   }
 
   private setActiveDate(target): void {
-    this.activeDate = new Date(target.activeDate);
+    this.activeDate = target.activeDate;
   }
 
   private expandCalendar() {
     this.showCalendar = true;
   }
 
-  private closeCalendar() {
+  @Listen("blur")
+  closeCalendar() {
     this.showCalendar = false;
   }
 
@@ -182,8 +197,8 @@ export class CalciteDatePicker {
   }
 
   private setDate(target) {
-    // Set date to in dd/mm/yyyy format.
-    this.value = isNaN(Date.parse(target.value)) ? target.selectedDate.toISOString().substr(0, 10) : target.value;
+    this.value = isNaN(Date.parse(target.value)) ? target.selectedDate ? target.selectedDate.toISOString() : this.value
+    : target.value;
     this.syncProxyInputToThis();
     this.calciteDateChange.emit();
   }
@@ -208,17 +223,20 @@ export class CalciteDatePicker {
   }
 
   syncThisToProxyInput = () => {
-    this.value = new Intl.DateTimeFormat(this.locale).format(
-      new Date(`${this.inputProxy.value} `)
-    );
+    this.value = this.inputProxy.valueAsDate && this.inputProxy.valueAsDate.toISOString() || "";
     this.min = this.inputProxy.min;
     this.max = this.inputProxy.max;
   };
 
   syncProxyInputToThis = () => {
-    let date = isNaN(Date.parse(this.value)) ? new Date() : new Date(`${this.value}`);
-    this.inputProxy.value = date.toISOString().substr(0, 10);
+    this.inputProxy.valueAsDate = this.valueAsDate;
     this.inputProxy.min = this.min;
     this.inputProxy.max = this.max;
   };
+
+  private generateDate(dateString: string): Date {
+    let date = new Date(dateString);
+
+    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  }
 }

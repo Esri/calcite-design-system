@@ -50,6 +50,7 @@ export const config: Config = {
     },
     { components: ["calcite-tree", "calcite-tree-item"] },
     { components: ["calcite-card"] }
+    { components: ["calcite-icon"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
@@ -69,5 +70,10 @@ export const config: Config = {
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     })
-  ]
+  ],
+  testing: {
+    moduleNameMapper: {
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js"
+    }
+  }
 };
