@@ -71,6 +71,19 @@ Type: `Promise<void>`
 | `"notice-title"`   | Title of the notice (optional)                                                |
 
 
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-notice --> calcite-icon
+  style calcite-notice fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

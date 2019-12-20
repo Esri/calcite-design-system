@@ -13,7 +13,7 @@ storiesOf("Accordion", module)
     <calcite-accordion
       theme="light"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["default", "minimal"], "default")}"
+      appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
       icon-position="${select("icon-position", ["start", "end"], "end")}"
       selection-mode="${select(
         "selection-mode",
@@ -46,7 +46,7 @@ storiesOf("Accordion", module)
     <calcite-accordion
       theme="dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["default", "minimal"], "default")}"
+      appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
       icon-position="${select("icon-position", ["start", "end"], "end")}"
       selection-mode="${select(
         "selection-mode",
@@ -79,7 +79,7 @@ storiesOf("Accordion", module)
       <calcite-accordion
         theme="light"
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["default", "minimal"], "default")}"
+        appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
         icon-position="${select("icon-position", ["start", "end"], "end")}"
         selection-mode="${select(
           "selection-mode",

@@ -42,14 +42,16 @@ export class CalciteProgress {
         theme={theme}
       >
         <div class="calcite-progress--track" />
-        <div class={{
+        <div
+          class={{
             "calcite-progress--bar": true,
             "--indeterminate": this.type === "indeterminate",
             "--determinate": this.type === "determinate"
           }}
         />
-        <div class="calcite-progress--text">{this.text}</div>
-        <slot />
+        {this.text ? (
+          <div class="calcite-progress--text">{this.text}</div>
+        ) : null}
       </Host>
     );
   }

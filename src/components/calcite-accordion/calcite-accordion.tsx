@@ -38,7 +38,7 @@ export class CalciteAccordion {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
-  @Prop({ mutable: true, reflect: true }) appearance: "default" | "minimal" =
+  @Prop({ mutable: true, reflect: true }) appearance: "default" | "minimal" | "transparent" =
     "default";
 
   /** specify the placement of the icon in the header, defaults to end */
@@ -73,7 +73,7 @@ export class CalciteAccordion {
 
   connectedCallback() {
     // validate props
-    let appearance = ["default", "minimal"];
+    let appearance = ["default", "minimal", "transparent"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
 
     let iconPosition = ["start", "end"];

@@ -9,12 +9,6 @@ import {
   Listen,
   Prop
 } from "@stencil/core";
-import {
-  lightbulb24F,
-  exclamationMarkTriangle24F,
-  checkCircle24F,
-  x32
-} from "@esri/calcite-ui-icons";
 import { getElementDir } from "../../utils/dom";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -134,6 +128,12 @@ export class CalciteAlert {
     }
   }
 
+  componentDidLoad() {
+    this.alertLinkEl = this.el.querySelectorAll(
+      "calcite-button"
+    )[0] as HTMLCalciteButtonElement;
+  }
+
   render() {
     const dir = getElementDir(this.el);
     const closeButton = (
@@ -141,15 +141,9 @@ export class CalciteAlert {
         class="alert-close"
         aria-label="close"
         onClick={() => this.close()}
+        ref={el => (this.closeButton = el)}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="32"
-          width="32"
-          viewBox="0 0 32 32"
-        >
-          <path d={x32} />
-        </svg>
+        <calcite-icon icon="x" scale="s"></calcite-icon>
       </button>
     );
 
@@ -218,6 +212,18 @@ export class CalciteAlert {
     });
   }
 
+  /** focus the close button, if present and requested */
+  @Method()
+  async setFocus() {
+    if (!this.closeButton && !this.alertLinkEl) {
+      return;
+    }
+    if (this.alertLinkEl) this.alertLinkEl.setFocus();
+    else if (this.closeButton) {
+      this.closeButton.focus();
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -236,19 +242,17 @@ export class CalciteAlert {
   /** Unique ID for this alert */
   private alertId: string = this.el.id;
 
+  /** the close button element */
+  private closeButton?: HTMLElement;
+
+  /** the alert link child element  */
+  private alertLinkEl?: HTMLCalciteButtonElement;
+
   /** map dismissal durations */
   private autoDismissDurations = {
     slow: 14000,
     medium: 10000,
     fast: 6000
-  };
-
-  /** map icons to colors */
-  private iconDefaults = {
-    green: checkCircle24F,
-    yellow: exclamationMarkTriangle24F,
-    red: exclamationMarkTriangle24F,
-    blue: lightbulb24F
   };
 
   /** based on the current alert determine which alert is active */
@@ -266,19 +270,17 @@ export class CalciteAlert {
     }
   }
 
-  /** set the icon */
+  private iconDefaults = {
+    green: "checkCircle",
+    yellow: "exclamationMarkTriangle",
+    red: "exclamationMarkTriangle",
+    blue: "lightbulb"
+  };
   private setIcon() {
     var path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24"
-          width="24"
-          viewBox="0 0 24 24"
-        >
-          <path d={path} />
-        </svg>
+        <calcite-icon icon={path} filled scale="s"></calcite-icon>
       </div>
     );
   }

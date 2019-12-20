@@ -336,6 +336,11 @@
         <calcite-button title="Close or remove alert created 2" color="red" scale="xs"
           onclick="document.querySelector('#created-2').close()">Close or remove alert created 2
         </calcite-button>
+        <h5>using the setFocus() method (once opened)</h5>
+        <calcite-button onclick=document.querySelector('#alert-four').setFocus()>focus first alert 4 item
+        </calcite-button>
+        <calcite-button onclick=document.querySelector('#alert-five').setFocus()>focus first alert 5 item
+        </calcite-button>
       </calcite-tab>
       <calcite-tab>
         <h3>Notice</h3>
@@ -436,6 +441,7 @@
 
       <calcite-tab>
         <calcite-loader is-active></calcite-loader>
+        <calcite-loader is-active no-padding ></calcite-loader>
         <calcite-loader is-active title="optional loading text&hellip;" type="indeterminate"></calcite-loader>
         <calcite-loader is-active class="green" title="Custom theme..."></calcite-loader>
         <style>
@@ -837,24 +843,17 @@
 
       <calcite-tab>
         <h1>Indeterminate</h1>
-        <calcite-progress type="indeterminate">
-          <br>
-        </calcite-progress>
-        <br>
-        <br>
+        <calcite-progress type="indeterminate"></calcite-progress>
         <h1>Determinate</h1>
         <calcite-progress type="determinate" value="0.5" text="50% Complete (optional text)"></calcite-progress>
-        <br>
-        <br>
-        <br>
-
+        <br />
+        <br />
+        <br />
         <div class="demo-background-dark">
           <h1>Indeterminate</h1>
-          <calcite-progress theme="dark" type="indeterminate">
-            <br>
-          </calcite-progress>
-          <br>
-          <br>
+          <calcite-progress theme="dark" type="indeterminate"></calcite-progress>
+          <br />
+          <br />
           <h1>Determinate</h1>
           <calcite-progress theme="dark" type="determinate" value="0.5" text="50% Complete (optional text)">
           </calcite-progress>
@@ -2845,6 +2844,26 @@
 
               </calcite-accordion-item>
             </calcite-accordion>
+            <h4>Transparent</h4>
+            <calcite-accordion appearance="transparent">
+              <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 2" active><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 5">
+                <calcite-radio-group scale="s">
+                  <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+                  <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+                </calcite-radio-group>
+
+              </calcite-accordion-item>
+            </calcite-accordion>
             <h4>Selection mode: "single" (only open one at a time)</h4>
             <calcite-accordion selection-mode="single">
               <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
@@ -3339,6 +3358,7 @@
     </calcite-tabs>
 
     <calcite-alert color="red" id="alert-one" scale="s" auto-dismiss>
+
       <div slot="alert-title">Something failed - scale s</div>
       <div slot="alert-message">
         1 That thing you wanted to do didn't work as expected
@@ -3400,7 +3420,7 @@
     <!-- test prop validation duration -->
     <calcite-alert id="alert-nine" theme="dark" auto-dismiss auto-dismiss-duration="blast">
       <div slot="alert-message">9 A general piece of information</div>
-      <calcite-button slot="alert-link" title="my action" appearance="inline">Take action
+      <calcite-button slot="alert-link" theme="dark" title="my action" appearance="inline">Take action
       </calcite-button>
     </calcite-alert>
 
