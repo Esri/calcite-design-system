@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-progress` no longer accepts slotted content
 
 ### Added
+- added `calcite-label`, `calcite-input`, and `calcite-input-message` components
 - `calcite-accordion` now accepts `transparent` as an `appearance` attribute value
 - `calcite-accordion` now accepts an `icon-type` attribute to specify icon type - "chevron" (default), "caret" or "plus-minus"
 - `calcite-accordion-item` now accepts an `item-subtitle` attribute to display beneath `item-title`

@@ -14,9 +14,21 @@
   display: flex;
   flex-direction: column;
   font-weight: 500;
+  margin: 0 0 $baseline 0;
   @include font-size(-2);
 }
 
+
+:host([appearance="inline"]) label {
+  flex-direction: row;
+  align-items: center;
+}
+
+:host([appearance="inline-space-between"]) label {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-red),
   "valid" var(--calcite-ui-text-2), "idle" var(--calcite-ui-text-2);
@@ -25,7 +37,7 @@ $inputStatusColors: "invalid" var(--calcite-ui-red),
   $name: nth($statusColor, 1);
   $color: nth($statusColor, 2);
 
-  :host([status="#{$name}"]) label{
+  :host([status="#{$name}"]) label {
     color: $color;
   }
 }

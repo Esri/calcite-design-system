@@ -442,7 +442,7 @@
 
       <calcite-tab>
         <calcite-loader is-active></calcite-loader>
-        <calcite-loader is-active no-padding ></calcite-loader>
+        <calcite-loader is-active no-padding></calcite-loader>
         <calcite-loader is-active title="optional loading text&hellip;" type="indeterminate"></calcite-loader>
         <calcite-loader is-active class="green" title="Custom theme..."></calcite-loader>
         <style>
@@ -3359,13 +3359,50 @@
       <calcite-tab>
         <div style="text-align:center">
           <div
-            style="width:400px;display:inline-flex;max-width:100%;flex-direction:column;margin:0 auto;text-align:center;padding:2em">
+            style="width:400px;display:inline-flex;max-width:100%;flex-direction:column;margin:0 auto;padding:2em">
             <h3>Inputs</h3>
 
-            <calcite-accordion scale="l" icon-position="start" selection-mode="single">
+            <calcite-accordion scale="m" icon-position="start" selection-mode="single">
+              <calcite-accordion-item item-title="With other components"
+                item-subtitle="Positioned inline with components" active>
+
+                <calcite-label type="inline">
+                  Text leading inline
+                  <calcite-switch></calcite-switch>
+                </calcite-label>
+                <calcite-label appearance="inline">
+                  <calcite-switch></calcite-switch>
+                  Text trailing inline
+                </calcite-label>
+
+                <calcite-label appearance="inline">
+                  Text leading inline
+                  <calcite-checkbox></calcite-checkbox>
+                </calcite-label>
+                <calcite-label appearance="inline">
+                  <calcite-checkbox></calcite-checkbox>
+                  Text trailing inline
+                </calcite-label>
+                <calcite-label appearance="inline-space-between">
+                  Text leading inline-space-between
+                  <calcite-switch></calcite-switch>
+                </calcite-label>
+                <calcite-label appearance="inline-space-between">
+                  <calcite-switch></calcite-switch>
+                  Text trailing inline-space-between
+                </calcite-label>
+
+                <calcite-label appearance="inline-space-between">
+                  Text leading inline-space-between
+                  <calcite-checkbox></calcite-checkbox>
+                </calcite-label>
+                <calcite-label appearance="inline-space-between">
+                  <calcite-checkbox></calcite-checkbox>
+                  Text trailing inline-space-between
+              </calcite-accordion-item>
               <calcite-accordion-item item-title="Input types" active>
                 <calcite-label>
-                  Text input
+                  Text input inline-space-between
                   <calcite-input type="text" placeholder="John Doe"></calcite-input>
                 </calcite-label>
 

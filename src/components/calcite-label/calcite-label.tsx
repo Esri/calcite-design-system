@@ -37,6 +37,9 @@ export class CalciteLabel {
   /** specify theme of the lavel and its any child input / input messages */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
+  /** is the wrapped element positioned inline with the label slotted text */
+  @Prop({ mutable: true, reflect: true }) appearance: "inline" | "inline-space-between" | "default" = "default";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle

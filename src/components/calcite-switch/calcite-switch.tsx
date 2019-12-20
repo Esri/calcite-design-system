@@ -33,7 +33,7 @@ export class CalciteSwitch {
   /** What color the switch should be */
   @Prop({ reflect: true, mutable: true }) color: "red" | "blue" = "blue";
 
-  /** The scale of the button */
+  /** The scale of the switch */
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
   /** The component's theme. */
@@ -100,7 +100,6 @@ export class CalciteSwitch {
         <div class="track">
           <div class="handle" />
         </div>
-        <slot />
       </Host>
     );
   }
