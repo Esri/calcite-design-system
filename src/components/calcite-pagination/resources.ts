@@ -3,7 +3,8 @@ export const CSS = {
   selected: "is-selected",
   previous: "previous",
   next: "next",
-  disabled: "is-disabled"
+  disabled: "is-disabled",
+  ellipsis: "ellipsis"
 };
 
 export const TEXT = {

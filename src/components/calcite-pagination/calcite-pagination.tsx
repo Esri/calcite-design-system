@@ -13,8 +13,10 @@ import {
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { CSS, TEXT } from "./resources";
-import { chevronLeft16, chevronRight16 } from "@esri/calcite-ui-icons";
+import { chevronLeft16, chevronRight16, ellipsis16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
+
+const maxPagesDisplayed = 5;
 
 @Component({
   tag: "calcite-pagination",
@@ -109,14 +111,6 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
-  renderPage(num) {
-    return (
-      <a class={{[CSS.page]:true, [CSS.selected]: (num === this.selectedIndex) }} onClick={() => {
-        this.selectedIndex = num;
-      }}>{num}</a>
-    );
-  }
-
   renderPages() {
     let pages = [];
     let currentNum = this.start;
@@ -127,6 +121,34 @@ export class CalcitePagination {
     return pages;
   }
 
+  renderPage(num) {
+    return (
+      <a class={{[CSS.page]:true, [CSS.selected]: (num === this.selectedIndex) }} onClick={() => {
+        this.selectedIndex = num;
+      }}>{num}</a>
+    );
+  }
+
+  renderLeftEllipsis() {
+    if ( this.total > maxPagesDisplayed && this.selectedIndex >= (maxPagesDisplayed - 2) ) {
+      return (
+        <span class={CSS.ellipsis}>
+          <CalciteIcon size="16" path={ellipsis16} />
+        </span>
+      );
+    }
+  }
+
+  renderRightEllipsis() {
+    if ( this.total > maxPagesDisplayed && this.selectedIndex <= (this.total - 2) ) {
+      return (
+        <span class={CSS.ellipsis}>
+          <CalciteIcon size="16" path={ellipsis16} />
+        </span>
+      );
+    }
+  }
+
   render() {
     const dir = getElementDir(this.el);
 
@@ -135,7 +157,9 @@ export class CalcitePagination {
         <a class={{[CSS.previous]: true, [CSS.disabled]: this.selectedIndex <= 1}} title={this.textLabelPrevious} onClick={this.previousClicked}>
           <CalciteIcon size="16" path={chevronLeft16} />
         </a>
+        {this.renderLeftEllipsis()}
         {this.renderPages()}
+        {this.renderRightEllipsis()}
         <a class={{[CSS.next]: true, [CSS.disabled]: this.selectedIndex >= this.total}} title={this.textLabelNext} onClick={this.nextClicked}>
           <CalciteIcon size="16" path={chevronRight16} />
         </a>
