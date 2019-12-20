@@ -442,6 +442,7 @@
 
       <calcite-tab>
         <calcite-loader is-active></calcite-loader>
+        <calcite-loader is-active no-padding ></calcite-loader>
         <calcite-loader is-active title="optional loading text&hellip;" type="indeterminate"></calcite-loader>
         <calcite-loader is-active class="green" title="Custom theme..."></calcite-loader>
         <style>
@@ -843,24 +844,17 @@
 
       <calcite-tab>
         <h1>Indeterminate</h1>
-        <calcite-progress type="indeterminate">
-          <br>
-        </calcite-progress>
-        <br>
-        <br>
+        <calcite-progress type="indeterminate"></calcite-progress>
         <h1>Determinate</h1>
         <calcite-progress type="determinate" value="0.5" text="50% Complete (optional text)"></calcite-progress>
-        <br>
-        <br>
-        <br>
-
+        <br />
+        <br />
+        <br />
         <div class="demo-background-dark">
           <h1>Indeterminate</h1>
-          <calcite-progress theme="dark" type="indeterminate">
-            <br>
-          </calcite-progress>
-          <br>
-          <br>
+          <calcite-progress theme="dark" type="indeterminate"></calcite-progress>
+          <br />
+          <br />
           <h1>Determinate</h1>
           <calcite-progress theme="dark" type="determinate" value="0.5" text="50% Complete (optional text)">
           </calcite-progress>
@@ -2851,6 +2845,26 @@
 
               </calcite-accordion-item>
             </calcite-accordion>
+            <h4>Transparent</h4>
+            <calcite-accordion appearance="transparent">
+              <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 2" active><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 5">
+                <calcite-radio-group scale="s">
+                  <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
+                  <calcite-radio-group-item value="No">No</calcite-radio-group-item>
+                </calcite-radio-group>
+
+              </calcite-accordion-item>
+            </calcite-accordion>
             <h4>Selection mode: "single" (only open one at a time)</h4>
             <calcite-accordion selection-mode="single">
               <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
@@ -2896,6 +2910,93 @@
           <div style="display:inline-flex;flex-direction:column;width:33%;padding:10px">
             <h4>icon-position: start</h4>
             <calcite-accordion icon-position="start">
+              <calcite-accordion-item item-title="Accordion Item" item-subtitle="A bit of subtext about this item"><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 2" active><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 5">
+                <calcite-tree lines>
+                  <calcite-tree-item>
+                    Child 1
+                  </calcite-tree-item>
+
+                  <calcite-tree-item>
+                    Child 2
+
+                    <calcite-tree slot="children">
+                      <calcite-tree-item>
+                        Grandchild 1
+                      </calcite-tree-item>
+
+                      <calcite-tree-item>
+                        Grandchild 2
+                        <calcite-tree slot="children">
+                          <calcite-tree-item>
+                            Great-Grandchild 1
+                          </calcite-tree-item>
+                          <calcite-tree-item>
+                            Great-Grandchild 2
+                          </calcite-tree-item>
+                        </calcite-tree>
+                      </calcite-tree-item>
+                    </calcite-tree>
+
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-accordion-item>
+            </calcite-accordion>
+            <h4>icon-position: start</h4>
+            <calcite-accordion icon-position="start" icon-type="caret">
+              <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 2" active><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"><img
+                  src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-subtitle="A bit of subtext about this item" item-title="Accordion Item 5">
+                <calcite-tree lines>
+                  <calcite-tree-item>
+                    Child 1
+                  </calcite-tree-item>
+
+                  <calcite-tree-item>
+                    Child 2
+
+                    <calcite-tree slot="children">
+                      <calcite-tree-item>
+                        Grandchild 1
+                      </calcite-tree-item>
+
+                      <calcite-tree-item>
+                        Grandchild 2
+                        <calcite-tree slot="children">
+                          <calcite-tree-item>
+                            Great-Grandchild 1
+                          </calcite-tree-item>
+                          <calcite-tree-item>
+                            Great-Grandchild 2
+                          </calcite-tree-item>
+                        </calcite-tree>
+                      </calcite-tree-item>
+                    </calcite-tree>
+
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-accordion-item>
+            </calcite-accordion>
+            <h4>icon-position: end</h4>
+            <calcite-accordion icon-position="end" icon-type="plus-minus">
               <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
               </calcite-accordion-item>
               <calcite-accordion-item item-title="Accordion Item 2" active><img
@@ -2939,10 +3040,11 @@
             </calcite-accordion>
             <h4>Minimal icon-position: start</h4>
             <calcite-accordion appearance="minimal" icon-position="start">
-              <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
-              </calcite-accordion-item>
-              <calcite-accordion-item item-title="Accordion Item 2" active><img
+              <calcite-accordion-item item-title="Accordion Item" item-subtitle="A bit of subtext about this item"><img
                   src="https://placem.at/places?w=200&txt=0" />
+              </calcite-accordion-item>
+              <calcite-accordion-item item-title="Accordion Item 2" item-subtitle="A bit of subtext about this item"
+                active><img src="https://placem.at/places?w=200&txt=0" />
               </calcite-accordion-item>
               <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"><img
                   src="https://placem.at/places?w=200&txt=0" />
