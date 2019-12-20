@@ -22,6 +22,11 @@
   }
 }
 
+// todo
+:host([appearance="wide"]) > a section{
+flex-direction: row;
+}
+
 :host .header,
 :host .footer {
   padding: $baseline/2;
@@ -33,18 +38,17 @@
 }
 
 :host .footer {
-  padding: $baseline/4 $baseline/2 $baseline/2;
+  padding: $baseline/2;
   flex-direction: row;
 }
 
 :host .card-content {
-  padding: 0 $baseline/2 $baseline/4;
+  padding: 0 $baseline/2;
   color: var(--calcite-ui-text-3);
   @include font-size(-2);
 }
 
 // selectable and selected styles
-
 :host([selectable]) > a:active {
   box-shadow: $shadow-1--press;
 }
@@ -88,13 +92,14 @@
   font-size: 0;
 }
 
+//todo rtl
 :host .card-checkbox-wrapper {
   position: absolute;
   top: $baseline/4;
-  left: $baseline/4;
+  right: $baseline/4;
 }
 
 :host([dir="rtl"]) .card-checkbox-wrapper {
-  right: $baseline/4;
-  left: initial;
+  left: $baseline/4;
+  right: initial;
 }

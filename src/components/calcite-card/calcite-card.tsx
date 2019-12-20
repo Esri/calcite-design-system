@@ -36,11 +36,11 @@ export class CalciteCard {
 
   @Element() el: HTMLCalciteCardElement;
 
-  // --------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
   //
-  //  Properties
+  //  Public Properties
   //
-  // --------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
 
   /**  true, the card can't be clicked and is visually muted.  */
   @Prop({ reflect: true }) disabled = false;
@@ -62,7 +62,11 @@ export class CalciteCard {
   @Prop({ reflect: true, mutable: true }) selectable = false;
 
   /**  The theme of the card.*/
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+
+  /**  The theme of the card.*/
+  @Prop({ reflect: true, mutable: true }) appearance: "wide" | "default" =
+    "wide";
 
   //--------------------------------------------------------------------------
   //
@@ -105,6 +109,11 @@ export class CalciteCard {
       </Host>
     );
   }
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
 
   //--------------------------------------------------------------------------
   //
@@ -144,24 +153,15 @@ export class CalciteCard {
   }
 
   private renderCheckbox(): VNode {
-    const uniqueId = `calcite-card-checkbox-${guid()}`;
     return (
       <div>
         <div
           class="card-checkbox-wrapper"
           onClick={() => this.cardSelectClick()}
           onKeyDown={e => this.cardSelectKeyDown(e)}
-          id={uniqueId}
         >
           <calcite-checkbox checked={this.selected}></calcite-checkbox>
         </div>
-        <calcite-tooltip
-          id={`calcite-card-tooltip-${guid()}`}
-          referenceElement={uniqueId}
-          placement="bottom"
-        >
-          I'm tooltip
-        </calcite-tooltip>
       </div>
     );
   }
