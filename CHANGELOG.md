@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - `setFocus()` added to `calcite-alert` - focuses a slotted link or a close button, if present
+- `calcite-loader` now accepts a `no-padding` boolean attribute
 
 ### Updated
 - `setFocus()` now focuses the first element in a `calcite-notice` - a slotted link or a close button, if present
