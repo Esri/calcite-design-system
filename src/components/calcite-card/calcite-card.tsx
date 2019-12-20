@@ -10,7 +10,6 @@ import {
 import { CSS, SLOTS } from "./resources";
 import { ENTER, SPACE } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { VNode } from "@stencil/core/dist/declarations";
 
 /**
