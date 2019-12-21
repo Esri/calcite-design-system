@@ -83,12 +83,12 @@ export class CalcitePagination {
 
   @Method()
   async nextPage(): Promise<void> {
-    this.selectedIndex = Math.max(this.total, this.selectedIndex + 1);
+    this.selectedIndex = Math.min(this.total, this.selectedIndex + 1);
   }
 
   @Method()
   async previousPage(): Promise<void> {
-    this.selectedIndex = Math.min(1, this.selectedIndex - 1);
+    this.selectedIndex = Math.max(1, this.selectedIndex - 1);
   }
 
   // --------------------------------------------------------------------------
@@ -113,13 +113,54 @@ export class CalcitePagination {
 
   renderPages() {
     let pages = [];
-    let currentNum = this.start;
-    while (currentNum <= this.total) {
-      pages.push(this.renderPage(currentNum));
-      currentNum ++;
+    let currentNum = this.start + 1;
+    let end = this.total -1;
+
+    // const startDelta = Math.abs( this.selectedIndex - this.start );
+    // const endDelta = Math.abs( this.total - this.selectedIndex );
+    // console.log("startDelta: " + startDelta);
+    // console.log("endDelta: " + endDelta);
+
+    if ( this.total <= maxPagesDisplayed ) {
+      // ez no ellipsis
+      currentNum = this.start;
+      while (currentNum < end) {
+        pages.push(currentNum);
+        currentNum ++;
+      }
+    } else if ( this.selectedIndex < (maxPagesDisplayed) ) {
+      currentNum = this.start + 1;
+      end = maxPagesDisplayed;
+      while (currentNum <= end) {
+        pages.push(currentNum);
+        currentNum ++;
+      }
     }
-    return pages;
+
+    // } else {
+    //   currentNum = this.selectedIndex - 1;
+    //   end = this.selectedIndex + 1;
+    //   while (currentNum <= end) {
+    //     pages.push(currentNum);
+    //     currentNum ++;
+    //   }
+    //   pages.unshift(this.start);
+    //   pages.push(this.total);
+    // }
+
+    return pages.map(page => {
+      return this.renderPage(page);
+    });
   }
+
+  // getPagesToDisplay() {
+  //   const pageDisplayArray = [];
+  //   if ( this.total <= maxPagesDisplayed ) {
+  //     pageDisplayArray = [1,2,3,4,5];
+  //   }
+  //   pageDisplayArray.unshift(this.start);
+  //   pageDisplayArray.push(this.total);
+  // }
 
   renderPage(num) {
     return (
@@ -130,7 +171,7 @@ export class CalcitePagination {
   }
 
   renderLeftEllipsis() {
-    if ( this.total > maxPagesDisplayed && this.selectedIndex >= (maxPagesDisplayed - 2) ) {
+    if ( this.total > maxPagesDisplayed && this.selectedIndex >= (maxPagesDisplayed) ) {
       return (
         <span class={CSS.ellipsis}>
           <CalciteIcon size="16" path={ellipsis16} />
@@ -157,9 +198,11 @@ export class CalcitePagination {
         <a class={{[CSS.previous]: true, [CSS.disabled]: this.selectedIndex <= 1}} title={this.textLabelPrevious} onClick={this.previousClicked}>
           <CalciteIcon size="16" path={chevronLeft16} />
         </a>
+        {this.renderPage(this.start)}
         {this.renderLeftEllipsis()}
         {this.renderPages()}
         {this.renderRightEllipsis()}
+        {this.renderPage(this.total)}
         <a class={{[CSS.next]: true, [CSS.disabled]: this.selectedIndex >= this.total}} title={this.textLabelNext} onClick={this.nextClicked}>
           <CalciteIcon size="16" path={chevronRight16} />
         </a>
