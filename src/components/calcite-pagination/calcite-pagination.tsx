@@ -105,6 +105,14 @@ export class CalcitePagination {
     this.nextPage();
   };
 
+  showLeftEllipsis() {
+    return (this.selectedIndex - this.start) > 3;
+  }
+
+  showRightEllipsis() {
+    return (this.total - this.selectedIndex) > 2;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -113,54 +121,36 @@ export class CalcitePagination {
 
   renderPages() {
     let pages = [];
-    let currentNum = this.start + 1;
-    let end = this.total -1;
-
-    // const startDelta = Math.abs( this.selectedIndex - this.start );
-    // const endDelta = Math.abs( this.total - this.selectedIndex );
-    // console.log("startDelta: " + startDelta);
-    // console.log("endDelta: " + endDelta);
+    let currentNum;
+    let end;
 
     if ( this.total <= maxPagesDisplayed ) {
-      // ez no ellipsis
-      currentNum = this.start;
-      while (currentNum < end) {
-        pages.push(currentNum);
-        currentNum ++;
-      }
-    } else if ( this.selectedIndex < (maxPagesDisplayed) ) {
       currentNum = this.start + 1;
-      end = maxPagesDisplayed;
-      while (currentNum <= end) {
-        pages.push(currentNum);
-        currentNum ++;
+      end = this.total -1;
+    } else {
+      if ( this.selectedIndex < maxPagesDisplayed ) {
+        currentNum = this.start + 1;
+        end = this.start + 4;
+      } else {
+        if ( this.selectedIndex + 3 >= this.total ) {
+          currentNum = this.total - 4;
+          end = this.total -1;
+        } else {
+          currentNum = this.selectedIndex - 1;
+          end = this.selectedIndex + 1;
+        }
       }
     }
 
-    // } else {
-    //   currentNum = this.selectedIndex - 1;
-    //   end = this.selectedIndex + 1;
-    //   while (currentNum <= end) {
-    //     pages.push(currentNum);
-    //     currentNum ++;
-    //   }
-    //   pages.unshift(this.start);
-    //   pages.push(this.total);
-    // }
+    while (currentNum <= end) {
+      pages.push(currentNum);
+      currentNum ++;
+    }
 
     return pages.map(page => {
       return this.renderPage(page);
     });
   }
-
-  // getPagesToDisplay() {
-  //   const pageDisplayArray = [];
-  //   if ( this.total <= maxPagesDisplayed ) {
-  //     pageDisplayArray = [1,2,3,4,5];
-  //   }
-  //   pageDisplayArray.unshift(this.start);
-  //   pageDisplayArray.push(this.total);
-  // }
 
   renderPage(num) {
     return (
@@ -171,7 +161,7 @@ export class CalcitePagination {
   }
 
   renderLeftEllipsis() {
-    if ( this.total > maxPagesDisplayed && this.selectedIndex >= (maxPagesDisplayed) ) {
+    if ( this.total > maxPagesDisplayed && this.showLeftEllipsis() ) {
       return (
         <span class={CSS.ellipsis}>
           <CalciteIcon size="16" path={ellipsis16} />
@@ -181,7 +171,7 @@ export class CalcitePagination {
   }
 
   renderRightEllipsis() {
-    if ( this.total > maxPagesDisplayed && this.selectedIndex <= (this.total - 2) ) {
+    if ( this.total > maxPagesDisplayed && ( this.total - this.selectedIndex > 3 ) ) {
       return (
         <span class={CSS.ellipsis}>
           <CalciteIcon size="16" path={ellipsis16} />
