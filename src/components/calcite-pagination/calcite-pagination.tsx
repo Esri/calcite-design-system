@@ -60,7 +60,7 @@ export class CalcitePagination {
 
   @State() selectedIndex = this.num;
   @Watch('selectedIndex') selectedIndexWatchHandler() {
-    this.calcitePageChange.emit({
+    this.calcitePaginationUpdate.emit({
       start: this.start,
       total: this.total,
       num: this.selectedIndex
@@ -73,7 +73,7 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calcitePageChange: EventEmitter;
+  @Event() calcitePaginationUpdate: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
