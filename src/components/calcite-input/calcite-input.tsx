@@ -52,10 +52,10 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) icon?: string;
 
   /** optionally add prefix  **/
-  @Prop({ mutable: true }) prefixString?: string;
+  @Prop({ mutable: true }) prefix?: string;
 
   /** optionally add suffix  **/
-  @Prop({ mutable: true }) suffixString?: string;
+  @Prop({ mutable: true }) suffix?: string;
 
   /** specify the placement of the number buttons */
   @Prop({ mutable: true, reflect: true }) numberButtonType?:
@@ -144,7 +144,7 @@ export class CalciteInput {
         onClick={e => this.handleNumberButtonClick(e)}
         data-adjustment="up"
       >
-        <calcite-icon  icon="chevron-up" filled></calcite-icon>
+        <calcite-icon icon="chevron-up" filled></calcite-icon>
       </div>
     );
 
@@ -154,7 +154,7 @@ export class CalciteInput {
         onClick={e => this.handleNumberButtonClick(e)}
         data-adjustment="down"
       >
-        <calcite-icon  icon="chevron-down" filled></calcite-icon>
+        <calcite-icon icon="chevron-down" filled></calcite-icon>
       </div>
     );
 
@@ -177,16 +177,23 @@ export class CalciteInput {
           autofocus={this.autofocus ? true : null}
         />
       ) : (
-        <textarea
-          {...attributes}
-          onBlur={() => this.inputBlurHandler()}
-          onFocus={() => this.inputFocusHandler()}
-          onInput={e => this.inputChangeHandler(e)}
-          required={this.required ? true : null}
-          autofocus={this.autofocus ? true : null}
-        >
-          <slot />
-        </textarea>
+        [
+          <textarea
+            {...attributes}
+            onBlur={() => this.inputBlurHandler()}
+            onFocus={() => this.inputFocusHandler()}
+            onInput={e => this.inputChangeHandler(e)}
+            required={this.required ? true : null}
+            autofocus={this.autofocus ? true : null}
+          >
+            <slot />
+          </textarea>,
+          <calcite-icon
+            icon="chevron-down"
+            class="calcite-input-resize-icon"
+            filled
+          ></calcite-icon>
+        ]
       );
 
     return (
@@ -195,20 +202,16 @@ export class CalciteInput {
           {this.inputType === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
             : null}
-          {this.prefixString ? (
-            <div class="calcite-input-prefix">
-              {this.prefixString}
-            </div>
+          {this.prefix ? (
+            <div class="calcite-input-prefix">{this.prefix}</div>
           ) : null}
           {childEl}
           <slot name="input-action"></slot>
           {this.inputType === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical
             : null}
-          {this.suffixString ? (
-            <div class="calcite-input-suffix">
-              {this.suffixString}
-            </div>
+          {this.suffix ? (
+            <div class="calcite-input-suffix">{this.suffix}</div>
           ) : null}
           {this.inputType === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp
@@ -353,7 +356,11 @@ export class CalciteInput {
 
   private setIcon(path) {
     return (
-        <calcite-icon class="calcite-input-icon" scale="s" icon={path}></calcite-icon>
+      <calcite-icon
+        class="calcite-input-icon"
+        scale="s"
+        icon={path}
+      ></calcite-icon>
     );
   }
 }

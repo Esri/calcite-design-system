@@ -112,6 +112,10 @@ calcite-input slot:not[name="input-message"] {
   color: var(--calcite-ui-text-2);
   font-weight: 500;
 }
+//todo rtl
+calcite-input slot[name="input-action"]::slotted {
+  // order: 9;
+}
 
 calcite-input[width="auto"] {
   width: 100px;
@@ -264,7 +268,8 @@ calcite-input[appearance="minimal"][number-button-type="vertical"]
   position: relative;
 }
 
-//todo rtl
+// todo rtl
+// number
 calcite-input input[type="number"] {
   text-align: right;
 }
@@ -279,6 +284,8 @@ calcite-input input[type="number"]::-webkit-outer-spin-button {
 calcite-input input[type="number"] {
   -moz-appearance: textfield;
 }
+// resize
+
 calcite-input textarea::-webkit-resizer {
   box-sizing: border-box;
   position: absolute;
@@ -290,6 +297,17 @@ calcite-input textarea::-webkit-resizer {
   padding: 0 $baseline/4;
 }
 
+.calcite-input-resize-icon {
+  position: absolute;
+  z-index: 1;
+  bottom: 6px;
+  right: 6px;
+  pointer-events: none;
+  width: 10px;
+  height: 10px;
+  transform: rotate(-45deg);
+}
+// file
 calcite-input[type="file"] input,
 calcite-input[type="file"] textarea {
   cursor: pointer;
