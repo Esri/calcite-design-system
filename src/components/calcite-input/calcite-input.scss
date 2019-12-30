@@ -274,7 +274,6 @@ calcite-input input[type="number"]::-webkit-inner-spin-button,
 calcite-input input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   -moz-appearance: textfield;
-  -moz-appearance: textfield;
   margin: 0;
 }
 
@@ -288,17 +287,14 @@ calcite-input textarea::-webkit-resizer {
   position: absolute;
   bottom: 0;
   right: 0;
-  cursor: row-resize;
-  border-top: 1px solid var(--calcite-ui-border-3);
-  border-left: 1px solid var(--calcite-ui-border-3);
   padding: 0 $baseline/4;
 }
 
 .calcite-input-resize-icon {
   position: absolute;
   z-index: 1;
-  bottom: 6px;
-  right: 6px;
+  bottom: 10px;
+  right: 10px;
   pointer-events: none;
   width: 10px;
   height: 10px;
@@ -315,12 +311,14 @@ calcite-input[type="file"] textarea {
 }
 
 // status
-$inputStatusColors: "invalid" var(--calcite-ui-red),
-  "valid" var(--calcite-ui-blue), "idle" var(--calcite-ui-blue);
+$inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-red),
+  "valid" var(--calcite-ui-text-1) var(--calcite-ui-blue) ,
+  "idle"  var(--calcite-ui-text-1) var(--calcite-ui-blue);
 
 @each $statusColor in $inputStatusColors {
   $name: nth($statusColor, 1);
   $color: nth($statusColor, 2);
+  $borderColor: nth($statusColor, 3);
 
   calcite-input[status="#{$name}"] input,
   calcite-input[status="#{$name}"] textarea {
@@ -328,7 +326,7 @@ $inputStatusColors: "invalid" var(--calcite-ui-red),
   }
   calcite-input[status="#{$name}"] input:focus,
   calcite-input[status="#{$name}"] textarea:focus {
-    border-color: $color;
+    border-color: $borderColor;
     color: $color;
   }
 
