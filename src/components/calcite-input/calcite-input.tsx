@@ -52,10 +52,10 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) icon?: string;
 
   /** optionally add prefix  **/
-  @Prop({ mutable: true }) prefix?: string;
+  @Prop({ mutable: true }) prefixText?: string;
 
   /** optionally add suffix  **/
-  @Prop({ mutable: true }) suffix?: string;
+  @Prop({ mutable: true }) suffixText?: string;
 
   /** specify the placement of the number buttons */
   @Prop({ mutable: true, reflect: true }) numberButtonType?:
@@ -202,16 +202,16 @@ export class CalciteInput {
           {this.inputType === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
             : null}
-          {this.prefix ? (
-            <div class="calcite-input-prefix">{this.prefix}</div>
+          {this.prefixText ? (
+            <div class="calcite-input-prefix">{this.prefixText}</div>
           ) : null}
           {childEl}
           <slot name="input-action"></slot>
           {this.inputType === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical
             : null}
-          {this.suffix ? (
-            <div class="calcite-input-suffix">{this.suffix}</div>
+          {this.suffixText ? (
+            <div class="calcite-input-suffix">{this.suffixText}</div>
           ) : null}
           {this.inputType === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp

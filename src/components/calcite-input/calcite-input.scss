@@ -27,7 +27,7 @@ calcite-input input {
   box-shadow: 0 0 0 0 transparent;
   outline: 0;
   background-color: var(--calcite-ui-foreground);
-  color: var(--calcite-ui-blue);
+  color: var(--calcite-ui-text-1);
   order: 3;
   &::placeholder {
     color: var(--calcite-ui-text-3);
@@ -60,7 +60,7 @@ calcite-input[appearance="minimal"] {
   }
   & .calcite-input-loading {
     top: initial;
-    bottom: -19px;
+    bottom: 1px;
     left: 0;
     right: 0;
   }
@@ -90,17 +90,14 @@ calcite-input textarea:hover {
 calcite-input textarea:focus,
 calcite-input input:focus {
   &::placeholder {
-    color: var(--calcite-ui-blue);
     opacity: 0.7;
   }
 
   &:-ms-input-placeholder {
-    color: var(--calcite-ui-blue);
     opacity: 0.7;
   }
 
   &::-ms-input-placeholder {
-    color: var(--calcite-ui-blue);
     opacity: 0.7;
   }
 }

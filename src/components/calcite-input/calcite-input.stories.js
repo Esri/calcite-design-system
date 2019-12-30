@@ -52,8 +52,8 @@ storiesOf("Input", module)
         },
         "horizontal"
       )}"
-      prefix="${text("prefix", "")}"
-      suffix="${text("suffix", "")}"
+      prefix-string="${text("prefix-string", "")}"
+      suffix-string="${text("suffix-string", "")}"
       loading="${boolean("loading", false)}"
       autofocus="${boolean("autofocus", false)}"
       required="${boolean("required", false)}"
@@ -191,8 +191,8 @@ storiesOf("Input", module)
         },
         "horizontal"
       )}"
-      prefix="${text("prefix", "")}"
-      suffix="${text("suffix", "")}"
+      prefix-string="${text("prefix-string", "")}"
+      suffix-string="${text("suffix-string", "")}"
       loading="${boolean("loading", false)}"
       autofocus="${boolean("autofocus", false)}"
       required="${boolean("required", false)}"
