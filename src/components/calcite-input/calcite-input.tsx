@@ -9,17 +9,7 @@ import {
   Prop,
   State
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
-import { chevronUp16F } from "@esri/calcite-ui-icons";
-import { chevronDown16F } from "@esri/calcite-ui-icons";
-import { phone16F } from "@esri/calcite-ui-icons";
-import { send16F } from "@esri/calcite-ui-icons";
-import { lock16F } from "@esri/calcite-ui-icons";
-import { calendar16F } from "@esri/calcite-ui-icons";
-import { clock16F } from "@esri/calcite-ui-icons";
-import { search16F } from "@esri/calcite-ui-icons";
-import { getElementDir } from "../../utils/dom";
-import CalciteIcon from "../../utils/CalciteIcon";
+import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input",
@@ -154,7 +144,7 @@ export class CalciteInput {
         onClick={e => this.handleNumberButtonClick(e)}
         data-adjustment="up"
       >
-        <CalciteIcon size="16" path={chevronUp16F} />
+        <calcite-icon  icon="chevron-up" filled></calcite-icon>
       </div>
     );
 
@@ -164,7 +154,7 @@ export class CalciteInput {
         onClick={e => this.handleNumberButtonClick(e)}
         data-adjustment="down"
       >
-        <CalciteIcon size="16" path={chevronDown16F} />
+        <calcite-icon  icon="chevron-down" filled></calcite-icon>
       </div>
     );
 
@@ -281,12 +271,12 @@ export class CalciteInput {
 
   /** map icons to colors */
   private iconTypeDefaults = {
-    tel: phone16F,
-    password: lock16F,
-    email: send16F,
-    date: calendar16F,
-    time: clock16F,
-    search: search16F
+    tel: "phone",
+    password: "lock",
+    email: "send",
+    date: "calendar",
+    time: "clock",
+    search: "search"
   };
 
   private focusChildEl() {
@@ -363,9 +353,7 @@ export class CalciteInput {
 
   private setIcon(path) {
     return (
-      <div class="calcite-input-icon">
-        <CalciteIcon size="16" path={path} />
-      </div>
+        <calcite-icon class="calcite-input-icon" scale="s" icon={path}></calcite-icon>
     );
   }
 }

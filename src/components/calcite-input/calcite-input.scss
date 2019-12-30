@@ -133,10 +133,8 @@ calcite-input[icon] input {
   margin: 1px auto 0;
   line-height: inherit;
   z-index: 9;
-  & svg {
-    transition: $transition;
-    fill: var(--calcite-ui-text-3);
-  }
+  transition: $transition;
+  color: var(--calcite-ui-text-3);
 }
 
 .calcite-input-loading {
@@ -199,7 +197,8 @@ calcite-input[number-button-type="vertical"] textarea {
   min-height: 100%;
   max-height: 100%;
   order: 1;
-  & svg {
+  align-self: auto;
+  & calcite-icon {
     transform: rotate(90deg);
   }
 }
@@ -220,6 +219,7 @@ calcite-input[number-button-type="vertical"]
 
 .calcite-input-number-button-item {
   display: flex;
+  align-self: center;
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
@@ -231,11 +231,10 @@ calcite-input[number-button-type="vertical"]
   pointer-events: initial;
   background-color: var(--calcite-ui-foreground);
   border-left: none;
-
-  & svg {
+  & calcite-icon {
     pointer-events: none;
-    height: 8px;
-    width: 8px;
+    width: 10px;
+    height: auto;
   }
   &:hover,
   &:focus {
@@ -318,8 +317,8 @@ $inputStatusColors: "invalid" var(--calcite-ui-red),
     color: $color;
   }
 
-  calcite-input[status="#{$name}"] input:focus ~ .calcite-input-icon svg,
-  calcite-input[status="#{$name}"] textarea:focus ~ .calcite-input-icon svg {
-    fill: $color;
+  calcite-input[status="#{$name}"] input:focus ~ .calcite-input-icon,
+  calcite-input[status="#{$name}"] textarea:focus ~ .calcite-input-icon {
+    color: $color;
   }
 }

@@ -14,10 +14,8 @@
   display: flex;
   flex-direction: column;
   font-weight: 500;
-  margin: 0 0 $baseline 0;
   @include font-size(-2);
 }
-
 
 :host([appearance="inline"]) label {
   flex-direction: row;

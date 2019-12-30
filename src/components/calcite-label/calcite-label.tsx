@@ -123,7 +123,8 @@ export class CalciteLabel {
     } else {
       elToFocus = this.el.querySelector("input")
         ? this.el.querySelector("input")
-        : this.el.querySelector("textarea");
+        : this.el.querySelector("textarea")
+        ? this.el.querySelector("calcite-switch") : null;
     }
     elToFocus.focus();
   }
