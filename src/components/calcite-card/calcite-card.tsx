@@ -16,7 +16,8 @@ import { VNode } from "@stencil/core/dist/declarations";
  * @slot thumbnail - [Required] A slot for adding a thumnail to the card.
  * @slot header - [Required] A slot for adding a heading and an icon to the card.
  * @slot - A slot for adding subheader/description content.
- * @slot action - A slot for adding a single action as a button.
+ * @slot title - A slot for adding a card title.
+ * @slot subtitle - A slot for adding a card subtitle or short summary.
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
  */
@@ -42,28 +43,28 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /**  true, the card can't be clicked and is visually muted.  */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled: boolean = false;
 
   /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
-  @Prop({ reflect: true }) loading?: boolean = false;
+  @Prop({ reflect: true }) loading: boolean = false;
 
   /**
    * Indicates whether the image's height is respected for the crop of the thumbnail.
    * When false (default), the image fills the whole thumbnail space.
    * When true, the height of the thumbnail is used to crop and may not fill the container for the thumbnail.
    */
-  @Prop({ reflect: true }) respectImageHeight?: boolean = false;
+  @Prop({ reflect: true }) respectImageHeight: boolean = false;
 
   /** Indicates whether the card is selected. */
-  @Prop({ reflect: true, mutable: true }) selected?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) selected: boolean = false;
 
-  /** Indicates whether the card is selected. */
-  @Prop({ reflect: true, mutable: true }) selectable?: boolean = false;
+  /** Indicates whether the card is selectable. */
+  @Prop({ reflect: true, mutable: true }) selectable: boolean = false;
 
   /**  The theme of the card.*/
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
 
-  /**  The theme of the card.*/
+  /**  The appearance of the card. */
   @Prop({ reflect: true, mutable: true }) appearance: "wide" | "default" =
     "wide";
 
@@ -92,16 +93,18 @@ export class CalciteCard {
     return (
       <Host dir={dir}>
         <a>
-          {this.loading ? <calcite-loader class="calcite-card-loader" is-active></calcite-loader> : null}
+          {this.loading ? (
+            <calcite-loader
+              class="calcite-card-loader"
+              is-active
+            ></calcite-loader>
+          ) : null}
           <section class={{ [CSS.container]: true }} aria-busy={this.loading}>
             {this.selectable ? this.renderCheckbox() : null}
             {this.renderThumbnail()}
             {this.renderHeader()}
             <div class="card-content">
               <slot />
-            </div>
-            <div class="action-button">
-              <slot name={SLOTS.buttonAction} />
             </div>
             {this.renderFooter()}
           </section>
@@ -165,7 +168,10 @@ export class CalciteCard {
   }
 
   private renderHeader(): VNode {
-    const hasHeader = this.el.querySelector(`[slot=${SLOTS.title}]`);
+    const title = this.el.querySelector(`[slot=${SLOTS.title}]`);
+    const subtitle = this.el.querySelector(`[slot=${SLOTS.subtitle}]`);
+    const hasHeader = title || subtitle;
+
     return hasHeader ? (
       <header class={CSS.header}>
         <slot name={SLOTS.title} />
