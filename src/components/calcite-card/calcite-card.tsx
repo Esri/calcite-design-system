@@ -42,23 +42,23 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /**  true, the card can't be clicked and is visually muted.  */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean = false;
 
   /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
-  @Prop({ reflect: true }) loading = false;
+  @Prop({ reflect: true }) loading?: boolean = false;
 
   /**
    * Indicates whether the image's height is respected for the crop of the thumbnail.
    * When false (default), the image fills the whole thumbnail space.
    * When true, the height of the thumbnail is used to crop and may not fill the container for the thumbnail.
    */
-  @Prop({ reflect: true }) respectImageHeight = false;
+  @Prop({ reflect: true }) respectImageHeight?: boolean = false;
 
   /** Indicates whether the card is selected. */
-  @Prop({ reflect: true, mutable: true }) selected = false;
+  @Prop({ reflect: true, mutable: true }) selected?: boolean = false;
 
   /** Indicates whether the card is selected. */
-  @Prop({ reflect: true, mutable: true }) selectable = false;
+  @Prop({ reflect: true, mutable: true }) selectable?: boolean = false;
 
   /**  The theme of the card.*/
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
@@ -92,6 +92,7 @@ export class CalciteCard {
     return (
       <Host dir={dir}>
         <a>
+          {this.loading ? <calcite-loader class="calcite-card-loader" is-active></calcite-loader> : null}
           <section class={{ [CSS.container]: true }} aria-busy={this.loading}>
             {this.selectable ? this.renderCheckbox() : null}
             {this.renderThumbnail()}
@@ -153,14 +154,12 @@ export class CalciteCard {
 
   private renderCheckbox(): VNode {
     return (
-      <div>
-        <div
-          class="card-checkbox-wrapper"
-          onClick={() => this.cardSelectClick()}
-          onKeyDown={e => this.cardSelectKeyDown(e)}
-        >
-          <calcite-checkbox checked={this.selected}></calcite-checkbox>
-        </div>
+      <div
+        class="card-checkbox-wrapper"
+        onClick={() => this.cardSelectClick()}
+        onKeyDown={e => this.cardSelectKeyDown(e)}
+      >
+        <calcite-checkbox checked={this.selected}></calcite-checkbox>
       </div>
     );
   }

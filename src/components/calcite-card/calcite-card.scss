@@ -23,8 +23,22 @@
 }
 
 // todo
-:host([appearance="wide"]) > a section{
-flex-direction: row;
+:host([loading]) a *:not(calcite-loader) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+// todo
+:host([loading]) .calcite-card-loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 9;
+}
+
+// todo
+:host([appearance="wide"]) > a section {
+  flex-direction: row;
 }
 
 :host .header,
