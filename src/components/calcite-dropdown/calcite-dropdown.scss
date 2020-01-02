@@ -8,6 +8,7 @@
   opacity: 1;
   max-height: 100vh;
   visibility: visible;
+  pointer-events: initial;
 }
 
 :host .calcite-dropdown-wrapper {
@@ -26,6 +27,7 @@
   background: var(--calcite-ui-foreground);
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
+  pointer-events: none;
 }
 
 :host([dir="rtl"]) .calcite-dropdown-wrapper {
