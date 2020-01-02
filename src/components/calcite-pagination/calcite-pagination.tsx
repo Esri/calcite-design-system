@@ -30,25 +30,26 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
-  /** starting number of the pagination */
-  @Prop({ reflect: true }) start = 1;
-
-  /** ending number of the pagination */
-  @Prop({ reflect: true }) total = 2;
-
-  /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-
   /** starting selected index */
   @Prop({ reflect: true }) num = 1;
   @Watch("num") numWatchHandler(newValue) {
     this.selectedIndex = newValue;
   }
 
+  /** starting number of the pagination */
+  @Prop({ reflect: true }) start = 1;
 
+  /** title of the next button */
   @Prop({ reflect: true }) textLabelNext:string = TEXT.nextLabel;
 
+  /** title of the previous button */
   @Prop({ reflect: true }) textLabelPrevious:string = TEXT.previousLabel;
+
+  /** specify the theme of accordion, defaults to light */
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+
+  /** ending number of the pagination */
+  @Prop({ reflect: true }) total = 2;
 
   // --------------------------------------------------------------------------
   //
@@ -163,7 +164,7 @@ export class CalcitePagination {
   renderLeftEllipsis() {
     if ( this.total > maxPagesDisplayed && this.showLeftEllipsis() ) {
       return (
-        <span class={CSS.ellipsis}>
+        <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
           <CalciteIcon size="16" path={ellipsis16} />
         </span>
       );
@@ -173,7 +174,7 @@ export class CalcitePagination {
   renderRightEllipsis() {
     if ( this.total > maxPagesDisplayed && ( this.total - this.selectedIndex > 3 ) ) {
       return (
-        <span class={CSS.ellipsis}>
+        <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
           <CalciteIcon size="16" path={ellipsis16} />
         </span>
       );

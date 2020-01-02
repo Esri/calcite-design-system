@@ -4,7 +4,9 @@ export const CSS = {
   previous: "previous",
   next: "next",
   disabled: "is-disabled",
-  ellipsis: "ellipsis"
+  ellipsis: "ellipsis",
+  ellipsisStart: "ellipsis--start",
+  ellipsisEnd: "ellipsis--end"
 };
 
 export const TEXT = {
