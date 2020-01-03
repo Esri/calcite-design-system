@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  // Listen,
   Prop,
   Method,
   State,
@@ -74,6 +73,9 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
+  /** Emitted whenever the selected page changes.
+   * @event calcitePaginationUpdate
+   */
   @Event() calcitePaginationUpdate: EventEmitter;
 
   // --------------------------------------------------------------------------
@@ -82,14 +84,25 @@ export class CalcitePagination {
   //
   // --------------------------------------------------------------------------
 
+  /** When called, selected page will increment by 1.
+   */
   @Method()
   async nextPage(): Promise<void> {
     this.selectedIndex = Math.min(this.total, this.selectedIndex + 1);
   }
 
+  /** When called, selected page will decrement by 1.
+   */
   @Method()
   async previousPage(): Promise<void> {
-    this.selectedIndex = Math.max(1, this.selectedIndex - 1);
+    this.selectedIndex = Math.max(this.start, this.selectedIndex - 1);
+  }
+
+  /** Set selected page to a specific page number. Will not go below start or above total.
+   */
+  @Method()
+  async setPage(num: number): Promise<void> {
+    this.selectedIndex = Math.max(this.start, Math.min(this.total, num));
   }
 
   // --------------------------------------------------------------------------
@@ -127,7 +140,7 @@ export class CalcitePagination {
 
     if ( this.total <= maxPagesDisplayed ) {
       currentNum = this.start + 1;
-      end = this.total -1;
+      end = this.total - 1;
     } else {
       if ( this.selectedIndex < maxPagesDisplayed ) {
         currentNum = this.start + 1;
