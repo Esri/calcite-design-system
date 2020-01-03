@@ -12,15 +12,21 @@
   border-bottom: 3px solid transparent;
   color: var(--calcite-ui-text-1);
   cursor: pointer;
+}
+.page {
   &:hover {
     border-bottom-color: var(--calcite-ui-border-hover);
   }
   &.is-selected {
+    font-weight: 600;
     border-bottom-color: var(--calcite-ui-blue);
   }
 }
 .previous, .next {
   padding: .75em 1em;
+  &:hover {
+    color: var(--calcite-ui-blue);
+  }
   &.is-disabled {
     color: var(--calcite-ui-text-3);
   }
