@@ -17,5 +17,5 @@ export const simple = () =>
     num="${number("Num", 1)}"
     dir="${select("dir", ["ltr", "rtl"],"ltr")}"
     theme="${select("Theme", ["light", "dark"] ,"light")}"
-    backgroundStyle="${select("Background Style", ["backgroundColor", "ForegroundColor"] ,"foregroundColor")}">
+    background-style="${select("Background Style", ["backgroundColor", "foregroundColor"] ,"foregroundColor")}">
   </calcite-pagination>`;
