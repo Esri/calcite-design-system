@@ -29,6 +29,9 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
+  /** Change between foreground colors or background colors for container background */
+  @Prop({ reflect: true }) backgroundStyle: "backgroundColor" | "foregroundColor" = "foregroundColor";
+
   /** starting selected index */
   @Prop({ reflect: true }) num = 1;
   @Watch("num") numWatchHandler(newValue) {
@@ -198,7 +201,7 @@ export class CalcitePagination {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir}>
+      <Host dir={dir} class={this.backgroundStyle}>
         <a class={{[CSS.previous]: true, [CSS.disabled]: this.selectedIndex <= 1}} title={this.textLabelPrevious} onClick={this.previousClicked}>
           <CalciteIcon size="16" path={chevronLeft16} />
         </a>
