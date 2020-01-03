@@ -111,7 +111,7 @@ export class CalcitePagination {
   }
 
   showRightEllipsis() {
-    return (this.total - this.selectedIndex) > 2;
+    return (this.total - this.selectedIndex) > 3;
   }
 
   //--------------------------------------------------------------------------
@@ -172,7 +172,7 @@ export class CalcitePagination {
   }
 
   renderRightEllipsis() {
-    if ( this.total > maxPagesDisplayed && ( this.total - this.selectedIndex > 3 ) ) {
+    if ( this.total > maxPagesDisplayed && this.showRightEllipsis() ) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
           <CalciteIcon size="16" path={ellipsis16} />
