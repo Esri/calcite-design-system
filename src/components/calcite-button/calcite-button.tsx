@@ -1,4 +1,12 @@
-import { Component, Element, h, Host, Prop, Build } from "@stencil/core";
+import {
+  Component,
+  Element,
+  h,
+  Host,
+  Method,
+  Prop,
+  Build
+} from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -56,6 +64,12 @@ export class CalciteButton {
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
 
+  /** optionally add a round style to the button  */
+  @Prop({ reflect: true }) round?: boolean = false;
+
+  /** optionally add a floating style to the button - this should be positioned fixed or sticky */
+  @Prop({ reflect: true }) floating?: boolean = false;
+
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
@@ -68,14 +82,6 @@ export class CalciteButton {
 
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
-
-  /** @internal */
-  /** hastext prop for spacing icon when text is present in slot */
-  @Prop({ mutable: true }) hasText: boolean = false;
-
-  /** @internal */
-  /** keep track of the rendered child type -  */
-  @Prop() childEl?: "a" | "span" | "button" = "button";
 
   //--------------------------------------------------------------------------
   //
@@ -104,7 +110,7 @@ export class CalciteButton {
     if (this.icon !== null && !iconPosition.includes(this.iconPosition))
       this.iconPosition = "start";
 
-    this.childEl = this.href
+    this.childElType = this.href
       ? "a"
       : this.appearance === "inline"
       ? "span"
@@ -115,16 +121,16 @@ export class CalciteButton {
     if (Build.isBrowser) {
       this.hasText = this.el.textContent.length > 0;
       const elType = this.el.getAttribute("type");
-      this.type = this.childEl === "button" && elType ? elType : "submit";
+      this.type = this.childElType === "button" && elType ? elType : "submit";
     }
   }
 
   render() {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
-    const Tag = this.childEl;
-    const role = this.childEl === "span" ? "button" : null;
-    const tabIndex = this.childEl === "span" ? 0 : null;
+    const Tag = this.childElType;
+    const role = this.childElType === "span" ? "button" : null;
+    const tabIndex = this.childElType === "span" ? 0 : null;
 
     const loader = (
       <div class="calcite-button--loader">
@@ -151,6 +157,7 @@ export class CalciteButton {
           tabindex={tabIndex}
           onClick={e => this.handleClick(e)}
           disabled={this.disabled}
+          ref={el => (this.childEl = el)}
         >
           {this.icon && this.iconPosition === "start" ? icon : null}
           {this.loading ? loader : null}
@@ -163,19 +170,32 @@ export class CalciteButton {
 
   //--------------------------------------------------------------------------
   //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus() {
+    this.childEl.focus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
 
-  /** @internal */
   /** if button type is present, assign as prop */
   private type?: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
+  /** the rendered child element */
+  private childEl?: HTMLElement;
+
+  /** the node type of the rendered child element */
+  private childElType?: "a" | "span" | "button" = "button";
+
+  /** determine if there is slotted text for styling purposes */
+  private hasText: boolean = false;
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
@@ -197,10 +217,16 @@ export class CalciteButton {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
   // act on a requested or nearby form based on type
   private handleClick = (e: Event) => {
     // this.type refers to type attribute, not child element type
-    if (this.childEl === "button" && this.type !== "button") {
+    if (this.childElType === "button" && this.type !== "button") {
       const requestedForm = this.el.getAttribute("form");
       const targetForm = requestedForm
         ? (document.getElementsByName(`${requestedForm}`)[0] as HTMLFormElement)

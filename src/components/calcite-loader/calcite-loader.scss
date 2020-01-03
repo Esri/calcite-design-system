@@ -3,23 +3,27 @@
   --calcite-loader-spot-light: #{$v-bb-160};
   --calcite-loader-spot-dark: #{$h-bb-070};
   --calcite-loader-neutral: #{$blk-020};
+  --calcite-loader-padding: 4rem;
 }
 
 :host([theme="dark"]) {
   --calcite-loader-neutral: #{$blk-220};
 }
 
+:host([no-padding]) {
+  --calcite-loader-padding: 0;
+}
+
 $loader-width: 54px;
 $loader-width-inline: 16px;
 $loader-stroke-width: 6px;
 $loader-stroke-width-inline: 4px;
-$loader-padding: 4rem;
 
 :host {
   position: relative;
   display: none;
-  padding-bottom: $loader-padding;
-  padding-top: $loader-padding;
+  padding-bottom: var(--calcite-loader-padding);
+  padding-top: var(--calcite-loader-padding);
   margin-left: auto;
   margin-right: auto;
   min-height: $loader-width;
@@ -36,7 +40,7 @@ $loader-padding: 4rem;
 
 .loader__text {
   display: block;
-  margin-top: $loader-padding;
+  margin-top: var(--calcite-loader-padding);
   text-align: center;
   @include font-size(-2);
 }
@@ -45,7 +49,7 @@ $loader-padding: 4rem;
   display: block;
   width: $loader-width;
   position: absolute;
-  top: $loader-padding;
+  top: var(--calcite-loader-padding);
   left: 50%;
   margin-left: -$loader-width / 2;
   margin-top: ($loader-width / 2);
@@ -58,7 +62,7 @@ $loader-padding: 4rem;
   width: $loader-width;
   height: $loader-width;
   position: absolute;
-  top: 4rem;
+  top: var(--calcite-loader-padding);
   left: 0;
   left: 50%;
   margin-left: -$loader-width / 2;

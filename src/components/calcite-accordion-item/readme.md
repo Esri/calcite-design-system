@@ -7,10 +7,11 @@ individual `calcite-accordion` item
 
 ## Properties
 
-| Property    | Attribute    | Description                         | Type      | Default     |
-| ----------- | ------------ | ----------------------------------- | --------- | ----------- |
-| `active`    | `active`     |                                     | `boolean` | `false`     |
-| `itemTitle` | `item-title` | pass a title for the accordion item | `string`  | `undefined` |
+| Property       | Attribute       | Description                         | Type      | Default     |
+| -------------- | --------------- | ----------------------------------- | --------- | ----------- |
+| `active`       | `active`        |                                     | `boolean` | `false`     |
+| `itemSubtitle` | `item-subtitle` | pass a title for the accordion item | `string`  | `undefined` |
+| `itemTitle`    | `item-title`    | pass a title for the accordion item | `string`  | `undefined` |
 
 
 ## Events
@@ -22,6 +23,19 @@ individual `calcite-accordion` item
 | `closeCalciteAccordionItem`    |             | `CustomEvent<any>` |
 | `registerCalciteAccordionItem` |             | `CustomEvent<any>` |
 
+
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-accordion-item --> calcite-icon
+  style calcite-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

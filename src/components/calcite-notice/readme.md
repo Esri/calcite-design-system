@@ -1,6 +1,9 @@
 # calcite-notice
 
-Any further explanation or examples for your component can be written here above the auto-generated line. The content below the line should not be edited as it is generated from the component tsx file.
+You can programmatically focus the close button of a `dismissible` `calcite-notice` with the `setFocus()` method:
+
+`<div onclick=document.querySelector('#my-notice').setFocus()>Focus!</div>`
+
 
 <!-- Auto Generated Below -->
 
@@ -30,7 +33,7 @@ Any further explanation or examples for your component can be written here above
 
 ### `close() => Promise<void>`
 
-emit the `calciteNoticeClose` event - <calcite-notice> listens for this
+close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this
 
 #### Returns
 
@@ -40,7 +43,17 @@ Type: `Promise<void>`
 
 ### `open() => Promise<void>`
 
-emit the `calciteNoticeOpen` event - <calcite-notice> listens for this
+open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `setFocus() => Promise<void>`
+
+focus the close button, if present and requested
 
 #### Returns
 
@@ -57,6 +70,19 @@ Type: `Promise<void>`
 | `"notice-message"` | Main text of the notice                                                       |
 | `"notice-title"`   | Title of the notice (optional)                                                |
 
+
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-notice --> calcite-icon
+  style calcite-notice fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

@@ -132,7 +132,7 @@ export class CalciteTreeItem {
             : undefined
         }
         aria-expanded={
-          this.hasChildren ? (this.expanded ? "true" : "false") : undefined
+          this.hasChildren ? this.expanded.toString() : undefined
         }
       >
         <div class="calcite-tree-node" ref={el => (this.defaultSlotWrapper = el as HTMLElement)}>
