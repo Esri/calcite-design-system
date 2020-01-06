@@ -19,6 +19,9 @@
       bottom: 20px;
       margin: 0 auto;
     }
+    .my-icon-color-class {
+      color: #007ac2;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="/build/calcite.css" />
@@ -422,11 +425,11 @@
 
         <h2>Icon can be camel-case or kebab-case</h2>
         <calcite-icon icon="arrow-bold-left"></calcite-icon>
-        <calcite-icon icon="arrowBoldLeft"></calcite-icon>
+        <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft"></calcite-icon>
 
         <h2>Dark theme</h2>
         <div class="demo-background-dark">
-          <calcite-icon icon="aZ" theme="dark"></calcite-icon>
+          <calcite-icon class="my-icon-color-class" icon="aZ" theme="dark"></calcite-icon>
           <calcite-icon icon="basemap" theme="dark"></calcite-icon>
           <calcite-icon icon="camera" theme="dark"></calcite-icon>
         </div>
