@@ -162,9 +162,7 @@ export class CalcitePagination {
       currentNum ++;
     }
 
-    return pages.map(page => {
-      return this.renderPage(page);
-    });
+    return pages.map(page => this.renderPage(page));
   }
 
   renderPage(num) {
