@@ -12,8 +12,6 @@ import {
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { CSS, TEXT } from "./resources";
-import { chevronLeft16, chevronRight16, ellipsis16 } from "@esri/calcite-ui-icons";
-import CalciteIcon from "../../utils/CalciteIcon";
 
 const maxPagesDisplayed = 5;
 
@@ -181,7 +179,7 @@ export class CalcitePagination {
     if ( this.total > maxPagesDisplayed && this.showLeftEllipsis() ) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
-          <CalciteIcon size="16" path={ellipsis16} />
+          <calcite-icon scale="s" icon="ellipsis" />
         </span>
       );
     }
@@ -191,7 +189,7 @@ export class CalcitePagination {
     if ( this.total > maxPagesDisplayed && this.showRightEllipsis() ) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
-          <CalciteIcon size="16" path={ellipsis16} />
+          <calcite-icon scale="s" icon="ellipsis" />
         </span>
       );
     }
@@ -203,7 +201,7 @@ export class CalcitePagination {
     return (
       <Host dir={dir} class={this.backgroundStyle}>
         <a class={{[CSS.previous]: true, [CSS.disabled]: this.selectedIndex <= 1}} title={this.textLabelPrevious} onClick={this.previousClicked}>
-          <CalciteIcon size="16" path={chevronLeft16} />
+          <calcite-icon scale="s" icon="chevronLeft" />
         </a>
         {this.renderPage(this.start)}
         {this.renderLeftEllipsis()}
@@ -211,7 +209,7 @@ export class CalcitePagination {
         {this.renderRightEllipsis()}
         {this.renderPage(this.total)}
         <a class={{[CSS.next]: true, [CSS.disabled]: this.selectedIndex >= this.total}} title={this.textLabelNext} onClick={this.nextClicked}>
-          <CalciteIcon size="16" path={chevronRight16} />
+          <calcite-icon scale="s" icon="chevronRight" />
         </a>
       </Host>
     );
