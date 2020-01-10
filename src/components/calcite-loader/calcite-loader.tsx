@@ -53,6 +53,8 @@ export class CalciteLoader {
    */
   @Prop() text: string = "";
 
+  /** Turn off spacing around the loader */
+  @Prop() noPadding?: boolean;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle

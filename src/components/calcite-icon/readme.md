@@ -1,5 +1,16 @@
 # calcite-icon
 
+To use a custom color for the icon fill, you can add a class to the `calcite-icon` component with the desired color.
+
+```
+<calcite-icon class="my-icon-color-class" icon="arrowBoldLeft"></calcite-icon>
+```
+
+```
+.my-icon-color-class {
+  color: #007ac2;
+}
+```
 
 
 <!-- Auto Generated Below -->
@@ -20,12 +31,14 @@
 
 ### Used by
 
+ - [calcite-accordion-item](../calcite-accordion-item)
  - [calcite-alert](../calcite-alert)
  - [calcite-notice](../calcite-notice)
 
 ### Graph
 ```mermaid
 graph TD;
+  calcite-accordion-item --> calcite-icon
   calcite-alert --> calcite-icon
   calcite-notice --> calcite-icon
   style calcite-icon fill:#f9f,stroke:#333,stroke-width:4px

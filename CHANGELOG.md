@@ -6,8 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Breaking Changes
+- `calcite-progress` no longer accepts slotted content
+
 ### Added
+- `calcite-accordion` now accepts `transparent` as an `appearance` attribute value
+- `calcite-accordion` now accepts an `icon-type` attribute to specify icon type - "chevron" (default), "caret" or "plus-minus"
+- `calcite-accordion-item` now accepts an `item-subtitle` attribute to display beneath `item-title`
 - `setFocus()` added to `calcite-alert` - focuses a slotted link or a close button, if present
+- `calcite-loader` now accepts a `no-padding` boolean attribute
 
 ### Updated
 - `setFocus()` now focuses the first element in a `calcite-notice` - a slotted link or a close button, if present

@@ -16,6 +16,7 @@ storiesOf('Loader', module)
     <calcite-loader
       is-active
       type="determinate"
+      no-padding="${boolean("no-padding", false)}"
       value="${number('value', 0, {range: true, min: 0, max: 100, step: 1})}"
     />
   `, { notes })
@@ -26,10 +27,15 @@ storiesOf('Loader', module)
     /></calcite-loader>Next to some text
   `, { notes })
   .add('Dark mode', () => `
-    <calcite-loader is-active theme="dark" />
+    <calcite-loader
+      no-padding="${boolean("no-padding", false)}"
+      value="${number('value', 0, {range: true, min: 0, max: 100, step: 1})}"
+      is-active
+      theme="dark" />
   `, { notes, backgrounds: darkBackground })
   .add('Custom theme', () => `
     <calcite-loader
+
       style="
         --calcite-loader-spot-light: ${color('spot-light', '#50ba5f')};
         --calcite-loader-spot-dark: ${color('spot-dark', '#1a6324')};

@@ -11,8 +11,6 @@ import {
 import { UP, DOWN, ENTER, HOME, END, SPACE } from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { chevronLeft16 } from "@esri/calcite-ui-icons";
-import CalciteIcon from "../../utils/CalciteIcon";
 
 @Component({
   tag: "calcite-accordion-item",
@@ -37,8 +35,10 @@ export class CalciteAccordionItem {
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** pass a title for the accordion item */
-  @Prop() itemTitle: string;
+  @Prop() itemTitle?: string;
 
+  /** pass a title for the accordion item */
+  @Prop() itemSubtitle?: string;
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -67,16 +67,25 @@ export class CalciteAccordionItem {
     const dir = getElementDir(this.el);
 
     return (
-      <Host
-        dir={dir}
-        tabindex="0"
-        aria-expanded={this.active.toString()}
-      >
+      <Host dir={dir} tabindex="0" aria-expanded={this.active.toString()}>
         <div class="accordion-item-header" onClick={this.itemHeaderClickHander}>
+          <div class="accordion-item-header-text">
           <span class="accordion-item-title">{this.itemTitle}</span>
-          <div class="accordion-item-icon">
-            <CalciteIcon size="16" path={chevronLeft16} />
+          <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
           </div>
+          <calcite-icon
+            class="accordion-item-icon"
+            icon={
+              this.iconType === "chevron"
+                ? "chevronUp"
+                : this.iconType === "caret"
+                ? "caretUp"
+                : this.active
+                ? "minus"
+                : "plus"
+            }
+            scale="s"
+          ></calcite-icon>
         </div>
         <div class="accordion-item-content">
           <slot />
@@ -133,6 +142,9 @@ export class CalciteAccordionItem {
 
   /** what selection mode is the parent accordion in */
   private selectionMode = getElementProp(this.el, "selection-mode", "multi");
+
+  /** what icon type does the parent accordion specify */
+  private iconType = getElementProp(this.el, "icon-type", "chevron");
 
   /** handle clicks on item header */
   private itemHeaderClickHander = () => this.emitRequestedItem();
