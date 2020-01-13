@@ -12,7 +12,11 @@
       color: white;
       padding: 1rem;
     }
-
+    .nav {
+      list-style: none;
+      display: flex;
+      padding: 0;
+    }
     .sticky-example {
       position: -webkit-sticky;
       position: sticky;
@@ -35,7 +39,9 @@
 <body>
   <div class="example-container">
     <h2>Calcite Component Examples - WIP !</h2>
-
+    <ul class="nav">
+      <li><a href="/demos/calcite-pagination.html">calcite-pagination</a></li>
+    </ul>
     <calcite-tabs>
       <calcite-tab-nav slot="tab-nav" storage-id="calcite-demo-main-nav-tabs">
         <calcite-tab-title is-active>Tabs</calcite-tab-title>
