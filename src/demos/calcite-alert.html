@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Alert</title>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+  <script src="../assets/demo/createAlert.js"></script>
+
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Alert</h1>
+  <calcite-button title="1 Autodismiss, title, link, red" color="red" scale="s"
+    onclick="document.querySelector('#alert-one').open()">1 Autodismiss, title, link, red, small scale
+  </calcite-button>
+  <calcite-button title="2 Icon, link, green" scale="s" onclick="document.querySelector('#alert-two').open()">2
+    Icon, link, green</calcite-button>
+  <calcite-button title="3 Icon, dark theme" scale="s" onclick="document.querySelector('#alert-three').open()">3
+    Icon, dark theme</calcite-button>
+  <calcite-button title="4 Icon, title, yellow, link" scale="s" onclick="document.querySelector('#alert-four').open()">4
+    Icon, title, yellow, link, large scale
+  </calcite-button>
+  <calcite-button title="5 default" scale="s" onclick="document.querySelector('#alert-five').open()">5
+    default</calcite-button>
+  <calcite-button title="6 Icon, title, link, red" scale="s" onclick="document.querySelector('#alert-six').open()">6
+    Icon, title, link, red</calcite-button>
+  <calcite-button title="7 title, link, green, dark theme" scale="s"
+    onclick="document.querySelector('#alert-seven').open()">7 title, link, green, dark theme
+  </calcite-button>
+  <calcite-button title="8 Autodismiss, icon, title, red" scale="s"
+    onclick="document.querySelector('#alert-eight').open()">8 Autodismiss, icon, title, red
+  </calcite-button>
+  <calcite-button title="9 Autodismiss (fast),link, dark theme" scale="s"
+    onclick="document.querySelector('#alert-nine').open()">9 Autodismiss (fast),link, dark theme
+  </calcite-button>
+  <calcite-button title="10 Autodismiss (medium)" scale="s" onclick="document.querySelector('#alert-ten').open()">
+    10 Autodismiss (medium)</calcite-button>
+
+  <calcite-button title="11 Autodismiss (slow),link" scale="s" onclick="document.querySelector('#alert-eleven').open()">
+    11 Autodismiss (slow),link
+  </calcite-button>
+
+
+  <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
+  <calcite-button title="created alert" scale="xs" onclick="createExampleAlert('created-1')">created alert
+  </calcite-button>
+  <calcite-button title="created alert 2" scale="xs" onclick="createExampleAlert('created-2')">created alert 2
+  </calcite-button>
+  <h5>You can close opened alerts, or removed upcoming alerts from the queue</h5>
+  <calcite-button title="Close or remove alert 6" color="red" scale="xs"
+    onclick="document.querySelector('#alert-six').close()">Close or remove alert 6</calcite-button>
+  <calcite-button title="Close or remove alert 4" color="red" scale="xs"
+    onclick="document.querySelector('#alert-four').close()">Close or remove alert 4</calcite-button>
+  <calcite-button title="Close or remove alert created 2" color="red" scale="xs"
+    onclick="document.querySelector('#created-2').close()">Close or remove alert created 2
+  </calcite-button>
+  <h5>using the setFocus() method (once opened)</h5>
+  <calcite-button onclick=document.querySelector('#alert-four').setFocus()>focus first alert 4 item
+  </calcite-button>
+  <calcite-button onclick=document.querySelector('#alert-five').setFocus()>focus first alert 5 item
+  </calcite-button>
+
+
+  <calcite-alert color="red" id="alert-one" scale="s" auto-dismiss>
+
+    <div slot="alert-title">Something failed - scale s</div>
+    <div slot="alert-message">
+      1 That thing you wanted to do didn't work as expected
+    </div>
+
+    <calcite-button slot="alert-link" title="my action" appearance="inline">Retry</calcite-button>
+  </calcite-alert>
+
+  <!-- test prop validation theme -->
+  <calcite-alert color="green" id="alert-two" icon theme="bleme">
+    <div slot="alert-message">
+      2 Successfully updated <em>Portland Restaurants</em> feature layer
+    </div>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">Do thing</calcite-button>
+  </calcite-alert>
+
+  <calcite-alert id="alert-three" icon theme="dark">
+    <div slot="alert-message">3 A general piece of information</div>
+  </calcite-alert>
+
+  <calcite-alert color="yellow" scale="l" id="alert-four" icon>
+    <div slot="alert-title">
+      This may put you close to your credit limit - Scale large
+    </div>
+    <div slot="alert-message">
+      4 You can view your credit settings at any time in User Preferences
+    </div>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">Manage credits</calcite-button>
+  </calcite-alert>
+
+  <calcite-alert id="alert-five">
+    <div slot="alert-message">5 A general piece of information</div>
+  </calcite-alert>
+
+  <!-- test prop validation color -->
+  <calcite-alert color="misspelled" id="alert-six" icon>
+    <div slot="alert-title">You can't add a polygon to this layer</div>
+    <div slot="alert-message">
+      6 Some kind of made up thing about another thing
+    </div>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
+  </calcite-alert>
+
+  <calcite-alert color="green" id="alert-seven" theme="dark">
+    <div slot="alert-title">Layer duplicated</div>
+    <div slot="alert-message">
+      7 Successfully duplicated <em>Portland Restaurants</em> feature
+      layer
+    </div>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">View layer
+    </calcite-button>
+  </calcite-alert>
+
+  <calcite-alert color="red" id="alert-eight" auto-dismiss icon>
+    <div slot="alert-title">You can't do that</div>
+    <div slot="alert-message">8 Sorry bud</div>
+  </calcite-alert>
+
+  <!-- test prop validation duration -->
+  <calcite-alert id="alert-nine" theme="dark" auto-dismiss auto-dismiss-duration="blast">
+    <div slot="alert-message">9 A general piece of information</div>
+    <calcite-button slot="alert-link" theme="dark" title="my action" appearance="inline">Take action
+    </calcite-button>
+  </calcite-alert>
+
+  <calcite-alert id="alert-ten" auto-dismiss auto-dismiss-duration="medium">
+    <div slot="alert-message">10 A general piece of information</div>
+  </calcite-alert>
+
+  <calcite-alert id="alert-eleven" auto-dismiss auto-dismiss-duration="slow">
+    <div slot="alert-message">11 A general piece of information</div>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
+  </calcite-alert>
+</body>
+
+</html>
