@@ -17,6 +17,7 @@
   cursor: pointer;
   &:hover {
     color: var(--calcite-ui-text-1);
+    transition: all $transition;
   }
 }
 .page {
