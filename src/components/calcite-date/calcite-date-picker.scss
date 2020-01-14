@@ -57,6 +57,8 @@
 
 :host([expanded]) {
   background-color: var(--calcite-ui-foreground);
+  border-radius: var(--calcite-border-radius);
   border: 1px solid var(--calcite-ui-border-2);
   box-shadow: $shadow-2;
+  overflow: hidden;
 }
