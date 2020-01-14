@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Slider</title>
+  <style>
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Slider</h1>
+
+  <h3>Single Value</h3>
+  <calcite-slider id="mySlider" min="0" max="100" value="25" step="1" label="Temperature"></calcite-slider>
+  <h3>Disabled</h3>
+  <calcite-slider min="0" max="100" value="40" step="1" label="Temperature" disabled>
+  </calcite-slider>
+  <h3>Range</h3>
+  <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
+    max-label="Temperature range (upper)"></calcite-slider>
+  <h3>Ticks</h3>
+  <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label="Temperature"></calcite-slider>
+  <h3>Handle Labels</h3>
+  <calcite-slider min="0" max="100" min-value="23" max-value="46" step="1" ticks="10" label-handles precise
+    label="Temperature"></calcite-slider>
+  <h3>Tick Labels</h3>
+  <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label-ticks label="Temperature">
+  </calcite-slider>
+  <h3>"Precise" handle</h3>
+  <calcite-slider min="0" max="100" value="23" step="1" label="Temperature" precise></calcite-slider>
+  <h3>"Precise" Range</h3>
+  <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
+    max-label="Temperature range (upper)" precise></calcite-slider>
+
+  <div class="demo-background-dark">
+    <h3>Dark Theme</h3>
+    <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
+      max-label="Temperature range (upper)" theme="dark" label-ticks ticks="10"></calcite-slider>
+  </div>
+  <h3>Event Listener</h3>
+  <calcite-slider id="sliderEvents" min="0" max="100" value="50" step="1" label="Temperature"></calcite-slider>
+  <p>Current slider value is: <span id="sliderEventDisplay"></span></p>
+  <script>
+    (function () {
+      var label = document.getElementById("sliderEventDisplay");
+      document.getElementById("sliderEvents").addEventListener("calciteSliderUpdate", function (e) {
+        label.innerHTML = e.target.value;
+      });
+    })();
+  </script>
+</body>
+
+</html>
