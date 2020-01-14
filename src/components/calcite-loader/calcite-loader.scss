@@ -16,7 +16,7 @@
 
 $loader-width: 54px;
 $loader-width-inline: 16px;
-$loader-stroke-width: 6px;
+$loader-stroke-width: 8px;
 $loader-stroke-width-inline: 4px;
 
 :host {
@@ -58,38 +58,39 @@ $loader-stroke-width-inline: 4px;
   line-height: 0.25;
 }
 
-.loader__square {
+.loader__circle {
   width: $loader-width;
   height: $loader-width;
+  border-radius: 50%;
   position: absolute;
   top: var(--calcite-loader-padding);
   left: 0;
   left: 50%;
   margin-left: -$loader-width / 2;
-  stroke-dasharray: 50% 350%; // must add up to 400% to loop seamlessly
+  stroke-dasharray: 30% 330%; // must add up to 360% to loop seamlessly
   animation: loader-clockwise 2s infinite linear;
 }
 
-.loader__square--2 {
-  stroke-dasharray: 100% 225% 50% 25%;
+.loader__circle--2 {
+  stroke-dasharray: 90% 215% 40% 15%;
   animation: loader-clockwise 1s infinite linear;
 }
 
-.loader__square--3 {
-  stroke-dasharray: 50% 50% 75% 225%;
+.loader__circle--3 {
+  stroke-dasharray: 40% 40% 75% 205%;
   animation: loader-clockwise 1.85s infinite linear;
 }
 
 // Edge can't animate stroke dash offset, so offset will be animated via JavaScript
 @supports (-ms-ime-align: auto) {
-  .loader__square {
+  .loader__circle {
     stroke-dashoffset: var(--calcite-loader-offset);
     animation: none;
   }
-  .loader__square--2 {
+  .loader__circle--2 {
     stroke-dashoffset: var(--calcite-loader-offset2);
   }
-  .loader__square--3 {
+  .loader__circle--3 {
     stroke-dashoffset: var(--calcite-loader-offset3);
   }
 }
@@ -97,9 +98,9 @@ $loader-stroke-width-inline: 4px;
 :host([type="determinate"]) {
   stroke: var(--calcite-loader-neutral);
   animation: none;
-  .loader__square--3 {
+  .loader__circle--3 {
     stroke: var(--calcite-loader-spot);
-    stroke-dasharray: 400%;
+    stroke-dasharray: 360%;
     stroke-dashoffset: var(--calcite-loader-progress);
     transition: 50ms linear all;
     transform: rotate(90deg);
@@ -131,7 +132,7 @@ $loader-stroke-width-inline: 4px;
   display: inline-block;
 }
 
-:host([inline]) .loader__square {
+:host([inline]) .loader__circle {
   margin: 0;
   position: absolute;
   top: 0;
@@ -154,6 +155,6 @@ $loader-stroke-width-inline: 4px;
     stroke-dashoffset: 0;
   }
   100% {
-    stroke-dashoffset: -400%;
+    stroke-dashoffset: -360%;
   }
 }

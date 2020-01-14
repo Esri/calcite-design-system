@@ -81,7 +81,7 @@ export class CalciteLoader {
       "aria-valuemin": 0,
       "aria-valuemax": 100
     };
-    const size = this.inline ? 16 : 56;
+    const size = this.inline ? 8 : 28;
     const viewbox = this.inline ? "0 0 16 16" : "0 0 56 56";
     const isDeterminate = this.type === "determinate";
     const styleProperties = {};
@@ -97,7 +97,7 @@ export class CalciteLoader {
       ] = `${this.loaderBarOffsets[2]}%`;
     }
     const progress = {
-      "--calcite-loader-progress": `${-400 - this.value * 4}%`
+      "--calcite-loader-progress": `${-360 - this.value * 3.141}%`
     };
     return (
       <Host
@@ -107,18 +107,18 @@ export class CalciteLoader {
         {...(this.type === "determinate" ? ariaAttributes : {})}
         style={styleProperties}
       >
-        <svg viewBox={viewbox} class="loader__square">
-          <rect width={size} height={size} />
+        <svg viewBox={viewbox} class="loader__circle">
+          <circle r={size} cx={size} cy={size} />
         </svg>
-        <svg viewBox={viewbox} class="loader__square loader__square--2">
-          <rect width={size} height={size} />
+        <svg viewBox={viewbox} class="loader__circle loader__circle--2">
+          <circle r={size} cx={size} cy={size} />
         </svg>
         <svg
           viewBox={viewbox}
-          class="loader__square loader__square--3"
+          class="loader__circle loader__circle--3"
           style={isDeterminate ? progress : {}}
         >
-          <rect width={size} height={size} />
+          <circle r={size} cx={size} cy={size} />
         </svg>
         {this.text ? <div class="loader__text">{this.text}</div> : ""}
         {this.value ? (
@@ -178,7 +178,7 @@ export class CalciteLoader {
    */
   private rotateLoaderBars(barOffsets: number[]): number[] {
     return barOffsets.map((offset, i) => {
-      if (offset > -400) {
+      if (offset > -360) {
         return offset - this.loaderBarRates[i];
       } else {
         return 0;
