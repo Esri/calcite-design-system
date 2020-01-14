@@ -113,6 +113,7 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
+  // todo
   private focusChildEl() {
     var elToFocus;
     if (this.requestedInput) {

@@ -109,10 +109,8 @@ calcite-input slot:not[name="input-message"] {
   color: var(--calcite-ui-text-2);
   font-weight: 500;
 }
-//todo rtl
-calcite-input slot[name="input-action"]::slotted {
-  // order: 9;
-}
+
+
 
 calcite-input[width="auto"] {
   width: 100px;
@@ -312,8 +310,8 @@ calcite-input[type="file"] textarea {
 
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-red),
-  "valid" var(--calcite-ui-text-1) var(--calcite-ui-blue) ,
-  "idle"  var(--calcite-ui-text-1) var(--calcite-ui-blue);
+  "valid" var(--calcite-ui-text-1) var(--calcite-ui-blue),
+  "idle" var(--calcite-ui-text-1) var(--calcite-ui-blue);
 
 @each $statusColor in $inputStatusColors {
   $name: nth($statusColor, 1);

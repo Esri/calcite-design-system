@@ -64,9 +64,7 @@
   margin: 2px $baseline/2.5 0;
   line-height: inherit;
   z-index: 9;
-  & svg {
     transition: $transition;
-  }
 }
 
 // status
@@ -84,8 +82,8 @@ $inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-red-hover)
   $shadowColor: nth($statusColor, 4);
 
   :host([status="#{$name}"]) {
-    & .calcite-input-message-icon svg {
-      fill: $color !important;
+    & .calcite-input-message-icon {
+      color: $color !important;
     }
   }
 }

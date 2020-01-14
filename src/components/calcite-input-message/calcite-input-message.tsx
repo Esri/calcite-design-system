@@ -1,16 +1,11 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
 import { getElementProp, getElementTheme } from "../../utils/dom";
-import { information16F } from "@esri/calcite-ui-icons";
-import { exclamationMarkTriangle16F } from "@esri/calcite-ui-icons";
-import { check16F } from "@esri/calcite-ui-icons";
-import CalciteIcon from "../../utils/CalciteIcon";
 
 @Component({
   tag: "calcite-input-message",
   styleUrl: "calcite-input-message.scss",
   shadow: true
 })
-
 export class CalciteInputMessage {
   //--------------------------------------------------------------------------
   //
@@ -82,9 +77,9 @@ export class CalciteInputMessage {
 
   // icons for status and validation
   private iconDefaults = {
-    valid: check16F,
-    invalid: exclamationMarkTriangle16F,
-    idle: information16F
+    valid: "check",
+    invalid: "exclamation-mark-triangle",
+    idle: "information"
   };
 
   //--------------------------------------------------------------------------
@@ -95,9 +90,11 @@ export class CalciteInputMessage {
 
   private setIcon(path) {
     return (
-      <div class="calcite-input-message-icon">
-        <CalciteIcon size="16" path={path} />
-      </div>
+      <calcite-icon
+        class="calcite-input-message-icon"
+        scale="s"
+        icon={path}
+      ></calcite-icon>
     );
   }
 }

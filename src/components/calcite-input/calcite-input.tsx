@@ -48,14 +48,14 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
     "full";
 
-  /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
-  @Prop({ mutable: true, reflect: true }) icon?: string;
-
   /** optionally add prefix  **/
   @Prop({ mutable: true }) prefixText?: string;
 
   /** optionally add suffix  **/
   @Prop({ mutable: true }) suffixText?: string;
+
+  /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
+  @Prop({ mutable: true, reflect: true }) icon?: string;
 
   /** specify the placement of the number buttons */
   @Prop({ mutable: true, reflect: true }) numberButtonType?:
