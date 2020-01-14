@@ -69,6 +69,12 @@ export class CalciteIcon {
   scale: Scale = "m";
 
   /**
+   * The icon label. This is used for accessibility purposes.
+   */
+  @Prop()
+  textLabel: string;
+
+  /**
    * Icon theme. Can be "light" or "dark".
    */
   @Prop({
@@ -101,12 +107,12 @@ export class CalciteIcon {
   }
 
   render() {
-    const { el, mirrored, pathData, scale } = this;
+    const { el, mirrored, pathData, scale, textLabel } = this;
     const dir = getElementDir(el);
     const size = scaleToPx[scale];
 
     return (
-      <Host role="img">
+      <Host role="img" aria-label={textLabel} title={textLabel}>
         <svg
           class={{
             [CSS.mirrored]: dir === "rtl" && mirrored
