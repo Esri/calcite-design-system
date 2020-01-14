@@ -112,7 +112,7 @@ export class CalciteIcon {
     const size = scaleToPx[scale];
 
     return (
-      <Host role="img" aria-label={textLabel} title={textLabel}>
+      <Host role="img" aria-label={textLabel}>
         <svg
           class={{
             [CSS.mirrored]: dir === "rtl" && mirrored
