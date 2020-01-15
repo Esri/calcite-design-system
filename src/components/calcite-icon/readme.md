@@ -34,6 +34,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
  - [calcite-accordion-item](../calcite-accordion-item)
  - [calcite-alert](../calcite-alert)
  - [calcite-notice](../calcite-notice)
+ - [calcite-pagination](../calcite-pagination)
 
 ### Graph
 ```mermaid
@@ -41,6 +42,7 @@ graph TD;
   calcite-accordion-item --> calcite-icon
   calcite-alert --> calcite-icon
   calcite-notice --> calcite-icon
+  calcite-pagination --> calcite-icon
   style calcite-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
