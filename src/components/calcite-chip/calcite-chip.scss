@@ -1,0 +1,18 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: var(--calcite-ui-blue);
+  border-radius: 3px;
+  color: white;
+  text-transform: capitalize;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+calcite-icon {
+  margin-left: 6px;
+  cursor: pointer;
+}

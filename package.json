@@ -62,6 +62,7 @@
     "axe-core": "^3.4.1",
     "babel-loader": "^8.0.6",
     "cpy-cli": "^3.0.0",
+    "focus-within-polyfill": "^5.0.6",
     "gh-release": "^3.5.0",
     "jest": "24.9.0",
     "jest-axe": "^3.2.0",

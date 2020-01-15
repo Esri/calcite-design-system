@@ -4,10 +4,14 @@ import {
   Host,
   Prop,
   State,
-  Watch
+  Listen,
+  Event,
+  EventEmitter,
+  Element
 } from "@stencil/core";
 
 import { debounce, forIn } from "lodash-es";
+import 'focus-within-polyfill';
 // import { listItem } from "./interfaces";
 
 const filterDebounceInMs = 250;
@@ -17,7 +21,7 @@ const filterDebounceInMs = 250;
   styleUrl: "calcite-combobox.scss",
   shadow: true
 })
-export class CalcitePagination {
+export class CalciteCombobox {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -26,21 +30,36 @@ export class CalcitePagination {
 
   @Prop() disabled = false;
 
-  @Prop() data:Array<any> = null;
-
-  @Watch("data") dataWatchHandler(oldValue, newValue) {
-
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
 
-  @State() showList = true;
+  @Element() el: HTMLElement;
 
-  @State() filteredList = this.data;
+  @State() selectedItems = [];
+
+  textInput: HTMLElement = null;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  @Event() calciteLookupChange: EventEmitter;
+
+  @Listen("calciteItemChange") calciteItemChangeHandler(event: CustomEvent) {
+    this.toggleSelection(event.detail);
+  }
+
+  @Listen("calciteChipDismiss") calciteChipDismissHandler(event: CustomEvent) {
+    const value = event.detail.value;
+    this.textInput.focus();
+    this.deselectItem(value);
+    this.toggleSelection({value, selected: false});
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -48,10 +67,10 @@ export class CalcitePagination {
   //
   // --------------------------------------------------------------------------
 
-  filter = debounce((value: string): void => {
+  filter = debounce((data: Array<object>, value: string): void => {
     const regex = new RegExp(value, "ig");
 
-    if (this.data.length === 0) {
+    if (data.length === 0) {
       // console.warn(`No data was passed to calcite-filter.
       // The data property expects an array of objects`);
     }
@@ -73,17 +92,41 @@ export class CalcitePagination {
       return found;
     };
 
-    const result = this.data.filter((item) => {
+    const result = data.filter((item) => {
       return find(item, regex);
     });
 
-    this.filteredList = result;
+    console.log(result);
+    // this.filteredList = result;
     // this.calciteFilterChange.emit(result);
   }, filterDebounceInMs);
 
   inputHandler = (event: Event): void => {
     const target = event.target as HTMLInputElement;
     console.log(target.value);
+  }
+
+  toggleSelection(item) {
+    if (!item.selected) {
+      this.selectedItems = this.selectedItems.filter( currentValue => {
+        return currentValue !== item.value;
+      });
+    } else {
+      this.selectedItems = [...this.selectedItems, item.value];
+    }
+    this.calciteLookupChange.emit(this.selectedItems);
+  }
+
+  deselectItem(value) {
+    const comboboxItem = this.el.querySelector(`calcite-combobox-item[value=${value}]`) as HTMLCalciteComboboxItemElement;
+    comboboxItem.toggleSelected(false);
+  }
+
+  itemSelectHandler = (event: Event): void => {
+    console.log('item selected');
+    const target = event.target as HTMLCalciteComboboxItemElement;
+    this.selectedItems = [...this.selectedItems, target.value];
+    // this.selectedItems.add(target.getAttribute("value"));
   }
 
   //--------------------------------------------------------------------------
@@ -93,19 +136,25 @@ export class CalcitePagination {
   //--------------------------------------------------------------------------
 
   render() {
-    console.log(this.filteredList);
+    // console.log(this.filteredList);
     const listBoxId = 'listbox';
     return (
       <Host>
-        <div role="combobox" aria-expanded={this.showList} aria-owns={listBoxId} aria-haspopup="true">
-          <input type="text" aria-autocomplete="list" aria-controls={listBoxId} onInput={this.inputHandler} disabled={this.disabled} />
+        <div role="combobox" aria-expanded="false" aria-owns={listBoxId} aria-haspopup="listbox">
+          <span class="selections">
+            {
+              this.selectedItems.map( (item) => {
+                return <calcite-chip value={item}>{item}</calcite-chip>
+              })
+            }
+          </span>
+          <input type="text" aria-autocomplete="list" aria-controls={listBoxId}
+            onInput={this.inputHandler}
+            disabled={this.disabled}
+            ref={(el) => this.textInput = el as HTMLInputElement} />
         </div>
-        <ul id={listBoxId} role="listbox" class={{"list": true, "hidden": this.showList}}>
-          {
-            this.filteredList.forEach( (item) => {
-              return <li>{item.label}</li>
-            })
-          }
+        <ul id={listBoxId} role="listbox" class={{"list": true}}>
+          <slot />
         </ul>
       </Host>
     );

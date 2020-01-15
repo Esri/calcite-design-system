@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Pagination</title>
+  <title>Calcite Combobox</title>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
   <script type="module" src="../build/calcite.esm.js"></script>
@@ -13,8 +13,13 @@
 <body>
   <h1>Calcite Combobox</h1>
   <h2>Basic</h2>
-  <calcite-combobox></calcite-combobox>
-  <script>
+  <calcite-combobox>
+    <calcite-combobox-item value="one">one</calcite-combobox-item>
+    <calcite-combobox-item value="two">two</calcite-combobox-item>
+    <!-- <li ><a href="#" value="one">one</a></li> -->
+    <!-- <li ><a href="#" value="two">two</a></li> -->
+  </calcite-combobox>
+  <!-- <script>
     document.querySelector("calcite-combobox").data = [{
       label: "one",
       value: "one"
@@ -22,6 +27,6 @@
       label: "two",
       value: "two"
     }];
-  </script>
+  </script> -->
 </body>
 </html>
