@@ -48,7 +48,8 @@ export class CalciteChip {
   //
   // --------------------------------------------------------------------------
 
-  closeClickHandler = () => {
+  closeClickHandler = (event: MouseEvent) => {
+    event.preventDefault();
     this.hidden = true;
     this.calciteChipDismiss.emit(this.el);
   }
@@ -63,7 +64,7 @@ export class CalciteChip {
     return (
       <Host hidden={this.hidden}>
         <span><slot /></span>
-        <calcite-icon scale="s" icon="x" onClick={this.closeClickHandler} />
+        <a href="#" onClick={this.closeClickHandler}><calcite-icon scale="s" icon="x" /></a>
       </Host>
     );
   }
