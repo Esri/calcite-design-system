@@ -42,9 +42,6 @@ export class CalciteCard {
   //
   //--------------------------------------------------------------------------
 
-  /**  true, the card can't be clicked and is visually muted.  */
-  @Prop({ reflect: true }) disabled: boolean = false;
-
   /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
   @Prop({ reflect: true }) loading: boolean = false;
 
