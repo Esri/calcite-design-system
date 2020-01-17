@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Checkbox</title>
+  <style>
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Checkbox</h1>
+  <calcite-checkbox>
+    <input id="proxyCheckboxCheckbox" type="checkbox" />
+  </calcite-checkbox>
+  <span id='proxyCheckboxSpan'>
+    With a proxy <code>input</code> element and changes on click.
+  </span>
+  <script>
+    var proxyCheckboxSpan = document.getElementById(
+      "proxyCheckboxSpan"
+    );
+    var proxyCheckboxCheckbox = document.getElementById('proxyCheckboxCheckbox');
+
+    proxyCheckboxSpan.addEventListener('click', function () {
+      proxyCheckboxCheckbox.hasAttribute('checked') ?
+        proxyCheckboxCheckbox.removeAttribute('checked') :
+        proxyCheckboxCheckbox.setAttribute('checked', '')
+    })
+  </script>
+  <div>
+    <label>
+      <calcite-checkbox indeterminate></calcite-checkbox>
+      Initially indeterminate and unchecked
+    </label>
+  </div>
+
+  <div>
+    <label>
+      <calcite-checkbox indeterminate checked></calcite-checkbox>
+      Initially indeterminate and checked
+    </label>
+  </div>
+
+  <div>
+    <label>
+      <calcite-checkbox size='large'></calcite-checkbox>
+      Large checkbox
+    </label>
+  </div>
+  <div>
+    <label>
+      <calcite-checkbox size='small'></calcite-checkbox>
+      Small checkbox
+    </label>
+  </div>
+  <div style='background-color: black; color: white; padding: 5px;'>
+    <label>
+      <calcite-checkbox theme='dark' size='large'></calcite-checkbox>
+      Dark large
+    </label>
+  </div>
+
+  <div style='background-color: black; color: white; padding: 5px;'>
+    <label>
+      <calcite-checkbox theme='dark' disabled></calcite-checkbox>
+      Dark disabled
+    </label>
+  </div>
+
+
+  <div style='background-color: black; color: white; padding: 5px;'>
+    <label>
+      <calcite-checkbox theme='dark' checked disabled></calcite-checkbox>
+      Dark checked disabled
+    </label>
+  </div>
+  <div style='background-color: black; color: white; padding: 5px;'>
+    <label>
+      <calcite-checkbox theme='dark' indeterminate disabled size='small'></calcite-checkbox>
+      Dark indeterminate disabled small
+    </label>
+  </div>
+
+  <div>
+    <label>
+      <calcite-checkbox disabled checked></calcite-checkbox>
+      Disabled and checked
+    </label>
+  </div>
+  <div>
+    <label>
+      <calcite-checkbox disabled></calcite-checkbox>
+      Disabled and unchecked
+    </label>
+  </div>
+
+  <div>
+    <label>
+      <calcite-checkbox id="basicCheckbox" checked="true"></calcite-checkbox>
+      Without a proxy <code>input</code> element.
+      <script>
+        var basicCheckbox = document.getElementById("basicCheckbox");
+
+        basicCheckbox.addEventListener("calciteCheckboxChange", function (
+          e
+        ) {
+          console.log(
+            "Basic Checkbox changed by <calcite-checkbox>",
+            e.target.checked
+          );
+        });
+      </script>
+    </label>
+  </div>
+
+</body>
+
+</html>

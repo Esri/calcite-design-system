@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Card</title>
+  <style>
+    .example-grid {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .example-grid-item {
+      display: inline-flex;
+      margin: 10px;
+      width: 260px;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-flow: column;
+    }
+
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+  <script src="../assets/demo/createAlert.js"></script>
+
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Card</h1>
+  <div class="example-grid">
+    <div class="example-grid-item">
+      <calcite-card>
+        <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+        <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+          overly verbose.</span>
+      </calcite-card>
+    </div>
+    <div class="example-grid-item">
+
+      <calcite-card>
+        <img slot="thumbnail" src="../assets/demo/images/test-card-bg.png" />
+        <h3 slot="title">Portland Businesses</h3>
+        <span slot="subtitle">by
+          <calcite-button appearance="inline" href="">ATirella_heaths_org</calcite-button>
+        </span>
+        <div>
+          Created: Apr 22, 2019
+          <br />
+          Updated: Dec 9, 2019
+          <br />
+          View Count: 0
+        </div>
+        <calcite-button slot="footer-leading" color="light" scale="xs"
+          icon='M12 2.1A41.07 41.07 0 0 1 0 0v14a40.8 40.8 0 0 1 12-2.1A41.07 41.07 0 0 1 24 14V0a41.13 41.13 0 0 1-12 2.1zm0 8.9a40.21 40.21 0 0 0-8.59 1.1L8 8l1 1 2.92-2.92 2.94 3.93L17.4 8l3.45 4.12A40.33 40.33 0 0 0 12 11zm11 1.73l-.9-.25L17.5 7 15 9l-3-4-3 3-1-1-6.16 5.49-.84.24V1.27A42.06 42.06 0 0 0 12 3a42.06 42.06 0 0 0 11-1.73zM20.5 6A1.5 1.5 0 1 0 19 4.5 1.5 1.5 0 0 0 20.5 6zm0-2.17a.67.67 0 1 1-.67.67.67.67 0 0 1 .67-.67zM23 18.5c0 1.6-3.39 2.95-8 3.36V24l-3-2.5 3-2.5v2c4.62-.45 7-1.84 7-2.46s-3.4-2.6-10-2.6S2 17.75 2 18.5s2.72 2.21 8 2.5v.9c-5.12-.3-9-1.72-9-3.44C1 16.57 5.92 15 12 15s11 1.57 11 3.5z'>
+        </calcite-button>
+        <div slot="footer-trailing">
+          <calcite-button scale="xs" color="light" id="card-icon-test-2"
+            icon='M7.2 5.5a4.3 4.3 0 1 0 4.3-4.3 4.305 4.305 0 0 0-4.3 4.3zm7.644 0A3.344 3.344 0 1 1 11.5 2.156 3.348 3.348 0 0 1 14.844 5.5zM14.5 11h-6A5.506 5.506 0 0 0 3 16.5V22h17v-5.5a5.506 5.506 0 0 0-5.5-5.5zM19 21H4v-4.5A4.505 4.505 0 0 1 8.5 12h6a4.505 4.505 0 0 1 4.5 4.5z'>
+          </calcite-button>
+          <calcite-button scale="xs" color="light" id="card-icon-test-1"
+            icon='M12.003.3l2.827 8.725h9.14l-7.394 5.378 2.842 8.72-7.415-5.396-7.417 5.395 2.84-8.719-7.455-5.378h9.203z'>
+          </calcite-button>
+          <calcite-dropdown>
+            <calcite-button id="card-icon-test-5" slot="dropdown-trigger" scale="xs" color="light"
+              icon='M5.8 12A1.8 1.8 0 1 1 4 10.2 1.8 1.8 0 0 1 5.8 12zm6.2 1.8a1.8 1.8 0 1 0-1.8-1.8 1.8 1.8 0 0 0 1.8 1.8zm8 0a1.8 1.8 0 1 0-1.8-1.8 1.8 1.8 0 0 0 1.8 1.8z'>
+            </calcite-button>
+            <calcite-dropdown-group selection-mode="none">
+              <calcite-dropdown-item>View details</calcite-dropdown-item>
+              <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+              <calcite-dropdown-item>Delete</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </div>
+      </calcite-card>
+    </div>
+    <calcite-tooltip placement="bottom" reference-element="card-icon-test-1">My great tooltip example
+    </calcite-tooltip>
+    <calcite-tooltip placement="bottom" reference-element="card-icon-test-2">Sharing level: 2
+    </calcite-tooltip>
+    <calcite-tooltip placement="top" reference-element="card-icon-test-5">More options
+    </calcite-tooltip>
+    <div class="example-grid-item">
+
+      <calcite-card>
+        <img slot="thumbnail" src="../assets/demo/images/test-card-bg-4.png" />
+        <h3 slot="title">My great Workforce project that might wrap two lines</h3>
+        <span slot="subtitle">Johnathan Smith</span>
+        <span slot="footer-leading">Nov 25, 2018</span>
+        <div slot="footer-trailing">
+          <calcite-button id="card-icon-test-6" scale="xs" appearance="transparent" color="dark"
+            icon='M3.254 9.089L0 10.294l.013 3.5 3.269 1.183a9.229 9.229 0 0 0 .476 1.146l-1.45 3.156 2.484 2.465L7.94 20.27a9.157 9.157 0 0 0 1.148.476L10.294 24l3.5-.013 1.183-3.269a9.242 9.242 0 0 0 1.146-.476l3.156 1.45 2.465-2.484-1.474-3.149a9.145 9.145 0 0 0 .476-1.148L24 13.706l-.013-3.5-3.269-1.183a9.223 9.223 0 0 0-.476-1.146l1.45-3.156-2.484-2.465L16.06 3.73a9.158 9.158 0 0 0-1.148-.476L13.706 0l-3.5.013-1.183 3.269a9.245 9.245 0 0 0-1.146.476l-3.156-1.45-2.465 2.484L3.73 7.94a9.14 9.14 0 0 0-.476 1.148zm4.8 2.263a4 4 0 1 1 3.298 4.595 4 4 0 0 1-3.299-4.595zm1.805 8.596l-.456-.151a7.93 7.93 0 0 1-1.021-.425l-.43-.212L5 20.542l-1.492-1.48 1.357-2.957-.214-.43a8.31 8.31 0 0 1-.423-1.02l-.155-.454L1 13.091l-.007-2.102 3.059-1.13.151-.456a7.93 7.93 0 0 1 .425-1.021l.212-.43L3.458 5l1.48-1.492 2.957 1.357.43-.214a8.31 8.31 0 0 1 1.02-.423l.454-.155L10.909 1l2.102-.007 1.13 3.059.456.151a7.93 7.93 0 0 1 1.021.425l.43.212L19 3.458l1.492 1.48-1.357 2.957.214.43a8.31 8.31 0 0 1 .423 1.02l.155.454L23 10.909l.007 2.102-3.059 1.13-.151.456a7.93 7.93 0 0 1-.425 1.021l-.212.43L20.542 19l-1.48 1.492-2.957-1.357-.43.214a8.31 8.31 0 0 1-1.02.423l-.454.155L13.091 23l-2.102.007zM11.994 6.85a5.15 5.15 0 0 0-.827 10.232 5.285 5.285 0 0 0 .84.068 5.15 5.15 0 0 0 .827-10.232 5.294 5.294 0 0 0-.84-.068z'>
+          </calcite-button>
+          <calcite-button id="card-icon-test-7" scale="xs" appearance="transparent" color="dark"
+            icon='M19 5l-1.067 16.86A1.29 1.29 0 0 1 16.652 23H6.348a1.29 1.29 0 0 1-1.281-1.14L4 5zm-2.348 17a.29.29 0 0 0 .288-.257L18 6H5l1.06 15.744a.29.29 0 0 0 .288.256zM9 7.5a.5.5 0 0 0-1 0v13a.5.5 0 0 0 1 0zm3 0a.5.5 0 0 0-1 0v13a.5.5 0 0 0 1 0zm3 0a.5.5 0 0 0-1 0v13a.5.5 0 0 0 1 0zM20 3v1H3V3h5V1h7v2zm-6-1H9v1h5z'>
+          </calcite-button>
+        </div>
+      </calcite-card>
+    </div>
+    <calcite-tooltip placement="bottom" theme="dark" reference-element="card-icon-test-6">Configure
+    </calcite-tooltip>
+    <calcite-tooltip placement="bottom" theme="dark" reference-element="card-icon-test-7">Delete
+    </calcite-tooltip>
+
+    <div class="example-grid-item">
+
+
+      <calcite-card selected selectable>
+        <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.jpeg" />
+
+        <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+        <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+          overly verbose.</span>
+        <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+        <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+      </calcite-card>
+    </div>
+    <div class="example-grid-item">
+
+
+      <calcite-card loading>
+        <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.jpeg" />
+
+        <h3 slot="title">Loading example</h3>
+        <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+          overly verbose.</span>
+        <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+        <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+      </calcite-card>
+    </div>
+
+    <div class="example-grid-item">
+
+      <calcite-card selectable>
+        <img slot="thumbnail" src="../assets/demo/images/test-card-bg-3.png" />
+        <h3 slot="title">Untitled experience</h3>
+        <span slot="subtitle">Subtext</span>
+        <calcite-button slot="footer-leading" width="full">Go</calcite-button>
+      </calcite-card>
+    </div>
+    <div class="example-grid-item">
+
+      <calcite-card selectable>
+        <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+        <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+          overly verbose.</span>
+        <calcite-button appearance="inline" slot="footer-leading">Lead füt</calcite-button>
+        <calcite-button appearance="inline" slot="footer-trailing">Trail füt</calcite-button>
+      </calcite-card>
+    </div>
+  </div>
+  <div class="demo-background-dark">
+    <h3>Cards: Dark</h3>
+    <div class="example-grid">
+      <div class="example-grid-item">
+        <calcite-card theme="dark">
+          <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.jpeg" />
+          <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+          <calcite-button appearance="inline" theme="dark" slot="footer-leading">Lead füt</calcite-button>
+          <calcite-button appearance="inline" theme="dark" slot="footer-trailing">Trail füt</calcite-button>
+        </calcite-card>
+      </div>
+      <div class="example-grid-item">
+        <calcite-card theme="dark">
+          <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.png" />
+          <h3 slot="title">ArcGIS Pro Editing Workflows</h3>
+          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+            overly verbose.</span>
+          <calcite-button appearance="inline" theme="dark" slot="footer-leading">Lead füt</calcite-button>
+          <calcite-button appearance="inline" theme="dark" slot="footer-trailing">Trail füt</calcite-button>
+        </calcite-card>
+      </div>
+      <div class="example-grid-item">
+
+
+        <calcite-card theme="dark">
+          <img slot="thumbnail" src="../assets/demo/images/test-card-bg.png" />
+          <h3 slot="title">Portland Businesses</h3>
+          <span slot="subtitle">by
+            <calcite-button appearance="inline" theme="dark" href="">ATirella_heaths_org</calcite-button>
+          </span>
+          <div>
+            Created: Apr 22, 2019
+            <br />
+            Updated: Dec 9, 2019
+            <br />
+            View Count: 0
+          </div>
+          <calcite-button theme="dark" slot="footer-leading" color="dark" scale="xs"
+            icon='M12 2.1A41.07 41.07 0 0 1 0 0v14a40.8 40.8 0 0 1 12-2.1A41.07 41.07 0 0 1 24 14V0a41.13 41.13 0 0 1-12 2.1zm0 8.9a40.21 40.21 0 0 0-8.59 1.1L8 8l1 1 2.92-2.92 2.94 3.93L17.4 8l3.45 4.12A40.33 40.33 0 0 0 12 11zm11 1.73l-.9-.25L17.5 7 15 9l-3-4-3 3-1-1-6.16 5.49-.84.24V1.27A42.06 42.06 0 0 0 12 3a42.06 42.06 0 0 0 11-1.73zM20.5 6A1.5 1.5 0 1 0 19 4.5 1.5 1.5 0 0 0 20.5 6zm0-2.17a.67.67 0 1 1-.67.67.67.67 0 0 1 .67-.67zM23 18.5c0 1.6-3.39 2.95-8 3.36V24l-3-2.5 3-2.5v2c4.62-.45 7-1.84 7-2.46s-3.4-2.6-10-2.6S2 17.75 2 18.5s2.72 2.21 8 2.5v.9c-5.12-.3-9-1.72-9-3.44C1 16.57 5.92 15 12 15s11 1.57 11 3.5z'>
+          </calcite-button>
+          <div slot="footer-trailing">
+            <calcite-button theme="dark" scale="xs" color="dark" id="card-icon-test-3"
+              icon='M7.2 5.5a4.3 4.3 0 1 0 4.3-4.3 4.305 4.305 0 0 0-4.3 4.3zm7.644 0A3.344 3.344 0 1 1 11.5 2.156 3.348 3.348 0 0 1 14.844 5.5zM14.5 11h-6A5.506 5.506 0 0 0 3 16.5V22h17v-5.5a5.506 5.506 0 0 0-5.5-5.5zM19 21H4v-4.5A4.505 4.505 0 0 1 8.5 12h6a4.505 4.505 0 0 1 4.5 4.5z'>
+            </calcite-button>
+            <calcite-button theme="dark" scale="xs" color="dark" id="card-icon-test-4"
+              icon='M12.003.3l2.827 8.725h9.14l-7.394 5.378 2.842 8.72-7.415-5.396-7.417 5.395 2.84-8.719-7.455-5.378h9.203z'>
+            </calcite-button>
+            <calcite-dropdown theme="dark">
+              <calcite-button slot="dropdown-trigger" theme="dark" scale="xs" color="dark"
+                icon='M5.8 12A1.8 1.8 0 1 1 4 10.2 1.8 1.8 0 0 1 5.8 12zm6.2 1.8a1.8 1.8 0 1 0-1.8-1.8 1.8 1.8 0 0 0 1.8 1.8zm8 0a1.8 1.8 0 1 0-1.8-1.8 1.8 1.8 0 0 0 1.8 1.8z'>
+              </calcite-button>
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>View details</calcite-dropdown-item>
+                <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                <calcite-dropdown-item>Delete</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-dropdown>
+          </div>
+        </calcite-card>
+      </div>
+      <calcite-tooltip placement="bottom" theme="dark" theme="dark" reference-element="card-icon-test-3">My great
+        tooltip
+        example
+      </calcite-tooltip>
+      <calcite-tooltip placement="bottom" theme="dark" theme="dark" reference-element="card-icon-test-4">Sharing level:
+        2
+      </calcite-tooltip>
+      <div class="example-grid-item">
+
+        <calcite-card theme="dark" selected>
+          <img slot="thumbnail" src="../assets/demo/images/test-card-bg-2.png" />
+          <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+
+          <calcite-button appearance="inline" theme="dark" slot="footer-leading">Lead füt</calcite-button>
+          <calcite-button appearance="inline" theme="dark" slot="footer-trailing">Trail füt</calcite-button>
+        </calcite-card>
+      </div>
+      <div class="example-grid-item">
+
+        <calcite-card theme="dark" selected selectable>
+          <img slot="thumbnail" src="../assets/demo/images/test-card-bg.png" />
+          <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+            overly verbose.</span>
+        </calcite-card>
+      </div>
+      <div class="example-grid-item">
+
+        <calcite-card theme="dark" selected>
+          <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+            overly verbose.</span>
+          <calcite-button appearance="inline" theme="dark" slot="footer-leading">Lead füt</calcite-button>
+          <calcite-button appearance="inline" theme="dark" slot="footer-trailing">Trail füt</calcite-button>
+        </calcite-card>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

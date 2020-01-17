@@ -1,0 +1,59 @@
+:host {
+  display: inline-flex;
+  background-color: var(--calcite-ui-foreground);
+  writing-mode: horizontal-tb;
+}
+:host(.backgroundColor) {
+  background-color: var(--calcite-ui-background);
+}
+
+.previous, .next, .page {
+  display: flex;
+  align-items: center;
+
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  color: var(--calcite-ui-text-3);
+  cursor: pointer;
+  &:hover {
+    color: var(--calcite-ui-text-1);
+    transition: all $transition;
+  }
+}
+.page {
+  &:hover {
+    border-bottom-color: var(--calcite-ui-border-2);
+  }
+  &.is-selected {
+    font-weight: 500;
+    color: var(--calcite-ui-text-1);
+    border-bottom-color: var(--calcite-ui-blue);
+  }
+}
+.previous, .next {
+  padding: .75em 1em;
+  &:hover {
+    color: var(--calcite-ui-blue);
+    background-color: var(--calcite-ui-foreground-hover);
+  }
+  &:active {
+    background-color: var(--calcite-ui-foreground-press);
+  }
+  &.is-disabled {
+    background-color: transparent;
+    & > svg {
+      opacity: 0.3;
+    }
+  }
+}
+.next {
+  margin-right: 0;
+}
+.page, .ellipsis {
+  padding: .75em 1em;
+}
+.ellipsis {
+  display: flex;
+  align-items: flex-end;
+  color: var(--calcite-ui-text-3);
+}

@@ -164,7 +164,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-dropdown>
-    <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+    <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="multi">
     <calcite-dropdown-item id="item-1">
     Dropdown Item Content
@@ -179,15 +179,20 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown>`);
 
     const element = await page.find("calcite-dropdown");
+    const trigger = await element.find("#trigger");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     expect(group1).toEqualAttribute("selection-mode", "multi");
+    await trigger.click();
     await item1.click();
+    await trigger.click();
+    await item2.click();
+    await trigger.click();
     await item3.click();
-    expect(item2).toHaveAttribute("active");
-    expect(item2).toHaveAttribute("active");
+    expect(item1).toHaveAttribute("active");
+    expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
   });
 
@@ -195,7 +200,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-dropdown>
-    <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+    <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="single">
     <calcite-dropdown-item id="item-1">
     Dropdown Item Content
@@ -210,12 +215,15 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown>`);
 
     const element = await page.find("calcite-dropdown");
+    const trigger = await element.find("#trigger");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     expect(group1).toEqualAttribute("selection-mode", "single");
+    await trigger.click();
     await item1.click();
+    await trigger.click();
     await item3.click();
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
@@ -226,7 +234,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-dropdown>
-    <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+    <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="none">
     <calcite-dropdown-item id="item-1">
     Dropdown Item Content
@@ -241,13 +249,17 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown>`);
 
     const element = await page.find("calcite-dropdown");
+    const trigger = await element.find("#trigger");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     expect(group1).toEqualAttribute("selection-mode", "none");
+    await trigger.click();
     await item1.click();
+    await trigger.click();
     await item2.click();
+    await trigger.click();
     await item3.click();
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
@@ -258,7 +270,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-dropdown>
-    <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+    <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="multi">
     <calcite-dropdown-item id="item-1">
     Dropdown Item Content
@@ -295,6 +307,7 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown>`);
 
     const element = await page.find("calcite-dropdown");
+    const trigger = await element.find("#trigger");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     const group2 = await element.find("calcite-dropdown-group[id='group-2']");
     const group3 = await element.find("calcite-dropdown-group[id='group-3']");
@@ -307,18 +320,26 @@ describe("calcite-dropdown", () => {
     const item7 = await element.find("calcite-dropdown-item[id='item-7']");
     const item8 = await element.find("calcite-dropdown-item[id='item-8']");
     const item9 = await element.find("calcite-dropdown-item[id='item-9']");
+
     expect(group1).toEqualAttribute("selection-mode", "multi");
     expect(group2).toEqualAttribute("selection-mode", "single");
     expect(group3).toEqualAttribute("selection-mode", "none");
 
+    await trigger.click();
     await item1.click();
+    await trigger.click();
     await item2.click();
+    await trigger.click();
     await item3.click();
+    await trigger.click();
     await item4.click();
+    await trigger.click();
     await item6.click();
+    await trigger.click();
     await item7.click();
+    await trigger.click();
     await item9.click();
-    expect(item1).not.toHaveAttribute("active");
+    expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
     expect(item4).not.toHaveAttribute("active");
