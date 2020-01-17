@@ -12,7 +12,7 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 ### Attributes
 #### Custom attributes
-`status` = [`idle`, `valid`, `invalid`] - defaults to `idle` - Allows setting a status that affects styling of input. This can also be explicitly set on a `calcite-input-message` component or on a wrapping `calcite-input`. Setting `status` on the `calcite-label` will propagate to any child `calcite-input` or `calcite-input-message` components
+`status` = [`idle`, `valid`, `invalid`] - defaults to `idle` - Allows setting a status that affects styling of input. This can also be explicitly set on a `calcite-input-message` component or on a wrapping `calcite-input`. Setting `status` on the `calcite-label` will propagate to any child `calcite-input` and / or `calcite-input-message` components
 
 `appearance` = [`floating`,`default`] - defaults to `default` - `floating ` absolutely positions the component for use cases where vertical height may be limited
 

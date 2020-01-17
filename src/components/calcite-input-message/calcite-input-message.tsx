@@ -40,7 +40,7 @@ export class CalciteInputMessage {
   /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
   @Prop({ reflect: true }) icon?: string;
 
-  /** specify the alignment of dropdown, defaults to left */
+  /** specify the theme, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   //--------------------------------------------------------------------------
@@ -88,12 +88,12 @@ export class CalciteInputMessage {
   //
   //--------------------------------------------------------------------------
 
-  private setIcon(path) {
+  private setIcon(iconName) {
     return (
       <calcite-icon
         class="calcite-input-message-icon"
         scale="s"
-        icon={path}
+        icon={iconName}
       ></calcite-icon>
     );
   }

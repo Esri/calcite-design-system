@@ -55,7 +55,7 @@ export class CalciteLabel {
   }
 
   componentDidLoad() {
-    this.requestedInput = this.el.getAttribute("for");
+    this.requestedInputId = this.el.getAttribute("for");
   }
 
   render() {
@@ -105,7 +105,7 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   /** the input requested with the for attribute */
-  private requestedInput: string;
+  private requestedInputId: string;
 
   //--------------------------------------------------------------------------
   //
@@ -116,11 +116,11 @@ export class CalciteLabel {
   // todo
   private focusChildEl() {
     var elToFocus;
-    if (this.requestedInput) {
+    if (this.requestedInputId) {
       this.calciteLabelSelectedEvent.emit({
-        requestedInput: this.requestedInput
+        requestedInput: this.requestedInputId
       });
-      elToFocus = document.getElementById(this.requestedInput);
+      elToFocus = document.getElementById(this.requestedInputId);
     } else {
       elToFocus = this.el.querySelector("input")
         ? this.el.querySelector("input")

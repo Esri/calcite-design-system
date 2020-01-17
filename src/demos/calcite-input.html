@@ -50,6 +50,8 @@
             Text leading inline
             <calcite-checkbox></calcite-checkbox>
           </calcite-label>
+
+
           <calcite-label appearance="inline">
             <calcite-checkbox></calcite-checkbox>
             Text trailing inline
@@ -118,8 +120,7 @@
           </calcite-label>
           <calcite-label>
             prefix
-            <calcite-input type="number" number-button-type="none" prefix-text="prefix"
-              placeholder="How many apples?">
+            <calcite-input type="number" number-button-type="none" prefix-text="prefix" placeholder="How many apples?">
             </calcite-input>
           </calcite-label>
 
@@ -306,8 +307,6 @@
             </calcite-input-message>
           </calcite-label>
         </calcite-accordion-item>
-        <calcite-accordion-item item-title="Messages - Floating">
-        </calcite-accordion-item>
 
         <calcite-accordion-item item-title="Interactions with native elements">
           <calcite-notice icon scale="s" active width="full" style="margin-bottom:20px;">
@@ -350,11 +349,6 @@
       style="width:400px;display:inline-flex;max-width:100%;flex-direction:column;margin:0 auto;text-align:center;padding:2em">
       <h3>In use - using custom emitted events and dark mode</h3>
       <calcite-accordion icon-position="start" selection-mode="multi" scale="l" theme="dark">
-        <calcite-accordion-item item-title="Log In">
-          <form name="form-input-example-1" id="form-input-example-1">
-            <calcite-button width="full">Log In</calcite-button>
-          </form>
-        </calcite-accordion-item>
         <calcite-accordion-item item-title="Register Event-listener example">
 
           <form name="form-input-example-2" id="form-input-example-2">
@@ -363,7 +357,12 @@
               <calcite-input id="validate-input-example-username" placeholder="Enter username" required>
               </calcite-input>
             </calcite-label>
-
+            <calcite-label theme="dark">
+              Create username
+              <calcite-input suffix-text="@maps.esri.com" id="validate-input-example-username"
+                placeholder="Enter username" required>
+              </calcite-input>
+            </calcite-label>
             <calcite-label theme="dark">
               Create password
               <calcite-input id="validate-input-example-password" type="password" placeholder="•••••">
@@ -376,7 +375,6 @@
             </calcite-label>
             <calcite-button width="full">Register</calcite-button>
           </form>
-          <hr />
           <calcite-notice width="full" id="validate-input-example-focus-notice">
           </calcite-notice>
           <calcite-notice width="full" id="validate-input-example-blur-notice">
@@ -429,10 +427,6 @@
 
         </calcite-accordion-item>
       </calcite-accordion>
-      <br />
-
-      <h3>Input Example Form Minimal</h3>
-
     </div>
   </div>
 </body>

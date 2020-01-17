@@ -245,12 +245,6 @@ export class CalciteInput {
 
   //--------------------------------------------------------------------------
   //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
@@ -354,12 +348,12 @@ export class CalciteInput {
     }
   }
 
-  private setIcon(path) {
+  private setIcon(iconName) {
     return (
       <calcite-icon
         class="calcite-input-icon"
         scale="s"
-        icon={path}
+        icon={iconName}
       ></calcite-icon>
     );
   }

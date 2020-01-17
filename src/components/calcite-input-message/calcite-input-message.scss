@@ -83,17 +83,17 @@ $inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-red-hover)
 
   :host([status="#{$name}"]) {
     & .calcite-input-message-icon {
-      color: $color !important;
+      color: $color;
     }
   }
 }
 
 :host([type="floating"][active]) {
-  animation: floatingmessagepulse 0.5s ease-in-out;
+  animation: floatingMessagePulse 0.5s ease-in-out;
   animation-iteration-count: 1;
 }
 
-@keyframes floatingmessagepulse {
+@keyframes floatingMessagePulse {
   0% {
     top: 100%;
   }
