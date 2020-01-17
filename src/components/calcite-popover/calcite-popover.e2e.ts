@@ -176,4 +176,48 @@ describe("calcite-popover", () => {
 
     expect(await container.isVisible()).toBe(true);
   });
+
+  it("should emit close event", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    const event = await popover.spyOnEvent("calcitePopoverOpen");
+
+    expect(event).toHaveReceivedEventTimes(0);
+
+    popover.setProperty("open", true);
+
+    await page.waitForChanges();
+
+    expect(event).toHaveReceivedEventTimes(1);
+  });
+
+  it("should emit open event", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    const event = await popover.spyOnEvent("calcitePopoverClose");
+
+    expect(event).toHaveReceivedEventTimes(0);
+
+    popover.setProperty("open", false);
+
+    await page.waitForChanges();
+
+    expect(event).toHaveReceivedEventTimes(1);
+  });
 });

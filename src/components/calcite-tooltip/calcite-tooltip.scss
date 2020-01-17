@@ -10,6 +10,9 @@
   visibility: hidden;
   position: relative;
   box-shadow: $shadow-2;
+  border-radius: var(--calcite-border-radius);
+  background: var(--calcite-ui-foreground);
+  overflow: hidden;
 }
 
 .tooltip-container--open {
@@ -21,7 +24,6 @@
 }
 
 .tooltip-content-container {
-  background: var(--calcite-ui-foreground);
   max-width: 300px;
   max-height: 300px;
   display: flex;
