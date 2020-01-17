@@ -31,9 +31,22 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 | `icon`       | `icon`       | optionally pass icon path data - pass only raw path data from calcite ui helper                                                  | `string`                         | `undefined` |
 | `scale`      | `scale`      | specify the scale of the input, defaults to m                                                                                    | `"l" \| "m" \| "s"`              | `"m"`       |
 | `status`     | `status`     | specify the status of the input field, determines message and icons                                                              | `"idle" \| "invalid" \| "valid"` | `undefined` |
-| `theme`      | `theme`      | specify the alignment of dropdown, defaults to left                                                                              | `"dark" \| "light"`              | `"light"`   |
+| `theme`      | `theme`      | specify the theme, defaults to light                                                                                             | `"dark" \| "light"`              | `"light"`   |
 | `type`       | `type`       | specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) | `"default" \| "floating"`        | `"default"` |
 
+
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-input-message --> calcite-icon
+  style calcite-input-message fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

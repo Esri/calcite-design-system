@@ -108,20 +108,21 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 
 ## Properties
 
-| Property           | Attribute            | Description                                                                     | Type                                   | Default      |
-| ------------------ | -------------------- | ------------------------------------------------------------------------------- | -------------------------------------- | ------------ |
-| `appearance`       | `appearance`         | specify the appearance type - minimal or default                                | `"default" \| "minimal"`               | `"default"`  |
-| `autofocus`        | `autofocus`          | should the input autofocus                                                      | `boolean`                              | `false`      |
-| `icon`             | `icon`               | optionally pass icon path data - pass only raw path data from calcite ui helper | `string`                               | `undefined`  |
-| `loading`          | `loading`            | specify if the input is in loading state                                        | `boolean`                              | `false`      |
-| `numberButtonType` | `number-button-type` | specify the placement of the number buttons                                     | `"horizontal" \| "none" \| "vertical"` | `"vertical"` |
-| `prefixString`     | `prefix-string`      | optionally add prefix  *                                                        | `string`                               | `undefined`  |
-| `required`         | `required`           | is the input required                                                           | `boolean`                              | `false`      |
-| `scale`            | `scale`              | specify the scale of the input, defaults to m                                   | `"l" \| "m" \| "s"`                    | `"m"`        |
-| `status`           | `status`             | specify the status of the input field, determines message and icons             | `"idle" \| "invalid" \| "valid"`       | `undefined`  |
-| `suffixString`     | `suffix-string`      | optionally add suffix  *                                                        | `string`                               | `undefined`  |
-| `theme`            | `theme`              | specify the alignment of dropdown, defaults to left                             | `"dark" \| "light"`                    | `"light"`    |
-| `width`            | `width`              | specify the width                                                               | `"auto" \| "full" \| "half"`           | `"full"`     |
+| Property           | Attribute            | Description                                                                     | Type                                                                                                                                                                                   | Default      |
+| ------------------ | -------------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| `appearance`       | `appearance`         | specify the appearance type - minimal or default                                | `"default" \| "minimal"`                                                                                                                                                               | `"default"`  |
+| `autofocus`        | `autofocus`          | should the input autofocus                                                      | `boolean`                                                                                                                                                                              | `false`      |
+| `icon`             | `icon`               | optionally pass icon path data - pass only raw path data from calcite ui helper | `string`                                                                                                                                                                               | `undefined`  |
+| `loading`          | `loading`            | specify if the input is in loading state                                        | `boolean`                                                                                                                                                                              | `false`      |
+| `numberButtonType` | `number-button-type` | specify the placement of the number buttons                                     | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"` |
+| `prefixText`       | `prefix-text`        | optionally add prefix  *                                                        | `string`                                                                                                                                                                               | `undefined`  |
+| `required`         | `required`           | is the input required                                                           | `boolean`                                                                                                                                                                              | `false`      |
+| `scale`            | `scale`              | specify the scale of the input, defaults to m                                   | `"l" \| "m" \| "s"`                                                                                                                                                                    | `"m"`        |
+| `status`           | `status`             | specify the status of the input field, determines message and icons             | `"idle" \| "invalid" \| "valid"`                                                                                                                                                       | `undefined`  |
+| `suffixText`       | `suffix-text`        | optionally add suffix  *                                                        | `string`                                                                                                                                                                               | `undefined`  |
+| `theme`            | `theme`              | specify the alignment of dropdown, defaults to left                             | `"dark" \| "light"`                                                                                                                                                                    | `"light"`    |
+| `type`             | `type`               | specify the input type                                                          | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`     |
+| `value`            | `value`              | input value                                                                     | `string`                                                                                                                                                                               | `""`         |
 
 
 ## Events
@@ -138,11 +139,13 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 ### Depends on
 
 - [calcite-progress](../calcite-progress)
+- [calcite-icon](../calcite-icon)
 
 ### Graph
 ```mermaid
 graph TD;
   calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

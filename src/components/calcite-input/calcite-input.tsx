@@ -6,8 +6,7 @@ import {
   EventEmitter,
   h,
   Listen,
-  Prop,
-  State
+  Prop
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 
@@ -44,9 +43,8 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) appearance: "minimal" | "default" =
     "default";
 
-  /** specify the width */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
-    "full";
+  /** input value */
+  @Prop({ mutable: true }) value?: string | null = "";
 
   /** optionally add prefix  **/
   @Prop({ mutable: true }) prefixText?: string;
@@ -56,6 +54,25 @@ export class CalciteInput {
 
   /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
   @Prop({ mutable: true, reflect: true }) icon?: string;
+
+  /** specify the input type */
+  @Prop({ mutable: true, reflect: true }) type:
+    | "color"
+    | "date"
+    | "datetime-local"
+    | "email"
+    | "file"
+    | "image"
+    | "month"
+    | "number"
+    | "password"
+    | "search"
+    | "tel"
+    | "text"
+    | "textarea"
+    | "time"
+    | "url"
+    | "week" = "text";
 
   /** specify the placement of the number buttons */
   @Prop({ mutable: true, reflect: true }) numberButtonType?:
@@ -90,15 +107,32 @@ export class CalciteInput {
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
-    let width = ["auto", "half", "full"];
-    if (!width.includes(this.width)) this.width = "full";
-
     let appearance = ["minimal", "default"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
 
+    let type = [
+      "color",
+      "date",
+      "datetime-local",
+      "email",
+      "file",
+      "image",
+      "month",
+      "number",
+      "password",
+      "search",
+      "tel",
+      "text",
+      "textarea",
+      "time",
+      "url",
+      "week"
+    ];
+    if (!type.includes(this.type)) this.type = "text";
+
     let numberButtonType = ["vertical", "horizontal", "none"];
     if (
-      this.inputType === "number" &&
+      this.type === "number" &&
       !numberButtonType.includes(this.numberButtonType)
     )
       this.numberButtonType = "vertical";
@@ -109,17 +143,15 @@ export class CalciteInput {
   }
 
   componentWillLoad() {
-    this.inputType = this.el.getAttribute("type");
-    this.inputValue = this.el.getAttribute("value");
-    this.childElType = this.inputType === "textarea" ? "textarea" : "input";
-    if (!this.icon && this.iconTypeDefaults[this.inputType])
-      this.icon = this.iconTypeDefaults[this.inputType];
+    this.childElType = this.type === "textarea" ? "textarea" : "input";
+    if (!this.icon && this.iconTypeDefaults[this.type])
+      this.icon = this.iconTypeDefaults[this.type];
   }
 
   componentWillUpdate() {
     this.calciteInputChange.emit({
       element: this.childEl as HTMLInputElement,
-      value: this.inputValue
+      value: this.value
     });
   }
 
@@ -172,7 +204,7 @@ export class CalciteInput {
           onBlur={() => this.inputBlurHandler()}
           onFocus={() => this.inputFocusHandler()}
           onInput={e => this.inputChangeHandler(e)}
-          value={this.inputValue}
+          value={this.value}
           required={this.required ? true : null}
           autofocus={this.autofocus ? true : null}
         />
@@ -199,7 +231,7 @@ export class CalciteInput {
     return (
       <Host dir={dir}>
         <div class="calcite-input-wrapper">
-          {this.inputType === "number" && this.numberButtonType === "horizontal"
+          {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
             : null}
           {this.prefixText ? (
@@ -207,13 +239,13 @@ export class CalciteInput {
           ) : null}
           {childEl}
           <slot name="input-action"></slot>
-          {this.inputType === "number" && this.numberButtonType === "vertical"
+          {this.type === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical
             : null}
           {this.suffixText ? (
             <div class="calcite-input-suffix">{this.suffixText}</div>
           ) : null}
-          {this.inputType === "number" && this.numberButtonType === "horizontal"
+          {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp
             : null}
           {this.icon ? icon : null}
@@ -248,17 +280,12 @@ export class CalciteInput {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  //* @internal
-  @State() inputValue?: any;
 
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
 
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement;
-
-  // internal input type - refers to number, email, etc not rendered type of child
-  private inputType: string;
 
   //--------------------------------------------------------------------------
   //
@@ -281,24 +308,24 @@ export class CalciteInput {
   }
 
   private inputChangeHandler(e) {
-    this.inputValue = e.target.value;
+    this.value = e.target.value;
     this.calciteInputChange.emit({
       element: this.childEl as HTMLInputElement,
-      value: this.inputValue
+      value: this.value
     });
   }
 
   private inputBlurHandler() {
     this.calciteInputBlur.emit({
       element: this.childEl as HTMLInputElement,
-      value: this.inputValue
+      value: this.value
     });
   }
 
   private inputFocusHandler() {
     this.calciteInputFocus.emit({
       element: this.childEl as HTMLInputElement,
-      value: this.inputValue
+      value: this.value
     });
   }
 
@@ -320,7 +347,7 @@ export class CalciteInput {
 
   //todo cleanup
   private handleNumberButtonClick(e) {
-    if (this.inputType === "number") {
+    if (this.type === "number") {
       let numberInputMax = this.childEl.max
         ? parseFloat(this.childEl.max)
         : null;
@@ -344,7 +371,7 @@ export class CalciteInput {
             this.childEl.value = (inputValueAsNumber -= numberInputStep).toString();
           break;
       }
-      this.inputValue = this.childEl.value.toString();
+      this.value = this.childEl.value.toString();
     }
   }
 

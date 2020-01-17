@@ -110,11 +110,6 @@ calcite-input slot:not[name="input-message"] {
   font-weight: 500;
 }
 
-
-
-calcite-input[width="auto"] {
-  width: 100px;
-}
 // todo css vars
 calcite-input[icon] textarea,
 calcite-input[icon] input {
@@ -178,7 +173,7 @@ calcite-input[icon] input {
   box-sizing: border-box;
   transition: $transition;
   pointer-events: none;
-  order: 35;
+  order: 7;
 }
 
 calcite-input[number-button-type="vertical"] .calcite-input-wrapper {
