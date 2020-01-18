@@ -43,7 +43,7 @@
   --calcite-switch-switched-handle-border: var(--calcite-ui-red);
   --calcite-switch-switched-hover-track-background: var(--calcite-ui-red);
   --calcite-switch-switched-hover-track-border: var(--calcite-ui-red-hover);
-  --calcite-switch-switched-hover-handle-border: var(--caclite-ui-red-press);
+  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-red-press);
   --calcite-switch-switched-box-shadow-color: #{rgba($ui-red, 0.5)};
 }
 :host([theme="dark"][color="red"]) {
