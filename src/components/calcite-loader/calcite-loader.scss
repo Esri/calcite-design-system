@@ -1,7 +1,7 @@
 :host {
-  --calcite-loader-spot: #{$ui-blue};
-  --calcite-loader-spot-light: #{$v-bb-160};
-  --calcite-loader-spot-dark: #{$h-bb-070};
+  --calcite-loader-spot: var(--calcite-ui-blue);
+  --calcite-loader-spot-light: var(--calcite-ui-blue);
+  --calcite-loader-spot-dark: var(--calcite-ui-blue-dark);
   --calcite-loader-neutral: #{$blk-020};
   --calcite-loader-padding: 4rem;
 }
