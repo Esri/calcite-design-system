@@ -138,10 +138,10 @@
 
   &:before {
     opacity: 1;
-    color: var(--calcite-tree-indicator-active);
+    color: var(--calcite-ui-blue);
   }
   &:after {
-    background: var(--calcite-tree-line-active);
+    background: var(--calcite-ui-blue);
     width: var(--calcite-tree-hover-line-width);
     z-index: 2;
   }
@@ -155,11 +155,11 @@
   color: var(--calcite-tree-text-active);
   font-weight: 500;
   &:after {
-    background: var(--calcite-tree-line-active);
+    background: var(--calcite-ui-blue);
   }
   &:before {
     opacity: 1;
-    color: var(--calcite-tree-indicator-active);
+    color: var(--calcite-ui-blue);
   }
   ::slotted(*) {
     color: var(--calcite-tree-text-active);
@@ -168,7 +168,7 @@
 
 // dropdown expanded and selected
 :host([has-children][expanded][selected]) > .calcite-tree-node:after {
-  background: var(--calcite-tree-line-active);
+  background: var(--calcite-ui-blue);
   width: var(--calcite-tree-hover-line-width);
   z-index: 2;
 }
@@ -198,8 +198,8 @@
 
   :host([expanded]) > .calcite-tree-node > & {
     transform: rotate(90deg);
-    fill: var(--calcite-tree-chevron-active);
+    fill: var(--calcite-ui-blue);
     stroke-width: 0.75;
-    stroke: var(--calcite-tree-chevron-active);
+    stroke: var(--calcite-ui-blue);
   }
 }
