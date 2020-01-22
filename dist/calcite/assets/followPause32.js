@@ -1,0 +1,1 @@
+export const followPause32 = "M1 8V1h7v1H2v6zm30 0V1h-7v1h6v6zM8 30H2v-6H1v7h7zm7-15h-2v2h2zm-4 4H9v2h2zm-2 6H7v2h2zm12-13h6v-1h-6zm-11 0h6v-1h-6zm8 2v6h1v-6zm0-11v6h1V3zm2 8.07v.86A1.07 1.07 0 0 1 18.93 13h-.86A1.07 1.07 0 0 1 17 11.93v-.86A1.07 1.07 0 0 1 18.07 10h.86A1.07 1.07 0 0 1 20 11.07zM19 11h-1v1h1zm7 7v14h-4V18zm-1 1h-2v12h2zm7-1v14h-4V18zm-1 1h-2v12h2z";

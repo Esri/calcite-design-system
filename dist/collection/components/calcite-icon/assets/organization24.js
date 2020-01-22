@@ -1,0 +1,1 @@
+export const organization24 = "M15 16h4v-4h-4zm1-3h2v2h-2zM5 11h4V7H5zm1-3h2v2H6zm16 14V4H12V2H5v2H2v18H0v1h11v-5h2v5h11v-1zm-8 0v-5h-4v5H3V5h3V3h5v2h10v17zm-9-6h4v-4H5zm1-3h2v2H6zm4-2h4V7h-4zm1-3h2v2h-2zm-1 8h4v-4h-4zm1-3h2v2h-2zm4-2h4V7h-4zm1-3h2v2h-2z";

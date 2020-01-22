@@ -1,0 +1,1 @@
+export const featureDetails24 = "M3 3V2h5v1zm5 3V5H5v1zm0 3V8H2v1zm0 6v-1H6v1zM22 3V2H10v1zm-3 3V5h-9v1zm2 3V8H10v1zm1 6v-1H10v1zm1 5v3H1v-3zm-1 1H2v1h20zM8 12v-1H4v1zm8 0v-1h-6v1zm-8 6v-1H3v1zm14 0v-1H10v1z";

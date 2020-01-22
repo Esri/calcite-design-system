@@ -1,0 +1,1 @@
+export const addInNew32F = "M31 7v1h-6v6h-1V8h-6V7h6V1h1v6zM2 30h12V18H2zm14 0h12V18H16zM2 16h12V4H2z";

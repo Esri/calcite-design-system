@@ -1,0 +1,1 @@
+export const measureLine16 = "M0 14h15V8H0zm1-5h13v4h-1v-3h-1v3h-1v-2h-1v2H9v-3H8v3H7v-2H6v2H5v-3H4v3H3v-2H2v2H1zm11-5v1H3V4H0v3h3V6h9v1h3V4zM2 6H1V5h1zm12 0h-1V5h1z";

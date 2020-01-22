@@ -1,0 +1,1 @@
+export const featureDetails32 = "M3 9V8h9v1zm9 3v-1H6v1zm0 3v-1H2v1zm0 6v-1H6v1zM30 9V8H14v1zm-5 3v-1H14v1zm3 3v-1H14v1zm2 6v-1H14v1zm1 6v3H1v-3zm-1 1H2v1h28zM12 18v-1H4v1zm10 0v-1h-8v1zm-10 6v-1H3v1zm18 0v-1H14v1zM12 3V2H2v1zm0 3V5H9v1zm18-3V2H14v1zm-6 3V5H14v1z";
