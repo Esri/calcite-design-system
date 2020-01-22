@@ -38,7 +38,10 @@ export class CalciteLabel {
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   /** is the wrapped element positioned inline with the label slotted text */
-  @Prop({ mutable: true, reflect: true }) appearance: "inline" | "inline-space-between" | "default" = "default";
+  @Prop({ mutable: true, reflect: true }) appearance:
+    | "inline"
+    | "inline-space-between"
+    | "default" = "default";
 
   //--------------------------------------------------------------------------
   //
@@ -76,12 +79,12 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") handleClick() {
-    this.focusChildEl();
+  @Listen("click") handleClick(e) {
+    this.focusChildEl(e);
   }
 
-  @Listen("keydown") handleKeydown() {
-    this.focusChildEl();
+  @Listen("keydown") handleKeydown(e) {
+    this.focusChildEl(e);
   }
 
   //--------------------------------------------------------------------------
@@ -91,12 +94,6 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   @Event() calciteLabelSelectedEvent: EventEmitter;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
 
   //--------------------------------------------------------------------------
   //
@@ -113,21 +110,29 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  // todo
-  private focusChildEl() {
-    var elToFocus;
+  // todo cleanup this mess
+  private focusChildEl(e) {
     if (this.requestedInputId) {
-      this.calciteLabelSelectedEvent.emit({
-        requestedInput: this.requestedInputId
-      });
-      elToFocus = document.getElementById(this.requestedInputId);
-    } else {
-      elToFocus = this.el.querySelector("input")
-        ? this.el.querySelector("input")
-        : this.el.querySelector("textarea")
-        ? this.el.querySelector("calcite-switch") : null;
-    }
-    elToFocus.focus();
+      this.emitSelectedItem();
+      document.getElementById(this.requestedInputId).focus();
+    } else if (this.el.querySelector("calcite-switch"))
+      e.type === "click"
+        ? this.el.querySelector("calcite-switch").toggleAttribute("switched")
+        : this.el.querySelector("calcite-switch").focus();
+    else if (this.el.querySelector("calcite-checkbox"))
+      e.type === "click"
+        ? this.el.querySelector("calcite-checkbox").toggleAttribute("checked")
+        : this.el.querySelector("calcite-checkbox").focus();
+    else if (this.el.querySelector("textarea"))
+      this.el.querySelector("textarea").focus();
+    else if (this.el.querySelector("input"))
+      this.el.querySelector("input").focus();
+  }
+
+  private emitSelectedItem() {
+    this.calciteLabelSelectedEvent.emit({
+      requestedInput: this.requestedInputId
+    });
   }
 
   private getAttributes() {
