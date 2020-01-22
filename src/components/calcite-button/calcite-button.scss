@@ -125,6 +125,8 @@
   position: relative;
   height: 16px;
   width: 16px;
+  min-width: 16px;
+  min-height: 16px;
   margin: 0;
   line-height: inherit;
   transition: $transition;

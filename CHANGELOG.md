@@ -6,19 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+
+
+## [v1.0.0-beta.17] - Jan 22nd 2020
 ### Breaking Changes
 - `calcite-progress` no longer accepts slotted content
 
 ### Added
-- added `calcite-label`, `calcite-input`, and `calcite-input-message` components
+- new `calcite-pagination` component (#281)
 - `calcite-accordion` now accepts `transparent` as an `appearance` attribute value
 - `calcite-accordion` now accepts an `icon-type` attribute to specify icon type - "chevron" (default), "caret" or "plus-minus"
 - `calcite-accordion-item` now accepts an `item-subtitle` attribute to display beneath `item-title`
 - `setFocus()` added to `calcite-alert` - focuses a slotted link or a close button, if present
 - `calcite-loader` now accepts a `no-padding` boolean attribute
-
+- `calcitePopoverClose` and `calcitePopoverOpen` events added to `calcite-popover` component
+  
 ### Updated
 - `setFocus()` now focuses the first element in a `calcite-notice` - a slotted link or a close button, if present
+- styling fixes for `calcite-button`, `calcite-dropdown`
 
 ## [v1.0.0-beta.16] - Dec 19th 2019
 
@@ -196,7 +201,8 @@ Fix issue with previous release.
 ## [v1.0.0-beta.1] - Aug 2nd 2019
 
 First initial beta release.
-[Unreleased]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.16...master "master"
+[Unreleased]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.17...master "master"
+[v1.0.0-beta.17]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.16...v1.0.0-beta.17 "v1.0.0-beta.17"
 [v1.0.0-beta.16]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.15...v1.0.0-beta.16 "v1.0.0-beta.16"
 [v1.0.0-beta.15]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.14...v1.0.0-beta.15 "v1.0.0-beta.15"
 [v1.0.0-beta.14]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.13...v1.0.0-beta.14 "v1.0.0-beta.14"
