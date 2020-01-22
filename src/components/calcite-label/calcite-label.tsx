@@ -38,7 +38,7 @@ export class CalciteLabel {
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   /** is the wrapped element positioned inline with the label slotted text */
-  @Prop({ mutable: true, reflect: true }) appearance:
+  @Prop({ mutable: true, reflect: true }) layout:
     | "inline"
     | "inline-space-between"
     | "default" = "default";
@@ -50,8 +50,11 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    let statusOptions = ["invalid", "valid", "idle"];
-    if (!statusOptions.includes(this.status)) this.status = "idle";
+    let status = ["invalid", "valid", "idle"];
+    if (!status.includes(this.status)) this.status = "idle";
+
+    let layout = ["inline", "inline-space-between", "default"];
+    if (!layout.includes(this.layout)) this.layout = "default";
 
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme)) this.theme = "light";
