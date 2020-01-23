@@ -142,6 +142,15 @@ calcite-input[icon] input {
   justify-content: center;
 }
 
+//todo rtl
+.calcite-input-action-wrapper {
+  display: flex;
+  flex: 1;
+  order: 9;
+  & * {
+    width: 100%;
+  }
+}
 .calcite-input-prefix,
 .calcite-input-suffix {
   display: flex;
@@ -156,6 +165,35 @@ calcite-input[icon] input {
   color: var(--calcite-ui-text-3);
   align-items: center;
   align-content: center;
+}
+
+.calcite-input-prefix,
+.calcite-input-suffix {
+  display: flex;
+  height: auto;
+  min-height: 100%;
+  font-weight: 600;
+  padding: $baseline/2;
+  word-break: break-word;
+  user-select: none;
+  border: 1px solid var(--calcite-ui-border-1);
+  background-color: var(--calcite-ui-background);
+  color: var(--calcite-ui-text-3);
+  align-items: center;
+  align-content: center;
+}
+calcite-input[appearance="minimal"] .calcite-input-prefix,
+calcite-input[appearance="minimal"] .calcite-input-suffix {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: initial;
+}
+// todo rtl
+calcite-input[appearance="minimal"] .calcite-input-prefix {
+  padding-left: 0;
+}
+calcite-input[appearance="minimal"] .calcite-input-suffix {
+  padding-right: 0;
 }
 .calcite-input-prefix {
   order: 2;

@@ -144,6 +144,7 @@ export class CalciteInput {
 
   componentWillLoad() {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
+    this.hasAction = this.el.querySelector("[slot=input-action]") !== null;
     if (!this.icon && this.iconTypeDefaults[this.type])
       this.icon = this.iconTypeDefaults[this.type];
   }
@@ -173,7 +174,7 @@ export class CalciteInput {
     const numberButtonsHorizontalUp = (
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onClick={e => this.handleNumberButtonClick(e)}
+        onClick={this.handleNumberButtonClick}
         data-adjustment="up"
       >
         <calcite-icon icon="chevron-up" filled></calcite-icon>
@@ -183,7 +184,7 @@ export class CalciteInput {
     const numberButtonsHorizontalDown = (
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onClick={e => this.handleNumberButtonClick(e)}
+        onClick={this.handleNumberButtonClick}
         data-adjustment="down"
       >
         <calcite-icon icon="chevron-down" filled></calcite-icon>
@@ -238,7 +239,11 @@ export class CalciteInput {
             <div class="calcite-input-prefix">{this.prefixText}</div>
           ) : null}
           {childEl}
-          <slot name="input-action"></slot>
+          {this.hasAction ? (
+            <div class="calcite-input-action-wrapper">
+              <slot name="input-action"></slot>
+            </div>
+          ) : null}
           {this.type === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical
             : null}
@@ -286,6 +291,9 @@ export class CalciteInput {
 
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement;
+
+  /** determine if there is a slotted action for styling purposes */
+  private hasAction: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -346,7 +354,7 @@ export class CalciteInput {
   }
 
   //todo cleanup
-  private handleNumberButtonClick(e) {
+  private handleNumberButtonClick = e => {
     if (this.type === "number") {
       let numberInputMax = this.childEl.max
         ? parseFloat(this.childEl.max)
@@ -373,7 +381,7 @@ export class CalciteInput {
       }
       this.value = this.childEl.value.toString();
     }
-  }
+  };
 
   private setIcon(iconName) {
     return (

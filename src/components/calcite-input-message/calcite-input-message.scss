@@ -1,12 +1,13 @@
 // theme variables
-// light theme
 :host {
   --calcite-input-message-floating-background: #{rgba($ui-foreground, 0.96)};
 }
 
-// dark theme
 :host([theme="dark"]) {
-  --calcite-input-message-floating-background: #{rgba($ui-foreground-hover-dark, 0.96)};
+  --calcite-input-message-floating-background: #{rgba(
+      $ui-foreground-hover-dark,
+      0.96
+    )};
 }
 
 :host {
@@ -16,8 +17,8 @@
   box-sizing: border-box;
   text-align: left;
   color: var(--calcite-ui-text-2);
-  font-weight: 400;
-  @include font-size(-3);
+  font-weight: 500;
+  @include font-size(-4);
   transition: $transition;
   visibility: hidden;
   opacity: 0;
@@ -64,7 +65,7 @@
   margin: 2px $baseline/2.5 0;
   line-height: inherit;
   z-index: 9;
-    transition: $transition;
+  transition: $transition;
 }
 
 // status

@@ -83,11 +83,9 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   @Listen("click") handleClick(e) {
-    this.focusChildEl(e);
-  }
-
-  @Listen("keydown") handleKeydown(e) {
-    this.focusChildEl(e);
+    // don't refocus the input if the click occurs on a slotted input action
+    if (e.target.parentElement.className !== "calcite-input-action-wrapper")
+      this.focusChildEl(e);
   }
 
   //--------------------------------------------------------------------------
@@ -118,18 +116,17 @@ export class CalciteLabel {
     if (this.requestedInputId) {
       this.emitSelectedItem();
       document.getElementById(this.requestedInputId).focus();
-    } else if (this.el.querySelector("calcite-switch"))
-      e.type === "click"
-        ? this.el.querySelector("calcite-switch").toggleAttribute("switched")
-        : this.el.querySelector("calcite-switch").focus();
-    else if (this.el.querySelector("calcite-checkbox"))
-      e.type === "click"
-        ? this.el.querySelector("calcite-checkbox").toggleAttribute("checked")
-        : this.el.querySelector("calcite-checkbox").focus();
-    else if (this.el.querySelector("textarea"))
+    } else if (this.el.querySelector("calcite-switch")) {
+      this.el.querySelector("calcite-switch").focus();
+      this.el.querySelector("calcite-switch").toggleAttribute("switched");
+    } else if (this.el.querySelector("calcite-checkbox")) {
+      this.el.querySelector("calcite-checkbox").focus();
+      this.el.querySelector("calcite-checkbox").toggleAttribute("checked");
+    } else if (this.el.querySelector("textarea")) {
       this.el.querySelector("textarea").focus();
-    else if (this.el.querySelector("input"))
+    } else if (this.el.querySelector("input")) {
       this.el.querySelector("input").focus();
+    }
   }
 
   private emitSelectedItem() {
