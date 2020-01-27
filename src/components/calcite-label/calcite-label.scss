@@ -3,8 +3,11 @@
   flex-direction: column;
   position: relative;
   text-align: left;
-  // rtl
   margin: 0 0 $baseline 0;
+}
+
+:host([dir="rtl"]) {
+  text-align: right;
 }
 
 :host label {

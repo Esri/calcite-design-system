@@ -97,7 +97,6 @@ export class CalciteInput {
 
   connectedCallback() {
     // validate props
-
     let statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
       this.status = getElementProp(this.el, "status", "idle");

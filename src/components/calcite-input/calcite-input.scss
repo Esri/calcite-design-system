@@ -29,29 +29,9 @@ calcite-input[appearance="minimal"] {
     border-bottom: 1px solid var(--calcite-ui-border-1);
     padding: $baseline/4 0;
   }
-  & .calcite-input-icon {
-    left: 0;
-  }
-  & .calcite-input-loading {
-    top: unset;
-    bottom: 1px;
-    left: 0;
-    right: 0;
-  }
 }
 
-calcite-input[dir="rtl"][appearance="minimal"] .calcite-input-icon {
-  left: unset;
-  right: 0;
-}
-calcite-input[dir="rtl"][appearance="minimal"] input,
-calcite-input[dir="rtl"][appearance="minimal"] textarea {
-  & .calcite-input-icon {
-    left: unset;
-    right: 0;
-  }
-}
-// input message
+// input message slot
 calcite-input slot:not[name="input-message"] {
   display: block;
   @include font-size(-3);
@@ -80,12 +60,34 @@ calcite-input[dir="rtl"][icon] input {
   color: currentColor;
 }
 
+calcite-input[appearance="minimal"] .calcite-input-icon {
+  left: 0;
+}
+calcite-input[dir="rtl"][appearance="minimal"] .calcite-input-icon {
+  left: unset;
+  right: 0;
+}
+calcite-input[dir="rtl"][appearance="minimal"] input,
+calcite-input[dir="rtl"][appearance="minimal"] textarea {
+  & .calcite-input-icon {
+    left: unset;
+    right: 0;
+  }
+}
+
 calcite-input[dir="rtl"] .calcite-input-icon {
   left: unset;
   right: $baseline/2;
 }
 
 // loading
+calcite-input[appearance="minimal"] .calcite-input-loading {
+  top: unset;
+  bottom: 1px;
+  left: 0;
+  right: 0;
+}
+
 .calcite-input-loading {
   display: block;
   pointer-events: none;
@@ -95,7 +97,7 @@ calcite-input[dir="rtl"] .calcite-input-icon {
   right: 1px;
 }
 
-//slotted action
+// slotted action
 .calcite-input-action-wrapper {
   display: flex;
   flex: 1;
@@ -165,6 +167,26 @@ calcite-input[dir="rtl"][appearance="minimal"] {
     padding-left: 0;
     padding-right: unset;
   }
+}
+
+// number type
+calcite-input input[type="number"] {
+  text-align: right;
+}
+
+calcite-input[dir="rtl"] input[type="number"] {
+  text-align: left;
+}
+
+calcite-input input[type="number"]::-webkit-inner-spin-button,
+calcite-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  margin: 0;
+}
+
+calcite-input input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 // number buttons
@@ -282,26 +304,6 @@ calcite-input[appearance="minimal"][number-button-type="vertical"]
   position: relative;
 }
 
-// number
-calcite-input input[type="number"] {
-  text-align: right;
-}
-
-calcite-input[dir="rtl"] input[type="number"] {
-  text-align: left;
-}
-
-calcite-input input[type="number"]::-webkit-inner-spin-button,
-calcite-input input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-  margin: 0;
-}
-
-calcite-input input[type="number"] {
-  -moz-appearance: textfield;
-}
-
 // hide the default date picker
 calcite-input input::-webkit-calendar-picker-indicator {
   display: none;
@@ -311,7 +313,7 @@ calcite-input input[type="date"]::-webkit-input-placeholder {
   visibility: hidden !important;
 }
 
-// resize
+// textarea resize icon
 calcite-input textarea::-webkit-resizer {
   box-sizing: border-box;
   position: absolute;
@@ -331,7 +333,20 @@ calcite-input textarea::-webkit-resizer {
   transform: rotate(-45deg);
 }
 
-// file
+calcite-input[dir="rtl"] {
+  calcite-input textarea::-webkit-resizer {
+    left: 0;
+    right: unset;
+  }
+
+  .calcite-input-resize-icon {
+    left: 10px;
+    right: unset;
+    transform: rotate(45deg);
+  }
+}
+
+// file input
 calcite-input[type="file"] input,
 calcite-input[type="file"] textarea {
   cursor: pointer;

@@ -1,5 +1,9 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
-import { getElementProp, getElementTheme } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  getElementTheme
+} from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-message",
@@ -59,10 +63,11 @@ export class CalciteInputMessage {
   }
 
   render() {
+    const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
     const icon = this.setIcon(this.iconDefaults[this.status]);
     return (
-      <Host theme={theme}>
+      <Host theme={theme} dir={dir}>
         {icon}
         <slot />
       </Host>
