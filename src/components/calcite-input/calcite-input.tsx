@@ -52,8 +52,8 @@ export class CalciteInput {
   /** optionally add suffix  **/
   @Prop({ mutable: true }) suffixText?: string;
 
-  /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
-  @Prop({ mutable: true, reflect: true }) icon?: string;
+  /** for recognized input types, show an icon if applicable */
+  @Prop({ mutable: true, reflect: true }) icon: boolean;
 
   /** specify the input type */
   @Prop({ mutable: true, reflect: true }) type:
@@ -97,6 +97,7 @@ export class CalciteInput {
 
   connectedCallback() {
     // validate props
+
     let statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
       this.status = getElementProp(this.el, "status", "idle");
@@ -136,6 +137,10 @@ export class CalciteInput {
       !numberButtonType.includes(this.numberButtonType)
     )
       this.numberButtonType = "vertical";
+
+    // only allow icon=true to be set on input types that have associated icons
+    let typesWithIcons = ["date", "email", "password", "search", "tel", "time"];
+    this.icon = typesWithIcons.includes(this.type) && !this.icon ? true : false;
   }
 
   componentDidLoad() {
@@ -145,8 +150,6 @@ export class CalciteInput {
   componentWillLoad() {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.hasAction = this.el.querySelector("[slot=input-action]") !== null;
-    if (!this.icon && this.iconTypeDefaults[this.type])
-      this.icon = this.iconTypeDefaults[this.type];
   }
 
   componentWillUpdate() {
@@ -158,7 +161,7 @@ export class CalciteInput {
 
   render() {
     const dir = getElementDir(this.el);
-    const icon = this.setIcon(this.icon);
+    const icon = this.setIcon();
     const attributes = this.getAttributes();
     const loader = (
       <div class="calcite-input-loading">
@@ -383,7 +386,8 @@ export class CalciteInput {
     }
   };
 
-  private setIcon(iconName) {
+  private setIcon() {
+    let iconName = this.iconTypeDefaults[this.type];
     return (
       <calcite-icon
         class="calcite-input-icon"

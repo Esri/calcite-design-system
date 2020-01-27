@@ -4,11 +4,11 @@
 
 `status` = [`idle`, `valid`, `invalid`] - defaults to `idle` - Allows setting a status that affects styling of input. This can also be explicitly set on a `calcite-input-message` component or on a wrapping `calcite-input`. Setting `status` on the `calcite-label` will propagate to any child `calcite-input` or `calcite-input-message` components
 
-`loading` = [`true`/`false`] - defaults to `false`
+`loading` = boolean - defaults to `false`
 
 `appearance` = [`minimal`/`default`] - defaults to `default`
 
-`icon` = [`path string`] - example: `<calcite-input icon={chevronUp24}>`
+`icon` = boolean - defaults to `true` (will only work on `tel`, `email`, `password`, `search`, `date`, `time`)
 
 `prefix-string` and `suffix-string` allow you position strings in a leading and trailing position.
 
@@ -28,7 +28,7 @@ In addition to custom attributes, you can pass any attribute to `<calcite-input>
 
 * `file` type replaces browser "file" input with custom replacement
 
-* `tel`, `email`, `password`, `search` types will add type-specific icons
+* `tel`, `email`, `password`, `search`, `date`, `time` types will add type-specific icons by default
 * 
  ### Slots
  - a  `calcite-action` slot is available for positioning a button next ot an input

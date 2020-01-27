@@ -15,7 +15,6 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  text-align: left;
   color: var(--calcite-ui-text-2);
   font-weight: 500;
   @include font-size(-4);
@@ -37,7 +36,6 @@
 :host([type="floating"]) {
   padding: $baseline/2;
   transform: translate3d(0, -$baseline, 0);
-  //todo
   background-color: var(--calcite-input-message-floating-background);
   position: absolute;
   width: 100%;
@@ -56,12 +54,10 @@
   margin: 0;
 }
 
-//todo rtl
 .calcite-input-message-icon {
   display: inline-flex;
   pointer-events: none;
   transition: $transition;
-  // todo rtl
   margin: 2px $baseline/2.5 0;
   line-height: inherit;
   z-index: 9;

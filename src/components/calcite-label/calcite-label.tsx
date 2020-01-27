@@ -85,7 +85,7 @@ export class CalciteLabel {
   @Listen("click") handleClick(e) {
     // don't refocus the input if the click occurs on a slotted input action
     if (e.target.parentElement.className !== "calcite-input-action-wrapper")
-      this.focusChildEl(e);
+      this.focusChildEl();
   }
 
   //--------------------------------------------------------------------------
@@ -112,7 +112,7 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   // todo cleanup this mess
-  private focusChildEl(e) {
+  private focusChildEl() {
     if (this.requestedInputId) {
       this.emitSelectedItem();
       document.getElementById(this.requestedInputId).focus();
