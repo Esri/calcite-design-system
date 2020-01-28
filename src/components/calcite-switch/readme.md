@@ -23,7 +23,7 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 | ---------- | ---------- | ---------------------------------- | ------------------- | --------- |
 | `color`    | `color`    | What color the switch should be    | `"blue" \| "red"`   | `"blue"`  |
 | `name`     | `name`     | The name of the checkbox input     | `string`            | `""`      |
-| `scale`    | `scale`    | The scale of the button            | `"l" \| "m" \| "s"` | `"m"`     |
+| `scale`    | `scale`    | The scale of the switch            | `"l" \| "m" \| "s"` | `"m"`     |
 | `switched` | `switched` | True if the switch is initially on | `boolean`           | `false`   |
 | `theme`    | `theme`    | The component's theme.             | `"dark" \| "light"` | `"light"` |
 | `value`    | `value`    | The value of the checkbox input    | `string`            | `""`      |

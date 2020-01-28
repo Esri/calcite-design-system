@@ -17,7 +17,8 @@
   box-sizing: border-box;
   color: var(--calcite-ui-text-2);
   font-weight: 500;
-  @include font-size(-4);
+  @include font-size(-3);
+  line-height: $baseline/1.5;
   transition: $transition;
   visibility: hidden;
   opacity: 0;

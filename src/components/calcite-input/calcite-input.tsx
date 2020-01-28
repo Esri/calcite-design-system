@@ -43,6 +43,9 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) appearance: "minimal" | "default" =
     "default";
 
+  /** specify the alignment of the value of the input */
+  @Prop({ mutable: true, reflect: true }) alignment: "start" | "end" = "start";
+
   /** input value */
   @Prop({ mutable: true }) value?: string | null = "";
 
@@ -109,6 +112,9 @@ export class CalciteInput {
 
     let appearance = ["minimal", "default"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
+
+    let alignment = ["start", "end"];
+    if (!alignment.includes(this.alignment)) this.alignment = "start";
 
     let type = [
       "color",

@@ -33,6 +33,7 @@ storiesOf("Input", module)
         ],
         "text"
       )}"
+      alignment="${select("alignment", ["start", "end"], "start")}"
       appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",
@@ -90,6 +91,8 @@ storiesOf("Input", module)
         ],
         "text"
       )}"
+      alignment="${select("alignment", ["start", "end"], "start")}"
+
       appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",
@@ -188,6 +191,7 @@ storiesOf("Input", module)
         ],
         "text"
       )}"
+      alignment="${select("alignment", ["start", "end"], "start")}"
       appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",

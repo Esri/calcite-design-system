@@ -169,15 +169,35 @@ calcite-input[dir="rtl"][appearance="minimal"] {
   }
 }
 
-// number type
-calcite-input input[type="number"] {
-  text-align: right;
+// alignment type
+calcite-input[alignment="start"] {
+  & textarea,
+  & input {
+    text-align: left;
+  }
 }
 
-calcite-input[dir="rtl"] input[type="number"] {
-  text-align: left;
+calcite-input[alignment="end"] {
+  & textarea,
+  & input {
+    text-align: right;
+  }
+}
+calcite-input[dir="rtl"][alignment="start"] {
+  & textarea,
+  & input {
+    text-align: right;
+  }
 }
 
+calcite-input[dir="rtl"][alignment="end"] {
+  & textarea,
+  & input {
+    text-align: left;
+  }
+}
+
+// number buttons
 calcite-input input[type="number"]::-webkit-inner-spin-button,
 calcite-input input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -189,7 +209,6 @@ calcite-input input[type="number"] {
   -moz-appearance: textfield;
 }
 
-// number buttons
 .calcite-input-number-button-wrapper {
   box-sizing: border-box;
   display: flex;
@@ -378,6 +397,7 @@ $inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-border-1)
     &::-ms-input-placeholder {
       color: var(--calcite-ui-text-3);
       opacity: 0.7;
+      font-weight: 400;
     }
   }
 
