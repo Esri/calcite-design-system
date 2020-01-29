@@ -8,6 +8,7 @@
   --calcite-tree-chevron-hover: #{$blk-140};
   --calcite-tree-vertical-padding: #{$baseline/4};
   --calcite-tree-indicator: #{$blk-060};
+  --calcite-tree-indicator-active: var(--calcite-ui-blue);
   --calcite-tree-indicator-first-start: 0.1rem;
   --calcite-tree-indicator-first-end: auto;
   --calcite-tree-indicator-distance-start: 0.15rem;
@@ -37,16 +38,19 @@
   --calcite-tree-chevron: #{$blk-160};
   --calcite-tree-chevron-hover: #{$blk-100};
   --calcite-tree-indicator: #{$blk-160};
+  --calcite-tree-indicator-active: var(--calcite-ui-blue);
 }
 
 :host([lines]) {
   --calcite-tree-line: #{$blk-020};
   --calcite-tree-line-hover: #{$blk-050};
+  --calcite-tree-line-active: var(--calcite-ui-blue);
 }
 
 :host([lines][theme="dark"]) {
   --calcite-tree-line: #{$blk-160};
   --calcite-tree-line-hover: #{$blk-120};
+  --calcite-tree-line-active: var(--calcite-ui-blue);
 }
 
 :host([size="s"]) {
