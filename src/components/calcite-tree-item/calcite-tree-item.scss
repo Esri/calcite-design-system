@@ -198,8 +198,8 @@
 
   :host([expanded]) > .calcite-tree-node > & {
     transform: rotate(90deg);
-    fill: var(--calcite-tree-chevron-active);
+    fill: var(--calcite-ui-blue);
     stroke-width: 0.75;
-    stroke: var(--calcite-tree-chevron-active);
+    stroke: var(--calcite-ui-blue);
   }
 }
