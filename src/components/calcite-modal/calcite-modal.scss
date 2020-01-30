@@ -290,13 +290,13 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-red);
+    border-top: 4px solid var(--calcite-ui-red-1);
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-blue);
+    border-top: 4px solid var(--calcite-ui-blue-1);
   }
 }
 

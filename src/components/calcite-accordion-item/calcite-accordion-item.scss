@@ -51,7 +51,7 @@
 
 :host(:hover),
 :host(:focus) {
-  color: var(--calcite-ui-blue);
+  color: var(--calcite-ui-blue-1);
 }
 
 :host([dir="rtl"]) .accordion-item-icon {

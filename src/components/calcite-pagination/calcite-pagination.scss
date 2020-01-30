@@ -27,13 +27,13 @@
   &.is-selected {
     font-weight: 500;
     color: var(--calcite-ui-text-1);
-    border-bottom-color: var(--calcite-ui-blue);
+    border-bottom-color: var(--calcite-ui-blue-1);
   }
 }
 .previous, .next {
   padding: .75em 1em;
   &:hover {
-    color: var(--calcite-ui-blue);
+    color: var(--calcite-ui-blue-1);
     background-color: var(--calcite-ui-foreground-hover);
   }
   &:active {
