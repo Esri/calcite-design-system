@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -35,6 +35,14 @@
           <calcite-label>
             Default label wrapping a switch
             <calcite-switch></calcite-switch>
+          </calcite-label>
+          <calcite-label>
+            Default label wrapping a radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+              <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
           </calcite-label>
           <calcite-label layout="inline">
             Text leading inline
@@ -82,8 +90,21 @@
             Text input inline
             <calcite-input icon type="text" placeholder="John Doe"></calcite-input>
           </calcite-label>
+          <calcite-label layout="inline">
+            <calcite-input icon type="text" placeholder="John Doe"></calcite-input>
+            Text input inline trailing
+          </calcite-label>
           <calcite-label layout="inline-space-between">
-            Text input inline that might wrap
+            Inline space between label
+            <calcite-input type="text" placeholder="John Doe"></calcite-input>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+
+            <calcite-input type="text" placeholder="John Doe"></calcite-input>
+            Inline space between label
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Inline space between label that might wrap to multiple lines
             <calcite-input type="text" placeholder="John Doe"></calcite-input>
           </calcite-label>
           <calcite-label>
@@ -116,7 +137,7 @@
           <calcite-label>
             with button
             <calcite-input placeholder="0">
-              <calcite-button  slot="input-action">Go</calcite-button>
+              <calcite-button slot="input-action">Go</calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
@@ -144,19 +165,18 @@
           </calcite-label>
           <calcite-label>
             prefix and suffix w numbers horizontal alignment end
-            <calcite-input type="number" alignment="end" number-button-type="horizontal" prefix-text="$" suffix-text=".00"
-              placeholder="0">
+            <calcite-input type="number" alignment="end" number-button-type="horizontal" prefix-text="$"
+              suffix-text=".00" placeholder="0">
             </calcite-input>
           </calcite-label>
           <calcite-label>
-            prefix and suffix w numbers vertical  alignment end
-            <calcite-input type="number"alignment="end"  prefix-text="$" suffix-text=".00"
-              placeholder="0">
+            prefix and suffix w numbers vertical alignment end
+            <calcite-input type="number" alignment="end" prefix-text="$" suffix-text=".00" placeholder="0">
             </calcite-input>
           </calcite-label>
           <calcite-label>
-            prefix and suffix w long text
-            <calcite-input type="number" number-button-type="horizontal" prefix-text="$ (USD)"
+            prefix and suffix w alignment end
+            <calcite-input type="number" alignment="end" number-button-type="horizontal" prefix-text="$ (USD)"
               suffix-text="no cents here" placeholder="0">
             </calcite-input>
           </calcite-label>
@@ -223,7 +243,8 @@
           </calcite-label>
           <calcite-label>
             prefix
-            <calcite-input type="number" appearance="minimal" number-button-type="none" prefix-text="prefix" placeholder="How many apples?">
+            <calcite-input type="number" appearance="minimal" number-button-type="none" prefix-text="prefix"
+              placeholder="How many apples?">
             </calcite-input>
           </calcite-label>
 

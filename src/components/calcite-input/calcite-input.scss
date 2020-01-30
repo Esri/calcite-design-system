@@ -57,7 +57,6 @@ calcite-input[dir="rtl"][icon] input {
   top: calc(50% - 9px);
   left: $baseline/2;
   margin: 1px auto 0;
-  color: currentColor;
 }
 
 calcite-input[appearance="minimal"] .calcite-input-icon {
@@ -376,8 +375,8 @@ calcite-input[type="file"] textarea {
 }
 
 // colors and borders
-$inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-border-1)
-    var(--calcite-ui-red),
+$inputStatusColors: "invalid" var(--calcite-ui-text-1)
+    var(--calcite-ui-border-1) var(--calcite-ui-red),
   "valid" var(--calcite-ui-text-1) var(--calcite-ui-border-1)
     var(--calcite-ui-blue),
   "idle" var(--calcite-ui-text-1) var(--calcite-ui-border-1)
@@ -389,18 +388,22 @@ $inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-border-1)
   $borderColorIdle: nth($statusColor, 3);
   $borderColorActive: nth($statusColor, 4);
 
-  calcite-input[status="#{$name}"] input,
-  calcite-input[status="#{$name}"] textarea {
-    color: $color;
-    &::placeholder,
-    &:-ms-input-placeholder,
-    &::-ms-input-placeholder {
-      color: var(--calcite-ui-text-3);
-      opacity: 0.7;
-      font-weight: 400;
+  calcite-input[status="#{$name}"] {
+    & input,
+    & textarea {
+      color: $color;
+      &::placeholder,
+      &:-ms-input-placeholder,
+      &::-ms-input-placeholder {
+        color: var(--calcite-ui-text-3);
+        opacity: 0.7;
+        font-weight: 400;
+      }
+    }
+    & calcite-icon {
+      color: $color;
     }
   }
-
   calcite-input[status="#{$name}"][appearance="default"] {
     & input,
     & textarea {

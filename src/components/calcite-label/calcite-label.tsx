@@ -117,6 +117,13 @@ export class CalciteLabel {
     if (this.requestedInputId) {
       this.emitSelectedItem();
       document.getElementById(this.requestedInputId).focus();
+    } else if (this.el.querySelector("calcite-radio-group")) {
+      // todo timeout prevents clicks from focusing the previously focused item
+      setTimeout(() => {
+        (this.el.querySelector(
+          "calcite-radio-group-item[checked]"
+        ) as HTMLCalciteRadioGroupItemElement).focus();
+      }, 10);
     } else if (this.el.querySelector("calcite-switch")) {
       this.el.querySelector("calcite-switch").focus();
       this.el.querySelector("calcite-switch").toggleAttribute("switched");
