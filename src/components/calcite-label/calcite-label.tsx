@@ -85,7 +85,11 @@ export class CalciteLabel {
 
   @Listen("click") handleClick(e) {
     // don't refocus the input if the click occurs on a slotted input action
-    if (e.target.parentElement.className !== "calcite-input-action-wrapper")
+    // defer to slider click events if the click occurs on a calcite-slider
+    if (
+      e.target.parentElement.className !== "calcite-input-action-wrapper" &&
+      e.target.nodeName !== "CALCITE-SLIDER"
+    )
       this.focusChildEl();
   }
 
@@ -120,9 +124,9 @@ export class CalciteLabel {
     } else if (this.el.querySelector("calcite-radio-group")) {
       // todo timeout prevents clicks from focusing the previously focused item
       setTimeout(() => {
-        (this.el.querySelector(
+        (this.el.querySelectorAll(
           "calcite-radio-group-item[checked]"
-        ) as HTMLCalciteRadioGroupItemElement).focus();
+        )[0] as HTMLCalciteRadioGroupItemElement).focus();
       }, 10);
     } else if (this.el.querySelector("calcite-switch")) {
       this.el.querySelector("calcite-switch").focus();
@@ -130,6 +134,8 @@ export class CalciteLabel {
     } else if (this.el.querySelector("calcite-checkbox")) {
       this.el.querySelector("calcite-checkbox").focus();
       this.el.querySelector("calcite-checkbox").toggleAttribute("checked");
+    } else if (this.el.querySelector("calcite-slider")) {
+      this.el.querySelector("calcite-slider").setFocus();
     } else if (this.el.querySelector("textarea")) {
       this.el.querySelector("textarea").focus();
     } else if (this.el.querySelector("input")) {

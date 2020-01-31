@@ -6,6 +6,7 @@ import {
   Event,
   EventEmitter,
   Listen,
+  Method,
   h,
   State
 } from "@stencil/core";
@@ -282,6 +283,18 @@ export class CalciteSlider {
    * locking up the main thread.
    */
   @Event() calciteSliderUpdate: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+  @Method()
+  async setFocus() {
+    const handle = this.minHandle ? this.minHandle : this.maxHandle;
+    handle.focus();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
