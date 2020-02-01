@@ -69,7 +69,9 @@ export class CalciteIcon {
   scale: Scale = "m";
 
   /**
-   * The icon label. This is used for accessibility purposes.
+   * The icon label.
+   *
+   * It is recommended to set this value if your icon is semantic.
    */
   @Prop()
   textLabel: string;
@@ -110,9 +112,13 @@ export class CalciteIcon {
     const { el, mirrored, pathData, scale, textLabel } = this;
     const dir = getElementDir(el);
     const size = scaleToPx[scale];
+    const semantic = !!textLabel;
 
     return (
-      <Host role="img" aria-label={textLabel}>
+      <Host
+        aria-label={semantic ? textLabel : null}
+        role={semantic ? "img" : null}
+      >
         <svg
           class={{
             [CSS.mirrored]: dir === "rtl" && mirrored
