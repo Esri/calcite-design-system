@@ -1,0 +1,1 @@
+export const polygonVertices32 = "M30 3V0h-3v2.6l-12 9.6V12h-2.375L5 6.455V4H2v3h1v22H2v3h3v-1h22v1h3v-3h-1V3zm-2-2h1v1h-1zM14 14h-1v-1h1zM3 5h1v1H3zm0 26v-1h1v1zm26 0h-1v-1h1zm-2-2v1H5v-1H4V7h.05L12 12.782V15h3v-1.52L28 3.082V29z";

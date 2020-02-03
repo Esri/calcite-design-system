@@ -1,0 +1,1 @@
+export const selectRange24F = "M0 11h1v1H0zm3 1h1v-1H3zm14-3h1V5.8h-1zM7 15H6v3.2h1zm16-4v1h1v-1zm-3 1h1v-1h-1zm-3-1H7v-1H6v4h1v-1h10v1h1v-4h-1zm.5-9.8a2.3 2.3 0 1 0 2.3 2.3 2.3 2.3 0 0 0-2.3-2.3zm-11 17a2.3 2.3 0 1 0 2.3 2.3 2.3 2.3 0 0 0-2.3-2.3z";

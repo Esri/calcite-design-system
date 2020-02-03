@@ -1,0 +1,1 @@
+export const arrowBoldRight32 = "M17 12H4v8h13v6.75L27.75 16 17 5.25zm1-4.336L26.336 16 18 24.336V19H5v-6h13z";

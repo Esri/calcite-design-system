@@ -1,0 +1,1 @@
+export const beginning24 = "M8.75 11.626L17 17.25V6zM16 15.358l-5.475-3.732L16 7.893zM8 17H7V6h1z";

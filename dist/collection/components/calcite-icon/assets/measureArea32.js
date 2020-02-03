@@ -1,0 +1,1 @@
+export const measureArea32 = "M32 25V15h-4v-5h1V7h-3v.478L7 2.522V1H4v3h1v11H1v10h4v3H4v3h3v-1h19v1h3v-3h-1v-3zM27 8h1v1h-1zM7 3.555l19 4.957V10h1v5H6V4h1zM5 2h1v1H5zm1 28H5v-1h1zm20-1H7v-1H6v-3h21v3h-1zm2 1h-1v-1h1zm-1-9v3h-1v-7h-1v7h-1v-3h-1v3h-1v-4h-1v4h-1v-3h-1v3h-1v-7h-1v7h-1v-3h-1v3h-1v-4h-1v4h-1v-3h-1v3h-1v-7H9v7H8v-3H7v3H6v-4H5v4H4v-3H3v3H2v-8h29.001v8H30v-4h-1v4h-1v-3z";

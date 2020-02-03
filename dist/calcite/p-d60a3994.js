@@ -1,0 +1,1 @@
+function n(n){return Array.isArray(n)?n:Array.prototype.slice.call(n)}function r(n){return u(n,"dir","ltr")}function t(n){return u(n,"theme","light")}function u(n,r,t){const u=n.closest(`[${r}]`);return u?u.getAttribute(r):t}function o(r,t){const u=r.querySelector("slot");return n(u?u.assignedElements():r.children).filter(n=>n.matches(t))}export{t as a,u as b,o as c,r as g,n};
