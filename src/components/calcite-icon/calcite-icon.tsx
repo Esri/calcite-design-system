@@ -167,12 +167,14 @@ export class CalciteIcon {
     }
 
     this.intersectionObserver = new IntersectionObserver(
-      ([iconEntry]) => {
-        if (iconEntry.isIntersecting) {
-          this.intersectionObserver.disconnect();
-          this.intersectionObserver = null;
-          callback();
-        }
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.intersectionObserver.disconnect();
+            this.intersectionObserver = null;
+            callback();
+          }
+        });
       },
       { rootMargin: "50px" }
     );
