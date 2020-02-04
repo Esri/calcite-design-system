@@ -167,14 +167,13 @@ storiesOf("Input", module)
     "Simple - Dark mode",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select(
+    <calcite-label theme="dark" status="${select(
       "status",
       ["idle", "valid", "invalid"],
       "idle"
     )}">
     ${text("label text", "My great label")}
     <calcite-input
-      theme="dark"
       type="${select(
         "type",
         [
