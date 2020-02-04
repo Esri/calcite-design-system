@@ -20,7 +20,6 @@ describe("calcite-label", () => {
     const input = await page.find("calcite-input");
     await label.click();
     const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-    console.log(activeEl, input.nodeName);
     expect(activeEl).toEqual(input.nodeName);
   });
 
@@ -36,7 +35,6 @@ describe("calcite-label", () => {
     const input = await page.find("calcite-input");
     await label.click();
     const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-    console.log(activeEl, input.nodeName);
     expect(activeEl).toEqual(input.nodeName);
   });
 
@@ -51,7 +49,6 @@ describe("calcite-label", () => {
     const input = await page.find("calcite-input");
     await page.keyboard.press("Tab");
     const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-    console.log(activeEl, input.nodeName);
     expect(activeEl).toEqual(input.nodeName);
   });
 
@@ -69,7 +66,6 @@ describe("calcite-label", () => {
     await label.click();
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
-    console.log(activeElClass, checkboxClass);
     expect(activeElClass).toEqual(checkboxClass);
     expect(checkbox).toHaveAttribute("checked");
   });
@@ -87,7 +83,6 @@ describe("calcite-label", () => {
     await page.keyboard.press("Tab");
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
-    console.log(activeElClass, checkboxClass);
     expect(activeElClass).toEqual(checkboxClass);
     expect(checkbox).not.toHaveAttribute("checked");
   });
@@ -106,7 +101,6 @@ describe("calcite-label", () => {
     await label.click();
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
-    console.log(activeElClass, switchElClass);
     expect(activeElClass).toEqual(switchElClass);
     expect(switchEl).toHaveAttribute("switched");
   });
@@ -124,7 +118,6 @@ describe("calcite-label", () => {
     await page.keyboard.press("Tab");
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
-    console.log(activeElClass, switchElClass);
     expect(activeElClass).toEqual(switchElClass);
     expect(switchEl).not.toHaveAttribute("switched");
   });
@@ -143,7 +136,6 @@ describe("calcite-label", () => {
     await label.click();
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
-    console.log(activeElClass, sliderClass);
     expect(activeElClass).toEqual(sliderClass);
   });
 
@@ -160,7 +152,6 @@ describe("calcite-label", () => {
     await page.keyboard.press("Tab");
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
-    console.log(activeElClass, sliderClass);
     expect(activeElClass).toEqual(sliderClass);
   });
 
@@ -183,7 +174,6 @@ describe("calcite-label", () => {
     await label.click();
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
-    console.log(activeElClass, radioGroupItemClass);
     expect(activeElClass).toEqual(radioGroupItemClass);
   });
 
@@ -205,9 +195,6 @@ describe("calcite-label", () => {
     await page.keyboard.press("Tab");
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
-    console.log(activeElClass, radioGroupItemClass);
     expect(activeElClass).toEqual(radioGroupItemClass);
   });
-
-  // radio group active item focus on click and tab
 });
