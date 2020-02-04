@@ -96,13 +96,23 @@ export class CalciteSwitch {
   render() {
     const dir = getElementDir(this.el);
     return (
-      <Host role="checkbox" dir={dir} aria-checked={this.switched.toString()} tabindex="0">
+      <Host role="checkbox" dir={dir} aria-checked={this.switched.toString()} tabIndex={this.tabIndex}>
         <div class="track">
           <div class="handle" />
         </div>
         <slot />
       </Host>
     );
+  }
+
+  private get tabIndex(): number {
+    const hasTabIndex = this.el.hasAttribute("tabindex");
+
+    if (hasTabIndex) {
+      return Number(this.el.getAttribute("tabindex"));
+    }
+
+    return 0;
   }
 
   private setupProxyInput() {
