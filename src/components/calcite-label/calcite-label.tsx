@@ -88,7 +88,8 @@ export class CalciteLabel {
     // defer to slider click events if the click occurs on a calcite-slider
     if (
       e.target.parentElement.className !== "calcite-input-action-wrapper" &&
-      e.target.nodeName !== "CALCITE-SLIDER"
+      e.target.nodeName !== "CALCITE-SLIDER" &&
+      e.target.nodeName !== "CALCITE-RADIO-GROUP-ITEM"
     )
       this.focusChildEl();
   }
@@ -122,12 +123,9 @@ export class CalciteLabel {
       this.emitSelectedItem();
       document.getElementById(this.requestedInputId).focus();
     } else if (this.el.querySelector("calcite-radio-group")) {
-      // todo timeout prevents clicks from focusing the previously focused item
-      setTimeout(() => {
-        (this.el.querySelectorAll(
-          "calcite-radio-group-item[checked]"
-        )[0] as HTMLCalciteRadioGroupItemElement).focus();
-      }, 10);
+      (this.el.querySelectorAll(
+        "calcite-radio-group-item[checked]"
+      )[0] as HTMLCalciteRadioGroupItemElement).focus();
     } else if (this.el.querySelector("calcite-switch")) {
       this.el.querySelector("calcite-switch").focus();
       this.el.querySelector("calcite-switch").toggleAttribute("switched");

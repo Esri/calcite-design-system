@@ -129,7 +129,7 @@ describe("calcite-label", () => {
     expect(switchEl).not.toHaveAttribute("switched");
   });
 
-  it("focuses a wrapped slider", async () => {
+  it("focuses a wrapped slider when clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-label>
@@ -145,6 +145,68 @@ describe("calcite-label", () => {
     const activeElClass = activeEl["_remoteObject"].description;
     console.log(activeElClass, sliderClass);
     expect(activeElClass).toEqual(sliderClass);
+  });
+
+  it("focuses a wrapped slider when tabbed to", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label>
+    Label text
+    <calcite-slider></calcite-slider>
+    </calcite-label>
+  `);
+    const slider = await page.find("calcite-slider");
+    const sliderClass = slider["_elmHandle"]["_remoteObject"].description;
+    await page.keyboard.press("Tab");
+    const activeEl = await page.evaluateHandle(() => document.activeElement);
+    const activeElClass = activeEl["_remoteObject"].description;
+    console.log(activeElClass, sliderClass);
+    expect(activeElClass).toEqual(sliderClass);
+  });
+
+  it("focuses a wrapped checked radio group item when clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label>
+    Label text
+    <calcite-radio-group>
+      <calcite-radio-group-item value="react">React</calcite-radio-group-item>
+      <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+    </calcite-radio-group>
+    </calcite-label>
+  `);
+    const label = await page.find("calcite-label");
+    const radioGroupItem = await page.find("calcite-radio-group-item[checked]");
+    const radioGroupItemClass =
+      radioGroupItem["_elmHandle"]["_remoteObject"].description;
+    await label.click();
+    const activeEl = await page.evaluateHandle(() => document.activeElement);
+    const activeElClass = activeEl["_remoteObject"].description;
+    console.log(activeElClass, radioGroupItemClass);
+    expect(activeElClass).toEqual(radioGroupItemClass);
+  });
+
+  it("focuses a wrapped checked radio group item when tabbed to", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label>
+    Label text
+    <calcite-radio-group>
+      <calcite-radio-group-item value="react">React</calcite-radio-group-item>
+      <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+    </calcite-radio-group>
+    </calcite-label>
+  `);
+    const radioGroupItem = await page.find("calcite-radio-group-item[checked]");
+    const radioGroupItemClass =
+      radioGroupItem["_elmHandle"]["_remoteObject"].description;
+    await page.keyboard.press("Tab");
+    const activeEl = await page.evaluateHandle(() => document.activeElement);
+    const activeElClass = activeEl["_remoteObject"].description;
+    console.log(activeElClass, radioGroupItemClass);
+    expect(activeElClass).toEqual(radioGroupItemClass);
   });
 
   // radio group active item focus on click and tab
