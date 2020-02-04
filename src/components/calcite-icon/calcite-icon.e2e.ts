@@ -1,5 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, reflects, renders } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  reflects,
+  renders
+} from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
@@ -20,9 +25,12 @@ describe("calcite-icon", () => {
       { propertyName: "scale", value: "m" }
     ]));
 
+  it("is accessible", async () =>
+    accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`));
+
   it("mirrors icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-icon icon='a-z'></calcite-icon>`);
+    await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
     const icon = await page.find(`calcite-icon`);
     const mirroredIconSelector = `calcite-icon >>> .${CSS.mirrored}`;
 
@@ -40,7 +48,7 @@ describe("calcite-icon", () => {
 
     it("uses path data to render icon", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-icon icon='a-z'></calcite-icon>");
+      await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
       await page.waitForChanges();
       const path = await page.find(`calcite-icon >>> path`);
 
@@ -50,7 +58,7 @@ describe("calcite-icon", () => {
 
     it("supports both camelcase and kebab case for icon name", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-icon icon='a-z'></calcite-icon>");
+      await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
       await page.waitForChanges();
       const icon = await page.find(`calcite-icon`);
       const path = await page.find(`calcite-icon >>> path`);
@@ -65,7 +73,7 @@ describe("calcite-icon", () => {
     it("loads icon when it's close to viewport", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-icon icon='a-z' style="margin-top: 1000px"></calcite-icon>`
+        `<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`
       );
       await page.waitForChanges();
 
@@ -87,7 +95,7 @@ describe("calcite-icon", () => {
         it(`${scale} scale`, async () => {
           const page = await newE2EPage();
           await page.setContent(
-            `<calcite-icon icon='a-z' scale='${scale}'></calcite-icon>`
+            `<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`
           );
           const svg = await page.find(`calcite-icon >>> svg`);
           const sizeInPx = scaleToPx[scale];
