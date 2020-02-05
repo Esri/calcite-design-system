@@ -1,11 +1,12 @@
 import {
+  Build,
   Component,
   Element,
   h,
   Host,
   Method,
   Prop,
-  Build
+  Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
@@ -123,6 +124,12 @@ export class CalciteButton {
       const elType = this.el.getAttribute("type");
       this.type = this.childElType === "button" && elType ? elType : "submit";
     }
+    this.initialOnClick = this.el.getAttribute("onclick");
+    this.currentOnClick = !this.disabled ? this.initialOnClick : false;
+  }
+
+  @Watch("disabled") disabledWatch() {
+    this.currentOnClick = !this.disabled ? this.initialOnClick : false;
   }
 
   render() {
@@ -150,7 +157,7 @@ export class CalciteButton {
     );
 
     return (
-      <Host dir={dir} hasText={this.hasText}>
+      <Host dir={dir} hasText={this.hasText} onclick={this.currentOnClick}>
         <Tag
           {...attributes}
           role={role}
@@ -197,6 +204,12 @@ export class CalciteButton {
   /** determine if there is slotted text for styling purposes */
   private hasText: boolean = false;
 
+  /** the initial onclick if present in the dom */
+  private initialOnClick: string | false;
+
+  /** the current onclick */
+  private currentOnClick: string | false;
+
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
     let props = [
@@ -209,6 +222,7 @@ export class CalciteButton {
       "id",
       "loading",
       "scale",
+      "slot",
       "width",
       "theme"
     ];
