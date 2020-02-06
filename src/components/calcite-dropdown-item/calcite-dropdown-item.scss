@@ -36,12 +36,20 @@
   @include font-size(-2);
   line-height: 1.2;
   color: var(--calcite-ui-text-3);
-  transition: 0.15s all ease-in-out;
+  transition: $transition;
   padding: var(--calcite-dropdown-item-padding);
   cursor: pointer;
   text-decoration: none;
   outline: none;
   position: relative;
+  &:before {
+    content: "\2022";
+    position: absolute;
+    left: 1rem;
+    opacity: 0;
+    color: $blk-120;
+    transition: $transition;
+  }
 }
 
 :host {
@@ -60,14 +68,6 @@
   background-color: var(--calcite-ui-foreground-press);
 }
 
-:host:before {
-  content: "\2022";
-  position: absolute;
-  left: 1rem;
-  opacity: 0;
-  color: $blk-120;
-  transition: 0.15s ease-in-out;
-}
 :host(:hover):before,
 :host(:active):before,
 :host(:focus):before {
@@ -101,14 +101,6 @@
   }
   & a {
     @include itemStyling;
-    &:before {
-      content: "\2022";
-      position: absolute;
-      left: 1rem;
-      opacity: 0;
-      color: $blk-120;
-      transition: 0.15s ease-in-out;
-    }
   }
 }
 
