@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@a11y/focus-trap": "git+https://github.com/patrickarlt/focus-trap.git#conditional-define-build",
-    "popper.js": "1.16.0"
+    "@popperjs/core": "^2.0.5"
   },
   "devDependencies": {
     "@esri/calcite-base": "^1.2.0",
