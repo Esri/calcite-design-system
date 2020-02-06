@@ -137,19 +137,19 @@
 
 //icons
 :host([icon]) calcite-icon {
-  margin-right: $baseline/2;
+  margin-right: $baseline / 1.5;
 }
 
 :host([icon][dir="rtl"]) calcite-icon {
   margin-right: 0;
-  margin-left: $baseline/2;
+  margin-left: $baseline / 1.5;
 }
 
 :host([icon][icon-position="end"]) {
   & calcite-icon {
     margin-left: auto;
     margin-right: 0;
-    padding-left: $baseline / 2;
+    padding-left: $baseline / 1.5;
   }
 }
 
@@ -157,7 +157,7 @@
   & calcite-icon {
     margin-right: auto;
     margin-left: 0;
-    padding-right: $baseline / 2;
+    padding-right: $baseline / 1.5;
     padding-left: 0;
   }
 }
