@@ -147,11 +147,6 @@
 :host([icon]) calcite-icon {
   margin-right: $baseline/2;
 }
-:host([icon][scale="s"]) calcite-icon,
-:host([icon][scale="s"]) calcite-icon svg {
-  height: 12px;
-  width: 12px;
-}
 
 :host([icon][dir="rtl"]) calcite-icon {
   margin-right: 0;
