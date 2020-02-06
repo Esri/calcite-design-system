@@ -29,9 +29,12 @@
     $baseline / 1.5};
 }
 
-:host {
-  display: block;
+@mixin itemStyling {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
   @include font-size(-2);
+  line-height: 1.2;
   color: var(--calcite-ui-text-3);
   transition: 0.15s all ease-in-out;
   padding: var(--calcite-dropdown-item-padding);
@@ -39,6 +42,10 @@
   text-decoration: none;
   outline: none;
   position: relative;
+}
+
+:host {
+  @include itemStyling;
 }
 
 :host(:hover),
@@ -81,6 +88,9 @@
     opacity: 1;
     color: var(--calcite-ui-blue);
   }
+  & calcite-icon {
+    color: var(--calcite-ui-blue);
+  }
 }
 
 // when used as link move styling anchor
@@ -90,12 +100,7 @@
     display: none;
   }
   & a {
-    display: block;
-    position: relative;
-    padding: var(--calcite-dropdown-item-padding);
-    color: var(--calcite-ui-text-3);
-    text-decoration: none;
-    outline: none;
+    @include itemStyling;
     &:before {
       content: "\2022";
       position: absolute;
@@ -135,5 +140,37 @@
   &:before {
     left: unset;
     right: 1rem;
+  }
+}
+
+//icons
+:host([icon]) calcite-icon {
+  margin-right: $baseline/2;
+}
+:host([icon][scale="s"]) calcite-icon,
+:host([icon][scale="s"]) calcite-icon svg {
+  height: 12px;
+  width: 12px;
+}
+
+:host([icon][dir="rtl"]) calcite-icon {
+  margin-right: 0;
+  margin-left: $baseline/2;
+}
+
+:host([icon][icon-position="end"]) {
+  & calcite-icon {
+    margin-left: auto;
+    margin-right: 0;
+    padding-left: $baseline / 2;
+  }
+}
+
+:host([icon][dir="rtl"][icon-position="end"]) {
+  & calcite-icon {
+    margin-right: auto;
+    margin-left: 0;
+    padding-right: $baseline / 2;
+    padding-left: 0;
   }
 }

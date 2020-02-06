@@ -53,6 +53,13 @@ export class CalciteDropdownItem {
   /** pass an optional title for rendered href */
   @Prop() linkTitle?: string;
 
+  /** optionally pass an icon to display - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) icon?: string;
+
+  /** optionally used with icon, select where to position the icon */
+  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
+    "start";
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -78,10 +85,17 @@ export class CalciteDropdownItem {
     });
   }
 
+  connectedCallback() {
+    let iconPosition = ["start", "end"];
+    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
+      this.iconPosition = "start";
+  }
+
   render() {
     const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
     const scale = getElementProp(this.el, "scale", "m");
+    const iconScale = scale === "s" || scale === "m" ? "s" : "m";
     if (!this.href) {
       return (
         <Host
@@ -92,7 +106,13 @@ export class CalciteDropdownItem {
           role="menuitem"
           aria-selected={this.active.toString()}
         >
+          {this.icon && this.iconPosition === "start" ? (
+            <calcite-icon icon={this.icon} scale={iconScale}></calcite-icon>
+          ) : null}
           <slot />
+          {this.icon && this.iconPosition === "end" ? (
+            <calcite-icon icon={this.icon} scale={iconScale}></calcite-icon>
+          ) : null}
         </Host>
       );
     } else {
@@ -107,7 +127,13 @@ export class CalciteDropdownItem {
           isLink
         >
           <a href={this.href} title={this.linkTitle}>
+            {this.icon && this.iconPosition === "start" ? (
+              <calcite-icon icon={this.icon} scale={iconScale}></calcite-icon>
+            ) : null}
             <slot />
+            {this.icon && this.iconPosition === "end" ? (
+              <calcite-icon icon={this.icon} scale={iconScale}></calcite-icon>
+            ) : null}
           </a>
         </Host>
       );

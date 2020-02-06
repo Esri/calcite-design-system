@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Added
+-`calcite-dropdown-item` can now display an icon by passing a Calcite UI Icon name to the `icon` attribute
+-`calcite-dropdown-item` now positions icons based on an `icon-position` (start/end) attribute
 
 
 ## [v1.0.0-beta.18] - Feb 3rd 2020
