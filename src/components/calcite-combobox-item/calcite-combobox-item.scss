@@ -5,3 +5,20 @@
 .hidden {
   visibility: hidden;
 }
+
+.icon {
+  display: inline-block;
+}
+
+ul {
+  margin: 0;
+  padding-left: 12px;
+}
+
+.label {
+  color: var(--calcite-ui-text-1);
+  text-decoration: none;
+}
+.label.selected {
+  font-weight: bold;
+}

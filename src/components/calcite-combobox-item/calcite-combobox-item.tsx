@@ -1,5 +1,6 @@
 import {
   Component,
+  Element,
   Event,
   EventEmitter,
   Host,
@@ -41,12 +42,13 @@ export class CalciteComboboxItem {
   /**
    * The main label for this item.
    */
-  // @Prop({ reflect: true }) textLabel!: string;
+  @Prop({ reflect: true }) textLabel!: string;
 
   /**
    * A unique value used to identify this item - similar to the value attribute on an <input>.
    */
   @Prop({ reflect: true }) value!: string;
+
 
   // --------------------------------------------------------------------------
   //
@@ -54,7 +56,21 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
+  @Element() el: HTMLElement;
+
   @State() isSelected = this.selected;
+
+  hasDefaultSlot: boolean;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  componentWillLoad() {
+    this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -116,13 +132,24 @@ export class CalciteComboboxItem {
     );
   }
 
+  renderChildren() {
+    if (!this.hasDefaultSlot) { return null; }
+    return (
+      <ul>
+        <slot />
+      </ul>
+    );
+  }
+
   render() {
+    const classes= {[CSS.label]: true, [CSS.selected]: this.isSelected };
     return (
       <Host role="option" aria-selected={this.isSelected} disabled={this.disabled} >
-        <a class={CSS.label} onClick={this.itemClickHandler} href="#" >
+        <a class={classes} onClick={this.itemClickHandler} href="#" >
           {this.renderIcon()}
-          <span class={CSS.title}><slot /></span>
+          <span class={CSS.title}>{this.textLabel}</span>
         </a>
+        {this.renderChildren()}
       </Host>
     );
   }

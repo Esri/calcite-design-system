@@ -10,11 +10,8 @@ import {
   Element
 } from "@stencil/core";
 
-import { debounce, forIn } from "lodash-es";
 import 'focus-within-polyfill';
-// import { listItem } from "./interfaces";
-
-const filterDebounceInMs = 250;
+import { filter } from "../../utils/filter";
 
 @Component({
   tag: "calcite-combobox",
@@ -67,46 +64,14 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  filter = debounce((data: Array<object>, value: string): void => {
-    const regex = new RegExp(value, "ig");
-
-    if (data.length === 0) {
-      // console.warn(`No data was passed to calcite-filter.
-      // The data property expects an array of objects`);
-    }
-
-    const find = (input: object, RE: RegExp) => {
-      let found = false;
-      forIn(input, (val) => {
-        if (typeof val === "function") {
-          return;
-        }
-        if (Array.isArray(val) || (typeof val === "object" && val !== null)) {
-          if (find(val, RE)) {
-            found = true;
-          }
-        } else if (RE.test(val)) {
-          found = true;
-        }
-      });
-      return found;
-    };
-
-    const result = data.filter((item) => {
-      return find(item, regex);
-    });
-
-    console.log(result);
-    // this.filteredList = result;
-    // this.calciteFilterChange.emit(result);
-  }, filterDebounceInMs);
-
   inputHandler = (event: Event): void => {
     const target = event.target as HTMLInputElement;
-    console.log(target.value);
+    const data = this.getItemData();
+    const results = filter(data, target.value);
+    console.log(results);
   }
 
-  toggleSelection(item) {
+  toggleSelection(item): void {
     if (!item.selected) {
       this.selectedItems = this.selectedItems.filter( currentValue => {
         return currentValue !== item.value;
@@ -117,16 +82,20 @@ export class CalciteCombobox {
     this.calciteLookupChange.emit(this.selectedItems);
   }
 
-  deselectItem(value) {
+  deselectItem(value): void {
     const comboboxItem = this.el.querySelector(`calcite-combobox-item[value=${value}]`) as HTMLCalciteComboboxItemElement;
     comboboxItem.toggleSelected(false);
   }
 
-  itemSelectHandler = (event: Event): void => {
-    console.log('item selected');
-    const target = event.target as HTMLCalciteComboboxItemElement;
-    this.selectedItems = [...this.selectedItems, target.value];
-    // this.selectedItems.add(target.getAttribute("value"));
+  getItemData() {
+    const result = [];
+    this.el.querySelectorAll("calcite-combobox-item").forEach( item => {
+      result.push({
+        label: item.textLabel,
+        value: item.value
+      });
+    });
+    return result;
   }
 
   //--------------------------------------------------------------------------
@@ -136,7 +105,6 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   render() {
-    // console.log(this.filteredList);
     const listBoxId = 'listbox';
     return (
       <Host>
@@ -153,7 +121,7 @@ export class CalciteCombobox {
             disabled={this.disabled}
             ref={(el) => this.textInput = el as HTMLInputElement} />
         </div>
-        <ul id={listBoxId} role="listbox" class={{"list": true}}>
+        <ul id={listBoxId} role="listbox" class={{"list": true}} tabindex="0" aria-multiselectable="true">
           <slot />
         </ul>
       </Host>
