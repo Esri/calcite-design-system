@@ -11,7 +11,11 @@ import {
   h
 } from "@stencil/core";
 import { CSS } from "./resources";
-import { CalcitePlacement, getPlacement } from "../../utils/popper";
+import {
+  CalcitePlacement,
+  getPlacement,
+  defaultOffsetDistance
+} from "../../utils/popper";
 import {
   createPopper,
   Instance as Popper,
@@ -72,6 +76,26 @@ export class CalcitePopover {
   @Prop() flipPlacements?: Placement[];
 
   /**
+   * Offset the position of the popover away from the reference element.
+   */
+  @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
+
+  @Watch("offsetDistance")
+  offsetDistanceOffsetHandler() {
+    this.reposition();
+  }
+
+  /**
+   * Offset the position of the popover along the reference element.
+   */
+  @Prop({ reflect: true }) offsetSkidding = 0;
+
+  @Watch("offsetSkidding")
+  offsetSkiddingHandler() {
+    this.reposition();
+  }
+
+  /**
    * Display and position the component.
    */
   @Prop({ reflect: true }) open = false;
@@ -116,26 +140,6 @@ export class CalcitePopover {
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-
-  /**
-   * Offset the position of the popover in the horizontal direction.
-   */
-  @Prop({ reflect: true }) xOffset = 0;
-
-  @Watch("xOffset")
-  xOffsetHandler() {
-    this.reposition();
-  }
-
-  /**
-   * Offset the position of the popover in the vertical direction.
-   */
-  @Prop({ reflect: true }) yOffset = 0;
-
-  @Watch("yOffset")
-  yOffsetHandler() {
-    this.reposition();
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -250,24 +254,14 @@ export class CalcitePopover {
   }
 
   getModifiers(): Partial<Modifier<any>>[] {
-    const verticalRE = /top|bottom/gi;
-    const autoRE = /auto/gi;
     const {
       arrowEl,
       flipPlacements,
       disableFlip,
       disablePointer,
-      placement,
-      xOffset,
-      yOffset
+      offsetDistance,
+      offsetSkidding
     } = this;
-    const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
-    const offsets = [yOffset, xOffset];
-
-    if (verticalRE.test(placement)) {
-      offsets.reverse();
-    }
-
     const flipModifier: Partial<Modifier<any>> = {
       name: "flip",
       enabled: !disableFlip
@@ -292,9 +286,9 @@ export class CalcitePopover {
 
     const offsetModifier: Partial<Modifier<any>> = {
       name: "offset",
-      enabled: !!offsetEnabled,
+      enabled: true,
       options: {
-        offset: offsets
+        offset: [offsetSkidding, offsetDistance]
       }
     };
 

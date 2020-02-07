@@ -11,7 +11,11 @@ import {
 import { CSS } from "./resources";
 import { createPopper, Instance as Popper, Modifier } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { CalcitePlacement, getPlacement } from "../../utils/popper";
+import {
+  CalcitePlacement,
+  getPlacement,
+  defaultOffsetDistance
+} from "../../utils/popper";
 import { hydratedInvisibleClass } from "../../utils/dom";
 
 @Component({
@@ -25,6 +29,26 @@ export class CalciteTooltip {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Offset the position of the popover away from the reference element.
+   */
+  @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
+
+  @Watch("offsetDistance")
+  offsetDistanceOffsetHandler() {
+    this.reposition();
+  }
+
+  /**
+   * Offset the position of the popover along the reference element.
+   */
+  @Prop({ reflect: true }) offsetSkidding = 0;
+
+  @Watch("offsetSkidding")
+  offsetSkiddingHandler() {
+    this.reposition();
+  }
 
   /**
    * Display and position the component.
@@ -176,7 +200,7 @@ export class CalciteTooltip {
   }
 
   getModifiers(): Partial<Modifier<any>>[] {
-    const { arrowEl } = this;
+    const { arrowEl, offsetDistance, offsetSkidding } = this;
 
     const arrowModifier: Partial<Modifier<any>> = {
       name: "arrow",
@@ -186,7 +210,15 @@ export class CalciteTooltip {
       }
     };
 
-    return [arrowModifier];
+    const offsetModifier: Partial<Modifier<any>> = {
+      name: "offset",
+      enabled: true,
+      options: {
+        offset: [offsetSkidding, offsetDistance]
+      }
+    };
+
+    return [arrowModifier, offsetModifier];
   }
 
   updatePopper(popper: Popper): void {

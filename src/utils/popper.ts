@@ -25,3 +25,5 @@ export function getPlacement(
     .replace(/leading/gi, values[0])
     .replace(/trailing/gi, values[1]) as Placement;
 }
+
+export const defaultOffsetDistance = 6;
