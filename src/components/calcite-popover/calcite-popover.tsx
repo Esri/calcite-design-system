@@ -55,17 +55,6 @@ export class CalcitePopover {
    */
   @Prop({ reflect: true }) closeButton = false;
 
-  // /**
-  //  *  HTMLElement Used to position this component within the a boundary.
-  //  */
-  // @Prop() boundariesElement?: HTMLElement | string;
-
-  // @Watch("boundariesElement")
-  // boundariesElementHandler() {
-  //   this._boundariesElement = this.getBoundariesElement();
-  //   this.reposition();
-  // }
-
   /**
    * Prevents flipping the popover's placement when it starts to overlap its reference element.
    */
@@ -89,7 +78,7 @@ export class CalcitePopover {
   @Watch("open")
   openHandler(open: boolean) {
     if (open) {
-      this.reposition();
+      this.createPopper();
       this.calcitePopoverOpen.emit();
     } else {
       this.destroyPopper();
@@ -118,7 +107,7 @@ export class CalcitePopover {
     this._referenceElement = this.getReferenceElement();
     this.addReferenceListener();
     this.addReferenceAria();
-    this.reposition();
+    this.createPopper();
   }
 
   /** Text for close button. */
@@ -157,8 +146,6 @@ export class CalcitePopover {
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
 
-  //@State() _boundariesElement: HTMLElement = this.getBoundariesElement();
-
   popper: Popper;
 
   arrowEl: HTMLDivElement;
@@ -170,7 +157,7 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   componentDidLoad() {
-    this.reposition();
+    this.createPopper();
     this.addReferenceListener();
     this.addReferenceAria();
   }
@@ -197,7 +184,9 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   @Method() async reposition(): Promise<void> {
-    this.createPopper();
+    const { popper } = this;
+
+    popper ? this.updatePopper(popper) : this.createPopper();
   }
 
   @Method() async toggle(): Promise<void> {
@@ -259,16 +248,6 @@ export class CalcitePopover {
     );
   }
 
-  // getBoundariesElement(): HTMLElement {
-  //   const { boundariesElement } = this;
-
-  //   return (
-  //     (typeof boundariesElement === "string"
-  //       ? document.getElementById(boundariesElement)
-  //       : boundariesElement) || null
-  //   );
-  // }
-
   getModifiers(): Partial<Modifier<any>>[] {
     const verticalRE = /top|bottom/gi;
     const autoRE = /auto/gi;
@@ -313,7 +292,16 @@ export class CalcitePopover {
     ];
   }
 
-  // popperInstance.setOptions({ placement: 'bottom' });
+  updatePopper(popper: Popper): void {
+    const { el, placement } = this;
+
+    const options = {
+      placement: getPlacement(el, placement),
+      modifiers: this.getModifiers()
+    };
+
+    popper.setOptions(options);
+  }
 
   createPopper(): void {
     this.destroyPopper();
@@ -384,13 +372,7 @@ export class CalcitePopover {
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >
-        <div
-          style={{
-            width: "10px",
-            height: "10px"
-          }}
-          ref={arrowEl => (this.arrowEl = arrowEl)}
-        ></div>
+        <div ref={arrowEl => (this.arrowEl = arrowEl)}></div>
         <div
           class={{
             [CSS.container]: true,

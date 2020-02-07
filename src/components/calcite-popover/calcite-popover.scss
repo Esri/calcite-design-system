@@ -54,6 +54,7 @@ $image_max_height: 200px;
   border-radius: 0 var(--calcite-border-radius) 0 0;
   display: block;
   cursor: pointer;
+  background: var(--calcite-ui-foreground);
   &:hover {
     background: var(--calcite-ui-foreground-hover);
   }
