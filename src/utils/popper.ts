@@ -1,4 +1,4 @@
-import Popper from "popper.js";
+import { Placement } from "@popperjs/core";
 import { getElementDir } from "../utils/dom";
 
 type PlacementRtl =
@@ -9,14 +9,12 @@ type PlacementRtl =
   | "trailing"
   | "trailing-start";
 
-export type CalcitePlacement = Popper.Placement | PlacementRtl;
-
-export type CalciteFlipPlacements = Popper.Position[];
+export type CalcitePlacement = Placement | PlacementRtl;
 
 export function getPlacement(
   el: HTMLElement,
   placement: CalcitePlacement
-): Popper.Placement {
+): Placement {
   const values = ["left", "right"];
 
   if (getElementDir(el) === "rtl") {
@@ -25,5 +23,5 @@ export function getPlacement(
 
   return placement
     .replace(/leading/gi, values[0])
-    .replace(/trailing/gi, values[1]) as Popper.Placement;
+    .replace(/trailing/gi, values[1]) as Placement;
 }

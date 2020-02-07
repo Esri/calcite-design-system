@@ -11,12 +11,8 @@ import {
   h
 } from "@stencil/core";
 import { CSS } from "./resources";
-import {
-  CalciteFlipPlacements,
-  CalcitePlacement,
-  getPlacement
-} from "../../utils/popper";
-import Popper from "popper.js";
+import { CalcitePlacement, getPlacement } from "../../utils/popper";
+import { createPopper, Instance as Popper, Modifier } from "@popperjs/core";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
@@ -62,7 +58,6 @@ export class CalcitePopover {
   @Watch("boundariesElement")
   boundariesElementHandler() {
     this._boundariesElement = this.getBoundariesElement();
-    this.destroyPopper();
     this.reposition();
   }
 
@@ -76,15 +71,15 @@ export class CalcitePopover {
    */
   @Prop({ reflect: true }) disablePointer = false;
 
-  /**
-   * Makes the popover flow toward the inner of the reference element.
-   */
-  @Prop({ reflect: true }) flowInner = false;
+  // /**
+  //  * Makes the popover flow toward the inner of the reference element.
+  //  */
+  // @Prop({ reflect: true }) flowInner = false;
 
-  /**
-   * Defines the available placements that can be used when a flip occurs.
-   */
-  @Prop() flipPlacements?: CalciteFlipPlacements;
+  // /**
+  //  * Defines the available placements that can be used when a flip occurs.
+  //  */
+  // @Prop() flipPlacements?: CalciteFlipPlacements;
 
   /**
    * Display and position the component.
@@ -109,7 +104,6 @@ export class CalcitePopover {
 
   @Watch("placement")
   placementHandler() {
-    this.destroyPopper();
     this.reposition();
   }
 
@@ -124,7 +118,6 @@ export class CalcitePopover {
     this._referenceElement = this.getReferenceElement();
     this.addReferenceListener();
     this.addReferenceAria();
-    this.destroyPopper();
     this.reposition();
   }
 
@@ -141,7 +134,6 @@ export class CalcitePopover {
 
   @Watch("xOffset")
   xOffsetHandler() {
-    this.destroyPopper();
     this.reposition();
   }
 
@@ -152,7 +144,6 @@ export class CalcitePopover {
 
   @Watch("yOffset")
   yOffsetHandler() {
-    this.destroyPopper();
     this.reposition();
   }
 
@@ -169,6 +160,8 @@ export class CalcitePopover {
   @State() _boundariesElement: HTMLElement = this.getBoundariesElement();
 
   popper: Popper;
+
+  arrowEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -204,9 +197,7 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   @Method() async reposition(): Promise<void> {
-    const { popper } = this;
-
-    popper ? this.updatePopper(popper) : this.createPopper();
+    this.createPopper();
   }
 
   @Method() async toggle(): Promise<void> {
@@ -278,69 +269,62 @@ export class CalcitePopover {
     );
   }
 
-  getModifiers(): Popper.Modifiers {
-    const verticalRE = /top|bottom/gi;
-    const autoRE = /auto/gi;
-    const {
-      _boundariesElement,
-      disableFlip,
-      flipPlacements,
-      flowInner,
-      placement,
-      xOffset,
-      yOffset
-    } = this;
-    const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
-    const offsets = [yOffset, xOffset];
+  getModifiers(): Partial<Modifier<any>>[] {
+    // const verticalRE = /top|bottom/gi;
+    // const autoRE = /auto/gi;
+    // const { disableFlip, flowInner, placement, xOffset, yOffset } = this;
+    // const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
+    // const offsets = [yOffset, xOffset];
 
-    if (verticalRE.test(placement)) {
-      offsets.reverse();
-    }
+    // if (verticalRE.test(placement)) {
+    //   offsets.reverse();
+    // }
 
-    return {
-      preventOverflow: {
-        enabled: true,
-        boundariesElement: _boundariesElement || "viewport",
-        escapeWithReference: true
-      },
-      flip: {
-        enabled: !disableFlip,
-        boundariesElement: _boundariesElement || "viewport",
-        flipVariationsByContent: true,
-        behavior: flipPlacements || "flip"
-      },
-      inner: {
-        enabled: flowInner
-      },
-      offset: {
-        enabled: !!offsetEnabled,
-        offset: offsets.join(",")
+    return [
+      {
+        name: "arrow",
+        enabled: !this.disablePointer,
+        options: {
+          element: this.arrowEl
+        }
+        // preventOverflow: {
+        //   enabled: true,
+        //   boundariesElement: _boundariesElement || "viewport",
+        //   escapeWithReference: true
+        // },
+        // flip: {
+        //   enabled: !disableFlip,
+        //   boundariesElement: _boundariesElement || "viewport",
+        //   flipVariationsByContent: true,
+        //   behavior: flipPlacements || "flip"
+        // },
+        // inner: {
+        //   enabled: flowInner
+        // },
+        // offset: {
+        //   enabled: !!offsetEnabled,
+        //   offset: offsets.join(",")
+        // }
       }
-    };
+    ];
   }
 
+  // popperInstance.setOptions({ placement: 'bottom' });
+
   createPopper(): void {
+    this.destroyPopper();
     const { el, open, placement, _referenceElement } = this;
 
     if (!_referenceElement || !open) {
       return;
     }
 
-    const newPopper = new Popper(_referenceElement, el, {
+    const newPopper = createPopper(_referenceElement, el, {
       placement: getPlacement(el, placement),
       modifiers: this.getModifiers()
     });
 
     this.popper = newPopper;
-  }
-
-  updatePopper(popper: Popper): void {
-    popper.options.placement = getPlacement(this.el, this.placement);
-    popper.options.modifiers = {
-      ...popper.options.modifiers,
-      ...this.getModifiers()
-    };
-    popper.scheduleUpdate();
   }
 
   destroyPopper(): void {
@@ -396,6 +380,13 @@ export class CalcitePopover {
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >
+        <div
+          style={{
+            width: "10px",
+            height: "10px"
+          }}
+          ref={arrowEl => (this.arrowEl = arrowEl)}
+        ></div>
         <div
           class={{
             [CSS.container]: true,

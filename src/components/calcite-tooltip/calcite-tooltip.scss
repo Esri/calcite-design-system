@@ -19,8 +19,10 @@
   visibility: visible;
 }
 
-:host([x-out-of-boundaries]) .tooltip-container {
+:host([data-popper-reference-hidden]) .tooltip-container,
+:host([data-popper-escaped]) .tooltip-container {
   visibility: hidden;
+  pointer-events: none;
 }
 
 .tooltip-content-container {

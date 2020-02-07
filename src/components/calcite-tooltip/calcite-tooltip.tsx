@@ -9,7 +9,7 @@ import {
   h
 } from "@stencil/core";
 import { CSS } from "./resources";
-import Popper from "popper.js";
+import { createPopper, Instance as Popper, Modifier } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { CalcitePlacement, getPlacement } from "../../utils/popper";
 
@@ -25,17 +25,16 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  /**
-   *  HTMLElement Used to position this component within the a boundary.
-   */
-  @Prop() boundariesElement?: HTMLElement | string;
+  // /**
+  //  *  HTMLElement Used to position this component within the a boundary.
+  //  */
+  // @Prop() boundariesElement?: HTMLElement | string;
 
-  @Watch("boundariesElement")
-  boundariesElementHandler() {
-    this._boundariesElement = this.getBoundariesElement();
-    this.destroyPopper();
-    this.reposition();
-  }
+  // @Watch("boundariesElement")
+  // boundariesElementHandler() {
+  //   this._boundariesElement = this.getBoundariesElement();
+  //   this.reposition();
+  // }
 
   /**
    * Display and position the component.
@@ -72,7 +71,6 @@ export class CalciteTooltip {
     this._referenceElement = this.getReferenceElement();
     this.addReferenceListeners();
     this.addReferenceAria();
-    this.destroyPopper();
     this.reposition();
   }
 
@@ -89,7 +87,7 @@ export class CalciteTooltip {
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
 
-  @State() _boundariesElement: HTMLElement = this.getBoundariesElement();
+  //@State() _boundariesElement: HTMLElement = this.getBoundariesElement();
 
   popper: Popper;
 
@@ -117,9 +115,7 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   @Method() async reposition(): Promise<void> {
-    const { popper } = this;
-
-    popper ? this.updatePopper(popper) : this.createPopper();
+    this.createPopper();
   }
 
   // --------------------------------------------------------------------------
@@ -187,55 +183,48 @@ export class CalciteTooltip {
     );
   }
 
-  getBoundariesElement(): HTMLElement {
-    const { boundariesElement } = this;
+  // getBoundariesElement(): HTMLElement {
+  //   const { boundariesElement } = this;
 
-    return (
-      (typeof boundariesElement === "string"
-        ? document.getElementById(boundariesElement)
-        : boundariesElement) || null
-    );
-  }
+  //   return (
+  //     (typeof boundariesElement === "string"
+  //       ? document.getElementById(boundariesElement)
+  //       : boundariesElement) || null
+  //   );
+  // }
 
-  getModifiers(): Popper.Modifiers {
-    const { _boundariesElement } = this;
+  getModifiers(): Partial<Modifier<any>>[] {
+    //const { _boundariesElement } = this;
 
-    return {
-      preventOverflow: {
-        enabled: true,
-        boundariesElement: _boundariesElement || "viewport",
-        escapeWithReference: true
-      },
-      flip: {
-        enabled: true,
-        boundariesElement: _boundariesElement || "viewport",
-        flipVariationsByContent: true
-      }
-    };
+    // preventOverflow: {
+    //   enabled: true,
+    //   boundariesElement: _boundariesElement || "viewport",
+    //   escapeWithReference: true
+    // },
+    // flip: {
+    //   enabled: true,
+    //   boundariesElement: _boundariesElement || "viewport",
+    //   flipVariationsByContent: true
+    // }
+
+    return [];
   }
 
   createPopper(): void {
+    this.destroyPopper();
+
     const { _referenceElement, el, open, placement } = this;
 
     if (!_referenceElement || !open) {
       return;
     }
 
-    const newPopper = new Popper(_referenceElement, el, {
+    const newPopper = createPopper(_referenceElement, el, {
       placement: getPlacement(el, placement),
       modifiers: this.getModifiers()
     });
 
     this.popper = newPopper;
-  }
-
-  updatePopper(popper: Popper): void {
-    popper.options.placement = getPlacement(this.el, this.placement);
-    popper.options.modifiers = {
-      ...popper.options.modifiers,
-      ...this.getModifiers()
-    };
-    popper.scheduleUpdate();
   }
 
   destroyPopper(): void {

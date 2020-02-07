@@ -21,8 +21,10 @@ $image_max_height: 200px;
   visibility: visible;
 }
 
-:host([x-out-of-boundaries]) .container {
+:host([data-popper-reference-hidden]) .tooltip-container,
+:host([data-popper-escaped]) .container {
   visibility: hidden;
+  pointer-events: none;
 }
 
 .content-container {
