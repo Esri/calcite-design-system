@@ -7,7 +7,6 @@ $pointer_size: 8px;
   z-index: 999;
   top: -999999px;
   left: -999999px;
-  visibility: hidden;
 }
 
 :host([data-popper-escaped]),
@@ -27,11 +26,11 @@ $pointer_size: 8px;
   width: $pointer_size;
   height: $pointer_size;
   z-index: -1;
-  box-shadow: $shadow-2;
 }
 
 .arrow::before {
   content: "";
+  box-shadow: $shadow-2;
   transform: rotate(45deg);
   background: var(--calcite-ui-foreground);
 }
