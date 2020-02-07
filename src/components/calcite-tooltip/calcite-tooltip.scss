@@ -1,3 +1,5 @@
+$pointer_size: 8px;
+
 :host {
   display: block;
   position: absolute;
@@ -9,15 +11,31 @@
 .tooltip-arrow,
 .tooltip-arrow::before {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: $pointer_size;
+  height: $pointer_size;
   z-index: -1;
 }
 
 .tooltip-arrow::before {
   content: "";
   transform: rotate(45deg);
-  background: #333;
+  background: var(--calcite-ui-foreground);
+}
+
+:host([data-popper-placement^="top"]) > .tooltip-arrow {
+  bottom: -$pointer_size/2;
+}
+
+:host([data-popper-placement^="bottom"]) > .tooltip-arrow {
+  top: -$pointer_size/2;
+}
+
+:host([data-popper-placement^="left"]) > .tooltip-arrow {
+  right: -$pointer_size/2;
+}
+
+:host([data-popper-placement^="right"]) > .tooltip-arrow {
+  left: -$pointer_size/2;
 }
 
 .tooltip-container {

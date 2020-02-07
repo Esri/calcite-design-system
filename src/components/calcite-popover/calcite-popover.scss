@@ -9,12 +9,17 @@ $pointer_size: 8px;
   left: -999999px;
 }
 
+:host([open]) {
+  box-shadow: $shadow-2;
+}
+
 .arrow,
 .arrow::before {
   position: absolute;
   width: $pointer_size;
   height: $pointer_size;
   z-index: -1;
+  box-shadow: $shadow-2;
 }
 
 .arrow::before {
@@ -42,7 +47,6 @@ $pointer_size: 8px;
 .container {
   border-radius: var(--calcite-border-radius);
   background: var(--calcite-ui-foreground);
-  box-shadow: $shadow-2;
   position: relative;
   visibility: hidden;
   overflow: hidden;

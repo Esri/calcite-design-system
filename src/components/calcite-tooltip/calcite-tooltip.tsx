@@ -177,15 +177,15 @@ export class CalciteTooltip {
   getModifiers(): Partial<Modifier<any>>[] {
     const { arrowEl } = this;
 
-    return [
-      {
-        name: "arrow",
-        enabled: true,
-        options: {
-          element: arrowEl // todo
-        }
+    const arrowModifier: Partial<Modifier<any>> = {
+      name: "arrow",
+      enabled: true,
+      options: {
+        element: arrowEl
       }
-    ];
+    };
+
+    return [arrowModifier];
   }
 
   updatePopper(popper: Popper): void {

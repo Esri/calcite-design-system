@@ -267,29 +267,37 @@ export class CalcitePopover {
       offsets.reverse();
     }
 
-    return [
-      {
-        name: "arrow",
-        enabled: !disablePointer,
-        options: {
-          element: arrowEl // todo
-        }
-      },
-      {
-        name: "flip",
-        enabled: !disableFlip,
-        options: {
-          fallbackPlacements: flipPlacements // todo
-        }
-      },
-      {
-        name: "offset",
-        enabled: !!offsetEnabled,
-        options: {
-          offset: offsets
-        }
+    const flipModifier: Partial<Modifier<any>> = {
+      name: "flip",
+      enabled: !disableFlip
+    };
+
+    if (flipPlacements) {
+      flipModifier.options = {
+        fallbackPlacements: flipPlacements
+      };
+    }
+
+    const arrowModifier: Partial<Modifier<any>> = {
+      name: "arrow",
+      enabled: !disablePointer
+    };
+
+    if (arrowEl) {
+      arrowModifier.options = {
+        element: arrowEl
+      };
+    }
+
+    const offsetModifier: Partial<Modifier<any>> = {
+      name: "offset",
+      enabled: !!offsetEnabled,
+      options: {
+        offset: offsets
       }
-    ];
+    };
+
+    return [arrowModifier, flipModifier, offsetModifier];
   }
 
   updatePopper(popper: Popper): void {
