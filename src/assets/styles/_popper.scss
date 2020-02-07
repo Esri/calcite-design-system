@@ -1,0 +1,56 @@
+@mixin popperHost {
+  :host {
+    display: block;
+    position: absolute;
+    z-index: 999;
+    top: -999999px;
+    left: -999999px;
+  }
+
+  :host([data-popper-escaped]),
+  :host([aria-hidden="true"]) {
+    visibility: hidden !important; /* https://github.com/ionic-team/stencil/issues/56 */
+    pointer-events: none;
+  }
+
+  :host([aria-hidden="false"]) {
+    visibility: visible;
+    box-shadow: $shadow-2;
+  }
+}
+
+$pointer_size: 8px;
+$pointer_offset: -$pointer_size/2;
+
+@mixin popperArrow {
+  .arrow,
+  .arrow::before {
+    position: absolute;
+    width: $pointer_size;
+    height: $pointer_size;
+    z-index: -1;
+  }
+
+  .arrow::before {
+    content: "";
+    box-shadow: $shadow-2;
+    transform: rotate(45deg);
+    background: var(--calcite-ui-foreground);
+  }
+
+  :host([data-popper-placement^="top"]) > .arrow {
+    bottom: $pointer_offset;
+  }
+
+  :host([data-popper-placement^="bottom"]) > .arrow {
+    top: $pointer_offset;
+  }
+
+  :host([data-popper-placement^="left"]) > .arrow {
+    right: $pointer_offset;
+  }
+
+  :host([data-popper-placement^="right"]) > .arrow {
+    left: $pointer_offset;
+  }
+}

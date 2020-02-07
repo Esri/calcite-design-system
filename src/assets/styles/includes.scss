@@ -2,6 +2,7 @@
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 @import "_mixins";
 @import "_colors";
+@import "_popper";
 
 :root {
   --calcite-border-radius: 3px;
