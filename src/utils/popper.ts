@@ -26,4 +26,6 @@ export function getPlacement(
     .replace(/trailing/gi, values[1]) as Placement;
 }
 
-export const defaultOffsetDistance = 6;
+const pointerSize = 8;
+const pSide = Math.pow(pointerSize / 2, 2);
+export const defaultOffsetDistance = Math.ceil(Math.sqrt(pSide + pSide));
