@@ -13,7 +13,7 @@ import {
 import Color from "color";
 import { ColorMode } from "../../interfaces/ColorPicker";
 import { Scale, Theme } from "../../interfaces/common";
-import { CSS } from "./resources";
+import { CSS, DEFAULT_HEX_COLOR, DEFAULT_STORAGE_KEY_PREFIX } from "./resources";
 
 // TODO: extract into ColorMode object w/ more details: parts, limits, labels, render()? etc...
 const RGB_LIMITS = {
@@ -60,6 +60,8 @@ const DIMENSIONS = {
     }
   }
 };
+
+const defaultColor = Color(DEFAULT_HEX_COLOR);
 
 @Component({
   tag: "calcite-color-picker",
@@ -165,7 +167,11 @@ export class CalciteColorPicker {
   /**
    * The color value in hex.
    */
-  @Prop() value: string;
+  @Prop() value = defaultColor.hex();
+  @Watch("value")
+  handleColorChange(value): void {
+    this.activeColor = Color(value);
+  }
 
   colorPaletteCanvas: HTMLCanvasElement;
   hueSliderCanvas: HTMLCanvasElement;
@@ -176,13 +182,12 @@ export class CalciteColorPicker {
   //
   //--------------------------------------------------------------------------
 
-  @State() activeColor = Color("#FF00FF");
+  @State() activeColor = defaultColor;
   @Watch("activeColor")
   handleActiveColorChange(): void {
     this.renderCanvasParts();
+    this.calciteColorPickerColorChange.emit();
   }
-
-  @State() spectrumColor = Color("#FF00FF");
 
   @State() dimensions = DIMENSIONS.m;
 
@@ -246,7 +251,7 @@ export class CalciteColorPicker {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const storageKey = `calcite-color-picker-${this.storageId}`;
+    const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
 
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
@@ -440,7 +445,7 @@ export class CalciteColorPicker {
 
     this.savedColors = savedColors;
 
-    const storageKey = `calcite-color-picker-${this.storageId}`;
+    const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
 
     if (this.storageId) {
       localStorage.setItem(storageKey, JSON.stringify(savedColors));

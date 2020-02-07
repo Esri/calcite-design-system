@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
 import { defaults, reflects, renders } from "../../tests/commonTests";
 
-describe("my-component", () => {
+describe("calcite-color-swatch", () => {
   it("renders", () => renders("calcite-color-swatch"));
 
   it("has defaults", () => defaults("calcite-color-swatch", [

@@ -20,3 +20,6 @@ export const CSS = {
   savedColorsSection: "saved-colors-section",
   saveColor: "save-color"
 };
+
+export const DEFAULT_HEX_COLOR = "#007AC2";
+export const DEFAULT_STORAGE_KEY_PREFIX = "calcite-color-picker-";
