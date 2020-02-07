@@ -22,6 +22,7 @@ import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
 import { guid } from "../../utils/guid";
+import { hydratedInvisibleClass } from "../../utils/dom";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -380,6 +381,9 @@ export class CalcitePopover {
     return (
       <Host
         role="dialog"
+        class={{
+          [hydratedInvisibleClass]: !displayed
+        }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >

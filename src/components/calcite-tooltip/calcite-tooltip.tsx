@@ -12,6 +12,7 @@ import { CSS } from "./resources";
 import { createPopper, Instance as Popper, Modifier } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { CalcitePlacement, getPlacement } from "../../utils/popper";
+import { hydratedInvisibleClass } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -239,6 +240,9 @@ export class CalciteTooltip {
     return (
       <Host
         role="tooltip"
+        class={{
+          [hydratedInvisibleClass]: !displayed
+        }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >

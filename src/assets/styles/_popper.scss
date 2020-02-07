@@ -9,12 +9,10 @@
 
   :host([data-popper-escaped]),
   :host([aria-hidden="true"]) {
-    visibility: hidden !important; /* https://github.com/ionic-team/stencil/issues/56 */
     pointer-events: none;
   }
 
   :host([aria-hidden="false"]) {
-    visibility: visible;
     box-shadow: $shadow-2;
   }
 }

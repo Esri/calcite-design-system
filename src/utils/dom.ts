@@ -35,3 +35,5 @@ export function getSlottedElements<T extends Element>(
     T
   >;
 }
+
+export const hydratedInvisibleClass = "hydrated--invisible";
