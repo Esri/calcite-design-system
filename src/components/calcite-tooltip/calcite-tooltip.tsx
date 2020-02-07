@@ -243,15 +243,8 @@ export class CalciteTooltip {
         id={this.getId()}
       >
         <div class={CSS.arrow} ref={arrowEl => (this.arrowEl = arrowEl)}></div>
-        <div
-          class={{
-            [CSS.container]: true,
-            [CSS.containerOpen]: displayed
-          }}
-        >
-          <div class={CSS.contentContainer}>
-            <slot />
-          </div>
+        <div class={CSS.container}>
+          <slot />
         </div>
       </Host>
     );

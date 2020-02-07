@@ -18,9 +18,8 @@ $pointer_size: 8px;
   box-shadow: $shadow-2;
 }
 
-:host([data-popper-reference-hidden]),
 :host([data-popper-escaped]) {
-  visibility: hidden;
+  visibility: hidden !important;
   pointer-events: none;
 }
 
