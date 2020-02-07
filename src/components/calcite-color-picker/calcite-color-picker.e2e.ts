@@ -31,40 +31,63 @@ describe("calcite-color-picker", () => {
     expect(spy).toHaveReceivedEventTimes(1);
   });
 
-  it("it allows saving unique colors", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-color-picker></calcite-color-picker>`
-    );
+  describe("saving colors", () => {
+    const storageId = "test-storage-id";
 
-    const picker = await page.find("calcite-color-picker");
-    const saveColor = await page.find(
-      `calcite-color-picker >>> .${CSS.saveColor}`
-    );
-    await saveColor.click();
+    async function clearStorage(): Promise<void> {
+      const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${storageId}`;
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-color-picker></calcite-color-picker>`);
+      await page.evaluate((storageKey) => localStorage.removeItem(storageKey), [storageKey]);
+    }
 
-    const color1 = "#FF00FF";
-    const color2 = "#BEEFEE";
+    beforeAll(clearStorage);
+    afterAll(clearStorage);
 
-    picker.setProperty("value", color1);
-    await page.waitForChanges();
-    await saveColor.click();
+    it("it allows saving unique colors", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-color-picker storage-id=${storageId}></calcite-color-picker>`);
 
-    picker.setProperty("value", color2);
-    await page.waitForChanges();
-    await saveColor.click();
+      const picker = await page.find("calcite-color-picker");
+      const saveColor = await page.find(
+        `calcite-color-picker >>> .${CSS.saveColor}`
+      );
+      await saveColor.click();
 
-    picker.setProperty("value", color1);
-    await page.waitForChanges();
-    await saveColor.click();
+      const color1 = "#FF00FF";
+      const color2 = "#BEEFEE";
 
-    picker.setProperty("value", color2);
-    await page.waitForChanges();
-    await saveColor.click();
+      picker.setProperty("value", color1);
+      await page.waitForChanges();
+      await saveColor.click();
 
-    const savedColors = await page.findAll(
-      `calcite-color-picker >>> .${CSS.savedColors} calcite-color-swatch`
-    );
-    expect(savedColors).toHaveLength(3);
+      picker.setProperty("value", color2);
+      await page.waitForChanges();
+      await saveColor.click();
+
+      picker.setProperty("value", color1);
+      await page.waitForChanges();
+      await saveColor.click();
+
+      picker.setProperty("value", color2);
+      await page.waitForChanges();
+      await saveColor.click();
+
+      let savedColors = await page.findAll(
+        `calcite-color-picker >>> .${CSS.savedColors} calcite-color-swatch`
+      );
+      expect(savedColors).toHaveLength(3);
+    });
+
+    it("it loads saved colors", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-color-picker storage-id=${storageId}></calcite-color-picker>`);
+      await page.waitForChanges();
+
+      const savedColors = await page.findAll(
+        `calcite-color-picker >>> .${CSS.savedColors} calcite-color-swatch`
+      );
+      expect(savedColors).toHaveLength(3);
+    });
   });
 });
