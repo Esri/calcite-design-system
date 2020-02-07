@@ -1,5 +1,9 @@
+* {
+  box-sizing: border-box;
+}
+
 :host {
-  display: inline-block;
+  display: block;
 }
 
 :host(:focus-within) {
@@ -10,6 +14,14 @@
 }
 .focus-within .list {
   display: block;
+}
+
+[role="combobox"] {
+  display: flex;
+}
+
+input {
+  flex-grow: 1;
 }
 
 .chip {

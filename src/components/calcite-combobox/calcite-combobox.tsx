@@ -37,7 +37,22 @@ export class CalciteCombobox {
 
   @State() selectedItems = [];
 
-  textInput: HTMLElement = null;
+  textInput: HTMLInputElement = null;
+
+  data: Array<object> = null;
+
+  items: Array<HTMLCalciteComboboxItemElement> = null;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  componentDidLoad() {
+    this.items = Array.from(this.el.querySelectorAll("calcite-combobox-item"));
+    this.data = this.getItemData();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -66,9 +81,29 @@ export class CalciteCombobox {
 
   inputHandler = (event: Event): void => {
     const target = event.target as HTMLInputElement;
-    const data = this.getItemData();
-    const results = filter(data, target.value);
-    console.log(results);
+    const filteredData = filter(this.data, target.value);
+    const values = filteredData.map((item) => item.value);
+    this.items.forEach((item) => {
+      const hasParent = item.parentElement.matches("calcite-combobox-item");
+
+      item.hidden = values.indexOf(item.value) === -1;
+
+      // If item is nested inside another item...
+      if (hasParent) {
+        const parent = item.parentElement as HTMLCalciteComboboxItemElement;
+        // If there is a parent item
+        if (parent !== null) {
+          // If the parent item is a match, show me.
+          if (values.indexOf(parent.value) !== -1) {
+            item.hidden = false;
+          }
+          // If I am a match, show my parent.
+          if (values.indexOf(item.value) !== -1) {
+            parent.hidden = false;
+          }
+        }
+      }
+    });
   }
 
   toggleSelection(item): void {
@@ -79,6 +114,7 @@ export class CalciteCombobox {
     } else {
       this.selectedItems = [...this.selectedItems, item.value];
     }
+    this.textInput.value = '';
     this.calciteLookupChange.emit(this.selectedItems);
   }
 
@@ -89,7 +125,7 @@ export class CalciteCombobox {
 
   getItemData() {
     const result = [];
-    this.el.querySelectorAll("calcite-combobox-item").forEach( item => {
+    this.items.forEach( item => {
       result.push({
         label: item.textLabel,
         value: item.value
