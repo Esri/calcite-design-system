@@ -1,6 +1,8 @@
 import {
   Component,
   Element,
+  Event,
+  EventEmitter,
   Host,
   Method,
   Prop,
@@ -93,8 +95,10 @@ export class CalcitePopover {
   openHandler(open: boolean) {
     if (open) {
       this.reposition();
+      this.calcitePopoverOpen.emit();
     } else {
       this.destroyPopper();
+      this.calcitePopoverClose.emit();
     }
   }
 
@@ -182,6 +186,16 @@ export class CalcitePopover {
     this.removeReferenceListener();
     this.destroyPopper();
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+  /** Fired when the popover is closed */
+  @Event() calcitePopoverClose: EventEmitter;
+  /** Fired when the popover is opened */
+  @Event() calcitePopoverOpen: EventEmitter;
 
   // --------------------------------------------------------------------------
   //

@@ -69,6 +69,14 @@ export class CalciteIcon {
   scale: Scale = "m";
 
   /**
+   * The icon label.
+   *
+   * It is recommended to set this value if your icon is semantic.
+   */
+  @Prop()
+  textLabel: string;
+
+  /**
    * Icon theme. Can be "light" or "dark".
    */
   @Prop({
@@ -101,12 +109,16 @@ export class CalciteIcon {
   }
 
   render() {
-    const { el, mirrored, pathData, scale } = this;
+    const { el, mirrored, pathData, scale, textLabel } = this;
     const dir = getElementDir(el);
     const size = scaleToPx[scale];
+    const semantic = !!textLabel;
 
     return (
-      <Host role="img">
+      <Host
+        aria-label={semantic ? textLabel : null}
+        role={semantic ? "img" : null}
+      >
         <svg
           class={{
             [CSS.mirrored]: dir === "rtl" && mirrored
@@ -167,12 +179,14 @@ export class CalciteIcon {
     }
 
     this.intersectionObserver = new IntersectionObserver(
-      ([iconEntry]) => {
-        if (iconEntry.isIntersecting) {
-          this.intersectionObserver.disconnect();
-          this.intersectionObserver = null;
-          callback();
-        }
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.intersectionObserver.disconnect();
+            this.intersectionObserver = null;
+            callback();
+          }
+        });
       },
       { rootMargin: "50px" }
     );

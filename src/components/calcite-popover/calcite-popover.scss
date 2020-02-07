@@ -10,9 +10,11 @@ $image_max_height: 200px;
 
 .container {
   border-radius: var(--calcite-border-radius);
+  background: var(--calcite-ui-foreground);
   box-shadow: $shadow-2;
   position: relative;
   visibility: hidden;
+  overflow: hidden;
 }
 
 .container--open {
@@ -28,7 +30,6 @@ $image_max_height: 200px;
   max-width: 350px;
   overflow: hidden;
   flex-direction: column;
-  background: var(--calcite-ui-foreground);
   color: var(--calcite-ui-text-1);
 }
 
@@ -43,20 +44,25 @@ $image_max_height: 200px;
   display: flex;
   justify-content: flex-end;
   width: 40px;
-  height: 45px;
+  height: 50px;
   z-index: 1;
-  background: var(--calcite-ui-foreground);
   color: var(--calcite-ui-text-1);
   padding: 16px 12px;
   border: none;
+  border-radius: 0 var(--calcite-border-radius) 0 0;
   display: block;
   cursor: pointer;
-  border-top-right-radius: 2px;
   &:hover {
     background: var(--calcite-ui-foreground-hover);
   }
   &:active {
     background: var(--calcite-ui-foreground-press);
+  }
+}
+
+:host([dir="rtl"]) {
+  .close-button {
+    border-radius: var(--calcite-border-radius) 0 0 0;
   }
 }
 

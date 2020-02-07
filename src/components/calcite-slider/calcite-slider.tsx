@@ -290,7 +290,7 @@ export class CalciteSlider {
   /**
    * @internal
    */
-  private guid = `calcite-loader-${guid()}`;
+  private guid = `calcite-slider-${guid()}`;
   /**
    * @internal
    */

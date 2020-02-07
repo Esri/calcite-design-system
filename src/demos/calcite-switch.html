@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Switch</title>
+  <style>
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Switch</h1>
+  <div>
+    <label>
+      <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
+      Without a proxy <code>input</code> element.
+      <script>
+        var basicSwitch = document.getElementById("basicSwitch");
+
+        basicSwitch.addEventListener("calciteSwitchChange", function (
+          e
+        ) {
+          console.log(
+            "Basic switch changed by <calcite-switch>",
+            e.target.switched
+          );
+        });
+      </script>
+    </label>
+  </div>
+  <br />
+  <div>
+    <calcite-switch>
+      <input id="proxySwitchCheckbox" type="checkbox" />
+    </calcite-switch>
+    <span id='proxySwitchSpan'>
+      With a proxy <code>input</code> element and changes on click.
+    </span>
+    <script>
+      var proxySwitchSpan = document.getElementById(
+        "proxySwitchSpan"
+      );
+      var proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
+
+      proxySwitchSpan.addEventListener('click', function () {
+        proxySwitchCheckbox.hasAttribute('checked') ?
+          proxySwitchCheckbox.removeAttribute('checked') :
+          proxySwitchCheckbox.setAttribute('checked', '')
+      })
+    </script>
+  </div>
+  <br />
+  <div>
+    <label>
+      <calcite-switch scale="s" switched="true" color="red"> </calcite-switch>
+      Red switch scale small
+    </label>
+  </div>
+  <br />
+  <div>
+    <label>
+      <calcite-switch scale="m" switched="true" color="red"> </calcite-switch>
+      Red switch scale medium
+    </label>
+  </div>
+  <br />
+  <div>
+    <label>
+      <calcite-switch scale="l" switched="true" color="red"> </calcite-switch>
+      Red switch scale large
+    </label>
+  </div>
+  <br />
+  <div>
+    <calcite-switch></calcite-switch>
+    Switch with no wrapping <code>label</code>.
+  </div>
+  <br />
+  <div class="demo-background-dark">
+    <div>
+      <label>
+        <calcite-switch theme="dark" id="basicSwitch" switched="true"></calcite-switch>
+        Without a proxy <code>input</code> element.
+        <script>
+          var basicSwitch = document.getElementById("basicSwitch");
+
+          basicSwitch.addEventListener("calciteSwitchChange", function (
+            e
+          ) {
+            console.log(
+              "Basic switch changed by <calcite-switch>",
+              e.target.switched
+            );
+          });
+        </script>
+      </label>
+    </div>
+    <br />
+    <div>
+      <calcite-switch theme="dark">
+        <input id="proxySwitchCheckbox" type="checkbox" />
+      </calcite-switch>
+      <span id='proxySwitchSpan'>
+        With a proxy <code>input</code> element and changes on click.
+      </span>
+      <script>
+        var proxySwitchSpan = document.getElementById(
+          "proxySwitchSpan"
+        );
+        var proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
+
+        proxySwitchSpan.addEventListener('click', function () {
+          proxySwitchCheckbox.hasAttribute('checked') ?
+            proxySwitchCheckbox.removeAttribute('checked') :
+            proxySwitchCheckbox.setAttribute('checked', '')
+        })
+      </script>
+    </div>
+    <br />
+    <div>
+      <label>
+        <calcite-switch theme="dark" switched="true" color="red"> </calcite-switch>
+        Red switch
+      </label>
+    </div>
+    <br />
+    <div>
+      <calcite-switch theme="dark"></calcite-switch>
+      Switch with no wrapping <code>label</code>.
+    </div>
+</body>
+
+</html>

@@ -126,6 +126,19 @@ describe("calcite-switch", () => {
     expect(input).toHaveAttribute("checked");
   });
 
+  it("honors tabindex", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-switch></calcite-switch>`);
+    await page.waitForChanges();
+    const calciteSwitch = await page.find("calcite-switch");
+
+    expect(await calciteSwitch.getProperty("tabIndex")).toBe(0);
+
+    calciteSwitch.setAttribute("tabindex", "-1");
+    await page.waitForChanges();
+    expect(await calciteSwitch.getProperty("tabIndex")).toBe(-1);
+  });
+
   it("renders requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(

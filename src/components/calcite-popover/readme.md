@@ -41,6 +41,14 @@
 | `yOffset`                       | `y-offset`           | Offset the position of the popover in the vertical direction.                              | `number`                                                                                                                                                                                                                                                                                                          | `0`         |
 
 
+## Events
+
+| Event                 | Description                      | Type               |
+| --------------------- | -------------------------------- | ------------------ |
+| `calcitePopoverClose` | Fired when the popover is closed | `CustomEvent<any>` |
+| `calcitePopoverOpen`  | Fired when the popover is opened | `CustomEvent<any>` |
+
+
 ## Methods
 
 ### `reposition() => Promise<void>`
