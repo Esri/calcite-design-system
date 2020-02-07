@@ -384,18 +384,11 @@ export class CalcitePopover {
         id={this.getId()}
       >
         {arrowNode}
-        <div
-          class={{
-            [CSS.container]: true,
-            [CSS.containerOpen]: displayed
-          }}
-        >
-          <div class={CSS.contentContainer}>
-            {this.renderImage()}
-            <div class={CSS.content}>
-              <slot />
-              {this.renderCloseButton()}
-            </div>
+        <div class={CSS.container}>
+          {this.renderImage()}
+          <div class={CSS.content}>
+            <slot />
+            {this.renderCloseButton()}
           </div>
         </div>
       </Host>

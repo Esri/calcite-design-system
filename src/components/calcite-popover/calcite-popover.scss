@@ -9,8 +9,19 @@ $pointer_size: 8px;
   left: -999999px;
 }
 
+:host(:not([open])) {
+  visibility: hidden !important;
+}
+
 :host([open]) {
+  visibility: visible;
   box-shadow: $shadow-2;
+}
+
+:host([data-popper-reference-hidden]),
+:host([data-popper-escaped]) {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .arrow,
@@ -48,21 +59,6 @@ $pointer_size: 8px;
   border-radius: var(--calcite-border-radius);
   background: var(--calcite-ui-foreground);
   position: relative;
-  visibility: hidden;
-  overflow: hidden;
-}
-
-.container--open {
-  visibility: visible;
-}
-
-:host([data-popper-reference-hidden]) .tooltip-container,
-:host([data-popper-escaped]) .container {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.content-container {
   display: flex;
   max-width: 350px;
   overflow: hidden;
