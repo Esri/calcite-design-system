@@ -53,12 +53,11 @@ export class CalciteDropdownItem {
   /** pass an optional title for rendered href */
   @Prop() linkTitle?: string;
 
-  /** optionally pass an icon to display - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) icon?: string;
+  /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
 
-  /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
-    "start";
+  /** optionally pass an icon to display at the end of an item - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -85,59 +84,58 @@ export class CalciteDropdownItem {
     });
   }
 
-  connectedCallback() {
-    let iconPosition = ["start", "end"];
-    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
-      this.iconPosition = "start";
-  }
-
   render() {
     const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "s" || scale === "m" ? "s" : "m";
-    if (!this.href) {
-      return (
-        <Host
-          theme={theme}
-          dir={dir}
-          scale={scale}
-          tabindex="0"
-          role="menuitem"
-          aria-selected={this.active.toString()}
-        >
-          {this.icon && this.iconPosition === "start" ? (
-            <calcite-icon icon={this.icon} scale={iconScale}></calcite-icon>
-          ) : null}
-          <slot />
-          {this.icon && this.iconPosition === "end" ? (
-            <calcite-icon icon={this.icon} scale={iconScale}></calcite-icon>
-          ) : null}
-        </Host>
+    const iconStartEl = (
+      <calcite-icon
+        class="dropdown-item-icon-start"
+        icon={this.iconStart}
+        scale={iconScale}
+      ></calcite-icon>
+    );
+    const iconEndEl = (
+      <calcite-icon
+        class="dropdown-item-icon-end"
+        icon={this.iconEnd}
+        scale={iconScale}
+      ></calcite-icon>
+    );
+
+    const slottedContent =
+      this.iconStart && this.iconEnd ? (
+        [iconStartEl, <slot />, iconEndEl]
+      ) : this.iconStart ? (
+        [iconStartEl, <slot />]
+      ) : this.iconEnd ? (
+        [<slot />, iconEndEl]
+      ) : (
+        <slot />
       );
-    } else {
-      return (
-        <Host
-          theme={theme}
-          dir={dir}
-          scale={scale}
-          tabindex="0"
-          role="menuitem"
-          aria-selected={this.active.toString()}
-          isLink
-        >
-          <a href={this.href} title={this.linkTitle}>
-            {this.icon && this.iconPosition === "start" ? (
-              <calcite-icon icon={this.icon} scale={iconScale}></calcite-icon>
-            ) : null}
-            <slot />
-            {this.icon && this.iconPosition === "end" ? (
-              <calcite-icon icon={this.icon} scale={iconScale}></calcite-icon>
-            ) : null}
-          </a>
-        </Host>
-      );
-    }
+
+    const contentEl = !this.href ? (
+      slottedContent
+    ) : (
+      <a href={this.href} title={this.linkTitle}>
+        {slottedContent}
+      </a>
+    );
+
+    return (
+      <Host
+        theme={theme}
+        dir={dir}
+        scale={scale}
+        tabindex="0"
+        role="menuitem"
+        aria-selected={this.active.toString()}
+        isLink={this.href}
+      >
+        {contentEl}
+      </Host>
+    );
   }
 
   //--------------------------------------------------------------------------

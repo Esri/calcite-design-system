@@ -7,13 +7,13 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                        | Type               | Default     |
-| -------------- | --------------- | ------------------------------------------------------------------ | ------------------ | ----------- |
-| `active`       | `active`        |                                                                    | `boolean`          | `false`     |
-| `href`         | `href`          | pass an optional href to render an anchor around the link items    | `string`           | `undefined` |
-| `icon`         | `icon`          | optionally pass an icon to display - accepts calcite ui icon names | `string`           | `undefined` |
-| `iconPosition` | `icon-position` | optionally used with icon, select where to position the icon       | `"end" \| "start"` | `"start"`   |
-| `linkTitle`    | `link-title`    | pass an optional title for rendered href                           | `string`           | `undefined` |
+| Property    | Attribute    | Description                                                                                | Type      | Default     |
+| ----------- | ------------ | ------------------------------------------------------------------------------------------ | --------- | ----------- |
+| `active`    | `active`     |                                                                                            | `boolean` | `false`     |
+| `href`      | `href`       | pass an optional href to render an anchor around the link items                            | `string`  | `undefined` |
+| `iconEnd`   | `icon-end`   | optionally pass an icon to display at the end of an item - accepts calcite ui icon names   | `string`  | `undefined` |
+| `iconStart` | `icon-start` | optionally pass an icon to display at the start of an item - accepts calcite ui icon names | `string`  | `undefined` |
+| `linkTitle` | `link-title` | pass an optional title for rendered href                                                   | `string`  | `undefined` |
 
 
 ## Events

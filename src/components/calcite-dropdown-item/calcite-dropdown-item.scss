@@ -34,7 +34,6 @@
   flex-grow: 1;
   align-items: center;
   @include font-size(-2);
-  line-height: 1.2;
   color: var(--calcite-ui-text-3);
   transition: $transition;
   padding: var(--calcite-dropdown-item-padding);
@@ -136,28 +135,27 @@
 }
 
 //icons
-:host([icon]) calcite-icon {
+
+:host .dropdown-item-icon-start {
   margin-right: $baseline / 1.5;
 }
+:host .dropdown-item-icon-end {
+  margin-left: auto;
+  padding-left: $baseline / 1.5;
+}
 
-:host([icon][dir="rtl"]) calcite-icon {
+:host([dir="rtl"]) calcite-icon {
   margin-right: 0;
   margin-left: $baseline / 1.5;
 }
 
-:host([icon][icon-position="end"]) {
-  & calcite-icon {
-    margin-left: auto;
-    margin-right: 0;
-    padding-left: $baseline / 1.5;
-  }
+:host([dir="rtl"]) .dropdown-item-icon-start {
+  margin-left: $baseline / 1.5;
+  margin-right: 0;
 }
-
-:host([icon][dir="rtl"][icon-position="end"]) {
-  & calcite-icon {
-    margin-right: auto;
-    margin-left: 0;
-    padding-right: $baseline / 1.5;
-    padding-left: 0;
-  }
+:host([dir="rtl"]) .dropdown-item-icon-end {
+  margin-right: auto;
+  padding-right: $baseline / 1.5;
+  margin-left: 0;
+  padding-left: 0;
 }
