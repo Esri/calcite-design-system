@@ -12,7 +12,12 @@ import {
 } from "@stencil/core";
 import { CSS } from "./resources";
 import { CalcitePlacement, getPlacement } from "../../utils/popper";
-import { createPopper, Instance as Popper, Modifier } from "@popperjs/core";
+import {
+  createPopper,
+  Instance as Popper,
+  Modifier,
+  Placement
+} from "@popperjs/core";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
@@ -50,16 +55,16 @@ export class CalcitePopover {
    */
   @Prop({ reflect: true }) closeButton = false;
 
-  /**
-   *  HTMLElement Used to position this component within the a boundary.
-   */
-  @Prop() boundariesElement?: HTMLElement | string;
+  // /**
+  //  *  HTMLElement Used to position this component within the a boundary.
+  //  */
+  // @Prop() boundariesElement?: HTMLElement | string;
 
-  @Watch("boundariesElement")
-  boundariesElementHandler() {
-    this._boundariesElement = this.getBoundariesElement();
-    this.reposition();
-  }
+  // @Watch("boundariesElement")
+  // boundariesElementHandler() {
+  //   this._boundariesElement = this.getBoundariesElement();
+  //   this.reposition();
+  // }
 
   /**
    * Prevents flipping the popover's placement when it starts to overlap its reference element.
@@ -71,15 +76,10 @@ export class CalcitePopover {
    */
   @Prop({ reflect: true }) disablePointer = false;
 
-  // /**
-  //  * Makes the popover flow toward the inner of the reference element.
-  //  */
-  // @Prop({ reflect: true }) flowInner = false;
-
-  // /**
-  //  * Defines the available placements that can be used when a flip occurs.
-  //  */
-  // @Prop() flipPlacements?: CalciteFlipPlacements;
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: Placement[];
 
   /**
    * Display and position the component.
@@ -157,7 +157,7 @@ export class CalcitePopover {
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
 
-  @State() _boundariesElement: HTMLElement = this.getBoundariesElement();
+  //@State() _boundariesElement: HTMLElement = this.getBoundariesElement();
 
   popper: Popper;
 
@@ -259,52 +259,56 @@ export class CalcitePopover {
     );
   }
 
-  getBoundariesElement(): HTMLElement {
-    const { boundariesElement } = this;
+  // getBoundariesElement(): HTMLElement {
+  //   const { boundariesElement } = this;
 
-    return (
-      (typeof boundariesElement === "string"
-        ? document.getElementById(boundariesElement)
-        : boundariesElement) || null
-    );
-  }
+  //   return (
+  //     (typeof boundariesElement === "string"
+  //       ? document.getElementById(boundariesElement)
+  //       : boundariesElement) || null
+  //   );
+  // }
 
   getModifiers(): Partial<Modifier<any>>[] {
-    // const verticalRE = /top|bottom/gi;
-    // const autoRE = /auto/gi;
-    // const { disableFlip, flowInner, placement, xOffset, yOffset } = this;
-    // const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
-    // const offsets = [yOffset, xOffset];
+    const verticalRE = /top|bottom/gi;
+    const autoRE = /auto/gi;
+    const {
+      arrowEl,
+      flipPlacements,
+      disableFlip,
+      disablePointer,
+      placement,
+      xOffset,
+      yOffset
+    } = this;
+    const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
+    const offsets = [yOffset, xOffset];
 
-    // if (verticalRE.test(placement)) {
-    //   offsets.reverse();
-    // }
+    if (verticalRE.test(placement)) {
+      offsets.reverse();
+    }
 
     return [
       {
         name: "arrow",
-        enabled: !this.disablePointer,
+        enabled: !disablePointer,
         options: {
-          element: this.arrowEl
+          element: arrowEl // todo
         }
-        // preventOverflow: {
-        //   enabled: true,
-        //   boundariesElement: _boundariesElement || "viewport",
-        //   escapeWithReference: true
-        // },
-        // flip: {
-        //   enabled: !disableFlip,
-        //   boundariesElement: _boundariesElement || "viewport",
-        //   flipVariationsByContent: true,
-        //   behavior: flipPlacements || "flip"
-        // },
-        // inner: {
-        //   enabled: flowInner
-        // },
-        // offset: {
-        //   enabled: !!offsetEnabled,
-        //   offset: offsets.join(",")
-        // }
+      },
+      {
+        name: "flip",
+        enabled: !disableFlip,
+        options: {
+          fallbackPlacements: flipPlacements // todo
+        }
+      },
+      {
+        name: "offset",
+        enabled: !!offsetEnabled,
+        options: {
+          offset: offsets
+        }
       }
     ];
   }
