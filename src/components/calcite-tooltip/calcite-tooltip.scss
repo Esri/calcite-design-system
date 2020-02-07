@@ -6,6 +6,20 @@
   left: -999999px;
 }
 
+.tooltip-arrow,
+.tooltip-arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: -1;
+}
+
+.tooltip-arrow::before {
+  content: "";
+  transform: rotate(45deg);
+  background: #333;
+}
+
 .tooltip-container {
   visibility: hidden;
   position: relative;
@@ -37,6 +51,3 @@
   overflow: hidden;
   @include font-size(-3);
 }
-
-@include popperPointer(".tooltip-content-container");
-@include popperMargin(".tooltip-container");

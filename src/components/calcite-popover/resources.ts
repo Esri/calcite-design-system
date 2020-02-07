@@ -1,7 +1,7 @@
 export const CSS = {
   container: "container",
+  arrow: "arrow",
   containerOpen: "container--open",
-  containerPointer: "container--pointer",
   contentContainer: "content-container",
   imageContainer: "image-container",
   closeButton: "close-button",

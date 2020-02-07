@@ -1,4 +1,5 @@
 $image_max_height: 200px;
+$pointer_size: 8px;
 
 :host {
   display: block;
@@ -6,6 +7,36 @@ $image_max_height: 200px;
   z-index: 999;
   top: -999999px;
   left: -999999px;
+}
+
+.arrow,
+.arrow::before {
+  position: absolute;
+  width: $pointer_size;
+  height: $pointer_size;
+  z-index: -1;
+}
+
+.arrow::before {
+  content: "";
+  transform: rotate(45deg);
+  background: var(--calcite-ui-foreground);
+}
+
+:host([data-popper-placement^="top"]) > .arrow {
+  bottom: -$pointer_size/2;
+}
+
+:host([data-popper-placement^="bottom"]) > .arrow {
+  top: -$pointer_size/2;
+}
+
+:host([data-popper-placement^="left"]) > .arrow {
+  right: -$pointer_size/2;
+}
+
+:host([data-popper-placement^="right"]) > .arrow {
+  left: -$pointer_size/2;
 }
 
 .container {
@@ -82,6 +113,3 @@ slot[name="image"]::slotted(img) {
   object-position: 50% 50%;
   object-fit: cover;
 }
-
-@include popperPointer(".container--pointer .content-container");
-@include popperMargin(".container--pointer");

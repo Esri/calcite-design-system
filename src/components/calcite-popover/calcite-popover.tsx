@@ -365,6 +365,9 @@ export class CalcitePopover {
   render() {
     const { _referenceElement, open, disablePointer } = this;
     const displayed = _referenceElement && open;
+    const arrowNode = !disablePointer ? (
+      <div class={CSS.arrow} ref={arrowEl => (this.arrowEl = arrowEl)}></div>
+    ) : null;
 
     return (
       <Host
@@ -372,12 +375,11 @@ export class CalcitePopover {
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >
-        <div ref={arrowEl => (this.arrowEl = arrowEl)}></div>
+        {arrowNode}
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerOpen]: displayed,
-            [CSS.containerPointer]: !disablePointer
+            [CSS.containerOpen]: displayed
           }}
         >
           <div class={CSS.contentContainer}>

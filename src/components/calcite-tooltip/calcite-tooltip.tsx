@@ -242,7 +242,7 @@ export class CalciteTooltip {
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >
-        <div ref={arrowEl => (this.arrowEl = arrowEl)}></div>
+        <div class={CSS.arrow} ref={arrowEl => (this.arrowEl = arrowEl)}></div>
         <div
           class={{
             [CSS.container]: true,
