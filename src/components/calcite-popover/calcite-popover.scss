@@ -7,20 +7,18 @@ $pointer_size: 8px;
   z-index: 999;
   top: -999999px;
   left: -999999px;
+  visibility: hidden;
 }
 
-:host(:not([open])) {
-  visibility: hidden !important;
-}
-
-:host([open]) {
-  visibility: visible;
-  box-shadow: $shadow-2;
-}
-
-:host([data-popper-escaped]) {
+:host([data-popper-escaped]),
+:host([aria-hidden="true"]) {
   visibility: hidden !important;
   pointer-events: none;
+}
+
+:host([aria-hidden="false"]) {
+  visibility: visible;
+  box-shadow: $shadow-2;
 }
 
 .arrow,
