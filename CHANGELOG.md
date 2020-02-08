@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Breaking Changes
+
+- `calcite-popover` and `calcite-tooltip` - Removed prop `boundariesElement`. Is no longer necessary with the latest version of [Popper](https://popper.js.org).
+- `calcite-popover` - Removed prop `flowInner`. Is no longer supported with the latest version of [Popper](https://popper.js.org). A user can use negative offset values instead.
+- `calcite-popover` - Renamed prop `xOffset` to `offsetDistance` to better match [popper API](https://popper.js.org/docs/v2/modifiers/offset/).
+- `calcite-popover` - Renamed prop `yOffset` to `offsetSkidding` to better match [popper API](https://popper.js.org/docs/v2/modifiers/offset/).
+
+### Fixed
+
+- `calcite-popover` - Fixed an issue with background color on the close button.
 
 ## [v1.0.0-beta.18] - Feb 3rd 2020
 
