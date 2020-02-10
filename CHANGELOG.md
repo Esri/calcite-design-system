@@ -17,19 +17,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - `calcite-popover` - Fixed an issue with background color on the close button.
+- Addressed RTL inconsistencies for `calcite-accordion`, `calcite-alert`, and `calcite-notice`
 
 ## [v1.0.0-beta.18] - Feb 3rd 2020
 
 ### Fixed
+
 - `calcite-icon` - fixed issue where icon would not load its icon data. #314
-- `calcite-tree` - long strings inside calcite-tree-item no longer overflow from calcite-tree. 
+- `calcite-tree` - long strings inside calcite-tree-item no longer overflow from calcite-tree.
 
 ## [v1.0.0-beta.17] - Jan 22nd 2020
 
 ### Breaking Changes
+
 - `calcite-progress` no longer accepts slotted content
 
 ### Added
+
 - new `calcite-pagination` component (#281)
 - `calcite-accordion` now accepts `transparent` as an `appearance` attribute value
 - `calcite-accordion` now accepts an `icon-type` attribute to specify icon type - "chevron" (default), "caret" or "plus-minus"
@@ -37,14 +41,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `setFocus()` added to `calcite-alert` - focuses a slotted link or a close button, if present
 - `calcite-loader` now accepts a `no-padding` boolean attribute
 - `calcitePopoverClose` and `calcitePopoverOpen` events added to `calcite-popover` component
-  
+
 ### Updated
+
 - `setFocus()` now focuses the first element in a `calcite-notice` - a slotted link or a close button, if present
 - styling fixes for `calcite-button`, `calcite-dropdown`
 
 ## [v1.0.0-beta.16] - Dec 19th 2019
 
 ### Added
+
 - new `calcite-icon` component
 - new `CalciteModal.focusElement` method for restoring focus to an element in a modal
 - `calcite-button` now accepts boolean attributes `round` and `floating`
@@ -52,17 +58,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - the close button of a `dismissible` `calcite-notice` can now be programmatically focused with the `setFocus()` method
 
 ### Fixed
+
 - fixes for date picker in Edge (#257)
 
 ## [v1.0.0-beta.15] - Nov 26th 2019
 
 ### Fixed
+
 - `calcite-date-picker` - Corrected date picker calendar opening up on null or no value property.
 - `calcite-date-picker` - Change of input value updates the calendar to show same date.
 
 ## [v1.0.0-beta.14] - Nov 18th 2019
 
 ### Breaking Changes
+
 - `calcite-button` - `iconposition` attribute updated to `icon-position`
 - `calcite-dropdown-group` - `grouptitle` attribute updated to `group-title`
 - `calcite-dropdown-item` - `linktitle` attribute updated to `link-title`
@@ -74,6 +83,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-alerts` has been removed
 
 ### Added
+
 - `calcite-notice` - new component has been added
 - `calcite-alert` - `scale` is now available as a configurable attribute
 - `calcite-dropdown` now has configurable `selection-mode` (#220)
@@ -81,27 +91,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-dropdown` now has configurable `type` - click or hover (#220)
 
 ### Fixed
+
 - Fix for `calcite-dropdown` taking up height when closed (#213)
 - Fixed incorrect dark theme color, other styling updates
 
 ## [v1.0.0-beta.13] - Nov 11th 2019
+
 ### Added
+
 - Added accordion component (#10)
 - New `ScrollContent` method on modals, which allows manipulating scroll position of modal content
 - Border radius on popover (#218)
 
 ### Fixed
+
 - Fix clicks of radio group item in Edge (#139)
 - Fix clicks of calcite-switch in Edge (#138)
 - Fix `calcite-button` of type `submit` (#193)
 - Fix `calcite-dropdown` focus style (#181)
 
 ### Updated
+
 - Improved modal styling (#191)
 
 ## [v1.0.0-beta.12] - Nov 1st 2019
 
 ### Updated
+
 - Medium modals are now a more readable line length (#205)
 - Popover modifier enhancements (#207)
 - Progress component style
@@ -110,6 +126,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Popover and tooltip shadow / caret style
 
 ### Fixed
+
 - Fix back and secondary slots in modal (#209)
 - Make docked modal's content section visible on mobile (#203)
 - Fix display of modals in edge (#135)
@@ -119,24 +136,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [v1.0.0-beta.11] - Oct 22nd 2019
 
 ### Fixed
+
 - Fixes to popup styling
 - Fixes duplicate id in button component
 - Fixes for tree nav in Edge
 - Fixes for toggle styling
 
 ### Added
+
 - Added tooltip component
 - Added configuration options for Popover
 
 ## [v1.0.0-beta.10] - Sep 19th 2019
 
 ### Fixed
+
 - Fixed trees with strange nesting
 - Edge fixes for alerts, dropdowns, buttons
 - Fixed button container styling
 - Fixed button appearance inline / no href tab issue
 
 ### Added
+
 - Added popover component
 
 ## [v1.0.0-beta.9] - Sep 9th 2019
