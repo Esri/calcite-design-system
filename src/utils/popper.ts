@@ -73,12 +73,12 @@ export function updatePopper({
   });
 }
 
-export function pythagorean(sideA: number, sideB: number): number {
+export function hypotenuse(sideA: number, sideB: number): number {
   return Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
 }
 
 const visiblePointerSize = 4;
 
 export const defaultOffsetDistance = Math.ceil(
-  pythagorean(visiblePointerSize, visiblePointerSize)
+  hypotenuse(visiblePointerSize, visiblePointerSize)
 );

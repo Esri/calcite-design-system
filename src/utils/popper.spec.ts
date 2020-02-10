@@ -1,4 +1,4 @@
-import { getPlacement, defaultOffsetDistance, pythagorean } from "./popper";
+import { getPlacement, defaultOffsetDistance, hypotenuse } from "./popper";
 
 it("should set calcite placement to popper placement", () => {
   const el = document.createElement("div");
@@ -24,6 +24,6 @@ it("should have correct value for defaultOffsetDistance", () => {
   expect(defaultOffsetDistance).toBe(6);
 });
 
-it("should correctly calculate pythagorean", () => {
-  expect(Math.floor(pythagorean(4, 4))).toBe(5);
+it("should correctly calculate hypotenuse", () => {
+  expect(Math.floor(hypotenuse(4, 4))).toBe(5);
 });
