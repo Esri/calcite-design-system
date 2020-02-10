@@ -74,6 +74,12 @@
   flex-direction: column;
   text-align: initial;
 }
+
+:host([dir="rtl"]) .accordion-item-header-text {
+  margin-left: auto;
+  margin-right: 0;
+}
+
 :host .accordion-item-title,
 :host .accordion-item-subtitle {
   display: flex;
