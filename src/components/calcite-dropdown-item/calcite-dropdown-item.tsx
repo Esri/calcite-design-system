@@ -53,6 +53,12 @@ export class CalciteDropdownItem {
   /** pass an optional title for rendered href */
   @Prop() linkTitle?: string;
 
+  /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /** optionally pass an icon to display at the end of an item - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconEnd?: string;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -82,36 +88,54 @@ export class CalciteDropdownItem {
     const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
     const scale = getElementProp(this.el, "scale", "m");
-    if (!this.href) {
-      return (
-        <Host
-          theme={theme}
-          dir={dir}
-          scale={scale}
-          tabindex="0"
-          role="menuitem"
-          aria-selected={this.active.toString()}
-        >
-          <slot />
-        </Host>
+    const iconScale = scale === "s" || scale === "m" ? "s" : "m";
+    const iconStartEl = (
+      <calcite-icon
+        class="dropdown-item-icon-start"
+        icon={this.iconStart}
+        scale={iconScale}
+      ></calcite-icon>
+    );
+    const iconEndEl = (
+      <calcite-icon
+        class="dropdown-item-icon-end"
+        icon={this.iconEnd}
+        scale={iconScale}
+      ></calcite-icon>
+    );
+
+    const slottedContent =
+      this.iconStart && this.iconEnd ? (
+        [iconStartEl, <slot />, iconEndEl]
+      ) : this.iconStart ? (
+        [iconStartEl, <slot />]
+      ) : this.iconEnd ? (
+        [<slot />, iconEndEl]
+      ) : (
+        <slot />
       );
-    } else {
-      return (
-        <Host
-          theme={theme}
-          dir={dir}
-          scale={scale}
-          tabindex="0"
-          role="menuitem"
-          aria-selected={this.active.toString()}
-          isLink
-        >
-          <a href={this.href} title={this.linkTitle}>
-            <slot />
-          </a>
-        </Host>
-      );
-    }
+
+    const contentEl = !this.href ? (
+      slottedContent
+    ) : (
+      <a href={this.href} title={this.linkTitle}>
+        {slottedContent}
+      </a>
+    );
+
+    return (
+      <Host
+        theme={theme}
+        dir={dir}
+        scale={scale}
+        tabindex="0"
+        role="menuitem"
+        aria-selected={this.active.toString()}
+        isLink={this.href}
+      >
+        {contentEl}
+      </Host>
+    );
   }
 
   //--------------------------------------------------------------------------
