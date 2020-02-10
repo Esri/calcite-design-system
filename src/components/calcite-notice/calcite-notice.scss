@@ -71,6 +71,8 @@
 
 :host([dir="rtl"]) {
   text-align: right;
+  border-left: none;
+  border-right: 0px solid;
 }
 
 :host([active]) {
@@ -78,7 +80,7 @@
   opacity: 1;
   max-height: 100%;
   pointer-events: initial;
-  border-left-width: 3px;
+  border-width: 3px;
   box-shadow: $shadow-1;
 }
 
@@ -116,23 +118,23 @@
   padding: var(--calcite-notice-spacing-token-small)
     var(--calcite-notice-spacing-token-small)
     var(--calcite-notice-spacing-token-small) 0;
-  &:first-of-type {
+
+  &:first-of-type:not(:only-child) {
     padding-left: var(--calcite-notice-spacing-token-large);
   }
-  &:last-of-type:not(:only-of-type) {
-    padding-right: var(--calcite-notice-spacing-token-large);
+  &:only-child {
+    padding: var(--calcite-notice-spacing-token-small);
   }
 }
 
 :host([dir="rtl"]) {
   .notice-content {
-    &:first-of-type {
+    padding: var(--calcite-notice-spacing-token-small) 0
+      var(--calcite-notice-spacing-token-small)
+      var(--calcite-notice-spacing-token-small);
+
+    &:first-of-type:not(:only-child) {
       padding-right: var(--calcite-notice-spacing-token-large);
-      padding-left: initial;
-    }
-    &:last-of-type:not(:only-of-type) {
-      padding-left: var(--calcite-notice-spacing-token-large);
-      padding-right: initial;
     }
   }
 }
@@ -169,7 +171,7 @@ $noticeColors: "blue" var(--calcite-ui-blue), "red" var(--calcite-ui-red),
   $color: nth($noticeColor, 2);
 
   :host([color="#{$name}"]) {
-    border-left-color: $color;
+    border-color: $color;
     & .notice-icon {
       color: $color;
     }

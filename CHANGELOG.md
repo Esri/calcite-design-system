@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Fixed
+- Addressed RTL inconsistencies for `calcite-accordion`, `calcite-alert`, and `calcite-notice`
 
 ## [v1.0.0-beta.18] - Feb 3rd 2020
 
