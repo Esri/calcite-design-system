@@ -103,7 +103,7 @@ export class CalciteAccordion {
   render() {
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir} tabindex="-1">
+      <Host dir={dir}>
         <slot />
       </Host>
     );
