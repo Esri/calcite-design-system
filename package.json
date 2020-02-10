@@ -17,6 +17,7 @@
   "scripts": {
     "build": "npm run copy-icons && stencil build",
     "copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.js ./src/components/calcite-icon/assets",
+    "deps:update": "updtr --ex @types/jest @types/puppeteer jest jest-cli puppeteer && git add package*.json && git commit -q -m \"build(deps): bump versions\"",
     "start": "npm run copy-icons && stencil build --dev --watch --serve",
     "test": "npm run copy-icons && stencil test --spec --e2e",
     "test.watch": "npm run copy-icons && stencil test --spec --e2e --watchAll",
@@ -70,6 +71,7 @@
     "prettier": "1.18.2",
     "puppeteer": "1.19.0",
     "storybook": "^5.3.3",
+    "updtr": "3.1.0",
     "workbox-build": "4.3.1"
   },
   "license": "Apache-2.0"

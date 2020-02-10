@@ -4,43 +4,9 @@ import { sass } from "@stencil/sass";
 export const config: Config = {
   namespace: "calcite",
   bundles: [
-    {
-      components: ["calcite-switch"]
-    },
-    {
-      components: ["calcite-notice"]
-    },
-    {
-      components: [
-        "calcite-tab",
-        "calcite-tab-title",
-        "calcite-tab-nav",
-        "calcite-tabs"
-      ]
-    },
-    {
-      components: ["calcite-accordion", "calcite-accordion-item"]
-    },
-    { components: ["calcite-label"] },
-    {
-      components: ["calcite-input", "calcite-input-message"]
-    },
-    {
-      components: [
-        "calcite-dropdown",
-        "calcite-dropdown-group",
-        "calcite-dropdown-item"
-      ]
-    },
-    { components: ["calcite-popover"] },
-    { components: ["calcite-progress"] },
+    { components: ["calcite-accordion", "calcite-accordion-item"] },
     { components: ["calcite-alert"] },
-    { components: ["calcite-loader"] },
-    {
-      components: ["calcite-radio-group", "calcite-radio-group-item"]
-    },
-    { components: ["calcite-slider"] },
-    { components: ["calcite-modal"] },
+    { components: ["calcite-button"] },
     {
       components: [
         "calcite-date-picker",
@@ -49,8 +15,35 @@ export const config: Config = {
         "calcite-date-day"
       ]
     },
-    { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-icon"] }
+    {
+      components: [
+        "calcite-dropdown",
+        "calcite-dropdown-group",
+        "calcite-dropdown-item"
+      ]
+    },
+    { components: ["calcite-icon"] },
+    { components: ["calcite-input", "calcite-input-message"] },
+    { components: ["calcite-label"] },
+    { components: ["calcite-loader"] },
+    { components: ["calcite-modal"] },
+    { components: ["calcite-notice"] },
+    { components: ["calcite-pagination"] },
+    { components: ["calcite-popover"] },
+    { components: ["calcite-progress"] },
+    { components: ["calcite-radio-group", "calcite-radio-group-item"] },
+    { components: ["calcite-slider"] },
+    { components: ["calcite-switch"] },
+    {
+      components: [
+        "calcite-tab",
+        "calcite-tab-title",
+        "calcite-tab-nav",
+        "calcite-tabs"
+      ]
+    },
+    { components: ["calcite-tooltip"] },
+    { components: ["calcite-tree", "calcite-tree-item"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
@@ -60,9 +53,7 @@ export const config: Config = {
       type: "www",
       baseUrl: "https://stenciljs.com/",
       prerenderConfig: "./prerender.config.js",
-      copy: [
-        { src: "demos", dest: "demos" }
-      ],
+      copy: [{ src: "demos", dest: "demos" }],
       serviceWorker: {
         unregister: true
       }
@@ -78,5 +69,8 @@ export const config: Config = {
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js"
     }
+  },
+  extras: {
+    appendChildSlotFix: true
   }
 };

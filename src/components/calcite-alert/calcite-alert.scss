@@ -144,8 +144,11 @@
     var(--calcite-alert-spacing-token-small)
     var(--calcite-alert-spacing-token-small) 0;
 
-  &:first-of-type {
+  &:first-of-type:not(:only-child) {
     padding-left: var(--calcite-alert-spacing-token-large);
+  }
+  &:only-child {
+    padding: var(--calcite-alert-spacing-token-small);
   }
 
   @media only screen and (max-width: $viewport-medium) {
@@ -157,9 +160,12 @@
 
 :host([dir="rtl"]) {
   .alert-content {
-    &:first-of-type {
+    padding: var(--calcite-alert-spacing-token-small) 0
+      var(--calcite-alert-spacing-token-small)
+      var(--calcite-alert-spacing-token-small);
+
+    &:first-of-type:not(:only-child) {
       padding-right: var(--calcite-alert-spacing-token-large);
-      padding-left: none;
     }
     @media only screen and (max-width: $viewport-medium) {
       padding: var(--calcite-alert-spacing-token-large) 0
@@ -182,6 +188,8 @@
   outline: none;
   cursor: pointer;
   color: var(--calcite-ui-text-3);
+  overflow: hidden;
+  border-radius: 0 0 var(--calcite-border-radius) 0;
 
   &:hover,
   &:focus {
@@ -191,17 +199,15 @@
   &:active {
     background-color: var(--calcite-ui-foreground-press);
   }
+  @media only screen and (max-width: $viewport-medium) {
+    border-radius: 0;
+  }
 }
-
 :host([dir="rtl"]) {
   .alert-close {
     border-radius: 0 0 0 var(--calcite-border-radius);
-    @media only screen and (max-width: $viewport-medium) {
-      border-radius: 0;
-    }
   }
 }
-
 .alert-count {
   @include font-size(-2);
   display: flex;
