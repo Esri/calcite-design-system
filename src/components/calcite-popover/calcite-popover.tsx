@@ -13,20 +13,16 @@ import {
 import { CSS } from "./resources";
 import {
   CalcitePlacement,
-  getPlacement,
-  defaultOffsetDistance
-} from "../../utils/popper";
-import {
+  defaultOffsetDistance,
   createPopper,
-  Instance as Popper,
-  Modifier,
-  Placement
-} from "@popperjs/core";
+  updatePopper
+} from "../../utils/popper";
+import { Modifier, Placement, Instance as Popper } from "@popperjs/core";
 import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
 import { x16 } from "@esri/calcite-ui-icons";
 import CalciteIcon from "../../utils/CalciteIcon";
 import { guid } from "../../utils/guid";
-import { hydratedInvisibleClass } from "../../utils/dom";
+import { HOST_CSS } from "../../utils/dom";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -189,9 +185,17 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   @Method() async reposition(): Promise<void> {
-    const { popper } = this;
+    const { popper, el, placement } = this;
+    const modifiers = this.getModifiers();
 
-    popper ? this.updatePopper(popper) : this.createPopper();
+    popper
+      ? updatePopper({
+          el,
+          modifiers,
+          placement,
+          popper
+        })
+      : this.createPopper();
   }
 
   @Method() async toggle(): Promise<void> {
@@ -295,31 +299,18 @@ export class CalcitePopover {
     return [arrowModifier, flipModifier, offsetModifier];
   }
 
-  updatePopper(popper: Popper): void {
-    const { el, placement } = this;
-
-    const options = {
-      placement: getPlacement(el, placement),
-      modifiers: this.getModifiers()
-    };
-
-    popper.setOptions(options);
-  }
-
   createPopper(): void {
     this.destroyPopper();
-    const { el, open, placement, _referenceElement } = this;
+    const { el, open, placement, _referenceElement: referenceEl } = this;
+    const modifiers = this.getModifiers();
 
-    if (!_referenceElement || !open) {
-      return;
-    }
-
-    const newPopper = createPopper(_referenceElement, el, {
-      placement: getPlacement(el, placement),
-      modifiers: this.getModifiers()
+    this.popper = createPopper({
+      el,
+      modifiers,
+      open,
+      placement,
+      referenceEl
     });
-
-    this.popper = newPopper;
   }
 
   destroyPopper(): void {
@@ -376,7 +367,7 @@ export class CalcitePopover {
       <Host
         role="dialog"
         class={{
-          [hydratedInvisibleClass]: !displayed
+          [HOST_CSS.hydratedInvisible]: !displayed
         }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}

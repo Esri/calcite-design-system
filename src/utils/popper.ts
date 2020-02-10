@@ -1,4 +1,9 @@
-import { Placement } from "@popperjs/core";
+import {
+  Placement,
+  Instance as Popper,
+  createPopper as setupPopper,
+  Modifier
+} from "@popperjs/core";
 import { getElementDir } from "../utils/dom";
 
 type PlacementRtl =
@@ -26,6 +31,54 @@ export function getPlacement(
     .replace(/trailing/gi, values[1]) as Placement;
 }
 
-const pointerSize = 8;
-const pSide = Math.pow(pointerSize / 2, 2);
-export const defaultOffsetDistance = Math.ceil(Math.sqrt(pSide + pSide));
+export function createPopper({
+  referenceEl,
+  el,
+  open,
+  placement,
+  modifiers
+}: {
+  el: HTMLElement;
+  modifiers: Partial<Modifier<any>>[];
+  open: boolean;
+  placement: CalcitePlacement;
+  referenceEl: HTMLElement;
+}): Popper | null {
+  if (!referenceEl || !open) {
+    return null;
+  }
+
+  return setupPopper(referenceEl, el, {
+    placement: getPlacement(el, placement),
+    modifiers
+  });
+}
+
+export function updatePopper({
+  el,
+  modifiers,
+  placement: calcitePlacement,
+  popper
+}: {
+  el: HTMLElement;
+  modifiers: Partial<Modifier<any>>[];
+  popper: Popper;
+  placement: CalcitePlacement;
+}): void {
+  const placement = getPlacement(el, calcitePlacement);
+
+  popper.setOptions({
+    modifiers,
+    placement
+  });
+}
+
+export function pythagorean(sideA: number, sideB: number): number {
+  return Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
+}
+
+const visiblePointerSize = 4;
+
+export const defaultOffsetDistance = Math.ceil(
+  pythagorean(visiblePointerSize, visiblePointerSize)
+);

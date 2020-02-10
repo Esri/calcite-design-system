@@ -9,14 +9,15 @@ import {
   h
 } from "@stencil/core";
 import { CSS } from "./resources";
-import { createPopper, Instance as Popper, Modifier } from "@popperjs/core";
+import { Modifier, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
   CalcitePlacement,
-  getPlacement,
-  defaultOffsetDistance
+  defaultOffsetDistance,
+  createPopper,
+  updatePopper
 } from "../../utils/popper";
-import { hydratedInvisibleClass } from "../../utils/dom";
+import { HOST_CSS } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -129,9 +130,17 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   @Method() async reposition(): Promise<void> {
-    const { popper } = this;
+    const { popper, el, placement } = this;
+    const modifiers = this.getModifiers();
 
-    popper ? this.updatePopper(popper) : this.createPopper();
+    popper
+      ? updatePopper({
+          el,
+          modifiers,
+          placement,
+          popper
+        })
+      : this.createPopper();
   }
 
   // --------------------------------------------------------------------------
@@ -221,32 +230,19 @@ export class CalciteTooltip {
     return [arrowModifier, offsetModifier];
   }
 
-  updatePopper(popper: Popper): void {
-    const { el, placement } = this;
-
-    const options = {
-      placement: getPlacement(el, placement),
-      modifiers: this.getModifiers()
-    };
-
-    popper.setOptions(options);
-  }
-
   createPopper(): void {
     this.destroyPopper();
 
-    const { _referenceElement, el, open, placement } = this;
+    const { el, open, placement, _referenceElement: referenceEl } = this;
+    const modifiers = this.getModifiers();
 
-    if (!_referenceElement || !open) {
-      return;
-    }
-
-    const newPopper = createPopper(_referenceElement, el, {
-      placement: getPlacement(el, placement),
-      modifiers: this.getModifiers()
+    this.popper = createPopper({
+      el,
+      modifiers,
+      open,
+      placement,
+      referenceEl
     });
-
-    this.popper = newPopper;
   }
 
   destroyPopper(): void {
@@ -273,7 +269,7 @@ export class CalciteTooltip {
       <Host
         role="tooltip"
         class={{
-          [hydratedInvisibleClass]: !displayed
+          [HOST_CSS.hydratedInvisible]: !displayed
         }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
