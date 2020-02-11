@@ -62,6 +62,8 @@ export class CalciteComboboxItem {
 
   hasDefaultSlot: boolean;
 
+  anchorElement: HTMLAnchorElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -100,6 +102,13 @@ export class CalciteComboboxItem {
     }
 
     this.isSelected = typeof coerce === "boolean" ? coerce : !this.isSelected;
+  }
+
+  /**
+   * Used to set keyboard focus on the internal anchor tag.
+   */
+  @Method() async setFocus() {
+    this.anchorElement.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -145,7 +154,7 @@ export class CalciteComboboxItem {
     const classes= {[CSS.label]: true, [CSS.selected]: this.isSelected };
     return (
       <Host role="option" aria-selected={this.isSelected} disabled={this.disabled} >
-        <a class={classes} onClick={this.itemClickHandler} href="#" >
+        <a class={classes} onClick={this.itemClickHandler} href="#" ref={(el) => this.anchorElement = el as HTMLAnchorElement} >
           {this.renderIcon()}
           <span class={CSS.title}>{this.textLabel}</span>
         </a>

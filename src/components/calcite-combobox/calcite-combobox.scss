@@ -7,10 +7,13 @@
 }
 
 :host(:focus-within) {
-  border: 1px solid var(--calcite-ui-border-1)
+  border: 1px solid var(--calcite-ui-border-1);
 }
 :host(:focus-within) .list {
   display: block;
+}
+.focus-within {
+  border: 1px solid var(--calcite-ui-border-1);
 }
 .focus-within .list {
   display: block;

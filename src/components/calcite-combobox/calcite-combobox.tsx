@@ -43,6 +43,8 @@ export class CalciteCombobox {
 
   items: Array<HTMLCalciteComboboxItemElement> = null;
 
+  activeItemIndex = -1; //item that has current focus
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -134,6 +136,37 @@ export class CalciteCombobox {
     return result;
   }
 
+  comboboxKeyDownHandler = (event: KeyboardEvent) => {
+    let activeItem = this.activeItemIndex;
+    switch (event.key) {
+      case "ArrowUp":
+        activeItem--;
+        break;
+      case "ArrowDown":
+        activeItem++;
+        break;
+      default:
+        return;
+    }
+    activeItem = (activeItem < 0)
+      ? this.items.length-1
+      : (activeItem > this.items.length-1)
+        ? 0
+        : activeItem;
+    this.items[activeItem].setFocus();
+    this.activeItemIndex = activeItem;
+  }
+
+  listboxFocusHandler = () => {
+    if ( this.activeItemIndex !== -1) {
+      this.items[this.activeItemIndex].setFocus();
+    }
+  }
+
+  comboboxFocusInHandler = function() {
+    console.log(this);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -143,7 +176,7 @@ export class CalciteCombobox {
   render() {
     const listBoxId = 'listbox';
     return (
-      <Host>
+      <Host onKeyDown={this.comboboxKeyDownHandler} onFocusin={this.comboboxFocusInHandler}>
         <div role="combobox" aria-expanded="false" aria-owns={listBoxId} aria-haspopup="listbox">
           <span class="selections">
             {
@@ -157,7 +190,7 @@ export class CalciteCombobox {
             disabled={this.disabled}
             ref={(el) => this.textInput = el as HTMLInputElement} />
         </div>
-        <ul id={listBoxId} role="listbox" class={{"list": true}} tabindex="0" aria-multiselectable="true">
+        <ul id={listBoxId} role="listbox" class={{"list": true}} tabindex="0" aria-multiselectable="true" onFocus={this.listboxFocusHandler}>
           <slot />
         </ul>
       </Host>
