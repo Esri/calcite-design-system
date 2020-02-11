@@ -8,6 +8,51 @@ describe("calcite-label", () => {
     expect(label).toHaveClass("hydrated");
   });
 
+  it("renders default props when none are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label>
+    Label text
+    <calcite-input></calcite-input>
+    </calcite-label>
+    `);
+
+    const element = await page.find("calcite-label");
+    expect(element).toEqualAttribute("status", "idle");
+    expect(element).toEqualAttribute("theme", "light");
+    expect(element).toEqualAttribute("layout", "default");
+  });
+
+  it("renders default props when invalid props are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label status="zip" theme="zap" layout="zot">
+    Label text
+    <calcite-input></calcite-input>
+    </calcite-label>
+    `);
+
+    const element = await page.find("calcite-label");
+    expect(element).toEqualAttribute("status", "idle");
+    expect(element).toEqualAttribute("theme", "light");
+    expect(element).toEqualAttribute("layout", "default");
+  });
+
+  it("renders requested props when valid props are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label status="invalid" theme="dark" layout="inline-space-between">
+    Label text
+    <calcite-input></calcite-input>
+    </calcite-label>
+    `);
+
+    const element = await page.find("calcite-label");
+    expect(element).toEqualAttribute("status", "invalid");
+    expect(element).toEqualAttribute("theme", "dark");
+    expect(element).toEqualAttribute("layout", "inline-space-between");
+  });
+
   it("focuses a requested, non-wrapped input", async () => {
     const page = await newE2EPage();
     await page.setContent(`

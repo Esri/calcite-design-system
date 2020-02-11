@@ -69,8 +69,8 @@ export class CalciteLabel {
     const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
     return (
-      <Host {...attributes} theme={theme} dir={dir}>
-        <label>
+      <Host theme={theme} dir={dir}>
+        <label {...attributes}>
           <slot />
         </label>
       </Host>
@@ -149,7 +149,7 @@ export class CalciteLabel {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = ["status", "theme"];
+    let props = ["status", "layout", "theme"];
     return Array.from(this.el.attributes)
       .filter(a => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
