@@ -9,9 +9,15 @@ import {
   h
 } from "@stencil/core";
 import { CSS } from "./resources";
-import Popper from "popper.js";
+import { Modifier, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { CalcitePlacement, getPlacement } from "../../utils/popper";
+import {
+  CalcitePlacement,
+  defaultOffsetDistance,
+  createPopper,
+  updatePopper
+} from "../../utils/popper";
+import { HOST_CSS } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -26,14 +32,22 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   /**
-   *  HTMLElement Used to position this component within the a boundary.
+   * Offset the position of the popover away from the reference element.
    */
-  @Prop() boundariesElement?: HTMLElement | string;
+  @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
-  @Watch("boundariesElement")
-  boundariesElementHandler() {
-    this._boundariesElement = this.getBoundariesElement();
-    this.destroyPopper();
+  @Watch("offsetDistance")
+  offsetDistanceOffsetHandler() {
+    this.reposition();
+  }
+
+  /**
+   * Offset the position of the popover along the reference element.
+   */
+  @Prop({ reflect: true }) offsetSkidding = 0;
+
+  @Watch("offsetSkidding")
+  offsetSkiddingHandler() {
     this.reposition();
   }
 
@@ -45,7 +59,7 @@ export class CalciteTooltip {
   @Watch("open")
   openHandler(open: boolean) {
     if (open) {
-      this.reposition();
+      this.createPopper();
     } else {
       this.destroyPopper();
     }
@@ -72,8 +86,7 @@ export class CalciteTooltip {
     this._referenceElement = this.getReferenceElement();
     this.addReferenceListeners();
     this.addReferenceAria();
-    this.destroyPopper();
-    this.reposition();
+    this.createPopper();
   }
 
   /** Select theme (light or dark) */
@@ -89,7 +102,7 @@ export class CalciteTooltip {
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
 
-  @State() _boundariesElement: HTMLElement = this.getBoundariesElement();
+  arrowEl: HTMLDivElement;
 
   popper: Popper;
 
@@ -102,7 +115,7 @@ export class CalciteTooltip {
   componentDidLoad() {
     this.addReferenceListeners();
     this.addReferenceAria();
-    this.reposition();
+    this.createPopper();
   }
 
   componentDidUnload() {
@@ -117,9 +130,17 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   @Method() async reposition(): Promise<void> {
-    const { popper } = this;
+    const { popper, el, placement } = this;
+    const modifiers = this.getModifiers();
 
-    popper ? this.updatePopper(popper) : this.createPopper();
+    popper
+      ? updatePopper({
+          el,
+          modifiers,
+          placement,
+          popper
+        })
+      : this.createPopper();
   }
 
   // --------------------------------------------------------------------------
@@ -187,55 +208,41 @@ export class CalciteTooltip {
     );
   }
 
-  getBoundariesElement(): HTMLElement {
-    const { boundariesElement } = this;
+  getModifiers(): Partial<Modifier<any>>[] {
+    const { arrowEl, offsetDistance, offsetSkidding } = this;
 
-    return (
-      (typeof boundariesElement === "string"
-        ? document.getElementById(boundariesElement)
-        : boundariesElement) || null
-    );
-  }
-
-  getModifiers(): Popper.Modifiers {
-    const { _boundariesElement } = this;
-
-    return {
-      preventOverflow: {
-        enabled: true,
-        boundariesElement: _boundariesElement || "viewport",
-        escapeWithReference: true
-      },
-      flip: {
-        enabled: true,
-        boundariesElement: _boundariesElement || "viewport",
-        flipVariationsByContent: true
+    const arrowModifier: Partial<Modifier<any>> = {
+      name: "arrow",
+      enabled: true,
+      options: {
+        element: arrowEl
       }
     };
+
+    const offsetModifier: Partial<Modifier<any>> = {
+      name: "offset",
+      enabled: true,
+      options: {
+        offset: [offsetSkidding, offsetDistance]
+      }
+    };
+
+    return [arrowModifier, offsetModifier];
   }
 
   createPopper(): void {
-    const { _referenceElement, el, open, placement } = this;
+    this.destroyPopper();
 
-    if (!_referenceElement || !open) {
-      return;
-    }
+    const { el, open, placement, _referenceElement: referenceEl } = this;
+    const modifiers = this.getModifiers();
 
-    const newPopper = new Popper(_referenceElement, el, {
-      placement: getPlacement(el, placement),
-      modifiers: this.getModifiers()
+    this.popper = createPopper({
+      el,
+      modifiers,
+      open,
+      placement,
+      referenceEl
     });
-
-    this.popper = newPopper;
-  }
-
-  updatePopper(popper: Popper): void {
-    popper.options.placement = getPlacement(this.el, this.placement);
-    popper.options.modifiers = {
-      ...popper.options.modifiers,
-      ...this.getModifiers()
-    };
-    popper.scheduleUpdate();
   }
 
   destroyPopper(): void {
@@ -261,18 +268,15 @@ export class CalciteTooltip {
     return (
       <Host
         role="tooltip"
+        class={{
+          [HOST_CSS.hydratedInvisible]: !displayed
+        }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >
-        <div
-          class={{
-            [CSS.container]: true,
-            [CSS.containerOpen]: displayed
-          }}
-        >
-          <div class={CSS.contentContainer}>
-            <slot />
-          </div>
+        <div class={CSS.arrow} ref={arrowEl => (this.arrowEl = arrowEl)}></div>
+        <div class={CSS.container}>
+          <slot />
         </div>
       </Host>
     );

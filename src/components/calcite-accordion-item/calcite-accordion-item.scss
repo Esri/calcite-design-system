@@ -13,6 +13,10 @@
   color: var(--calcite-ui-text-1);
   & .accordion-item-content {
     display: block;
+    color: var(--calcite-ui-text-1);
+  }
+  & .accordion-item-header {
+    border-bottom-color: transparent;
   }
 }
 
@@ -28,7 +32,6 @@
 :host .accordion-item-header {
   padding: var(--calcite-accordion-item-padding);
   border-bottom: 1px solid var(--calcite-accordion-item-border);
-  transition: $transition;
 }
 
 :host .accordion-item-header * {
@@ -39,6 +42,8 @@
 
 :host .accordion-item-content {
   display: none;
+  color: var(--calcite-ui-text-3);
+  padding-top: 0;
 }
 
 // accordion item icon
@@ -47,11 +52,6 @@
   margin-right: var(--calcite-accordion-item-icon-spacing-end);
   color: var(--calcite-ui-text-3);
   transform: rotate(var(--calcite-accordion-item-icon-rotation));
-}
-
-:host(:hover),
-:host(:focus) {
-  color: var(--calcite-ui-blue);
 }
 
 :host([dir="rtl"]) .accordion-item-icon {

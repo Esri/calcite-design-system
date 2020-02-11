@@ -1,29 +1,10 @@
-:host {
-  display: block;
-  position: absolute;
-  z-index: 999;
-  top: -999999px;
-  left: -999999px;
-}
+@include popperHost();
+@include popperArrow();
 
-.tooltip-container {
-  visibility: hidden;
+.container {
   position: relative;
-  box-shadow: $shadow-2;
   border-radius: var(--calcite-border-radius);
   background: var(--calcite-ui-foreground);
-  overflow: hidden;
-}
-
-.tooltip-container--open {
-  visibility: visible;
-}
-
-:host([x-out-of-boundaries]) .tooltip-container {
-  visibility: hidden;
-}
-
-.tooltip-content-container {
   max-width: 300px;
   max-height: 300px;
   display: flex;
@@ -35,6 +16,3 @@
   overflow: hidden;
   @include font-size(-3);
 }
-
-@include popperPointer(".tooltip-content-container");
-@include popperMargin(".tooltip-container");

@@ -20,11 +20,11 @@ describe("calcite-popover", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "xOffset",
-        defaultValue: 0
+        propertyName: "offsetDistance",
+        defaultValue: 6
       },
       {
-        propertyName: "yOffset",
+        propertyName: "offsetSkidding",
         defaultValue: 0
       },
       {
@@ -37,6 +37,10 @@ describe("calcite-popover", () => {
       },
       {
         propertyName: "closeButton",
+        defaultValue: false
+      },
+      {
+        propertyName: "disableFlip",
         defaultValue: false
       },
       {
@@ -71,7 +75,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`
+      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`
     );
 
     const element = await page.find("calcite-popover");
@@ -84,31 +88,31 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const container = await page.find(`calcite-popover >>> .${CSS.container}`);
+    const popover = await page.find(`calcite-popover`);
 
-    expect(await container.isVisible()).toBe(false);
+    expect(await popover.isVisible()).toBe(false);
 
     element.setProperty("open", true);
 
     await page.waitForChanges();
 
-    expect(await container.isVisible()).toBe(true);
+    expect(await popover.isVisible()).toBe(true);
   });
 
   it("should accept referenceElement as string id", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
 
-    const container = await page.find(`calcite-popover >>> .${CSS.container}`);
+    const popover = await page.find(`calcite-popover`);
 
     await page.waitForChanges();
 
-    expect(await container.isVisible()).toBe(true);
+    expect(await popover.isVisible()).toBe(true);
 
     const element = await page.find("calcite-popover");
 
@@ -161,20 +165,20 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" add-click-handle>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-popover placement="auto" reference-element="ref" add-click-handle>content</calcite-popover><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
 
-    const container = await page.find(`calcite-popover >>> .${CSS.container}`);
+    const popover = await page.find(`calcite-popover`);
 
-    expect(await container.isVisible()).toBe(false);
+    expect(await popover.isVisible()).toBe(false);
 
     const ref = await page.find("#ref");
 
     await ref.click();
 
-    expect(await container.isVisible()).toBe(true);
+    expect(await popover.isVisible()).toBe(true);
   });
 
   it("should emit close event", async () => {

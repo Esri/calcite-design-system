@@ -10,18 +10,15 @@ storiesOf("Dropdown", module)
     "Simple",
     () => `
     <calcite-dropdown
-      alignment="${select(
-        "alignment",
-        { left: "left", right: "right", center: "center" },
-        "left"
-      )}"
-      scale="${select("scale", { s: "s", m: "m", l: "l" }, "m")}"
-      type="${select("type", { click: "click", hover: "hover" }, "click")}"
+      alignment="${select("alignment", ["left", "right"], "left")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      width="${select("width", ["s", "m", "l"], "m")}"
+      type="${select("type", ["click", "hover"], "click")}"
     >
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="${select(
         "group selection mode",
-        { single: "single", multi: "multi", none: "none" },
+        ["single", "multi", "none"],
         "single"
       )}" group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -33,16 +30,54 @@ storiesOf("Dropdown", module)
     { notes }
   )
   .add(
+    "With Icons",
+    () => `
+    <calcite-dropdown
+      alignment="${select("alignment", ["left", "right"], "left")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      width="${select("width", ["s", "m", "l"], "m")}"
+      type="${select("type", ["click", "hover"], "click")}"
+    >
+      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-dropdown-group selection-mode="${select(
+        "group selection mode",
+        ["single", "multi", "none"],
+        "single"
+      )}" group-title="Icon Start">
+      <calcite-dropdown-item icon-start="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group selection-mode="${select(
+        "group selection mode",
+        ["single", "multi", "none"],
+        "single"
+      )}" group-title="Icon End">
+      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group selection-mode="${select(
+        "group selection mode",
+        ["single", "multi", "none"],
+        "single"
+      )}" group-title="Icon Both">
+      <calcite-dropdown-item icon-start="list" icon-end="data-check" >List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid"  icon-end="data-check" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="table" icon-end="data-check" >Table</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  `,
+    { notes }
+  )
+  .add(
     "Groups and selection modes",
     () => `
   <calcite-dropdown
-    alignment="${select(
-      "alignment",
-      { left: "left", right: "right", center: "center" },
-      "left"
-    )}"
-    scale="${select("scale", { s: "s", m: "m", l: "l" }, "m")}"
-    type="${select("type", { click: "click", hover: "hover" }, "click")}"
+    alignment="${select("alignment", ["left", "right"], "left")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    width="${select("width", ["s", "m", "l"], "m")}"
+    type="${select("type", ["click", "hover"], "click")}"
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
@@ -68,18 +103,15 @@ storiesOf("Dropdown", module)
     () => `
     <calcite-dropdown
       theme="dark"
-      alignment="${select(
-        "alignment",
-        { left: "left", right: "right", center: "center" },
-        "left"
-      )}"
-      scale="${select("scale", { s: "s", m: "m", l: "l" }, "m")}"
-      type="${select("type", { click: "click", hover: "hover" }, "click")}"
+      alignment="${select("alignment", ["left", "right"], "left")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+       width="${select("width", ["s", "m", "l"], "m")}"
+      type="${select("type", ["click", "hover"], "click")}"
     >
       <calcite-button slot="dropdown-trigger" theme="dark">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="${select(
         "group selection mode",
-        { single: "single", multi: "multi", none: "none" },
+        ["single", "multi", "none"],
         "single"
       )}" group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -91,17 +123,55 @@ storiesOf("Dropdown", module)
     { notes, backgrounds: darkBackground }
   )
   .add(
+    "With Icons Dark mode",
+    () => `
+    <calcite-dropdown
+      theme="dark"
+      alignment="${select("alignment", ["left", "right"], "left")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      width="${select("width", ["s", "m", "l"], "m")}"
+      type="${select("type", ["click", "hover"], "click")}"
+    >
+      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-dropdown-group selection-mode="${select(
+        "group selection mode",
+        ["single", "multi", "none"],
+        "single"
+      )}" group-title="Icon Start">
+      <calcite-dropdown-item icon-start="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group selection-mode="${select(
+        "group selection mode",
+        ["single", "multi", "none"],
+        "single"
+      )}" group-title="Icon End">
+      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group selection-mode="${select(
+        "group selection mode",
+        ["single", "multi", "none"],
+        "single"
+      )}" group-title="Icon Both">
+      <calcite-dropdown-item icon-start="list" icon-end="data-check" >List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid"  icon-end="data-check" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="table" icon-end="data-check" >Table</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  `,
+  { notes, backgrounds: darkBackground }
+  )
+  .add(
     "Groups and selection modes dark mode",
     () => `
   <calcite-dropdown
     theme="dark"
-    alignment="${select(
-      "alignment",
-      { left: "left", right: "right", center: "center" },
-      "left"
-    )}"
-    scale="${select("scale", { s: "s", m: "m", l: "l" }, "m")}"
-    type="${select("type", { click: "click", hover: "hover" }, "click")}"
+    alignment="${select("alignment", ["left", "right"], "left")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    type="${select("type", ["click", "hover"], "click")}"
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
@@ -120,5 +190,5 @@ storiesOf("Dropdown", module)
     </calcite-dropdown-group>
   </calcite-dropdown>
 `,
-    { notes }
+{ notes, backgrounds: darkBackground }
   );
