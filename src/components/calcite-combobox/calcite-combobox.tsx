@@ -35,6 +35,8 @@ export class CalciteCombobox {
 
   @Element() el: HTMLElement;
 
+  @State() expanded = false;
+
   @State() selectedItems = [];
 
   textInput: HTMLInputElement = null;
@@ -44,6 +46,7 @@ export class CalciteCombobox {
   items: Array<HTMLCalciteComboboxItemElement> = null;
 
   activeItemIndex = -1; //item that has current focus
+
 
   // --------------------------------------------------------------------------
   //
@@ -157,14 +160,8 @@ export class CalciteCombobox {
     this.activeItemIndex = activeItem;
   }
 
-  listboxFocusHandler = () => {
-    if ( this.activeItemIndex !== -1) {
-      this.items[this.activeItemIndex].setFocus();
-    }
-  }
-
-  comboboxFocusInHandler = function() {
-    console.log(this);
+  comboboxFocusHandler = (event: KeyboardEvent) => {
+    this.expanded = event.type === "focusin";
   }
 
   //--------------------------------------------------------------------------
@@ -176,8 +173,8 @@ export class CalciteCombobox {
   render() {
     const listBoxId = 'listbox';
     return (
-      <Host onKeyDown={this.comboboxKeyDownHandler} onFocusin={this.comboboxFocusInHandler}>
-        <div role="combobox" aria-expanded="false" aria-owns={listBoxId} aria-haspopup="listbox">
+      <Host onKeyDown={this.comboboxKeyDownHandler} onFocusin={this.comboboxFocusHandler} onFocusout={this.comboboxFocusHandler}>
+        <div role="combobox" aria-expanded={this.expanded} aria-owns={listBoxId} aria-haspopup="listbox">
           <span class="selections">
             {
               this.selectedItems.map( (item) => {
@@ -190,7 +187,7 @@ export class CalciteCombobox {
             disabled={this.disabled}
             ref={(el) => this.textInput = el as HTMLInputElement} />
         </div>
-        <ul id={listBoxId} role="listbox" class={{"list": true}} tabindex="0" aria-multiselectable="true" onFocus={this.listboxFocusHandler}>
+        <ul id={listBoxId} role="listbox" class={{"list": true}} tabindex="0" aria-multiselectable="true">
           <slot />
         </ul>
       </Host>
