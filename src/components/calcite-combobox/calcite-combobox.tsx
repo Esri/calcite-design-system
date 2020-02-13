@@ -12,6 +12,7 @@ import {
 
 import 'focus-within-polyfill';
 import { filter } from "../../utils/filter";
+import { debounce } from "lodash-es";
 
 @Component({
   tag: "calcite-combobox",
@@ -45,8 +46,9 @@ export class CalciteCombobox {
 
   items: Array<HTMLCalciteComboboxItemElement> = null;
 
-  activeItemIndex = -1; //item that has current focus
+  visibleItems: Array<HTMLCalciteComboboxItemElement> = null;
 
+  activeItemIndex = -1; //item that has current focus
 
   // --------------------------------------------------------------------------
   //
@@ -56,6 +58,7 @@ export class CalciteCombobox {
 
   componentDidLoad() {
     this.items = Array.from(this.el.querySelectorAll("calcite-combobox-item"));
+    this.visibleItems = this.items;
     this.data = this.getItemData();
   }
 
@@ -86,7 +89,11 @@ export class CalciteCombobox {
 
   inputHandler = (event: Event): void => {
     const target = event.target as HTMLInputElement;
-    const filteredData = filter(this.data, target.value);
+    this.filterItems(target.value);
+  };
+
+  filterItems = debounce( (value) => {
+    const filteredData = filter(this.data, value);
     const values = filteredData.map((item) => item.value);
     this.items.forEach((item) => {
       const hasParent = item.parentElement.matches("calcite-combobox-item");
@@ -109,7 +116,9 @@ export class CalciteCombobox {
         }
       }
     });
-  }
+    this.visibleItems = Array.from(this.el.querySelectorAll("calcite-combobox-item:not([hidden])"));
+    this.activeItemIndex = -1;
+  } , 250);
 
   toggleSelection(item): void {
     if (!item.selected) {
@@ -152,11 +161,11 @@ export class CalciteCombobox {
         return;
     }
     activeItem = (activeItem < 0)
-      ? this.items.length-1
-      : (activeItem > this.items.length-1)
+      ? this.visibleItems.length-1
+      : (activeItem > this.visibleItems.length-1)
         ? 0
         : activeItem;
-    this.items[activeItem].setFocus();
+    this.visibleItems[activeItem].setFocus();
     this.activeItemIndex = activeItem;
   }
 
