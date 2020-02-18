@@ -40,6 +40,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+ - [calcite-button-with-overflow](../calcite-button-with-overflow)
+
 ### Depends on
 
 - [calcite-loader](../calcite-loader)
@@ -48,6 +52,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-button --> calcite-loader
+  calcite-button-with-overflow --> calcite-button
   style calcite-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

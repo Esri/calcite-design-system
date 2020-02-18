@@ -1,0 +1,41 @@
+# calcite-button-with-overflow
+
+
+
+<!-- Auto Generated Below -->
+
+
+## Properties
+
+| Property   | Attribute  | Description                                                                      | Type                                   | Default     |
+| ---------- | ---------- | -------------------------------------------------------------------------------- | -------------------------------------- | ----------- |
+| `color`    | `color`    | specify the color of the control, defaults to blue                               | `"blue" \| "dark" \| "light" \| "red"` | `"blue"`    |
+| `disabled` | `disabled` | is the control disabled                                                          | `boolean`                              | `undefined` |
+| `loading`  | `loading`  | optionally add a calcite-loader component to the control, disabling interaction. | `boolean`                              | `false`     |
+| `scale`    | `scale`    | specify the scale of the control, defaults to m                                  | `"l" \| "m" \| "s" \| "xl" \| "xs"`    | `"xs"`      |
+| `theme`    | `theme`    | Select theme (light or dark)                                                     | `"dark" \| "light"`                    | `"light"`   |
+
+
+## Dependencies
+
+### Depends on
+
+- [calcite-button](../calcite-button)
+- [calcite-dropdown](../calcite-dropdown)
+- [calcite-dropdown-group](../calcite-dropdown-group)
+- [calcite-dropdown-item](../calcite-dropdown-item)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-button-with-overflow --> calcite-button
+  calcite-button-with-overflow --> calcite-dropdown
+  calcite-button-with-overflow --> calcite-dropdown-group
+  calcite-button-with-overflow --> calcite-dropdown-item
+  calcite-button --> calcite-loader
+  style calcite-button-with-overflow fill:#f9f,stroke:#333,stroke-width:4px
+```
+
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

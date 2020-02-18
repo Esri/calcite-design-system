@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Button with Overflow</title>
+  <style>
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Button with Overflow</h1>
+  <div style="width:750px;position:relative;">
+    <h3>Example with Custom Dropdown Content</h3>
+    <calcite-button-with-overflow scale='xs' >
+      <calcite-button scale="xs" appearance="transparent" width="full">
+        Secondary Action
+      </calcite-button>
+      <calcite-button scale="xs" appearance="transparent" width="full">
+        Tertiary Action
+      </calcite-button>
+    </calcite-button-with-overflow>
+    <h3>Example with Custom Dropdown Content (RTL)</h3>
+    <div dir="rtl">
+      <calcite-button-with-overflow scale='xs' >
+        <calcite-button scale="xs" appearance="transparent" width="full">
+          Secondary Action
+        </calcite-button>
+        <calcite-button scale="xs" appearance="transparent" width="full">
+          Tertiary Action
+        </calcite-button>
+      </calcite-button-with-overflow>
+    </div>
+
+    <h3>Color</h3>
+    <div  style='display:flex;flex-direction:row;justify-content:space-between'>
+      <calcite-button-with-overflow scale='xs' >
+      </calcite-button-with-overflow>
+
+      <calcite-button-with-overflow scale='xs' color='red' >
+      </calcite-button-with-overflow>
+
+      <calcite-button-with-overflow scale='xs' color='light' >
+      </calcite-button-with-overflow>
+
+      <calcite-button-with-overflow scale='xs' color='dark' >
+      </calcite-button-with-overflow>
+    </div>
+
+    <h3>Color (Dark Mode)</h3>
+    <div class='demo-background-dark' style='display:flex;flex-direction:row;justify-content:space-between'>
+      <calcite-button-with-overflow scale='xs' theme='dark' >
+        <calcite-button scale="xs" appearance="transparent" width="full">
+          Secondary Action
+        </calcite-button>
+      </calcite-button-with-overflow>
+
+      <calcite-button-with-overflow scale='xs' color='red' theme='dark'>
+        <calcite-button scale="xs" appearance="transparent" width="full">
+          Secondary Action
+        </calcite-button>
+      </calcite-button-with-overflow>
+
+      <calcite-button-with-overflow scale='xs' color='light' theme='dark'>
+        <calcite-button scale="xs" appearance="transparent" width="full">
+          Secondary Action
+        </calcite-button>
+      </calcite-button-with-overflow>
+
+      <calcite-button-with-overflow scale='xs' color='dark' theme='dark'>
+        <calcite-button scale="xs" appearance="transparent" width="full">
+          Secondary Action
+        </calcite-button>
+      </calcite-button-with-overflow>
+    </div>
+
+    <h3>Disabled</h3>
+    <calcite-button-with-overflow scale='xs' disabled=true>
+    </calcite-button-with-overflow>
+
+    <h3>Loading</h3>
+
+    <calcite-button-with-overflow scale='xs' loading=true>
+    </calcite-button-with-overflow>
+  </div>
+
+
+</body>
+
+</html>

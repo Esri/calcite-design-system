@@ -1,0 +1,65 @@
+:host {
+  display: flex;
+  --calcite-button-light: #{$blk-010};
+  --calcite-button-light-text: #{$blk-220};
+  --calcite-button-dark: #{$blk-190};
+  --calcite-button-colored-dark-theme-text: #{$blk-230};
+}
+
+:host([color="blue"]) {
+  .divider-container {
+    background-color: var(--calcite-ui-blue)
+  }
+  &:host([theme="dark"]) {
+    .divider {
+      background-color: var(--calcite-button-colored-dark-theme-text)
+    }
+  }
+}
+
+:host([color="red"]) {
+  .divider-container {
+    background-color: var(--calcite-ui-red)
+  }
+  &:host([theme="dark"]) {
+    .divider {
+      background-color: var(--calcite-button-colored-dark-theme-text)
+    }
+  }
+}
+
+:host([color="light"]) {
+  .divider-container {
+    background-color: var(--calcite-button-light)
+  }
+
+  .divider {
+    background-color: var(--calcite-button-light-text)
+  }
+}
+
+:host([color="dark"]) {
+  .divider-container {
+    background-color: var(--calcite-button-dark)
+  }
+}
+
+:host([disabled]) {
+  .divider-container {
+    opacity: 0.4
+  }
+}
+
+.divider-container {
+  width: 1px;
+  display: flex;
+  align-items: center;
+  position: relative
+}
+
+.divider {
+  width: 1px;
+  height: 66.666%;
+  display: inline-block;
+  background-color: white
+}

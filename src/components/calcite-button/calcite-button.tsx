@@ -48,7 +48,8 @@ export class CalciteButton {
     | "solid"
     | "outline"
     | "clear"
-    | "inline" = "solid";
+    | "inline"
+    | "transparent" = "solid";
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
