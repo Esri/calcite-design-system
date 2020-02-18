@@ -25,19 +25,6 @@
 | `registerCalciteDropdownItem`  |             | `CustomEvent<any>` |
 
 
-## Dependencies
-
-### Used by
-
- - [calcite-button-with-overflow](../calcite-button-with-overflow)
-
-### Graph
-```mermaid
-graph TD;
-  calcite-button-with-overflow --> calcite-dropdown-item
-  style calcite-dropdown-item fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

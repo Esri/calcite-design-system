@@ -104,7 +104,7 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   @Listen("click") openDropdown(e) {
-    if (e.target.getAttribute("slot") === "dropdown-trigger" && !e.target.hasAttribute("disabled")) {
+    if (e.target.getAttribute("slot") === "dropdown-trigger") {
       this.openCalciteDropdown(e);
       e.preventDefault();
       e.stopPropagation();

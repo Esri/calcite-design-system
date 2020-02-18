@@ -71,34 +71,33 @@ export class CalciteButtonWithOverflow {
 
     return (
       <Host dir={dir}>
-        <calcite-button
-            color={this.color}
-            scale={this.scale}
-            loading={this.loading}
-            disabled={this.disabled}
-            theme={this.theme}>
-          Primary Option
-        </calcite-button>
-        <div class='divider-container'>
-          <div class='divider'/>
-        </div>
-        <calcite-dropdown
-            alignment={dir === "rtl" ? "right" : "left"}
-            theme={this.theme}
-            scale={this.scale === 'xs' ? 's' : this.scale === 'xl' ? 'l' : this.scale}>
-          <div slot="dropdown-trigger">
-            <calcite-button
-                class='dropdown-trigger'
-                slot="dropdown-trigger"
-                scale={this.scale}
-                color={this.color}
-                disabled={this.disabled}
-                theme={this.theme}>
-              <calcite-icon icon="caretDown" scale="s" filled={true}></calcite-icon>
-            </calcite-button>
+        <div>
+          <calcite-button
+              color={this.color}
+              scale={this.scale}
+              loading={this.loading}
+              disabled={this.disabled}
+              theme={this.theme}>
+            Primary Option
+          </calcite-button>
+          <div class='divider-container'>
+            <div class='divider'/>
           </div>
-          <slot />
-        </calcite-dropdown>
+          <calcite-dropdown
+              alignment={dir === "rtl" ? "right" : "left"}
+              theme={this.theme}
+              scale={this.scale === 'xs' ? 's' : this.scale === 'xl' ? 'l' : this.scale}>
+              <calcite-button
+                  slot="dropdown-trigger"
+                  scale={this.scale}
+                  color={this.color}
+                  disabled={this.disabled}
+                  theme={this.theme}>
+                <calcite-icon icon="caretDown" scale="s" filled={true}></calcite-icon>
+              </calcite-button>
+            <slot />
+          </calcite-dropdown>
+        </div>
       </Host>
     );
   }

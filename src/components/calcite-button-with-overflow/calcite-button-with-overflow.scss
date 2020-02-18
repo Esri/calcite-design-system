@@ -1,5 +1,12 @@
 :host {
-  display: flex;
+  > div {
+    display: flex;
+  }
+
+  calcite-icon {
+    pointer-events: none
+  }
+
   --calcite-button-light: #{$blk-010};
   --calcite-button-light-text: #{$blk-220};
   --calcite-button-dark: #{$blk-190};
@@ -15,6 +22,14 @@
       background-color: var(--calcite-button-colored-dark-theme-text)
     }
   }
+}
+
+calcite-dropdown > calcite-button {
+  height: 100%;
+}
+
+calcite-dropdown > calcite-button button {
+  height: 100%;
 }
 
 :host([color="red"]) {
@@ -45,8 +60,13 @@
 }
 
 :host([disabled]) {
+
   .divider-container {
     opacity: 0.4
+  }
+
+  calcite-dropdown > calcite-button {
+    pointer-events: none;
   }
 }
 
@@ -54,7 +74,6 @@
   width: 1px;
   display: flex;
   align-items: center;
-  position: relative
 }
 
 .divider {

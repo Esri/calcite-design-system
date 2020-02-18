@@ -50,6 +50,19 @@ You can combine groups in a single dropdown, with varying selection modes:
 | `type`      | `type`      | specify whether the dropdown is opened by hover or click of the trigger element | `"click" \| "hover"`            | `"click"` |
 
 
+## Dependencies
+
+### Used by
+
+ - [calcite-button-with-overflow](../calcite-button-with-overflow)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-button-with-overflow --> calcite-dropdown
+  style calcite-dropdown fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
