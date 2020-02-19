@@ -73,7 +73,7 @@ export class CalciteButton {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display - accepts calcite ui icon names  */
+  /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
   /** optionally used with icon, select where to position the icon */
@@ -153,7 +153,7 @@ export class CalciteButton {
         class="calcite-button--icon"
         icon={this.icon}
         scale={iconScale}
-      ></calcite-icon>
+      />
     );
 
     return (
