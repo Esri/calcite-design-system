@@ -3,8 +3,7 @@ import {
   withKnobs,
   boolean,
   select,
-  number,
-  text
+  number
 } from "@storybook/addon-knobs";
 import { parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
@@ -33,17 +32,11 @@ const calcite_placements = placements.concat([
   "trailing-start"
 ]);
 
-const contentHTML = `
-<div style="padding:12px 16px">
-  <b>I am a title!</b> <br>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-  <calcite-button appearance="inline">I am an inline button</calcite-button>
-</div>
-`;
+const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
-const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="inline" title="Reference element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-storiesOf("Popover", module)
+storiesOf("Tooltip", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",
@@ -51,21 +44,16 @@ storiesOf("Popover", module)
       return `
       <div>
         ${referenceElementHTML}
-        <calcite-popover
+        <calcite-tooltip
           theme="light"
-          add-click-handle="${boolean("add-click-handle", true)}"
-          close-button="${boolean("close-button", false)}"
-          disable-flip="${boolean("disable-flip", false)}"
-          disable-pointer="${boolean("disable-pointer", false)}"
           reference-element="reference-element"
           placement="${select("placement", calcite_placements, "auto")}"
           offset-distance="${number("offset-distance", 6)}"
           offset-skidding="${number("offset-skidding", 0)}"
           open="${boolean("open", true)}"
-          text-close="${text("text-close", "Close")}"
         >
           ${contentHTML}
-        </calcite-popover>
+        </calcite-tooltip>
       </div>
     `;
     },
@@ -77,21 +65,16 @@ storiesOf("Popover", module)
       return `
       <div>
         ${referenceElementHTML}
-        <calcite-popover
+        <calcite-tooltip
           theme="dark"
-          add-click-handle="${boolean("add-click-handle", true)}"
-          close-button="${boolean("close-button", false)}"
-          disable-flip="${boolean("disable-flip", false)}"
-          disable-pointer="${boolean("disable-pointer", false)}"
           reference-element="reference-element"
           placement="${select("placement", calcite_placements, "auto")}"
           offset-distance="${number("offset-distance", 6)}"
           offset-skidding="${number("offset-skidding", 0)}"
           open="${boolean("open", true)}"
-          text-close="${text("text-close", "Close")}"
         >
           ${contentHTML}
-        </calcite-popover>
+        </calcite-tooltip>
       </div>
     `;
     },

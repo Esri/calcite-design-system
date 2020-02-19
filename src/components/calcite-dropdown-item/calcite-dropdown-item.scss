@@ -29,16 +29,30 @@
     $baseline / 1.5};
 }
 
-:host {
-  display: block;
+@mixin itemStyling {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
   @include font-size(-2);
   color: var(--calcite-ui-text-3);
-  transition: 0.15s all ease-in-out;
+  transition: $transition;
   padding: var(--calcite-dropdown-item-padding);
   cursor: pointer;
   text-decoration: none;
   outline: none;
   position: relative;
+  &:before {
+    content: "\2022";
+    position: absolute;
+    left: 1rem;
+    opacity: 0;
+    color: $blk-120;
+    transition: $transition;
+  }
+}
+
+:host {
+  @include itemStyling;
 }
 
 :host(:hover),
@@ -53,14 +67,6 @@
   background-color: var(--calcite-ui-foreground-press);
 }
 
-:host:before {
-  content: "\2022";
-  position: absolute;
-  left: 1rem;
-  opacity: 0;
-  color: $blk-120;
-  transition: 0.15s ease-in-out;
-}
 :host(:hover):before,
 :host(:active):before,
 :host(:focus):before {
@@ -81,6 +87,9 @@
     opacity: 1;
     color: var(--calcite-ui-blue);
   }
+  & calcite-icon {
+    color: var(--calcite-ui-blue);
+  }
 }
 
 // when used as link move styling anchor
@@ -90,20 +99,7 @@
     display: none;
   }
   & a {
-    display: block;
-    position: relative;
-    padding: var(--calcite-dropdown-item-padding);
-    color: var(--calcite-ui-text-3);
-    text-decoration: none;
-    outline: none;
-    &:before {
-      content: "\2022";
-      position: absolute;
-      left: 1rem;
-      opacity: 0;
-      color: $blk-120;
-      transition: 0.15s ease-in-out;
-    }
+    @include itemStyling;
   }
 }
 
@@ -136,4 +132,30 @@
     left: unset;
     right: 1rem;
   }
+}
+
+//icons
+
+:host .dropdown-item-icon-start {
+  margin-right: $baseline / 1.5;
+}
+:host .dropdown-item-icon-end {
+  margin-left: auto;
+  padding-left: $baseline / 1.5;
+}
+
+:host([dir="rtl"]) calcite-icon {
+  margin-right: 0;
+  margin-left: $baseline / 1.5;
+}
+
+:host([dir="rtl"]) .dropdown-item-icon-start {
+  margin-left: $baseline / 1.5;
+  margin-right: 0;
+}
+:host([dir="rtl"]) .dropdown-item-icon-end {
+  margin-right: auto;
+  padding-right: $baseline / 1.5;
+  margin-left: 0;
+  padding-left: 0;
 }

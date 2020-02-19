@@ -1,3 +1,15 @@
+// scale: s
+:host([width="s"]) {
+  --calcite-dropdown-width: 12.5em;
+}
+
+:host([width="m"]) {
+  --calcite-dropdown-width: 15em;
+}
+
+:host([width="l"]) {
+  --calcite-dropdown-width: 20em;
+}
 :host {
   position: relative;
   display: inline-block;
@@ -23,7 +35,7 @@
   overflow: hidden;
   max-height: 0;
   width: auto;
-  width: 12.5rem;
+  width: var(--calcite-dropdown-width);
   background: var(--calcite-ui-foreground);
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
