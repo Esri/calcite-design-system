@@ -11,12 +11,6 @@ const iconNames = Object.keys(icons)
   .filter(iconName => iconName.endsWith("16"))
   .map(iconName => iconName.replace("16", ""));
 
-export default {
-  title: "Icon",
-  decorators: [withKnobs],
-  parameters: { notes }
-};
-
 storiesOf("Button", module)
   .addDecorator(withKnobs)
   .add(
