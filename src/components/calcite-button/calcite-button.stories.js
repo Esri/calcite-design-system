@@ -1,5 +1,6 @@
 import { storiesOf } from "@storybook/html";
 import { withKnobs, text, boolean, select } from "@storybook/addon-knobs";
+import { calculator24 } from "@esri/calcite-ui-icons/js/calculator24";
 import { images24 } from "@esri/calcite-ui-icons/js/images24";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
@@ -62,6 +63,18 @@ storiesOf("Button", module)
         icon-position="${select("icon-position", ["start", "end"], "start")}">
         ${text("text", "button text here")}
       </calcite-button>
+    </div>
+  `,
+    { notes }
+  )
+  .add(
+    "Height of textless buttons",
+    () => `
+    <div style="width: 480px; max-width: 100%; height: 35px; display: flex; background-color: #fff">
+      <input />
+      <calcite-button
+      icon="${text("icon", calculator24)}"
+      textlessHeight="${select("textlessHeight", ["auto", "full"], "auto")}"></calcite-button>
     </div>
   `,
     { notes }

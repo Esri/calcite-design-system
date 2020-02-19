@@ -62,6 +62,10 @@ export class CalciteButton {
   @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
     "auto";
 
+  /** specify the height of the button if no text is present, defaults to auto */
+  @Prop({ mutable: true, reflect: true }) textlessHeight: "auto" | "full" =
+    "auto";
+
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
 
@@ -103,6 +107,9 @@ export class CalciteButton {
 
     let width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
+
+    let textlessHeight = ["auto", "full"];
+    if (!textlessHeight.includes(this.textlessHeight)) this.textlessHeight = "auto";
 
     let theme = ["dark", "light"];
     if (!theme.includes(this.theme)) this.theme = "light";
@@ -211,6 +218,7 @@ export class CalciteButton {
       "loading",
       "scale",
       "width",
+      "textlessHeight",
       "theme"
     ];
     return Array.from(this.el.attributes)
