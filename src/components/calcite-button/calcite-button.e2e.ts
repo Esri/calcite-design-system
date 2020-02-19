@@ -179,7 +179,7 @@ describe("calcite-button", () => {
   it("renders with an icon", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>Continue</calcite-button>`
+      `<calcite-button icon='plus'>Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -200,7 +200,7 @@ describe("calcite-button", () => {
   it("renders with a loader and an icon element when both icon and loader are present", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button loading icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'>Continue</calcite-button>`
+      `<calcite-button loading icon='plus'>Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -230,7 +230,7 @@ describe("calcite-button", () => {
   it("hastext is false when text is not present", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button icon='M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z'></calcite-button>`
+      `<calcite-button icon='plus'></calcite-button>`
     );
     const element = await page.find("calcite-button");
     expect(element).not.toHaveAttribute("hastext");
