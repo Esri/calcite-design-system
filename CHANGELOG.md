@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- `calcite-dropdown-item` can now display icons by passing a Calcite UI Icon name(s) to the `icon-start` and / or `icon-end` attribute -`calcite-dropdown` now has a `width` attribute which accept a value of "s", "m", or "l", and defaults to "m"
+- `calcite-dropdown-item` can now display icons by passing a Calcite UI Icon name(s) to the `icon-start` and / or `icon-end` attribute
+- `calcite-dropdown` now has a `width` attribute which accept a value of "s", "m", or "l", and defaults to "m"
 
 ### Breaking Changes
 
