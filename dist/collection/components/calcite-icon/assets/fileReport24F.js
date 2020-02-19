@@ -1,0 +1,1 @@
+export const fileReport24F = "M13 13h-3v-2h3zm0 1h-3v2h3zm4 3h-3v2h3zm0-6h-3v2h3zm-4 6h-3v2h3zm4-3h-3v2h3zm-8 3H7v2h2zm6.29-16H15v6h6v-.291zM9 11H7v2h2zm6-3h6v15H3V1h11v7zM6 5h7V4H6zm0 2h7V6H6zm12 3H6v10h12zm-9 4H7v2h2z";

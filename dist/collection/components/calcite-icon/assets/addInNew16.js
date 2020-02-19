@@ -1,0 +1,1 @@
+export const addInNew16 = "M7 8V2H0v13h13V8H7zm-1 6H1V9h5zm0-6H1V3h5zm6 6H7V9h5zm3-11v1h-3v3h-1V4H8V3h3V0h1v3z";

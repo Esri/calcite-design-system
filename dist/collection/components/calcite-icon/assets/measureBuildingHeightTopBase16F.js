@@ -1,0 +1,1 @@
+export const measureBuildingHeightTopBase16F = "M10 12V2H9l1.5-2L12 2h-1v10h1l-1.5 2L9 12zm6 3v1H0v-1h1V0h7v15zM4 12H3v1h1zm0-3H3v1h1zm0-3H3v1h1zm0-3H3v1h1zm2 9H5v1h1zm0-3H5v1h1zm0-3H5v1h1zm0-3H5v1h1z";

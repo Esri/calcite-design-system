@@ -1,0 +1,1 @@
+export const fileArchive16 = "M13 6v3h-1v4H5V9H4V6zm-2 3H6v3h5zm1-2H5v1h7zm3-3.4V16H2V0h9.4zM14 5h-4V1H3v14h11zm0-1.31L11.31 1H11v3h3z";
