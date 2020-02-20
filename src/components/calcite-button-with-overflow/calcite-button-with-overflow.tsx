@@ -41,6 +41,9 @@ export class CalciteButtonWithOverflow {
   /** specify the scale of the control, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "xs";
 
+  /** text for primary action button  */
+  @Prop({ mutable: true, reflect: true }) primaryText: string;
+
   /** optionally add a calcite-loader component to the control, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
 
@@ -78,7 +81,7 @@ export class CalciteButtonWithOverflow {
               loading={this.loading}
               disabled={this.disabled}
               theme={this.theme}>
-            Primary Option
+            {this.primaryText}
           </calcite-button>
           <div class='divider-container'>
             <div class='divider'/>

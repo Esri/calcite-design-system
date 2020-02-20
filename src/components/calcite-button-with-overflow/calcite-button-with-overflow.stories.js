@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, boolean } from "@storybook/addon-knobs";
+import { withKnobs, text, select, boolean } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -13,9 +13,10 @@ storiesOf("Button with Overflow", module)
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
         loading="${boolean("loading", false)}"
-        disabled="${boolean("disabled", false)}">
+        disabled="${boolean("disabled", false)}"
+        primary-text="${text("primary-text", "Primary Option")}">
       <calcite-button scale="xs" appearance="transparent" width="full">
-        Secondary Action
+        Secondary Option
       </calcite-button>
     </calcite-button-with-overflow>
   `,
@@ -29,9 +30,10 @@ storiesOf("Button with Overflow", module)
           color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
           scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
           loading="${boolean("loading", false)}"
-          disabled="${boolean("disabled", false)}">
+          disabled="${boolean("disabled", false)}"
+          primary-text="${text("primary-text", "Primary Option")}">
         <calcite-button scale="xs" appearance="transparent" width="full">
-          Secondary Action
+          Secondary Option
         </calcite-button>
       </calcite-button-with-overflow>
     </div>
@@ -46,9 +48,10 @@ storiesOf("Button with Overflow", module)
         scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
         loading="${boolean("loading", false)}"
         disabled="${boolean("disabled", false)}"
+        primary-text="${text("primary-text", "Primary Option")}"
         theme="dark">
       <calcite-button scale="xs" appearance="transparent" width="full">
-        Secondary Action
+        Secondary Option
       </calcite-button>
     </calcite-button-with-overflow>
   `,
