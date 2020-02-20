@@ -18,7 +18,6 @@
   <script type="module" src="../build/calcite.esm.js"></script>
   <script nomodule src="../build/calcite.js"></script>
 </head>
-
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Button with Overflow</h1>
@@ -109,6 +108,9 @@
           Secondary Option
         </calcite-button>
       </calcite-button-with-overflow>
+      <script>
+      document.addEventListener('primaryButtonClicked', () => alert('primary action'))
+      </script>
     </div>
     </br>
     </br>

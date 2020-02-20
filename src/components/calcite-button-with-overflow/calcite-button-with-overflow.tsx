@@ -1,10 +1,13 @@
 import {
   Component,
   Element,
+  Event,
+  EventEmitter,
   h,
   Host,
   Prop
 } from "@stencil/core";
+
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -28,9 +31,12 @@ export class CalciteButtonWithOverflow {
   //
   //--------------------------------------------------------------------------
 
+    /** A function to run when the primary button is pressed */
+  @Prop({ mutable: true, reflect: true }) primaryAction: (event: MouseEvent) => void = () => {}
+
   /** specify the color of the control, defaults to blue */
   @Prop({ mutable: true, reflect: true }) color:
-    | "blue"
+    "blue"
     | "dark"
     | "light"
     | "red" = "blue";
@@ -39,16 +45,31 @@ export class CalciteButtonWithOverflow {
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of the control, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "xs";
+  @Prop({ mutable: true, reflect: true }) scale:
+    "xs"
+    | "s"
+    | "m"
+    | "l"
+    | "xl" = "xs";
 
   /** text for primary action button  */
   @Prop({ mutable: true, reflect: true }) primaryText: string;
 
-  /** optionally add a calcite-loader component to the control, disabling interaction.  */
+  /** optionally add a calcite-loader component to the control,
+    disabling interaction. with the primary button */
   @Prop({ reflect: true }) loading?: boolean = false;
 
   /** is the control disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /** Fired when the modal begins the open animation */
+  @Event() primaryButtonClicked: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -80,7 +101,8 @@ export class CalciteButtonWithOverflow {
               scale={this.scale}
               loading={this.loading}
               disabled={this.disabled}
-              theme={this.theme}>
+              theme={this.theme}
+              onClick={this.primaryButtonClickedHandler}>
             {this.primaryText}
           </calcite-button>
           <div class='divider-container'>
@@ -105,4 +127,13 @@ export class CalciteButtonWithOverflow {
       </Host>
     );
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  private primaryButtonClickedHandler = (e: MouseEvent) => this.primaryButtonClicked.emit(e)
+
 }
