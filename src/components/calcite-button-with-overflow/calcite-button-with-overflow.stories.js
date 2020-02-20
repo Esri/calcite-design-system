@@ -14,6 +14,9 @@ storiesOf("Button with Overflow", module)
         scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
         loading="${boolean("loading", false)}"
         disabled="${boolean("disabled", false)}">
+      <calcite-button scale="xs" appearance="transparent" width="full">
+        Secondary Action
+      </calcite-button>
     </calcite-button-with-overflow>
   `,
     { notes }
@@ -27,6 +30,9 @@ storiesOf("Button with Overflow", module)
           scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
           loading="${boolean("loading", false)}"
           disabled="${boolean("disabled", false)}">
+        <calcite-button scale="xs" appearance="transparent" width="full">
+          Secondary Action
+        </calcite-button>
       </calcite-button-with-overflow>
     </div>
   `,
@@ -41,7 +47,9 @@ storiesOf("Button with Overflow", module)
         loading="${boolean("loading", false)}"
         disabled="${boolean("disabled", false)}"
         theme="dark">
-      <
+      <calcite-button scale="xs" appearance="transparent" width="full">
+        Secondary Action
+      </calcite-button>
     </calcite-button-with-overflow>
   `,
     { notes, backgrounds: darkBackground }

@@ -85,8 +85,8 @@ storiesOf("Button", module)
     <div style="width: 480px; max-width: 100%; height: 35px; display: flex; background-color: #fff">
       <input />
       <calcite-button
-      icon="${text("icon", calculator24)}"
-      textlessHeight="${select("textlessHeight", ["auto", "full"], "auto")}"></calcite-button>
+      icon="${select("icon", iconNames, iconNames[0])}"
+      textless-height="${select("textless-height", ["auto", "full"], "auto")}"></calcite-button>
     </div>
   `,
     { notes }

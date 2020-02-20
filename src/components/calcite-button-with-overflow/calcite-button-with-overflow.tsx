@@ -92,8 +92,9 @@ export class CalciteButtonWithOverflow {
                   scale={this.scale}
                   color={this.color}
                   disabled={this.disabled}
-                  theme={this.theme}>
-                <calcite-icon icon="caretDown" scale="s" filled={true}></calcite-icon>
+                  theme={this.theme}
+                  icon='caretDown'
+                  textless-height='full'>
               </calcite-button>
             <slot />
           </calcite-dropdown>

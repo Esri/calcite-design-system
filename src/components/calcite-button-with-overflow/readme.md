@@ -22,15 +22,14 @@
 
 - [calcite-button](../calcite-button)
 - [calcite-dropdown](../calcite-dropdown)
-- [calcite-icon](../calcite-icon)
 
 ### Graph
 ```mermaid
 graph TD;
   calcite-button-with-overflow --> calcite-button
   calcite-button-with-overflow --> calcite-dropdown
-  calcite-button-with-overflow --> calcite-icon
   calcite-button --> calcite-loader
+  calcite-button --> calcite-icon
   style calcite-button-with-overflow fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
