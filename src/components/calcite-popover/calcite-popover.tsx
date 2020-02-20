@@ -22,6 +22,8 @@ import { VNode } from "@stencil/core/internal/stencil-core";
 import { guid } from "../../utils/guid";
 import { HOST_CSS } from "../../utils/dom";
 
+type FocusId = "close-button";
+
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
  */
@@ -149,6 +151,8 @@ export class CalcitePopover {
 
   arrowEl: HTMLDivElement;
 
+  closeButtonEl: HTMLButtonElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -194,6 +198,16 @@ export class CalcitePopover {
           popper
         })
       : this.createPopper();
+  }
+
+  @Method()
+  async setFocus(focusId?: FocusId) {
+    if (focusId === "close-button") {
+      this.closeButtonEl?.focus();
+      return;
+    }
+
+    this.el?.focus();
   }
 
   @Method() async toggle(): Promise<void> {
@@ -344,6 +358,7 @@ export class CalcitePopover {
 
     return closeButton ? (
       <button
+        ref={closeButtonEl => (this.closeButtonEl = closeButtonEl)}
         aria-label={textClose}
         title={textClose}
         class={{ [CSS.closeButton]: true }}
