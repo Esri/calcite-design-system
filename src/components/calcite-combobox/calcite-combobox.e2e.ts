@@ -21,7 +21,7 @@ describe("calcite-pagination", () => {
     expect(listBoxVisible).toBe(true);
   });
 
-  it.only("should filter the items in listbox when typing into the input", async () => {
+  it("should filter the items in listbox when typing into the input", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-combobox>
       <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
