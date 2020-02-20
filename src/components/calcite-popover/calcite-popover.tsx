@@ -18,9 +18,7 @@ import {
   updatePopper
 } from "../../utils/popper";
 import { Modifier, Placement, Instance as Popper } from "@popperjs/core";
-import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
-import { x16 } from "@esri/calcite-ui-icons";
-import CalciteIcon from "../../utils/CalciteIcon";
+import { VNode } from "@stencil/core/internal/stencil-core";
 import { guid } from "../../utils/guid";
 import { HOST_CSS } from "../../utils/dom";
 
@@ -351,7 +349,7 @@ export class CalcitePopover {
         class={{ [CSS.closeButton]: true }}
         onClick={this.hide}
       >
-        <CalciteIcon size="16" path={x16} />
+        <calcite-icon icon="x" scale="s"></calcite-icon>
       </button>
     ) : null;
   }
