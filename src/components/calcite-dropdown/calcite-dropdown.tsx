@@ -46,6 +46,9 @@ export class CalciteDropdown {
   /** specify the scale of dropdrown, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
+  /** specify the width of dropdrown, defaults to m */
+  @Prop({ mutable: true, reflect: true }) width: "s" | "m" | "l" = "m";
+
   /** specify whether the dropdown is opened by hover or click of the trigger element */
   @Prop({ mutable: true, reflect: true }) type: "hover" | "click" = "click";
 
@@ -65,6 +68,9 @@ export class CalciteDropdown {
 
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
+
+    let width = ["s", "m", "l"];
+    if (!width.includes(this.width)) this.width = "m";
 
     let type = ["hover", "click"];
     if (!type.includes(this.type)) this.type = "hover";

@@ -4,24 +4,15 @@ import { sass } from "@stencil/sass";
 export const config: Config = {
   namespace: "calcite",
   bundles: [
-    {
-      components: ["calcite-switch"]
-    },
-    {
-      components: ["calcite-notice"]
-    },
+    { components: ["calcite-accordion", "calcite-accordion-item"] },
+    { components: ["calcite-alert"] },
+    { components: ["calcite-button"] },
     {
       components: [
-        "calcite-tab",
-        "calcite-tab-title",
-        "calcite-tab-nav",
-        "calcite-tabs"
-      ]
-    },
-    {
-      components: [
-        "calcite-accordion",
-        "calcite-accordion-item"
+        "calcite-date-picker",
+        "calcite-date-month",
+        "calcite-date-month-header",
+        "calcite-date-day"
       ]
     },
     {
@@ -31,23 +22,25 @@ export const config: Config = {
         "calcite-dropdown-item"
       ]
     },
+    { components: ["calcite-icon"] },
+    { components: ["calcite-loader"] },
+    { components: ["calcite-modal"] },
+    { components: ["calcite-notice"] },
+    { components: ["calcite-pagination"] },
     { components: ["calcite-popover"] },
     { components: ["calcite-progress"] },
-    { components: ["calcite-alert"] },
-    { components: ["calcite-loader"] },
-    {
-      components: ["calcite-radio-group", "calcite-radio-group-item"]
-    },
+    { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-slider"] },
-    { components: ["calcite-modal"] },
+    { components: ["calcite-switch"] },
     {
       components: [
-        "calcite-date-picker",
-        "calcite-date-month",
-        "calcite-date-month-header",
-        "calcite-date-day"
+        "calcite-tab",
+        "calcite-tab-title",
+        "calcite-tab-nav",
+        "calcite-tabs"
       ]
     },
+    { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
     { components: ["calcite-card"] },
     { components: ["calcite-icon"] }
@@ -60,9 +53,7 @@ export const config: Config = {
       type: "www",
       baseUrl: "https://stenciljs.com/",
       prerenderConfig: "./prerender.config.js",
-      copy: [
-        { src: "demos", dest: "demos" }
-      ],
+      copy: [{ src: "demos", dest: "demos" }],
       serviceWorker: {
         unregister: true
       }
@@ -78,5 +69,8 @@ export const config: Config = {
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js"
     }
+  },
+  extras: {
+    appendChildSlotFix: true
   }
 };
