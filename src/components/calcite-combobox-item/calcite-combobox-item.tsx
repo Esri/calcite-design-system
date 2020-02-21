@@ -60,6 +60,8 @@ export class CalciteComboboxItem {
 
   @State() isSelected = this.selected;
 
+  isNested : boolean;
+
   hasDefaultSlot: boolean;
 
   anchorElement: HTMLAnchorElement;
@@ -71,6 +73,7 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   componentWillLoad() {
+    this.isNested = this.getDepth();
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 
@@ -127,6 +130,9 @@ export class CalciteComboboxItem {
     this.calciteItemChange.emit({value: this.value, selected: this.isSelected});
   };
 
+  getDepth() {
+    return this.el.parentElement.nodeName === "CALCITE-COMBOBOX-ITEM";
+  }
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -135,9 +141,7 @@ export class CalciteComboboxItem {
 
   renderIcon() {
     return (
-      <span class={{[CSS.icon]: true, [CSS.hidden]: !this.isSelected}}>
-        <calcite-icon scale="s" icon="check" />
-      </span>
+      <calcite-icon class={CSS.icon} scale="s" icon="check" />
     );
   }
 
@@ -151,7 +155,7 @@ export class CalciteComboboxItem {
   }
 
   render() {
-    const classes= {[CSS.label]: true, [CSS.selected]: this.isSelected };
+    const classes= {[CSS.label]: true, [CSS.selected]: this.isSelected, [CSS.nested] : this.isNested };
     return (
       <Host role="option" aria-selected={this.isSelected} disabled={this.disabled} >
         <a class={classes} onClick={this.itemClickHandler} href="#" ref={(el) => this.anchorElement = el as HTMLAnchorElement} >

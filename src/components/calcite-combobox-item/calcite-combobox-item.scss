@@ -1,25 +1,75 @@
+
+// temp until scale added
+:host([scale="m"]),
 :host {
-  display: block;
+  --calcite-dropdown-item-padding: #{$baseline/3 $baseline};
 }
 
-.hidden {
-  visibility: hidden;
-}
 
-.icon {
-  display: inline-block;
-}
-
-ul {
+:host,
+:host ul {
+  display: flex;
+  flex-direction: column;
   margin: 0;
-  padding-left: 12px;
+  padding: 0;
 }
 
-.label {
-  display: block;
+// indentation on children
+:host a.combobox-item-nested {
+  padding-left: $baseline * 3;
+}
+
+:host a {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 100%;
+  align-items: center;
+  @include font-size(-2);
+  color: var(--calcite-ui-text-3);
+  transition: $transition;
+  padding: var(--calcite-dropdown-item-padding);
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  position: relative;
+  & .combobox-item-icon {
+    display: inline-flex;
+    opacity: 0;
+    margin-right: $baseline;
+    transition: $transition;
+  }
+}
+
+:host([dir="rtl"]) a .combobox-item-icon {
+  margin-left: $baseline;
+  margin-right: initial;
+}
+
+
+:host(:hover) a,
+:host(:focus) a,
+:host(:active) a {
+  background-color: var(--calcite-ui-foreground-hover);
   color: var(--calcite-ui-text-1);
   text-decoration: none;
+  & .combobox-item-icon {
+    color: var(--calcite-ui-text-1);
+    opacity: 1;
+  }
 }
-.label.selected {
-  font-weight: bold;
+
+:host(:active) a {
+  background-color: var(--calcite-ui-foreground-press);
+}
+
+// selected state
+:host a.selected {
+  color: var(--calcite-ui-text-1);
+  font-weight: 500;
+
+  & .combobox-item-icon {
+    color: var(--calcite-ui-blue);
+    opacity: 1;
+  }
 }
