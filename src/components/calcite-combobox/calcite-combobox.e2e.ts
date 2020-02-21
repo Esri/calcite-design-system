@@ -48,7 +48,7 @@ describe("calcite-pagination", () => {
   });
 
   describe("item selection", () => {
-    it("should add to the selected items when an item is clicked", async () => {
+    it("should add/remove item to the selected items when an item is clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-combobox>
         <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
@@ -62,11 +62,37 @@ describe("calcite-pagination", () => {
       const item1 = await cbox.find("calcite-combobox-item[value=one]");
       await item1.click();
 
-      const chip = await page.find("calcite-combobox >>> calcite-chip");
+      let chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeDefined();
-    });
-    it("should remove an item from the selected items when a selected item is clicked", async () => {
 
+      await item1.click();
+      chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).not.toBeDefined();
+    });
+    it.skip("clicking a chip should remove the selected item", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-combobox>
+        <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+      </calcite-combobox>`);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const cbox = await page.find("calcite-combobox");
+      const item1 = await cbox.find("calcite-combobox-item[value=one]");
+      await item1.click();
+
+      let chip = await page.find("calcite-combobox >>> calcite-chip");
+      // TODO: below double piercing selector not working.
+      // https://github.com/ionic-team/stencil/issues/1530
+      const closeBtn = await page.find("calcite-combobox >>> calcite-chip >>> a");
+
+      await closeBtn.click();
+      await page.waitForChanges();
+
+      chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).not.toBeDefined();
     });
     it("should work with keyboard input", async () => {
 
