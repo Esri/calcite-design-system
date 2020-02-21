@@ -9,6 +9,8 @@ import {
   Element
 } from "@stencil/core";
 
+import { CSS , TEXT } from "./resources";
+
 @Component({
   tag: "calcite-chip",
   styleUrl: "calcite-chip.scss",
@@ -21,6 +23,9 @@ export class CalciteChip {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
+  /** specify the scale of the chip, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   @Prop() value: string = null;
 
@@ -64,7 +69,7 @@ export class CalciteChip {
     return (
       <Host hidden={this.hidden}>
         <span><slot /></span>
-        <a href="#" onClick={this.closeClickHandler}><calcite-icon scale="s" icon="x" /></a>
+        <a class={CSS.close} href="#" onClick={this.closeClickHandler} title={TEXT.close}><calcite-icon scale={this.scale} icon="x" /></a>
       </Host>
     );
   }
