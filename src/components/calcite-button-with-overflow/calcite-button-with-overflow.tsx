@@ -7,7 +7,7 @@ import {
   Host,
   Prop
 } from "@stencil/core";
-
+import { Scale } from "../../interfaces/common";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -45,12 +45,7 @@ export class CalciteButtonWithOverflow {
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of the control, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale:
-    "xs"
-    | "s"
-    | "m"
-    | "l"
-    | "xl" = "xs";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "xs";
 
   /** text for primary action button  */
   @Prop({ mutable: true, reflect: true }) primaryText: string;
@@ -109,9 +104,9 @@ export class CalciteButtonWithOverflow {
             <div class='divider'/>
           </div>
           <calcite-dropdown
-              alignment={dir === "rtl" ? "right" : "left"}
+              alignment={this.dropdownAlignment}
               theme={this.theme}
-              scale={this.scale === 'xs' ? 's' : this.scale === 'xl' ? 'l' : this.scale}>
+              scale={this.dropdownScale}>
               <calcite-button
                   slot="dropdown-trigger"
                   scale={this.scale}
@@ -135,5 +130,21 @@ export class CalciteButtonWithOverflow {
   //--------------------------------------------------------------------------
 
   private primaryButtonClickedHandler = (e: MouseEvent) => this.primaryButtonClicked.emit(e)
+
+  private get dropdownAlignment() {
+    const dir = getElementDir(this.el);
+    return dir === "rtl" ? "right" : "left"
+  }
+
+  private get dropdownScale() {
+    const scaleLookup: { [id in Scale] : "s" | "m" | "l" } = {
+      'xs': 's',
+      's': 's',
+      'm': 'm',
+      'l': 'l',
+      'xl': 'l',
+    }
+    return scaleLookup[this.scale]
+  }
 
 }
