@@ -4,3 +4,27 @@
     @content;
   }
 }
+@mixin floatingContainer($state: "closed") {
+  @if $state == "open" {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    max-height: 100vh;
+    visibility: visible;
+    pointer-events: initial;
+  } @else {
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+    position: absolute;
+    z-index: 200;
+    opacity: 0;
+    background: var(--calcite-ui-foreground);
+    border-radius: var(--calcite-border-radius);
+    box-shadow: $shadow-2;
+    transform: translate3d(0, -$baseline, 0);
+    transition: $transition;
+    pointer-events: none;
+  }
+}
