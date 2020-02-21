@@ -1,6 +1,6 @@
 :host {
   max-width: 100%;
-  & > a {
+  & .calcite-card-container  {
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -22,7 +22,7 @@
   }
 }
 
-:host([loading]) a *:not(calcite-loader):not(.calcite-card-loader-container) {
+:host([loading]) .calcite-card-container  *:not(calcite-loader):not(.calcite-card-loader-container) {
   opacity: 0;
   pointer-events: none;
 }
@@ -66,11 +66,11 @@
 }
 
 // selectable and selected styles
-:host([selectable]) > a:active {
+:host([selectable]) .calcite-card-container:active {
   box-shadow: $shadow-1--press;
 }
 
-:host([selected]) > a {
+:host([selected]) .calcite-card-container  {
   border-color: var(--calcite-ui-blue);
 }
 

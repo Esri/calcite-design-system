@@ -81,7 +81,7 @@ export class CalciteCard {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
-        <a>
+        <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
               <calcite-loader
@@ -99,7 +99,7 @@ export class CalciteCard {
             </div>
             {this.renderFooter()}
           </section>
-        </a>
+        </div>
       </Host>
     );
   }
