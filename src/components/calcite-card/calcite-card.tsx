@@ -13,13 +13,16 @@ import { getElementDir } from "../../utils/dom";
 import { VNode } from "@stencil/core/dist/declarations";
 
 /**
- * @slot thumbnail - [Required] A slot for adding a thumnail to the card.
- * @slot header - [Required] A slot for adding a heading and an icon to the card.
+ * @slot thumbnail - A slot for adding a thumnail to the card.
  * @slot - A slot for adding subheader/description content.
  * @slot title - A slot for adding a card title.
  * @slot subtitle - A slot for adding a card subtitle or short summary.
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
+ */
+
+ /** Cards do not include a grid or bounding container
+  * - cards will expand to fit the width of their container
  */
 
 @Component({
