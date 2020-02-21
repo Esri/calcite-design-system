@@ -48,13 +48,6 @@ export class CalciteCard {
   /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
   @Prop({ reflect: true }) loading: boolean = false;
 
-  /**
-   * Indicates whether the image's height is respected for the crop of the thumbnail.
-   * When false (default), the image fills the whole thumbnail space.
-   * When true, the height of the thumbnail is used to crop and may not fill the container for the thumbnail.
-   */
-  @Prop({ reflect: true }) respectImageHeight: boolean = false;
-
   /** Indicates whether the card is selected. */
   @Prop({ reflect: true, mutable: true }) selected: boolean = false;
 
