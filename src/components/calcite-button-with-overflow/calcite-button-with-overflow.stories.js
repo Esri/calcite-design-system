@@ -15,9 +15,11 @@ storiesOf("Button with Overflow", module)
         loading="${boolean("loading", false)}"
         disabled="${boolean("disabled", false)}"
         primary-text="${text("primary-text", "Primary Option")}">
-      <calcite-button scale="xs" appearance="transparent" width="full">
-        Secondary Option
-      </calcite-button>
+      <calcite-dropdown-group selection-mode="none">
+        <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+        <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+        <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+      </calcite-dropdown-group>
     </calcite-button-with-overflow>
   `,
     { notes }
@@ -32,9 +34,11 @@ storiesOf("Button with Overflow", module)
           loading="${boolean("loading", false)}"
           disabled="${boolean("disabled", false)}"
           primary-text="${text("primary-text", "Primary Option")}">
-        <calcite-button scale="xs" appearance="transparent" width="full">
-          Secondary Option
-        </calcite-button>
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
       </calcite-button-with-overflow>
     </div>
   `,
@@ -50,9 +54,11 @@ storiesOf("Button with Overflow", module)
         disabled="${boolean("disabled", false)}"
         primary-text="${text("primary-text", "Primary Option")}"
         theme="dark">
-      <calcite-button scale="xs" appearance="transparent" width="full">
-        Secondary Option
-      </calcite-button>
+      <calcite-dropdown-group selection-mode="none">
+        <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+        <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+        <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+      </calcite-dropdown-group>
     </calcite-button-with-overflow>
   `,
     { notes, backgrounds: darkBackground }

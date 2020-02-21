@@ -24,14 +24,6 @@
   }
 }
 
-calcite-dropdown > calcite-button {
-  height: 100%;
-}
-
-calcite-dropdown > calcite-button button {
-  height: 100%;
-}
-
 :host([color="red"]) {
   .divider-container {
     background-color: var(--calcite-ui-red)
