@@ -22,23 +22,26 @@
   }
 }
 
-// todo
-:host([loading]) a *:not(calcite-loader) {
+:host([loading]) a *:not(calcite-loader):not(.calcite-card-loader-container) {
   opacity: 0;
   pointer-events: none;
 }
 
-// todo
+:host([loading]) .calcite-card-loader-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
 :host([loading]) .calcite-card-loader {
   position: absolute;
   left: 0;
   right: 0;
   z-index: 9;
-}
-
-// todo
-:host([appearance="wide"]) > a section {
-  flex-direction: row;
 }
 
 :host .header,
@@ -106,11 +109,12 @@
   font-size: 0;
 }
 
-//todo rtl
 :host .card-checkbox-wrapper {
   position: absolute;
   top: $baseline/4;
   right: $baseline/4;
+  margin: 0;
+  padding: 0;
 }
 
 :host([dir="rtl"]) .card-checkbox-wrapper {

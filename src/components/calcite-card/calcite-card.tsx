@@ -61,10 +61,6 @@ export class CalciteCard {
   /**  The theme of the card.*/
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
 
-  /**  The appearance of the card. */
-  @Prop({ reflect: true, mutable: true }) appearance: "wide" | "default" =
-    "wide";
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -91,10 +87,12 @@ export class CalciteCard {
       <Host dir={dir}>
         <a>
           {this.loading ? (
-            <calcite-loader
-              class="calcite-card-loader"
-              is-active
-            ></calcite-loader>
+            <div class="calcite-card-loader-container">
+              <calcite-loader
+                class="calcite-card-loader"
+                is-active
+              ></calcite-loader>
+            </div>
           ) : null}
           <section class={{ [CSS.container]: true }} aria-busy={this.loading}>
             {this.selectable ? this.renderCheckbox() : null}
