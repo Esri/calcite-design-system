@@ -1,0 +1,47 @@
+// scale variants for child
+:host([scale="s"]) {
+  --calcite-stepper-item-spacing-unit-s: #{$baseline/8};
+  --calcite-stepper-item-spacing-unit-m: #{$baseline/4};
+  --calcite-stepper-item-spacing-unit-l: #{$baseline/2};
+  @include font-size(-2);
+}
+
+:host([scale="m"]) {
+  --calcite-stepper-item-spacing-unit-s: #{$baseline/6};
+  --calcite-stepper-item-spacing-unit-m: #{$baseline/3};
+  --calcite-stepper-item-spacing-unit-l: #{$baseline/1.5};
+  @include font-size(-1);
+}
+
+:host([scale="l"]) {
+  --calcite-stepper-item-spacing-unit-s: #{$baseline/4};
+  --calcite-stepper-item-spacing-unit-m: #{$baseline/2};
+  --calcite-stepper-item-spacing-unit-l: #{$baseline};
+  @include font-size(0);
+}
+
+:host {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  min-width: 100%;
+  --calcite-stepper-item-border: var(--calcite-ui-border-3);
+  --calcite-stepper-item-background: var(--calcite-ui-foreground);
+}
+
+:host([layout="vertical"]) {
+  flex-direction: column;
+}
+
+
+:host .stepper-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width:100%;
+  min-width: 100%;
+}

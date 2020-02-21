@@ -7,6 +7,7 @@ export const config: Config = {
     { components: ["calcite-accordion", "calcite-accordion-item"] },
     { components: ["calcite-alert"] },
     { components: ["calcite-button"] },
+    { components: ["calcite-card"] },
     {
       components: [
         "calcite-date-picker",
@@ -31,6 +32,7 @@ export const config: Config = {
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-slider"] },
+    { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     {
       components: [
@@ -42,8 +44,6 @@ export const config: Config = {
     },
     { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-card"] },
-    { components: ["calcite-icon"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
