@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+}
+
+:host(:focus-within) {
+  border: 1px solid var(--calcite-ui-border-1);
+}
+:host(:focus-within) .list {
+  display: block;
+}
+.focus-within {
+  border: 1px solid var(--calcite-ui-border-1);
+}
+.focus-within .list {
+  display: block;
+}
+
+[role="combobox"] {
+  display: flex;
+}
+
+input {
+  flex-grow: 1;
+}
+
+.chip {
+  background-color: #CCC;
+  border-radius: 12px;
+  padding: 3px 6px;
+}
+
+.list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid black;
+}
+
+.item {
+  display: block;
+}
