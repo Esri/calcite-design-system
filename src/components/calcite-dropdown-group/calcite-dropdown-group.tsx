@@ -8,7 +8,7 @@ import {
   Listen,
   Prop
 } from "@stencil/core";
-import { getElementTheme, getElementProp } from "../../utils/dom";
+import { getElementTheme} from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -74,13 +74,12 @@ export class CalciteDropdownGroup {
 
   render() {
     const theme = getElementTheme(this.el);
-    const scale = getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
       <span class="dropdown-title">{this.groupTitle}</span>
     ) : null;
 
     return (
-      <Host theme={theme} scale={scale}>
+      <Host theme={theme}>
         {groupTitle}
         <slot />
       </Host>

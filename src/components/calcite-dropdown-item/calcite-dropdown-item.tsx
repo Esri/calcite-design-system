@@ -127,7 +127,6 @@ export class CalciteDropdownItem {
       <Host
         theme={theme}
         dir={dir}
-        scale={scale}
         tabindex="0"
         role="menuitem"
         aria-selected={this.active.toString()}
