@@ -1,11 +1,4 @@
 
-// temp until scale added
-:host([scale="m"]),
-:host {
-  --calcite-dropdown-item-padding: #{$baseline/3 $baseline};
-}
-
-
 :host,
 :host ul {
   display: flex;
@@ -28,7 +21,7 @@
   @include font-size(-2);
   color: var(--calcite-ui-text-3);
   transition: $transition;
-  padding: var(--calcite-dropdown-item-padding);
+  padding: var(--calcite-combobox-item-padding);
   cursor: pointer;
   text-decoration: none;
   outline: none;
