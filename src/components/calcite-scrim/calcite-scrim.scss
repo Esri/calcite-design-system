@@ -1,0 +1,18 @@
+:host {
+  align-items: center;
+  animation: calcite-app-fade-in var(--calcite-app-animation-time) var(--calcite-app-easing-function);
+  background-color: var(--calcite-app-scrim);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  user-select: none;
+  z-index: 2;
+}
+
+calcite-loader {
+  z-index: 1;
+}
