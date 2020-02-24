@@ -6,7 +6,8 @@ import {
   h,
   Host,
   Listen,
-  Prop
+  Prop,
+  Watch
 } from "@stencil/core";
 import {
   UP,
@@ -69,6 +70,11 @@ export class CalciteStepperItem {
 
   /** pass a title for the stepper item */
   @Prop({ reflect: true, mutable: true }) layout?: string;
+
+  // watch for removal of disabled to register step
+  @Watch("disabled") disabledWatcher() {
+    if (!this.disabled) this.registerStepperItem();
+  }
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -85,25 +91,20 @@ export class CalciteStepperItem {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentDidLoad() {
-    this.registerCalciteStepperItem.emit({
-      position: this.itemPosition
-    });
-    if (this.active) {
-      this.emitRequestedItem();
-    }
-  }
+
   componentDidUpdate() {
-    if (this.active) {
-      this.emitRequestedItem();
-    }
+    this.itemContent = this.getItemContent();
+    if (this.active) this.emitRequestedItem();
   }
+
   componentWillLoad() {
     this.itemPosition = this.getItemPosition();
     this.itemContent = this.getItemContent();
     this.icon = getElementProp(this.el, "icon", false);
     this.numbered = getElementProp(this.el, "numbered", false);
     this.layout = getElementProp(this.el, "layout", false);
+    this.registerStepperItem();
+    if (this.active) this.emitRequestedItem();
   }
 
   render() {
@@ -111,7 +112,7 @@ export class CalciteStepperItem {
     return (
       <Host
         dir={dir}
-        tabindex="0"
+        tabindex={this.disabled ? null : 0}
         aria-expanded={this.active.toString()}
         onClick={this.itemClickHander}
       >
@@ -125,7 +126,7 @@ export class CalciteStepperItem {
             <span class="stepper-item-subtitle">{this.itemSubtitle}</span>
           </div>
         </div>
-        {this.active && this.itemContent ? (
+        {this.active ? (
           <div class="stepper-item-content">
             <slot />
           </div>
@@ -163,7 +164,6 @@ export class CalciteStepperItem {
 
   @Listen("calciteStepperItemHasChanged", { target: "parent" })
   updateActiveItemOnChange(event: CustomEvent) {
-    console.log(event.detail)
     this.requestedStepperItemPosition =
       event.detail.requestedStepperItemPosition;
     this.determineActiveItem();
@@ -199,18 +199,21 @@ export class CalciteStepperItem {
       ? "checkCircle"
       : "circle";
     return (
-      <calcite-icon
-        icon={path}
-        filled
-        scale="s"
-        class="stepper-item-icon"
-      ></calcite-icon>
+      <calcite-icon icon={path} filled scale="s" class="stepper-item-icon" />
     );
   }
 
   private determineActiveItem() {
     this.active =
       this.itemPosition === this.requestedStepperItemPosition && !this.disabled;
+  }
+
+  private registerStepperItem() {
+    if (!this.disabled) {
+      this.registerCalciteStepperItem.emit({
+        position: this.itemPosition
+      });
+    }
   }
 
   private emitRequestedItem() {
@@ -228,7 +231,6 @@ export class CalciteStepperItem {
       getSlottedElements(this.el, "*")[0].outerHTML
     );
   }
-
   private getItemPosition() {
     const parent = this.el.parentElement as HTMLCalciteStepperElement;
     return Array.prototype.indexOf.call(
