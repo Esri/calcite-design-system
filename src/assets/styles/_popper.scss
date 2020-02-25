@@ -7,7 +7,6 @@
     left: -999999px;
   }
 
-  :host([data-popper-escaped]),
   :host([aria-hidden="true"]) {
     pointer-events: none;
   }

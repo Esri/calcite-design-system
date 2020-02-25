@@ -5,17 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
 ## Unreleased
 ### Added
 - new `calcite-label`, `calcite-input`, and `calcite-input-message` components
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
 
+## [v1.0.0-beta.20] - Feb 25th 2020
+
+### Added
+- new component `calcite-card`
+
+### Updated
+- `calcite-tooltip`, `calcite-popover` - Allow pointer events for poppers that have escaped their container
+
+## [v1.0.0-beta.19] - Feb 19th 2020
+
 ### Added
 
--`calcite-dropdown-item` can now display icons by passing a Calcite UI Icon name(s) to the `icon-start` and / or `icon-end` attribute -`calcite-dropdown` now has a `width` attribute which accept a value of "s", "m", or "l", and defaults to "m"
+- `calcite-dropdown-item` can now display icons by passing a Calcite UI Icon name(s) to the `icon-start` and / or `icon-end` attribute
+- `calcite-dropdown` now has a `width` attribute which accept a value of "s", "m", or "l", and defaults to "m"
 
 ### Breaking Changes
 
+- `calcite-button` no longer accepts path data passed to the `icon` attribute - instead you can now pass a Calcite UI Icon name.
 - `calcite-popover` and `calcite-tooltip` - Removed property `boundariesElement`. It is no longer necessary with the latest version of [Popper](https://popper.js.org).
 - `calcite-popover` - Removed property `flowInner`. Is no longer supported with the latest version of [Popper](https://popper.js.org). A user can use negative offset values instead.
 - `calcite-popover` - Renamed property `xOffset` to `offsetDistance` to better match [popper API](https://popper.js.org/docs/v2/modifiers/offset/). The property now has a default of '6'.
@@ -246,7 +259,10 @@ Fix issue with previous release.
 ## [v1.0.0-beta.1] - Aug 2nd 2019
 
 First initial beta release.
-[Unreleased]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.17...master "master"
+
+[v1.0.0-beta.20]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...v1.0.0-beta.20 "v1.0.0-beta.20"
+[v1.0.0-beta.19]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.18...v1.0.0-beta.19 "v1.0.0-beta.19"
+[v1.0.0-beta.18]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.17...v1.0.0-beta.18 "v1.0.0-beta.18"
 [v1.0.0-beta.17]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.16...v1.0.0-beta.17 "v1.0.0-beta.17"
 [v1.0.0-beta.16]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.15...v1.0.0-beta.16 "v1.0.0-beta.16"
 [v1.0.0-beta.15]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.14...v1.0.0-beta.15 "v1.0.0-beta.15"
@@ -264,4 +280,4 @@ First initial beta release.
 [v1.0.0-beta.3]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.2...v1.0.0-beta.3 "v1.0.0-beta.3"
 [v1.0.0-beta.2]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.1...v1.0.0-beta.2 "v1.0.0-beta.2"
 [v1.0.0-beta.1]: https://github.com/Esri/calcite-components/compare/dafb2312835ec6fef134d0d2b20aabd1dfe907cf...v1.0.0-beta.1 "v1.0.0-beta.1"
-[head]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.8...HEAD "Unreleased Changes"
+[head]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...HEAD "Unreleased Changes"

@@ -39,6 +39,19 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 | `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
 
 
+## Dependencies
+
+### Used by
+
+ - [calcite-card](../calcite-card)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-card --> calcite-checkbox
+  style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

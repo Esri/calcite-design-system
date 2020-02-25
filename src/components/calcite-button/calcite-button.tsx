@@ -73,7 +73,7 @@ export class CalciteButton {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
+  /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
   /** optionally used with icon, select where to position the icon */
@@ -138,15 +138,22 @@ export class CalciteButton {
       </div>
     );
 
-    const icon = (
-      <svg
+    const iconScale =
+      this.appearance === "inline" ||
+      this.scale === "xs" ||
+      this.scale === "s" ||
+      this.scale === "m"
+        ? "s"
+        : this.scale === "l"
+        ? "m"
+        : "l";
+
+    const iconEl = (
+      <calcite-icon
         class="calcite-button--icon"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid meet"
-        viewBox="0 0 24 24"
-      >
-        <path d={this.icon} />
-      </svg>
+        icon={this.icon}
+        scale={iconScale}
+      />
     );
 
     return (
@@ -159,10 +166,10 @@ export class CalciteButton {
           disabled={this.disabled}
           ref={el => (this.childEl = el)}
         >
-          {this.icon && this.iconPosition === "start" ? icon : null}
           {this.loading ? loader : null}
+          {this.icon && this.iconPosition === "start" ? iconEl : null}
           <slot />
-          {this.icon && this.iconPosition === "end" ? icon : null}
+          {this.icon && this.iconPosition === "end" ? iconEl : null}
         </Tag>
       </Host>
     );
