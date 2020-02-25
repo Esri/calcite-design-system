@@ -123,6 +123,8 @@
             </calcite-input>
           </calcite-label>
 
+
+
           <calcite-label>
             Number input - default type vertical
             <calcite-input type="number" placeholder="How many apples?"></calcite-input>
@@ -185,6 +187,33 @@
               suffix-text="no cents here" placeholder="0">
             </calcite-input>
           </calcite-label>
+
+
+          <calcite-label>
+            Readonly
+            <calcite-input readonly value="Readonly value">
+            </calcite-input>
+          </calcite-label>
+
+          <calcite-label>
+            Readonly with prefix
+            <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
+            </calcite-input>
+          </calcite-label>
+
+          <calcite-label>
+            Readonly with prefix and button
+            <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
+              <calcite-button slot="input-action" onclick="alert('copied')" icon="copy-to-clipboard"></calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Textarea Readonly
+            <calcite-input readonly type="textarea" placeholder="How was your day?">Here I am with some text
+            </calcite-input>
+          </calcite-label>
+
+
           <calcite-label>
             File input
             <calcite-input type="file" placeholder="Drag 'em' here"></calcite-input>

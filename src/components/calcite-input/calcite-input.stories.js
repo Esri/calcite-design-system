@@ -33,6 +33,7 @@ storiesOf("Input", module)
         ],
         "text"
       )}"
+      readonly="${boolean("readonly", false)}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
@@ -91,8 +92,8 @@ storiesOf("Input", module)
         ],
         "text"
       )}"
+      readonly="${boolean("readonly", false)}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-
       appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",
@@ -148,6 +149,7 @@ storiesOf("Input", module)
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     <calcite-input-message
+    readonly="${boolean("readonly", false)}"
     active="${boolean("input-message-active", false)}"
     type="${select("input message type", ["default", "floating"], "default")}"
     status="${select(
@@ -190,6 +192,7 @@ storiesOf("Input", module)
         ],
         "text"
       )}"
+      readonly="${boolean("readonly", false)}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(

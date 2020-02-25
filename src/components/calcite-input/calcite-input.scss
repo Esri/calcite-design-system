@@ -40,10 +40,13 @@ calcite-input slot:not[name="input-message"] {
   font-weight: 500;
 }
 
+
+
 // icon
 calcite-input[icon] input {
   padding-left: $baseline * 1.5;
 }
+
 calcite-input[dir="rtl"][icon] input {
   padding-right: $baseline * 1.5;
   padding-left: $baseline/2;
@@ -101,10 +104,19 @@ calcite-input[appearance="minimal"] .calcite-input-loading {
   display: flex;
   flex: 1;
   order: 9;
-  & * {
+  & calcite-button {
     width: 100%;
+    flex: 1;
+    margin: 0;
+  }
+  & *   {
+    flex: 1;
+    width: 100%;
+    margin: 0;
   }
 }
+
+
 
 // prefix and suffix
 .calcite-input-prefix,
@@ -414,6 +426,15 @@ $inputStatusColors: "invalid" var(--calcite-ui-text-1)
       border-color: $borderColorActive;
       color: $color;
     }
+    & input[readonly],
+    & textarea[readonly] {
+      background-color: var(--calcite-ui-background);
+    }
+    & input[readonly]:focus,
+    & textarea[readonly]:focus {
+      border-color: $borderColorIdle;
+      color: $color;
+    }
   }
 
   calcite-input[status="#{$name}"][appearance="minimal"] {
@@ -425,6 +446,11 @@ $inputStatusColors: "invalid" var(--calcite-ui-text-1)
     & input:focus,
     & textarea:focus {
       border-bottom-color: $borderColorActive;
+      color: $color;
+    }
+    & input[readonly]:focus,
+    & textarea[readonly]:focus {
+      border-bottom-color: $borderColorIdle;
       color: $color;
     }
   }
