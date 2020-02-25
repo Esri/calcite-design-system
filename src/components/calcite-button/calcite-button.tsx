@@ -108,9 +108,6 @@ export class CalciteButton {
     let width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
 
-    let textlessHeight = ["auto", "full"];
-    if (!textlessHeight.includes(this.textlessHeight)) this.textlessHeight = "auto";
-
     let theme = ["dark", "light"];
     if (!theme.includes(this.theme)) this.theme = "light";
 
