@@ -14,7 +14,8 @@ storiesOf("Button with Overflow", module)
         scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
         loading="${boolean("loading", false)}"
         disabled="${boolean("disabled", false)}"
-        primary-text="${text("primary-text", "Primary Option")}">
+        primary-text="${text("primary-text", "Primary Option")}"
+        overflow-label="${text("overflow-label", "Additional Options")}">
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
         <calcite-dropdown-item>Option 3</calcite-dropdown-item>
@@ -33,7 +34,8 @@ storiesOf("Button with Overflow", module)
           scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
           loading="${boolean("loading", false)}"
           disabled="${boolean("disabled", false)}"
-          primary-text="${text("primary-text", "Primary Option")}">
+          primary-text="${text("primary-text", "Primary Option")}"
+          overflow-label="${text("overflow-label", "Additional Options")}">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
@@ -53,6 +55,7 @@ storiesOf("Button with Overflow", module)
         loading="${boolean("loading", false)}"
         disabled="${boolean("disabled", false)}"
         primary-text="${text("primary-text", "Primary Option")}"
+        overflow-label="${text("overflow-label", "Additional Options")}"
         theme="dark">
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>

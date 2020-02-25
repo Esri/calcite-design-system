@@ -42,13 +42,16 @@ export class CalciteButtonWithOverflow {
     | "red" = "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of the control, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "xs";
 
   /** text for primary action button  */
-  @Prop({ mutable: true, reflect: true }) primaryText: string;
+  @Prop({ reflect: true }) primaryText: string;
+
+  /** aria label for overflow button */
+  @Prop({ reflect: true }) overflowLabel: string;
 
   /** optionally add a calcite-loader component to the control,
     disabling interaction. with the primary button */
@@ -86,8 +89,6 @@ export class CalciteButtonWithOverflow {
 
   render() {
     const dir = getElementDir(this.el);
-    // const attributes = this.getAttributes();
-
     return (
       <Host dir={dir}>
         <div>
@@ -106,8 +107,10 @@ export class CalciteButtonWithOverflow {
           <calcite-dropdown
               alignment={this.dropdownAlignment}
               theme={this.theme}
-              scale={this.dropdownScale}>
+              scale={this.dropdownScale}
+              width={this.dropdownScale}>
               <calcite-button
+                  aria-label={this.overflowLabel}
                   slot="dropdown-trigger"
                   scale={this.scale}
                   color={this.color}
