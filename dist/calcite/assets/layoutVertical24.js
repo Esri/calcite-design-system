@@ -1,0 +1,1 @@
+export const layoutVertical24 = "M1 6h2v1H2v1H1zm20 0v1h1v1h1V6zm1 7h1v-3h-1zm0 4h-1v1h2v-2h-1zM2 16H1v2h2v-1H2zm0-5H1v3h1zm15-5h2v1h-2v10h2v1h-2v5H7v-5H5v-1h2V7H5V6h2V1h10zm-1 1V2H8v20h8V7zM9 9h6V8H9zm0 7h6v-1H9z";

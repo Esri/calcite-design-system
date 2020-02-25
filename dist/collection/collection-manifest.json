@@ -1,0 +1,155 @@
+{
+  "entries": [
+    "components/calcite-accordion/calcite-accordion.js",
+    "components/calcite-button/calcite-button.js",
+    "components/calcite-date-day/calcite-date-day.js",
+    "components/calcite-checkbox/calcite-checkbox.js",
+    "components/calcite-date-month-header/calcite-date-month-header.js",
+    "components/calcite-card/calcite-card.js",
+    "components/calcite-accordion-item/calcite-accordion-item.js",
+    "components/calcite-date/calcite-date-picker.js",
+    "components/calcite-dropdown-item/calcite-dropdown-item.js",
+    "components/calcite-dropdown/calcite-dropdown.js",
+    "components/calcite-loader/calcite-loader.js",
+    "components/calcite-icon/calcite-icon.js",
+    "components/calcite-example/calcite-example.js",
+    "components/calcite-dropdown-group/calcite-dropdown-group.js",
+    "components/calcite-notice/calcite-notice.js",
+    "components/calcite-modal/calcite-modal.js",
+    "components/calcite-radio-group/calcite-radio-group.js",
+    "components/calcite-radio-group-item/calcite-radio-group-item.js",
+    "components/calcite-progress/calcite-progress.js",
+    "components/calcite-switch/calcite-switch.js",
+    "components/calcite-tab/calcite-tab.js",
+    "components/calcite-tabs/calcite-tabs.js",
+    "components/calcite-tab-nav/calcite-tab-nav.js",
+    "components/calcite-tab-title/calcite-tab-title.js",
+    "components/calcite-tooltip/calcite-tooltip.js",
+    "components/calcite-pagination/calcite-pagination.js",
+    "components/calcite-tree/calcite-tree.js",
+    "components/calcite-alert/calcite-alert.js",
+    "components/calcite-date-month/calcite-date-month.js",
+    "components/calcite-popover/calcite-popover.js",
+    "components/calcite-slider/calcite-slider.js",
+    "components/calcite-tree-item/calcite-tree-item.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "1.8.9",
+    "typescriptVersion": "3.7.5"
+  },
+  "collections": [],
+  "bundles": [
+    {
+      "components": [
+        "calcite-alert"
+      ]
+    },
+    {
+      "components": [
+        "calcite-button"
+      ]
+    },
+    {
+      "components": [
+        "calcite-icon"
+      ]
+    },
+    {
+      "components": [
+        "calcite-loader"
+      ]
+    },
+    {
+      "components": [
+        "calcite-modal"
+      ]
+    },
+    {
+      "components": [
+        "calcite-notice"
+      ]
+    },
+    {
+      "components": [
+        "calcite-pagination"
+      ]
+    },
+    {
+      "components": [
+        "calcite-popover"
+      ]
+    },
+    {
+      "components": [
+        "calcite-progress"
+      ]
+    },
+    {
+      "components": [
+        "calcite-slider"
+      ]
+    },
+    {
+      "components": [
+        "calcite-switch"
+      ]
+    },
+    {
+      "components": [
+        "calcite-tooltip"
+      ]
+    },
+    {
+      "components": [
+        "calcite-card"
+      ]
+    },
+    {
+      "components": [
+        "calcite-icon"
+      ]
+    },
+    {
+      "components": [
+        "calcite-accordion",
+        "calcite-accordion-item"
+      ]
+    },
+    {
+      "components": [
+        "calcite-radio-group",
+        "calcite-radio-group-item"
+      ]
+    },
+    {
+      "components": [
+        "calcite-tree",
+        "calcite-tree-item"
+      ]
+    },
+    {
+      "components": [
+        "calcite-dropdown",
+        "calcite-dropdown-group",
+        "calcite-dropdown-item"
+      ]
+    },
+    {
+      "components": [
+        "calcite-date-day",
+        "calcite-date-month",
+        "calcite-date-month-header",
+        "calcite-date-picker"
+      ]
+    },
+    {
+      "components": [
+        "calcite-tab",
+        "calcite-tab-nav",
+        "calcite-tab-title",
+        "calcite-tabs"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+export const folderPlus32 = "M30 8.999h1V28H1V6h2l1-2h11l1 2h2v1h-2.618l-1-2H4.618l-1 2H2v3h21v1H2v16h28V11h-2v-1h2zM26 6V1h-1v5h-5v.999h5V12h1V6.999h5V6z";

@@ -1,0 +1,1 @@
+export const heatChart16F = "M1 0v15h15V0zm8 14H6v-2H2V9h5v2h2zm6-5h-2v3h2v2h-4V9H9V7H7V5H5v2H2V3h3V1h4v2H7v2h2v1.99L11 7V1h2v6h2zm-2-2v2h-2V7z";

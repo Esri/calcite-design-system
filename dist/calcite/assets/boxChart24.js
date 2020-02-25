@@ -1,0 +1,1 @@
+export const boxChart24 = "M2 22h21v1H1V1h1zm4-10H4V6h2V3H5V2h3v1H7v3h2v6H7v3h1v1H5v-1h1zM5 9h3V7H5zm3 2v-1H5v1zm5 6h-2v-6h2V5h-1V4h3v1h-1v6h2v6h-2v2h1v1h-3v-1h1zm-1-4h3v-1h-3zm3 3v-2h-3v2zm8-9v5h-2v5h1v1h-3v-1h1v-5h-2V7h2V2h-1V1h3v1h-1v5zm-1 3h-3v1h3zm0-2h-3v1h3z";
