@@ -5,11 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- new component `calcite-card`
+
 ## [v1.0.0-beta.19] - Feb 19th 2020
 
 ### Added
 
-- `calcite-dropdown-item` can now display icons by passing a Calcite UI Icon name(s) to the `icon-start` and / or `icon-end` attribute -`calcite-dropdown` now has a `width` attribute which accept a value of "s", "m", or "l", and defaults to "m"
+- `calcite-dropdown-item` can now display icons by passing a Calcite UI Icon name(s) to the `icon-start` and / or `icon-end` attribute
+- `calcite-dropdown` now has a `width` attribute which accept a value of "s", "m", or "l", and defaults to "m"
 
 ### Breaking Changes
 
