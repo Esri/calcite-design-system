@@ -40,8 +40,6 @@ calcite-input slot:not[name="input-message"] {
   font-weight: 500;
 }
 
-
-
 // icon
 calcite-input[icon] input {
   padding-left: $baseline * 1.5;
@@ -102,21 +100,12 @@ calcite-input[appearance="minimal"] .calcite-input-loading {
 // slotted action
 .calcite-input-action-wrapper {
   display: flex;
-  flex: 1;
   order: 9;
-  & calcite-button {
+  max-width: 50%;
+  &::slotted(calcite-button) {
     width: 100%;
-    flex: 1;
-    margin: 0;
-  }
-  & *   {
-    flex: 1;
-    width: 100%;
-    margin: 0;
   }
 }
-
-
 
 // prefix and suffix
 .calcite-input-prefix,

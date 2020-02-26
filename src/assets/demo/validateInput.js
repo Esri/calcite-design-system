@@ -104,6 +104,7 @@ function validatePasswordExampleFocusMessageNative(event) {
   if (!existingMessage) {
     var message = document.createElement("calcite-input-message");
     message.active = true;
+    message.icon = true
     message.id = "pw-status-2";
     message.innerHTML = `This should be at least 6 characters long`;
     targetInput.appendChild(message);

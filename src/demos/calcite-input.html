@@ -142,15 +142,39 @@
             </calcite-input>
           </calcite-label>
           <calcite-label>
-            with button
+            with button auto
             <calcite-input placeholder="0">
               <calcite-button slot="input-action">Go</calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
             with button
+            <calcite-input type="number"  placeholder="0">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button
+            <calcite-input type="number" number-button-type="horizontal" placeholder="0">
+              <calcite-button slot="input-action">Go or some long text that might wrap</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button auto
             <calcite-input placeholder="0">
-              <calcite-button width="half" slot="input-action">Go</calcite-button>
+              <calcite-button width="full" slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button with icon
+            <calcite-input placeholder="0">
+              <calcite-button slot="input-action" icon="plus">Add </calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button with icon
+            <calcite-input placeholder="0">
+              <calcite-button width="full" slot="input-action" icon="plus"></calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
@@ -224,32 +248,45 @@
             <calcite-input placeholder="john@doe.com" value="john@do" loading></calcite-input>
           </calcite-label>
           <calcite-label>
-            Date input
-            <calcite-input type="date"></calcite-input>
-          </calcite-label>
-          <calcite-label>
-            Time input
-            <calcite-input type="time"></calcite-input>
+            Date input with default icon
+            <calcite-input icon="calendar" type="date"></calcite-input>
           </calcite-label>
 
           <calcite-label>
-            Tel input
-            <calcite-input type="tel" placeholder="(123) 456-7890"></calcite-input>
+            Time input with default icon
+            <calcite-input icon type="time"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Time input with custom calcite icon
+            <calcite-input icon="clock-up" type="time"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Tel input with default icon
+            <calcite-input icon type="tel" placeholder="(123) 456-7890"></calcite-input>
           </calcite-label>
 
           <calcite-label>
-            Email input
-            <calcite-input type="email" placeholder="john@doe.com"></calcite-input>
+            Email input with default icon
+            <calcite-input icon type="email" placeholder="john@doe.com"></calcite-input>
           </calcite-label>
 
           <calcite-label>
-            Password input
-            <calcite-input type="password" placeholder="•••••"></calcite-input>
+            Password input with default icon
+            <calcite-input icon type="password" placeholder="•••••"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Password input with custom calcite icon
+            <calcite-input icon="key" type="password" placeholder="•••••"></calcite-input>
+          </calcite-label>
+
+          <calcite-label>
+            Plain text with calcite icon
+            <calcite-input icon="lightbulb" placeholder="asdfasdfas"></calcite-input>
           </calcite-label>
 
           <calcite-label>
             Search input
-            <calcite-input type="search" placeholder="Filter your files"></calcite-input>
+            <calcite-input icon="magnifying-glass" type="search" placeholder="Filter your files"></calcite-input>
           </calcite-label>
 
         </calcite-accordion-item>
@@ -351,6 +388,24 @@
             <calcite-input type="tel" placeholder="Enter your cell phone"></calcite-input>
             <calcite-input-message active status="idle">This is where we'll call you</calcite-input-message>
           </calcite-label>
+          <calcite-label status="valid">
+            Valid input
+            <calcite-input placeholder="Filter your files" value="files"></calcite-input>
+            <calcite-input-message icon active>Yep, that looks good to us</calcite-input-message>
+          </calcite-label>
+
+          <calcite-label status="invalid">
+            Invalid input with icon
+            <calcite-input type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
+            <calcite-input-message icon active>Something doesn't look right with that that may wrap to multiple lines
+              of message</calcite-input-message>
+          </calcite-label>
+
+          <calcite-label>
+            Idle input message explicitly set with icon
+            <calcite-input type="tel" placeholder="Enter your cell phone"></calcite-input>
+            <calcite-input-message icon active status="idle">This is where we'll call you</calcite-input-message>
+          </calcite-label>
         </calcite-accordion-item>
 
         <calcite-accordion-item item-title="Input messages and statuses - floating" active>
@@ -377,7 +432,27 @@
           <calcite-label>
             Idle input message explicitly set
             <calcite-input appearance="minimal" type="tel" placeholder="Enter your cell phone"></calcite-input>
-            <calcite-input-message active type="floating" active status="idle">This is where we'll call you
+            <calcite-input-message icon active type="floating" active status="idle">This is where we'll call you
+            </calcite-input-message>
+          </calcite-label>
+          <calcite-label status="valid">
+            Valid input
+            <calcite-input appearance="minimal" placeholder="Filter your files" value="files"></calcite-input>
+            <calcite-input-message icon type="floating" active>Yep, that looks good to us</calcite-input-message>
+          </calcite-label>
+
+          <calcite-label status="invalid">
+            Invalid input
+            <calcite-input appearance="minimal" type="search" placeholder="Filter your files" value="adfo2h2">
+            </calcite-input>
+            <calcite-input-message icon type="floating" active>Something doesn't look right with that that may wrap to
+              multiple lines of message</calcite-input-message>
+          </calcite-label>
+
+          <calcite-label>
+            Idle input message explicitly set
+            <calcite-input appearance="minimal" type="tel" placeholder="Enter your cell phone"></calcite-input>
+            <calcite-input-message icon active type="floating" active status="idle">This is where we'll call you
             </calcite-input-message>
           </calcite-label>
         </calcite-accordion-item>

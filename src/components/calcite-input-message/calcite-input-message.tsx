@@ -42,7 +42,7 @@ export class CalciteInputMessage {
     "default";
 
   /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ reflect: true }) icon: boolean;
 
   /** specify the theme, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
@@ -57,9 +57,6 @@ export class CalciteInputMessage {
     let statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
       this.status = getElementProp(this.el, "status", "idle");
-
-    if (!this.icon && this.iconDefaults[this.status])
-      this.icon = this.iconDefaults[this.status];
   }
 
   render() {
@@ -68,7 +65,7 @@ export class CalciteInputMessage {
     const icon = this.setIcon(this.iconDefaults[this.status]);
     return (
       <Host theme={theme} dir={dir}>
-        {icon}
+        {this.icon ? icon : null}
         <slot />
       </Host>
     );
@@ -82,7 +79,7 @@ export class CalciteInputMessage {
 
   // icons for status and validation
   private iconDefaults = {
-    valid: "check",
+    valid: "check-circle",
     invalid: "exclamation-mark-triangle",
     idle: "information"
   };

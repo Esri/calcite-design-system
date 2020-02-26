@@ -56,7 +56,7 @@ export class CalciteInput {
   @Prop({ mutable: true }) suffixText?: string;
 
   /** for recognized input types, show an icon if applicable */
-  @Prop({ mutable: true, reflect: true }) icon: boolean;
+  @Prop({ mutable: true, reflect: true }) icon: string | boolean = false;
 
   /** specify the input type */
   @Prop({ mutable: true, reflect: true }) type:
@@ -143,9 +143,14 @@ export class CalciteInput {
     )
       this.numberButtonType = "vertical";
 
-    // only allow icon=true to be set on input types that have associated icons
+    // if an icon string is not provided, but icon is true and a default icon is present
+    // for the requested type, set that as the icon
     let typesWithIcons = ["date", "email", "password", "search", "tel", "time"];
-    this.icon = typesWithIcons.includes(this.type) && !this.icon ? true : false;
+    this.icon = this.icon
+      ? (this.icon as string)
+      : this.icon !== false && typesWithIcons.includes(this.type)
+      ? this.iconTypeDefaults[this.type]
+      : false;
   }
 
   componentDidLoad() {
@@ -166,7 +171,7 @@ export class CalciteInput {
 
   render() {
     const dir = getElementDir(this.el);
-    const icon = this.setIcon();
+
     const attributes = this.getAttributes();
     const loader = (
       <div class="calcite-input-loading">
@@ -206,6 +211,13 @@ export class CalciteInput {
       </div>
     );
 
+    const iconEl = (
+      <calcite-icon
+        class="calcite-input-icon"
+        scale="s"
+        icon={this.icon as string}
+      ></calcite-icon>
+    );
     const childEl =
       this.childElType !== "textarea" ? (
         <input
@@ -261,7 +273,7 @@ export class CalciteInput {
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp
             : null}
-          {this.icon ? icon : null}
+          {this.icon ? iconEl : null}
           {this.loading ? loader : null}
         </div>
       </Host>
@@ -390,15 +402,4 @@ export class CalciteInput {
       this.value = this.childEl.value.toString();
     }
   };
-
-  private setIcon() {
-    let iconName = this.iconTypeDefaults[this.type];
-    return (
-      <calcite-icon
-        class="calcite-input-icon"
-        scale="s"
-        icon={iconName}
-      ></calcite-icon>
-    );
-  }
 }

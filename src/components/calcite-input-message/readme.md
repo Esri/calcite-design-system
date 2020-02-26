@@ -16,9 +16,11 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 `appearance` = [`floating`,`default`] - defaults to `default` - `floating ` absolutely positions the component for use cases where vertical height may be limited
 
-`active` = [`true`,`false`] - defaults to `false`
+`active` = [boolean] - defaults to `false`
 
+`icon` = [boolean] - defaults to `false` - if true, show a pre-determined icon determined by status
 
+ 
 <!-- Auto Generated Below -->
 
 
@@ -28,7 +30,7 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 | ------------ | ------------ | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
 | `active`     | `active`     |                                                                                                                                  | `boolean`                        | `false`     |
 | `appearance` | `appearance` | specify the appearance type - minimal or default                                                                                 | `"default" \| "minimal"`         | `"default"` |
-| `icon`       | `icon`       | optionally pass icon path data - pass only raw path data from calcite ui helper                                                  | `string`                         | `undefined` |
+| `icon`       | `icon`       | optionally pass icon path data - pass only raw path data from calcite ui helper                                                  | `boolean`                        | `undefined` |
 | `scale`      | `scale`      | specify the scale of the input, defaults to m                                                                                    | `"l" \| "m" \| "s"`              | `"m"`       |
 | `status`     | `status`     | specify the status of the input field, determines message and icons                                                              | `"idle" \| "invalid" \| "valid"` | `undefined` |
 | `theme`      | `theme`      | specify the theme, defaults to light                                                                                             | `"dark" \| "light"`              | `"light"`   |

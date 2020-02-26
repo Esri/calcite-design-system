@@ -11,7 +11,7 @@
 `alignment` = [`start`/`end`] - defaults to `start` - specify the alignment of the value / placeholder inside the input. Useful for aligning numbers, etc. 
 
 
-`icon` = boolean - defaults to `true` (will only work on `tel`, `email`, `password`, `search`, `date`, `time`)
+`icon` = boolean - defaults to `false`. You can pass a custom icon like icon="plus" - it will only accept valid Calcite UI Icon names. You can also just use icon as a boolean, and default to a recommended icon for that field type (will only work on `tel`, `email`, `password`, `search`, `date`, `time`)
 
 `prefix-string` and `suffix-string` allow you position strings in a leading and trailing position.
 
@@ -116,7 +116,7 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `alignment`        | `alignment`          | specify the alignment of the value of the input                     | `"end" \| "start"`                                                                                                                                                                     | `"start"`    |
 | `appearance`       | `appearance`         | specify the appearance type - minimal or default                    | `"default" \| "minimal"`                                                                                                                                                               | `"default"`  |
 | `autofocus`        | `autofocus`          | should the input autofocus                                          | `boolean`                                                                                                                                                                              | `false`      |
-| `icon`             | `icon`               | for recognized input types, show an icon if applicable              | `boolean`                                                                                                                                                                              | `undefined`  |
+| `icon`             | `icon`               | for recognized input types, show an icon if applicable              | `boolean \| string`                                                                                                                                                                    | `false`      |
 | `loading`          | `loading`            | specify if the input is in loading state                            | `boolean`                                                                                                                                                                              | `false`      |
 | `numberButtonType` | `number-button-type` | specify the placement of the number buttons                         | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"` |
 | `prefixText`       | `prefix-text`        | optionally add prefix  *                                            | `string`                                                                                                                                                                               | `undefined`  |
