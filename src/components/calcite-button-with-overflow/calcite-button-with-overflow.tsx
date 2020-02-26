@@ -31,9 +31,6 @@ export class CalciteButtonWithOverflow {
   //
   //--------------------------------------------------------------------------
 
-    /** A function to run when the primary button is pressed */
-  @Prop({ mutable: true, reflect: true }) primaryAction: (event: MouseEvent) => void = () => {}
-
   /** specify the color of the control, defaults to blue */
   @Prop({ mutable: true, reflect: true }) color:
     "blue"

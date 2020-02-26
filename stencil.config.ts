@@ -66,6 +66,7 @@ export const config: Config = {
     })
   ],
   testing: {
+    browserHeadless: false,
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js"
     }
