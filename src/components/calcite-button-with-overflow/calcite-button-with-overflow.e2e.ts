@@ -16,7 +16,6 @@ describe("calcite-button-with-overflow", () => {
       <calcite-button-with-overflow>
       </calcite-button-with-overflow>`);
     const element = await page.find("calcite-button-with-overflow");
-    const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "xs");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("theme", "light");
