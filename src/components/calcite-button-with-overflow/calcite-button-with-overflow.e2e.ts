@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-describe("calcite-dropdown", () => {
+describe("calcite-button-with-overflow", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent(`
