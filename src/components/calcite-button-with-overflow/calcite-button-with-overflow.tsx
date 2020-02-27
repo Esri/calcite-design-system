@@ -102,7 +102,7 @@ export class CalciteButtonWithOverflow {
             <div class='divider'/>
           </div>
           <calcite-dropdown
-              alignment={this.dropdownAlignment}
+              dir={dir}
               theme={this.theme}
               scale={this.dropdownScale}
               width={this.dropdownScale}>
@@ -130,11 +130,6 @@ export class CalciteButtonWithOverflow {
   //--------------------------------------------------------------------------
 
   private primaryButtonClickedHandler = (e: MouseEvent) => this.primaryButtonClicked.emit(e)
-
-  private get dropdownAlignment() {
-    const dir = getElementDir(this.el);
-    return dir === "rtl" ? "right" : "left"
-  }
 
   private get dropdownScale() {
     const scaleLookup: { [id in Scale] : "s" | "m" | "l" } = {
