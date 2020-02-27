@@ -4,7 +4,7 @@ describe("calcite-button-with-overflow", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-button-with-overflow scale='xs' primary-text="Primary Option">
+      <calcite-button-with-overflow>
       </calcite-button-with-overflow>`);
     const element = await page.find("calcite-button-with-overflow");
     expect(element).toHaveClass("hydrated");
@@ -16,7 +16,7 @@ describe("calcite-button-with-overflow", () => {
       <calcite-button-with-overflow>
       </calcite-button-with-overflow>`);
     const element = await page.find("calcite-button-with-overflow");
-    expect(element).toEqualAttribute("scale", "xs");
+    expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("theme", "light");
   });
@@ -27,7 +27,7 @@ describe("calcite-button-with-overflow", () => {
       <calcite-button-with-overflow color="green" scale="fairly small" theme="moody">
       </calcite-button-with-overflow>`);
     const element = await page.find("calcite-button-with-overflow");
-    expect(element).toEqualAttribute("scale", "xs");
+    expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("theme", "light");
   });
@@ -35,11 +35,11 @@ describe("calcite-button-with-overflow", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-button-with-overflow scale="m" color="red" theme="dark" loading="true" disabled="true" overflow-label="more actions">
+      <calcite-button-with-overflow scale="xs" color="red" theme="dark" loading="true" disabled="true" overflow-label="more actions">
       </calcite-button-with-overflow>`);
     const element = await page.find("calcite-button-with-overflow");
     const dropdownButton = await page.find("calcite-button-with-overflow >>> calcite-dropdown calcite-button")
-    expect(element).toEqualAttribute("scale", "m");
+    expect(element).toEqualAttribute("scale", "xs");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("theme", "dark");
     expect(element).toHaveAttribute("loading")

@@ -11,7 +11,7 @@ storiesOf("Button with Overflow", module)
     () => `
     <calcite-button-with-overflow
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-        scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
+        scale="${select("size", ["xs", "s", "m", "l", "xl"], "m")}"
         loading="${boolean("loading", false)}"
         disabled="${boolean("disabled", false)}"
         primary-text="${text("primary-text", "Primary Option")}"
@@ -31,7 +31,7 @@ storiesOf("Button with Overflow", module)
     <div dir='rtl'>
       <calcite-button-with-overflow
           color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-          scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
+          scale="${select("size", ["xs", "s", "m", "l", "xl"], "m")}"
           loading="${boolean("loading", false)}"
           disabled="${boolean("disabled", false)}"
           primary-text="${text("primary-text", "Primary Option")}"
@@ -51,7 +51,7 @@ storiesOf("Button with Overflow", module)
     () => `
     <calcite-button-with-overflow
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-        scale="${select("size", ["xs", "s", "m", "l", "xl"], "xs")}"
+        scale="${select("size", ["xs", "s", "m", "l", "xl"], "m")}"
         loading="${boolean("loading", false)}"
         disabled="${boolean("disabled", false)}"
         primary-text="${text("primary-text", "Primary Option")}"

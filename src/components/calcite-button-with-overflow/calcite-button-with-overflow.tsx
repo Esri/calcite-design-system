@@ -38,11 +38,11 @@ export class CalciteButtonWithOverflow {
     | "light"
     | "red" = "blue";
 
-  /** Select theme (light or dark) */
+  /** Select theme (light or dark), defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of the control, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "xs";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** text for primary action button  */
   @Prop({ reflect: true }) primaryText: string;
@@ -78,7 +78,7 @@ export class CalciteButtonWithOverflow {
     if (!color.includes(this.color)) this.color = "blue";
 
     let scale = ["xs", "s", "m", "l", "xl"];
-    if (!scale.includes(this.scale)) this.scale = "xs";
+    if (!scale.includes(this.scale)) this.scale = "m";
 
     let theme = ["dark", "light"];
     if (!theme.includes(this.theme)) this.theme = "light";
