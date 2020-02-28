@@ -106,16 +106,16 @@ export class CalciteButtonWithOverflow {
               theme={this.theme}
               scale={this.dropdownScale}
               width={this.dropdownScale}>
-              <calcite-button
-                  aria-label={this.overflowLabel}
-                  slot="dropdown-trigger"
-                  scale={this.scale}
-                  color={this.color}
-                  disabled={this.disabled}
-                  theme={this.theme}
-                  icon='caretDown'
-                  textless-height='full'>
-              </calcite-button>
+            <calcite-button
+                aria-label={this.overflowLabel}
+                slot="dropdown-trigger"
+                scale={this.scale}
+                color={this.color}
+                disabled={this.disabled}
+                theme={this.theme}
+                icon='caretDown'
+                textless-height='full'>
+            </calcite-button>
             <slot />
           </calcite-dropdown>
         </div>

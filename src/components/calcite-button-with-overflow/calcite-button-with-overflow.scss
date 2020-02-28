@@ -3,10 +3,6 @@
     display: flex;
   }
 
-  calcite-icon {
-    pointer-events: none
-  }
-
   --calcite-button-light: #{$blk-010};
   --calcite-button-light-text: #{$blk-220};
   --calcite-button-dark: #{$blk-190};
