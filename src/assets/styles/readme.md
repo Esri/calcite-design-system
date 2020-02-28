@@ -56,11 +56,11 @@ The shadow of an element usually corresponds to the priority or importance of th
 
 ```
 --shadow-1
---shadow-1--hover
---shadow-1--press
+--shadow-1-hover
+--shadow-1-press
 --shadow-2
---shadow-2--hover
---shadow-2--press
+--shadow-2-hover
+--shadow-2-press
 ```
 
 Current usage:

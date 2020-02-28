@@ -10,7 +10,7 @@ function createExampleAlert(id) {
     "</calcite-alert>"
   ].join("\n");
 
-  // if the id element doesn't exist, insert into calcite-alerts
+  // if the id element doesn't exist, insert into page
   if (!document.querySelector("#" + id)) {
     document
       .querySelector("body")

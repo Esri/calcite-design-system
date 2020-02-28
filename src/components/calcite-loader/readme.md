@@ -42,11 +42,13 @@ For instances when you don't have room for the full loader, you can use the smal
 ### Used by
 
  - [calcite-button](../calcite-button)
+ - [calcite-card](../calcite-card)
 
 ### Graph
 ```mermaid
 graph TD;
   calcite-button --> calcite-loader
+  calcite-card --> calcite-loader
   style calcite-loader fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

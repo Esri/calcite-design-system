@@ -1,16 +1,3 @@
-// scale: s
-:host([scale="s"]) {
-  --calcite-dropdown-group-padding: #{$baseline/3 0};
-}
-
-:host([scale="m"]) {
-  --calcite-dropdown-group-padding: #{$baseline/2 0};
-}
-
-:host([scale="l"]) {
-  --calcite-dropdown-group-padding: #{$baseline/1.5 0};
-}
-
 :host .dropdown-title {
   display: block;
   margin: 0 $baseline/1.5 -1px $baseline/1.5;
