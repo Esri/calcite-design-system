@@ -43,7 +43,7 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [calcite-button-with-overflow](../calcite-button-with-overflow)
+ - [calcite-button-with-dropdown](../calcite-button-with-dropdown)
 
 ### Depends on
 
@@ -55,7 +55,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
-  calcite-button-with-overflow --> calcite-button
+  calcite-button-with-dropdown --> calcite-button
   style calcite-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

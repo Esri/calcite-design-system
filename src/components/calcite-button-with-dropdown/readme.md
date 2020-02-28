@@ -1,4 +1,4 @@
-# calcite-button-with-overflow
+# calcite-button-with-dropdown
 
 
 
@@ -11,8 +11,8 @@
 | --------------- | ---------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------- |
 | `color`         | `color`          | specify the color of the control, defaults to blue                                                       | `"blue" \| "dark" \| "light" \| "red"` | `"blue"`    |
 | `disabled`      | `disabled`       | is the control disabled                                                                                  | `boolean`                              | `undefined` |
+| `dropdownLabel` | `dropdown-label` | aria label for overflow button                                                                           | `string`                               | `undefined` |
 | `loading`       | `loading`        | optionally add a calcite-loader component to the control, disabling interaction. with the primary button | `boolean`                              | `false`     |
-| `overflowLabel` | `overflow-label` | aria label for overflow button                                                                           | `string`                               | `undefined` |
 | `primaryText`   | `primary-text`   | text for primary action button                                                                           | `string`                               | `undefined` |
 | `scale`         | `scale`          | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s" \| "xl" \| "xs"`    | `"m"`       |
 | `theme`         | `theme`          | Select theme (light or dark), defaults to light                                                          | `"dark" \| "light"`                    | `"light"`   |
@@ -35,11 +35,11 @@
 ### Graph
 ```mermaid
 graph TD;
-  calcite-button-with-overflow --> calcite-button
-  calcite-button-with-overflow --> calcite-dropdown
+  calcite-button-with-dropdown --> calcite-button
+  calcite-button-with-dropdown --> calcite-dropdown
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
-  style calcite-button-with-overflow fill:#f9f,stroke:#333,stroke-width:4px
+  style calcite-button-with-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

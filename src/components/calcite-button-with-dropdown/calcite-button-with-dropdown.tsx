@@ -11,8 +11,8 @@ import { Scale } from "../../interfaces/common";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-button-with-overflow",
-  styleUrl: "calcite-button-with-overflow.scss",
+  tag: "calcite-button-with-dropdown",
+  styleUrl: "calcite-button-with-dropdown.scss",
   shadow: true
 })
 
@@ -48,7 +48,7 @@ export class CalciteButtonWithOverflow {
   @Prop({ reflect: true }) primaryText: string;
 
   /** aria label for overflow button */
-  @Prop({ reflect: true }) overflowLabel: string;
+  @Prop({ reflect: true }) dropdownLabel: string;
 
   /** optionally add a calcite-loader component to the control,
     disabling interaction. with the primary button */
@@ -107,7 +107,7 @@ export class CalciteButtonWithOverflow {
               scale={this.dropdownScale}
               width={this.dropdownScale}>
             <calcite-button
-                aria-label={this.overflowLabel}
+                aria-label={this.dropdownLabel}
                 slot="dropdown-trigger"
                 scale={this.scale}
                 color={this.color}

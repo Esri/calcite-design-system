@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Button with Overflow</title>
+  <title>Calcite Button with Dropdown</title>
   <style>
     .demo-background-dark {
       background: #202020;
@@ -20,111 +20,111 @@
 </head>
 <body>
   <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Button with Overflow</h1>
+  <h1>Calcite Button with Dropdown</h1>
   <div style="width:1100px;position:relative;">
     <h3>Example with Custom Dropdown Content</h3>
-    <calcite-button-with-overflow primary-text="Primary Option">
+    <calcite-button-with-dropdown primary-text="Primary Option">
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
         <calcite-dropdown-item>Option 3</calcite-dropdown-item>
         <calcite-dropdown-item>Option 4</calcite-dropdown-item>
       </calcite-dropdown-group>
-    </calcite-button-with-overflow>
-    
+    </calcite-button-with-dropdown>
+
     <h3>Example with Custom Dropdown Content (RTL)</h3>
     <div dir="rtl">
-      <calcite-button-with-overflow primary-text="Primary Option">
+      <calcite-button-with-dropdown primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
+      </calcite-button-with-dropdown>
     </div>
 
     <h3>Color</h3>
     <div  style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-button-with-overflow primary-text="Primary Option"></calcite-button-with-overflow>
-      <calcite-button-with-overflow color='red' primary-text="Primary Option"></calcite-button-with-overflow>
-      <calcite-button-with-overflow color='light' primary-text="Primary Option"></calcite-button-with-overflow>
-      <calcite-button-with-overflow color='dark' primary-text="Primary Option"></calcite-button-with-overflow>
+      <calcite-button-with-dropdown primary-text="Primary Option"></calcite-button-with-dropdown>
+      <calcite-button-with-dropdown color='red' primary-text="Primary Option"></calcite-button-with-dropdown>
+      <calcite-button-with-dropdown color='light' primary-text="Primary Option"></calcite-button-with-dropdown>
+      <calcite-button-with-dropdown color='dark' primary-text="Primary Option"></calcite-button-with-dropdown>
     </div>
 
     <h3>Color (Dark Mode)</h3>
     <div class='demo-background-dark' style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-button-with-overflow theme='dark' primary-text="Primary Option">
+      <calcite-button-with-dropdown theme='dark' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
-      <calcite-button-with-overflow color='red' theme='dark' primary-text="Primary Option">
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown color='red' theme='dark' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
-      <calcite-button-with-overflow color='light' theme='dark' primary-text="Primary Option">
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown color='light' theme='dark' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
-      <calcite-button-with-overflow color='dark' theme='dark' primary-text="Primary Option">
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown color='dark' theme='dark' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
+      </calcite-button-with-dropdown>
     </div>
 
     <h3>Disabled</h3>
-    <calcite-button-with-overflow disabled=true primary-text="Primary Option"></calcite-button-with-overflow>
+    <calcite-button-with-dropdown disabled=true primary-text="Primary Option"></calcite-button-with-dropdown>
 
     <h3>Loading</h3>
-    <calcite-button-with-overflow loading=true primary-text="Primary Option"></calcite-button-with-overflow>
+    <calcite-button-with-dropdown loading=true primary-text="Primary Option"></calcite-button-with-dropdown>
 
     <h3>Scale</h3>
     <div  style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-button-with-overflow scale='xs' primary-text="Primary Option">
+      <calcite-button-with-dropdown scale='xs' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
-      <calcite-button-with-overflow scale='s' primary-text="Primary Option">
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown scale='s' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
-      <calcite-button-with-overflow scale='m' primary-text="Primary Option">
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown scale='m' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
-      <calcite-button-with-overflow scale='l' primary-text="Primary Option">
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown scale='l' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
-      <calcite-button-with-overflow scale='xl' primary-text="Primary Option">
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown scale='xl' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-overflow>
+      </calcite-button-with-dropdown>
       <script>
         document.addEventListener('primaryButtonClicked', () => alert('primary action'))
       </script>
