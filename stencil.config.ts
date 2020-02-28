@@ -41,7 +41,9 @@ export const config: Config = {
       ]
     },
     { components: ["calcite-tooltip"] },
-    { components: ["calcite-tree", "calcite-tree-item"] }
+    { components: ["calcite-tree", "calcite-tree-item"] },
+    { components: ["calcite-card"] },
+    { components: ["calcite-icon"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },

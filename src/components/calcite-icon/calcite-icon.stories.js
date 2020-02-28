@@ -16,11 +16,7 @@ export default {
 };
 
 export const simple = () =>
-  `<calcite-icon icon="${select(
-    "icon",
-    iconNames,
-    iconNames[0]
-  )}" scale="${select("size", ["s", "m", "l"], "m")}" filled="${boolean(
+  `<calcite-icon icon="sdafasd" scale="${select("size", ["s", "m", "l"], "m")}" filled="${boolean(
     "filled",
     false
   )}"></calcite-icon>`;

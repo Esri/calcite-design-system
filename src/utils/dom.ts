@@ -35,3 +35,7 @@ export function getSlottedElements<T extends Element>(
     T
   >;
 }
+
+export const HOST_CSS = {
+  hydratedInvisible: "hydrated--invisible"
+};

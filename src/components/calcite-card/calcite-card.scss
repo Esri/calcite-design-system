@@ -1,0 +1,123 @@
+:host {
+  max-width: 100%;
+  & .calcite-card-container  {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--calcite-ui-foreground);
+    transition: $transition;
+    position: relative;
+    border: 1px solid var(--calcite-ui-border-2);
+    color: var(--calcite-ui-text-3);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    &:hover {
+      box-shadow: $shadow-1--hover;
+      z-index: 1;
+    }
+    &:active {
+      box-shadow: $shadow-1--press;
+      z-index: 1;
+    }
+  }
+}
+
+:host([loading]) .calcite-card-container  *:not(calcite-loader):not(.calcite-card-loader-container) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+:host([loading]) .calcite-card-loader-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+:host([loading]) .calcite-card-loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 9;
+}
+
+:host .header,
+:host .footer {
+  padding: $baseline/2;
+  display: flex;
+}
+
+:host .header {
+  flex-direction: column;
+}
+
+:host .footer {
+  padding: $baseline/2;
+  flex-direction: row;
+}
+
+:host .card-content {
+  padding: 0 $baseline/2;
+  color: var(--calcite-ui-text-3);
+  @include font-size(-2);
+}
+
+// selectable and selected styles
+:host([selectable]) .calcite-card-container:active {
+  box-shadow: $shadow-1--press;
+}
+
+:host([selected]) .calcite-card-container  {
+  border-color: var(--calcite-ui-blue);
+}
+
+// slotted content
+@include slotted("title", "*") {
+  font-weight: 500;
+  color: var(--calcite-ui-text-1);
+  margin: 0;
+  @include font-size(-1);
+}
+
+@include slotted("subtitle", "*") {
+  font-weight: 400;
+  color: var(--calcite-ui-text-2);
+  margin: 0;
+  margin-top: $baseline/4;
+  @include font-size(-2);
+}
+
+@include slotted("thumbnail", "img") {
+  max-width: 100%;
+  min-width: 100%;
+}
+
+@include slotted("footer-leading", "*") {
+  margin-inline-end: auto;
+  align-self: center;
+  @include font-size(-2);
+}
+@include slotted("footer-trailing", "*") {
+  align-self: center;
+  @include font-size(-2);
+}
+
+:host .thumbnail-wrapper {
+  font-size: 0;
+}
+
+:host .card-checkbox-wrapper {
+  position: absolute;
+  top: $baseline/4;
+  right: $baseline/4;
+  margin: 0;
+  padding: 0;
+}
+
+:host([dir="rtl"]) .card-checkbox-wrapper {
+  left: $baseline/4;
+  right: initial;
+}

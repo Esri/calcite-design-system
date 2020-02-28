@@ -23,14 +23,6 @@
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Popover</h1>
 
-  <calcite-popover placement="top-start" reference-element="popover-button" boundaries-element="popover-boundary"
-    id="popover" close-button>
-    <img slot="image" src="https://placem.at/places?w=200&txt=0" />
-    <div style="padding:12px 16px;">Here kitty kitty!
-    </div>
-  </calcite-popover>
-
-
   <calcite-popover reference-element="popover-button-two" placement="right-start" id="popover-two" add-click-handle>
     <div style="padding:12px 16px">Hello! I am some popover content!</div>
   </calcite-popover>
@@ -94,7 +86,7 @@
       list-style: none;
       margin: 0;
       padding: 20px 10px;
-      margin: 0 40px;
+      margin: 0 ;
     }
 
     .popover-list li {
@@ -102,6 +94,7 @@
     }
 
     .popover-scroller {
+      position: relative;
       margin: 20px 40px;
       width: 500px;
       height: 500px;
@@ -161,6 +154,12 @@
       dictum dictum rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia
       risus quisque potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
     </p>
+    <calcite-popover placement="top-start" reference-element="popover-button"
+    id="popover" close-button>
+    <img slot="image" src="https://placem.at/places?w=200&txt=0" />
+    <div style="padding:12px 16px;">Here kitty kitty!
+    </div>
+  </calcite-popover>
     <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
       Popover with picture</calcite-button>
     <p>
