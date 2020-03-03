@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Breaking Changes
 - `calcite-dropdown` - `alignment` attribute now uses `start` and `end` values instead of `left` and `right`
+- `calcite-dropdown-item` - removes `href` and `link-title` attributes
 
 ### Updated
 - `calcite-dropdown` - updates styling for `selection-mode=none`

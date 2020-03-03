@@ -43,12 +43,6 @@ export class CalciteDropdownItem {
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
-  /** pass an optional href to render an anchor around the link items */
-  @Prop() href?: string;
-
-  /** pass an optional title for rendered href */
-  @Prop() linkTitle?: string;
-
   /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
@@ -99,7 +93,7 @@ export class CalciteDropdownItem {
       ></calcite-icon>
     );
 
-    const slottedContent =
+    const content =
       this.iconStart && this.iconEnd ? (
         [iconStartEl, <slot />, iconEndEl]
       ) : this.iconStart ? (
@@ -110,14 +104,6 @@ export class CalciteDropdownItem {
         <slot />
       );
 
-    const contentEl = !this.href ? (
-      slottedContent
-    ) : (
-      <a href={this.href} title={this.linkTitle}>
-        {slottedContent}
-      </a>
-    );
-
     return (
       <Host
         dir={dir}
@@ -125,7 +111,6 @@ export class CalciteDropdownItem {
         role="menuitem"
         selection-mode={this.selectionMode}
         aria-selected={this.active.toString()}
-        isLink={this.href}
       >
         {this.selectionMode === "multi" ? (
           <calcite-icon
@@ -134,7 +119,7 @@ export class CalciteDropdownItem {
             icon="check"
           />
         ) : null}
-        {contentEl}
+        {content}
       </Host>
     );
   }
