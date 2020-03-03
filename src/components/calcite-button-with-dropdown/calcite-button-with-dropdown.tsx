@@ -17,28 +17,17 @@ import { getElementDir } from "../../utils/dom";
 })
 
 export class CalciteButtonWithOverflow {
-  //--------------------------------------------------------------------------
-  //
-  //  Element
-  //
-  //--------------------------------------------------------------------------
 
   @Element() el: HTMLElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  //--------------------------------------------------------------------------
-
   /** specify the color of the control, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color:
+  @Prop({ reflect: true }) color:
     "blue"
     | "dark"
     | "light"
     | "red" = "blue";
 
-  /** Select theme (light or dark), defaults to light */
+  /** select theme (light or dark), defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of the control, defaults to m */
@@ -57,20 +46,8 @@ export class CalciteButtonWithOverflow {
   /** is the control disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
   /** Fired when the modal begins the open animation */
   @Event() primaryButtonClicked: EventEmitter;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
 
   connectedCallback() {
     // prop validations
@@ -102,6 +79,7 @@ export class CalciteButtonWithOverflow {
             <div class='divider'/>
           </div>
           <calcite-dropdown
+              alignment='right'
               dir={dir}
               theme={this.theme}
               scale={this.dropdownScale}
@@ -122,12 +100,6 @@ export class CalciteButtonWithOverflow {
       </Host>
     );
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
 
   private primaryButtonClickedHandler = (e: MouseEvent) => this.primaryButtonClicked.emit(e)
 
