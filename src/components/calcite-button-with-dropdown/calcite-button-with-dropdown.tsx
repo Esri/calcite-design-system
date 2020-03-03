@@ -36,6 +36,9 @@ export class CalciteButtonWithOverflow {
   /** text for primary action button  */
   @Prop({ reflect: true }) primaryText: string;
 
+  /** optionally pass an icon to display on the primary button - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) primaryIcon?: string;
+
   /** aria label for overflow button */
   @Prop({ reflect: true }) dropdownLabel: string;
 
@@ -70,6 +73,8 @@ export class CalciteButtonWithOverflow {
               color={this.color}
               scale={this.scale}
               loading={this.loading}
+              icon={this.primaryIcon}
+              iconPosition={dir === 'ltr' ? 'start' : 'end'}
               disabled={this.disabled}
               theme={this.theme}
               onClick={this.primaryButtonClickedHandler}>
