@@ -49,7 +49,7 @@
   }
 }
 
-:host([active]) {
+:host([active]:not([selection-mode="none"])) {
   color: var(--calcite-ui-text-1);
   font-weight: 500;
   &:before {
@@ -59,6 +59,24 @@
   & calcite-icon {
     color: var(--calcite-ui-blue);
   }
+}
+
+// no dot for none and multi modes
+:host([selection-mode="multi"]):before,
+:host([selection-mode="none"]):before,
+:host([selection-mode="multi"][isLink]) a:before,
+:host([selection-mode="none"][isLink]) a:before {
+  display: none;
+}
+
+:host([selection-mode="none"]),
+:host([selection-mode="none"][isLink]) a {
+  padding-left: $baseline/1.5;
+}
+
+:host([dir="rtl"][selection-mode="none"]),
+:host([dir="rtl"][selection-mode="none"][isLink]) a {
+  padding-right: $baseline/1.5;
 }
 
 // when used as link move styling anchor
@@ -71,6 +89,7 @@
     @include itemStyling;
   }
 }
+
 
 :host([islink]) a:hover,
 :host([islink]) a:focus,
@@ -86,7 +105,7 @@
   background-color: var(--calcite-ui-foreground-press);
 }
 
-:host([islink][active]) a {
+:host([islink][active]:not([selection-mode="none"])) a {
   color: var(--calcite-ui-text-1);
   font-weight: 500;
   &:before {
@@ -103,8 +122,34 @@
   }
 }
 
-//icons
+:host([islink][selection-mode="none"]) a:before {
+  display: none;
+}
+// multi select check icon
+:host .dropdown-item-check-icon {
+  position: absolute;
+  left: $baseline / 1.75;
+  opacity: 0;
+  transform: scaleY(0.5);
+}
 
+:host([dir="rtl"]) .dropdown-item-check-icon {
+  left: unset;
+  right: $baseline / 1.75;
+
+}
+
+:host(:hover) .dropdown-item-check-icon {
+  color: var(--calcite-ui-text-1);
+  opacity: 1;
+}
+
+:host([active]) .dropdown-item-check-icon {
+  color: var(--calcite-ui-blue);
+  opacity: 1;
+}
+
+// icons
 :host .dropdown-item-icon-start {
   margin-right: $baseline / 1.5;
 }

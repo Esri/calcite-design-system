@@ -18,10 +18,7 @@ import {
   END,
   SPACE
 } from "../../utils/keys";
-import {
-  getElementDir,
-  getElementProp
-} from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -126,9 +123,17 @@ export class CalciteDropdownItem {
         dir={dir}
         tabindex="0"
         role="menuitem"
+        selection-mode={this.selectionMode}
         aria-selected={this.active.toString()}
         isLink={this.href}
       >
+        {this.selectionMode === "multi" ? (
+          <calcite-icon
+            class="dropdown-item-check-icon"
+            scale="s"
+            icon="check"
+          />
+        ) : null}
         {contentEl}
       </Host>
     );

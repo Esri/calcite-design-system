@@ -10,7 +10,7 @@ storiesOf("Dropdown", module)
     "Simple",
     () => `
     <calcite-dropdown
-      alignment="${select("alignment", ["left", "right"], "left")}"
+      alignment="${select("alignment", ["start", "center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
@@ -33,7 +33,7 @@ storiesOf("Dropdown", module)
     "With Icons",
     () => `
     <calcite-dropdown
-      alignment="${select("alignment", ["left", "right"], "left")}"
+      alignment="${select("alignment", ["start","center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
@@ -74,7 +74,7 @@ storiesOf("Dropdown", module)
     "Groups and selection modes",
     () => `
   <calcite-dropdown
-    alignment="${select("alignment", ["left", "right"], "left")}"
+    alignment="${select("alignment", ["start","center", "end"], "start")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -103,7 +103,7 @@ storiesOf("Dropdown", module)
     () => `
     <calcite-dropdown
       theme="dark"
-      alignment="${select("alignment", ["left", "right"], "left")}"
+      alignment="${select("alignment", ["start","center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
        width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
@@ -127,7 +127,7 @@ storiesOf("Dropdown", module)
     () => `
     <calcite-dropdown
       theme="dark"
-      alignment="${select("alignment", ["left", "right"], "left")}"
+      alignment="${select("alignment", ["start","center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
@@ -169,7 +169,7 @@ storiesOf("Dropdown", module)
     () => `
   <calcite-dropdown
     theme="dark"
-    alignment="${select("alignment", ["left", "right"], "left")}"
+    alignment="${select("alignment", ["start","center", "end"], "start")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
   >
@@ -191,4 +191,28 @@ storiesOf("Dropdown", module)
   </calcite-dropdown>
 `,
 { notes, backgrounds: darkBackground }
+  )
+  .add(
+    "Simple - RTL",
+    () => `
+    <calcite-dropdown
+      dir="rtl"
+      alignment="${select("alignment", ["start","center", "end"], "start")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      width="${select("width", ["s", "m", "l"], "m")}"
+      type="${select("type", ["click", "hover"], "click")}"
+    >
+      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-dropdown-group selection-mode="${select(
+        "group selection mode",
+        ["single", "multi", "none"],
+        "single"
+      )}" group-title="Sort by">
+        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item>Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  `,
+    { notes }
   );

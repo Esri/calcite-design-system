@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] 
+
+### Breaking Changes
+- `calcite-dropdown` - `alignment` attribute now uses `start` and `end` values instead of `left` and `right`
+
+### Updated
+- `calcite-dropdown` - updates styling for `selection-mode=none`
+- `calcite-dropdown` - active state indicators for `selection-mode=multi` have been updated to use checkmarks
+
+### Fixed
+- `calcite-dropdown` - `alignment=center` now correctly positions the dropdown if the slotted `dropdown-trigger` is wider than the dropdown container
+
 ## [v1.0.0-beta.20] - Feb 25th 2020
 
 ### Added

@@ -46,7 +46,7 @@ describe("calcite-dropdown", () => {
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "m");
     expect(element).toEqualAttribute("theme", "light");
-    expect(element).toEqualAttribute("alignment", "left");
+    expect(element).toEqualAttribute("alignment", "start");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
 
@@ -73,14 +73,14 @@ describe("calcite-dropdown", () => {
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "m");
     expect(element).toEqualAttribute("theme", "light");
-    expect(element).toEqualAttribute("alignment", "left");
+    expect(element).toEqualAttribute("alignment", "start");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-dropdown alignment="right" scale="l" width="l" theme="dark">
+    <calcite-dropdown alignment="end" scale="l" width="l" theme="dark">
     <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="multi">
     <calcite-dropdown-item id="item-1">
@@ -100,7 +100,7 @@ describe("calcite-dropdown", () => {
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "l");
     expect(element).toEqualAttribute("theme", "dark");
-    expect(element).toEqualAttribute("alignment", "right");
+    expect(element).toEqualAttribute("alignment", "end");
     expect(group1).toEqualAttribute("selection-mode", "multi");
   });
 

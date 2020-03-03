@@ -74,7 +74,7 @@
     <br />
     <br />
 
-    <h3> Dropdown widths</h3>
+    <h3>Dropdown widths</h3>
     <calcite-dropdown width="s">
       <calcite-button slot="dropdown-trigger">Icon - Width S</calcite-button>
       <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single - default">
@@ -163,7 +163,7 @@
       </calcite-dropdown-group>
     </calcite-dropdown>
 
-    <calcite-dropdown alignment="right" type="hover">
+    <calcite-dropdown alignment="end" type="hover">
       <calcite-button slot="dropdown-trigger">Open Dropdown type hover right aligned</calcite-button>
 
       <calcite-dropdown-group group-title="View">
@@ -195,6 +195,22 @@
         <calcite-dropdown-item href="/mypage" link-title="My Page" icon-start="grid">Relevance</calcite-dropdown-item>
         <calcite-dropdown-item href="/mypage2" link-title="My Page 2" active>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item href="/mypage3" link-title="My Page 3">Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+    <calcite-dropdown>
+      <calcite-button slot="dropdown-trigger">Links - selection mode none</calcite-button>
+      <calcite-dropdown-group selection-mode="none">
+        <calcite-dropdown-item href="/mypage" link-title="My Page" icon-start="grid">Relevance</calcite-dropdown-item>
+        <calcite-dropdown-item href="/mypage2" link-title="My Page 2" active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item href="/mypage3" link-title="My Page 3">Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+    <calcite-dropdown>
+      <calcite-button slot="dropdown-trigger">Links - selection mode none</calcite-button>
+      <calcite-dropdown-group selection-mode="multi">
+        <calcite-dropdown-item href="/mypage" link-title="My Page" icon-start="grid">Relevance</calcite-dropdown-item>
+        <calcite-dropdown-item href="/mypage2" link-title="My Page 2" active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item href="/mypage3" link-title="My Page 3" active>Title</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
     <br />
