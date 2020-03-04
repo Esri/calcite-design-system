@@ -1,4 +1,4 @@
-:host {
+@mixin itemStyling {
   display: flex;
   flex-grow: 1;
   align-items: center;
@@ -17,6 +17,18 @@
     opacity: 0;
     color: $blk-120;
     transition: $transition;
+  }
+}
+
+:host {
+  @include itemStyling;
+}
+
+// when used as link move styling anchor
+:host([islink]) {
+  padding: 0;
+  & a {
+    @include itemStyling;
   }
 }
 
@@ -63,11 +75,13 @@
   display: none;
 }
 
-:host([selection-mode="none"]) {
+:host([selection-mode="none"]:not([islink])),
+:host([selection-mode="none"][isLink]) a {
   padding-left: $baseline/1.5;
 }
 
-:host([dir="rtl"][selection-mode="none"]) {
+:host([dir="rtl"][selection-mode="none"]:not([islink])),
+:host([dir="rtl"][selection-mode="none"][isLink]) a {
   padding-right: $baseline/1.5;
 }
 
@@ -77,6 +91,7 @@
   left: $baseline / 1.75;
   opacity: 0;
   transform: scale(0.9);
+  transition: $transition;
 }
 
 :host([dir="rtl"]) .dropdown-item-check-icon {
@@ -98,7 +113,6 @@
 :host .dropdown-item-icon-start {
   margin-right: $baseline / 1.5;
 }
-
 :host .dropdown-item-icon-end {
   margin-left: auto;
   padding-left: $baseline / 1.5;

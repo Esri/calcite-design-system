@@ -33,7 +33,7 @@ storiesOf("Dropdown", module)
     "With Icons",
     () => `
     <calcite-dropdown
-      alignment="${select("alignment", ["start","center", "end"], "start")}"
+      alignment="${select("alignment", ["start", "center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
@@ -74,7 +74,7 @@ storiesOf("Dropdown", module)
     "Groups and selection modes",
     () => `
   <calcite-dropdown
-    alignment="${select("alignment", ["start","center", "end"], "start")}"
+    alignment="${select("alignment", ["start", "center", "end"], "start")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -99,11 +99,32 @@ storiesOf("Dropdown", module)
     { notes }
   )
   .add(
-    "Dark mode",
+    "Items as Links",
+    () => `
+  <calcite-dropdown
+    alignment="${select("alignment", ["start", "center", "end"], "start")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    width="${select("width", ["s", "m", "l"], "m")}"
+    type="${select("type", ["click", "hover"], "click")}"
+  >
+    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group selection-mode="none" group-title="Select one">
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Throw Apples</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Visit Oranges</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Eat Grapes</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-start="camera-flash-on">Plant beans</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-end="camera-flash-on">Add peas</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`,
+    { notes }
+  )
+  .add(
+    "Dark theme",
     () => `
     <calcite-dropdown
       theme="dark"
-      alignment="${select("alignment", ["start","center", "end"], "start")}"
+      alignment="${select("alignment", ["start", "center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
        width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
@@ -123,11 +144,11 @@ storiesOf("Dropdown", module)
     { notes, backgrounds: darkBackground }
   )
   .add(
-    "With Icons Dark mode",
+    "With Icons - Dark theme",
     () => `
     <calcite-dropdown
       theme="dark"
-      alignment="${select("alignment", ["start","center", "end"], "start")}"
+      alignment="${select("alignment", ["start", "center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
@@ -162,14 +183,14 @@ storiesOf("Dropdown", module)
       </calcite-dropdown-group>
     </calcite-dropdown>
   `,
-  { notes, backgrounds: darkBackground }
+    { notes, backgrounds: darkBackground }
   )
   .add(
-    "Groups and selection modes dark mode",
+    "Groups and selection modes dark theme",
     () => `
   <calcite-dropdown
     theme="dark"
-    alignment="${select("alignment", ["start","center", "end"], "start")}"
+    alignment="${select("alignment", ["start", "center", "end"], "start")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
   >
@@ -190,14 +211,36 @@ storiesOf("Dropdown", module)
     </calcite-dropdown-group>
   </calcite-dropdown>
 `,
-{ notes, backgrounds: darkBackground }
+    { notes, backgrounds: darkBackground }
+  )
+  .add(
+    "Items as Links - dark theme",
+    () => `
+  <calcite-dropdown
+    theme="dark"
+    alignment="${select("alignment", ["start", "center", "end"], "start")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    width="${select("width", ["s", "m", "l"], "m")}"
+    type="${select("type", ["click", "hover"], "click")}"
+  >
+    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group selection-mode="none" group-title="Select one">
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Throw Apples</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Visit Oranges</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Eat Grapes</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-start="camera-flash-on">Plant beans</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-end="camera-flash-on">Add peas</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`,
+    { notes, backgrounds: darkBackground }
   )
   .add(
     "Simple - RTL",
     () => `
     <calcite-dropdown
       dir="rtl"
-      alignment="${select("alignment", ["start","center", "end"], "start")}"
+      alignment="${select("alignment", ["start", "center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"

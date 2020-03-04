@@ -407,4 +407,29 @@ describe("calcite-dropdown", () => {
     expect(item8).not.toHaveAttribute("active");
     expect(item9).not.toHaveAttribute("active");
   });
+
+  it("renders a calcite-dropdown-item with child anchor link with passed attributes if href is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-dropdown>
+      <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
+      <calcite-dropdown-group id="group-1" selection-mode="none">
+      <calcite-dropdown-item id="item-1">
+      Dropdown Item Content
+      </calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2" href="google.com" rel="noopener noreferrer" target="_blank">
+      Dropdown Item Content
+      </calcite-dropdown-item>
+      <calcite-dropdown-item id="item-3">
+      Dropdown Item Content
+      </calcite-dropdown-item>
+      </calcite-dropdown-group>
+      </calcite-dropdown>`
+    );
+    const elementAsLink = await page.find("calcite-dropdown-item[id='item-2'] >>> a");
+    expect(elementAsLink).not.toBeNull();
+    expect(elementAsLink).toEqualAttribute("href", "google.com");
+    expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
+    expect(elementAsLink).toEqualAttribute("target", "_blank");
+  });
 });

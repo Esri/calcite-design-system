@@ -49,6 +49,8 @@ export class CalciteDropdownItem {
   /** optionally pass an icon to display at the end of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** optionally pass a href - used to determine if the component should render as anchor */
+  @Prop({ reflect: true }) href?: string;
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -75,6 +77,7 @@ export class CalciteDropdownItem {
   }
 
   render() {
+    const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "s" || scale === "m" ? "s" : "m";
@@ -93,7 +96,7 @@ export class CalciteDropdownItem {
       ></calcite-icon>
     );
 
-    const content =
+    const slottedContent =
       this.iconStart && this.iconEnd ? (
         [iconStartEl, <slot />, iconEndEl]
       ) : this.iconStart ? (
@@ -104,6 +107,11 @@ export class CalciteDropdownItem {
         <slot />
       );
 
+    const contentEl = !this.href ? (
+      slottedContent
+    ) : (
+      <a {...attributes}>{slottedContent}</a>
+    );
     return (
       <Host
         dir={dir}
@@ -111,6 +119,7 @@ export class CalciteDropdownItem {
         role="menuitem"
         selection-mode={this.selectionMode}
         aria-selected={this.active.toString()}
+        isLink={this.href}
       >
         {this.selectionMode === "multi" ? (
           <calcite-icon
@@ -119,7 +128,7 @@ export class CalciteDropdownItem {
             icon="check"
           />
         ) : null}
-        {content}
+        {contentEl}
       </Host>
     );
   }
@@ -225,6 +234,23 @@ export class CalciteDropdownItem {
       requestedDropdownGroup: this.currentDropdownGroup
     });
     this.closeCalciteDropdown.emit();
+  }
+
+  private getAttributes() {
+    // spread attributes from the component to rendered child, filtering out props
+    let props = [
+      "icon-start",
+      "icon-end",
+      "active",
+      "hasText",
+      "isLink",
+      "dir",
+      "id",
+      "theme"
+    ];
+    return Array.from(this.el.attributes)
+      .filter(a => a && !props.includes(a.name))
+      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   private getItemPosition() {
