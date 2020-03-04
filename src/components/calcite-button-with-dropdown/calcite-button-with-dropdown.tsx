@@ -5,7 +5,8 @@ import {
   EventEmitter,
   h,
   Host,
-  Prop
+  Prop,
+  Watch
 } from "@stencil/core";
 import { Scale } from "../../interfaces/common";
 import { getElementDir } from "../../utils/dom";
@@ -21,7 +22,7 @@ export class CalciteButtonWithOverflow {
   @Element() el: HTMLElement;
 
   /** specify the color of the control, defaults to blue */
-  @Prop({ reflect: true }) color:
+  @Prop({ mutable: true, reflect: true }) color:
     "blue"
     | "dark"
     | "light"
@@ -52,16 +53,28 @@ export class CalciteButtonWithOverflow {
   /** fired when the modal begins the open animation */
   @Event() primaryButtonClicked: EventEmitter;
 
-  connectedCallback() {
-    // prop validations
+  @Watch('color')
+  validateColor() {
     let color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
+  }
 
+  @Watch('scale')
+  validateScale() {
     let scale = ["xs", "s", "m", "l", "xl"];
     if (!scale.includes(this.scale)) this.scale = "m";
+  }
 
+  @Watch('theme')
+  validateTheme() {
     let theme = ["dark", "light"];
     if (!theme.includes(this.theme)) this.theme = "light";
+  }
+
+  connectedCallback() {
+    this.validateColor()
+    this.validateScale()
+    this.validateTheme()
   }
 
   render() {
