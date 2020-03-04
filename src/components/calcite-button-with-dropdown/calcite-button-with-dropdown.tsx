@@ -7,7 +7,7 @@ import { getElementDir } from "../../utils/dom";
   styleUrl: "calcite-button-with-dropdown.scss",
   shadow: true
 })
-export class CalciteButtonWithOverflow {
+export class CalciteButtonWithDropdown {
   @Element() el: HTMLElement;
 
   /** specify the color of the control, defaults to blue */
