@@ -694,23 +694,25 @@ $btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3),
   $padding-y: nth($btnScale, 3);
   $padding-x: nth($btnScale, 4);
 
-  :host([hastext][scale="#{$name}"]:not([appearance="inline"])) button,
-  :host([hastext][scale="#{$name}"]:not([appearance="inline"])) a {
-    @include btn-scale($font-size, $padding-y, $padding-x);
+  :host([use-text-proportions][scale="#{$name}"]:not([appearance="inline"])),
+  :host([hastext][scale="#{$name}"]:not([appearance="inline"])) {
+    a,button {
+      @include btn-scale($font-size, $padding-y, $padding-x);
+    }
   }
 }
 
 // generate fab scales
-$btnScales2: "xs" -3 calc(#{$baseline}* 1.5), "s" -2 calc(#{$baseline}* 1.75),
+$fabScales: "xs" -3 calc(#{$baseline}* 1.5), "s" -2 calc(#{$baseline}* 1.75),
   "m" -1 calc(#{$baseline}* 2), "l" 1 calc(#{$baseline} * 2.25),
   "xl" 2 calc(#{$baseline} * 2.5);
 
-@each $btnScale in $btnScales2 {
+@each $btnScale in $fabScales {
   $name: nth($btnScale, 1);
   $font-size: nth($btnScale, 2);
   $size: nth($btnScale, 3);
 
-  :host([scale="#{$name}"]:not([hastext])) {
+  :host([scale="#{$name}"]:not([hastext]):not([use-text-proportions])) {
 
     a,button {
       @include btn-scale-notext($font-size, $size);

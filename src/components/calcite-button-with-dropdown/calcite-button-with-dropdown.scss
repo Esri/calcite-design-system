@@ -3,6 +3,10 @@
     display: flex;
   }
 
+  calcite-dropdown > calcite-button {
+    height: 100%;
+  }
+
   --calcite-button-light: #{$blk-010};
   --calcite-button-light-text: #{$blk-220};
   --calcite-button-dark: #{$blk-190};

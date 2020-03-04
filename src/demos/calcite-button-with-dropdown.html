@@ -21,7 +21,7 @@
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Button with Dropdown</h1>
-  <div style="width:1100px;position:relative;">
+  <div style="width:1200px;position:relative;">
     <h3>Example with Custom Dropdown Content</h3>
     <calcite-button-with-dropdown primary-icon='save' primary-text="Primary Option">
       <calcite-dropdown-group selection-mode="none">
@@ -89,7 +89,7 @@
     <calcite-button-with-dropdown loading=true primary-text="Primary Option"></calcite-button-with-dropdown>
 
     <h3>Scale</h3>
-    <div  style='display:flex;flex-direction:row;justify-content:space-between'>
+    <div style='display:flex;flex-direction:row;justify-content:space-between'>
       <calcite-button-with-dropdown scale='xs' primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -128,6 +128,45 @@
       <script>
         document.addEventListener('primaryButtonClicked', () => alert('primary action'))
       </script>
+    </div>
+
+    <h3>Scale (when `primary-text` is empty)</h3>
+    <div style='display:flex;flex-direction:row;justify-content:space-between'>
+      <calcite-button-with-dropdown scale='xs' primary-icon='save' >
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown scale='s' primary-icon='save'>
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown scale='m' primary-icon='save'>
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown scale='l' primary-icon='save'>
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-button-with-dropdown>
+      <calcite-button-with-dropdown scale='xl' primary-icon='save'>
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-button-with-dropdown>
     </div>
     </br>
     </br>
