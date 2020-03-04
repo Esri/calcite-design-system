@@ -120,6 +120,27 @@ storiesOf("Dropdown", module)
     { notes }
   )
   .add(
+    "A mix of links and non-links",
+    () => `
+  <calcite-dropdown
+    alignment="${select("alignment", ["start", "center", "end"], "start")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    width="${select("width", ["s", "m", "l"], "m")}"
+    type="${select("type", ["click", "hover"], "click")}"
+  >
+    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group selection-mode="none" group-title="Select one">
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+      <calcite-dropdown-item onclick='alert("not a link")'>Not a link</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Another Link</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-end="camera-flash-on">Another link that might wrap to another line</calcite-dropdown-item>
+      <calcite-dropdown-item onclick='alert("not a link")'>Not a link</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`,
+    { notes }
+  )
+  .add(
     "Dark theme",
     () => `
     <calcite-dropdown
