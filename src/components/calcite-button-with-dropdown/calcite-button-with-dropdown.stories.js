@@ -75,3 +75,22 @@ storiesOf("Button with Dropdown", module)
   `,
     { notes, backgrounds: darkBackground }
   )
+  .add(
+    "No primary text",
+    () => `
+    <calcite-button-with-dropdown
+        color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+        scale="${select("size", ["xs", "s", "m", "l", "xl"], "m")}"
+        loading="${boolean("loading", false)}"
+        disabled="${boolean("disabled", false)}"
+        primary-icon="${select("primary-icon", iconNames, iconNames[0])}"
+        dropdown-label="${text("dropdown-label", "Additional Options")}">
+      <calcite-dropdown-group selection-mode="none">
+        <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+        <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+        <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-button-with-dropdown>
+  `,
+    { notes }
+  )

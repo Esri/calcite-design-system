@@ -74,13 +74,18 @@ storiesOf("Button", module)
     { notes }
   )
   .add(
-    "Height of textless buttons",
+    "Textless buttons with text proportions",
     () => `
-    <div style="width: 480px; max-width: 100%; height: 35px; display: flex; background-color: #fff">
-      <input />
+    <div style="width: 480px; max-width: 100%; display: flex; background-color: #fff">
+      <div style='border-right: 1px solid white'>
+        <calcite-button>Some action</calcite-button>
+      </div>
+      <div style='border-right: 1px solid white'>
+        <calcite-button>Related action</calcite-button>
+      </div>
       <calcite-button
-      icon="${select("icon", iconNames, iconNames[0])}"
-      textless-height="${select("textless-height", ["auto", "full"], "auto")}"></calcite-button>
+        icon="${select("icon", iconNames, iconNames[0])}"
+        use-text-proportions="${boolean("use-text-proportions", false)}"></calcite-button>
     </div>
   `,
     { notes }

@@ -21,9 +21,7 @@
       padding: 1rem;
     }
     .textless-button-holder {
-      height: 35px;
       display: flex;
-      margin-right: 16px;
     }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
@@ -366,15 +364,12 @@
   <calcite-button title="full width button" icon-position="end" icon='check-circle' width='full'>full width button with
     icon </calcite-button>
 
-  <h3>textlessHeight</h3>
+  <h3>Use text proportions (on textless buttons) </h3>
   <div style='display:flex'>
     <div class='textless-button-holder'>
-      <input />
-      <calcite-button title="Auto / default height button" icon='calculator'></calcite-button>
-    </div>
-    <div class='textless-button-holder'>
-      <input />
-      <calcite-button title="full height button" textless-height='full' icon='calculator'></calcite-button>
+      <calcite-button appearance='outline' title="default button with text" icon='trash'>Option 1</calcite-button>
+      <calcite-button appearance='outline' title="default button with text" icon='pencil'>Option 2</calcite-button>
+      <calcite-button appearance='outline' title="textless button with text button proportions" icon='save' use-text-proportions></calcite-button>
     </div>
   </div>
 
