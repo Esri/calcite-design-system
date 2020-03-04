@@ -49,7 +49,7 @@ export class CalciteButtonWithOverflow {
   /** is the control disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  /** Fired when the modal begins the open animation */
+  /** fired when the modal begins the open animation */
   @Event() primaryButtonClicked: EventEmitter;
 
   connectedCallback() {
