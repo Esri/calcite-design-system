@@ -27,25 +27,25 @@ export class CalciteInputMessage {
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
-  /** specify the status of the input field, determines message and icons */
-  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
+  /** specify the appearance type - minimal or default */
+  @Prop({ mutable: true, reflect: true }) appearance: "default" | "minimal" =
+    "default";
+
+  /** optionally display an icon based on status */
+  @Prop({ reflect: true }) icon: boolean;
 
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the appearance type - minimal or default */
-  @Prop({ mutable: true, reflect: true }) appearance: "minimal" | "default" =
-    "default";
+  /** specify the status of the input field, determines message and icons */
+  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
+
+  /** specify the theme, defaults to light */
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
   @Prop({ mutable: true, reflect: true }) type: "default" | "floating" =
     "default";
-
-  /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
-  @Prop({ reflect: true }) icon: boolean;
-
-  /** specify the theme, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   //--------------------------------------------------------------------------
   //
@@ -53,19 +53,42 @@ export class CalciteInputMessage {
   //
   //--------------------------------------------------------------------------
   connectedCallback() {
+    this.hasParentLabel = this.el.parentElement.nodeName === "CALCITE-LABEL";
+
     // validate props
+    let appearance = ["default", "minimal"];
+    if (!appearance.includes(this.appearance)) this.appearance = "default";
+
     let statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
-      this.status = getElementProp(this.el, "status", "idle");
+      this.status = this.hasParentLabel
+        ? getElementProp(this.el.parentElement, "status", "idle")
+        : "idle";
+
+    let scale = ["s", "m", "l"];
+    if (!scale.includes(this.scale))
+      this.scale = getElementProp(this.el, "scale", "m");
+
+    let theme = ["light", "dark"];
+    if (!theme.includes(this.theme))
+      this.theme = this.hasParentLabel
+        ? getElementTheme(this.el.parentElement)
+        : "light";
+
+    let type = ["default", "floating"];
+    if (!type.includes(this.type)) this.type = "default";
+  }
+
+  componentWillUpdate() {
+    this.iconEl = this.setIcon(this.iconDefaults[this.status]);
   }
 
   render() {
     const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
-    const icon = this.setIcon(this.iconDefaults[this.status]);
+    this.iconEl = this.setIcon(this.iconDefaults[this.status]);
     return (
-      <Host theme={theme} dir={dir}>
-        {this.icon ? icon : null}
+      <Host theme={this.theme} dir={dir}>
+        {this.icon ? this.iconEl : null}
         <slot />
       </Host>
     );
@@ -84,6 +107,11 @@ export class CalciteInputMessage {
     idle: "information"
   };
 
+  // the icon to be rendered if icon is requested
+  private iconEl: string;
+
+  // store if the parent is a calcite label
+  private hasParentLabel: boolean;
   //--------------------------------------------------------------------------
   //
   //  Private Methods

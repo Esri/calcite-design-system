@@ -9,16 +9,16 @@ calcite-input input {
   flex: 1;
   box-sizing: border-box;
   font-family: inherit;
-  margin: 0;
-  padding: $baseline/2;
-  font-weight: 500;
+  padding: $baseline/1.65;
   transition: $transition;
   box-shadow: 0 0 0 0 transparent;
   outline: 0;
   background-color: var(--calcite-ui-foreground);
   color: var(--calcite-ui-text-1);
   order: 3;
-  @include font-size(-2);
+  font-weight: 400;
+  @include font-size(0);
+  line-height: 1;
 }
 
 calcite-input[appearance="minimal"] {
@@ -102,9 +102,6 @@ calcite-input[appearance="minimal"] .calcite-input-loading {
   display: flex;
   order: 9;
   max-width: 50%;
-  &::slotted(calcite-button) {
-    width: 100%;
-  }
 }
 
 // prefix and suffix
@@ -113,13 +110,13 @@ calcite-input[appearance="minimal"] .calcite-input-loading {
   display: flex;
   height: auto;
   min-height: 100%;
-  font-weight: 600;
+  font-weight: 500;
   padding: $baseline/2;
   word-break: break-word;
   user-select: none;
   border: 1px solid var(--calcite-ui-border-1);
   background-color: var(--calcite-ui-background);
-  color: var(--calcite-ui-text-3);
+  color: var(--calcite-ui-text-2);
   align-items: center;
   align-content: center;
 }
@@ -167,6 +164,10 @@ calcite-input[dir="rtl"][appearance="minimal"] {
     padding-left: 0;
     padding-right: unset;
   }
+}
+// readonly
+calcite-input[readonly] .calcite-input-number-button-item {
+  pointer-events:none;
 }
 
 // alignment type
@@ -311,6 +312,7 @@ calcite-input[appearance="minimal"] .calcite-input-number-button-item,
 calcite-input[appearance="minimal"]
   .calcite-input-number-button-item.number-button-item-horizontal {
   border: none;
+  background-color: transparent;
   border-bottom: 1px solid var(--calcite-ui-border-1);
 }
 calcite-input[appearance="minimal"][number-button-type="vertical"]
@@ -397,7 +399,6 @@ $inputStatusColors: "invalid" var(--calcite-ui-text-1)
       &:-ms-input-placeholder,
       &::-ms-input-placeholder {
         color: var(--calcite-ui-text-3);
-        opacity: 0.7;
         font-weight: 400;
       }
     }

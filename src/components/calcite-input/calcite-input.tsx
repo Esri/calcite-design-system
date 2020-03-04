@@ -159,7 +159,7 @@ export class CalciteInput {
 
   componentWillLoad() {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.hasAction = this.el.querySelector("[slot=input-action]") !== null;
+    this.hasAction = !!this.el.querySelector("[slot=input-action]");
   }
 
   componentWillUpdate() {
@@ -171,7 +171,6 @@ export class CalciteInput {
 
   render() {
     const dir = getElementDir(this.el);
-
     const attributes = this.getAttributes();
     const loader = (
       <div class="calcite-input-loading">
@@ -187,7 +186,7 @@ export class CalciteInput {
     const numberButtonsHorizontalUp = (
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onClick={this.handleNumberButtonClick}
+        onMouseDown={this.updateNumberValue}
         data-adjustment="up"
       >
         <calcite-icon icon="chevron-up" filled></calcite-icon>
@@ -197,7 +196,7 @@ export class CalciteInput {
     const numberButtonsHorizontalDown = (
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onClick={this.handleNumberButtonClick}
+        onMouseDown={this.updateNumberValue}
         data-adjustment="down"
       >
         <calcite-icon icon="chevron-down" filled></calcite-icon>
@@ -374,7 +373,9 @@ export class CalciteInput {
   }
 
   //todo cleanup
-  private handleNumberButtonClick = e => {
+  private updateNumberValue = e => {
+    // prevent blur and re-focus of input on mousedown
+    e.preventDefault();
     if (this.type === "number") {
       let numberInputMax = this.childEl.max
         ? parseFloat(this.childEl.max)

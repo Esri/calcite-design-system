@@ -30,6 +30,24 @@
   align-items: center;
 }
 
+:host([layout="inline"]),
+:host([layout="inline-space-between"]) {
+  & ::slotted(*:first-of-type) {
+    margin-right: $baseline/2;
+    margin-left: $baseline/2;
+  }
+  & ::slotted(*:first-child) {
+    margin-left:0;
+  }
+  & ::slotted(*:not(:empty))  {
+    margin-right: 20px;
+  }
+  & ::slotted(*:only-of-type:not(:first-child):not(:last-child)) {
+    margin-left: $baseline/2;
+    margin-right: $baseline/2;
+  }
+}
+
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-red),
   "valid" var(--calcite-ui-text-2), "idle" var(--calcite-ui-text-2);

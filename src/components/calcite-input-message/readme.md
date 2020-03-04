@@ -30,9 +30,9 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 | ------------ | ------------ | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
 | `active`     | `active`     |                                                                                                                                  | `boolean`                        | `false`     |
 | `appearance` | `appearance` | specify the appearance type - minimal or default                                                                                 | `"default" \| "minimal"`         | `"default"` |
-| `icon`       | `icon`       | optionally pass icon path data - pass only raw path data from calcite ui helper                                                  | `boolean`                        | `undefined` |
+| `icon`       | `icon`       | optionally display an icon based on status                                                                                       | `boolean`                        | `undefined` |
 | `scale`      | `scale`      | specify the scale of the input, defaults to m                                                                                    | `"l" \| "m" \| "s"`              | `"m"`       |
-| `status`     | `status`     | specify the status of the input field, determines message and icons                                                              | `"idle" \| "invalid" \| "valid"` | `undefined` |
+| `status`     | `status`     | specify the status of the input field, determines message and icons                                                              | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
 | `theme`      | `theme`      | specify the theme, defaults to light                                                                                             | `"dark" \| "light"`              | `"light"`   |
 | `type`       | `type`       | specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) | `"default" \| "floating"`        | `"default"` |
 

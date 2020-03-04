@@ -26,8 +26,6 @@
   <h1>Calcite Input</h1>
   <div style="text-align:center">
     <div style="width:400px;display:inline-flex;max-width:100%;flex-direction:column;margin:0 auto;padding:2em">
-
-
       <calcite-accordion scale="m" icon-position="start" selection-mode="single">
         <calcite-accordion-item item-title="With other components" item-subtitle="Handle wrapped components" active>
 
@@ -51,6 +49,8 @@
             <calcite-switch></calcite-switch>
             Text trailing inline
           </calcite-label>
+
+
           <calcite-label layout="inline">
             Off
             <calcite-switch></calcite-switch>
@@ -149,7 +149,7 @@
           </calcite-label>
           <calcite-label>
             with button
-            <calcite-input type="number"  placeholder="0">
+            <calcite-input type="number" placeholder="0">
               <calcite-button slot="input-action">Go</calcite-button>
             </calcite-input>
           </calcite-label>
@@ -290,7 +290,7 @@
 
           <calcite-label>
             Search input
-            <calcite-input icon="magnifying-glass" type="search" placeholder="Filter your files"></calcite-input>
+            <calcite-input icon type="search" placeholder="Filter your files"></calcite-input>
           </calcite-label>
 
         </calcite-accordion-item>

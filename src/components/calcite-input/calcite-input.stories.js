@@ -4,10 +4,12 @@ import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
+
 storiesOf("Input", module)
   .addDecorator(withKnobs)
+
   .add(
-    "Simple",
+    "With Label",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label status="${select(
@@ -43,8 +45,6 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
-      autofocus="${boolean("autofocus", false)}"
-      required="${boolean("required", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -60,6 +60,101 @@ storiesOf("Input", module)
       "My great input message"
     )}</calcite-input-message>
     </calcite-label>
+    </div>
+  `,
+    { notes }
+  )
+  .add(
+    "With Label and Input Message",
+    () => `
+    <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-label status="${select(
+      "status",
+      ["idle", "valid", "invalid"],
+      "idle", "Label"
+    )}">
+    ${text("label text", "My great label", "Label")}
+    <calcite-input
+      type="${select(
+        "type",
+        [
+          "text",
+          "textarea",
+          "email",
+          "password",
+          "tel",
+          "number",
+          "search",
+          "file",
+          "time",
+          "date"
+        ],
+        "text", "Input"
+      )}"
+      alignment="${select("alignment", ["start", "end"], "start", "Input")}"
+      appearance="${select("appearance", ["default", "minimal"], "default", "Input")}"
+      number-button-type="${select(
+        "number-button-type",
+        ["none", "horizontal", "vertical"],
+        "horizontal", "Input"
+      )}"
+      prefix-text="${text("prefix-text", "", "Input")}"
+      suffix-text="${text("suffix-text", "", "Input")}"
+      loading="${boolean("loading", false, "Input")}"
+      autofocus="${boolean("autofocus", false, "Input")}"
+      required="${boolean("required", false, "Input")}"
+      value="${text("value", "", "Input")}"
+      placeholder="${text("placeholder", "Placeholder text", "Input")}">
+    </calcite-input>
+    <calcite-input-message
+    active="${boolean("active", true, "Input Message")}"
+    icon="${boolean("icon", true, "Input Message")}"
+    type="${select("type", ["default", "floating"], "default", "Input Message")}"
+   >${text(
+      "input message text",
+      "My great input message", "Input Message"
+    )}</calcite-input-message>
+    </calcite-label>
+    </div>
+  `,
+    { notes }
+  )
+  .add(
+    "Without Label",
+    () => `
+    <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input
+      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
+      type="${select(
+        "type",
+        [
+          "text",
+          "textarea",
+          "email",
+          "password",
+          "tel",
+          "number",
+          "search",
+          "file",
+          "time",
+          "date"
+        ],
+        "text"
+      )}"
+
+      alignment="${select("alignment", ["start", "end"], "start")}"
+      appearance="${select("appearance", ["default", "minimal"], "default")}"
+      number-button-type="${select(
+        "number-button-type",
+        ["none", "horizontal", "vertical"],
+        "horizontal"
+      )}"
+      prefix-text="${text("prefix-text", "")}"
+      suffix-text="${text("suffix-text", "")}"
+      loading="${boolean("loading", false)}"
+      value="${text("value", "")}"
+      placeholder="${text("placeholder", "Placeholder text")}">
+    </calcite-input>
     </div>
   `,
     { notes }
@@ -102,8 +197,6 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
-      autofocus="${boolean("autofocus", false)}"
-      required="${boolean("required", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
       <calcite-button slot="input-action" width=${select(
@@ -142,8 +235,6 @@ storiesOf("Input", module)
       type="textarea"
       appearance="${select("appearance", ["default", "minimal"], "default")}"
       loading="${boolean("loading", false)}"
-      autofocus="${boolean("autofocus", false)}"
-      required="${boolean("required", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -200,8 +291,6 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
-      autofocus="${boolean("autofocus", false)}"
-      required="${boolean("required", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>

@@ -11,7 +11,7 @@
 `alignment` = [`start`/`end`] - defaults to `start` - specify the alignment of the value / placeholder inside the input. Useful for aligning numbers, etc. 
 
 
-`icon` = boolean - defaults to `false`. You can pass a custom icon like icon="plus" - it will only accept valid Calcite UI Icon names. You can also just use icon as a boolean, and default to a recommended icon for that field type (will only work on `tel`, `email`, `password`, `search`, `date`, `time`)
+`icon` = boolean / string - defaults to false. You can use "icon" to default to a recommended icon for that field type (will only work on `tel`, `email`, `password`, `search`, `date`, `time`). You can also pass a valid calcite ui icon string to set a custom icon. We recommend using "icon" / default icon on the above field types for consistency across apps.
 
 `prefix-string` and `suffix-string` allow you position strings in a leading and trailing position.
 

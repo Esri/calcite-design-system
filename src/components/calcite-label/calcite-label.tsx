@@ -58,10 +58,16 @@ export class CalciteLabel {
 
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme)) this.theme = "light";
+
   }
 
   componentDidLoad() {
     this.requestedInputId = this.el.getAttribute("for");
+    this.requestedSlottedContent = this.el.shadowRoot
+      .querySelector("slot")
+      .assignedNodes();
+      console.log(this.requestedSlottedContent)
+   // this.displayedSlottedContent = this.handleSlottedContent();
   }
 
   render() {
@@ -111,6 +117,12 @@ export class CalciteLabel {
   /** the input requested with the for attribute */
   private requestedInputId: string;
 
+  /** the slotted content as requested in the DOM */
+  private requestedSlottedContent: Node[];
+
+  /** the slotted content after it has been interpreted */
+  // private displayedSlottedContent: any[];
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -140,7 +152,21 @@ export class CalciteLabel {
       this.el.querySelector("input").focus();
     }
   }
-
+/*
+  private handleSlottedContent() {
+    let nodeList = [];
+    this.requestedSlottedContent.forEach(function(item) {
+      let nodeToPush;
+      if (item.nodeName === "#text" && item.textContent.trim().length > 0) {
+        nodeToPush = (<span>{item.textContent.trim()}</span> as HTMLSpanElement);
+      } else if (item.nodeName !== "#text") {
+        nodeToPush = item;
+      }
+      if (!!nodeToPush) nodeList.push(nodeToPush);
+    });
+    return nodeList;
+  }
+*/
   private emitSelectedItem() {
     this.calciteLabelSelectedEvent.emit({
       requestedInput: this.requestedInputId
