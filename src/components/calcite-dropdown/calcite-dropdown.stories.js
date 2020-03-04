@@ -153,7 +153,7 @@ storiesOf("Dropdown", module)
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
     >
-      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-button theme="dark" slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="${select(
         "group selection mode",
         ["single", "multi", "none"],
@@ -194,7 +194,7 @@ storiesOf("Dropdown", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button theme="dark" slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
       <calcite-dropdown-item>Apple</calcite-dropdown-item>
       <calcite-dropdown-item active>Orange</calcite-dropdown-item>
@@ -223,7 +223,7 @@ storiesOf("Dropdown", module)
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button theme="dark" slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
       <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Throw Apples</calcite-dropdown-item>
       <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">Visit Oranges</calcite-dropdown-item>
