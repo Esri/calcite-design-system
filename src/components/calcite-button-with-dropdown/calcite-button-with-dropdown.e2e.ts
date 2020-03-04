@@ -38,13 +38,13 @@ describe("calcite-button-with-dropdown", () => {
       <calcite-button-with-dropdown scale="xs" color="red" theme="dark" loading="true" disabled="true" dropdown-label="more actions">
       </calcite-button-with-dropdown>`);
     const element = await page.find("calcite-button-with-dropdown");
-    const dropdownButton = await page.find("calcite-button-with-dropdown >>> calcite-dropdown calcite-button")
+    const dropdownButton = await page.find("calcite-button-with-dropdown >>> calcite-dropdown calcite-button");
     expect(element).toEqualAttribute("scale", "xs");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("theme", "dark");
-    expect(element).toHaveAttribute("loading")
-    expect(element).toHaveAttribute("disabled")
-    expect(dropdownButton).toEqualAttribute("aria-label", "more actions")
+    expect(element).toHaveAttribute("loading");
+    expect(element).toHaveAttribute("disabled");
+    expect(dropdownButton).toEqualAttribute("aria-label", "more actions");
   });
 
   it("renders primaryText as inner content of primary button", async () => {
@@ -52,32 +52,32 @@ describe("calcite-button-with-dropdown", () => {
     await page.setContent(`
       <calcite-button-with-dropdown primary-text="primary action">
       </calcite-button-with-dropdown>`);
-    const primaryButton = await page.find("calcite-button-with-dropdown >>> calcite-button")
-    expect(primaryButton).toEqualText("primary action")
+    const primaryButton = await page.find("calcite-button-with-dropdown >>> calcite-button");
+    expect(primaryButton).toEqualText("primary action");
   });
 
   it("changes the size and width of the dropdown + primary button based on scale", async () => {
     const elementScaleToDropdownScale = {
-      'xs': 's',
-      's': 's',
-      'm': 'm',
-      'l': 'l',
-      'xl': 'l'
-    }
+      xs: "s",
+      s: "s",
+      m: "m",
+      l: "l",
+      xl: "l"
+    };
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-button-with-dropdown>
       </calcite-button-with-dropdown>`);
-    const element = await page.find("calcite-button-with-dropdown")
-    const primaryButton = await page.find("calcite-button-with-dropdown >>> calcite-button")
-    const dropdown = await page.find("calcite-button-with-dropdown >>> calcite-dropdown")
+    const element = await page.find("calcite-button-with-dropdown");
+    const primaryButton = await page.find("calcite-button-with-dropdown >>> calcite-button");
+    const dropdown = await page.find("calcite-button-with-dropdown >>> calcite-dropdown");
     for (const elementScale of Object.keys(elementScaleToDropdownScale)) {
-      element.setProperty('scale', elementScale);
+      element.setProperty("scale", elementScale);
       await page.waitForChanges();
-      const dropdownScale = elementScaleToDropdownScale[elementScale]
+      const dropdownScale = elementScaleToDropdownScale[elementScale];
       expect(dropdown).toEqualAttribute("width", dropdownScale);
       expect(dropdown).toEqualAttribute("scale", dropdownScale);
       expect(primaryButton).toEqualAttribute("scale", elementScale);
     }
   });
-})
+});

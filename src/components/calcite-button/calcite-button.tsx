@@ -1,12 +1,4 @@
-import {
-  Component,
-  Element,
-  h,
-  Host,
-  Method,
-  Prop,
-  Build
-} from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, Build } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -37,11 +29,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   /** specify the color of the button, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color:
-    | "blue"
-    | "dark"
-    | "light"
-    | "red" = "blue";
+  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
   /** specify the appearance style of the button, defaults to solid. Specifying "inline" will render the component as an anchor */
   @Prop({ mutable: true, reflect: true }) appearance:
@@ -55,15 +43,13 @@ export class CalciteButton {
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
   /** specify the scale of the button, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
-    "m";
+  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "m";
 
   /** specify the width of the button, defaults to auto */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
-    "auto";
+  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
 
   /** optionally make button have proportions of a button with text, even if it has no text content */
-  @Prop({ mutable: true, reflect: true }) useTextProportions?: boolean = false
+  @Prop({ mutable: true, reflect: true }) useTextProportions?: boolean = false;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
@@ -81,8 +67,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) icon?: string;
 
   /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
-    "start";
+  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" = "start";
 
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
@@ -114,11 +99,7 @@ export class CalciteButton {
     if (this.icon !== null && !iconPosition.includes(this.iconPosition))
       this.iconPosition = "start";
 
-    this.childElType = this.href
-      ? "a"
-      : this.appearance === "inline"
-      ? "span"
-      : "button";
+    this.childElType = this.href ? "a" : this.appearance === "inline" ? "span" : "button";
   }
 
   componentWillLoad() {
@@ -152,13 +133,7 @@ export class CalciteButton {
         ? "m"
         : "l";
 
-    const iconEl = (
-      <calcite-icon
-        class="calcite-button--icon"
-        icon={this.icon}
-        scale={iconScale}
-      />
-    );
+    const iconEl = <calcite-icon class="calcite-button--icon" icon={this.icon} scale={iconScale} />;
 
     return (
       <Host dir={dir} hasText={this.hasText}>
@@ -166,9 +141,9 @@ export class CalciteButton {
           {...attributes}
           role={role}
           tabindex={tabIndex}
-          onClick={e => this.handleClick(e)}
+          onClick={(e) => this.handleClick(e)}
           disabled={this.disabled}
-          ref={el => (this.childEl = el)}
+          ref={(el) => (this.childEl = el)}
         >
           {this.loading ? loader : null}
           {this.icon && this.iconPosition === "start" ? iconEl : null}
@@ -226,7 +201,7 @@ export class CalciteButton {
       "theme"
     ];
     return Array.from(this.el.attributes)
-      .filter(a => a && !props.includes(a.name))
+      .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
