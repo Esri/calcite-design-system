@@ -1,9 +1,5 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
-import {
-  getElementDir,
-  getElementProp,
-  getElementTheme
-} from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-message",
@@ -35,13 +31,13 @@ export class CalciteInputMessage {
   @Prop({ reflect: true }) icon: boolean;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl";
 
   /** specify the status of the input field, determines message and icons */
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
 
   /** specify the theme, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
   @Prop({ mutable: true, reflect: true }) type: "default" | "floating" =
@@ -53,27 +49,22 @@ export class CalciteInputMessage {
   //
   //--------------------------------------------------------------------------
   connectedCallback() {
-    this.hasParentLabel = this.el.parentElement.nodeName === "CALCITE-LABEL";
-
     // validate props
+
     let appearance = ["default", "minimal"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
 
     let statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
-      this.status = this.hasParentLabel
-        ? getElementProp(this.el.parentElement, "status", "idle")
-        : "idle";
+      this.status = getElementProp(this.el.parentElement, "status", "idle");
 
-    let scale = ["s", "m", "l"];
+    let scale = ["xs", "s", "m", "l", "xl"];
     if (!scale.includes(this.scale))
-      this.scale = getElementProp(this.el, "scale", "m");
+      this.scale = getElementProp(this.el.parentElement, "scale", "m");
 
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme))
-      this.theme = this.hasParentLabel
-        ? getElementTheme(this.el.parentElement)
-        : "light";
+      this.theme = getElementProp(this.el.parentElement, "theme", "light");
 
     let type = ["default", "floating"];
     if (!type.includes(this.type)) this.type = "default";
@@ -110,8 +101,6 @@ export class CalciteInputMessage {
   // the icon to be rendered if icon is requested
   private iconEl: string;
 
-  // store if the parent is a calcite label
-  private hasParentLabel: boolean;
   //--------------------------------------------------------------------------
   //
   //  Private Methods

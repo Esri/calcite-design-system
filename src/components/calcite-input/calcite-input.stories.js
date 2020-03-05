@@ -4,7 +4,6 @@ import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-
 storiesOf("Input", module)
   .addDecorator(withKnobs)
 
@@ -16,7 +15,9 @@ storiesOf("Input", module)
       "status",
       ["idle", "valid", "invalid"],
       "idle"
-    )}">
+    )}"
+    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    >
     ${text("label text", "My great label")}
     <calcite-input
       type="${select(
@@ -71,8 +72,10 @@ storiesOf("Input", module)
     <calcite-label status="${select(
       "status",
       ["idle", "valid", "invalid"],
-      "idle", "Label"
-    )}">
+      "idle",
+      "Label"
+    )}"
+    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m", "Label")}">
     ${text("label text", "My great label", "Label")}
     <calcite-input
       type="${select(
@@ -89,14 +92,21 @@ storiesOf("Input", module)
           "time",
           "date"
         ],
-        "text", "Input"
+        "text",
+        "Input"
       )}"
       alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-      appearance="${select("appearance", ["default", "minimal"], "default", "Input")}"
+      appearance="${select(
+        "appearance",
+        ["default", "minimal"],
+        "default",
+        "Input"
+      )}"
       number-button-type="${select(
         "number-button-type",
         ["none", "horizontal", "vertical"],
-        "horizontal", "Input"
+        "horizontal",
+        "Input"
       )}"
       prefix-text="${text("prefix-text", "", "Input")}"
       suffix-text="${text("suffix-text", "", "Input")}"
@@ -109,11 +119,17 @@ storiesOf("Input", module)
     <calcite-input-message
     active="${boolean("active", true, "Input Message")}"
     icon="${boolean("icon", true, "Input Message")}"
-    type="${select("type", ["default", "floating"], "default", "Input Message")}"
+    type="${select(
+      "type",
+      ["default", "floating"],
+      "default",
+      "Input Message"
+    )}"
    >${text(
-      "input message text",
-      "My great input message", "Input Message"
-    )}</calcite-input-message>
+     "input message text",
+     "My great input message",
+     "Input Message"
+   )}</calcite-input-message>
     </calcite-label>
     </div>
   `,
@@ -124,6 +140,7 @@ storiesOf("Input", module)
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input
+      scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
       type="${select(
         "type",
@@ -167,7 +184,9 @@ storiesOf("Input", module)
       "status",
       ["idle", "valid", "invalid"],
       "idle"
-    )}">
+    )}"
+    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    >
     ${text("label text", "My great label")}
     <calcite-input
       type="${select(

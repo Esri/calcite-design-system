@@ -1,3 +1,56 @@
+// temporary hardcoded values until new font scale and padding is added to calcite-base
+calcite-input[scale="xs"] {
+  & textarea,
+  & input,
+  & .calcite-input-prefix,
+  & .calcite-input-suffix {
+    padding: 4px;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+}
+calcite-input[scale="s"] {
+  & textarea,
+  & input,
+  & .calcite-input-prefix,
+  & .calcite-input-suffix {
+    padding: 8px;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+}
+calcite-input[scale="m"] {
+  & textarea,
+  & input,
+  & .calcite-input-prefix,
+  & .calcite-input-suffix {
+    padding: 12px;
+    font-size: 16px;
+    margin-top: 4px;
+  }
+}
+calcite-input[scale="l"] {
+  & textarea,
+  & input,
+  & .calcite-input-prefix,
+  & .calcite-input-suffix {
+    padding: 16px;
+    font-size: 18px;
+    margin-top: 4px;
+  }
+}
+
+calcite-input[scale="xl"] {
+  & textarea,
+  & input,
+  & .calcite-input-prefix,
+  & .calcite-input-suffix {
+    padding: 20px;
+    font-size: 20px;
+    margin-top: 4px;
+  }
+}
+
 calcite-input textarea,
 calcite-input input {
   display: inline-flex;
@@ -9,15 +62,13 @@ calcite-input input {
   flex: 1;
   box-sizing: border-box;
   font-family: inherit;
-  padding: $baseline/1.65;
-  transition: $transition;
+  transition: $transition, height 0s;
   box-shadow: 0 0 0 0 transparent;
   outline: 0;
   background-color: var(--calcite-ui-foreground);
   color: var(--calcite-ui-text-1);
   order: 3;
   font-weight: 400;
-  @include font-size(0);
   line-height: 1;
 }
 
@@ -34,7 +85,6 @@ calcite-input[appearance="minimal"] {
 // input message slot
 calcite-input slot:not[name="input-message"] {
   display: block;
-  @include font-size(-3);
   margin-bottom: $baseline/4;
   color: var(--calcite-ui-text-2);
   font-weight: 500;
@@ -108,17 +158,17 @@ calcite-input[appearance="minimal"] .calcite-input-loading {
 .calcite-input-prefix,
 .calcite-input-suffix {
   display: flex;
+  align-items: center;
+  align-content: center;
   height: auto;
   min-height: 100%;
-  font-weight: 500;
-  padding: $baseline/2;
   word-break: break-word;
   user-select: none;
+  font-weight: 500;
   border: 1px solid var(--calcite-ui-border-1);
   background-color: var(--calcite-ui-background);
   color: var(--calcite-ui-text-2);
-  align-items: center;
-  align-content: center;
+  line-height: 1;
 }
 
 .calcite-input-prefix {
@@ -167,7 +217,7 @@ calcite-input[dir="rtl"][appearance="minimal"] {
 }
 // readonly
 calcite-input[readonly] .calcite-input-number-button-item {
-  pointer-events:none;
+  pointer-events: none;
 }
 
 // alignment type

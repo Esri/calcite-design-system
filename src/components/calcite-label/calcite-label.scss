@@ -1,3 +1,29 @@
+:host([scale="xs"]) label {
+  font-size: 10px;
+  --calcite-label-spacing-value: 8px;
+}
+
+:host([scale="s"]) label {
+  font-size: 12px;
+  --calcite-label-spacing-value: 12px;
+}
+
+:host([scale="m"]) label {
+  font-size: 14px;
+  --calcite-label-spacing-value: 16px;
+}
+
+:host([scale="l"]) label {
+  font-size: 16px;
+  --calcite-label-spacing-value: 20px;
+}
+
+:host([scale="xl"]) label {
+  font-size: 18px;
+  --calcite-label-spacing-value: 24px;
+}
+// padding for children variable
+
 :host {
   display: flex;
   flex-direction: column;
@@ -16,7 +42,6 @@
   flex-direction: column;
   font-weight: 500;
   cursor: pointer;
-  @include font-size(-2);
 }
 
 :host([layout="inline"]) label {

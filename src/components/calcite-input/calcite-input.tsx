@@ -37,7 +37,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) loading: boolean = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl";
 
   /** specify the appearance type - minimal or default */
   @Prop({ mutable: true, reflect: true }) appearance: "minimal" | "default" =
@@ -105,10 +105,12 @@ export class CalciteInput {
       this.status = getElementProp(this.el, "status", "idle");
 
     let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
+    if (!theme.includes(this.theme))
+      this.theme = getElementProp(this.el, "status", "light");
 
-    let scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
+    let scale = ["xs", "s", "m", "l", "xl"];
+    if (!scale.includes(this.scale))
+      this.scale = getElementProp(this.el, "scale", "m");
 
     let appearance = ["minimal", "default"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
@@ -209,13 +211,31 @@ export class CalciteInput {
         {numberButtonsHorizontalDown}
       </div>
     );
+    const iconScale =
+      this.scale === "xs" || this.scale === "s" || this.scale === "m"
+        ? "s"
+        : "m"
 
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
-        scale="s"
+        scale={iconScale}
         icon={this.icon as string}
       ></calcite-icon>
+    );
+
+    const inputAction = (
+      <div class="calcite-input-action-wrapper">
+        <slot name="input-action"></slot>
+      </div>
+    );
+
+    const prefixText = (
+      <div class="calcite-input-prefix">{this.prefixText}</div>
+    );
+
+    const suffixText = (
+      <div class="calcite-input-suffix">{this.suffixText}</div>
     );
     const childEl =
       this.childElType !== "textarea" ? (
@@ -254,21 +274,13 @@ export class CalciteInput {
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
             : null}
-          {this.prefixText ? (
-            <div class="calcite-input-prefix">{this.prefixText}</div>
-          ) : null}
+          {this.prefixText ? prefixText : null}
           {childEl}
-          {this.hasAction ? (
-            <div class="calcite-input-action-wrapper">
-              <slot name="input-action"></slot>
-            </div>
-          ) : null}
+          {this.hasAction ? inputAction : null}
           {this.type === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical
             : null}
-          {this.suffixText ? (
-            <div class="calcite-input-suffix">{this.suffixText}</div>
-          ) : null}
+          {this.suffixText ? suffixText : null}
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp
             : null}

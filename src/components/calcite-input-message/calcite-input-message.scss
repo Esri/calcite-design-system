@@ -1,4 +1,29 @@
 // theme variables
+:host([scale="xs"]) {
+  font-size: 10px;
+  --calcite-input-message-spacing-value: 4px;
+}
+
+:host([scale="s"]) {
+  font-size: 12px;
+  --calcite-input-message-spacing-value: 8px;
+}
+
+:host([scale="m"]) {
+  font-size: 14px;
+  --calcite-input-message-spacing-value: 12px;
+}
+
+:host([scale="l"]) {
+  font-size: 16px;
+  --calcite-input-message-spacing-value: 16px;
+}
+
+:host([scale="xl"]) {
+  font-size: 18px;
+  --calcite-input-message-spacing-value: 20px;
+}
+
 :host {
   --calcite-input-message-floating-background: #{rgba($ui-foreground, 0.96)};
 }
@@ -17,8 +42,7 @@
   box-sizing: border-box;
   color: var(--calcite-ui-text-2);
   font-weight: 500;
-  @include font-size(-3);
-  line-height: $baseline/1.5;
+  line-height: 1.25;
   transition: $transition;
   visibility: hidden;
   opacity: 0;
@@ -29,7 +53,7 @@
   opacity: 1;
   height: auto;
   visibility: visible;
-  padding: $baseline/2 0 0;
+  margin-top: var(--calcite-input-message-spacing-value)
 }
 
 :host([type="floating"]) {
@@ -44,7 +68,7 @@
   margin-top: 0;
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
-  padding: $baseline/2;
+  padding: var(--calcite-input-message-spacing-value);
   z-index: 101;
 }
 

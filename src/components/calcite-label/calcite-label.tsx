@@ -34,6 +34,10 @@ export class CalciteLabel {
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" =
     "idle";
 
+  /** specify the scale of the input, defaults to m */
+  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
+    "m";
+
   /** specify theme of the lavel and its any child input / input messages */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
@@ -59,15 +63,18 @@ export class CalciteLabel {
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme)) this.theme = "light";
 
+    let scale = ["xs", "s", "m", "l", "xl"];
+    if (!scale.includes(this.scale)) this.scale = "m";
   }
 
   componentDidLoad() {
     this.requestedInputId = this.el.getAttribute("for");
-    this.requestedSlottedContent = this.el.shadowRoot
+   /* this.requestedSlottedContent = this.el.shadowRoot
       .querySelector("slot")
       .assignedNodes();
-      console.log(this.requestedSlottedContent)
-   // this.displayedSlottedContent = this.handleSlottedContent();
+      */
+    // console.log(this.requestedSlottedContent);
+    // this.displayedSlottedContent = this.handleSlottedContent();
   }
 
   render() {
@@ -118,7 +125,7 @@ export class CalciteLabel {
   private requestedInputId: string;
 
   /** the slotted content as requested in the DOM */
-  private requestedSlottedContent: Node[];
+ // private requestedSlottedContent: Node[];
 
   /** the slotted content after it has been interpreted */
   // private displayedSlottedContent: any[];
@@ -152,7 +159,7 @@ export class CalciteLabel {
       this.el.querySelector("input").focus();
     }
   }
-/*
+  /*
   private handleSlottedContent() {
     let nodeList = [];
     this.requestedSlottedContent.forEach(function(item) {
