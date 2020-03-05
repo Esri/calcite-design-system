@@ -106,13 +106,13 @@ storiesOf("Alert", module)
     <h5>Open or add to queue</h5>
     <calcite-button onclick=document.querySelector("#one").open()>Open Alert 1</calcite-button>
     <calcite-button onclick=document.querySelector("#two").open()>Open Alert 2</calcite-button>
-    <calcite-button onclick=document.querySelector("#three").open()>Open Alert 3</calcite-button>
+    <calcite-button onclick=document.querySelector("[data-custom-id=my-id]").open()>Open Alert 3</calcite-button>
     <br/>
     <br/>
     <h5>Close or remove from queue</h5>
     <calcite-button color="red" onclick=document.querySelector("#one").close()>Close Alert 1</calcite-button>
     <calcite-button color="red" onclick=document.querySelector("#two").close()>Close Alert 2</calcite-button>
-    <calcite-button color="red" onclick=document.querySelector("#three").close()>Close Alert 3</calcite-button>
+    <calcite-button color="red" onclick=document.querySelector("[data-custom-id=my-id]").close()>Close Alert 3</calcite-button>
       <calcite-alert
       id="one"
       theme="light"
@@ -148,7 +148,7 @@ storiesOf("Alert", module)
     <calcite-button slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
     </calcite-alert>
     <calcite-alert
-      id="three"
+      data-custom-id="my-id"
       theme="light"
       icon="${boolean("icon-3", true)}"
       auto-dismiss="${boolean("auto-dismiss-3", true)}"
@@ -199,13 +199,13 @@ storiesOf("Alert", module)
     <h5 style="color:white">Open or add to queue</h5>
     <calcite-button theme="dark" onclick=document.querySelector("#one").open()>Open Alert 1</calcite-button>
     <calcite-button theme="dark" onclick=document.querySelector("#two").open()>Open Alert 2</calcite-button>
-    <calcite-button theme="dark" onclick=document.querySelector("#three").open()>Open Alert 3</calcite-button>
+    <calcite-button theme="dark" onclick=document.querySelector("[data-custom-id=my-id]").open()>Open Alert 3</calcite-button>
     <br/>
     <br/>
     <h5 style="color:white">Close or remove from queue</h5>
     <calcite-button theme="dark" color="red" onclick=document.querySelector("#one").close()>Close Alert 1</calcite-button>
     <calcite-button theme="dark" color="red" onclick=document.querySelector("#two").close()>Close Alert 2</calcite-button>
-    <calcite-button theme="dark" color="red" onclick=document.querySelector("#three").close()>Close Alert 3</calcite-button>
+    <calcite-button theme="dark" color="red" onclick=document.querySelector("[data-custom-id=my-id]").close()>Close Alert 3</calcite-button>
       <calcite-alert
       id="one"
       theme="dark"
@@ -241,7 +241,7 @@ storiesOf("Alert", module)
     <calcite-button theme="dark" slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
     </calcite-alert>
     <calcite-alert
-      id="three"
+      data-custom-id="my-id"
       theme="dark"
       icon="${boolean("icon-3", true)}"
       auto-dismiss="${boolean("auto-dismiss-3", true)}"

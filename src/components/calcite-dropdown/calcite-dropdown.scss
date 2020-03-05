@@ -66,19 +66,24 @@
   left: unset;
 }
 
-:host([alignment="right"]) .calcite-dropdown-wrapper {
+:host([alignment="end"]) .calcite-dropdown-wrapper {
   right: 0;
   left: unset;
 }
 
-:host([dir="rtl"][alignment="right"]) .calcite-dropdown-wrapper {
+:host([dir="rtl"][alignment="end"]) .calcite-dropdown-wrapper {
   right: unset;
   left: 0;
 }
 
 :host([alignment="center"]) .calcite-dropdown-wrapper {
   right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+:host([alignment="center"][dir="rtl"]) .calcite-dropdown-wrapper {
+  right: 50%;
   left: 0;
-  margin-right: auto;
-  margin-left: auto;
+  transform: translateX(50%);
 }
