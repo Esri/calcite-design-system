@@ -28,7 +28,7 @@ export class CalciteCombobox {
   @Prop() disabled = false;
 
   /** specify the scale of the combobox, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "m";
 
   // --------------------------------------------------------------------------
   //
@@ -58,7 +58,7 @@ export class CalciteCombobox {
 
   connectedCallback() {
     // prop validations
-    let scale = ["s", "m", "l"];
+    let scale = ["xs", "s", "m", "l", "xl"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
@@ -251,7 +251,7 @@ export class CalciteCombobox {
       >
         <div class="selections">
           {this.selectedItems.map(item => {
-            return <calcite-chip active value={item}>{item}</calcite-chip>;
+            return <calcite-chip active scale={this.scale} value={item}>{item}</calcite-chip>;
           })}
         </div>
         <div

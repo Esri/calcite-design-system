@@ -1,3 +1,6 @@
+// scale
+// todo update when new spacing modifiers are introduced to calcite-base
+
 :host([scale="xs"]) {
   @include font-size(-4);
   --calcite-chip-spacing-small: #{$baseline/6};
@@ -34,7 +37,6 @@
   background-color: var(--calcite-ui-background);
   border-radius: 50px;
   color: var(--calcite-ui-text-1);
-  @include font-size(-3);
   font-weight: 500;
 }
 
