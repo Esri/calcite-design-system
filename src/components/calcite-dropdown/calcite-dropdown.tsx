@@ -36,9 +36,9 @@ export class CalciteDropdown {
 
   /** specify the alignment of dropdrown, defaults to left */
   @Prop({ mutable: true, reflect: true }) alignment:
-    | "left"
-    | "right"
-    | "center" = "left";
+    | "start"
+    | "center"
+    | "end" = "start";
 
   /** specify the theme of the dropdown, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
@@ -60,8 +60,8 @@ export class CalciteDropdown {
 
   connectedCallback() {
     // validate props
-    let alignment = ["left", "right", "center"];
-    if (!alignment.includes(this.alignment)) this.alignment = "left";
+    let alignment = ["start", "center", "end"];
+    if (!alignment.includes(this.alignment)) this.alignment = "start";
 
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme)) this.theme = "light";

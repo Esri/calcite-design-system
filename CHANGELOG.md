@@ -5,10 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased] 
+
+### Breaking Changes
+- `calcite-dropdown` - `alignment` attribute now uses `start` and `end` values instead of `left` and `right`
+- `calcite-dropdown-item` - `link-title` attribute has been removed
+
+### Updated
+- `calcite-dropdown` - active state indicators for `selection-mode=none` have been removed
+- `calcite-dropdown` - active state indicators for `selection-mode=multi` have been updated to use checkmarks
+- `calcite-dropdown-item` - any attributes passed to a `calcite-dropdown-item` that has a `href` attribute will now be spread to the rendered child link
+
+### Fixed
+- `calcite-dropdown` - `alignment=center` now correctly positions the dropdown if the slotted `dropdown-trigger` is wider than the dropdown container
+
+## [v1.0.0-beta.20] - Feb 25th 2020
 
 ### Added
 - new component `calcite-card`
+
+### Updated
+- `calcite-tooltip`, `calcite-popover` - Allow pointer events for poppers that have escaped their container
 
 ## [v1.0.0-beta.19] - Feb 19th 2020
 
@@ -251,6 +268,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.20]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...v1.0.0-beta.20 "v1.0.0-beta.20"
 [v1.0.0-beta.19]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.18...v1.0.0-beta.19 "v1.0.0-beta.19"
 [v1.0.0-beta.18]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.17...v1.0.0-beta.18 "v1.0.0-beta.18"
 [v1.0.0-beta.17]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.16...v1.0.0-beta.17 "v1.0.0-beta.17"
