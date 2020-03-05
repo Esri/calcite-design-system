@@ -21,13 +21,20 @@
 :host([scale="l"]) {
   @include font-size(-1);
   --calcite-chip-spacing-small: #{$baseline/2};
-  --calcite-chip-spacing-large: #{$baseline/1.5};
+  --calcite-chip-spacing-large: #{$baseline/1.25};
 }
 
 :host([scale="xl"]) {
   @include font-size(0);
-  --calcite-chip-spacing-small: #{$baseline/1.5};
-  --calcite-chip-spacing-large: #{$baseline/.75};
+  --calcite-chip-spacing-small: #{$baseline/1.75};
+  --calcite-chip-spacing-large: #{$baseline};
+}
+
+:host {
+--calcite-chip-button-border-radius: 0 50px 50px 0;
+}
+:host([dir="rtl"]) {
+  --calcite-chip-button-border-radius: 50px 0 0 50px;
 }
 
 :host {
@@ -52,6 +59,7 @@
   padding: var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-large)
     var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-small);
 }
+
 :host button {
   display: inline-flex;
   height: 100%;
@@ -60,7 +68,7 @@
   background-color: transparent;
   margin: 0;
   padding: 0;
-  border-radius: 0 50px 50px 0;
+  border-radius: var(--calcite-chip-button-border-radius);
   border: 1px solid transparent;
   transition: $transition;
   &:hover,
@@ -73,11 +81,12 @@
   }
   & calcite-icon {
     transition: $transition;
-    border-radius: 0 50px 50px 0;
+    border-radius: var(--calcite-chip-button-border-radius);
     padding: var(--calcite-chip-spacing-small);
     transform: scale(0.9);
   }
 }
+
 //slotted image
 :host slot[name="chip-image"] {
   display: inline-flex;
