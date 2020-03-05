@@ -10,6 +10,7 @@ import {
   Prop
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided. You can keep alerts in your DOM or create/open, close/destroy
@@ -240,7 +241,7 @@ export class CalciteAlert {
   @Prop() currentAlert: string;
 
   /** Unique ID for this alert */
-  private alertId: string = this.el.id;
+  private alertId: string = this.el.id || `calcite-alert-${guid()}`;
 
   /** the close button element */
   private closeButton?: HTMLElement;
@@ -276,6 +277,7 @@ export class CalciteAlert {
     red: "exclamationMarkTriangle",
     blue: "lightbulb"
   };
+
   private setIcon() {
     var path = this.iconDefaults[this.color];
     return (
