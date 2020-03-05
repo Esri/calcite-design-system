@@ -50,8 +50,6 @@ export class CalciteCombobox {
 
   visibleItems: Array<HTMLCalciteComboboxItemElement> = null;
 
-  visibleChips: Array<HTMLCalciteChipElement> = null;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -67,10 +65,6 @@ export class CalciteCombobox {
   componentDidLoad() {
     this.items = Array.from(this.el.querySelectorAll("calcite-combobox-item"));
     this.data = this.getItemData();
-  }
-
-  componentDidUpdate() {
-    this.visibleChips = this.getChipList();
   }
 
   // --------------------------------------------------------------------------
@@ -107,12 +101,16 @@ export class CalciteCombobox {
   };
 
   handleInputKeyDown(e) {
-    if (e.keyCode === ESCAPE) {
-      this.active = false;
-    } else {
-      this.active = true;
-      this.textInput.focus();
-    }
+    if (e.target === this.textInput) {
+      if (e.shiftKey && e.KeyCode === "TAB") {
+        return;
+      } else if (e.keyCode === ESCAPE) {
+        this.active = false;
+      } else {
+        this.active = true;
+        this.textInput.focus();
+      }
+    } else return;
   }
 
   filterItems = debounce(value => {
@@ -144,7 +142,6 @@ export class CalciteCombobox {
 
   toggleSelection(item): void {
     if (!item.selected) {
-      console.log(item.value);
       this.selectedItems = this.selectedItems.filter(currentValue => {
         return currentValue !== item.value;
       });
@@ -180,6 +177,7 @@ export class CalciteCombobox {
     let isLastItem = this.itemIndex(e.target) === this.items.length - 1;
     switch (e.keyCode) {
       case TAB:
+        if (isFirstItem && e.shiftKey) this.closeCalciteCombobox();
         if (isLastItem && !e.shiftKey) this.closeCalciteCombobox();
         else if (isFirstItem && e.shiftKey) this.textInput.focus();
         else if (e.shiftKey) this.focusPrevItem(e.target);
@@ -233,13 +231,10 @@ export class CalciteCombobox {
     return this.items.indexOf(e);
   }
 
-  comboboxFocusHandler = (event: KeyboardEvent) => {
-    this.active = event.type === "focusin";
+  comboboxFocusHandler = event => {
+      this.active = event.type === "focusin";
   };
 
-  getChipList() {
-    return Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip"));
-  }
   //--------------------------------------------------------------------------
   //
   //  Render Methods

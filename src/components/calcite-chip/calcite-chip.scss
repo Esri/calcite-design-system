@@ -1,22 +1,100 @@
+:host([scale="xs"]) {
+  @include font-size(-4);
+  --calcite-chip-spacing-small: #{$baseline/6};
+  --calcite-chip-spacing-large: #{$baseline/3};
+}
+:host([scale="s"]) {
+  @include font-size(-3);
+  --calcite-chip-spacing-small: #{$baseline/4};
+  --calcite-chip-spacing-large: #{$baseline/2};
+}
+
+:host([scale="m"]) {
+  @include font-size(-2);
+  --calcite-chip-spacing-small: #{$baseline/3};
+  --calcite-chip-spacing-large: #{$baseline/1.5};
+}
+
+:host([scale="l"]) {
+  @include font-size(-1);
+  --calcite-chip-spacing-small: #{$baseline/2};
+  --calcite-chip-spacing-large: #{$baseline/1.5};
+}
+
+:host([scale="xl"]) {
+  @include font-size(0);
+  --calcite-chip-spacing-small: #{$baseline/1.5};
+  --calcite-chip-spacing-large: #{$baseline/.75};
+}
+
 :host {
   display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
-  background-color: var(--calcite-ui-blue);
-  border-radius: 3px;
-  color: white;
-  text-transform: capitalize;
+  justify-self: center;
+  background-color: var(--calcite-ui-background);
+  border-radius: 50px;
+  color: var(--calcite-ui-text-1);
+  @include font-size(-3);
+  font-weight: 500;
 }
 
 :host([hidden]) {
   display: none;
 }
-
-calcite-icon {
-  margin-left: 6px;
-  cursor: pointer;
+:host span {
+  padding: var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-small)
+    var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-large);
 }
 
-a {
-  color: inherit;
+:host([dir="rtl"]) span {
+  padding: var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-large)
+    var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-small);
+}
+:host button {
+  display: inline-flex;
+  height: 100%;
+  -webkit-appearance: none;
+  outline: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 50px 50px 0;
+  border: 1px solid transparent;
+  transition: $transition;
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-ui-foreground-hover);
+    border-color: var(--calcite-ui-foreground-press);
+  }
+  &:active {
+    background-color: var(--calcite-ui-foreground-press);
+  }
+  & calcite-icon {
+    transition: $transition;
+    border-radius: 0 50px 50px 0;
+    padding: var(--calcite-chip-spacing-small);
+    transform: scale(0.9);
+  }
+}
+//slotted image
+:host slot[name="chip-image"] {
+  display: inline-flex;
+}
+:host slot[name="chip-image"]::slotted(*) {
+  display: inline-flex;
+  border-radius: 50%;
+  height: 100%;
+}
+//icon
+.calcite-chip--icon {
+  display: inline-flex;
+  margin: 0 0 0 var(--calcite-chip-spacing-large);
+}
+
+:host([dir="rtl"]) .calcite-chip--icon {
+  margin: 0 var(--calcite-chip-spacing-large) 0 0;
+}
+
+calcite-icon {
+  cursor: pointer;
 }
