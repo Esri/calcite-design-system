@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Chip</title>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Chip</h1>
+  <h2>Basic</h2>
+  <calcite-chip id="one">apple</calcite-chip>
+  <script>
+    const one = document.querySelector("#one");
+    one.addEventListener("calciteChipDismissed", () => {
+      console.log('dismissed chip');
+    });
+  </script>
+  <h2>Custom Background</h2>
+  <calcite-chip background-color="#ffe900">
+    <img src="https://avatars0.githubusercontent.com/u/6144462?s=40&v=4" />
+    banana
+  </calcite-chip>
+</body>
+
+</html>
