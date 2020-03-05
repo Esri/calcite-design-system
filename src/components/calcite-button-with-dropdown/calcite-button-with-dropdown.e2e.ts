@@ -24,7 +24,7 @@ describe("calcite-button-with-dropdown", () => {
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-button-with-dropdown color="green" scale="fairly small" theme="moody">
+      <calcite-button-with-dropdown color="green" scale="fairly small" theme="some theme">
       </calcite-button-with-dropdown>`);
     const element = await page.find("calcite-button-with-dropdown");
     expect(element).toEqualAttribute("scale", "m");
@@ -47,13 +47,15 @@ describe("calcite-button-with-dropdown", () => {
     expect(dropdownButton).toEqualAttribute("aria-label", "more actions");
   });
 
-  it("renders primaryText as inner content of primary button", async () => {
+  it("renders primaryText + primaryIcon as inner content of primary button", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-button-with-dropdown primary-text="primary action">
+      <calcite-button-with-dropdown primary-text="primary action" primary-icon="save">
       </calcite-button-with-dropdown>`);
     const primaryButton = await page.find("calcite-button-with-dropdown >>> calcite-button");
+    const icon = await page.find("calcite-button-with-dropdown >>> calcite-button >>> .calcite-button--icon");
     expect(primaryButton).toEqualText("primary action");
+    expect(icon).not.toBeNull()
   });
 
   it("changes the size and width of the dropdown + primary button based on scale", async () => {

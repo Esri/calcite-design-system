@@ -79,11 +79,11 @@ export class CalciteButtonWithDropdown {
           >
             {this.primaryText}
           </calcite-button>
-          <div class="divider-container">
-            <div class="divider" />
+          <div class="button-dropdown__divider-container">
+            <div class="button-dropdown__divider" />
           </div>
           <calcite-dropdown
-            alignment="right"
+            alignment="end"
             dir={dir}
             theme={this.theme}
             scale={this.dropdownScale}
@@ -98,7 +98,7 @@ export class CalciteButtonWithDropdown {
               theme={this.theme}
               icon="caretDown"
               use-text-proportions={this.primaryText}
-            ></calcite-button>
+            />
             <slot />
           </calcite-dropdown>
         </div>

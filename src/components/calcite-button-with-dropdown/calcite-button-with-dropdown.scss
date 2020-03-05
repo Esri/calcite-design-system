@@ -1,58 +1,58 @@
 :host {
   > div {
     display: flex;
-  }
 
-  calcite-dropdown > calcite-button {
-    height: 100%;
+    > calcite-dropdown > calcite-button {
+      height: 100%;
+    }
   }
 
   --calcite-button-light: #{$blk-010};
   --calcite-button-light-text: #{$blk-220};
   --calcite-button-dark: #{$blk-190};
-  --calcite-button-colored-dark-theme-text: #{$blk-230};
+  --calcite-button-dark-text: #{$blk-230};
 }
 
 :host([color="blue"]) {
-  .divider-container {
+  .button-dropdown__divider-container {
     background-color: var(--calcite-ui-blue);
   }
   &:host([theme="dark"]) {
-    .divider {
-      background-color: var(--calcite-button-colored-dark-theme-text);
+    .button-dropdown__divider {
+      background-color: var(--calcite-button-dark-text);
     }
   }
 }
 
 :host([color="red"]) {
-  .divider-container {
+  .button-dropdown__divider-container {
     background-color: var(--calcite-ui-red);
   }
   &:host([theme="dark"]) {
-    .divider {
-      background-color: var(--calcite-button-colored-dark-theme-text);
+    .button-dropdown__divider {
+      background-color: var(--calcite-button-dark-text);
     }
   }
 }
 
 :host([color="light"]) {
-  .divider-container {
+  .button-dropdown__divider-container {
     background-color: var(--calcite-button-light);
   }
 
-  .divider {
+  .button-dropdown__divider {
     background-color: var(--calcite-button-light-text);
   }
 }
 
 :host([color="dark"]) {
-  .divider-container {
+  .button-dropdown__divider-container {
     background-color: var(--calcite-button-dark);
   }
 }
 
 :host([disabled]) {
-  .divider-container {
+  .button-dropdown__divider-container {
     opacity: 0.4;
   }
 
@@ -61,14 +61,14 @@
   }
 }
 
-.divider-container {
+.button-dropdown__divider-container {
   width: 1px;
   display: flex;
   align-items: center;
   transition: all 0.15s ease-in-out;
 }
 
-.divider {
+.button-dropdown__divider {
   width: 1px;
   height: 66.666%;
   display: inline-block;

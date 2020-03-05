@@ -23,7 +23,7 @@
 
 | Event                  | Description                                    | Type               |
 | ---------------------- | ---------------------------------------------- | ------------------ |
-| `primaryButtonClicked` | Fired when the modal begins the open animation | `CustomEvent<any>` |
+| `primaryButtonClicked` | fired when the modal begins the open animation | `CustomEvent<any>` |
 
 
 ## Dependencies
