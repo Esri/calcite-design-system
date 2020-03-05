@@ -4,12 +4,23 @@ import {
   Event,
   EventEmitter,
   Host,
+  Listen,
   Method,
   Prop,
   h,
   State,
   Watch
 } from "@stencil/core";
+import {
+  UP,
+  DOWN,
+  TAB,
+  ENTER,
+  ESCAPE,
+  HOME,
+  END,
+  SPACE
+} from "../../utils/keys";
 
 import { CSS } from "./resources";
 
@@ -25,30 +36,21 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * When true, the item cannot be clicked and is visually muted.
-   */
+  /* When true, the item cannot be clicked and is visually muted. */
   @Prop({ reflect: true }) disabled? = false;
 
-  /**
-   * Set this to true to pre-select an item. Toggles when an item is checked/unchecked.
-   */
+  /* Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
   @Prop({ reflect: true }) selected = false;
 
   @Watch("selected") selectedWatchHandler(newValue: boolean) {
     this.isSelected = newValue;
   }
 
-  /**
-   * The main label for this item.
-   */
+  /* The main label for this item. */
   @Prop({ reflect: true }) textLabel!: string;
 
-  /**
-   * A unique value used to identify this item - similar to the value attribute on an <input>.
-   */
+  /* A unique value used to identify this item - similar to the value attribute on an <input>. */
   @Prop({ reflect: true }) value!: string;
-
 
   // --------------------------------------------------------------------------
   //
@@ -60,11 +62,11 @@ export class CalciteComboboxItem {
 
   @State() isSelected = this.selected;
 
-  isNested : boolean;
+  isNested: boolean;
 
   hasDefaultSlot: boolean;
 
-  anchorElement: HTMLAnchorElement;
+  comboboxItemEl: HTMLElement;
 
   // --------------------------------------------------------------------------
   //
@@ -85,9 +87,45 @@ export class CalciteComboboxItem {
 
   /**
    * Emitted whenever the item is selected or unselected.
-   * @event calciteItemChange
+   * @event calciteComboboxItemChange
    */
-  @Event() calciteItemChange: EventEmitter;
+  @Event() calciteComboboxItemChange: EventEmitter;
+  @Event() calciteComboboxItemKeyEvent: EventEmitter;
+  @Event() calciteComboboxItemMouseover: EventEmitter;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  // --------------------------------------------------------------------------
+
+  @Listen("mouseover") onMouseoverHandler(event) {
+    this.calciteComboboxItemMouseover.emit(event);
+  }
+
+  @Listen("keydown") keyDownHandler(event) {
+    event.stopPropagation();
+    switch (event.keyCode) {
+      case SPACE:
+      case ENTER:
+        this.isSelected = !this.isSelected;
+        this.calciteComboboxItemChange.emit({
+          value: this.value,
+          selected: this.isSelected
+        });
+        event.preventDefault();
+        break;
+      case UP:
+      case DOWN:
+      case HOME:
+      case END:
+      case TAB:
+      case ESCAPE:
+        this.calciteComboboxItemKeyEvent.emit({ item: event });
+        event.preventDefault();
+        break;
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -103,15 +141,7 @@ export class CalciteComboboxItem {
     if (this.disabled) {
       return;
     }
-
     this.isSelected = typeof coerce === "boolean" ? coerce : !this.isSelected;
-  }
-
-  /**
-   * Used to set keyboard focus on the internal anchor tag.
-   */
-  @Method() async setFocus() {
-    this.anchorElement.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -127,9 +157,13 @@ export class CalciteComboboxItem {
     }
 
     this.isSelected = !this.isSelected;
-    this.calciteItemChange.emit({value: this.value, selected: this.isSelected});
+    this.calciteComboboxItemChange.emit({
+      value: this.value,
+      selected: this.isSelected
+    });
   };
 
+  // todo check for levels deep
   getDepth() {
     return this.el.parentElement.nodeName === "CALCITE-COMBOBOX-ITEM";
   }
@@ -140,13 +174,13 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon() {
-    return (
-      <calcite-icon class={CSS.icon} scale="s" icon="check" />
-    );
+    return <calcite-icon class={CSS.icon} scale="s" icon="check" />;
   }
 
   renderChildren() {
-    if (!this.hasDefaultSlot) { return null; }
+    if (!this.hasDefaultSlot) {
+      return null;
+    }
     return (
       <ul>
         <slot />
@@ -155,13 +189,27 @@ export class CalciteComboboxItem {
   }
 
   render() {
-    const classes= {[CSS.label]: true, [CSS.selected]: this.isSelected, [CSS.nested] : this.isNested };
+    const classes = {
+      [CSS.label]: true,
+      [CSS.selected]: this.isSelected,
+      [CSS.nested]: this.isNested,
+      [CSS.parent]: !this.isNested
+    };
     return (
-      <Host role="option" aria-selected={this.isSelected} disabled={this.disabled} >
-        <a class={classes} onClick={this.itemClickHandler} href="#" ref={(el) => this.anchorElement = el as HTMLAnchorElement} >
+      <Host
+        role="option"
+        aria-selected={this.isSelected}
+        disabled={this.disabled}
+        tabIndex={0}
+      >
+        <div
+          class={classes}
+          onClick={this.itemClickHandler}
+          ref={el => (this.comboboxItemEl = el as HTMLElement)}
+        >
           {this.renderIcon()}
           <span class={CSS.title}>{this.textLabel}</span>
-        </a>
+        </div>
         {this.renderChildren()}
       </Host>
     );

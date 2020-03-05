@@ -9,8 +9,7 @@ import {
   EventEmitter,
   Element
 } from "@stencil/core";
-
-import "focus-within-polyfill";
+import { UP, DOWN, TAB, HOME, END, ESCAPE } from "../../utils/keys";
 import { filter } from "../../utils/filter";
 import { debounce } from "lodash-es";
 
@@ -39,9 +38,9 @@ export class CalciteCombobox {
 
   @Element() el: HTMLElement;
 
-  @State() expanded = false;
-
   @State() selectedItems = [];
+
+  @Prop({ reflect: true }) active = false;
 
   textInput: HTMLInputElement = null;
 
@@ -51,7 +50,7 @@ export class CalciteCombobox {
 
   visibleItems: Array<HTMLCalciteComboboxItemElement> = null;
 
-  activeItemIndex = -1; //item that has current focus
+  visibleChips: Array<HTMLCalciteChipElement> = null;
 
   // --------------------------------------------------------------------------
   //
@@ -67,8 +66,11 @@ export class CalciteCombobox {
 
   componentDidLoad() {
     this.items = Array.from(this.el.querySelectorAll("calcite-combobox-item"));
-    this.visibleItems = this.items;
     this.data = this.getItemData();
+  }
+
+  componentDidUpdate() {
+    this.visibleChips = this.getChipList();
   }
 
   // --------------------------------------------------------------------------
@@ -78,8 +80,11 @@ export class CalciteCombobox {
   // --------------------------------------------------------------------------
 
   @Event() calciteLookupChange: EventEmitter;
+  @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  @Listen("calciteItemChange") calciteItemChangeHandler(event: CustomEvent) {
+  @Listen("calciteComboboxItemChange") calciteComboboxItemChangeHandler(
+    event: CustomEvent
+  ) {
     this.toggleSelection(event.detail);
   }
 
@@ -101,14 +106,21 @@ export class CalciteCombobox {
     this.filterItems(target.value);
   };
 
+  handleInputKeyDown(e) {
+    if (e.keyCode === ESCAPE) {
+      this.active = false;
+    } else {
+      this.active = true;
+      this.textInput.focus();
+    }
+  }
+
   filterItems = debounce(value => {
     const filteredData = filter(this.data, value);
     const values = filteredData.map(item => item.value);
     this.items.forEach(item => {
       const hasParent = item.parentElement.matches("calcite-combobox-item");
-
       item.hidden = values.indexOf(item.value) === -1;
-
       // If item is nested inside another item...
       if (hasParent) {
         const parent = item.parentElement as HTMLCalciteComboboxItemElement;
@@ -128,24 +140,23 @@ export class CalciteCombobox {
     this.visibleItems = Array.from(
       this.el.querySelectorAll("calcite-combobox-item:not([hidden])")
     );
-    this.activeItemIndex = -1;
-  }, 250);
+  }, 100);
 
   toggleSelection(item): void {
     if (!item.selected) {
+      console.log(item.value);
       this.selectedItems = this.selectedItems.filter(currentValue => {
         return currentValue !== item.value;
       });
     } else {
       this.selectedItems = [...this.selectedItems, item.value];
     }
-    this.textInput.value = "";
     this.calciteLookupChange.emit(this.selectedItems);
   }
 
   deselectItem(value): void {
     const comboboxItem = this.el.querySelector(
-      `calcite-combobox-item[value=${value}]`
+      `calcite-combobox-item[value='${value}']`
     ) as HTMLCalciteComboboxItemElement;
     comboboxItem.toggleSelected(false);
   }
@@ -161,32 +172,74 @@ export class CalciteCombobox {
     return result;
   }
 
-  comboboxKeyDownHandler = (event: KeyboardEvent) => {
-    let activeItem = this.activeItemIndex;
-    switch (event.key) {
-      case "ArrowUp":
-        activeItem--;
+  @Listen("calciteComboboxItemKeyEvent") calciteComboboxItemKeyEventHandler(
+    item: CustomEvent
+  ) {
+    let e = item.detail.item;
+    let isFirstItem = this.itemIndex(e.target) === 0;
+    let isLastItem = this.itemIndex(e.target) === this.items.length - 1;
+    switch (e.keyCode) {
+      case TAB:
+        if (isLastItem && !e.shiftKey) this.closeCalciteCombobox();
+        else if (isFirstItem && e.shiftKey) this.textInput.focus();
+        else if (e.shiftKey) this.focusPrevItem(e.target);
+        else this.focusNextItem(e.target);
         break;
-      case "ArrowDown":
-        activeItem++;
+      case DOWN:
+        this.focusNextItem(e.target);
         break;
-      default:
-        return;
+      case UP:
+        this.focusPrevItem(e.target);
+        break;
+      case HOME:
+        this.focusFirstItem();
+        break;
+      case END:
+        this.focusLastItem();
+        break;
+      case ESCAPE:
+        this.closeCalciteCombobox();
+        break;
     }
-    activeItem =
-      activeItem < 0
-        ? this.visibleItems.length - 1
-        : activeItem > this.visibleItems.length - 1
-        ? 0
-        : activeItem;
-    this.visibleItems[activeItem].setFocus();
-    this.activeItemIndex = activeItem;
-  };
+  }
+
+  private closeCalciteCombobox() {
+    this.textInput.focus();
+    this.active = false;
+  }
+
+  private focusFirstItem() {
+    const firstItem = this.items[0];
+    firstItem.focus();
+  }
+
+  private focusLastItem() {
+    const lastItem = this.items[this.items.length - 1];
+    lastItem.focus();
+  }
+  private focusNextItem(e) {
+    const index = this.itemIndex(e);
+    const nextItem = this.items[index + 1] || this.items[0];
+    nextItem.focus();
+  }
+
+  private focusPrevItem(e) {
+    const index = this.itemIndex(e);
+    const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
+    prevItem.focus();
+  }
+
+  private itemIndex(e) {
+    return this.items.indexOf(e);
+  }
 
   comboboxFocusHandler = (event: KeyboardEvent) => {
-    this.expanded = event.type === "focusin";
+    this.active = event.type === "focusin";
   };
 
+  getChipList() {
+    return Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip"));
+  }
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -197,27 +250,28 @@ export class CalciteCombobox {
     const listBoxId = "listbox";
     return (
       <Host
-        onKeyDown={this.comboboxKeyDownHandler}
+        active={this.active}
         onFocusin={this.comboboxFocusHandler}
         onFocusout={this.comboboxFocusHandler}
       >
+        <div class="selections">
+          {this.selectedItems.map(item => {
+            return <calcite-chip value={item}>{item}</calcite-chip>;
+          })}
+        </div>
         <div
           role="combobox"
-          aria-expanded={this.expanded}
+          aria-expanded={this.active}
           aria-owns={listBoxId}
           aria-haspopup="listbox"
         >
-          <span class="selections">
-            {this.selectedItems.map(item => {
-              return <calcite-chip value={item}>{item}</calcite-chip>;
-            })}
-          </span>
           <input
             type="text"
             aria-autocomplete="list"
             aria-controls={listBoxId}
             onInput={this.inputHandler}
             disabled={this.disabled}
+            onKeyDown={e => this.handleInputKeyDown(e)}
             ref={el => (this.textInput = el as HTMLInputElement)}
           />
         </div>
@@ -225,7 +279,6 @@ export class CalciteCombobox {
           id={listBoxId}
           role="listbox"
           class={{ list: true }}
-          tabindex="0"
           aria-multiselectable="true"
         >
           <slot />

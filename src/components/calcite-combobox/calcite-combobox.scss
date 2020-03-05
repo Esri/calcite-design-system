@@ -20,19 +20,6 @@
   position: relative;
 }
 
-:host(:focus-within) .list {
-  transform: translate3d(0, 0, 0);
-  opacity: 1;
-  max-height: 100vh;
-  visibility: visible;
-  pointer-events: initial;
-}
-.focus-within {
-  border: 1px solid var(--calcite-ui-border-1);
-}
-.focus-within .list {
-@include floatingContainer("open");
-}
 
 [role="combobox"] {
   display: flex;
@@ -52,6 +39,16 @@ input {
   @include floatingContainer("closed");
   left: 0;
   right: 0;
+}
+
+:host([active]) .list {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  max-height: 100vh;
+  overflow-y: scroll;
+  visibility: visible;
+  pointer-events: initial;
+  @include floatingContainer("open");
 }
 
 .item {
