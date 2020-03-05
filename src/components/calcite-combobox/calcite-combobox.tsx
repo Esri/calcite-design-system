@@ -251,7 +251,7 @@ export class CalciteCombobox {
       >
         <div class="selections">
           {this.selectedItems.map(item => {
-            return <calcite-chip value={item}>{item}</calcite-chip>;
+            return <calcite-chip active value={item}>{item}</calcite-chip>;
           })}
         </div>
         <div

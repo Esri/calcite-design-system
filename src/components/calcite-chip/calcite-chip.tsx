@@ -3,7 +3,6 @@ import {
   h,
   Host,
   Prop,
-  State,
   Event,
   EventEmitter,
   Element
@@ -24,11 +23,15 @@ export class CalciteChip {
   //--------------------------------------------------------------------------
   @Prop() value: string = null;
 
+  /** is the chip currently active or not */
+  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "m";
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
+
 
   // --------------------------------------------------------------------------
   //
@@ -38,7 +41,7 @@ export class CalciteChip {
 
   @Element() el: HTMLElement;
 
-  @State() active = true;
+
 
   // --------------------------------------------------------------------------
   //
@@ -56,7 +59,7 @@ export class CalciteChip {
 
   closeClickHandler = (event: MouseEvent) => {
     event.preventDefault();
-    this.active = true;
+    this.active = false;
     this.calciteChipDismiss.emit(this.el);
   };
 

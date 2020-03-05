@@ -28,7 +28,7 @@
 }
 
 :host {
-  display: inline-flex;
+  display: none;
   align-items: center;
   justify-self: center;
   background-color: var(--calcite-ui-background);
@@ -38,8 +38,8 @@
   font-weight: 500;
 }
 
-:host([hidden]) {
-  display: none;
+:host([active]) {
+  display: inline-flex;
 }
 :host span {
   padding: var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-small)
