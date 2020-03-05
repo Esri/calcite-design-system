@@ -34,7 +34,7 @@ export class CalciteDropdown {
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
-  /** specify the alignment of dropdrown, defaults to left */
+  /** specify the alignment of dropdrown, defaults to start */
   @Prop({ mutable: true, reflect: true }) alignment:
     | "start"
     | "center"
