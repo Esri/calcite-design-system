@@ -91,17 +91,12 @@ export class CalciteComboboxItem {
    */
   @Event() calciteComboboxItemChange: EventEmitter;
   @Event() calciteComboboxItemKeyEvent: EventEmitter;
-  @Event() calciteComboboxItemMouseover: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
   //  Event Listeners
   //
   // --------------------------------------------------------------------------
-
-  @Listen("mouseover") onMouseoverHandler(event) {
-    this.calciteComboboxItemMouseover.emit(event);
-  }
 
   @Listen("keydown") keyDownHandler(event) {
     event.stopPropagation();
