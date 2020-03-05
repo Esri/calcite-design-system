@@ -46,7 +46,7 @@ describe("calcite-dropdown", () => {
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "m");
     expect(element).toEqualAttribute("theme", "light");
-    expect(element).toEqualAttribute("alignment", "left");
+    expect(element).toEqualAttribute("alignment", "start");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
 
@@ -73,14 +73,14 @@ describe("calcite-dropdown", () => {
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "m");
     expect(element).toEqualAttribute("theme", "light");
-    expect(element).toEqualAttribute("alignment", "left");
+    expect(element).toEqualAttribute("alignment", "start");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-dropdown alignment="right" scale="l" width="l" theme="dark">
+    <calcite-dropdown alignment="end" scale="l" width="l" theme="dark">
     <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="multi">
     <calcite-dropdown-item id="item-1">
@@ -100,7 +100,7 @@ describe("calcite-dropdown", () => {
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "l");
     expect(element).toEqualAttribute("theme", "dark");
-    expect(element).toEqualAttribute("alignment", "right");
+    expect(element).toEqualAttribute("alignment", "end");
     expect(group1).toEqualAttribute("selection-mode", "multi");
   });
 
@@ -406,5 +406,30 @@ describe("calcite-dropdown", () => {
     expect(item7).not.toHaveAttribute("active");
     expect(item8).not.toHaveAttribute("active");
     expect(item9).not.toHaveAttribute("active");
+  });
+
+  it("renders a calcite-dropdown-item with child anchor link with passed attributes if href is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-dropdown>
+      <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
+      <calcite-dropdown-group id="group-1" selection-mode="none">
+      <calcite-dropdown-item id="item-1">
+      Dropdown Item Content
+      </calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2" href="google.com" rel="noopener noreferrer" target="_blank">
+      Dropdown Item Content
+      </calcite-dropdown-item>
+      <calcite-dropdown-item id="item-3">
+      Dropdown Item Content
+      </calcite-dropdown-item>
+      </calcite-dropdown-group>
+      </calcite-dropdown>`
+    );
+    const elementAsLink = await page.find("calcite-dropdown-item[id='item-2'] >>> a");
+    expect(elementAsLink).not.toBeNull();
+    expect(elementAsLink).toEqualAttribute("href", "google.com");
+    expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
+    expect(elementAsLink).toEqualAttribute("target", "_blank");
   });
 });
