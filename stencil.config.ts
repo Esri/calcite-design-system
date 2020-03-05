@@ -8,7 +8,6 @@ export const config: Config = {
     { components: ["calcite-alert"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
-
     {
       components: [
         "calcite-date-picker",
@@ -25,7 +24,8 @@ export const config: Config = {
       ]
     },
     { components: ["calcite-icon"] },
-    { components: ["calcite-input", "calcite-input-message"] },
+    { components: ["calcite-input"] },
+    { components: ["calcite-input-message"] },
     { components: ["calcite-label"] },
     { components: ["calcite-loader"] },
     { components: ["calcite-modal"] },
@@ -45,7 +45,7 @@ export const config: Config = {
       ]
     },
     { components: ["calcite-tooltip"] },
-    { components: ["calcite-tree", "calcite-tree-item"] }
+    { components: ["calcite-tree", "calcite-tree-item"] },
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },

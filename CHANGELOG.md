@@ -7,9 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## Unreleased
+
 ### Added
 - new `calcite-label`, `calcite-input`, and `calcite-input-message` components
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
+
+### Breaking Changes
+- `calcite-dropdown` - `alignment` attribute now uses `start` and `end` values instead of `left` and `right`
+- `calcite-dropdown-item` - `link-title` attribute has been removed
+
+### Updated
+- `calcite-dropdown` - active state indicators for `selection-mode=none` have been removed
+- `calcite-dropdown` - active state indicators for `selection-mode=multi` have been updated to use checkmarks
+- `calcite-dropdown-item` - any attributes passed to a `calcite-dropdown-item` that has a `href` attribute will now be spread to the rendered child link
+
+### Fixed
+- `calcite-dropdown` - `alignment=center` now correctly positions the dropdown if the slotted `dropdown-trigger` is wider than the dropdown container
 
 ## [v1.0.0-beta.20] - Feb 25th 2020
 
