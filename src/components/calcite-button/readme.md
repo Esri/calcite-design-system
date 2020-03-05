@@ -16,7 +16,7 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 | `disabled`     | `disabled`      | is the button disabled                                                                                                    | `boolean`                                     | `undefined` |
 | `floating`     | `floating`      | optionally add a floating style to the button - this should be positioned fixed or sticky                                 | `boolean`                                     | `false`     |
 | `href`         | `href`          | optionally pass a href - used to determine if the component should render as a button or an anchor                        | `string`                                      | `undefined` |
-| `icon`         | `icon`          | optionally pass icon path data - pass only raw path data from calcite ui helper                                           | `string`                                      | `undefined` |
+| `icon`         | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names                                                        | `string`                                      | `undefined` |
 | `iconPosition` | `icon-position` | optionally used with icon, select where to position the icon                                                              | `"end" \| "start"`                            | `"start"`   |
 | `loading`      | `loading`       | optionally add a calcite-loader component to the button, disabling interaction.                                           | `boolean`                                     | `false`     |
 | `round`        | `round`         | optionally add a round style to the button                                                                                | `boolean`                                     | `false`     |
@@ -43,11 +43,13 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-loader](../calcite-loader)
+- [calcite-icon](../calcite-icon)
 
 ### Graph
 ```mermaid
 graph TD;
   calcite-button --> calcite-loader
+  calcite-button --> calcite-icon
   style calcite-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

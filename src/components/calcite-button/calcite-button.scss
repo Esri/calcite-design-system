@@ -123,10 +123,6 @@
 .calcite-button--icon {
   display: inline-flex;
   position: relative;
-  height: 16px;
-  width: 16px;
-  min-width: 16px;
-  min-height: 16px;
   margin: 0;
   line-height: inherit;
   transition: $transition;
@@ -158,12 +154,6 @@
 :host([hastext][icon-position="end"][dir="rtl"]) .calcite-button--icon {
   margin-left: 0;
   margin-right: $baseline/3;
-}
-
-// icon positioning and styles for inline
-:host([appearance="inline"]) .calcite-button--icon {
-  max-height: $baseline/2;
-  top: 0;
 }
 
 :host([appearance="inline"][icon-position="start"]) .calcite-button--icon {
@@ -622,6 +612,7 @@
   color: $color;
   font-weight: 500;
   font-size: inherit;
+  line-height: inherit;
   white-space: initial;
   user-select: text;
   background-color: transparent;
@@ -644,9 +635,6 @@
   &:active {
     color: $color;
     background-size: 100% 1px, 100% 1px;
-  }
-  & .calcite-button--icon {
-    fill: $color;
   }
   & calcite-loader {
     color: $color;

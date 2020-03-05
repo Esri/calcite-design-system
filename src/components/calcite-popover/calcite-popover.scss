@@ -1,31 +1,12 @@
 $image_max_height: 200px;
 
-:host {
-  display: block;
-  position: absolute;
-  z-index: 999;
-  top: -999999px;
-  left: -999999px;
-}
+@include popperHost();
+@include popperArrow();
 
 .container {
   border-radius: var(--calcite-border-radius);
   background: var(--calcite-ui-foreground);
-  box-shadow: $shadow-2;
   position: relative;
-  visibility: hidden;
-  overflow: hidden;
-}
-
-.container--open {
-  visibility: visible;
-}
-
-:host([x-out-of-boundaries]) .container {
-  visibility: hidden;
-}
-
-.content-container {
   display: flex;
   max-width: 350px;
   overflow: hidden;
@@ -52,6 +33,7 @@ $image_max_height: 200px;
   border-radius: 0 var(--calcite-border-radius) 0 0;
   display: block;
   cursor: pointer;
+  background: var(--calcite-ui-foreground);
   &:hover {
     background: var(--calcite-ui-foreground-hover);
   }
@@ -79,6 +61,3 @@ slot[name="image"]::slotted(img) {
   object-position: 50% 50%;
   object-fit: cover;
 }
-
-@include popperPointer(".container--pointer .content-container");
-@include popperMargin(".container--pointer");

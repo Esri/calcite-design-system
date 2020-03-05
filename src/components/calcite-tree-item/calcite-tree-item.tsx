@@ -10,7 +10,6 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { chevronRight16 } from "@esri/calcite-ui-icons";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 import { getElementDir } from "../../utils/dom";
@@ -59,12 +58,12 @@ export class CalciteTreeItem {
 
   @Watch("expanded")
   expandedHandler(newValue: boolean) {
-    if ( this.childrenSlotWrapper ) {
+    if (this.childrenSlotWrapper) {
       const [childTree] = getSlottedElements(
         this.childrenSlotWrapper,
         "calcite-tree"
       );
-      if ( childTree ) {
+      if (childTree) {
         const items = getSlottedElements<HTMLCalciteTreeItemElement>(
           childTree,
           "calcite-tree-item"
@@ -102,17 +101,13 @@ export class CalciteTreeItem {
   render() {
     const dir = getElementDir(this.el);
     const icon = this.hasChildren ? (
-      <svg
+      <calcite-icon
         class="calcite-tree-chevron"
-        xmlns="http://www.w3.org/2000/svg"
-        height="16"
-        width="16"
-        viewBox="0 0 16 16"
+        icon="chevron-right"
+        scale="s"
         onClick={this.iconClickHandler}
         data-test-id="icon"
-      >
-        <path d={chevronRight16} />
-      </svg>
+      ></calcite-icon>
     ) : null;
 
     return (
@@ -131,11 +126,12 @@ export class CalciteTreeItem {
             ? "false"
             : undefined
         }
-        aria-expanded={
-          this.hasChildren ? this.expanded.toString() : undefined
-        }
+        aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
       >
-        <div class="calcite-tree-node" ref={el => (this.defaultSlotWrapper = el as HTMLElement)}>
+        <div
+          class="calcite-tree-node"
+          ref={el => (this.defaultSlotWrapper = el as HTMLElement)}
+        >
           {icon}
           <slot></slot>
         </div>
@@ -161,10 +157,10 @@ export class CalciteTreeItem {
   @Listen("click") onClick(e: Event) {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
-    const [link] = getSlottedElements( this.defaultSlotWrapper, "a" );
-    if( link && ((e.composedPath()[0] as any).tagName.toLowerCase() !== "a") ) {
+    const [link] = getSlottedElements(this.defaultSlotWrapper, "a");
+    if (link && (e.composedPath()[0] as any).tagName.toLowerCase() !== "a") {
       const target = link.target === "" ? "_self" : link.target;
-      window.open(link.href , target);
+      window.open(link.href, target);
     }
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
@@ -180,8 +176,8 @@ export class CalciteTreeItem {
       modifyCurrentSelection: (event as any).shiftKey,
       forceToggle: true
     });
-  }
-  childrenClickHandler = (event) => event.stopPropagation();
+  };
+  childrenClickHandler = event => event.stopPropagation();
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     let root;
