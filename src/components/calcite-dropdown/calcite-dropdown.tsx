@@ -34,7 +34,7 @@ export class CalciteDropdown {
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
-  /** specify the alignment of dropdrown, defaults to left */
+  /** specify the alignment of dropdown, defaults to start */
   @Prop({ mutable: true, reflect: true }) alignment:
     | "start"
     | "center"
@@ -43,10 +43,10 @@ export class CalciteDropdown {
   /** specify the theme of the dropdown, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
-  /** specify the scale of dropdrown, defaults to m */
+  /** specify the scale of dropdown, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the width of dropdrown, defaults to m */
+  /** specify the width of dropdown, defaults to m */
   @Prop({ mutable: true, reflect: true }) width: "s" | "m" | "l" = "m";
 
   /** specify whether the dropdown is opened by hover or click of the trigger element */
