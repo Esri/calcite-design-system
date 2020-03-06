@@ -46,7 +46,7 @@ export class CalcitePagination {
   @Prop({ reflect: true }) textLabelPrevious:string = TEXT.previousLabel;
 
   /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** ending number of the pagination */
   @Prop({ reflect: true }) total = 2;

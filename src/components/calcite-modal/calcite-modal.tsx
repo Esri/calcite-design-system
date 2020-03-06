@@ -49,7 +49,7 @@ export class CalciteModal {
    * Use color to add importance to desctructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
   /** Turn off spacing around the content area slot */
   @Prop() noPadding?: boolean;
 

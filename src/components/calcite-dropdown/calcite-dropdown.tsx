@@ -41,7 +41,7 @@ export class CalciteDropdown {
     | "end" = "start";
 
   /** specify the theme of the dropdown, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of dropdrown, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -62,10 +62,6 @@ export class CalciteDropdown {
     // validate props
     let alignment = ["start", "center", "end"];
     if (!alignment.includes(this.alignment)) this.alignment = "start";
-
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 

@@ -51,7 +51,7 @@ export class CalciteButton {
     | "inline" = "solid";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
@@ -102,10 +102,6 @@ export class CalciteButton {
 
     let width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
-
-    let theme = ["dark", "light"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     let iconPosition = ["start", "end"];
     if (this.icon !== null && !iconPosition.includes(this.iconPosition))
       this.iconPosition = "start";

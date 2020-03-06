@@ -42,7 +42,7 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
   /** Select theme (light or dark) */
-  @Prop({ reflectToAttr: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflectToAttr: true }) theme: "light" | "dark";
   /** Disable and gray out the slider */
   @Prop({ reflect: true, mutable: true }) disabled: boolean = false;
   /** Minimum selectable value */

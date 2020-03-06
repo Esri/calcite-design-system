@@ -32,7 +32,7 @@ export class CalciteAccordion {
   //--------------------------------------------------------------------------
 
   /** specify the theme of accordion, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of accordion, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -81,9 +81,6 @@ export class CalciteAccordion {
 
     let iconType = ["chevron", "caret", "plus-minus"];
     if (!iconType.includes(this.iconType)) this.iconType = "chevron";
-
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
 
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";

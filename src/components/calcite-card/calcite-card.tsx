@@ -55,7 +55,7 @@ export class CalciteCard {
   @Prop({ reflect: true, mutable: true }) selectable: boolean = false;
 
   /**  The theme of the card.*/
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   //--------------------------------------------------------------------------
   //
@@ -73,8 +73,6 @@ export class CalciteCard {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
   }
 
   render() {

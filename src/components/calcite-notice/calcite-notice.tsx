@@ -53,7 +53,7 @@ export class CalciteNotice {
     | "yellow" = "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   /** specify the scale of the notice, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -79,8 +79,6 @@ export class CalciteNotice {
     let colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
 
     let scales = ["s", "m", "l"];
     if (!scales.includes(this.scale)) this.scale = "m";

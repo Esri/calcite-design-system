@@ -35,7 +35,7 @@ export class CalciteTabs {
   @Prop({
     reflectToAttr: true
   })
-  theme: "light" | "dark" = "light";
+  theme: "light" | "dark";
 
   /**
    * Align tab titles to the edge or fully justify them across the tab nav ("center")
