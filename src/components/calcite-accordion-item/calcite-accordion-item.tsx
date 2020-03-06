@@ -9,7 +9,7 @@ import {
   Prop
 } from "@stencil/core";
 import { UP, DOWN, ENTER, HOME, END, SPACE } from "../../utils/keys";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -64,10 +64,9 @@ export class CalciteAccordionItem {
   }
 
   render() {
-    const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} tabindex="0" aria-expanded={this.active.toString()}>
+      <Host tabindex="0" aria-expanded={this.active.toString()}>
         <div class="accordion-item-header" onClick={this.itemHeaderClickHander}>
           <div class="accordion-item-header-text">
           <span class="accordion-item-title">{this.itemTitle}</span>

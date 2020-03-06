@@ -32,14 +32,13 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("icon-position", "end");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("selection-mode", "multi");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("icon-type", "chevron");
   });
 
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion appearance="zip" icon-position="zat"  scale="zop" selection-mode="zap" theme="zut" icon-type="bananas">
+    <calcite-accordion appearance="zip" icon-position="zat"  scale="zop" selection-mode="zap" icon-type="bananas">
     <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
@@ -52,7 +51,6 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("icon-position", "end");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("selection-mode", "multi");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("icon-type", "chevron");
   });
 

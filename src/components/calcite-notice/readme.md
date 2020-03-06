@@ -10,15 +10,15 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ## Properties
 
-| Property      | Attribute     | Description                                              | Type                                     | Default   |
-| ------------- | ------------- | -------------------------------------------------------- | ---------------------------------------- | --------- |
-| `active`      | `active`      | Is the notice currently active or not                    | `boolean`                                | `false`   |
-| `color`       | `color`       | Color for the notice (will apply to top border and icon) | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`  |
-| `dismissible` | `dismissible` | Select theme (light or dark)                             | `boolean`                                | `false`   |
-| `icon`        | `icon`        | If false, no icon will be shown in the notice            | `boolean`                                | `false`   |
-| `scale`       | `scale`       | specify the scale of the notice, defaults to m           | `"l" \| "m" \| "s"`                      | `"m"`     |
-| `theme`       | `theme`       | Select theme (light or dark)                             | `"dark" \| "light"`                      | `"light"` |
-| `width`       | `width`       | specify the scale of the button, defaults to m           | `"auto" \| "full" \| "half"`             | `"auto"`  |
+| Property      | Attribute     | Description                                              | Type                                     | Default     |
+| ------------- | ------------- | -------------------------------------------------------- | ---------------------------------------- | ----------- |
+| `active`      | `active`      | Is the notice currently active or not                    | `boolean`                                | `false`     |
+| `color`       | `color`       | Color for the notice (will apply to top border and icon) | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`    |
+| `dismissible` | `dismissible` | Select theme (light or dark)                             | `boolean`                                | `false`     |
+| `icon`        | `icon`        | If false, no icon will be shown in the notice            | `boolean`                                | `false`     |
+| `scale`       | `scale`       | specify the scale of the notice, defaults to m           | `"l" \| "m" \| "s"`                      | `"m"`       |
+| `theme`       | `theme`       | Select theme (light or dark)                             | `"dark" \| "light"`                      | `undefined` |
+| `width`       | `width`       | specify the scale of the button, defaults to m           | `"auto" \| "full" \| "half"`             | `"auto"`    |
 
 
 ## Events

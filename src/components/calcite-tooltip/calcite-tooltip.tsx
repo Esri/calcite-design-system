@@ -90,7 +90,7 @@ export class CalciteTooltip {
   }
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   // --------------------------------------------------------------------------
   //

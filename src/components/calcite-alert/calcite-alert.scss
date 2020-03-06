@@ -5,7 +5,7 @@
 }
 
 // dark theme
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
 }
 
@@ -117,7 +117,7 @@
   color: var(--calcite-ui-text-2);
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   @include slotted("alert-message", "div") {
     margin-right: unset;
     margin-left: $baseline/2;
@@ -158,7 +158,7 @@
   }
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   .alert-content {
     padding: var(--calcite-alert-spacing-token-small) 0
       var(--calcite-alert-spacing-token-small)
@@ -203,7 +203,7 @@
     border-radius: 0;
   }
 }
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   .alert-close {
     border-radius: 0 0 0 var(--calcite-border-radius);
   }
@@ -242,7 +242,7 @@
     border-radius: 0;
   }
 }
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   &.active:last-child {
     border-left: 1px solid var(--calcite-ui-border-3);
     border-right: 0px solid transparent;

@@ -16,7 +16,7 @@
   --calcite-radio-group-padding: 0.5rem 1.5rem;
 }
 
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-radio-group-text-color-active: #{$blk-230};
 }
 

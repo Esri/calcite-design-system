@@ -8,7 +8,7 @@ import {
   Method,
   Prop
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
@@ -53,7 +53,7 @@ export class CalciteNotice {
     | "yellow" = "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   /** specify the scale of the notice, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -79,8 +79,6 @@ export class CalciteNotice {
     let colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
 
     let scales = ["s", "m", "l"];
     if (!scales.includes(this.scale)) this.scale = "m";
@@ -96,7 +94,6 @@ export class CalciteNotice {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const closeButton = (
       <button
         class="notice-close"
@@ -109,7 +106,7 @@ export class CalciteNotice {
     );
 
     return (
-      <Host active={this.active} dir={dir}>
+      <Host active={this.active}>
         {this.icon ? this.setIcon() : null}
         <div class="notice-content">
           <slot name="notice-title"></slot>

@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
-import { getElementDir } from "../../utils/dom";
+
 import {
   SPACE,
   ENTER,
@@ -99,7 +99,6 @@ export class CalciteTreeItem {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const icon = this.hasChildren ? (
       <calcite-icon
         class="calcite-tree-chevron"
@@ -113,7 +112,7 @@ export class CalciteTreeItem {
     return (
       <Host
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
-        dir={dir}
+
         aria-role="treeitem"
         aria-hidden={
           this.parentExpanded || this.depth === 1 ? undefined : "true"

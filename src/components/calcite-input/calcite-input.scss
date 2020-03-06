@@ -2,7 +2,7 @@
   --calcite-input-status-valid-focus-shadow-color: #{rgba($h-gg-060, 0.4)};
   --calcite-input-status-invalid-focus-shadow-color: #{rgba($h-rr-060, 0.4)};
 }
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-input-status-valid-focus-shadow-color: #{rgba($d-gg-420, 0.4)};
   --calcite-input-status-invalid-focus-shadow-color: #{rgba($d-rr-420, 0.4)};
 }

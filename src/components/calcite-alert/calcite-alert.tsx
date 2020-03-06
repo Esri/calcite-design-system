@@ -9,7 +9,7 @@ import {
   Listen,
   Prop
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+
 import { guid } from "../../utils/guid";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -63,7 +63,7 @@ export class CalciteAlert {
     | "yellow" = "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -114,9 +114,6 @@ export class CalciteAlert {
     let colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
-
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
@@ -136,7 +133,6 @@ export class CalciteAlert {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const closeButton = (
       <button
         class="alert-close"
@@ -162,7 +158,7 @@ export class CalciteAlert {
       : "alertdialog";
 
     return (
-      <Host active={this.active} dir={dir} role={role}>
+      <Host active={this.active} role={role}>
         {this.icon ? this.setIcon() : null}
         <div class="alert-content">
           <slot name="alert-title"></slot>
