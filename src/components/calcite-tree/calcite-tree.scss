@@ -31,7 +31,7 @@
   --calcite-tree-hover-line-width: #{3px};
 }
 
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-tree-text: #{$blk-040};
   --calcite-tree-text-hover: #{$blk-020};
   --calcite-tree-text-active: #{$blk-010};
@@ -62,7 +62,7 @@
   --calcite-tree-parent-line-position-start: -0.5rem;
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   --calcite-tree-indicator-first-start: 0;
   --calcite-tree-indicator-first-end: 0.1rem;
   --calcite-tree-indicator-distance-start: auto;

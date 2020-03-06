@@ -13,7 +13,6 @@ describe("calcite-icon", () => {
     defaults("calcite-icon", [
       { propertyName: "filled", defaultValue: false },
       { propertyName: "mirrored", defaultValue: false },
-      { propertyName: "theme", defaultValue: "light" },
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
@@ -21,7 +20,6 @@ describe("calcite-icon", () => {
     reflects("calcite-icon", [
       { propertyName: "filled", value: true },
       { propertyName: "mirrored", value: true },
-      { propertyName: "theme", value: "light" },
       { propertyName: "scale", value: "m" }
     ]));
 

@@ -50,7 +50,7 @@
   opacity: 1;
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   &:before {
     left: unset;
     right: 1rem;
@@ -94,7 +94,7 @@
   transition: $transition;
 }
 
-:host([dir="rtl"]) .dropdown-item-check-icon {
+:host-context([dir="rtl"]) .dropdown-item-check-icon {
   left: unset;
   right: $baseline / 1.75;
 }
@@ -118,16 +118,16 @@
   padding-left: $baseline / 1.5;
 }
 
-:host([dir="rtl"]) calcite-icon {
+:host-context([dir="rtl"]) calcite-icon {
   margin-right: 0;
   margin-left: $baseline / 1.5;
 }
 
-:host([dir="rtl"]) .dropdown-item-icon-start {
+:host-context([dir="rtl"]) .dropdown-item-icon-start {
   margin-left: $baseline / 1.5;
   margin-right: 0;
 }
-:host([dir="rtl"]) .dropdown-item-icon-end {
+:host-context([dir="rtl"]) .dropdown-item-icon-end {
   margin-right: auto;
   padding-right: $baseline / 1.5;
   margin-left: 0;

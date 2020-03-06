@@ -9,7 +9,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { ENTER, SPACE } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
+
 import { VNode } from "@stencil/core/dist/declarations";
 
 /**
@@ -55,7 +55,7 @@ export class CalciteCard {
   @Prop({ reflect: true, mutable: true }) selectable: boolean = false;
 
   /**  The theme of the card.*/
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   //--------------------------------------------------------------------------
   //
@@ -73,14 +73,11 @@ export class CalciteCard {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
   }
 
   render() {
-    const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
+      <Host>
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">

@@ -21,7 +21,7 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 | `loading`      | `loading`       | optionally add a calcite-loader component to the button, disabling interaction.                                           | `boolean`                                     | `false`     |
 | `round`        | `round`         | optionally add a round style to the button                                                                                | `boolean`                                     | `false`     |
 | `scale`        | `scale`         | specify the scale of the button, defaults to m                                                                            | `"l" \| "m" \| "s" \| "xl" \| "xs"`           | `"m"`       |
-| `theme`        | `theme`         | Select theme (light or dark)                                                                                              | `"dark" \| "light"`                           | `"light"`   |
+| `theme`        | `theme`         | Select theme (light or dark)                                                                                              | `"dark" \| "light"`                           | `undefined` |
 | `width`        | `width`         | specify the width of the button, defaults to auto                                                                         | `"auto" \| "full" \| "half"`                  | `"auto"`    |
 
 

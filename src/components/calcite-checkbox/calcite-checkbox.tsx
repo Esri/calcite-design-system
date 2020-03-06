@@ -43,7 +43,7 @@ export class CalciteCheckbox {
   @Prop({ reflect: true }) disabled?: boolean = false;
 
   /** Determines what theme to use */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** Emitted when the checkbox checked status changes */
   @Event() calciteCheckboxChange: EventEmitter;

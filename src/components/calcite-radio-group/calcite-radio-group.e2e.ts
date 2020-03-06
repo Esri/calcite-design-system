@@ -195,11 +195,10 @@ describe("calcite-radio-group", () => {
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-radio-group theme='zip' scale='zap'></calcite-radio-group>"
+      "<calcite-radio-group scale='zap'></calcite-radio-group>"
     );
 
     const element = await page.find("calcite-radio-group");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("scale", "m");
   });
 
@@ -207,7 +206,6 @@ describe("calcite-radio-group", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-radio-group></calcite-radio-group>");
     const element = await page.find("calcite-radio-group");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("scale", "m");
   });
 

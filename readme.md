@@ -34,7 +34,6 @@ You will also need to explicitly load the `calcite.css` file:
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.20/dist/calcite/calcite.css">
 ```
 
-
 ### Webpack
 
 If you already have a webpack build for your project, you can use [@stencil/webpack](https://github.com/ionic-team/stencil-webpack) to add calcite-components to your bundle.

@@ -2,6 +2,6 @@
   display: inline-flex;
 }
 
-.mirror {
+:host([mirror]) {
   transform: scaleX(-1);
 }

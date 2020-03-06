@@ -4,7 +4,7 @@
   display: block;
 }
 
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-track-color: #{$blk-190};
 }
 

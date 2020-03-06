@@ -53,7 +53,7 @@
   }
 }
 
-:host([dir="rtl"]) .modal {
+:host-context([dir="rtl"]) .modal {
   text-align: right;
 }
 
@@ -97,7 +97,7 @@
   }
 }
 
-:host([dir="rtl"]) .modal__close {
+:host-context([dir="rtl"]) .modal__close {
   border-radius: var(--calcite-border-radius) 0 0 0;
 }
 
@@ -167,7 +167,7 @@
   margin-right: auto;
 }
 
-:host([dir="rtl"]) .modal__back {
+:host-context([dir="rtl"]) .modal__back {
   margin-left: auto;
   margin-right: unset;
 }
