@@ -8,7 +8,7 @@ import {
   Prop,
   Watch,
   Host,
-  Build
+  Build, Method
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
@@ -217,6 +217,18 @@ export class CalciteRadioGroup {
 
   @Event()
   calciteRadioGroupChange: EventEmitter;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Focuses the selected item. If there is no selection, it focuses the first item. */
+  @Method()
+  async setFocus() {
+    (this.selectedItem || this.getItems()[0])?.focus();
+  }
 
   //--------------------------------------------------------------------------
   //
