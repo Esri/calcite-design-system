@@ -60,11 +60,14 @@ describe("calcite-button-with-dropdown", () => {
 
   it("changes the size and width of the dropdown + primary button based on scale", async () => {
     const elementScaleToDropdownScale = {
-      xs: "s",
       s: "s",
-      m: "m",
-      l: "l",
-      xl: "l"
+      m: "s",
+      l: "m",
+    };
+    const elementScaleToButtonScale = {
+      s: "xs",
+      m: "s",
+      l: "m",
     };
     const page = await newE2EPage();
     await page.setContent(`
@@ -79,7 +82,7 @@ describe("calcite-button-with-dropdown", () => {
       const dropdownScale = elementScaleToDropdownScale[elementScale];
       expect(dropdown).toEqualAttribute("width", dropdownScale);
       expect(dropdown).toEqualAttribute("scale", dropdownScale);
-      expect(primaryButton).toEqualAttribute("scale", elementScale);
+      expect(primaryButton).toEqualAttribute("scale", elementScaleToButtonScale[elementScale]);
     }
   });
 });

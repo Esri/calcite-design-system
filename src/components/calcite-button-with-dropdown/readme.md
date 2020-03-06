@@ -15,7 +15,7 @@
 | `loading`       | `loading`        | optionally add a calcite-loader component to the control, disabling interaction. with the primary button | `boolean`                              | `false`     |
 | `primaryIcon`   | `primary-icon`   | optionally pass an icon to display on the primary button - accepts Calcite UI icon names                 | `string`                               | `undefined` |
 | `primaryText`   | `primary-text`   | text for primary action button                                                                           | `string`                               | `undefined` |
-| `scale`         | `scale`          | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s" \| "xl" \| "xs"`    | `"m"`       |
+| `scale`         | `scale`          | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s"`                    | `"m"`       |
 | `theme`         | `theme`          | select theme (light or dark), defaults to light                                                          | `"dark" \| "light"`                    | `"light"`   |
 
 
