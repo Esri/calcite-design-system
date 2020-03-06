@@ -82,7 +82,7 @@ export class CalciteIcon {
   @Prop({
     reflect: true
   })
-  theme: Theme = "light";
+  theme: Theme;
 
   //--------------------------------------------------------------------------
   //

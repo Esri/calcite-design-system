@@ -18,7 +18,7 @@ $calcite-slider-tick-height: 4px;
   position: relative;
 }
 
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-slider-tick: #{$blk-140};
   --calcite-slider-label: #{$blk-090};
   --calcite-slider-track: #{$blk-170};

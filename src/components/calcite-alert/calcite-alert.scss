@@ -5,7 +5,7 @@
 }
 
 // dark theme
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
 }
 
