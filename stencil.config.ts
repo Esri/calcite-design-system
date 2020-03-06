@@ -57,7 +57,6 @@ export const config: Config = {
       }
     }
   ],
-  globalStyle: "src/assets/styles/includes.scss",
   plugins: [
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]

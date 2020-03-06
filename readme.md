@@ -28,12 +28,7 @@ Once these script tags are added, components can be used just like any other HTM
 
 ### Styles
 
-You will also need to explicitly load the `calcite.css` file:
-
-```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.18/dist/calcite/calcite.css">
-```
-
+Up to `v1.0.0-beta.21`, importing a `calcite.css` file was required. This is no longer the case! We will leave this deprecation message up until 1.0 release.
 
 ### Webpack
 
