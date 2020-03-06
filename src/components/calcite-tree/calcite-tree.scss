@@ -83,7 +83,7 @@
   --calcite-tree-parent-line-position-end: -0.95rem;
 }
 
-:host([dir="rtl"][size="s"]) {
+:host([size="s"]):host-context([dir="rtl"]) {
   --calcite-tree-children-indent-end: 0rem;
   --calcite-tree-children-padding-end: 0.8rem;
   --calcite-tree-line-position-end: 0.3rem;

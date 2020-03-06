@@ -31,17 +31,18 @@
   }
 }
 
-:host([theme="dark"][disabled]) {
+:host([disabled]):host-context([theme="dark"]) {
   .check-svg {
     border-color: $blk-130;
     background-color: $blk-200;
   }
 }
 
-:host([theme="dark"][checked]),
-:host([theme="dark"][indeterminate]) {
+:host([checked]):host-context([theme="dark"]),
+:host([indeterminate]):host-context([theme="dark"]) {
   .check-svg {
     background-color: $v-bb-140;
+    border-color: $v-bb-140;
   }
 }
 

@@ -122,7 +122,7 @@ $loader-stroke-width-inline: 4px;
   vertical-align: -$loader-width-inline / 8;
 }
 
-:host([inline][dir="rtl"]) {
+:host([inline]):host-context([dir="rtl"]) {
   margin-left: $loader-width-inline / 2;
   margin-right: 0;
 }

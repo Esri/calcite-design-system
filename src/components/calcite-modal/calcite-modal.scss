@@ -280,8 +280,8 @@ slot[name="primary"] {
 }
 
 @media screen and (max-width: $viewport-medium) {
-  :host([docked][dir="rtl"]) .modal__close {
-    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+  :host([docked]):host-context([dir="rtl"]) .modal__close {
+    border-radius: var(--calcite-border-radius) 0 0 0;
   }
 }
 

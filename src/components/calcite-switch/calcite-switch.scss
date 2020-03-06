@@ -172,18 +172,13 @@
   }
 }
 
-:host([dir="rtl"]:hover) .handle {
-  right: 1px;
-  left: auto;
-}
-
-:host([dir="rtl"][switched]) .handle {
+:host([switched]):host-context([dir="rtl"]) .handle {
   right: auto;
   left: -1px;
 }
 
-:host([dir="rtl"][switched]:active) .handle,
-:host([dir="rtl"][switched]:focus) .handle {
+:host([switched]:active):host-context([dir="rtl"]) .handle,
+:host([switched]:focus):host-context([dir="rtl"]) .handle {
   right: auto;
   left: -1px;
 }
