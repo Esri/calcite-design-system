@@ -16,10 +16,6 @@
   @include calcite-light-theme();
 }
 
-:host([hidden]) {
-  display: none;
-}
-
 .overflow-hidden {
   overflow: hidden;
 }

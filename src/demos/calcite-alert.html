@@ -11,10 +11,14 @@
   <script type="module" src="../build/calcite.esm.js"></script>
   <script nomodule src="../build/calcite.js"></script>
   <script src="../assets/demo/createAlert.js"></script>
-
+  <style>
+    .my-cool-theme * {
+      --calcite-ui-blue: purple;
+    }
+  </style>
 </head>
 
-<body>
+<body class="my-cool-theme">
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Alert</h1>
   <calcite-button title="1 Autodismiss, title, link, red" color="red" scale="s"

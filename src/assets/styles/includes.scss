@@ -8,3 +8,7 @@
     @content;
   }
 }
+
+:host([hidden]) {
+  display: none;
+}
