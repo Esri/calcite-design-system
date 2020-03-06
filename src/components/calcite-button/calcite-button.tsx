@@ -48,9 +48,6 @@ export class CalciteButton {
   /** specify the width of the button, defaults to auto */
   @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
 
-  /** optionally make button have proportions of a button with text, even if it has no text content */
-  @Prop({ mutable: true, reflect: true }) useTextProportions?: boolean = false;
-
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
 
@@ -215,8 +212,6 @@ export class CalciteButton {
       "loading",
       "scale",
       "width",
-      "textlessHeight",
-      "useTextProportions",
       "theme"
     ];
     return Array.from(this.el.attributes)

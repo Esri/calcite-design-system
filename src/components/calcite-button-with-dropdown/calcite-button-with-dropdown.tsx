@@ -97,7 +97,6 @@ export class CalciteButtonWithDropdown {
               disabled={this.disabled}
               theme={this.theme}
               icon="caretDown"
-              use-text-proportions={this.primaryText}
             />
             <slot />
           </calcite-dropdown>

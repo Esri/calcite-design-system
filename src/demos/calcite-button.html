@@ -20,9 +20,6 @@
       color: white;
       padding: 1rem;
     }
-    .textless-button-holder {
-      display: flex;
-    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
@@ -363,15 +360,6 @@
   </calcite-button>
   <calcite-button title="full width button" icon-position="end" icon='check-circle' width='full'>full width button with
     icon </calcite-button>
-
-  <h3>Use text proportions (on textless buttons) </h3>
-  <div style='display:flex'>
-    <div class='textless-button-holder'>
-      <calcite-button appearance='outline' title="default button with text" icon='trash'>Option 1</calcite-button>
-      <calcite-button appearance='outline' title="default button with text" icon='pencil'>Option 2</calcite-button>
-      <calcite-button appearance='outline' title="textless button with text button proportions" icon='save' use-text-proportions></calcite-button>
-    </div>
-  </div>
 
   <h3>Anchor links</h3>
   <h5>Passing a href will render the component as an anchor.</h5>
