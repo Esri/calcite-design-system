@@ -12,7 +12,7 @@
 | `name`         | `name`    | The group's name. Gets submitted with the form. | `string`                           | `undefined` |
 | `scale`        | `scale`   | The scale of the button                         | `"l" \| "m" \| "s"`                | `"m"`       |
 | `selectedItem` | --        | The group's selected item.                      | `HTMLCalciteRadioGroupItemElement` | `undefined` |
-| `theme`        | `theme`   | The component's theme.                          | `"dark" \| "light"`                | `"light"`   |
+| `theme`        | `theme`   | The component's theme.                          | `"dark" \| "light"`                | `undefined` |
 
 
 ## Events

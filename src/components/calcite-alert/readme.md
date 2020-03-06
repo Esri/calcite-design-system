@@ -35,7 +35,7 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `currentAlert`        | `current-alert`         | the determined current alert                                                 | `string`                                 | `undefined`                          |
 | `icon`                | `icon`                  | specify if the alert should display an icon                                  | `boolean`                                | `false`                              |
 | `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" \| "m" \| "s"`                      | `"m"`                                |
-| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `"light"`                            |
+| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `undefined`                          |
 
 
 ## Events
