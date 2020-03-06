@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-beta.18",
+  "version": "1.0.0-beta.20",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -31,7 +31,7 @@
     "prestorybook": "npm run build",
     "storybook": "start-storybook -s ./dist",
     "prebuild-storybook": "npm run build",
-    "build-storybook": "build-storybook -s ./dist -o .docs",
+    "build-storybook": "build-storybook -s ./dist -o .docs && ts-node ./support/ensureStorybookBuildHasModuleScripts.ts",
     "deploy-storybook": "storybook-to-ghpages",
     "deploy": "npm-run-all build deploy-storybook"
   },
@@ -50,12 +50,12 @@
     "@stencil/core": "^1.8.9",
     "@stencil/sass": "^1.1.1",
     "@stencil/state-tunnel": "^1.0.1",
-    "@storybook/addon-backgrounds": "^5.3.13",
-    "@storybook/addon-centered": "^5.3.13",
-    "@storybook/addon-knobs": "^5.3.13",
-    "@storybook/addon-notes": "^5.3.13",
-    "@storybook/cli": "^5.3.13",
-    "@storybook/html": "^5.3.13",
+    "@storybook/addon-backgrounds": "5.3.13",
+    "@storybook/addon-centered": "5.3.13",
+    "@storybook/addon-knobs": "5.3.13",
+    "@storybook/addon-notes": "5.3.13",
+    "@storybook/cli": "5.3.13",
+    "@storybook/html": "5.3.13",
     "@storybook/storybook-deployer": "^2.8.1",
     "@types/jest": "24.0.21",
     "@types/jest-axe": "^3.2.1",
@@ -68,11 +68,13 @@
     "jest-axe": "^3.3.0",
     "jest-cli": "24.9.0",
     "npm-run-all": "4.1.5",
+    "posthtml": "0.12.0",
     "prettier": "^1.19.1",
     "puppeteer": "1.19.0",
-    "storybook": "^5.3.13",
+    "storybook": "5.3.13",
+    "ts-node": "8.6.2",
     "updtr": "3.1.0",
-    "workbox-build": "5.0.0"
+    "workbox-build": "4.3.1"
   },
   "license": "Apache-2.0"
 }

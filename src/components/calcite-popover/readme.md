@@ -59,6 +59,16 @@ Type: `Promise<void>`
 
 
 
+### `setFocus(focusId?: "close-button") => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `toggle() => Promise<void>`
 
 
@@ -76,6 +86,19 @@ Type: `Promise<void>`
 | --------- | ------------------------------------------------------------------------------- |
 | `"image"` | A slot for adding an image. The image will appear above the other slot content. |
 
+
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-popover --> calcite-icon
+  style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 
