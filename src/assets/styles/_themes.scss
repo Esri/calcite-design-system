@@ -1,4 +1,4 @@
-@mixin calciteComponentsThemeLight() {
+@mixin calcite-light-theme () {
   --calcite-ui-blue: #{$ui-blue};
   --calcite-ui-blue-hover: #{$ui-blue-hover};
   --calcite-ui-blue-press: #{$ui-blue-press};
@@ -25,7 +25,7 @@
   --calcite-ui-border-press: #{$ui-border-press};
 }
 
-@mixin calciteComponentsThemeDark() {
+@mixin calcite-dark-theme () {
   --calcite-ui-blue: #{$ui-blue-dark};
   --calcite-ui-blue-hover: #{$ui-blue-hover-dark};
   --calcite-ui-blue-press: #{$ui-blue-press-dark};

@@ -1,6 +1,0 @@
-@mixin slotted($selector, $tag, $scope: "") {
-  #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
-  #{$scope} #{$tag}::slotted([slot="#{$selector}"]) {
-    @content;
-  }
-}
