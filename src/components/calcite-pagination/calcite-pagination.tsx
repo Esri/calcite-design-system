@@ -10,7 +10,7 @@ import {
   State,
   Watch
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+
 import { CSS, TEXT } from "./resources";
 
 const maxPagesDisplayed = 5;
@@ -194,10 +194,9 @@ export class CalcitePagination {
   }
 
   render() {
-    const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} class={this.backgroundStyle}>
+      <Host class={this.backgroundStyle}>
         <a class={{[CSS.previous]: true, [CSS.disabled]: this.selectedIndex <= 1}} title={this.textLabelPrevious} onClick={this.previousClicked}>
           <calcite-icon scale="s" icon="chevronLeft" />
         </a>

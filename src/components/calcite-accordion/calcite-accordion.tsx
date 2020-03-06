@@ -9,7 +9,6 @@ import {
   Prop
 } from "@stencil/core";
 import { UP, DOWN, HOME, END } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-accordion",
@@ -98,9 +97,8 @@ export class CalciteAccordion {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
+      <Host>
         <slot />
       </Host>
     );

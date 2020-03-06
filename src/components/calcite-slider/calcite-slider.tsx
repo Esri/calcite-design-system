@@ -19,7 +19,7 @@ import {
   HOME,
   END
 } from "../../utils/keys";
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import { getElementTheme } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 type activeSliderProperty = "minValue" | "maxValue" | "value";
 
@@ -90,14 +90,13 @@ export class CalciteSlider {
 
   render() {
     const id = this.el.id || this.guid;
-    const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
     const min = this.minValue || this.min;
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
     return (
       <Host
-        dir={dir}
+
         theme={theme}
         id={id}
         is-range={this.isRange}

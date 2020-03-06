@@ -7,7 +7,6 @@ import {
   Prop,
   Build
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
@@ -122,7 +121,6 @@ export class CalciteButton {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "button" : null;
@@ -153,7 +151,7 @@ export class CalciteButton {
     );
 
     return (
-      <Host dir={dir} hasText={this.hasText}>
+      <Host hasText={this.hasText}>
         <Tag
           {...attributes}
           role={role}

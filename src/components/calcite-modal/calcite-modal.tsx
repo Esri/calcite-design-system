@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import { getElementTheme } from "../../utils/dom";
 
 @Component({
   tag: "calcite-modal",
@@ -59,14 +59,13 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   render() {
-    const dir = getElementDir(this.el);
     const theme = getElementTheme(this.el);
     return (
       <Host
         role="dialog"
         aria-modal="true"
         class={{ "is-active": this.isActive }}
-        dir={dir}
+
         theme={theme}
       >
         <div class="modal">

@@ -7,7 +7,6 @@ import {
   Listen,
   State
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tabs",
@@ -52,10 +51,9 @@ export class CalciteTabs {
   //--------------------------------------------------------------------------
 
   render() {
-    const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir}>
+      <Host>
         <div>
           <slot name="tab-nav" />
           <section>

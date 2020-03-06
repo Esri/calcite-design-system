@@ -10,7 +10,6 @@ import {
 } from "@stencil/core";
 import {
   nodeListToArray,
-  getElementDir,
   getElementTheme
 } from "../../utils/dom";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
@@ -68,12 +67,11 @@ export class CalciteTree {
   }
 
   render() {
-    const dir = getElementDir(this.el);
 
     return (
       <Host
         tabindex={this.root ? "1" : undefined}
-        dir={dir}
+
         aria-role={this.root ? "tree" : undefined}
         aria-multiselectable={
           this.selectionMode === TreeSelectionMode.Multi ||

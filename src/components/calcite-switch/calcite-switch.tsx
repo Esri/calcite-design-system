@@ -11,7 +11,6 @@ import {
   Build
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-switch",
@@ -90,9 +89,8 @@ export class CalciteSwitch {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     return (
-      <Host role="checkbox" dir={dir} aria-checked={this.switched.toString()} tabIndex={this.tabIndex}>
+      <Host role="checkbox" aria-checked={this.switched.toString()} tabIndex={this.tabIndex}>
         <div class="track">
           <div class="handle" />
         </div>

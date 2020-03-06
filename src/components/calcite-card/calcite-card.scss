@@ -117,7 +117,7 @@
   padding: 0;
 }
 
-:host([dir="rtl"]) .card-checkbox-wrapper {
+:host-context([dir="rtl"]) .card-checkbox-wrapper {
   left: $baseline/4;
   right: initial;
 }

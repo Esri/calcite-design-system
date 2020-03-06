@@ -163,7 +163,7 @@
 }
 
 // rtl
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   margin-right: 0;
   margin-left: 0.5em;
   & .handle {

@@ -9,7 +9,7 @@ import {
   END,
   SPACE
 } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
+
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -83,10 +83,9 @@ export class CalciteDropdown {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const expanded = this.active.toString();
     return (
-      <Host dir={dir} active={this.active} id={this.dropdownId}>
+      <Host active={this.active} id={this.dropdownId}>
         <slot
           name="dropdown-trigger"
           aria-haspopup="true"

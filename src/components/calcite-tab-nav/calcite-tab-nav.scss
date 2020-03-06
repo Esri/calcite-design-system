@@ -9,7 +9,7 @@
   margin-left: var(--calcite-tabs-tab-margin-end);
 }
 
-:host([dir="rtl"]) ::slotted(calcite-tab-title) {
+:host-context([dir="rtl"]) ::slotted(calcite-tab-title) {
   margin-right: var(--calcite-tabs-tab-margin-end);
   margin-left: var(--calcite-tabs-tab-margin-start);
 }

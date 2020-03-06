@@ -9,7 +9,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { ENTER, SPACE } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
+
 import { VNode } from "@stencil/core/dist/declarations";
 
 /**
@@ -76,9 +76,8 @@ export class CalciteCard {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
+      <Host>
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
