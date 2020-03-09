@@ -1,14 +1,10 @@
 import { storiesOf } from "@storybook/html";
 import { withKnobs, text, select, boolean } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { darkBackground, iconNames, parseReadme } from "../../../.storybook/helpers";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
 
 const notes = parseReadme(readme);
-
-const iconNames = Object.keys(icons)
-  .filter(iconName => iconName.endsWith("16"))
-  .map(iconName => iconName.replace("16", ""));
 
 storiesOf("Button with Dropdown", module)
   .addDecorator(withKnobs)
