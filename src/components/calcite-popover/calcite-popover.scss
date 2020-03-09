@@ -42,7 +42,7 @@ $image_max_height: 200px;
   }
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   .close-button {
     border-radius: var(--calcite-border-radius) 0 0 0;
   }

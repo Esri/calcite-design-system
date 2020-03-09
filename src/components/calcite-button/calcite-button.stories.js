@@ -1,15 +1,12 @@
 import { storiesOf } from "@storybook/html";
 import { withKnobs, text, boolean, select } from "@storybook/addon-knobs";
-import { images24 } from "@esri/calcite-ui-icons/js/images24";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
-import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
+import {
+  darkBackground,
+  iconNames,
+  parseReadme
+} from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
-
-// we can get all unique icon names from all size 16 non-filled icons.
-const iconNames = Object.keys(icons)
-  .filter(iconName => iconName.endsWith("16"))
-  .map(iconName => iconName.replace("16", ""));
 
 storiesOf("Button", module)
   .addDecorator(withKnobs)

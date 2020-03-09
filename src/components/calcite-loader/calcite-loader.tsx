@@ -1,6 +1,5 @@
 import { Component, Element, h, Host, Prop, State } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-loader",
@@ -74,7 +73,6 @@ export class CalciteLoader {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const id = this.el.id || this.guid;
     const ariaAttributes = {
       "aria-valuenow": this.value,
@@ -102,7 +100,7 @@ export class CalciteLoader {
     return (
       <Host
         id={id}
-        dir={dir}
+
         role="progressbar"
         {...(this.type === "determinate" ? ariaAttributes : {})}
         style={styleProperties}

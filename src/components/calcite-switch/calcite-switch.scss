@@ -19,7 +19,7 @@
 }
 
 // dark theme
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-switch-track-background: #{$blk-190};
   --calcite-switch-track-border: #{$blk-160};
   --calcite-switch-handle-background: #{$blk-200};
@@ -163,7 +163,7 @@
 }
 
 // rtl
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   margin-right: 0;
   margin-left: 0.5em;
   & .handle {

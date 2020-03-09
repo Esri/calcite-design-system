@@ -10,7 +10,6 @@ import {
 } from "@stencil/core";
 import {
   nodeListToArray,
-  getElementDir,
   getElementTheme
 } from "../../utils/dom";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
@@ -43,7 +42,7 @@ export class CalciteTree {
    */
   @Prop({ mutable: true, reflect: true }) lines: boolean = false;
   @Prop({ mutable: true, reflect: true }) root: boolean = true;
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
   @Prop({ mutable: true, reflect: true }) size: "s" | "m" = "m";
   @Prop({ mutable: true, reflect: true })
   selectionMode: TreeSelectionMode = TreeSelectionMode.Single;
@@ -68,12 +67,11 @@ export class CalciteTree {
   }
 
   render() {
-    const dir = getElementDir(this.el);
 
     return (
       <Host
         tabindex={this.root ? "1" : undefined}
-        dir={dir}
+
         aria-role={this.root ? "tree" : undefined}
         aria-multiselectable={
           this.selectionMode === TreeSelectionMode.Multi ||

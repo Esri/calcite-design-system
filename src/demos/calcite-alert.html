@@ -11,10 +11,14 @@
   <script type="module" src="../build/calcite.esm.js"></script>
   <script nomodule src="../build/calcite.js"></script>
   <script src="../assets/demo/createAlert.js"></script>
-
+  <style>
+    .my-cool-theme * {
+      --calcite-ui-blue: purple;
+    }
+  </style>
 </head>
 
-<body>
+<body class="my-cool-theme">
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Alert</h1>
   <calcite-button title="1 Autodismiss, title, link, red" color="red" scale="s"
@@ -46,6 +50,16 @@
   <calcite-button title="11 Autodismiss (slow),link" scale="s" onclick="document.querySelector('#alert-eleven').open()">
     11 Autodismiss (slow),link
   </calcite-button>
+
+  <calcite-button title="12 Without ID - generate GUID" scale="s"
+    onclick="document.querySelector('[data-custom-id=myalert1]').open()">
+    12 Without ID - generate GUID</calcite-button>
+
+  <calcite-button title="13 Without ID - generate GUID" scale="s"
+    onclick="document.querySelector('[data-custom-id=myalert2]').open()">
+    13 Without ID - generate GUID
+  </calcite-button>
+
 
 
   <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
@@ -141,6 +155,15 @@
 
   <calcite-alert id="alert-eleven" auto-dismiss auto-dismiss-duration="slow">
     <div slot="alert-message">11 A general piece of information</div>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
+  </calcite-alert>
+
+  <calcite-alert data-custom-id="myalert1" auto-dismiss auto-dismiss-duration="slow">
+    <div slot="alert-message">12 Generated GUID</div>
+    <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
+  </calcite-alert>
+  <calcite-alert data-custom-id="myalert2" auto-dismiss auto-dismiss-duration="slow">
+    <div slot="alert-message">13 Generated GUID</div>
     <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
   </calcite-alert>
 </body>

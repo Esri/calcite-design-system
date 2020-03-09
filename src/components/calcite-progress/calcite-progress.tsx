@@ -27,7 +27,7 @@ export class CalciteProgress {
   @Prop() reversed = false;
   /** Select theme (light or dark) */
   @Prop({ reflect: true })
-  theme: "light" | "dark" = "light";
+  theme: "light" | "dark";
 
   render() {
     const theme = getElementTheme(this.el);

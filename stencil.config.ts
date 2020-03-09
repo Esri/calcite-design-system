@@ -7,6 +7,7 @@ export const config: Config = {
     { components: ["calcite-accordion", "calcite-accordion-item"] },
     { components: ["calcite-alert"] },
     { components: ["calcite-button"] },
+    { components: ["calcite-card"] },
     {
       components: [
         "calcite-date-picker",
@@ -42,8 +43,6 @@ export const config: Config = {
     },
     { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-card"] },
-    { components: ["calcite-icon"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
@@ -59,7 +58,7 @@ export const config: Config = {
       }
     }
   ],
-  globalStyle: "src/assets/styles/includes.scss",
+  globalStyle: "src/assets/styles/global.scss",
   plugins: [
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]

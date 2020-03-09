@@ -22,7 +22,7 @@
 }
 
 // dark theme
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-blue-accessible: #{$d-bb-420};
   --calcite-red-accessible: #{$d-rr-420};
   --calcite-button-light: #{$blk-010};

@@ -1,37 +1,14 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
-@import "_mixins";
-@import "_colors";
 @import "_popper";
 
-:root {
-  --calcite-border-radius: 3px;
+@mixin slotted($selector, $tag, $scope: "") {
+  #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
+  #{$scope} #{$tag}::slotted([slot="#{$selector}"]) {
+    @content;
+  }
 }
 
 :host([hidden]) {
   display: none;
-}
-
-body {
-  font-family: $avenir-family;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
-calcite-tab {
-  display: none;
-}
-
-calcite-tab[is-active] {
-  display: block;
-}
-
-a {
-  color: $ui-blue;
-}
-
-.hydrated--invisible {
-  visibility: hidden;
 }

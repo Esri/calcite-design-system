@@ -8,7 +8,7 @@
   --calcite-tabs-tab-margin-end: 0;
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   --calcite-tabs-tab-margin-start: 0;
   --calcite-tabs-tab-margin-end: 1.25rem;
 }

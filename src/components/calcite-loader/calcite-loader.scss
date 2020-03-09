@@ -6,7 +6,7 @@
   --calcite-loader-padding: 4rem;
 }
 
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-loader-neutral: #{$blk-220};
 }
 

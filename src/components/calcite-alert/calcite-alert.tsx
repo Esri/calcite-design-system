@@ -9,7 +9,8 @@ import {
   Listen,
   Prop
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+
+import { guid } from "../../utils/guid";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided. You can keep alerts in your DOM or create/open, close/destroy
@@ -62,7 +63,7 @@ export class CalciteAlert {
     | "yellow" = "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -113,9 +114,6 @@ export class CalciteAlert {
     let colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
-
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
@@ -135,7 +133,6 @@ export class CalciteAlert {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const closeButton = (
       <button
         class="alert-close"
@@ -161,7 +158,7 @@ export class CalciteAlert {
       : "alertdialog";
 
     return (
-      <Host active={this.active} dir={dir} role={role}>
+      <Host active={this.active} role={role}>
         {this.icon ? this.setIcon() : null}
         <div class="alert-content">
           <slot name="alert-title"></slot>
@@ -240,7 +237,7 @@ export class CalciteAlert {
   @Prop() currentAlert: string;
 
   /** Unique ID for this alert */
-  private alertId: string = this.el.id;
+  private alertId: string = this.el.id || `calcite-alert-${guid()}`;
 
   /** the close button element */
   private closeButton?: HTMLElement;
@@ -276,6 +273,7 @@ export class CalciteAlert {
     red: "exclamationMarkTriangle",
     blue: "lightbulb"
   };
+
   private setIcon() {
     var path = this.iconDefaults[this.color];
     return (
