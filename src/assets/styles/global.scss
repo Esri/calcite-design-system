@@ -8,11 +8,13 @@
   @include calcite-light-theme();
 }
 
-[theme="dark"] {
+[theme="dark"],
+[theme="dark"] * {
   @include calcite-dark-theme();
 }
 
-[theme="light"] {
+[theme="light"],
+[theme="light"] * {
   @include calcite-light-theme();
 }
 
