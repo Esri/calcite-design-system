@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
 
   --calcite-tabs-layout: flex-start;
   --calcite-tabs-tab-basis: auto;
@@ -19,12 +20,6 @@
   --calcite-tabs-tab-text-align: center;
   --calcite-tabs-tab-margin-start: 1.25rem;
   --calcite-tabs-tab-margin-end: 1.25rem;
-}
-
-:host > div {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 section {
