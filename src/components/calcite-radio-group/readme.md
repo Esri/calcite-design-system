@@ -22,6 +22,19 @@
 | `calciteRadioGroupChange` |             | `CustomEvent<any>` |
 
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Focuses the selected item. If there is no selection, it focuses the first item.
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

@@ -25,8 +25,11 @@ export class CalciteButtonWithDropdown {
   /** optionally pass an icon to display on the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIcon?: string;
 
+  /** optionally pass an aria-label for the primary button */
+  @Prop({ reflect: true }) primaryLabel?: string;
+
   /** aria label for overflow button */
-  @Prop({ reflect: true }) dropdownLabel: string;
+  @Prop({ reflect: true }) dropdownLabel?: string;
 
   /** optionally add a calcite-loader component to the control,
     disabling interaction. with the primary button */
@@ -68,11 +71,12 @@ export class CalciteButtonWithDropdown {
       <Host dir={dir}>
         <div>
           <calcite-button
+            aria-label={this.primaryLabel}
             color={this.color}
             scale={this.buttonScale}
             loading={this.loading}
             icon={this.primaryIcon}
-            iconPosition={dir === "ltr" ? "start" : "end"}
+            iconPosition="start"
             disabled={this.disabled}
             theme={this.theme}
             onClick={this.primaryButtonClickedHandler}

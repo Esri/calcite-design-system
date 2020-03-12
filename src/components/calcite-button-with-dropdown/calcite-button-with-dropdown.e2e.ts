@@ -35,15 +35,24 @@ describe("calcite-button-with-dropdown", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-button-with-dropdown scale="xs" color="red" theme="dark" loading="true" disabled="true" dropdown-label="more actions">
+      <calcite-button-with-dropdown
+          scale="xs"
+          color="red"
+          theme="dark"
+          loading="true"
+          disabled="true"
+          dropdown-label="more actions"
+          primary-label="primary action">
       </calcite-button-with-dropdown>`);
     const element = await page.find("calcite-button-with-dropdown");
+    const primaryButton = await page.find("calcite-button-with-dropdown >>> calcite-button");
     const dropdownButton = await page.find("calcite-button-with-dropdown >>> calcite-dropdown calcite-button");
     expect(element).toEqualAttribute("scale", "xs");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("theme", "dark");
     expect(element).toHaveAttribute("loading");
     expect(element).toHaveAttribute("disabled");
+    expect(primaryButton).toEqualAttribute("aria-label", "primary action");
     expect(dropdownButton).toEqualAttribute("aria-label", "more actions");
   });
 
