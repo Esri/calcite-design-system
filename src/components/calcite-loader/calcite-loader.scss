@@ -35,6 +35,8 @@ $segment-3-duration: 1.45s;
   stroke: var(--calcite-ui-blue);
   stroke-width: $loader-stroke;
   fill: none;
+  opacity: 1;
+  transform: scale(1, 1);
   animation: loader-color-shift 6s alternate-reverse infinite linear;
 }
 
@@ -64,10 +66,12 @@ $segment-3-duration: 1.45s;
   margin-top: ($loader-width / 2);
   text-align: center;
   font-size: 0.875rem;
+  color: var(--calcite-ui-text-1);
   line-height: 0.25;
+  transform: scale(1, 1);
 }
 
-.loader__svg {
+.loader__svgs {
   width: $loader-width;
   height: $loader-width;
   position: absolute;
@@ -75,7 +79,18 @@ $segment-3-duration: 1.45s;
   left: 50%;
   margin-left: -$loader-width / 2;
   overflow: visible;
-  transform-origin: 50% 50%;
+  opacity: 1;
+  transform: scale(1, 1);
+}
+
+.loader__svg {
+  width: $loader-width;
+  height: $loader-width;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  transform-origin: center;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   // by default the animation is rotation for ie. and edge
@@ -125,13 +140,38 @@ $segment-3-duration: 1.45s;
   display: inline-block;
 }
 
-:host([inline]) .loader__svg {
-  margin: 0;
-  position: absolute;
+:host([inline]) .loader__svgs {
   top: 0;
   left: 0;
+  margin: 0;
   width: $loader-width-inline;
   height: $loader-width-inline;
+}
+
+:host([inline]) .loader__svg {
+  width: $loader-width-inline;
+  height: $loader-width-inline;
+}
+
+:host([complete]) {
+  opacity: 0;
+  transform: scale(.75, .75);
+  transform-origin: center;
+  transition: opacity 200ms linear 1000ms, transform 200ms linear 1000ms;
+}
+
+:host([complete]) .loader__svgs {
+  opacity: 0;
+  transform: scale(.75, .75);
+  transform-origin: center;
+  transition: opacity 180ms linear 800ms, transform 180ms linear 800ms;
+}
+
+:host([complete]) .loader__percentage {
+  color: var(--calcite-ui-blue);
+  transform: scale(1.075, 1.075);
+  transform-origin: center;
+  transition: color 200ms linear, transform 200ms linear;
 }
 
 @mixin generateSegment($i, $size, $growth, $duration) {

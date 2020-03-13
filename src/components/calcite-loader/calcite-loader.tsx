@@ -47,28 +47,35 @@ export class CalciteLoader {
     const progress = (this.value / 100) * circumference;
     const remaining = circumference - progress;
     const value = Math.floor(this.value);
-    const ariaAttributes = {
+    const hostAttributes = {
       "aria-valuenow": value,
       "aria-valuemin": 0,
-      "aria-valuemax": 100
+      "aria-valuemax": 100,
+      complete: value === 100
     };
-    const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
     const svgAttributes = { r: radius, cx: size / 2, cy: size / 2 };
+    const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
     return (
       <Host
         id={id}
         role="progressbar"
-        {...(isDeterminate ? ariaAttributes : {})}
+        {...(isDeterminate ? hostAttributes : {})}
       >
-        <svg viewBox={viewbox} class="loader__svg loader__svg--1">
-          <circle {...svgAttributes} />
-        </svg>
-        <svg viewBox={viewbox} class="loader__svg loader__svg--2">
-          <circle {...svgAttributes} />
-        </svg>
-        <svg viewBox={viewbox} class="loader__svg loader__svg--3" {...(isDeterminate ? { style: determinateStyle } : {})}>
-          <circle {...svgAttributes} />
-        </svg>
+        <div class="loader__svgs">
+          <svg viewBox={viewbox} class="loader__svg loader__svg--1">
+            <circle {...svgAttributes} />
+          </svg>
+          <svg viewBox={viewbox} class="loader__svg loader__svg--2">
+            <circle {...svgAttributes} />
+          </svg>
+          <svg
+            viewBox={viewbox}
+            class="loader__svg loader__svg--3"
+            {...(isDeterminate ? { style: determinateStyle } : {})}
+          >
+            <circle {...svgAttributes} />
+          </svg>
+        </div>
         {this.text && <div class="loader__text">{this.text}</div>}
         {isDeterminate && <div class="loader__percentage">{value}</div>}
       </Host>
