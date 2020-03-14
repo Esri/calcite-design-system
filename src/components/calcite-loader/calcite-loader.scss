@@ -16,13 +16,13 @@ $loader-circumference: ($loader-size - (2 * $loader-stroke)) * 3.14159;
 */
 $segment-1-size: 10;
 $segment-1-growth: 40;
-$segment-1-duration: .9s;
+$segment-1-duration: .72s;
 $segment-2-size: 20;
 $segment-2-growth: 30;
-$segment-2-duration: 1.21s;
+$segment-2-duration: .96s;
 $segment-3-size: 5;
 $segment-3-growth: 45;
-$segment-3-duration: 1.45s;
+$segment-3-duration: 1.16s;
 
 :host {
   position: relative;
