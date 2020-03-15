@@ -76,6 +76,7 @@
 
 :host([active]) {
   display: inline-flex;
+  align-items: center;
   opacity: 1;
   max-height: 100%;
   pointer-events: initial;
@@ -145,6 +146,7 @@
 
 .notice-close {
   @include notice-element-base;
+  align-self: stretch;
   background-color: transparent;
   -webkit-appearance: none;
   border: none;
