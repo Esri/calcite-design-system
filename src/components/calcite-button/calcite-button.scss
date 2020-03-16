@@ -362,7 +362,7 @@
       var(--calcite-ui-foreground-press),
       var(--calcite-ui-foreground-press),
       var(--calcite-button-outline-color),
-      var(--calcite-button-outline-press)
+      var(--calcite-button-outline-color-press)
     );
   }
 }
@@ -375,7 +375,7 @@
       $blk-180,
       $blk-220,
       var(--calcite-button-outline-color),
-      var(--calcite-button-outline-press)
+      var(--calcite-button-outline-color-press)
     );
   }
 }
@@ -414,7 +414,7 @@
       var(--calcite-ui-foreground-press),
       var(--calcite-ui-foreground-press),
       var(--calcite-button-outline-color),
-      $blk-000
+      var(--calcite-button-outline-color-press)
     );
   }
 }
@@ -467,7 +467,7 @@
       $blk-000,
       $blk-020,
       var(--calcite-button-outline-color),
-      var(--calcite-button-outline-press)
+      var(--calcite-button-outline-color-press)
     );
   }
 }
@@ -480,7 +480,7 @@
       $blk-180,
       $blk-220,
       var(--calcite-button-outline-color),
-      var(--calcite-button-outline-press)
+      var(--calcite-button-outline-color-press)
     );
   }
 }
