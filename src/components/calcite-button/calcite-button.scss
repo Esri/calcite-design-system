@@ -278,8 +278,8 @@
   border: 1px solid $border-color;
   box-shadow: inset 0 0 0 1px transparent;
   &:hover {
-    border-color: 1px solid $border-color;
-    box-shadow: inset 0 0 0 1px $border-color;
+    border-color: $border-color-hover;
+    box-shadow: inset 0 0 0 1px $border-color-hover;
   }
   &:active,
   &:focus {
@@ -311,7 +311,7 @@
   border: 1px solid $border-color;
   box-shadow: inset 0 0 0 1px transparent, $shadow-2;
   &:hover {
-    border-color: 1px solid $border-color;
+    border-color: 1px solid $border-color-hover;
     box-shadow: inset 0 0 0 1px $border-color, $shadow-2--hover;
   }
   &:active,
@@ -363,8 +363,8 @@
     @include btn-outline-clear(
       var(--calcite-ui-foreground),
       $blk-010,
-      $blk-000,
-      $blk-020,
+      var(--calcite-ui-foreground-press),
+      var(--calcite-ui-foreground-press),
       var(--calcite-button-outline-color),
       var(--calcite-button-outline-press)
     );
@@ -375,7 +375,7 @@
   a {
     @include btn-outline-clear(
       var(--calcite-ui-foreground),
-      $blk-200,
+      $blk-190,
       $blk-180,
       $blk-220,
       var(--calcite-button-outline-color),
@@ -415,9 +415,9 @@
     @include btn-outline-clear(
       transparent,
       $blk-010,
-      $blk-000,
-      $blk-020,
-      $blk-005,
+      var(--calcite-ui-foreground-press),
+      var(--calcite-ui-foreground-press),
+      var(--calcite-button-outline-color),
       $blk-000
     );
   }
@@ -427,7 +427,7 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $blk-200,
+      $blk-190,
       $blk-180,
       $blk-220,
       $blk-220,
