@@ -1,13 +1,12 @@
-import { withKnobs, select, boolean } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
-import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
+import {withKnobs, select, boolean} from "@storybook/addon-knobs";
+import {
+  darkBackground,
+  iconNames,
+  parseReadme
+} from "../../../.storybook/helpers";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-// we can get all unique icon names from all size 16 non-filled icons.
-const iconNames = Object.keys(icons)
-  .filter(iconName => iconName.endsWith("16"))
-  .map(iconName => iconName.replace("16", ""));
+const notes = parseReadme(readme);
 
 export default {
   title: "Icon",
@@ -16,7 +15,11 @@ export default {
 };
 
 export const simple = () =>
-  `<calcite-icon icon="sdafasd" scale="${select("size", ["s", "m", "l"], "m")}" filled="${boolean(
+  `<calcite-icon icon="${select(
+    "icon",
+    iconNames,
+    iconNames[0]
+  )}" scale="${select("size", ["s", "m", "l"], "m")}" filled="${boolean(
     "filled",
     false
   )}"></calcite-icon>`;

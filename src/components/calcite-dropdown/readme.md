@@ -41,14 +41,14 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ## Properties
 
-| Property    | Attribute   | Description                                                                     | Type                           | Default   |
-| ----------- | ----------- | ------------------------------------------------------------------------------- | ------------------------------ | --------- |
-| `active`    | `active`    |                                                                                 | `boolean`                      | `false`   |
-| `alignment` | `alignment` | specify the alignment of dropdrown, defaults to left                            | `"center" \| "end" \| "start"` | `"start"` |
-| `scale`     | `scale`     | specify the scale of dropdrown, defaults to m                                   | `"l" \| "m" \| "s"`            | `"m"`     |
-| `theme`     | `theme`     | specify the theme of the dropdown, defaults to light                            | `"dark" \| "light"`            | `"light"` |
-| `type`      | `type`      | specify whether the dropdown is opened by hover or click of the trigger element | `"click" \| "hover"`           | `"click"` |
-| `width`     | `width`     | specify the width of dropdrown, defaults to m                                   | `"l" \| "m" \| "s"`            | `"m"`     |
+| Property    | Attribute   | Description                                                                     | Type                           | Default     |
+| ----------- | ----------- | ------------------------------------------------------------------------------- | ------------------------------ | ----------- |
+| `active`    | `active`    |                                                                                 | `boolean`                      | `false`     |
+| `alignment` | `alignment` | specify the alignment of dropdown, defaults to start                            | `"center" \| "end" \| "start"` | `"start"`   |
+| `scale`     | `scale`     | specify the scale of dropdown, defaults to m                                    | `"l" \| "m" \| "s"`            | `"m"`       |
+| `theme`     | `theme`     | specify the theme of the dropdown, defaults to light                            | `"dark" \| "light"`            | `undefined` |
+| `type`      | `type`      | specify whether the dropdown is opened by hover or click of the trigger element | `"click" \| "hover"`           | `"click"`   |
+| `width`     | `width`     | specify the width of dropdown, defaults to m                                    | `"l" \| "m" \| "s"`            | `"m"`       |
 
 
 ----------------------------------------------

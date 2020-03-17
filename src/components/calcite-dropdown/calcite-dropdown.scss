@@ -77,7 +77,7 @@
   pointer-events: none;
 }
 
-:host([dir="rtl"]) .calcite-dropdown-wrapper {
+:host-context([dir="rtl"]) .calcite-dropdown-wrapper {
   right: 0;
   left: unset;
 }

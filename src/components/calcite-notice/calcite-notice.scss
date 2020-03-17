@@ -68,7 +68,7 @@
   box-shadow: 0 0 0 0 transparent;
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   text-align: right;
   border-left: none;
   border-right: 0px solid;
@@ -76,6 +76,7 @@
 
 :host([active]) {
   display: inline-flex;
+  align-items: center;
   opacity: 1;
   max-height: 100%;
   pointer-events: initial;
@@ -94,7 +95,7 @@
   color: var(--calcite-ui-text-2);
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   @include slotted("notice-message", "div") {
     margin-right: unset;
     margin-left: var(--calcite-notice-spacing-token-small);
@@ -126,7 +127,7 @@
   }
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   .notice-content {
     padding: var(--calcite-notice-spacing-token-small) 0
       var(--calcite-notice-spacing-token-small)
@@ -145,6 +146,7 @@
 
 .notice-close {
   @include notice-element-base;
+  align-self: stretch;
   background-color: transparent;
   -webkit-appearance: none;
   border: none;

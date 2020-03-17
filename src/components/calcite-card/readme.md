@@ -7,12 +7,12 @@
 
 ## Properties
 
-| Property     | Attribute    | Description                                                                              | Type                | Default   |
-| ------------ | ------------ | ---------------------------------------------------------------------------------------- | ------------------- | --------- |
-| `loading`    | `loading`    | When true, the cards content is waiting to be loaded. This state shows a busy indicator. | `boolean`           | `false`   |
-| `selectable` | `selectable` | Indicates whether the card is selectable.                                                | `boolean`           | `false`   |
-| `selected`   | `selected`   | Indicates whether the card is selected.                                                  | `boolean`           | `false`   |
-| `theme`      | `theme`      | The theme of the card.                                                                   | `"dark" \| "light"` | `"light"` |
+| Property     | Attribute    | Description                                                                              | Type                | Default     |
+| ------------ | ------------ | ---------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `loading`    | `loading`    | When true, the cards content is waiting to be loaded. This state shows a busy indicator. | `boolean`           | `false`     |
+| `selectable` | `selectable` | Indicates whether the card is selectable.                                                | `boolean`           | `false`     |
+| `selected`   | `selected`   | Indicates whether the card is selected.                                                  | `boolean`           | `false`     |
+| `theme`      | `theme`      | The theme of the card.                                                                   | `"dark" \| "light"` | `undefined` |
 
 
 ## Events

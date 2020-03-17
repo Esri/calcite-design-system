@@ -45,7 +45,6 @@ describe("calcite-dropdown", () => {
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "m");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("alignment", "start");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
@@ -72,7 +71,6 @@ describe("calcite-dropdown", () => {
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "m");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("alignment", "start");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });

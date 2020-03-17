@@ -12,10 +12,7 @@
   >Hello! I am some popover content!</calcite-popover
 >
 
-<calcite-button
-  id="popover-button"
-  icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z"
-  >Clickable popover</calcite-button
+<calcite-button id="popover-button">Clickable popover</calcite-button
 >
 ```
 
@@ -36,7 +33,7 @@
 | `placement`                     | `placement`         | Determines where the component will be positioned relative to the referenceElement.        | `"auto" \| "auto-start" \| "auto-end" \| "top" \| "bottom" \| "right" \| "left" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end" \| "leading-start" \| "leading" \| "leading-end" \| "trailing-end" \| "trailing" \| "trailing-start"` | `"auto"`                |
 | `referenceElement` _(required)_ | `reference-element` | Reference HTMLElement used to position this component according to the placement property. | `HTMLElement \| string`                                                                                                                                                                                                                                                                                           | `undefined`             |
 | `textClose`                     | `text-close`        | Text for close button.                                                                     | `string`                                                                                                                                                                                                                                                                                                          | `"Close"`               |
-| `theme`                         | `theme`             | Select theme (light or dark)                                                               | `"dark" \| "light"`                                                                                                                                                                                                                                                                                               | `"light"`               |
+| `theme`                         | `theme`             | Select theme (light or dark)                                                               | `"dark" \| "light"`                                                                                                                                                                                                                                                                                               | `undefined`             |
 
 
 ## Events

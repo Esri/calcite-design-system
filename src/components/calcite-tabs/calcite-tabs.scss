@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
 
   --calcite-tabs-layout: flex-start;
   --calcite-tabs-tab-basis: auto;
@@ -8,7 +9,7 @@
   --calcite-tabs-tab-margin-end: 0;
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   --calcite-tabs-tab-margin-start: 0;
   --calcite-tabs-tab-margin-end: 1.25rem;
 }
@@ -22,5 +23,8 @@
 }
 
 section {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
   border-top: 1px solid var(--calcite-ui-border-1);
 }

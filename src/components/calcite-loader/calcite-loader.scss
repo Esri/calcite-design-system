@@ -1,37 +1,48 @@
-:host {
-  --calcite-loader-spot: var(--calcite-ui-blue);
-  --calcite-loader-spot-light: var(--calcite-ui-blue);
-  --calcite-loader-spot-dark: var(--calcite-ui-blue);
-  --calcite-loader-neutral: #{$blk-020};
-  --calcite-loader-padding: 4rem;
-}
+$loader-size: 56;
+$loader-size-inline: 20;
+$loader-width: $loader-size * 1px;
+$loader-width-inline: $loader-size-inline * 1px;
+$loader-stroke: 3;
+$loader-stroke-inline: 2;
+$loader-padding: 4rem;
+$loader-circumference: ($loader-size - (2 * $loader-stroke)) * 3.14159;
 
-:host([theme="dark"]) {
-  --calcite-loader-neutral: #{$blk-220};
-}
-
-:host([no-padding]) {
-  --calcite-loader-padding: 0;
-}
-
-$loader-width: 54px;
-$loader-width-inline: 16px;
-$loader-stroke-width: 6px;
-$loader-stroke-width-inline: 4px;
+/**
+  Segment variables
+  - size      length of the segment (0 - 100)
+  - growth    how much the segment grows during the animation
+              (size + growth should not exceed 100)
+  - duration  how long the segment takes to rotate 360° (seconds)
+*/
+$segment-1-size: 10;
+$segment-1-growth: 40;
+$segment-1-duration: .72s;
+$segment-2-size: 20;
+$segment-2-growth: 30;
+$segment-2-duration: .96s;
+$segment-3-size: 5;
+$segment-3-growth: 45;
+$segment-3-duration: 1.16s;
 
 :host {
   position: relative;
   display: none;
-  padding-bottom: var(--calcite-loader-padding);
-  padding-top: var(--calcite-loader-padding);
+  padding-bottom: $loader-padding;
+  padding-top: $loader-padding;
   margin-left: auto;
   margin-right: auto;
   min-height: $loader-width;
-  stroke: var(--calcite-loader-light);
-  stroke-width: $loader-stroke-width;
-  stroke-dashoffset: 0;
+  stroke: var(--calcite-ui-blue);
+  stroke-width: $loader-stroke;
   fill: none;
-  animation: loader-color-shift 2s alternate-reverse infinite linear;
+  opacity: 1;
+  transform: scale(1, 1);
+  animation: loader-color-shift 6s alternate-reverse infinite linear;
+}
+
+:host([no-padding]) {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 :host([is-active]) {
@@ -40,7 +51,7 @@ $loader-stroke-width-inline: 4px;
 
 .loader__text {
   display: block;
-  margin-top: var(--calcite-loader-padding);
+  margin-top: $loader-padding + 1rem;
   text-align: center;
   @include font-size(-2);
 }
@@ -49,67 +60,65 @@ $loader-stroke-width-inline: 4px;
   display: block;
   width: $loader-width;
   position: absolute;
-  top: var(--calcite-loader-padding);
+  top: $loader-padding;
   left: 50%;
   margin-left: -$loader-width / 2;
   margin-top: ($loader-width / 2);
   text-align: center;
   font-size: 0.875rem;
+  color: var(--calcite-ui-text-1);
   line-height: 0.25;
+  transform: scale(1, 1);
 }
 
-.loader__square {
+.loader__svgs {
   width: $loader-width;
   height: $loader-width;
   position: absolute;
-  top: var(--calcite-loader-padding);
-  left: 0;
+  top: $loader-padding;
   left: 50%;
   margin-left: -$loader-width / 2;
-  stroke-dasharray: 50% 350%; // must add up to 400% to loop seamlessly
-  animation: loader-clockwise 2s infinite linear;
+  overflow: visible;
+  opacity: 1;
+  transform: scale(1, 1);
 }
 
-.loader__square--2 {
-  stroke-dasharray: 100% 225% 50% 25%;
-  animation: loader-clockwise 1s infinite linear;
+.loader__svg {
+  width: $loader-width;
+  height: $loader-width;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  transform-origin: center;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  // by default the animation is rotation for ie. and edge
+  animation-name: loader-clockwise;
 }
 
-.loader__square--3 {
-  stroke-dasharray: 50% 50% 75% 225%;
-  animation: loader-clockwise 1.85s infinite linear;
-}
-
-// Edge can't animate stroke dash offset, so offset will be animated via JavaScript
-@supports (-ms-ime-align: auto) {
-  .loader__square {
-    stroke-dashoffset: var(--calcite-loader-offset);
-    animation: none;
-  }
-  .loader__square--2 {
-    stroke-dashoffset: var(--calcite-loader-offset2);
-  }
-  .loader__square--3 {
-    stroke-dashoffset: var(--calcite-loader-offset3);
-  }
+// in newer browsers use the stroke-dash-offset animation as it looks better
+@supports (display: grid) {
+  .loader__svg--1 { animation-name: loader-offset-1; }
+  .loader__svg--2 { animation-name: loader-offset-2; }
+  .loader__svg--3 { animation-name: loader-offset-3; }
 }
 
 :host([type="determinate"]) {
-  stroke: var(--calcite-loader-neutral);
+  stroke: var(--calcite-ui-border-3);
   animation: none;
-  .loader__square--3 {
-    stroke: var(--calcite-loader-spot);
-    stroke-dasharray: 400%;
-    stroke-dashoffset: var(--calcite-loader-progress);
-    transition: 50ms linear all;
+  .loader__svg--3 {
+    stroke: var(--calcite-ui-blue);
+    stroke-dasharray: $loader-circumference;
     transform: rotate(90deg);
     animation: none;
+    transition: all 100ms linear;
   }
 }
 
 :host([inline]) {
   stroke: currentColor;
-  stroke-width: $loader-stroke-width-inline;
+  stroke-width: $loader-stroke-inline;
   animation: none;
   margin: 0;
   padding-bottom: 0;
@@ -119,7 +128,7 @@ $loader-stroke-width-inline: 4px;
   min-height: $loader-width-inline;
   width: $loader-width-inline;
   margin-right: $loader-width-inline / 2;
-  vertical-align: -$loader-width-inline / 8;
+  vertical-align: -$loader-width-inline / 5;
 }
 
 :host([inline][dir="rtl"]) {
@@ -131,29 +140,88 @@ $loader-stroke-width-inline: 4px;
   display: inline-block;
 }
 
-:host([inline]) .loader__square {
-  margin: 0;
-  position: absolute;
+:host([inline]) .loader__svgs {
   top: 0;
   left: 0;
+  margin: 0;
   width: $loader-width-inline;
   height: $loader-width-inline;
 }
 
+:host([inline]) .loader__svg {
+  width: $loader-width-inline;
+  height: $loader-width-inline;
+}
+
+:host([complete]) {
+  opacity: 0;
+  transform: scale(.75, .75);
+  transform-origin: center;
+  transition: opacity 200ms linear 1000ms, transform 200ms linear 1000ms;
+}
+
+:host([complete]) .loader__svgs {
+  opacity: 0;
+  transform: scale(.75, .75);
+  transform-origin: center;
+  transition: opacity 180ms linear 800ms, transform 180ms linear 800ms;
+}
+
+:host([complete]) .loader__percentage {
+  color: var(--calcite-ui-blue);
+  transform: scale(1.075, 1.075);
+  transform-origin: center;
+  transition: color 200ms linear, transform 200ms linear;
+}
+
+@mixin generateSegment($i, $size, $growth, $duration) {
+  $circumference: $loader-circumference / $loader-size * 100%;
+  $length: ($size / 100) * $circumference;
+  $end: $length + ($growth / 100) * $circumference;
+  .loader__svg--#{$i} {
+    stroke-dasharray: $length $circumference - $end;
+    animation-duration: $duration;
+  }
+  @keyframes loader-offset-#{$i} {
+    0% {
+      stroke-dasharray: $length $circumference - $length;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: $end $circumference - $end;
+      stroke-dashoffset: -$circumference / 2 - ($length - $end) / 2;
+    }
+    100% {
+      stroke-dasharray: $length $circumference - $length;
+      stroke-dashoffset: -$circumference;
+    }
+  }
+}
+
+@include generateSegment(1, $segment-1-size, $segment-1-growth, $segment-1-duration);
+@include generateSegment(2, $segment-2-size, $segment-2-growth, $segment-2-duration);
+@include generateSegment(3, $segment-3-size, $segment-3-growth, $segment-3-duration);
+
 @keyframes loader-color-shift {
   0% {
-    stroke: var(--calcite-loader-spot-light);
+    stroke: var(--calcite-ui-blue);
+  }
+  33% {
+    stroke: var(--calcite-ui-blue-press);
+  }
+  66% {
+    stroke: var(--calcite-ui-blue-hover);
   }
   100% {
-    stroke: var(--calcite-loader-spot-dark);
+    stroke: var(--calcite-ui-blue);
   }
 }
 
 @keyframes loader-clockwise {
   0% {
-    stroke-dashoffset: 0;
+    transform: rotate(0deg);
   }
   100% {
-    stroke-dashoffset: -400%;
+    transform: rotate(360deg);
   }
 }

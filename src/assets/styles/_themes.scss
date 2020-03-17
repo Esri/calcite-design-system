@@ -1,0 +1,53 @@
+@mixin calcite-light-theme () {
+  --calcite-ui-blue: #{$ui-blue};
+  --calcite-ui-blue-hover: #{$ui-blue-hover};
+  --calcite-ui-blue-press: #{$ui-blue-press};
+  --calcite-ui-green: #{$ui-green};
+  --calcite-ui-green-hover: #{$ui-green-hover};
+  --calcite-ui-green-press: #{$ui-green-press};
+  --calcite-ui-yellow: #{$ui-yellow};
+  --calcite-ui-yellow-hover: #{$ui-yellow-hover};
+  --calcite-ui-yellow-press: #{$ui-yellow-press};
+  --calcite-ui-red: #{$ui-red};
+  --calcite-ui-red-hover: #{$ui-red-hover};
+  --calcite-ui-red-press: #{$ui-red-press};
+  --calcite-ui-background: #{$ui-background};
+  --calcite-ui-foreground: #{$ui-foreground};
+  --calcite-ui-foreground-hover: #{$ui-foreground-hover};
+  --calcite-ui-foreground-press: #{$ui-foreground-press};
+  --calcite-ui-text-1: #{$ui-text-1};
+  --calcite-ui-text-2: #{$ui-text-2};
+  --calcite-ui-text-3: #{$ui-text-3};
+  --calcite-ui-border-1: #{$ui-border-1};
+  --calcite-ui-border-2: #{$ui-border-2};
+  --calcite-ui-border-3: #{$ui-border-3};
+  --calcite-ui-border-hover: #{$ui-border-hover};
+  --calcite-ui-border-press: #{$ui-border-press};
+}
+
+@mixin calcite-dark-theme () {
+  --calcite-ui-blue: #{$ui-blue-dark};
+  --calcite-ui-blue-hover: #{$ui-blue-hover-dark};
+  --calcite-ui-blue-press: #{$ui-blue-press-dark};
+  --calcite-ui-green: #{$ui-green-dark};
+  --calcite-ui-green-hover: #{$ui-green-hover-dark};
+  --calcite-ui-green-press: #{$ui-green-press-dark};
+  --calcite-ui-yellow: #{$ui-yellow-dark};
+  --calcite-ui-yellow-hover: #{$ui-yellow-hover-dark};
+  --calcite-ui-yellow-press: #{$ui-yellow-press-dark};
+  --calcite-ui-red: #{$ui-red-dark};
+  --calcite-ui-red-hover: #{$ui-red-hover-dark};
+  --calcite-ui-red-press: #{$ui-red-press-dark};
+  --calcite-ui-background: #{$ui-background-dark};
+  --calcite-ui-foreground: #{$ui-foreground-dark};
+  --calcite-ui-foreground-hover: #{$ui-foreground-hover-dark};
+  --calcite-ui-foreground-press: #{$ui-foreground-press-dark};
+  --calcite-ui-text-1: #{$ui-text-1-dark};
+  --calcite-ui-text-2: #{$ui-text-2-dark};
+  --calcite-ui-text-3: #{$ui-text-3-dark};
+  --calcite-ui-border-1: #{$ui-border-1-dark};
+  --calcite-ui-border-2: #{$ui-border-2-dark};
+  --calcite-ui-border-3: #{$ui-border-3-dark};
+  --calcite-ui-border-hover: #{$ui-border-hover-dark};
+  --calcite-ui-border-press: #{$ui-border-press-dark};
+}
