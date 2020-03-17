@@ -16,7 +16,6 @@
   --calcite-button-red-inline-underline: #{rgba($ui-red, 0.2)};
   --calcite-button-blue-solid-color: #{$blk-000};
   --calcite-button-red-solid-color: #{$blk-000};
-  --calcite-button-outline-background: #{$blk-000};
   --calcite-button-outline-color: #{$blk-230};
   --calcite-button-outline-color-press: #{$blk-230};
 }
@@ -35,7 +34,6 @@
   --calcite-button-red-inline-underline: #{rgba($ui-red-dark, 0.2)};
   --calcite-button-blue-solid-color: #{$blk-230};
   --calcite-button-red-solid-color: #{$blk-230};
-  --calcite-button-outline-background: #{$blk-220};
   --calcite-button-outline-color: #{$blk-000};
   --calcite-button-outline-color-press: #{$blk-000};
 }
@@ -280,7 +278,7 @@
   border: 1px solid $border-color;
   box-shadow: inset 0 0 0 1px transparent;
   &:hover {
-    border-color: 1px solid $border-color;
+    border-color: $border-color;
     box-shadow: inset 0 0 0 1px $border-color;
   }
   &:active,
@@ -337,7 +335,7 @@
   button,
   a {
     @include btn-outline-clear(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground),
       var(--calcite-blue-accessible),
       var(--calcite-ui-blue-hover),
       var(--calcite-ui-blue-press),
@@ -350,7 +348,7 @@
   button,
   a {
     @include btn-outline-clear(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground),
       var(--calcite-red-accessible),
       var(--calcite-ui-red-hover),
       var(--calcite-ui-red-press),
@@ -363,7 +361,7 @@
   button,
   a {
     @include btn-outline-clear(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground),
       $blk-010,
       $blk-000,
       $blk-020,
@@ -376,7 +374,7 @@
   button,
   a {
     @include btn-outline-clear(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground),
       $blk-200,
       $blk-180,
       $blk-220,
@@ -442,7 +440,7 @@
   button,
   a {
     @include btn-outline-clear-floating(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground),
       var(--calcite-blue-accessible),
       var(--calcite-ui-blue-hover),
       var(--calcite-ui-blue-press),
@@ -455,7 +453,7 @@
   button,
   a {
     @include btn-outline-clear-floating(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground),
       var(--calcite-red-accessible),
       var(--calcite-ui-red-hover),
       var(--calcite-ui-red-press),
@@ -468,7 +466,7 @@
   button,
   a {
     @include btn-outline-clear-floating(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground),
       $blk-010,
       $blk-000,
       $blk-020,
@@ -481,7 +479,7 @@
   button,
   a {
     @include btn-outline-clear-floating(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground),
       $blk-200,
       $blk-180,
       $blk-220,
