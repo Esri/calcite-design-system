@@ -51,7 +51,7 @@ $segment-3-duration: 1.16s;
 
 .loader__text {
   display: block;
-  margin-top: $loader-padding;
+  margin-top: $loader-padding + 1rem;
   text-align: center;
   @include font-size(-2);
 }
