@@ -140,7 +140,7 @@ export class CalciteAlert {
         onClick={() => this.close()}
         ref={el => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale="s"></calcite-icon>
+        <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
     );
 
@@ -278,7 +278,7 @@ export class CalciteAlert {
     var path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
-        <calcite-icon icon={path} filled scale="s"></calcite-icon>
+        <calcite-icon icon={path} scale="m"></calcite-icon>
       </div>
     );
   }

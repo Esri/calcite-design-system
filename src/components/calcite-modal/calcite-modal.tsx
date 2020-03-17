@@ -77,7 +77,7 @@ export class CalciteModal {
               ref={el => (this.closeButton = el)}
               onClick={() => this.close()}
             >
-              <calcite-icon icon="x" scale="m"></calcite-icon>
+              <calcite-icon icon="x" scale="l"></calcite-icon>
             </button>
             <header class="modal__title">
               <slot name="header" />

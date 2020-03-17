@@ -35,19 +35,22 @@ export async function fetchIcon({
   const size = scaleToPx[scale];
   const id = `${normalizeIconName(icon)}${size}${filled ? "F" : ""}`;
 
-  if (iconCache[id]) {
-    return iconCache[id];
-  }
-
-  const request =
-    requestCache[id] ||
-    (requestCache[id] = import(getAssetPath(`./assets/${id}.js`)));
-
-  const module = await request;
-  const pathData = module[id];
-
-  iconCache[id] = pathData;
-  return pathData;
+  return new Promise(resolve => {
+    if (requestCache[id]) {
+      return resolve(requestCache[id]);
+    }
+    fetch(getAssetPath(`./assets/${id}.json`))
+      .then(resp => resp.json())
+      .then(path => {
+        iconCache[id] = path;
+        resolve(path);
+      })
+      .catch(_ => {
+        iconCache[id] = "";
+        console.error(`"${id}" is not a valid calcite-ui-icon name`);
+        resolve("");
+      });
+  });
 }
 
 /**

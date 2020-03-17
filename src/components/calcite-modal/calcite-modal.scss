@@ -72,7 +72,7 @@
 }
 
 .modal__close {
-  padding: $baseline * 0.75;
+  padding: .75rem;
   margin: 0;
   order: 2;
   flex: 0 0 auto;
@@ -318,7 +318,7 @@ slot[name="primary"] {
     padding: $baseline * 0.25 $baseline * 0.675;
   }
   .modal__close {
-    padding: $baseline * 0.675;
+    padding: .75rem;
   }
   .modal__content--spaced {
     padding: $baseline * 0.675;
