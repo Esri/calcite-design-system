@@ -44,7 +44,7 @@ export class CalciteStepperItem {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-
+  /** is the step active */
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** has the step been completed */
@@ -73,7 +73,7 @@ export class CalciteStepperItem {
 
   // watch for removal of disabled to register step
   @Watch("disabled") disabledWatcher() {
-    if (!this.disabled) this.registerStepperItem();
+    this.registerStepperItem();
   }
   //--------------------------------------------------------------------------
   //
@@ -142,7 +142,7 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   @Listen("keydown") keyDownHandler(e) {
-    if (e.target === this.el) {
+    if (!this.disabled && e.target === this.el) {
       switch (e.keyCode) {
         case SPACE:
         case ENTER:
@@ -198,8 +198,16 @@ export class CalciteStepperItem {
       : this.complete
       ? "checkCircle"
       : "circle";
+
+    var filled = this.error || this.complete || (this.active && !this.complete);
+
     return (
-      <calcite-icon icon={path} filled scale="s" class="stepper-item-icon" />
+      <calcite-icon
+        icon={path}
+        filled={filled}
+        scale="s"
+        class="stepper-item-icon"
+      />
     );
   }
 
@@ -209,11 +217,9 @@ export class CalciteStepperItem {
   }
 
   private registerStepperItem() {
-    if (!this.disabled) {
-      this.registerCalciteStepperItem.emit({
-        position: this.itemPosition
-      });
-    }
+    this.registerCalciteStepperItem.emit({
+      position: this.itemPosition
+    });
   }
 
   private emitRequestedItem() {
@@ -231,6 +237,7 @@ export class CalciteStepperItem {
       getSlottedElements(this.el, "*")[0].outerHTML
     );
   }
+
   private getItemPosition() {
     const parent = this.el.parentElement as HTMLCalciteStepperElement;
     return Array.prototype.indexOf.call(

@@ -81,11 +81,12 @@ export class CalciteStepper {
     if (!icon.includes(this.icon)) this.icon = false;
   }
 
+  componentDidUpdate() {
+    this.sortedItems = this.sortItems();
+  }
+
   componentDidLoad() {
-    if (!this.sorted) {
-      this.items = this.sortItems(this.items);
-      this.sorted = true;
-    }
+    this.sortedItems = this.sortItems();
     // if no stepper items are set as active, default to the first one
     if (!this.currentStepperItemPosition) {
       this.calciteStepperItemHasChanged.emit({
@@ -122,7 +123,8 @@ export class CalciteStepper {
     let item = e.detail.item;
     let itemToFocus = e.target;
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
-    let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
+    let isLastItem =
+      this.itemIndex(itemToFocus) === this.sortedItems.length - 1;
     switch (item.keyCode) {
       case DOWN:
       case RIGHT:
@@ -150,18 +152,17 @@ export class CalciteStepper {
       item: e.target as HTMLCalciteStepperItemElement,
       position: e.detail.position
     };
-    this.items.push(item);
+    if (!this.items.includes(item)) this.items.push(item);
+    this.sortedItems = this.sortItems();
   }
 
   @Listen("calciteStepperItemSelected") updateActiveItemOnChange(
     event: CustomEvent
   ) {
     this.currentStepperItemPosition = event.detail.requestedStepperItemPosition;
+    this.requestedStepperItemContent = event.detail.requestedStepperItemContent;
     this.requestedStepperItemPosition =
       event.detail.requestedStepperItemPosition;
-
-    this.requestedStepperItemContent = event.detail.requestedStepperItemContent;
-
     this.calciteStepperItemHasChanged.emit({
       requestedStepperItemPosition: this.requestedStepperItemPosition
     });
@@ -180,7 +181,6 @@ export class CalciteStepper {
       this.requestedStepperItemPosition + 1 < this.items.length
         ? this.currentStepperItemPosition + 1
         : this.currentStepperItemPosition;
-    console.log(this.requestedStepperItemPosition, this.items.length);
     this.emitChangedItem();
   }
 
@@ -224,8 +224,8 @@ export class CalciteStepper {
   /** created list of Stepper items */
   private items = [];
 
-  /** keep track of whether the items have been sorted so we don't re-sort */
-  private sorted = false;
+  /** sorted list of Stepper items */
+  private sortedItems = [];
 
   /** keep track of the currently active item position */
   private currentStepperItemPosition: number;
@@ -249,29 +249,31 @@ export class CalciteStepper {
   }
 
   private focusFirstItem() {
-    const firstItem = this.items[0];
+    const firstItem = this.sortedItems[0];
     this.focusElement(firstItem);
   }
 
   private focusLastItem() {
-    const lastItem = this.items[this.items.length - 1];
+    const lastItem = this.sortedItems[this.sortedItems.length - 1];
     this.focusElement(lastItem);
   }
 
   private focusNextItem(e) {
     const index = this.itemIndex(e);
-    const nextItem = this.items[index + 1] || this.items[0];
+    const nextItem = this.sortedItems[index + 1] || this.sortedItems[0];
     this.focusElement(nextItem);
   }
 
   private focusPrevItem(e) {
     const index = this.itemIndex(e);
-    const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
+    const prevItem =
+      this.sortedItems[index - 1] ||
+      this.sortedItems[this.sortedItems.length - 1];
     this.focusElement(prevItem);
   }
 
   private itemIndex(e) {
-    return this.items.indexOf(e);
+    return this.sortedItems.indexOf(e);
   }
 
   private focusElement(item) {
@@ -279,6 +281,12 @@ export class CalciteStepper {
     target.focus();
   }
 
-  private sortItems = (items: any[]): any[] =>
-    items.sort((a, b) => a.position - b.position).map(a => a.item);
+  private sortItems() {
+    let items = Array.from(this.items)
+      .filter(a => !a.item.disabled)
+      .sort((a, b) => a.position - b.position)
+      .map(a => a.item);
+
+      return [...new Set(items)];
+  }
 }

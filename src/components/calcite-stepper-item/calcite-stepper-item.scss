@@ -111,9 +111,13 @@
   margin-left: var(--calcite-stepper-item-spacing-unit-l);
   margin-right: initial;
 }
+:host([disabled]) {
+  opacity: 0.4;
+}
 :host([disabled]),
 :host([disabled]) * {
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 :host([complete]) {
