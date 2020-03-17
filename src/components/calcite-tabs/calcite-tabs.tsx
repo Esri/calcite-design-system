@@ -54,12 +54,10 @@ export class CalciteTabs {
 
     return (
       <Host>
-        <div>
-          <slot name="tab-nav" />
-          <section>
-            <slot />
-          </section>
-        </div>
+        <slot name="tab-nav" />
+        <section>
+          <slot />
+        </section>
       </Host>
     );
   }
