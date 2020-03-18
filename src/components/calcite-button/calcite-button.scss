@@ -375,9 +375,9 @@
   a {
     @include btn-outline-clear(
       var(--calcite-ui-foreground),
+      $blk-180,
       $blk-190,
       $blk-170,
-      $blk-210,
       var(--calcite-button-outline-color),
       var(--calcite-button-outline-press)
     );
@@ -427,9 +427,9 @@
   a {
     @include btn-outline-clear(
       transparent,
+      $blk-180,
       $blk-190,
       $blk-170,
-      $blk-210,
       $blk-220,
       $blk-220
     );
@@ -480,9 +480,9 @@
   a {
     @include btn-outline-clear-floating(
       var(--calcite-ui-foreground),
+      $blk-180,
       $blk-190,
       $blk-170,
-      $blk-210,
       var(--calcite-button-outline-color),
       var(--calcite-button-outline-press)
     );
@@ -532,9 +532,9 @@
   a {
     @include btn-outline-clear-floating(
       transparent,
+      $blk-180,
       $blk-190,
       $blk-170,
-      $blk-210,
       $blk-220,
       $blk-220
     );
