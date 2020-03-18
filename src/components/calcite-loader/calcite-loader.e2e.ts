@@ -25,7 +25,7 @@ describe("calcite-loader", () => {
     await page.setContent(
       `<calcite-loader is-active text="testing"></calcite-loader>`
     );
-    const elm = await page.find("calcite-loader >>> div");
+    const elm = await page.find("calcite-loader >>> .loader__text");
     expect(elm).toEqualText("testing");
   });
 
@@ -57,7 +57,7 @@ describe("calcite-loader", () => {
   it("displays inline with text from inline prop", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-loader is-active inline></calcite-loader>`);
-    const rect = await page.find("calcite-loader >>> rect");
-    expect(rect).toEqualAttribute("width", "16");
+    const rect = await page.find("calcite-loader >>> circle");
+    expect(rect).toEqualAttribute("r", "9");
   });
 });
