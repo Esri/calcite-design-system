@@ -66,10 +66,15 @@
 
   <h4>Horizontal</h4>
   <calcite-stepper numbered="zom" icon="zar">
-    <calcite-stepper-item item-title="Choose method" complete>
-      <calcite-notice active width="full">
-        <div slot="notice-message">Step 1 Content Goes Here</div>
-      </calcite-notice>
+    <calcite-stepper-item active item-title="Choose method" complete>
+      Something before a div
+
+        <calcite-notice active width="full">
+          <div slot="notice-message">Step 1 Content Goes Here</div>
+        </calcite-notice>
+        Something after a div
+        <div>a non calcite element div</div>
+        Something else
     </calcite-stepper-item>
     <calcite-stepper-item item-title="Compile member list" complete>
       <calcite-notice active width="full">
@@ -193,7 +198,7 @@
   </calcite-stepper>
 
   <h4>Disabled steps</h4>
-  Test programatically setting disabled to allow navigation when not-disabled
+  Test programatically setting disabled to update navigable items (disabled steps should not be navigable)
   <calcite-radio-group>
     <calcite-radio-group-item value="Disabled" checked
       onclick="document.querySelector('#demo-make-non-disabled').setAttribute('disabled', true)">Step 4 Disabled

@@ -9,7 +9,7 @@ individual `calcite-accordion` item
 
 | Property       | Attribute       | Description                                                          | Type      | Default     |
 | -------------- | --------------- | -------------------------------------------------------------------- | --------- | ----------- |
-| `active`       | `active`        |                                                                      | `boolean` | `false`     |
+| `active`       | `active`        | is the step active                                                   | `boolean` | `false`     |
 | `complete`     | `complete`      | has the step been completed                                          | `boolean` | `false`     |
 | `disabled`     | `disabled`      | is the step disabled and not navigable to by a user                  | `boolean` | `false`     |
 | `error`        | `error`         | does the step contain an error that needs to be resolved by the user | `boolean` | `false`     |

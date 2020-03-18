@@ -19,11 +19,7 @@ import {
   LEFT,
   RIGHT
 } from "../../utils/keys";
-import {
-  getElementDir,
-  getElementProp,
-  getSlottedElements
-} from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
   tag: "calcite-stepper-item",
@@ -181,7 +177,7 @@ export class CalciteStepperItem {
   private requestedStepperItemPosition: number;
 
   /** the slotted item content */
-  private itemContent: string | null;
+  private itemContent: HTMLElement[] | null;
 
   /** handle clicks on item header */
   private itemClickHander = () => this.emitRequestedItem();
@@ -193,13 +189,17 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   private setIcon() {
-    var path = this.error
+    var path = this.active
+      ? "circle"
+      : this.error
       ? "exclamationMarkCircle"
       : this.complete
       ? "checkCircle"
       : "circle";
 
-    var filled = this.error || this.complete || (this.active && !this.complete);
+    // todo when calcite-icon is updated
+    // remove this and use circle-filled icon name
+    var filled = this.error || this.complete || this.active;
 
     return (
       <calcite-icon
@@ -232,10 +232,11 @@ export class CalciteStepperItem {
   }
 
   private getItemContent() {
-    return (
-      getSlottedElements(this.el, "*")[0] &&
-      getSlottedElements(this.el, "*")[0].outerHTML
-    );
+    return this.el.shadowRoot.querySelector("slot")
+      ? (this.el.shadowRoot
+          .querySelector("slot")
+          .assignedNodes({ flatten: true }) as HTMLElement[])
+      : null;
   }
 
   private getItemPosition() {

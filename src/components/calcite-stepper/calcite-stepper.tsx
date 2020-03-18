@@ -85,6 +85,7 @@ export class CalciteStepper {
     this.sortedItems = this.sortItems();
   }
 
+
   componentDidLoad() {
     this.sortedItems = this.sortItems();
     // if no stepper items are set as active, default to the first one
@@ -100,12 +101,11 @@ export class CalciteStepper {
     return (
       <Host dir={dir}>
         <slot />
-        {this.layout === "horizontal" &&
-        this.requestedStepperItemContent !== null ? (
+        {this.layout === "horizontal" && this.requestedStepperItemContent ? (
           <div
             class="stepper-content"
-            innerHTML={this.requestedStepperItemContent}
-          ></div>
+            ref={ref => ref.append(...this.requestedStepperItemContent)}
+          />
         ) : null}
       </Host>
     );
@@ -234,7 +234,7 @@ export class CalciteStepper {
   private requestedStepperItemPosition: number;
 
   /** the slotted content of the selected step - for horizontal layout use */
-  @State() requestedStepperItemContent: string;
+  @State() requestedStepperItemContent: HTMLElement[] | null;
 
   //--------------------------------------------------------------------------
   //
@@ -287,6 +287,6 @@ export class CalciteStepper {
       .sort((a, b) => a.position - b.position)
       .map(a => a.item);
 
-      return [...new Set(items)];
+    return [...new Set(items)];
   }
 }
