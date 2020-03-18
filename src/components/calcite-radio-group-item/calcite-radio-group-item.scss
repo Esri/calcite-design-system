@@ -3,7 +3,6 @@
   background-color: var(--calcite-ui-foreground);
   color: var(--calcite-ui-text-3);
   cursor: pointer;
-  padding: var(--calcite-radio-group-padding);
   line-height: 1.25;
   margin: 0.25rem -1px 0 0px;
   border: 1px solid var(--calcite-ui-border-1);
@@ -14,14 +13,17 @@
 
 :host([scale="s"]) {
   @include font-size(-3);
+  padding: 0.25rem 0.75rem;
 }
 
 :host([scale="m"]) {
   @include font-size(-1);
+  padding: 0.4rem 1rem;
 }
 
 :host([scale="l"]) {
   @include font-size(0);
+  padding: 0.5rem 1.5rem;
 }
 
 :host(:hover) {
@@ -35,7 +37,7 @@
 :host([checked]) {
   background-color: var(--calcite-ui-blue);
   border-color: var(--calcite-ui-blue);
-  color: var(--calcite-radio-group-text-color-active);
+  color: var(--calcite-ui-background);
   cursor: default;
 }
 
