@@ -110,7 +110,7 @@ $segment-3-duration: 1.16s;
   .loader__svg--3 {
     stroke: var(--calcite-ui-blue);
     stroke-dasharray: $loader-circumference;
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
     animation: none;
     transition: all 100ms linear;
   }
