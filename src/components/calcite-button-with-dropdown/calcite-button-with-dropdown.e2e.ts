@@ -19,17 +19,19 @@ describe("calcite-button-with-dropdown", () => {
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("theme", "light");
+    expect(element).toEqualAttribute("dropdown-icon-type", "chevron");
   });
 
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-button-with-dropdown color="green" scale="fairly small" theme="some theme">
+      <calcite-button-with-dropdown color="green" scale="fairly small" theme="some theme" dropdown-icon-type="circle">
       </calcite-button-with-dropdown>`);
     const element = await page.find("calcite-button-with-dropdown");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("theme", "light");
+    expect(element).toEqualAttribute("dropdown-icon-type", "chevron");
   });
 
   it("renders requested props when valid props are provided", async () => {
@@ -39,6 +41,7 @@ describe("calcite-button-with-dropdown", () => {
           scale="xs"
           color="red"
           theme="dark"
+          dropdown-icon-type="caret"
           loading="true"
           disabled="true"
           dropdown-label="more actions"
@@ -50,6 +53,7 @@ describe("calcite-button-with-dropdown", () => {
     expect(element).toEqualAttribute("scale", "xs");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("theme", "dark");
+    expect(element).toEqualAttribute("dropdown-icon-type", "caret");
     expect(element).toHaveAttribute("loading");
     expect(element).toHaveAttribute("disabled");
     expect(primaryButton).toEqualAttribute("aria-label", "primary action");

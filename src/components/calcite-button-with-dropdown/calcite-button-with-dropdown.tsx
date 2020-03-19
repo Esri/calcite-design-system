@@ -19,6 +19,9 @@ export class CalciteButtonWithDropdown {
   /** specify the scale of the control, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
+  /** specify the icon used for the dropdown menu, defaults to chevron */
+  @Prop({ mutable: true, reflect: true }) dropdownIconType: "chevron" | "caret" = "chevron";
+
   /** text for primary action button  */
   @Prop({ reflect: true }) primaryText: string;
 
@@ -59,10 +62,17 @@ export class CalciteButtonWithDropdown {
     if (!theme.includes(this.theme)) this.theme = "light";
   }
 
+  @Watch("dropdownIconType")
+  validateDropdownIconType() {
+    let dropdownIconType = ["chevron", "caret"];
+    if (!dropdownIconType.includes(this.dropdownIconType)) this.dropdownIconType = "chevron";
+  }
+
   connectedCallback() {
     this.validateColor();
     this.validateScale();
     this.validateTheme();
+    this.validateDropdownIconType();
   }
 
   render() {
@@ -100,7 +110,7 @@ export class CalciteButtonWithDropdown {
               color={this.color}
               disabled={this.disabled}
               theme={this.theme}
-              icon="caretDown"
+              icon={this.dropdownIcon}
             />
             <slot />
           </calcite-dropdown>
@@ -110,6 +120,10 @@ export class CalciteButtonWithDropdown {
   }
 
   private primaryButtonClickedHandler = (e: MouseEvent) => this.primaryButtonClicked.emit(e);
+
+  private get dropdownIcon() {
+    return this.dropdownIconType === 'chevron' ? 'chevronDown' : 'caretDown'
+  }
 
   private get buttonScale() {
     const scaleLookup: { [id in "s" | "m" | "l"]: Scale } = {
