@@ -5,10 +5,80 @@
   outline: none;
   @include font-size(-2);
   max-width: 100%;
+  --calcite-tree-text: var(--calcite-ui-text-2);
+  --calcite-tree-text: var(--calcite-ui-text-1);
+  --calcite-tree-text: var(--calcite-ui-text-1);
+  --calcite-tree-chevron: var(--calcite-ui-border-1);
+  --calcite-tree-chevron-hover: var(--calcite-ui-text-3);
+  --calcite-tree-vertical-padding: #{$baseline/4};
+  --calcite-tree-indicator: var(--calcite-ui-border-1);
+  --calcite-tree-indicator-active: var(--calcite-ui-blue);
+  --calcite-tree-indicator-first-start: 0.1rem;
+  --calcite-tree-indicator-first-end: auto;
+  --calcite-tree-indicator-distance-start: 0.15rem;
+  --calcite-tree-indicator-distance-end: auto;
+  --calcite-tree-icon-edge-distance-start: -0.2rem;
+  --calcite-tree-icon-edge-distance-end: 0;
+  --calcite-tree-icon-content-distance-start: #{$baseline/4};
+  --calcite-tree-icon-content-distance-end: 0;
+  --calcite-tree-indent-start: 1.4rem;
+  --calcite-tree-indent-end: 0;
+  --calcite-tree-children-indent-start: 0.25rem;
+  --calcite-tree-children-indent-end: 0;
+  --calcite-tree-children-padding-start: 1rem;
+  --calcite-tree-children-padding-end: 0;
+  --calcite-tree-line-position-start: 0.05rem;
+  --calcite-tree-line-position-end: 0;
+  --calcite-tree-parent-line-position-start: -0.95rem;
+  --calcite-tree-parent-line-position-end: 0;
+  --calcite-tree-line-width: 1px;
+  --calcite-tree-hover-line-width: 3px;
+}
+
+:host([lines]) {
+  --calcite-tree-line: var(--calcite-ui-border-3);
+  --calcite-tree-line-hover: var(--calcite-ui-border-1);
+}
+
+:host([scale="s"]) {
+  --calcite-tree-hover-line-width: 2px;
+  --calcite-tree-vertical-padding: #{$baseline/8};
+  --calcite-tree-children-indent-start: 0rem;
+  --calcite-tree-children-padding-start: 0.8rem;
+  --calcite-tree-line-position-start: 0.3rem;
+  --calcite-tree-parent-line-position-start: -0.5rem;
+}
+
+:host([dir="rtl"]) {
+  --calcite-tree-indicator-first-start: 0;
+  --calcite-tree-indicator-first-end: 0.1rem;
+  --calcite-tree-indicator-distance-start: auto;
+  --calcite-tree-indicator-distance-end: 0.15rem;
+  --calcite-tree-icon-edge-distance-start: auto;
+  --calcite-tree-icon-edge-distance-end: -0.2rem;
+  --calcite-tree-icon-content-distance-start: 0;
+  --calcite-tree-icon-content-distance-end: #{$baseline/4};
+  --calcite-tree-indent-start: 0;
+  --calcite-tree-indent-end: 1.4rem;
+  --calcite-tree-children-indent-start: 0;
+  --calcite-tree-children-indent-end: 0.25rem;
+  --calcite-tree-children-padding-start: 0;
+  --calcite-tree-children-padding-end: 1rem;
+  --calcite-tree-line-position-start: 0;
+  --calcite-tree-line-position-end: 0.05rem;
+  --calcite-tree-parent-line-position-start: 0;
+  --calcite-tree-parent-line-position-end: -0.95rem;
+}
+
+:host([dir="rtl"][scale="s"]) {
+  --calcite-tree-children-indent-end: 0rem;
+  --calcite-tree-children-padding-end: 0.8rem;
+  --calcite-tree-line-position-end: 0.3rem;
+  --calcite-tree-parent-line-position-end: -0.5rem;
 }
 
 ::slotted(*) {
-  color: var(--calcite-tree-text) !important;
+  color: inherit;
   @include font-size(-2);
   text-decoration: none !important;
   max-width: 100%;
@@ -17,6 +87,10 @@
   &:hover {
     text-decoration: none !important;
   }
+}
+
+::slotted(a) {
+  text-decoration: none;
 }
 
 .calcite-tree-children {
@@ -143,7 +217,7 @@
     color: var(--calcite-tree-indicator-active);
   }
   &:after {
-    background: var(--calcite-tree-line-active);
+    background: var(--calcite-ui-blue);
     width: var(--calcite-tree-hover-line-width);
     z-index: 2;
   }
@@ -157,7 +231,7 @@
   color: var(--calcite-tree-text-active);
   font-weight: 500;
   &:after {
-    background: var(--calcite-tree-line-active);
+    background: var(--calcite-ui-blue);
   }
   &:before {
     opacity: 1;
@@ -170,7 +244,7 @@
 
 // dropdown expanded and selected
 :host([has-children][expanded][selected]) > .calcite-tree-node:after {
-  background: var(--calcite-tree-line-active);
+  background: var(--calcite-ui-blue);
   width: var(--calcite-tree-hover-line-width);
   z-index: 2;
 }
@@ -187,7 +261,7 @@
   transform: rotate(0deg);
   fill: var(--calcite-tree-chevron);
 
-  :host-context([dir="rtl"]) & {
+  :host([dir="rtl"]) & {
     transform: rotate(180deg);
   }
 
