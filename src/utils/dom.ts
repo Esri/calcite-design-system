@@ -20,6 +20,18 @@ export function getElementProp(el: HTMLElement, prop, value) {
   return closestWithProp ? closestWithProp.getAttribute(prop) : value;
 }
 
+export interface CalciteFocusableElement extends HTMLElement {
+  setFocus?: () => void;
+}
+
+export function focusElement(el: CalciteFocusableElement): void {
+  if (!el) {
+    return;
+  }
+
+  typeof el.setFocus === "function" ? el.setFocus() : el.focus();
+}
+
 export function hasSlottedContent(el: HTMLSlotElement) {
   const assignedNodes = el && el.assignedNodes();
   return assignedNodes && assignedNodes.length > 0;

@@ -53,7 +53,8 @@
 :host([active]) .calcite-dropdown-wrapper {
   transform: translate3d(0, 0, 0);
   opacity: 1;
-  max-height: 100vh;
+  max-height: 90vh;
+  overflow-y: auto;
   visibility: visible;
   pointer-events: initial;
 }

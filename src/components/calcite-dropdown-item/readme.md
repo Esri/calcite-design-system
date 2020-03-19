@@ -26,6 +26,19 @@
 | `registerCalciteDropdownItem`  |             | `CustomEvent<any>` |
 
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Focuses the selected item.
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Dependencies
 
 ### Depends on
