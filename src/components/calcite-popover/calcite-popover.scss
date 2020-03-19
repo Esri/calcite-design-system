@@ -18,22 +18,20 @@ $image_max_height: 200px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
   line-height: 24px;
 }
 
 .close-button {
-  display: flex;
-  justify-content: flex-end;
-  width: 40px;
-  height: 50px;
-  z-index: 1;
-  color: var(--calcite-ui-text-1);
-  padding: 16px 12px;
+  display: block;
+  flex: 0 0 auto;
+  padding: 12px;
   border: none;
   border-radius: 0 var(--calcite-border-radius) 0 0;
-  display: block;
+  color: var(--calcite-ui-text-1);
   cursor: pointer;
   background: var(--calcite-ui-foreground);
+  z-index: 1;
   &:hover {
     background: var(--calcite-ui-foreground-hover);
   }

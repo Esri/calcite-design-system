@@ -39,15 +39,19 @@ export async function fetchIcon({
     return iconCache[id];
   }
 
-  const request =
-    requestCache[id] ||
-    (requestCache[id] = import(getAssetPath(`./assets/${id}.js`)));
+  if (!requestCache[id]) {
+    requestCache[id] = fetch(getAssetPath(`./assets/${id}.json`))
+      .then(resp => resp.json())
+      .catch(() => {
+        console.error(`"${id}" is not a valid calcite-ui-icon name`);
+        return "";
+      });
+  }
 
-  const module = await request;
-  const pathData = module[id];
+  const path = await requestCache[id];
+  iconCache[id] = path;
 
-  iconCache[id] = pathData;
-  return pathData;
+  return path;
 }
 
 /**

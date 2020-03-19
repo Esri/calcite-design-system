@@ -27,14 +27,14 @@ For instances when you don't have room for the full loader, you can use the smal
 
 ## Properties
 
-| Property    | Attribute    | Description                                                        | Type                               | Default           |
-| ----------- | ------------ | ------------------------------------------------------------------ | ---------------------------------- | ----------------- |
-| `inline`    | `inline`     | Inline loaders are smaller and will appear to the left of the text | `boolean`                          | `false`           |
-| `isActive`  | `is-active`  | Show the loader                                                    | `boolean`                          | `false`           |
-| `noPadding` | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `undefined`       |
-| `text`      | `text`       | Text which should appear under the loading indicator (optional)    | `string`                           | `""`              |
-| `type`      | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `"indeterminate"` |
-| `value`     | `value`      | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`               |
+| Property    | Attribute    | Description                                                        | Type                               | Default     |
+| ----------- | ------------ | ------------------------------------------------------------------ | ---------------------------------- | ----------- |
+| `inline`    | `inline`     | Inline loaders are smaller and will appear to the left of the text | `boolean`                          | `false`     |
+| `isActive`  | `is-active`  | Show the loader                                                    | `boolean`                          | `false`     |
+| `noPadding` | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `undefined` |
+| `text`      | `text`       | Text which should appear under the loading indicator (optional)    | `string`                           | `""`        |
+| `type`      | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |
+| `value`     | `value`      | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`         |
 
 
 ## Dependencies

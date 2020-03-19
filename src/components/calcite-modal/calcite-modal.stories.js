@@ -25,8 +25,7 @@ storiesOf('Modal', module)
             The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
           </p>
         </div>
-        <calcite-button slot="back" color="light" appearance="outline"
-          icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z" width="full">Back</calcite-button>
+        <calcite-button slot="back" color="light" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
         <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
         <calcite-button slot="primary" width="full">Save</calcite-button>
       </calcite-modal>
@@ -52,8 +51,7 @@ storiesOf('Modal', module)
             The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
           </p>
         </div>
-        <calcite-button theme="dark" slot="back" color="light" appearance="outline"
-          icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z" width="full">Back</calcite-button>
+        <calcite-button theme="dark" slot="back" color="light" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
         <calcite-button theme="dark" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
         <calcite-button theme="dark" slot="primary" width="full">Save</calcite-button>
       </calcite-modal>

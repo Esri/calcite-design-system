@@ -59,6 +59,7 @@
   display: flex;
   position: fixed;
   justify-content: center;
+  align-items: center;
   pointer-events: none;
   margin: 0 auto;
   width: var(--calcite-alert-width);
@@ -182,6 +183,7 @@
 
 .alert-close {
   @include alert-element-base;
+  align-self: stretch;
   background-color: transparent;
   -webkit-appearance: none;
   border: none;
@@ -213,6 +215,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  align-self: stretch;
   overflow: hidden;
   width: 0;
   visibility: hidden;

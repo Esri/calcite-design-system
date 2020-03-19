@@ -364,7 +364,7 @@ export class CalcitePopover {
         class={{ [CSS.closeButton]: true }}
         onClick={this.hide}
       >
-        <calcite-icon icon="x" scale="s"></calcite-icon>
+        <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
     ) : null;
   }
