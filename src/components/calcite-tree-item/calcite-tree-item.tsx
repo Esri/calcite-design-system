@@ -23,7 +23,7 @@ import {
   HOME,
   END
 } from "../../utils/keys";
-import { nodeListToArray, getSlottedElements } from "../../utils/dom";
+import { nodeListToArray, getSlottedElements, getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tree-item",
@@ -45,16 +45,10 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Be sure to add a jsdoc comment describing your property for the generated readme file.
-   * If your property should be hidden from documentation, you can use the `@internal` tag
-   */
-
+  /** Is the item currently selected */
   @Prop({ mutable: true, reflect: true }) selected: boolean = false;
-  @Prop({ mutable: true, reflect: true }) depth: number = -1;
-  @Prop({ mutable: true, reflect: true }) hasChildren: boolean = null;
+  /** True if the item is in an expanded state */
   @Prop({ mutable: true, reflect: true }) expanded: boolean = false;
-  @Prop({ mutable: true }) parentExpanded: boolean = false;
 
   @Watch("expanded")
   expandedHandler(newValue: boolean) {
@@ -86,6 +80,10 @@ export class CalciteTreeItem {
 
     this.selectionMode = parentTree.selectionMode;
     this.depth = 0;
+    this.scale = parentTree && parentTree.scale || "m";
+    this.lines = parentTree && parentTree.lines;
+    this.el.dir = getElementDir(this.el);
+
     let nextParentTree;
     while (parentTree) {
       nextParentTree = parentTree.parentElement.closest("calcite-tree");
@@ -156,7 +154,7 @@ export class CalciteTreeItem {
   @Listen("click") onClick(e: Event) {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
-    const [link] = getSlottedElements(this.defaultSlotWrapper, "a");
+    const [link] = getSlottedElements(this.defaultSlotWrapper, "a") as HTMLAnchorElement[];
     if (link && (e.composedPath()[0] as any).tagName.toLowerCase() !== "a") {
       const target = link.target === "" ? "_self" : link.target;
       window.open(link.href, target);
@@ -302,6 +300,17 @@ export class CalciteTreeItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  /** @internal Is the parent of this item expanded? */
+  @Prop({ mutable: true }) parentExpanded: boolean = false;
+  /** @internal What level of depth is this item at? */
+  @Prop({ mutable: true, reflect: true }) depth: number = -1;
+  /** @internal Does this tree item have a tree inside it? */
+  @Prop({ mutable: true, reflect: true }) hasChildren: boolean = null;
+  /** @internal Draw lines (set on parent) */
+  @Prop({ mutable: true, reflect: true }) lines: boolean;
+  /** @internal Scale of the parent tree, defaults to m */
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m";
 
   @State() private selectionMode: TreeSelectionMode;
 
