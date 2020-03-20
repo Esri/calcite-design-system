@@ -30,7 +30,7 @@
   width: 100%;
   min-width: 100%;
   --calcite-stepper-item-border: var(--calcite-ui-border-3);
-  --calcite-stepper-item-background: var(--calcite-ui-foreground);
+  --calcite-stepper-item-background: var(--calcite-ui-foreground-1);
 }
 
 :host([layout="vertical"]) {
