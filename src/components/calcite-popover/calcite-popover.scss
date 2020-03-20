@@ -5,7 +5,7 @@ $image_max_height: 200px;
 
 .container {
   border-radius: var(--calcite-border-radius);
-  background: var(--calcite-ui-foreground);
+  background: var(--calcite-ui-foreground-1);
   position: relative;
   display: flex;
   max-width: 350px;
@@ -30,13 +30,13 @@ $image_max_height: 200px;
   border-radius: 0 var(--calcite-border-radius) 0 0;
   color: var(--calcite-ui-text-1);
   cursor: pointer;
-  background: var(--calcite-ui-foreground);
+  background: var(--calcite-ui-foreground-1);
   z-index: 1;
   &:hover {
-    background: var(--calcite-ui-foreground-hover);
+    background: var(--calcite-ui-foreground-2);
   }
   &:active {
-    background: var(--calcite-ui-foreground-press);
+    background: var(--calcite-ui-foreground-3);
   }
 }
 

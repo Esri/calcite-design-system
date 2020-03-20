@@ -1,23 +1,5 @@
 :host {
   display: flex;
-  --calcite-radio-group-text-color-active: #{$blk-000};
-  --calcite-radio-group-padding: 0.5rem 1rem;
-}
-
-:host([scale="s"]) {
-  --calcite-radio-group-padding: 0.25rem 0.75rem;
-}
-
-:host([scale="m"]) {
-  --calcite-radio-group-padding: 0.4rem 1rem;
-}
-
-:host([scale="l"]) {
-  --calcite-radio-group-padding: 0.5rem 1.5rem;
-}
-
-:host-context([theme="dark"]) {
-  --calcite-radio-group-text-color-active: #{$blk-230};
 }
 
 ::slotted(calcite-radio-group-item[checked]),

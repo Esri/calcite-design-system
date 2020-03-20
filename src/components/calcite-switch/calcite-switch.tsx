@@ -39,30 +39,28 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   @Event() calciteSwitchChange: EventEmitter;
+  @Event() change: EventEmitter;
 
   private observer: MutationObserver;
 
   @Listen("click") onClick(e) {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
-
     if (
       (this.el.closest("label") && e.target === this.inputProxy) ||
       (!this.el.closest("label") && e.target === this.el)
     ) {
-      this.switched = !this.switched;
+      this.updateSwitch(e);
     }
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     if (e.keyCode === SPACE || e.keyCode === ENTER) {
-      e.preventDefault();
-      this.switched = !this.switched;
+      this.updateSwitch(e);
     }
   }
 
   @Watch("switched") switchWatcher() {
-    this.calciteSwitchChange.emit();
     this.switched
       ? this.inputProxy.setAttribute("checked", "")
       : this.inputProxy.removeAttribute("checked");
@@ -90,7 +88,11 @@ export class CalciteSwitch {
 
   render() {
     return (
-      <Host role="checkbox" aria-checked={this.switched.toString()} tabIndex={this.tabIndex}>
+      <Host
+        role="checkbox"
+        aria-checked={this.switched.toString()}
+        tabIndex={this.tabIndex}
+      >
         <div class="track">
           <div class="handle" />
         </div>
@@ -141,4 +143,10 @@ export class CalciteSwitch {
     this.inputProxy.setAttribute("name", this.name);
     this.inputProxy.setAttribute("value", this.value);
   };
+  private updateSwitch(e) {
+    e.preventDefault();
+    this.switched = !this.switched;
+    this.change.emit();
+    this.calciteSwitchChange.emit();
+  }
 }

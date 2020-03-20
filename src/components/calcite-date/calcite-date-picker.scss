@@ -31,7 +31,7 @@
 
     .date-input {
       color: var(--calcite-ui-text-3);
-      background: var(--calcite-ui-foreground);
+      background: var(--calcite-ui-foreground-1);
       box-sizing: border-box;
       border: none;
       font-weight: 400;
@@ -56,7 +56,7 @@
 }
 
 :host([expanded]) {
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
   border: 1px solid var(--calcite-ui-border-2);
   box-shadow: $shadow-2;

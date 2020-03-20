@@ -51,7 +51,7 @@
   border: 1px solid var(--calcite-ui-border-2);
   border-bottom: none;
   --calcite-accordion-item-border: var(--calcite-ui-border-2);
-  --calcite-accordion-item-background: var(--calcite-ui-foreground);
+  --calcite-accordion-item-background: var(--calcite-ui-foreground-1);
 }
 
 :host([appearance="minimal"]) {

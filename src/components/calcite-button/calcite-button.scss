@@ -6,17 +6,16 @@
   vertical-align: middle;
   --calcite-blue-accessible: #{$h-bb-070};
   --calcite-red-accessible: #{$h-rr-070};
-  --calcite-button-light: #{$blk-010};
-  --calcite-button-light-hover: #{$blk-000};
-  --calcite-button-light-press: #{$blk-020};
-  --calcite-button-dark: #{$blk-190};
-  --calcite-button-dark-hover: #{$blk-180};
-  --calcite-button-dark-press: #{$blk-200};
-  --calcite-button-blue-inline-underline: #{rgba($ui-blue, 0.2)};
-  --calcite-button-red-inline-underline: #{rgba($ui-red, 0.2)};
+  --calcite-button-light: #{$blk-020};
+  --calcite-button-light-hover: #{$blk-010};
+  --calcite-button-light-press: #{$blk-030};
+  --calcite-button-dark: #{$blk-180};
+  --calcite-button-dark-hover: #{$blk-170};
+  --calcite-button-dark-press: #{$blk-190};
+  --calcite-button-blue-inline-underline: #{rgba($ui-blue-1, 0.2)};
+  --calcite-button-red-inline-underline: #{rgba($ui-red-1, 0.2)};
   --calcite-button-blue-solid-color: #{$blk-000};
   --calcite-button-red-solid-color: #{$blk-000};
-  --calcite-button-outline-background: #{$blk-000};
   --calcite-button-outline-color: #{$blk-230};
   --calcite-button-outline-color-press: #{$blk-230};
 }
@@ -25,17 +24,16 @@
 :host-context([theme="dark"]) {
   --calcite-blue-accessible: #{$d-bb-420};
   --calcite-red-accessible: #{$d-rr-420};
-  --calcite-button-light: #{$blk-010};
-  --calcite-button-light-hover: #{$blk-020};
-  --calcite-button-light-press: #{$blk-000};
-  --calcite-button-dark: #{$blk-190};
-  --calcite-button-dark-hover: #{$blk-200};
-  --calcite-button-dark-press: #{$blk-180};
-  --calcite-button-blue-inline-underline: #{rgba($ui-blue-dark, 0.2)};
-  --calcite-button-red-inline-underline: #{rgba($ui-red-dark, 0.2)};
+  --calcite-button-light: #{$blk-020};
+  --calcite-button-light-hover: #{$blk-030};
+  --calcite-button-light-press: #{$blk-010};
+  --calcite-button-dark: #{$blk-180};
+  --calcite-button-dark-hover: #{$blk-190};
+  --calcite-button-dark-press: #{$blk-170};
+  --calcite-button-blue-inline-underline: #{rgba($ui-blue-3, 0.2)};
+  --calcite-button-red-inline-underline: #{rgba($ui-red-3, 0.2)};
   --calcite-button-blue-solid-color: #{$blk-230};
   --calcite-button-red-solid-color: #{$blk-230};
-  --calcite-button-outline-background: #{$blk-220};
   --calcite-button-outline-color: #{$blk-000};
   --calcite-button-outline-color-press: #{$blk-000};
 }
@@ -225,9 +223,9 @@
   button,
   a {
     @include btn-solid(
-      var(--calcite-ui-blue),
-      var(--calcite-ui-blue-hover),
-      var(--calcite-ui-blue-press),
+      var(--calcite-ui-blue-1),
+      var(--calcite-ui-blue-2),
+      var(--calcite-ui-blue-3),
       var(--calcite-button-blue-solid-color)
     );
   }
@@ -236,9 +234,9 @@
   button,
   a {
     @include btn-solid(
-      var(--calcite-ui-red),
-      var(--calcite-ui-red-hover),
-      var(--calcite-ui-red-press),
+      var(--calcite-ui-red-1),
+      var(--calcite-ui-red-2),
+      var(--calcite-ui-red-3),
       var(--calcite-button-red-solid-color)
     );
   }
@@ -280,7 +278,7 @@
   border: 1px solid $border-color;
   box-shadow: inset 0 0 0 1px transparent;
   &:hover {
-    border-color: 1px solid $border-color;
+    border-color: $border-color;
     box-shadow: inset 0 0 0 1px $border-color;
   }
   &:active,
@@ -337,12 +335,12 @@
   button,
   a {
     @include btn-outline-clear(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground-1),
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-hover),
-      var(--calcite-ui-blue-press),
+      var(--calcite-ui-blue-2),
+      var(--calcite-ui-blue-3),
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-press)
+      var(--calcite-ui-blue-3)
     );
   }
 }
@@ -350,12 +348,12 @@
   button,
   a {
     @include btn-outline-clear(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground-1),
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-hover),
-      var(--calcite-ui-red-press),
+      var(--calcite-ui-red-2),
+      var(--calcite-ui-red-3),
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-press)
+      var(--calcite-ui-red-3)
     );
   }
 }
@@ -363,10 +361,10 @@
   button,
   a {
     @include btn-outline-clear(
-      var(--calcite-button-outline-background),
-      $blk-010,
-      $blk-000,
+      var(--calcite-ui-foreground-1),
       $blk-020,
+      $blk-010,
+      $blk-030,
       var(--calcite-button-outline-color),
       var(--calcite-button-outline-press)
     );
@@ -376,10 +374,10 @@
   button,
   a {
     @include btn-outline-clear(
-      var(--calcite-button-outline-background),
-      $blk-200,
+      var(--calcite-ui-foreground-1),
       $blk-180,
-      $blk-220,
+      $blk-190,
+      $blk-170,
       var(--calcite-button-outline-color),
       var(--calcite-button-outline-press)
     );
@@ -391,10 +389,10 @@
     @include btn-outline-clear(
       transparent,
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-hover),
-      var(--calcite-ui-blue-press),
+      var(--calcite-ui-blue-2),
+      var(--calcite-ui-blue-3),
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-press)
+      var(--calcite-ui-blue-3)
     );
   }
 }
@@ -404,10 +402,10 @@
     @include btn-outline-clear(
       transparent,
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-hover),
-      var(--calcite-ui-red-press),
+      var(--calcite-ui-red-2),
+      var(--calcite-ui-red-3),
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-press)
+      var(--calcite-ui-red-3)
     );
   }
 }
@@ -416,9 +414,9 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $blk-010,
-      $blk-000,
       $blk-020,
+      $blk-010,
+      $blk-030,
       $blk-005,
       $blk-000
     );
@@ -429,9 +427,9 @@
   a {
     @include btn-outline-clear(
       transparent,
-      $blk-200,
       $blk-180,
-      $blk-220,
+      $blk-190,
+      $blk-170,
       $blk-220,
       $blk-220
     );
@@ -442,12 +440,12 @@
   button,
   a {
     @include btn-outline-clear-floating(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground-1),
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-hover),
-      var(--calcite-ui-blue-press),
+      var(--calcite-ui-blue-2),
+      var(--calcite-ui-blue-3),
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-press)
+      var(--calcite-ui-blue-3)
     );
   }
 }
@@ -455,12 +453,12 @@
   button,
   a {
     @include btn-outline-clear-floating(
-      var(--calcite-button-outline-background),
+      var(--calcite-ui-foreground-1),
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-hover),
-      var(--calcite-ui-red-press),
+      var(--calcite-ui-red-2),
+      var(--calcite-ui-red-3),
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-press)
+      var(--calcite-ui-red-3)
     );
   }
 }
@@ -468,10 +466,10 @@
   button,
   a {
     @include btn-outline-clear-floating(
-      var(--calcite-button-outline-background),
-      $blk-010,
-      $blk-000,
+      var(--calcite-ui-foreground-1),
       $blk-020,
+      $blk-010,
+      $blk-030,
       var(--calcite-button-outline-color),
       var(--calcite-button-outline-press)
     );
@@ -481,10 +479,10 @@
   button,
   a {
     @include btn-outline-clear-floating(
-      var(--calcite-button-outline-background),
-      $blk-200,
+      var(--calcite-ui-foreground-1),
       $blk-180,
-      $blk-220,
+      $blk-190,
+      $blk-170,
       var(--calcite-button-outline-color),
       var(--calcite-button-outline-press)
     );
@@ -496,10 +494,10 @@
     @include btn-outline-clear-floating(
       transparent,
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-hover),
-      var(--calcite-ui-blue-press),
+      var(--calcite-ui-blue-2),
+      var(--calcite-ui-blue-3),
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-press)
+      var(--calcite-ui-blue-3)
     );
   }
 }
@@ -509,10 +507,10 @@
     @include btn-outline-clear-floating(
       transparent,
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-hover),
-      var(--calcite-ui-red-press),
+      var(--calcite-ui-red-2),
+      var(--calcite-ui-red-3),
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-press)
+      var(--calcite-ui-red-3)
     );
   }
 }
@@ -521,9 +519,9 @@
   a {
     @include btn-outline-clear-floating(
       transparent,
-      $blk-010,
-      $blk-000,
       $blk-020,
+      $blk-010,
+      $blk-030,
       $blk-005,
       $blk-000
     );
@@ -534,9 +532,9 @@
   a {
     @include btn-outline-clear-floating(
       transparent,
-      $blk-200,
       $blk-180,
-      $blk-220,
+      $blk-190,
+      $blk-170,
       $blk-220,
       $blk-220
     );
@@ -574,8 +572,8 @@
   a {
     @include btn-transparent(
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-hover),
-      var(--calcite-ui-blue-press)
+      var(--calcite-ui-blue-2),
+      var(--calcite-ui-blue-3)
     );
   }
 }
@@ -585,8 +583,8 @@
   a {
     @include btn-transparent(
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-hover),
-      var(--calcite-ui-red-press)
+      var(--calcite-ui-red-2),
+      var(--calcite-ui-red-3)
     );
   }
 }
@@ -646,7 +644,7 @@
   a {
     @include btn-inline(
       var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-hover),
+      var(--calcite-ui-blue-2),
       var(--calcite-button-blue-inline-underline)
     );
   }
@@ -657,7 +655,7 @@
   a {
     @include btn-inline(
       var(--calcite-red-accessible),
-      var(--calcite-ui-red-hover),
+      var(--calcite-ui-red-2),
       var(--calcite-button-red-inline-underline)
     );
   }
