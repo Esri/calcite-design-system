@@ -65,7 +65,7 @@
   width: var(--calcite-alert-width);
   max-width: 90%;
   max-height: 0;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   box-shadow: $shadow-2;
   border-radius: var(--calcite-border-radius);
   opacity: 0;
@@ -195,11 +195,11 @@
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-2);
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-press);
+    background-color: var(--calcite-ui-foreground-3);
   }
   @media only screen and (max-width: $viewport-medium) {
     border-radius: 0;
@@ -275,8 +275,8 @@
   }
 }
 
-$alertColors: "blue" var(--calcite-ui-blue), "red" var(--calcite-ui-red),
-  "yellow" var(--calcite-ui-yellow), "green" var(--calcite-ui-green);
+$alertColors: "blue" var(--calcite-ui-blue-1), "red" var(--calcite-ui-red-1),
+  "yellow" var(--calcite-ui-yellow-1), "green" var(--calcite-ui-green-1);
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);

@@ -32,7 +32,7 @@ $segment-3-duration: 1.16s;
   margin-left: auto;
   margin-right: auto;
   min-height: $loader-width;
-  stroke: var(--calcite-ui-blue);
+  stroke: var(--calcite-ui-blue-1);
   stroke-width: $loader-stroke;
   fill: none;
   opacity: 1;
@@ -108,7 +108,7 @@ $segment-3-duration: 1.16s;
   stroke: var(--calcite-ui-border-3);
   animation: none;
   .loader__svg--3 {
-    stroke: var(--calcite-ui-blue);
+    stroke: var(--calcite-ui-blue-1);
     stroke-dasharray: $loader-circumference;
     transform: rotate(-90deg);
     animation: none;
@@ -168,7 +168,7 @@ $segment-3-duration: 1.16s;
 }
 
 :host([complete]) .loader__percentage {
-  color: var(--calcite-ui-blue);
+  color: var(--calcite-ui-blue-1);
   transform: scale(1.075, 1.075);
   transform-origin: center;
   transition: color 200ms linear, transform 200ms linear;
@@ -204,16 +204,16 @@ $segment-3-duration: 1.16s;
 
 @keyframes loader-color-shift {
   0% {
-    stroke: var(--calcite-ui-blue);
+    stroke: var(--calcite-ui-blue-1);
   }
   33% {
-    stroke: var(--calcite-ui-blue-press);
+    stroke: var(--calcite-ui-blue-3);
   }
   66% {
-    stroke: var(--calcite-ui-blue-hover);
+    stroke: var(--calcite-ui-blue-2);
   }
   100% {
-    stroke: var(--calcite-ui-blue);
+    stroke: var(--calcite-ui-blue-1);
   }
 }
 

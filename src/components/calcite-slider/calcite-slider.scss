@@ -60,7 +60,7 @@ $tick-height: 4px;
   margin: $thumb-padding;
   box-sizing: border-box;
   border-radius: 100%;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   border: 2px solid var(--calcite-ui-text-3);
   transition: border 0.25s ease, background-color 0.25s ease,
     box-shadow 0.25s ease;
@@ -81,7 +81,7 @@ $tick-height: 4px;
 
 .slider__thumb:hover .slider__handle {
   border-width: 3px;
-  border-color: var(--calcite-ui-blue);
+  border-color: var(--calcite-ui-blue-1);
   @include shadow(1, "hover");
 }
 
@@ -90,8 +90,8 @@ $tick-height: 4px;
   outline: none;
   z-index: 4;
   .slider__handle {
-    background-color: var(--calcite-ui-blue);
-    border-color: var(--calcite-ui-blue);
+    background-color: var(--calcite-ui-blue-1);
+    border-color: var(--calcite-ui-blue-1);
     @include shadow(1, "press");
   }
 }
@@ -117,7 +117,7 @@ $tick-height: 4px;
 .slider__thumb:hover.slider__thumb--precise:after,
 .slider__thumb:focus.slider__thumb--precise:after,
 .slider__thumb--active.slider__thumb--precise:after {
-  background-color: var(--calcite-ui-blue);
+  background-color: var(--calcite-ui-blue-1);
 }
 
 .slider__thumb--precise.slider__thumb--min {
@@ -146,7 +146,7 @@ $tick-height: 4px;
   position: absolute;
   top: 0;
   height: $track-height;
-  background-color: var(--calcite-ui-blue);
+  background-color: var(--calcite-ui-blue-1);
 }
 
 .slider__tick {
@@ -156,14 +156,14 @@ $tick-height: 4px;
   height: $tick-height;
   left: var(--calcite-ui-border-1-offset);
   margin-left: -3px;
-  border: 1px solid var(--calcite-ui-foreground);
+  border: 1px solid var(--calcite-ui-foreground-1);
   border-right-width: 2px;
   border-left-width: 2px;
   background-color: var(--calcite-ui-border-1);
 }
 
 .slider__tick--active {
-  background-color: var(--calcite-ui-blue);
+  background-color: var(--calcite-ui-blue-1);
 }
 
 .slider__tick__label {

@@ -31,7 +31,7 @@
   transition: transform 300ms $easing-function, visibility 0ms linear 300ms,
     opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   box-shadow: $shadow-2--press;
   border-radius: var(--calcite-border-radius);
   margin: $baseline;
@@ -61,7 +61,7 @@
  * Header
  */
 .modal__header {
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   flex: 0 0 auto;
   display: flex;
   max-width: 100%;
@@ -90,10 +90,10 @@
   }
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-2);
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-press);
+    background-color: var(--calcite-ui-foreground-3);
   }
 }
 
@@ -128,7 +128,7 @@
   max-height: calc(100vh - 12rem);
   overflow-y: auto;
   display: block;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   z-index: 1;
 }
 
@@ -152,7 +152,7 @@
   box-sizing: border-box;
   border-radius: 0 0 var(--calcite-border-radius) var(--calcite-border-radius);
   width: 100%;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   border-top: 1px solid var(--calcite-ui-border-3);
   z-index: 2;
 }
@@ -290,13 +290,13 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-red);
+    border-top: 4px solid var(--calcite-ui-red-1);
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-blue);
+    border-top: 4px solid var(--calcite-ui-blue-1);
   }
 }
 

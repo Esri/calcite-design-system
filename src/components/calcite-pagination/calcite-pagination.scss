@@ -1,6 +1,6 @@
 :host {
   display: inline-flex;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   writing-mode: horizontal-tb;
 }
 :host(.backgroundColor) {
@@ -27,17 +27,17 @@
   &.is-selected {
     font-weight: 500;
     color: var(--calcite-ui-text-1);
-    border-bottom-color: var(--calcite-ui-blue);
+    border-bottom-color: var(--calcite-ui-blue-1);
   }
 }
 .previous, .next {
   padding: .75em 1em;
   &:hover {
-    color: var(--calcite-ui-blue);
-    background-color: var(--calcite-ui-foreground-hover);
+    color: var(--calcite-ui-blue-1);
+    background-color: var(--calcite-ui-foreground-2);
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-press);
+    background-color: var(--calcite-ui-foreground-3);
   }
   &.is-disabled {
     background-color: transparent;
