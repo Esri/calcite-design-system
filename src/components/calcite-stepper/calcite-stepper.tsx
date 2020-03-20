@@ -8,7 +8,7 @@ import {
   Listen,
   Method,
   Prop,
-  State
+  Watch
 } from "@stencil/core";
 import { UP, DOWN, HOME, END, LEFT, RIGHT } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
@@ -49,6 +49,13 @@ export class CalciteStepper {
   @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
     "horizontal";
 
+  @Prop() requestedContent: HTMLElement[];
+
+  // watch for removal of disabled to register step
+  @Watch("requestedContent") contentWatcher() {
+    this.updateContent(this.requestedContent);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -81,17 +88,11 @@ export class CalciteStepper {
     if (!icon.includes(this.icon)) this.icon = false;
   }
 
-  componentDidUpdate() {
-    this.sortedItems = this.sortItems();
-  }
-
-
   componentDidLoad() {
-    this.sortedItems = this.sortItems();
     // if no stepper items are set as active, default to the first one
-    if (!this.currentStepperItemPosition) {
+    if (!this.currentPosition) {
       this.calciteStepperItemHasChanged.emit({
-        requestedStepperItemPosition: 0
+        position: 0
       });
     }
   }
@@ -101,10 +102,10 @@ export class CalciteStepper {
     return (
       <Host dir={dir}>
         <slot />
-        {this.layout === "horizontal" && this.requestedStepperItemContent ? (
+        {this.layout === "horizontal" ? (
           <div
             class="stepper-content"
-            ref={ref => ref.append(...this.requestedStepperItemContent)}
+            ref={el => (this.stepperContentContainer = el as HTMLDivElement)}
           />
         ) : null}
       </Host>
@@ -145,26 +146,25 @@ export class CalciteStepper {
     }
   }
 
-  @Listen("registerCalciteStepperItem") registerCalciteStepperItem(
-    e: CustomEvent
-  ) {
+  @Listen("registerCalciteStepperItem") registerItem(event: CustomEvent) {
     const item = {
-      item: e.target as HTMLCalciteStepperItemElement,
-      position: e.detail.position
+      item: event.target as HTMLCalciteStepperItemElement,
+      position: event.detail.position,
+      content: event.detail.content
     };
+
+    if (item.content && item.item.active) this.requestedContent = item.content;
     if (!this.items.includes(item)) this.items.push(item);
     this.sortedItems = this.sortItems();
   }
 
-  @Listen("calciteStepperItemSelected") updateActiveItemOnChange(
-    event: CustomEvent
-  ) {
-    this.currentStepperItemPosition = event.detail.requestedStepperItemPosition;
-    this.requestedStepperItemContent = event.detail.requestedStepperItemContent;
-    this.requestedStepperItemPosition =
-      event.detail.requestedStepperItemPosition;
+  @Listen("calciteStepperItemSelected") updateItem(event: CustomEvent) {
+    if (event.detail.content && event.detail.content.length > 0)
+      this.requestedContent = event.detail.content;
+    this.currentPosition = event.detail.position;
+    this.requestedPosition = event.detail.position;
     this.calciteStepperItemHasChanged.emit({
-      requestedStepperItemPosition: this.requestedStepperItemPosition
+      position: this.requestedPosition
     });
   }
 
@@ -177,41 +177,41 @@ export class CalciteStepper {
   /** set the next step as active */
   @Method()
   async nextStep(): Promise<void> {
-    this.requestedStepperItemPosition =
-      this.requestedStepperItemPosition + 1 < this.items.length
-        ? this.currentStepperItemPosition + 1
-        : this.currentStepperItemPosition;
+    this.requestedPosition =
+      this.requestedPosition + 1 < this.items.length
+        ? this.currentPosition + 1
+        : this.currentPosition;
     this.emitChangedItem();
   }
 
   /** set the previous step as active */
   @Method()
   async prevStep(): Promise<void> {
-    this.requestedStepperItemPosition =
-      this.requestedStepperItemPosition - 1 >= 0
-        ? this.currentStepperItemPosition - 1
-        : this.currentStepperItemPosition;
+    this.requestedPosition =
+      this.requestedPosition - 1 >= 0
+        ? this.currentPosition - 1
+        : this.currentPosition;
     this.emitChangedItem();
   }
 
   /** set the requested step as active */
   @Method()
   async goToStep(num: number): Promise<void> {
-    this.requestedStepperItemPosition = num - 1;
+    this.requestedPosition = num - 1;
     this.emitChangedItem();
   }
 
   /** set the first step as active */
   @Method()
   async startStep(): Promise<void> {
-    this.requestedStepperItemPosition = 0;
+    this.requestedPosition = 0;
     this.emitChangedItem();
   }
 
   /** set the last step as active */
   @Method()
   async endStep(): Promise<void> {
-    this.requestedStepperItemPosition = this.items.length - 1;
+    this.requestedPosition = this.items.length - 1;
     this.emitChangedItem();
   }
 
@@ -228,13 +228,13 @@ export class CalciteStepper {
   private sortedItems = [];
 
   /** keep track of the currently active item position */
-  private currentStepperItemPosition: number;
+  private currentPosition: number;
 
   /** keep track of the requested item position */
-  private requestedStepperItemPosition: number;
+  private requestedPosition: number;
 
-  /** the slotted content of the selected step - for horizontal layout use */
-  @State() requestedStepperItemContent: HTMLElement[] | null;
+  /** the referenced content container element */
+  private stepperContentContainer: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -244,7 +244,7 @@ export class CalciteStepper {
 
   private emitChangedItem() {
     this.calciteStepperItemHasChanged.emit({
-      requestedStepperItemPosition: this.requestedStepperItemPosition
+      position: this.requestedPosition
     });
   }
 
@@ -288,5 +288,12 @@ export class CalciteStepper {
       .map(a => a.item);
 
     return [...new Set(items)];
+  }
+
+  private updateContent(content) {
+    if (this.stepperContentContainer) {
+      this.stepperContentContainer.innerHTML = ``;
+      this.stepperContentContainer.append(...content);
+    }
   }
 }

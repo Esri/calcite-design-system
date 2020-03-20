@@ -71,6 +71,7 @@ export class CalciteStepperItem {
   @Watch("disabled") disabledWatcher() {
     this.registerStepperItem();
   }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -79,7 +80,6 @@ export class CalciteStepperItem {
 
   @Event() calciteStepperItemKeyEvent: EventEmitter;
   @Event() calciteStepperItemSelected: EventEmitter;
-  @Event() closeCalciteStepperItem: EventEmitter;
   @Event() registerCalciteStepperItem: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -88,17 +88,16 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
 
-  componentDidUpdate() {
-    this.itemContent = this.getItemContent();
-    if (this.active) this.emitRequestedItem();
-  }
 
   componentWillLoad() {
-    this.itemPosition = this.getItemPosition();
-    this.itemContent = this.getItemContent();
     this.icon = getElementProp(this.el, "icon", false);
     this.numbered = getElementProp(this.el, "numbered", false);
     this.layout = getElementProp(this.el, "layout", false);
+  }
+
+  componentDidLoad() {
+    this.itemPosition = this.getItemPosition();
+    this.itemContent = this.getItemContent();
     this.registerStepperItem();
     if (this.active) this.emitRequestedItem();
   }
@@ -110,7 +109,7 @@ export class CalciteStepperItem {
         dir={dir}
         tabindex={this.disabled ? null : 0}
         aria-expanded={this.active.toString()}
-        onClick={this.itemClickHander}
+        onClick={() => this.emitRequestedItem()}
       >
         <div class="stepper-item-header">
           {this.icon ? this.setIcon() : null}
@@ -122,11 +121,9 @@ export class CalciteStepperItem {
             <span class="stepper-item-subtitle">{this.itemSubtitle}</span>
           </div>
         </div>
-        {this.active ? (
           <div class="stepper-item-content">
             <slot />
           </div>
-        ) : null}
       </Host>
     );
   }
@@ -160,8 +157,7 @@ export class CalciteStepperItem {
 
   @Listen("calciteStepperItemHasChanged", { target: "parent" })
   updateActiveItemOnChange(event: CustomEvent) {
-    this.requestedStepperItemPosition =
-      event.detail.requestedStepperItemPosition;
+    this.requestedStepperItemPosition = event.detail.position;
     this.determineActiveItem();
   }
 
@@ -177,10 +173,7 @@ export class CalciteStepperItem {
   private requestedStepperItemPosition: number;
 
   /** the slotted item content */
-  private itemContent: HTMLElement[] | null;
-
-  /** handle clicks on item header */
-  private itemClickHander = () => this.emitRequestedItem();
+  private itemContent: HTMLElement[];
 
   //--------------------------------------------------------------------------
   //
@@ -213,20 +206,21 @@ export class CalciteStepperItem {
 
   private determineActiveItem() {
     this.active =
-      this.itemPosition === this.requestedStepperItemPosition && !this.disabled;
+      !this.disabled && this.itemPosition === this.requestedStepperItemPosition;
   }
 
   private registerStepperItem() {
     this.registerCalciteStepperItem.emit({
-      position: this.itemPosition
+      position: this.itemPosition,
+      content: this.itemContent
     });
   }
 
   private emitRequestedItem() {
     if (!this.disabled) {
       this.calciteStepperItemSelected.emit({
-        requestedStepperItemPosition: this.itemPosition,
-        requestedStepperItemContent: this.itemContent
+        position: this.itemPosition,
+        content: this.itemContent
       });
     }
   }
