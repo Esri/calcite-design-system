@@ -35,11 +35,7 @@ export class CalciteRadioGroupItem {
   /**
    * Indicates whether the control is checked.
    */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  checked = false;
+  @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
   protected handleCheckedChange(): void {

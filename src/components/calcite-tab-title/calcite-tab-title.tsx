@@ -39,21 +39,13 @@ export class CalciteTabTitle {
    * Optionally include a unique name for the tab title,
    * be sure to also set this name on the associated tab.
    */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  tab?: string;
+  @Prop({ reflect: true, mutable: true }) tab?: string;
 
-  /**
-   * Show this tab title as selected
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  isActive: boolean = false;
+  /** Show this tab title as selected */
+  @Prop({ reflect: true, mutable: true }) isActive: boolean = false;
 
+  /** @internal Parent tabs component layout value */
+  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -66,6 +58,10 @@ export class CalciteTabTitle {
         tab: this.tab
       });
     }
+  }
+
+  componentWillRender() {
+    this.layout = this.el.closest("calcite-tabs")?.layout;
   }
 
   render() {
