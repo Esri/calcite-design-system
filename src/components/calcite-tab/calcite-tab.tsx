@@ -39,7 +39,7 @@ export class CalciteTab {
    * be sure to also set this name on the associated title.
    */
   @Prop({
-    reflectToAttr: true,
+    reflect: true,
     mutable: true
   })
   tab: string;
@@ -48,7 +48,7 @@ export class CalciteTab {
    * Show this tab
    */
   @Prop({
-    reflectToAttr: true,
+    reflect: true,
     mutable: true
   })
   isActive: boolean = false;

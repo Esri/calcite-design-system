@@ -40,7 +40,7 @@ export class CalciteTabTitle {
    * be sure to also set this name on the associated tab.
    */
   @Prop({
-    reflectToAttr: true,
+    reflect: true,
     mutable: true
   })
   tab?: string;
@@ -49,7 +49,7 @@ export class CalciteTabTitle {
    * Show this tab title as selected
    */
   @Prop({
-    reflectToAttr: true,
+    reflect: true,
     mutable: true
   })
   isActive: boolean = false;
