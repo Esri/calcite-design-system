@@ -1,6 +1,6 @@
 :host {
   display: flex;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   color: var(--calcite-ui-text-3);
   cursor: pointer;
   line-height: 1.25;
@@ -27,16 +27,16 @@
 }
 
 :host(:hover) {
-  background-color: var(--calcite-ui-foreground-hover);
+  background-color: var(--calcite-ui-foreground-2);
 }
 
 :host(:active) {
-  background-color: var(--calcite-ui-foreground-press);
+  background-color: var(--calcite-ui-foreground-3);
 }
 
 :host([checked]) {
-  background-color: var(--calcite-ui-blue);
-  border-color: var(--calcite-ui-blue);
+  background-color: var(--calcite-ui-blue-1);
+  border-color: var(--calcite-ui-blue-1);
   color: var(--calcite-ui-background);
   cursor: default;
 }

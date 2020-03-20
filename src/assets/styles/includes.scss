@@ -1,6 +1,5 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
-@import "./themes";
 @import "_popper";
 
 @mixin slotted($selector, $tag, $scope: "") {
