@@ -22,7 +22,7 @@
   padding: var(--calcite-combobox-item-padding);
   cursor: pointer;
   text-decoration: none;
-  outline: none;
+
   position: relative;
   & .combobox-item-icon {
     display: inline-flex;
@@ -44,10 +44,6 @@
   color: var(--calcite-ui-text-1);
   text-decoration: none;
   box-shadow: none;
-  & .combobox-item-icon {
-    color: var(--calcite-ui-text-1);
-    opacity: 1;
-  }
 }
 
 :host .combobox-item-label:active {
@@ -56,7 +52,6 @@
 
 :host(:focus) {
   box-shadow: none;
-  outline: none;
 }
 
 // selected state
