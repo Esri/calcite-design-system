@@ -46,17 +46,11 @@ export class CalciteStepperItem {
   /** has the step been completed */
   @Prop({ reflect: true, mutable: true }) complete: boolean = false;
 
-  /** optionally display the step number next to the title and subtitle */
-  @Prop({ mutable: true }) numbered: boolean = false;
-
   /** does the step contain an error that needs to be resolved by the user */
   @Prop({ mutable: true }) error: boolean = false;
 
   /** is the step disabled and not navigable to by a user */
   @Prop({ mutable: true }) disabled: boolean = false;
-
-  /** should the items display an icon based on status */
-  @Prop({ mutable: true }) icon: boolean = false;
 
   /** pass a title for the stepper item */
   @Prop() itemTitle?: string;
@@ -64,8 +58,23 @@ export class CalciteStepperItem {
   /** pass a title for the stepper item */
   @Prop() itemSubtitle?: string;
 
+  // internal props inherited from wrapping calcite-stepper
   /** pass a title for the stepper item */
+  /** @internal */
+
   @Prop({ reflect: true, mutable: true }) layout?: string;
+
+  /** should the items display an icon based on status */
+  /** @internal */
+  @Prop({ mutable: true }) icon: boolean = false;
+
+  /** optionally display the step number next to the title and subtitle */
+  /** @internal */
+  @Prop({ mutable: true }) numbered: boolean = false;
+
+  /** the scale of the item */
+  /** @internal */
+  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
   // watch for removal of disabled to register step
   @Watch("disabled") disabledWatcher() {
@@ -92,6 +101,7 @@ export class CalciteStepperItem {
     this.icon = getElementProp(this.el, "icon", false);
     this.numbered = getElementProp(this.el, "numbered", false);
     this.layout = getElementProp(this.el, "layout", false);
+    this.scale = getElementProp(this.el, "scale", "m");
   }
 
   componentDidLoad() {

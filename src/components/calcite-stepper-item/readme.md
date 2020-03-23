@@ -13,11 +13,8 @@ individual `calcite-accordion` item
 | `complete`     | `complete`      | has the step been completed                                          | `boolean` | `false`     |
 | `disabled`     | `disabled`      | is the step disabled and not navigable to by a user                  | `boolean` | `false`     |
 | `error`        | `error`         | does the step contain an error that needs to be resolved by the user | `boolean` | `false`     |
-| `icon`         | `icon`          | should the items display an icon based on status                     | `boolean` | `false`     |
 | `itemSubtitle` | `item-subtitle` | pass a title for the stepper item                                    | `string`  | `undefined` |
 | `itemTitle`    | `item-title`    | pass a title for the stepper item                                    | `string`  | `undefined` |
-| `layout`       | `layout`        | pass a title for the stepper item                                    | `string`  | `undefined` |
-| `numbered`     | `numbered`      | optionally display the step number next to the title and subtitle    | `boolean` | `false`     |
 
 
 ## Events

@@ -1,3 +1,27 @@
+//ie11
+:host([scale="s"]) {
+  --calcite-stepper-item-spacing-unit-s: #{$baseline/8};
+  --calcite-stepper-item-spacing-unit-m: #{$baseline/4};
+  --calcite-stepper-item-spacing-unit-l: #{$baseline/2};
+  @include font-size(-2);
+}
+
+//ie11
+:host([scale="m"]) {
+  --calcite-stepper-item-spacing-unit-s: #{$baseline/6};
+  --calcite-stepper-item-spacing-unit-m: #{$baseline/3};
+  --calcite-stepper-item-spacing-unit-l: #{$baseline/1.5};
+  @include font-size(-1);
+}
+
+//ie11
+:host([scale="l"]) {
+  --calcite-stepper-item-spacing-unit-s: #{$baseline/4};
+  --calcite-stepper-item-spacing-unit-m: #{$baseline/2};
+  --calcite-stepper-item-spacing-unit-l: #{$baseline};
+  @include font-size(0);
+}
+
 :host {
   display: flex;
   flex: 1;
