@@ -33,7 +33,7 @@ For instances when you don't have room for the full loader, you can use the smal
 | `isActive`  | `is-active`  | Show the loader                                                    | `boolean`                          | `false`     |
 | `noPadding` | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `undefined` |
 | `text`      | `text`       | Text which should appear under the loading indicator (optional)    | `string`                           | `""`        |
-| `type`      | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |
+| `type`      | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" or "indeterminate"` | `undefined` |
 | `value`     | `value`      | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`         |
 
 

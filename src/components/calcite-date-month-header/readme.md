@@ -31,7 +31,7 @@
 
 ### Used by
 
- - [calcite-date-picker](../calcite-date)
+ - [calcite-date-picker](../calcite-date-picker)
 
 ### Depends on
 

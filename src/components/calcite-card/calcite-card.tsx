@@ -10,7 +10,7 @@ import {
 import { CSS, SLOTS } from "./resources";
 import { ENTER, SPACE } from "../../utils/keys";
 
-import { VNode } from "@stencil/core/dist/declarations";
+import { VNode } from "@stencil/core/";
 
 /**
  * @slot thumbnail - A slot for adding a thumnail to the card.
