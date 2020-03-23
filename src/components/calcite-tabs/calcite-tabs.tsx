@@ -7,7 +7,6 @@ import {
   Listen,
   State
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tabs",
@@ -35,7 +34,7 @@ export class CalciteTabs {
   @Prop({
     reflectToAttr: true
   })
-  theme: "light" | "dark" = "light";
+  theme: "light" | "dark";
 
   /**
    * Align tab titles to the edge or fully justify them across the tab nav ("center")
@@ -52,16 +51,13 @@ export class CalciteTabs {
   //--------------------------------------------------------------------------
 
   render() {
-    const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir}>
-        <div>
-          <slot name="tab-nav" />
-          <section>
-            <slot />
-          </section>
-        </div>
+      <Host>
+        <slot name="tab-nav" />
+        <section>
+          <slot />
+        </section>
       </Host>
     );
   }

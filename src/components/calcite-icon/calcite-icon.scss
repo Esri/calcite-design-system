@@ -2,6 +2,10 @@
   display: inline-flex;
 }
 
-.mirror {
+:host([mirror]) {
   transform: scaleX(-1);
+}
+
+.svg {
+  display: block;
 }

@@ -1,6 +1,4 @@
 import { Component, Element, h, Host, Prop } from "@stencil/core";
-import { getElementTheme } from "../../utils/dom";
-
 @Component({
   tag: "calcite-progress",
   styleUrl: "calcite-progress.scss",
@@ -8,50 +6,32 @@ import { getElementTheme } from "../../utils/dom";
 })
 export class CalciteProgress {
   @Element() el: HTMLElement;
-  /**
-   * Use indeterminate if finding actual progress value is impossible
-   */
+  /** Use indeterminate if finding actual progress value is impossible */
   @Prop() type: "indeterminate" | "determinate" = "determinate";
-
-  /**
-   * Percent complete of 100
-   */
+  /** Percent complete of 100 */
   @Prop() value = 0;
-  /**
-   * Text label for the progress indicator
-   */
+  /** Text label for the progress indicator */
   @Prop() text: string = null;
-  /**
-   * Fill bar in the opposite direction
-   */
+  /** Fill bar in the opposite direction */
   @Prop() reversed = false;
   /** Select theme (light or dark) */
-  @Prop({ reflect: true })
-  theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   render() {
-    const theme = getElementTheme(this.el);
+    const isDeterminate = this.type === "determinate";
+    const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
     return (
-      <Host
-        class="calcite-progress"
-        type={this.type}
-        reversed={this.reversed}
-        style={{
-          "--percentage-value": `${this.value * 100}%`
-        }}
-        theme={theme}
-      >
-        <div class="calcite-progress--track" />
+      <Host class="calcite-progress">
+        <div class="track" />
         <div
           class={{
-            "calcite-progress--bar": true,
-            "--indeterminate": this.type === "indeterminate",
-            "--determinate": this.type === "determinate"
+            bar: true,
+            indeterminate: this.type === "indeterminate",
+            reversed: this.reversed
           }}
+          style={ barStyles }
         />
-        {this.text ? (
-          <div class="calcite-progress--text">{this.text}</div>
-        ) : null}
+        {this.text ? <div class="text">{this.text}</div> : null}
       </Host>
     );
   }

@@ -60,7 +60,7 @@
   box-sizing: border-box;
   width: var(--calcite-notice-width);
   max-height: 0;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   opacity: 0;
   pointer-events: none;
   transition: $transition;
@@ -68,7 +68,7 @@
   box-shadow: 0 0 0 0 transparent;
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   text-align: right;
   border-left: none;
   border-right: 0px solid;
@@ -76,6 +76,7 @@
 
 :host([active]) {
   display: inline-flex;
+  align-items: center;
   opacity: 1;
   max-height: 100%;
   pointer-events: initial;
@@ -94,7 +95,7 @@
   color: var(--calcite-ui-text-2);
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   @include slotted("notice-message", "div") {
     margin-right: unset;
     margin-left: var(--calcite-notice-spacing-token-small);
@@ -126,7 +127,7 @@
   }
 }
 
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
   .notice-content {
     padding: var(--calcite-notice-spacing-token-small) 0
       var(--calcite-notice-spacing-token-small)
@@ -145,6 +146,7 @@
 
 .notice-close {
   @include notice-element-base;
+  align-self: stretch;
   background-color: transparent;
   -webkit-appearance: none;
   border: none;
@@ -154,16 +156,16 @@
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-2);
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-press);
+    background-color: var(--calcite-ui-foreground-3);
   }
 }
 
-$noticeColors: "blue" var(--calcite-ui-blue), "red" var(--calcite-ui-red),
-  "yellow" var(--calcite-ui-yellow), "green" var(--calcite-ui-green);
+$noticeColors: "blue" var(--calcite-ui-blue-1), "red" var(--calcite-ui-red-1),
+  "yellow" var(--calcite-ui-yellow-1), "green" var(--calcite-ui-green-1);
 
 @each $noticeColor in $noticeColors {
   $name: nth($noticeColor, 1);

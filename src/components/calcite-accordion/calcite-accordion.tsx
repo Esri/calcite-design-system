@@ -9,7 +9,6 @@ import {
   Prop
 } from "@stencil/core";
 import { UP, DOWN, HOME, END } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-accordion",
@@ -32,7 +31,7 @@ export class CalciteAccordion {
   //--------------------------------------------------------------------------
 
   /** specify the theme of accordion, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of accordion, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -82,9 +81,6 @@ export class CalciteAccordion {
     let iconType = ["chevron", "caret", "plus-minus"];
     if (!iconType.includes(this.iconType)) this.iconType = "chevron";
 
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
@@ -101,9 +97,8 @@ export class CalciteAccordion {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
+      <Host>
         <slot />
       </Host>
     );

@@ -102,14 +102,7 @@ export class CalciteDateMonthHeader {
             aria-label={this.prevMonthLabel}
             onClick={ () => this.selectPrevMonth()}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              height="16"
-              width="16"
-            >
-              <path d="M11.783 14H9.017l-6-6 6-6h2.766l-6 6z" />
-            </svg>
+            <calcite-icon icon="chevron-left" scale="s"></calcite-icon>
           </button>
           <div class="month-year-text">
             <span class="month" role="heading">
@@ -129,14 +122,7 @@ export class CalciteDateMonthHeader {
             aria-label={this.nextMonthLabel}
             onClick={() => this.selectNextMonth()}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              height="16"
-              width="16"
-            >
-              <path d="M10.217 8l-6-6h2.766l6 6-6 6H4.217z" />
-            </svg>
+            <calcite-icon icon="chevron-right" scale="s"></calcite-icon>
           </button>
         </div>
       </Host>

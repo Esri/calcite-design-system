@@ -135,7 +135,7 @@ export class CalcitePopover {
   @Prop() textClose = "Close";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   // --------------------------------------------------------------------------
   //
@@ -364,7 +364,7 @@ export class CalcitePopover {
         class={{ [CSS.closeButton]: true }}
         onClick={this.hide}
       >
-        <calcite-icon icon="x" scale="s"></calcite-icon>
+        <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
     ) : null;
   }

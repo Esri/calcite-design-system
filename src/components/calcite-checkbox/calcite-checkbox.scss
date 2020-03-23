@@ -24,7 +24,7 @@
   box-sizing: border-box;
 }
 
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   .check-svg {
     background-color: transparent;
     border-color: $blk-020;
@@ -81,8 +81,8 @@
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    background-color: $ui-blue;
-    border: 1px solid $ui-blue;
+    background-color: $ui-blue-1;
+    border: 1px solid $ui-blue-1;
   }
 }
 

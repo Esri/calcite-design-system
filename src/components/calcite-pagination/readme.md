@@ -14,7 +14,7 @@
 | `start`             | `start`               | starting number of the pagination                                              | `number`                                 | `1`                  |
 | `textLabelNext`     | `text-label-next`     | title of the next button                                                       | `string`                                 | `TEXT.nextLabel`     |
 | `textLabelPrevious` | `text-label-previous` | title of the previous button                                                   | `string`                                 | `TEXT.previousLabel` |
-| `theme`             | `theme`               | specify the theme of accordion, defaults to light                              | `"dark" \| "light"`                      | `"light"`            |
+| `theme`             | `theme`               | specify the theme of accordion, defaults to light                              | `"dark" \| "light"`                      | `undefined`          |
 | `total`             | `total`               | ending number of the pagination                                                | `number`                                 | `2`                  |
 
 

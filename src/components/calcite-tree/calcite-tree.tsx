@@ -10,7 +10,6 @@ import {
 } from "@stencil/core";
 import {
   nodeListToArray,
-  getElementDir,
   getElementTheme
 } from "../../utils/dom";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
@@ -37,14 +36,13 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Be sure to add a jsdoc comment describing your propery for the generated readme file.
-   * If your property should be hidden from documentation, you can use the `@internal` tag
-   */
+  /** Display indentation guide lines */
   @Prop({ mutable: true, reflect: true }) lines: boolean = false;
-  @Prop({ mutable: true, reflect: true }) root: boolean = true;
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
-  @Prop({ mutable: true, reflect: true }) size: "s" | "m" = "m";
+  /** Select theme (light or dark) */
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  /** Specify the scale of the tree, defaults to m */
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" = "m";
+  /** Customize how tree selection works (single, multi, children, multi-children) */
   @Prop({ mutable: true, reflect: true })
   selectionMode: TreeSelectionMode = TreeSelectionMode.Single;
 
@@ -62,18 +60,16 @@ export class CalciteTree {
     );
     this.theme = getElementTheme(this.el);
     this.lines = parent ? parent.lines : this.lines;
-    this.size = parent ? parent.size : this.size;
+    this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
     this.root = parent ? false : true;
   }
 
   render() {
-    const dir = getElementDir(this.el);
 
     return (
       <Host
         tabindex={this.root ? "1" : undefined}
-        dir={dir}
         aria-role={this.root ? "tree" : undefined}
         aria-multiselectable={
           this.selectionMode === TreeSelectionMode.Multi ||
@@ -217,6 +213,8 @@ export class CalciteTree {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+  /** @internal If this tree is nested within another tree, set to false */
+  @Prop({ mutable: true, reflect: true }) root: boolean = true;
 
   //--------------------------------------------------------------------------
   //
