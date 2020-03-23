@@ -21,7 +21,7 @@ export class CalciteChip {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  @Prop() value?: string;
+  @Prop() value!: string;
 
   /** is the chip currently active or not */
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
