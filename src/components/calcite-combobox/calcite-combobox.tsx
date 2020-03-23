@@ -13,6 +13,13 @@ import { UP, DOWN, TAB, HOME, END, ESCAPE } from "../../utils/keys";
 import { filter } from "../../utils/filter";
 import { debounce } from "lodash-es";
 
+const COMBO_BOX_ITEM = "calcite-combobox-item";
+
+interface ItemData {
+  label: string;
+  value: string;
+}
+
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
@@ -49,6 +56,8 @@ export class CalciteCombobox {
 
   items: HTMLCalciteComboboxItemElement[] = null;
 
+  data: ItemData[];
+
   visibleItems: HTMLCalciteComboboxItemElement[] = null;
 
   // --------------------------------------------------------------------------
@@ -64,8 +73,8 @@ export class CalciteCombobox {
   }
 
   componentDidLoad() {
-    this.items = Array.from(this.el.querySelectorAll("calcite-combobox-item"));
-    this.setParentItems();
+    this.items = this.setItems();
+    this.data = this.setData();
   }
 
   // --------------------------------------------------------------------------
@@ -119,7 +128,7 @@ export class CalciteCombobox {
   }
 
   filterItems = debounce(value => {
-    const filteredData = filter(this.items, value);
+    const filteredData = filter(this.data, value);
     const values = filteredData.map(item => item.value);
     this.items.forEach(item => {
       item.hidden = values.indexOf(item.value) === -1;
@@ -136,9 +145,8 @@ export class CalciteCombobox {
         }
       }
     });
-    this.visibleItems = Array.from(
-      this.el.querySelectorAll("calcite-combobox-item:not([hidden])")
-    );
+
+    this.visibleItems = this.items.filter(item => !item.hidden);
   }, 100);
 
   toggleSelection(item): void {
@@ -160,13 +168,24 @@ export class CalciteCombobox {
     }
   }
 
-  setParentItems(): void {
-    this.items.forEach(item => {
+  setData(): ItemData[] {
+    return this.items.map(item => ({
+      value: item.value,
+      label: item.textLabel
+    }));
+  }
+
+  setItems(): HTMLCalciteComboboxItemElement[] {
+    const items = Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM));
+
+    return items.map(item => {
       const { parentElement } = item;
 
-      item.parentItem = parentElement.matches("calcite-combobox-item")
+      item.parentItem = parentElement.matches(COMBO_BOX_ITEM)
         ? (parentElement as HTMLCalciteComboboxItemElement)
         : null;
+
+      return item;
     });
   }
 
