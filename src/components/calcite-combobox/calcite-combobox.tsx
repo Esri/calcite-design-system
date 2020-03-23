@@ -263,7 +263,7 @@ export class CalciteCombobox {
         </div>
         <div
           role="combobox"
-          aria-expanded={this.active}
+          aria-expanded={this.active.toString()}
           aria-owns={listBoxId}
           aria-haspopup="listbox"
         >
