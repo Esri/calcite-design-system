@@ -27,7 +27,7 @@
 :host(:focus),
 :host(.active) {
   & .day {
-    background-color: var(--calcite-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-2);
     transition: all $transition;
     color: var(--calcite-ui-text-1);
   }
@@ -36,9 +36,9 @@
 :host(.selected-day) .day,
 :host(:focus.active) .day {
   transition: all $transition;
-  background-color: var(--calcite-ui-blue);
+  background-color: var(--calcite-ui-blue-1);
   border-radius: 100%;
-  color: var(--calcite-ui-foreground);
+  color: var(--calcite-ui-foreground-1);
   font-weight: 500;
 }
 

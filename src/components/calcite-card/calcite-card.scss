@@ -5,7 +5,7 @@
     height: 100%;
     flex-direction: column;
     justify-content: space-between;
-    background-color: var(--calcite-ui-foreground);
+    background-color: var(--calcite-ui-foreground-1);
     transition: $transition;
     position: relative;
     border: 1px solid var(--calcite-ui-border-2);
@@ -71,7 +71,7 @@
 }
 
 :host([selected]) .calcite-card-container  {
-  border-color: var(--calcite-ui-blue);
+  border-color: var(--calcite-ui-blue-1);
 }
 
 // slotted content
