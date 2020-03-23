@@ -72,6 +72,9 @@
   width: auto;
   width: var(--calcite-dropdown-width);
   background: var(--calcite-ui-foreground-1);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: $shadow-2;
+  pointer-events: none;
 }
 
 :host-context([dir="rtl"]) .calcite-dropdown-wrapper {
