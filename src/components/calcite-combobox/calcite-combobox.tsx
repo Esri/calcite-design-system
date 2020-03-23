@@ -28,7 +28,10 @@ export class CalciteCombobox {
   @Prop() disabled = false;
 
   /** specify the scale of the combobox, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "m";
+  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
+    "m";
+
+  @Prop() placeholder: string;
 
   // --------------------------------------------------------------------------
   //
@@ -232,7 +235,7 @@ export class CalciteCombobox {
   }
 
   comboboxFocusHandler = event => {
-      this.active = event.type === "focusin";
+    this.active = event.type === "focusin";
   };
 
   //--------------------------------------------------------------------------
@@ -251,7 +254,11 @@ export class CalciteCombobox {
       >
         <div class="selections">
           {this.selectedItems.map(item => {
-            return <calcite-chip active scale={this.scale} value={item}>{item}</calcite-chip>;
+            return (
+              <calcite-chip active scale={this.scale} value={item}>
+                {item}
+              </calcite-chip>
+            );
           })}
         </div>
         <div
@@ -262,6 +269,7 @@ export class CalciteCombobox {
         >
           <input
             type="text"
+            placeholder={this.placeholder}
             aria-autocomplete="list"
             aria-controls={listBoxId}
             onInput={this.inputHandler}
