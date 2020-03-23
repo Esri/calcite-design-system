@@ -88,7 +88,6 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
 
-
   componentWillLoad() {
     this.icon = getElementProp(this.el, "icon", false);
     this.numbered = getElementProp(this.el, "numbered", false);
@@ -121,9 +120,9 @@ export class CalciteStepperItem {
             <span class="stepper-item-subtitle">{this.itemSubtitle}</span>
           </div>
         </div>
-          <div class="stepper-item-content">
-            <slot />
-          </div>
+        <div class="stepper-item-content">
+          <slot />
+        </div>
       </Host>
     );
   }
@@ -157,7 +156,7 @@ export class CalciteStepperItem {
 
   @Listen("calciteStepperItemHasChanged", { target: "parent" })
   updateActiveItemOnChange(event: CustomEvent) {
-    this.requestedStepperItemPosition = event.detail.position;
+    this.activePosition = event.detail.position;
     this.determineActiveItem();
   }
 
@@ -170,7 +169,7 @@ export class CalciteStepperItem {
   private itemPosition: number;
 
   /** the latest requested item position*/
-  private requestedStepperItemPosition: number;
+  private activePosition: number;
 
   /** the slotted item content */
   private itemContent: HTMLElement[];
@@ -206,7 +205,7 @@ export class CalciteStepperItem {
 
   private determineActiveItem() {
     this.active =
-      !this.disabled && this.itemPosition === this.requestedStepperItemPosition;
+      !this.disabled && this.itemPosition === this.activePosition;
   }
 
   private registerStepperItem() {

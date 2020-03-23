@@ -49,6 +49,7 @@ export class CalciteStepper {
   @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
     "horizontal";
 
+  /** @internal */
   @Prop() requestedContent: HTMLElement[];
 
   // watch for removal of disabled to register step
@@ -162,9 +163,8 @@ export class CalciteStepper {
     if (event.detail.content && event.detail.content.length > 0)
       this.requestedContent = event.detail.content;
     this.currentPosition = event.detail.position;
-    this.requestedPosition = event.detail.position;
     this.calciteStepperItemHasChanged.emit({
-      position: this.requestedPosition
+      position: this.currentPosition
     });
   }
 
@@ -177,8 +177,8 @@ export class CalciteStepper {
   /** set the next step as active */
   @Method()
   async nextStep(): Promise<void> {
-    this.requestedPosition =
-      this.requestedPosition + 1 < this.items.length
+    this.currentPosition =
+      this.currentPosition + 1 < this.items.length
         ? this.currentPosition + 1
         : this.currentPosition;
     this.emitChangedItem();
@@ -187,8 +187,8 @@ export class CalciteStepper {
   /** set the previous step as active */
   @Method()
   async prevStep(): Promise<void> {
-    this.requestedPosition =
-      this.requestedPosition - 1 >= 0
+    this.currentPosition =
+      this.currentPosition - 1 >= 0
         ? this.currentPosition - 1
         : this.currentPosition;
     this.emitChangedItem();
@@ -197,21 +197,21 @@ export class CalciteStepper {
   /** set the requested step as active */
   @Method()
   async goToStep(num: number): Promise<void> {
-    this.requestedPosition = num - 1;
+    this.currentPosition = num - 1;
     this.emitChangedItem();
   }
 
   /** set the first step as active */
   @Method()
   async startStep(): Promise<void> {
-    this.requestedPosition = 0;
+    this.currentPosition = 0;
     this.emitChangedItem();
   }
 
   /** set the last step as active */
   @Method()
   async endStep(): Promise<void> {
-    this.requestedPosition = this.items.length - 1;
+    this.currentPosition = this.items.length - 1;
     this.emitChangedItem();
   }
 
@@ -230,9 +230,6 @@ export class CalciteStepper {
   /** keep track of the currently active item position */
   private currentPosition: number;
 
-  /** keep track of the requested item position */
-  private requestedPosition: number;
-
   /** the referenced content container element */
   private stepperContentContainer: HTMLDivElement;
 
@@ -244,7 +241,7 @@ export class CalciteStepper {
 
   private emitChangedItem() {
     this.calciteStepperItemHasChanged.emit({
-      position: this.requestedPosition
+      position: this.currentPosition
     });
   }
 
