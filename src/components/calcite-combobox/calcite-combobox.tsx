@@ -109,6 +109,10 @@ export class CalciteCombobox {
         return;
       } else if (e.keyCode === ESCAPE) {
         this.active = false;
+      } else if (e.keyCode === DOWN) {
+        this.focusFirstItem();
+      } else if (e.keyCode === UP) {
+        this.focusLastItem();
       } else {
         this.active = true;
         this.textInput.focus();
