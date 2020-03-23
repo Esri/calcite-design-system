@@ -40,6 +40,8 @@ export class CalciteCombobox {
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
     "m";
 
+  @Prop() label!: string;
+
   @Prop() placeholder?: string;
 
   // --------------------------------------------------------------------------
@@ -319,6 +321,7 @@ export class CalciteCombobox {
           <input
             type="text"
             placeholder={this.placeholder}
+            aria-label={this.label}
             aria-autocomplete="list"
             aria-controls={listBoxId}
             onInput={this.inputHandler}

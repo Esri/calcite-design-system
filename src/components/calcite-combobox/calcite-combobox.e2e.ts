@@ -1,10 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden, accessible } from "../../tests/commonTests";
 
-describe("calcite-pagination", () => {
+describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox"));
   it("honors hidden attribute", async () => hidden("calcite-combobox"));
-  it("is accessible", async () => accessible(`calcite-combobox`));
+  it("is accessible", async () =>
+    accessible(`
+      <calcite-combobox label="Trees" value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+      </calcite-combobox>
+  `));
 
   it("should show the listbox when it receives focus", async () => {
     const page = await newE2EPage();
@@ -59,15 +64,18 @@ describe("calcite-pagination", () => {
       await page.waitForChanges();
 
       const cbox = await page.find("calcite-combobox");
-      const item1 = await cbox.find("calcite-combobox-item[value=one]");
+      let item1 = await cbox.find("calcite-combobox-item[value=one]");
       await item1.click();
 
       let chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeDefined();
 
+      item1 = await cbox.find("calcite-combobox-item[value=one]");
       await item1.click();
+      await page.waitForChanges();
+
       chip = await page.find("calcite-combobox >>> calcite-chip");
-      expect(chip).not.toBeDefined();
+      expect(chip).toBeNull();
     });
     it.skip("clicking a chip should remove the selected item", async () => {
       const page = await newE2EPage();
@@ -86,7 +94,9 @@ describe("calcite-pagination", () => {
       let chip = await page.find("calcite-combobox >>> calcite-chip");
       // TODO: below double piercing selector not working.
       // https://github.com/ionic-team/stencil/issues/1530
-      const closeBtn = await page.find("calcite-combobox >>> calcite-chip >>> a");
+      const closeBtn = await page.find(
+        "calcite-combobox >>> calcite-chip >>> a"
+      );
 
       await closeBtn.click();
       await page.waitForChanges();
@@ -94,8 +104,6 @@ describe("calcite-pagination", () => {
       chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).not.toBeDefined();
     });
-    it("should work with keyboard input", async () => {
-
-    });
+    it("should work with keyboard input", async () => {});
   });
 });
