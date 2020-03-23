@@ -191,8 +191,7 @@
     padding-right: 0;
   }
   & .stepper-item-content {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
   }
 }
 
@@ -200,6 +199,9 @@
 :host([layout="vertical"][active]) {
   & .stepper-item-content {
     display: flex;
+    & ::slotted(:last-child) {
+      margin-bottom: var(--calcite-stepper-item-spacing-unit-l);
+    }
   }
 }
 :host([layout="vertical"][dir="rtl"]) {
