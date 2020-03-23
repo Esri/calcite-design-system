@@ -101,6 +101,10 @@ export class CalciteStepperItem {
     if (this.active) this.emitRequestedItem();
   }
 
+  componentDidUpdate() {
+    if (this.active) this.emitRequestedItem();
+  }
+
   render() {
     const dir = getElementDir(this.el);
     return (
