@@ -26,7 +26,6 @@ individual `calcite-accordion` item
 | ---------------------------- | ----------- | ------------------ |
 | `calciteStepperItemKeyEvent` |             | `CustomEvent<any>` |
 | `calciteStepperItemSelected` |             | `CustomEvent<any>` |
-| `closeCalciteStepperItem`    |             | `CustomEvent<any>` |
 | `registerCalciteStepperItem` |             | `CustomEvent<any>` |
 
 

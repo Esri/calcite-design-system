@@ -208,8 +208,7 @@ export class CalciteStepperItem {
   }
 
   private determineActiveItem() {
-    this.active =
-      !this.disabled && this.itemPosition === this.activePosition;
+    this.active = !this.disabled && this.itemPosition === this.activePosition;
   }
 
   private registerStepperItem() {
