@@ -37,8 +37,9 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   /* When true, the item cannot be clicked and is visually muted. */
-  @Prop({ reflect: true }) disabled? = false;
+  @Prop({ reflect: true }) disabled = false;
 
+  /* The parent combobox item element */
   @Prop() parentItem?: HTMLCalciteComboboxItemElement;
 
   /* Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
@@ -106,10 +107,7 @@ export class CalciteComboboxItem {
       case SPACE:
       case ENTER:
         this.isSelected = !this.isSelected;
-        this.calciteComboboxItemChange.emit({
-          value: this.value,
-          selected: this.isSelected
-        });
+        this.calciteComboboxItemChange.emit(this.el);
         event.preventDefault();
         break;
       case UP:
@@ -118,7 +116,7 @@ export class CalciteComboboxItem {
       case END:
       case TAB:
       case ESCAPE:
-        this.calciteComboboxItemKeyEvent.emit({ item: event });
+        this.calciteComboboxItemKeyEvent.emit(this.el);
         event.preventDefault();
         break;
     }
@@ -154,10 +152,7 @@ export class CalciteComboboxItem {
     }
 
     this.isSelected = !this.isSelected;
-    this.calciteComboboxItemChange.emit({
-      value: this.value,
-      selected: this.isSelected
-    });
+    this.calciteComboboxItemChange.emit(this.el);
   };
 
   // todo check for levels deep
