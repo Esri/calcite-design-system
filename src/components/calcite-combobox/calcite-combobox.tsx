@@ -13,6 +13,12 @@ import { UP, DOWN, TAB, HOME, END, ESCAPE } from "../../utils/keys";
 import { filter } from "../../utils/filter";
 import { debounce } from "lodash-es";
 
+interface ItemData {
+  label: string;
+  parentItem: HTMLCalciteComboboxItemElement;
+  value: string;
+}
+
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
@@ -47,7 +53,7 @@ export class CalciteCombobox {
 
   textInput: HTMLInputElement = null;
 
-  data: Array<object> = null;
+  data: ItemData[] = null;
 
   items: Array<HTMLCalciteComboboxItemElement> = null;
 
@@ -124,21 +130,17 @@ export class CalciteCombobox {
     const filteredData = filter(this.data, value);
     const values = filteredData.map(item => item.value);
     this.items.forEach(item => {
-      const hasParent = item.parentElement.matches("calcite-combobox-item");
       item.hidden = values.indexOf(item.value) === -1;
       // If item is nested inside another item...
-      if (hasParent) {
-        const parent = item.parentElement as HTMLCalciteComboboxItemElement;
-        // If there is a parent item
-        if (parent !== null) {
-          // If the parent item is a match, show me.
-          if (values.indexOf(parent.value) !== -1) {
-            item.hidden = false;
-          }
-          // If I am a match, show my parent.
-          if (values.indexOf(item.value) !== -1) {
-            parent.hidden = false;
-          }
+      const { parentItem } = item;
+      if (parentItem) {
+        // If the parent item is a match, show me.
+        if (values.indexOf(parentItem.value) !== -1) {
+          item.hidden = false;
+        }
+        // If I am a match, show my parent.
+        if (values.indexOf(item.value) !== -1) {
+          parentItem.hidden = false;
         }
       }
     });
@@ -165,15 +167,19 @@ export class CalciteCombobox {
     comboboxItem.toggleSelected(false);
   }
 
-  getItemData() {
-    const result = [];
-    this.items.forEach(item => {
-      result.push({
+  getItemData(): ItemData[] {
+    return this.items.map(item => {
+      const { parentElement } = item;
+      const parentItem = parentElement.matches("calcite-combobox-item")
+        ? (parentElement as HTMLCalciteComboboxItemElement)
+        : null;
+
+      return {
         label: item.textLabel,
+        parentItem,
         value: item.value
-      });
+      };
     });
-    return result;
   }
 
   @Listen("calciteComboboxItemKeyEvent") calciteComboboxItemKeyEventHandler(

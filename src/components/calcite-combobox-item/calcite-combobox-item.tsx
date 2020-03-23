@@ -39,6 +39,8 @@ export class CalciteComboboxItem {
   /* When true, the item cannot be clicked and is visually muted. */
   @Prop({ reflect: true }) disabled? = false;
 
+  @Prop() parentItem?: HTMLCalciteComboboxItemElement;
+
   /* Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
   @Prop({ reflect: true }) selected = false;
 

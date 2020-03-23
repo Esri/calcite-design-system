@@ -21,7 +21,7 @@ export class CalciteChip {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  @Prop() value: string = null;
+  @Prop() value?: string;
 
   /** is the chip currently active or not */
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
@@ -32,7 +32,6 @@ export class CalciteChip {
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -40,8 +39,6 @@ export class CalciteChip {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLElement;
-
-
 
   // --------------------------------------------------------------------------
   //
