@@ -1,31 +1,6 @@
 // scale
 // todo update when new spacing modifiers are introduced to calcite-base
 
-@mixin floatingContainer($state: "closed") {
-  @if $state == "open" {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-    max-height: 100vh;
-    visibility: visible;
-    pointer-events: initial;
-  } @else {
-    display: block;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    visibility: hidden;
-    position: absolute;
-    z-index: 200;
-    opacity: 0;
-    background: var(--calcite-ui-foreground);
-    border-radius: var(--calcite-border-radius);
-    box-shadow: $shadow-2;
-    transform: translate3d(0, -$baseline, 0);
-    transition: $transition;
-    pointer-events: none;
-  }
-}
-
 :host([scale="xs"]) {
   @include font-size(-4);
   --calcite-combobox-item-padding: #{$baseline/6 $baseline/1.5};
@@ -73,8 +48,24 @@ input {
 }
 
 .list {
-  @include floatingContainer("closed");
+  transform: translate3d(0, -$baseline, 0);
+  transition: all 0.15s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  display: block;
+  position: absolute;
   left: 0;
+  z-index: 200;
+  overflow: hidden;
+  max-height: 0;
+  width: auto;
+  width: var(--calcite-dropdown-width);
+  background: var(--calcite-ui-foreground-1);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: $shadow-2;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
   right: 0;
 }
 
@@ -82,10 +73,9 @@ input {
   transform: translate3d(0, 0, 0);
   opacity: 1;
   max-height: 100vh;
-  overflow-y: scroll;
   visibility: visible;
   pointer-events: initial;
-  @include floatingContainer("open");
+  overflow-y: scroll;
 }
 
 .item {
