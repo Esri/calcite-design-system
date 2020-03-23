@@ -51,18 +51,27 @@
 }
 
 :host([active]) .calcite-dropdown-wrapper {
-  @include floatingContainer("open");
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  max-height: 100vh;
+  visibility: visible;
+  pointer-events: initial;
 }
 
 :host .calcite-dropdown-wrapper {
-  @include floatingContainer;
+  transform: translate3d(0, -$baseline, 0);
+  transition: all 0.15s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  display: block;
+  position: absolute;
   left: 0;
+  z-index: 200;
+  overflow: hidden;
+  max-height: 0;
   width: auto;
   width: var(--calcite-dropdown-width);
   background: var(--calcite-ui-foreground-1);
-  border-radius: var(--calcite-border-radius);
-  box-shadow: $shadow-2;
-  pointer-events: none;
 }
 
 :host-context([dir="rtl"]) .calcite-dropdown-wrapper {
