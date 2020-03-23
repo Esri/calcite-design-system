@@ -116,7 +116,10 @@ export class CalciteComboboxItem {
       case END:
       case TAB:
       case ESCAPE:
-        this.calciteComboboxItemKeyEvent.emit(this.el);
+        this.calciteComboboxItemKeyEvent.emit({
+          event: event,
+          item: this.el
+        });
         event.preventDefault();
         break;
     }
@@ -192,7 +195,7 @@ export class CalciteComboboxItem {
         role="option"
         aria-selected={this.isSelected}
         disabled={this.disabled}
-        tabIndex={0}
+        tabIndex={this.disabled ? null : 0}
       >
         <div
           class={classes}

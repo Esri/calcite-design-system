@@ -198,25 +198,30 @@ export class CalciteCombobox {
   getItems(): HTMLCalciteComboboxItemElement[] {
     const items = Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM));
 
-    return items.map(item => {
-      const { parentElement } = item;
+    return items
+      .filter(item => !item.disabled)
+      .map(item => {
+        const { parentElement } = item;
 
-      item.parentItem = parentElement.matches(COMBO_BOX_ITEM)
-        ? (parentElement as HTMLCalciteComboboxItemElement)
-        : null;
+        item.parentItem = parentElement.matches(COMBO_BOX_ITEM)
+          ? (parentElement as HTMLCalciteComboboxItemElement)
+          : null;
 
-      return item;
-    });
+        return item;
+      });
   }
 
   @Listen("calciteComboboxItemKeyEvent") calciteComboboxItemKeyEventHandler(
-    event: CustomEvent<HTMLCalciteComboboxItemElement>
+    event: CustomEvent<{
+      event: KeyboardEvent;
+      item: HTMLCalciteComboboxItemElement;
+    }>
   ) {
-    let item = event.detail;
+    const { item, event: keyboardEvent } = event.detail;
     let isFirstItem = this.itemIndex(item) === 0;
     let isLastItem = this.itemIndex(item) === this.items.length - 1;
-    const shiftKey = (event as any).shiftKey;
-    const keyCode = (event as any).keyCode;
+    const shiftKey = keyboardEvent.shiftKey;
+    const keyCode = keyboardEvent.keyCode;
     switch (keyCode) {
       case TAB:
         if (isFirstItem && shiftKey) this.closeCalciteCombobox();
