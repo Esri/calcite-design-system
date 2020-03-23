@@ -31,14 +31,14 @@
 }
 
 :host {
---calcite-chip-button-border-radius: 0 50px 50px 0;
+  --calcite-chip-button-border-radius: 0 50px 50px 0;
 }
 :host([dir="rtl"]) {
   --calcite-chip-button-border-radius: 50px 0 0 50px;
 }
 
 :host {
-  display: none;
+  display: inline-flex;
   align-items: center;
   justify-self: center;
   background-color: var(--calcite-ui-background);
@@ -47,9 +47,6 @@
   font-weight: 500;
 }
 
-:host([active]) {
-  display: inline-flex;
-}
 :host span {
   padding: var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-small)
     var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-large);

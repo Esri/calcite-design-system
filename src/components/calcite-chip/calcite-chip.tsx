@@ -23,9 +23,6 @@ export class CalciteChip {
   //--------------------------------------------------------------------------
   @Prop() value!: string;
 
-  /** is the chip currently active or not */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
-
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "m";
 
@@ -56,7 +53,6 @@ export class CalciteChip {
 
   closeClickHandler = (event: MouseEvent) => {
     event.preventDefault();
-    this.active = false;
     this.calciteChipDismiss.emit(this.el);
   };
 
@@ -82,7 +78,7 @@ export class CalciteChip {
     );
 
     return (
-      <Host active={this.active} dir={dir}>
+      <Host dir={dir}>
         {this.icon ? iconEl : null}
         <slot name="chip-image"></slot>
         <span>

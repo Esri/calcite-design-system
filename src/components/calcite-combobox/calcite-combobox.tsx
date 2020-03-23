@@ -303,7 +303,6 @@ export class CalciteCombobox {
             return (
               <calcite-chip
                 key={item.value}
-                active
                 scale={this.scale}
                 value={item.value}
               >
