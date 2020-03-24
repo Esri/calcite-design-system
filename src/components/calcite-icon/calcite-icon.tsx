@@ -1,12 +1,12 @@
 import {
+  Build,
   Component,
-  h,
   Element,
+  h,
+  Host,
   Prop,
   State,
-  Watch,
-  Host,
-  Build
+  Watch
 } from "@stencil/core";
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";

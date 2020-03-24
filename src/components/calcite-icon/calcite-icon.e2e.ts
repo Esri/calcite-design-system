@@ -24,7 +24,9 @@ describe("calcite-icon", () => {
     ]));
 
   it("is accessible", async () =>
-    accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`));
+    accessible(
+      `<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`
+    ));
 
   it("mirrors icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
@@ -51,7 +53,6 @@ describe("calcite-icon", () => {
       const path = await page.find(`calcite-icon >>> path`);
 
       expect(await path.getAttribute("d")).toBeTruthy();
-
     });
 
     it("supports both camelcase and kebab case for icon name", async () => {
