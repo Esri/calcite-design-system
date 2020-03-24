@@ -66,7 +66,7 @@ export class CalcitePopoverManager {
     const element = this.getPopover(event.target as HTMLElement);
 
     if (element) {
-      element.open = !element.open;
+      element.toggle();
     }
   };
 
