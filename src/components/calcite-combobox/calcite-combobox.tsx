@@ -171,7 +171,13 @@ export class CalciteCombobox {
     value = !item.selected
   ): void {
     item.selected = value;
-    this.selectedItems = this.getSelectedItems();
+    if (value) {
+      this.selectedItems = [...this.selectedItems, item];
+    } else {
+      this.selectedItems = this.selectedItems.filter(
+        selectedItem => selectedItem !== item
+      );
+    }
     this.calciteLookupChange.emit(this.selectedItems);
   }
 
