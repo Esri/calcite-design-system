@@ -119,19 +119,21 @@ export class CalciteIcon {
         aria-label={semantic ? textLabel : null}
         role={semantic ? "img" : null}
       >
-        <svg
-          class={{
-            [CSS.mirrored]: dir === "rtl" && mirrored,
-            "svg": true
-          }}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          height={size}
-          width={size}
-          viewBox={`0 0 ${size} ${size}`}
-        >
-          <path d={pathData} />
-        </svg>
+        {pathData ? (
+          <svg
+            class={{
+              [CSS.mirrored]: dir === "rtl" && mirrored,
+              svg: true
+            }}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            height={size}
+            width={size}
+            viewBox={`0 0 ${size} ${size}`}
+          >
+            <path d={pathData} />
+          </svg>
+        ) : null}
       </Host>
     );
   }
