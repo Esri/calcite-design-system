@@ -43,6 +43,9 @@ export class CalciteTabNav {
    */
   @Prop() syncId: string;
 
+  /** @internal Parent tabs component layout value */
+  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+
   /**
    * @internal
    */
@@ -84,6 +87,10 @@ export class CalciteTabNav {
         tab: this.selectedTab
       });
     }
+  }
+
+  componentWillRender() {
+    this.layout = this.el.closest("calcite-tabs")?.layout;
   }
 
   render() {
