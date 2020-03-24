@@ -32,10 +32,6 @@ describe("calcite-popover", () => {
         defaultValue: false
       },
       {
-        propertyName: "addClickHandle",
-        defaultValue: false
-      },
-      {
         propertyName: "closeButton",
         defaultValue: false
       },
@@ -165,7 +161,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-popover placement="auto" reference-element="ref" add-click-handle>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-popover placement="auto" reference-element="ref">content</calcite-popover><calcite-popover-manager><div id="ref">referenceElement</div></calcite-popover-manager>`
     );
 
     await page.waitForChanges();
