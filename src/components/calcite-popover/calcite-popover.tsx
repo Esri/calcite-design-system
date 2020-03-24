@@ -124,6 +124,7 @@ export class CalcitePopover {
 
   @Watch("referenceElement")
   referenceElementHandler() {
+    this.removeReferenceAria();
     this.removeReferenceListener();
     this._referenceElement = this.getReferenceElement();
     this.addReferenceListener();
@@ -222,6 +223,14 @@ export class CalcitePopover {
 
   getId = (): string => {
     return this.el.id || `calcite-popover-${guid()}`;
+  };
+
+  removeReferenceAria = (): void => {
+    const { _referenceElement } = this;
+
+    if (_referenceElement) {
+      _referenceElement.removeAttribute("aria-describedby");
+    }
   };
 
   addReferenceAria = (): void => {

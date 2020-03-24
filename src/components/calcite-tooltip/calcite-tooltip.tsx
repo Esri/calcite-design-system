@@ -8,7 +8,7 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, TOOLTIP_REFERENCE } from "./resources";
 import { Modifier, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
@@ -82,10 +82,11 @@ export class CalciteTooltip {
 
   @Watch("referenceElement")
   referenceElementHandler() {
-    this.removeReferenceListeners();
+    this.removeReferenceAria();
+    this.removeReferenceSelector();
     this._referenceElement = this.getReferenceElement();
-    this.addReferenceListeners();
     this.addReferenceAria();
+    this.addReferenceSelector();
     this.createPopper();
   }
 
@@ -113,13 +114,12 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   componentDidLoad() {
-    this.addReferenceListeners();
     this.addReferenceAria();
+    this.addReferenceSelector();
     this.createPopper();
   }
 
   componentDidUnload() {
-    this.removeReferenceListeners();
     this.destroyPopper();
   }
 
@@ -153,6 +153,30 @@ export class CalciteTooltip {
     return this.el.id || `calcite-tooltip-${guid()}`;
   };
 
+  addReferenceSelector = (): void => {
+    const { _referenceElement } = this;
+
+    if (_referenceElement) {
+      _referenceElement.setAttribute(TOOLTIP_REFERENCE, "");
+    }
+  };
+
+  removeReferenceSelector = (): void => {
+    const { _referenceElement } = this;
+
+    if (_referenceElement) {
+      _referenceElement.removeAttribute(TOOLTIP_REFERENCE);
+    }
+  };
+
+  removeReferenceAria = (): void => {
+    const { _referenceElement } = this;
+
+    if (_referenceElement) {
+      _referenceElement.removeAttribute("aria-describedby");
+    }
+  };
+
   addReferenceAria = (): void => {
     const { _referenceElement } = this;
 
@@ -162,32 +186,6 @@ export class CalciteTooltip {
     ) {
       _referenceElement.setAttribute("aria-describedby", this.getId());
     }
-  };
-
-  addReferenceListeners = (): void => {
-    const { _referenceElement } = this;
-
-    if (!_referenceElement) {
-      return;
-    }
-
-    _referenceElement.addEventListener("mouseenter", this.show);
-    _referenceElement.addEventListener("mouseleave", this.hide);
-    _referenceElement.addEventListener("focus", this.show);
-    _referenceElement.addEventListener("blur", this.hide);
-  };
-
-  removeReferenceListeners = (): void => {
-    const { _referenceElement } = this;
-
-    if (!_referenceElement) {
-      return;
-    }
-
-    _referenceElement.removeEventListener("mouseenter", this.show);
-    _referenceElement.removeEventListener("mouseleave", this.hide);
-    _referenceElement.removeEventListener("focus", this.show);
-    _referenceElement.removeEventListener("blur", this.hide);
   };
 
   show = (): void => {

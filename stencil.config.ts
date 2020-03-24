@@ -41,8 +41,8 @@ export const config: Config = {
         "calcite-tabs"
       ]
     },
-    { components: ["calcite-tooltip"] },
-    { components: ["calcite-tree", "calcite-tree-item"] },
+    { components: ["calcite-tooltip", "calcite-tooltip-group"] },
+    { components: ["calcite-tree", "calcite-tree-item"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
