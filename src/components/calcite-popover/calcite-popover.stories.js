@@ -53,7 +53,6 @@ storiesOf("Popover", module)
         ${referenceElementHTML}
         <calcite-popover
           theme="light"
-          add-click-handle="${boolean("add-click-handle", true)}"
           close-button="${boolean("close-button", false)}"
           disable-flip="${boolean("disable-flip", false)}"
           disable-pointer="${boolean("disable-pointer", false)}"
@@ -79,7 +78,6 @@ storiesOf("Popover", module)
         ${referenceElementHTML}
         <calcite-popover
           theme="dark"
-          add-click-handle="${boolean("add-click-handle", true)}"
           close-button="${boolean("close-button", false)}"
           disable-flip="${boolean("disable-flip", false)}"
           disable-pointer="${boolean("disable-pointer", false)}"

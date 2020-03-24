@@ -3,6 +3,5 @@
   >Hello! I am some popover content!</calcite-popover
 >
 
-<calcite-button id="popover-button">Clickable popover</calcite-button
->
+<calcite-button id="popover-button">Clickable popover</calcite-button>
 ```
