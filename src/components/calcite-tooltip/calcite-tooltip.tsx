@@ -8,7 +8,7 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS, TOOLTIP_REFERENCE } from "./resources";
+import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
 import { Modifier, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
@@ -82,11 +82,9 @@ export class CalciteTooltip {
 
   @Watch("referenceElement")
   referenceElementHandler() {
-    this.removeReferenceAria();
-    this.removeReferenceSelector();
+    this.removeReferences();
     this._referenceElement = this.getReferenceElement();
-    this.addReferenceAria();
-    this.addReferenceSelector();
+    this.addReferences();
     this.createPopper();
   }
 
@@ -114,14 +112,12 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   componentDidLoad() {
-    this.addReferenceAria();
-    this.addReferenceSelector();
+    this.addReferences();
     this.createPopper();
   }
 
   componentDidUnload() {
-    this.removeReferenceAria();
-    this.removeReferenceSelector();
+    this.removeReferences();
     this.destroyPopper();
   }
 
@@ -155,39 +151,29 @@ export class CalciteTooltip {
     return this.el.id || `calcite-tooltip-${guid()}`;
   };
 
-  addReferenceSelector = (): void => {
+  addReferences = (): void => {
     const { _referenceElement } = this;
 
-    if (_referenceElement) {
-      _referenceElement.setAttribute(TOOLTIP_REFERENCE, "");
+    if (!_referenceElement) {
+      return;
+    }
+
+    _referenceElement.setAttribute(TOOLTIP_REFERENCE, "");
+
+    if (!_referenceElement.hasAttribute(ARIA_DESCRIBED_BY)) {
+      _referenceElement.setAttribute(ARIA_DESCRIBED_BY, this.getId());
     }
   };
 
-  removeReferenceSelector = (): void => {
+  removeReferences = (): void => {
     const { _referenceElement } = this;
 
-    if (_referenceElement) {
-      _referenceElement.removeAttribute(TOOLTIP_REFERENCE);
+    if (!_referenceElement) {
+      return;
     }
-  };
 
-  removeReferenceAria = (): void => {
-    const { _referenceElement } = this;
-
-    if (_referenceElement) {
-      _referenceElement.removeAttribute("aria-describedby");
-    }
-  };
-
-  addReferenceAria = (): void => {
-    const { _referenceElement } = this;
-
-    if (
-      _referenceElement &&
-      !_referenceElement.hasAttribute("aria-describedby")
-    ) {
-      _referenceElement.setAttribute("aria-describedby", this.getId());
-    }
+    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    _referenceElement.removeAttribute(TOOLTIP_REFERENCE);
   };
 
   show = (): void => {

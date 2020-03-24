@@ -10,7 +10,7 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE } from "./resources";
 import {
   CalcitePlacement,
   defaultOffsetDistance,
@@ -113,9 +113,9 @@ export class CalcitePopover {
 
   @Watch("referenceElement")
   referenceElementHandler() {
-    this.removeReferenceAria();
+    this.removeReferences();
     this._referenceElement = this.getReferenceElement();
-    this.addReferenceAria();
+    this.addReferences();
     this.createPopper();
   }
 
@@ -149,11 +149,11 @@ export class CalcitePopover {
 
   componentDidLoad() {
     this.createPopper();
-    this.addReferenceAria();
+    this.addReferences();
   }
 
   componentDidUnload() {
-    this.removeReferenceAria();
+    this.removeReferences();
     this.destroyPopper();
   }
 
@@ -211,27 +211,29 @@ export class CalcitePopover {
     return this.el.id || `calcite-popover-${guid()}`;
   };
 
-  removeReferenceAria = (): void => {
+  addReferences = (): void => {
     const { _referenceElement } = this;
 
-    if (_referenceElement) {
-      _referenceElement.removeAttribute("aria-describedby");
+    if (!_referenceElement) {
+      return;
+    }
+
+    _referenceElement.setAttribute(POPOVER_REFERENCE, "");
+
+    if (!_referenceElement.hasAttribute(ARIA_DESCRIBED_BY)) {
+      _referenceElement.setAttribute(ARIA_DESCRIBED_BY, this.getId());
     }
   };
 
-  addReferenceAria = (): void => {
+  removeReferences = (): void => {
     const { _referenceElement } = this;
 
-    if (
-      _referenceElement &&
-      !_referenceElement.hasAttribute("aria-describedby")
-    ) {
-      _referenceElement.setAttribute("aria-describedby", this.getId());
+    if (!_referenceElement) {
+      return;
     }
-  };
 
-  clickHandler = (): void => {
-    this.toggle();
+    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    _referenceElement.removeAttribute(POPOVER_REFERENCE);
   };
 
   getReferenceElement(): HTMLElement {
