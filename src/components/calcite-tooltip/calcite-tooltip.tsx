@@ -120,6 +120,8 @@ export class CalciteTooltip {
   }
 
   componentDidUnload() {
+    this.removeReferenceAria();
+    this.removeReferenceSelector();
     this.destroyPopper();
   }
 
