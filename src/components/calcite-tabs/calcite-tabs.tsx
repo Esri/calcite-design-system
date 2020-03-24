@@ -32,7 +32,7 @@ export class CalciteTabs {
    * Select theme (light or dark)
    */
   @Prop({
-    reflectToAttr: true
+    reflect: true
   })
   theme: "light" | "dark";
 
@@ -40,7 +40,7 @@ export class CalciteTabs {
    * Align tab titles to the edge or fully justify them across the tab nav ("center")
    */
   @Prop({
-    reflectToAttr: true
+    reflect: true
   })
   layout: "center" | "inline" = "inline";
 
@@ -51,7 +51,6 @@ export class CalciteTabs {
   //--------------------------------------------------------------------------
 
   render() {
-
     return (
       <Host>
         <slot name="tab-nav" />

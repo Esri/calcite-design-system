@@ -9,7 +9,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { ENTER, SPACE } from "../../utils/keys";
-
+import { getElementDir } from "../../utils/dom";
 import { VNode } from "@stencil/core/dist/declarations";
 
 /**
@@ -21,8 +21,8 @@ import { VNode } from "@stencil/core/dist/declarations";
  * @slot footer-trailing - A slot for adding a trailing footer.
  */
 
- /** Cards do not include a grid or bounding container
-  * - cards will expand to fit the width of their container
+/** Cards do not include a grid or bounding container
+ * - cards will expand to fit the width of their container
  */
 
 @Component({
@@ -72,19 +72,14 @@ export class CalciteCard {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback() {
-  }
-
   render() {
+    const dir = getElementDir(this.el);
     return (
-      <Host>
+      <Host dir={dir}>
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
-              <calcite-loader
-                class="calcite-card-loader"
-                is-active
-              ></calcite-loader>
+              <calcite-loader is-active></calcite-loader>
             </div>
           ) : null}
           <section class={{ [CSS.container]: true }} aria-busy={this.loading}>
@@ -146,7 +141,7 @@ export class CalciteCard {
   private renderCheckbox(): VNode {
     return (
       <div
-        class="card-checkbox-wrapper"
+        class={CSS.checkboxWrapper}
         onClick={() => this.cardSelectClick()}
         onKeyDown={e => this.cardSelectKeyDown(e)}
       >
