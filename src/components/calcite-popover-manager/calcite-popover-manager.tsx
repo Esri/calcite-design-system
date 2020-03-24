@@ -1,10 +1,10 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
-import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
+import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 
 @Component({
-  tag: "calcite-tooltip-manager"
+  tag: "calcite-popover-manager"
 })
-export class CalciteTooltipManager {
+export class CalcitePopoverManager {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -12,9 +12,9 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   /**
-   * CSS Selector to match reference elements for tooltips.
+   * CSS Selector to match reference elements for popovers.
    */
-  @Prop() selector = `[${TOOLTIP_REFERENCE}]`;
+  @Prop() selector = `[${POPOVER_REFERENCE}]`;
 
   // --------------------------------------------------------------------------
   //
@@ -33,19 +33,13 @@ export class CalciteTooltipManager {
   componentDidLoad() {
     const { el } = this;
 
-    el.addEventListener("mouseenter", this.show, true);
-    el.addEventListener("mouseleave", this.hide, true);
-    el.addEventListener("focus", this.show, true);
-    el.addEventListener("blur", this.hide, true);
+    el.addEventListener("click", this.toggle, true);
   }
 
   componentDidUnload() {
     const { el } = this;
 
-    el.removeEventListener("mouseenter", this.show, true);
-    el.removeEventListener("mouseleave", this.hide, true);
-    el.removeEventListener("focus", this.show, true);
-    el.removeEventListener("blur", this.hide, true);
+    el.removeEventListener("click", this.toggle, true);
   }
 
   // --------------------------------------------------------------------------
@@ -54,7 +48,7 @@ export class CalciteTooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  getTooltip = (element: HTMLElement): HTMLCalciteTooltipElement | null => {
+  getPopover = (element: HTMLElement): HTMLCalcitePopoverElement | null => {
     if (!element.matches(this.selector)) {
       return null;
     }
@@ -65,22 +59,14 @@ export class CalciteTooltipManager {
       return null;
     }
 
-    return (document.getElementById(id) as HTMLCalciteTooltipElement) || null;
+    return (document.getElementById(id) as HTMLCalcitePopoverElement) || null;
   };
 
-  show = (event: Event): void => {
-    const element = this.getTooltip(event.target as HTMLElement);
+  toggle = (event: Event): void => {
+    const element = this.getPopover(event.target as HTMLElement);
 
     if (element) {
-      element.open = true;
-    }
-  };
-
-  hide = (event: Event): void => {
-    const element = this.getTooltip(event.target as HTMLElement);
-
-    if (element) {
-      element.open = false;
+      element.open = !element.open;
     }
   };
 
