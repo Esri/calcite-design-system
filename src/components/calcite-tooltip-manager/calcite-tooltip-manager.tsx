@@ -1,5 +1,6 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
 import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
+import { getDescribedByElement } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip-manager"
@@ -54,34 +55,23 @@ export class CalciteTooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  getTooltip = (element: HTMLElement): HTMLCalciteTooltipElement | null => {
-    if (!element.matches(this.selector)) {
-      return null;
+  toggle = (event: Event, value = true): void => {
+    const target = event.target as HTMLElement;
+
+    const describedByElement =
+      target && target.matches(this.selector) && getDescribedByElement(target);
+
+    if (describedByElement) {
+      (describedByElement as HTMLCalciteTooltipElement).open = value;
     }
-
-    const id = element.getAttribute("aria-describedby");
-
-    if (!id) {
-      return null;
-    }
-
-    return (document.getElementById(id) as HTMLCalciteTooltipElement) || null;
   };
 
   show = (event: Event): void => {
-    const element = this.getTooltip(event.target as HTMLElement);
-
-    if (element) {
-      element.open = true;
-    }
+    this.toggle(event, true);
   };
 
   hide = (event: Event): void => {
-    const element = this.getTooltip(event.target as HTMLElement);
-
-    if (element) {
-      element.open = false;
-    }
+    this.toggle(event, false);
   };
 
   // --------------------------------------------------------------------------
@@ -91,6 +81,6 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   render() {
-    return <Host></Host>;
+    return <Host />;
   }
 }

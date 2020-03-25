@@ -1,5 +1,6 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
+import { getDescribedByElement } from "../../utils/dom";
 
 @Component({
   tag: "calcite-popover-manager"
@@ -22,7 +23,7 @@ export class CalcitePopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteTooltipManagerElement;
+  @Element() el: HTMLCalcitePopoverManagerElement;
 
   // --------------------------------------------------------------------------
   //
@@ -48,25 +49,14 @@ export class CalcitePopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  getPopover = (element: HTMLElement): HTMLCalcitePopoverElement | null => {
-    if (!element.matches(this.selector)) {
-      return null;
-    }
-
-    const id = element.getAttribute("aria-describedby");
-
-    if (!id) {
-      return null;
-    }
-
-    return (document.getElementById(id) as HTMLCalcitePopoverElement) || null;
-  };
-
   toggle = (event: Event): void => {
-    const element = this.getPopover(event.target as HTMLElement);
+    const target = event.target as HTMLElement;
 
-    if (element) {
-      element.toggle();
+    const describedByElement =
+      target && target.matches(this.selector) && getDescribedByElement(target);
+
+    if (describedByElement) {
+      (describedByElement as HTMLCalcitePopoverElement).toggle();
     }
   };
 
@@ -77,6 +67,6 @@ export class CalcitePopoverManager {
   // --------------------------------------------------------------------------
 
   render() {
-    return <Host></Host>;
+    return <Host />;
   }
 }
