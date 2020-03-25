@@ -24,6 +24,7 @@ export const config: Config = {
       ]
     },
     { components: ["calcite-icon"] },
+    { components: ["calcite-link"] },
     { components: ["calcite-loader"] },
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },

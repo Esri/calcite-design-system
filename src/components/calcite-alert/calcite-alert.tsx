@@ -128,8 +128,8 @@ export class CalciteAlert {
 
   componentDidLoad() {
     this.alertLinkEl = this.el.querySelectorAll(
-      "calcite-button"
-    )[0] as HTMLCalciteButtonElement;
+      "calcite-link"
+    )[0] as HTMLCalciteLinkElement;
   }
 
   render() {
@@ -243,7 +243,7 @@ export class CalciteAlert {
   private closeButton?: HTMLElement;
 
   /** the alert link child element  */
-  private alertLinkEl?: HTMLCalciteButtonElement;
+  private alertLinkEl?: HTMLCalciteLinkElement;
 
   /** map dismissal durations */
   private autoDismissDurations = {

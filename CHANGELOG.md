@@ -6,12 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
+  
 ### Breaking Changes
 - `calcite-dropdown` - `alignment` attribute now uses `start` and `end` values instead of `left` and `right`
 - `calcite-dropdown-item` - `link-title` attribute has been removed
 - `calcite-tree` - `size` prop is now `scale` to be consistent with other components
-
+- `calcite-button` - `appearance` attribute value `inline` value is no longer valid - instead you can now use the `calcite-link` component
+  
+### Added
+- new component `calcite-link`
+  
 ### Updated
 - `calcite-dropdown` - active state indicators for `selection-mode=none` have been removed
 - `calcite-dropdown` - active state indicators for `selection-mode=multi` have been updated to use checkmarks

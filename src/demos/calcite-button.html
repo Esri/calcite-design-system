@@ -111,19 +111,16 @@
     Back</calcite-button>
   <calcite-button appearance='outline'>Cancel</calcite-button>
   <calcite-button>Submit</calcite-button>
-  <calcite-button round>Inline rounded button</calcite-button>
+  <calcite-button round>round button</calcite-button>
   <h3>Set focus</h3>
   <calcite-button onclick=document.querySelector('#button-focus-example-1').setFocus()>focus button
   </calcite-button>
   <calcite-button onclick=document.querySelector('#button-focus-example-2').setFocus()>focus a
   </calcite-button>
-  <calcite-button onclick=document.querySelector('#button-focus-example-3').setFocus()>focus span
-  </calcite-button>
   <h4>Receive focus</h4>
   <calcite-button id="button-focus-example-1">Button to gain focus</calcite-button>
   <calcite-button href="http://google.com" target="_blank" id="button-focus-example-2">A to gain focus
   </calcite-button>
-  <calcite-button appearance="inline" id="button-focus-example-3">span to gain focus</calcite-button>
 
   <h5>calcite button inside form with no custom onsubmit</h5>
   <form name="form1" id="form1">
@@ -249,55 +246,11 @@
     </calcite-button>
   </div>
 
-  <h3>Type: Inline (render as anchor)</h3>
-  An anchor <calcite-button title="in the middle" appearance="inline"> with no href in the middle</calcite-button>
-  of
-  some
-  text.<br />
-  An anchor <calcite-button title="in the middle" href="/" appearance="inline">in the middle</calcite-button> of
-  some
-  text.<br />
-  An anchor <calcite-button href="/" title="in the middle that might be long enough to wrap to illustrate animation"
-    appearance="inline" color='red'>in the middle that might be long enough to wrap to illustrate animation
-  </calcite-button> of some
-  text.<br />
-  An anchor link <calcite-button href="http://google.com" appearance="inline" color='light' rel="noopener noreferrer"
-    target="_blank" title="in the middle with an icon" icon='launch'>to Google with an
-    icon</calcite-button> in some text.<br />
-
-  An anchor link <calcite-button href="http://google.com" appearance="inline" rel="noopener noreferrer" target="_blank"
-    title="in the middle with an icon" color='dark' icon='launch'>in the middle
-  </calcite-button> of some text.<br /><br />
-  <div class="demo-background-dark">
-    An anchor link <calcite-button theme="dark" href="http://google.com" appearance="inline" rel="noopener noreferrer"
-      target="_blank" title="in the middle">in
-      the middle</calcite-button> of some text.<br />
-    An anchor link <calcite-button theme="dark" href="http://google.com" appearance="inline" rel="noopener noreferrer"
-      target="_blank" title="in the middle" color='red'>to Google.</calcite-button>
-    <br />
-    An anchor link <calcite-button href="http://google.com" appearance="inline" color='light' rel="noopener noreferrer"
-      target="_blank" title="in the middle with an icon" icon='launch' icon-position="end"> to
-      Google with an
-      icon</calcite-button> in some text.<br />
-    An anchor link <calcite-button href="http://google.com" appearance="inline" color='light' rel="noopener noreferrer"
-      target="_blank" title="in the middle with an icon" icon='launch'>to Google with an
-      icon</calcite-button> in some text.<br />
-    An anchor link <calcite-button href="http://google.com" appearance="inline" color='light' rel="noopener noreferrer"
-      target="_blank" title="in the middle with an icon" icon='launch'>to Google with an
-      icon</calcite-button> in some text.<br />
-    An anchor link <calcite-button href="http://google.com" appearance="inline" color='dark' rel="noopener noreferrer"
-      target="_blank" title="in the middle with an icon" icon='launch'>to Google with an
-      icon</calcite-button> in some text.<br />
-
-  </div>
-
-
   <h3>Disabled</h3>
   <calcite-button title="blue solid button" disabled>blue solid button</calcite-button>
   <calcite-button icon='launch' title="dark solid button" color='dark' disabled>dark solid button</calcite-button>
   <calcite-button title="blue clear button" appearance='clear' disabled>blue clear button</calcite-button>
   <calcite-button title="blue clear button" appearance='transparent' disabled>blue clear button</calcite-button>
-  <calcite-button title="red clear button" appearance='inline' color='red' disabled>red clear button
   </calcite-button>
   <br />
   <br />
@@ -309,8 +262,6 @@
     </calcite-button>
     <calcite-button theme="dark" title="blue clear button" appearance='transparent' disabled>blue clear button
     </calcite-button>
-    <calcite-button theme="dark" title="red clear button" appearance='inline' color='red' disabled>red clear
-      button</calcite-button>
   </div>
 
   <h3>Scales</h3>

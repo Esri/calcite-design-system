@@ -26,7 +26,7 @@ storiesOf("Alert", module)
     <div slot="alert-message">
       Some kind of contextually relevant content
     </div>
-    <calcite-button slot="alert-link" title="my action" appearance="inline">Take action</calcite-button>
+    <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
   `,
     { notes }
@@ -72,7 +72,7 @@ storiesOf("Alert", module)
     <div slot="alert-message">
      Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
     </div>
-    <calcite-button slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
+    <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
   </calcite-alert>
   `,
     { notes }
@@ -128,7 +128,7 @@ storiesOf("Alert", module)
       <div slot="alert-message">
         Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
       </div>
-      <calcite-button slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
+      <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
     </calcite-alert>
     <calcite-alert
     id="two"
@@ -145,7 +145,7 @@ storiesOf("Alert", module)
     <div slot="alert-message">
     Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
     </div>
-    <calcite-button slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
+    <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
     </calcite-alert>
     <calcite-alert
       data-custom-id="my-id"
@@ -162,7 +162,7 @@ storiesOf("Alert", module)
       <div slot="alert-message">
         That thing you wanted to do didn't work
       </div>
-      <calcite-button slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
+      <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
     </calcite-alert>
    </div>
   `,
@@ -187,7 +187,7 @@ storiesOf("Alert", module)
     <div slot="alert-message">
       That thing you wanted to do didn't work as expected
     </div>
-    <calcite-button theme="dark" slot="alert-link" title="my action" appearance="inline">Retry</calcite-button>
+    <calcite-button theme="dark" slot="alert-link" title="my action">Retry</calcite-button>
   </calcite-alert>
   `,
     { notes, backgrounds: darkBackground }
@@ -221,7 +221,7 @@ storiesOf("Alert", module)
       <div slot="alert-message">
         Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
       </div>
-      <calcite-button theme="dark" slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
+      <calcite-button theme="dark" slot="alert-link" title="my action">View layer</calcite-link>
     </calcite-alert>
     <calcite-alert
     id="two"
@@ -238,7 +238,7 @@ storiesOf("Alert", module)
     <div slot="alert-message">
     Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
     </div>
-    <calcite-button theme="dark" slot="alert-link" title="my action" appearance="inline">View layer</calcite-button>
+    <calcite-button theme="dark" slot="alert-link" title="my action">View layer</calcite-link>
     </calcite-alert>
     <calcite-alert
       data-custom-id="my-id"
@@ -279,7 +279,7 @@ storiesOf("Alert", module)
     <div slot="alert-message">
       That thing you wanted to do didn't work as expected
     </div>
-    <calcite-button slot="alert-link" title="my action" appearance="inline">Retry</calcite-button>
+    <calcite-link slot="alert-link" title="my action">Retry</calcite-button>
   </calcite-alert>
   </div>
   `,

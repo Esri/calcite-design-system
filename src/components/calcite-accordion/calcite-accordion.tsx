@@ -43,7 +43,7 @@ export class CalciteAccordion {
   /** specify the placement of the icon in the header, defaults to end */
   @Prop({ mutable: true, reflect: true }) iconPosition: "start" | "end" = "end";
 
-  /** specify the placement of the icon in the header, defaults to end */
+  /** specify the type of the icon in the header, defaults to chevron */
   @Prop({ mutable: true, reflect: true }) iconType:
     | "chevron"
     | "caret"

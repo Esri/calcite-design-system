@@ -7,7 +7,7 @@ describe("calcite-notice", () => {
     <calcite-notice>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
     const element = await page.find("calcite-notice");
     expect(element).toHaveClass("hydrated");
@@ -19,7 +19,7 @@ describe("calcite-notice", () => {
     <calcite-notice>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
@@ -36,7 +36,7 @@ describe("calcite-notice", () => {
     <calcite-notice color="zip">
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
 
     const element = await page.find("calcite-notice");
@@ -54,7 +54,7 @@ describe("calcite-notice", () => {
     <calcite-notice theme="dark" color="yellow" dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
 
     const element = await page.find("calcite-notice");
@@ -74,7 +74,7 @@ describe("calcite-notice", () => {
     <calcite-notice icon dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
 
     const element = await page.find("calcite-notice");
@@ -91,7 +91,7 @@ describe("calcite-notice", () => {
     <calcite-notice id="notice-1" active dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>
     `);
 

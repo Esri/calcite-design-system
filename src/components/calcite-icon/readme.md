@@ -23,9 +23,9 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 | `filled`    | `filled`     | When true, the icon will be filled.                                                                                                 | `boolean`           | `false`     |
 | `icon`      | `icon`       | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`            | `null`      |
 | `mirrored`  | `mirrored`   | When true, the icon will be mirrored when the element direction is 'rtl'.                                                           | `boolean`           | `false`     |
-| `scale`     | `scale`      | Icon scale. Can be "s" \| "m" \| "l".                                                                                               | `"l" \| "m" \| "s"` | `"m"`       |
+| `scale`     | `scale`      | Icon scale. Can be "s" or "m" or "l".                                                                                               | `"l" or "m" or "s"` | `"m"`       |
 | `textLabel` | `text-label` | The icon label.  It is recommended to set this value if your icon is semantic.                                                      | `string`            | `undefined` |
-| `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `undefined` |
+| `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" or "light"` | `undefined` |
 
 
 ## Dependencies
@@ -38,6 +38,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
  - [calcite-date-month-header](../calcite-date-month-header)
  - [calcite-date-picker](../calcite-date)
  - [calcite-dropdown-item](../calcite-dropdown-item)
+ - [calcite-link](../calcite-link)
  - [calcite-modal](../calcite-modal)
  - [calcite-notice](../calcite-notice)
  - [calcite-pagination](../calcite-pagination)
@@ -53,6 +54,7 @@ graph TD;
   calcite-date-month-header --> calcite-icon
   calcite-date-picker --> calcite-icon
   calcite-dropdown-item --> calcite-icon
+  calcite-link --> calcite-icon
   calcite-modal --> calcite-icon
   calcite-notice --> calcite-icon
   calcite-pagination --> calcite-icon

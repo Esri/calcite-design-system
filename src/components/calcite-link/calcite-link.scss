@@ -1,0 +1,160 @@
+// theme variables
+// light theme
+:host {
+  display: inline;
+  --calcite-blue-accessible: #{$h-bb-070};
+  --calcite-red-accessible: #{$h-rr-070};
+  --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
+  --calcite-link-red-underline: #{rgba($h-rr-070, 0.4)};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-blue-accessible: #{$d-bb-420};
+  --calcite-red-accessible: #{$d-rr-420};
+  --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
+  --calcite-link-red-underline: #{rgba($d-rr-420, 0.4)};
+}
+
+// link base
+:host a,
+:host span {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 0;
+  border: none;
+  line-height: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  -webkit-appearance: none;
+  cursor: pointer;
+  text-align: center;
+  transition: $transition;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.calcite-link--icon {
+  transition: $transition;
+}
+
+// disabled styles
+:host([disabled]) {
+  span,
+  a {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+}
+// icon positioning and styles
+:host([icon-position="start"]) .calcite-link--icon {
+  margin-right: $baseline/3;
+}
+
+:host([icon-position="start"][dir="rtl"]) .calcite-link--icon {
+  margin-right: 0;
+  margin-left: $baseline/3;
+}
+
+:host([icon-position="end"]) .calcite-link--icon {
+  margin-left: $baseline/3;
+}
+
+:host([icon-position="end"][dir="rtl"]) .calcite-link--icon {
+  margin-left: 0;
+  margin-right: $baseline/3;
+}
+
+:host([icon-position="start"]) .calcite-link--icon {
+  margin-right: $baseline/4;
+}
+
+:host([icon-position="start"][dir="rtl"]) .calcite-link--icon {
+  margin-left: $baseline/4;
+  margin-right: 0;
+}
+
+:host([icon-position="end"]) .calcite-link--icon {
+  margin-left: $baseline/4;
+}
+:host([icon-position="end"][dir="rtl"]) .calcite-link--icon {
+  margin-left: 0;
+  margin-right: $baseline/4;
+}
+
+// inline
+@mixin link-style($color, $color-hover, $border-color) {
+  display: inline;
+  padding: 0;
+  outline: none;
+  border: none;
+  color: $color;
+  line-height: inherit;
+  white-space: initial;
+  user-select: text;
+  background-color: transparent;
+  position: relative;
+  background-image: linear-gradient(currentColor, currentColor),
+    linear-gradient($border-color, $border-color);
+  background-position: 0% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 1px, 100% 1px;
+  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    color: $color-hover;
+    background-size: 100% 1px, 100% 1px;
+    & .calcite-link--icon {
+      fill: $color-hover;
+    }
+  }
+  &:active {
+    color: $color;
+    background-size: 100% 2px, 100% 2px;
+  }
+}
+
+:host([color="blue"]) {
+  span,
+  a {
+    @include link-style(
+      var(--calcite-blue-accessible),
+      var(--calcite-ui-blue-1),
+      var(--calcite-link-blue-underline)
+    );
+  }
+}
+
+:host([color="red"]) {
+  span,
+  a {
+    @include link-style(
+      var(--calcite-red-accessible),
+      var(--calcite-ui-red-1),
+      var(--calcite-link-red-underline)
+    );
+  }
+}
+:host([color="light"]) {
+  span,
+  a {
+    @include link-style($blk-010, $blk-000, $blk-080);
+  }
+}
+:host([color="dark"]) {
+  span,
+  a {
+    @include link-style($blk-200, $blk-180, $blk-120);
+  }
+}
+:host([dir="rtl"]) {
+  span,
+  a {
+    background-position: 100% 100%, 100% 100%;
+  }
+}

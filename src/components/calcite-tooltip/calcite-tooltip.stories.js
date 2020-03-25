@@ -34,7 +34,7 @@ const calcite_placements = placements.concat([
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
-const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="inline" title="Reference element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-link title="Reference element" id="reference-element">nostrud exercitation</calcite-link> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
 storiesOf("Tooltip", module)
   .addDecorator(withKnobs)
