@@ -5,7 +5,10 @@ import { defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
-  it("renders", async () => renders("calcite-popover"));
+  it("renders", async () =>
+    renders(
+      `<calcite-popover open reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+    ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
 
@@ -71,7 +74,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`
+      `<calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`
     );
 
     const element = await page.find("calcite-popover");
@@ -99,7 +102,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
@@ -161,7 +164,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-popover placement="auto" reference-element="ref">content</calcite-popover><calcite-popover-manager><div id="ref">referenceElement</div></calcite-popover-manager>`
+      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><calcite-popover-manager><div id="ref">referenceElement</div></calcite-popover-manager>`
     );
 
     await page.waitForChanges();
