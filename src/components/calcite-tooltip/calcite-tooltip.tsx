@@ -265,8 +265,6 @@ export class CalciteTooltip {
     const { _referenceElement, open } = this;
     const displayed = _referenceElement && open;
 
-    console.log(!displayed)
-
     return (
       <Host
         role="tooltip"
