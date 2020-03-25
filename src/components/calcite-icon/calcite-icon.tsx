@@ -160,6 +160,7 @@ export class CalciteIcon {
 
   @Watch("icon")
   @Watch("filled")
+  @Watch("scale")
   private async loadIconPathData(): Promise<void> {
     const { filled, icon, scale, visible } = this;
 
