@@ -395,6 +395,8 @@ describe("calcite-dropdown", () => {
     await item7.click();
     await trigger.click();
     await item9.click();
+    await page.waitForChanges();
+
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
