@@ -105,12 +105,12 @@ export class CalciteDateMonth {
   componentWillUpdate(): void {}
 
   render() {
+    const year = this.activeDate.getFullYear();
+    const month = this.activeDate.getMonth();
     let weekDays = this.getLocalizedWeekday(),
-      curMonDays = [
-        ...Array(new Date(this.year, this.month + 1, 0).getDate()).keys()
-      ],
-      prevMonDays = this.getPrevMonthdays(this.month, this.year),
-      nextMonDays = this.getNextMonthdays(this.month, this.year),
+      curMonDays = this.getCurrentMonthDays(month, year),
+      prevMonDays = this.getPrevMonthdays(month, year),
+      nextMonDays = this.getNextMonthDays(month, year),
       splitDays = [],
       days = [
         ...prevMonDays.map(prev => (
@@ -119,8 +119,8 @@ export class CalciteDateMonth {
         ...curMonDays.map(cur => (
           <calcite-date-day
             day={cur + 1}
-            enable={this.validateDate(cur + 1, this.month, this.year)}
-            selected={this.isSelectedDate(this.year, this.month, cur + 1)}
+            enable={this.validateDate(cur + 1, month, year)}
+            selected={this.isSelectedDate(year, month, cur + 1)}
             active={this.activeDate.getDate() === cur + 1}
             onCalciteDaySelect={() => this.onSelectDate(cur + 1)}
           />
@@ -337,14 +337,26 @@ export class CalciteDateMonth {
     return days;
   }
 
-  private getNextMonthdays(month, year) {
+  private getCurrentMonthDays(month, year): number[] {
+    const num = new Date(year, month + 1, 0).getDate();
+    const days = [];
+    for (let i = 0; i < num; i++) {
+      days.push(i);
+    }
+    return days;
+  }
+
+  private getNextMonthDays(month, year): number[] {
     let endDay = new Date(year, month + 1, 0).getDay(),
       days = [];
     if (endDay === (this.startOfWeek + 6) % 7) {
       return days;
     }
-
-    return [...Array((6 - (endDay - this.startOfWeek)) % 7).keys()];
+    const last = (6 - (endDay - this.startOfWeek)) % 7;
+    for (let i = 0; i < last; i++) {
+      days.push(i);
+    }
+    return days;
   }
 
   private getLocalizedWeekday() {

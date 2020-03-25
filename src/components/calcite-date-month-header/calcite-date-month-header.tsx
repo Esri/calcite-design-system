@@ -8,6 +8,7 @@ import {
   h,
   Watch
 } from "@stencil/core";
+import { getLocaleFormatData, replaceArabicNumerals } from "../calcite-date-picker/locale";
 
 @Component({
   tag: "calcite-date-month-header",
@@ -32,11 +33,11 @@ export class CalciteDateMonthHeader {
   /**
    * Month number starting 0 as January for which the calendar is shown.
    */
-  @Prop() month: number = 0;
+  @Prop({ mutable: true }) month: number = new Date().getMonth();
   /**
    * Year for which the calendar is shown.
    */
-  @Prop() year: number = 0;
+  @Prop({ mutable: true }) year: number = new Date().getFullYear();
   /**
    * Already selected date.
    */
@@ -52,15 +53,15 @@ export class CalciteDateMonthHeader {
   /**
    * pass the locale in which user wants to show the date.
    */
-  @Prop() locale: string = "en-US";
+  @Prop() locale: string;
   /**
    * Localized string for previous month.
    */
-  @Prop() prevMonthLabel: string = "";
+  @Prop() prevMonthLabel: string;
   /**
    * Localized string for next month.
    */
-  @Prop() nextMonthLabel: string = "";
+  @Prop() nextMonthLabel: string;
 
   //--------------------------------------------------------------------------
   //
@@ -92,17 +93,16 @@ export class CalciteDateMonthHeader {
   componentWillUpdate(): void {}
 
   render() {
-    let localizedMonth = this.getLocalizedMonths()[this.month];
-
+    const localizedMonth = this.getLocalizedMonths()[this.month];
     return (
       <Host>
         <div class="month-year" aria-hidden="true">
           <button
             class="left-icon"
             aria-label={this.prevMonthLabel}
-            onClick={ () => this.selectPrevMonth()}
+            onClick={() => this.selectPrevMonth()}
           >
-            <calcite-icon icon="chevron-left" scale="s"></calcite-icon>
+            <calcite-icon icon="chevron-left" scale="s" mirrored></calcite-icon>
           </button>
           <div class="month-year-text">
             <span class="month" role="heading">
@@ -110,10 +110,9 @@ export class CalciteDateMonthHeader {
             </span>
             <input
               class="year"
-              type="number"
-              value={this.year}
-              min={this.min && this.min.getFullYear()}
-              max={this.max && this.max.getFullYear()}
+              value={`${this.getLocalizedYear(this.year).slice(-4)}`}
+              min={this.min && this.getLocalizedYear(this.min.getFullYear())}
+              max={this.max && this.getLocalizedYear(this.max.getFullYear())}
               onChange={event => this.onYearChange(event)}
             />
           </div>
@@ -122,7 +121,7 @@ export class CalciteDateMonthHeader {
             aria-label={this.nextMonthLabel}
             onClick={() => this.selectNextMonth()}
           >
-            <calcite-icon icon="chevron-right" scale="s"></calcite-icon>
+            <calcite-icon icon="chevron-right" scale="s" mirrored></calcite-icon>
           </button>
         </div>
       </Host>
@@ -192,7 +191,9 @@ export class CalciteDateMonthHeader {
   }
 
   private onYearChange(event) {
-    this.year = parseInt(event.target.value);
+    let year = parseInt(replaceArabicNumerals(event.target.value));
+    const { buddhist } = getLocaleFormatData(this.locale);
+    this.year = year - (buddhist ? 543 : 0);
   }
 
   private getLocalizedMonths() {
@@ -209,5 +210,11 @@ export class CalciteDateMonthHeader {
     }
 
     return months;
+  }
+
+  private getLocalizedYear(year: number) {
+    return new Intl.DateTimeFormat(this.locale, { year: "numeric" }).format(
+      new Date(`01/01/${year}`)
+    );
   }
 }

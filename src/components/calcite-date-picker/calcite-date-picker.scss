@@ -55,10 +55,34 @@
   }
 }
 
-:host([expanded]) {
+:host([show-calendar]) {
   background-color: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
   border: 1px solid var(--calcite-ui-border-2);
   box-shadow: $shadow-2;
   overflow: hidden;
+}
+
+.calendar-picker-wrapper {
+  position: absolute;
+  background-color: var(--calcite-ui-foreground-1);
+  box-shadow: $shadow-2;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -$baseline, 0);
+  transition: all 0.15s ease-in-out;
+  pointer-events: none;
+  z-index: 2;
+}
+
+:host([show-calendar]) .calendar-picker-wrapper {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+  visibility: visible;
+  pointer-events: initial;
+}
+
+:host([no-calendar-input]) .calendar-picker-wrapper {
+  position: static;
+  transform: translate3d(0,0,0);
 }

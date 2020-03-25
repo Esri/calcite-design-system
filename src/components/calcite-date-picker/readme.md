@@ -7,19 +7,17 @@
 
 ## Properties
 
-| Property          | Attribute           | Description                                                                                  | Type      | Default                                                                 |
-| ----------------- | ------------------- | -------------------------------------------------------------------------------------------- | --------- | ----------------------------------------------------------------------- |
-| `locale`          | `locale`            | pass the locale in which user wants to show the date.                                        | `string`  | `"en-GB"`                                                               |
-| `max`             | `max`               | Value of the form control                                                                    | `string`  | `""`                                                                    |
-| `min`             | `min`               | Name of the form control (useful for specifying input/label relationship)                    | `string`  | `""`                                                                    |
-| `nextMonthLabel`  | `next-month-label`  | Localized string for next month.                                                             | `string`  | `""`                                                                    |
-| `noCalendarInput` | `no-calendar-input` | Show no input for only calendar popup                                                        | `boolean` | `false`                                                                 |
-| `placeholder`     | `placeholder`       | Localized string for place holder to the date picker input.                                  | `string`  | `"mm/dd/yyyy"`                                                          |
-| `prevMonthLabel`  | `prev-month-label`  | Localized string for previous month.                                                         | `string`  | `""`                                                                    |
-| `showCalendar`    | `show-calendar`     | Expand or collapse when calendar does not have input.                                        | `boolean` | `false`                                                                 |
-| `startOfWeek`     | `start-of-week`     | Sun by default 0: Sunday 1: Monday 2: Tuesday 3: Wednesday 4: Thursday 5: Friday 6: Saturday | `number`  | `0`                                                                     |
-| `value`           | `value`             | Value of the form control                                                                    | `string`  | `""`                                                                    |
-| `valueAsDate`     | --                  | Input as Date                                                                                | `Date`    | `!isNaN(Date.parse(this.value)) ? this.generateDate(this.value) : null` |
+| Property          | Attribute           | Description                                                 | Type             | Default            |
+| ----------------- | ------------------- | ----------------------------------------------------------- | ---------------- | ------------------ |
+| `locale`          | `locale`            | BCP 47 language tag for desired language and country format | `string`         | `"en-US"`          |
+| `max`             | `max`               | Latest allowed date ("yyyy-mm-dd")                          | `string`         | `""`               |
+| `min`             | `min`               | Earliest allowed date ("yyyy-mm-dd")                        | `string`         | `""`               |
+| `nextMonthLabel`  | `next-month-label`  | Localized string for "next month"                           | `string`         | `"next month"`     |
+| `noCalendarInput` | `no-calendar-input` | Show only calendar popup                                    | `boolean`        | `false`            |
+| `prevMonthLabel`  | `prev-month-label`  | Localized string for "previous month"                       | `string`         | `"previous month"` |
+| `showCalendar`    | `show-calendar`     | Expand or collapse when calendar does not have input        | `boolean`        | `false`            |
+| `startOfWeek`     | `start-of-week`     | Start of week offset. 0 for Sunday, 1 for Monday, etc...    | `number`         | `0`                |
+| `value`           | `value`             | Selected date                                               | `Date or string` | `undefined`        |
 
 
 ## Events

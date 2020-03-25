@@ -7,16 +7,16 @@
 
 ## Properties
 
-| Property         | Attribute          | Description                                                         | Type     | Default     |
-| ---------------- | ------------------ | ------------------------------------------------------------------- | -------- | ----------- |
-| `locale`         | `locale`           | pass the locale in which user wants to show the date.               | `string` | `"en-US"`   |
-| `max`            | --                 | Maximum date of the calendar above which is disabled.               | `Date`   | `undefined` |
-| `min`            | --                 | Minimum date of the calendar below which is disabled.               | `Date`   | `undefined` |
-| `month`          | `month`            | Month number starting 0 as January for which the calendar is shown. | `number` | `0`         |
-| `nextMonthLabel` | `next-month-label` | Localized string for next month.                                    | `string` | `""`        |
-| `prevMonthLabel` | `prev-month-label` | Localized string for previous month.                                | `string` | `""`        |
-| `selectedDate`   | --                 | Already selected date.                                              | `Date`   | `undefined` |
-| `year`           | `year`             | Year for which the calendar is shown.                               | `number` | `0`         |
+| Property         | Attribute          | Description                                                         | Type     | Default                    |
+| ---------------- | ------------------ | ------------------------------------------------------------------- | -------- | -------------------------- |
+| `locale`         | `locale`           | pass the locale in which user wants to show the date.               | `string` | `undefined`                |
+| `max`            | --                 | Maximum date of the calendar above which is disabled.               | `Date`   | `undefined`                |
+| `min`            | --                 | Minimum date of the calendar below which is disabled.               | `Date`   | `undefined`                |
+| `month`          | `month`            | Month number starting 0 as January for which the calendar is shown. | `number` | `new Date().getMonth()`    |
+| `nextMonthLabel` | `next-month-label` | Localized string for next month.                                    | `string` | `undefined`                |
+| `prevMonthLabel` | `prev-month-label` | Localized string for previous month.                                | `string` | `undefined`                |
+| `selectedDate`   | --                 | Already selected date.                                              | `Date`   | `undefined`                |
+| `year`           | `year`             | Year for which the calendar is shown.                               | `number` | `new Date().getFullYear()` |
 
 
 ## Events
