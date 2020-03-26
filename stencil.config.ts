@@ -28,7 +28,7 @@ export const config: Config = {
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
-    { components: ["calcite-popover"] },
+    { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-slider"] },
@@ -41,8 +41,8 @@ export const config: Config = {
         "calcite-tabs"
       ]
     },
-    { components: ["calcite-tooltip"] },
-    { components: ["calcite-tree", "calcite-tree-item"] },
+    { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
+    { components: ["calcite-tree", "calcite-tree-item"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },

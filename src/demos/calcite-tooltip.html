@@ -1,77 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Tooltip</title>
+    <style>
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css"
+    />
+    <link rel="stylesheet" href="../build/calcite.css" />
+    <script type="module" src="../build/calcite.esm.js"></script>
+    <script nomodule src="../build/calcite.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Tooltip</title>
-  <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-  </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Tooltip</h1>
 
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Tooltip</h1>
+    <calcite-tooltip-manager>
+      <calcite-tooltip placement="auto" id="tooltip"
+        >This is the message of the tooltip</calcite-tooltip
+      >
 
-  <calcite-tooltip placement="auto" id="tooltip">This is the message of the tooltip</calcite-tooltip>
+      <calcite-tooltip
+        placement="top"
+        id="tooltip-two"
+        reference-element="tooltip-button-two"
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem
+        Ipsum has been the industry's standard printer of type and scrambled it
+        to make a type specimen book.</calcite-tooltip
+      >
 
-  <calcite-tooltip placement="top" id="tooltip-two" reference-element="tooltip-button-two">Lorem Ipsum is simply
-    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard printer of type and
-    scrambled it to make a type specimen book.</calcite-tooltip>
+      <calcite-tooltip
+        placement="right-start"
+        reference-element="tooltip-button-four"
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem
+        Ipsum has been the industry's standard printer of type and scrambled it
+        to make a type specimen book.
+      </calcite-tooltip>
 
-  <calcite-tooltip placement="right-start" reference-element="tooltip-button-four">Lorem Ipsum is simply of the
-    printing and typesetting industry. Lorem Ipsum has been the industry's standard printer of type and scrambled
-    it to make a type specimen book.
-  </calcite-tooltip>
+      <calcite-tooltip theme="dark" reference-element="tooltip-button-five"
+        >This is the message of the tooltip.
+      </calcite-tooltip>
 
+      <calcite-tooltip
+        theme="dark"
+        placement="auto"
+        id="tooltip-six"
+        reference-element="tooltip-button-six"
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem
+        Ipsum has been the industry's standard printer of type and scrambled it
+        to make a type specimen book.</calcite-tooltip
+      >
 
-  <calcite-tooltip theme="dark" reference-element="tooltip-button-five">This is the message of the tooltip.
-  </calcite-tooltip>
+      <calcite-tooltip
+        theme="dark"
+        placement="auto"
+        reference-element="tooltip-button-eight"
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem
+        Ipsum has been the industry's standard printer of type and scrambled it
+        to make a type specimen book.
+      </calcite-tooltip>
 
-  <calcite-tooltip theme="dark" placement="auto" id="tooltip-six" reference-element="tooltip-button-six">Lorem
-    Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard printer
-    of type and scrambled it to make a type specimen book.</calcite-tooltip>
+      <p>
+        Lorem <a id="tooltip-button" href="#">ipsum</a> dolor sit amet,
+        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        exercitation
+        <strong id="tooltip-button-two" tabindex="0">ullamco</strong> laboris
+        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+        qui
+        <calcite-button id="tooltip-button-four"
+          >officia deserunt
+        </calcite-button>
+        mollit anim id est laborum.
+      </p>
 
-  <calcite-tooltip theme="dark" placement="auto" reference-element="tooltip-button-eight">Lorem Ipsum is simply of
-    the printing and typesetting industry. Lorem Ipsum has been the industry's standard printer of type and
-    scrambled it to make a type specimen book.
-  </calcite-tooltip>
-
-  <p>
-    Lorem <a id="tooltip-button" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation <strong
-      id="tooltip-button-two" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat. Duis
-    aute irure
-    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-    cupidatat non proident, sunt in culpa qui <calcite-button id="tooltip-button-four">officia deserunt
-    </calcite-button> mollit anim id est laborum.
-  </p>
-
-  <p class="demo-background-dark">
-    Lorem <a id="tooltip-button-five" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do
-    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-    <strong id="tooltip-button-six" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat.
-    Duis aute
-    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-    occaecat cupidatat non proident, sunt in culpa qui <calcite-button id="tooltip-button-eight">officia deserunt
-    </calcite-button> mollit anim id est laborum.
-  </p>
-
-  <script>
-    var tooltip = document.getElementById("tooltip");
-    var tooltipButton = document.getElementById("tooltip-button");
-    tooltip.referenceElement = tooltipButton;
-  </script>
-</body>
-
+      <p class="demo-background-dark">
+        Lorem <a id="tooltip-button-five" href="#">ipsum</a> dolor sit amet,
+        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        exercitation
+        <strong id="tooltip-button-six" tabindex="0">ullamco</strong> laboris
+        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+        qui
+        <calcite-button id="tooltip-button-eight"
+          >officia deserunt
+        </calcite-button>
+        mollit anim id est laborum.
+      </p>
+    </calcite-tooltip-manager>
+    <script>
+      var tooltip = document.getElementById("tooltip");
+      var tooltipButton = document.getElementById("tooltip-button");
+      tooltip.referenceElement = tooltipButton;
+    </script>
+  </body>
 </html>
