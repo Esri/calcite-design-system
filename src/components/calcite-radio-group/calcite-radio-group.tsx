@@ -8,7 +8,7 @@ import {
   Prop,
   Watch,
   Host,
-  Build
+  Build, Method
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
@@ -80,7 +80,7 @@ export class CalciteRadioGroup {
   }
 
   /** The component's theme. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** The scale of the button */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -95,10 +95,6 @@ export class CalciteRadioGroup {
     // prop validations
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
-
-    let theme = ["dark", "light"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     const items = this.getItems();
     let lastChecked = Array.from(items)
       .filter(item => item.checked)
@@ -221,6 +217,18 @@ export class CalciteRadioGroup {
 
   @Event()
   calciteRadioGroupChange: EventEmitter;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Focuses the selected item. If there is no selection, it focuses the first item. */
+  @Method()
+  async setFocus() {
+    (this.selectedItem || this.getItems()[0])?.focus();
+  }
 
   //--------------------------------------------------------------------------
   //

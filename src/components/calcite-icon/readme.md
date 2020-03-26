@@ -25,7 +25,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 | `mirrored`  | `mirrored`   | When true, the icon will be mirrored when the element direction is 'rtl'.                                                           | `boolean`           | `false`     |
 | `scale`     | `scale`      | Icon scale. Can be "s" \| "m" \| "l".                                                                                               | `"l" \| "m" \| "s"` | `"m"`       |
 | `textLabel` | `text-label` | The icon label.  It is recommended to set this value if your icon is semantic.                                                      | `string`            | `undefined` |
-| `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `"light"`   |
+| `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `undefined` |
 
 
 ## Dependencies
@@ -35,6 +35,8 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
  - [calcite-accordion-item](../calcite-accordion-item)
  - [calcite-alert](../calcite-alert)
  - [calcite-button](../calcite-button)
+ - [calcite-date-month-header](../calcite-date-month-header)
+ - [calcite-date-picker](../calcite-date)
  - [calcite-dropdown-item](../calcite-dropdown-item)
  - [calcite-input](../calcite-input)
  - [calcite-input-message](../calcite-input-message)
@@ -50,6 +52,8 @@ graph TD;
   calcite-accordion-item --> calcite-icon
   calcite-alert --> calcite-icon
   calcite-button --> calcite-icon
+  calcite-date-month-header --> calcite-icon
+  calcite-date-picker --> calcite-icon
   calcite-dropdown-item --> calcite-icon
   calcite-input --> calcite-icon
   calcite-input-message --> calcite-icon

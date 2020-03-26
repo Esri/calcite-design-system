@@ -11,7 +11,6 @@ import {
   State
 } from "@stencil/core";
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
-import { getElementDir, getElementTheme } from "../../utils/dom";
 
 @Component({
   tag: "calcite-modal",
@@ -49,7 +48,7 @@ export class CalciteModal {
    * Use color to add importance to desctructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
   /** Turn off spacing around the content area slot */
   @Prop() noPadding?: boolean;
 
@@ -59,15 +58,11 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   render() {
-    const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
     return (
       <Host
         role="dialog"
         aria-modal="true"
         class={{ "is-active": this.isActive }}
-        dir={dir}
-        theme={theme}
       >
         <div class="modal">
           <div
@@ -82,7 +77,7 @@ export class CalciteModal {
               ref={el => (this.closeButton = el)}
               onClick={() => this.close()}
             >
-              <calcite-icon icon="x" scale="m"></calcite-icon>
+              <calcite-icon icon="x" scale="l"></calcite-icon>
             </button>
             <header class="modal__title">
               <slot name="header" />

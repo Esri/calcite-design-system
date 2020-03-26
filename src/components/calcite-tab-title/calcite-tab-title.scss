@@ -1,6 +1,27 @@
+$tab-margin: 1.25rem;
+
 :host {
-  flex: 0 1 var(--calcite-tabs-tab-basis);
+  flex: 0 1 auto;
   outline: none;
+  margin-right: $tab-margin;
+  margin-inline-start: 0;
+  margin-inline-end: $tab-margin;
+}
+
+// only ie11 and chrome will run this, others have logical properties
+:host-context([dir="rtl"]) {
+  margin-right: 0;
+  margin-left: $tab-margin;
+}
+
+:host-context([theme="dark"]){
+  @include calcite-theme-dark();
+}
+
+:host([layout="center"]) {
+  flex-basis: 200px;
+  text-align: center;
+  margin: 0 $tab-margin;
 }
 
 :host(:active),
@@ -16,7 +37,7 @@
 
 :host([is-active]) a {
   color: var(--calcite-ui-text-1);
-  border-bottom-color: var(--calcite-ui-blue);
+  border-bottom-color: var(--calcite-ui-blue-1);
   font-weight: 500;
 }
 
@@ -34,5 +55,4 @@ a {
   outline: none;
   width: 100%;
   display: block;
-  text-align: var(--calcite-tabs-tab-text-align);
 }

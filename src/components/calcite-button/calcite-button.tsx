@@ -7,7 +7,6 @@ import {
   Prop,
   Build
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
@@ -51,7 +50,7 @@ export class CalciteButton {
     | "inline" = "solid";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
@@ -102,10 +101,6 @@ export class CalciteButton {
 
     let width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
-
-    let theme = ["dark", "light"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     let iconPosition = ["start", "end"];
     if (this.icon !== null && !iconPosition.includes(this.iconPosition))
       this.iconPosition = "start";
@@ -126,7 +121,6 @@ export class CalciteButton {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "button" : null;
@@ -157,7 +151,7 @@ export class CalciteButton {
     );
 
     return (
-      <Host dir={dir} hasText={this.hasText}>
+      <Host hasText={this.hasText}>
         <Tag
           {...attributes}
           role={role}

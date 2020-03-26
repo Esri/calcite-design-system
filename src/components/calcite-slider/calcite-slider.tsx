@@ -20,7 +20,6 @@ import {
   HOME,
   END
 } from "../../utils/keys";
-import { getElementDir, getElementTheme } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 type activeSliderProperty = "minValue" | "maxValue" | "value";
 
@@ -43,7 +42,7 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
   /** Select theme (light or dark) */
-  @Prop({ reflectToAttr: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
   /** Disable and gray out the slider */
   @Prop({ reflect: true, mutable: true }) disabled: boolean = false;
   /** Minimum selectable value */
@@ -91,25 +90,16 @@ export class CalciteSlider {
 
   render() {
     const id = this.el.id || this.guid;
-    const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
     const min = this.minValue || this.min;
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
+    const left = `${this.getUnitInterval(min) * 100}%`;
+    const right = `${100 - this.getUnitInterval(max) * 100}%`;
+
     return (
-      <Host
-        dir={dir}
-        theme={theme}
-        id={id}
-        is-range={this.isRange}
-        style={{
-          "--calcite-slider-range-max": `${100 -
-            this.getUnitInterval(max) * 100}%`,
-          "--calcite-slider-range-min": `${this.getUnitInterval(min) * 100}%`
-        }}
-      >
+      <Host id={id} is-range={this.isRange}>
         <div class="slider__track">
-          <div class="slider__track__range"></div>
+          <div class="slider__track__range" style={{ left, right }} />
           <div class="slider__ticks">
             {this.tickValues.map(number => (
               <span
@@ -118,9 +108,7 @@ export class CalciteSlider {
                   "slider__tick--active": number >= min && number <= max
                 }}
                 style={{
-                  "--calcite-slider-tick-offset": `${this.getUnitInterval(
-                    number
-                  ) * 100}%`
+                  left: `${this.getUnitInterval(number) * 100}%`
                 }}
               >
                 {this.labelTicks ? (
@@ -154,6 +142,7 @@ export class CalciteSlider {
             aria-valuemin={this.min}
             aria-valuemax={this.max}
             disabled={this.disabled}
+            style={{ left }}
             class={{
               slider__thumb: true,
               "slider__thumb--min": true,
@@ -186,6 +175,7 @@ export class CalciteSlider {
           aria-valuemin={this.min}
           aria-valuemax={this.max}
           disabled={this.disabled}
+          style={{ right }}
           class={{
             slider__thumb: true,
             "slider__thumb--max": true,
@@ -300,38 +290,23 @@ export class CalciteSlider {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  /**
-   * @internal
-   */
+  /** @internal */
   private guid = `calcite-slider-${guid()}`;
-  /**
-   * @internal
-   */
+  /** @internal */
   private isRange: boolean = false;
-  /**
-   * @internal
-   */
+  /** @internal */
   private dragProp: activeSliderProperty;
-  /**
-   * @internal
-   */
+  /** @internal */
   private minHandle: HTMLButtonElement;
-  /**
-   * @internal
-   */
+  /** @internal */
   private maxHandle: HTMLButtonElement;
-  /**
-   * @internal
-   */
+  /** @internal */
   private dragListener: (e: MouseEvent) => void;
-  /**
-   * @internal
-   */
+  /** @internal */
   @State() private tickValues: number[] = [];
-  /**
-   * @internal
-   */
+  /** @internal */
   @State() private activeProp: activeSliderProperty = "value";
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods

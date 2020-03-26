@@ -9,7 +9,7 @@ import {
   END,
   SPACE
 } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
+
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -34,19 +34,19 @@ export class CalciteDropdown {
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
-  /** specify the alignment of dropdown, defaults to left */
+  /** specify the alignment of dropdown, defaults to start */
   @Prop({ mutable: true, reflect: true }) alignment:
     | "start"
     | "center"
     | "end" = "start";
 
   /** specify the theme of the dropdown, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of dropdown, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the width of dropdrown, defaults to m */
+  /** specify the width of dropdown, defaults to m */
   @Prop({ mutable: true, reflect: true }) width: "s" | "m" | "l" = "m";
 
   /** specify whether the dropdown is opened by hover or click of the trigger element */
@@ -62,10 +62,6 @@ export class CalciteDropdown {
     // validate props
     let alignment = ["start", "center", "end"];
     if (!alignment.includes(this.alignment)) this.alignment = "start";
-
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
@@ -87,10 +83,9 @@ export class CalciteDropdown {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const expanded = this.active.toString();
     return (
-      <Host dir={dir} active={this.active} id={this.dropdownId}>
+      <Host active={this.active} id={this.dropdownId}>
         <slot
           name="dropdown-trigger"
           aria-haspopup="true"

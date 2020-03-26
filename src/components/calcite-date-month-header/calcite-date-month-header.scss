@@ -8,20 +8,20 @@ input {
 
 .right-icon,
 .left-icon {
-  fill: var(--calcite-ui-text-3);
+  color: var(--calcite-ui-text-3);
   flex-grow: 1;
   outline: none;
   padding: 0;
   border: none;
   color: inherit;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   cursor: pointer;
   transition: all 0.15s ease-in-out;
 
   &:hover,
   &:focus {
     fill: var(--calcite-ui-text-1);
-    background-color: var(--calcite-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-2);
   }
 
   &:active {
@@ -39,7 +39,7 @@ input {
 .month,
 .year {
   color: var(--calcite-ui-text-1);
-  background: var(--calcite-ui-foreground);
+  background: var(--calcite-ui-foreground-1);
   @include font-size(0);
   font-weight: 500;
 }

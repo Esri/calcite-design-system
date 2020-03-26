@@ -1,65 +1,50 @@
 :host {
-  --calcite-track-color: #{$blk-020};
   position: relative;
   display: block;
-}
-
-:host([theme="dark"]) {
-  --calcite-track-color: #{$blk-190};
-}
-
-$looping-progress-bar-width: 20% !default;
-$looping-progress-bar-params: 1500ms linear infinite !default;
-
-.calcite-progress--track,
-.calcite-progress--bar {
-  content: "";
-  opacity: 1;
-  position: absolute;
   height: 2px;
-  top: 0;
-  transition: opacity 500ms ease-in-out;
+  width: 100%;
+  overflow: hidden;
 }
 
-.calcite-progress--track {
-  background: var(--calcite-track-color);
+.track,
+.bar {
+  position: absolute;
+  top: 0;
+  height: 2px;
+}
+
+.track {
+  background: var(--calcite-ui-border-3);
   z-index: 0;
   width: 100%;
 }
 
-.calcite-progress--bar {
-  background-color: var(--calcite-ui-blue);
+.bar {
+  background-color: var(--calcite-ui-blue-1);
   z-index: 0;
 }
 
-.--indeterminate {
-  width: $looping-progress-bar-width;
-  animation: looping-progress-bar-ani $looping-progress-bar-params;
+.indeterminate {
+  width: 20%;
+  animation: looping-progress-bar-ani 2200ms linear infinite;
 }
 
-.--determinate {
-  width: var(--percentage-value);
+.reversed {
+  right: 0;
 }
 
-.calcite-progress--text {
-  padding: 20px 0 0 0;
+.text {
+  padding: $baseline 0 0 0;
 }
 
 @keyframes looping-progress-bar-ani {
   0% {
-    left: 0%;
-    width: 0%;
+    transform: translate3d(-100%, 0, 0);
   }
-  #{$looping-progress-bar-width} {
-    left: 0%;
-    width: $looping-progress-bar-width;
-  }
-  #{100-$looping-progress-bar-width} {
-    left: 100% - $looping-progress-bar-width;
-    width: $looping-progress-bar-width;
+  50% {
+    width: 40%;
   }
   100% {
-    left: 100%;
-    width: 0%;
+    transform: translate3d(600%, 0, 0);
   }
 }

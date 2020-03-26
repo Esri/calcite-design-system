@@ -10,7 +10,7 @@ import {
 import { CSS, SLOTS } from "./resources";
 import { ENTER, SPACE } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
-import { VNode } from "@stencil/core/dist/declarations";
+import { VNode } from "@stencil/core";
 
 /**
  * @slot thumbnail - A slot for adding a thumnail to the card.
@@ -21,8 +21,8 @@ import { VNode } from "@stencil/core/dist/declarations";
  * @slot footer-trailing - A slot for adding a trailing footer.
  */
 
- /** Cards do not include a grid or bounding container
-  * - cards will expand to fit the width of their container
+/** Cards do not include a grid or bounding container
+ * - cards will expand to fit the width of their container
  */
 
 @Component({
@@ -55,7 +55,7 @@ export class CalciteCard {
   @Prop({ reflect: true, mutable: true }) selectable: boolean = false;
 
   /**  The theme of the card.*/
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   //--------------------------------------------------------------------------
   //
@@ -72,11 +72,6 @@ export class CalciteCard {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback() {
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
-  }
-
   render() {
     const dir = getElementDir(this.el);
     return (
@@ -84,10 +79,7 @@ export class CalciteCard {
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
-              <calcite-loader
-                class="calcite-card-loader"
-                is-active
-              ></calcite-loader>
+              <calcite-loader is-active></calcite-loader>
             </div>
           ) : null}
           <section class={{ [CSS.container]: true }} aria-busy={this.loading}>
@@ -149,7 +141,7 @@ export class CalciteCard {
   private renderCheckbox(): VNode {
     return (
       <div
-        class="card-checkbox-wrapper"
+        class={CSS.checkboxWrapper}
         onClick={() => this.cardSelectClick()}
         onKeyDown={e => this.cardSelectKeyDown(e)}
       >

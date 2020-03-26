@@ -5,56 +5,56 @@
   --calcite-switch-track-border: #{$blk-040};
   --calcite-switch-handle-background: #{$blk-000};
   --calcite-switch-handle-border: #{$blk-100};
-  --calcite-switch-hover-handle-border: var(--calcite-ui-blue-hover);
+  --calcite-switch-hover-handle-border: var(--calcite-ui-blue-2);
   --calcite-switch-hover-track-background: #{$blk-020};
   --calcite-switch-hover-track-border: #{$blk-060};
-  --calcite-switch-switched-track-background: var(--calcite-ui-blue-hover);
-  --calcite-switch-switched-track-border: var(--calcite-ui-blue-press);
-  --calcite-switch-switched-handle-border: var(--calcite-ui-blue);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-blue);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-blue-hover);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-blue-press);
+  --calcite-switch-switched-track-background: var(--calcite-ui-blue-2);
+  --calcite-switch-switched-track-border: var(--calcite-ui-blue-3);
+  --calcite-switch-switched-handle-border: var(--calcite-ui-blue-1);
+  --calcite-switch-switched-hover-track-background: var(--calcite-ui-blue-1);
+  --calcite-switch-switched-hover-track-border: var(--calcite-ui-blue-2);
+  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-blue-3);
   --calcite-switch-box-shadow-color: #{rgba($blk-130, 0.5)};
-  --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue, 0.5)};
+  --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue-1, 0.5)};
 }
 
 // dark theme
-:host([theme="dark"]) {
+:host-context([theme="dark"]) {
   --calcite-switch-track-background: #{$blk-190};
   --calcite-switch-track-border: #{$blk-160};
   --calcite-switch-handle-background: #{$blk-200};
   --calcite-switch-handle-border: #{$blk-100};
-  --calcite-switch-hover-handle-border: var(--calcite-ui-blue-hover);
+  --calcite-switch-hover-handle-border: var(--calcite-ui-blue-2);
   --calcite-switch-hover-track-background: #{$blk-180};
   --calcite-switch-hover-track-border: #{$blk-120};
-  --calcite-switch-switched-track-background: var(--calcite-ui-blue-hover);
-  --calcite-switch-switched-track-border: var(--calcite-ui-blue);
-  --calcite-switch-switched-handle-border: var(--calcite-ui-blue);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-blue);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-blue);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-blue-hover);
-  --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue-dark, 0.5)};
+  --calcite-switch-switched-track-background: var(--calcite-ui-blue-2);
+  --calcite-switch-switched-track-border: var(--calcite-ui-blue-1);
+  --calcite-switch-switched-handle-border: var(--calcite-ui-blue-1);
+  --calcite-switch-switched-hover-track-background: var(--calcite-ui-blue-1);
+  --calcite-switch-switched-hover-track-border: var(--calcite-ui-blue-1);
+  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-blue-2);
+  --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue-3, 0.5)};
 }
 
 :host([color="red"]) {
-  --calcite-switch-switched-track-background: var(--calcite-ui-red-hover);
-  --calcite-switch-switched-track-border: var(--calcite-ui-red);
-  --calcite-switch-hover-handle-border: var(--calcite-ui-red-hover);
-  --calcite-switch-switched-handle-border: var(--calcite-ui-red);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-red);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-red-hover);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-red-press);
-  --calcite-switch-switched-box-shadow-color: #{rgba($ui-red, 0.5)};
+  --calcite-switch-switched-track-background: var(--calcite-ui-red-2);
+  --calcite-switch-switched-track-border: var(--calcite-ui-red-1);
+  --calcite-switch-hover-handle-border: var(--calcite-ui-red-2);
+  --calcite-switch-switched-handle-border: var(--calcite-ui-red-1);
+  --calcite-switch-switched-hover-track-background: var(--calcite-ui-red-1);
+  --calcite-switch-switched-hover-track-border: var(--calcite-ui-red-2);
+  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-red-3);
+  --calcite-switch-switched-box-shadow-color: #{rgba($ui-red-1, 0.5)};
 }
 :host([theme="dark"][color="red"]) {
-  --calcite-switch-switched-track-background: var(--calcite-ui-red-hover) ;
-  --calcite-switch-switched-track-border: var(--calcite-ui-red);
-  --calcite-switch-hover-handle-border: var(--calcite-ui-red-hover) ;
-  --calcite-switch-switched-handle-border: var(--calcite-ui-red);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-red);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-red-press);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-red-press);
-  --calcite-switch-switched-box-shadow-color: #{rgba($ui-red-dark, 0.5)};
+  --calcite-switch-switched-track-background: var(--calcite-ui-red-2) ;
+  --calcite-switch-switched-track-border: var(--calcite-ui-red-1);
+  --calcite-switch-hover-handle-border: var(--calcite-ui-red-2) ;
+  --calcite-switch-switched-handle-border: var(--calcite-ui-red-1);
+  --calcite-switch-switched-hover-track-background: var(--calcite-ui-red-1);
+  --calcite-switch-switched-hover-track-border: var(--calcite-ui-red-3);
+  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-red-3);
+  --calcite-switch-switched-box-shadow-color: #{rgba($ui-red-3, 0.5)};
 }
 
 // sizes
@@ -161,7 +161,9 @@
 }
 
 // rtl
-:host([dir="rtl"]) {
+:host-context([dir="rtl"]) {
+  margin-right: 0;
+  margin-left: 0.5em;
   & .handle {
     left: auto;
     right: -1px;

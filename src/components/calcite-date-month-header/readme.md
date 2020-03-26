@@ -33,9 +33,14 @@
 
  - [calcite-date-picker](../calcite-date)
 
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
 ### Graph
 ```mermaid
 graph TD;
+  calcite-date-month-header --> calcite-icon
   calcite-date-picker --> calcite-date-month-header
   style calcite-date-month-header fill:#f9f,stroke:#333,stroke-width:4px
 ```

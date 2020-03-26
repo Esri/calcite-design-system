@@ -54,7 +54,7 @@
   transform: rotate(var(--calcite-accordion-item-icon-rotation));
 }
 
-:host([dir="rtl"]) .accordion-item-icon {
+:host-context([dir="rtl"]) .accordion-item-icon {
   margin-left: var(--calcite-accordion-item-icon-spacing-end);
   margin-right: var(--calcite-accordion-item-icon-spacing-start);
   transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
@@ -75,7 +75,7 @@
   text-align: initial;
 }
 
-:host([dir="rtl"]) .accordion-item-header-text {
+:host-context([dir="rtl"]) .accordion-item-header-text {
   margin-left: auto;
   margin-right: 0;
 }
@@ -91,7 +91,7 @@
 :host .accordion-item-subtitle {
   color: var(--calcite-ui-text-3);
 }
-:host([dir="rtl"]) .accordion-item-title {
+:host-context([dir="rtl"]) .accordion-item-title {
   margin-right: 0;
   margin-left: auto;
 }

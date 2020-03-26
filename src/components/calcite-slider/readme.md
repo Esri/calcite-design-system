@@ -32,7 +32,7 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 | `precise`      | `precise`       | Use finer point for handles                                        | `boolean`           | `undefined` |
 | `snap`         | `snap`          | Snap selection along the step interval                             | `boolean`           | `true`      |
 | `step`         | `step`          | Interval to move on up/down keys                                   | `number`            | `1`         |
-| `theme`        | `theme`         | Select theme (light or dark)                                       | `"dark" \| "light"` | `"light"`   |
+| `theme`        | `theme`         | Select theme (light or dark)                                       | `"dark" \| "light"` | `undefined` |
 | `ticks`        | `ticks`         | Show tick marks on the number line at provided interval            | `number`            | `undefined` |
 | `value`        | `value`         | Currently selected number (if single select)                       | `number`            | `null`      |
 

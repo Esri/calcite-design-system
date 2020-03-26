@@ -18,10 +18,7 @@ import {
   END,
   SPACE
 } from "../../utils/keys";
-import {
-  getElementDir,
-  getElementProp
-} from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -81,7 +78,6 @@ export class CalciteDropdownItem {
 
   render() {
     const attributes = this.getAttributes();
-    const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "s" || scale === "m" ? "s" : "m";
     const iconStartEl = (
@@ -117,7 +113,7 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
-        dir={dir}
+
         tabindex="0"
         role="menuitem"
         selection-mode={this.selectionMode}

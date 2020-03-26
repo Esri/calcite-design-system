@@ -1,11 +1,11 @@
 :host {
   max-width: 100%;
-  & .calcite-card-container  {
+  & .calcite-card-container {
     display: flex;
     height: 100%;
     flex-direction: column;
     justify-content: space-between;
-    background-color: var(--calcite-ui-foreground);
+    background-color: var(--calcite-ui-foreground-1);
     transition: $transition;
     position: relative;
     border: 1px solid var(--calcite-ui-border-2);
@@ -22,7 +22,9 @@
   }
 }
 
-:host([loading]) .calcite-card-container  *:not(calcite-loader):not(.calcite-card-loader-container) {
+:host([loading])
+  .calcite-card-container
+  *:not(calcite-loader):not(.calcite-card-loader-container) {
   opacity: 0;
   pointer-events: none;
 }
@@ -35,13 +37,6 @@
   right: 0;
   top: 0;
   bottom: 0;
-}
-
-:host([loading]) .calcite-card-loader {
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 9;
 }
 
 :host .header,
@@ -57,6 +52,8 @@
 :host .footer {
   padding: $baseline/2;
   flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between
 }
 
 :host .card-content {
@@ -70,8 +67,8 @@
   box-shadow: $shadow-1--press;
 }
 
-:host([selected]) .calcite-card-container  {
-  border-color: var(--calcite-ui-blue);
+:host([selected]) .calcite-card-container {
+  border-color: var(--calcite-ui-blue-1);
 }
 
 // slotted content
@@ -109,7 +106,7 @@
   font-size: 0;
 }
 
-:host .card-checkbox-wrapper {
+:host .checkbox-wrapper {
   position: absolute;
   top: $baseline/4;
   right: $baseline/4;
@@ -117,7 +114,7 @@
   padding: 0;
 }
 
-:host([dir="rtl"]) .card-checkbox-wrapper {
+:host([dir="rtl"]) .checkbox-wrapper {
   left: $baseline/4;
-  right: initial;
+  right: auto;
 }

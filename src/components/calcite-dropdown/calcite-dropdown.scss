@@ -71,13 +71,13 @@
   max-height: 0;
   width: auto;
   width: var(--calcite-dropdown-width);
-  background: var(--calcite-ui-foreground);
+  background: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
   pointer-events: none;
 }
 
-:host([dir="rtl"]) .calcite-dropdown-wrapper {
+:host-context([dir="rtl"]) .calcite-dropdown-wrapper {
   right: 0;
   left: unset;
 }
