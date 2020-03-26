@@ -25,12 +25,12 @@
 }
 
 :host {
-  --calcite-input-message-floating-background: #{rgba($ui-foreground, 0.96)};
+  --calcite-input-message-floating-background: #{rgba($ui-foreground-1, 0.96)};
 }
 
 :host([theme="dark"]) {
   --calcite-input-message-floating-background: #{rgba(
-      $ui-foreground-hover-dark,
+      $ui-foreground-1-dark,
       0.96
     )};
 }
@@ -91,11 +91,11 @@
   margin: 0 0 0 $baseline/2;
 }
 // status
-$inputStatusColors: "invalid" var(--calcite-ui-red) var(--calcite-ui-red-hover)
+$inputStatusColors: "invalid" var(--calcite-ui-red-1) var(--calcite-ui-red-1)
     var(--calcite-input-status-invalid-focus-shadow-color),
-  "valid" var(--calcite-ui-green) var(--calcite-ui-green-hover)
+  "valid" var(--calcite-ui-green-1) var(--calcite-ui-green-1)
     var(--calcite-input-status-valid-focus-shadow-color),
-  "idle" var(--calcite-ui-blue) var(--calcite-ui-blue-hover)
+  "idle" var(--calcite-ui-blue-1) var(--calcite-ui-blue-1)
     var(--calcite-input-status-valid-focus-shadow-color);
 
 @each $statusColor in $inputStatusColors {

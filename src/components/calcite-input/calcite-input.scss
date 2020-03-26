@@ -336,7 +336,7 @@ calcite-input[number-button-type="vertical"]
   border: 1px solid var(--calcite-ui-border-1);
   transition: $transition;
   pointer-events: initial;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   border-left: none;
   & calcite-icon {
     pointer-events: none;
@@ -345,10 +345,10 @@ calcite-input[number-button-type="vertical"]
   }
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-1);
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-press);
+    background-color: var(--calcite-ui-foreground-2);
   }
 }
 
@@ -429,11 +429,11 @@ calcite-input[type="file"] textarea {
 
 // colors and borders
 $inputStatusColors: "invalid" var(--calcite-ui-text-1)
-    var(--calcite-ui-border-1) var(--calcite-ui-red),
+    var(--calcite-ui-border-1) var(--calcite-ui-red-1),
   "valid" var(--calcite-ui-text-1) var(--calcite-ui-border-1)
-    var(--calcite-ui-blue),
+    var(--calcite-ui-blue-1),
   "idle" var(--calcite-ui-text-1) var(--calcite-ui-border-1)
-    var(--calcite-ui-blue);
+    var(--calcite-ui-blue-1);
 
 @each $statusColor in $inputStatusColors {
   $name: nth($statusColor, 1);

@@ -62,9 +62,9 @@
     margin-left: $baseline/2;
   }
   & ::slotted(*:first-child) {
-    margin-left:0;
+    margin-left: 0;
   }
-  & ::slotted(*:not(:empty))  {
+  & ::slotted(*:not(:empty)) {
     margin-right: 20px;
   }
   & ::slotted(*:only-of-type:not(:first-child):not(:last-child)) {
@@ -74,7 +74,7 @@
 }
 
 // status
-$inputStatusColors: "invalid" var(--calcite-ui-red),
+$inputStatusColors: "invalid" var(--calcite-ui-red-1),
   "valid" var(--calcite-ui-text-2), "idle" var(--calcite-ui-text-2);
 
 @each $statusColor in $inputStatusColors {
