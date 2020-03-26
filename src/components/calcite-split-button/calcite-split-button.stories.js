@@ -6,7 +6,7 @@ import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
-storiesOf("Button with Dropdown", module)
+storiesOf("Split Button", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",
