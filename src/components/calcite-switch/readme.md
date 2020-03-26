@@ -34,6 +34,7 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 | Event                 | Description | Type               |
 | --------------------- | ----------- | ------------------ |
 | `calciteSwitchChange` |             | `CustomEvent<any>` |
+| `change`              |             | `CustomEvent<any>` |
 
 
 ----------------------------------------------

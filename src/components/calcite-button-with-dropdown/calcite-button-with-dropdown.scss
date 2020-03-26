@@ -7,15 +7,15 @@
     }
   }
 
-  --calcite-button-light: #{$blk-010};
+  --calcite-button-light: #{$blk-020};
   --calcite-button-light-text: #{$blk-220};
-  --calcite-button-dark: #{$blk-190};
+  --calcite-button-dark: #{$blk-180};
   --calcite-button-dark-text: #{$blk-230};
 }
 
 :host([color="blue"]) {
   .button-dropdown__divider-container {
-    background-color: var(--calcite-ui-blue);
+    background-color: var(--calcite-ui-blue-1);
   }
   &:host([theme="dark"]) {
     .button-dropdown__divider {
@@ -26,7 +26,7 @@
 
 :host([color="red"]) {
   .button-dropdown__divider-container {
-    background-color: var(--calcite-ui-red);
+    background-color: var(--calcite-ui-red-1);
   }
   &:host([theme="dark"]) {
     .button-dropdown__divider {
