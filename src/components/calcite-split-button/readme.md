@@ -1,4 +1,4 @@
-# calcite-button-with-dropdown
+# calcite-split-button
 
 
 
@@ -38,11 +38,11 @@
 ### Graph
 ```mermaid
 graph TD;
-  calcite-button-with-dropdown --> calcite-button
-  calcite-button-with-dropdown --> calcite-dropdown
+  calcite-split-button --> calcite-button
+  calcite-split-button --> calcite-dropdown
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
-  style calcite-button-with-dropdown fill:#f9f,stroke:#333,stroke-width:4px
+  style calcite-split-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

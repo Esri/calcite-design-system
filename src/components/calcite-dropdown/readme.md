@@ -55,12 +55,12 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ### Used by
 
- - [calcite-button-with-dropdown](../calcite-button-with-dropdown)
+ - [calcite-split-button](../calcite-split-button)
 
 ### Graph
 ```mermaid
 graph TD;
-  calcite-button-with-dropdown --> calcite-dropdown
+  calcite-split-button --> calcite-dropdown
   style calcite-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

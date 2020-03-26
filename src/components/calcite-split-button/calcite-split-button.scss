@@ -14,45 +14,45 @@
 }
 
 :host([color="blue"]) {
-  .button-dropdown__divider-container {
+  .split-button__divider-container {
     background-color: var(--calcite-ui-blue-1);
   }
   &:host([theme="dark"]) {
-    .button-dropdown__divider {
+    .split-button__divider {
       background-color: var(--calcite-button-dark-text);
     }
   }
 }
 
 :host([color="red"]) {
-  .button-dropdown__divider-container {
+  .split-button__divider-container {
     background-color: var(--calcite-ui-red-1);
   }
   &:host([theme="dark"]) {
-    .button-dropdown__divider {
+    .split-button__divider {
       background-color: var(--calcite-button-dark-text);
     }
   }
 }
 
 :host([color="light"]) {
-  .button-dropdown__divider-container {
+  .split-button__divider-container {
     background-color: var(--calcite-button-light);
   }
 
-  .button-dropdown__divider {
+  .split-button__divider {
     background-color: var(--calcite-button-light-text);
   }
 }
 
 :host([color="dark"]) {
-  .button-dropdown__divider-container {
+  .split-button__divider-container {
     background-color: var(--calcite-button-dark);
   }
 }
 
 :host([disabled]) {
-  .button-dropdown__divider-container {
+  .split-button__divider-container {
     opacity: 0.4;
   }
 
@@ -61,14 +61,14 @@
   }
 }
 
-.button-dropdown__divider-container {
+.split-button__divider-container {
   width: 1px;
   display: flex;
   align-items: center;
   transition: all 0.15s ease-in-out;
 }
 
-.button-dropdown__divider {
+.split-button__divider {
   width: 1px;
   height: 66.666%;
   display: inline-block;

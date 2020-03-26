@@ -11,7 +11,7 @@ storiesOf("Button with Dropdown", module)
   .add(
     "Simple",
     () => `
-    <calcite-button-with-dropdown
+    <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
         loading="${boolean("loading", false)}"
@@ -26,7 +26,7 @@ storiesOf("Button with Dropdown", module)
         <calcite-dropdown-item>Option 3</calcite-dropdown-item>
         <calcite-dropdown-item>Option 4</calcite-dropdown-item>
       </calcite-dropdown-group>
-    </calcite-button-with-dropdown>
+    </calcite-split-button>
   `,
     { notes }
   )
@@ -34,7 +34,7 @@ storiesOf("Button with Dropdown", module)
     "RTL",
     () => `
     <div dir='rtl'>
-      <calcite-button-with-dropdown
+      <calcite-split-button
           color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
           scale="${select("size", ["s", "m", "l"], "m")}"
           loading="${boolean("loading", false)}"
@@ -47,7 +47,7 @@ storiesOf("Button with Dropdown", module)
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-button-with-dropdown>
+      </calcite-split-button>
     </div>
   `,
     { notes }
@@ -55,7 +55,7 @@ storiesOf("Button with Dropdown", module)
   .add(
     "Dark mode",
     () => `
-    <calcite-button-with-dropdown
+    <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
         loading="${boolean("loading", false)}"
@@ -69,7 +69,7 @@ storiesOf("Button with Dropdown", module)
         <calcite-dropdown-item>Option 3</calcite-dropdown-item>
         <calcite-dropdown-item>Option 4</calcite-dropdown-item>
       </calcite-dropdown-group>
-    </calcite-button-with-dropdown>
+    </calcite-split-button>
   `,
     { notes, backgrounds: darkBackground }
   )

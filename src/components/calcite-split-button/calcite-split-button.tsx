@@ -3,8 +3,8 @@ import { Scale } from "../../interfaces/common";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-button-with-dropdown",
-  styleUrl: "calcite-button-with-dropdown.scss",
+  tag: "calcite-split-button",
+  styleUrl: "calcite-split-button.scss",
   shadow: true
 })
 export class CalciteButtonWithDropdown {
@@ -93,8 +93,8 @@ export class CalciteButtonWithDropdown {
           >
             {this.primaryText}
           </calcite-button>
-          <div class="button-dropdown__divider-container">
-            <div class="button-dropdown__divider" />
+          <div class="split-button__divider-container">
+            <div class="split-button__divider" />
           </div>
           <calcite-dropdown
             alignment="end"
