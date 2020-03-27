@@ -2,7 +2,7 @@
   display: inline-flex;
 }
 
-:host([mirror]) {
+.mirrored {
   transform: scaleX(-1);
 }
 

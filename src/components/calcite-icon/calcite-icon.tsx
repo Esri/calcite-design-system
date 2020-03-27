@@ -122,7 +122,7 @@ export class CalciteIcon {
         <svg
           class={{
             [CSS.mirrored]: dir === "rtl" && mirrored,
-            "svg": true
+            svg: true
           }}
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
