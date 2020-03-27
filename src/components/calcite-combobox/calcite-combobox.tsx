@@ -7,7 +7,8 @@ import {
   Listen,
   Event,
   EventEmitter,
-  Element
+  Element,
+  VNode
 } from "@stencil/core";
 import { UP, DOWN, TAB, HOME, END, ESCAPE } from "../../utils/keys";
 import { filter } from "../../utils/filter";
@@ -103,13 +104,13 @@ export class CalciteCombobox {
 
   @Listen("calciteComboboxItemChange") calciteComboboxItemChangeHandler(
     event: CustomEvent<HTMLCalciteComboboxItemElement>
-  ) {
+  ): void {
     this.toggleSelection(event.detail);
   }
 
   @Listen("calciteChipDismiss") calciteChipDismissHandler(
     event: CustomEvent<HTMLCalciteChipElement>
-  ) {
+  ): void {
     this.textInput.focus();
 
     const value = event.detail?.value;
@@ -131,7 +132,7 @@ export class CalciteCombobox {
     this.filterItems(target.value);
   };
 
-  handleInputKeyDown(event: KeyboardEvent) {
+  handleInputKeyDown(event: KeyboardEvent): void {
     if (event.target === this.textInput) {
       if (event.shiftKey && event.key === "TAB") {
         return;
@@ -145,10 +146,10 @@ export class CalciteCombobox {
         this.active = true;
         this.textInput.focus();
       }
-    } else return;
+    }
   }
 
-  filterItems = debounce((value: string) => {
+  filterItems = debounce((value: string): void => {
     const filteredData = filter(this.data, value);
     const values = filteredData.map(item => item.value);
     this.items.forEach(item => {
@@ -222,7 +223,7 @@ export class CalciteCombobox {
       event: KeyboardEvent;
       item: HTMLCalciteComboboxItemElement;
     }>
-  ) {
+  ): void {
     const { item, event: keyboardEvent } = event.detail;
     let isFirstItem = this.itemIndex(item) === 0;
     let isLastItem = this.itemIndex(item) === this.items.length - 1;
@@ -254,37 +255,38 @@ export class CalciteCombobox {
     }
   }
 
-  closeCalciteCombobox() {
+  closeCalciteCombobox(): void {
     this.textInput.focus();
     this.active = false;
   }
 
-  focusFirstItem() {
+  focusFirstItem(): void {
     const firstItem = this.items[0];
     firstItem.focus();
   }
 
-  focusLastItem() {
+  focusLastItem(): void {
     const lastItem = this.items[this.items.length - 1];
     lastItem.focus();
   }
-  focusNextItem(item: HTMLCalciteComboboxItemElement) {
+
+  focusNextItem(item: HTMLCalciteComboboxItemElement): void {
     const index = this.itemIndex(item);
     const nextItem = this.items[index + 1] || this.items[0];
     nextItem.focus();
   }
 
-  focusPrevItem(item: HTMLCalciteComboboxItemElement) {
+  focusPrevItem(item: HTMLCalciteComboboxItemElement): void {
     const index = this.itemIndex(item);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
     prevItem.focus();
   }
 
-  itemIndex(item: HTMLCalciteComboboxItemElement) {
+  itemIndex(item: HTMLCalciteComboboxItemElement): number {
     return this.items.indexOf(item);
   }
 
-  comboboxFocusHandler = event => {
+  comboboxFocusHandler = (event: Event): void => {
     this.active = event.type === "focusin";
   };
 
@@ -294,7 +296,7 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const listBoxId = "listbox";
     return (
