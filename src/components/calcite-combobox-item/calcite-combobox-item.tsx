@@ -9,7 +9,8 @@ import {
   Prop,
   h,
   State,
-  Watch
+  Watch,
+  VNode
 } from "@stencil/core";
 import {
   UP,
@@ -102,7 +103,7 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(event) {
+  @Listen("keydown") keyDownHandler(event): void {
     event.stopPropagation();
     switch (event.keyCode) {
       case SPACE:
@@ -159,17 +160,16 @@ export class CalciteComboboxItem {
     this.calciteComboboxItemChange.emit(this.el);
   };
 
-  // todo check for levels deep
   getDepth(): boolean {
     return !!this.el.parentElement?.closest("calcite-combobox-item");
-    }
+  }
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(scale) {
+  renderIcon(scale): VNode {
     const iconScale =
       scale === "xs" || scale === "s" || scale === "m"
         ? "s"
@@ -180,7 +180,7 @@ export class CalciteComboboxItem {
     return <calcite-icon class={CSS.icon} scale={iconScale} icon={iconPath} />;
   }
 
-  renderChildren() {
+  renderChildren(): VNode {
     if (!this.hasDefaultSlot) {
       return null;
     }
@@ -191,7 +191,7 @@ export class CalciteComboboxItem {
     );
   }
 
-  render() {
+  render(): VNode {
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.isSelected,
