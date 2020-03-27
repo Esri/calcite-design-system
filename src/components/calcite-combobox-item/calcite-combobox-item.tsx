@@ -160,9 +160,9 @@ export class CalciteComboboxItem {
   };
 
   // todo check for levels deep
-  getDepth() {
-    return this.el.parentElement.nodeName === "CALCITE-COMBOBOX-ITEM";
-  }
+  getDepth(): boolean {
+    return !!this.el.parentElement?.closest("calcite-combobox-item");
+    }
   // --------------------------------------------------------------------------
   //
   //  Render Methods
