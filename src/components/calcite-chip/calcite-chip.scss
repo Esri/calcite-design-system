@@ -1,43 +1,36 @@
 // scale
 // todo update when new spacing modifiers are introduced to calcite-base
-
 :host([scale="xs"]) {
-  @include font-size(-4);
-  --calcite-chip-spacing-small: #{$baseline/6};
-  --calcite-chip-spacing-large: #{$baseline/3};
+  font-size: 10px;
+  --calcite-chip-spacing-unit-l: 8px;
+  --calcite-chip-spacing-unit-s: 4px;
 }
 :host([scale="s"]) {
-  @include font-size(-3);
-  --calcite-chip-spacing-small: #{$baseline/4};
-  --calcite-chip-spacing-large: #{$baseline/2};
+  font-size: 12px;
+  --calcite-chip-spacing-unit-l: 12px;
+  --calcite-chip-spacing-unit-s: 8px;
 }
 
 :host([scale="m"]) {
-  @include font-size(-2);
-  --calcite-chip-spacing-small: #{$baseline/3};
-  --calcite-chip-spacing-large: #{$baseline/1.5};
+  font-size: 14px;
+  --calcite-chip-spacing-unit-l: 16px;
+  --calcite-chip-spacing-unit-s: 12px;
 }
 
 :host([scale="l"]) {
-  @include font-size(-1);
-  --calcite-chip-spacing-small: #{$baseline/2};
-  --calcite-chip-spacing-large: #{$baseline/1.25};
+  font-size: 16px;
+  --calcite-chip-spacing-unit-l: 20px;
+  --calcite-chip-spacing-unit-s: 16px;
 }
 
 :host([scale="xl"]) {
-  @include font-size(0);
-  --calcite-chip-spacing-small: #{$baseline/1.75};
-  --calcite-chip-spacing-large: #{$baseline};
+  font-size: 18px;
+  --calcite-chip-spacing-unit-l: 24px;
+  --calcite-chip-spacing-unit-s: 20px;
 }
 
 :host {
   --calcite-chip-button-border-radius: 0 50px 50px 0;
-}
-:host([dir="rtl"]) {
-  --calcite-chip-button-border-radius: 50px 0 0 50px;
-}
-
-:host {
   display: inline-flex;
   align-items: center;
   justify-self: center;
@@ -47,40 +40,42 @@
   font-weight: 500;
 }
 
+:host([dir="rtl"]) {
+  --calcite-chip-button-border-radius: 50px 0 0 50px;
+  text-align: right;
+}
+
 :host span {
-  padding: var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-small)
-    var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-large);
+  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
+    var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dir="rtl"]) span {
-  padding: var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-large)
-    var(--calcite-chip-spacing-small) var(--calcite-chip-spacing-small);
+  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l)
+    var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s);
 }
 
 :host button {
   display: inline-flex;
-  height: 100%;
+  align-self: stretch;
   -webkit-appearance: none;
   outline: none;
   background-color: transparent;
   margin: 0;
   padding: 0;
   border-radius: var(--calcite-chip-button-border-radius);
-  border: 1px solid transparent;
+  border: none;
   transition: $transition;
+  padding: var(--calcite-chip-spacing-unit-s);
+  cursor: pointer;
+  color: var(--calcite-ui-text-1);
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-hover);
-    border-color: var(--calcite-ui-foreground-press);
+    background-color: var(--calcite-ui-foreground-2);
+    border-color: var(--calcite-ui-foreground-2);
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-press);
-  }
-  & calcite-icon {
-    transition: $transition;
-    border-radius: var(--calcite-chip-button-border-radius);
-    padding: var(--calcite-chip-spacing-small);
-    transform: scale(0.9);
+    background-color: var(--calcite-ui-foreground-3);
   }
 }
 
@@ -89,20 +84,19 @@
   display: inline-flex;
 }
 :host slot[name="chip-image"]::slotted(*) {
-  display: inline-flex;
   border-radius: 50%;
   height: 100%;
 }
+
 //icon
 .calcite-chip--icon {
   display: inline-flex;
-  margin: 0 0 0 var(--calcite-chip-spacing-large);
+  margin: 0 0 0 var(--calcite-chip-spacing-unit-l);
+  transition: $transition;
+  border-radius: var(--calcite-chip-button-border-radius);
+  cursor: pointer;
 }
 
 :host([dir="rtl"]) .calcite-chip--icon {
-  margin: 0 var(--calcite-chip-spacing-large) 0 0;
-}
-
-calcite-icon {
-  cursor: pointer;
+  margin: 0 var(--calcite-chip-spacing-unit-l) 0 0;
 }

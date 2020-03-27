@@ -11,6 +11,7 @@ import {
 } from "@stencil/core";
 import { UP, DOWN, TAB, HOME, END, ESCAPE } from "../../utils/keys";
 import { filter } from "../../utils/filter";
+import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
@@ -35,6 +36,9 @@ export class CalciteCombobox {
   @Prop({ reflect: true }) active = false;
 
   @Prop({ reflect: true }) disabled = false;
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the combobox, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
@@ -171,13 +175,7 @@ export class CalciteCombobox {
     value = !item.selected
   ): void {
     item.selected = value;
-    if (value) {
-      this.selectedItems = [...this.selectedItems, item];
-    } else {
-      this.selectedItems = this.selectedItems.filter(
-        selectedItem => selectedItem !== item
-      );
-    }
+    this.selectedItems = this.getSelectedItems();
     this.calciteLookupChange.emit(this.selectedItems);
   }
 
@@ -297,12 +295,14 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   render() {
+    const dir = getElementDir(this.el);
     const listBoxId = "listbox";
     return (
       <Host
         active={this.active}
         onFocusin={this.comboboxFocusHandler}
         onFocusout={this.comboboxFocusHandler}
+        dir={dir}
       >
         <div class="selections">
           {this.selectedItems.map(item => {
@@ -311,6 +311,7 @@ export class CalciteCombobox {
                 key={item.value}
                 scale={this.scale}
                 value={item.value}
+                dir={dir}
               >
                 {item.textLabel}
               </calcite-chip>

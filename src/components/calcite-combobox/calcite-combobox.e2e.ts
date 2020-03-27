@@ -77,6 +77,7 @@ describe("calcite-combobox", () => {
       chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
     });
+
     it.skip("clicking a chip should remove the selected item", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-combobox>
@@ -95,9 +96,9 @@ describe("calcite-combobox", () => {
       // TODO: below double piercing selector not working.
       // https://github.com/ionic-team/stencil/issues/1530
       const closeBtn = await page.find(
-        "calcite-combobox >>> calcite-chip >>> a"
+        "calcite-combobox >>> calcite-chip >>> .close"
       );
-
+        console.log(closeBtn)
       await closeBtn.click();
       await page.waitForChanges();
 

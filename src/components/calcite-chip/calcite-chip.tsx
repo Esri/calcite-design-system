@@ -23,6 +23,9 @@ export class CalciteChip {
   //--------------------------------------------------------------------------
   @Prop() value!: string;
 
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "m";
 
@@ -68,7 +71,13 @@ export class CalciteChip {
 
   render() {
     const dir = getElementDir(this.el);
-    const iconScale = this.scale !== "xl" ? "s" : "m";
+    const iconScale =
+      this.scale === "xs" || this.scale === "s" || this.scale === "m"
+        ? "s"
+        : this.scale === "l"
+        ? "m"
+        : "l";
+
     const iconEl = (
       <calcite-icon
         class="calcite-chip--icon"

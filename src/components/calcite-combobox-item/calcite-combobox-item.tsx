@@ -22,6 +22,7 @@ import {
   SPACE
 } from "../../utils/keys";
 
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
 
 @Component({
@@ -168,8 +169,15 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  renderIcon() {
-    return <calcite-icon class={CSS.icon} scale="s" icon="check" />;
+  renderIcon(scale) {
+    const iconScale =
+      scale === "xs" || scale === "s" || scale === "m"
+        ? "s"
+        : scale === "l"
+        ? "m"
+        : "l";
+    const iconPath = this.disabled ? "circle-disallowed" : "check";
+    return <calcite-icon class={CSS.icon} scale={iconScale} icon={iconPath} />;
   }
 
   renderChildren() {
@@ -190,8 +198,13 @@ export class CalciteComboboxItem {
       [CSS.nested]: this.isNested,
       [CSS.parent]: !this.isNested
     };
+    const scale = getElementProp(this.el, "scale", "m");
+    const dir = getElementDir(this.el);
+
     return (
       <Host
+        dir={dir}
+        scale={scale}
         role="option"
         aria-selected={this.isSelected}
         disabled={this.disabled}
@@ -202,7 +215,7 @@ export class CalciteComboboxItem {
           onClick={this.itemClickHandler}
           ref={el => (this.comboboxItemEl = el as HTMLElement)}
         >
-          {this.renderIcon()}
+          {this.renderIcon(scale)}
           <span class={CSS.title}>{this.textLabel}</span>
         </div>
         {this.renderChildren()}
