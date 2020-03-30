@@ -84,7 +84,7 @@ export class CalciteInput {
     | "none" = "vertical";
 
   /** specify the alignment of dropdown, defaults to left */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** is the input required */
   @Prop() required: boolean = false;
@@ -102,15 +102,15 @@ export class CalciteInput {
     // validate props
     let statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
-      this.status = getElementProp(this.el, "status", "idle");
+      this.status = getElementProp(this.el.parentElement, "status", "idle");
 
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme))
-      this.theme = getElementProp(this.el, "status", "light");
+      this.theme = getElementProp(this.el.parentElement, "theme", "light");
 
     let scale = ["xs", "s", "m", "l", "xl"];
     if (!scale.includes(this.scale))
-      this.scale = getElementProp(this.el, "scale", "m");
+      this.scale = getElementProp(this.el.parentElement, "scale", "m");
 
     let appearance = ["minimal", "default"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
@@ -139,10 +139,7 @@ export class CalciteInput {
     if (!type.includes(this.type)) this.type = "text";
 
     let numberButtonType = ["vertical", "horizontal", "none"];
-    if (
-      this.type === "number" &&
-      !numberButtonType.includes(this.numberButtonType)
-    )
+    if (!numberButtonType.includes(this.numberButtonType))
       this.numberButtonType = "vertical";
 
     // if an icon string is not provided, but icon is true and a default icon is present
@@ -191,7 +188,7 @@ export class CalciteInput {
         onMouseDown={this.updateNumberValue}
         data-adjustment="up"
       >
-        <calcite-icon icon="chevron-up" filled></calcite-icon>
+        <calcite-icon icon="chevron-up"></calcite-icon>
       </div>
     );
 
@@ -201,7 +198,7 @@ export class CalciteInput {
         onMouseDown={this.updateNumberValue}
         data-adjustment="down"
       >
-        <calcite-icon icon="chevron-down" filled></calcite-icon>
+        <calcite-icon icon="chevron-down"></calcite-icon>
       </div>
     );
 
@@ -214,7 +211,7 @@ export class CalciteInput {
     const iconScale =
       this.scale === "xs" || this.scale === "s" || this.scale === "m"
         ? "s"
-        : "m"
+        : "m";
 
     const iconEl = (
       <calcite-icon

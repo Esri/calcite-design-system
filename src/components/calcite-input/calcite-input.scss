@@ -6,7 +6,6 @@ calcite-input[scale="xs"] {
   & .calcite-input-suffix {
     padding: 4px;
     font-size: 12px;
-    margin-top: 4px;
   }
 }
 calcite-input[scale="s"] {
@@ -16,7 +15,6 @@ calcite-input[scale="s"] {
   & .calcite-input-suffix {
     padding: 8px;
     font-size: 14px;
-    margin-top: 4px;
   }
 }
 calcite-input[scale="m"] {
@@ -26,7 +24,6 @@ calcite-input[scale="m"] {
   & .calcite-input-suffix {
     padding: 12px;
     font-size: 16px;
-    margin-top: 4px;
   }
 }
 calcite-input[scale="l"] {
@@ -36,7 +33,6 @@ calcite-input[scale="l"] {
   & .calcite-input-suffix {
     padding: 16px;
     font-size: 18px;
-    margin-top: 4px;
   }
 }
 
@@ -47,7 +43,6 @@ calcite-input[scale="xl"] {
   & .calcite-input-suffix {
     padding: 20px;
     font-size: 20px;
-    margin-top: 4px;
   }
 }
 
@@ -272,6 +267,7 @@ calcite-input input[type="number"] {
 
 calcite-input[number-button-type="vertical"] .calcite-input-wrapper {
   flex-direction: row;
+  margin-top:4px;
   display: flex;
 }
 

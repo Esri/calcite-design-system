@@ -5,14 +5,17 @@
 
 ## Usage
 
-### AddClickHandle
+### Manager
 
 ```html
-<calcite-popover reference-element="popover-button" add-click-handle
+<calcite-popover reference-element="popover-button"
   >Hello! I am some popover content!</calcite-popover
 >
 
-<calcite-button id="popover-button">Clickable popover</calcite-button
+<calcite-popover-manager
+  ><calcite-button id="popover-button"
+    >Clickable popover</calcite-button
+  ></calcite-popover-manager
 >
 ```
 
@@ -22,7 +25,6 @@
 
 | Property                        | Attribute           | Description                                                                                | Type                                                                                                                                                                                                                                                                                                              | Default                 |
 | ------------------------------- | ------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `addClickHandle`                | `add-click-handle`  | Adds a click handler to the referenceElement to toggle open the Popover.                   | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `closeButton`                   | `close-button`      | Display a close button within the Popover.                                                 | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `disableFlip`                   | `disable-flip`      | Prevents flipping the popover's placement when it starts to overlap its reference element. | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `disablePointer`                | `disable-pointer`   | Removes the caret pointer.                                                                 | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
@@ -30,10 +32,10 @@
 | `offsetDistance`                | `offset-distance`   | Offset the position of the popover away from the reference element.                        | `number`                                                                                                                                                                                                                                                                                                          | `defaultOffsetDistance` |
 | `offsetSkidding`                | `offset-skidding`   | Offset the position of the popover along the reference element.                            | `number`                                                                                                                                                                                                                                                                                                          | `0`                     |
 | `open`                          | `open`              | Display and position the component.                                                        | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
-| `placement`                     | `placement`         | Determines where the component will be positioned relative to the referenceElement.        | `"auto" \| "auto-start" \| "auto-end" \| "top" \| "bottom" \| "right" \| "left" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end" \| "leading-start" \| "leading" \| "leading-end" \| "trailing-end" \| "trailing" \| "trailing-start"` | `"auto"`                |
-| `referenceElement` _(required)_ | `reference-element` | Reference HTMLElement used to position this component according to the placement property. | `HTMLElement \| string`                                                                                                                                                                                                                                                                                           | `undefined`             |
+| `placement`                     | `placement`         | Determines where the component will be positioned relative to the referenceElement.        | `"auto" or "auto-start" or "auto-end" or "top" or "bottom" or "right" or "left" or "top-start" or "top-end" or "bottom-start" or "bottom-end" or "right-start" or "right-end" or "left-start" or "left-end" or "leading-start" or "leading" or "leading-end" or "trailing-end" or "trailing" or "trailing-start"` | `"auto"`                |
+| `referenceElement` _(required)_ | `reference-element` | Reference HTMLElement used to position this component according to the placement property. | `HTMLElement or string`                                                                                                                                                                                                                                                                                           | `undefined`             |
 | `textClose`                     | `text-close`        | Text for close button.                                                                     | `string`                                                                                                                                                                                                                                                                                                          | `"Close"`               |
-| `theme`                         | `theme`             | Select theme (light or dark)                                                               | `"dark" \| "light"`                                                                                                                                                                                                                                                                                               | `undefined`             |
+| `theme`                         | `theme`             | Select theme (light or dark)                                                               | `"dark" or "light"`                                                                                                                                                                                                                                                                                               | `undefined`             |
 
 
 ## Events
