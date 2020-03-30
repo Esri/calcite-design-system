@@ -5,12 +5,12 @@ import {
   EventEmitter,
   h,
   Host,
-  Prop
+  Prop,
+  VNode
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { ENTER, SPACE } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
-import { VNode } from "@stencil/core";
 
 /**
  * @slot thumbnail - A slot for adding a thumnail to the card.
