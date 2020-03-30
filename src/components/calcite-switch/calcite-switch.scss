@@ -108,7 +108,6 @@
 
 :host(:hover),
 :host(:focus) {
-  outline: none;
   .track {
     background-color: var(--calcite-switch-hover-track-background);
     border-color: var(--calcite-switch-hover-track-border);
