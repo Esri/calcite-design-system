@@ -61,7 +61,7 @@
 
 :host .calcite-dropdown-wrapper {
   transform: translate3d(0, -$baseline, 0);
-  transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out, max-height 0.15s;
   visibility: hidden;
   opacity: 0;
   display: block;

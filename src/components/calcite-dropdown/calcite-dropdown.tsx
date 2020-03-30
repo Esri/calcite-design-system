@@ -281,7 +281,9 @@ export class CalciteDropdown {
     this.active = !this.active;
     const animationDelayInMs = 50;
 
-    setTimeout(() => this.focusOnFirstActiveOrFirstItem(), animationDelayInMs);
+    if (this.active) {
+      setTimeout(() => this.focusOnFirstActiveOrFirstItem(), animationDelayInMs);
+    }
   }
 
   private sortItems = (items: any[]): any[] =>
