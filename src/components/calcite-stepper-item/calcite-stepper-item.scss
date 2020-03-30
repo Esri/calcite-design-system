@@ -1,4 +1,3 @@
-//ie11
 :host([scale="s"]) {
   --calcite-stepper-item-spacing-unit-s: #{$baseline/8};
   --calcite-stepper-item-spacing-unit-m: #{$baseline/4};
@@ -6,7 +5,6 @@
   @include font-size(-2);
 }
 
-//ie11
 :host([scale="m"]) {
   --calcite-stepper-item-spacing-unit-s: #{$baseline/6};
   --calcite-stepper-item-spacing-unit-m: #{$baseline/3};
@@ -14,12 +12,16 @@
   @include font-size(-1);
 }
 
-//ie11
 :host([scale="l"]) {
   --calcite-stepper-item-spacing-unit-s: #{$baseline/4};
   --calcite-stepper-item-spacing-unit-m: #{$baseline/2};
   --calcite-stepper-item-spacing-unit-l: #{$baseline};
   @include font-size(0);
+}
+
+//ie11
+:host-context([theme="dark"]){
+  @include calcite-theme-dark();
 }
 
 :host {
@@ -201,6 +203,7 @@
 
 // vertical layout
 :host([layout="vertical"]) {
+  flex: 1 1 auto;
   border-top: 0;
   border-left: 3px solid var(--calcite-ui-border-3);
   padding: 0 0 0 var(--calcite-stepper-item-spacing-unit-l);
