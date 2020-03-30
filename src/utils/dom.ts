@@ -36,6 +36,14 @@ export function getSlottedElements<T extends Element>(
   >;
 }
 
+export function getDescribedByElement<T extends HTMLElement>(
+  element: HTMLElement
+): T | HTMLElement | null {
+  const id = element && element.getAttribute("aria-describedby");
+
+  return (id && document.getElementById(id)) || null;
+}
+
 export const HOST_CSS = {
   hydratedInvisible: "hydrated--invisible"
 };
