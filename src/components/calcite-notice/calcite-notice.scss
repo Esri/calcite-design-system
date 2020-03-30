@@ -68,7 +68,15 @@
   box-shadow: 0 0 0 0 transparent;
 }
 
-:host-context([dir="rtl"]) {
+// focus styles
+.notice-close {
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-inset();
+  }
+}
+
+:host([dir="rtl"]) {
   text-align: right;
   border-left: none;
   border-right: 0px solid;
@@ -95,7 +103,7 @@
   color: var(--calcite-ui-text-2);
 }
 
-:host-context([dir="rtl"]) {
+:host([dir="rtl"]) {
   @include slotted("notice-message", "div") {
     margin-right: unset;
     margin-left: var(--calcite-notice-spacing-token-small);
@@ -127,7 +135,7 @@
   }
 }
 
-:host-context([dir="rtl"]) {
+:host([dir="rtl"]) {
   .notice-content {
     padding: var(--calcite-notice-spacing-token-small) 0
       var(--calcite-notice-spacing-token-small)

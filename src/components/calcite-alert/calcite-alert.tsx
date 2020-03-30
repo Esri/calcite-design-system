@@ -9,7 +9,7 @@ import {
   Listen,
   Prop
 } from "@stencil/core";
-
+import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -133,6 +133,7 @@ export class CalciteAlert {
   }
 
   render() {
+    const dir = getElementDir(this.el);
     const closeButton = (
       <button
         class="alert-close"
@@ -158,7 +159,7 @@ export class CalciteAlert {
       : "alertdialog";
 
     return (
-      <Host active={this.active} role={role}>
+      <Host active={this.active} role={role} dir={dir}>
         {this.icon ? this.setIcon() : null}
         <div class="alert-content">
           <slot name="alert-title"></slot>

@@ -38,6 +38,14 @@ $tick-height: 4px;
   margin-bottom: $thumb-size + $thumb-padding;
 }
 
+// focus styles
+.slider__thumb {
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-outset();
+  }
+}
+
 .slider__thumb {
   position: absolute;
   height: $thumb-size;
@@ -87,7 +95,6 @@ $tick-height: 4px;
 
 .slider__thumb:focus,
 .slider__thumb--active {
-  outline: none;
   z-index: 4;
   .slider__handle {
     background-color: var(--calcite-ui-blue-1);

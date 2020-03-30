@@ -9,31 +9,21 @@
   --calcite-switch-hover-track-background: #{$blk-020};
   --calcite-switch-hover-track-border: #{$blk-060};
   --calcite-switch-switched-track-background: var(--calcite-ui-blue-2);
-  --calcite-switch-switched-track-border: var(--calcite-ui-blue-3);
+  --calcite-switch-switched-track-border: var(--calcite-ui-blue-2);
   --calcite-switch-switched-handle-border: var(--calcite-ui-blue-1);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-blue-1);
+  --calcite-switch-switched-hover-track-background: var(--calcite-ui-blue-2);
   --calcite-switch-switched-hover-track-border: var(--calcite-ui-blue-2);
   --calcite-switch-switched-hover-handle-border: var(--calcite-ui-blue-3);
-  --calcite-switch-box-shadow-color: #{rgba($blk-130, 0.5)};
-  --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue-1, 0.5)};
 }
 
 // dark theme
-:host-context([theme="dark"]) {
+:host([theme="dark"]) {
   --calcite-switch-track-background: #{$blk-190};
   --calcite-switch-track-border: #{$blk-160};
   --calcite-switch-handle-background: #{$blk-200};
   --calcite-switch-handle-border: #{$blk-100};
-  --calcite-switch-hover-handle-border: var(--calcite-ui-blue-2);
   --calcite-switch-hover-track-background: #{$blk-180};
   --calcite-switch-hover-track-border: #{$blk-120};
-  --calcite-switch-switched-track-background: var(--calcite-ui-blue-2);
-  --calcite-switch-switched-track-border: var(--calcite-ui-blue-1);
-  --calcite-switch-switched-handle-border: var(--calcite-ui-blue-1);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-blue-1);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-blue-1);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-blue-2);
-  --calcite-switch-switched-box-shadow-color: #{rgba($ui-blue-3, 0.5)};
 }
 
 :host([color="red"]) {
@@ -44,17 +34,6 @@
   --calcite-switch-switched-hover-track-background: var(--calcite-ui-red-1);
   --calcite-switch-switched-hover-track-border: var(--calcite-ui-red-2);
   --calcite-switch-switched-hover-handle-border: var(--calcite-ui-red-3);
-  --calcite-switch-switched-box-shadow-color: #{rgba($ui-red-1, 0.5)};
-}
-:host([theme="dark"][color="red"]) {
-  --calcite-switch-switched-track-background: var(--calcite-ui-red-2) ;
-  --calcite-switch-switched-track-border: var(--calcite-ui-red-1);
-  --calcite-switch-hover-handle-border: var(--calcite-ui-red-2) ;
-  --calcite-switch-switched-handle-border: var(--calcite-ui-red-1);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-red-1);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-red-3);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-red-3);
-  --calcite-switch-switched-box-shadow-color: #{rgba($ui-red-3, 0.5)};
 }
 
 // sizes
@@ -91,6 +70,14 @@
   margin-right: 0.5em;
 }
 
+// focus styles
+:host {
+  @include focus-style-base();
+}
+:host(:focus) {
+  @include focus-style-outset();
+}
+
 .track {
   position: relative;
   display: inline-block;
@@ -125,12 +112,10 @@
   .track {
     background-color: var(--calcite-switch-hover-track-background);
     border-color: var(--calcite-switch-hover-track-border);
-    box-shadow: $shadow-1--hover;
   }
 
   .handle {
     border-color: var(--calcite-switch-hover-handle-border);
-    box-shadow: $shadow-1;
     right: auto;
   }
 }
@@ -163,7 +148,7 @@
 }
 
 // rtl
-:host-context([dir="rtl"]) {
+:host([dir="rtl"]) {
   margin-right: 0;
   margin-left: 0.5em;
   & .handle {

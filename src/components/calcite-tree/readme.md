@@ -26,9 +26,9 @@
 | Property        | Attribute        | Description                                                                  | Type                                                                                                                   | Default                    |
 | --------------- | ---------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | `lines`         | `lines`          | Display indentation guide lines                                              | `boolean`                                                                                                              | `false`                    |
-| `scale`         | `scale`          | Specify the scale of the tree, defaults to m                                 | `"m" \| "s"`                                                                                                           | `"m"`                      |
-| `selectionMode` | `selection-mode` | Customize how tree selection works (single, multi, children, multi-children) | `TreeSelectionMode.Children \| TreeSelectionMode.Multi \| TreeSelectionMode.MultiChildren \| TreeSelectionMode.Single` | `TreeSelectionMode.Single` |
-| `theme`         | `theme`          | Select theme (light or dark)                                                 | `"dark" \| "light"`                                                                                                    | `undefined`                |
+| `scale`         | `scale`          | Specify the scale of the tree, defaults to m                                 | `"m" or "s"`                                                                                                           | `"m"`                      |
+| `selectionMode` | `selection-mode` | Customize how tree selection works (single, multi, children, multi-children) | `TreeSelectionMode.Children or TreeSelectionMode.Multi or TreeSelectionMode.MultiChildren or TreeSelectionMode.Single` | `TreeSelectionMode.Single` |
+| `theme`         | `theme`          | Select theme (light or dark)                                                 | `"dark" or "light"`                                                                                                    | `undefined`                |
 
 
 ## Events
