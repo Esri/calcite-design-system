@@ -7,23 +7,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- new `calcite-combobox` component (#328)
+- new `calcite-chip` component (#328)
+- new `calcite-popover-manager` component (#411)
+- new `calcite-tooltip-manager` component (#411)
+- `calcite-radio-group` - added `setFocus()` method
+
 ### Breaking Changes
 - `calcite-dropdown` - `alignment` attribute now uses `start` and `end` values instead of `left` and `right`
 - `calcite-dropdown-item` - `link-title` attribute has been removed
+- `calcite-icon` - drop `filled` prop as it's no longer valid with the latest calcite UI icons
 - `calcite-tree` - `size` prop is now `scale` to be consistent with other components
 
 ### Updated
 - `calcite-dropdown` - active state indicators for `selection-mode=none` have been removed
 - `calcite-dropdown` - active state indicators for `selection-mode=multi` have been updated to use checkmarks
 - `calcite-dropdown-item` - any attributes passed to a `calcite-dropdown-item` that has a `href` attribute will now be spread to the rendered child link
+- `calcite-icon` - SVG no longer rendered when icon fails to load
 - `calcite-loader` - now displays as circle, added fade out at the end of determinate loader
 
 ### Fixed
 - `calcite-dropdown` - `alignment=center` now correctly positions the dropdown if the slotted `dropdown-trigger` is wider than the dropdown container
+- `calcite-dropdown` - items are now focused when the dropdown is opened
+- `calcite-dropdown` - items are now scrollable when the dropdown gets long
+- `calcite-icon` - update rendering when `scale` changes
+- `calcite-icon` - fixed in ie11
 - `calcite-loader` - fixed in ie11
 - `calcite-radio-group` - fixed in ie11
 - `calcite-progress` - fixed in ie11
 - `calcite-modal` - fixed in ie11
+- `calcite-slider` - fixed in ie11
+- `calcite-tabs` - tabs occupy full height
 - `calcite-tree-item` - fixed in ie11
 - `calcite-tree` - fixed in ie11
 
