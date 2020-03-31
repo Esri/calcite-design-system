@@ -34,7 +34,7 @@ describe("calcite-tooltip", () => {
       }
     ]));
 
-  it("popover positions when referenceElement is set", async () => {
+  it("tooltip positions when referenceElement is set", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -56,7 +56,7 @@ describe("calcite-tooltip", () => {
     expect(computedStyle.transform).not.toBe("none");
   });
 
-  it("open popover should be visible", async () => {
+  it("open tooltip should be visible", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -110,7 +110,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><calcite-tooltip-manager><div id="ref">referenceElement</div></calcite-tooltip-manager>`
     );
 
     await page.waitForChanges();

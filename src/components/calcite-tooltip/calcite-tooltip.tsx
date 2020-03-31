@@ -8,7 +8,7 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
 import { Modifier, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
@@ -82,10 +82,9 @@ export class CalciteTooltip {
 
   @Watch("referenceElement")
   referenceElementHandler() {
-    this.removeReferenceListeners();
+    this.removeReferences();
     this._referenceElement = this.getReferenceElement();
-    this.addReferenceListeners();
-    this.addReferenceAria();
+    this.addReferences();
     this.createPopper();
   }
 
@@ -113,13 +112,12 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   componentDidLoad() {
-    this.addReferenceListeners();
-    this.addReferenceAria();
+    this.addReferences();
     this.createPopper();
   }
 
   componentDidUnload() {
-    this.removeReferenceListeners();
+    this.removeReferences();
     this.destroyPopper();
   }
 
@@ -153,41 +151,29 @@ export class CalciteTooltip {
     return this.el.id || `calcite-tooltip-${guid()}`;
   };
 
-  addReferenceAria = (): void => {
-    const { _referenceElement } = this;
-
-    if (
-      _referenceElement &&
-      !_referenceElement.hasAttribute("aria-describedby")
-    ) {
-      _referenceElement.setAttribute("aria-describedby", this.getId());
-    }
-  };
-
-  addReferenceListeners = (): void => {
+  addReferences = (): void => {
     const { _referenceElement } = this;
 
     if (!_referenceElement) {
       return;
     }
 
-    _referenceElement.addEventListener("mouseenter", this.show);
-    _referenceElement.addEventListener("mouseleave", this.hide);
-    _referenceElement.addEventListener("focus", this.show);
-    _referenceElement.addEventListener("blur", this.hide);
+    _referenceElement.setAttribute(TOOLTIP_REFERENCE, "");
+
+    if (!_referenceElement.hasAttribute(ARIA_DESCRIBED_BY)) {
+      _referenceElement.setAttribute(ARIA_DESCRIBED_BY, this.getId());
+    }
   };
 
-  removeReferenceListeners = (): void => {
+  removeReferences = (): void => {
     const { _referenceElement } = this;
 
     if (!_referenceElement) {
       return;
     }
 
-    _referenceElement.removeEventListener("mouseenter", this.show);
-    _referenceElement.removeEventListener("mouseleave", this.hide);
-    _referenceElement.removeEventListener("focus", this.show);
-    _referenceElement.removeEventListener("blur", this.hide);
+    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    _referenceElement.removeAttribute(TOOLTIP_REFERENCE);
   };
 
   show = (): void => {
