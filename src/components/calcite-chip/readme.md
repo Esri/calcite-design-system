@@ -10,8 +10,8 @@
 | Property             | Attribute | Description                                                        | Type                                | Default     |
 | -------------------- | --------- | ------------------------------------------------------------------ | ----------------------------------- | ----------- |
 | `icon`               | `icon`    | optionally pass an icon to display - accepts Calcite UI icon names | `string`                            | `undefined` |
-| `scale`              | `scale`   | specify the scale of the chip, defaults to m                       | `"l" or "m" or "s" or "xl" or "xs"` | `"m"`       |
-| `theme`              | `theme`   | Select theme (light or dark)                                       | `"dark" or "light"`                 | `undefined` |
+| `scale`              | `scale`   | specify the scale of the chip, defaults to m                       | `"l" \| "m" \| "s" \| "xl" \| "xs"` | `"m"`       |
+| `theme`              | `theme`   | Select theme (light or dark)                                       | `"dark" \| "light"`                 | `undefined` |
 | `value` _(required)_ | `value`   |                                                                    | `string`                            | `undefined` |
 
 

@@ -5,14 +5,17 @@
 
 ## Usage
 
-### AddClickHandle
+### Manager
 
 ```html
-<calcite-popover reference-element="popover-button" add-click-handle
+<calcite-popover reference-element="popover-button"
   >Hello! I am some popover content!</calcite-popover
 >
 
-<calcite-button id="popover-button">Clickable popover</calcite-button
+<calcite-popover-manager
+  ><calcite-button id="popover-button"
+    >Clickable popover</calcite-button
+  ></calcite-popover-manager
 >
 ```
 
@@ -22,7 +25,6 @@
 
 | Property                        | Attribute           | Description                                                                                | Type                                                                                                                                                                                                                                                                                                              | Default                 |
 | ------------------------------- | ------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `addClickHandle`                | `add-click-handle`  | Adds a click handler to the referenceElement to toggle open the Popover.                   | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `closeButton`                   | `close-button`      | Display a close button within the Popover.                                                 | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `disableFlip`                   | `disable-flip`      | Prevents flipping the popover's placement when it starts to overlap its reference element. | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `disablePointer`                | `disable-pointer`   | Removes the caret pointer.                                                                 | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
