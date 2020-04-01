@@ -12,7 +12,7 @@ export const config: Config = {
     { components: ["calcite-combobox"] },
     {
       components: [
-        "calcite-date-picker",
+        "calcite-date",
         "calcite-date-month",
         "calcite-date-month-header",
         "calcite-date-day"
