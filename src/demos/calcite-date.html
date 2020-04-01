@@ -31,7 +31,7 @@
   <calcite-date></calcite-date>
 
   <h2>Initial Value (from ISO 8601 string)</h2>
-  <calcite-date value="2066-06-06"></calcite-date>
+  <calcite-date value="2020-03-07"></calcite-date>
 
   <h2>Min &amp; Max</h2>
   <calcite-date min="2020-03-07" max="2020-03-15" value="2020-04-01"></calcite-date>
@@ -40,7 +40,59 @@
   <calcite-date locale="es"></calcite-date>
 
   <h2>Locale formatted dates</h2>
-  <calcite-date value="2019-08-23" min="2019-08-09" max="2021-12-18" locale="th"></calcite-date>
+  <calcite-date value="2019-08-23" min="2019-08-09" max="2021-12-18" locale="th" id="locale"></calcite-date>
+  <calcite-dropdown id="localePicker">
+    <calcite-button slot="dropdown-trigger">Select Locale</calcite-button>
+    <calcite-dropdown-group>
+      <calcite-dropdown-item data-locale="ar">ar</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="ar-eg">ar-eg</calcite-dropdown-item>
+      <!--
+        TODO: currently bosnian isn't translating?
+        <calcite-dropdown-item data-locale="bs">bs</calcite-dropdown-item>
+      -->
+      <calcite-dropdown-item data-locale="ca">ca</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="cs">cs</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="da">da</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="de">de</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="el">el</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="en">en</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="es">es</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="et">et</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="fi">fi</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="fr">fr</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="he">he</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="hr">hr</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="hu">hu</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="id">id</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="it">it</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="ja">ja</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="ko">ko</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="lt">lt</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="lv">lv</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="nl">nl</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="nb">nb</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="pl">pl</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="pt-br">pt-br</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="pt-pt">pt-pt</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="ro">ro</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="ru">ru</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="sr">sr</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="sv">sv</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="th" active>th</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="tr">tr</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="uk">uk</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="vi">vi</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="zh-cn">zh-cn</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="zh-hk">zh-hk</calcite-dropdown-item>
+      <calcite-dropdown-item data-locale="zh-tw">zh-tw</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+  <script>
+    document.getElementById("localePicker").addEventListener("calciteDropdownItemSelected", function (e) {
+      document.getElementById("locale").locale = e.target.getAttribute("data-locale")
+    });
+  </script>
+
 
   <div dir="rtl">
     <h2>Right to left, arabic numerals</h2>

@@ -14,7 +14,7 @@ import {
   getLocaleFormatData,
   DateFormattingData,
 } from "../../utils/locale";
-import { DateChangeEvent, DateChangeEmitter } from "../../utils/interfaces";
+import { DateChangeEvent, DateChangeEmitter } from "../../interfaces/Date";
 import { getElementDir } from "../../utils/dom";
 import { ESCAPE } from "../../utils/keys";
 import {

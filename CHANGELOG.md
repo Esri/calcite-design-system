@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Breaking Changes
+- `calcite-date-picker` is now `calcite-date`
+- `calcite-date` no longer accepts start of week as a prop
+
+### Updated
+- `calcite-date` - automatically finds start of week for given locale
+- `calcite-date` - automatically formats date in input for given locale
+- `calcite-date` - support for buddhist era
+- `calcite-date` - support for arabic numerals
+- `calcite-date` - `calciteDateChange` emits selected `Date` object in `event.detail`
+
+### Fixed
+- `calcite-date` - fixed in ie11 (#368)
+- `calcite-date` - fixed date entering via input (#307)
+- `calcite-date` - columns correct even when very narrow (#308)
+
 ## [v1.0.0-beta.21] - Mar 31st 2020
 
 ### Added

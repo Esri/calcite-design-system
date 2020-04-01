@@ -7,7 +7,7 @@ import {
   getYear,
 } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
-import { DateChangeEmitter } from "../../utils/interfaces";
+import { DateChangeEmitter } from "../../interfaces/Date";
 import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
 
 @Component({
@@ -111,7 +111,7 @@ export class CalciteDateMonthHeader {
   //
   //  Private State/Props
   //
-  //--------------9------------------------------------------------------------
+  //--------------------------------------------------------------------------
   private yearInput: HTMLInputElement;
 
   //--------------------------------------------------------------------------
