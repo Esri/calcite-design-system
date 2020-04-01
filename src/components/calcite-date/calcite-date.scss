@@ -1,0 +1,82 @@
+:host {
+  display: inline-block;
+  vertical-align: top;
+}
+
+::slotted(input) {
+  display: none;
+}
+
+.date-input-wrapper {
+  border: 1px solid var(--calcite-ui-border-1);
+  position: relative;
+
+  &:active,
+  &:focus {
+    border-color: transparent;
+    border-bottom: 1px solid var(--calcite-ui-border-3);
+  }
+}
+
+.date-input {
+  color: var(--calcite-ui-text-3);
+  background: var(--calcite-ui-foreground-1);
+  box-sizing: border-box;
+  border: none;
+  font-weight: 400;
+  @include font-size(0);
+  font-family: inherit;
+  padding: .75rem 2.5rem;
+  width: 100%;
+  margin: 0;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}
+
+.calendar-icon {
+  color: var(--calcite-ui-text-3);
+  position: absolute;
+  top: 50%;
+  margin: -8px $baseline * .5;
+  pointer-events: none;
+}
+
+.calendar-picker-wrapper {
+  position: absolute;
+  background-color: var(--calcite-ui-foreground-1);
+  box-shadow: $shadow-2;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -$baseline, 0);
+  transition: all 0.15s ease-in-out;
+  pointer-events: none;
+  z-index: 2;
+}
+
+:host([show-calendar]) {
+  background-color: var(--calcite-ui-foreground-1);
+  border-radius: var(--calcite-border-radius);
+  border: 1px solid var(--calcite-ui-border-2);
+  box-shadow: $shadow-2;
+  overflow: hidden;
+
+  .calendar-picker-wrapper {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+    visibility: visible;
+    pointer-events: initial;
+  }
+
+  .date-input-wrapper {
+    border: none;
+    border-bottom: 1px solid var(--calcite-ui-border-3);
+  }
+}
+
+:host([no-calendar-input]) .calendar-picker-wrapper {
+  position: static;
+  transform: translate3d(0,0,0);
+}

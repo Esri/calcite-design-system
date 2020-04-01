@@ -51,6 +51,19 @@ You can combine groups in a single dropdown, with varying selection modes:
 | `width`     | `width`     | specify the width of dropdown, defaults to m                                    | `"l" \| "m" \| "s"`            | `"m"`       |
 
 
+## Dependencies
+
+### Used by
+
+ - [calcite-split-button](../calcite-split-button)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-split-button --> calcite-dropdown
+  style calcite-dropdown fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
