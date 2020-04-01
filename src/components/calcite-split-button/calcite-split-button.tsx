@@ -79,7 +79,7 @@ export class CalciteButtonWithDropdown {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
-        <div>
+        <div class="split-button__container">
           <calcite-button
             aria-label={this.primaryLabel}
             color={this.color}

@@ -1,5 +1,5 @@
 :host {
-  > div {
+  .split-button__container {
     display: flex;
 
     > calcite-dropdown > calcite-button {
