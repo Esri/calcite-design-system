@@ -3,7 +3,10 @@ import { newE2EPage } from "@stencil/core/testing";
 import { defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
-  it("renders", async () => renders("calcite-tooltip"));
+  it("renders", async () =>
+    renders(
+      `<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`
+    ));
 
   it("honors hidden attribute", async () => hidden("calcite-tooltip"));
 
@@ -31,7 +34,7 @@ describe("calcite-tooltip", () => {
       }
     ]));
 
-  it("popover positions when referenceElement is set", async () => {
+  it("tooltip positions when referenceElement is set", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -53,11 +56,11 @@ describe("calcite-tooltip", () => {
     expect(computedStyle.transform).not.toBe("none");
   });
 
-  it("open popover should be visible", async () => {
+  it("open tooltip should be visible", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-tooltip></calcite-tooltip><div>referenceElement</div>`
+      `<calcite-tooltip></calcite-tooltip><div>referenceElement</div>`
     );
 
     const element = await page.find("calcite-tooltip");
@@ -85,7 +88,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
@@ -107,7 +110,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><calcite-tooltip-manager><div id="ref">referenceElement</div></calcite-tooltip-manager>`
     );
 
     await page.waitForChanges();
@@ -127,7 +130,7 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<style>.hydrated--invisible {visibility: hidden;}</style><calcite-tooltip reference-element="ref" open>hi</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref" open>hi</calcite-tooltip><div id="ref">referenceElement</div>`
     );
 
     await page.waitForChanges();
