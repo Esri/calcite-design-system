@@ -1,43 +1,27 @@
 import { newE2EPage } from "@stencil/core/testing";
-let page, element, switchElement;
-beforeEach(async () => {
-  page = await newE2EPage();
-  await page.setContent('<calcite-switch text="Test switch"></calcite-switch>');
-  await page.waitForChanges();
-  element = await page.find("calcite-switch");
-  switchElement = await page.find("calcite-switch >>> label");
-});
+import { renders } from "../../tests/commonTests";
 
-describe("calcite-switch", () => {
-  it("renders", async () => {
-    expect(element).toHaveClass("hydrated");
-  });
+describe("calcite-date-picker", () => {
+  it("renders", async () => renders("calcite-date-picker"));
 
-  it("renders text data", async () => {
-    expect(switchElement.textContent).toEqual(`Test switch`);
-  });
-
-  it("renders switch at correct position", async () => {
-    element.setProperty("position", "right");
+  it("fires a calciteDateChange event on change", async () => {
+    const page = await newE2EPage();
+    await page.setContent('<calcite-date-picker></calcite-date-picker>');
+    const input = await page.find("calcite-date-picker >>> .date-input");
     await page.waitForChanges();
-    let pageEl = await page.find("calcite-switch >>> .toggle-switch__track");
-    expect(pageEl).toHaveClass("toggle-switch__track--right");
-
-    element.setProperty("position", "left");
+    const changedEvent = await page.spyOnEvent('calciteDateChange');
+    await input.focus();
+    const wrapper = await page.find("calcite-date-picker >>> .calendar-picker-wrapper");
+    expect(await wrapper.isVisible()).toBe(true);
+    await input.press("3");
+    await input.press("/");
+    await input.press("7");
+    await input.press("/");
+    await input.press("2");
+    await input.press("0");
+    await input.press("2");
+    await input.press("0");
     await page.waitForChanges();
-    expect(pageEl).toHaveClass("toggle-switch__track--left");
-  });
-
-  it("changes the internal state of checked", async () => {
-    const input = await page.find("calcite-switch >>> input");
-    switchElement.click();
-    await page.waitForChanges();
-    let value = await input.getProperty("checked");
-    expect(value).toBe(true);
-
-    switchElement.click();
-    await page.waitForChanges();
-    value = await input.getProperty("checked");
-    expect(value).toBe(false);
+    expect(changedEvent).toHaveReceivedEventTimes(1);
   });
 });

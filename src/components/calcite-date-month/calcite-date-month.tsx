@@ -19,8 +19,13 @@ import {
   END,
   ENTER,
   SPACE,
-  ESCAPE
+  TAB
 } from "../../utils/keys";
+import {
+  getFirstDayOfWeek,
+  getLocalizedWeekdays
+} from "../calcite-date-picker/locale";
+import { inRange, sameDate, dateFromRange } from "../calcite-date-picker/date";
 
 @Component({
   tag: "calcite-date-month",
@@ -42,44 +47,15 @@ export class CalciteDateMonth {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Month number starting 0 as January for which the calendar is shown.
-   */
-  @Prop() month: number = 0;
-  /**
-   * Year for which the calendar is shown.
-   */
-  @Prop() year: number = 0;
-  /**
-   * Already selected date.
-   */
+  /** Already selected date.*/
   @Prop() selectedDate: Date;
-  /**
-   * Date currently active.
-   */
-  @Prop() activeDate: Date;
-  /**
-   * Minimum date of the calendar below which is disabled.
-   */
+  /** Date currently active.*/
+  @Prop() activeDate: Date = new Date();
+  /** Minimum date of the calendar below which is disabled.*/
   @Prop() min: Date;
-  /**
-   * Maximum date of the calendar above which is disabled.
-   */
+  /** Maximum date of the calendar above which is disabled.*/
   @Prop() max: Date;
-  /**
-   * Sun by default
-   * 0: Sunday
-   * 1: Monday
-   * 2: Tuesday
-   * 3: Wednesday
-   * 4: Thursday
-   * 5: Friday
-   * 6: Saturday
-   */
-  @Prop() startOfWeek: number = 0;
-  /**
-   * pass the locale in which user wants to show the date.
-   */
+  /** User's language and region as BCP 47 formatted string. */
   @Prop() locale: string = "en-US";
 
   //--------------------------------------------------------------------------
@@ -87,6 +63,7 @@ export class CalciteDateMonth {
   //  Events
   //
   //--------------------------------------------------------------------------
+
   /**
    * Event emitted when user selects the date.
    */
@@ -98,91 +75,41 @@ export class CalciteDateMonth {
 
   //--------------------------------------------------------------------------
   //
-  //  Lifecycle
+  //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
-  componentWillUpdate(): void {}
-
-  render() {
-    const year = this.activeDate.getFullYear();
-    const month = this.activeDate.getMonth();
-    let weekDays = this.getLocalizedWeekday(),
-      curMonDays = this.getCurrentMonthDays(month, year),
-      prevMonDays = this.getPrevMonthdays(month, year),
-      nextMonDays = this.getNextMonthDays(month, year),
-      splitDays = [],
-      days = [
-        ...prevMonDays.map(prev => (
-          <calcite-date-day day={prev} enable={false} />
-        )),
-        ...curMonDays.map(cur => (
-          <calcite-date-day
-            day={cur + 1}
-            enable={this.validateDate(cur + 1, month, year)}
-            selected={this.isSelectedDate(year, month, cur + 1)}
-            active={this.activeDate.getDate() === cur + 1}
-            onCalciteDaySelect={() => this.onSelectDate(cur + 1)}
-          />
-        )),
-        ...nextMonDays.map(next => (
-          <calcite-date-day day={next + 1} enable={false} />
-        ))
-      ];
-
-    for (let i = 0; i < days.length; i += 7)
-      splitDays.push(days.slice(i, i + 7));
-
-    return (
-      <Host>
-        <div class="calender" role="grid">
-          <div class="week-headers" role="presentation">
-            {weekDays.map(weekday => (
-              <span class="week-header" role="columnheader">
-                {weekday}
-              </span>
-            ))}
-          </div>
-          {splitDays.map(days => (
-            <div class="week-days" role="row">
-              {days}
-            </div>
-          ))}
-        </div>
-      </Host>
-    );
-  }
-
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+    const isRTL = this.el.dir === "rtl";
     switch (e.keyCode) {
       case UP:
         e.preventDefault();
-        this.addDaysToActiveDate(-7);
+        this.addDays(-7);
         break;
       case RIGHT:
         e.preventDefault();
-        this.addDaysToActiveDate(1);
+        this.addDays(isRTL ? -1 : 1);
         break;
       case DOWN:
         e.preventDefault();
-        this.addDaysToActiveDate(7);
+        this.addDays(7);
         break;
       case LEFT:
         e.preventDefault();
-        this.addDaysToActiveDate(-1);
+        this.addDays(isRTL ? 1 : -1);
         break;
       case PAGE_UP:
         e.preventDefault();
-        this.addMonthToActiveDate(-1);
+        this.addMonths(-1);
         break;
       case PAGE_DOWN:
         e.preventDefault();
-        this.addMonthToActiveDate(1);
+        this.addMonths(1);
         break;
       case HOME:
         e.preventDefault();
         this.activeDate.setDate(1);
-        this.addDaysToActiveDate();
+        this.addDays();
         break;
       case END:
         e.preventDefault();
@@ -193,187 +120,197 @@ export class CalciteDateMonth {
             0
           ).getDate()
         );
-        this.addDaysToActiveDate();
+        this.addDays();
         break;
       case ENTER:
       case SPACE:
         e.preventDefault();
-        this.selectedDate = this.activeDate;
-        this.calciteDateSelect.emit();
+        this.calciteDateSelect.emit(this.activeDate);
         break;
-      case ESCAPE:
-        e.preventDefault();
-        this.activeDate = this.selectedDate;
-        this.calciteActiveDateChange.emit();
-        break;
+      case TAB:
+        this.activeFocus = false;
     }
   }
 
-  @Listen("mouseover") mouseoverHandler(e) {
-    let day = e.target.day || this.activeDate.getDate();
-    if(!e.target.enable) return;
-    if (day != this.activeDate.getDate()) {
-      let [activeDay, activeMonth, activeYear] = [
-        day,
-        this.activeDate.getMonth(),
-        this.activeDate.getFullYear()
-      ];
-      if (this.validateDate(activeDay, activeMonth, activeYear)) {
-        this.activeDate = new Date(activeYear, activeMonth, activeDay);
-        this.calciteActiveDateChange.emit();
-      }
-    }
+  /**
+   * Once user is not interacting via keyboard,
+   * disable auto focusing of active date
+   */
+  @Listen("focusout") disableActiveFocus() {
+    this.activeFocus = false;
   }
 
-  private addMonthToActiveDate(step) {
-    let [activeDay, activeMonth, activeYear] = [
-      this.activeDate.getDate(),
-      this.activeDate.getMonth(),
-      this.activeDate.getFullYear()
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+  render() {
+    const month = this.activeDate.getMonth();
+    const year = this.activeDate.getFullYear();
+    const startOfWeek = getFirstDayOfWeek(this.locale);
+    const weekDays = getLocalizedWeekdays(this.locale);
+    const curMonDays = this.getCurrentMonthDays(month, year);
+    const prevMonDays = this.getPrevMonthdays(month, year, startOfWeek);
+    const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
+    const days = [
+      ...prevMonDays.map(day => {
+        const date = new Date(year, month - 1, day);
+        return (
+          <calcite-date-day
+            day={day}
+            disabled={!inRange(date, this.min, this.max)}
+            selected={sameDate(date, this.selectedDate)}
+            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
+            locale={this.locale}
+          />
+        );
+      }),
+      ...curMonDays.map(day => {
+        const date = new Date(year, month, day);
+        const active = sameDate(date, this.activeDate);
+        return (
+          <calcite-date-day
+            day={day}
+            disabled={!inRange(date, this.min, this.max)}
+            selected={sameDate(date, this.selectedDate)}
+            active={active}
+            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
+            locale={this.locale}
+            ref={el => {
+              // when moving via keyboard, focus must be updated on active date
+              if (active && this.activeFocus) {
+                el?.focus();
+              }
+            }}
+            current-month
+          />
+        );
+      }),
+      ...nextMonDays.map(day => {
+        const date = new Date(year, month + 1, day);
+        return (
+          <calcite-date-day
+            day={day}
+            disabled={!inRange(date, this.min, this.max)}
+            selected={sameDate(date, this.selectedDate)}
+            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
+            locale={this.locale}
+          />
+        );
+      })
     ];
-    activeMonth += step;
-    if (activeMonth === 12) {
-      activeMonth = 0;
-      activeYear += 1;
+
+    const weeks = [];
+    for (let i = 0; i < days.length; i += 7) {
+      weeks.push(days.slice(i, i + 7));
     }
-    if (activeMonth === -1) {
-      activeMonth = 11;
-      activeYear -= 1;
-    }
-    if (this.validateDate(activeDay, activeMonth, activeYear)) {
-      this.activeDate = new Date(activeYear, activeMonth, activeDay);
-      this.calciteActiveDateChange.emit();
-    }
+
+    return (
+      <Host>
+        <div class="calender" role="grid">
+          <div class="week-headers" role="row">
+            {weekDays.map(weekday => (
+              <span class="week-header" role="columnheader">
+                {weekday}
+              </span>
+            ))}
+          </div>
+          {weeks.map(days => (
+            <div class="week-days" role="row">
+              {days}
+            </div>
+          ))}
+        </div>
+      </Host>
+    );
   }
 
-  private addDaysToActiveDate(step: number = 0) {
-    let [activeDay, activeMonth, activeYear] = [
-      this.activeDate.getDate(),
-      this.activeDate.getMonth(),
-      this.activeDate.getFullYear()
-    ];
-    activeDay += step;
-    let noOfDaysInMonth = new Date(activeYear, activeMonth + 1, 0).getDate();
-    let noOfDaysInPrevMonth = new Date(activeYear, activeMonth, 0).getDate();
-    if (activeDay > noOfDaysInMonth) {
-      activeDay -= noOfDaysInMonth;
-      activeMonth += 1;
-      if (activeMonth === 12) {
-        activeMonth = 0;
-        activeYear += 1;
-      }
-    }
-    if (activeDay < 0) {
-      activeDay = noOfDaysInPrevMonth + activeDay;
-      activeMonth -= 1;
-      if (activeMonth === -1) {
-        activeMonth = 11;
-        activeYear -= 1;
-      }
-    }
-    if (this.validateDate(activeDay, activeMonth, activeYear)) {
-      this.activeDate = new Date(activeYear, activeMonth, activeDay);
-      this.calciteActiveDateChange.emit();
-    }
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+  private activeFocus: boolean;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+  /**
+   * Add n months to the current month
+   */
+  private addMonths(step: number) {
+    const nextDate = new Date(this.activeDate);
+    nextDate.setMonth(this.activeDate.getMonth() + step);
+    this.calciteActiveDateChange.emit(
+      dateFromRange(nextDate, this.min, this.max)
+    );
+    this.activeFocus = true;
   }
 
-  private onSelectDate(date): void {
-    this.selectedDate = new Date(this.year, this.month, date);
-    this.calciteDateSelect.emit();
+  /**
+   * Add n days to the current date
+   */
+  private addDays(step: number = 0) {
+    const nextDate = new Date(this.activeDate);
+    nextDate.setDate(this.activeDate.getDate() + step);
+    this.calciteActiveDateChange.emit(
+      dateFromRange(nextDate, this.min, this.max)
+    );
+    this.activeFocus = true;
   }
 
-  private isSelectedDate(year, month, day) {
-    let date = new Date(year, month, day);
-    return date.toDateString().substr(0,10) === this.selectedDate.toDateString().substr(0,10);
-  }
-
-  private validateDate(day, month, year) {
-    let isValid = true;
-    if (this.min) {
-      let minYear = this.min.getFullYear();
-      let minMonth = this.min.getMonth();
-      let minDay = this.min.getDate();
-
-      isValid =
-        isValid &&
-        (minYear < year
-          ? true
-          : minYear === year && minMonth < month
-          ? true
-          : minMonth === month && minDay < day
-          ? true
-          : false);
-    }
-    if (this.max) {
-      let maxYear = this.max.getFullYear();
-      let maxMonth = this.max.getMonth();
-      let maxDay = this.max.getDate();
-      isValid =
-        isValid &&
-        (maxYear > year
-          ? true
-          : maxYear === year && maxMonth > month
-          ? true
-          : maxMonth === month && maxDay > day
-          ? true
-          : false);
-    }
-    return isValid;
-  }
-
-  private getPrevMonthdays(month, year) {
-    let startDay = new Date(year, month, 1).getDay(),
-      days = [],
-      prevMonDays = new Date(year, month, 0).getDate();
-
-    if (startDay === this.startOfWeek) {
+  /**
+   * Get dates for last days of the previous month
+   */
+  private getPrevMonthdays(
+    month: number,
+    year: number,
+    startOfWeek: number
+  ): number[] {
+    const lastDate = new Date(year, month, 0);
+    const date = lastDate.getDate();
+    const day = lastDate.getDay();
+    const days = [];
+    if (day - 6 === startOfWeek) {
       return days;
     }
-
-    for (let i = (6 - this.startOfWeek + startDay) % 7; i >= 0; i--) {
-      days.push(prevMonDays - i);
+    for (let i = lastDate.getDay(); i >= startOfWeek; i--) {
+      days.push(date - i);
     }
-
     return days;
   }
 
-  private getCurrentMonthDays(month, year): number[] {
+  /**
+   * Get dates for the current month
+   */
+  private getCurrentMonthDays(month: number, year: number): number[] {
     const num = new Date(year, month + 1, 0).getDate();
     const days = [];
     for (let i = 0; i < num; i++) {
-      days.push(i);
+      days.push(i + 1);
     }
     return days;
   }
 
-  private getNextMonthDays(month, year): number[] {
-    let endDay = new Date(year, month + 1, 0).getDay(),
-      days = [];
-    if (endDay === (this.startOfWeek + 6) % 7) {
+  /**
+   * Get dates for first days of the next month
+   */
+  private getNextMonthDays(
+    month: number,
+    year: number,
+    startOfWeek: number
+  ): number[] {
+    const endDay = new Date(year, month + 1, 0).getDay();
+    const days = [];
+    if (endDay === (startOfWeek + 6) % 7) {
       return days;
     }
-    const last = (6 - (endDay - this.startOfWeek)) % 7;
-    for (let i = 0; i < last; i++) {
-      days.push(i);
+    for (let i = 0; i < (6 - (endDay - startOfWeek)) % 7; i++) {
+      days.push(i + 1);
     }
     return days;
-  }
-
-  private getLocalizedWeekday() {
-    let w = 1,
-      startWeek = [],
-      endWeek = [],
-      date = new Date();
-    for (; w < 8; w++) {
-      date.setDate(w);
-      let day = new Intl.DateTimeFormat(this.locale, {
-        weekday: "short"
-      }).format(date);
-      date.getDay() === this.startOfWeek || startWeek.length > 0
-        ? startWeek.push(day)
-        : endWeek.push(day);
-    }
-
-    return [...startWeek, ...endWeek];
   }
 }

@@ -10,7 +10,11 @@
     .demo-background-dark {
       background: #202020;
       color: white;
-      padding: 1rem;
+      padding: 1rem 1rem 3rem 1rem;
+    }
+
+    h2 {
+      padding-top: 3rem;
     }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
@@ -23,75 +27,51 @@
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Date</h1>
 
-  <div class="example-container" style="margin: 40px 0 100px 0;">
-    <calcite-date-picker value="2019-08-23" min="2019-08-09" max="2021-12-18" locale="th"></calcite-date-picker>
-    <calcite-date-picker id="dateSample"></calcite-date-picker>
-    <calcite-date-picker key="condition-value" min="1970-01-01" max="2030-12-31" start-of-week="0" tabIndex="0"
-      value="2000-11-27" locale="ar-EG" dir="rtl"></calcite-date-picker>
-    <button onclick="toggleCalendar()">date with no input</button>
-    <calcite-date-picker id="dateWithNoInput" key="condition-value" min="1970-01-01" max="2030-12-31" start-of-week="0"
-      tabIndex="0" value="2000-11-27" no-calendar-input="true" show-calendar="true">
-    </calcite-date-picker>
-    <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
-    <script>
-      var dateSample = document.getElementById("dateSample");
+  <h2>Standard</h2>
+  <calcite-date-picker></calcite-date-picker>
 
-      dateSample.addEventListener("calciteDateChange", function (
-        e
-      ) {
-        dateSample.value = e.target.value;
-        console.log(
-          "Date selected <calcite-date>",
-          e.target.value,
-          e.target.valueAsDate
-        );
-      });
+  <h2>Initial Value (from ISO 8601 string)</h2>
+  <calcite-date-picker value="2020-03-07"></calcite-date-picker>
 
-      function toggleCalendar() {
-        var dateWithNoInput = document.getElementById("dateWithNoInput");
-        dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-      }
-    </script>
+  <h2>Min &amp; Max</h2>
+  <calcite-date-picker min="2020-03-07" max="2020-03-15" value="2020-04-01"></calcite-date-picker>
+
+  <h2>Start day of locale</h2>
+  <calcite-date-picker locale="es"></calcite-date-picker>
+
+  <h2>Locale formatted dates</h2>
+  <calcite-date-picker value="2019-08-23" min="2019-08-09" max="2021-12-18" locale="th"></calcite-date-picker>
+
+  <div dir="rtl">
+    <h2>Right to left, arabic numerals</h2>
+    <calcite-date-picker value="2000-11-27" locale="ar-EG" dir="rtl"></calcite-date-picker>
   </div>
 
+  <h2>Always open</h2>
+  <calcite-date-picker value="2000-11-27" no-calendar-input="true" show-calendar="true"></calcite-date-picker>
+
+  <h2>Input Proxy</h2>
+  <calcite-date-picker>
+    <input type="date" value="2000-11-27" min="1999-12-02" max="2020-12-02">
+  </calcite-date-picker>
+
+  <h2>Events</h2>
+  <calcite-date-picker id="dateSample"></calcite-date-picker>
+  <p>Date selected: <pre><code id="dateDisplay">n/a</code></pre></p>
+  <script>
+    var dateSample = document.getElementById("dateSample");
+    var dateDisplay = document.getElementById("dateDisplay");
+    dateSample.addEventListener("calciteDateChange", function (e) {
+      dateDisplay.innerHTML = e.detail;
+    });
+  </script>
+
   <div class="demo-background-dark">
-    <div class="example-container" style="margin: 40px 0 100px 0;">
-      <h1>Dark theme</h1>
-      <calcite-date-picker theme="dark" value="2019-08-23" min="2019-08-09" max="2021-12-18">
-      </calcite-date-picker>
-      <calcite-date-picker theme="dark" id="dateSample"></calcite-date-picker>
-      <calcite-date-picker theme="dark" key="condition-value" min="1970-01-01" max="2030-12-31" start-of-week="0"
-        tabIndex="0" value="2000-11-27"></calcite-date-picker>
-      <button onclick="toggleDarkCalendar()">date with no input dark</button>
-      <calcite-date-picker theme="dark" id="darkDateWithNoInput" key="condition-value" min="1970-01-01" max="2030-12-31"
-        start-of-week="0" tabIndex="0" value="2000-11-27" no-calendar-input="true" show-calendar="true">
-      </calcite-date-picker>
-      <!--<input type="date" min="1970-01-01" max="2030-12-31" value="2019-11-27" /> -->
-      <script>
-        var dateSample = document.getElementById("dateSample");
+    <h1>Dark theme</h1>
+    <calcite-date-picker theme="dark" value="2019-08-23"></calcite-date-picker>
 
-        dateSample.addEventListener("calciteDateChange", function (
-          e
-        ) {
-          dateSample.value = e.target.value;
-          console.log(
-            "Date selected <calcite-date>",
-            e.target.value,
-            e.target.valueAsDate
-          );
-        });
-
-        function toggleCalendar() {
-          var dateWithNoInput = document.getElementById("dateWithNoInput");
-          dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-        }
-
-        function toggleDarkCalendar() {
-          var dateWithNoInput = document.getElementById("darkDateWithNoInput");
-          dateWithNoInput.showCalendar = !dateWithNoInput.showCalendar;
-        }
-      </script>
-    </div>
+    <h2>Always open</h2>
+    <calcite-date-picker value="2000-11-27" theme="dark" no-calendar-input="true" show-calendar="true"></calcite-date-picker>
   </div>
 </body>
 

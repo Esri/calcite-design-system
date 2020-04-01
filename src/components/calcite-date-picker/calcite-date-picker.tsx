@@ -5,11 +5,19 @@ import {
   Event,
   Element,
   Host,
-  EventEmitter,
   State,
-  Listen
+  Listen,
+  Build
 } from "@stencil/core";
-import { localeToDate, getLocaleFormatData } from "./locale";
+import {
+  parseDateString,
+  getLocaleFormatData,
+  DateFormattingData
+} from "./locale";
+import { DateChangeEvent, DateChangeEmitter } from "./interfaces";
+import { getElementDir } from "../../utils/dom";
+import { ESCAPE } from "../../utils/keys";
+import { dateFromRange, inRange, dateFromISO, dateToISO } from "./date";
 @Component({
   tag: "calcite-date-picker",
   styleUrl: "calcite-date-picker.scss",
@@ -29,19 +37,19 @@ export class CalciteDatePicker {
   //
   //--------------------------------------------------------------------------
   /** Selected date */
-  @Prop({ reflect: true, mutable: true }) value?: Date | string;
+  @Prop({ reflect: true, mutable: true }) value?: string;
+  /** Selected date as full date object*/
+  @Prop({ mutable: true }) valueAsDate?: Date;
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop() min?: string = "";
+  @Prop() min?: string;
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop() max?: string = "";
+  @Prop() max?: string;
   /** Expand or collapse when calendar does not have input */
   @Prop({ reflect: true }) showCalendar: boolean = false;
   /** Localized string for "previous month" */
   @Prop() prevMonthLabel?: string = "previous month";
   /** Localized string for "next month" */
   @Prop() nextMonthLabel?: string = "next month";
-  /**  Start of week offset. 0 for Sunday, 1 for Monday, etc... */
-  @Prop() startOfWeek?: number = 0;
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = "en-US";
   /** Show only calendar popup */
@@ -52,9 +60,23 @@ export class CalciteDatePicker {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("blur") closeCalendar() {
-    if (!this.noCalendarInput) {
-      this.showCalendar = false;
+  @Listen("blur") focusOutHandler() {
+    this.reset();
+  }
+
+  /**
+   * Blur doesn't fire properly when there is no shadow dom (ege/IE11)
+   * Check if the focused element is inside the date picker, if not close
+   */
+  @Listen("focusin", { target: "window" }) focusInHandler(e: FocusEvent) {
+    if (!this.hasShadow && !this.el.contains(e.srcElement as HTMLElement)) {
+      this.reset();
+    }
+  }
+
+  @Listen("keyup") keyDownHandler(e: KeyboardEvent) {
+    if (e.keyCode === ESCAPE) {
+      this.reset();
     }
   }
 
@@ -66,12 +88,12 @@ export class CalciteDatePicker {
   /**
    * Trigger calcite date change when a user changes the date.
    */
-  @Event() calciteDateChange: EventEmitter;
+  @Event() calciteDateChange: DateChangeEmitter;
 
   /**
    * Active date.
    */
-  @State() activeDate = this.value ? new Date(this.value) : new Date();
+  @State() activeDate: Date;
 
   // --------------------------------------------------------------------------
   //
@@ -79,74 +101,73 @@ export class CalciteDatePicker {
   //
   // --------------------------------------------------------------------------
   connectedCallback() {
-    if (this.value && typeof this.value === "string") {
-      this.value = new Date(this.value);
-    }
+    this.setupProxyInput();
+  }
+
+  disconnectedCallback() {
+    this.observer.disconnect();
+  }
+
+  componentWillRender() {
+    this.syncProxyInputToThis();
   }
 
   render() {
-    const date = this.value && new Date(this.value);
+    const min = dateFromISO(this.min);
+    const max = dateFromISO(this.max);
+    const date = dateFromRange(this.valueAsDate, min, max);
+    const activeDate = this.getActiveDate(date, min, max);
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
-    const month = this.activeDate.getMonth();
-    const year = this.activeDate.getFullYear();
-    const min = this.min ? new Date(this.min) : null;
-    const max = this.max ? new Date(this.max) : null;
+    const dir = getElementDir(this.el);
     return (
-      <Host role="application">
+      <Host role="application" dir={dir}>
+        <slot></slot>
         {!this.noCalendarInput && (
-          <div
-            class={{
-              "date-input-wrapper": true,
-              expanded: this.showCalendar
-            }}
-            role="application"
-          >
-            <calcite-icon
-              icon="calendar"
-              class="calendar-icon"
-              scale="s"
-            ></calcite-icon>
+          <div class="date-input-wrapper" role="application">
+            <calcite-icon icon="calendar" class="calendar-icon" scale="s" />
             <input
               type="text"
-              placeholder={this.placeholder}
+              placeholder={this.localeData.placeholder}
               value={formattedDate}
               class="date-input"
               onFocus={() => (this.showCalendar = true)}
-              onInput={(e) => this.processInput(e.target)}
-              tabindex="0"
+              onInput={e => this.input((e.target as HTMLInputElement).value)}
+              onBlur={e => this.blur(e.target as HTMLInputElement)}
             />
           </div>
         )}
         <div class="calendar-picker-wrapper">
           <calcite-date-month-header
-            month={month}
-            year={year}
+            activeDate={activeDate}
             selectedDate={date || new Date()}
             prevMonthLabel={this.prevMonthLabel}
             nextMonthLabel={this.nextMonthLabel}
             locale={this.locale}
             min={min}
             max={max}
-            onCalciteMonthChange={e => this.setMonth(e.target)}
-            onCalciteYearChange={e => this.setYear(e.target)}
+            onCalciteActiveDateChange={(e: DateChangeEvent) => {
+              this.activeDate = new Date(e.detail);
+            }}
+            dir={dir}
           />
           <calcite-date-month
-            month={month}
-            year={year}
             min={min}
             max={max}
-            selectedDate={date || new Date()}
-            activeDate={this.activeDate}
-            startOfWeek={this.startOfWeek}
+            selectedDate={date}
+            activeDate={activeDate}
             locale={this.locale}
-            onCalciteDateSelect={evt => {
-              this.closeCalendar();
-              this.setDate(evt.target);
+            onCalciteDateSelect={(e: DateChangeEvent) => {
+              this.setValue(new Date(e.detail));
+              this.activeDate = new Date(e.detail);
+              this.calciteDateChange.emit(new Date(e.detail));
+              this.reset();
             }}
-            onCalciteActiveDateChange={evt => this.setActiveDate(evt.target)}
+            onCalciteActiveDateChange={(e: DateChangeEvent) => {
+              this.activeDate = new Date(e.detail);
+            }}
+            dir={dir}
           />
         </div>
-        <slot />
       </Host>
     );
   }
@@ -156,44 +177,145 @@ export class CalciteDatePicker {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  placeholder: string = getLocaleFormatData(this.locale).placeholder;
+  private localeData: DateFormattingData = getLocaleFormatData(this.locale);
+  private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
+  private inputProxy: HTMLInputElement;
+  private observer: MutationObserver;
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  private processInput(target: EventTarget): void {
-    const value = (target as HTMLInputElement).value;
-    const { separator } = getLocaleFormatData(this.locale);
-    const date = localeToDate(value, this.locale);
-    const validDate = !isNaN(date.getTime());
-    const validLength = value.split(separator).filter(c => c).length > 2;
-    if (validDate && validLength) {
-      const afterMin = !this.min || new Date(this.min).getTime() <= date.getTime();
-      const beforeMax = !this.max || new Date(this.max).getTime() >= date.getTime();
-      if (afterMin && beforeMax) {
-        this.value = date;
-        this.activeDate = date;
-      }
+
+  /**
+   * Register slotted date input proxy, or create one if not provided
+   */
+  setupProxyInput() {
+    // check for a proxy input
+    this.inputProxy = this.el.querySelector("input");
+
+    // if the user didn't pass a proxy input create one for them
+    if (!this.inputProxy) {
+      this.inputProxy = document.createElement("input");
+      this.inputProxy.type = "date";
+      this.syncProxyInputToThis();
+      this.el.appendChild(this.inputProxy);
+    }
+
+    this.syncThisToProxyInput();
+
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.syncThisToProxyInput);
+      this.observer.observe(this.inputProxy, { attributes: true });
     }
   }
 
-  private setActiveDate(target): void {
-    this.activeDate = target.activeDate;
+  /**
+   * Update component based on input proxy
+   */
+  syncThisToProxyInput = () => {
+    this.min = this.inputProxy.min;
+    this.max = this.inputProxy.max;
+    const min = dateFromISO(this.min);
+    const max = dateFromISO(this.max);
+    const date = dateFromISO(this.inputProxy.value);
+    this.valueAsDate = dateFromRange(date, min, max);
+    this.value = dateToISO(this.valueAsDate);
+  };
+
+  /**
+   * Update input proxy
+   */
+  syncProxyInputToThis = () => {
+    if (this.inputProxy) {
+      this.inputProxy.value = this.value || "";
+      if (this.min) {
+        this.inputProxy.min = this.min;
+      }
+      if (this.max) {
+        this.inputProxy.max = this.max;
+      }
+    }
+  };
+
+  /**
+   * Set both iso value and date value and update proxy
+   */
+  private setValue(date: Date) {
+    this.valueAsDate = new Date(date);
+    this.value = date.toISOString().split("T")[0];
+    this.syncProxyInputToThis();
   }
 
-  private setMonth(target) {
-    this.activeDate.setMonth(target.month);
+  /**
+   * Reset active date and close
+   */
+  private reset() {
+    if (this.valueAsDate) {
+      this.activeDate = new Date(this.valueAsDate);
+    }
+    if (!this.noCalendarInput) {
+      this.showCalendar = false;
+    }
   }
 
-  private setYear(target) {
-    this.activeDate.setFullYear(target.year);
+  /**
+   * If inputted string is a valid date, update value/active
+   */
+  private input(value: string) {
+    const date = this.getDateFromInput(value);
+    if (date) {
+      this.setValue(date);
+      this.activeDate = date as Date;
+      this.calciteDateChange.emit(new Date(date));
+    }
   }
 
-  private setDate(target) {
-    this.value = target.selectedDate;
-    this.activeDate = target.selectedDate;
-    this.calciteDateChange.emit();
+  /**
+   * Clean up invalid date from input on blur
+   */
+  private blur(target: HTMLInputElement) {
+    const date = this.getDateFromInput(target.value);
+    if (!date && this.valueAsDate) {
+      target.value = this.valueAsDate.toLocaleDateString(this.locale);
+    }
+  }
+
+  /**
+   * Get an active date using the value, or current date as default
+   */
+  private getActiveDate(
+    value: Date | null,
+    min: Date | null,
+    max: Date | null
+  ) {
+    return (
+      dateFromRange(this.activeDate, min, max) ||
+      value ||
+      dateFromRange(new Date(), min, max)
+    );
+  }
+
+  /**
+   * Find a date from input string
+   * return false if date is invalid, or out of range
+   */
+  private getDateFromInput(value: string): Date | false {
+    const { separator } = this.localeData;
+    const { day, month, year } = parseDateString(value, this.locale);
+    const date = new Date(year, month, day);
+    const validDate = !isNaN(date.getTime());
+    const validLength = value.split(separator).filter(c => c).length > 2;
+    const validYear = year.toString().length > 3;
+    if (
+      validDate &&
+      validLength &&
+      validYear &&
+      inRange(date, this.min, this.max)
+    ) {
+      return date;
+    }
+    return false;
   }
 }

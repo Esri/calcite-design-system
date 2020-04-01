@@ -1,14 +1,18 @@
+import { Component, Element, Prop, Host, Event, h } from "@stencil/core";
+import { UP, DOWN } from "../../utils/keys";
 import {
-  Component,
-  Element,
-  Prop,
-  Host,
-  Event,
-  EventEmitter,
-  h,
-  Watch
-} from "@stencil/core";
-import { getLocaleFormatData, replaceArabicNumerals } from "../calcite-date-picker/locale";
+  getLocaleFormatData,
+  replaceArabicNumerals,
+  getMonths,
+  getYear
+} from "../calcite-date-picker/locale";
+import { getElementDir } from "../../utils/dom";
+import { DateChangeEmitter } from "../calcite-date-picker/interfaces";
+import {
+  dateFromRange,
+  nextMonth,
+  prevMonth
+} from "../calcite-date-picker/date";
 
 @Component({
   tag: "calcite-date-month-header",
@@ -30,37 +34,19 @@ export class CalciteDateMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Month number starting 0 as January for which the calendar is shown.
-   */
-  @Prop({ mutable: true }) month: number = new Date().getMonth();
-  /**
-   * Year for which the calendar is shown.
-   */
-  @Prop({ mutable: true }) year: number = new Date().getFullYear();
-  /**
-   * Already selected date.
-   */
+  /** Already selected date. */
   @Prop() selectedDate: Date;
-  /**
-   * Minimum date of the calendar below which is disabled.
-   */
+  /** Focused date with indicator (will become selected date if user proceeds) */
+  @Prop() activeDate: Date;
+  /** Minimum date of the calendar below which is disabled. */
   @Prop() min: Date;
-  /**
-   * Maximum date of the calendar above which is disabled.
-   */
+  /** Maximum date of the calendar above which is disabled. */
   @Prop() max: Date;
-  /**
-   * pass the locale in which user wants to show the date.
-   */
+  /** User's language and region as BCP 47 formatted string. */
   @Prop() locale: string;
-  /**
-   * Localized string for previous month.
-   */
+  /** Localized string for previous month. */
   @Prop() prevMonthLabel: string;
-  /**
-   * Localized string for next month.
-   */
+  /** Localized string for next month. */
   @Prop() nextMonthLabel: string;
 
   //--------------------------------------------------------------------------
@@ -69,40 +55,30 @@ export class CalciteDateMonthHeader {
   //
   //--------------------------------------------------------------------------
   /**
-   *  Event triggered when user change month.
+   *  Changes to active date
    */
-  @Event() calciteMonthChange: EventEmitter;
-  /**
-   *  Event triggered when user change year.
-   */
-  @Event() calciteYearChange: EventEmitter;
+  @Event() calciteActiveDateChange: DateChangeEmitter;
 
-  @Watch("month") monthChange() {
-    this.calciteMonthChange.emit();
-  }
-
-  @Watch("year") yearChange() {
-    this.calciteYearChange.emit();
-  }
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  componentWillUpdate(): void {}
-
   render() {
-    const localizedMonth = this.getLocalizedMonths()[this.month];
+    const activeMonth = this.activeDate.getMonth();
+    const localizedMonth = getMonths(this.locale)[activeMonth];
+    const localizedYear = getYear(this.activeDate, this.locale);
+    const dir = getElementDir(this.el);
     return (
-      <Host>
+      <Host dir={dir}>
         <div class="month-year" aria-hidden="true">
           <button
             class="left-icon"
             aria-label={this.prevMonthLabel}
             onClick={() => this.selectPrevMonth()}
           >
-            <calcite-icon icon="chevron-left" scale="s" mirrored></calcite-icon>
+            <calcite-icon icon="chevron-left" scale="s" mirrored dir={dir} />
           </button>
           <div class="month-year-text">
             <span class="month" role="heading">
@@ -110,10 +86,17 @@ export class CalciteDateMonthHeader {
             </span>
             <input
               class="year"
-              value={`${this.getLocalizedYear(this.year).slice(-4)}`}
-              min={this.min && this.getLocalizedYear(this.min.getFullYear())}
-              max={this.max && this.getLocalizedYear(this.max.getFullYear())}
-              onChange={event => this.onYearChange(event)}
+              type="text"
+              inputmode="numeric"
+              maxlength="4"
+              minlength="4"
+              pattern="\d*"
+              value={`${localizedYear.slice(-4)}`}
+              onKeyDown={event => this.onYearKey(event)}
+              onChange={event =>
+                this.setYear((event.target as HTMLInputElement).value)
+              }
+              ref={el => (this.yearInput = el)}
             />
           </div>
           <button
@@ -121,100 +104,86 @@ export class CalciteDateMonthHeader {
             aria-label={this.nextMonthLabel}
             onClick={() => this.selectNextMonth()}
           >
-            <calcite-icon icon="chevron-right" scale="s" mirrored></calcite-icon>
+            <calcite-icon icon="chevron-right" scale="s" mirrored dir={dir} />
           </button>
         </div>
       </Host>
     );
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------9------------------------------------------------------------
+  private yearInput: HTMLInputElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+  /**
+   * Set active date to previous month (or min if out of range)
+   */
   private selectPrevMonth() {
-    if (this.month === 0) {
-      if (this.validateYear(this.year - 1)) {
-        this.year -= 1;
-      } else {
-        return;
-      }
-    }
-    if (this.validateMonth((12 + this.month - 1) % 12, this.year)) {
-      this.month = (12 + this.month - 1) % 12;
-    }
-  }
-
-  private selectNextMonth() {
-    if (this.month === 11) {
-      if (this.validateYear(this.year + 1)) {
-        this.year += 1;
-      } else {
-        return;
-      }
-    }
-    if (this.validateMonth((this.month + 1) % 12, this.year)) {
-      this.month = (this.month + 1) % 12;
-    }
-  }
-
-  private validateYear(year) {
-    let isValid = true;
-    if (this.min) {
-      isValid = isValid && year >= this.min.getFullYear();
-    }
-    if (this.max) {
-      isValid = isValid && year <= this.max.getFullYear();
-    }
-
-    return isValid;
-  }
-
-  private validateMonth(month, year) {
-    let isValid = true;
-    if (this.min) {
-      isValid =
-        isValid &&
-        (this.validateYear(year)
-          ? year === this.min.getFullYear()
-            ? month >= this.min.getMonth()
-            : true
-          : false);
-    }
-    if (this.max) {
-      isValid =
-        isValid &&
-        (this.validateYear(year)
-          ? year === this.max.getFullYear()
-            ? month <= this.max.getMonth()
-            : true
-          : false);
-    }
-
-    return isValid;
-  }
-
-  private onYearChange(event) {
-    let year = parseInt(replaceArabicNumerals(event.target.value));
-    const { buddhist } = getLocaleFormatData(this.locale);
-    this.year = year - (buddhist ? 543 : 0);
-  }
-
-  private getLocalizedMonths() {
-    let m = 0,
-      months = [],
-      date = new Date();
-    for (; m < 12; m++) {
-      date.setMonth(m);
-      months.push(
-        new Intl.DateTimeFormat(this.locale, {
-          month: "long"
-        }).format(date)
-      );
-    }
-
-    return months;
-  }
-
-  private getLocalizedYear(year: number) {
-    return new Intl.DateTimeFormat(this.locale, { year: "numeric" }).format(
-      new Date(`01/01/${year}`)
+    const nextDate = prevMonth(this.activeDate);
+    this.calciteActiveDateChange.emit(
+      dateFromRange(nextDate, this.min, this.max)
     );
+  }
+
+  /**
+   * Set active date to next month (or max if out of range)
+   */
+  private selectNextMonth() {
+    const nextDate = nextMonth(this.activeDate);
+    this.calciteActiveDateChange.emit(
+      dateFromRange(nextDate, this.min, this.max)
+    );
+  }
+
+  /**
+   * Increment year on UP/DOWN keys
+   */
+  private onYearKey(e: KeyboardEvent) {
+    const year = (e.target as HTMLInputElement).value;
+    switch (e.keyCode) {
+      case DOWN:
+        e.preventDefault();
+        this.setYear(year, -1);
+        break;
+      case UP:
+        e.preventDefault();
+        this.setYear(year, 1);
+        break;
+    }
+  }
+
+  /**
+   * Parse localized year string from input,
+   * set to active if in range
+   */
+  private setYear(localizedYear: string, increment: number = 0) {
+    const { min, max, activeDate, locale, yearInput } = this;
+    const parsedYear = parseInt(replaceArabicNumerals(localizedYear));
+    const length = parsedYear.toString().length;
+    const offset = getLocaleFormatData(locale).buddhist ? 543 : 0;
+    const year = isNaN(parsedYear) ? false : parsedYear - offset + increment;
+    const inRange =
+      year &&
+      (!min || min.getFullYear() <= year) &&
+      (!max || max.getFullYear() >= year);
+    // if you've supplied a year and it's in range, update active date
+    if (year && inRange && length === localizedYear.length && length > 3) {
+      const nextDate = new Date(activeDate);
+      nextDate.setFullYear(year as number);
+      const inRangeDate = dateFromRange(nextDate, min, max);
+      this.calciteActiveDateChange.emit(inRangeDate);
+      yearInput.value = getYear(inRangeDate, locale).slice(-4);
+    } else {
+      // leave the current active date and clean up garbage input
+      yearInput.value = getYear(activeDate, locale).slice(-4);
+    }
   }
 }

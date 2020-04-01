@@ -7,19 +7,21 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                           | Type      | Default |
-| ---------- | ---------- | ----------------------------------------------------- | --------- | ------- |
-| `active`   | `active`   | Active tells whether day is Actively in focus.        | `boolean` | `false` |
-| `day`      | `day`      | day of the month to be shown.                         | `number`  | `0`     |
-| `enable`   | `enable`   | Enables tells whether day enabled for the user click. | `boolean` | `true`  |
-| `selected` | `selected` | Selected tells whether day is selected.               | `boolean` | `false` |
+| Property       | Attribute       | Description                                       | Type      | Default     |
+| -------------- | --------------- | ------------------------------------------------- | --------- | ----------- |
+| `active`       | `active`        | Date is actively in focus for keyboard navigation | `boolean` | `false`     |
+| `currentMonth` | `current-month` | Date is in the current month.                     | `boolean` | `false`     |
+| `day`          | `day`           | Day of the month to be shown.                     | `number`  | `undefined` |
+| `disabled`     | `disabled`      | Date is outside of range and can't be selected    | `boolean` | `false`     |
+| `locale`       | `locale`        | Locale to display the day in                      | `string`  | `undefined` |
+| `selected`     | `selected`      | Date is the current selected date of the picker   | `boolean` | `false`     |
 
 
 ## Events
 
-| Event              | Description                               | Type               |
-| ------------------ | ----------------------------------------- | ------------------ |
-| `calciteDaySelect` | When user selects day it emits the event. | `CustomEvent<any>` |
+| Event              | Description                   | Type               |
+| ------------------ | ----------------------------- | ------------------ |
+| `calciteDaySelect` | Emitted when user selects day | `CustomEvent<any>` |
 
 
 ## Dependencies
