@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 :host {
   display: flex;
   outline: none;
@@ -5,55 +9,50 @@
   padding: .3rem .4rem;
   cursor: pointer;
   width: calc(100% / 7);
-
-  .disabled {
-    pointer-events: none;
-  }
+  min-width: 0;
 }
-
 
 :host .day {
   display: flex;
   width: 100%;
   border-radius: 100%;
-  font-size: 14px;
+  @include font-size(-2);
   justify-content: center;
   align-items: center;
   height: 2.0rem;
   width: 2.0rem;
+  color: var(--calcite-ui-text-3);
+  transition: all $transition;
+  background: none;
+  box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
+}
+
+:host([current-month]) .day {
+  color: var(--calcite-ui-text-1);
+}
+
+:host([disabled]) {
+  cursor: default;
+  pointer-events: none;
+  .day {
+    color: var(--calcite-ui-border-1);
+  }
 }
 
 :host(:hover),
-:host(:focus),
-:host(.active) {
+:host([active]) {
   & .day {
     background-color: var(--calcite-ui-foreground-2);
-    transition: all $transition;
     color: var(--calcite-ui-text-1);
   }
 }
 
-:host(.selected-day) .day,
-:host(:focus.active) .day {
-  transition: all $transition;
-  background-color: var(--calcite-ui-blue-1);
-  border-radius: 100%;
-  color: var(--calcite-ui-foreground-1);
-  font-weight: 500;
+:host(:focus) .day {
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
 }
 
-:host(.disabled) {
-  cursor: default;
-  & .day {
-    color: $blk-060;
-    background: none;
-  }
-}
-:host(:hover),
-:host(.active),
-:host(:focus.active) {
-  .disabled .day {
-    color: $blk-060;
-    background: none;
-  }
+:host([selected]) .day {
+  background-color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-foreground-1);
+  font-weight: 500;
 }

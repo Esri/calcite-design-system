@@ -30,55 +30,18 @@ export class CalciteDateDay {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * day of the month to be shown.
-   */
-  @Prop() day: number = 0;
-  /**
-   * Enables tells whether day enabled for the user click.
-   */
-  @Prop() enable: boolean = true;
-  /**
-   * Selected tells whether day is selected.
-   */
-  @Prop() selected: boolean = false;
-  /**
-   * Active tells whether day is Actively in focus.
-   */
-  @Prop() active: boolean = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * When user selects day it emits the event.
-   */
-  @Event() calciteDaySelect: EventEmitter;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillUpdate(): void {}
-
-  render() {
-    return (
-      <Host
-        class={`${this.active ? "active" : ""}
-        ${this.enable ? "enabled" : "disabled"}
-        ${this.selected ? "selected-day" : ""}`}
-        role="gridcell"
-        tabindex={(this.selected || this.active) ? 0 : -1}
-      >
-        <span class="day" >{this.day}</span>
-      </Host>
-    );
-  }
+  /** Day of the month to be shown. */
+  @Prop() day: number;
+  /** Date is outside of range and can't be selected */
+  @Prop({ reflect: true }) disabled: boolean = false;
+  /** Date is in the current month. */
+  @Prop({ reflect: true }) currentMonth: boolean = false;
+  /** Date is the current selected date of the picker */
+  @Prop({ reflect: true }) selected: boolean = false;
+  /** Date is actively in focus for keyboard navigation */
+  @Prop({ reflect: true }) active: boolean = false;
+  /** Locale to display the day in */
+  @Prop() locale: string;
 
   //--------------------------------------------------------------------------
   //
@@ -87,12 +50,37 @@ export class CalciteDateDay {
   //--------------------------------------------------------------------------
 
   @Listen("click") onClick() {
-    this.enable && (this.selected = true) && this.calciteDaySelect.emit();
+    !this.disabled && this.calciteDaySelect.emit();
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     if (e.keyCode === SPACE || e.keyCode === ENTER) {
-      this.enable && (this.selected = true) && this.calciteDaySelect.emit();
+      !this.disabled && this.calciteDaySelect.emit();
     }
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Emitted when user selects day
+   */
+  @Event() calciteDaySelect: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+  render() {
+    const intl = new Intl.NumberFormat(this.locale);
+    return (
+      <Host role="gridcell" tabindex={this.selected || this.active ? 0 : -1}>
+        <span class="day">{intl.format(this.day)}</span>
+      </Host>
+    );
   }
 }
