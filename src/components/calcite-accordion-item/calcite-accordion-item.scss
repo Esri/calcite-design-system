@@ -1,3 +1,66 @@
+//ie11 fixes
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+// scale variants for child
+:host-context([scale="s"]) {
+  --calcite-accordion-item-spacing-unit: #{$baseline/3};
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
+    var(--calcite-accordion-item-spacing-unit);
+  @include font-size(-3);
+}
+
+:host-context([scale="m"]) {
+  --calcite-accordion-item-spacing-unit: #{$baseline/2};
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
+    var(--calcite-accordion-item-spacing-unit);
+  @include font-size(-2);
+}
+
+:host-context([scale="l"]) {
+  --calcite-accordion-item-spacing-unit: #{$baseline};
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
+    var(--calcite-accordion-item-spacing-unit);
+  @include font-size(-1);
+}
+
+// icon position variants for child
+:host-context([icon-position="start"]) {
+  --calcite-accordion-item-flex-direction: row-reverse;
+  --calcite-accordion-item-icon-rotation: 90deg;
+  --calcite-accordion-item-active-icon-rotation: 180deg;
+  --calcite-accordion-item-icon-rotation-rtl: -90deg;
+  --calcite-accordion-item-active-icon-rotation-rtl: -180deg;
+  --calcite-accordion-item-icon-spacing-start: 0;
+  --calcite-accordion-item-icon-spacing-end: var(
+    --calcite-accordion-item-spacing-unit
+  );
+}
+:host-context([icon-position="end"]) {
+  --calcite-accordion-item-flex-direction: row;
+  --calcite-accordion-item-icon-rotation: -90deg;
+  --calcite-accordion-item-active-icon-rotation: -180deg;
+  --calcite-accordion-item-icon-rotation-rtl: 90deg;
+  --calcite-accordion-item-active-icon-rotation-rtl: 180deg;
+  --calcite-accordion-item-icon-spacing-start: var(
+    --calcite-accordion-item-spacing-unit
+  );
+  --calcite-accordion-item-icon-spacing-end: 0;
+}
+
+:host {
+  --calcite-accordion-item-background: var(--calcite-ui-foreground-1);
+}
+
+:host-context([appearance="minimal"]) {
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
+}
+
+:host-context([appearance="transparent"]) {
+  --calcite-accordion-item-border: transparent;
+  --calcite-accordion-item-background: transparent;
+}
 :host {
   display: flex;
   flex-direction: column;
@@ -7,6 +70,8 @@
   text-decoration: none;
   position: relative;
   outline: none;
+  position: relative;
+  --calcite-accordion-item-border: var(--calcite-ui-border-2);
 }
 
 // focus styles
@@ -81,6 +146,7 @@
 :host .accordion-item-header-text {
   margin-right: auto;
   flex-direction: column;
+  flex: 1;
   text-align: initial;
 }
 
