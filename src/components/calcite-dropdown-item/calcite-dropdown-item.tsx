@@ -59,7 +59,6 @@ export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteDropdownItemKeyEvent: EventEmitter;
-  @Event() calciteDropdownItemMouseover: EventEmitter;
   @Event() calciteDropdownItemSelected: EventEmitter;
   @Event() closeCalciteDropdown: EventEmitter;
   @Event() registerCalciteDropdownItem: EventEmitter;
@@ -154,10 +153,6 @@ export class CalciteDropdownItem {
 
   @Listen("click") onClick() {
     this.emitRequestedItem();
-  }
-
-  @Listen("mouseover") onMouseover(e) {
-    this.calciteDropdownItemMouseover.emit(e);
   }
 
   @Listen("keydown") keyDownHandler(e) {
