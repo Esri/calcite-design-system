@@ -6,7 +6,7 @@ import {
   Event,
   EventEmitter,
   h,
-  Listen
+  Listen,
 } from "@stencil/core";
 import {
   LEFT,
@@ -19,18 +19,15 @@ import {
   END,
   ENTER,
   SPACE,
-  TAB
+  TAB,
 } from "../../utils/keys";
-import {
-  getFirstDayOfWeek,
-  getLocalizedWeekdays
-} from "../calcite-date/locale";
-import { inRange, sameDate, dateFromRange } from "../calcite-date/date";
+import { getFirstDayOfWeek, getLocalizedWeekdays } from "../../utils/locale";
+import { inRange, sameDate, dateFromRange } from "../../utils/date";
 
 @Component({
   tag: "calcite-date-month",
   styleUrl: "calcite-date-month.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteDateMonth {
   //--------------------------------------------------------------------------
@@ -154,7 +151,7 @@ export class CalciteDateMonth {
     const prevMonDays = this.getPrevMonthdays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
     const days = [
-      ...prevMonDays.map(day => {
+      ...prevMonDays.map((day) => {
         const date = new Date(year, month - 1, day);
         return (
           <calcite-date-day
@@ -166,7 +163,7 @@ export class CalciteDateMonth {
           />
         );
       }),
-      ...curMonDays.map(day => {
+      ...curMonDays.map((day) => {
         const date = new Date(year, month, day);
         const active = sameDate(date, this.activeDate);
         return (
@@ -177,7 +174,7 @@ export class CalciteDateMonth {
             active={active}
             onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             locale={this.locale}
-            ref={el => {
+            ref={(el) => {
               // when moving via keyboard, focus must be updated on active date
               if (active && this.activeFocus) {
                 el?.focus();
@@ -187,7 +184,7 @@ export class CalciteDateMonth {
           />
         );
       }),
-      ...nextMonDays.map(day => {
+      ...nextMonDays.map((day) => {
         const date = new Date(year, month + 1, day);
         return (
           <calcite-date-day
@@ -198,7 +195,7 @@ export class CalciteDateMonth {
             locale={this.locale}
           />
         );
-      })
+      }),
     ];
 
     const weeks = [];
@@ -210,13 +207,13 @@ export class CalciteDateMonth {
       <Host>
         <div class="calender" role="grid">
           <div class="week-headers" role="row">
-            {weekDays.map(weekday => (
+            {weekDays.map((weekday) => (
               <span class="week-header" role="columnheader">
                 {weekday}
               </span>
             ))}
           </div>
-          {weeks.map(days => (
+          {weeks.map((days) => (
             <div class="week-days" role="row">
               {days}
             </div>

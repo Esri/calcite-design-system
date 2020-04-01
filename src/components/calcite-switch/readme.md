@@ -21,11 +21,11 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 
 | Property   | Attribute  | Description                        | Type                | Default     |
 | ---------- | ---------- | ---------------------------------- | ------------------- | ----------- |
-| `color`    | `color`    | What color the switch should be    | `"blue" or "red"`   | `"blue"`    |
+| `color`    | `color`    | What color the switch should be    | `"blue" \| "red"`   | `"blue"`    |
 | `name`     | `name`     | The name of the checkbox input     | `string`            | `""`        |
-| `scale`    | `scale`    | The scale of the button            | `"l" or "m" or "s"` | `"m"`       |
+| `scale`    | `scale`    | The scale of the button            | `"l" \| "m" \| "s"` | `"m"`       |
 | `switched` | `switched` | True if the switch is initially on | `boolean`           | `false`     |
-| `theme`    | `theme`    | The component's theme.             | `"dark" or "light"` | `undefined` |
+| `theme`    | `theme`    | The component's theme.             | `"dark" \| "light"` | `undefined` |
 | `value`    | `value`    | The value of the checkbox input    | `string`            | `""`        |
 
 
@@ -34,6 +34,7 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 | Event                 | Description | Type               |
 | --------------------- | ----------- | ------------------ |
 | `calciteSwitchChange` |             | `CustomEvent<any>` |
+| `change`              |             | `CustomEvent<any>` |
 
 
 ----------------------------------------------

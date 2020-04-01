@@ -7,21 +7,26 @@ import {
   Host,
   State,
   Listen,
-  Build
+  Build,
 } from "@stencil/core";
 import {
   parseDateString,
   getLocaleFormatData,
-  DateFormattingData
-} from "./locale";
-import { DateChangeEvent, DateChangeEmitter } from "./interfaces";
+  DateFormattingData,
+} from "../../utils/locale";
+import { DateChangeEvent, DateChangeEmitter } from "../../utils/interfaces";
 import { getElementDir } from "../../utils/dom";
 import { ESCAPE } from "../../utils/keys";
-import { dateFromRange, inRange, dateFromISO, dateToISO } from "./date";
+import {
+  dateFromRange,
+  inRange,
+  dateFromISO,
+  dateToISO,
+} from "../../utils/date";
 @Component({
   tag: "calcite-date",
   styleUrl: "calcite-date.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteDatePicker {
   //--------------------------------------------------------------------------
@@ -131,8 +136,8 @@ export class CalciteDatePicker {
               value={formattedDate}
               class="date-input"
               onFocus={() => (this.showCalendar = true)}
-              onInput={e => this.input((e.target as HTMLInputElement).value)}
-              onBlur={e => this.blur(e.target as HTMLInputElement)}
+              onInput={(e) => this.input((e.target as HTMLInputElement).value)}
+              onBlur={(e) => this.blur(e.target as HTMLInputElement)}
             />
           </div>
         )}
@@ -198,7 +203,11 @@ export class CalciteDatePicker {
     // if the user didn't pass a proxy input create one for them
     if (!this.inputProxy) {
       this.inputProxy = document.createElement("input");
-      this.inputProxy.type = "date";
+      try {
+        this.inputProxy.type = "date";
+      } catch (e) {
+        this.inputProxy.type = "text";
+      }
       this.syncProxyInputToThis();
       this.el.appendChild(this.inputProxy);
     }
@@ -306,7 +315,7 @@ export class CalciteDatePicker {
     const { day, month, year } = parseDateString(value, this.locale);
     const date = new Date(year, month, day);
     const validDate = !isNaN(date.getTime());
-    const validLength = value.split(separator).filter(c => c).length > 2;
+    const validLength = value.split(separator).filter((c) => c).length > 2;
     const validYear = year.toString().length > 3;
     if (
       validDate &&

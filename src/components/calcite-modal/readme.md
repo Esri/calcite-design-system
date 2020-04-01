@@ -57,13 +57,13 @@ modal.open();
 | --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ | ----------------------------- |
 | `beforeClose`   | --               | Optionally pass a function to run before close                                                               | `(el: HTMLElement) => Promise<void>`             | `() =>     Promise.resolve()` |
 | `closeLabel`    | `close-label`    | Aria label for the close button                                                                              | `string`                                         | `"Close"`                     |
-| `color`         | `color`          | Adds a color bar at the top for visual impact, Use color to add importance to desctructive/workflow dialogs. | `"blue" or "red"`                                | `undefined`                   |
+| `color`         | `color`          | Adds a color bar at the top for visual impact, Use color to add importance to desctructive/workflow dialogs. | `"blue" \| "red"`                                | `undefined`                   |
 | `disableEscape` | `disable-escape` | Flag to disable the default close on escape behavior                                                         | `boolean`                                        | `undefined`                   |
 | `docked`        | `docked`         | Prevent the modal from taking up the entire screen on mobile                                                 | `boolean`                                        | `undefined`                   |
 | `firstFocus`    | --               | Specify an element to focus when the modal is first opened                                                   | `HTMLElement`                                    | `undefined`                   |
 | `noPadding`     | `no-padding`     | Turn off spacing around the content area slot                                                                | `boolean`                                        | `undefined`                   |
-| `size`          | `size`           | Set the overall size of the modal                                                                            | `"fullscreen" or "large" or "medium" or "small"` | `"small"`                     |
-| `theme`         | `theme`          | Select theme (light or dark)                                                                                 | `"dark" or "light"`                              | `undefined`                   |
+| `size`          | `size`           | Set the overall size of the modal                                                                            | `"fullscreen" \| "large" \| "medium" \| "small"` | `"small"`                     |
+| `theme`         | `theme`          | Select theme (light or dark)                                                                                 | `"dark" \| "light"`                              | `undefined`                   |
 
 
 ## Events

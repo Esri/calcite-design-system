@@ -18,8 +18,8 @@ npm install --save @esri/calcite-components
 Calcite components can be loaded via two `<script>` tags in the head of your HTML document:
 
 ```html
-<script type="module" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.20/dist/calcite/calcite.esm.js"></script>
-<script nomodule="" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.20/dist/calcite/calcite.js"></script>
+<script type="module" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.js"></script>
 ```
 
 Browsers that support modules will load the first, while older browsers will load the second, bundled version.
@@ -31,7 +31,7 @@ Once these script tags are added, components can be used just like any other HTM
 You will also need to explicitly load the `calcite.css` file:
 
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.20/dist/calcite/calcite.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.css">
 ```
 
 ### Webpack
@@ -92,4 +92,14 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 
 ## License
 
-Apache 2.0. For a full copy of the license, see the [LICENSE](./LICENSE) file.
+COPYRIGHT © 2020 Esri
+
+All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
+
+This material is licensed for use under the Esri Master License Agreement (MLA), and is bound by the terms of that agreement. You may redistribute and use this code without modification, provided you adhere to the terms of the MLA and include this copyright notice.
+
+See use restrictions at http://www.esri.com/legal/pdfs/mla_e204_e300/english
+
+For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
+
+email: contracts@esri.com

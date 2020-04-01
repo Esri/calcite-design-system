@@ -9,12 +9,12 @@
 
 | Property            | Attribute             | Description                                                                    | Type                                     | Default              |
 | ------------------- | --------------------- | ------------------------------------------------------------------------------ | ---------------------------------------- | -------------------- |
-| `backgroundStyle`   | `background-style`    | Change between foreground colors or background colors for container background | `"backgroundColor" or "foregroundColor"` | `"foregroundColor"`  |
+| `backgroundStyle`   | `background-style`    | Change between foreground colors or background colors for container background | `"backgroundColor" \| "foregroundColor"` | `"foregroundColor"`  |
 | `num`               | `num`                 | starting selected index                                                        | `number`                                 | `1`                  |
 | `start`             | `start`               | starting number of the pagination                                              | `number`                                 | `1`                  |
 | `textLabelNext`     | `text-label-next`     | title of the next button                                                       | `string`                                 | `TEXT.nextLabel`     |
 | `textLabelPrevious` | `text-label-previous` | title of the previous button                                                   | `string`                                 | `TEXT.previousLabel` |
-| `theme`             | `theme`               | specify the theme of accordion, defaults to light                              | `"dark" or "light"`                      | `undefined`          |
+| `theme`             | `theme`               | specify the theme of accordion, defaults to light                              | `"dark" \| "light"`                      | `undefined`          |
 | `total`             | `total`               | ending number of the pagination                                                | `number`                                 | `2`                  |
 
 

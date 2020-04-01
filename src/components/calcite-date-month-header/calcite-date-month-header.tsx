@@ -4,20 +4,16 @@ import {
   getLocaleFormatData,
   replaceArabicNumerals,
   getMonths,
-  getYear
-} from "../calcite-date/locale";
+  getYear,
+} from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
-import { DateChangeEmitter } from "../calcite-date/interfaces";
-import {
-  dateFromRange,
-  nextMonth,
-  prevMonth
-} from "../calcite-date/date";
+import { DateChangeEmitter } from "../../utils/interfaces";
+import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
 
 @Component({
   tag: "calcite-date-month-header",
   styleUrl: "calcite-date-month-header.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteDateMonthHeader {
   //--------------------------------------------------------------------------
@@ -92,11 +88,11 @@ export class CalciteDateMonthHeader {
               minlength="4"
               pattern="\d*"
               value={`${localizedYear.slice(-4)}`}
-              onKeyDown={event => this.onYearKey(event)}
-              onChange={event =>
+              onKeyDown={(event) => this.onYearKey(event)}
+              onChange={(event) =>
                 this.setYear((event.target as HTMLInputElement).value)
               }
-              ref={el => (this.yearInput = el)}
+              ref={(el) => (this.yearInput = el)}
             />
           </div>
           <button

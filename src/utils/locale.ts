@@ -4,7 +4,7 @@
 enum units {
   day = "day",
   month = "month",
-  year = "year"
+  year = "year",
 }
 
 /**
@@ -29,7 +29,7 @@ export function getLocaleFormatData(locale: string): DateFormattingData {
   let data = [
     { unit: units.month, num: "11", placeholder: "mm" },
     { unit: units.day, num: "22", placeholder: "dd" },
-    { unit: units.year, num: "3333", placeholder: "yyyy" }
+    { unit: units.year, num: "3333", placeholder: "yyyy" },
   ];
 
   // create a new localized string from a known date
@@ -44,15 +44,15 @@ export function getLocaleFormatData(locale: string): DateFormattingData {
   // given the localized test string, determine the order of day, month, year
   const order = data
     .sort((a, b) => (test.indexOf(a.num) < test.indexOf(b.num) ? -1 : 1))
-    .map(d => d.unit);
+    .map((d) => d.unit);
   const separator = [". ", ".", "-", "/", "/"].find(
-    char => test.indexOf(char) > -1
+    (char) => test.indexOf(char) > -1
   );
   return {
     order,
     separator,
     buddhist,
-    placeholder
+    placeholder,
   };
 }
 
@@ -67,12 +67,12 @@ export function parseDateString(
   const { separator, order, buddhist } = getLocaleFormatData(locale);
   const values = replaceArabicNumerals(str)
     .split(separator)
-    .filter(part => part !== separator)
-    .map(part => part.replace(".", ""));
+    .filter((part) => part !== separator)
+    .map((part) => part.replace(".", ""));
   return {
     day: parseInt(values[order.indexOf(units.day)]),
     month: Math.max(parseInt(values[order.indexOf(units.month)]) - 1, 0),
-    year: parseInt(values[order.indexOf(units.year)]) - (buddhist ? 543 : 0)
+    year: parseInt(values[order.indexOf(units.year)]) - (buddhist ? 543 : 0),
   };
 }
 
@@ -81,8 +81,8 @@ export function parseDateString(
  */
 export function replaceArabicNumerals(str: string = ""): string {
   return str
-    .replace(/[\u0660-\u0669]/g, c => (c.charCodeAt(0) - 0x0660) as any)
-    .replace(/[\u06f0-\u06f9]/g, c => (c.charCodeAt(0) - 0x06f0) as any)
+    .replace(/[\u0660-\u0669]/g, (c) => (c.charCodeAt(0) - 0x0660) as any)
+    .replace(/[\u06f0-\u06f9]/g, (c) => (c.charCodeAt(0) - 0x06f0) as any)
     .replace(/[^\x00-\x7F]/g, "");
 }
 
@@ -90,11 +90,11 @@ export function replaceArabicNumerals(str: string = ""): string {
  * Assemble an array of month names for a locale
  */
 export function getMonths(locale: string): string[] {
-  const date = new Date(0,0,1);
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i => {
+  const date = new Date(0, 0, 1);
+  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
     date.setMonth(i);
     return new Intl.DateTimeFormat(locale, {
-      month: "long"
+      month: "long",
     }).format(date);
   });
 }
@@ -116,7 +116,7 @@ export function getLocalizedWeekdays(locale: string): string[] {
   for (let w = 1; w < 8; w++) {
     date.setDate(w);
     let day = new Intl.DateTimeFormat(locale, {
-      weekday: "short"
+      weekday: "short",
     }).format(date);
     date.getDay() === getFirstDayOfWeek(locale) || startWeek.length > 0
       ? startWeek.push(day)
@@ -229,5 +229,5 @@ export const firstDayOfWeek: { [key: string]: number } = {
   UZ: 1,
   VA: 1,
   VN: 1,
-  XK: 1
+  XK: 1,
 };

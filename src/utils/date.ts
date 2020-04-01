@@ -41,11 +41,11 @@ export function dateFromRange(
  * TODO: handle time when time of day UI is added
  */
 export function dateFromISO(iso8601: string): Date | null {
-  const d = iso8601.split(/[: T-]/).map(parseFloat);
-  const date = new Date(d[0], (d[1] || 1) - 1, d[2] || 1);
-  if (!iso8601) {
+  if (!iso8601 || typeof iso8601 !== "string") {
     return null;
   }
+  const d = iso8601.split(/[: T-]/).map(parseFloat);
+  const date = new Date(d[0], (d[1] || 1) - 1, d[2] || 1);
   if (isNaN(date.getTime())) {
     console.error(`Invalid ISO 8601 date: "${iso8601}"`);
     return null;
