@@ -15,7 +15,7 @@
     position: absolute;
     left: 1rem;
     opacity: 0;
-    color: $blk-120;
+    color: var(--calcite-ui-border-1);
     transition: $transition;
   }
 }
@@ -108,7 +108,7 @@
 }
 
 :host(:hover) .dropdown-item-check-icon {
-  color: var(--calcite-ui-text-1);
+  color: var(--calcite-ui-border-1);
   opacity: 1;
 }
 
