@@ -41,9 +41,13 @@
 }
 
 :host(:hover),
-:host(:focus),
 :host(:active) {
   background-color: var(--calcite-ui-foreground-2);
+  color: var(--calcite-ui-text-1);
+  text-decoration: none;
+}
+
+:host(:focus) {
   color: var(--calcite-ui-text-1);
   text-decoration: none;
 }
