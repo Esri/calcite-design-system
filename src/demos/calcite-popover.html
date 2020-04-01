@@ -23,11 +23,12 @@
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Popover</h1>
 
-  <calcite-popover reference-element="popover-button-two" placement="right-start" id="popover-two" add-click-handle>
+  <calcite-popover-manager>
+  <calcite-popover reference-element="popover-button-two" placement="right-start" id="popover-two" >
     <div style="padding:12px 16px">Hello! I am some popover content!</div>
   </calcite-popover>
 
-  <calcite-popover reference-element="popover-button-three" placement="right-end" id="popover-three" add-click-handle
+  <calcite-popover reference-element="popover-button-three" placement="right-end" id="popover-three"
     close-button>
     <div style="padding:12px 16px">
       <b>I am a title!</b> <br>
@@ -40,25 +41,25 @@
     </div>
   </calcite-popover>
 
-  <calcite-popover reference-element="popover-button-four" placement="auto" id="popover-four" add-click-handle
+  <calcite-popover reference-element="popover-button-four" placement="auto" id="popover-four"
     close-button>
     <div style="padding:12px 16px">I am a popover with a close button!</div>
   </calcite-popover>
 
   <calcite-popover theme="dark" reference-element="popover-button-five" placement="bottom" id="popover-five"
-    add-click-handle close-button>
+     close-button>
     <img slot="image" src="https://placem.at/places?w=200&txt=0" />
     <div style="padding:12px 16px;">Here kitty kitty!
     </div>
   </calcite-popover>
 
   <calcite-popover theme="dark" reference-element="popover-button-six" placement="top" id="popover-six"
-    add-click-handle>
+    >
     <div style="padding:12px 16px">Hello! I am some popover content!</div>
   </calcite-popover>
 
   <calcite-popover theme="dark" reference-element="popover-button-seven" placement="auto" id="popover-seven"
-    add-click-handle close-button>
+     close-button>
     <div style="padding:12px 16px">
       <b>I am a title!</b> <br>
       <p>
@@ -72,12 +73,12 @@
   </calcite-popover>
 
   <calcite-popover theme="dark" reference-element="popover-button-eight" placement="auto" id="popover-eight"
-    add-click-handle close-button>
+     close-button>
     <div style="padding:12px 16px">I am a popover with a close button!</div>
   </calcite-popover>
 
   <calcite-popover theme="dark" reference-element="popover-button-nine" placement="auto" id="popover-nine"
-    add-click-handle>
+    >
     <div style="padding:12px 16px">I am a popover with a close button!</div>
   </calcite-popover>
 
@@ -219,14 +220,7 @@
     </li>
   </ul>
 
-  <script>
-    var popover = document.getElementById("popover");
-    var popoverButton = document.getElementById("popover-button");
-    popover.referenceElement = popoverButton;
-    popoverButton.addEventListener("click", function () {
-      popover.toggle();
-    });
-  </script>
+</calcite-popover-manager>
 
 </body>
 

@@ -10,7 +10,7 @@ import {
   Watch,
   h
 } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE } from "./resources";
 import {
   CalcitePlacement,
   defaultOffsetDistance,
@@ -39,17 +39,6 @@ export class CalcitePopover {
   //  Properties
   //
   // --------------------------------------------------------------------------
-
-  /**
-   * Adds a click handler to the referenceElement to toggle open the Popover.
-   */
-  @Prop({ reflect: true }) addClickHandle = false;
-
-  @Watch("addClickHandle")
-  interactionElementHandler() {
-    this.removeReferenceListener();
-    this.addReferenceListener();
-  }
 
   /**
    * Display a close button within the Popover.
@@ -124,10 +113,9 @@ export class CalcitePopover {
 
   @Watch("referenceElement")
   referenceElementHandler() {
-    this.removeReferenceListener();
+    this.removeReferences();
     this._referenceElement = this.getReferenceElement();
-    this.addReferenceListener();
-    this.addReferenceAria();
+    this.addReferences();
     this.createPopper();
   }
 
@@ -161,12 +149,11 @@ export class CalcitePopover {
 
   componentDidLoad() {
     this.createPopper();
-    this.addReferenceListener();
-    this.addReferenceAria();
+    this.addReferences();
   }
 
   componentDidUnload() {
-    this.removeReferenceListener();
+    this.removeReferences();
     this.destroyPopper();
   }
 
@@ -224,39 +211,29 @@ export class CalcitePopover {
     return this.el.id || `calcite-popover-${guid()}`;
   };
 
-  addReferenceAria = (): void => {
-    const { _referenceElement } = this;
-
-    if (
-      _referenceElement &&
-      !_referenceElement.hasAttribute("aria-describedby")
-    ) {
-      _referenceElement.setAttribute("aria-describedby", this.getId());
-    }
-  };
-
-  clickHandler = (): void => {
-    this.toggle();
-  };
-
-  addReferenceListener = (): void => {
-    const { _referenceElement, addClickHandle } = this;
-
-    if (!_referenceElement || !addClickHandle) {
-      return;
-    }
-
-    _referenceElement.addEventListener("click", this.clickHandler);
-  };
-
-  removeReferenceListener = (): void => {
+  addReferences = (): void => {
     const { _referenceElement } = this;
 
     if (!_referenceElement) {
       return;
     }
 
-    _referenceElement.removeEventListener("click", this.clickHandler);
+    _referenceElement.setAttribute(POPOVER_REFERENCE, "");
+
+    if (!_referenceElement.hasAttribute(ARIA_DESCRIBED_BY)) {
+      _referenceElement.setAttribute(ARIA_DESCRIBED_BY, this.getId());
+    }
+  };
+
+  removeReferences = (): void => {
+    const { _referenceElement } = this;
+
+    if (!_referenceElement) {
+      return;
+    }
+
+    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    _referenceElement.removeAttribute(POPOVER_REFERENCE);
   };
 
   getReferenceElement(): HTMLElement {

@@ -5,7 +5,10 @@ import { defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
-  it("renders", async () => renders(`<calcite-popover open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+  it("renders", async () =>
+    renders(
+      `<calcite-popover open reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+    ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
 
@@ -29,10 +32,6 @@ describe("calcite-popover", () => {
       },
       {
         propertyName: "open",
-        defaultValue: false
-      },
-      {
-        propertyName: "addClickHandle",
         defaultValue: false
       },
       {
@@ -165,7 +164,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" add-click-handle>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><calcite-popover-manager><div id="ref">referenceElement</div></calcite-popover-manager>`
     );
 
     await page.waitForChanges();
