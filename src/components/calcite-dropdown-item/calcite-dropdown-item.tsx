@@ -6,6 +6,7 @@ import {
   h,
   Host,
   Listen,
+  Method,
   Prop
 } from "@stencil/core";
 import {
@@ -65,6 +66,18 @@ export class CalciteDropdownItem {
 
   //--------------------------------------------------------------------------
   //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Focuses the selected item. */
+  @Method()
+  async setFocus(): Promise<void> {
+    this.el.focus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -85,14 +98,14 @@ export class CalciteDropdownItem {
         class="dropdown-item-icon-start"
         icon={this.iconStart}
         scale={iconScale}
-      ></calcite-icon>
+      />
     );
     const iconEndEl = (
       <calcite-icon
         class="dropdown-item-icon-end"
         icon={this.iconEnd}
         scale={iconScale}
-      ></calcite-icon>
+      />
     );
 
     const slottedContent =
@@ -113,7 +126,6 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
-
         tabindex="0"
         role="menuitem"
         selection-mode={this.selectionMode}

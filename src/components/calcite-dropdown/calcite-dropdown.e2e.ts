@@ -242,11 +242,17 @@ describe("calcite-dropdown", () => {
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     expect(group1).toEqualAttribute("selection-mode", "multi");
     await trigger.click();
+    await page.waitForChanges();
     await item1.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item2.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item3.click();
+    await page.waitForChanges();
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
@@ -278,9 +284,14 @@ describe("calcite-dropdown", () => {
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     expect(group1).toEqualAttribute("selection-mode", "single");
     await trigger.click();
+    await page.waitForChanges();
     await item1.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item3.click();
+    await page.waitForChanges();
+
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
@@ -382,19 +393,34 @@ describe("calcite-dropdown", () => {
     expect(group3).toEqualAttribute("selection-mode", "none");
 
     await trigger.click();
+    await page.waitForChanges();
     await item1.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item2.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item3.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item4.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item6.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item7.click();
+    await page.waitForChanges();
     await trigger.click();
+    await page.waitForChanges();
     await item9.click();
+    await page.waitForChanges();
+
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
@@ -429,5 +455,127 @@ describe("calcite-dropdown", () => {
     expect(elementAsLink).toEqualAttribute("href", "google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
     expect(elementAsLink).toEqualAttribute("target", "_blank");
+  });
+
+  it("should focus the first item on open when there is none", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-dropdown>
+    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group>
+      <calcite-dropdown-item id="1">1</calcite-dropdown-item>
+      <calcite-dropdown-item id="2">2</calcite-dropdown-item>
+      <calcite-dropdown-item id="3">3</calcite-dropdown-item>
+      <calcite-dropdown-item id="4">4</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      </calcite-dropdown>`
+    });
+
+    const element = await page.find("calcite-dropdown");
+    await element.click();
+    await page.waitForChanges();
+
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("1");
+  });
+
+  it("should focus the first active item on open", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3" active>3</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`
+    });
+
+    const element = await page.find("calcite-dropdown");
+    await element.click();
+    await page.waitForChanges();
+
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
+  });
+
+  it("should focus the first active item on open", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+        <calcite-dropdown-group selection-mode="multi">
+          <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" active>2</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-4" active>4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`
+    });
+
+    const element = await page.find("calcite-dropdown");
+    await element.click();
+    await page.waitForChanges();
+
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
+  });
+
+  // unskip when stencil is upgraded to >= 1.11.2
+  it.skip("focused item should be in view when long", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-dropdown>
+      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-dropdown-group>
+        <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-11">11</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-12">12</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-13">13</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-14">14</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-15">15</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-16">16</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-17">17</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-18">18</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-19">19</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-20">20</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-21">21</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-22">22</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-23">23</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-24">24</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-25">25</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-26">26</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-27">27</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-28">28</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-29">29</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-30">30</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-41">41</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-42">42</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-43">43</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-44">44</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-45">45</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-46">46</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-47">47</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-48">48</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-49">49</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-50" active>50</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>`);
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-dropdown");
+    await element.click();
+    await page.waitForChanges();
+
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-50");
+
+    const item = await page.find("#item-50");
+
+    expect(await item.isIntersectingViewport()).toBe(true);
   });
 });

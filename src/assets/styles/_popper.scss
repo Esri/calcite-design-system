@@ -32,7 +32,7 @@ $pointer_offset: -$pointer_size/2;
     content: "";
     box-shadow: $shadow-2;
     transform: rotate(45deg);
-    background: var(--calcite-ui-foreground);
+    background: var(--calcite-ui-foreground-1);
   }
 
   :host([data-popper-placement^="top"]) > .arrow {
