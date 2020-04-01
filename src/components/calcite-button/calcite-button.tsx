@@ -7,7 +7,6 @@ import {
   Prop,
   Build
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
@@ -51,7 +50,7 @@ export class CalciteButton {
     | "inline" = "solid";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
@@ -73,7 +72,7 @@ export class CalciteButton {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass icon path data - pass only raw path data from calcite ui helper  */
+  /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
   /** optionally used with icon, select where to position the icon */
@@ -102,10 +101,6 @@ export class CalciteButton {
 
     let width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
-
-    let theme = ["dark", "light"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     let iconPosition = ["start", "end"];
     if (this.icon !== null && !iconPosition.includes(this.iconPosition))
       this.iconPosition = "start";
@@ -126,7 +121,6 @@ export class CalciteButton {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "button" : null;
@@ -138,19 +132,26 @@ export class CalciteButton {
       </div>
     );
 
-    const icon = (
-      <svg
+    const iconScale =
+      this.appearance === "inline" ||
+      this.scale === "xs" ||
+      this.scale === "s" ||
+      this.scale === "m"
+        ? "s"
+        : this.scale === "l"
+        ? "m"
+        : "l";
+
+    const iconEl = (
+      <calcite-icon
         class="calcite-button--icon"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid meet"
-        viewBox="0 0 24 24"
-      >
-        <path d={this.icon} />
-      </svg>
+        icon={this.icon}
+        scale={iconScale}
+      />
     );
 
     return (
-      <Host dir={dir} hasText={this.hasText}>
+      <Host hasText={this.hasText}>
         <Tag
           {...attributes}
           role={role}
@@ -159,10 +160,10 @@ export class CalciteButton {
           disabled={this.disabled}
           ref={el => (this.childEl = el)}
         >
-          {this.icon && this.iconPosition === "start" ? icon : null}
           {this.loading ? loader : null}
+          {this.icon && this.iconPosition === "start" ? iconEl : null}
           <slot />
-          {this.icon && this.iconPosition === "end" ? icon : null}
+          {this.icon && this.iconPosition === "end" ? iconEl : null}
         </Tag>
       </Host>
     );

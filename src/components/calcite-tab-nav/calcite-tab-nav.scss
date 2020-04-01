@@ -1,15 +1,9 @@
 .tab-nav {
   display: flex;
-  justify-content: var(--calcite-tabs-layout);
   overflow: auto;
+  justify-content: flex-start;
 }
 
-::slotted(calcite-tab-title) {
-  margin-right: var(--calcite-tabs-tab-margin-start);
-  margin-left: var(--calcite-tabs-tab-margin-end);
-}
-
-:host([dir="rtl"]) ::slotted(calcite-tab-title) {
-  margin-right: var(--calcite-tabs-tab-margin-end);
-  margin-left: var(--calcite-tabs-tab-margin-start);
+:host([layout="center"]) .tab-nav {
+  justify-content: center;
 }

@@ -26,20 +26,20 @@
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Icon</h1>
-  <h2>Default</h2>
-  <calcite-icon icon="aZ"></calcite-icon>
+  <h2>Default (decorative)</h2>
+  <calcite-icon tabindex="0" icon="aZ"></calcite-icon>
   <calcite-icon icon="basemap"></calcite-icon>
   <calcite-icon icon="camera"></calcite-icon>
+
+  <h2>Default (semantic)</h2>
+  <calcite-icon icon="aZ" text-label="Sort options"></calcite-icon>
+  <calcite-icon icon="basemap" text-label="Select a basemap"></calcite-icon>
+  <calcite-icon icon="camera" text-label="Upload an image"></calcite-icon>
 
   <h2>Scale can be "s" | "m" | "l"</h2>
   <calcite-icon icon="aZ" scale="s"></calcite-icon>
   <calcite-icon icon="basemap" scale="m"></calcite-icon>
   <calcite-icon icon="camera" scale="l"></calcite-icon>
-
-  <h2>Filled</h2>
-  <calcite-icon icon="aZ" filled></calcite-icon>
-  <calcite-icon icon="basemap" filled></calcite-icon>
-  <calcite-icon icon="camera" filled></calcite-icon>
 
   <h2>Icon can be camel-case or kebab-case</h2>
   <calcite-icon icon="arrow-bold-left"></calcite-icon>
@@ -54,9 +54,9 @@
 
   <h2>Flips icon in RTL when mirrored</h2>
   <div dir="rtl">
-    <calcite-icon icon="aZ" filled mirror></calcite-icon>
-    <calcite-icon icon="basemap" filled mirror></calcite-icon>
-    <calcite-icon icon="camera" filled mirror></calcite-icon>
+    <calcite-icon icon="aZ" mirror></calcite-icon>
+    <calcite-icon icon="basemap" mirror></calcite-icon>
+    <calcite-icon icon="camera" mirror></calcite-icon>
   </div>
 
 </body>

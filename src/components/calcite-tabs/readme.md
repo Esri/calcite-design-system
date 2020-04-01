@@ -19,10 +19,10 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 
 ## Properties
 
-| Property | Attribute | Description                                                                      | Type                   | Default    |
-| -------- | --------- | -------------------------------------------------------------------------------- | ---------------------- | ---------- |
-| `layout` | `layout`  | Align tab titles to the edge or fully justify them across the tab nav ("center") | `"center" \| "inline"` | `"inline"` |
-| `theme`  | `theme`   | Select theme (light or dark)                                                     | `"dark" \| "light"`    | `"light"`  |
+| Property | Attribute | Description                                                                      | Type                   | Default     |
+| -------- | --------- | -------------------------------------------------------------------------------- | ---------------------- | ----------- |
+| `layout` | `layout`  | Align tab titles to the edge or fully justify them across the tab nav ("center") | `"center" \| "inline"` | `"inline"`  |
+| `theme`  | `theme`   | Select theme (light or dark)                                                     | `"dark" \| "light"`    | `undefined` |
 
 
 ----------------------------------------------

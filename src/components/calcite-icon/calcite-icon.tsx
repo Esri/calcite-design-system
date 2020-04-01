@@ -1,12 +1,12 @@
 import {
+  Build,
   Component,
-  h,
   Element,
+  h,
+  Host,
   Prop,
   State,
-  Watch,
-  Host,
-  Build
+  Watch
 } from "@stencil/core";
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
@@ -69,12 +69,20 @@ export class CalciteIcon {
   scale: Scale = "m";
 
   /**
+   * The icon label.
+   *
+   * It is recommended to set this value if your icon is semantic.
+   */
+  @Prop()
+  textLabel: string;
+
+  /**
    * Icon theme. Can be "light" or "dark".
    */
   @Prop({
     reflect: true
   })
-  theme: Theme = "light";
+  theme: Theme;
 
   //--------------------------------------------------------------------------
   //
@@ -101,24 +109,31 @@ export class CalciteIcon {
   }
 
   render() {
-    const { el, mirrored, pathData, scale } = this;
+    const { el, mirrored, pathData, scale, textLabel } = this;
     const dir = getElementDir(el);
     const size = scaleToPx[scale];
+    const semantic = !!textLabel;
 
     return (
-      <Host role="img">
-        <svg
-          class={{
-            [CSS.mirrored]: dir === "rtl" && mirrored
-          }}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          height={size}
-          width={size}
-          viewBox={`0 0 ${size} ${size}`}
-        >
-          <path d={pathData} />
-        </svg>
+      <Host
+        aria-label={semantic ? textLabel : null}
+        role={semantic ? "img" : null}
+      >
+        {pathData ? (
+          <svg
+            class={{
+              [CSS.mirrored]: dir === "rtl" && mirrored,
+              svg: true
+            }}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            height={size}
+            width={size}
+            viewBox={`0 0 ${size} ${size}`}
+          >
+            <path d={pathData} />
+          </svg>
+        ) : null}
       </Host>
     );
   }
@@ -145,7 +160,7 @@ export class CalciteIcon {
 
   @Watch("icon")
   @Watch("filled")
-  @Watch("size")
+  @Watch("scale")
   private async loadIconPathData(): Promise<void> {
     const { filled, icon, scale, visible } = this;
 
@@ -167,12 +182,14 @@ export class CalciteIcon {
     }
 
     this.intersectionObserver = new IntersectionObserver(
-      ([iconEntry]) => {
-        if (iconEntry.isIntersecting) {
-          this.intersectionObserver.disconnect();
-          this.intersectionObserver = null;
-          callback();
-        }
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.intersectionObserver.disconnect();
+            this.intersectionObserver = null;
+            callback();
+          }
+        });
       },
       { rootMargin: "50px" }
     );

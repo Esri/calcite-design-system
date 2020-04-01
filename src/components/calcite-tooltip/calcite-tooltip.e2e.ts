@@ -2,10 +2,11 @@ import { newE2EPage } from "@stencil/core/testing";
 
 import { defaults, hidden, renders } from "../../tests/commonTests";
 
-import { CSS } from "./resources";
-
 describe("calcite-tooltip", () => {
-  it("renders", async () => renders("calcite-tooltip"));
+  it("renders", async () =>
+    renders(
+      `<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`
+    ));
 
   it("honors hidden attribute", async () => hidden("calcite-tooltip"));
 
@@ -20,16 +21,20 @@ describe("calcite-tooltip", () => {
         defaultValue: "auto"
       },
       {
-        propertyName: "referenceElement",
-        defaultValue: undefined
+        propertyName: "offsetDistance",
+        defaultValue: 6
       },
       {
-        propertyName: "theme",
-        defaultValue: "light"
+        propertyName: "offsetSkidding",
+        defaultValue: 0
+      },
+      {
+        propertyName: "referenceElement",
+        defaultValue: undefined
       }
     ]));
 
-  it("popover positions when referenceElement is set", async () => {
+  it("tooltip positions when referenceElement is set", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -51,7 +56,7 @@ describe("calcite-tooltip", () => {
     expect(computedStyle.transform).not.toBe("none");
   });
 
-  it("open popover should be visible", async () => {
+  it("open tooltip should be visible", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -68,15 +73,15 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const container = await page.find(`calcite-tooltip >>> .${CSS.container}`);
+    const tooltip = await page.find(`calcite-tooltip`);
 
-    expect(await container.isVisible()).toBe(false);
+    expect(await tooltip.isVisible()).toBe(false);
 
     element.setProperty("open", true);
 
     await page.waitForChanges();
 
-    expect(await container.isVisible()).toBe(true);
+    expect(await tooltip.isVisible()).toBe(true);
   });
 
   it("should accept referenceElement as string id", async () => {
@@ -88,11 +93,11 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const container = await page.find(`calcite-tooltip >>> .${CSS.container}`);
+    const tooltip = await page.find(`calcite-tooltip`);
 
     await page.waitForChanges();
 
-    expect(await container.isVisible()).toBe(true);
+    expect(await tooltip.isVisible()).toBe(true);
 
     const element = await page.find("calcite-tooltip");
 
@@ -105,20 +110,20 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><calcite-tooltip-manager><div id="ref">referenceElement</div></calcite-tooltip-manager>`
     );
 
     await page.waitForChanges();
 
-    const container = await page.find(`calcite-tooltip >>> .${CSS.container}`);
+    const tooltip = await page.find(`calcite-tooltip`);
 
-    expect(await container.isVisible()).toBe(false);
+    expect(await tooltip.isVisible()).toBe(false);
 
     const ref = await page.find("#ref");
 
     await ref.hover();
 
-    expect(await container.isVisible()).toBe(true);
+    expect(await tooltip.isVisible()).toBe(true);
   });
 
   it("should honor text", async () => {
