@@ -41,8 +41,8 @@ export class CalciteButtonWithDropdown {
   /** is the control disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  /** fired when the modal begins the open animation */
-  @Event() primaryButtonClicked: EventEmitter;
+  /** fired when the primary button is clicked */
+  @Event() calciteSplitButtonPrimaryClick: EventEmitter;
 
   @Watch("color")
   validateColor() {
@@ -89,7 +89,7 @@ export class CalciteButtonWithDropdown {
             iconPosition="start"
             disabled={this.disabled}
             theme={this.theme}
-            onClick={this.primaryButtonClickedHandler}
+            onClick={this.calciteSplitButtonPrimaryClickHandler}
           >
             {this.primaryText}
           </calcite-button>
@@ -119,7 +119,7 @@ export class CalciteButtonWithDropdown {
     );
   }
 
-  private primaryButtonClickedHandler = (e: MouseEvent) => this.primaryButtonClicked.emit(e);
+  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent) => this.calciteSplitButtonPrimaryClick.emit(e);
 
   private get dropdownIcon() {
     return this.dropdownIconType === 'chevron' ? 'chevronDown' : 'caretDown'

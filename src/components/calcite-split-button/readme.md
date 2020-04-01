@@ -34,9 +34,9 @@ Basic Usage:
 
 ## Events
 
-| Event                  | Description                                    | Type               |
-| ---------------------- | ---------------------------------------------- | ------------------ |
-| `primaryButtonClicked` | fired when the modal begins the open animation | `CustomEvent<any>` |
+| Event                            | Description                              | Type               |
+| -------------------------------- | ---------------------------------------- | ------------------ |
+| `calciteSplitButtonPrimaryClick` | fired when the primary button is clicked | `CustomEvent<any>` |
 
 
 ## Dependencies
