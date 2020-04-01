@@ -34,6 +34,15 @@
   flex-direction: column;
   margin: 0;
   padding: 0;
+  outline: none;
+}
+
+//focus
+:host .combobox-item-label {
+  @include focus-style-base();
+}
+:host(:focus) .combobox-item-label {
+  @include focus-style-inset();
 }
 
 :host .combobox-item-label {
