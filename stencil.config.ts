@@ -8,6 +8,8 @@ export const config: Config = {
     { components: ["calcite-alert"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-chip"] },
+    { components: ["calcite-combobox"] },
     {
       components: [
         "calcite-date-picker",

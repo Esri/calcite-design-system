@@ -1,0 +1,115 @@
+// todo update to font and spacing value when added to calcite-base
+:host([scale="xs"]) {
+  font-size: 10px;
+  --calcite-combobox-item-spacing-unit-l: 8px;
+  --calcite-combobox-item-spacing-unit-s: 4px;
+}
+:host([scale="s"]) {
+  font-size: 12px;
+  --calcite-combobox-item-spacing-unit-l: 12px;
+  --calcite-combobox-item-spacing-unit-s: 8px;
+}
+
+:host([scale="m"]) {
+  font-size: 14px;
+  --calcite-combobox-item-spacing-unit-l: 16px;
+  --calcite-combobox-item-spacing-unit-s: 12px;
+}
+
+:host([scale="l"]) {
+  font-size: 16px;
+  --calcite-combobox-item-spacing-unit-l: 20px;
+  --calcite-combobox-item-spacing-unit-s: 16px;
+}
+
+:host([scale="xl"]) {
+  font-size: 18px;
+  --calcite-combobox-item-spacing-unit-l: 24px;
+  --calcite-combobox-item-spacing-unit-s: 20px;
+}
+
+:host,
+:host ul {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+:host .combobox-item-label {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 100%;
+  align-items: center;
+  color: var(--calcite-ui-text-3);
+  transition: $transition;
+  padding: var(--calcite-combobox-item-spacing-unit-s);
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  & .combobox-item-icon {
+    display: inline-flex;
+    opacity: 0;
+    margin-right: var(--calcite-combobox-item-spacing-unit-s);
+    transition: $transition;
+    color: var(--calcite-ui-border-1);
+  }
+}
+
+:host([dir="rtl"]) .combobox-item-label .combobox-item-icon {
+  margin-left: var(--calcite-combobox-item-spacing-unit-l);
+  margin-right: unset;
+}
+
+// indentation on children
+:host .combobox-item-label.combobox-item-nested {
+  padding-left: var(--calcite-combobox-item-spacing-unit-s);
+  & .combobox-item-icon {
+    padding-left: var(--calcite-combobox-item-spacing-unit-l);
+  }
+}
+
+:host([dir="rtl"]) .combobox-item-label.combobox-item-nested {
+  padding-right: var(--calcite-combobox-item-spacing-unit-s);
+  padding-left: unset;
+  & .combobox-item-icon {
+    padding-right: var(--calcite-combobox-item-spacing-unit-l);
+    padding-left: unset;
+  }
+}
+
+:host(:not([disabled])) .combobox-item-label:hover,
+:host(:focus:not([disabled])) .combobox-item-label,
+:host(:not([disabled])) .combobox-item-label:active {
+  background-color: var(--calcite-ui-foreground-2);
+  color: var(--calcite-ui-text-1);
+  text-decoration: none;
+  box-shadow: none;
+  & .combobox-item-icon {
+    opacity: 1;
+  }
+}
+
+:host([disabled]) .combobox-item-label:hover .combobox-item-icon {
+  opacity: 1;
+}
+
+:host([disabled]) .combobox-item-label:hover {
+  cursor: default;
+}
+
+:host(:focus) {
+  box-shadow: none;
+}
+
+// selected state
+:host .combobox-item-label.selected {
+  color: var(--calcite-ui-text-1);
+  font-weight: 500;
+
+  & .combobox-item-icon {
+    color: var(--calcite-ui-blue-1);
+    opacity: 1;
+  }
+}
