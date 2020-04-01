@@ -35,8 +35,8 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
  - [calcite-accordion-item](../calcite-accordion-item)
  - [calcite-alert](../calcite-alert)
  - [calcite-button](../calcite-button)
+ - [calcite-date](../calcite-date)
  - [calcite-date-month-header](../calcite-date-month-header)
- - [calcite-date-picker](../calcite-date-picker)
  - [calcite-dropdown-item](../calcite-dropdown-item)
  - [calcite-modal](../calcite-modal)
  - [calcite-notice](../calcite-notice)
@@ -50,8 +50,8 @@ graph TD;
   calcite-accordion-item --> calcite-icon
   calcite-alert --> calcite-icon
   calcite-button --> calcite-icon
+  calcite-date --> calcite-icon
   calcite-date-month-header --> calcite-icon
-  calcite-date-picker --> calcite-icon
   calcite-dropdown-item --> calcite-icon
   calcite-modal --> calcite-icon
   calcite-notice --> calcite-icon

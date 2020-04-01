@@ -24,8 +24,8 @@ import {
 import {
   getFirstDayOfWeek,
   getLocalizedWeekdays
-} from "../calcite-date-picker/locale";
-import { inRange, sameDate, dateFromRange } from "../calcite-date-picker/date";
+} from "../calcite-date/locale";
+import { inRange, sameDate, dateFromRange } from "../calcite-date/date";
 
 @Component({
   tag: "calcite-date-month",

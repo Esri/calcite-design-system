@@ -19,8 +19,8 @@ import { getElementDir } from "../../utils/dom";
 import { ESCAPE } from "../../utils/keys";
 import { dateFromRange, inRange, dateFromISO, dateToISO } from "./date";
 @Component({
-  tag: "calcite-date-picker",
-  styleUrl: "calcite-date-picker.scss",
+  tag: "calcite-date",
+  styleUrl: "calcite-date.scss",
   shadow: true
 })
 export class CalciteDatePicker {

@@ -5,14 +5,14 @@ import {
   replaceArabicNumerals,
   getMonths,
   getYear
-} from "../calcite-date-picker/locale";
+} from "../calcite-date/locale";
 import { getElementDir } from "../../utils/dom";
-import { DateChangeEmitter } from "../calcite-date-picker/interfaces";
+import { DateChangeEmitter } from "../calcite-date/interfaces";
 import {
   dateFromRange,
   nextMonth,
   prevMonth
-} from "../calcite-date-picker/date";
+} from "../calcite-date/date";
 
 @Component({
   tag: "calcite-date-month-header",

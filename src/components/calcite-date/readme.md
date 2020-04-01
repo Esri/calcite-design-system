@@ -1,6 +1,20 @@
 # calcite-date
 
+The `calcite-date` component allows for selecting a date via a calendar or text input. It supports multiple locales, languages, right to left, and is fully keyboard accessible.
 
+You can set a min and max range, as well as an initial value with ISO 8601 formatted strings:
+
+```html
+<calcite-date value="2020-03-27" min="2020-02-01" max="2021-01-01" />
+```
+
+Date also supports passing in a proxy input to make event handling and binding easier for frameworks like React:
+
+```html
+<calcite-date>
+  <input type="date">
+</calcite-date>
+```
 
 <!-- Auto Generated Below -->
 
@@ -38,12 +52,12 @@
 ### Graph
 ```mermaid
 graph TD;
-  calcite-date-picker --> calcite-icon
-  calcite-date-picker --> calcite-date-month-header
-  calcite-date-picker --> calcite-date-month
+  calcite-date --> calcite-icon
+  calcite-date --> calcite-date-month-header
+  calcite-date --> calcite-date-month
   calcite-date-month-header --> calcite-icon
   calcite-date-month --> calcite-date-day
-  style calcite-date-picker fill:#f9f,stroke:#333,stroke-width:4px
+  style calcite-date fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

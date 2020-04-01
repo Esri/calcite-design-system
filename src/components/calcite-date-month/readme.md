@@ -28,7 +28,7 @@
 
 ### Used by
 
- - [calcite-date-picker](../calcite-date-picker)
+ - [calcite-date](../calcite-date)
 
 ### Depends on
 
@@ -38,7 +38,7 @@
 ```mermaid
 graph TD;
   calcite-date-month --> calcite-date-day
-  calcite-date-picker --> calcite-date-month
+  calcite-date --> calcite-date-month
   style calcite-date-month fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
