@@ -50,8 +50,12 @@ input {
   background-color: var(--calcite-ui-foreground-1);
   border: 1px solid var(--calcite-ui-border-1);
   color: 1px solid var(--calcite-ui-text-1);
+}
+
+input {
+  @include focus-style-base();
   &:focus {
-    border-color: var(--calcite-ui-blue-1);
+    @include focus-style-inset();
   }
 }
 

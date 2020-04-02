@@ -14,7 +14,7 @@ $tab-margin: 1.25rem;
   margin-left: $tab-margin;
 }
 
-:host-context([theme="dark"]){
+:host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
 
@@ -24,6 +24,13 @@ $tab-margin: 1.25rem;
   margin: 0 $tab-margin;
 }
 
+// focus styles
+:host {
+  @include focus-style-base();
+}
+:host(:focus) {
+  @include focus-style-inset();
+}
 :host(:active),
 :host(:focus),
 :host(:hover) {

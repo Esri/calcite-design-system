@@ -91,6 +91,15 @@
     text-decoration: none;
   }
 }
+// focus styles
+:host button,
+:host a,
+:host span {
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-outset();
+  }
+}
 
 // button scale
 @mixin btn-scale($font-size, $padding-y, $padding-x) {

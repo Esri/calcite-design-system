@@ -11,6 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-modal",
@@ -58,8 +59,10 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   render() {
+    const dir = getElementDir(this.el);
     return (
       <Host
+        dir={dir}
         role="dialog"
         aria-modal="true"
         class={{ "is-active": this.isActive }}
