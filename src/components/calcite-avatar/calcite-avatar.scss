@@ -1,0 +1,43 @@
+// theme variables
+// light theme
+:host {
+  --calcite-blue-accessible: #{$h-bb-070};
+}
+
+// dark theme
+:host([theme="dark"]) {
+  --calcite-blue-accessible: #{$h-bb-070};
+}
+
+:host {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 0 2px var(--calcite-ui-border-1);
+  border: 2px solid var(--calcite-ui-background);
+  border-radius: 50%;
+}
+
+:host .avatar-icon {
+  display: flex;
+}
+
+// generate button scales
+$avatarScales: "xs" calc(#{$baseline}* 1), "s" calc(#{$baseline}* 1.5),
+  "m" calc(#{$baseline}* 2), "l" calc(#{$baseline}* 3),
+  "xl" calc(#{$baseline}* 5);
+
+@each $avatarScale in $avatarScales {
+  $name: nth($avatarScale, 1);
+  $scale: nth($avatarScale, 2);
+
+  :host([scale="#{$name}"]) {
+    height: #{$scale};
+    width: #{$scale};
+    & img {
+      border-radius: 50%;
+      height: #{$scale};
+      width: #{$scale};
+    }
+  }
+}

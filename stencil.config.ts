@@ -6,6 +6,7 @@ export const config: Config = {
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
     { components: ["calcite-alert"] },
+    { components: ["calcite-avatar"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
     { components: ["calcite-chip"] },
