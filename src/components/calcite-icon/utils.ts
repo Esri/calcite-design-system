@@ -44,7 +44,7 @@ export async function fetchIcon({
       .then(resp => resp.json())
       .catch(() => {
         console.error(`"${id}" is not a valid calcite-ui-icon name`);
-        return null;
+        return "";
       });
   }
 
