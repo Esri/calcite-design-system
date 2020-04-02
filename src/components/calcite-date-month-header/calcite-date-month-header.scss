@@ -1,9 +1,9 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 .month-year {
   display: flex;
-}
-input {
-  font-family: inherit;
-  text-align: center;
 }
 
 .right-icon,
@@ -25,7 +25,7 @@ input {
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-pressed);
+    background-color: var(--calcite-ui-foreground-3);
   }
 }
 
@@ -36,6 +36,7 @@ input {
   width: 50%;
   justify-content: center;
 }
+
 .month,
 .year {
   color: var(--calcite-ui-text-1);
@@ -45,17 +46,18 @@ input {
 }
 
 .year {
+  font-family: inherit;
+  text-align: center;
   border: none;
-  width: 60px;
+  width: 3em;
   padding: 0;
-  margin: 0;
-}
-
-input[type='number'] {
-    -moz-appearance:textfield;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+  margin: 0 8px;
+  // todo: replace with upcoming focus styles
+  outline-offset: 0;
+  outline-color: rgba(0,0,0,0);
+  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
+  &:focus {
+    outline: 2px solid var(--calcite-ui-blue-1);
+    outline-offset: 2px;
+  }
 }

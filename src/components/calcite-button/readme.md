@@ -40,6 +40,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+ - [calcite-split-button](../calcite-split-button)
+
 ### Depends on
 
 - [calcite-loader](../calcite-loader)
@@ -50,6 +54,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
+  calcite-split-button --> calcite-button
   style calcite-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

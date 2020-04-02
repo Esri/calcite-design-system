@@ -114,6 +114,7 @@ export class CalciteDropdown {
     if (e.target.getAttribute("slot") === "dropdown-trigger") {
       this.openCalciteDropdown();
       e.preventDefault();
+      e.stopPropagation();
     }
   }
 
@@ -188,13 +189,6 @@ export class CalciteDropdown {
         this.focusLastItem();
         break;
     }
-  }
-
-  @Listen("calciteDropdownItemMouseover") calciteDropdownMouseover(
-    item: CustomEvent
-  ) {
-    const itemToFocus = item.detail.target as HTMLCalciteDropdownItemElement;
-    itemToFocus.focus();
   }
 
   @Listen("registerCalciteDropdownGroup") registerCalciteDropdownGroup(

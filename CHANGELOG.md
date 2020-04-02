@@ -5,10 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
 
+### Breaking Changes
+- `calcite-date-picker` is now `calcite-date`
+- `calcite-date` no longer accepts start of week as a prop
+- `calcite-button` no longer accepts `inline` as a value for `appearance` - you can instead
+  
 ### Added
 - new component `calcite-link`
+
+### Updated
+- `calcite-date` - automatically finds start of week for given locale
+- `calcite-date` - automatically formats date in input for given locale
+- `calcite-date` - support for buddhist era
+- `calcite-date` - support for arabic numerals
+- `calcite-date` - `calciteDateChange` emits selected `Date` object in `event.detail`
+
+### Fixed
+- `calcite-date` - fixed in ie11 (#368)
+- `calcite-date` - fixed date entering via input (#307)
+- `calcite-date` - columns correct even when very narrow (#308)
 
 ## [v1.0.0-beta.21] - Mar 31st 2020
 
@@ -25,7 +42,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-dropdown-item` - `link-title` attribute has been removed
 - `calcite-icon` - drop `filled` prop as it's no longer valid with the latest calcite UI icons
 - `calcite-tree` - `size` prop is now `scale` to be consistent with other components
-- `calcite-button` - `appearance` attribute value `inline` value is no longer valid - instead you can now use the `calcite-link` component
   
 ### Updated
 - `calcite-dropdown` - active state indicators for `selection-mode=none` have been removed
@@ -298,6 +314,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.21]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.20...v1.0.0-beta.21 "v1.0.0-beta.21"
 [v1.0.0-beta.20]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...v1.0.0-beta.20 "v1.0.0-beta.20"
 [v1.0.0-beta.19]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.18...v1.0.0-beta.19 "v1.0.0-beta.19"
 [v1.0.0-beta.18]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.17...v1.0.0-beta.18 "v1.0.0-beta.18"
@@ -318,4 +335,4 @@ First initial beta release.
 [v1.0.0-beta.3]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.2...v1.0.0-beta.3 "v1.0.0-beta.3"
 [v1.0.0-beta.2]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.1...v1.0.0-beta.2 "v1.0.0-beta.2"
 [v1.0.0-beta.1]: https://github.com/Esri/calcite-components/compare/dafb2312835ec6fef134d0d2b20aabd1dfe907cf...v1.0.0-beta.1 "v1.0.0-beta.1"
-[head]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...HEAD "Unreleased Changes"
+[head]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.21...HEAD "Unreleased Changes"

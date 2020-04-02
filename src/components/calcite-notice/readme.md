@@ -18,7 +18,7 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 | `icon`        | `icon`        | If false, no icon will be shown in the notice            | `boolean`                                | `false`     |
 | `scale`       | `scale`       | specify the scale of the notice, defaults to m           | `"l" or "m" or "s"`                      | `"m"`       |
 | `theme`       | `theme`       | Select theme (light or dark)                             | `"dark" or "light"`                      | `undefined` |
-| `width`       | `width`       | specify the width of the notice, defaults to m           | `"auto" or "full" or "half"`             | `"auto"`    |
+| `width`       | `width`       | specify the scale of the button, defaults to m           | `"auto" or "full" or "half"`             | `"auto"`    |
 
 
 ## Events
