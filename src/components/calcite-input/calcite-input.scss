@@ -67,16 +67,48 @@ calcite-input input {
   line-height: 1;
 }
 
-calcite-input[appearance="minimal"] {
-  & input,
-  & textarea {
-    border-color: transparent;
-    background-color: transparent;
-    border-bottom: 1px solid var(--calcite-ui-border-1);
-    padding: $baseline/4 0;
-  }
+//focus
+calcite-input textarea,
+calcite-input input {
+  @include focus-style-base();
+}
+calcite-input textarea:focus,
+calcite-input input:focus {
+  @include focus-style-inset();
 }
 
+// states
+calcite-input {
+  & input,
+  & textarea {
+    color: var(--calcite-ui-text-1);
+    border: 1px solid var(--calcite-ui-border-1);
+
+    &::placeholder,
+    &:-ms-input-placeholder,
+    &::-ms-input-placeholder {
+      color: var(--calcite-ui-text-3);
+      font-weight: 400;
+    }
+  }
+
+  & input:focus,
+  & textarea:focus {
+    border-color: var(--calcite-ui-blue-1);
+    color: var(--calcite-ui-text-1);
+  }
+  & input[readonly],
+  & textarea[readonly] {
+    background-color: var(--calcite-ui-background);
+  }
+  & input[readonly]:focus,
+  & textarea[readonly]:focus {
+    color: var(--calcite-ui-text-1);
+  }
+  & calcite-icon {
+    color: var(--calcite-ui-text-1);
+  }
+}
 // input message slot
 calcite-input slot:not[name="input-message"] {
   display: block;
@@ -105,33 +137,12 @@ calcite-input[dir="rtl"][icon] input {
   margin: 1px auto 0;
 }
 
-calcite-input[appearance="minimal"] .calcite-input-icon {
-  left: 0;
-}
-calcite-input[dir="rtl"][appearance="minimal"] .calcite-input-icon {
-  left: unset;
-  right: 0;
-}
-calcite-input[dir="rtl"][appearance="minimal"] input,
-calcite-input[dir="rtl"][appearance="minimal"] textarea {
-  & .calcite-input-icon {
-    left: unset;
-    right: 0;
-  }
-}
-
 calcite-input[dir="rtl"] .calcite-input-icon {
   left: unset;
   right: $baseline/2;
 }
 
 // loading
-calcite-input[appearance="minimal"] .calcite-input-loading {
-  top: unset;
-  bottom: 1px;
-  left: 0;
-  right: 0;
-}
 
 .calcite-input-loading {
   display: block;
@@ -185,31 +196,7 @@ calcite-input[dir="rtl"] {
     border-right-width: 0px;
   }
 }
-calcite-input[appearance="minimal"] {
-  & .calcite-input-prefix,
-  & .calcite-input-suffix {
-    background-color: transparent;
-    border-color: transparent;
-    border-bottom-color: initial;
-  }
-  & .calcite-input-prefix {
-    padding-left: 0;
-  }
-  & .calcite-input-suffix {
-    padding-right: 0;
-  }
-}
 
-calcite-input[dir="rtl"][appearance="minimal"] {
-  & .calcite-input-prefix {
-    padding-right: 0;
-    padding-left: unset;
-  }
-  & .calcite-input-suffix {
-    padding-left: 0;
-    padding-right: unset;
-  }
-}
 // readonly
 calcite-input[readonly] .calcite-input-number-button-item {
   pointer-events: none;
@@ -267,7 +254,7 @@ calcite-input input[type="number"] {
 
 calcite-input[number-button-type="vertical"] .calcite-input-wrapper {
   flex-direction: row;
-  margin-top:4px;
+  margin-top: 4px;
   display: flex;
 }
 
@@ -354,17 +341,7 @@ calcite-input[dir="rtl"][number-button-type="vertical"] {
     border-left: 1px solid var(--calcite-ui-border-1);
   }
 }
-calcite-input[appearance="minimal"] .calcite-input-number-button-item,
-calcite-input[appearance="minimal"]
-  .calcite-input-number-button-item.number-button-item-horizontal {
-  border: none;
-  background-color: transparent;
-  border-bottom: 1px solid var(--calcite-ui-border-1);
-}
-calcite-input[appearance="minimal"][number-button-type="vertical"]
-  .calcite-input-number-button-item[data-adjustment="up"] {
-  border-bottom: 0px;
-}
+
 .calcite-input-wrapper {
   display: flex;
   flex-direction: row;
@@ -421,73 +398,4 @@ calcite-input[type="file"] textarea {
   border: 1px dashed $blk-040;
   background-color: $blk-005;
   text-align: center;
-}
-
-// colors and borders
-$inputStatusColors: "invalid" var(--calcite-ui-text-1)
-    var(--calcite-ui-border-1) var(--calcite-ui-red-1),
-  "valid" var(--calcite-ui-text-1) var(--calcite-ui-border-1)
-    var(--calcite-ui-blue-1),
-  "idle" var(--calcite-ui-text-1) var(--calcite-ui-border-1)
-    var(--calcite-ui-blue-1);
-
-@each $statusColor in $inputStatusColors {
-  $name: nth($statusColor, 1);
-  $color: nth($statusColor, 2);
-  $borderColorIdle: nth($statusColor, 3);
-  $borderColorActive: nth($statusColor, 4);
-
-  calcite-input[status="#{$name}"] {
-    & input,
-    & textarea {
-      color: $color;
-      &::placeholder,
-      &:-ms-input-placeholder,
-      &::-ms-input-placeholder {
-        color: var(--calcite-ui-text-3);
-        font-weight: 400;
-      }
-    }
-    & calcite-icon {
-      color: $color;
-    }
-  }
-  calcite-input[status="#{$name}"][appearance="default"] {
-    & input,
-    & textarea {
-      border: 1px solid $borderColorIdle;
-    }
-    & input:focus,
-    & textarea:focus {
-      border-color: $borderColorActive;
-      color: $color;
-    }
-    & input[readonly],
-    & textarea[readonly] {
-      background-color: var(--calcite-ui-background);
-    }
-    & input[readonly]:focus,
-    & textarea[readonly]:focus {
-      border-color: $borderColorIdle;
-      color: $color;
-    }
-  }
-
-  calcite-input[status="#{$name}"][appearance="minimal"] {
-    & input,
-    & textarea {
-      border: 1px solid transparent;
-      border-bottom-color: $borderColorIdle;
-    }
-    & input:focus,
-    & textarea:focus {
-      border-bottom-color: $borderColorActive;
-      color: $color;
-    }
-    & input[readonly]:focus,
-    & textarea[readonly]:focus {
-      border-bottom-color: $borderColorIdle;
-      color: $color;
-    }
-  }
 }

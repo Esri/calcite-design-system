@@ -17,7 +17,6 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
     expect(element).toEqualAttribute("status", "idle");
     expect(element).toEqualAttribute("theme", "light");
-    expect(element).toEqualAttribute("appearance", "default");
     expect(element).toEqualAttribute("alignment", "start");
     expect(element).toEqualAttribute("number-button-type", "vertical");
     expect(element).toEqualAttribute("type", "text");
@@ -27,13 +26,12 @@ describe("calcite-input", () => {
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input status="zip" theme="zap" appearance="zot" alignment="zim" number-button-type="zup" type="zat" scale="zed"></calcite-input>
+    <calcite-input status="zip" theme="zap" alignment="zim" number-button-type="zup" type="zat" scale="zed"></calcite-input>
     `);
 
     const element = await page.find("calcite-input");
     expect(element).toEqualAttribute("status", "idle");
     expect(element).toEqualAttribute("theme", "light");
-    expect(element).toEqualAttribute("appearance", "default");
     expect(element).toEqualAttribute("alignment", "start");
     expect(element).toEqualAttribute("number-button-type", "vertical");
     expect(element).toEqualAttribute("type", "text");
@@ -43,13 +41,12 @@ describe("calcite-input", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input status="invalid" theme="dark" appearance="minimal" alignment="end" number-button-type="none" type="number" scale="xs"></calcite-input>
+    <calcite-input status="invalid" theme="dark" alignment="end" number-button-type="none" type="number" scale="xs"></calcite-input>
     `);
 
     const element = await page.find("calcite-input");
     expect(element).toEqualAttribute("status", "invalid");
     expect(element).toEqualAttribute("theme", "dark");
-    expect(element).toEqualAttribute("appearance", "minimal");
     expect(element).toEqualAttribute("alignment", "end");
     expect(element).toEqualAttribute("number-button-type", "none");
     expect(element).toEqualAttribute("type", "number");

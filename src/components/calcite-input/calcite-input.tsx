@@ -39,10 +39,6 @@ export class CalciteInput {
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl";
 
-  /** specify the appearance type - minimal or default */
-  @Prop({ mutable: true, reflect: true }) appearance: "minimal" | "default" =
-    "default";
-
   /** specify the alignment of the value of the input */
   @Prop({ mutable: true, reflect: true }) alignment: "start" | "end" = "start";
 
@@ -111,9 +107,6 @@ export class CalciteInput {
     let scale = ["xs", "s", "m", "l", "xl"];
     if (!scale.includes(this.scale))
       this.scale = getElementProp(this.el.parentElement, "scale", "m");
-
-    let appearance = ["minimal", "default"];
-    if (!appearance.includes(this.appearance)) this.appearance = "default";
 
     let alignment = ["start", "end"];
     if (!alignment.includes(this.alignment)) this.alignment = "start";
@@ -368,7 +361,6 @@ export class CalciteInput {
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
     let props = [
-      "appearance",
       "icon",
       "loading",
       "scale",
