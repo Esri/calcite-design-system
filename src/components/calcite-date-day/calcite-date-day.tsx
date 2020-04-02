@@ -6,14 +6,14 @@ import {
   Event,
   EventEmitter,
   Listen,
-  h
+  h,
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../utils/keys";
 
 @Component({
   tag: "calcite-date-day",
   styleUrl: "calcite-date-day.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteDateDay {
   //--------------------------------------------------------------------------

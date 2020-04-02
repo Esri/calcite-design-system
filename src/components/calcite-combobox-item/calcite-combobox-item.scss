@@ -34,6 +34,15 @@
   flex-direction: column;
   margin: 0;
   padding: 0;
+  outline: none;
+}
+
+//focus
+:host .combobox-item-label {
+  @include focus-style-base();
+}
+:host(:focus) .combobox-item-label {
+  @include focus-style-inset();
 }
 
 :host .combobox-item-label {
@@ -80,9 +89,17 @@
 }
 
 :host(:not([disabled])) .combobox-item-label:hover,
-:host(:focus:not([disabled])) .combobox-item-label,
 :host(:not([disabled])) .combobox-item-label:active {
   background-color: var(--calcite-ui-foreground-2);
+  color: var(--calcite-ui-text-1);
+  text-decoration: none;
+  box-shadow: none;
+  & .combobox-item-icon {
+    opacity: 1;
+  }
+}
+
+:host(:focus:not([disabled])) .combobox-item-label {
   color: var(--calcite-ui-text-1);
   text-decoration: none;
   box-shadow: none;

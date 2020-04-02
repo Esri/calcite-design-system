@@ -1,9 +1,6 @@
 # calcite-radio-group
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -14,13 +11,11 @@
 | `selectedItem` | --        | The group's selected item.                      | `HTMLCalciteRadioGroupItemElement` | `undefined` |
 | `theme`        | `theme`   | The component's theme.                          | `"dark" or "light"`                | `undefined` |
 
-
 ## Events
 
 | Event                     | Description | Type               |
 | ------------------------- | ----------- | ------------------ |
 | `calciteRadioGroupChange` |             | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -32,9 +27,6 @@ Focuses the selected item. If there is no selection, it focuses the first item.
 
 Type: `Promise<void>`
 
+---
 
-
-
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

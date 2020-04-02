@@ -6,9 +6,9 @@ import {
   h,
   Host,
   Method,
-  Prop
+  Prop,
 } from "@stencil/core";
-
+import { getElementDir } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
@@ -25,7 +25,7 @@ import {
 @Component({
   tag: "calcite-notice",
   styleUrl: "calcite-notice.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteNotice {
   //--------------------------------------------------------------------------
@@ -79,7 +79,6 @@ export class CalciteNotice {
     let colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-
     let scales = ["s", "m", "l"];
     if (!scales.includes(this.scale)) this.scale = "m";
 
@@ -94,19 +93,20 @@ export class CalciteNotice {
   }
 
   render() {
+    const dir = getElementDir(this.el);
     const closeButton = (
       <button
         class="notice-close"
         aria-label="close"
         onClick={() => this.close()}
-        ref={el => (this.closeButton = el)}
+        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
     );
 
     return (
-      <Host active={this.active}>
+      <Host active={this.active} dir={dir}>
         {this.icon ? this.setIcon() : null}
         <div class="notice-content">
           <slot name="notice-title"></slot>
@@ -179,7 +179,7 @@ export class CalciteNotice {
     green: "checkCircle",
     yellow: "exclamationMarkTriangle",
     red: "exclamationMarkTriangle",
-    blue: "lightbulb"
+    blue: "lightbulb",
   };
 
   private setIcon() {

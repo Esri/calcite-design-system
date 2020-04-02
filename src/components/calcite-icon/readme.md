@@ -12,9 +12,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 }
 ```
 
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -24,9 +22,8 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 | `icon`      | `icon`       | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`            | `null`      |
 | `mirrored`  | `mirrored`   | When true, the icon will be mirrored when the element direction is 'rtl'.                                                           | `boolean`           | `false`     |
 | `scale`     | `scale`      | Icon scale. Can be "s" or "m" or "l".                                                                                               | `"l" or "m" or "s"` | `"m"`       |
-| `textLabel` | `text-label` | The icon label.  It is recommended to set this value if your icon is semantic.                                                      | `string`            | `undefined` |
+| `textLabel` | `text-label` | The icon label. It is recommended to set this value if your icon is semantic.                                                       | `string`            | `undefined` |
 | `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" or "light"` | `undefined` |
-
 
 ## Dependencies
 
@@ -46,9 +43,11 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
  - [calcite-notice](../calcite-notice)
  - [calcite-pagination](../calcite-pagination)
  - [calcite-popover](../calcite-popover)
+ - [calcite-stepper-item](../calcite-stepper-item)
  - [calcite-tree-item](../calcite-tree-item)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-accordion-item --> calcite-icon
@@ -65,10 +64,11 @@ graph TD;
   calcite-notice --> calcite-icon
   calcite-pagination --> calcite-icon
   calcite-popover --> calcite-icon
+  calcite-stepper-item --> calcite-icon
   calcite-tree-item --> calcite-icon
   style calcite-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

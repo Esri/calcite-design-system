@@ -6,7 +6,7 @@ import {
   h,
   Host,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { ENTER, SPACE } from "../../utils/keys";
@@ -28,7 +28,7 @@ import { getElementDir } from "../../utils/dom";
 @Component({
   tag: "calcite-card",
   styleUrl: "calcite-card.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteCard {
   //--------------------------------------------------------------------------
@@ -125,7 +125,7 @@ export class CalciteCard {
     this.selected = !this.selected;
     this.calciteCardSelected.emit({
       element: this.el as HTMLCalciteCardElement,
-      selected: this.selected
+      selected: this.selected,
     });
   }
 
@@ -143,7 +143,7 @@ export class CalciteCard {
       <div
         class={CSS.checkboxWrapper}
         onClick={() => this.cardSelectClick()}
-        onKeyDown={e => this.cardSelectKeyDown(e)}
+        onKeyDown={(e) => this.cardSelectKeyDown(e)}
       >
         <calcite-checkbox checked={this.selected}></calcite-checkbox>
       </div>

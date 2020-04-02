@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Method,
-  Prop
+  Prop,
 } from "@stencil/core";
 import {
   UP,
@@ -17,15 +17,15 @@ import {
   ESCAPE,
   HOME,
   END,
-  SPACE
+  SPACE,
 } from "../../utils/keys";
-import { getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "calcite-dropdown-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
@@ -59,7 +59,6 @@ export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteDropdownItemKeyEvent: EventEmitter;
-  @Event() calciteDropdownItemMouseover: EventEmitter;
   @Event() calciteDropdownItemSelected: EventEmitter;
   @Event() closeCalciteDropdown: EventEmitter;
   @Event() registerCalciteDropdownItem: EventEmitter;
@@ -85,12 +84,13 @@ export class CalciteDropdownItem {
   componentDidLoad() {
     this.itemPosition = this.getItemPosition();
     this.registerCalciteDropdownItem.emit({
-      position: this.itemPosition
+      position: this.itemPosition,
     });
   }
 
   render() {
     const attributes = this.getAttributes();
+    const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "s" || scale === "m" ? "s" : "m";
     const iconStartEl = (
@@ -126,6 +126,7 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
+        dir={dir}
         tabindex="0"
         role="menuitem"
         selection-mode={this.selectionMode}
@@ -152,10 +153,6 @@ export class CalciteDropdownItem {
 
   @Listen("click") onClick() {
     this.emitRequestedItem();
-  }
-
-  @Listen("mouseover") onMouseover(e) {
-    this.calciteDropdownItemMouseover.emit(e);
   }
 
   @Listen("keydown") keyDownHandler(e) {
@@ -242,7 +239,7 @@ export class CalciteDropdownItem {
   private emitRequestedItem() {
     this.calciteDropdownItemSelected.emit({
       requestedDropdownItem: this.dropdownItemId,
-      requestedDropdownGroup: this.currentDropdownGroup
+      requestedDropdownGroup: this.currentDropdownGroup,
     });
     this.closeCalciteDropdown.emit();
   }
@@ -257,10 +254,10 @@ export class CalciteDropdownItem {
       "isLink",
       "dir",
       "id",
-      "theme"
+      "theme",
     ];
     return Array.from(this.el.attributes)
-      .filter(a => a && !props.includes(a.name))
+      .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
