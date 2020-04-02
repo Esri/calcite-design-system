@@ -24,6 +24,7 @@
   @include calcite-theme-dark();
 }
 
+
 :host {
   display: flex;
   flex: 1;
@@ -41,6 +42,14 @@
 :host([dir="rtl"]) {
   margin-left: var(--calcite-stepper-item-spacing-unit-l);
   margin-right: 0;
+}
+
+// focus styles
+:host{
+  @include focus-style-base();
+}
+:host(:focus){
+  @include focus-style-outset();
 }
 
 // .stepper-item-header / content
