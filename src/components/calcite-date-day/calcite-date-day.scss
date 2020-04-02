@@ -6,7 +6,7 @@
   display: flex;
   outline: none;
   color: var(--calcite-ui-text-3);
-  padding: .3rem .4rem;
+  padding: 0.3rem 0.4rem;
   cursor: pointer;
   width: calc(100% / 7);
   min-width: 0;
@@ -19,8 +19,8 @@
   @include font-size(-2);
   justify-content: center;
   align-items: center;
-  height: 2.0rem;
-  width: 2.0rem;
+  height: 2rem;
+  width: 2rem;
   color: var(--calcite-ui-text-3);
   transition: all $transition;
   background: none;
@@ -48,7 +48,8 @@
 }
 
 :host(:focus) .day {
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1),
+    0 0 0 4px var(--calcite-ui-blue-1);
 }
 
 :host([selected]) .day {

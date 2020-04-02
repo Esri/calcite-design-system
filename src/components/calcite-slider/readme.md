@@ -3,17 +3,30 @@
 Range selection component for selecting single or multiple numeric values inside a given range:
 
 ```html
-<calcite-slider min="1" max="100" value="50" step="1" label="Temperature"></calcite-slider>
+<calcite-slider
+  min="1"
+  max="100"
+  value="50"
+  step="1"
+  label="Temperature"
+></calcite-slider>
 ```
 
 If you'd like to allow an upper and lower value selection (two handles), you can set `minValue` and `maxValue` rather than `value`. Note: these are mutually exclusive.
 
 ```html
-<calcite-slider min="1" max="100" minValue="50" maxValue="85" step="1" min-label="Temperature (lower)" max-label="Temperature (upper)"></calcite-slider>
+<calcite-slider
+  min="1"
+  max="100"
+  minValue="50"
+  maxValue="85"
+  step="1"
+  min-label="Temperature (lower)"
+  max-label="Temperature (upper)"
+></calcite-slider>
 ```
 
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -36,14 +49,12 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 | `ticks`        | `ticks`         | Show tick marks on the number line at provided interval            | `number`            | `undefined` |
 | `value`        | `value`         | Currently selected number (if single select)                       | `number`            | `null`      |
 
-
 ## Events
 
 | Event                 | Description                                                                                                                                                                                                   | Type               |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
 | `calciteSliderUpdate` | Fires on all updates to the slider. :warning: Will be fired frequently during drag. If you are performing any expensive operations consider using a debounce or throttle to avoid locking up the main thread. | `CustomEvent<any>` |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

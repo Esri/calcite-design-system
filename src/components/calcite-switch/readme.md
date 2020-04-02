@@ -16,7 +16,6 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property   | Attribute  | Description                        | Type                | Default   |
@@ -28,7 +27,6 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 | `theme`    | `theme`    | The component's theme.             | `"dark" or "light"` | `"light"` |
 | `value`    | `value`    | The value of the checkbox input    | `string`            | `""`      |
 
-
 ## Events
 
 | Event                 | Description | Type               |
@@ -36,7 +34,6 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 | `calciteSwitchChange` |             | `CustomEvent<any>` |
 | `change`              |             | `CustomEvent<any>` |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

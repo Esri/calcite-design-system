@@ -8,7 +8,7 @@ import {
   Event,
   EventEmitter,
   Element,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { UP, DOWN, TAB, HOME, END, ESCAPE } from "../../utils/keys";
 import { filter } from "../../utils/filter";
@@ -25,7 +25,7 @@ interface ItemData {
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteCombobox {
   //--------------------------------------------------------------------------
@@ -114,7 +114,7 @@ export class CalciteCombobox {
     this.textInput.focus();
 
     const value = event.detail?.value;
-    const comboboxItem = this.items.find(item => item.value === value);
+    const comboboxItem = this.items.find((item) => item.value === value);
 
     if (comboboxItem) {
       this.toggleSelection(comboboxItem, false);
@@ -151,8 +151,8 @@ export class CalciteCombobox {
 
   filterItems = debounce((value: string): void => {
     const filteredData = filter(this.data, value);
-    const values = filteredData.map(item => item.value);
-    this.items.forEach(item => {
+    const values = filteredData.map((item) => item.value);
+    this.items.forEach((item) => {
       item.hidden = values.indexOf(item.value) === -1;
       // If item is nested inside another item...
       const { parentItem } = item;
@@ -181,11 +181,11 @@ export class CalciteCombobox {
   }
 
   getVisibleItems(): HTMLCalciteComboboxItemElement[] {
-    return this.items.filter(item => !item.hidden);
+    return this.items.filter((item) => !item.hidden);
   }
 
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
-    return this.items.filter(item => item.selected);
+    return this.items.filter((item) => item.selected);
   }
 
   updateItems(): void {
@@ -196,9 +196,9 @@ export class CalciteCombobox {
   }
 
   getData(): ItemData[] {
-    return this.items.map(item => ({
+    return this.items.map((item) => ({
       value: item.value,
-      label: item.textLabel
+      label: item.textLabel,
     }));
   }
 
@@ -206,8 +206,8 @@ export class CalciteCombobox {
     const items = Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM));
 
     return items
-      .filter(item => !item.disabled)
-      .map(item => {
+      .filter((item) => !item.disabled)
+      .map((item) => {
         const { parentElement } = item;
 
         item.parentItem = parentElement.matches(COMBO_BOX_ITEM)
@@ -307,7 +307,7 @@ export class CalciteCombobox {
         dir={dir}
       >
         <div class="selections">
-          {this.selectedItems.map(item => {
+          {this.selectedItems.map((item) => {
             return (
               <calcite-chip
                 key={item.value}
@@ -334,8 +334,8 @@ export class CalciteCombobox {
             aria-controls={listBoxId}
             onInput={this.inputHandler}
             disabled={this.disabled}
-            onKeyDown={e => this.handleInputKeyDown(e)}
-            ref={el => (this.textInput = el as HTMLInputElement)}
+            onKeyDown={(e) => this.handleInputKeyDown(e)}
+            ref={(el) => (this.textInput = el as HTMLInputElement)}
           />
         </div>
         <ul

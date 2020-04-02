@@ -10,7 +10,7 @@ import {
   h,
   State,
   Watch,
-  VNode
+  VNode,
 } from "@stencil/core";
 import {
   UP,
@@ -20,7 +20,7 @@ import {
   ESCAPE,
   HOME,
   END,
-  SPACE
+  SPACE,
 } from "../../utils/keys";
 
 import { getElementDir, getElementProp } from "../../utils/dom";
@@ -29,7 +29,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-combobox-item",
   styleUrl: "./calcite-combobox-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
@@ -120,7 +120,7 @@ export class CalciteComboboxItem {
       case ESCAPE:
         this.calciteComboboxItemKeyEvent.emit({
           event: event,
-          item: this.el
+          item: this.el,
         });
         event.preventDefault();
         break;
@@ -196,7 +196,7 @@ export class CalciteComboboxItem {
       [CSS.label]: true,
       [CSS.selected]: this.isSelected,
       [CSS.nested]: this.isNested,
-      [CSS.parent]: !this.isNested
+      [CSS.parent]: !this.isNested,
     };
     const scale = getElementProp(this.el, "scale", "m");
     const dir = getElementDir(this.el);
@@ -213,7 +213,7 @@ export class CalciteComboboxItem {
         <div
           class={classes}
           onClick={this.itemClickHandler}
-          ref={el => (this.comboboxItemEl = el as HTMLElement)}
+          ref={(el) => (this.comboboxItemEl = el as HTMLElement)}
         >
           {this.renderIcon(scale)}
           <span class={CSS.title}>{this.textLabel}</span>

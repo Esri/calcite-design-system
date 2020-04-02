@@ -1,6 +1,6 @@
 # calcite-progress
 
-The `calcite-progress` component is used to show progress on some async task to the user. 
+The `calcite-progress` component is used to show progress on some async task to the user.
 
 ```html
 <calcite-progress type="indeterminate"></calcite-progress>
@@ -9,7 +9,6 @@ The `calcite-progress` component is used to show progress on some async task to 
 ## TODO
 
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -21,7 +20,6 @@ The `calcite-progress` component is used to show progress on some async task to 
 | `type`     | `type`     | Use indeterminate if finding actual progress value is impossible | `"determinate" or "indeterminate"` | `"determinate"` |
 | `value`    | `value`    | Percent complete of 100                                          | `number`                           | `0`             |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

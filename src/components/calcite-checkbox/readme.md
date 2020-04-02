@@ -18,7 +18,6 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property        | Attribute       | Description                                                                                                                                   | Type                 | Default     |
@@ -31,27 +30,26 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 | `theme`         | `theme`         | Determines what theme to use                                                                                                                  | `"dark" or "light"`  | `undefined` |
 | `value`         | `value`         | The value of the checkbox input                                                                                                               | `string`             | `""`        |
 
-
 ## Events
 
 | Event                   | Description                                      | Type               |
 | ----------------------- | ------------------------------------------------ | ------------------ |
 | `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-card](../calcite-card)
+- [calcite-card](../calcite-card)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-card --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
