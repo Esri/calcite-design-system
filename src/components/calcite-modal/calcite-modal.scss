@@ -38,6 +38,14 @@
   width: 100%;
 }
 
+// focus styles
+.modal__close {
+  @include focus-style-base();
+  &.modal__close:focus {
+    @include focus-style-inset();
+  }
+}
+
 :host(.is-active) {
   visibility: visible !important;
   opacity: 1;
@@ -53,7 +61,7 @@
   }
 }
 
-:host-context([dir="rtl"]) .modal {
+:host([dir="rtl"]) .modal {
   text-align: right;
 }
 
@@ -97,7 +105,7 @@
   }
 }
 
-:host-context([dir="rtl"]) .modal__close {
+:host([dir="rtl"]) .modal__close {
   border-radius: var(--calcite-border-radius) 0 0 0;
 }
 
@@ -167,7 +175,7 @@
   margin-right: auto;
 }
 
-:host-context([dir="rtl"]) .modal__back {
+:host([dir="rtl"]) .modal__back {
   margin-left: auto;
   margin-right: unset;
 }

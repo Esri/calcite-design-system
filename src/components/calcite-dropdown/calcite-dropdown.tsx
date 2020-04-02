@@ -191,13 +191,6 @@ export class CalciteDropdown {
     }
   }
 
-  @Listen("calciteDropdownItemMouseover") calciteDropdownMouseover(
-    item: CustomEvent
-  ) {
-    const itemToFocus = item.detail.target as HTMLCalciteDropdownItemElement;
-    itemToFocus.focus();
-  }
-
   @Listen("registerCalciteDropdownGroup") registerCalciteDropdownGroup(
     e: CustomEvent
   ) {

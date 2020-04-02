@@ -30,12 +30,12 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `alertQueue`          | --                      | a managed list of alerts                                                     | `string[]`                               | `[]`                                 |
 | `alertQueueLength`    | `alert-queue-length`    | a managed list of alerts                                                     | `number`                                 | `undefined`                          |
 | `autoDismiss`         | `auto-dismiss`          | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`                              |
-| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                       | `"fast" \| "medium" \| "slow"`           | `this.autoDismiss ? "medium" : null` |
-| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`                             |
+| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                       | `"fast" or "medium" or "slow"`           | `this.autoDismiss ? "medium" : null` |
+| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                      | `"blue" or "green" or "red" or "yellow"` | `"blue"`                             |
 | `currentAlert`        | `current-alert`         | the determined current alert                                                 | `string`                                 | `undefined`                          |
 | `icon`                | `icon`                  | specify if the alert should display an icon                                  | `boolean`                                | `false`                              |
-| `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" \| "m" \| "s"`                      | `"m"`                                |
-| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `undefined`                          |
+| `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" or "m" or "s"`                      | `"m"`                                |
+| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" or "light"`                      | `undefined`                          |
 
 
 ## Events

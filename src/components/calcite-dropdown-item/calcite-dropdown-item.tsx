@@ -19,7 +19,7 @@ import {
   END,
   SPACE
 } from "../../utils/keys";
-import { getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -59,7 +59,6 @@ export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteDropdownItemKeyEvent: EventEmitter;
-  @Event() calciteDropdownItemMouseover: EventEmitter;
   @Event() calciteDropdownItemSelected: EventEmitter;
   @Event() closeCalciteDropdown: EventEmitter;
   @Event() registerCalciteDropdownItem: EventEmitter;
@@ -91,6 +90,7 @@ export class CalciteDropdownItem {
 
   render() {
     const attributes = this.getAttributes();
+    const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "s" || scale === "m" ? "s" : "m";
     const iconStartEl = (
@@ -126,6 +126,7 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
+        dir={dir}
         tabindex="0"
         role="menuitem"
         selection-mode={this.selectionMode}
@@ -152,10 +153,6 @@ export class CalciteDropdownItem {
 
   @Listen("click") onClick() {
     this.emitRequestedItem();
-  }
-
-  @Listen("mouseover") onMouseover(e) {
-    this.calciteDropdownItemMouseover.emit(e);
   }
 
   @Listen("keydown") keyDownHandler(e) {

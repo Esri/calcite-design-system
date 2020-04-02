@@ -68,9 +68,19 @@
   color: var(--calcite-ui-text-3);
   transition: $transition;
   text-decoration: none;
+  position: relative;
   outline: none;
   position: relative;
   --calcite-accordion-item-border: var(--calcite-ui-border-2);
+}
+
+// focus styles
+:host .accordion-item-header {
+  @include focus-style-base();
+}
+
+:host(:focus) .accordion-item-header {
+  @include focus-style-inset();
 }
 
 :host([active]) {
@@ -169,6 +179,7 @@
     color: var(--calcite-ui-text-2);
   }
 }
+
 :host(:focus),
 :host(:active),
 :host([active]) {
