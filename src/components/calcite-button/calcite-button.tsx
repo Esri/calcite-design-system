@@ -5,9 +5,10 @@ import {
   Host,
   Method,
   Prop,
+  State,
   Build
 } from "@stencil/core";
-
+import { getElementDir, getElementTheme } from "../../utils/dom";
 @Component({
   tag: "calcite-button",
   styleUrl: "calcite-button.scss",

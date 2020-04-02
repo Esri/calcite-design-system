@@ -38,6 +38,15 @@
   }
 }
 
+// focus styles
+:host a,
+:host span {
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-outset();
+  }
+}
+
 .calcite-link--icon {
   transition: $transition;
 }
@@ -90,7 +99,6 @@
 @mixin link-style($color, $color-hover, $border-color) {
   display: inline;
   padding: 0;
-  outline: none;
   border: none;
   color: $color;
   line-height: inherit;
