@@ -8,14 +8,15 @@ import {
   Listen,
   h,
   Method,
-  State
+  State,
 } from "@stencil/core";
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-modal",
   styleUrl: "calcite-modal.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteModal {
   //--------------------------------------------------------------------------
@@ -58,8 +59,10 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   render() {
+    const dir = getElementDir(this.el);
     return (
       <Host
+        dir={dir}
         role="dialog"
         aria-modal="true"
         class={{ "is-active": this.isActive }}
@@ -74,7 +77,7 @@ export class CalciteModal {
             <button
               class="modal__close"
               aria-label={this.closeLabel}
-              ref={el => (this.closeButton = el)}
+              ref={(el) => (this.closeButton = el)}
               onClick={() => this.close()}
             >
               <calcite-icon icon="x" scale="l"></calcite-icon>
@@ -86,9 +89,9 @@ export class CalciteModal {
           <div
             class={{
               modal__content: true,
-              "modal__content--spaced": !this.noPadding
+              "modal__content--spaced": !this.noPadding,
             }}
-            ref={el => (this.modalContent = el)}
+            ref={(el) => (this.modalContent = el)}
           >
             <slot name="content" />
           </div>
@@ -145,7 +148,7 @@ export class CalciteModal {
     this.isActive = true;
 
     // wait for the modal to open, then handle focus.
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         this.focusElement(this.firstFocus);
         resolve(this.el);
@@ -162,7 +165,7 @@ export class CalciteModal {
       this.previousActiveElement.focus();
       document.documentElement.classList.remove("overflow-hidden");
       this.calciteModalClose.emit();
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => resolve(this.el), 300);
       });
     });
@@ -216,7 +219,7 @@ export class CalciteModal {
       this.el,
       isHidden,
       isFocusable
-    ).filter(el => !el.getAttribute("data-focus-fence"));
+    ).filter((el) => !el.getAttribute("data-focus-fence"));
     if (focusableElements.length > 0) {
       focusableElements[focusableElements.length - 1].focus();
     } else {

@@ -8,9 +8,11 @@ export const config: Config = {
     { components: ["calcite-alert"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-chip"] },
+    { components: ["calcite-combobox"] },
     {
       components: [
-        "calcite-date-picker",
+        "calcite-date",
         "calcite-date-month",
         "calcite-date-month-header",
         "calcite-date-day"

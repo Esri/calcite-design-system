@@ -6,16 +6,16 @@ import {
   h,
   Host,
   Listen,
-  Prop
+  Prop,
 } from "@stencil/core";
 import { UP, DOWN, ENTER, HOME, END, SPACE } from "../../utils/keys";
-import { getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-accordion-item",
   styleUrl: "calcite-accordion-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteAccordionItem {
   //--------------------------------------------------------------------------
@@ -59,18 +59,18 @@ export class CalciteAccordionItem {
   componentDidLoad() {
     this.itemPosition = this.getItemPosition();
     this.registerCalciteAccordionItem.emit({
-      position: this.itemPosition
+      position: this.itemPosition,
     });
   }
 
   render() {
-
+    const dir = getElementDir(this.el);
     return (
-      <Host tabindex="0" aria-expanded={this.active.toString()}>
+      <Host tabindex="0" aria-expanded={this.active.toString()} dir={dir}>
         <div class="accordion-item-header" onClick={this.itemHeaderClickHander}>
           <div class="accordion-item-header-text">
-          <span class="accordion-item-title">{this.itemTitle}</span>
-          <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+            <span class="accordion-item-title">{this.itemTitle}</span>
+            <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
           </div>
           <calcite-icon
             class="accordion-item-icon"
@@ -174,7 +174,7 @@ export class CalciteAccordionItem {
 
   private emitRequestedItem() {
     this.calciteAccordionItemSelected.emit({
-      requestedAccordionItem: this.accordionItemId
+      requestedAccordionItem: this.accordionItemId,
     });
   }
 

@@ -1,9 +1,6 @@
 # calcite-dropdown-item
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -13,7 +10,6 @@
 | `href`      | `href`       | optionally pass a href - used to determine if the component should render as anchor        | `string`  | `undefined` |
 | `iconEnd`   | `icon-end`   | optionally pass an icon to display at the end of an item - accepts calcite ui icon names   | `string`  | `undefined` |
 | `iconStart` | `icon-start` | optionally pass an icon to display at the start of an item - accepts calcite ui icon names | `string`  | `undefined` |
-
 
 ## Events
 
@@ -25,6 +21,15 @@
 | `closeCalciteDropdown`         |             | `CustomEvent<any>` |
 | `registerCalciteDropdownItem`  |             | `CustomEvent<any>` |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Focuses the selected item.
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Dependencies
 
@@ -33,12 +38,13 @@
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-dropdown-item --> calcite-icon
   style calcite-dropdown-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

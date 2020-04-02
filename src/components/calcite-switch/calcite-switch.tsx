@@ -8,14 +8,14 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build
+  Build,
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../utils/keys";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteSwitch {
   @Element() el: HTMLElement;
@@ -36,7 +36,7 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
   /** The component's theme. */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
 
   @Event() calciteSwitchChange: EventEmitter;
   @Event() change: EventEmitter;
@@ -70,6 +70,9 @@ export class CalciteSwitch {
 
   connectedCallback() {
     // prop validations
+    let theme = ["light", "dark"];
+    if (!theme.includes(this.theme)) this.theme = "light";
+
     let color = ["blue", "red"];
     if (!color.includes(this.color)) this.color = "blue";
 

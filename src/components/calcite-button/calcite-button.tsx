@@ -5,13 +5,14 @@ import {
   Host,
   Method,
   Prop,
-  Build
+  Build,
+  State,
 } from "@stencil/core";
 
 @Component({
   tag: "calcite-button",
   styleUrl: "calcite-button.scss",
-  shadow: true
+  shadow: true,
 })
 
 /** @slot default text slot for button text */
@@ -47,7 +48,8 @@ export class CalciteButton {
     | "solid"
     | "outline"
     | "clear"
-    | "inline" = "solid";
+    | "inline"
+    | "transparent" = "solid";
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
@@ -110,11 +112,16 @@ export class CalciteButton {
       : this.appearance === "inline"
       ? "span"
       : "button";
+    this.setupTextContentObserver();
+  }
+
+  disconnectedCallback() {
+    this.observer.disconnect();
   }
 
   componentWillLoad() {
     if (Build.isBrowser) {
-      this.hasText = this.el.textContent.length > 0;
+      this.updateHasText();
       const elType = this.el.getAttribute("type");
       this.type = this.childElType === "button" && elType ? elType : "submit";
     }
@@ -156,9 +163,9 @@ export class CalciteButton {
           {...attributes}
           role={role}
           tabindex={tabIndex}
-          onClick={e => this.handleClick(e)}
+          onClick={(e) => this.handleClick(e)}
           disabled={this.disabled}
-          ref={el => (this.childEl = el)}
+          ref={(el) => (this.childEl = el)}
         >
           {this.loading ? loader : null}
           {this.icon && this.iconPosition === "start" ? iconEl : null}
@@ -186,6 +193,9 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** watches for changing text content **/
+  private observer: MutationObserver;
+
   /** if button type is present, assign as prop */
   private type?: string;
 
@@ -196,7 +206,20 @@ export class CalciteButton {
   private childElType?: "a" | "span" | "button" = "button";
 
   /** determine if there is slotted text for styling purposes */
-  private hasText: boolean = false;
+  @State() private hasText?: boolean = false;
+
+  private updateHasText() {
+    this.hasText = this.el.textContent.length > 0;
+  }
+
+  private setupTextContentObserver() {
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(() => {
+        this.updateHasText();
+      });
+      this.observer.observe(this.el, { childList: true, subtree: true });
+    }
+  }
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
@@ -211,10 +234,10 @@ export class CalciteButton {
       "loading",
       "scale",
       "width",
-      "theme"
+      "theme",
     ];
     return Array.from(this.el.attributes)
-      .filter(a => a && !props.includes(a.name))
+      .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 

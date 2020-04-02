@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 .calender {
   .week-headers {
     display: flex;
