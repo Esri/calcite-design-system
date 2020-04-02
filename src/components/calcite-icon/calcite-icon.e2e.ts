@@ -69,18 +69,6 @@ describe("calcite-icon", () => {
       expect(await path.getAttribute("d")).toBe(iconPathData);
     });
 
-    it("it does not render SVG for invalid icons", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-icon icon="this-does-not-exist"></calcite-icon>`
-      );
-      await page.waitForChanges();
-
-      let svg = await page.find(`calcite-icon >>> svg`);
-
-      expect(svg).toBeNull();
-    });
-
     it("loads icon when it's close to viewport", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -88,17 +76,13 @@ describe("calcite-icon", () => {
       );
       await page.waitForChanges();
 
-      const iconPathSelector = `calcite-icon >>> path`;
-
       const icon = await page.find(`calcite-icon`);
-      let path = await page.find(iconPathSelector);
+      let path = await page.find(`calcite-icon >>> path`);
 
-      expect(path).toBeNull();
+      expect(await path.getAttribute("d")).toBeNull();
 
       icon.setProperty("style", null);
       await page.waitForChanges();
-
-      path = await page.find(iconPathSelector);
 
       expect(await path.getAttribute("d")).toBeTruthy();
     });
