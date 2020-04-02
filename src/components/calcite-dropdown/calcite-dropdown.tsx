@@ -1,11 +1,4 @@
-import {
-  Component,
-  Element,
-  h,
-  Host,
-  Listen,
-  Prop,
-} from "@stencil/core";
+import { Component, Element, h, Host, Listen, Prop } from "@stencil/core";
 import {
   DOWN,
   END,
@@ -14,7 +7,7 @@ import {
   HOME,
   SPACE,
   TAB,
-  UP
+  UP,
 } from "../../utils/keys";
 
 import { focusElement } from "../../utils/dom";
@@ -22,7 +15,7 @@ import { focusElement } from "../../utils/dom";
 @Component({
   tag: "calcite-dropdown",
   styleUrl: "calcite-dropdown.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteDropdown {
   //--------------------------------------------------------------------------
@@ -191,19 +184,12 @@ export class CalciteDropdown {
     }
   }
 
-  @Listen("calciteDropdownItemMouseover") calciteDropdownMouseover(
-    item: CustomEvent
-  ) {
-    const itemToFocus = item.detail.target as HTMLCalciteDropdownItemElement;
-    itemToFocus.focus();
-  }
-
   @Listen("registerCalciteDropdownGroup") registerCalciteDropdownGroup(
     e: CustomEvent
   ) {
     const items = {
       items: e.detail.items,
-      position: e.detail.position
+      position: e.detail.position,
     };
     this.items.push(items);
   }
@@ -236,7 +222,7 @@ export class CalciteDropdown {
 
   private focusOnFirstActiveOrFirstItem(): void {
     this.getFocusableElement(
-      this.items.find(item => item.active) || this.items[0]
+      this.items.find((item) => item.active) || this.items[0]
     );
   }
 
@@ -283,7 +269,10 @@ export class CalciteDropdown {
     const animationDelayInMs = 50;
 
     if (this.active) {
-      setTimeout(() => this.focusOnFirstActiveOrFirstItem(), animationDelayInMs);
+      setTimeout(
+        () => this.focusOnFirstActiveOrFirstItem(),
+        animationDelayInMs
+      );
     }
   }
 
@@ -292,6 +281,6 @@ export class CalciteDropdown {
       .sort((a, b) => a.position - b.position)
       .concat.apply(
         [],
-        this.items.map(item => item.items)
+        this.items.map((item) => item.items)
       );
 }

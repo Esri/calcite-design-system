@@ -11,6 +11,14 @@
   cursor: pointer;
 }
 
+// focus styles
+:host {
+  @include focus-style-base();
+}
+:host(:focus) {
+  @include focus-style-outset();
+}
+
 :host([scale="s"]) {
   @include font-size(-3);
   padding: 0.25rem 0.75rem;

@@ -8,7 +8,7 @@ import {
   Prop,
   Method,
   State,
-  Watch
+  Watch,
 } from "@stencil/core";
 
 import { CSS, TEXT } from "./resources";
@@ -18,7 +18,7 @@ const maxPagesDisplayed = 5;
 @Component({
   tag: "calcite-pagination",
   styleUrl: "calcite-pagination.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalcitePagination {
   //--------------------------------------------------------------------------
@@ -28,7 +28,9 @@ export class CalcitePagination {
   //--------------------------------------------------------------------------
 
   /** Change between foreground colors or background colors for container background */
-  @Prop({ reflect: true }) backgroundStyle: "backgroundColor" | "foregroundColor" = "foregroundColor";
+  @Prop({ reflect: true }) backgroundStyle:
+    | "backgroundColor"
+    | "foregroundColor" = "foregroundColor";
 
   /** starting selected index */
   @Prop({ reflect: true }) num = 1;
@@ -40,10 +42,10 @@ export class CalcitePagination {
   @Prop({ reflect: true }) start = 1;
 
   /** title of the next button */
-  @Prop({ reflect: true }) textLabelNext:string = TEXT.nextLabel;
+  @Prop({ reflect: true }) textLabelNext: string = TEXT.nextLabel;
 
   /** title of the previous button */
-  @Prop({ reflect: true }) textLabelPrevious:string = TEXT.previousLabel;
+  @Prop({ reflect: true }) textLabelPrevious: string = TEXT.previousLabel;
 
   /** specify the theme of accordion, defaults to light */
   @Prop({ reflect: true }) theme: "light" | "dark";
@@ -60,11 +62,11 @@ export class CalcitePagination {
   @Element() el: HTMLElement;
 
   @State() selectedIndex = this.num;
-  @Watch('selectedIndex') selectedIndexWatchHandler() {
+  @Watch("selectedIndex") selectedIndexWatchHandler() {
     this.calcitePaginationUpdate.emit({
       start: this.start,
       total: this.total,
-      num: this.selectedIndex
+      num: this.selectedIndex,
     });
   }
 
@@ -121,11 +123,11 @@ export class CalcitePagination {
   };
 
   showLeftEllipsis() {
-    return (this.selectedIndex - this.start) > 3;
+    return this.selectedIndex - this.start > 3;
   }
 
   showRightEllipsis() {
-    return (this.total - this.selectedIndex) > 3;
+    return this.total - this.selectedIndex > 3;
   }
 
   //--------------------------------------------------------------------------
@@ -139,17 +141,17 @@ export class CalcitePagination {
     let currentNum;
     let end;
 
-    if ( this.total <= maxPagesDisplayed ) {
+    if (this.total <= maxPagesDisplayed) {
       currentNum = this.start + 1;
       end = this.total - 1;
     } else {
-      if ( this.selectedIndex < maxPagesDisplayed ) {
+      if (this.selectedIndex < maxPagesDisplayed) {
         currentNum = this.start + 1;
         end = this.start + 4;
       } else {
-        if ( this.selectedIndex + 3 >= this.total ) {
+        if (this.selectedIndex + 3 >= this.total) {
           currentNum = this.total - 4;
-          end = this.total -1;
+          end = this.total - 1;
         } else {
           currentNum = this.selectedIndex - 1;
           end = this.selectedIndex + 1;
@@ -159,22 +161,28 @@ export class CalcitePagination {
 
     while (currentNum <= end) {
       pages.push(currentNum);
-      currentNum ++;
+      currentNum++;
     }
 
-    return pages.map(page => this.renderPage(page));
+    return pages.map((page) => this.renderPage(page));
   }
 
   renderPage(num) {
     return (
-      <a class={{[CSS.page]:true, [CSS.selected]: (num === this.selectedIndex) }} onClick={() => {
-        this.selectedIndex = num;
-      }}>{num}</a>
+      <a
+        tabIndex={0}
+        class={{ [CSS.page]: true, [CSS.selected]: num === this.selectedIndex }}
+        onClick={() => {
+          this.selectedIndex = num;
+        }}
+      >
+        {num}
+      </a>
     );
   }
 
   renderLeftEllipsis() {
-    if ( this.total > maxPagesDisplayed && this.showLeftEllipsis() ) {
+    if (this.total > maxPagesDisplayed && this.showLeftEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
           <calcite-icon scale="s" icon="ellipsis" />
@@ -184,7 +192,7 @@ export class CalcitePagination {
   }
 
   renderRightEllipsis() {
-    if ( this.total > maxPagesDisplayed && this.showRightEllipsis() ) {
+    if (this.total > maxPagesDisplayed && this.showRightEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
           <calcite-icon scale="s" icon="ellipsis" />
@@ -194,10 +202,17 @@ export class CalcitePagination {
   }
 
   render() {
-
     return (
       <Host class={this.backgroundStyle}>
-        <a class={{[CSS.previous]: true, [CSS.disabled]: this.selectedIndex <= 1}} title={this.textLabelPrevious} onClick={this.previousClicked}>
+        <a
+          class={{
+            [CSS.previous]: true,
+            [CSS.disabled]: this.selectedIndex <= 1,
+          }}
+          tabIndex={0}
+          title={this.textLabelPrevious}
+          onClick={this.previousClicked}
+        >
           <calcite-icon scale="s" icon="chevronLeft" />
         </a>
         {this.renderPage(this.start)}
@@ -205,7 +220,15 @@ export class CalcitePagination {
         {this.renderPages()}
         {this.renderRightEllipsis()}
         {this.renderPage(this.total)}
-        <a class={{[CSS.next]: true, [CSS.disabled]: this.selectedIndex >= this.total}} title={this.textLabelNext} onClick={this.nextClicked}>
+        <a
+          class={{
+            [CSS.next]: true,
+            [CSS.disabled]: this.selectedIndex >= this.total,
+          }}
+          tabIndex={0}
+          title={this.textLabelNext}
+          onClick={this.nextClicked}
+        >
           <calcite-icon scale="s" icon="chevronRight" />
         </a>
       </Host>

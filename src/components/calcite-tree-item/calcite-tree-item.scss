@@ -2,7 +2,6 @@
   @include calcite-theme-dark();
 }
 
-
 :host {
   display: block;
   color: var(--calcite-tree-text);
@@ -96,6 +95,13 @@
 
 ::slotted(a) {
   text-decoration: none;
+}
+// focus styles
+:host {
+  @include focus-style-base();
+}
+:host(:focus) {
+  @include focus-style-inset();
 }
 
 .calcite-tree-children {

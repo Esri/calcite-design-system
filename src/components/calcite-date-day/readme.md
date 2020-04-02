@@ -1,9 +1,6 @@
 # calcite-date-day
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -16,27 +13,26 @@
 | `locale`       | `locale`        | Locale to display the day in                      | `string`  | `undefined` |
 | `selected`     | `selected`      | Date is the current selected date of the picker   | `boolean` | `false`     |
 
-
 ## Events
 
 | Event              | Description                   | Type               |
 | ------------------ | ----------------------------- | ------------------ |
 | `calciteDaySelect` | Emitted when user selects day | `CustomEvent<any>` |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-date-month](../calcite-date-month)
+- [calcite-date-month](../calcite-date-month)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-date-month --> calcite-date-day
   style calcite-date-day fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

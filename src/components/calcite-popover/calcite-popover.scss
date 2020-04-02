@@ -21,6 +21,13 @@ $image_max_height: 200px;
   align-items: flex-start;
   line-height: 24px;
 }
+// focus styles
+.close-button {
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-inset();
+  }
+}
 
 .close-button {
   display: block;

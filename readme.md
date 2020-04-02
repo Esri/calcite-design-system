@@ -5,6 +5,7 @@
 Shared Web Components for Esri's Calcite design framework. To see the components in action, [view the documentation](https://esri.github.io/calcite-components/).
 
 ## Sketch library
+
 All of the Calcite Components are available in the [calcite-sketch-library](https://github.com/Esri/calcite-sketch-libraries) with all variations and sizes.
 
 ## Installation
@@ -18,8 +19,14 @@ npm install --save @esri/calcite-components
 Calcite components can be loaded via two `<script>` tags in the head of your HTML document:
 
 ```html
-<script type="module" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.esm.js"></script>
-<script nomodule="" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.js"></script>
+<script
+  type="module"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.esm.js"
+></script>
+<script
+  nomodule=""
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.js"
+></script>
 ```
 
 Browsers that support modules will load the first, while older browsers will load the second, bundled version.
@@ -31,7 +38,11 @@ Once these script tags are added, components can be used just like any other HTM
 You will also need to explicitly load the `calcite.css` file:
 
 ```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.css">
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.21/dist/calcite/calcite.css"
+/>
 ```
 
 ### Webpack
@@ -59,30 +70,32 @@ module.exports = {
 Lastly, add the import in your main bundle js (or ts) file:
 
 ```js
-import '@esri/calcite-components/dist/calcite.js';
+import "@esri/calcite-components/dist/calcite.js";
 ```
 
-This will add the initial stencil loader to your bundle, and copy over the actual component code to the output directory you've configured for Webpack. Components will still be lazy-loaded as they are needed. *Note:* you must use the `.js` file path for the Webpack plugin to work correctly, even if your bundle file is a TypeScript file.
+This will add the initial stencil loader to your bundle, and copy over the actual component code to the output directory you've configured for Webpack. Components will still be lazy-loaded as they are needed. _Note:_ you must use the `.js` file path for the Webpack plugin to work correctly, even if your bundle file is a TypeScript file.
 
 ## TypeScript
 
 Stencil provides a full set of typings for all the components in this repo. To make TypeScript aware of these components, just import the library:
 
 ```ts
-import '@esri/calcite-components';
+import "@esri/calcite-components";
 ```
 
 This will provide autocomplete of component names/properties, as well as additional HTML element types:
 
 ```ts
 // created elements will implicitly have the correct type already
-const loader = document.createElement('calcite-loader');
+const loader = document.createElement("calcite-loader");
 document.body.appendChild(loader);
 loader.isActive = true;
 
 // you can also explicitly type an element using the generated types
 // the type name will always be formatted like HTML{CamelCaseComponentName}Element
-const loader = document.querySelector('.my-loader-element') as HTMLCalciteLoaderElement;
+const loader = document.querySelector(
+  ".my-loader-element"
+) as HTMLCalciteLoaderElement;
 loader.isActive = true;
 ```
 

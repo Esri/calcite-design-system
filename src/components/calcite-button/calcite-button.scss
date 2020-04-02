@@ -91,6 +91,15 @@
     text-decoration: none;
   }
 }
+// focus styles
+:host button,
+:host a,
+:host span {
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-outset();
+  }
+}
 
 // button scale
 @mixin btn-scale($font-size, $padding-y, $padding-x) {
@@ -158,7 +167,8 @@
   margin-right: $baseline/4;
 }
 
-:host([appearance="inline"][icon-position="start"][dir="rtl"]) .calcite-button--icon {
+:host([appearance="inline"][icon-position="start"][dir="rtl"])
+  .calcite-button--icon {
   margin-left: $baseline/4;
   margin-right: 0;
 }
@@ -166,7 +176,8 @@
 :host([appearance="inline"][icon-position="end"]) .calcite-button--icon {
   margin-left: $baseline/4;
 }
-:host([appearance="inline"][icon-position="end"][dir="rtl"]) .calcite-button--icon {
+:host([appearance="inline"][icon-position="end"][dir="rtl"])
+  .calcite-button--icon {
   margin-left: 0;
   margin-right: $baseline/4;
 }
@@ -263,7 +274,14 @@
 }
 
 // outline and clear
-@mixin btn-outline-clear($bg-color, $border-color, $border-color-hover, $border-color-press, $color, $color-press) {
+@mixin btn-outline-clear(
+  $bg-color,
+  $border-color,
+  $border-color-hover,
+  $border-color-press,
+  $color,
+  $color-press
+) {
   color: $color;
   background-color: $bg-color;
   border: 1px solid $border-color;
@@ -606,7 +624,8 @@
   user-select: text;
   background-color: transparent;
   position: relative;
-  background-image: linear-gradient(currentColor, currentColor), linear-gradient($border-color, $border-color);
+  background-image: linear-gradient(currentColor, currentColor),
+    linear-gradient($border-color, $border-color);
   background-position: 0% 100%, 100% 100%;
   background-repeat: no-repeat, no-repeat;
   background-size: 0% 1px, 100% 1px;
@@ -670,8 +689,10 @@
 }
 
 // generate button scales
-$btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3), "s" -2 calc(#{$baseline}/ 4) calc(#{$baseline}* 0.5),
-  "m" -1 calc(#{$baseline}/ 3) calc(#{$baseline}* 0.75), "l" 1 calc(#{$baseline} / 2) calc(#{$baseline}* 1),
+$btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3),
+  "s" -2 calc(#{$baseline}/ 4) calc(#{$baseline}* 0.5),
+  "m" -1 calc(#{$baseline}/ 3) calc(#{$baseline}* 0.75),
+  "l" 1 calc(#{$baseline} / 2) calc(#{$baseline}* 1),
   "xl" 2 calc(#{$baseline} / 1.5) calc(#{$baseline}* 1.25);
 
 @each $btnScale in $btnScales {
@@ -687,8 +708,9 @@ $btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3), "s" -2 calc(#
 }
 
 // generate fab scales
-$btnScales2: "xs" -3 calc(#{$baseline}* 1.5), "s" -2 calc(#{$baseline}* 1.75), "m" -1 calc(#{$baseline}* 2),
-  "l" 1 calc(#{$baseline} * 2.25), "xl" 2 calc(#{$baseline} * 2.5);
+$btnScales2: "xs" -3 calc(#{$baseline}* 1.5), "s" -2 calc(#{$baseline}* 1.75),
+  "m" -1 calc(#{$baseline}* 2), "l" 1 calc(#{$baseline} * 2.25),
+  "xl" 2 calc(#{$baseline} * 2.5);
 
 @each $btnScale in $btnScales2 {
   $name: nth($btnScale, 1);
