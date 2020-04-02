@@ -1,6 +1,6 @@
-# calcite-accordion-item
+# calcite-stepper-item
 
-individual `calcite-accordion` item
+individual `calcite-stepper-item` item
 
 <!-- Auto Generated Below -->
 

@@ -1,17 +1,21 @@
-# calcite-accordion
-Calcite-accordion can be used to present content in collapseable sections. Configuration options exist for visual style (theme, icon-position, scale, appearance), and selection functionality. Selection modes include "multi", "single", and "single-persist".
-
-A basic implementation looks like this:
+# calcite-stepper
+Calcite stepper can be used to present a stepper workflow to a user. It has configurable display options for layout (horizontal or vertical), and the ability to automatically render status icons, and step numbers.
 
 ```html
-<calcite-accordion>
-    <calcite-accordion-item item-title="Accordion Item">Accordion Section Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 2" active>Accordion Section Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 3">>Accordion Section Content
-    </calcite-accordion-item>
-</calcite-accordion>
+<calcite-stepper icon numbered id="my-example-stepper">
+  <calcite-stepper-item item-title="Choose method" complete>
+    Step 1 Content Goes Here
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="Compile member list" complete>
+    Step 2 Content Goes Here
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="Set member properties" item-subtitle="Some subtext" active>
+    Step 3 Content Goes Here
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="Confirm and complete">
+    Step 4 Content Goes Here
+  </calcite-stepper-item>
+</calcite-stepper>
 ```
 
 <!-- Auto Generated Below -->
