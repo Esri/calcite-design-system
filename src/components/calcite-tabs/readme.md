@@ -16,7 +16,6 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property | Attribute | Description                                                                      | Type                   | Default     |
@@ -24,7 +23,6 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 | `layout` | `layout`  | Align tab titles to the edge or fully justify them across the tab nav ("center") | `"center" or "inline"` | `"inline"`  |
 | `theme`  | `theme`   | Select theme (light or dark)                                                     | `"dark" or "light"`    | `undefined` |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -1,17 +1,30 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  Watch,
+} from "@stencil/core";
 import { Scale } from "../../interfaces/common";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-split-button",
   styleUrl: "calcite-split-button.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteButtonWithDropdown {
   @Element() el: HTMLElement;
 
   /** specify the color of the control, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
+  @Prop({ mutable: true, reflect: true }) color:
+    | "blue"
+    | "dark"
+    | "light"
+    | "red" = "blue";
 
   /** select theme (light or dark), defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
@@ -20,7 +33,9 @@ export class CalciteButtonWithDropdown {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the icon used for the dropdown menu, defaults to chevron */
-  @Prop({ mutable: true, reflect: true }) dropdownIconType: "chevron" | "caret" = "chevron";
+  @Prop({ mutable: true, reflect: true }) dropdownIconType:
+    | "chevron"
+    | "caret" = "chevron";
 
   /** text for primary action button  */
   @Prop({ reflect: true }) primaryText: string;
@@ -65,7 +80,8 @@ export class CalciteButtonWithDropdown {
   @Watch("dropdownIconType")
   validateDropdownIconType() {
     let dropdownIconType = ["chevron", "caret"];
-    if (!dropdownIconType.includes(this.dropdownIconType)) this.dropdownIconType = "chevron";
+    if (!dropdownIconType.includes(this.dropdownIconType))
+      this.dropdownIconType = "chevron";
   }
 
   connectedCallback() {
@@ -119,10 +135,11 @@ export class CalciteButtonWithDropdown {
     );
   }
 
-  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent) => this.calciteSplitButtonPrimaryClick.emit(e);
+  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent) =>
+    this.calciteSplitButtonPrimaryClick.emit(e);
 
   private get dropdownIcon() {
-    return this.dropdownIconType === 'chevron' ? 'chevronDown' : 'caretDown'
+    return this.dropdownIconType === "chevron" ? "chevronDown" : "caretDown";
   }
 
   private get buttonScale() {

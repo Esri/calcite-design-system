@@ -7,7 +7,7 @@ import {
   Host,
   Method,
   Listen,
-  Prop
+  Prop,
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
@@ -26,7 +26,7 @@ import { guid } from "../../utils/guid";
 @Component({
   tag: "calcite-alert",
   styleUrl: "calcite-alert.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteAlert {
   //--------------------------------------------------------------------------
@@ -88,7 +88,7 @@ export class CalciteAlert {
   ) {
     if (this.alertQueue.includes(event.detail.requestedAlert)) {
       this.alertQueue = this.alertQueue.filter(
-        e => e !== event.detail.requestedAlert
+        (e) => e !== event.detail.requestedAlert
       );
     }
     if (this.alertId === event.detail.requestedAlert) this.active = false;
@@ -139,7 +139,7 @@ export class CalciteAlert {
         class="alert-close"
         aria-label="close"
         onClick={() => this.close()}
-        ref={el => (this.closeButton = el)}
+        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -198,7 +198,7 @@ export class CalciteAlert {
   @Method() async open() {
     this.calciteAlertOpen.emit({
       requestedAlert: this.alertId,
-      alertQueue: this.alertQueue
+      alertQueue: this.alertQueue,
     });
   }
 
@@ -206,7 +206,7 @@ export class CalciteAlert {
   @Method() async close() {
     this.calciteAlertClose.emit({
       requestedAlert: this.alertId,
-      alertQueue: this.alertQueue
+      alertQueue: this.alertQueue,
     });
   }
 
@@ -250,7 +250,7 @@ export class CalciteAlert {
   private autoDismissDurations = {
     slow: 14000,
     medium: 10000,
-    fast: 6000
+    fast: 6000,
   };
 
   /** based on the current alert determine which alert is active */
@@ -272,7 +272,7 @@ export class CalciteAlert {
     green: "checkCircle",
     yellow: "exclamationMarkTriangle",
     red: "exclamationMarkTriangle",
-    blue: "lightbulb"
+    blue: "lightbulb",
   };
 
   private setIcon() {

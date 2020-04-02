@@ -8,7 +8,7 @@ import {
   Prop,
   Method,
   State,
-  Watch
+  Watch,
 } from "@stencil/core";
 
 import { CSS, TEXT } from "./resources";
@@ -18,7 +18,7 @@ const maxPagesDisplayed = 5;
 @Component({
   tag: "calcite-pagination",
   styleUrl: "calcite-pagination.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalcitePagination {
   //--------------------------------------------------------------------------
@@ -66,7 +66,7 @@ export class CalcitePagination {
     this.calcitePaginationUpdate.emit({
       start: this.start,
       total: this.total,
-      num: this.selectedIndex
+      num: this.selectedIndex,
     });
   }
 
@@ -164,7 +164,7 @@ export class CalcitePagination {
       currentNum++;
     }
 
-    return pages.map(page => this.renderPage(page));
+    return pages.map((page) => this.renderPage(page));
   }
 
   renderPage(num) {
@@ -207,7 +207,7 @@ export class CalcitePagination {
         <a
           class={{
             [CSS.previous]: true,
-            [CSS.disabled]: this.selectedIndex <= 1
+            [CSS.disabled]: this.selectedIndex <= 1,
           }}
           tabIndex={0}
           title={this.textLabelPrevious}
@@ -223,7 +223,7 @@ export class CalcitePagination {
         <a
           class={{
             [CSS.next]: true,
-            [CSS.disabled]: this.selectedIndex >= this.total
+            [CSS.disabled]: this.selectedIndex >= this.total,
           }}
           tabIndex={0}
           title={this.textLabelNext}

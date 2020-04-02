@@ -5,7 +5,7 @@ import {
   Prop,
   Event,
   EventEmitter,
-  Element
+  Element,
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { CSS, TEXT } from "./resources";
@@ -13,7 +13,7 @@ import { CSS, TEXT } from "./resources";
 @Component({
   tag: "calcite-chip",
   styleUrl: "calcite-chip.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteChip {
   //--------------------------------------------------------------------------

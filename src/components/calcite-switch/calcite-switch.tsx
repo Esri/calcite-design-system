@@ -8,14 +8,14 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build
+  Build,
 } from "@stencil/core";
 import { SPACE, ENTER } from "../../utils/keys";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteSwitch {
   @Element() el: HTMLElement;

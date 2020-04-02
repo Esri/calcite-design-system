@@ -1,9 +1,6 @@
 # calcite-card
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -14,13 +11,11 @@
 | `selected`   | `selected`   | Indicates whether the card is selected.                                                  | `boolean`           | `false`     |
 | `theme`      | `theme`      | The theme of the card.                                                                   | `"dark" or "light"` | `undefined` |
 
-
 ## Events
 
 | Event                 | Description                              | Type               |
 | --------------------- | ---------------------------------------- | ------------------ |
 | `calciteCardSelected` | Fired when a selectable card is selected | `CustomEvent<any>` |
-
 
 ## Dependencies
 
@@ -30,6 +25,7 @@
 - [calcite-checkbox](../calcite-checkbox)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-card --> calcite-loader
@@ -37,6 +33,6 @@ graph TD;
   style calcite-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

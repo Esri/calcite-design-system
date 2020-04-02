@@ -1,9 +1,6 @@
 # calcite-pagination
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -17,13 +14,11 @@
 | `theme`             | `theme`               | specify the theme of accordion, defaults to light                              | `"dark" or "light"`                      | `undefined`          |
 | `total`             | `total`               | ending number of the pagination                                                | `number`                                 | `2`                  |
 
-
 ## Events
 
 | Event                     | Description                                 | Type               |
 | ------------------------- | ------------------------------------------- | ------------------ |
 | `calcitePaginationUpdate` | Emitted whenever the selected page changes. | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -35,8 +30,6 @@ When called, selected page will increment by 1.
 
 Type: `Promise<void>`
 
-
-
 ### `previousPage() => Promise<void>`
 
 When called, selected page will decrement by 1.
@@ -44,8 +37,6 @@ When called, selected page will decrement by 1.
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `setPage(num: number) => Promise<void>`
 
@@ -55,9 +46,6 @@ Set selected page to a specific page number. Will not go below start or above to
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Depends on
@@ -65,12 +53,13 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-pagination --> calcite-icon
   style calcite-pagination fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

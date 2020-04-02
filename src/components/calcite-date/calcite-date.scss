@@ -26,7 +26,7 @@
   font-weight: 400;
   @include font-size(0);
   font-family: inherit;
-  padding: .75rem 2.5rem;
+  padding: 0.75rem 2.5rem;
   width: 100%;
   margin: 0;
 
@@ -40,7 +40,7 @@
   color: var(--calcite-ui-text-3);
   position: absolute;
   top: 50%;
-  margin: -8px $baseline * .5;
+  margin: -8px $baseline * 0.5;
   pointer-events: none;
 }
 
@@ -65,7 +65,7 @@
 
   .calendar-picker-wrapper {
     opacity: 1;
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
     visibility: visible;
     pointer-events: initial;
   }
@@ -78,5 +78,5 @@
 
 :host([no-calendar-input]) .calendar-picker-wrapper {
   position: static;
-  transform: translate3d(0,0,0);
+  transform: translate3d(0, 0, 0);
 }
