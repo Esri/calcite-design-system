@@ -517,11 +517,11 @@ describe("calcite-dropdown", () => {
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
   });
 
-  // unskip when stencil is upgraded to >= 1.11.2
-  it.skip("focused item should be in view when long", async () => {
-    const page = await newE2EPage();
+  describe("scrolling", () => {
+    it("focused item should be in view when long", async () => {
+      const page = await newE2EPage();
 
-    await page.setContent(`<calcite-dropdown>
+      await page.setContent(`<calcite-dropdown>
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group>
         <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
@@ -566,16 +566,55 @@ describe("calcite-dropdown", () => {
         <calcite-dropdown-item id="item-50" active>50</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
-    await page.waitForChanges();
+      await page.waitForChanges();
 
-    const element = await page.find("calcite-dropdown");
-    await element.click();
-    await page.waitForChanges();
+      const element = await page.find("calcite-dropdown");
+      await element.click();
+      await page.waitForChanges();
 
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-50");
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(
+        "item-50"
+      );
 
-    const item = await page.find("#item-50");
+      const item = await page.find("#item-50");
 
-    expect(await item.isIntersectingViewport()).toBe(true);
+      expect(await item.isIntersectingViewport()).toBe(true);
+    });
+
+    it("control max items displayed", async () => {
+      const page = await newE2EPage();
+
+      const maxItems = 7;
+
+      await page.setContent(`<calcite-dropdown max-items="${maxItems}">
+    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group group-title="First group">
+      <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Second group">
+      <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>`);
+      await page.waitForChanges();
+
+      const element = await page.find("calcite-dropdown");
+      await element.click();
+      await page.waitForChanges();
+
+      const items = await page.findAll("calcite-dropdown-item");
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems);
+      }
+    });
   });
+
 });

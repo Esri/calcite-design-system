@@ -21,6 +21,7 @@ import {
 } from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { ItemRegistration } from "../../interfaces/Dropdown";
 
 @Component({
   tag: "calcite-dropdown-item",
@@ -61,7 +62,7 @@ export class CalciteDropdownItem {
   @Event() calciteDropdownItemKeyEvent: EventEmitter;
   @Event() calciteDropdownItemSelected: EventEmitter;
   @Event() closeCalciteDropdown: EventEmitter;
-  @Event() registerCalciteDropdownItem: EventEmitter;
+  @Event() registerCalciteDropdownItem: EventEmitter<ItemRegistration>;
 
   //--------------------------------------------------------------------------
   //
