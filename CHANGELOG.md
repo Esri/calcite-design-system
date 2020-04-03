@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
+
 - new component `calcite-stepper`
+- a `max-items` attribute has been added to `calcite-dropdown`
 
 ### Breaking Changes
 
