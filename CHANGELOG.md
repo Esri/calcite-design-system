@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - new component `calcite-stepper`
-- a `max-items` attribute has been added to `calcite-dropdown`
+- a `max-items` attribute has been added to `calcite-dropdown` (#396)
 
 ### Breaking Changes
 
@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-date` - fixed in ie11 (#368)
 - `calcite-date` - fixed date entering via input (#307)
 - `calcite-date` - columns correct even when very narrow (#308)
+- `calcite-icon` - always render in target size to prevent shifting layout (#432)
 
 ## [v1.0.0-beta.21] - Mar 31st 2020
 
