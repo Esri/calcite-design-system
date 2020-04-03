@@ -5,17 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Added
-
-- new component `calcite-stepper`
-- a `max-items` attribute has been added to `calcite-dropdown` (#396)
+## [v1.0.0-beta.22] - Apr 3, 2020
 
 ### Breaking Changes
 
 - `calcite-date-picker` is now `calcite-date`
 - `calcite-date` no longer accepts start of week as a prop
+
+### Added
+
+- new component `calcite-stepper`
+- new component `calcite-split-button`
+- improved focus styles across all components
+- a `max-items` attribute has been added to `calcite-dropdown` (#396)
+
 
 ### Updated
 
@@ -31,6 +34,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-date` - fixed date entering via input (#307)
 - `calcite-date` - columns correct even when very narrow (#308)
 - `calcite-icon` - always render in target size to prevent shifting layout (#432)
+- `calcite-accordion` - fixed in ie11 (#366)
+- `calcite-dropdown` - fixed in ie11 (#369)
 
 ## [v1.0.0-beta.21] - Mar 31st 2020
 
