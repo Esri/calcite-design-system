@@ -85,21 +85,7 @@ export class CalciteDropdown {
         (a, b) => a.position - b.position
       ) as GroupRegistration[];
 
-      const { maxItemsToDisplay } = this;
-      let itemsToProcess = 0;
-
-      groups.forEach((group) => {
-        if (maxItemsToDisplay > 0 && itemsToProcess < maxItemsToDisplay) {
-          this.maxScrollerHeight += group?.titleEl?.offsetHeight || 0;
-
-          group.items.forEach((item) => {
-            if (itemsToProcess < maxItemsToDisplay) {
-              this.maxScrollerHeight += item.offsetHeight;
-              itemsToProcess += 1;
-            }
-          });
-        }
-      });
+      this.maxScrollerHeight = this.getMaxScrollerHeight(groups);
 
       this.items = groups.reduce(
         (items, group) => [...items, ...group.items],
@@ -253,6 +239,27 @@ export class CalciteDropdown {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private getMaxScrollerHeight(groups: GroupRegistration[]): number {
+    const { maxItemsToDisplay } = this;
+    let itemsToProcess = 0;
+    let maxScrollerHeight = 0;
+
+    groups.forEach((group) => {
+      if (maxItemsToDisplay > 0 && itemsToProcess < maxItemsToDisplay) {
+        maxScrollerHeight += group?.titleEl?.offsetHeight || 0;
+
+        group.items.forEach((item) => {
+          if (itemsToProcess < maxItemsToDisplay) {
+            maxScrollerHeight += item.offsetHeight;
+            itemsToProcess += 1;
+          }
+        });
+      }
+    });
+
+    return maxScrollerHeight;
+  }
 
   private closeCalciteDropdown() {
     this.active = false;
