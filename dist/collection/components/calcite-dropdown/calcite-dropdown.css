@@ -1,0 +1,102 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host([width=s]) {
+  --calcite-dropdown-width: 12.5em;
+}
+
+:host([width=m]) {
+  --calcite-dropdown-width: 15em;
+}
+
+:host([width=l]) {
+  --calcite-dropdown-width: 20em;
+}
+
+:host([scale=s]) {
+  --calcite-dropdown-group-padding: 0.5rem 0;
+  --calcite-dropdown-item-padding: 0.3rem 1rem 0.3rem 2.25rem;
+}
+
+:host([scale=m]) {
+  --calcite-dropdown-group-padding: 0.75rem 0;
+  --calcite-dropdown-item-padding: 0.5rem 1rem 0.5rem 2.25rem;
+}
+
+:host([scale=l]) {
+  --calcite-dropdown-group-padding: 1rem 0;
+  --calcite-dropdown-item-padding: 0.75rem 1rem 0.75rem 2.25rem;
+}
+
+:host([dir=rtl][scale=s]) {
+  --calcite-dropdown-item-padding: 0.3rem 2.25rem 0.3rem 1rem;
+}
+
+:host([dir=rtl][scale=m]) {
+  --calcite-dropdown-item-padding: 0.5rem 2.25rem 0.5rem 1rem;
+}
+
+:host([dir=rtl][scale=l]) {
+  --calcite-dropdown-item-padding: 0.75rem 2.25rem 0.75rem 1rem;
+}
+
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+:host([active]) .calcite-dropdown-wrapper {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  max-height: 90vh;
+  overflow-y: auto;
+  visibility: visible;
+  pointer-events: initial;
+}
+
+:host .calcite-dropdown-wrapper {
+  transform: translate3d(0, -1.5rem, 0);
+  transition: all 0.15s ease-in-out, max-height 0.15s;
+  visibility: hidden;
+  opacity: 0;
+  display: block;
+  position: absolute;
+  left: 0;
+  z-index: 200;
+  overflow: hidden;
+  max-height: 0;
+  width: auto;
+  width: var(--calcite-dropdown-width);
+  background: var(--calcite-ui-foreground-1);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  pointer-events: none;
+}
+
+:host-context([dir=rtl]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: unset;
+}
+
+:host([alignment=end]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: unset;
+}
+
+:host([dir=rtl][alignment=end]) .calcite-dropdown-wrapper {
+  right: unset;
+  left: 0;
+}
+
+:host([alignment=center]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+:host([alignment=center][dir=rtl]) .calcite-dropdown-wrapper {
+  right: 50%;
+  left: 0;
+  transform: translateX(50%);
+}

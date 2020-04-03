@@ -1,0 +1,131 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  max-width: 100%;
+}
+:host .calcite-card-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--calcite-ui-foreground-1);
+  transition: 150ms ease-in-out;
+  position: relative;
+  border: 1px solid var(--calcite-ui-border-2);
+  color: var(--calcite-ui-text-3);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+:host .calcite-card-container:hover {
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
+  z-index: 1;
+}
+:host .calcite-card-container:active {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.16);
+  z-index: 1;
+}
+
+:host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+:host([loading]) .calcite-card-loader-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+:host .header,
+:host .footer {
+  padding: 0.75rem;
+  display: flex;
+}
+
+:host .header {
+  flex-direction: column;
+}
+
+:host .footer {
+  padding: 0.75rem;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between;
+}
+
+:host .card-content {
+  padding: 0 0.75rem;
+  color: var(--calcite-ui-text-3);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+:host([selectable]) .calcite-card-container:active {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.16);
+}
+
+:host([selected]) .calcite-card-container {
+  border-color: var(--calcite-ui-blue-1);
+}
+
+slot[name=title]::slotted(*),
+*::slotted([slot=title]) {
+  font-weight: 500;
+  color: var(--calcite-ui-text-1);
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+slot[name=subtitle]::slotted(*),
+*::slotted([slot=subtitle]) {
+  font-weight: 400;
+  color: var(--calcite-ui-text-2);
+  margin: 0;
+  margin-top: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+slot[name=thumbnail]::slotted(img),
+img::slotted([slot=thumbnail]) {
+  max-width: 100%;
+  min-width: 100%;
+}
+
+slot[name=footer-leading]::slotted(*),
+*::slotted([slot=footer-leading]) {
+  margin-inline-end: auto;
+  align-self: center;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+slot[name=footer-trailing]::slotted(*),
+*::slotted([slot=footer-trailing]) {
+  align-self: center;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+:host .thumbnail-wrapper {
+  font-size: 0;
+}
+
+:host .checkbox-wrapper {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+  margin: 0;
+  padding: 0;
+}
+
+:host([dir=rtl]) .checkbox-wrapper {
+  left: 0.375rem;
+  right: auto;
+}

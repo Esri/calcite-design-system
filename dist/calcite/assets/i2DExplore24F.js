@@ -1,0 +1,1 @@
+export const i2DExplore24F = "M.25 12L4 9v6zm23.5 0L20 9v6zM9 4h6L12 .25zm3 19.75L15 20H9zM18 6H6v12h12z";
