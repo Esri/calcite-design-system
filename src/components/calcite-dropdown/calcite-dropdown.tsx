@@ -239,6 +239,7 @@ export class CalciteDropdown {
   /** created list of dropdown items */
   private items = [];
 
+  /** specifies the item wrapper height; it is updated when maxItemsToDisplay is > 0  **/
   private maxScrollerHeight = 0;
 
   /** keep track of whether the groups have been sorted so we don't re-sort */
