@@ -285,7 +285,7 @@ storiesOf("Dropdown", module)
     () => `
     <calcite-dropdown
       alignment="${select("alignment", ["start", "center", "end"], "start")}"
-      max-items-to-display="${number("max-items-to-display", 7, { min: 0, max: 10, step: 1 })}"
+      max-items="${number("max-items", 7, { min: 0, max: 10, step: 1 })}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"

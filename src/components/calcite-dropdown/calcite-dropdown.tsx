@@ -42,7 +42,7 @@ export class CalciteDropdown {
     | "end" = "start";
 
   /** specify the max items to display before showing the scroller, must be greater than 0 **/
-  @Prop() maxItemsToDisplay: number = 0;
+  @Prop() maxItems: number = 0;
 
   /** specify the theme of the dropdown, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
@@ -225,7 +225,7 @@ export class CalciteDropdown {
   /** created list of dropdown items */
   private items = [];
 
-  /** specifies the item wrapper height; it is updated when maxItemsToDisplay is > 0  **/
+  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
   private maxScrollerHeight = 0;
 
   /** keep track of whether the groups have been sorted so we don't re-sort */
@@ -241,16 +241,16 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   private getMaxScrollerHeight(groups: GroupRegistration[]): number {
-    const { maxItemsToDisplay } = this;
+    const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
 
     groups.forEach((group) => {
-      if (maxItemsToDisplay > 0 && itemsToProcess < maxItemsToDisplay) {
+      if (maxItems > 0 && itemsToProcess < maxItems) {
         maxScrollerHeight += group?.titleEl?.offsetHeight || 0;
 
         group.items.forEach((item) => {
-          if (itemsToProcess < maxItemsToDisplay) {
+          if (itemsToProcess < maxItems) {
             maxScrollerHeight += item.offsetHeight;
             itemsToProcess += 1;
           }
