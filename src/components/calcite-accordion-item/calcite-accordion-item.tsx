@@ -67,7 +67,7 @@ export class CalciteAccordionItem {
     const dir = getElementDir(this.el);
     return (
       <Host tabindex="0" aria-expanded={this.active.toString()} dir={dir}>
-        <div class="accordion-item-header" onClick={this.itemHeaderClickHander}>
+        <div class="accordion-item-header" onClick={this.itemHeaderClickHandler}>
           <div class="accordion-item-header-text">
             <span class="accordion-item-title">{this.itemTitle}</span>
             <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
@@ -146,7 +146,7 @@ export class CalciteAccordionItem {
   private iconType = getElementProp(this.el, "icon-type", "chevron");
 
   /** handle clicks on item header */
-  private itemHeaderClickHander = () => this.emitRequestedItem();
+  private itemHeaderClickHandler = () => this.emitRequestedItem();
   //--------------------------------------------------------------------------
   //
   //  Private Methods
