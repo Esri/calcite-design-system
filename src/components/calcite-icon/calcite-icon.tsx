@@ -6,7 +6,7 @@ import {
   Host,
   Prop,
   State,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
@@ -18,7 +18,7 @@ import { Theme } from "../../interfaces/common";
   assetsDirs: ["assets"],
   tag: "calcite-icon",
   styleUrl: "calcite-icon.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteIcon {
   //--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ export class CalciteIcon {
    * When true, the icon will be filled.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   filled: boolean = false;
 
@@ -48,7 +48,7 @@ export class CalciteIcon {
    * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   icon: string = null;
 
@@ -56,7 +56,7 @@ export class CalciteIcon {
    * When true, the icon will be mirrored when the element direction is 'rtl'.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   mirrored: boolean = false;
 
@@ -64,7 +64,7 @@ export class CalciteIcon {
    * Icon scale. Can be "s" | "m" | "l".
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   scale: Scale = "m";
 
@@ -80,7 +80,7 @@ export class CalciteIcon {
    * Icon theme. Can be "light" or "dark".
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   theme: Theme;
 
@@ -119,21 +119,19 @@ export class CalciteIcon {
         aria-label={semantic ? textLabel : null}
         role={semantic ? "img" : null}
       >
-        {pathData ? (
-          <svg
-            class={{
-              [CSS.mirrored]: dir === "rtl" && mirrored,
-              svg: true
-            }}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            height={size}
-            width={size}
-            viewBox={`0 0 ${size} ${size}`}
-          >
-            <path d={pathData} />
-          </svg>
-        ) : null}
+        <svg
+          class={{
+            [CSS.mirrored]: dir === "rtl" && mirrored,
+            svg: true,
+          }}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          height={size}
+          width={size}
+          viewBox={`0 0 ${size} ${size}`}
+        >
+          <path d={pathData} />
+        </svg>
       </Host>
     );
   }
@@ -182,8 +180,8 @@ export class CalciteIcon {
     }
 
     this.intersectionObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             this.intersectionObserver.disconnect();
             this.intersectionObserver = null;

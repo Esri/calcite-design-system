@@ -20,16 +20,18 @@ A basic implementation looks like this:
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property        | Attribute        | Description                                                                                                                                                               | Type                                      | Default     |
 | --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ----------- |
-| `appearance`    | `appearance`     | specify the appearance - default (containing border), or minimal (no containing border), defaults to default                                                              | `"default" or "minimal" or "transparent"` | `"default"` |
-| `iconPosition`  | `icon-position`  | specify the placement of the icon in the header, defaults to end                                                                                                          | `"end" or "start"`                        | `"end"`     |
-| `iconType`      | `icon-type`      | specify the placement of the icon in the header, defaults to end                                                                                                          | `"caret" or "chevron" or "plus-minus"`    | `"chevron"` |
-| `scale`         | `scale`          | specify the scale of accordion, defaults to m                                                                                                                             | `"l" or "m" or "s"`                       | `"m"`       |
-| `selectionMode` | `selection-mode` | specify the selection mode - multi (allow any number of open items), single (allow one open item), or single-persist (allow and require one open item), defaults to multi | `"multi" or "single" or "single-persist"` | `"multi"`   |
-| `theme`         | `theme`          | specify the theme of accordion, defaults to light                                                                                                                         | `"dark" or "light"`                       | `undefined` |
+| `appearance`    | `appearance`     | specify the appearance - default (containing border), or minimal (no containing border), defaults to default                                                              | `"default" \| "minimal" \| "transparent"` | `"default"` |
+| `iconPosition`  | `icon-position`  | specify the placement of the icon in the header, defaults to end                                                                                                          | `"end" \| "start"`                        | `"end"`     |
+| `iconType`      | `icon-type`      | specify the placement of the icon in the header, defaults to end                                                                                                          | `"caret" \| "chevron" \| "plus-minus"`    | `"chevron"` |
+| `scale`         | `scale`          | specify the scale of accordion, defaults to m                                                                                                                             | `"l" \| "m" \| "s"`                       | `"m"`       |
+| `selectionMode` | `selection-mode` | specify the selection mode - multi (allow any number of open items), single (allow one open item), or single-persist (allow and require one open item), defaults to multi | `"multi" \| "single" \| "single-persist"` | `"multi"`   |
+| `theme`         | `theme`          | specify the theme of accordion, defaults to light                                                                                                                         | `"dark" \| "light"`                       | `undefined` |
+
 
 ## Events
 
@@ -37,6 +39,7 @@ A basic implementation looks like this:
 | -------------------------------- | ----------- | ------------------ |
 | `calciteAccordionItemHasChanged` |             | `CustomEvent<any>` |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

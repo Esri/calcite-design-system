@@ -21,6 +21,7 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property              | Attribute               | Description                                                                  | Type                                     | Default                              |
@@ -29,12 +30,13 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `alertQueue`          | --                      | a managed list of alerts                                                     | `string[]`                               | `[]`                                 |
 | `alertQueueLength`    | `alert-queue-length`    | a managed list of alerts                                                     | `number`                                 | `undefined`                          |
 | `autoDismiss`         | `auto-dismiss`          | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`                              |
-| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                       | `"fast" or "medium" or "slow"`           | `this.autoDismiss ? "medium" : null` |
-| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                      | `"blue" or "green" or "red" or "yellow"` | `"blue"`                             |
+| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                       | `"fast" \| "medium" \| "slow"`           | `this.autoDismiss ? "medium" : null` |
+| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`                             |
 | `currentAlert`        | `current-alert`         | the determined current alert                                                 | `string`                                 | `undefined`                          |
 | `icon`                | `icon`                  | specify if the alert should display an icon                                  | `boolean`                                | `false`                              |
-| `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" or "m" or "s"`                      | `"m"`                                |
-| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" or "light"`                      | `undefined`                          |
+| `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" \| "m" \| "s"`                      | `"m"`                                |
+| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `undefined`                          |
+
 
 ## Events
 
@@ -43,6 +45,7 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `calciteAlertClose` | Fired when an alert is closed | `CustomEvent<any>` |
 | `calciteAlertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
 | `calciteAlertSync`  | Fired when an alert is opened | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -54,6 +57,8 @@ close alert and emit the closed alert
 
 Type: `Promise<void>`
 
+
+
 ### `open() => Promise<void>`
 
 open alert and emit the opened alert
@@ -61,6 +66,8 @@ open alert and emit the opened alert
 #### Returns
 
 Type: `Promise<void>`
+
+
 
 ### `setFocus() => Promise<void>`
 
@@ -70,6 +77,9 @@ focus the close button, if present and requested
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot              | Description                                                                  |
@@ -78,6 +88,7 @@ Type: `Promise<void>`
 | `"alert-message"` | Main text of the alert                                                       |
 | `"alert-title"`   | Title of the alert (optional)                                                |
 
+
 ## Dependencies
 
 ### Depends on
@@ -85,13 +96,12 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-alert --> calcite-icon
   style calcite-alert fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

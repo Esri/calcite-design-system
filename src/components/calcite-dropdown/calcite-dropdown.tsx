@@ -11,6 +11,7 @@ import {
 } from "../../utils/keys";
 
 import { focusElement } from "../../utils/dom";
+import { GroupRegistration } from "../../interfaces/Dropdown";
 
 @Component({
   tag: "calcite-dropdown",
@@ -39,6 +40,9 @@ export class CalciteDropdown {
     | "start"
     | "center"
     | "end" = "start";
+
+  /** specify the max items to display before showing the scroller, must be greater than 0 **/
+  @Prop() maxItems: number = 0;
 
   /** specify the theme of the dropdown, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
@@ -77,12 +81,24 @@ export class CalciteDropdown {
       "[slot=dropdown-trigger]"
     ) as HTMLSlotElement;
     if (!this.sorted) {
-      this.items = this.sortItems(this.items);
+      const groups = this.items.sort(
+        (a, b) => a.position - b.position
+      ) as GroupRegistration[];
+
+      this.maxScrollerHeight = this.getMaxScrollerHeight(groups);
+
+      this.items = groups.reduce(
+        (items, group) => [...items, ...group.items],
+        []
+      );
+
       this.sorted = true;
     }
   }
 
   render() {
+    const { maxScrollerHeight } = this;
+
     return (
       <Host>
         <slot
@@ -90,7 +106,13 @@ export class CalciteDropdown {
           aria-haspopup="true"
           aria-expanded={this.active.toString()}
         />
-        <div class="calcite-dropdown-wrapper" role="menu">
+        <div
+          class="calcite-dropdown-wrapper"
+          role="menu"
+          style={{
+            maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "",
+          }}
+        >
           <slot />
         </div>
       </Host>
@@ -184,14 +206,14 @@ export class CalciteDropdown {
     }
   }
 
-  @Listen("registerCalciteDropdownGroup") registerCalciteDropdownGroup(
-    e: CustomEvent
-  ) {
-    const items = {
-      items: e.detail.items,
-      position: e.detail.position,
-    };
-    this.items.push(items);
+  @Listen("registerCalciteDropdownGroup") registerCalciteDropdownGroup({
+    detail: { items, position, titleEl },
+  }: CustomEvent<GroupRegistration>) {
+    this.items.push({
+      items: items,
+      position: position,
+      titleEl,
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -200,20 +222,44 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
-  /** trigger element */
-  private trigger: HTMLSlotElement;
-
   /** created list of dropdown items */
   private items = [];
 
+  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
+  private maxScrollerHeight = 0;
+
   /** keep track of whether the groups have been sorted so we don't re-sort */
   private sorted = false;
+
+  /** trigger element */
+  private trigger: HTMLSlotElement;
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private getMaxScrollerHeight(groups: GroupRegistration[]): number {
+    const { maxItems } = this;
+    let itemsToProcess = 0;
+    let maxScrollerHeight = 0;
+
+    groups.forEach((group) => {
+      if (maxItems > 0 && itemsToProcess < maxItems) {
+        maxScrollerHeight += group?.titleEl?.offsetHeight || 0;
+
+        group.items.forEach((item) => {
+          if (itemsToProcess < maxItems) {
+            maxScrollerHeight += item.offsetHeight;
+            itemsToProcess += 1;
+          }
+        });
+      }
+    });
+
+    return maxScrollerHeight;
+  }
 
   private closeCalciteDropdown() {
     this.active = false;
@@ -275,12 +321,4 @@ export class CalciteDropdown {
       );
     }
   }
-
-  private sortItems = (items: any[]): any[] =>
-    items
-      .sort((a, b) => a.position - b.position)
-      .concat.apply(
-        [],
-        this.items.map((item) => item.items)
-      );
 }

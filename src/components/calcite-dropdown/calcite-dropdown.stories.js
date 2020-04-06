@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { withKnobs, number, select } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -275,6 +275,35 @@ storiesOf("Dropdown", module)
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
         <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item>Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  `,
+    { notes }
+  )
+  .add(
+    "Scrolling after certain items",
+    () => `
+    <calcite-dropdown
+      alignment="${select("alignment", ["start", "center", "end"], "start")}"
+      max-items="${number("max-items", 7, { min: 0, max: 10, step: 1 })}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      width="${select("width", ["s", "m", "l"], "m")}"
+      type="${select("type", ["click", "hover"], "click")}"
+    >
+      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-dropdown-group group-title="First group">
+        <calcite-dropdown-item>1</calcite-dropdown-item>
+        <calcite-dropdown-item>2</calcite-dropdown-item>
+        <calcite-dropdown-item>3</calcite-dropdown-item>
+        <calcite-dropdown-item>4</calcite-dropdown-item>
+        <calcite-dropdown-item>5</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group group-title="Second group">
+        <calcite-dropdown-item>6</calcite-dropdown-item>
+        <calcite-dropdown-item>7</calcite-dropdown-item>
+        <calcite-dropdown-item>8</calcite-dropdown-item>
+        <calcite-dropdown-item>9</calcite-dropdown-item>
+        <calcite-dropdown-item>10</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
   `,

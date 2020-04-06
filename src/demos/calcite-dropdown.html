@@ -281,6 +281,26 @@
     </calcite-dropdown>
   </div>
 
+  <h3>Can control amount of items displayed</h3>
+
+  <calcite-dropdown max-items="7">
+    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group group-title="First group">
+      <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Second group">
+      <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+
   <h3>Long dropdown content should allow scrolling</h3>
 
   <calcite-dropdown>
@@ -313,8 +333,6 @@
       <calcite-dropdown-item id="item-25" active>25</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
-
-
 </body>
 
 </html>
