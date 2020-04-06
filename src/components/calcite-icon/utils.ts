@@ -4,7 +4,6 @@ import { Scale } from "../../interfaces/Icon";
 export interface FetchIconProps {
   icon: string;
   scale: Scale;
-  filled: boolean;
 }
 
 /**
@@ -29,16 +28,16 @@ export const scaleToPx: Record<Scale, number> = {
 
 export async function fetchIcon({
   icon,
-  scale,
-  filled
+  scale
 }: FetchIconProps): Promise<string> {
   const size = scaleToPx[scale];
-  const id = `${normalizeIconName(icon)}${size}${filled ? "F" : ""}`;
+  const needsF = icon.charAt(icon.length - 1) === "F";
+  const iconName = needsF ? icon.substring(0, icon.length - 1): icon;
+  const id = `${normalizeIconName(iconName)}${size}${needsF ? "F" : ""}`;
 
   if (iconCache[id]) {
     return iconCache[id];
   }
-
   if (!requestCache[id]) {
     requestCache[id] = fetch(getAssetPath(`./assets/${id}.json`))
       .then(resp => resp.json())
