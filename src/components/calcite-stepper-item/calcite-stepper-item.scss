@@ -20,10 +20,9 @@
 }
 
 //ie11
-:host-context([theme="dark"]){
+:host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
-
 
 :host {
   display: flex;
@@ -45,10 +44,10 @@
 }
 
 // focus styles
-:host{
+:host {
   @include focus-style-base();
 }
-:host(:focus){
+:host(:focus) {
   @include focus-style-outset();
 }
 
@@ -97,6 +96,7 @@
   opacity: 0.5;
   height: 12px;
   display: inline-flex;
+  flex-shrink: 0;
   align-self: flex-start;
   transition: $transition;
 }
