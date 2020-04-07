@@ -196,21 +196,16 @@ export class CalciteStepperItem {
 
   private setIcon() {
     var path = this.active
-      ? "circle"
+      ? "circleF"
       : this.error
-      ? "exclamationMarkCircle"
+      ? "exclamationMarkCircleF"
       : this.complete
-      ? "checkCircle"
+      ? "checkCircleF"
       : "circle";
-
-    // todo when calcite-icon is updated
-    // remove this and use circle-filled icon name
-    var filled = this.error || this.complete || this.active;
 
     return (
       <calcite-icon
         icon={path}
-        filled={filled}
         scale="s"
         class="stepper-item-icon"
       />
