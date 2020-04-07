@@ -13,6 +13,7 @@ import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
 import { Scale } from "../../interfaces/Icon";
 import { Theme } from "../../interfaces/common";
+import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 
 @Component({
   assetsDirs: ["assets"],
@@ -122,11 +123,11 @@ export class CalciteIcon {
           width={size}
           viewBox={`0 0 ${size} ${size}`}
         >
-          {paths.map((path) =>
+          {paths.map((path: string | CalciteMultiPathEntry) =>
             typeof path === "string" ? (
               <path d={path} />
             ) : (
-              <path d={path.d} opacity={path.opacity || 1} />
+              <path d={path.d} opacity={"opacity" in path ? path.opacity : 1} />
             )
           )}
         </svg>
@@ -143,7 +144,7 @@ export class CalciteIcon {
   private intersectionObserver: IntersectionObserver;
 
   @State()
-  private pathData: string;
+  private pathData: CalciteIconPath;
 
   @State()
   private visible = false;

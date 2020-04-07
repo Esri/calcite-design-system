@@ -1,5 +1,6 @@
 import { getAssetPath } from "@stencil/core";
 import { Scale } from "../../interfaces/Icon";
+import { CalciteIconPath } from "@esri/calcite-ui-icons";
 
 export interface FetchIconProps {
   icon: string;
@@ -11,14 +12,14 @@ export interface FetchIconProps {
  * Exported for testing purposes.
  * @private
  */
-export const iconCache: Record<string, string> = {};
+export const iconCache: Record<string, CalciteIconPath> = {};
 
 /**
  * Icon request cache.
  * Exported for testing purposes.
  * @private
  */
-export const requestCache: Record<string, Promise<any>> = {};
+export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 
 export const scaleToPx: Record<Scale, number> = {
   s: 16,
@@ -29,11 +30,11 @@ export const scaleToPx: Record<Scale, number> = {
 export async function fetchIcon({
   icon,
   scale
-}: FetchIconProps): Promise<string> {
+}: FetchIconProps): Promise<CalciteIconPath> {
   const size = scaleToPx[scale];
-  const needsF = icon.charAt(icon.length - 1) === "F";
-  const iconName = needsF ? icon.substring(0, icon.length - 1): icon;
-  const id = `${normalizeIconName(iconName)}${size}${needsF ? "F" : ""}`;
+  const filled = icon.charAt(icon.length - 1) === "F";
+  const iconName = filled ? icon.substring(0, icon.length - 1): icon;
+  const id = `${normalizeIconName(iconName)}${size}${filled ? "F" : ""}`;
 
   if (iconCache[id]) {
     return iconCache[id];
