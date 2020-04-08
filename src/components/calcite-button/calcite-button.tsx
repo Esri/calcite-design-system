@@ -112,6 +112,11 @@ export class CalciteButton {
       : this.appearance === "inline"
       ? "span"
       : "button";
+    this.setupTextContentObserver();
+  }
+
+  disconnectedCallback() {
+    this.observer.disconnect();
   }
 
   componentWillLoad() {
@@ -120,10 +125,6 @@ export class CalciteButton {
       const elType = this.el.getAttribute("type");
       this.type = this.childElType === "button" && elType ? elType : "submit";
     }
-  }
-
-  componentDidUpdate() {
-    this.updateHasText();
   }
 
   render() {
@@ -192,6 +193,9 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** watches for changing text content **/
+  private observer: MutationObserver;
+
   /** if button type is present, assign as prop */
   private type?: string;
 
@@ -206,6 +210,15 @@ export class CalciteButton {
 
   private updateHasText() {
     this.hasText = this.el.textContent.length > 0;
+  }
+
+  private setupTextContentObserver() {
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(() => {
+        this.updateHasText();
+      });
+      this.observer.observe(this.el, { childList: true, subtree: true });
+    }
   }
 
   private getAttributes() {
