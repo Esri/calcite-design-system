@@ -4,13 +4,13 @@
 
 ## Properties
 
-| Property                 | Attribute     | Description | Type      | Default     |
-| ------------------------ | ------------- | ----------- | --------- | ----------- |
-| `disabled`               | `disabled`    |             | `boolean` | `false`     |
-| `parentItem`             | `parent-item` |             | `any`     | `undefined` |
-| `selected`               | `selected`    |             | `boolean` | `false`     |
-| `textLabel` _(required)_ | `text-label`  |             | `string`  | `undefined` |
-| `value` _(required)_     | `value`       |             | `string`  | `undefined` |
+| Property                 | Attribute    | Description | Type                             | Default     |
+| ------------------------ | ------------ | ----------- | -------------------------------- | ----------- |
+| `disabled`               | `disabled`   |             | `boolean`                        | `false`     |
+| `parentItem`             | --           |             | `HTMLCalciteComboboxItemElement` | `undefined` |
+| `selected`               | `selected`   |             | `boolean`                        | `false`     |
+| `textLabel` _(required)_ | `text-label` |             | `string`                         | `undefined` |
+| `value` _(required)_     | `value`      |             | `string`                         | `undefined` |
 
 ## Events
 
