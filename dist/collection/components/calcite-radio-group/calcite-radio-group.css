@@ -1,0 +1,12 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: flex;
+}
+
+::slotted(calcite-radio-group-item[checked]),
+::slotted(calcite-radio-group-item:focus) {
+  z-index: 0;
+}

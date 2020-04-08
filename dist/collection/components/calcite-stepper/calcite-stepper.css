@@ -1,0 +1,27 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  min-width: 100%;
+}
+
+:host([layout=vertical]) {
+  flex-direction: column;
+  flex: 1 auto auto;
+}
+
+:host .stepper-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 100%;
+}
