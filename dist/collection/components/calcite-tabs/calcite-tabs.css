@@ -1,0 +1,15 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+  border-top: 1px solid var(--calcite-ui-border-1);
+}
