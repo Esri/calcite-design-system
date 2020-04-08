@@ -5,15 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [v1.0.0-beta.23] - Apr 7th 2020
 
 ### Breaking Changes
+
 - `calcite-icon` - `filled` prop removed (use `F` at end of icon name)
 
 ### Added
+
 - Support for icons which use multiple paths + opacity
 
-## [v1.0.0-beta.22] - Apr 3, 2020
+## [v1.0.0-beta.22] - Apr 3rd 2020
 
 ### Breaking Changes
 
@@ -26,7 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - new component `calcite-split-button`
 - improved focus styles across all components
 - a `max-items` attribute has been added to `calcite-dropdown` (#396)
-
 
 ### Updated
 
@@ -337,6 +338,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.23]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.22...v1.0.0-beta.23 "v1.0.0-beta.23"
 [v1.0.0-beta.22]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.21...v1.0.0-beta.22 "v1.0.0-beta.22"
 [v1.0.0-beta.21]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.20...v1.0.0-beta.21 "v1.0.0-beta.21"
 [v1.0.0-beta.20]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...v1.0.0-beta.20 "v1.0.0-beta.20"
