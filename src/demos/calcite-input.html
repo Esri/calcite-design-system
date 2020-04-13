@@ -31,35 +31,35 @@
 
           <calcite-label scale="xs">
             Scale xs
-            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf" >
+            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf">
             </calcite-input>
             <calcite-input-message icon active>Some information about the input</calcite-input-message>
           </calcite-label>
 
           <calcite-label scale="s">
             Scale s
-            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf" >
+            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf">
             </calcite-input>
             <calcite-input-message icon active>Some information about the input</calcite-input-message>
           </calcite-label>
 
           <calcite-label scale="m">
             Scale m
-            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf" >
+            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf">
             </calcite-input>
             <calcite-input-message icon active>Some information about the input</calcite-input-message>
           </calcite-label>
 
           <calcite-label scale="l">
             Scale l
-            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf" >
+            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf">
             </calcite-input>
             <calcite-input-message icon active>Some information about the input</calcite-input-message>
           </calcite-label>
 
           <calcite-label scale="xl">
             Scale xl
-            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf" >
+            <calcite-input value="My great value" prefix-text="pre" suffix-text="suf">
             </calcite-input>
             <calcite-input-message icon active>Some information about the input</calcite-input-message>
           </calcite-label>
@@ -80,20 +80,26 @@
               <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
             </calcite-radio-group>
           </calcite-label>
+
+
           <calcite-label layout="inline">
             Text leading inline
             <calcite-switch></calcite-switch>
           </calcite-label>
-          <calcite-label layout="inline">
+
+
+          <calcite-label layout="inline-space-between">
+           Off
             <calcite-switch></calcite-switch>
-            Text trailing inline
+            On
           </calcite-label>
 
 
+
+
           <calcite-label layout="inline">
-            Off
             <calcite-switch></calcite-switch>
-            On
+            Text trailing inline
           </calcite-label>
           <calcite-label layout="inline">
             Text leading inline
@@ -186,6 +192,8 @@
               <calcite-button slot="input-action">Go</calcite-button>
             </calcite-input>
           </calcite-label>
+
+
           <calcite-label>
             with button
             <calcite-input type="number" placeholder="0">
@@ -252,11 +260,31 @@
           </calcite-label>
 
 
+
+
+
+
+
+
+
           <calcite-label>
             Readonly
             <calcite-input readonly value="Readonly value">
             </calcite-input>
           </calcite-label>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <calcite-label>
             Readonly with prefix
@@ -379,16 +407,6 @@
           </calcite-label>
         </calcite-accordion-item>
 
-        <calcite-accordion-item item-title="Input messages and statuses - floating">
-          <calcite-notice icon scale="s" active width="full" style="margin-bottom:20px;">
-            <span slot="notice-message">
-              Use the "floating" modifier on calcite-input-message to position absolutely
-            </span>
-          </calcite-notice>
-
-
-        </calcite-accordion-item>
-
         <calcite-accordion-item item-title="Interactions with native elements">
           <calcite-notice icon scale="s" active width="full" style="margin-bottom:20px;">
             <span slot="notice-message">
@@ -477,18 +495,18 @@
           <calcite-notice width="full" id="validate-input-example-native-function-change-notice">
           </calcite-notice>
           <form name="form-input-example-3" id="form-input-example-3">
-            <calcite-label>
+            <calcite-label theme="dark">
               Create username
               <calcite-input focusIn='nativeInlineEventFocusIn()' focusOut='nativeInlineEventFocusOut()'
                 id="validate-input-example-native-function-username" placeholder="Enter username" required autofocus>
               </calcite-input>
             </calcite-label>
-            <calcite-label>
+            <calcite-label theme="dark">
               Create password
               <calcite-input id="validate-input-example-native-function-password" type="password" placeholder="•••••">
               </calcite-input>
             </calcite-label>
-            <calcite-label>
+            <calcite-label theme="dark">
               Confirm password
               <calcite-input id="validate-input-example-native-function-password-2" type="password" placeholder="•••••"
                 required>

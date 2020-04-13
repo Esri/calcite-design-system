@@ -8,7 +8,7 @@ import {
   Listen,
   Prop
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp, getElementTheme } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input",
@@ -163,6 +163,7 @@ export class CalciteInput {
 
   render() {
     const dir = getElementDir(this.el);
+    const theme = getElementTheme(this.el);
     const attributes = this.getAttributes();
     const loader = (
       <div class="calcite-input-loading">
@@ -259,7 +260,7 @@ export class CalciteInput {
       );
 
     return (
-      <Host dir={dir}>
+      <Host dir={dir} theme={theme} value={this.value}>
         <div class="calcite-input-wrapper">
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown

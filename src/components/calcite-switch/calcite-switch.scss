@@ -72,6 +72,7 @@
 :host {
   @include focus-style-base();
 }
+
 :host(:focus) {
   @include focus-style-outset();
 }
@@ -126,12 +127,7 @@
     right: -1px;
     left: auto;
     border-color: var(--calcite-switch-switched-handle-border);
-    box-shadow: $shadow-1;
   }
-}
-
-:host([switched]:focus) .track {
-  box-shadow: 0 0 6px 1px var(--calcite-switch-switched-box-shadow-color);
 }
 
 :host([switched]:hover) {

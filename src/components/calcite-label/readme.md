@@ -25,10 +25,10 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 
 | Property | Attribute | Description                                                          | Type                                              | Default     |
 | -------- | --------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
-| `layout` | `layout`  | is the wrapped element positioned inline with the label slotted text | `"default" or "inline" or "inline-space-between"` | `"default"` |
-| `scale`  | `scale`   | specify the scale of the input, defaults to m                        | `"l" or "m" or "s" or "xl" or "xs"`               | `"m"`       |
-| `status` | `status`  | specify the status of the label and any child input / input messages | `"idle" or "invalid" or "valid"`                  | `"idle"`    |
-| `theme`  | `theme`   | specify theme of the lavel and its any child input / input messages  | `"dark" or "light"`                               | `"light"`   |
+| `layout` | `layout`  | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
+| `scale`  | `scale`   | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s" \| "xl" \| "xs"`               | `"m"`       |
+| `status` | `status`  | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
+| `theme`  | `theme`   | specify theme of the lavel and its any child input / input messages  | `"dark" \| "light"`                               | `"light"`   |
 
 
 ## Events

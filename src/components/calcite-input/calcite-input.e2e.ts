@@ -108,89 +108,118 @@ describe("calcite-input", () => {
     expect(icon).toBeNull();
   });
 
-  it("renders a child textarea populated with value attribute when requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="textarea" value="Example textarea value"></calcite-input>
-    `);
-
-    const textarea = await page.find("calcite-input textarea");
-    page.waitForChanges();
-    expect(textarea).not.toBeNull();
-    const textareaContents = textarea.outerHTML;
-    console.log(textareaContents)
-    expect(textareaContents).toEqual("Example textarea value");
-  });
-
-
-
-
-
-  //
-
-
   it("renders number buttons in default vertical alignment when type=number", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input status="invalid" theme="dark"></calcite-input>
+    <calcite-input type="number"></calcite-input>
     `);
 
-    const element = await page.find("calcite-input");
-    expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
+    const numberVerticalWrapper = await page.find(
+      "calcite-input .calcite-input-number-button-wrapper"
+    );
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
+    );
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
+    );
+
+    expect(numberVerticalWrapper).not.toBeNull();
+    expect(numberHorizontalItemDown).toBeNull();
+    expect(numberHorizontalItemUp).toBeNull();
   });
 
-  it("renders number buttons in horizontal alignment when requested and type=number", async () => {
+  it("renders number buttons in horizontal vertical alignment when type=number and number button type is horizontal", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input status="invalid" theme="dark" number-button-type="horizontal"></calcite-input>
+    <calcite-input type="number" number-button-type="horizontal"></calcite-input>
     `);
 
-    const element = await page.find("calcite-input");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(icon).toBeNull();
-    expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
+    const numberVerticalWrapper = await page.find(
+      "calcite-input .calcite-input-number-button-wrapper"
+    );
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
+    );
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
+    );
+
+    expect(numberVerticalWrapper).toBeNull();
+    expect(numberHorizontalItemDown).not.toBeNull();
+    expect(numberHorizontalItemUp).not.toBeNull();
   });
 
-  it("renders no buttons in horizontal alignment when requested and type=number", async () => {
+  it("renders no buttons in type=number and number button type is none", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input status="invalid" theme="dark" number-button-type="none"></calcite-input>
+    <calcite-input type="number" number-button-type="none"></calcite-input>
     `);
 
-    const element = await page.find("calcite-input");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(icon).toBeNull();
-    expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
+    const numberVerticalWrapper = await page.find(
+      "calcite-input .calcite-input-number-button-wrapper"
+    );
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
+    );
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
+    );
+
+    expect(numberVerticalWrapper).toBeNull();
+    expect(numberHorizontalItemDown).toBeNull();
+    expect(numberHorizontalItemUp).toBeNull();
   });
+
+  //
 
   it("correctly increment and decrements value when number buttons are clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input status="invalid" theme="dark"></calcite-input>
+    <calcite-input type="number" value="3"></calcite-input>
     `);
 
     const element = await page.find("calcite-input");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(icon).toBeNull();
-    expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+    );
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+    );
+    expect(element.getAttribute("value")).toBe("3");
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("2");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("3");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("4");
   });
-
-  it("renders a slotted input-action when provided", async () => {
+  it("correctly increment and decrements value when number buttons are clicked and step is set", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input status="invalid" theme="dark" number-button-type="none">
-    <calcite-button slot="input-action>Submit</calcite-button>
-    </calcite-input>
+    <calcite-input type="number" step="10" value="15"></calcite-input>
     `);
 
     const element = await page.find("calcite-input");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(icon).toBeNull();
-    expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
+
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+    );
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+    );
+    expect(element.getAttribute("value")).toBe("15");
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("5");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("15");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("25");
   });
 });

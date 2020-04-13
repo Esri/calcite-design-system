@@ -6,14 +6,14 @@ import {
   Host,
   h,
   Prop,
-  Listen
+  Listen,
 } from "@stencil/core";
 import { getElementDir, getElementTheme } from "../../utils/dom";
 
 @Component({
   tag: "calcite-label",
   styleUrl: "calcite-label.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteLabel {
   //--------------------------------------------------------------------------
@@ -69,12 +69,11 @@ export class CalciteLabel {
 
   componentDidLoad() {
     this.requestedInputId = this.el.getAttribute("for");
-   /* this.requestedSlottedContent = this.el.shadowRoot
-      .querySelector("slot")
-      .assignedNodes();
-      */
-    // console.log(this.requestedSlottedContent);
-    // this.displayedSlottedContent = this.handleSlottedContent();
+    if (this.layout === "inline" || this.layout === "inline-space-between") {
+      this.displayedSlottedContent = this.handleSlottedContent();
+      this.slottedContent.innerHTML = "";
+      this.slottedContent.append(...this.displayedSlottedContent);
+    }
   }
 
   render() {
@@ -83,7 +82,7 @@ export class CalciteLabel {
     const theme = getElementTheme(this.el);
     return (
       <Host theme={theme} dir={dir}>
-        <label {...attributes}>
+        <label {...attributes} ref={(el) => (this.slottedContent = el)}>
           <slot />
         </label>
       </Host>
@@ -95,7 +94,7 @@ export class CalciteLabel {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
+  private slottedContent;
   @Listen("click") handleClick(e) {
     // don't refocus the input if the click occurs on a slotted input action
     // defer to slider click events if the click occurs on a calcite-slider
@@ -124,11 +123,8 @@ export class CalciteLabel {
   /** the input requested with the for attribute */
   private requestedInputId: string;
 
-  /** the slotted content as requested in the DOM */
- // private requestedSlottedContent: Node[];
-
   /** the slotted content after it has been interpreted */
-  // private displayedSlottedContent: any[];
+  private displayedSlottedContent: HTMLElement[];
 
   //--------------------------------------------------------------------------
   //
@@ -136,7 +132,7 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  // todo cleanup this mess
+  // todo cleanup
   private focusChildEl() {
     if (this.requestedInputId) {
       this.emitSelectedItem();
@@ -159,32 +155,41 @@ export class CalciteLabel {
       this.el.querySelector("input").focus();
     }
   }
-  /*
+
+  // wrap slotted text nodes in span to handle spacing of inline and inline space between layout
   private handleSlottedContent() {
     let nodeList = [];
-    this.requestedSlottedContent.forEach(function(item) {
-      let nodeToPush;
-      if (item.nodeName === "#text" && item.textContent.trim().length > 0) {
-        nodeToPush = (<span>{item.textContent.trim()}</span> as HTMLSpanElement);
-      } else if (item.nodeName !== "#text") {
-        nodeToPush = item;
-      }
-      if (!!nodeToPush) nodeList.push(nodeToPush);
-    });
+    let requestedSlottedContent = this.el.shadowRoot.querySelector("slot")
+      ? (this.el.shadowRoot
+          .querySelector("slot")
+          .assignedNodes({ flatten: true }) as HTMLElement[])
+      : null;
+    // iterate over slotted nodes and wrap text nodes in span
+    if (requestedSlottedContent) {
+      requestedSlottedContent.forEach(function (item) {
+        let node =
+          item.nodeName === "#text" && item.textContent.trim().length > 0
+            ? `<span class="calcite-label-text">${item.textContent.trim()}</span>`
+            : item.nodeName !== "#text"
+            ? item
+            : null;
+        if (node) nodeList.push(node);
+      });
+    }
     return nodeList;
   }
-*/
+
   private emitSelectedItem() {
     this.calciteLabelSelectedEvent.emit({
-      requestedInput: this.requestedInputId
+      requestedInput: this.requestedInputId,
     });
   }
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = ["status", "layout", "theme"];
+    let props = ["layout", "theme", "scale", "status"];
     return Array.from(this.el.attributes)
-      .filter(a => a && !props.includes(a.name))
+      .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 }

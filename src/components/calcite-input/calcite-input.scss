@@ -1,3 +1,4 @@
+
 // temporary hardcoded values until new font scale and padding is added to calcite-base
 calcite-input[scale="xs"] {
   & textarea,
@@ -46,6 +47,7 @@ calcite-input[scale="xl"] {
   }
 }
 
+:host input,
 calcite-input textarea,
 calcite-input input {
   display: inline-flex;
@@ -60,6 +62,7 @@ calcite-input input {
   transition: $transition, height 0s;
   box-shadow: 0 0 0 0 transparent;
   outline: 0;
+  margin: 0;
   background-color: var(--calcite-ui-foreground);
   color: var(--calcite-ui-text-1);
   order: 3;
