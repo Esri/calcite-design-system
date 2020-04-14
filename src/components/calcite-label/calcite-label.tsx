@@ -132,7 +132,7 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  // todo cleanup
+  // take unique action on calcite child controls if present
   private focusChildEl() {
     if (this.requestedInputId) {
       this.emitSelectedItem();
@@ -167,13 +167,18 @@ export class CalciteLabel {
     // iterate over slotted nodes and wrap text nodes in span
     if (requestedSlottedContent) {
       requestedSlottedContent.forEach(function (item) {
-        let node =
-          item.nodeName === "#text" && item.textContent.trim().length > 0
-            ? `<span class="calcite-label-text">${item.textContent.trim()}</span>`
-            : item.nodeName !== "#text"
-            ? item
-            : null;
-        if (node) nodeList.push(node);
+        console.log(item.nodeName)
+        if (item.nodeName === "CALCITE-INPUT") {
+          nodeList.push(item as HTMLCalciteInputElement);
+        }
+        else if (item.nodeName === "#text" && item.textContent.trim().length > 0) {
+          const node = document.createElement("span");
+          node.classList.add("calcite-label-text");
+          node.innerHTML = item.textContent.trim();
+          nodeList.push(node);
+        } else if (item.nodeName !== "#text") {
+          nodeList.push(item);
+        }
       });
     }
     return nodeList;

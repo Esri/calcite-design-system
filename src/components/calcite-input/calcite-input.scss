@@ -47,7 +47,7 @@ calcite-input[scale="xl"] {
   }
 }
 
-:host input,
+
 calcite-input textarea,
 calcite-input input {
   display: inline-flex;
@@ -58,6 +58,7 @@ calcite-input input {
   min-width: 20%;
   flex: 1;
   box-sizing: border-box;
+  -webkit-appearance: none;
   font-family: inherit;
   transition: $transition, height 0s;
   box-shadow: 0 0 0 0 transparent;
@@ -67,9 +68,12 @@ calcite-input input {
   color: var(--calcite-ui-text-1);
   order: 3;
   font-weight: 400;
-  line-height: 1;
 }
 
+
+calcite-input input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
 //focus
 calcite-input textarea,
 calcite-input input {
@@ -372,11 +376,11 @@ calcite-input textarea::-webkit-resizer {
 .calcite-input-resize-icon {
   position: absolute;
   z-index: 1;
-  bottom: 10px;
-  right: 10px;
+  bottom: 4px;
+  right: 4px;
   pointer-events: none;
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   transform: rotate(-45deg);
 }
 

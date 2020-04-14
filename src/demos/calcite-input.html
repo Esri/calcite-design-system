@@ -87,9 +87,13 @@
             <calcite-switch></calcite-switch>
           </calcite-label>
 
-
+          <calcite-label layout="inline">
+            Off
+            <calcite-switch></calcite-switch>
+            On
+          </calcite-label>
           <calcite-label layout="inline-space-between">
-           Off
+            Off
             <calcite-switch></calcite-switch>
             On
           </calcite-label>
@@ -104,6 +108,10 @@
           <calcite-label layout="inline">
             Text leading inline
             <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+          <calcite-label>
+            Focus slider test
+            <calcite-slider></calcite-slider>
           </calcite-label>
           <calcite-label>
             Focus slider test
@@ -136,27 +144,6 @@
           </calcite-label>
         </calcite-accordion-item>
         <calcite-accordion-item item-title="Input types">
-          <calcite-label layout="inline">
-            Text input inline
-            <calcite-input icon type="text" placeholder="John Doe"></calcite-input>
-          </calcite-label>
-          <calcite-label layout="inline">
-            <calcite-input icon type="text" placeholder="John Doe"></calcite-input>
-            Text input inline trailing
-          </calcite-label>
-          <calcite-label layout="inline-space-between">
-            Inline space between label
-            <calcite-input type="text" placeholder="John Doe"></calcite-input>
-          </calcite-label>
-          <calcite-label layout="inline-space-between">
-
-            <calcite-input type="text" placeholder="John Doe"></calcite-input>
-            Inline space between label
-          </calcite-label>
-          <calcite-label layout="inline-space-between">
-            Inline space between label that might wrap to multiple lines
-            <calcite-input type="text" placeholder="John Doe"></calcite-input>
-          </calcite-label>
           <calcite-label>
             Textarea empty input
             <calcite-input type="textarea" placeholder="How was your day?"></calcite-input>
@@ -167,9 +154,6 @@
             <calcite-input type="textarea" placeholder="How was your day?">Here I am with some text
             </calcite-input>
           </calcite-label>
-
-
-
           <calcite-label>
             Number input - default type vertical
             <calcite-input type="number" placeholder="How many apples?"></calcite-input>
@@ -356,9 +340,10 @@
           </calcite-label>
 
           <calcite-label>
-            Search input
+            Search with icon
             <calcite-input icon type="search" placeholder="Filter your files"></calcite-input>
           </calcite-label>
+
 
         </calcite-accordion-item>
 
@@ -395,7 +380,7 @@
 
           <calcite-label status="invalid">
             Invalid input with icon
-            <calcite-input type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
+            <calcite-input type="search" placeholder="Filter your files" value="adfo2h2" icon></calcite-input>
             <calcite-input-message icon active>Something doesn't look right with that that may wrap to multiple lines
               of message</calcite-input-message>
           </calcite-label>

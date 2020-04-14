@@ -254,7 +254,6 @@ export class CalciteInput {
           <calcite-icon
             icon="chevron-down"
             class="calcite-input-resize-icon"
-            filled
           ></calcite-icon>
         ]
       );
