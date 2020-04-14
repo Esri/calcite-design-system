@@ -10,19 +10,69 @@
   <link rel="stylesheet" href="../build/calcite.css" />
   <script type="module" src="../build/calcite.esm.js"></script>
   <script nomodule src="../build/calcite.js"></script>
+  <style>
+    .demo-background-dark {
+      background: #2b2b2b;
+      color: white;
+      padding: 1rem;
+    }
+    .demo-spaced {
+      margin: 8px 0;
+    }
+  </style>
 </head>
 
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Pagination</h1>
+
   <h2>Basic</h2>
-  <calcite-pagination></calcite-pagination>
-  <h2>Dark Theme</h2>
-  <calcite-pagination theme="dark"></calcite-pagination>
-  <h2>Many pages - BackgroundColor Background Style</h2>
-  <calcite-pagination total="10" background-style="backgroundColor"></calcite-pagination>
-  <h2>4 Digit Numbers</h2>
-  <calcite-pagination total="2000" num="1995"></calcite-pagination>
+  <div class="demo-spaced">
+    <calcite-pagination total="46" num="10"></calcite-pagination>
+  </div>
+
+  <div class="demo-background-dark">
+    <h2>Dark Theme</h2>
+    <calcite-pagination total="46" num="10" theme="dark"></calcite-pagination>
+  </div>
+
+  <h2>Many pages, ellipsis examples</h2>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="101"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="201"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="301"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="401"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="501"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="601"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="701"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="801"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="901"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="1001"></calcite-pagination>
+  </div>
+  <div class="demo-spaced">
+    <calcite-pagination total="1200" num="100" start="1101"></calcite-pagination>
+  </div>
 </body>
 
 </html>
