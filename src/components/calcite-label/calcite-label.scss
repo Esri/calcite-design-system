@@ -1,3 +1,9 @@
+//ie11 fixes
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+// temporary hardcoded values until new font scale and padding is added to calcite-base
 :host([scale="xs"]) label {
   font-size: 10px;
   --calcite-label-spacing-value: 8px;
@@ -29,7 +35,6 @@
   flex-direction: column;
   position: relative;
   text-align: left;
-  margin: 0 0 $baseline 0;
 }
 
 :host([dir="rtl"]) {
@@ -42,6 +47,7 @@
   flex-direction: column;
   font-weight: 500;
   cursor: pointer;
+  margin: 0 0 $baseline 0;
 }
 
 :host([layout="inline"]) label {
@@ -64,8 +70,8 @@
   & .calcite-label-text:last-child {
     margin-left: $baseline/2;
   }
-}
 
+}
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-red-1),
   "valid" var(--calcite-ui-text-2), "idle" var(--calcite-ui-text-2);

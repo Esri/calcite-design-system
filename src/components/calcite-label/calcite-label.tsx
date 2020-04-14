@@ -163,19 +163,16 @@ export class CalciteLabel {
       ? (this.el.shadowRoot
           .querySelector("slot")
           .assignedNodes({ flatten: true }) as HTMLElement[])
-      : null;
+      : this.el.childNodes;
     // iterate over slotted nodes and wrap text nodes in span
     if (requestedSlottedContent) {
       requestedSlottedContent.forEach(function (item) {
-        console.log(item.nodeName)
-        if (item.nodeName === "CALCITE-INPUT") {
-          nodeList.push(item as HTMLCalciteInputElement);
-        }
-        else if (item.nodeName === "#text" && item.textContent.trim().length > 0) {
+         if (item.nodeName === "#text" && item.textContent.trim().length > 0) {
           const node = document.createElement("span");
           node.classList.add("calcite-label-text");
+          node.classList.add("sc-calcite-label");
           node.innerHTML = item.textContent.trim();
-          nodeList.push(node);
+          nodeList.push(node as HTMLSpanElement);
         } else if (item.nodeName !== "#text") {
           nodeList.push(item);
         }

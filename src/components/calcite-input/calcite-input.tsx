@@ -182,7 +182,7 @@ export class CalciteInput {
         onMouseDown={this.updateNumberValue}
         data-adjustment="up"
       >
-        <calcite-icon icon="chevron-up"></calcite-icon>
+        <calcite-icon theme={this.theme} icon="chevron-up"></calcite-icon>
       </div>
     );
 
@@ -192,7 +192,7 @@ export class CalciteInput {
         onMouseDown={this.updateNumberValue}
         data-adjustment="down"
       >
-        <calcite-icon icon="chevron-down"></calcite-icon>
+        <calcite-icon theme={this.theme} icon="chevron-down"></calcite-icon>
       </div>
     );
 
@@ -211,6 +211,7 @@ export class CalciteInput {
       <calcite-icon
         class="calcite-input-icon"
         scale={iconScale}
+        theme={this.theme}
         icon={this.icon as string}
       ></calcite-icon>
     );
