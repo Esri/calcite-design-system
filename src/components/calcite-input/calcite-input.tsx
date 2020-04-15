@@ -6,14 +6,18 @@ import {
   EventEmitter,
   h,
   Listen,
-  Prop
+  Prop,
 } from "@stencil/core";
-import { getElementDir, getElementProp, getElementTheme } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  getElementTheme,
+} from "../../utils/dom";
 
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
-  shadow: false
+  shadow: false,
 })
 export class CalciteInput {
   //--------------------------------------------------------------------------
@@ -37,7 +41,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) loading: boolean = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl";
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l";
 
   /** specify the alignment of the value of the input */
   @Prop({ mutable: true, reflect: true }) alignment: "start" | "end" = "start";
@@ -104,7 +108,7 @@ export class CalciteInput {
     if (!theme.includes(this.theme))
       this.theme = getElementProp(this.el.parentElement, "theme", "light");
 
-    let scale = ["xs", "s", "m", "l", "xl"];
+    let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale))
       this.scale = getElementProp(this.el.parentElement, "scale", "m");
 
@@ -127,7 +131,7 @@ export class CalciteInput {
       "textarea",
       "time",
       "url",
-      "week"
+      "week",
     ];
     if (!type.includes(this.type)) this.type = "text";
 
@@ -157,7 +161,7 @@ export class CalciteInput {
   componentWillUpdate() {
     this.calciteInputChange.emit({
       element: this.childEl as HTMLInputElement,
-      value: this.value
+      value: this.value,
     });
   }
 
@@ -202,10 +206,7 @@ export class CalciteInput {
         {numberButtonsHorizontalDown}
       </div>
     );
-    const iconScale =
-      this.scale === "xs" || this.scale === "s" || this.scale === "m"
-        ? "s"
-        : "m";
+    const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
 
     const iconEl = (
       <calcite-icon
@@ -235,7 +236,7 @@ export class CalciteInput {
           {...attributes}
           onBlur={() => this.inputBlurHandler()}
           onFocus={() => this.inputFocusHandler()}
-          onInput={e => this.inputChangeHandler(e)}
+          onInput={(e) => this.inputChangeHandler(e)}
           value={this.value}
           required={this.required ? true : null}
           autofocus={this.autofocus ? true : null}
@@ -246,7 +247,7 @@ export class CalciteInput {
             {...attributes}
             onBlur={() => this.inputBlurHandler()}
             onFocus={() => this.inputFocusHandler()}
-            onInput={e => this.inputChangeHandler(e)}
+            onInput={(e) => this.inputChangeHandler(e)}
             required={this.required ? true : null}
             autofocus={this.autofocus ? true : null}
           >
@@ -255,7 +256,7 @@ export class CalciteInput {
           <calcite-icon
             icon="chevron-down"
             class="calcite-input-resize-icon"
-          ></calcite-icon>
+          ></calcite-icon>,
         ]
       );
 
@@ -330,7 +331,7 @@ export class CalciteInput {
     email: "send",
     date: "calendar",
     time: "clock",
-    search: "search"
+    search: "search",
   };
 
   private focusChildEl() {
@@ -341,21 +342,21 @@ export class CalciteInput {
     this.value = e.target.value;
     this.calciteInputChange.emit({
       element: this.childEl as HTMLInputElement,
-      value: this.value
+      value: this.value,
     });
   }
 
   private inputBlurHandler() {
     this.calciteInputBlur.emit({
       element: this.childEl as HTMLInputElement,
-      value: this.value
+      value: this.value,
     });
   }
 
   private inputFocusHandler() {
     this.calciteInputFocus.emit({
       element: this.childEl as HTMLInputElement,
-      value: this.value
+      value: this.value,
     });
   }
 
@@ -367,15 +368,15 @@ export class CalciteInput {
       "scale",
       "status",
       "theme",
-      "number-button-type"
+      "number-button-type",
     ];
     return Array.from(this.el.attributes)
-      .filter(a => a && !props.includes(a.name))
+      .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   //todo cleanup
-  private updateNumberValue = e => {
+  private updateNumberValue = (e) => {
     // prevent blur and re-focus of input on mousedown
     e.preventDefault();
     if (this.type === "number") {

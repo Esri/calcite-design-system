@@ -4,29 +4,19 @@
 }
 
 // temporary hardcoded values until new font scale and padding is added to calcite-base
-:host([scale="xs"]) label {
+:host([scale="s"]) label {
   font-size: 10px;
   --calcite-label-spacing-value: 8px;
 }
 
-:host([scale="s"]) label {
-  font-size: 12px;
+:host([scale="m"]) label {
+  font-size: 14px;
   --calcite-label-spacing-value: 12px;
 }
 
-:host([scale="m"]) label {
-  font-size: 14px;
-  --calcite-label-spacing-value: 16px;
-}
-
 :host([scale="l"]) label {
-  font-size: 16px;
-  --calcite-label-spacing-value: 20px;
-}
-
-:host([scale="xl"]) label {
   font-size: 18px;
-  --calcite-label-spacing-value: 24px;
+  --calcite-label-spacing-value: 16px;
 }
 
 // padding for children variable
@@ -70,7 +60,6 @@
   & .calcite-label-text:last-child {
     margin-left: $baseline/2;
   }
-
 }
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-red-1),

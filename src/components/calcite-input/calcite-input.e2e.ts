@@ -41,7 +41,7 @@ describe("calcite-input", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input status="invalid" theme="dark" alignment="end" number-button-type="none" type="number" scale="xs"></calcite-input>
+    <calcite-input status="invalid" theme="dark" alignment="end" number-button-type="none" type="number" scale="s"></calcite-input>
     `);
 
     const element = await page.find("calcite-input");
@@ -50,7 +50,7 @@ describe("calcite-input", () => {
     expect(element).toEqualAttribute("alignment", "end");
     expect(element).toEqualAttribute("number-button-type", "none");
     expect(element).toEqualAttribute("type", "number");
-    expect(element).toEqualAttribute("scale", "xs");
+    expect(element).toEqualAttribute("scale", "s");
   });
 
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {

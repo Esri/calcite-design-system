@@ -1,22 +1,11 @@
-//ie11 fixes
-
 // temporary hardcoded values until new font scale and padding is added to calcite-base
-calcite-input[scale="xs"] {
-  & textarea,
-  & input,
-  & .calcite-input-prefix,
-  & .calcite-input-suffix {
-    padding: 4px;
-    font-size: 12px;
-  }
-}
 calcite-input[scale="s"] {
   & textarea,
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
     padding: 8px;
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 calcite-input[scale="m"] {
@@ -34,20 +23,9 @@ calcite-input[scale="l"] {
   & .calcite-input-prefix,
   & .calcite-input-suffix {
     padding: 16px;
-    font-size: 18px;
-  }
-}
-
-calcite-input[scale="xl"] {
-  & textarea,
-  & input,
-  & .calcite-input-prefix,
-  & .calcite-input-suffix {
-    padding: 20px;
     font-size: 20px;
   }
 }
-
 
 calcite-input textarea,
 calcite-input input {
@@ -70,7 +48,6 @@ calcite-input input {
   order: 3;
   font-weight: 400;
 }
-
 
 calcite-input input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;

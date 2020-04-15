@@ -1,27 +1,17 @@
 // theme variables
-:host([scale="xs"]) {
-  font-size: 10px;
-  --calcite-input-message-spacing-value: 4px;
-}
-
 :host([scale="s"]) {
   font-size: 12px;
-  --calcite-input-message-spacing-value: 8px;
+  --calcite-input-message-spacing-value: 4px;
 }
 
 :host([scale="m"]) {
   font-size: 14px;
-  --calcite-input-message-spacing-value: 12px;
+  --calcite-input-message-spacing-value: 8px;
 }
 
 :host([scale="l"]) {
   font-size: 16px;
-  --calcite-input-message-spacing-value: 16px;
-}
-
-:host([scale="xl"]) {
-  font-size: 18px;
-  --calcite-input-message-spacing-value: 20px;
+  --calcite-input-message-spacing-value: 12px;
 }
 
 :host {
@@ -53,7 +43,7 @@
   opacity: 1;
   height: auto;
   visibility: visible;
-  margin-top: var(--calcite-input-message-spacing-value)
+  margin-top: var(--calcite-input-message-spacing-value);
 }
 
 :host([type="floating"]) {
@@ -79,6 +69,7 @@
 
 .calcite-input-message-icon {
   display: inline-flex;
+  flex-shrink: 0;
   pointer-events: none;
   transition: $transition;
   margin: 0 $baseline/2 0 0;

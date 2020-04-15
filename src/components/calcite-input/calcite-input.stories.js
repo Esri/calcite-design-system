@@ -16,7 +16,7 @@ storiesOf("Input", module)
       ["idle", "valid", "invalid"],
       "idle"
     )}"
-    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
     >
     ${text("label text", "My great label")}
     <calcite-input
@@ -75,7 +75,7 @@ storiesOf("Input", module)
       "idle",
       "Label"
     )}"
-    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m", "Label")}">
+    scale="${select("scale", ["s", "m", "l"], "m", "Label")}">
     ${text("label text", "My great label", "Label")}
     <calcite-input
       type="${select(
@@ -140,7 +140,7 @@ storiesOf("Input", module)
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input
-      scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
       type="${select(
         "type",
@@ -185,7 +185,7 @@ storiesOf("Input", module)
       ["idle", "valid", "invalid"],
       "idle"
     )}"
-    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
     >
     ${text("label text", "My great label")}
     <calcite-input

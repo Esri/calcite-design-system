@@ -35,8 +35,7 @@ export class CalciteLabel {
     "idle";
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
-    "m";
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify theme of the lavel and its any child input / input messages */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
@@ -63,7 +62,7 @@ export class CalciteLabel {
     let theme = ["light", "dark"];
     if (!theme.includes(this.theme)) this.theme = "light";
 
-    let scale = ["xs", "s", "m", "l", "xl"];
+    let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
@@ -163,7 +162,7 @@ export class CalciteLabel {
     // iterate over slotted nodes and wrap text nodes in span
     if (requestedSlottedContent) {
       requestedSlottedContent.forEach(function (item) {
-         if (item.nodeName === "#text" && item.textContent.trim().length > 0) {
+        if (item.nodeName === "#text" && item.textContent.trim().length > 0) {
           const node = document.createElement("span");
           node.classList.add("calcite-label-text");
           node.classList.add("sc-calcite-label");
