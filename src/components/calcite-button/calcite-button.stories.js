@@ -16,7 +16,7 @@ storiesOf("Button", module)
     <calcite-button
       appearance="${select(
         "appearance",
-        ["solid", "clear", "inline", "outline", "transparent"],
+        ["solid", "clear", "outline", "transparent"],
         "solid"
       )}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
@@ -38,7 +38,7 @@ storiesOf("Button", module)
     <calcite-button
       appearance="${select(
         "appearance",
-        ["solid", "clear", "inline", "outline", "transparent"],
+        ["solid", "clear", "outline", "transparent"],
         "solid"
       )}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
@@ -77,7 +77,7 @@ storiesOf("Button", module)
     width="half"
     appearance="${select(
       "appearance",
-      ["solid", "clear", "inline", "outline", "transparent"],
+      ["solid", "clear", "outline", "transparent"],
       "outline"
     )}"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}">
@@ -87,7 +87,7 @@ storiesOf("Button", module)
     width="half"
     appearance="${select(
       "appearance-2",
-      ["solid", "clear", "inline", "outline", "transparent"],
+      ["solid", "clear", "outline", "transparent"],
       "solid"
     )}"
     color="${select("color-2", ["blue", "red", "dark", "light"], "blue")}"
@@ -180,7 +180,7 @@ storiesOf("Button", module)
     theme="dark"
     appearance="${select(
       "appearance",
-      ["solid", "clear", "inline", "outline", "transparent"],
+      ["solid", "clear", "outline", "transparent"],
       "solid"
     )}"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"

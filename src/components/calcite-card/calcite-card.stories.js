@@ -33,8 +33,8 @@ storiesOf("Card", module)
     <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
     <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
       overly verbose.</span>
-      <calcite-button appearance="inline" theme="dark" slot="footer-leading">Lead footer</calcite-button>
-      <calcite-button appearance="inline" theme="dark" slot="footer-trailing">Trail footer</calcite-button>
+      <calcite-link theme="dark" slot="footer-leading">Lead footer</calcite-link>
+      <calcite-link theme="dark" slot="footer-trailing">Trail footer</calcite-link>
       </calcite-card>
     </div>
   `,
@@ -68,8 +68,8 @@ storiesOf("Card", module)
       <h3 slot="title">My perhaps multiline card title</h3>
       <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
       overly verbose.</span>
-      <calcite-button appearance="inline" theme="dark" slot="footer-leading">Lead footer</calcite-button>
-      <calcite-button appearance="inline" theme="dark" slot="footer-trailing">Trail footer</calcite-button>
+      <calcite-link theme="dark" slot="footer-leading">Lead footer</calcite-link>
+      <calcite-link theme="dark" slot="footer-trailing">Trail footer</calcite-link>
     </calcite-card>
   </div>
     `,
@@ -113,7 +113,7 @@ storiesOf("Card", module)
         <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
         <h3 slot="title">Portland Businesses</h3>
         <span slot="subtitle">by
-          <calcite-button appearance="inline" href="">example_user</calcite-button>
+          <calcite-link href="">example_user</calcite-button>
         </span>
         <div>
           Created: Apr 22, 2019
@@ -175,8 +175,8 @@ storiesOf("Card", module)
     <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
     <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
       overly verbose.</span>
-      <calcite-button theme="dark" appearance="inline" theme="dark" slot="footer-leading">Lead footer</calcite-button>
-      <calcite-button theme="dark" appearance="inline" theme="dark" slot="footer-trailing">Trail footer</calcite-button>
+      <calcite-link theme="dark" theme="dark" slot="footer-leading">Lead footer</calcite-link>
+      <calcite-link theme="dark" theme="dark" slot="footer-trailing">Trail footer</calcite-link>
       </calcite-card>
     </div>
   `,
@@ -212,8 +212,8 @@ storiesOf("Card", module)
       <h3 slot="title">My perhaps multiline card title</h3>
       <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
       overly verbose.</span>
-      <calcite-button theme="dark" appearance="inline" theme="dark" slot="footer-leading">Lead footer</calcite-button>
-      <calcite-button theme="dark" appearance="inline" theme="dark" slot="footer-trailing">Trail footer</calcite-button>
+      <calcite-link theme="dark" slot="footer-leading">Lead footer</calcite-link>
+      <calcite-link theme="dark" slot="footer-trailing">Trail footer</calcite-link>
     </calcite-card>
   </div>
     `,
@@ -259,7 +259,7 @@ storiesOf("Card", module)
         <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
         <h3 slot="title">Portland Businesses</h3>
         <span slot="subtitle">by
-          <calcite-button theme="dark" appearance="inline" href="">example_user</calcite-button>
+          <calcite-link theme="dark" href="">example_user</calcite-link>
         </span>
         <div>
           Created: Apr 22, 2019

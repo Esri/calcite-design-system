@@ -12,8 +12,6 @@
   --calcite-button-dark: #{$blk-180};
   --calcite-button-dark-hover: #{$blk-170};
   --calcite-button-dark-press: #{$blk-190};
-  --calcite-button-blue-inline-underline: #{rgba($ui-blue-1, 0.2)};
-  --calcite-button-red-inline-underline: #{rgba($ui-red-1, 0.2)};
   --calcite-button-blue-solid-color: #{$blk-000};
   --calcite-button-red-solid-color: #{$blk-000};
   --calcite-button-outline-color: #{$blk-230};
@@ -21,7 +19,7 @@
 }
 
 // dark theme
-:host-context([theme="dark"]) {
+:host([theme="dark"]) {
   --calcite-blue-accessible: #{$d-bb-420};
   --calcite-red-accessible: #{$d-rr-420};
   --calcite-button-light: #{$blk-020};
@@ -30,17 +28,10 @@
   --calcite-button-dark: #{$blk-180};
   --calcite-button-dark-hover: #{$blk-190};
   --calcite-button-dark-press: #{$blk-170};
-  --calcite-button-blue-inline-underline: #{rgba($ui-blue-3, 0.2)};
-  --calcite-button-red-inline-underline: #{rgba($ui-red-3, 0.2)};
   --calcite-button-blue-solid-color: #{$blk-230};
   --calcite-button-red-solid-color: #{$blk-230};
   --calcite-button-outline-color: #{$blk-000};
   --calcite-button-outline-color-press: #{$blk-000};
-}
-
-// inline parent
-:host([appearance="inline"]) {
-  display: inline;
 }
 
 // fab variants
@@ -161,25 +152,6 @@
 :host([hastext][icon-position="end"][dir="rtl"]) .calcite-button--icon {
   margin-left: 0;
   margin-right: $baseline/3;
-}
-
-:host([appearance="inline"][icon-position="start"]) .calcite-button--icon {
-  margin-right: $baseline/4;
-}
-
-:host([appearance="inline"][icon-position="start"][dir="rtl"])
-  .calcite-button--icon {
-  margin-left: $baseline/4;
-  margin-right: 0;
-}
-
-:host([appearance="inline"][icon-position="end"]) .calcite-button--icon {
-  margin-left: $baseline/4;
-}
-:host([appearance="inline"][icon-position="end"][dir="rtl"])
-  .calcite-button--icon {
-  margin-left: 0;
-  margin-right: $baseline/4;
 }
 
 .calcite-button--loader {
@@ -610,90 +582,12 @@
   }
 }
 
-// inline
-@mixin btn-inline($color, $color-hover, $border-color) {
-  display: inline;
-  padding: 0;
-  outline: none;
-  border: none;
-  color: $color;
-  font-weight: 500;
-  font-size: inherit;
-  line-height: inherit;
-  white-space: initial;
-  user-select: text;
-  background-color: transparent;
-  position: relative;
-  background-image: linear-gradient(currentColor, currentColor),
-    linear-gradient($border-color, $border-color);
-  background-position: 0% 100%, 100% 100%;
-  background-repeat: no-repeat, no-repeat;
-  background-size: 0% 1px, 100% 1px;
-  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
-
-  &:hover,
-  &:focus {
-    color: $color-hover;
-    background-size: 100% 1px, 100% 1px;
-    & .calcite-button--icon {
-      fill: $color-hover;
-    }
-  }
-  &:active {
-    color: $color;
-    background-size: 100% 1px, 100% 1px;
-  }
-  & calcite-loader {
-    color: $color;
-  }
-}
-
-:host([appearance="inline"][color="blue"]) {
-  span,
-  a {
-    @include btn-inline(
-      var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-2),
-      var(--calcite-button-blue-inline-underline)
-    );
-  }
-}
-
-:host([appearance="inline"][color="red"]) {
-  span,
-  a {
-    @include btn-inline(
-      var(--calcite-red-accessible),
-      var(--calcite-ui-red-2),
-      var(--calcite-button-red-inline-underline)
-    );
-  }
-}
-:host([appearance="inline"][color="light"]) {
-  span,
-  a {
-    @include btn-inline($blk-010, $blk-000, rgba($blk-000, 0.2));
-  }
-}
-:host([appearance="inline"][color="dark"]) {
-  span,
-  a {
-    @include btn-inline($blk-200, $blk-180, rgba($blk-180, 0.2));
-  }
-}
-:host([appearance="inline"][dir="rtl"]) {
-  span,
-  a {
-    background-position: 100% 100%, 100% 100%;
-  }
-}
-
 // generate button scales
 $btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3),
   "s" -2 calc(#{$baseline}/ 4) calc(#{$baseline}* 0.5),
   "m" -1 calc(#{$baseline}/ 3) calc(#{$baseline}* 0.75),
-  "l" 1 calc(#{$baseline} / 2) calc(#{$baseline}* 1),
-  "xl" 2 calc(#{$baseline} / 1.5) calc(#{$baseline}* 1.25);
+  "l" 0 calc(#{$baseline} / 2) calc(#{$baseline}* 1),
+  "xl" 1 calc(#{$baseline} / 1.5) calc(#{$baseline}* 1.25);
 
 @each $btnScale in $btnScales {
   $name: nth($btnScale, 1);
@@ -701,16 +595,16 @@ $btnScales: "xs" -3 calc(#{$baseline}/ 6) calc(#{$baseline}* 0.3),
   $padding-y: nth($btnScale, 3);
   $padding-x: nth($btnScale, 4);
 
-  :host([hastext][scale="#{$name}"]:not([appearance="inline"])) button,
-  :host([hastext][scale="#{$name}"]:not([appearance="inline"])) a {
+  :host([hastext][scale="#{$name}"]) button,
+  :host([hastext][scale="#{$name}"]) a {
     @include btn-scale($font-size, $padding-y, $padding-x);
   }
 }
 
 // generate fab scales
 $btnScales2: "xs" -3 calc(#{$baseline}* 1.5), "s" -2 calc(#{$baseline}* 1.75),
-  "m" -1 calc(#{$baseline}* 2), "l" 1 calc(#{$baseline} * 2.25),
-  "xl" 2 calc(#{$baseline} * 2.5);
+  "m" -1 calc(#{$baseline}* 2), "l" 0 calc(#{$baseline} * 2.25),
+  "xl" 1 calc(#{$baseline} * 2.5);
 
 @each $btnScale in $btnScales2 {
   $name: nth($btnScale, 1);

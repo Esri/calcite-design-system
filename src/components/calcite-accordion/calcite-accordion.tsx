@@ -6,14 +6,14 @@ import {
   h,
   Host,
   Listen,
-  Prop
+  Prop,
 } from "@stencil/core";
 import { UP, DOWN, HOME, END } from "../../utils/keys";
 
 @Component({
   tag: "calcite-accordion",
   styleUrl: "calcite-accordion.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteAccordion {
   //--------------------------------------------------------------------------
@@ -37,13 +37,15 @@ export class CalciteAccordion {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
-  @Prop({ mutable: true, reflect: true }) appearance: "default" | "minimal" | "transparent" =
-    "default";
+  @Prop({ mutable: true, reflect: true }) appearance:
+    | "default"
+    | "minimal"
+    | "transparent" = "default";
 
   /** specify the placement of the icon in the header, defaults to end */
   @Prop({ mutable: true, reflect: true }) iconPosition: "start" | "end" = "end";
 
-  /** specify the placement of the icon in the header, defaults to end */
+  /** specify the type of the icon in the header, defaults to chevron */
   @Prop({ mutable: true, reflect: true }) iconType:
     | "chevron"
     | "caret"
@@ -140,7 +142,7 @@ export class CalciteAccordion {
   ) {
     const item = {
       item: e.target as HTMLCalciteAccordionItemElement,
-      position: e.detail.position
+      position: e.detail.position,
     };
     this.items.push(item);
   }
@@ -150,7 +152,7 @@ export class CalciteAccordion {
   ) {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
     this.calciteAccordionItemHasChanged.emit({
-      requestedAccordionItem: this.requestedAccordionItem
+      requestedAccordionItem: this.requestedAccordionItem,
     });
   }
 
@@ -207,5 +209,5 @@ export class CalciteAccordion {
   }
 
   private sortItems = (items: any[]): any[] =>
-    items.sort((a, b) => a.position - b.position).map(a => a.item);
+    items.sort((a, b) => a.position - b.position).map((a) => a.item);
 }

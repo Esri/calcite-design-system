@@ -67,7 +67,10 @@ export class CalciteAccordionItem {
     const dir = getElementDir(this.el);
     return (
       <Host tabindex="0" aria-expanded={this.active.toString()} dir={dir}>
-        <div class="accordion-item-header" onClick={this.itemHeaderClickHandler}>
+        <div
+          class="accordion-item-header"
+          onClick={this.itemHeaderClickHandler}
+        >
           <div class="accordion-item-header-text">
             <span class="accordion-item-title">{this.itemTitle}</span>
             <span class="accordion-item-subtitle">{this.itemSubtitle}</span>

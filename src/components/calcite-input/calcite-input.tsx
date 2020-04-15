@@ -375,7 +375,6 @@ export class CalciteInput {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
-  //todo cleanup
   private updateNumberValue = (e) => {
     // prevent blur and re-focus of input on mousedown
     e.preventDefault();

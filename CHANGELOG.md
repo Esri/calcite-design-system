@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Breaking Changes
+
+- `calcite-button` no longer accepts `inline` as a value for `appearance` - you can instead
+
 ### Added
 
+- new component `calcite-link`
 - new `calcite-label`, `calcite-input`, and `calcite-input-message` components
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
 
@@ -375,4 +380,4 @@ First initial beta release.
 [v1.0.0-beta.3]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.2...v1.0.0-beta.3 "v1.0.0-beta.3"
 [v1.0.0-beta.2]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.1...v1.0.0-beta.2 "v1.0.0-beta.2"
 [v1.0.0-beta.1]: https://github.com/Esri/calcite-components/compare/dafb2312835ec6fef134d0d2b20aabd1dfe907cf...v1.0.0-beta.1 "v1.0.0-beta.1"
-[head]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...HEAD "Unreleased Changes"
+[head]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.21...HEAD "Unreleased Changes"

@@ -29,6 +29,7 @@ export const config: Config = {
     { components: ["calcite-input"] },
     { components: ["calcite-input-message"] },
     { components: ["calcite-label"] },
+    { components: ["calcite-link"] },
     { components: ["calcite-loader"] },
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
