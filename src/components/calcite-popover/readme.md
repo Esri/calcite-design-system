@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Manager
@@ -18,8 +17,6 @@
   ></calcite-popover-manager
 >
 ```
-
-
 
 ## Properties
 
@@ -37,7 +34,6 @@
 | `textClose`                     | `text-close`        | Text for close button.                                                                     | `string`                                                                                                                                                                                                                                                                                                          | `"Close"`               |
 | `theme`                         | `theme`             | Select theme (light or dark)                                                               | `"dark" \| "light"`                                                                                                                                                                                                                                                                                               | `undefined`             |
 
-
 ## Events
 
 | Event                 | Description                      | Type               |
@@ -45,46 +41,31 @@
 | `calcitePopoverClose` | Fired when the popover is closed | `CustomEvent<any>` |
 | `calcitePopoverOpen`  | Fired when the popover is opened | `CustomEvent<any>` |
 
-
 ## Methods
 
 ### `reposition() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `setFocus(focusId?: "close-button") => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `toggle() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
-
 
 ## Slots
 
 | Slot      | Description                                                                     |
 | --------- | ------------------------------------------------------------------------------- |
 | `"image"` | A slot for adding an image. The image will appear above the other slot content. |
-
 
 ## Dependencies
 
@@ -93,12 +74,13 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-popover --> calcite-icon
   style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

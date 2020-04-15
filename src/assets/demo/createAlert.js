@@ -6,7 +6,7 @@ function createExampleAlert(id) {
     "<div slot='alert-message'>" +
       id +
       " That thing you wanted to do didn't work as expected</div>",
-    "<calcite-button slot='alert-link' title='my action' appearance='inline'>Take action</calcite-button>",
+    "<calcite-link slot='alert-link' title='my action' appearance='inline'>Take action</calcite-link>",
     "</calcite-alert>"
   ].join("\n");
 

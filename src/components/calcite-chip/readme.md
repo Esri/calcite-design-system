@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property             | Attribute | Description                                                        | Type                                | Default     |
@@ -12,25 +11,24 @@
 | `theme`              | `theme`   | Select theme (light or dark)                                       | `"dark" \| "light"`                 | `undefined` |
 | `value` _(required)_ | `value`   |                                                                    | `string`                            | `undefined` |
 
-
 ## Events
 
 | Event                | Description | Type               |
 | -------------------- | ----------- | ------------------ |
 | `calciteChipDismiss` |             | `CustomEvent<any>` |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-combobox](../calcite-combobox)
+- [calcite-combobox](../calcite-combobox)
 
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-chip --> calcite-icon
@@ -38,6 +36,6 @@ graph TD;
   style calcite-chip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -20,8 +19,6 @@
 </calcite-tooltip-manager>
 ```
 
-
-
 ## Properties
 
 | Property                        | Attribute           | Description                                                                         | Type                                                                                                                                                                                                                                                                                                              | Default                 |
@@ -33,20 +30,14 @@
 | `referenceElement` _(required)_ | `reference-element` | Reference HTMLElement used to position this component.                              | `HTMLElement \| string`                                                                                                                                                                                                                                                                                           | `undefined`             |
 | `theme`                         | `theme`             | Select theme (light or dark)                                                        | `"dark" \| "light"`                                                                                                                                                                                                                                                                                               | `undefined`             |
 
-
 ## Methods
 
 ### `reposition() => Promise<void>`
-
-
 
 #### Returns
 
 Type: `Promise<void>`
 
+---
 
-
-
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

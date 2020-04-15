@@ -6,7 +6,6 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property      | Attribute     | Description                                              | Type                                     | Default     |
@@ -19,14 +18,12 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 | `theme`       | `theme`       | Select theme (light or dark)                             | `"dark" \| "light"`                      | `undefined` |
 | `width`       | `width`       | specify the scale of the button, defaults to m           | `"auto" \| "full" \| "half"`             | `"auto"`    |
 
-
 ## Events
 
 | Event                | Description                    | Type               |
 | -------------------- | ------------------------------ | ------------------ |
 | `calciteNoticeClose` | Fired when an notice is closed | `CustomEvent<any>` |
 | `calciteNoticeOpen`  | Fired when an Notice is opened | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -38,8 +35,6 @@ close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens 
 
 Type: `Promise<void>`
 
-
-
 ### `open() => Promise<void>`
 
 open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this
@@ -47,8 +42,6 @@ open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listen
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `setFocus() => Promise<void>`
 
@@ -58,9 +51,6 @@ focus the close button, if present and requested
 
 Type: `Promise<void>`
 
-
-
-
 ## Slots
 
 | Slot               | Description                                                                   |
@@ -69,7 +59,6 @@ Type: `Promise<void>`
 | `"notice-message"` | Main text of the notice                                                       |
 | `"notice-title"`   | Title of the notice (optional)                                                |
 
-
 ## Dependencies
 
 ### Depends on
@@ -77,12 +66,13 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-notice --> calcite-icon
   style calcite-notice fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

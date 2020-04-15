@@ -55,6 +55,7 @@ graph TD;
   calcite-date --> calcite-icon
   calcite-date-month-header --> calcite-icon
   calcite-dropdown-item --> calcite-icon
+  calcite-link --> calcite-icon
   calcite-modal --> calcite-icon
   calcite-notice --> calcite-icon
   calcite-pagination --> calcite-icon

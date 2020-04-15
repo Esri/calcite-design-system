@@ -1,4 +1,5 @@
 # calcite-stepper
+
 Calcite stepper can be used to present a stepper workflow to a user. It has configurable display options for layout (horizontal or vertical), and the ability to automatically render status icons, and step numbers.
 
 ```html
@@ -9,7 +10,11 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
   <calcite-stepper-item item-title="Compile member list" complete>
     Step 2 Content Goes Here
   </calcite-stepper-item>
-  <calcite-stepper-item item-title="Set member properties" item-subtitle="Some subtext" active>
+  <calcite-stepper-item
+    item-title="Set member properties"
+    item-subtitle="Some subtext"
+    active
+  >
     Step 3 Content Goes Here
   </calcite-stepper-item>
   <calcite-stepper-item item-title="Confirm and complete">
@@ -19,7 +24,6 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 ```
 
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -31,13 +35,11 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 | `scale`    | `scale`    | specify the scale of stepper, defaults to m             | `"l" \| "m" \| "s"`          | `"m"`          |
 | `theme`    | `theme`    | specify the theme of stepper, defaults to light         | `"dark" \| "light"`          | `"light"`      |
 
-
 ## Events
 
 | Event                          | Description | Type               |
 | ------------------------------ | ----------- | ------------------ |
 | `calciteStepperItemHasChanged` |             | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -49,8 +51,6 @@ set the last step as active
 
 Type: `Promise<void>`
 
-
-
 ### `goToStep(num: number) => Promise<void>`
 
 set the requested step as active
@@ -58,8 +58,6 @@ set the requested step as active
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `nextStep() => Promise<void>`
 
@@ -69,8 +67,6 @@ set the next step as active
 
 Type: `Promise<void>`
 
-
-
 ### `prevStep() => Promise<void>`
 
 set the previous step as active
@@ -78,8 +74,6 @@ set the previous step as active
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `startStep() => Promise<void>`
 
@@ -89,9 +83,6 @@ set the first step as active
 
 Type: `Promise<void>`
 
+---
 
-
-
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

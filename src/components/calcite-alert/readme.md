@@ -21,7 +21,6 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property              | Attribute               | Description                                                                  | Type                                     | Default                              |
@@ -37,7 +36,6 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" \| "m" \| "s"`                      | `"m"`                                |
 | `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `undefined`                          |
 
-
 ## Events
 
 | Event               | Description                   | Type               |
@@ -45,7 +43,6 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `calciteAlertClose` | Fired when an alert is closed | `CustomEvent<any>` |
 | `calciteAlertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
 | `calciteAlertSync`  | Fired when an alert is opened | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -57,8 +54,6 @@ close alert and emit the closed alert
 
 Type: `Promise<void>`
 
-
-
 ### `open() => Promise<void>`
 
 open alert and emit the opened alert
@@ -66,8 +61,6 @@ open alert and emit the opened alert
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `setFocus() => Promise<void>`
 
@@ -77,9 +70,6 @@ focus the close button, if present and requested
 
 Type: `Promise<void>`
 
-
-
-
 ## Slots
 
 | Slot              | Description                                                                  |
@@ -88,7 +78,6 @@ Type: `Promise<void>`
 | `"alert-message"` | Main text of the alert                                                       |
 | `"alert-title"`   | Title of the alert (optional)                                                |
 
-
 ## Dependencies
 
 ### Depends on
@@ -96,12 +85,13 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-alert --> calcite-icon
   style calcite-alert fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

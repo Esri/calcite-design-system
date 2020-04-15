@@ -28,7 +28,6 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property       | Attribute       | Description                                                        | Type                | Default     |
@@ -50,14 +49,12 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 | `ticks`        | `ticks`         | Show tick marks on the number line at provided interval            | `number`            | `undefined` |
 | `value`        | `value`         | Currently selected number (if single select)                       | `number`            | `null`      |
 
-
 ## Events
 
 | Event                 | Description                                                                                                                                                                                                   | Type               |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
 | `calciteSliderUpdate` | Fires on all updates to the slider. :warning: Will be fired frequently during drag. If you are performing any expensive operations consider using a debounce or throttle to avoid locking up the main thread. | `CustomEvent<any>` |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

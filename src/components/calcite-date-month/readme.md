@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property       | Attribute | Description                                            | Type     | Default      |
@@ -13,7 +12,6 @@
 | `min`          | --        | Minimum date of the calendar below which is disabled.  | `Date`   | `undefined`  |
 | `selectedDate` | --        | Already selected date.                                 | `Date`   | `undefined`  |
 
-
 ## Events
 
 | Event                     | Description                               | Type               |
@@ -21,18 +19,18 @@
 | `calciteActiveDateChange` | Active date for the user keyboard access. | `CustomEvent<any>` |
 | `calciteDateSelect`       | Event emitted when user selects the date. | `CustomEvent<any>` |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-date](../calcite-date)
+- [calcite-date](../calcite-date)
 
 ### Depends on
 
 - [calcite-date-day](../calcite-date-day)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-date-month --> calcite-date-day
@@ -40,6 +38,6 @@ graph TD;
   style calcite-date-month fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -203,13 +203,7 @@ export class CalciteStepperItem {
       ? "checkCircleF"
       : "circle";
 
-    return (
-      <calcite-icon
-        icon={path}
-        scale="s"
-        class="stepper-item-icon"
-      />
-    );
+    return <calcite-icon icon={path} scale="s" class="stepper-item-icon" />;
   }
 
   private determineActiveItem() {

@@ -22,7 +22,7 @@ storiesOf("Notice", module)
     <div slot="notice-message">
       Look around and let us know what you think
     </div>
-      <calcite-button slot="notice-link" title="my action" appearance="inline">Learn more</calcite-button>
+      <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
     </calcite-notice>
     </div>
   `,
@@ -69,7 +69,7 @@ storiesOf("Notice", module)
       <div slot="notice-message">
         Look around and let us know what you think
       </div>
-        <calcite-button slot="notice-link" title="my action" appearance="inline">Learn more</calcite-button>
+        <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
       </calcite-notice>
       </div>
       `,

@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property         | Attribute          | Description                                                              | Type     | Default     |
@@ -15,25 +14,24 @@
 | `prevMonthLabel` | `prev-month-label` | Localized string for previous month.                                     | `string` | `undefined` |
 | `selectedDate`   | --                 | Already selected date.                                                   | `Date`   | `undefined` |
 
-
 ## Events
 
 | Event                     | Description            | Type               |
 | ------------------------- | ---------------------- | ------------------ |
 | `calciteActiveDateChange` | Changes to active date | `CustomEvent<any>` |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-date](../calcite-date)
+- [calcite-date](../calcite-date)
 
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-date-month-header --> calcite-icon
@@ -41,6 +39,6 @@ graph TD;
   style calcite-date-month-header fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

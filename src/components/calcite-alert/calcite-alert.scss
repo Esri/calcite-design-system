@@ -20,7 +20,7 @@
   @include slotted("alert-message", "div") {
     @include font-size(-3);
   }
-  ::slotted(calcite-button) {
+  ::slotted(calcite-link) {
     @include font-size(-3);
   }
 }
@@ -35,7 +35,7 @@
   @include slotted("alert-message", "div") {
     @include font-size(-2);
   }
-  ::slotted(calcite-button) {
+  ::slotted(calcite-link) {
     @include font-size(-2);
   }
 }
@@ -50,7 +50,7 @@
   @include slotted("alert-message", "div") {
     @include font-size(-1);
   }
-  ::slotted(calcite-button) {
+  ::slotted(calcite-link) {
     @include font-size(-1);
   }
 }
