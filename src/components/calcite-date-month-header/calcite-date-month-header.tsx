@@ -1,5 +1,4 @@
 import { Component, Element, Prop, Host, Event, h } from "@stencil/core";
-import { UP, DOWN } from "../../utils/keys";
 import {
   getLocaleFormatData,
   replaceArabicNumerals,
@@ -144,12 +143,12 @@ export class CalciteDateMonthHeader {
    */
   private onYearKey(e: KeyboardEvent) {
     const year = (e.target as HTMLInputElement).value;
-    switch (e.keyCode) {
-      case DOWN:
+    switch (e.key) {
+      case "ArrowDown":
         e.preventDefault();
         this.setYear(year, -1);
         break;
-      case UP:
+      case "ArrowUp":
         e.preventDefault();
         this.setYear(year, 1);
         break;

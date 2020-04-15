@@ -10,7 +10,6 @@ import {
   Element,
   VNode,
 } from "@stencil/core";
-import { UP, DOWN, TAB, HOME, END, ESCAPE } from "../../utils/keys";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
@@ -134,13 +133,13 @@ export class CalciteCombobox {
 
   handleInputKeyDown(event: KeyboardEvent): void {
     if (event.target === this.textInput) {
-      if (event.shiftKey && event.key === "TAB") {
+      if (event.shiftKey && event.key === "Tab") {
         return;
-      } else if (event.keyCode === ESCAPE) {
+      } else if (event.key === "Escape") {
         this.active = false;
-      } else if (event.keyCode === DOWN) {
+      } else if (event.key === "ArrowDown") {
         this.focusFirstItem();
-      } else if (event.keyCode === UP) {
+      } else if (event.key === "ArrowUp") {
         this.focusLastItem();
       } else {
         this.active = true;
@@ -228,28 +227,28 @@ export class CalciteCombobox {
     let isFirstItem = this.itemIndex(item) === 0;
     let isLastItem = this.itemIndex(item) === this.items.length - 1;
     const shiftKey = keyboardEvent.shiftKey;
-    const keyCode = keyboardEvent.keyCode;
+    const keyCode = keyboardEvent.key;
     switch (keyCode) {
-      case TAB:
+      case "Tab":
         if (isFirstItem && shiftKey) this.closeCalciteCombobox();
         if (isLastItem && !shiftKey) this.closeCalciteCombobox();
         else if (isFirstItem && shiftKey) this.textInput.focus();
         else if (shiftKey) this.focusPrevItem(item);
         else this.focusNextItem(item);
         break;
-      case DOWN:
+      case "ArrowDown":
         this.focusNextItem(item);
         break;
-      case UP:
+      case "ArrowUp":
         this.focusPrevItem(item);
         break;
-      case HOME:
+      case "Home":
         this.focusFirstItem();
         break;
-      case END:
+      case "End":
         this.focusLastItem();
         break;
-      case ESCAPE:
+      case "Escape":
         this.closeCalciteCombobox();
         break;
     }
