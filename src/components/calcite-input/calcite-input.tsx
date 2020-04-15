@@ -261,7 +261,7 @@ export class CalciteInput {
       );
 
     return (
-      <Host dir={dir} theme={theme} value={this.value}>
+      <Host dir={dir} theme={theme}>
         <div class="calcite-input-wrapper">
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
