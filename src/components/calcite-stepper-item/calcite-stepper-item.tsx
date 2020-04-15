@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Prop,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   UP,
@@ -17,14 +17,14 @@ import {
   END,
   SPACE,
   LEFT,
-  RIGHT
+  RIGHT,
 } from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
   tag: "calcite-stepper-item",
   styleUrl: "calcite-stepper-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteStepperItem {
   //--------------------------------------------------------------------------
@@ -186,7 +186,7 @@ export class CalciteStepperItem {
   private activePosition: number;
 
   /** the slotted item content */
-  private itemContent: HTMLElement[];
+  private itemContent: HTMLElement[] | HTMLElement;
 
   //--------------------------------------------------------------------------
   //
@@ -196,25 +196,14 @@ export class CalciteStepperItem {
 
   private setIcon() {
     var path = this.active
-      ? "circle"
+      ? "circleF"
       : this.error
-      ? "exclamationMarkCircle"
+      ? "exclamationMarkCircleF"
       : this.complete
-      ? "checkCircle"
+      ? "checkCircleF"
       : "circle";
 
-    // todo when calcite-icon is updated
-    // remove this and use circle-filled icon name
-    var filled = this.error || this.complete || this.active;
-
-    return (
-      <calcite-icon
-        icon={path}
-        filled={filled}
-        scale="s"
-        class="stepper-item-icon"
-      />
-    );
+    return <calcite-icon icon={path} scale="s" class="stepper-item-icon" />;
   }
 
   private determineActiveItem() {
@@ -224,7 +213,7 @@ export class CalciteStepperItem {
   private registerStepperItem() {
     this.registerCalciteStepperItem.emit({
       position: this.itemPosition,
-      content: this.itemContent
+      content: this.itemContent,
     });
   }
 
@@ -232,16 +221,19 @@ export class CalciteStepperItem {
     if (!this.disabled) {
       this.calciteStepperItemSelected.emit({
         position: this.itemPosition,
-        content: this.itemContent
+        content: this.itemContent,
       });
     }
   }
 
   private getItemContent() {
+    // handle ie and edge
     return this.el.shadowRoot.querySelector("slot")
       ? (this.el.shadowRoot
           .querySelector("slot")
           .assignedNodes({ flatten: true }) as HTMLElement[])
+      : this.el.querySelector(".stepper-item-content")
+      ? (this.el.querySelector(".stepper-item-content") as HTMLElement)
       : null;
   }
 

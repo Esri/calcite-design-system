@@ -5,7 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [v1.0.0-beta.22] - Apr 3, 2020
+## Unreleased
+
+### Added
+
+- new `calcite-label`, `calcite-input`, and `calcite-input-message` components
+- `calcite-slider` can now be programmatically focused with the `setFocus()` method
+
+## [v1.0.0-beta.24] - Apr 8th 2020
+
+### Fixed
+
+- fix NPM release issue
+
+## [v1.0.0-beta.23] - Apr 7th 2020
+
+### Breaking Changes
+
+- `calcite-icon` - `filled` prop removed (use `F` at end of icon name)
+
+### Added
+
+- Support for icons which use multiple paths + opacity
+
+## [v1.0.0-beta.22] - Apr 3rd 2020
 
 ### Breaking Changes
 
@@ -18,7 +41,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - new component `calcite-split-button`
 - improved focus styles across all components
 - a `max-items` attribute has been added to `calcite-dropdown` (#396)
-
 
 ### Updated
 
@@ -46,10 +68,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - new `calcite-popover-manager` component (#411)
 - new `calcite-tooltip-manager` component (#411)
 - `calcite-radio-group` - added `setFocus()` method
-
-### Added
-- new `calcite-label`, `calcite-input`, and `calcite-input-message` components
-- `calcite-slider` can now be programmatically focused with the `setFocus()` method
 
 ### Breaking Changes
 
@@ -333,6 +351,10 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.24]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.23...v1.0.0-beta.24 "v1.0.0-beta.24"
+[v1.0.0-beta.23]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.22...v1.0.0-beta.23 "v1.0.0-beta.23"
+[v1.0.0-beta.22]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.21...v1.0.0-beta.22 "v1.0.0-beta.22"
+[v1.0.0-beta.21]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.20...v1.0.0-beta.21 "v1.0.0-beta.21"
 [v1.0.0-beta.20]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...v1.0.0-beta.20 "v1.0.0-beta.20"
 [v1.0.0-beta.19]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.18...v1.0.0-beta.19 "v1.0.0-beta.19"
 [v1.0.0-beta.18]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.17...v1.0.0-beta.18 "v1.0.0-beta.18"
