@@ -1,17 +1,17 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders } from "../../tests/commonTests";
 
-describe("calcite-date-picker", () => {
-  it("renders", async () => renders("calcite-date-picker"));
+describe("calcite-date", () => {
+  it("renders", async () => renders("calcite-date"));
 
   it("fires a calciteDateChange event on change", async () => {
     const page = await newE2EPage();
-    await page.setContent('<calcite-date-picker></calcite-date-picker>');
-    const input = await page.find("calcite-date-picker >>> .date-input");
+    await page.setContent('<calcite-date></calcite-date>');
+    const input = await page.find("calcite-date >>> .date-input");
     await page.waitForChanges();
     const changedEvent = await page.spyOnEvent('calciteDateChange');
     await input.focus();
-    const wrapper = await page.find("calcite-date-picker >>> .calendar-picker-wrapper");
+    const wrapper = await page.find("calcite-date >>> .calendar-picker-wrapper");
     expect(await wrapper.isVisible()).toBe(true);
     await input.press("3");
     await input.press("/");
