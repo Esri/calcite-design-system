@@ -11,14 +11,12 @@ import { scaleToPx } from "./utils";
 describe("calcite-icon", () => {
   it("has defaults", async () =>
     defaults("calcite-icon", [
-      { propertyName: "filled", defaultValue: false },
       { propertyName: "mirrored", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
   it("reflects", async () =>
     reflects("calcite-icon", [
-      { propertyName: "filled", value: true },
       { propertyName: "mirrored", value: true },
       { propertyName: "scale", value: "m" }
     ]));
@@ -79,7 +77,7 @@ describe("calcite-icon", () => {
       const icon = await page.find(`calcite-icon`);
       let path = await page.find(`calcite-icon >>> path`);
 
-      expect(await path.getAttribute("d")).toBeNull();
+      expect(await path.getAttribute("d")).toBeFalsy();
 
       icon.setProperty("style", null);
       await page.waitForChanges();
