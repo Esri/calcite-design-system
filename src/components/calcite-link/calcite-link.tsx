@@ -4,7 +4,7 @@ import { getElementDir, getElementTheme } from "../../utils/dom";
 @Component({
   tag: "calcite-link",
   styleUrl: "calcite-link.scss",
-  shadow: true
+  shadow: true,
 })
 
 /** @slot default text slot for link text */
@@ -79,13 +79,8 @@ export class CalciteLink {
     const role = this.childElType === "span" ? "link" : null;
     const tabIndex = this.childElType === "span" ? 0 : null;
 
-
     const iconEl = (
-      <calcite-icon
-        class="calcite-link--icon"
-        icon={this.icon}
-        scale="s"
-      />
+      <calcite-icon class="calcite-link--icon" icon={this.icon} scale="s" />
     );
 
     return (
@@ -94,7 +89,7 @@ export class CalciteLink {
           {...attributes}
           role={role}
           tabindex={tabIndex}
-          ref={el => (this.childEl = el)}
+          ref={(el) => (this.childEl = el)}
         >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
           <slot />
@@ -129,16 +124,9 @@ export class CalciteLink {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = [
-      "color",
-      "dir",
-      "icon",
-      "iconPosition",
-      "id",
-      "theme"
-    ];
+    let props = ["color", "dir", "icon", "iconPosition", "id", "theme"];
     return Array.from(this.el.attributes)
-      .filter(a => a && !props.includes(a.name))
+      .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 }

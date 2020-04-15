@@ -1,0 +1,75 @@
+//ie11 fixes
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+// temporary hardcoded values until new font scale and padding is added to calcite-base
+:host([scale="s"]) label {
+  font-size: 10px;
+  --calcite-label-spacing-value: 8px;
+}
+
+:host([scale="m"]) label {
+  font-size: 14px;
+  --calcite-label-spacing-value: 12px;
+}
+
+:host([scale="l"]) label {
+  font-size: 18px;
+  --calcite-label-spacing-value: 16px;
+}
+
+// padding for children variable
+:host {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  text-align: left;
+}
+
+:host([dir="rtl"]) {
+  text-align: right;
+}
+
+:host label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0 0 $baseline 0;
+}
+
+:host([layout="inline"]) label {
+  flex-direction: row;
+  align-items: center;
+}
+
+:host([layout="inline-space-between"]) label {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+:host([layout="inline"]),
+:host([layout="inline-space-between"]) {
+  & .calcite-label-text:first-child {
+    margin-right: $baseline/2;
+  }
+
+  & .calcite-label-text:last-child {
+    margin-left: $baseline/2;
+  }
+}
+// status
+$inputStatusColors: "invalid" var(--calcite-ui-red-1),
+  "valid" var(--calcite-ui-text-2), "idle" var(--calcite-ui-text-2);
+
+@each $statusColor in $inputStatusColors {
+  $name: nth($statusColor, 1);
+  $color: nth($statusColor, 2);
+
+  :host([status="#{$name}"]) label {
+    color: $color;
+  }
+}

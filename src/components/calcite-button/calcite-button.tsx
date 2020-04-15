@@ -227,6 +227,7 @@ export class CalciteButton {
       "id",
       "loading",
       "scale",
+      "slot",
       "width",
       "theme",
     ];

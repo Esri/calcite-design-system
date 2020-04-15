@@ -1,0 +1,126 @@
+// theme variables
+:host([scale="s"]) {
+  font-size: 12px;
+  --calcite-input-message-spacing-value: 4px;
+}
+
+:host([scale="m"]) {
+  font-size: 14px;
+  --calcite-input-message-spacing-value: 8px;
+}
+
+:host([scale="l"]) {
+  font-size: 16px;
+  --calcite-input-message-spacing-value: 12px;
+}
+
+:host {
+  --calcite-input-message-floating-background: #{rgba($ui-foreground-1, 0.96)};
+}
+
+:host([theme="dark"]) {
+  --calcite-input-message-floating-background: #{rgba(
+      $ui-foreground-1-dark,
+      0.96
+    )};
+}
+
+:host {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--calcite-ui-text-2);
+  font-weight: 500;
+  line-height: 1.25;
+  transition: $transition;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+}
+
+:host([active]) {
+  opacity: 1;
+  height: auto;
+  visibility: visible;
+  margin-top: var(--calcite-input-message-spacing-value);
+}
+
+:host([type="floating"]) {
+  transform: translate3d(0, -$baseline, 0);
+  background-color: var(--calcite-input-message-floating-background);
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: auto;
+  margin-top: 0;
+  border-radius: var(--calcite-border-radius);
+  box-shadow: $shadow-2;
+  padding: var(--calcite-input-message-spacing-value);
+  z-index: 101;
+}
+
+:host([type="floating"][active]) {
+  transform: translate3d(0, 0, 0);
+  margin: 0;
+}
+
+.calcite-input-message-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  pointer-events: none;
+  transition: $transition;
+  margin: 0 $baseline/2 0 0;
+  line-height: inherit;
+  z-index: 9;
+  transition: $transition;
+}
+
+:host([dir="rtl"]) .calcite-input-message-icon {
+  margin: 0 0 0 $baseline/2;
+}
+// status
+$inputStatusColors: "invalid" var(--calcite-ui-red-1) var(--calcite-ui-red-1)
+    var(--calcite-input-status-invalid-focus-shadow-color),
+  "valid" var(--calcite-ui-green-1) var(--calcite-ui-green-1)
+    var(--calcite-input-status-valid-focus-shadow-color),
+  "idle" var(--calcite-ui-blue-1) var(--calcite-ui-blue-1)
+    var(--calcite-input-status-valid-focus-shadow-color);
+
+@each $statusColor in $inputStatusColors {
+  $name: nth($statusColor, 1);
+  $color: nth($statusColor, 2);
+  $colorHover: nth($statusColor, 3);
+  $shadowColor: nth($statusColor, 4);
+
+  :host([status="#{$name}"]) {
+    & .calcite-input-message-icon {
+      color: $color;
+    }
+  }
+}
+
+:host([type="floating"][active]) {
+  animation: floatingMessagePulse 0.5s ease-in-out;
+  animation-iteration-count: 1;
+}
+
+@keyframes floatingMessagePulse {
+  0% {
+    top: 100%;
+  }
+  25% {
+    top: 110%;
+  }
+  50% {
+    top: 100%;
+  }
+  75% {
+    top: 105%;
+  }
+  100% {
+    top: 100%;
+  }
+}
