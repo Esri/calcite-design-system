@@ -76,7 +76,6 @@ export const config: Config = {
     }
   },
   extras: {
-    appendChildSlotFix: true,
-    slotChildNodesFix: true
+    appendChildSlotFix: true
   }
 };

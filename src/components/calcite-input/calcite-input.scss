@@ -1,7 +1,4 @@
 //ie11 fixes
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
 
 // temporary hardcoded values until new font scale and padding is added to calcite-base
 calcite-input[scale="xs"] {

@@ -159,11 +159,7 @@ export class CalciteLabel {
   // wrap slotted text nodes in span to handle spacing of inline and inline space between layout
   private handleSlottedContent() {
     let nodeList = [];
-    let requestedSlottedContent = this.el.shadowRoot.querySelector("slot")
-      ? (this.el.shadowRoot
-          .querySelector("slot")
-          .assignedNodes({ flatten: true }) as HTMLElement[])
-      : this.el.childNodes;
+    let requestedSlottedContent = this.el.childNodes;
     // iterate over slotted nodes and wrap text nodes in span
     if (requestedSlottedContent) {
       requestedSlottedContent.forEach(function (item) {
