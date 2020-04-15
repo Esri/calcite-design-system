@@ -9,16 +9,6 @@ import {
   Method,
   Prop,
 } from "@stencil/core";
-import {
-  UP,
-  DOWN,
-  TAB,
-  ENTER,
-  ESCAPE,
-  HOME,
-  END,
-  SPACE,
-} from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { ItemRegistration } from "../../interfaces/Dropdown";
@@ -157,20 +147,20 @@ export class CalciteDropdownItem {
   }
 
   @Listen("keydown") keyDownHandler(e) {
-    switch (e.keyCode) {
-      case SPACE:
-      case ENTER:
+    switch (e.key) {
+      case " ":
+      case "Enter":
         this.emitRequestedItem();
         if (e.path && e.path[0].nodeName === "A") e.click();
         break;
-      case ESCAPE:
+      case "Escape":
         this.closeCalciteDropdown.emit();
         break;
-      case TAB:
-      case UP:
-      case DOWN:
-      case HOME:
-      case END:
+      case "Tab":
+      case "ArrowUp":
+      case "ArrowDown":
+      case "Home":
+      case "End":
         this.calciteDropdownItemKeyEvent.emit({ item: e });
         break;
     }

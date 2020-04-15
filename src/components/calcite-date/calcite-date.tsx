@@ -16,7 +16,6 @@ import {
 } from "../../utils/locale";
 import { DateChangeEvent, DateChangeEmitter } from "../../interfaces/Date";
 import { getElementDir } from "../../utils/dom";
-import { ESCAPE } from "../../utils/keys";
 import {
   dateFromRange,
   inRange,
@@ -80,7 +79,7 @@ export class CalciteDatePicker {
   }
 
   @Listen("keyup") keyDownHandler(e: KeyboardEvent) {
-    if (e.keyCode === ESCAPE) {
+    if (e.key === "Escape") {
       this.reset();
     }
   }

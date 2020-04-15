@@ -9,16 +9,6 @@ import {
   Prop,
   Watch,
 } from "@stencil/core";
-import {
-  UP,
-  DOWN,
-  ENTER,
-  HOME,
-  END,
-  SPACE,
-  LEFT,
-  RIGHT,
-} from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
@@ -149,18 +139,18 @@ export class CalciteStepperItem {
 
   @Listen("keydown") keyDownHandler(e) {
     if (!this.disabled && e.target === this.el) {
-      switch (e.keyCode) {
-        case SPACE:
-        case ENTER:
+      switch (e.key) {
+        case " ":
+        case "Enter":
           this.emitRequestedItem();
           e.preventDefault();
           break;
-        case UP:
-        case DOWN:
-        case LEFT:
-        case RIGHT:
-        case HOME:
-        case END:
+        case "ArrowUp":
+        case "ArrowDown":
+        case "ArrowLeft":
+        case "ArrowRight":
+        case "Home":
+        case "End":
           this.calciteStepperItemKeyEvent.emit({ item: e });
           e.preventDefault();
           break;

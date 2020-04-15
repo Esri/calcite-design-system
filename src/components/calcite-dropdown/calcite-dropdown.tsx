@@ -1,15 +1,4 @@
 import { Component, Element, h, Host, Listen, Prop } from "@stencil/core";
-import {
-  DOWN,
-  END,
-  ENTER,
-  ESCAPE,
-  HOME,
-  SPACE,
-  TAB,
-  UP,
-} from "../../utils/keys";
-
 import { focusElement } from "../../utils/dom";
 import { GroupRegistration } from "../../interfaces/Dropdown";
 
@@ -148,16 +137,16 @@ export class CalciteDropdown {
         e.target.nodeName !== "BUTTON" &&
         e.target.nodeName !== "CALCITE-BUTTON"
       ) {
-        switch (e.keyCode) {
-          case SPACE:
-          case ENTER:
+        switch (e.key) {
+          case " ":
+          case "Enter":
             this.openCalciteDropdown();
             break;
-          case ESCAPE:
+          case "Escape":
             this.closeCalciteDropdown();
             break;
         }
-      } else if (e.keyCode === ESCAPE || (e.shiftKey && e.keyCode === TAB)) {
+      } else if (e.key === "Escape" || (e.shiftKey && e.key === "Tab")) {
         this.closeCalciteDropdown();
       }
     }
@@ -184,23 +173,23 @@ export class CalciteDropdown {
       e.target.nodeName !== "A" ? e.target : e.target.parentNode;
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (e.keyCode) {
-      case TAB:
+    switch (e.key) {
+      case "Tab":
         if (isLastItem && !e.shiftKey) this.closeCalciteDropdown();
         else if (isFirstItem && e.shiftKey) this.closeCalciteDropdown();
         else if (e.shiftKey) this.focusPrevItem(itemToFocus);
         else this.focusNextItem(itemToFocus);
         break;
-      case DOWN:
+      case "ArrowDown":
         this.focusNextItem(itemToFocus);
         break;
-      case UP:
+      case "ArrowUp":
         this.focusPrevItem(itemToFocus);
         break;
-      case HOME:
+      case "Home":
         this.focusFirstItem();
         break;
-      case END:
+      case "End":
         this.focusLastItem();
         break;
     }

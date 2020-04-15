@@ -8,7 +8,6 @@ import {
   Listen,
   Prop,
 } from "@stencil/core";
-import { UP, DOWN, HOME, END } from "../../utils/keys";
 
 @Component({
   tag: "calcite-accordion",
@@ -119,19 +118,19 @@ export class CalciteAccordion {
     let itemToFocus = e.target;
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (item.keyCode) {
-      case DOWN:
+    switch (item.key) {
+      case "ArrowDown":
         if (isLastItem) this.focusFirstItem();
         else this.focusNextItem(itemToFocus);
         break;
-      case UP:
+      case "ArrowUp":
         if (isFirstItem) this.focusLastItem();
         else this.focusPrevItem(itemToFocus);
         break;
-      case HOME:
+      case "Home":
         this.focusFirstItem();
         break;
-      case END:
+      case "End":
         this.focusLastItem();
         break;
     }

@@ -8,7 +8,6 @@ import {
   Listen,
   Prop,
 } from "@stencil/core";
-import { UP, DOWN, ENTER, HOME, END, SPACE } from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 
@@ -104,16 +103,16 @@ export class CalciteAccordionItem {
 
   @Listen("keydown") keyDownHandler(e) {
     if (e.target === this.el) {
-      switch (e.keyCode) {
-        case SPACE:
-        case ENTER:
+      switch (e.key) {
+        case " ":
+        case "Enter":
           this.emitRequestedItem();
           e.preventDefault();
           break;
-        case UP:
-        case DOWN:
-        case HOME:
-        case END:
+        case "ArrowUp":
+        case "ArrowDown":
+        case "Home":
+        case "End":
           this.calciteAccordionItemKeyEvent.emit({ item: e });
           e.preventDefault();
           break;

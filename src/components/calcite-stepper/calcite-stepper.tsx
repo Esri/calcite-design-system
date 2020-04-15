@@ -10,7 +10,6 @@ import {
   Prop,
   Watch,
 } from "@stencil/core";
-import { UP, DOWN, HOME, END, LEFT, RIGHT } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -127,21 +126,21 @@ export class CalciteStepper {
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem =
       this.itemIndex(itemToFocus) === this.sortedItems.length - 1;
-    switch (item.keyCode) {
-      case DOWN:
-      case RIGHT:
+    switch (item.key) {
+      case "ArrowDown":
+      case "ArrowRight":
         if (isLastItem) this.focusFirstItem();
         else this.focusNextItem(itemToFocus);
         break;
-      case UP:
-      case LEFT:
+      case "ArrowUp":
+      case "ArrowLeft":
         if (isFirstItem) this.focusLastItem();
         else this.focusPrevItem(itemToFocus);
         break;
-      case HOME:
+      case "Home":
         this.focusFirstItem();
         break;
-      case END:
+      case "End":
         this.focusLastItem();
         break;
     }

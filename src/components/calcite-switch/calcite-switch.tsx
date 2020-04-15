@@ -10,7 +10,6 @@ import {
   Watch,
   Build,
 } from "@stencil/core";
-import { SPACE, ENTER } from "../../utils/keys";
 
 @Component({
   tag: "calcite-switch",
@@ -55,7 +54,7 @@ export class CalciteSwitch {
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    if (e.keyCode === SPACE || e.keyCode === ENTER) {
+    if (e.key === " " || e.key === "Enter") {
       this.updateSwitch(e);
     }
   }

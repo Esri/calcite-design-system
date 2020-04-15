@@ -9,7 +9,6 @@ import {
   VNode,
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { ENTER, SPACE } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
 
 /**
@@ -112,9 +111,9 @@ export class CalciteCard {
   }
 
   private cardSelectKeyDown(e) {
-    switch (e.keyCode) {
-      case SPACE:
-      case ENTER:
+    switch (e.key) {
+      case " ":
+      case "Enter":
         this.selectCard();
         e.preventDefault();
         break;
