@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Manager
@@ -19,8 +18,6 @@
 >
 ```
 
-
-
 ## Properties
 
 | Property                        | Attribute           | Description                                                                                | Type                                                                                                                                                                                                                                                                                                              | Default                 |
@@ -32,11 +29,10 @@
 | `offsetDistance`                | `offset-distance`   | Offset the position of the popover away from the reference element.                        | `number`                                                                                                                                                                                                                                                                                                          | `defaultOffsetDistance` |
 | `offsetSkidding`                | `offset-skidding`   | Offset the position of the popover along the reference element.                            | `number`                                                                                                                                                                                                                                                                                                          | `0`                     |
 | `open`                          | `open`              | Display and position the component.                                                        | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
-| `placement`                     | `placement`         | Determines where the component will be positioned relative to the referenceElement.        | `"auto" or "auto-start" or "auto-end" or "top" or "bottom" or "right" or "left" or "top-start" or "top-end" or "bottom-start" or "bottom-end" or "right-start" or "right-end" or "left-start" or "left-end" or "leading-start" or "leading" or "leading-end" or "trailing-end" or "trailing" or "trailing-start"` | `"auto"`                |
-| `referenceElement` _(required)_ | `reference-element` | Reference HTMLElement used to position this component according to the placement property. | `HTMLElement or string`                                                                                                                                                                                                                                                                                           | `undefined`             |
+| `placement`                     | `placement`         | Determines where the component will be positioned relative to the referenceElement.        | `"auto" \| "auto-start" \| "auto-end" \| "top" \| "bottom" \| "right" \| "left" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end" \| "leading-start" \| "leading" \| "leading-end" \| "trailing-end" \| "trailing" \| "trailing-start"` | `"auto"`                |
+| `referenceElement` _(required)_ | `reference-element` | Reference HTMLElement used to position this component according to the placement property. | `HTMLElement \| string`                                                                                                                                                                                                                                                                                           | `undefined`             |
 | `textClose`                     | `text-close`        | Text for close button.                                                                     | `string`                                                                                                                                                                                                                                                                                                          | `"Close"`               |
-| `theme`                         | `theme`             | Select theme (light or dark)                                                               | `"dark" or "light"`                                                                                                                                                                                                                                                                                               | `undefined`             |
-
+| `theme`                         | `theme`             | Select theme (light or dark)                                                               | `"dark" \| "light"`                                                                                                                                                                                                                                                                                               | `undefined`             |
 
 ## Events
 
@@ -45,46 +41,31 @@
 | `calcitePopoverClose` | Fired when the popover is closed | `CustomEvent<any>` |
 | `calcitePopoverOpen`  | Fired when the popover is opened | `CustomEvent<any>` |
 
-
 ## Methods
 
 ### `reposition() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `setFocus(focusId?: "close-button") => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `toggle() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
-
 
 ## Slots
 
 | Slot      | Description                                                                     |
 | --------- | ------------------------------------------------------------------------------- |
 | `"image"` | A slot for adding an image. The image will appear above the other slot content. |
-
 
 ## Dependencies
 
@@ -93,12 +74,13 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-popover --> calcite-icon
   style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

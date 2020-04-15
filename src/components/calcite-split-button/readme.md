@@ -1,9 +1,11 @@
 # calcite-split-button
-The calcite-split-button control is one that combines a button with a dropdown menu in order to provide a primary action along with one or more related secondary options / actions.  It's useful for grouping related actions or options for users, while elevating a commonly-used or default action for easier access.  Its inner content populates the control's dropdown menu, and is thus expected to be valid `calcite-dropdown` content.
+
+The calcite-split-button control is one that combines a button with a dropdown menu in order to provide a primary action along with one or more related secondary options / actions. It's useful for grouping related actions or options for users, while elevating a commonly-used or default action for easier access. Its inner content populates the control's dropdown menu, and is thus expected to be valid `calcite-dropdown` content.
 
 Basic Usage:
+
 ```html
-<calcite-split-button primary-icon='save' primary-text="Primary Option">
+<calcite-split-button primary-icon="save" primary-text="Primary Option">
   <calcite-dropdown-group selection-mode="none">
     <calcite-dropdown-item>Option 2</calcite-dropdown-item>
     <calcite-dropdown-item>Option 3</calcite-dropdown-item>
@@ -12,9 +14,7 @@ Basic Usage:
 </calcite-split-button>
 ```
 
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -31,13 +31,11 @@ Basic Usage:
 | `scale`            | `scale`              | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s"`                    | `"m"`       |
 | `theme`            | `theme`              | select theme (light or dark), defaults to light                                                          | `"dark" \| "light"`                    | `"light"`   |
 
-
 ## Events
 
 | Event                            | Description                              | Type               |
 | -------------------------------- | ---------------------------------------- | ------------------ |
 | `calciteSplitButtonPrimaryClick` | fired when the primary button is clicked | `CustomEvent<any>` |
-
 
 ## Dependencies
 
@@ -47,6 +45,7 @@ Basic Usage:
 - [calcite-dropdown](../calcite-dropdown)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-split-button --> calcite-button
@@ -56,6 +55,6 @@ graph TD;
   style calcite-split-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -17,13 +17,10 @@ The above will display a progress bar along the perimeter of the loader showing 
 For instances when you don't have room for the full loader, you can use the smaller `inline` version of the loader. The inline version is meant to sit to the left of text:
 
 ```html
-<p>
-  <calcite-loader is-active inline></calcite-loader> Inline loader
-</p>
+<p><calcite-loader is-active inline></calcite-loader> Inline loader</p>
 ```
 
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -33,18 +30,18 @@ For instances when you don't have room for the full loader, you can use the smal
 | `isActive`  | `is-active`  | Show the loader                                                    | `boolean`                          | `false`     |
 | `noPadding` | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `undefined` |
 | `text`      | `text`       | Text which should appear under the loading indicator (optional)    | `string`                           | `""`        |
-| `type`      | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" or "indeterminate"` | `undefined` |
+| `type`      | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |
 | `value`     | `value`      | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`         |
-
 
 ## Dependencies
 
 ### Used by
 
- - [calcite-button](../calcite-button)
- - [calcite-card](../calcite-card)
+- [calcite-button](../calcite-button)
+- [calcite-card](../calcite-card)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-button --> calcite-loader
@@ -52,6 +49,6 @@ graph TD;
   style calcite-loader fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

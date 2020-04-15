@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Method,
-  Prop
+  Prop,
 } from "@stencil/core";
 import {
   UP,
@@ -17,15 +17,16 @@ import {
   ESCAPE,
   HOME,
   END,
-  SPACE
+  SPACE,
 } from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { ItemRegistration } from "../../interfaces/Dropdown";
 
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "calcite-dropdown-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
@@ -61,7 +62,7 @@ export class CalciteDropdownItem {
   @Event() calciteDropdownItemKeyEvent: EventEmitter;
   @Event() calciteDropdownItemSelected: EventEmitter;
   @Event() closeCalciteDropdown: EventEmitter;
-  @Event() registerCalciteDropdownItem: EventEmitter;
+  @Event() registerCalciteDropdownItem: EventEmitter<ItemRegistration>;
 
   //--------------------------------------------------------------------------
   //
@@ -84,7 +85,7 @@ export class CalciteDropdownItem {
   componentDidLoad() {
     this.itemPosition = this.getItemPosition();
     this.registerCalciteDropdownItem.emit({
-      position: this.itemPosition
+      position: this.itemPosition,
     });
   }
 
@@ -239,7 +240,7 @@ export class CalciteDropdownItem {
   private emitRequestedItem() {
     this.calciteDropdownItemSelected.emit({
       requestedDropdownItem: this.dropdownItemId,
-      requestedDropdownGroup: this.currentDropdownGroup
+      requestedDropdownGroup: this.currentDropdownGroup,
     });
     this.closeCalciteDropdown.emit();
   }
@@ -254,10 +255,10 @@ export class CalciteDropdownItem {
       "isLink",
       "dir",
       "id",
-      "theme"
+      "theme",
     ];
     return Array.from(this.el.attributes)
-      .filter(a => a && !props.includes(a.name))
+      .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 

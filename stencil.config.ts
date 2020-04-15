@@ -35,6 +35,7 @@ export const config: Config = {
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-slider"] },
+    { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     {
       components: [

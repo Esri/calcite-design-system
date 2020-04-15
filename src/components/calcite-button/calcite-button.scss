@@ -246,7 +246,14 @@
 }
 
 // outline and clear
-@mixin btn-outline-clear($bg-color, $border-color, $border-color-hover, $border-color-press, $color, $color-press) {
+@mixin btn-outline-clear(
+  $bg-color,
+  $border-color,
+  $border-color-hover,
+  $border-color-press,
+  $color,
+  $color-press
+) {
   color: $color;
   background-color: $bg-color;
   border: 1px solid $border-color;

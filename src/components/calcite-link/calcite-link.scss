@@ -43,7 +43,7 @@
 :host span {
   @include focus-style-base();
   &:focus {
-    @include focus-style-outset();
+    @include focus-style-inset();
   }
 }
 

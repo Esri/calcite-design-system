@@ -6,7 +6,7 @@ import {
   h,
   Host,
   Method,
-  Prop
+  Prop,
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
@@ -25,7 +25,7 @@ import { getElementDir } from "../../utils/dom";
 @Component({
   tag: "calcite-notice",
   styleUrl: "calcite-notice.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteNotice {
   //--------------------------------------------------------------------------
@@ -99,7 +99,7 @@ export class CalciteNotice {
         class="notice-close"
         aria-label="close"
         onClick={() => this.close()}
-        ref={el => (this.closeButton = el)}
+        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -179,7 +179,7 @@ export class CalciteNotice {
     green: "checkCircle",
     yellow: "exclamationMarkTriangle",
     red: "exclamationMarkTriangle",
-    blue: "lightbulb"
+    blue: "lightbulb",
   };
 
   private setIcon() {

@@ -1,10 +1,10 @@
 import { getAssetPath } from "@stencil/core";
 import { Scale } from "../../interfaces/Icon";
+import { CalciteIconPath } from "@esri/calcite-ui-icons";
 
 export interface FetchIconProps {
   icon: string;
   scale: Scale;
-  filled: boolean;
 }
 
 /**
@@ -12,14 +12,14 @@ export interface FetchIconProps {
  * Exported for testing purposes.
  * @private
  */
-export const iconCache: Record<string, string> = {};
+export const iconCache: Record<string, CalciteIconPath> = {};
 
 /**
  * Icon request cache.
  * Exported for testing purposes.
  * @private
  */
-export const requestCache: Record<string, Promise<any>> = {};
+export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 
 export const scaleToPx: Record<Scale, number> = {
   s: 16,
@@ -29,22 +29,22 @@ export const scaleToPx: Record<Scale, number> = {
 
 export async function fetchIcon({
   icon,
-  scale,
-  filled
-}: FetchIconProps): Promise<string> {
+  scale
+}: FetchIconProps): Promise<CalciteIconPath> {
   const size = scaleToPx[scale];
-  const id = `${normalizeIconName(icon)}${size}${filled ? "F" : ""}`;
+  const filled = icon.charAt(icon.length - 1) === "F";
+  const iconName = filled ? icon.substring(0, icon.length - 1): icon;
+  const id = `${normalizeIconName(iconName)}${size}${filled ? "F" : ""}`;
 
   if (iconCache[id]) {
     return iconCache[id];
   }
-
   if (!requestCache[id]) {
     requestCache[id] = fetch(getAssetPath(`./assets/${id}.json`))
       .then(resp => resp.json())
       .catch(() => {
         console.error(`"${id}" is not a valid calcite-ui-icon name`);
-        return null;
+        return "";
       });
   }
 

@@ -8,14 +8,44 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 
 ### Breaking Changes
-- `calcite-date-picker` is now `calcite-date`
-- `calcite-date` no longer accepts start of week as a prop
 - `calcite-button` no longer accepts `inline` as a value for `appearance` - you can instead
-  
+
 ### Added
+
 - new component `calcite-link`
 
+## [v1.0.0-beta.24] - Apr 8th 2020
+
+### Fixed
+
+- fix NPM deployment issue
+
+## [v1.0.0-beta.23] - Apr 7th 2020
+
+### Breaking Changes
+
+- `calcite-icon` - `filled` prop removed (use `F` at end of icon name)
+
+### Added
+
+- Support for icons which use multiple paths + opacity
+
+## [v1.0.0-beta.22] - Apr 3rd 2020
+
+### Breaking Changes
+
+- `calcite-date-picker` is now `calcite-date`
+- `calcite-date` no longer accepts start of week as a prop
+
+### Added
+
+- new component `calcite-stepper`
+- new component `calcite-split-button`
+- improved focus styles across all components
+- a `max-items` attribute has been added to `calcite-dropdown` (#396)
+
 ### Updated
+
 - `calcite-date` - automatically finds start of week for given locale
 - `calcite-date` - automatically formats date in input for given locale
 - `calcite-date` - support for buddhist era
@@ -23,27 +53,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-date` - `calciteDateChange` emits selected `Date` object in `event.detail`
 
 ### Fixed
+
 - `calcite-date` - fixed in ie11 (#368)
 - `calcite-date` - fixed date entering via input (#307)
 - `calcite-date` - columns correct even when very narrow (#308)
+- `calcite-icon` - always render in target size to prevent shifting layout (#432)
+- `calcite-accordion` - fixed in ie11 (#366)
+- `calcite-dropdown` - fixed in ie11 (#369)
 
 ## [v1.0.0-beta.21] - Mar 31st 2020
 
 ### Added
+
 - new `calcite-combobox` component (#328)
 - new `calcite-chip` component (#328)
 - new `calcite-popover-manager` component (#411)
 - new `calcite-tooltip-manager` component (#411)
 - `calcite-radio-group` - added `setFocus()` method
 
-  
 ### Breaking Changes
+
 - `calcite-dropdown` - `alignment` attribute now uses `start` and `end` values instead of `left` and `right`
 - `calcite-dropdown-item` - `link-title` attribute has been removed
 - `calcite-icon` - drop `filled` prop as it's no longer valid with the latest calcite UI icons
 - `calcite-tree` - `size` prop is now `scale` to be consistent with other components
-  
+
 ### Updated
+
 - `calcite-dropdown` - active state indicators for `selection-mode=none` have been removed
 - `calcite-dropdown` - active state indicators for `selection-mode=multi` have been updated to use checkmarks
 - `calcite-dropdown-item` - any attributes passed to a `calcite-dropdown-item` that has a `href` attribute will now be spread to the rendered child link
@@ -51,6 +87,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-loader` - now displays as circle, added fade out at the end of determinate loader
 
 ### Fixed
+
 - `calcite-dropdown` - `alignment=center` now correctly positions the dropdown if the slotted `dropdown-trigger` is wider than the dropdown container
 - `calcite-dropdown` - items are now focused when the dropdown is opened
 - `calcite-dropdown` - items are now scrollable when the dropdown gets long
@@ -68,9 +105,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [v1.0.0-beta.20] - Feb 25th 2020
 
 ### Added
+
 - new component `calcite-card`
 
 ### Updated
+
 - `calcite-tooltip`, `calcite-popover` - Allow pointer events for poppers that have escaped their container
 
 ## [v1.0.0-beta.19] - Feb 19th 2020
@@ -314,6 +353,9 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.24]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.23...v1.0.0-beta.24 "v1.0.0-beta.24"
+[v1.0.0-beta.23]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.22...v1.0.0-beta.23 "v1.0.0-beta.23"
+[v1.0.0-beta.22]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.21...v1.0.0-beta.22 "v1.0.0-beta.22"
 [v1.0.0-beta.21]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.20...v1.0.0-beta.21 "v1.0.0-beta.21"
 [v1.0.0-beta.20]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...v1.0.0-beta.20 "v1.0.0-beta.20"
 [v1.0.0-beta.19]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.18...v1.0.0-beta.19 "v1.0.0-beta.19"

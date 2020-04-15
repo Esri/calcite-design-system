@@ -54,7 +54,7 @@
   margin: 0 8px;
   // todo: replace with upcoming focus styles
   outline-offset: 0;
-  outline-color: rgba(0,0,0,0);
+  outline-color: rgba(0, 0, 0, 0);
   transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
   &:focus {
     outline: 2px solid var(--calcite-ui-blue-1);
