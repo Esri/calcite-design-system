@@ -1,6 +1,10 @@
 :host {
   display: inline-block;
   vertical-align: top;
+  width: 100%;
+  max-width: 312px;
+  position: relative;
+  overflow: visible;
 }
 
 ::slotted(input) {
@@ -46,10 +50,13 @@
 
 .calendar-picker-wrapper {
   position: absolute;
+  top: 100%;
   background-color: var(--calcite-ui-foreground-1);
   box-shadow: $shadow-2;
   opacity: 0;
+  max-width: 100%;
   visibility: hidden;
+  overflow: visible;
   transform: translate3d(0, -$baseline, 0);
   transition: all 0.15s ease-in-out;
   pointer-events: none;
@@ -59,9 +66,7 @@
 :host([show-calendar]) {
   background-color: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
-  border: 1px solid var(--calcite-ui-border-2);
   box-shadow: $shadow-2;
-  overflow: hidden;
 
   .calendar-picker-wrapper {
     opacity: 1;
@@ -71,7 +76,7 @@
   }
 
   .date-input-wrapper {
-    border: none;
+    border: 1px solid var(--calcite-ui-foreground-1);
     border-bottom: 1px solid var(--calcite-ui-border-3);
   }
 }
