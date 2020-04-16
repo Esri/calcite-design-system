@@ -2,7 +2,7 @@ import { Component, Element, h, Host, Prop } from "@stencil/core";
 @Component({
   tag: "calcite-progress",
   styleUrl: "calcite-progress.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteProgress {
   @Element() el: HTMLElement;
@@ -21,16 +21,17 @@ export class CalciteProgress {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
     return (
-      <Host class="calcite-progress">
-        <div class="track" />
-        <div
-          class={{
-            bar: true,
-            indeterminate: this.type === "indeterminate",
-            reversed: this.reversed
-          }}
-          style={ barStyles }
-        />
+      <Host>
+        <div class="track">
+          <div
+            class={{
+              bar: true,
+              indeterminate: this.type === "indeterminate",
+              reversed: this.reversed,
+            }}
+            style={barStyles}
+          />
+        </div>
         {this.text ? <div class="text">{this.text}</div> : null}
       </Host>
     );
