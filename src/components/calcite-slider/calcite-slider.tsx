@@ -89,14 +89,14 @@ export class CalciteSlider {
 
     return (
       <Host id={id} is-range={this.isRange}>
-        <div class="slider__track">
-          <div class="slider__track__range" style={{ left, right }} />
-          <div class="slider__ticks">
+        <div class="track">
+          <div class="track__range" style={{ left, right }} />
+          <div class="ticks">
             {this.tickValues.map((number) => (
               <span
                 class={{
-                  slider__tick: true,
-                  "slider__tick--active": number >= min && number <= max,
+                  tick: true,
+                  "tick--active": number >= min && number <= max,
                 }}
                 style={{
                   left: `${this.getUnitInterval(number) * 100}%`,
@@ -105,9 +105,9 @@ export class CalciteSlider {
                 {this.labelTicks ? (
                   <span
                     class={{
-                      slider__tick__label: true,
-                      "slider__tick__label--min": number === this.min,
-                      "slider__tick__label--max": number === this.max,
+                      tick__label: true,
+                      "tick__label--min": number === this.min,
+                      "tick__label--max": number === this.max,
                     }}
                   >
                     {number}
@@ -135,15 +135,15 @@ export class CalciteSlider {
             disabled={this.disabled}
             style={{ left }}
             class={{
-              slider__thumb: true,
-              "slider__thumb--min": true,
-              "slider__thumb--active": this.dragProp === "minValue",
-              "slider__thumb--precise": this.precise,
+              thumb: true,
+              "thumb--min": true,
+              "thumb--active": this.dragProp === "minValue",
+              "thumb--precise": this.precise,
             }}
           >
-            <span class="slider__handle"></span>
+            <span class="handle"></span>
             {this.labelHandles ? (
-              <span class="slider__handle__label" aria-hidden="true">
+              <span class="handle__label" aria-hidden="true">
                 {this.minValue}
               </span>
             ) : (
@@ -168,15 +168,15 @@ export class CalciteSlider {
           disabled={this.disabled}
           style={{ right }}
           class={{
-            slider__thumb: true,
-            "slider__thumb--max": true,
-            "slider__thumb--active": this.dragProp === maxProp,
-            "slider__thumb--precise": this.precise,
+            thumb: true,
+            "thumb--max": true,
+            "thumb--active": this.dragProp === maxProp,
+            "thumb--precise": this.precise,
           }}
         >
-          <span class="slider__handle"></span>
+          <span class="handle"></span>
           {this.labelHandles ? (
-            <span class="slider__handle__label" aria-hidden="true">
+            <span class="handle__label" aria-hidden="true">
               {this[maxProp]}
             </span>
           ) : (
