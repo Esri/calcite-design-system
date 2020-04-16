@@ -10,12 +10,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Breaking Changes
 
 - `calcite-button` no longer accepts `inline` as a value for `appearance` - you can instead
+- `calcite-pagination` - `backgroundStyle` property removed (always transparent)
+- `calcite-pagination` - `num`, `start`, and `total` now refer to records not pages
+- `calcite-pagination` - `calcitePaginationUpdate` event now only fires in response to user input
+- `calcite-pagination` - `setPage` method removed
 
 ### Added
 
 - new component `calcite-link`
 - new `calcite-label`, `calcite-input`, and `calcite-input-message` components
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
+
+### Fixed
+
+- `calcite-pagination` - pages and next/previous can now be navigated with keyboard
 
 ## [v1.0.0-beta.24] - Apr 8th 2020
 

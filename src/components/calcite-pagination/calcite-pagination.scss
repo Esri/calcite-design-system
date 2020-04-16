@@ -1,14 +1,11 @@
 :host {
   display: inline-flex;
-  background-color: var(--calcite-ui-foreground-1);
+  background-color: transparent;
   writing-mode: horizontal-tb;
-}
-:host(.backgroundColor) {
-  background-color: var(--calcite-ui-background);
 }
 
 // focus styles
-:host a {
+:host button {
   @include focus-style-base();
   &:focus {
     @include focus-style-inset();
@@ -20,8 +17,13 @@
 .page {
   display: flex;
   align-items: center;
+  background-color: transparent;
   border-top: 3px solid transparent;
+  border-right: none;
   border-bottom: 3px solid transparent;
+  border-left: none;
+  font-family: inherit;
+  @include font-size(0);
   color: var(--calcite-ui-text-3);
   cursor: pointer;
   &:hover {
@@ -51,6 +53,7 @@
   }
   &.is-disabled {
     background-color: transparent;
+    pointer-events: none;
     & > svg {
       opacity: 0.3;
     }

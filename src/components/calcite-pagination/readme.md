@@ -1,60 +1,60 @@
 # calcite-pagination
 
-<!-- Auto Generated Below -->
+Calcite pagination allows users to select a page from a paginated API. The component is meant to interface with responses from ArcGIS REST services, so the props share names with [response properties](https://developers.arcgis.com/rest/users-groups-and-items/search.htm) from various search endpoints.
 
+For example, after querying the search API, you'll get back a response similar to the following:
+
+```JSON
+{
+  "total": 2021,
+  "start": 1,
+  "num": 100,
+  "results": []
+}
+```
+
+These can be passed straight to the `calcite-pagination` component:
+
+```html
+<calcite-pagination start="1" num="100" total="2021"></calcite-pagination>
+```
+
+<!-- Auto Generated Below -->
 
 ## Properties
 
-| Property            | Attribute             | Description                                                                    | Type                                     | Default              |
-| ------------------- | --------------------- | ------------------------------------------------------------------------------ | ---------------------------------------- | -------------------- |
-| `backgroundStyle`   | `background-style`    | Change between foreground colors or background colors for container background | `"backgroundColor" \| "foregroundColor"` | `"foregroundColor"`  |
-| `num`               | `num`                 | starting selected index                                                        | `number`                                 | `1`                  |
-| `start`             | `start`               | starting number of the pagination                                              | `number`                                 | `1`                  |
-| `textLabelNext`     | `text-label-next`     | title of the next button                                                       | `string`                                 | `TEXT.nextLabel`     |
-| `textLabelPrevious` | `text-label-previous` | title of the previous button                                                   | `string`                                 | `TEXT.previousLabel` |
-| `theme`             | `theme`               | specify the theme of accordion, defaults to light                              | `"dark" \| "light"`                      | `undefined`          |
-| `total`             | `total`               | ending number of the pagination                                                | `number`                                 | `2`                  |
-
+| Property            | Attribute             | Description                                       | Type                | Default              |
+| ------------------- | --------------------- | ------------------------------------------------- | ------------------- | -------------------- |
+| `num`               | `num`                 | number of items per page                          | `number`            | `20`                 |
+| `start`             | `start`               | index of item that should begin the page          | `number`            | `1`                  |
+| `textLabelNext`     | `text-label-next`     | title of the next button                          | `string`            | `TEXT.nextLabel`     |
+| `textLabelPrevious` | `text-label-previous` | title of the previous button                      | `string`            | `TEXT.previousLabel` |
+| `theme`             | `theme`               | specify the theme of accordion, defaults to light | `"dark" \| "light"` | `undefined`          |
+| `total`             | `total`               | total number of items                             | `number`            | `0`                  |
 
 ## Events
 
-| Event                     | Description                                 | Type               |
-| ------------------------- | ------------------------------------------- | ------------------ |
-| `calcitePaginationUpdate` | Emitted whenever the selected page changes. | `CustomEvent<any>` |
-
+| Event                     | Description                                 | Type                                   |
+| ------------------------- | ------------------------------------------- | -------------------------------------- |
+| `calcitePaginationUpdate` | Emitted whenever the selected page changes. | `CustomEvent<CalcitePaginationDetail>` |
 
 ## Methods
 
 ### `nextPage() => Promise<void>`
 
-When called, selected page will increment by 1.
+Go to the next page of results
 
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `previousPage() => Promise<void>`
 
-When called, selected page will decrement by 1.
+Go to the previous page of results
 
 #### Returns
 
 Type: `Promise<void>`
-
-
-
-### `setPage(num: number) => Promise<void>`
-
-Set selected page to a specific page number. Will not go below start or above total.
-
-#### Returns
-
-Type: `Promise<void>`
-
-
-
 
 ## Dependencies
 
@@ -63,12 +63,13 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-pagination --> calcite-icon
   style calcite-pagination fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
