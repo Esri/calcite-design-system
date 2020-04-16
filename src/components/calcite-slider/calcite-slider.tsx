@@ -11,6 +11,7 @@ import {
   State,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
+import { getKey } from "../../utils/key";
 type activeSliderProperty = "minValue" | "maxValue" | "value";
 
 @Component({
@@ -192,7 +193,7 @@ export class CalciteSlider {
   //--------------------------------------------------------------------------
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     const value = this[this.activeProp];
-    switch (e.key) {
+    switch (getKey(e.key)) {
       case "ArrowUp":
       case "ArrowRight":
         e.preventDefault();

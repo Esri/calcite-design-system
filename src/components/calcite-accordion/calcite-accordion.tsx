@@ -8,6 +8,7 @@ import {
   Listen,
   Prop,
 } from "@stencil/core";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-accordion",
@@ -114,11 +115,12 @@ export class CalciteAccordion {
   @Listen("calciteAccordionItemKeyEvent") calciteAccordionItemKeyEvent(
     e: CustomEvent
   ) {
-    let item = e.detail.item;
+    const item = e.detail.item;
+    const key = getKey(item.key);
     let itemToFocus = e.target;
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (item.key) {
+    switch (key) {
       case "ArrowDown":
         if (isLastItem) this.focusFirstItem();
         else this.focusNextItem(itemToFocus);

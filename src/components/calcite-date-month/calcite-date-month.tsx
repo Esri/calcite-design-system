@@ -10,6 +10,7 @@ import {
 } from "@stencil/core";
 import { getFirstDayOfWeek, getLocalizedWeekdays } from "../../utils/locale";
 import { inRange, sameDate, dateFromRange } from "../../utils/date";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-date-month",
@@ -65,7 +66,7 @@ export class CalciteDateMonth {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     const isRTL = this.el.dir === "rtl";
-    switch (e.key) {
+    switch (getKey(e.key)) {
       case "ArrowUp":
         e.preventDefault();
         this.addDays(-7);

@@ -13,6 +13,7 @@ import {
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tab-title",
@@ -114,7 +115,7 @@ export class CalciteTabTitle {
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    switch (e.key) {
+    switch (getKey(e.key)) {
       case " ":
       case "Enter":
         this.calciteTabsActivate.emit({

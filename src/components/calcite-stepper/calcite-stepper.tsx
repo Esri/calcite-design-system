@@ -11,6 +11,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-stepper",
@@ -126,7 +127,7 @@ export class CalciteStepper {
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem =
       this.itemIndex(itemToFocus) === this.sortedItems.length - 1;
-    switch (item.key) {
+    switch (getKey(item.key)) {
       case "ArrowDown":
       case "ArrowRight":
         if (isLastItem) this.focusFirstItem();

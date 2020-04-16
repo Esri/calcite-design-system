@@ -10,6 +10,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-accordion-item",
@@ -103,7 +104,7 @@ export class CalciteAccordionItem {
 
   @Listen("keydown") keyDownHandler(e) {
     if (e.target === this.el) {
-      switch (e.key) {
+      switch (getKey(e.key)) {
         case " ":
         case "Enter":
           this.emitRequestedItem();

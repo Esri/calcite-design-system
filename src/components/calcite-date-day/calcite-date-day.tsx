@@ -8,6 +8,7 @@ import {
   Listen,
   h,
 } from "@stencil/core";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-date-day",
@@ -53,7 +54,8 @@ export class CalciteDateDay {
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    if (e.key === " " || e.key === "Enter") {
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
       !this.disabled && this.calciteDaySelect.emit();
     }
   }
