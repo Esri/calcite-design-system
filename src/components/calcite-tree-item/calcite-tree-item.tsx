@@ -18,6 +18,7 @@ import {
   getSlottedElements,
   getElementDir,
 } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tree-item",
@@ -175,7 +176,7 @@ export class CalciteTreeItem {
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     let root;
 
-    switch (e.key) {
+    switch (getKey(e.key)) {
       case " ":
         this.selected = !this.selected;
 

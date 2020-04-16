@@ -10,6 +10,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-stepper-item",
@@ -139,7 +140,7 @@ export class CalciteStepperItem {
 
   @Listen("keydown") keyDownHandler(e) {
     if (!this.disabled && e.target === this.el) {
-      switch (e.key) {
+      switch (getKey(e.key)) {
         case " ":
         case "Enter":
           this.emitRequestedItem();

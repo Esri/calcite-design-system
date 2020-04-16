@@ -14,6 +14,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -94,7 +95,7 @@ export class CalciteComboboxItem {
 
   @Listen("keydown") keyDownHandler(event): void {
     event.stopPropagation();
-    switch (event.key) {
+    switch (getKey(event.key)) {
       case " ":
       case "Enter":
         this.isSelected = !this.isSelected;

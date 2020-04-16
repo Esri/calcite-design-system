@@ -22,6 +22,7 @@ import {
   dateFromISO,
   dateToISO,
 } from "../../utils/date";
+import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-date",
   styleUrl: "calcite-date.scss",
@@ -79,7 +80,7 @@ export class CalciteDatePicker {
   }
 
   @Listen("keyup") keyDownHandler(e: KeyboardEvent) {
-    if (e.key === "Escape") {
+    if (getKey(e.key) === "Escape") {
       this.reset();
     }
   }

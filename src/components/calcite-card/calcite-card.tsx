@@ -10,6 +10,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 /**
  * @slot thumbnail - A slot for adding a thumnail to the card.
@@ -111,7 +112,7 @@ export class CalciteCard {
   }
 
   private cardSelectKeyDown(e) {
-    switch (e.key) {
+    switch (getKey(e.key)) {
       case " ":
       case "Enter":
         this.selectCard();

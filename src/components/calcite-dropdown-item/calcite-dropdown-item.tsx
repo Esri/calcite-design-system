@@ -12,6 +12,7 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { ItemRegistration } from "../../interfaces/Dropdown";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-dropdown-item",
@@ -147,7 +148,7 @@ export class CalciteDropdownItem {
   }
 
   @Listen("keydown") keyDownHandler(e) {
-    switch (e.key) {
+    switch (getKey(e.key)) {
       case " ":
       case "Enter":
         this.emitRequestedItem();

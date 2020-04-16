@@ -1,6 +1,7 @@
 import { Component, Element, h, Host, Listen, Prop } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
 import { GroupRegistration } from "../../interfaces/Dropdown";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-dropdown",
@@ -132,12 +133,13 @@ export class CalciteDropdown {
   }
 
   @Listen("keydown") keyDownHandler(e) {
+    const key = getKey(e.key);
     if (e.target.getAttribute("slot") === "dropdown-trigger") {
       if (
         e.target.nodeName !== "BUTTON" &&
         e.target.nodeName !== "CALCITE-BUTTON"
       ) {
-        switch (e.key) {
+        switch (key) {
           case " ":
           case "Enter":
             this.openCalciteDropdown();
@@ -146,7 +148,7 @@ export class CalciteDropdown {
             this.closeCalciteDropdown();
             break;
         }
-      } else if (e.key === "Escape" || (e.shiftKey && e.key === "Tab")) {
+      } else if (key === "Escape" || (e.shiftKey && key === "Tab")) {
         this.closeCalciteDropdown();
       }
     }
@@ -173,7 +175,7 @@ export class CalciteDropdown {
       e.target.nodeName !== "A" ? e.target : e.target.parentNode;
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (e.key) {
+    switch (getKey(e.key)) {
       case "Tab":
         if (isLastItem && !e.shiftKey) this.closeCalciteDropdown();
         else if (isFirstItem && e.shiftKey) this.closeCalciteDropdown();

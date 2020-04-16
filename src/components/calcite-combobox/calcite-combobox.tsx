@@ -13,6 +13,7 @@ import {
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
+import { getKey } from "../../utils/key";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
 
@@ -133,13 +134,14 @@ export class CalciteCombobox {
 
   handleInputKeyDown(event: KeyboardEvent): void {
     if (event.target === this.textInput) {
-      if (event.shiftKey && event.key === "Tab") {
+      const key = getKey(event.key);
+      if (event.shiftKey && key === "Tab") {
         return;
-      } else if (event.key === "Escape") {
+      } else if (key === "Escape") {
         this.active = false;
-      } else if (event.key === "ArrowDown") {
+      } else if (key === "ArrowDown") {
         this.focusFirstItem();
-      } else if (event.key === "ArrowUp") {
+      } else if (key === "ArrowUp") {
         this.focusLastItem();
       } else {
         this.active = true;
@@ -227,7 +229,7 @@ export class CalciteCombobox {
     let isFirstItem = this.itemIndex(item) === 0;
     let isLastItem = this.itemIndex(item) === this.items.length - 1;
     const shiftKey = keyboardEvent.shiftKey;
-    const keyCode = keyboardEvent.key;
+    const keyCode = getKey(keyboardEvent.key);
     switch (keyCode) {
       case "Tab":
         if (isFirstItem && shiftKey) this.closeCalciteCombobox();
