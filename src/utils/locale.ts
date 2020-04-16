@@ -71,7 +71,7 @@ export function parseDateString(
     .map((part) => part.replace(".", ""));
   return {
     day: parseInt(values[order.indexOf(units.day)]),
-    month: Math.max(parseInt(values[order.indexOf(units.month)]) - 1, 0),
+    month: parseInt(values[order.indexOf(units.month)]) - 1,
     year: parseInt(values[order.indexOf(units.year)]) - (buddhist ? 543 : 0),
   };
 }
