@@ -141,6 +141,8 @@ export class CalcitePopover {
 
   closeButtonEl: HTMLButtonElement;
 
+  guid = `calcite-popover-${guid()}`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -208,7 +210,7 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   getId = (): string => {
-    return this.el.id || `calcite-popover-${guid()}`;
+    return this.el.id || this.guid;
   };
 
   addReferences = (): void => {

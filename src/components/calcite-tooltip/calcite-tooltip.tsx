@@ -105,6 +105,8 @@ export class CalciteTooltip {
 
   popper: Popper;
 
+  guid = `calcite-tooltip-${guid()}`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -148,7 +150,7 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   getId = (): string => {
-    return this.el.id || `calcite-tooltip-${guid()}`;
+    return this.el.id || this.guid;
   };
 
   addReferences = (): void => {
