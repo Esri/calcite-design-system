@@ -10,6 +10,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
+import { Scale } from "../../interfaces/common";
 
 @Component({
   tag: "calcite-radio-button",
@@ -23,7 +24,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) disabled: boolean = false;
   @Prop({ reflect: true }) focused: boolean = false;
   @Prop({ reflect: true }) name: string;
-  @Prop({ reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
   @Prop() value: string;
 
   private input: HTMLInputElement;
@@ -93,7 +94,7 @@ export class CalciteRadioButton {
       <Host role="radio" aria-checked={this.checked}>
         <div id="radio"></div>
         <label htmlFor={this.guid}>
-          <slot></slot>
+          <slot>foo</slot>
         </label>
       </Host>
     );

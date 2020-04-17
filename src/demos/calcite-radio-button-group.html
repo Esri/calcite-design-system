@@ -12,6 +12,9 @@
       color: white;
       padding: 1rem;
     }
+    h3 {
+      margin: 0;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
@@ -41,7 +44,7 @@
     }
     customElements.define("calcite-form", CalciteForm);
 
-    class CalciteGrid extends HTMLElement {
+    class CalciteSpacer extends HTMLElement {
       constructor() {
         super();
         this.attachShadow({ mode: "open"});
@@ -57,7 +60,7 @@
         `;
       }
     }
-    customElements.define("calcite-grid", CalciteGrid);
+    customElements.define("calcite-spacer", CalciteSpacer);
   </script>
 </head>
 
@@ -67,107 +70,122 @@
 
   <calcite-form>
     <form name="calcite-radio-button-group-demo-form">
-      <calcite-grid>
-        <h3 class="leader-1">Simple</h3>
-        <calcite-radio-button-group name="simple">
-          <calcite-radio-button value="react" checked>React</calcite-radio-button>
-          <calcite-radio-button value="ember">Ember</calcite-radio-button>
-          <calcite-radio-button value="angular">Angular</calcite-radio-button>
-          <calcite-radio-button value="vue">Vue</calcite-radio-button>
-        </calcite-radio-button-group>
+      <calcite-spacer>
 
-        <!-- <h3 class="leader-1">Scale s</h3>
-        <calcite-radio-button-group scale="s">
-          <calcite-radio-button value="react" checked>React</calcite-radio-button>
+        <h3>Scale xs</h3>
+        <calcite-radio-button-group name="xs" scale="xs">
+          <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+          <calcite-radio-button value="react">React</calcite-radio-button>
           <calcite-radio-button value="ember">Ember</calcite-radio-button>
           <calcite-radio-button value="angular">Angular</calcite-radio-button>
         </calcite-radio-button-group>
 
-        <h3 class="leader-1">Scale m</h3>
-        <calcite-radio-button-group scale="m">
-          <calcite-radio-button value="react" checked>React</calcite-radio-button>
+        <h3>Scale s</h3>
+        <calcite-radio-button-group name="s" scale="s">
+          <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+          <calcite-radio-button value="react">React</calcite-radio-button>
           <calcite-radio-button value="ember">Ember</calcite-radio-button>
           <calcite-radio-button value="angular">Angular</calcite-radio-button>
         </calcite-radio-button-group>
 
-        <h3 class="leader-1">Scale l</h3>
-        <calcite-radio-button-group scale="l">
-          <calcite-radio-button value="react" checked>React</calcite-radio-button>
+        <h3>Scale m (default)</h3>
+        <calcite-radio-button-group name="m">
+          <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+          <calcite-radio-button value="react">React</calcite-radio-button>
           <calcite-radio-button value="ember">Ember</calcite-radio-button>
           <calcite-radio-button value="angular">Angular</calcite-radio-button>
         </calcite-radio-button-group>
 
-        <h3 class="leader-1">With labels</h3>
-        <calcite-radio-button-group>
-          <calcite-radio-button value="1">Uno</calcite-radio-button>
-          <calcite-radio-button value="2" checked>Dos</calcite-radio-button>
-          <calcite-radio-button value="3">Tres</calcite-radio-button>
+        <h3>Scale l</h3>
+        <calcite-radio-button-group name="l" scale="l">
+          <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+          <calcite-radio-button value="react">React</calcite-radio-button>
+          <calcite-radio-button value="ember">Ember</calcite-radio-button>
+          <calcite-radio-button value="angular">Angular</calcite-radio-button>
         </calcite-radio-button-group>
 
-        <h3 class="leader-1">Uses value as label if missing</h3>
-        <calcite-radio-button-group>
+        <h3>Scale xl</h3>
+        <calcite-radio-button-group name="xl" scale="xl">
+          <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+          <calcite-radio-button value="react">React</calcite-radio-button>
+          <calcite-radio-button value="ember">Ember</calcite-radio-button>
+          <calcite-radio-button value="angular">Angular</calcite-radio-button>
+        </calcite-radio-button-group>
+
+        <h3>Uses value as label if missing</h3>
+        <calcite-radio-button-group name="valueAsLabel">
           <calcite-radio-button value="1"></calcite-radio-button>
           <calcite-radio-button value="2" checked></calcite-radio-button>
           <calcite-radio-button value="3"></calcite-radio-button>
         </calcite-radio-button-group>
 
-        <h3 class="leader-1">None checked</h3>
-        <calcite-radio-button-group>
+        <h3>None checked</h3>
+        <calcite-radio-button-group name="noneChecked">
           <calcite-radio-button value="1"></calcite-radio-button>
           <calcite-radio-button value="2"></calcite-radio-button>
           <calcite-radio-button value="3"></calcite-radio-button>
         </calcite-radio-button-group>
 
-        <h3 class="leader-1">Only one selected value (last wins)</h3>
-        <calcite-radio-button-group>
+        <h3>Only one selected value (last wins)</h3>
+        <calcite-radio-button-group name="lastSelectedWins">
           <calcite-radio-button value="1" checked></calcite-radio-button>
           <calcite-radio-button value="2" checked></calcite-radio-button>
           <calcite-radio-button value="3" checked></calcite-radio-button>
         </calcite-radio-button-group>
 
-        <p></p>
-
         <div class="demo-background-dark">
+          <calcite-spacer>
+            <h3>Dark Scale xs</h3>
+            <calcite-radio-button-group name="dark-xs" theme="dark" scale="xs">
+              <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+              <calcite-radio-button value="react">React</calcite-radio-button>
+              <calcite-radio-button value="ember">Ember</calcite-radio-button>
+              <calcite-radio-button value="angular">Angular</calcite-radio-button>
+            </calcite-radio-button-group>
 
-          <h3 class="leader-1">Dark theme</h3>
-          <calcite-radio-button-group theme="dark">
-            <calcite-radio-button value="1" checked></calcite-radio-button>
-            <calcite-radio-button value="2" checked></calcite-radio-button>
-            <calcite-radio-button value="3" checked></calcite-radio-button>
-          </calcite-radio-button-group>
+            <h3>Dark Scale s</h3>
+            <calcite-radio-button-group name="dark-s" theme="dark" scale="s">
+              <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+              <calcite-radio-button value="react">React</calcite-radio-button>
+              <calcite-radio-button value="ember">Ember</calcite-radio-button>
+              <calcite-radio-button value="angular">Angular</calcite-radio-button>
+            </calcite-radio-button-group>
 
-          <h3 class="leader-1">Scale s</h3>
-          <calcite-radio-button-group theme="dark" scale="s">
-            <calcite-radio-button value="react" checked>React</calcite-radio-button>
-            <calcite-radio-button value="ember">Ember</calcite-radio-button>
-            <calcite-radio-button value="angular">Angular</calcite-radio-button>
-          </calcite-radio-button-group>
+            <h3>Dark Scale m</h3>
+            <calcite-radio-button-group name="dark-m" theme="dark">
+              <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+              <calcite-radio-button value="react">React</calcite-radio-button>
+              <calcite-radio-button value="ember">Ember</calcite-radio-button>
+              <calcite-radio-button value="angular">Angular</calcite-radio-button>
+            </calcite-radio-button-group>
 
-          <h3 class="leader-1">Scale m</h3>
-          <calcite-radio-button-group theme="dark" scale="m">
-            <calcite-radio-button value="react" checked>React</calcite-radio-button>
-            <calcite-radio-button value="ember">Ember</calcite-radio-button>
-            <calcite-radio-button value="angular">Angular</calcite-radio-button>
-          </calcite-radio-button-group>
+            <h3>Dark Scale l</h3>
+            <calcite-radio-button-group name="dark-l" theme="dark" scale="l">
+              <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+              <calcite-radio-button value="react">React</calcite-radio-button>
+              <calcite-radio-button value="ember">Ember</calcite-radio-button>
+              <calcite-radio-button value="angular">Angular</calcite-radio-button>
+            </calcite-radio-button-group>
 
-          <h3 class="leader-1">Scale l</h3>
-          <calcite-radio-button-group theme="dark" scale="l">
-            <calcite-radio-button value="react" checked>React</calcite-radio-button>
-            <calcite-radio-button value="ember">Ember</calcite-radio-button>
-            <calcite-radio-button value="angular">Angular</calcite-radio-button>
-          </calcite-radio-button-group>
-
+            <h3>Dark Scale xl</h3>
+            <calcite-radio-button-group name="dark-xl" theme="dark" scale="xl">
+              <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+              <calcite-radio-button value="react">React</calcite-radio-button>
+              <calcite-radio-button value="ember">Ember</calcite-radio-button>
+              <calcite-radio-button value="angular">Angular</calcite-radio-button>
+            </calcite-radio-button-group>
+          </calcite-spacer>
         </div>
 
-        <h3 class="leader-1">RTL</h3>
-        <calcite-radio-button-group>
+        <h3>RTL</h3>
+        <calcite-radio-button-group name="rtl">
           <calcite-radio-button value="1" checked></calcite-radio-button>
           <calcite-radio-button value="2" checked></calcite-radio-button>
           <calcite-radio-button value="3" checked></calcite-radio-button>
-        </calcite-radio-button-group> -->
+        </calcite-radio-button-group>
 
         <calcite-button form="calcite-radio-button-group-demo-form" type="submit">Submit</calcite-button>
-      </calcite-grid>
+      </calcite-spacer>
     </form>
   </calcite-form>
 </body>
