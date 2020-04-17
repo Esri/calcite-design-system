@@ -14,24 +14,24 @@ describe("calcite-tooltip", () => {
     defaults("calcite-tooltip", [
       {
         propertyName: "open",
-        defaultValue: false,
+        defaultValue: false
       },
       {
         propertyName: "placement",
-        defaultValue: "auto",
+        defaultValue: "auto"
       },
       {
         propertyName: "offsetDistance",
-        defaultValue: 6,
+        defaultValue: 6
       },
       {
         propertyName: "offsetSkidding",
-        defaultValue: 0,
+        defaultValue: 0
       },
       {
         propertyName: "referenceElement",
-        defaultValue: undefined,
-      },
+        defaultValue: undefined
+      }
     ]));
 
   it("tooltip positions when referenceElement is set", async () => {
