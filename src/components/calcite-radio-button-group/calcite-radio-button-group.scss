@@ -1,0 +1,9 @@
+:host {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, max-content));
+  grid-gap: 15px;
+}
+:host([vertical]) {
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
