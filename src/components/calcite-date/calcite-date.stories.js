@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, text } from "@storybook/addon-knobs";
+import { withKnobs, select, text, boolean } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -50,10 +50,12 @@ storiesOf("Date", module)
     "Simple",
     () => `
     <calcite-date
+      scale="${select("scale", ["s", "m", "l"], "m")}"
       value="${text("value", "")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       locale="${select("locale", locales, "en-US")}"
+      no-calendar-input="${boolean("no-calendar-input")}"
       next-month-label="${text("next-month-label", "Next month")}"
       prev-month-label="${text("prev-month-label", "Previous month")}"
     ></calcite-date>
@@ -65,9 +67,11 @@ storiesOf("Date", module)
     () => `
     <calcite-date
       theme="dark"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
       value="${text("value", "")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
+      no-calendar-input="${boolean("no-calendar-input")}"
       locale="${select("locale", locales, "en-US")}"
       next-month-label="${text("next-month-label", "Next month")}"
       prev-month-label="${text("prev-month-label", "Previous month")}"

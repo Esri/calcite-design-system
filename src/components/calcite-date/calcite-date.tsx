@@ -59,6 +59,8 @@ export class CalciteDatePicker {
   @Prop() locale?: string = "en-US";
   /** Show only calendar popup */
   @Prop() noCalendarInput?: boolean = false;
+  /** specify the scale of the date picker */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -126,18 +128,21 @@ export class CalciteDatePicker {
     const dir = getElementDir(this.el);
     return (
       <Host role="application" dir={dir}>
-        <slot></slot>
+        <div class="slot">
+          <slot></slot>
+        </div>
         {!this.noCalendarInput && (
-          <div class="date-input-wrapper" role="application">
-            <calcite-icon icon="calendar" class="calendar-icon" scale="s" />
-            <input
+          <div role="application">
+            <calcite-input
               type="text"
-              placeholder={this.localeData.placeholder}
               value={formattedDate}
-              class="date-input"
-              onFocus={() => (this.showCalendar = true)}
-              onInput={(e) => this.input((e.target as HTMLInputElement).value)}
-              onBlur={(e) => this.blur(e.target as HTMLInputElement)}
+              placeholder={this.localeData.placeholder}
+              icon="calendar"
+              onCalciteInputFocus={() => (this.showCalendar = true)}
+              onCalciteInputChange={(e) => this.input(e.detail.value)}
+              onCalciteInputBlur={(e) => this.blur(e.detail)}
+              scale={this.scale}
+              number-button-type="none"
             />
           </div>
         )}
@@ -154,6 +159,7 @@ export class CalciteDatePicker {
               this.activeDate = new Date(e.detail);
             }}
             dir={dir}
+            scale={this.scale}
           />
           <calcite-date-month
             min={min}
@@ -171,6 +177,7 @@ export class CalciteDatePicker {
               this.activeDate = new Date(e.detail);
             }}
             dir={dir}
+            scale={this.scale}
           />
         </div>
       </Host>

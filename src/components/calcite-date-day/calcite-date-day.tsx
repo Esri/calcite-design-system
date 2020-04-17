@@ -42,6 +42,8 @@ export class CalciteDateDay {
   @Prop({ reflect: true }) active: boolean = false;
   /** Locale to display the day in */
   @Prop() locale: string;
+  /** specify the scale of the date picker */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
   //--------------------------------------------------------------------------
   //
