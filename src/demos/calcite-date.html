@@ -12,8 +12,7 @@
       color: white;
       padding: 1rem 1rem 3rem 1rem;
     }
-
-    h2 {
+    h2, h3 {
       padding-top: 3rem;
     }
   </style>
@@ -39,9 +38,20 @@
   <h2>Start day of locale</h2>
   <calcite-date locale="es"></calcite-date>
 
+  <h2>Scales</h2>
+
+  <h3>Small</h3>
+  <calcite-date scale="s" value="2000-11-27" no-calendar-input="true" show-calendar="true"></calcite-date>
+
+  <h3>Medium</h3>
+  <calcite-date scale="m" value="2000-11-27" no-calendar-input="true" show-calendar="true"></calcite-date>
+
+  <h3>Large</h3>
+  <calcite-date scale="l" value="2000-11-27" no-calendar-input="true" show-calendar="true"></calcite-date>
+
   <h2>Inside Small Container</h2>
   <div style="width: 200px">
-    <calcite-date value="2020-03-07"></calcite-date>
+    <calcite-date value="2020-03-07" scale="s"></calcite-date>
   </div>
 
   <h2>Locale formatted dates</h2>
