@@ -13,8 +13,8 @@ export class CalciteRadioButtonGroup {
   @Prop() scale: "xs" | "s" | "m" | "l" | "xl" = "m";
   @Prop({ reflect: true }) vertical: boolean = false;
 
-  @Listen("onRadioButtonClick")
-  onRadioButtonClick(event: CustomEvent): void {
+  @Listen("calciteRadioButtonClick")
+  onCalciteRadioButtonClick(event: CustomEvent): void {
     this.el
       .querySelectorAll("calcite-radio-button")
       .forEach((radioButton) => (radioButton.checked = false));
@@ -22,14 +22,14 @@ export class CalciteRadioButtonGroup {
     (event.target as HTMLCalciteRadioButtonElement).focused = true;
   }
 
-  @Listen("onRadioButtonFocus")
-  onRadioButtonFocus(event: CustomEvent) {
+  @Listen("calciteRadioButtonFocus")
+  onCalciteRadioButtonFocus(event: CustomEvent) {
     (event.target as HTMLCalciteRadioButtonElement).checked = true;
     (event.target as HTMLCalciteRadioButtonElement).focused = true;
   }
 
-  @Listen("onRadioButtonBlur")
-  onRadioButtonBlur(event: CustomEvent) {
+  @Listen("calciteRadioButtonBlur")
+  onCalciteRadioButtonBlur(event: CustomEvent) {
     (event.target as HTMLCalciteRadioButtonElement).focused = false;
   }
 

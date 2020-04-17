@@ -9,6 +9,7 @@ import {
   Element,
   Watch,
 } from "@stencil/core";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-radio-button",
@@ -21,15 +22,16 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) checked: boolean = false;
   @Prop({ reflect: true }) disabled: boolean = false;
   @Prop({ reflect: true }) focused: boolean = false;
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
   @Prop({ reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" = "m";
   @Prop() value: string;
 
   private input: HTMLInputElement;
+  guid: string = this.el.id || `calcite-radio-button-${guid()}`;
 
-  @Event() onRadioButtonClick: EventEmitter;
-  @Event() onRadioButtonFocus: EventEmitter;
-  @Event() onRadioButtonBlur: EventEmitter;
+  @Event() calciteRadioButtonClick: EventEmitter;
+  @Event() calciteRadioButtonFocus: EventEmitter;
+  @Event() calciteRadioButtonBlur: EventEmitter;
 
   @Listen("click")
   onClick(event: MouseEvent): void {
@@ -38,7 +40,7 @@ export class CalciteRadioButton {
       (event.currentTarget as HTMLCalciteRadioButtonElement).localName ===
         "calcite-radio-button"
     ) {
-      this.onRadioButtonClick.emit();
+      this.calciteRadioButtonClick.emit();
     }
   }
 
@@ -57,11 +59,11 @@ export class CalciteRadioButton {
   }
 
   onInputFocus = () => {
-    this.onRadioButtonFocus.emit();
+    this.calciteRadioButtonFocus.emit();
   };
 
   onInputBlur = () => {
-    this.onRadioButtonBlur.emit();
+    this.calciteRadioButtonBlur.emit();
   };
 
   componentWillLoad() {
@@ -74,11 +76,11 @@ export class CalciteRadioButton {
     this.input = this.el.ownerDocument.createElement("input");
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
-    this.input.id = `${this.name}.${this.value}`;
+    this.input.id = this.guid;
     this.input.name = this.name;
     this.input.onblur = this.onInputBlur;
     this.input.onfocus = this.onInputFocus;
-    // this.input.style.opacity = "0";
+    this.input.style.opacity = "0";
     this.input.style.position = "absolute";
     this.input.style.zIndex = "-1";
     this.input.value = this.value;
@@ -87,11 +89,10 @@ export class CalciteRadioButton {
   }
 
   render() {
-    const id = `${this.name}.${this.value}`;
     return (
       <Host role="radio" aria-checked={this.checked}>
         <div id="radio"></div>
-        <label htmlFor={id}>
+        <label htmlFor={this.guid}>
           <slot></slot>
         </label>
       </Host>
