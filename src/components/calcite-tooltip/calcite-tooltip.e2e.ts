@@ -141,4 +141,61 @@ describe("calcite-tooltip", () => {
 
     expect(content.textContent).toBe("hi");
   });
+
+  it("guid id should match referenceElement's aria-describedby", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tooltip open></calcite-tooltip>`
+    );
+
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-tooltip");
+
+    await page.$eval("calcite-tooltip", (elm: any) => {
+      const referenceElement = document.createElement("div");
+      document.body.appendChild(referenceElement);
+      elm.referenceElement = referenceElement;
+    });
+
+    await page.waitForChanges();
+
+    const referenceElement = await page.find("div");
+
+    const id = element.getAttribute("id");
+    const describedby = referenceElement.getAttribute("aria-describedby");
+
+    expect(id).toEqual(describedby);
+  });
+
+  it("user defined id should match referenceElement's aria-describedby", async () => {
+    const page = await newE2EPage();
+
+    const userDefinedId = "user-defined-id";
+
+    await page.setContent(
+      `<calcite-tooltip id="${userDefinedId}" open></calcite-tooltip>`
+    );
+
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-tooltip");
+
+    await page.$eval("calcite-tooltip", (elm: any) => {
+      const referenceElement = document.createElement("div");
+      document.body.appendChild(referenceElement);
+      elm.referenceElement = referenceElement;
+    });
+
+    await page.waitForChanges();
+
+    const referenceElement = await page.find("div");
+
+    const id = element.getAttribute("id");
+    const describedby = referenceElement.getAttribute("aria-describedby");
+
+    expect(id).toEqual(userDefinedId);
+    expect(describedby).toEqual(userDefinedId);
+  });
 });
