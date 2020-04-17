@@ -223,4 +223,61 @@ describe("calcite-popover", () => {
 
     expect(event).toHaveReceivedEventTimes(1);
   });
+
+  it("guid id should match referenceElement's aria-describedby", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover open></calcite-popover>`
+    );
+
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-popover");
+
+    await page.$eval("calcite-popover", (elm: any) => {
+      const referenceElement = document.createElement("div");
+      document.body.appendChild(referenceElement);
+      elm.referenceElement = referenceElement;
+    });
+
+    await page.waitForChanges();
+
+    const referenceElement = await page.find("div");
+
+    const id = element.getAttribute("id");
+    const describedby = referenceElement.getAttribute("aria-describedby");
+
+    expect(id).toEqual(describedby);
+  });
+
+  it("user defined id should match referenceElement's aria-describedby", async () => {
+    const page = await newE2EPage();
+
+    const userDefinedId = "user-defined-id";
+
+    await page.setContent(
+      `<calcite-popover id="${userDefinedId}" open></calcite-popover>`
+    );
+
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-popover");
+
+    await page.$eval("calcite-popover", (elm: any) => {
+      const referenceElement = document.createElement("div");
+      document.body.appendChild(referenceElement);
+      elm.referenceElement = referenceElement;
+    });
+
+    await page.waitForChanges();
+
+    const referenceElement = await page.find("div");
+
+    const id = element.getAttribute("id");
+    const describedby = referenceElement.getAttribute("aria-describedby");
+
+    expect(id).toEqual(userDefinedId);
+    expect(describedby).toEqual(userDefinedId);
+  });
 });
