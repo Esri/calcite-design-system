@@ -8,13 +8,13 @@ import {
   State,
   Listen,
   Build,
+  EventEmitter,
 } from "@stencil/core";
 import {
   parseDateString,
   getLocaleFormatData,
   DateFormattingData,
 } from "../../utils/locale";
-import { DateChangeEvent, DateChangeEmitter } from "../../interfaces/Date";
 import { getElementDir } from "../../utils/dom";
 import {
   dateFromRange,
@@ -50,7 +50,7 @@ export class CalciteDatePicker {
   /** Latest allowed date ("yyyy-mm-dd") */
   @Prop() max?: string;
   /** Expand or collapse when calendar does not have input */
-  @Prop({ reflect: true }) showCalendar: boolean = false;
+  @Prop({ reflect: true }) active: boolean = false;
   /** Localized string for "previous month" */
   @Prop() prevMonthLabel?: string = "previous month";
   /** Localized string for "next month" */
@@ -95,7 +95,7 @@ export class CalciteDatePicker {
   /**
    * Trigger calcite date change when a user changes the date.
    */
-  @Event() calciteDateChange: DateChangeEmitter;
+  @Event() calciteDateChange: EventEmitter<Date>;
 
   /**
    * Active date.
@@ -138,7 +138,7 @@ export class CalciteDatePicker {
               value={formattedDate}
               placeholder={this.localeData.placeholder}
               icon="calendar"
-              onCalciteInputFocus={() => (this.showCalendar = true)}
+              onCalciteInputFocus={() => (this.active = true)}
               onCalciteInputChange={(e) => this.input(e.detail.value)}
               onCalciteInputBlur={(e) => this.blur(e.detail)}
               scale={this.scale}
@@ -155,7 +155,7 @@ export class CalciteDatePicker {
             locale={this.locale}
             min={min}
             max={max}
-            onCalciteActiveDateChange={(e: DateChangeEvent) => {
+            onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
               this.activeDate = new Date(e.detail);
             }}
             dir={dir}
@@ -167,13 +167,13 @@ export class CalciteDatePicker {
             selectedDate={date}
             activeDate={activeDate}
             locale={this.locale}
-            onCalciteDateSelect={(e: DateChangeEvent) => {
+            onCalciteDateSelect={(e: CustomEvent<Date>) => {
               this.setValue(new Date(e.detail));
               this.activeDate = new Date(e.detail);
               this.calciteDateChange.emit(new Date(e.detail));
               this.reset();
             }}
-            onCalciteActiveDateChange={(e: DateChangeEvent) => {
+            onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
               this.activeDate = new Date(e.detail);
             }}
             dir={dir}
@@ -272,7 +272,7 @@ export class CalciteDatePicker {
       this.activeDate = new Date(this.valueAsDate);
     }
     if (!this.noCalendarInput) {
-      this.showCalendar = false;
+      this.active = false;
     }
   }
 

@@ -46,7 +46,7 @@
   z-index: 3;
 }
 
-:host([show-calendar]) {
+:host([active]) {
   background-color: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
