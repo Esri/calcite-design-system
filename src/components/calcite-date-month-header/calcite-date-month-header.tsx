@@ -1,4 +1,12 @@
-import { Component, Element, Prop, Host, Event, h } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  h,
+  EventEmitter,
+} from "@stencil/core";
 import {
   getLocaleFormatData,
   replaceArabicNumerals,
@@ -6,7 +14,6 @@ import {
   getYear,
 } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
-import { DateChangeEmitter } from "../../interfaces/Date";
 import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
 import { getKey } from "../../utils/key";
 
@@ -55,7 +62,7 @@ export class CalciteDateMonthHeader {
   /**
    *  Changes to active date
    */
-  @Event() calciteActiveDateChange: DateChangeEmitter;
+  @Event() calciteActiveDateChange: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
