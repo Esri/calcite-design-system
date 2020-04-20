@@ -127,8 +127,29 @@
           <calcite-radio-button value="3"></calcite-radio-button>
         </calcite-radio-button-group>
 
-        <h3>Only one checked value (first wins)</h3>
-        <calcite-radio-button-group name="firstCheckedWins">
+        <h3>Only one checked value (last wins, first two checked)</h3>
+        <calcite-radio-button-group name="lastCheckedWinsFirst2">
+          <calcite-radio-button value="1" checked></calcite-radio-button>
+          <calcite-radio-button value="2" checked></calcite-radio-button>
+          <calcite-radio-button value="3"></calcite-radio-button>
+        </calcite-radio-button-group>
+
+        <h3>Only one checked value (last wins, second two checked)</h3>
+        <calcite-radio-button-group name="lastCheckedWinsSecond2">
+          <calcite-radio-button value="1"></calcite-radio-button>
+          <calcite-radio-button value="2" checked></calcite-radio-button>
+          <calcite-radio-button value="3" checked></calcite-radio-button>
+        </calcite-radio-button-group>
+
+        <h3>Only one checked value (last wins, first and last checked)</h3>
+        <calcite-radio-button-group name="lastCheckedWinsFirstLast">
+          <calcite-radio-button value="1" checked></calcite-radio-button>
+          <calcite-radio-button value="2"></calcite-radio-button>
+          <calcite-radio-button value="3" checked></calcite-radio-button>
+        </calcite-radio-button-group>
+
+        <h3>Only one checked value (last wins, all checked)</h3>
+        <calcite-radio-button-group name="lastCheckedWinsAll">
           <calcite-radio-button value="1" checked></calcite-radio-button>
           <calcite-radio-button value="2" checked></calcite-radio-button>
           <calcite-radio-button value="3" checked></calcite-radio-button>
