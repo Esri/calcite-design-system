@@ -8,16 +8,16 @@ import {
   Prop,
   State,
   Watch,
-  h
+  h,
 } from "@stencil/core";
 import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE } from "./resources";
 import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
-  updatePopper
+  updatePopper,
 } from "../../utils/popper";
-import { Modifier, Placement, Instance as Popper } from "@popperjs/core";
+import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { VNode } from "@stencil/core/internal/stencil-core";
 import { guid } from "../../utils/guid";
 import { HOST_CSS } from "../../utils/dom";
@@ -31,7 +31,7 @@ type FocusId = "close-button";
 @Component({
   tag: "calcite-popover",
   styleUrl: "calcite-popover.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalcitePopover {
   // --------------------------------------------------------------------------
@@ -184,7 +184,7 @@ export class CalcitePopover {
           el,
           modifiers,
           placement,
-          popper
+          popper,
         })
       : this.createPopper();
   }
@@ -248,43 +248,43 @@ export class CalcitePopover {
     );
   }
 
-  getModifiers(): Partial<Modifier<any>>[] {
+  getModifiers(): Partial<StrictModifiers>[] {
     const {
       arrowEl,
       flipPlacements,
       disableFlip,
       disablePointer,
       offsetDistance,
-      offsetSkidding
+      offsetSkidding,
     } = this;
-    const flipModifier: Partial<Modifier<any>> = {
+    const flipModifier: Partial<StrictModifiers> = {
       name: "flip",
-      enabled: !disableFlip
+      enabled: !disableFlip,
     };
 
     if (flipPlacements) {
       flipModifier.options = {
-        fallbackPlacements: flipPlacements
+        fallbackPlacements: flipPlacements,
       };
     }
 
-    const arrowModifier: Partial<Modifier<any>> = {
+    const arrowModifier: Partial<StrictModifiers> = {
       name: "arrow",
-      enabled: !disablePointer
+      enabled: !disablePointer,
     };
 
     if (arrowEl) {
       arrowModifier.options = {
-        element: arrowEl
+        element: arrowEl,
       };
     }
 
-    const offsetModifier: Partial<Modifier<any>> = {
+    const offsetModifier: Partial<StrictModifiers> = {
       name: "offset",
       enabled: true,
       options: {
-        offset: [offsetSkidding, offsetDistance]
-      }
+        offset: [offsetSkidding, offsetDistance],
+      },
     };
 
     return [arrowModifier, flipModifier, offsetModifier];
@@ -300,7 +300,7 @@ export class CalcitePopover {
       modifiers,
       open,
       placement,
-      referenceEl
+      referenceEl,
     });
   }
 
@@ -337,7 +337,7 @@ export class CalcitePopover {
 
     return closeButton ? (
       <button
-        ref={closeButtonEl => (this.closeButtonEl = closeButtonEl)}
+        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         aria-label={textClose}
         title={textClose}
         class={{ [CSS.closeButton]: true }}
@@ -352,14 +352,14 @@ export class CalcitePopover {
     const { _referenceElement, open, disablePointer } = this;
     const displayed = _referenceElement && open;
     const arrowNode = !disablePointer ? (
-      <div class={CSS.arrow} ref={arrowEl => (this.arrowEl = arrowEl)}></div>
+      <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
     ) : null;
 
     return (
       <Host
         role="dialog"
         class={{
-          [HOST_CSS.hydratedInvisible]: !displayed
+          [HOST_CSS.hydratedInvisible]: !displayed,
         }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}

@@ -6,23 +6,23 @@ import {
   Prop,
   State,
   Watch,
-  h
+  h,
 } from "@stencil/core";
 import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
-import { Modifier, Instance as Popper } from "@popperjs/core";
+import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
-  updatePopper
+  updatePopper,
 } from "../../utils/popper";
 import { HOST_CSS } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
   styleUrl: "calcite-tooltip.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteTooltip {
   // --------------------------------------------------------------------------
@@ -138,7 +138,7 @@ export class CalciteTooltip {
           el,
           modifiers,
           placement,
-          popper
+          popper,
         })
       : this.createPopper();
   }
@@ -196,23 +196,23 @@ export class CalciteTooltip {
     );
   }
 
-  getModifiers(): Partial<Modifier<any>>[] {
+  getModifiers(): Partial<StrictModifiers>[] {
     const { arrowEl, offsetDistance, offsetSkidding } = this;
 
-    const arrowModifier: Partial<Modifier<any>> = {
+    const arrowModifier: Partial<StrictModifiers> = {
       name: "arrow",
       enabled: true,
       options: {
-        element: arrowEl
-      }
+        element: arrowEl,
+      },
     };
 
-    const offsetModifier: Partial<Modifier<any>> = {
+    const offsetModifier: Partial<StrictModifiers> = {
       name: "offset",
       enabled: true,
       options: {
-        offset: [offsetSkidding, offsetDistance]
-      }
+        offset: [offsetSkidding, offsetDistance],
+      },
     };
 
     return [arrowModifier, offsetModifier];
@@ -229,7 +229,7 @@ export class CalciteTooltip {
       modifiers,
       open,
       placement,
-      referenceEl
+      referenceEl,
     });
   }
 
@@ -257,12 +257,15 @@ export class CalciteTooltip {
       <Host
         role="tooltip"
         class={{
-          [HOST_CSS.hydratedInvisible]: !displayed
+          [HOST_CSS.hydratedInvisible]: !displayed,
         }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >
-        <div class={CSS.arrow} ref={arrowEl => (this.arrowEl = arrowEl)}></div>
+        <div
+          class={CSS.arrow}
+          ref={(arrowEl) => (this.arrowEl = arrowEl)}
+        ></div>
         <div class={CSS.container}>
           <slot />
         </div>
