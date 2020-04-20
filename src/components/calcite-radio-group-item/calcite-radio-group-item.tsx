@@ -8,13 +8,13 @@ import {
   Host,
   Watch,
   Build,
-  State
+  State,
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 @Component({
   tag: "calcite-radio-group-item",
   styleUrl: "calcite-radio-group-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
@@ -85,9 +85,15 @@ export class CalciteRadioGroupItem {
   render() {
     const { checked, useFallback, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
+    const appearance = getElementProp(this.el, "appearance", "m");
 
     return (
-      <Host role="radio" aria-checked={checked.toString()} scale={scale}>
+      <Host
+        role="radio"
+        aria-checked={checked.toString()}
+        scale={scale}
+        appearance={appearance}
+      >
         <label>
           <slot>{useFallback ? value : ""}</slot>
           <slot name="input" />

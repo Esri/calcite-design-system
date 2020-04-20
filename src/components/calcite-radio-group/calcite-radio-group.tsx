@@ -8,23 +8,24 @@ import {
   Prop,
   Watch,
   Host,
-  Build, Method
+  Build,
+  Method,
 } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 
 const navigationKeys = {
   up: "ArrowUp",
   down: "ArrowDown",
   left: "ArrowLeft",
   right: "ArrowRight",
-  space: " "
+  space: " ",
 };
 
 @Component({
   tag: "calcite-radio-group",
   styleUrl: "calcite-radio-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteRadioGroup {
   //--------------------------------------------------------------------------
@@ -68,7 +69,7 @@ export class CalciteRadioGroup {
     }
     const items = this.getItems();
     const match = Array.from(items)
-      .filter(item => item === newItem)
+      .filter((item) => item === newItem)
       .pop();
 
     if (match) {
@@ -83,7 +84,11 @@ export class CalciteRadioGroup {
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** The scale of the button */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+
+  /** specify the appearance style of the radio group, defaults to solid. */
+  @Prop({ mutable: true, reflect: true }) appearance: "solid" | "outline" =
+    "solid";
 
   //--------------------------------------------------------------------------
   //
@@ -94,10 +99,15 @@ export class CalciteRadioGroup {
   connectedCallback() {
     // prop validations
     let scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
+    if (!scale.includes(this.scale))
+      this.scale = getElementProp(this.el.parentElement, "scale", "m");
+
+    let appearance = ["solid", "outline"];
+    if (!appearance.includes(this.appearance)) this.appearance = "solid";
+
     const items = this.getItems();
     let lastChecked = Array.from(items)
-      .filter(item => item.checked)
+      .filter((item) => item.checked)
       .pop();
 
     if (lastChecked) {
@@ -263,7 +273,7 @@ export class CalciteRadioGroup {
     const items = this.getItems();
     let match: HTMLCalciteRadioGroupItemElement = null;
 
-    items.forEach(item => {
+    items.forEach((item) => {
       const matches = item.value === selected.value;
 
       if ((matches && !item.checked) || (!matches && item.checked)) {

@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - new component `calcite-link`
 - new `calcite-label`, `calcite-input`, and `calcite-input-message` components
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
+- `calcite-radio-group` now has an `appearance` prop that accepts `outline` or `solid` (default) values
 
 ### Fixed
 
