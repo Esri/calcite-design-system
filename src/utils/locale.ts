@@ -71,7 +71,7 @@ export function parseDateString(
     .map((part) => part.replace(".", ""));
   return {
     day: parseInt(values[order.indexOf(units.day)]),
-    month: Math.max(parseInt(values[order.indexOf(units.month)]) - 1, 0),
+    month: parseInt(values[order.indexOf(units.month)]) - 1,
     year: parseInt(values[order.indexOf(units.year)]) - (buddhist ? 543 : 0),
   };
 }
@@ -109,14 +109,14 @@ export function getYear(date: Date, locale: string): string {
 /**
  * Generate an array of localized week day names in the correct order
  */
-export function getLocalizedWeekdays(locale: string): string[] {
+export function getLocalizedWeekdays(locale: string, format: string = "short"): string[] {
   const startWeek = [];
   const endWeek = [];
   const date = new Date();
   for (let w = 1; w < 8; w++) {
     date.setDate(w);
     let day = new Intl.DateTimeFormat(locale, {
-      weekday: "short",
+      weekday: format,
     }).format(date);
     date.getDay() === getFirstDayOfWeek(locale) || startWeek.length > 0
       ? startWeek.push(day)

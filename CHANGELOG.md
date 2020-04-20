@@ -14,12 +14,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-pagination` - `num`, `start`, and `total` now refer to records not pages
 - `calcite-pagination` - `calcitePaginationUpdate` event now only fires in response to user input
 - `calcite-pagination` - `setPage` method removed
+- `calcite-date` - `show-calendar` prop changed to `active`
 
 ### Added
 
 - new component `calcite-link`
 - new `calcite-label`, `calcite-input`, and `calcite-input-message` components
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
+- `calcite-date` now has `scale` prop for small, medium, and large
 - `calcite-radio-group` now has an `appearance` prop that accepts `outline` or `solid` (default) values
 
 ### Fixed
