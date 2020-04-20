@@ -92,6 +92,9 @@ export class CalciteInput {
   /** should the input autofocus */
   @Prop() autofocus: boolean = false;
 
+  /** explicitly whitelist placeholder attribute */
+  @Prop() placeholder: string;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -238,6 +241,7 @@ export class CalciteInput {
           onFocus={() => this.inputFocusHandler()}
           onInput={(e) => this.inputChangeHandler(e)}
           value={this.value}
+          placeholder={this.placeholder || ""}
           required={this.required ? true : null}
           autofocus={this.autofocus ? true : null}
         />
@@ -249,6 +253,7 @@ export class CalciteInput {
             onFocus={() => this.inputFocusHandler()}
             onInput={(e) => this.inputChangeHandler(e)}
             required={this.required ? true : null}
+            placeholder={this.placeholder || ""}
             autofocus={this.autofocus ? true : null}
           >
             <slot />

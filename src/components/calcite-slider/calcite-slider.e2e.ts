@@ -26,7 +26,7 @@ describe("calcite-slider", () => {
       >
       </calcite-slider>
     `);
-    const button = await page.find("calcite-slider >>> .slider__thumb");
+    const button = await page.find("calcite-slider >>> .thumb");
     expect(button).toEqualAttribute("role", "slider");
     expect(button).toEqualAttribute("aria-label", "Yeah! Slider!");
     expect(button).toEqualAttribute("aria-valuenow", "23");
@@ -48,8 +48,8 @@ describe("calcite-slider", () => {
       >
       </calcite-slider>
     `);
-    const maxButton = await page.find("calcite-slider >>> .slider__thumb--max");
-    const minButton = await page.find("calcite-slider >>> .slider__thumb--min");
+    const maxButton = await page.find("calcite-slider >>> .thumb--max");
+    const minButton = await page.find("calcite-slider >>> .thumb--min");
     expect(minButton).toEqualAttribute("role", "slider");
     expect(maxButton).toEqualAttribute("role", "slider");
     expect(minButton).toEqualAttribute("aria-label", "Min Label");
@@ -77,7 +77,7 @@ describe("calcite-slider", () => {
       </calcite-slider>
     `);
     const slider = await page.find("calcite-slider");
-    const handle = await page.find("calcite-slider >>> .slider__thumb");
+    const handle = await page.find("calcite-slider >>> .thumb");
     await page.waitForChanges();
     let value = await slider.getProperty("value");
     expect(value).toBe(30);
@@ -112,7 +112,7 @@ describe("calcite-slider", () => {
       </calcite-slider>
     `);
     const slider = await page.find("calcite-slider");
-    const handle = await page.find("calcite-slider >>> .slider__thumb--max");
+    const handle = await page.find("calcite-slider >>> .thumb--max");
     await page.waitForChanges();
     let value = await slider.getProperty("value");
     expect(value).toBe(20);
@@ -133,7 +133,7 @@ describe("calcite-slider", () => {
       >
       </calcite-slider>
     `);
-    const ticks = await page.findAll("calcite-slider >>> .slider__tick");
+    const ticks = await page.findAll("calcite-slider >>> .tick");
     expect(ticks.length).toBe(11);
   });
 
@@ -150,7 +150,7 @@ describe("calcite-slider", () => {
       </calcite-slider>
     `);
     const slider = await page.find("calcite-slider");
-    const handle = await page.find("calcite-slider >>> .slider__thumb");
+    const handle = await page.find("calcite-slider >>> .thumb");
     const changeEvent = await slider.spyOnEvent("calciteSliderUpdate");
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await handle.press("ArrowRight");

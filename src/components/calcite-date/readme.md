@@ -18,48 +18,49 @@ Date also supports passing in a proxy input to make event handling and binding e
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
-| Property          | Attribute           | Description                                                 | Type      | Default            |
-| ----------------- | ------------------- | ----------------------------------------------------------- | --------- | ------------------ |
-| `locale`          | `locale`            | BCP 47 language tag for desired language and country format | `string`  | `"en-US"`          |
-| `max`             | `max`               | Latest allowed date ("yyyy-mm-dd")                          | `string`  | `undefined`        |
-| `min`             | `min`               | Earliest allowed date ("yyyy-mm-dd")                        | `string`  | `undefined`        |
-| `nextMonthLabel`  | `next-month-label`  | Localized string for "next month"                           | `string`  | `"next month"`     |
-| `noCalendarInput` | `no-calendar-input` | Show only calendar popup                                    | `boolean` | `false`            |
-| `prevMonthLabel`  | `prev-month-label`  | Localized string for "previous month"                       | `string`  | `"previous month"` |
-| `showCalendar`    | `show-calendar`     | Expand or collapse when calendar does not have input        | `boolean` | `false`            |
-| `value`           | `value`             | Selected date                                               | `string`  | `undefined`        |
-| `valueAsDate`     | --                  | Selected date as full date object                           | `Date`    | `undefined`        |
-
+| Property          | Attribute           | Description                                                 | Type                | Default            |
+| ----------------- | ------------------- | ----------------------------------------------------------- | ------------------- | ------------------ |
+| `active`          | `active`            | Expand or collapse when calendar does not have input        | `boolean`           | `false`            |
+| `locale`          | `locale`            | BCP 47 language tag for desired language and country format | `string`            | `"en-US"`          |
+| `max`             | `max`               | Latest allowed date ("yyyy-mm-dd")                          | `string`            | `undefined`        |
+| `min`             | `min`               | Earliest allowed date ("yyyy-mm-dd")                        | `string`            | `undefined`        |
+| `nextMonthLabel`  | `next-month-label`  | Localized string for "next month"                           | `string`            | `"next month"`     |
+| `noCalendarInput` | `no-calendar-input` | Show only calendar popup                                    | `boolean`           | `false`            |
+| `prevMonthLabel`  | `prev-month-label`  | Localized string for "previous month"                       | `string`            | `"previous month"` |
+| `scale`           | `scale`             | specify the scale of the date picker                        | `"l" \| "m" \| "s"` | `"m"`              |
+| `value`           | `value`             | Selected date                                               | `string`            | `undefined`        |
+| `valueAsDate`     | --                  | Selected date as full date object                           | `Date`              | `undefined`        |
 
 ## Events
 
-| Event               | Description                                               | Type               |
-| ------------------- | --------------------------------------------------------- | ------------------ |
-| `calciteDateChange` | Trigger calcite date change when a user changes the date. | `CustomEvent<any>` |
-
+| Event               | Description                                               | Type                |
+| ------------------- | --------------------------------------------------------- | ------------------- |
+| `calciteDateChange` | Trigger calcite date change when a user changes the date. | `CustomEvent<Date>` |
 
 ## Dependencies
 
 ### Depends on
 
-- [calcite-icon](../calcite-icon)
+- [calcite-input](../calcite-input)
 - [calcite-date-month-header](../calcite-date-month-header)
 - [calcite-date-month](../calcite-date-month)
 
 ### Graph
+
 ```mermaid
 graph TD;
-  calcite-date --> calcite-icon
+  calcite-date --> calcite-input
   calcite-date --> calcite-date-month-header
   calcite-date --> calcite-date-month
+  calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   calcite-date-month-header --> calcite-icon
   calcite-date-month --> calcite-date-day
   style calcite-date fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

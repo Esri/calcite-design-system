@@ -3,26 +3,41 @@
 }
 
 .calender {
-  .week-headers {
-    display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid var(--calcite-ui-border-3);
-    border-top: 1px solid var(--calcite-ui-border-3);
+  padding-bottom: 4px;
+}
 
-    .week-header {
-      color: var(--calcite-ui-text-2);
-      padding: 0.75rem 0;
-      text-transform: uppercase;
-      font-weight: 600;
-      font-size: 11px;
-      width: calc(100% / 7);
-      text-align: center;
-    }
-  }
+.week-headers {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid var(--calcite-ui-border-3);
+  padding: 0 4px;
+}
 
-  .week-days {
-    outline: none;
-    display: flex;
-    flex-direction: row;
-  }
+.week-header {
+  color: var(--calcite-ui-text-3);
+  font-weight: 600;
+  width: calc(100% / 7);
+  text-align: center;
+}
+
+:host([scale="s"]) .week-header {
+  font-size: 12px;
+  padding: 16px 0 16px 0;
+}
+
+:host([scale="m"]) .week-header {
+  font-size: 12px;
+  padding: 24px 0 20px 0;
+}
+
+:host([scale="l"]) .week-header {
+  font-size: 14px;
+  padding: 32px 0 24px 0;
+}
+
+.week-days {
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  padding: 0 4px;
 }
