@@ -8,21 +8,9 @@ import {
   h,
   Listen,
 } from "@stencil/core";
-import {
-  LEFT,
-  RIGHT,
-  UP,
-  DOWN,
-  PAGE_UP,
-  PAGE_DOWN,
-  HOME,
-  END,
-  ENTER,
-  SPACE,
-  TAB,
-} from "../../utils/keys";
 import { getFirstDayOfWeek, getLocalizedWeekdays } from "../../utils/locale";
 import { inRange, sameDate, dateFromRange } from "../../utils/date";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-date-month",
@@ -78,37 +66,37 @@ export class CalciteDateMonth {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     const isRTL = this.el.dir === "rtl";
-    switch (e.keyCode) {
-      case UP:
+    switch (getKey(e.key)) {
+      case "ArrowUp":
         e.preventDefault();
         this.addDays(-7);
         break;
-      case RIGHT:
+      case "ArrowRight":
         e.preventDefault();
         this.addDays(isRTL ? -1 : 1);
         break;
-      case DOWN:
+      case "ArrowDown":
         e.preventDefault();
         this.addDays(7);
         break;
-      case LEFT:
+      case "ArrowLeft":
         e.preventDefault();
         this.addDays(isRTL ? 1 : -1);
         break;
-      case PAGE_UP:
+      case "PageUp":
         e.preventDefault();
         this.addMonths(-1);
         break;
-      case PAGE_DOWN:
+      case "PageDown":
         e.preventDefault();
         this.addMonths(1);
         break;
-      case HOME:
+      case "Home":
         e.preventDefault();
         this.activeDate.setDate(1);
         this.addDays();
         break;
-      case END:
+      case "End":
         e.preventDefault();
         this.activeDate.setDate(
           new Date(
@@ -119,12 +107,12 @@ export class CalciteDateMonth {
         );
         this.addDays();
         break;
-      case ENTER:
-      case SPACE:
+      case "Enter":
+      case " ":
         e.preventDefault();
         this.calciteDateSelect.emit(this.activeDate);
         break;
-      case TAB:
+      case "Tab":
         this.activeFocus = false;
     }
   }

@@ -16,13 +16,13 @@ import {
 } from "../../utils/locale";
 import { DateChangeEvent, DateChangeEmitter } from "../../interfaces/Date";
 import { getElementDir } from "../../utils/dom";
-import { ESCAPE } from "../../utils/keys";
 import {
   dateFromRange,
   inRange,
   dateFromISO,
   dateToISO,
 } from "../../utils/date";
+import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-date",
   styleUrl: "calcite-date.scss",
@@ -80,7 +80,7 @@ export class CalciteDatePicker {
   }
 
   @Listen("keyup") keyDownHandler(e: KeyboardEvent) {
-    if (e.keyCode === ESCAPE) {
+    if (getKey(e.key) === "Escape") {
       this.reset();
     }
   }
