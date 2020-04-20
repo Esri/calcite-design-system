@@ -1,17 +1,7 @@
 import { Component, Element, h, Host, Listen, Prop } from "@stencil/core";
-import {
-  DOWN,
-  END,
-  ENTER,
-  ESCAPE,
-  HOME,
-  SPACE,
-  TAB,
-  UP,
-} from "../../utils/keys";
-
 import { focusElement } from "../../utils/dom";
 import { GroupRegistration } from "../../interfaces/Dropdown";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-dropdown",
@@ -143,21 +133,22 @@ export class CalciteDropdown {
   }
 
   @Listen("keydown") keyDownHandler(e) {
+    const key = getKey(e.key);
     if (e.target.getAttribute("slot") === "dropdown-trigger") {
       if (
         e.target.nodeName !== "BUTTON" &&
         e.target.nodeName !== "CALCITE-BUTTON"
       ) {
-        switch (e.keyCode) {
-          case SPACE:
-          case ENTER:
+        switch (key) {
+          case " ":
+          case "Enter":
             this.openCalciteDropdown();
             break;
-          case ESCAPE:
+          case "Escape":
             this.closeCalciteDropdown();
             break;
         }
-      } else if (e.keyCode === ESCAPE || (e.shiftKey && e.keyCode === TAB)) {
+      } else if (key === "Escape" || (e.shiftKey && key === "Tab")) {
         this.closeCalciteDropdown();
       }
     }
@@ -184,23 +175,23 @@ export class CalciteDropdown {
       e.target.nodeName !== "A" ? e.target : e.target.parentNode;
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (e.keyCode) {
-      case TAB:
+    switch (getKey(e.key)) {
+      case "Tab":
         if (isLastItem && !e.shiftKey) this.closeCalciteDropdown();
         else if (isFirstItem && e.shiftKey) this.closeCalciteDropdown();
         else if (e.shiftKey) this.focusPrevItem(itemToFocus);
         else this.focusNextItem(itemToFocus);
         break;
-      case DOWN:
+      case "ArrowDown":
         this.focusNextItem(itemToFocus);
         break;
-      case UP:
+      case "ArrowUp":
         this.focusPrevItem(itemToFocus);
         break;
-      case HOME:
+      case "Home":
         this.focusFirstItem();
         break;
-      case END:
+      case "End":
         this.focusLastItem();
         break;
     }

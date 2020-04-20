@@ -13,14 +13,7 @@ import {
 } from "@stencil/core";
 
 import { getElementDir, getElementProp } from "../../utils/dom";
-
-const navigationKeys = {
-  up: "ArrowUp",
-  down: "ArrowDown",
-  left: "ArrowLeft",
-  right: "ArrowRight",
-  space: " ",
-};
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-radio-group",
@@ -166,22 +159,26 @@ export class CalciteRadioGroup {
 
   @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
-    const { key } = event;
+    const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
+    const key = getKey(event.key);
+    const { el, selectedItem } = this;
 
-    if (Object.values(navigationKeys).indexOf(key) === -1) {
+    if (keys.indexOf(key) === -1) {
       return;
     }
 
-    event.preventDefault();
+    let adjustedKey = key;
 
-    const { el, selectedItem } = this;
-    const dir = getElementDir(el);
-    const moveBackwardKey =
-      (dir === "rtl"
-        ? key === navigationKeys.right
-        : key === navigationKeys.left) || key === navigationKeys.up;
+    if (getElementDir(el) === "rtl") {
+      if (key === "ArrowRight") {
+        adjustedKey = "ArrowLeft";
+      }
+      if (key === "ArrowLeft") {
+        adjustedKey = "ArrowRight";
+      }
+    }
+
     const items = this.getItems();
-
     let selectedIndex = -1;
 
     items.forEach((item, index) => {
@@ -190,32 +187,31 @@ export class CalciteRadioGroup {
       }
     });
 
-    if (moveBackwardKey) {
-      const previous =
-        selectedIndex === -1 || selectedIndex === 0
-          ? items.item(items.length - 1)
-          : items.item(selectedIndex - 1);
-      this.selectItem(previous);
-      return;
-    }
-
-    const moveForwardKey =
-      (dir === "rtl"
-        ? key === navigationKeys.left
-        : key === navigationKeys.right) || key === navigationKeys.down;
-
-    if (moveForwardKey) {
-      const next =
-        selectedIndex === -1
-          ? items.item(1)
-          : items.item(selectedIndex + 1) || items.item(0);
-      this.selectItem(next);
-      return;
-    }
-
-    if (key === navigationKeys.space) {
-      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
-      return;
+    switch (adjustedKey) {
+      case "ArrowLeft":
+      case "ArrowUp":
+        event.preventDefault();
+        const previous =
+          selectedIndex < 1
+            ? items.item(items.length - 1)
+            : items.item(selectedIndex - 1);
+        this.selectItem(previous);
+        return;
+      case "ArrowRight":
+      case "ArrowDown":
+        event.preventDefault();
+        const next =
+          selectedIndex === -1
+            ? items.item(1)
+            : items.item(selectedIndex + 1) || items.item(0);
+        this.selectItem(next);
+        return;
+      case " ":
+        event.preventDefault();
+        this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+        return;
+      default:
+        return;
     }
   }
 
