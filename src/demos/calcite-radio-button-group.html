@@ -12,6 +12,7 @@
       color: white;
       padding: 1rem;
     }
+
     h3 {
       margin: 0;
     }
@@ -47,7 +48,7 @@
     class CalciteSpacer extends HTMLElement {
       constructor() {
         super();
-        this.attachShadow({ mode: "open"});
+        this.attachShadow({ mode: "open" });
         this.shadowRoot.innerHTML = `
           <style>
             :host {
@@ -189,4 +190,5 @@
     </form>
   </calcite-form>
 </body>
+
 </html>

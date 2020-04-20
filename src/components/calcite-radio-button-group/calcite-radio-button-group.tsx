@@ -15,16 +15,11 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) vertical: boolean = false;
 
   @Listen("calciteRadioButtonClick")
+  @Listen("calciteRadioButtonFocus")
   onCalciteRadioButtonClick(event: CustomEvent): void {
     this.el
       .querySelectorAll("calcite-radio-button")
       .forEach((radioButton) => (radioButton.checked = false));
-    (event.target as HTMLCalciteRadioButtonElement).checked = true;
-    (event.target as HTMLCalciteRadioButtonElement).focused = true;
-  }
-
-  @Listen("calciteRadioButtonFocus")
-  onCalciteRadioButtonFocus(event: CustomEvent) {
     (event.target as HTMLCalciteRadioButtonElement).checked = true;
     (event.target as HTMLCalciteRadioButtonElement).focused = true;
   }
