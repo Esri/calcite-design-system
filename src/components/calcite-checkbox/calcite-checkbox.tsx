@@ -8,14 +8,14 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build
+  Build,
 } from "@stencil/core";
-import { SPACE, ENTER } from "../../utils/keys";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "calcite-checkbox.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteCheckbox {
   @Element() el: HTMLElement;
@@ -69,7 +69,8 @@ export class CalciteCheckbox {
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    if (e.keyCode === SPACE || e.keyCode === ENTER) {
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
       e.preventDefault();
       this.toggle();
     }

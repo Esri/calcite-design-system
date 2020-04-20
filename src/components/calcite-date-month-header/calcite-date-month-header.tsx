@@ -1,5 +1,12 @@
-import { Component, Element, Prop, Host, Event, h } from "@stencil/core";
-import { UP, DOWN } from "../../utils/keys";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  h,
+  EventEmitter,
+} from "@stencil/core";
 import {
   getLocaleFormatData,
   replaceArabicNumerals,
@@ -7,8 +14,8 @@ import {
   getYear,
 } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
-import { DateChangeEmitter } from "../../interfaces/Date";
 import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-date-month-header",
@@ -44,6 +51,8 @@ export class CalciteDateMonthHeader {
   @Prop() prevMonthLabel: string;
   /** Localized string for next month. */
   @Prop() nextMonthLabel: string;
+  /** specify the scale of the date picker */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
   //--------------------------------------------------------------------------
   //
@@ -53,7 +62,7 @@ export class CalciteDateMonthHeader {
   /**
    *  Changes to active date
    */
-  @Event() calciteActiveDateChange: DateChangeEmitter;
+  @Event() calciteActiveDateChange: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -65,18 +74,24 @@ export class CalciteDateMonthHeader {
     const activeMonth = this.activeDate.getMonth();
     const localizedMonth = getMonths(this.locale)[activeMonth];
     const localizedYear = getYear(this.activeDate, this.locale);
+    const iconScale = this.scale === "l" ? "m" : "s";
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
-        <div class="month-year" aria-hidden="true">
+        <div class="header" aria-hidden="true">
           <button
-            class="left-icon"
+            class="chevron"
             aria-label={this.prevMonthLabel}
             onClick={() => this.selectPrevMonth()}
           >
-            <calcite-icon icon="chevron-left" scale="s" mirrored dir={dir} />
+            <calcite-icon
+              icon="chevron-left"
+              scale={iconScale}
+              mirrored
+              dir={dir}
+            />
           </button>
-          <div class="month-year-text">
+          <div class="text">
             <span class="month" role="heading">
               {localizedMonth}
             </span>
@@ -96,11 +111,16 @@ export class CalciteDateMonthHeader {
             />
           </div>
           <button
-            class="right-icon"
+            class="chevron"
             aria-label={this.nextMonthLabel}
             onClick={() => this.selectNextMonth()}
           >
-            <calcite-icon icon="chevron-right" scale="s" mirrored dir={dir} />
+            <calcite-icon
+              icon="chevron-right"
+              scale={iconScale}
+              mirrored
+              dir={dir}
+            />
           </button>
         </div>
       </Host>
@@ -144,12 +164,12 @@ export class CalciteDateMonthHeader {
    */
   private onYearKey(e: KeyboardEvent) {
     const year = (e.target as HTMLInputElement).value;
-    switch (e.keyCode) {
-      case DOWN:
+    switch (getKey(e.key)) {
+      case "ArrowDown":
         e.preventDefault();
         this.setYear(year, -1);
         break;
-      case UP:
+      case "ArrowUp":
         e.preventDefault();
         this.setYear(year, 1);
         break;

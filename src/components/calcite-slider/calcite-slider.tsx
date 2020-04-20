@@ -8,25 +8,16 @@ import {
   Listen,
   Method,
   h,
-  State
+  State,
 } from "@stencil/core";
-import {
-  LEFT,
-  RIGHT,
-  UP,
-  DOWN,
-  PAGE_UP,
-  PAGE_DOWN,
-  HOME,
-  END
-} from "../../utils/keys";
 import { guid } from "../../utils/guid";
+import { getKey } from "../../utils/key";
 type activeSliderProperty = "minValue" | "maxValue" | "value";
 
 @Component({
   tag: "calcite-slider",
   styleUrl: "calcite-slider.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteSlider {
   //--------------------------------------------------------------------------
@@ -98,25 +89,25 @@ export class CalciteSlider {
 
     return (
       <Host id={id} is-range={this.isRange}>
-        <div class="slider__track">
-          <div class="slider__track__range" style={{ left, right }} />
-          <div class="slider__ticks">
-            {this.tickValues.map(number => (
+        <div class="track">
+          <div class="track__range" style={{ left, right }} />
+          <div class="ticks">
+            {this.tickValues.map((number) => (
               <span
                 class={{
-                  slider__tick: true,
-                  "slider__tick--active": number >= min && number <= max
+                  tick: true,
+                  "tick--active": number >= min && number <= max,
                 }}
                 style={{
-                  left: `${this.getUnitInterval(number) * 100}%`
+                  left: `${this.getUnitInterval(number) * 100}%`,
                 }}
               >
                 {this.labelTicks ? (
                   <span
                     class={{
-                      slider__tick__label: true,
-                      "slider__tick__label--min": number === this.min,
-                      "slider__tick__label--max": number === this.max
+                      tick__label: true,
+                      "tick__label--min": number === this.min,
+                      "tick__label--max": number === this.max,
                     }}
                   >
                     {number}
@@ -130,11 +121,11 @@ export class CalciteSlider {
         </div>
         {this.isRange ? (
           <button
-            ref={el => (this.minHandle = el as HTMLButtonElement)}
+            ref={(el) => (this.minHandle = el as HTMLButtonElement)}
             onFocus={() => (this.activeProp = "minValue")}
             onBlur={() => (this.activeProp = null)}
             onMouseDown={() => this.dragStart("minValue")}
-            onTouchStart={e => this.dragStart("minValue", e)}
+            onTouchStart={(e) => this.dragStart("minValue", e)}
             role="slider"
             aria-orientation="horizontal"
             aria-label={this.minLabel}
@@ -144,15 +135,15 @@ export class CalciteSlider {
             disabled={this.disabled}
             style={{ left }}
             class={{
-              slider__thumb: true,
-              "slider__thumb--min": true,
-              "slider__thumb--active": this.dragProp === "minValue",
-              "slider__thumb--precise": this.precise
+              thumb: true,
+              "thumb--min": true,
+              "thumb--active": this.dragProp === "minValue",
+              "thumb--precise": this.precise,
             }}
           >
-            <span class="slider__handle"></span>
+            <span class="handle"></span>
             {this.labelHandles ? (
-              <span class="slider__handle__label" aria-hidden="true">
+              <span class="handle__label" aria-hidden="true">
                 {this.minValue}
               </span>
             ) : (
@@ -163,11 +154,11 @@ export class CalciteSlider {
           ""
         )}
         <button
-          ref={el => (this.maxHandle = el as HTMLButtonElement)}
+          ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
           onFocus={() => (this.activeProp = maxProp)}
           onBlur={() => (this.activeProp = null)}
           onMouseDown={() => this.dragStart(maxProp)}
-          onTouchStart={e => this.dragStart(maxProp, e)}
+          onTouchStart={(e) => this.dragStart(maxProp, e)}
           role="slider"
           aria-orientation="horizontal"
           aria-label={this.isRange ? this.maxLabel : this.minLabel}
@@ -177,15 +168,15 @@ export class CalciteSlider {
           disabled={this.disabled}
           style={{ right }}
           class={{
-            slider__thumb: true,
-            "slider__thumb--max": true,
-            "slider__thumb--active": this.dragProp === maxProp,
-            "slider__thumb--precise": this.precise
+            thumb: true,
+            "thumb--max": true,
+            "thumb--active": this.dragProp === maxProp,
+            "thumb--precise": this.precise,
           }}
         >
-          <span class="slider__handle"></span>
+          <span class="handle"></span>
           {this.labelHandles ? (
-            <span class="slider__handle__label" aria-hidden="true">
+            <span class="handle__label" aria-hidden="true">
               {this[maxProp]}
             </span>
           ) : (
@@ -202,20 +193,20 @@ export class CalciteSlider {
   //--------------------------------------------------------------------------
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     const value = this[this.activeProp];
-    switch (e.keyCode) {
-      case UP:
-      case RIGHT:
+    switch (getKey(e.key)) {
+      case "ArrowUp":
+      case "ArrowRight":
         e.preventDefault();
         this[this.activeProp] = this.bound(value + this.step, this.activeProp);
         this.calciteSliderUpdate.emit();
         break;
-      case DOWN:
-      case LEFT:
+      case "ArrowDown":
+      case "ArrowLeft":
         e.preventDefault();
         this[this.activeProp] = this.bound(value - this.step, this.activeProp);
         this.calciteSliderUpdate.emit();
         break;
-      case PAGE_UP:
+      case "PageUp":
         if (this.pageStep) {
           e.preventDefault();
           this[this.activeProp] = this.bound(
@@ -225,7 +216,7 @@ export class CalciteSlider {
           this.calciteSliderUpdate.emit();
         }
         break;
-      case PAGE_DOWN:
+      case "PageDown":
         if (this.pageStep) {
           e.preventDefault();
           this[this.activeProp] = this.bound(
@@ -235,12 +226,12 @@ export class CalciteSlider {
           this.calciteSliderUpdate.emit();
         }
         break;
-      case HOME:
+      case "Home":
         e.preventDefault();
         this[this.activeProp] = this.bound(this.min, this.activeProp);
         this.calciteSliderUpdate.emit();
         break;
-      case END:
+      case "End":
         e.preventDefault();
         this[this.activeProp] = this.bound(this.max, this.activeProp);
         this.calciteSliderUpdate.emit();
@@ -334,7 +325,7 @@ export class CalciteSlider {
     this.dragListener = this.dragListener || this.dragUpdate.bind(this);
     document.addEventListener("mousemove", this.dragListener);
     document.addEventListener("touchmove", this.dragListener, {
-      capture: false
+      capture: false,
     });
     document.addEventListener("mouseup", this.dragEnd.bind(this));
     document.addEventListener("touchend", this.dragEnd.bind(this), false);

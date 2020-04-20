@@ -2,21 +2,46 @@
   @include calcite-theme-dark();
 }
 
-.month-year {
+.header {
   display: flex;
+  justify-content: space-between;
 }
 
-.right-icon,
-.left-icon {
-  color: var(--calcite-ui-text-3);
-  flex-grow: 1;
+:host([scale="s"]) .text {
+  font-size: 14px;
+  height: 16px;
+  padding: 8px 0;
+}
+
+:host([scale="m"]) .text {
+  font-size: 16px;
+  height: 16px;
+  padding: 16px 0;
+}
+
+:host([scale="l"]) .text {
+  font-size: 18px;
+  padding: 16px 0;
+}
+
+.chevron {
+  color: var(--calcite-ui-text-2);
+  flex-grow: 0 0 auto;
+  width: calc(100% / 7);
+  box-sizing: content-box;
   outline: none;
-  padding: 0;
+  padding: 0 4px;
+  margin: 0;
   border: none;
-  color: inherit;
   background-color: var(--calcite-ui-foreground-1);
   cursor: pointer;
   transition: all 0.15s ease-in-out;
+
+  @include focus-style-base();
+
+  &:focus {
+    @include focus-style-inset();
+  }
 
   &:hover,
   &:focus {
@@ -29,19 +54,18 @@
   }
 }
 
-.month-year-text {
-  padding: 0.5rem;
+.text {
+  flex: 1 1 auto;
   display: inline-flex;
-  flex-grow: 1;
-  width: 50%;
   justify-content: center;
+  line-height: 1.25;
 }
 
 .month,
 .year {
   color: var(--calcite-ui-text-1);
   background: var(--calcite-ui-foreground-1);
-  @include font-size(0);
+  font-size: inherit;
   font-weight: 500;
 }
 
@@ -52,12 +76,13 @@
   width: 3em;
   padding: 0;
   margin: 0 8px;
-  // todo: replace with upcoming focus styles
-  outline-offset: 0;
-  outline-color: rgba(0, 0, 0, 0);
-  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
-  &:focus {
-    outline: 2px solid var(--calcite-ui-blue-1);
+  @include focus-style-base();
+  &:hover {
+    transition: outline-color 100ms ease-in-out;
+    outline: 2px solid var(--calcite-ui-border-2);
     outline-offset: 2px;
+  }
+  &:focus {
+    @include focus-style-outset();
   }
 }

@@ -8,17 +8,17 @@ import {
   Method,
   h,
   Host,
-  State
+  State,
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
-import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tab-title",
   styleUrl: "calcite-tab-title.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteTabTitle {
   //--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ export class CalciteTabTitle {
   componentWillLoad() {
     if (this.tab && this.isActive) {
       this.calciteTabsActivate.emit({
-        tab: this.tab
+        tab: this.tab,
       });
     }
   }
@@ -102,7 +102,7 @@ export class CalciteTabTitle {
     if (this.tab) {
       this.isActive = this.tab === event.detail.tab;
     } else {
-      this.getTabIndex().then(index => {
+      this.getTabIndex().then((index) => {
         this.isActive = index === event.detail.tab;
       });
     }
@@ -110,27 +110,27 @@ export class CalciteTabTitle {
 
   @Listen("click") onClick() {
     this.calciteTabsActivate.emit({
-      tab: this.tab
+      tab: this.tab,
     });
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    switch (e.keyCode) {
-      case SPACE:
-      case ENTER:
+    switch (getKey(e.key)) {
+      case " ":
+      case "Enter":
         this.calciteTabsActivate.emit({
-          tab: this.tab
+          tab: this.tab,
         });
         e.preventDefault();
         break;
-      case RIGHT:
+      case "ArrowRight":
         if (getElementDir(this.el) === "ltr") {
           this.calciteTabsFocusNext.emit();
         } else {
           this.calciteTabsFocusPrevious.emit();
         }
         break;
-      case LEFT:
+      case "ArrowLeft":
         if (getElementDir(this.el) === "ltr") {
           this.calciteTabsFocusPrevious.emit();
         } else {
