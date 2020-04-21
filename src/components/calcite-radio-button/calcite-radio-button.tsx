@@ -94,7 +94,11 @@ export class CalciteRadioButton {
 
   render() {
     return (
-      <Host role="radio" aria-checked={this.checked}>
+      <Host
+        role="radio"
+        aria-checked={this.checked}
+        aria-disabled={this.disabled}
+      >
         <div id="radio"></div>
         <label htmlFor={this.guid}>
           <slot>{this.value}</slot>
