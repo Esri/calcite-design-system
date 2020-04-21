@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - `calcite-pagination` - pages and next/previous can now be navigated with keyboard
+- `calcite-icon` - fixed use of kebab case in filled icon variants (#494)
 
 ## [v1.0.0-beta.24] - Apr 8th 2020
 
