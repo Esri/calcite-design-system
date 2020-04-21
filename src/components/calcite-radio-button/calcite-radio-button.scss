@@ -29,7 +29,7 @@
     max-width: 12px;
   }
 }
-:host([scale="xs"]) :host([scale="xs"][checked]) #radio,
+:host([scale="xs"][checked]) #radio,
 :host(:hover[scale="xs"][checked][disabled]) #radio {
   box-shadow: inset 0 0 0 4px $h-bb-060;
 }
