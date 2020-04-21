@@ -32,9 +32,10 @@ export async function fetchIcon({
   scale
 }: FetchIconProps): Promise<CalciteIconPath> {
   const size = scaleToPx[scale];
-  const filled = icon.charAt(icon.length - 1) === "F";
-  const iconName = filled ? icon.substring(0, icon.length - 1): icon;
-  const id = `${normalizeIconName(iconName)}${size}${filled ? "F" : ""}`;
+  const name = normalizeIconName(icon);
+  const filled = name.charAt(name.length - 1) === "F";
+  const iconName = filled ? name.substring(0, name.length - 1): name;
+  const id = `${iconName}${size}${filled ? "F" : ""}`;
 
   if (iconCache[id]) {
     return iconCache[id];
