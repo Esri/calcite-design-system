@@ -171,7 +171,23 @@ describe("calcite-input", () => {
     expect(numberHorizontalItemUp).toBeNull();
   });
 
-  //
+
+  it("focuses child input when setFocus method is called", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label>
+    Label text
+    <calcite-input></calcite-input>
+    </calcite-label>
+    `);
+
+    const element = await page.find("calcite-input");
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
+    expect(activeEl).toEqual(element.nodeName);
+
+  });
 
   it("correctly increment and decrements value when number buttons are clicked", async () => {
     const page = await newE2EPage();

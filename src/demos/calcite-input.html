@@ -157,39 +157,38 @@
           </calcite-label>
           <calcite-label>
             with button auto
-            <calcite-input placeholder="0">
-              <calcite-button slot="input-action">Go</calcite-button>
-            </calcite-input>
-          </calcite-label>
-
-
-          <calcite-label>
-            with button
-            <calcite-input type="number" placeholder="0">
+            <calcite-input placeholder="Text">
               <calcite-button slot="input-action">Go</calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
             with button
-            <calcite-input type="number" number-button-type="horizontal" placeholder="0">
+            <calcite-input type="number" placeholder="0" value="0">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button and min max step set
+            <calcite-input min="-100" max="100" step="10" value="40" type="number" number-button-type="horizontal"
+              placeholder="0">
               <calcite-button slot="input-action">Go or some long text that might wrap</calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
             with button auto
-            <calcite-input placeholder="0">
+            <calcite-input placeholder="Text">
               <calcite-button width="full" slot="input-action">Go</calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
             with button with icon
-            <calcite-input placeholder="0">
+            <calcite-input placeholder="Text">
               <calcite-button slot="input-action" icon="plus">Add </calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
             with button with icon
-            <calcite-input placeholder="0">
+            <calcite-input placeholder="Text">
               <calcite-button width="full" slot="input-action" icon="plus"></calcite-button>
             </calcite-input>
           </calcite-label>
@@ -418,7 +417,7 @@
       style="width:400px;display:inline-flex;max-width:100%;flex-direction:column;margin:0 auto;text-align:center;padding:2em">
       <h3>In use - using custom emitted events and dark mode</h3>
       <calcite-accordion icon-position="start" selection-mode="multi" theme="dark">
-        <calcite-accordion-item item-title="Register Event-listener example">
+        <calcite-accordion-item item-title="Register Event-listener example" active>
 
           <form name="form-input-example-2" id="form-input-example-2">
             <calcite-label theme="dark">
