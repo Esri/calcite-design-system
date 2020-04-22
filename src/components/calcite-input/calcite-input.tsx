@@ -51,13 +51,13 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
   /** input step */
-  @Prop({ mutable: true, reflect: true }) step?: string = "";
+  @Prop({ reflect: true }) step?: string = "";
 
   /** input min */
-  @Prop({ mutable: true, reflect: true }) min?: string = "";
+  @Prop({ reflect: true }) min?: string = "";
 
   /** input max */
-  @Prop({ mutable: true, reflect: true }) max?: string = "";
+  @Prop({ reflect: true }) max?: string = "";
 
   /** optionally add prefix  **/
   @Prop({ mutable: true }) prefixText?: string;
@@ -330,11 +330,7 @@ export class CalciteInput {
   /** focus the rendered child element */
   @Method()
   async setFocus() {
-    if (!this.childEl) {
-      return;
-    } else if (this.childEl) {
-      this.childEl.focus();
-    }
+    this.childEl?.focus();
   }
   //--------------------------------------------------------------------------
   //
