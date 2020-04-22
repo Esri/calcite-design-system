@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Calcite Radio Button Group</title>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
   <style>
     h1,
     h2,
@@ -38,8 +40,6 @@
       color: white;
     }
   </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
   <script type="module" src="../build/calcite.esm.js"></script>
   <script nomodule src="../build/calcite.js"></script>
   <script>
@@ -98,7 +98,6 @@
                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, max-content)); grid-gap: 8px;">
                  <div style="border: 1px solid #2B2B2B; padding: 1rem;">
                   <calcite-spacer>
-                    <h2>Light Theme</h2>
                     <h3>Scale xs</h3>
                     <calcite-radio-button-group name="xs" scale="xs">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
@@ -531,7 +530,6 @@
                 </div>
                 <div class="dark">
                   <calcite-spacer>
-                    <h2>Dark Theme</h2>
                     <h3>Scale xs</h3>
                     <calcite-radio-button-group theme="dark" name="xs-dark" scale="xs">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
