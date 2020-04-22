@@ -25,6 +25,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) focused: boolean = false;
   @Prop({ reflect: true }) name: string;
   @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
   @Prop() value: string;
 
   private input: HTMLInputElement;

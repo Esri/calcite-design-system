@@ -12,6 +12,7 @@ export class CalciteRadioButtonGroup {
   @Prop() disabled: boolean = false;
   @Prop() name: string;
   @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
   @Prop({ reflect: true }) vertical: boolean = false;
 
   @Listen("calciteRadioButtonClick")
@@ -45,6 +46,7 @@ export class CalciteRadioButtonGroup {
           : this.disabled;
         radioButton.name = this.name;
         radioButton.scale = this.scale;
+        radioButton.theme = this.theme;
         if (firstCheckedRadioButton) {
           radioButton.checked = false;
         } else if (radioButton.checked) {

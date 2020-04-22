@@ -1,3 +1,4 @@
+/* Overall Host Styles */
 :host {
   display: grid;
   grid-gap: 7px;
@@ -5,7 +6,6 @@
   cursor: pointer;
   #radio {
     border-radius: 100%;
-    box-shadow: inset 0 0 0 1px $blk-080;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
   }
@@ -13,11 +13,45 @@
     cursor: pointer;
   }
 }
-:host(:hover) #radio {
-  box-shadow: inset 0 0 0 2px $h-bb-060;
+
+/* Overall Disabled Styles */
+:host([disabled]) {
+  cursor: default;
+  opacity: 0.4;
+  #radio,
+  label {
+    cursor: default;
+  }
 }
-:host(:hover[disabled]) #radio {
-  box-shadow: inset 0 0 0 1px $blk-080;
+
+/* Overall Light Styles (unchecked) */
+:host([theme="light"]),
+:host(:hover[theme="light"][disabled]) {
+  #radio {
+    box-shadow: inset 0 0 0 1px $ui-border-1;
+  }
+}
+:host(:hover[theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 2px $ui-blue-1;
+  }
+}
+
+/* Overall Dark Styles (unchecked) */
+:host([theme="dark"]),
+:host([theme="dark"][disabled]),
+:host(:hover[theme="dark"][disabled]) {
+  #radio {
+    box-shadow: inset 0 0 0 1px $ui-border-1-dark;
+  }
+  label {
+    color: white;
+  }
+}
+:host(:hover[theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 2px $ui-blue-1-dark;
+  }
 }
 
 /* xs */
@@ -29,13 +63,33 @@
     max-width: 12px;
   }
 }
-:host([scale="xs"][checked]) #radio,
-:host(:hover[scale="xs"][checked][disabled]) #radio {
-  box-shadow: inset 0 0 0 4px $h-bb-060;
+/* xs light theme */
+:host([scale="xs"][checked][theme="light"]),
+:host(:hover[scale="xs"][checked][disabled][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 4px $ui-blue-1;
+  }
 }
-:host(:hover[scale="xs"][checked]) #radio,
-:host([scale="xs"][focused]) #radio {
-  box-shadow: inset 0 0 0 4px $h-bb-060, 0 0 0 1px white, 0 0 0 3px $h-bb-060;
+:host([scale="xs"][focused][theme="light"]),
+:host(:hover[scale="xs"][checked][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 4px $ui-blue-1, 0 0 0 1px $ui-foreground-1,
+      0 0 0 3px $ui-blue-1;
+  }
+}
+/* xs dark theme */
+:host([scale="xs"][checked][theme="dark"]),
+:host(:hover[scale="xs"][checked][disabled][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 4px $ui-blue-1-dark;
+  }
+}
+:host([scale="xs"][focused][theme="dark"]),
+:host(:hover[scale="xs"][checked][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 4px $ui-blue-1-dark, 0 0 0 1px $ui-foreground-1-dark,
+      0 0 0 3px $ui-blue-1-dark;
+  }
 }
 
 /* s */
@@ -47,13 +101,33 @@
     max-width: 14px;
   }
 }
-:host([scale="s"][checked]) #radio,
-:host(:hover[scale="s"][checked][disabled]) #radio {
-  box-shadow: inset 0 0 0 4px $h-bb-060;
+/* s light theme */
+:host([scale="s"][checked][theme="light"]),
+:host(:hover[scale="s"][checked][disabled][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 4px $ui-blue-1;
+  }
 }
-:host(:hover[scale="s"][checked]) #radio,
-:host([scale="s"][focused]) #radio {
-  box-shadow: inset 0 0 0 4px $h-bb-060, 0 0 0 1px white, 0 0 0 3px $h-bb-060;
+:host([scale="s"][focused][theme="light"]),
+:host(:hover[scale="s"][checked][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 4px $ui-blue-1, 0 0 0 1px $ui-foreground-1,
+      0 0 0 3px $ui-blue-1;
+  }
+}
+/* s dark theme */
+:host([scale="s"][checked][theme="dark"]),
+:host(:hover[scale="s"][checked][disabled][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 4px $ui-blue-1-dark;
+  }
+}
+:host([scale="s"][focused][theme="dark"]),
+:host(:hover[scale="s"][checked][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 4px $ui-blue-1-dark, 0 0 0 1px $ui-foreground-1-dark,
+      0 0 0 3px $ui-blue-1-dark;
+  }
 }
 
 /* m */
@@ -65,13 +139,33 @@
     max-width: 16px;
   }
 }
-:host([scale="m"][checked]) #radio,
-:host(:hover[scale="m"][checked][disabled]) #radio {
-  box-shadow: inset 0 0 0 5px $h-bb-060;
+/* m light theme */
+:host([scale="m"][checked][theme="light"]),
+:host(:hover[scale="m"][checked][disabled][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 5px $ui-blue-1;
+  }
 }
-:host(:hover[scale="m"][checked]) #radio,
-:host([scale="m"][focused]) #radio {
-  box-shadow: inset 0 0 0 5px $h-bb-060, 0 0 0 1px white, 0 0 0 3px $h-bb-060;
+:host([scale="m"][focused][theme="light"]),
+:host(:hover[scale="m"][checked][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 5px $ui-blue-1, 0 0 0 1px $ui-foreground-1,
+      0 0 0 3px $ui-blue-1;
+  }
+}
+/* m dark theme */
+:host([scale="m"][checked][theme="dark"]),
+:host(:hover[scale="m"][checked][disabled][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 5px $ui-blue-1-dark;
+  }
+}
+:host([scale="m"][focused][theme="dark"]),
+:host(:hover[scale="m"][checked][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 5px $ui-blue-1-dark, 0 0 0 1px $ui-foreground-1-dark,
+      0 0 0 3px $ui-blue-1-dark;
+  }
 }
 
 /* l */
@@ -83,13 +177,33 @@
     max-width: 18px;
   }
 }
-:host([scale="l"][checked]) #radio,
-:host(:hover[scale="l"][checked][disabled]) #radio {
-  box-shadow: inset 0 0 0 6px $h-bb-060;
+/* l light theme */
+:host([scale="l"][checked][theme="light"]),
+:host(:hover[scale="l"][checked][disabled][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 6px $ui-blue-1;
+  }
 }
-:host(:hover[scale="l"][checked]) #radio,
-:host([scale="l"][focused]) #radio {
-  box-shadow: inset 0 0 0 6px $h-bb-060, 0 0 0 1px white, 0 0 0 3px $h-bb-060;
+:host([scale="l"][focused][theme="light"]),
+:host(:hover[scale="l"][checked][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 6px $ui-blue-1, 0 0 0 1px $ui-foreground-1,
+      0 0 0 3px $ui-blue-1;
+  }
+}
+/* l dark theme */
+:host([scale="l"][checked][theme="dark"]),
+:host(:hover[scale="l"][checked][disabled][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 6px $ui-blue-1-dark;
+  }
+}
+:host([scale="l"][focused][theme="dark"]),
+:host(:hover[scale="l"][checked][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 6px $ui-blue-1-dark, 0 0 0 1px $ui-foreground-1-dark,
+      0 0 0 3px $ui-blue-1-dark;
+  }
 }
 
 /* xl */
@@ -101,21 +215,31 @@
     max-width: 22px;
   }
 }
-:host([scale="xl"][checked]) #radio,
-:host(:hover[scale="xl"][checked][disabled]) #radio {
-  box-shadow: inset 0 0 0 7px $h-bb-060;
+/* xl light theme */
+:host([scale="xl"][checked][theme="light"]),
+:host(:hover[scale="xl"][checked][disabled][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 7px $ui-blue-1;
+  }
 }
-:host(:hover[scale="xl"][checked]) #radio,
-:host([scale="xl"][focused]) #radio {
-  box-shadow: inset 0 0 0 7px $h-bb-060, 0 0 0 1px white, 0 0 0 3px $h-bb-060;
+:host([scale="xl"][focused][theme="light"]),
+:host(:hover[scale="xl"][checked][theme="light"]) {
+  #radio {
+    box-shadow: inset 0 0 0 7px $ui-blue-1, 0 0 0 1px $ui-foreground-1,
+      0 0 0 3px $ui-blue-1;
+  }
 }
-
-/* Disabled */
-:host([disabled]) {
-  cursor: default;
-  opacity: 0.4;
+/* xl dark theme */
+:host([scale="xl"][checked][theme="dark"]),
+:host(:hover[scale="xl"][checked][disabled][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 7px $ui-blue-1-dark;
+  }
 }
-:host([disabled]) #radio,
-:host([disabled]) label {
-  cursor: default;
+:host([scale="xl"][focused][theme="dark"]),
+:host(:hover[scale="xl"][checked][theme="dark"]) {
+  #radio {
+    box-shadow: inset 0 0 0 7px $ui-blue-1-dark, 0 0 0 1px $ui-foreground-1-dark,
+      0 0 0 3px $ui-blue-1-dark;
+  }
 }
