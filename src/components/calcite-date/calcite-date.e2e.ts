@@ -7,10 +7,10 @@ describe("calcite-date", () => {
   it("fires a calciteDateChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent('<calcite-date></calcite-date>');
-    const input = await page.find("calcite-date >>> .date-input");
+    const input = await page.find("calcite-date >>> calcite-input");
     await page.waitForChanges();
     const changedEvent = await page.spyOnEvent('calciteDateChange');
-    await input.focus();
+    await input.callMethod("setFocus");
     const wrapper = await page.find("calcite-date >>> .calendar-picker-wrapper");
     expect(await wrapper.isVisible()).toBe(true);
     await input.press("3");

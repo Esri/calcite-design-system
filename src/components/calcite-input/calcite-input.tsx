@@ -6,6 +6,7 @@ import {
   EventEmitter,
   h,
   Listen,
+  Method,
   Prop,
 } from "@stencil/core";
 import {
@@ -47,7 +48,16 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) alignment: "start" | "end" = "start";
 
   /** input value */
-  @Prop({ mutable: true }) value?: string | null = "";
+  @Prop({ mutable: true, reflect: true }) value?: string = "";
+
+  /** input step */
+  @Prop({ reflect: true }) step?: string = "";
+
+  /** input min */
+  @Prop({ reflect: true }) min?: string = "";
+
+  /** input max */
+  @Prop({ reflect: true }) max?: string = "";
 
   /** optionally add prefix  **/
   @Prop({ mutable: true }) prefixText?: string;
@@ -240,6 +250,10 @@ export class CalciteInput {
           onBlur={() => this.inputBlurHandler()}
           onFocus={() => this.inputFocusHandler()}
           onInput={(e) => this.inputChangeHandler(e)}
+          type={this.type}
+          min={this.min}
+          max={this.max}
+          step={this.step}
           value={this.value}
           placeholder={this.placeholder || ""}
           required={this.required ? true : null}
@@ -258,10 +272,9 @@ export class CalciteInput {
           >
             <slot />
           </textarea>,
-          <calcite-icon
-            icon="chevron-down"
-            class="calcite-input-resize-icon"
-          ></calcite-icon>,
+          <div class="calcite-input-resize-icon-wrapper">
+            <calcite-icon icon="chevron-down" scale="s"></calcite-icon>
+          </div>,
         ]
       );
 
@@ -308,6 +321,17 @@ export class CalciteInput {
   @Event() calciteInputBlur: EventEmitter;
   @Event() calciteInputChange: EventEmitter;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** focus the rendered child element */
+  @Method()
+  async setFocus() {
+    this.childEl?.focus();
+  }
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -368,6 +392,10 @@ export class CalciteInput {
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
     let props = [
+      "min",
+      "max",
+      "step",
+      "value",
       "icon",
       "loading",
       "scale",
@@ -381,30 +409,24 @@ export class CalciteInput {
   }
 
   private updateNumberValue = (e) => {
+    // todo, when dropping ie11 support, refactor to use stepup/stepdown
     // prevent blur and re-focus of input on mousedown
     e.preventDefault();
-    if (this.type === "number") {
-      let numberInputMax = this.childEl.max
-        ? parseFloat(this.childEl.max)
-        : null;
-      let numberInputMin = this.childEl.min
-        ? parseFloat(this.childEl.min)
-        : null;
-      let numberInputStep = this.childEl.step
-        ? parseFloat(this.childEl.step)
-        : 1;
-      let inputValueAsNumber = parseFloat(this.childEl.value)
-        ? parseFloat(this.childEl.value)
-        : numberInputMin;
+    if (this.childElType === "input" && this.type === "number") {
+      let inputMax = this.max && this.max !== "" ? parseFloat(this.max) : null;
+      let inputMin = this.min && this.min !== "" ? parseFloat(this.min) : null;
+      let inputStep = this.step && this.step !== "" ? parseFloat(this.step) : 1;
+      let inputVal =
+        this.value && this.value !== "" ? parseFloat(this.value) : 0;
 
       switch (e.target.dataset.adjustment) {
         case "up":
-          if (!numberInputMax || inputValueAsNumber < numberInputMax)
-            this.childEl.value = (inputValueAsNumber += numberInputStep).toString();
+          if (!inputMax || inputVal < inputMax)
+            this.childEl.value = (inputVal += inputStep).toString();
           break;
         case "down":
-          if (!numberInputMin || inputValueAsNumber > numberInputMin)
-            this.childEl.value = (inputValueAsNumber -= numberInputStep).toString();
+          if (!inputMin || inputVal > inputMin)
+            this.childEl.value = (inputVal -= inputStep).toString();
           break;
       }
       this.value = this.childEl.value.toString();

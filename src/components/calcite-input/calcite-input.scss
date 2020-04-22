@@ -43,7 +43,7 @@ calcite-input input {
   box-shadow: 0 0 0 0 transparent;
   outline: 0;
   margin: 0;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   color: var(--calcite-ui-text-1);
   order: 3;
   font-weight: 400;
@@ -88,9 +88,6 @@ calcite-input {
   }
   & input[readonly]:focus,
   & textarea[readonly]:focus {
-    color: var(--calcite-ui-text-1);
-  }
-  & calcite-icon {
     color: var(--calcite-ui-text-1);
   }
 }
@@ -308,7 +305,7 @@ calcite-input[number-button-type="vertical"]
   border-left: none;
   & calcite-icon {
     pointer-events: none;
-    width: 10px;
+    width: 14px;
     height: auto;
   }
   &:hover,
@@ -351,15 +348,28 @@ calcite-input textarea::-webkit-resizer {
   padding: 0 $baseline/4;
 }
 
-.calcite-input-resize-icon {
+// hide custom textarea resize icon for ie11, defer to browser arrows
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .calcite-input-resize-icon-wrapper {
+    display: none;
+  }
+}
+
+.calcite-input-resize-icon-wrapper {
+  background-color: var(--calcite-ui-foreground-1);
+  color: var(--calcite-ui-text-3);
   position: absolute;
   z-index: 1;
-  bottom: 4px;
-  right: 4px;
+  bottom: 2px;
+  right: 2px;
   pointer-events: none;
   width: 16px;
   height: 16px;
-  transform: rotate(-45deg);
+  & calcite-icon {
+    bottom: 4px;
+    right: 4px;
+    transform: rotate(-45deg);
+  }
 }
 
 calcite-input[dir="rtl"] {

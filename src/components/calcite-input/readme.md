@@ -130,11 +130,15 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `autofocus`        | `autofocus`          | should the input autofocus                                          | `boolean`                                                                                                                                                                              | `false`      |
 | `icon`             | `icon`               | for recognized input types, show an icon if applicable              | `boolean \| string`                                                                                                                                                                    | `false`      |
 | `loading`          | `loading`            | specify if the input is in loading state                            | `boolean`                                                                                                                                                                              | `false`      |
+| `max`              | `max`                | input max                                                           | `string`                                                                                                                                                                               | `""`         |
+| `min`              | `min`                | input min                                                           | `string`                                                                                                                                                                               | `""`         |
 | `numberButtonType` | `number-button-type` | specify the placement of the number buttons                         | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"` |
+| `placeholder`      | `placeholder`        | explicitly whitelist placeholder attribute                          | `string`                                                                                                                                                                               | `undefined`  |
 | `prefixText`       | `prefix-text`        | optionally add prefix \*                                            | `string`                                                                                                                                                                               | `undefined`  |
 | `required`         | `required`           | is the input required                                               | `boolean`                                                                                                                                                                              | `false`      |
 | `scale`            | `scale`              | specify the scale of the input, defaults to m                       | `"l" \| "m" \| "s"`                                                                                                                                                                    | `undefined`  |
 | `status`           | `status`             | specify the status of the input field, determines message and icons | `"idle" \| "invalid" \| "valid"`                                                                                                                                                       | `undefined`  |
+| `step`             | `step`               | input step                                                          | `string`                                                                                                                                                                               | `""`         |
 | `suffixText`       | `suffix-text`        | optionally add suffix \*                                            | `string`                                                                                                                                                                               | `undefined`  |
 | `theme`            | `theme`              | specify the alignment of dropdown, defaults to left                 | `"dark" \| "light"`                                                                                                                                                                    | `undefined`  |
 | `type`             | `type`               | specify the input type                                              | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`     |
@@ -148,7 +152,21 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `calciteInputChange` |             | `CustomEvent<any>` |
 | `calciteInputFocus`  |             | `CustomEvent<any>` |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+focus the rendered child element
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Dependencies
+
+### Used by
+
+- [calcite-date](../calcite-date)
 
 ### Depends on
 
@@ -161,6 +179,7 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 graph TD;
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-date --> calcite-input
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
