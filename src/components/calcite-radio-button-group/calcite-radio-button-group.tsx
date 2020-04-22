@@ -9,11 +9,13 @@ import { Scale } from "../../interfaces/common";
 export class CalciteRadioButtonGroup {
   @Element() el!: HTMLElement;
 
-  @Prop() disabled: boolean = false;
-  @Prop() name: string;
-  @Prop() scale: Scale = "m";
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) disabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) name: string;
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
   @Prop({ reflect: true }) vertical: boolean = false;
+  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
+    "horizontal";
 
   @Listen("calciteRadioButtonClick")
   @Listen("calciteRadioButtonFocus")
@@ -59,7 +61,7 @@ export class CalciteRadioButtonGroup {
 
   render() {
     return (
-      <Host scale={this.scale} vertical={this.vertical}>
+      <Host layout={this.layout} scale={this.scale} vertical={this.vertical}>
         <slot></slot>
       </Host>
     );

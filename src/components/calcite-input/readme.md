@@ -131,6 +131,7 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `icon`             | `icon`               | for recognized input types, show an icon if applicable              | `boolean \| string`                                                                                                                                                                    | `false`      |
 | `loading`          | `loading`            | specify if the input is in loading state                            | `boolean`                                                                                                                                                                              | `false`      |
 | `numberButtonType` | `number-button-type` | specify the placement of the number buttons                         | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"` |
+| `placeholder`      | `placeholder`        | explicitly whitelist placeholder attribute                          | `string`                                                                                                                                                                               | `undefined`  |
 | `prefixText`       | `prefix-text`        | optionally add prefix \*                                            | `string`                                                                                                                                                                               | `undefined`  |
 | `required`         | `required`           | is the input required                                               | `boolean`                                                                                                                                                                              | `false`      |
 | `scale`            | `scale`              | specify the scale of the input, defaults to m                       | `"l" \| "m" \| "s"`                                                                                                                                                                    | `undefined`  |
@@ -150,6 +151,10 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 
 ## Dependencies
 
+### Used by
+
+- [calcite-date](../calcite-date)
+
 ### Depends on
 
 - [calcite-progress](../calcite-progress)
@@ -161,6 +166,7 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 graph TD;
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-date --> calcite-input
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
