@@ -76,13 +76,16 @@ export class CalciteRadioGroup {
   /** The component's theme. */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
-  /** The scale of the button */
+  /** The scale of the radio group */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
   /** specify the appearance style of the radio group, defaults to solid. */
   @Prop({ mutable: true, reflect: true }) appearance: "solid" | "outline" =
     "solid";
 
+  /** specify the layout of the radio group, defaults to horizontal */
+  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
+    "horizontal";
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -97,6 +100,9 @@ export class CalciteRadioGroup {
 
     let appearance = ["solid", "outline"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
+
+    let layout = ["horizontal", "vertical"];
+    if (!layout.includes(this.layout)) this.layout = "horizontal";
 
     const items = this.getItems();
     let lastChecked = Array.from(items)
