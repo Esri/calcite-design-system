@@ -27,6 +27,9 @@ export class CalciteRadioButtonGroup {
   /** specify the name of the radio button group, required and must be unique to other radio button group instances */
   @Prop({ reflect: true }) name!: string;
 
+  /** specify if this radio button group is required, defaults to false */
+  @Prop({ reflect: true }) required: boolean = false;
+
   /** specify the scale of the radio button group, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -84,6 +87,7 @@ export class CalciteRadioButtonGroup {
           ? radioButton.disabled
           : this.disabled;
         radioButton.name = this.name;
+        radioButton.required = this.required;
         radioButton.scale = this.scale;
         radioButton.theme = this.theme;
         if (firstCheckedRadioButton) {

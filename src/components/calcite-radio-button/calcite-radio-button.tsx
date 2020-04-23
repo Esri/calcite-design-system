@@ -44,6 +44,9 @@ export class CalciteRadioButton {
   /** The name of the radio button, required and must be unique to other radio button group instances.  Name is passed down from the radio button group */
   @Prop({ reflect: true }) name: string;
 
+  /** specify if this radio button is required, defaults to false */
+  @Prop({ reflect: true }) required: boolean = false;
+
   /** specify the scale of the radio button, defaults to m, passed down from radio button group */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -128,6 +131,10 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  disconnectedCallback() {
+    this.input.parentNode.removeChild(this.input);
+  }
+
   componentWillLoad() {
     this.renderHiddenRadioInput();
   }
@@ -153,6 +160,7 @@ export class CalciteRadioButton {
     this.input.style.zIndex = "-1";
     this.input.value = this.value;
     this.input.type = "radio";
+    this.input.required = this.required;
     // This renders the input as a sibling of calcite-radio-button because as it turns out
     // doing appendChild as hjorthhansen suggests doesn't really keep it out of the
     // shadow DOM as far as slot behavior goes.  This is required to render {this.value} as fallback slot content.
