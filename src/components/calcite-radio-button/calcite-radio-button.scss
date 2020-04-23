@@ -51,12 +51,11 @@
     box-shadow: inset 0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
-:host([scale="xs"][focused]),
-:host(:hover[scale="xs"][checked]) {
+:host([scale="xs"][focused]) {
   #radio {
     box-shadow: inset 0 0 0 4px var(--calcite-ui-blue-1),
-      0 0 0 1px var(--calcite-ui-foreground-1),
-      0 0 0 3px var(--calcite-ui-blue-1);
+      0 0 0 2px var(--calcite-ui-foreground-1),
+      0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
 
@@ -75,12 +74,11 @@
     box-shadow: inset 0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
-:host([scale="s"][focused]),
-:host(:hover[scale="s"][checked]) {
+:host([scale="s"][focused]) {
   #radio {
     box-shadow: inset 0 0 0 4px var(--calcite-ui-blue-1),
-      0 0 0 1px var(--calcite-ui-foreground-1),
-      0 0 0 3px var(--calcite-ui-blue-1);
+      0 0 0 2px var(--calcite-ui-foreground-1),
+      0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
 
@@ -99,12 +97,11 @@
     box-shadow: inset 0 0 0 5px var(--calcite-ui-blue-1);
   }
 }
-:host([scale="m"][focused]),
-:host(:hover[scale="m"][checked]) {
+:host([scale="m"][focused]) {
   #radio {
     box-shadow: inset 0 0 0 5px var(--calcite-ui-blue-1),
-      0 0 0 1px var(--calcite-ui-foreground-1),
-      0 0 0 3px var(--calcite-ui-blue-1);
+      0 0 0 2px var(--calcite-ui-foreground-1),
+      0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
 
@@ -123,12 +120,11 @@
     box-shadow: inset 0 0 0 6px var(--calcite-ui-blue-1);
   }
 }
-:host([scale="l"][focused]),
-:host(:hover[scale="l"][checked]) {
+:host([scale="l"][focused]) {
   #radio {
     box-shadow: inset 0 0 0 6px var(--calcite-ui-blue-1),
-      0 0 0 1px var(--calcite-ui-foreground-1),
-      0 0 0 3px var(--calcite-ui-blue-1);
+      0 0 0 2px var(--calcite-ui-foreground-1),
+      0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
 
@@ -148,11 +144,10 @@
     box-shadow: inset 0 0 0 7px var(--calcite-ui-blue-1);
   }
 }
-:host([scale="xl"][focused]),
-:host(:hover[scale="xl"][checked]) {
+:host([scale="xl"][focused]) {
   #radio {
     box-shadow: inset 0 0 0 7px var(--calcite-ui-blue-1),
-      0 0 0 1px var(--calcite-ui-foreground-1),
-      0 0 0 3px var(--calcite-ui-blue-1);
+      0 0 0 2px var(--calcite-ui-foreground-1),
+      0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
