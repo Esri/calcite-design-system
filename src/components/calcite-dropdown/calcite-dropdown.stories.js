@@ -1,8 +1,14 @@
 import { storiesOf } from "@storybook/html";
 import { withKnobs, number, select } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
-import readme from "./readme.md";
-const notes = parseReadme(readme);
+import readme1 from "./readme.md";
+import readme2 from "../calcite-dropdown-group/readme.md";
+import readme3 from "../calcite-dropdown-item/readme.md";
+
+const notes1 = parseReadme(readme1);
+const notes2 = parseReadme(readme2);
+const notes3 = parseReadme(readme3);
+const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`);
 
 storiesOf("Dropdown", module)
   .addDecorator(withKnobs)
