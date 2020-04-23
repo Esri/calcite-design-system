@@ -116,6 +116,11 @@ export class CalciteRadioButton {
     this.input.checked = newValue;
   }
 
+  @Watch("disabled")
+  onDisabledChange(newValue: boolean) {
+    this.input.disabled = newValue;
+  }
+
   @Watch("focused")
   onFocusedChange(focused: boolean) {
     if (focused) {
