@@ -130,6 +130,11 @@ export class CalciteRadioButton {
     }
   }
 
+  @Watch("required")
+  onRequiredChange(newValue: boolean) {
+    this.input.required = newValue;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -164,8 +169,8 @@ export class CalciteRadioButton {
     this.input.style.position = "absolute";
     this.input.style.zIndex = "-1";
     this.input.value = this.value;
-    this.input.type = "radio";
     this.input.required = this.required;
+    this.input.type = "radio";
     // This renders the input as a sibling of calcite-radio-button because as it turns out
     // doing appendChild as hjorthhansen suggests doesn't really keep it out of the
     // shadow DOM as far as slot behavior goes.  This is required to render {this.value} as fallback slot content.
