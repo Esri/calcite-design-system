@@ -12,7 +12,7 @@ import {
   Method,
 } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -77,7 +77,11 @@ export class CalciteRadioGroup {
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** The scale of the button */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+
+  /** specify the appearance style of the radio group, defaults to solid. */
+  @Prop({ mutable: true, reflect: true }) appearance: "solid" | "outline" =
+    "solid";
 
   //--------------------------------------------------------------------------
   //
@@ -88,7 +92,12 @@ export class CalciteRadioGroup {
   connectedCallback() {
     // prop validations
     let scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
+    if (!scale.includes(this.scale))
+      this.scale = getElementProp(this.el.parentElement, "scale", "m");
+
+    let appearance = ["solid", "outline"];
+    if (!appearance.includes(this.appearance)) this.appearance = "solid";
+
     const items = this.getItems();
     let lastChecked = Array.from(items)
       .filter((item) => item.checked)

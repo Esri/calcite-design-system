@@ -4,12 +4,13 @@
 
 ## Properties
 
-| Property       | Attribute | Description                                     | Type                               | Default     |
-| -------------- | --------- | ----------------------------------------------- | ---------------------------------- | ----------- |
-| `name`         | `name`    | The group's name. Gets submitted with the form. | `string`                           | `undefined` |
-| `scale`        | `scale`   | The scale of the button                         | `"l" \| "m" \| "s"`                | `"m"`       |
-| `selectedItem` | --        | The group's selected item.                      | `HTMLCalciteRadioGroupItemElement` | `undefined` |
-| `theme`        | `theme`   | The component's theme.                          | `"dark" \| "light"`                | `undefined` |
+| Property       | Attribute    | Description                                                         | Type                               | Default     |
+| -------------- | ------------ | ------------------------------------------------------------------- | ---------------------------------- | ----------- |
+| `appearance`   | `appearance` | specify the appearance style of the radio group, defaults to solid. | `"outline" \| "solid"`             | `"solid"`   |
+| `name`         | `name`       | The group's name. Gets submitted with the form.                     | `string`                           | `undefined` |
+| `scale`        | `scale`      | The scale of the button                                             | `"l" \| "m" \| "s"`                | `undefined` |
+| `selectedItem` | --           | The group's selected item.                                          | `HTMLCalciteRadioGroupItemElement` | `undefined` |
+| `theme`        | `theme`      | The component's theme.                                              | `"dark" \| "light"`                | `undefined` |
 
 ## Events
 

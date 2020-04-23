@@ -22,10 +22,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - new `calcite-label`, `calcite-input`, and `calcite-input-message` components
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
 - `calcite-date` now has `scale` prop for small, medium, and large
+- `calcite-radio-group` now has an `appearance` prop that accepts `outline` or `solid` (default) values
+- `calcite-input` can now be programmatically focused with the `setFocus()` method
+- `calcite-pagination` now has a `scale` prop that accepts `s`, `m` (default), or `l` values
 
 ### Fixed
 
 - `calcite-pagination` - pages and next/previous can now be navigated with keyboard
+- `calcite-icon` - fixed use of kebab case in filled icon variants (#494)
 
 ## [v1.0.0-beta.24] - Apr 8th 2020
 
