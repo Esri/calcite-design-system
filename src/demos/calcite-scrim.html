@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Scrim</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Scrim</title>
+    <link
+      rel="stylesheet"
+      href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css"
+    />
+    <link rel="stylesheet" href="../build/calcite.css" />
+    <script type="module" src="../build/calcite.esm.js"></script>
+    <script nomodule src="../build/calcite.js"></script>
+  </head>
 
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-</head>
-
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Scrim</h1>
-  <calcite-scrim>
-    <calcite-button>
-      im disabled!
-    </calcite-button>
-  </calcite-scrim>
-  <h2>loading</h2>
-  <calcite-scrim>
-    <calcite-button>
-      loading
-    </calcite-button>
-  </calcite-scrim>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Scrim</h1>
+    <div style="width: 200px; height: 200px; overflow: hidden;">
+      <calcite-scrim>
+        <p>I'm just a basic scrim that looks disabled.</p>
+        <p>I'm just a basic scrim that looks disabled.</p>
+        <p>I'm just a basic scrim that looks disabled.</p>
+        <p>I'm just a basic scrim that looks disabled.</p>
+        <p>I'm just a basic scrim that looks disabled.</p>
+      </calcite-scrim>
+    </div>
+    <h2>loading scrim</h2>
+    <div style="width: 200px; height: 200px; overflow: hidden;">
+      <calcite-scrim loading>
+        <p>I'm a scrim that is loading.</p>
+        <p>I'm a scrim that is loading.</p>
+        <p>I'm a scrim that is loading.</p>
+        <p>I'm a scrim that is loading.</p>
+        <p>I'm a scrim that is loading.</p>
+      </calcite-scrim>
+    </div>
   </body>
 </html>

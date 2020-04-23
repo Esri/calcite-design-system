@@ -1,18 +1,18 @@
 import { Component, Host, Prop, h } from "@stencil/core";
 
+import { CSS } from "./resources";
+
 @Component({
   tag: "calcite-scrim",
   styleUrl: "calcite-scrim.scss",
-  shadow: true
+  shadow: true,
 })
 
 /**
- * @slot - Default slot for esri scrim loader.
+ * @slot - Default slot for content.
  */
-
 export class CalciteScrim {
-
-// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   //
   //  Properties
   //
@@ -24,7 +24,6 @@ export class CalciteScrim {
    */
   @Prop({ reflect: true }) loading = false;
 
-
   // --------------------------------------------------------------------------
   //
   //  Render Method
@@ -32,13 +31,23 @@ export class CalciteScrim {
   // --------------------------------------------------------------------------
 
   render() {
-    const loaderNode = this.loading ? <calcite-loader is-active></calcite-loader> : null;
+    const loaderNode = this.loading ? (
+      <calcite-loader is-active></calcite-loader>
+    ) : null;
+
+    const scrimNode = <div class={CSS.scrim}>{loaderNode}</div>;
+
+    const contentNode = (
+      <div class={CSS.content}>
+        <slot />
+      </div>
+    );
 
     return (
       <Host>
-      {loaderNode}
-      <slot />
+        {scrimNode}
+        {contentNode}
       </Host>
-    )
+    );
   }
 }
