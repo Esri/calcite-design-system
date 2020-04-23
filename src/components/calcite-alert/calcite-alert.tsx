@@ -7,9 +7,10 @@ import {
   Host,
   Method,
   Listen,
-  Prop
+  Prop,
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided. You can keep alerts in your DOM or create/open, close/destroy
@@ -25,7 +26,7 @@ import { getElementDir } from "../../utils/dom";
 @Component({
   tag: "calcite-alert",
   styleUrl: "calcite-alert.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteAlert {
   //--------------------------------------------------------------------------
@@ -62,7 +63,7 @@ export class CalciteAlert {
     | "yellow" = "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -87,7 +88,7 @@ export class CalciteAlert {
   ) {
     if (this.alertQueue.includes(event.detail.requestedAlert)) {
       this.alertQueue = this.alertQueue.filter(
-        e => e !== event.detail.requestedAlert
+        (e) => e !== event.detail.requestedAlert
       );
     }
     if (this.alertId === event.detail.requestedAlert) this.active = false;
@@ -113,9 +114,6 @@ export class CalciteAlert {
     let colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
-
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
@@ -130,8 +128,8 @@ export class CalciteAlert {
 
   componentDidLoad() {
     this.alertLinkEl = this.el.querySelectorAll(
-      "calcite-button"
-    )[0] as HTMLCalciteButtonElement;
+      "calcite-link"
+    )[0] as HTMLCalciteLinkElement;
   }
 
   render() {
@@ -141,9 +139,9 @@ export class CalciteAlert {
         class="alert-close"
         aria-label="close"
         onClick={() => this.close()}
-        ref={el => (this.closeButton = el)}
+        ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale="s"></calcite-icon>
+        <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
     );
 
@@ -161,7 +159,7 @@ export class CalciteAlert {
       : "alertdialog";
 
     return (
-      <Host active={this.active} dir={dir} role={role}>
+      <Host active={this.active} role={role} dir={dir}>
         {this.icon ? this.setIcon() : null}
         <div class="alert-content">
           <slot name="alert-title"></slot>
@@ -200,7 +198,7 @@ export class CalciteAlert {
   @Method() async open() {
     this.calciteAlertOpen.emit({
       requestedAlert: this.alertId,
-      alertQueue: this.alertQueue
+      alertQueue: this.alertQueue,
     });
   }
 
@@ -208,7 +206,7 @@ export class CalciteAlert {
   @Method() async close() {
     this.calciteAlertClose.emit({
       requestedAlert: this.alertId,
-      alertQueue: this.alertQueue
+      alertQueue: this.alertQueue,
     });
   }
 
@@ -240,19 +238,19 @@ export class CalciteAlert {
   @Prop() currentAlert: string;
 
   /** Unique ID for this alert */
-  private alertId: string = this.el.id;
+  private alertId: string = this.el.id || `calcite-alert-${guid()}`;
 
   /** the close button element */
   private closeButton?: HTMLElement;
 
   /** the alert link child element  */
-  private alertLinkEl?: HTMLCalciteButtonElement;
+  private alertLinkEl?: HTMLCalciteLinkElement;
 
   /** map dismissal durations */
   private autoDismissDurations = {
     slow: 14000,
     medium: 10000,
-    fast: 6000
+    fast: 6000,
   };
 
   /** based on the current alert determine which alert is active */
@@ -274,13 +272,14 @@ export class CalciteAlert {
     green: "checkCircle",
     yellow: "exclamationMarkTriangle",
     red: "exclamationMarkTriangle",
-    blue: "lightbulb"
+    blue: "lightbulb",
   };
+
   private setIcon() {
     var path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
-        <calcite-icon icon={path} filled scale="s"></calcite-icon>
+        <calcite-icon icon={path} scale="m"></calcite-icon>
       </div>
     );
   }

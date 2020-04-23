@@ -126,6 +126,19 @@ describe("calcite-switch", () => {
     expect(input).toHaveAttribute("checked");
   });
 
+  it("honors tabindex", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-switch></calcite-switch>`);
+    await page.waitForChanges();
+    const calciteSwitch = await page.find("calcite-switch");
+
+    expect(await calciteSwitch.getProperty("tabIndex")).toBe(0);
+
+    calciteSwitch.setAttribute("tabindex", "-1");
+    await page.waitForChanges();
+    expect(await calciteSwitch.getProperty("tabIndex")).toBe(-1);
+  });
+
   it("renders requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -141,11 +154,10 @@ describe("calcite-switch", () => {
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-switch theme="zip" scale="zop" color="zim"></calcite-switch>`
+      `<calcite-switch scale="zop" color="zim"></calcite-switch>`
     );
 
     const element = await page.find("calcite-switch");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
   });
@@ -156,7 +168,6 @@ describe("calcite-switch", () => {
     <calcite-switch></calcite-switch>`);
 
     const element = await page.find("calcite-switch");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
   });

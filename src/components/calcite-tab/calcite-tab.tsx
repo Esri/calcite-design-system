@@ -8,7 +8,7 @@ import {
   EventEmitter,
   h,
   State,
-  Host
+  Host,
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -17,7 +17,7 @@ import { nodeListToArray } from "../../utils/dom";
 @Component({
   tag: "calcite-tab",
   styleUrl: "calcite-tab.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteTab {
   //--------------------------------------------------------------------------
@@ -38,20 +38,12 @@ export class CalciteTab {
    * Optionally include a unique name for this tab,
    * be sure to also set this name on the associated title.
    */
-  @Prop({
-    reflectToAttr: true,
-    mutable: true
-  })
-  tab: string;
+  @Prop({ reflect: true, mutable: true }) tab: string;
 
   /**
    * Show this tab
    */
-  @Prop({
-    reflectToAttr: true,
-    mutable: true
-  })
-  isActive: boolean = false;
+  @Prop({ reflect: true, mutable: true }) isActive: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -122,7 +114,7 @@ export class CalciteTab {
     if (this.tab) {
       this.isActive = this.tab === event.detail.tab;
     } else {
-      this.getTabIndex().then(index => {
+      this.getTabIndex().then((index) => {
         this.isActive = index === event.detail.tab;
       });
     }
@@ -141,7 +133,7 @@ export class CalciteTab {
   async getTabIndex(): Promise<number> {
     return Promise.resolve(
       Array.prototype.indexOf.call(
-        nodeListToArray(this.el.parentElement.children).filter(e =>
+        nodeListToArray(this.el.parentElement.children).filter((e) =>
           e.matches("calcite-tab")
         ),
         this.el

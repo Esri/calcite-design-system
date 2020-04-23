@@ -1,33 +1,32 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 @import "_popper";
-@import "_mixins";
-@import "_colors";
 
-:root {
-  --calcite-border-radius: 3px;
+@mixin slotted($selector, $tag, $scope: "") {
+  #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
+  #{$scope} #{$tag}::slotted([slot="#{$selector}"]) {
+    @content;
+  }
 }
 
 :host([hidden]) {
   display: none;
 }
 
-body {
-  font-family: $avenir-family;
+// place on the element that receives focus style, not in focus
+@mixin focus-style-base() {
+  outline-offset: 0;
+  outline-color: transparent;
+  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
 }
 
-.overflow-hidden {
-  overflow: hidden;
+// place on the element that receives focus style, while in focus
+@mixin focus-style-outset() {
+  outline: 2px solid var(--calcite-ui-blue-1);
+  outline-offset: 2px;
 }
 
-calcite-tab {
-  display: none;
-}
-
-calcite-tab[is-active] {
-  display: block;
-}
-
-a {
-  color: $ui-blue;
+@mixin focus-style-inset() {
+  outline: 2px solid var(--calcite-ui-blue-1);
+  outline-offset: -2px;
 }

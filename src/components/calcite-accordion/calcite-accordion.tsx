@@ -6,15 +6,14 @@ import {
   h,
   Host,
   Listen,
-  Prop
+  Prop,
 } from "@stencil/core";
-import { UP, DOWN, HOME, END } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-accordion",
   styleUrl: "calcite-accordion.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteAccordion {
   //--------------------------------------------------------------------------
@@ -32,19 +31,21 @@ export class CalciteAccordion {
   //--------------------------------------------------------------------------
 
   /** specify the theme of accordion, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of accordion, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
-  @Prop({ mutable: true, reflect: true }) appearance: "default" | "minimal" | "transparent" =
-    "default";
+  @Prop({ mutable: true, reflect: true }) appearance:
+    | "default"
+    | "minimal"
+    | "transparent" = "default";
 
   /** specify the placement of the icon in the header, defaults to end */
   @Prop({ mutable: true, reflect: true }) iconPosition: "start" | "end" = "end";
 
-  /** specify the placement of the icon in the header, defaults to end */
+  /** specify the type of the icon in the header, defaults to chevron */
   @Prop({ mutable: true, reflect: true }) iconType:
     | "chevron"
     | "caret"
@@ -82,9 +83,6 @@ export class CalciteAccordion {
     let iconType = ["chevron", "caret", "plus-minus"];
     if (!iconType.includes(this.iconType)) this.iconType = "chevron";
 
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
@@ -101,9 +99,8 @@ export class CalciteAccordion {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     return (
-      <Host dir={dir} tabindex="-1">
+      <Host>
         <slot />
       </Host>
     );
@@ -118,23 +115,24 @@ export class CalciteAccordion {
   @Listen("calciteAccordionItemKeyEvent") calciteAccordionItemKeyEvent(
     e: CustomEvent
   ) {
-    let item = e.detail.item;
+    const item = e.detail.item;
+    const key = getKey(item.key);
     let itemToFocus = e.target;
     let isFirstItem = this.itemIndex(itemToFocus) === 0;
     let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (item.keyCode) {
-      case DOWN:
+    switch (key) {
+      case "ArrowDown":
         if (isLastItem) this.focusFirstItem();
         else this.focusNextItem(itemToFocus);
         break;
-      case UP:
+      case "ArrowUp":
         if (isFirstItem) this.focusLastItem();
         else this.focusPrevItem(itemToFocus);
         break;
-      case HOME:
+      case "Home":
         this.focusFirstItem();
         break;
-      case END:
+      case "End":
         this.focusLastItem();
         break;
     }
@@ -145,7 +143,7 @@ export class CalciteAccordion {
   ) {
     const item = {
       item: e.target as HTMLCalciteAccordionItemElement,
-      position: e.detail.position
+      position: e.detail.position,
     };
     this.items.push(item);
   }
@@ -155,7 +153,7 @@ export class CalciteAccordion {
   ) {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
     this.calciteAccordionItemHasChanged.emit({
-      requestedAccordionItem: this.requestedAccordionItem
+      requestedAccordionItem: this.requestedAccordionItem,
     });
   }
 
@@ -212,5 +210,5 @@ export class CalciteAccordion {
   }
 
   private sortItems = (items: any[]): any[] =>
-    items.sort((a, b) => a.position - b.position).map(a => a.item);
+    items.sort((a, b) => a.position - b.position).map((a) => a.item);
 }

@@ -1,9 +1,11 @@
 export const CSS = {
   container: "container",
-  containerOpen: "container--open",
-  containerPointer: "container--pointer",
-  contentContainer: "content-container",
+  arrow: "arrow",
   imageContainer: "image-container",
   closeButton: "close-button",
   content: "content"
 };
+
+export const POPOVER_REFERENCE = "data-calcite-tooltip-reference";
+
+export const ARIA_DESCRIBED_BY = "aria-describedby";

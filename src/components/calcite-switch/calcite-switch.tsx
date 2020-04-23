@@ -8,15 +8,14 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build
+  Build,
 } from "@stencil/core";
-import { SPACE, ENTER } from "../../utils/keys";
-import { getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteSwitch {
   @Element() el: HTMLElement;
@@ -33,37 +32,36 @@ export class CalciteSwitch {
   /** What color the switch should be */
   @Prop({ reflect: true, mutable: true }) color: "red" | "blue" = "blue";
 
-  /** The scale of the button */
+  /** The scale of the switch */
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
   /** The component's theme. */
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
 
   @Event() calciteSwitchChange: EventEmitter;
+  @Event() change: EventEmitter;
 
   private observer: MutationObserver;
 
   @Listen("click") onClick(e) {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
-
     if (
       (this.el.closest("label") && e.target === this.inputProxy) ||
       (!this.el.closest("label") && e.target === this.el)
     ) {
-      this.switched = !this.switched;
+      this.updateSwitch(e);
     }
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    if (e.keyCode === SPACE || e.keyCode === ENTER) {
-      e.preventDefault();
-      this.switched = !this.switched;
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
+      this.updateSwitch(e);
     }
   }
 
   @Watch("switched") switchWatcher() {
-    this.calciteSwitchChange.emit();
     this.switched
       ? this.inputProxy.setAttribute("checked", "")
       : this.inputProxy.removeAttribute("checked");
@@ -73,15 +71,14 @@ export class CalciteSwitch {
 
   connectedCallback() {
     // prop validations
+    let theme = ["light", "dark"];
+    if (!theme.includes(this.theme)) this.theme = "light";
+
     let color = ["blue", "red"];
     if (!color.includes(this.color)) this.color = "blue";
 
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
-
-    let theme = ["dark", "light"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     this.setupProxyInput();
   }
 
@@ -94,15 +91,27 @@ export class CalciteSwitch {
   }
 
   render() {
-    const dir = getElementDir(this.el);
     return (
-      <Host role="checkbox" dir={dir} aria-checked={this.switched.toString()} tabindex="0">
+      <Host
+        role="checkbox"
+        aria-checked={this.switched.toString()}
+        tabIndex={this.tabIndex}
+      >
         <div class="track">
           <div class="handle" />
         </div>
-        <slot />
       </Host>
     );
+  }
+
+  private get tabIndex(): number {
+    const hasTabIndex = this.el.hasAttribute("tabindex");
+
+    if (hasTabIndex) {
+      return Number(this.el.getAttribute("tabindex"));
+    }
+
+    return 0;
   }
 
   private setupProxyInput() {
@@ -137,4 +146,10 @@ export class CalciteSwitch {
     this.inputProxy.setAttribute("name", this.name);
     this.inputProxy.setAttribute("value", this.value);
   };
+  private updateSwitch(e) {
+    e.preventDefault();
+    this.switched = !this.switched;
+    this.change.emit();
+    this.calciteSwitchChange.emit();
+  }
 }

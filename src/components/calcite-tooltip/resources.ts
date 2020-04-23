@@ -1,5 +1,8 @@
 export const CSS = {
-  container: "tooltip-container",
-  containerOpen: "tooltip-container--open",
-  contentContainer: "tooltip-content-container"
+  container: "container",
+  arrow: "arrow"
 };
+
+export const TOOLTIP_REFERENCE = "data-calcite-tooltip-reference";
+
+export const ARIA_DESCRIBED_BY = "aria-describedby";

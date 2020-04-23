@@ -8,23 +8,17 @@ import {
   Prop,
   Watch,
   Host,
-  Build
+  Build,
+  Method,
 } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
-
-const navigationKeys = {
-  up: "ArrowUp",
-  down: "ArrowDown",
-  left: "ArrowLeft",
-  right: "ArrowRight",
-  space: " "
-};
+import { getElementDir, getElementProp } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-radio-group",
   styleUrl: "calcite-radio-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteRadioGroup {
   //--------------------------------------------------------------------------
@@ -68,7 +62,7 @@ export class CalciteRadioGroup {
     }
     const items = this.getItems();
     const match = Array.from(items)
-      .filter(item => item === newItem)
+      .filter((item) => item === newItem)
       .pop();
 
     if (match) {
@@ -80,10 +74,14 @@ export class CalciteRadioGroup {
   }
 
   /** The component's theme. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** The scale of the button */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+
+  /** specify the appearance style of the radio group, defaults to solid. */
+  @Prop({ mutable: true, reflect: true }) appearance: "solid" | "outline" =
+    "solid";
 
   //--------------------------------------------------------------------------
   //
@@ -94,14 +92,15 @@ export class CalciteRadioGroup {
   connectedCallback() {
     // prop validations
     let scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
+    if (!scale.includes(this.scale))
+      this.scale = getElementProp(this.el.parentElement, "scale", "m");
 
-    let theme = ["dark", "light"];
-    if (!theme.includes(this.theme)) this.theme = "light";
+    let appearance = ["solid", "outline"];
+    if (!appearance.includes(this.appearance)) this.appearance = "solid";
 
     const items = this.getItems();
     let lastChecked = Array.from(items)
-      .filter(item => item.checked)
+      .filter((item) => item.checked)
       .pop();
 
     if (lastChecked) {
@@ -160,22 +159,26 @@ export class CalciteRadioGroup {
 
   @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
-    const { key } = event;
+    const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
+    const key = getKey(event.key);
+    const { el, selectedItem } = this;
 
-    if (Object.values(navigationKeys).indexOf(key) === -1) {
+    if (keys.indexOf(key) === -1) {
       return;
     }
 
-    event.preventDefault();
+    let adjustedKey = key;
 
-    const { el, selectedItem } = this;
-    const dir = getElementDir(el);
-    const moveBackwardKey =
-      (dir === "rtl"
-        ? key === navigationKeys.right
-        : key === navigationKeys.left) || key === navigationKeys.up;
+    if (getElementDir(el) === "rtl") {
+      if (key === "ArrowRight") {
+        adjustedKey = "ArrowLeft";
+      }
+      if (key === "ArrowLeft") {
+        adjustedKey = "ArrowRight";
+      }
+    }
+
     const items = this.getItems();
-
     let selectedIndex = -1;
 
     items.forEach((item, index) => {
@@ -184,32 +187,31 @@ export class CalciteRadioGroup {
       }
     });
 
-    if (moveBackwardKey) {
-      const previous =
-        selectedIndex === -1 || selectedIndex === 0
-          ? items.item(items.length - 1)
-          : items.item(selectedIndex - 1);
-      this.selectItem(previous);
-      return;
-    }
-
-    const moveForwardKey =
-      (dir === "rtl"
-        ? key === navigationKeys.left
-        : key === navigationKeys.right) || key === navigationKeys.down;
-
-    if (moveForwardKey) {
-      const next =
-        selectedIndex === -1
-          ? items.item(1)
-          : items.item(selectedIndex + 1) || items.item(0);
-      this.selectItem(next);
-      return;
-    }
-
-    if (key === navigationKeys.space) {
-      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
-      return;
+    switch (adjustedKey) {
+      case "ArrowLeft":
+      case "ArrowUp":
+        event.preventDefault();
+        const previous =
+          selectedIndex < 1
+            ? items.item(items.length - 1)
+            : items.item(selectedIndex - 1);
+        this.selectItem(previous);
+        return;
+      case "ArrowRight":
+      case "ArrowDown":
+        event.preventDefault();
+        const next =
+          selectedIndex === -1
+            ? items.item(1)
+            : items.item(selectedIndex + 1) || items.item(0);
+        this.selectItem(next);
+        return;
+      case " ":
+        event.preventDefault();
+        this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+        return;
+      default:
+        return;
     }
   }
 
@@ -221,6 +223,18 @@ export class CalciteRadioGroup {
 
   @Event()
   calciteRadioGroupChange: EventEmitter;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Focuses the selected item. If there is no selection, it focuses the first item. */
+  @Method()
+  async setFocus() {
+    (this.selectedItem || this.getItems()[0])?.focus();
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -255,7 +269,7 @@ export class CalciteRadioGroup {
     const items = this.getItems();
     let match: HTMLCalciteRadioGroupItemElement = null;
 
-    items.forEach(item => {
+    items.forEach((item) => {
       const matches = item.value === selected.value;
 
       if ((matches && !item.checked) || (!matches && item.checked)) {
