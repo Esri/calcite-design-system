@@ -7,12 +7,24 @@ import { Scale } from "../../interfaces/common";
   shadow: true,
 })
 export class CalciteRadioButtonGroup {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el!: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
 
   /** Is the radio button group disabled */
   @Prop({ reflect: true }) disabled: boolean = false;
 
-  /** specify the name of the radio button group, required and must be unique to other instances */
+  /** specify the name of the radio button group, required and must be unique to other radio button group instances */
   @Prop({ reflect: true }) name!: string;
 
   /** specify the scale of the radio button group, defaults to m */
@@ -23,6 +35,12 @@ export class CalciteRadioButtonGroup {
 
   /** specify the layout direction of the radio button group, defaults to horizontal */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
 
   @Listen("calciteRadioButtonClick")
   @Listen("calciteRadioButtonFocus")
@@ -39,11 +57,23 @@ export class CalciteRadioButtonGroup {
     (event.target as HTMLCalciteRadioButtonElement).focused = false;
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
   componentWillLoad() {
     this.passPropsToRadioButtons();
   }
 
-  passPropsToRadioButtons = () => {
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private passPropsToRadioButtons = () => {
     const radioButtons = Array.from(
       this.el.querySelectorAll("calcite-radio-button")
     );
@@ -65,6 +95,12 @@ export class CalciteRadioButtonGroup {
       });
     }
   };
+
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
 
   render() {
     return (

@@ -18,22 +18,70 @@ import { Scale } from "../../interfaces/common";
   shadow: true,
 })
 export class CalciteRadioButton {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el: HTMLElement;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
+
+  /** True if the radio button is initially checked, defaults to false */
   @Prop({ reflect: true }) checked: boolean = false;
+
+  /** Is the radio button disabled */
   @Prop({ reflect: true }) disabled: boolean = false;
+
+  /** Is the radio button focused */
   @Prop({ reflect: true }) focused: boolean = false;
+
+  /** The name of the radio button, required and must be unique to other radio button group instances.  Name is passed down from the radio button group */
   @Prop({ reflect: true }) name: string;
+
+  /** specify the scale of the radio button, defaults to m, passed down from radio button group */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** specify the theme of the radio button, defaults to light, passed down from radio button group */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-  @Prop() value: string;
+
+  /** The value of the radio button, required */
+  @Prop() value!: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
 
   private input: HTMLInputElement;
-  guid: string = this.el.id || `calcite-radio-button-${guid()}`;
+  private guid: string = this.el.id || `calcite-radio-button-${guid()}`;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /** Fired when a radio button is clicked */
   @Event() calciteRadioButtonClick: EventEmitter;
+
+  /** Fired when a radio button is focused */
   @Event() calciteRadioButtonFocus: EventEmitter;
+
+  /** Fired when a radio button is blurred */
   @Event() calciteRadioButtonBlur: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
 
   @Listen("click")
   onClick(event: MouseEvent): void {
@@ -45,6 +93,20 @@ export class CalciteRadioButton {
       this.calciteRadioButtonClick.emit();
     }
   }
+
+  onInputFocus = () => {
+    this.calciteRadioButtonFocus.emit();
+  };
+
+  onInputBlur = () => {
+    this.calciteRadioButtonBlur.emit();
+  };
+
+  //--------------------------------------------------------------------------
+  //
+  //  Property Watchers
+  //
+  //--------------------------------------------------------------------------
 
   @Watch("checked")
   onCheckedChange(newValue: boolean) {
@@ -60,19 +122,23 @@ export class CalciteRadioButton {
     }
   }
 
-  onInputFocus = () => {
-    this.calciteRadioButtonFocus.emit();
-  };
-
-  onInputBlur = () => {
-    this.calciteRadioButtonBlur.emit();
-  };
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
 
   componentWillLoad() {
     this.renderHiddenRadioInput();
   }
 
-  renderHiddenRadioInput() {
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private renderHiddenRadioInput() {
     // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
     // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
     this.input = this.el.ownerDocument.createElement("input");
