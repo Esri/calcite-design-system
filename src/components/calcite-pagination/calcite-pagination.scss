@@ -47,6 +47,7 @@
   align-items: center;
   background-color: transparent;
   border: none;
+  border-top: 3px solid transparent;
   border-bottom: 3px solid transparent;
   font-family: inherit;
   @include font-size(0);
@@ -80,8 +81,8 @@
   &.is-disabled {
     background-color: transparent;
     pointer-events: none;
-    & > svg {
-      opacity: 0.3;
+    & > calcite-icon {
+      opacity: 0.4;
     }
   }
 }
