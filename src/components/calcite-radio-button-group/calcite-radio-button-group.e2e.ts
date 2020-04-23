@@ -31,9 +31,11 @@ describe('calcite-radio-button-group', () => {
     const radio = await page.find('calcite-radio-button');
     const name = await radio.getProperty("name");
     const scale = await radio.getProperty("scale");
+    const required = await radio.getProperty("required");
     const theme = await radio.getProperty("theme");
     expect(name).toBe("radio");
     expect(scale).toBe("medium");
+    expect(required).toBe(false);
     expect(theme).toBe("light");
   });
   it('clicking a radio updates its checked status', async () => {
