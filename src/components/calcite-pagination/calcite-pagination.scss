@@ -1,3 +1,31 @@
+// explicit px values until we add a spacing unit and new font scale to base
+:host([scale="s"]) {
+  --calcite-pagination-spacing: 4px 8px;
+  & .previous,
+  & .next,
+  & .page {
+    font-size: 12px;
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-pagination-spacing: 8px 12px;
+  & .previous,
+  & .next,
+  & .page {
+    font-size: 16px;
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-pagination-spacing: 12px 16px;
+  & .previous,
+  & .next,
+  & .page {
+    font-size: 20px;
+  }
+}
+
 :host {
   display: inline-flex;
   background-color: transparent;
@@ -18,10 +46,9 @@
   display: flex;
   align-items: center;
   background-color: transparent;
+  border: none;
   border-top: 3px solid transparent;
-  border-right: none;
   border-bottom: 3px solid transparent;
-  border-left: none;
   font-family: inherit;
   @include font-size(0);
   color: var(--calcite-ui-text-3);
@@ -43,7 +70,7 @@
 }
 .previous,
 .next {
-  padding: 0.75em 1em;
+  padding: var(--calcite-pagination-spacing);
   &:hover {
     color: var(--calcite-ui-blue-1);
     background-color: var(--calcite-ui-foreground-2);
@@ -54,8 +81,8 @@
   &.is-disabled {
     background-color: transparent;
     pointer-events: none;
-    & > svg {
-      opacity: 0.3;
+    & > calcite-icon {
+      opacity: 0.4;
     }
   }
 }
@@ -64,7 +91,7 @@
 }
 .page,
 .ellipsis {
-  padding: 0.75em 1em;
+  padding: var(--calcite-pagination-spacing);
 }
 .ellipsis {
   display: flex;

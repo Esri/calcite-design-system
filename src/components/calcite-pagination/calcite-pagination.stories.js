@@ -10,6 +10,7 @@ storiesOf("Pagination", module)
   "Simple",
   () => `
     <calcite-pagination
+      scale="${select("scale", ["s", "m", "l"], "m")}"
       start="${number("start", 1)}"
       total="${number("total", 128)}"
       num="${number("num", 20)}"
@@ -24,6 +25,7 @@ storiesOf("Pagination", module)
   "Dark Mode",
   () => `
     <calcite-pagination
+      scale="${select("scale", ["s", "m", "l"], "m")}"
       start="${number("start", 1)}"
       total="${number("total", 128)}"
       num="${number("num", 20)}"

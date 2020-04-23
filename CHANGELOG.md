@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-date` now has `scale` prop for small, medium, and large
 - `calcite-radio-group` now has an `appearance` prop that accepts `outline` or `solid` (default) values
 - `calcite-input` can now be programmatically focused with the `setFocus()` method
+- `calcite-pagination` now has a `scale` prop that accepts `s`, `m` (default), or `l` values
 
 ### Fixed
 
