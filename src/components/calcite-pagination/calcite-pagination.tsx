@@ -47,12 +47,27 @@ export class CalcitePagination {
   /** specify the theme of accordion, defaults to light */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
+  /** The scale of the pagination */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
   @Element() el: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback() {
+    // prop validations
+    let scale = ["s", "m", "l"];
+    if (!scale.includes(this.scale)) this.scale = "m";
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -179,21 +194,21 @@ export class CalcitePagination {
     );
   }
 
-  renderLeftEllipsis() {
+  renderLeftEllipsis(iconScale) {
     if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
-          <calcite-icon scale="s" icon="ellipsis" />
+          <calcite-icon scale={iconScale} icon="ellipsis" />
         </span>
       );
     }
   }
 
-  renderRightEllipsis() {
+  renderRightEllipsis(iconScale) {
     if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
-          <calcite-icon scale="s" icon="ellipsis" />
+          <calcite-icon scale={iconScale} icon="ellipsis" />
         </span>
       );
     }
@@ -201,6 +216,7 @@ export class CalcitePagination {
 
   render() {
     const { total, num, start } = this;
+    const iconScale = this.scale === "l" ? "m" : "s";
     return (
       <Host>
         <button
@@ -212,12 +228,12 @@ export class CalcitePagination {
           onClick={this.previousClicked}
           disabled={start < num}
         >
-          <calcite-icon scale="s" icon="chevronLeft" />
+          <calcite-icon scale={iconScale} icon="chevronLeft" />
         </button>
         {this.renderPage(1)}
-        {this.renderLeftEllipsis()}
+        {this.renderLeftEllipsis(iconScale)}
         {this.renderPages()}
-        {this.renderRightEllipsis()}
+        {this.renderRightEllipsis(iconScale)}
         {this.renderPage(this.getLastStart())}
         <button
           class={{
@@ -228,7 +244,7 @@ export class CalcitePagination {
           onClick={this.nextClicked}
           disabled={start + num >= total}
         >
-          <calcite-icon scale="s" icon="chevronRight" />
+          <calcite-icon scale={iconScale} icon="chevronRight" />
         </button>
       </Host>
     );
