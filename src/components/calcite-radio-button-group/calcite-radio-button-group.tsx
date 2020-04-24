@@ -1,5 +1,4 @@
 import { Component, Host, h, Element, Prop, Listen } from "@stencil/core";
-import { Scale } from "../../interfaces/common";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -31,7 +30,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) required: boolean = false;
 
   /** specify the scale of the radio button group, defaults to m */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the theme of the radio button group, defaults to light */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
