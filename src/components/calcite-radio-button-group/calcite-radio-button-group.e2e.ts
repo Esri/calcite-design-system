@@ -66,4 +66,53 @@ describe('calcite-radio-button-group', () => {
     expect(await first.getProperty("checked")).toBe(true);
     expect(await second.getProperty("checked")).toBe(false);
   });
+  it('removing a radio button also removes the hidden <input type=radio> element', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button-group name="radio">
+        <calcite-radio-button id="first" value="one" checked>
+              One
+        </calcite-radio-button>
+        <calcite-radio-button id="second" value="two">
+            Two
+        </calcite-radio-button>
+      </calcite-radio-button-group>
+    `);
+
+    let firstInput = await page.find('input#first');
+    expect(firstInput).toBeTruthy();
+
+    await page.evaluate(() => {
+      const first = document.querySelector("input#first");
+      first.parentNode.removeChild(first);
+    });
+    await page.waitForChanges();
+
+    firstInput = await page.find('input#first');
+
+    expect(firstInput).toBeFalsy();
+  });
+  it("moving a radio button also moves the corresponding <input> element", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button-group name="radio">
+        <calcite-radio-button id="first" value="one" checked>
+              One
+        </calcite-radio-button>
+        <calcite-radio-button id="second" value="two">
+            Two
+        </calcite-radio-button>
+      </calcite-radio-button-group>
+    `);
+    const group = await page.evaluate(() => {
+      const group = document.querySelector("calcite-radio-button-group");
+      group.appendChild(document.querySelector("calcite-radio-button#first"));
+      return group;
+    });
+    await page.waitForChanges();
+
+    const firstInput = document.querySelector("input#second");
+
+    expect(group.lastChild === firstInput);
+  });
 });
