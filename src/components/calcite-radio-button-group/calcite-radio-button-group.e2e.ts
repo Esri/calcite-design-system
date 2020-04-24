@@ -13,7 +13,7 @@ describe('calcite-radio-button-group', () => {
     await page.setContent('<calcite-radio-button-group></calcite-radio-button-group>');
 
     const element = await page.find('calcite-radio-button-group');
-    expect(element.getAttribute("scale")).toBe("medium");
+    expect(element.getAttribute("scale")).toBe("m");
   });
   it('radio-buttons receive necessary props', async () => {
     const page = await newE2EPage();
@@ -34,7 +34,7 @@ describe('calcite-radio-button-group', () => {
     const required = await radio.getProperty("required");
     const theme = await radio.getProperty("theme");
     expect(name).toBe("radio");
-    expect(scale).toBe("medium");
+    expect(scale).toBe("m");
     expect(required).toBe(false);
     expect(theme).toBe("light");
   });

@@ -141,12 +141,12 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  // disconnectedCallback() {
-  //   this.input.parentNode.removeChild(this.input);
-  // }
-
-  componentWillLoad() {
+  connectedCallback() {
     this.renderHiddenRadioInput();
+  }
+
+  disconnectedCallback() {
+    this.input.parentNode.removeChild(this.input);
   }
 
   // --------------------------------------------------------------------------
