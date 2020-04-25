@@ -20,22 +20,22 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  /** Is the radio button group disabled */
+  /** The disabled state of the radio button group. */
   @Prop({ reflect: true }) disabled: boolean = false;
 
-  /** specify the name of the radio button group, required and must be unique to other radio button group instances */
+  /** The name of the radio button group. <code>name</code> must be unique to other radio button group instances. */
   @Prop({ reflect: true }) name!: string;
 
-  /** specify if this radio button group is required, defaults to false */
+  /** Requires that a value is selected for the radio button group before the parent form will submit. */
   @Prop({ reflect: true }) required: boolean = false;
 
-  /** specify the scale of the radio button group, defaults to m */
+  /** The scale (size) of the radio button group. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the theme of the radio button group, defaults to light */
+  /** The color theme of the radio button group. */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
-  /** specify the layout direction of the radio button group, defaults to horizontal */
+  /** The layout direction of the radio buttons in a group. */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   //--------------------------------------------------------------------------

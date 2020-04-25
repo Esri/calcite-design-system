@@ -31,28 +31,28 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  /** True if the radio button is initially checked, defaults to false */
+  /** The checked state of the radio button. */
   @Prop({ reflect: true }) checked: boolean = false;
 
-  /** Is the radio button disabled */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  /** The disabled state of the radio button. */
+  @Prop({ reflect: true }) disabled?: boolean = false;
 
-  /** Is the radio button focused */
+  /** The focused state of the radio button. */
   @Prop({ reflect: true }) focused: boolean = false;
 
-  /** The name of the radio button, required and must be unique to other radio button group instances.  Name is passed down from the radio button group */
-  @Prop({ reflect: true }) name: string;
+  /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
+  @Prop({ reflect: true }) name!: string;
 
-  /** specify if this radio button is required, defaults to false */
+  /** Requires that a value is selected for the radio button group before the parent form will submit. */
   @Prop({ reflect: true }) required: boolean = false;
 
-  /** specify the scale of the radio button, defaults to m, passed down from radio button group */
+  /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the theme of the radio button, defaults to light, passed down from radio button group */
+  /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
-  /** The value of the radio button, required */
+  /** The value of the radio button. */
   @Prop() value!: string;
 
   //--------------------------------------------------------------------------
@@ -70,13 +70,13 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when a radio button is clicked */
+  /** Fired when a radio button is clicked. */
   @Event() calciteRadioButtonClick: EventEmitter;
 
-  /** Fired when a radio button is focused */
+  /** Fired when a radio button is focused. */
   @Event() calciteRadioButtonFocus: EventEmitter;
 
-  /** Fired when a radio button is blurred */
+  /** Fired when a radio button is blurred. */
   @Event() calciteRadioButtonBlur: EventEmitter;
 
   //--------------------------------------------------------------------------
