@@ -4,24 +4,38 @@
 
 ## Properties
 
-| Property             | Attribute  | Description                                                                                                                                      | Type                                | Default     |
-| -------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------- | ----------- |
-| `checked`            | `checked`  | True if the radio button is initially checked, defaults to false                                                                                 | `boolean`                           | `false`     |
-| `disabled`           | `disabled` | Is the radio button disabled                                                                                                                     | `boolean`                           | `false`     |
-| `focused`            | `focused`  | Is the radio button focused                                                                                                                      | `boolean`                           | `false`     |
-| `name`               | `name`     | The name of the radio button, required and must be unique to other radio button group instances. Name is passed down from the radio button group | `string`                            | `undefined` |
-| `required`           | `required` | specify if this radio button is required, defaults to false                                                                                      | `boolean`                           | `false`     |
-| `scale`              | `scale`    | specify the scale of the radio button, defaults to m, passed down from radio button group                                                        | `"l" \| "m" \| "s" \| "xl" \| "xs"` | `"m"`       |
-| `theme`              | `theme`    | specify the theme of the radio button, defaults to light, passed down from radio button group                                                    | `"dark" \| "light"`                 | `"light"`   |
-| `value` _(required)_ | `value`    | The value of the radio button, required                                                                                                          | `string`                            | `undefined` |
+| Property             | Attribute  | Description                                                                                                                                    | Type                | Default     |
+| -------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `checked`            | `checked`  | The checked state of the radio button.                                                                                                         | `boolean`           | `false`     |
+| `disabled`           | `disabled` | The disabled state of the radio button.                                                                                                        | `boolean`           | `false`     |
+| `focused`            | `focused`  | The focused state of the radio button.                                                                                                         | `boolean`           | `false`     |
+| `name` _(required)_  | `name`     | The name of the radio button. <code>name</code> is passed as a property automatically from <code><calcite-radio-button-group></code>.          | `string`            | `undefined` |
+| `required`           | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                                               | `boolean`           | `false`     |
+| `scale`              | `scale`    | The scale (size) of the radio button. <code>scale</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. | `"l" \| "m" \| "s"` | `"m"`       |
+| `theme`              | `theme`    | The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code><calcite-radio-button-group></code>.  | `"dark" \| "light"` | `"light"`   |
+| `value` _(required)_ | `value`    | The value of the radio button.                                                                                                                 | `string`            | `undefined` |
 
 ## Events
 
-| Event                     | Description                          | Type               |
-| ------------------------- | ------------------------------------ | ------------------ |
-| `calciteRadioButtonBlur`  | Fired when a radio button is blurred | `CustomEvent<any>` |
-| `calciteRadioButtonClick` | Fired when a radio button is clicked | `CustomEvent<any>` |
-| `calciteRadioButtonFocus` | Fired when a radio button is focused | `CustomEvent<any>` |
+| Event                     | Description                           | Type               |
+| ------------------------- | ------------------------------------- | ------------------ |
+| `calciteRadioButtonBlur`  | Fired when a radio button is blurred. | `CustomEvent<any>` |
+| `calciteRadioButtonClick` | Fired when a radio button is clicked. | `CustomEvent<any>` |
+| `calciteRadioButtonFocus` | Fired when a radio button is focused. | `CustomEvent<any>` |
+
+## Dependencies
+
+### Depends on
+
+- [calcite-label](../calcite-label)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-radio-button --> calcite-label
+  style calcite-radio-button fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ---
 
