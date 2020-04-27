@@ -1,12 +1,15 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('calcite-radio-button-group', () => {
-  it('renders', async () => {
+  it('renders default props', async () => {
     const page = await newE2EPage();
     await page.setContent('<calcite-radio-button-group></calcite-radio-button-group>');
 
     const element = await page.find('calcite-radio-button-group');
     expect(element).toHaveClass('hydrated');
+    expect(element).toEqualAttribute("layout", "horizontal");
+    expect(element).toEqualAttribute("scale", "m");
+    expect(element).toEqualAttribute("theme", "light");
   });
 
   it("does not require an item to be checked", async () => {
@@ -110,7 +113,7 @@ describe('calcite-radio-button-group', () => {
         const name = await radioInputs[i].getAttribute("name");
         const value = await radioInputs[i].getAttribute("value");
         expect(name).toBe("hiddeninput")
-        expect(value).toBe((i+1).toString());
+        expect(value).toBe((i + 1).toString());
       }
     });
 
@@ -191,6 +194,7 @@ describe('calcite-radio-button-group', () => {
     const element = await page.find('calcite-radio-button-group');
     expect(element.getAttribute("scale")).toBe("m");
   });
+
   it('radio-buttons receive necessary props', async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -214,6 +218,39 @@ describe('calcite-radio-button-group', () => {
     expect(required).toBe(false);
     expect(theme).toBe("light");
   });
+
+  it('radio-button-group and radio-buttons receive necessary validated props', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button-group name="radio" layout="none" scale="none" theme="none">
+        <calcite-radio-button value="one" checked>
+              One
+        </calcite-radio-button>
+        <calcite-radio-button value="two">
+            Two
+        </calcite-radio-button>
+        <calcite-radio-button value="three">
+            Three
+        </calcite-radio-button>
+      </calcite-radio-button-group>
+    `);
+
+    const radioButtonGroup = await page.find('calcite-radio-button-group');
+    expect(await radioButtonGroup.getProperty("layout")).toBe("horizontal");
+    expect(await radioButtonGroup.getProperty("scale")).toBe("m");
+    expect(await radioButtonGroup.getProperty("theme")).toBe("light");
+
+    const child1 = await page.find("calcite-radio-button[value=one]");
+    const child2 = await page.find("calcite-radio-button[value=two]");
+    const child3 = await page.find("calcite-radio-button[value=three]");
+    expect(child1).toEqualAttribute("scale", "m");
+    expect(child2).toEqualAttribute("scale", "m");
+    expect(child3).toEqualAttribute("scale", "m");
+    expect(child1).toEqualAttribute("theme", "light");
+    expect(child2).toEqualAttribute("theme", "light");
+    expect(child3).toEqualAttribute("theme", "light");
+  });
+
   it('clicking a radio updates its checked status', async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -242,6 +279,7 @@ describe('calcite-radio-button-group', () => {
     expect(await first.getProperty("checked")).toBe(true);
     expect(await second.getProperty("checked")).toBe(false);
   });
+
   it('removing a radio button also removes the hidden <input type=radio> element', async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -268,6 +306,7 @@ describe('calcite-radio-button-group', () => {
 
     expect(firstInput).toBeFalsy();
   });
+
   it("moving a radio button also moves the corresponding <input> element", async () => {
     const page = await newE2EPage();
     await page.setContent(`
