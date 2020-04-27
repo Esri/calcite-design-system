@@ -8,6 +8,160 @@ describe('calcite-radio-button-group', () => {
     const element = await page.find('calcite-radio-button-group');
     expect(element).toHaveClass('hydrated');
   });
+
+  it("does not require an item to be checked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-button-group name="nonechecked">
+          <calcite-radio-button value="1"></calcite-radio-button>
+          <calcite-radio-button value="2"></calcite-radio-button>
+          <calcite-radio-button value="3"></calcite-radio-button>
+        </calcite-radio-button-group>`
+    );
+    const element = await page.find("calcite-radio-button-group");
+
+    const selected = await element.getProperty("selectedItem");
+    expect(selected).not.toBeDefined();
+  });
+
+  it("when multiple items are checked, first one wins", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-button-group>
+          <calcite-radio-button value="1" checked>one</calcite-radio-button>
+          <calcite-radio-button value="2" checked>two</calcite-radio-button>
+          <calcite-radio-button value="3" checked>three</calcite-radio-button>
+        </calcite-radio-button-group>`
+    );
+    const element = await page.find("calcite-radio-button-group");
+    const selectedItems = await element.findAll(
+      "calcite-radio-button[checked]"
+    );
+    expect(selectedItems).toHaveLength(1);
+
+    const selectedValue = await selectedItems[0].getProperty("value");
+    expect(selectedValue).toBe("1");
+  });
+
+  describe("keyboard navigation", () => {
+    it("selects item with left and arrow keys", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-radio-button-group>
+          <calcite-radio-button value="1" checked>one</calcite-radio-button>
+          <calcite-radio-button value="2">two</calcite-radio-button>
+          <calcite-radio-button value="3">three</calcite-radio-button>
+        </calcite-radio-button-group>`
+      );
+      const element = await page.find("calcite-radio-button-group");
+
+      const firstElement = await element.find(
+        "calcite-radio-button[checked]"
+      );
+      await firstElement.click();
+      await element.press("ArrowRight");
+      await page.waitForChanges();
+
+      let selected = await element.find("calcite-radio-button[checked]");
+      let value = await selected.getProperty("value");
+      expect(value).toBe("2");
+
+      await element.press("ArrowRight");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("3");
+
+      await element.press("ArrowRight");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("1");
+
+      await element.press("ArrowLeft");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("3");
+
+      await element.press("ArrowLeft");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("2");
+
+      await element.press("ArrowLeft");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("1");
+
+    });
+
+    it("has a radio input for form compatibility", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-radio-button-group name="hiddeninput">
+          <calcite-radio-button value="1">one</calcite-radio-button>
+          <calcite-radio-button value="2" checked>two</calcite-radio-button>
+          <calcite-radio-button value="3">three</calcite-radio-button>
+        </calcite-radio-button-group>`
+      );
+
+      const radioInputs = await page.findAll('input[type="radio"]');
+      expect(radioInputs).toHaveLength(3);
+
+      Array.from(radioInputs).forEach(async (radioInput, i) => {
+        const name = await radioInput.getAttribute("name");
+        const value = await radioInput.getAttribute("value");
+        expect(name).toBe("hiddeninput")
+        expect(value).toBe((i+1).toString());
+      });
+    });
+
+    it("selects item with up and down keys", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-radio-button-group>
+          <calcite-radio-button value="1" checked>one</calcite-radio-button>
+          <calcite-radio-button value="2">two</calcite-radio-button>
+          <calcite-radio-button value="3">three</calcite-radio-button>
+        </calcite-radio-button-group>`
+      );
+      const element = await page.find("calcite-radio-button-group");
+
+      const firstElement = await element.find(
+        "calcite-radio-button[checked]"
+      );
+      await firstElement.click();
+      await element.press("ArrowDown");
+      let selected = await element.find("calcite-radio-button[checked]");
+      let value = await selected.getProperty("value");
+      expect(value).toBe("2");
+
+      await element.press("ArrowDown");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("3");
+
+      await element.press("ArrowDown");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("1");
+
+      await element.press("ArrowUp");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("3");
+
+      await element.press("ArrowUp");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("2");
+
+      await element.press("ArrowUp");
+      selected = await element.find("calcite-radio-button[checked]");
+      value = await selected.getProperty("value");
+      expect(value).toBe("1");
+
+    });
+  });
+
   it('defaults to medium', async () => {
     const page = await newE2EPage();
     await page.setContent('<calcite-radio-button-group></calcite-radio-button-group>');

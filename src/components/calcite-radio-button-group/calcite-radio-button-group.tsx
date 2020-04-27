@@ -107,7 +107,7 @@ export class CalciteRadioButtonGroup {
 
   render() {
     return (
-      <Host>
+      <Host role="radiogroup">
         <slot></slot>
       </Host>
     );
