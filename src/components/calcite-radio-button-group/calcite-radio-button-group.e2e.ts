@@ -331,4 +331,36 @@ describe('calcite-radio-button-group', () => {
 
     expect(group.lastChild === firstInput);
   });
+
+  describe("setFocus()", () => {
+    it("focuses the first item if there is no selection", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-radio-button-group>
+          <calcite-radio-button id="child-1" value="1">one</calcite-radio-button>
+          <calcite-radio-button id="child-2" value="2">two</calcite-radio-button>
+          <calcite-radio-button id="child-3" value="3">three</calcite-radio-button>
+        </calcite-radio-button-group>`
+      });
+
+      const element = await page.find("calcite-radio-button-group");
+      await element.callMethod("setFocus");
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child-1");
+    });
+
+    it("focuses the selected item", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-radio-button-group>
+          <calcite-radio-button id="child-1" value="1">one</calcite-radio-button>
+          <calcite-radio-button id="child-2" value="2">two</calcite-radio-button>
+          <calcite-radio-button id="child-3" value="3" checked>three</calcite-radio-button>
+        </calcite-radio-button-group>`
+      });
+
+      const element = await page.find("calcite-radio-button-group");
+      await element.callMethod("setFocus");
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child-3");
+    });
+  });
 });

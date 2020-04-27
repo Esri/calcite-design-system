@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop, Listen, Watch } from "@stencil/core";
+import { Component, Host, h, Element, Prop, Listen, Watch, Method } from "@stencil/core";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -116,6 +116,28 @@ export class CalciteRadioButtonGroup {
       });
     }
   };
+
+  // --------------------------------------------------------------------------
+  //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Focuses the selected item. If there is no selection, it focuses the first item. */
+  @Method()
+  setFocus() {
+    const radioButtons = Array.from(
+      this.el.querySelectorAll("calcite-radio-button")
+    );
+    if (radioButtons && radioButtons.length > 0) {
+      const firstCheckedRadioButton = radioButtons.find(radioButton => radioButton.checked);
+      if (!firstCheckedRadioButton) {
+        radioButtons[0].focused = true;
+      } else {
+        firstCheckedRadioButton.focused = true;
+      }
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
