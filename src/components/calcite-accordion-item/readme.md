@@ -4,15 +4,14 @@ individual `calcite-accordion` item
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
-| Property       | Attribute       | Description                         | Type      | Default     |
-| -------------- | --------------- | ----------------------------------- | --------- | ----------- |
-| `active`       | `active`        |                                     | `boolean` | `false`     |
-| `itemSubtitle` | `item-subtitle` | pass a title for the accordion item | `string`  | `undefined` |
-| `itemTitle`    | `item-title`    | pass a title for the accordion item | `string`  | `undefined` |
-
+| Property       | Attribute       | Description                                                        | Type      | Default     |
+| -------------- | --------------- | ------------------------------------------------------------------ | --------- | ----------- |
+| `active`       | `active`        |                                                                    | `boolean` | `false`     |
+| `icon`         | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names | `string`  | `undefined` |
+| `itemSubtitle` | `item-subtitle` | pass a title for the accordion item                                | `string`  | `undefined` |
+| `itemTitle`    | `item-title`    | pass a title for the accordion item                                | `string`  | `undefined` |
 
 ## Events
 
@@ -23,7 +22,6 @@ individual `calcite-accordion` item
 | `closeCalciteAccordionItem`    |             | `CustomEvent<any>` |
 | `registerCalciteAccordionItem` |             | `CustomEvent<any>` |
 
-
 ## Dependencies
 
 ### Depends on
@@ -31,12 +29,13 @@ individual `calcite-accordion` item
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-accordion-item --> calcite-icon
   style calcite-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
