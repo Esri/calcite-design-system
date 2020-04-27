@@ -21,10 +21,11 @@ describe('calcite-radio-button-group', () => {
           <calcite-radio-button value="3"></calcite-radio-button>
         </calcite-radio-button-group>`
     );
-    const element = await page.find("calcite-radio-button-group");
-
-    const selected = await element.getProperty("selectedItem");
-    expect(selected).not.toBeDefined();
+    const radioButtons = await page.findAll('calcite-radio-button');
+    for (let i = 0; i < radioButtons.length; i++) {
+      expect(await radioButtons[i].getProperty("checked")).toBe(false);
+      expect(await radioButtons[i].getAttribute("checked")).toBe(null);
+    }
   });
 
   it("when multiple items are checked, first one wins", async () => {
@@ -37,12 +38,12 @@ describe('calcite-radio-button-group', () => {
         </calcite-radio-button-group>`
     );
     const element = await page.find("calcite-radio-button-group");
-    const selectedItems = await element.findAll(
+    const checkedItems = await element.findAll(
       "calcite-radio-button[checked]"
     );
-    expect(selectedItems).toHaveLength(1);
+    expect(checkedItems).toHaveLength(1);
 
-    const selectedValue = await selectedItems[0].getProperty("value");
+    const selectedValue = await checkedItems[0].getProperty("value");
     expect(selectedValue).toBe("1");
   });
 
