@@ -27,7 +27,7 @@ export class CalciteRadioButton {
 
   //--------------------------------------------------------------------------
   //
-  //  Properties
+  //  Properties and Validators
   //
   //--------------------------------------------------------------------------
 
@@ -47,10 +47,20 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) required: boolean = false;
 
   /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Watch("scale")
+  validateScale(newScale: string) {
+    const scales = ["s", "m", "l"];
+    if (!scales.includes(newScale)) this.scale = "m";
+  }
 
   /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Watch("theme")
+  validateTheme(newTheme: string) {
+    const themes = ["light", "dark"];
+    if (!themes.includes(newTheme)) this.theme = "light";
+  }
 
   /** The value of the radio button. */
   @Prop() value!: string;
@@ -90,7 +100,7 @@ export class CalciteRadioButton {
     if (
       !this.disabled &&
       (event.currentTarget as HTMLCalciteRadioButtonElement).localName ===
-        "calcite-radio-button"
+      "calcite-radio-button"
     ) {
       this.calciteRadioButtonClick.emit();
     }
@@ -141,6 +151,8 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+    this.validateScale(this.scale);
+    this.validateTheme(this.theme);
     this.renderHiddenRadioInput();
   }
 

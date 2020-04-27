@@ -106,12 +106,12 @@ describe('calcite-radio-button-group', () => {
       const radioInputs = await page.findAll('input[type="radio"]');
       expect(radioInputs).toHaveLength(3);
 
-      Array.from(radioInputs).forEach(async (radioInput, i) => {
-        const name = await radioInput.getAttribute("name");
-        const value = await radioInput.getAttribute("value");
+      for (let i = 0; i < radioInputs.length; i++) {
+        const name = await radioInputs[i].getAttribute("name");
+        const value = await radioInputs[i].getAttribute("value");
         expect(name).toBe("hiddeninput")
         expect(value).toBe((i+1).toString());
-      });
+      }
     });
 
     it("selects item with up and down keys", async () => {
@@ -160,6 +160,28 @@ describe('calcite-radio-button-group', () => {
       expect(value).toBe("1");
 
     });
+  });
+
+  describe("WAI-ARIA Roles, States, and Properties", () => {
+    it(`has a role of 'radiogroup'`, async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-radio-button-group></calcite-radio-button-group>");
+      const element = await page.find("calcite-radio-button-group");
+
+      const role = await element.getAttribute("role");
+      expect(role).toEqualText("radiogroup");
+    });
+  });
+
+  it("validates incorrect props", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      "<calcite-radio-button-group scale='none' theme='none' layout='none'></calcite-radio-button-group>"
+    );
+    const element = await page.find("calcite-radio-button-group");
+    expect(element).toEqualAttribute("layout", "horizontal");
+    expect(element).toEqualAttribute("scale", "m");
+    expect(element).toEqualAttribute("theme", "light");
   });
 
   it('defaults to medium', async () => {
