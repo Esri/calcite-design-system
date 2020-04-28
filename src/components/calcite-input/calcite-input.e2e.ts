@@ -189,7 +189,7 @@ describe("calcite-input", () => {
 
   });
 
-  it("correctly increment and decrements value when number buttons are clicked", async () => {
+  it("correctly increments and decrements value when number buttons are clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="3"></calcite-input>
@@ -213,7 +213,9 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("4");
   });
-  it("correctly increment and decrements value when number buttons are clicked and step is set", async () => {
+
+
+  it("correctly increments and decrements value when number buttons are clicked and step is set", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" step="10" value="15"></calcite-input>
@@ -237,5 +239,90 @@ describe("calcite-input", () => {
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("25");
+  });
+
+  it("correctly stops decrementing value when min is set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" min="10" value="12"></calcite-input>
+    `);
+
+    const element = await page.find("calcite-input");
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+    );
+    expect(element.getAttribute("value")).toBe("12");
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("11");
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("10");
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("10");
+  });
+  it("correctly stops incrementing value when max is set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" max="10" value="8"></calcite-input>
+    `);
+
+    const element = await page.find("calcite-input");
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+    );
+    expect(element.getAttribute("value")).toBe("8");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("9");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("10");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("10");
+  });
+  it("correctly stops decrementing value when min is 0", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" min="0" value="2"></calcite-input>
+    `);
+
+    const element = await page.find("calcite-input");
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+    );
+    expect(element.getAttribute("value")).toBe("2");
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("1");
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("0");
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("0");
+  });
+  it("correctly stops incrementing value when max is 0", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" max="0" value="-2"></calcite-input>
+    `);
+
+    const element = await page.find("calcite-input");
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+    );
+    expect(element.getAttribute("value")).toBe("-2");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("-1");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("0");
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("0");
   });
 });

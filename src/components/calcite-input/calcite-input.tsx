@@ -421,11 +421,11 @@ export class CalciteInput {
 
       switch (e.target.dataset.adjustment) {
         case "up":
-          if (!inputMax || inputVal < inputMax)
+          if ((!inputMax && inputMax !== 0) || inputVal < inputMax)
             this.childEl.value = (inputVal += inputStep).toString();
           break;
         case "down":
-          if (!inputMin || inputVal > inputMin)
+          if ((!inputMin && inputMin !== 0) || inputVal > inputMin)
             this.childEl.value = (inputVal -= inputStep).toString();
           break;
       }

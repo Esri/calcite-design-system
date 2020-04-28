@@ -43,6 +43,9 @@ storiesOf("Input", module)
         ["none", "horizontal", "vertical"],
         "horizontal"
       )}"
+      min="${text("min", "")}"
+      max="${text("max", "")}"
+      step="${text("step", "")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
@@ -108,6 +111,9 @@ storiesOf("Input", module)
         "horizontal",
         "Input"
       )}"
+      min="${text("min", "")}"
+      max="${text("max", "")}"
+      step="${text("step", "")}"
       prefix-text="${text("prefix-text", "", "Input")}"
       suffix-text="${text("suffix-text", "", "Input")}"
       loading="${boolean("loading", false, "Input")}"
@@ -166,6 +172,9 @@ storiesOf("Input", module)
         ["none", "horizontal", "vertical"],
         "horizontal"
       )}"
+      min="${text("min", "")}"
+      max="${text("max", "")}"
+      step="${text("step", "")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
@@ -206,13 +215,15 @@ storiesOf("Input", module)
         "text"
       )}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-
       appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",
         ["none", "horizontal", "vertical"],
         "horizontal"
       )}"
+      min="${text("min", "")}"
+      max="${text("max", "")}"
+      step="${text("step", "")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
@@ -307,6 +318,9 @@ storiesOf("Input", module)
         ["none", "horizontal", "vertical"],
         "horizontal"
       )}"
+      min="${text("min", "")}"
+      max="${text("max", "")}"
+      step="${text("step", "")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
