@@ -47,7 +47,6 @@ calcite-input input {
   color: var(--calcite-ui-text-1);
   order: 3;
   font-weight: 400;
-  margin-top: 4px;
 }
 
 calcite-input input[type="search"]::-webkit-search-decoration {
@@ -328,6 +327,7 @@ calcite-input[dir="rtl"][number-button-type="vertical"] {
   display: flex;
   flex-direction: row;
   position: relative;
+  margin-top: 4px;
 }
 
 // hide the default date picker
