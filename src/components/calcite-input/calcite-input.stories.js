@@ -328,7 +328,7 @@ storiesOf("Input", module)
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     <calcite-input-message
-    active="${boolean("calcite-input-message:active", false)}"
+    active="${boolean("calcite-input-message-active", false)}"
     type="${select("input message type", ["default", "floating"], "default")}"
     status="${select(
       "input message status",
