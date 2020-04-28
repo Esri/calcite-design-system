@@ -74,6 +74,25 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("icon-type", "caret");
   });
 
+  it("renders icon if requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" theme="dark" icon-type="caret">
+    <calcite-accordion-item item-title="Accordion Title 1" icon="car" id="1">Accordion Item Content
+    </calcite-accordion-item>
+    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
+    </calcite-accordion-item>
+    <calcite-accordion-item item-title="Accordion Title 3" icon="car" id="3">Accordion Item Content
+    </calcite-accordion-item>
+    </calcite-accordion>`);
+    const icon1 = await page.find("calcite-accordion-item[id='1'] >>> .accordion-item-icon");
+    const icon2 = await page.find("calcite-accordion-item[id='2'] >>> .accordion-item-icon");
+    const icon3 = await page.find("calcite-accordion-item[id='3'] >>> .accordion-item-icon");
+    expect(icon1).not.toBe(null);
+    expect(icon2).toBe(null);
+    expect(icon3).not.toBe(null);
+  });
+
   it("renders active item based on attribute in dom", async () => {
     const page = await newE2EPage();
     await page.setContent(`
