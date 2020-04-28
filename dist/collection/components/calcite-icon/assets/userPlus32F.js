@@ -1,0 +1,1 @@
+export const userPlus32F = "M18.064 5a5 5 0 1 1-5-5 5 5 0 0 1 5 5zM19 24h3V14a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v11a2 2 0 0 0 2 2h1V15h1v16a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V15h1zm13 1h-5v-5h-2v5h-5v2h5v5h2v-5h5z";

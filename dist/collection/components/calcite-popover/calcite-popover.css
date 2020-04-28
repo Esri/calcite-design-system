@@ -1,0 +1,115 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: block;
+  position: absolute;
+  z-index: 999;
+  top: -999999px;
+  left: -999999px;
+}
+
+:host([aria-hidden=true]) {
+  pointer-events: none;
+}
+
+:host([aria-hidden=false]) {
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+}
+
+.arrow,
+.arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: -1;
+}
+
+.arrow::before {
+  content: "";
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  transform: rotate(45deg);
+  background: var(--calcite-ui-foreground-1);
+}
+
+:host([data-popper-placement^=top]) > .arrow {
+  bottom: -4px;
+}
+
+:host([data-popper-placement^=bottom]) > .arrow {
+  top: -4px;
+}
+
+:host([data-popper-placement^=left]) > .arrow {
+  right: -4px;
+}
+
+:host([data-popper-placement^=right]) > .arrow {
+  left: -4px;
+}
+
+.container {
+  border-radius: var(--calcite-border-radius);
+  background: var(--calcite-ui-foreground-1);
+  position: relative;
+  display: flex;
+  max-width: 350px;
+  overflow: hidden;
+  flex-direction: column;
+  color: var(--calcite-ui-text-1);
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  line-height: 24px;
+}
+
+.close-button {
+  outline-offset: 0;
+  outline-color: transparent;
+  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
+}
+.close-button:focus {
+  outline: 2px solid var(--calcite-ui-blue-1);
+  outline-offset: -2px;
+}
+
+.close-button {
+  display: block;
+  flex: 0 0 auto;
+  padding: 12px;
+  border: none;
+  border-radius: 0 var(--calcite-border-radius) 0 0;
+  color: var(--calcite-ui-text-1);
+  cursor: pointer;
+  background: var(--calcite-ui-foreground-1);
+  z-index: 1;
+}
+.close-button:hover {
+  background: var(--calcite-ui-foreground-2);
+}
+.close-button:active {
+  background: var(--calcite-ui-foreground-3);
+}
+
+:host-context([dir=rtl]) .close-button {
+  border-radius: var(--calcite-border-radius) 0 0 0;
+}
+
+.image-container {
+  overflow: hidden;
+  max-height: 200px;
+  margin: 5px;
+}
+
+slot[name=image]::slotted(img) {
+  height: auto;
+  width: 100%;
+  max-height: 200px;
+  object-position: 50% 50%;
+  object-fit: cover;
+}

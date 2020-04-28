@@ -1,0 +1,1 @@
+export const boxChart32 = "M31 30v1H1V1h1v29zM7 14H4V7h3V4H6V3h3v1H8v3h3v7H8v6h1v1H6v-1h1zm-2-3h5V8H5zm5 2v-1H5v1zm6 10h-3v-9h3V6h-1V5h3v1h-1v8h3v9h-3v3h1v1h-3v-1h1zm-2-6h5v-2h-5zm5 5v-4h-5v4zm6-7h-3V9h3V3h-1V2h3v1h-1v6h3v6h-3v8h1v1h-3v-1h1zm-2-4h5v-1h-5zm5 3v-2h-5v2z";

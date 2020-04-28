@@ -1,0 +1,72 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.slot {
+  display: none;
+}
+
+:host([scale=s]) {
+  max-width: 246px;
+}
+
+:host([scale=m]) {
+  max-width: 288px;
+}
+
+:host([scale=l]) {
+  max-width: 400px;
+}
+
+.calendar-icon {
+  color: var(--calcite-ui-text-3);
+  position: absolute;
+  top: 50%;
+  margin: -8px 0.75rem;
+  pointer-events: none;
+}
+
+.calendar-picker-wrapper {
+  position: absolute;
+  top: 100%;
+  background-color: var(--calcite-ui-foreground-1);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  width: 100%;
+  line-height: 0;
+  visibility: hidden;
+  overflow: visible;
+  transform: translate3d(0, -1.5rem, 0);
+  transition: all 0.15s ease-in-out;
+  pointer-events: none;
+  z-index: 3;
+}
+
+:host([active]) {
+  background-color: var(--calcite-ui-foreground-1);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+}
+:host([active]) .calendar-picker-wrapper {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+  pointer-events: initial;
+}
+:host([active]) .date-input-wrapper {
+  border: 1px solid var(--calcite-ui-foreground-1);
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+}
+
+:host([no-calendar-input]) .calendar-picker-wrapper {
+  position: static;
+  transform: translate3d(0, 0, 0);
+}

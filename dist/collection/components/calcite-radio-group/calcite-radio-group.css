@@ -1,0 +1,19 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: flex;
+  margin-top: 0.25rem;
+}
+
+:host([layout=vertical]) {
+  flex-direction: column;
+  align-items: start;
+  align-self: flex-start;
+}
+
+::slotted(calcite-radio-group-item[checked]),
+::slotted(calcite-radio-group-item:focus) {
+  z-index: 0;
+}

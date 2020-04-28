@@ -1,0 +1,1 @@
+export const locator24 = "M20 12h2.5L19 8.5V1h-4v3.5L11.5 1 .5 12H3v10H1v1h21v-1h-2zM16 2h2v5.5l-2-2zM2.914 11L11.5 2.414 20.086 11zM4 22V12h15v10zm2-2h11v-6H6zm10-5v4h-4v-4zm-9 0h4v4H7z";
