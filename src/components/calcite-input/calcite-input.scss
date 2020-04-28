@@ -47,6 +47,7 @@ calcite-input input {
   color: var(--calcite-ui-text-1);
   order: 3;
   font-weight: 400;
+  margin-top: 4px;
 }
 
 calcite-input input[type="search"]::-webkit-search-decoration {
@@ -236,7 +237,6 @@ calcite-input input[type="number"] {
 
 calcite-input[number-button-type="vertical"] .calcite-input-wrapper {
   flex-direction: row;
-  margin-top: 4px;
   display: flex;
 }
 
