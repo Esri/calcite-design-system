@@ -18,23 +18,30 @@
   <body>
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Scrim</h1>
-    <calcite-scrim style="width: 200px; height: 200px; overflow: hidden;">
-      <p>I'm just a basic scrim that looks disabled.</p>
-      <p>I'm just a basic scrim that looks disabled.</p>
-      <p>I'm just a basic scrim that looks disabled.</p>
-      <p>I'm just a basic scrim that looks disabled.</p>
-      <p>I'm just a basic scrim that looks disabled.</p>
-    </calcite-scrim>
-    <h2>loading scrim</h2>
-    <calcite-scrim
-      loading
-      style="width: 200px; height: 200px; overflow: hidden;"
+    <div
+      style="position: relative; width: 200px; height: 200px; overflow: hidden;"
     >
-      <p>I'm a scrim that is loading.</p>
-      <p>I'm a scrim that is loading.</p>
-      <p>I'm a scrim that is loading.</p>
-      <p>I'm a scrim that is loading.</p>
-      <p>I'm a scrim that is loading.</p>
-    </calcite-scrim>
+      <calcite-scrim>
+        <p>I'm a panel that is not loading.</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+      </calcite-scrim>
+    </div>
+    <h2>loading scrim</h2>
+    <div
+      style="position: relative; width: 200px; height: 200px; overflow: hidden;"
+    >
+      <calcite-scrim loading>
+        <p>I'm a panel that is loading!</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+      </calcite-scrim>
+    </div>
   </body>
 </html>
