@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
 - `calcite-date` now has `scale` prop for small, medium, and large
 - `calcite-radio-group` now has an `appearance` prop that accepts `outline` or `solid` (default) values
+- `calcite-radio-group` now has a `layout` prop that accepts `vertical` or `horizontal` (default) values
 - `calcite-input` can now be programmatically focused with the `setFocus()` method
 - `calcite-pagination` now has a `scale` prop that accepts `s`, `m` (default), or `l` values
 - `calcite-accordion-item` can now display an icon by passing a Calcite UI Icon name to the `icon` attribute
