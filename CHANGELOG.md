@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Breaking Changes
 
-- `calcite-button` no longer accepts `inline` as a value for `appearance` - you can instead
+- `calcite-button` no longer accepts `inline` as a value for `appearance` - you can instead use the new `calcite-link` component
 - `calcite-pagination` - `backgroundStyle` property removed (always transparent)
 - `calcite-pagination` - `num`, `start`, and `total` now refer to records not pages
 - `calcite-pagination` - `calcitePaginationUpdate` event now only fires in response to user input
