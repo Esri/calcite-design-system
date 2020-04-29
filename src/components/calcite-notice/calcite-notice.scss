@@ -105,7 +105,7 @@
 
 :host([dir="rtl"]) {
   @include slotted("notice-message", "div") {
-    margin-right: unset;
+    margin-right: 0;
     margin-left: var(--calcite-notice-spacing-token-small);
   }
 }
