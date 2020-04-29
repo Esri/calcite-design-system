@@ -4,8 +4,6 @@ import {
   h,
   Listen,
   Prop,
-  Event,
-  EventEmitter,
   Element,
   Watch,
 } from "@stencil/core";
@@ -36,7 +34,7 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   /** The checked state of the radio button. */
-  @Prop({ reflect: true }) checked: boolean = false;
+  @Prop({ mutable: true, reflect: true }) checked: boolean = false;
   @Watch("checked")
   onCheckedChange(newChecked: boolean, oldChecked: boolean) {
     if (newChecked === true && oldChecked === false) {
@@ -55,7 +53,7 @@ export class CalciteRadioButton {
   }
 
   /** The focused state of the radio button. */
-  @Prop({ reflect: true }) focused: boolean = false;
+  @Prop({ mutable: true, reflect: true }) focused: boolean = false;
   @Watch("focused")
   onFocusedChange(focused: boolean) {
     if (focused) {
@@ -64,6 +62,10 @@ export class CalciteRadioButton {
       this.input.blur();
     }
   }
+
+  /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
+  @Prop({ reflect: true }) guid: string =
+    this.el.id || `calcite-radio-button-${guid()}`;
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
   @Prop({ reflect: true }) name!: string;
@@ -102,37 +104,37 @@ export class CalciteRadioButton {
 
   private input: HTMLInputElement;
 
-  private guid: string = this.el.id || `calcite-radio-button-${guid()}`;
-
-  private uncheckOtherRadioButtonsInGroup = () => {
-    const otherRadioButtons = document.querySelectorAll(
-      `calcite-radio-button[name=${this.name}]:not([id=${this.guid}])`
+  private checkFirstRadioButton = () => {
+    const radioButtons = Array.from(
+      document.querySelectorAll(`calcite-radio-button[name=${this.name}]`)
     );
-    if (otherRadioButtons) {
-      otherRadioButtons.forEach(
-        (otherRadioButton) =>
-          ((otherRadioButton as HTMLCalciteRadioButtonElement).checked = false)
-      );
+    let firstCheckedRadioButton: HTMLCalciteRadioButtonElement;
+    if (radioButtons && radioButtons.length > 0) {
+      radioButtons.forEach((radioButton: HTMLCalciteRadioButtonElement) => {
+        if (firstCheckedRadioButton) {
+          radioButton.checked = false;
+        } else if (radioButton.checked) {
+          firstCheckedRadioButton = radioButton;
+        }
+        return radioButton;
+      });
     }
   };
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Fired when a radio button is focused. */
-  @Event() calciteRadioButtonFocus: EventEmitter;
-
-  /** Fired when a radio button is clicked. */
-  @Event() calciteRadioButtonClick: EventEmitter;
-
-  /** Fired when a radio button's state changes. */
-  @Event() calciteRadioButtonChange: EventEmitter;
-
-  /** Fired when a radio button is blurred. */
-  @Event() calciteRadioButtonBlur: EventEmitter;
+  private uncheckOtherRadioButtonsInGroup = () => {
+    const otherRadioButtons = document.querySelectorAll(
+      `calcite-radio-button[name=${this.name}]:not([guid="${this.guid}"])`
+    );
+    if (otherRadioButtons) {
+      otherRadioButtons.forEach(
+        (otherRadioButton: HTMLCalciteRadioButtonElement) => {
+          if (otherRadioButton.checked) {
+            otherRadioButton.checked = false;
+          }
+        }
+      );
+    }
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -163,6 +165,7 @@ export class CalciteRadioButton {
     this.validateScale(this.scale);
     this.validateTheme(this.theme);
     this.renderHiddenRadioInput();
+    this.checkFirstRadioButton();
   }
 
   disconnectedCallback() {

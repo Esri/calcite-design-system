@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop, Listen, Watch, Method } from "@stencil/core";
+import { Component, Host, h, Element, Prop, Watch } from "@stencil/core";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -34,7 +34,10 @@ export class CalciteRadioButtonGroup {
   @Watch("scale")
   validateScale(newScale: string) {
     const scales = ["s", "m", "l"];
-    if (!scales.includes(newScale)) this.scale = "m";
+    if (!scales.includes(newScale)) {
+      this.scale = "m";
+      this.passPropsToRadioButtons();
+    }
   }
 
   /** The color theme of the radio button group. */
@@ -42,36 +45,22 @@ export class CalciteRadioButtonGroup {
   @Watch("theme")
   validateTheme(newTheme: string) {
     const themes = ["light", "dark"];
-    if (!themes.includes(newTheme)) this.theme = "light";
+    if (!themes.includes(newTheme)) {
+      this.theme = "light";
+      this.passPropsToRadioButtons();
+    }
   }
 
   /** The layout direction of the radio buttons in a group. */
-  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
+    "horizontal";
   @Watch("layout")
   validateLayout(newLayout: string) {
     const layouts = ["horizontal", "vertical"];
-    if (!layouts.includes(newLayout)) this.layout = "horizontal";
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("calciteRadioButtonClick")
-  @Listen("calciteRadioButtonFocus")
-  onCalciteRadioButtonClick(event: CustomEvent): void {
-    this.el
-      .querySelectorAll("calcite-radio-button")
-      .forEach((radioButton) => (radioButton.checked = false));
-    (event.target as HTMLCalciteRadioButtonElement).checked = true;
-    (event.target as HTMLCalciteRadioButtonElement).focused = true;
-  }
-
-  @Listen("calciteRadioButtonBlur")
-  onCalciteRadioButtonBlur(event: CustomEvent) {
-    (event.target as HTMLCalciteRadioButtonElement).focused = false;
+    if (!layouts.includes(newLayout)) {
+      this.layout = "horizontal";
+      this.passPropsToRadioButtons();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -97,7 +86,6 @@ export class CalciteRadioButtonGroup {
     const radioButtons = Array.from(
       this.el.querySelectorAll("calcite-radio-button")
     );
-    let firstCheckedRadioButton;
     if (radioButtons && radioButtons.length > 0) {
       radioButtons.forEach((radioButton) => {
         radioButton.disabled = radioButton.hasAttribute("disabled")
@@ -107,37 +95,9 @@ export class CalciteRadioButtonGroup {
         radioButton.required = this.required;
         radioButton.scale = this.scale;
         radioButton.theme = this.theme;
-        if (firstCheckedRadioButton) {
-          radioButton.checked = false;
-        } else if (radioButton.checked) {
-          firstCheckedRadioButton = radioButton;
-        }
-        return radioButton;
       });
     }
   };
-
-  // --------------------------------------------------------------------------
-  //
-  //  Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /** Focuses the selected item. If there is no selection, it focuses the first item. */
-  @Method()
-  setFocus() {
-    const radioButtons = Array.from(
-      this.el.querySelectorAll("calcite-radio-button")
-    );
-    if (radioButtons && radioButtons.length > 0) {
-      const firstCheckedRadioButton = radioButtons.find(radioButton => radioButton.checked);
-      if (!firstCheckedRadioButton) {
-        radioButtons[0].focused = true;
-      } else {
-        firstCheckedRadioButton.focused = true;
-      }
-    }
-  }
 
   // --------------------------------------------------------------------------
   //
