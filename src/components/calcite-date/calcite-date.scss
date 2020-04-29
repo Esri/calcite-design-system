@@ -11,15 +11,15 @@
 }
 
 :host([scale="s"]) {
-  max-width: 246px;
+  max-width: 216px;
 }
 
 :host([scale="m"]) {
-  max-width: 288px;
+  max-width: 286px;
 }
 
 :host([scale="l"]) {
-  max-width: 400px;
+  max-width: 398px;
 }
 
 .calendar-icon {
@@ -46,6 +46,10 @@
   z-index: 3;
 }
 
+.input input {
+  margin-top: 0;
+}
+
 :host([active]) {
   background-color: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
@@ -64,7 +68,13 @@
   }
 }
 
-:host([no-calendar-input]) .calendar-picker-wrapper {
-  position: static;
-  transform: translate3d(0, 0, 0);
+:host([no-calendar-input]) {
+  box-shadow: none;
+  .calendar-picker-wrapper {
+    position: static;
+    transform: translate3d(0, 0, 0);
+    border-radius: none;
+    box-shadow: none;
+    border: 1px solid var(--calcite-ui-border-2);
+  }
 }

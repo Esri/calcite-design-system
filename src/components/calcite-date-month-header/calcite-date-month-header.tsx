@@ -76,13 +76,24 @@ export class CalciteDateMonthHeader {
     const localizedYear = getYear(this.activeDate, this.locale);
     const iconScale = this.scale === "l" ? "m" : "s";
     const dir = getElementDir(this.el);
+    const nextMonthDate = dateFromRange(
+      nextMonth(this.activeDate),
+      this.min,
+      this.max
+    );
+    const prevMonthDate = dateFromRange(
+      prevMonth(this.activeDate),
+      this.min,
+      this.max
+    );
     return (
       <Host dir={dir}>
         <div class="header" aria-hidden="true">
           <button
             class="chevron"
             aria-label={this.prevMonthLabel}
-            onClick={() => this.selectPrevMonth()}
+            disabled={prevMonthDate.getMonth() === activeMonth}
+            onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
           >
             <calcite-icon
               icon="chevron-left"
@@ -113,7 +124,8 @@ export class CalciteDateMonthHeader {
           <button
             class="chevron"
             aria-label={this.nextMonthLabel}
-            onClick={() => this.selectNextMonth()}
+            disabled={nextMonthDate.getMonth() === activeMonth}
+            onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
           >
             <calcite-icon
               icon="chevron-right"
@@ -139,26 +151,6 @@ export class CalciteDateMonthHeader {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  /**
-   * Set active date to previous month (or min if out of range)
-   */
-  private selectPrevMonth() {
-    const nextDate = prevMonth(this.activeDate);
-    this.calciteActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
-    );
-  }
-
-  /**
-   * Set active date to next month (or max if out of range)
-   */
-  private selectNextMonth() {
-    const nextDate = nextMonth(this.activeDate);
-    this.calciteActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
-    );
-  }
-
   /**
    * Increment year on UP/DOWN keys
    */

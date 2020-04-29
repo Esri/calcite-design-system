@@ -5,33 +5,44 @@
 .header {
   display: flex;
   justify-content: space-between;
+  padding: 0 3px;
 }
 
-:host([scale="s"]) .text {
-  font-size: 14px;
-  height: 16px;
-  padding: 8px 0;
+:host([scale="s"]) {
+  .text {
+    font-size: 14px;
+  }
+  .chevron {
+    height: 38px;
+  }
 }
 
-:host([scale="m"]) .text {
-  font-size: 16px;
-  height: 16px;
-  padding: 16px 0;
+:host([scale="m"]) {
+  .text {
+    font-size: 16px;
+  }
+  .chevron {
+    height: 48px;
+  }
 }
 
-:host([scale="l"]) .text {
-  font-size: 18px;
-  padding: 16px 0;
+:host([scale="l"]) {
+  .text {
+    font-size: 18px;
+  }
+  .chevron {
+    height: 64px;
+  }
 }
 
 .chevron {
   color: var(--calcite-ui-text-2);
-  flex-grow: 0 0 auto;
+  flex-grow: 0;
   width: calc(100% / 7);
   box-sizing: content-box;
   outline: none;
   padding: 0 4px;
-  margin: 0;
+  margin: 0 -3px;
   border: none;
   background-color: var(--calcite-ui-foreground-1);
   cursor: pointer;
@@ -52,13 +63,19 @@
   &:active {
     background-color: var(--calcite-ui-foreground-3);
   }
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0;
+  }
 }
 
 .text {
   flex: 1 1 auto;
-  display: inline-flex;
-  justify-content: center;
-  line-height: 1.25;
+  display: block;
+  line-height: 1;
+  margin: auto 0;
+  text-align: center;
 }
 
 .month,
@@ -67,6 +84,7 @@
   background: var(--calcite-ui-foreground-1);
   font-size: inherit;
   font-weight: 500;
+  margin: 0 4px;
 }
 
 .year {
@@ -75,7 +93,6 @@
   border: none;
   width: 3em;
   padding: 0;
-  margin: 0 8px;
   @include focus-style-base();
   &:hover {
     transition: outline-color 100ms ease-in-out;
