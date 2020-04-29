@@ -17,6 +17,10 @@ import { guid } from "../../utils/guid";
   shadow: true,
 })
 export class CalciteRadioButton {
+  constructor() {
+    this.check = this.check.bind(this);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -27,24 +31,49 @@ export class CalciteRadioButton {
 
   //--------------------------------------------------------------------------
   //
-  //  Properties and Validators
+  //  Properties and Validators/Watchers
   //
   //--------------------------------------------------------------------------
 
   /** The checked state of the radio button. */
   @Prop({ reflect: true }) checked: boolean = false;
+  @Watch("checked")
+  onCheckedChange(newChecked: boolean, oldChecked: boolean) {
+    if (newChecked === true && oldChecked === false) {
+      this.uncheckOtherRadioButtonsInGroup();
+    }
+    if (newChecked !== this.input.checked) {
+      this.input.checked = newChecked;
+    }
+  }
 
   /** The disabled state of the radio button. */
   @Prop({ reflect: true }) disabled?: boolean = false;
+  @Watch("disabled")
+  onDisabledChange(disabled: boolean) {
+    this.input.disabled = disabled;
+  }
 
   /** The focused state of the radio button. */
   @Prop({ reflect: true }) focused: boolean = false;
+  @Watch("focused")
+  onFocusedChange(focused: boolean) {
+    if (focused) {
+      this.input.focus();
+    } else {
+      this.input.blur();
+    }
+  }
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
   @Prop({ reflect: true }) name!: string;
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
   @Prop({ reflect: true }) required: boolean = false;
+  @Watch("required")
+  onRequiredChange(required: boolean) {
+    this.input.required = required;
+  }
 
   /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -67,12 +96,25 @@ export class CalciteRadioButton {
 
   //--------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Private Properties & Methods
   //
   //--------------------------------------------------------------------------
 
   private input: HTMLInputElement;
+
   private guid: string = this.el.id || `calcite-radio-button-${guid()}`;
+
+  private uncheckOtherRadioButtonsInGroup = () => {
+    const otherRadioButtons = document.querySelectorAll(
+      `calcite-radio-button[name=${this.name}]:not([id=${this.guid}])`
+    );
+    if (otherRadioButtons) {
+      otherRadioButtons.forEach(
+        (otherRadioButton) =>
+          ((otherRadioButton as HTMLCalciteRadioButtonElement).checked = false)
+      );
+    }
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -80,11 +122,14 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  /** Fired when a radio button is focused. */
+  @Event() calciteRadioButtonFocus: EventEmitter;
+
   /** Fired when a radio button is clicked. */
   @Event() calciteRadioButtonClick: EventEmitter;
 
-  /** Fired when a radio button is focused. */
-  @Event() calciteRadioButtonFocus: EventEmitter;
+  /** Fired when a radio button's state changes. */
+  @Event() calciteRadioButtonChange: EventEmitter;
 
   /** Fired when a radio button is blurred. */
   @Event() calciteRadioButtonBlur: EventEmitter;
@@ -96,53 +141,17 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  onClick(event: MouseEvent): void {
-    if (
-      !this.disabled &&
-      (event.currentTarget as HTMLCalciteRadioButtonElement).localName ===
-      "calcite-radio-button"
-    ) {
-      this.calciteRadioButtonClick.emit();
+  check() {
+    if (!this.disabled) {
+      this.uncheckOtherRadioButtonsInGroup();
+      this.focused = true;
+      this.checked = true;
     }
   }
-
-  onInputFocus = () => {
-    this.calciteRadioButtonFocus.emit();
-  };
 
   onInputBlur = () => {
-    this.calciteRadioButtonBlur.emit();
+    this.focused = false;
   };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Property Watchers
-  //
-  //--------------------------------------------------------------------------
-
-  @Watch("checked")
-  onCheckedChange(newValue: boolean) {
-    this.input.checked = newValue;
-  }
-
-  @Watch("disabled")
-  onDisabledChange(newValue: boolean) {
-    this.input.disabled = newValue;
-  }
-
-  @Watch("focused")
-  onFocusedChange(focused: boolean) {
-    if (focused) {
-      this.input.focus();
-    } else {
-      this.input.blur();
-    }
-  }
-
-  @Watch("required")
-  onRequiredChange(newValue: boolean) {
-    this.input.required = newValue;
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -174,8 +183,8 @@ export class CalciteRadioButton {
     this.input.disabled = this.disabled;
     this.input.id = this.guid;
     this.input.name = this.name;
+    this.input.onfocus = this.check;
     this.input.onblur = this.onInputBlur;
-    this.input.onfocus = this.onInputFocus;
     this.input.style.opacity = "0";
     this.input.style.position = "absolute";
     this.input.style.zIndex = "-1";
