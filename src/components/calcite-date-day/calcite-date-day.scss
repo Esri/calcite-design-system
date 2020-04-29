@@ -12,19 +12,7 @@
   min-width: 0;
 }
 
-:host([scale="s"]) {
-  padding: 2px 0px;
-}
-
-:host([scale="m"]) {
-  padding: 4px 4px;
-}
-
-:host([scale="l"]) {
-  padding: 4px 4px;
-}
-
-:host .day {
+.day {
   display: flex;
   border-radius: 100%;
   @include font-size(-2);
@@ -38,22 +26,35 @@
   opacity: 0.4;
 }
 
-:host([scale="s"]) .day {
-  height: 27px;
-  width: 27px;
-  font-size: 12px;
+.text {
+  margin: 1px 0 0 1px;
 }
 
-:host([scale="m"]) .day {
-  height: 30px;
-  width: 30px;
-  font-size: 14px;
+:host([scale="s"]) {
+  padding: 2px 0px;
+  .day {
+    height: 27px;
+    width: 27px;
+    font-size: 12px;
+  }
 }
 
-:host([scale="l"]) .day {
-  height: 42px;
-  width: 42px;
-  font-size: 16px;
+:host([scale="m"]) {
+  padding: 4px 4px;
+  .day {
+    height: 33px;
+    width: 33px;
+    font-size: 14px;
+  }
+}
+
+:host([scale="l"]) {
+  padding: 4px 4px;
+  .day {
+    height: 43px;
+    width: 43px;
+    font-size: 16px;
+  }
 }
 
 :host([current-month]) .day {
