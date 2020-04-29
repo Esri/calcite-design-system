@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [v1.0.0-beta.25] - Apr 28th 2020
 
 ### Breaking Changes
 
-- `calcite-button` no longer accepts `inline` as a value for `appearance` - you can instead
+- `calcite-button` no longer accepts `inline` as a value for `appearance` - you can instead use the new `calcite-link` component
 - `calcite-pagination` - `backgroundStyle` property removed (always transparent)
 - `calcite-pagination` - `num`, `start`, and `total` now refer to records not pages
 - `calcite-pagination` - `calcitePaginationUpdate` event now only fires in response to user input
@@ -23,8 +23,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-slider` can now be programmatically focused with the `setFocus()` method
 - `calcite-date` now has `scale` prop for small, medium, and large
 - `calcite-radio-group` now has an `appearance` prop that accepts `outline` or `solid` (default) values
+- `calcite-radio-group` now has a `layout` prop that accepts `vertical` or `horizontal` (default) values
 - `calcite-input` can now be programmatically focused with the `setFocus()` method
 - `calcite-pagination` now has a `scale` prop that accepts `s`, `m` (default), or `l` values
+- `calcite-accordion-item` can now display an icon by passing a Calcite UI Icon name to the `icon` attribute
 
 ### Fixed
 
@@ -370,6 +372,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.25]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.24...v1.0.0-beta.25 "v1.0.0-beta.25"
 [v1.0.0-beta.24]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.23...v1.0.0-beta.24 "v1.0.0-beta.24"
 [v1.0.0-beta.23]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.22...v1.0.0-beta.23 "v1.0.0-beta.23"
 [v1.0.0-beta.22]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.21...v1.0.0-beta.22 "v1.0.0-beta.22"

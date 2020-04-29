@@ -39,6 +39,10 @@ export class CalciteAccordionItem {
 
   /** pass a title for the accordion item */
   @Prop() itemSubtitle?: string;
+
+  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) icon?: string;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -65,18 +69,29 @@ export class CalciteAccordionItem {
 
   render() {
     const dir = getElementDir(this.el);
+    const iconScale = this.scale !== "l" ? "s" : "m";
+
+    const iconEl = (
+      <calcite-icon
+        class="accordion-item-icon"
+        icon={this.icon}
+        scale={iconScale}
+      />
+    );
+
     return (
       <Host tabindex="0" aria-expanded={this.active.toString()} dir={dir}>
         <div
           class="accordion-item-header"
           onClick={this.itemHeaderClickHandler}
         >
+          {this.icon ? iconEl : null}
           <div class="accordion-item-header-text">
             <span class="accordion-item-title">{this.itemTitle}</span>
             <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
           </div>
           <calcite-icon
-            class="accordion-item-icon"
+            class="accordion-item-expand-icon"
             icon={
               this.iconType === "chevron"
                 ? "chevronUp"
@@ -147,6 +162,9 @@ export class CalciteAccordionItem {
 
   /** what icon type does the parent accordion specify */
   private iconType = getElementProp(this.el, "icon-type", "chevron");
+
+  /** the scale of the parent accordion */
+  private scale = getElementProp(this.el, "scale", "m");
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = () => this.emitRequestedItem();

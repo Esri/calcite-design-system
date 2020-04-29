@@ -236,7 +236,6 @@ calcite-input input[type="number"] {
 
 calcite-input[number-button-type="vertical"] .calcite-input-wrapper {
   flex-direction: row;
-  margin-top: 4px;
   display: flex;
 }
 
@@ -328,6 +327,7 @@ calcite-input[dir="rtl"][number-button-type="vertical"] {
   display: flex;
   flex-direction: row;
   position: relative;
+  margin-top: 4px;
 }
 
 // hide the default date picker

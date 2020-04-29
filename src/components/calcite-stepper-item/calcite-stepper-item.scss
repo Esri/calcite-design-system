@@ -125,6 +125,7 @@
 }
 :host .stepper-item-title {
   color: var(--calcite-ui-text-2);
+  font-weight: 500;
 }
 :host .stepper-item-subtitle {
   color: var(--calcite-ui-text-3);
@@ -194,7 +195,6 @@
 :host([active]) {
   border-top-color: var(--calcite-ui-blue-1);
   & .stepper-item-title {
-    font-weight: 500;
     color: var(--calcite-ui-text-1);
   }
   & .stepper-item-subtitle {

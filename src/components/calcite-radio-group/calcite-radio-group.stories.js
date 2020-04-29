@@ -14,6 +14,7 @@ storiesOf("Radio Group", module)
     "Simple",
     () => `
     <calcite-radio-group
+      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
     >
@@ -31,6 +32,7 @@ storiesOf("Radio Group", module)
     <calcite-label>
     My great radio group
     <calcite-radio-group
+      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
     >
@@ -48,6 +50,7 @@ storiesOf("Radio Group", module)
     () => `
     <calcite-radio-group
       theme="dark"
+      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
     >

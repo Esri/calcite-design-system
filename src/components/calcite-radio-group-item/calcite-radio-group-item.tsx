@@ -86,6 +86,7 @@ export class CalciteRadioGroupItem {
     const { checked, useFallback, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
     const appearance = getElementProp(this.el, "appearance", "m");
+    const layout = getElementProp(this.el, "layout", "m");
 
     return (
       <Host
@@ -93,6 +94,7 @@ export class CalciteRadioGroupItem {
         aria-checked={checked.toString()}
         scale={scale}
         appearance={appearance}
+        layout={layout}
       >
         <label>
           <slot>{useFallback ? value : ""}</slot>

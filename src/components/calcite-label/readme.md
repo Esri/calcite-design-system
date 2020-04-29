@@ -20,6 +20,7 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property | Attribute | Description                                                          | Type                                              | Default     |
@@ -29,12 +30,14 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 | `status` | `status`  | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
 | `theme`  | `theme`   | specify theme of the lavel and its any child input / input messages  | `"dark" \| "light"`                               | `"light"`   |
 
+
 ## Events
 
 | Event                       | Description | Type               |
 | --------------------------- | ----------- | ------------------ |
 | `calciteLabelSelectedEvent` |             | `CustomEvent<any>` |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*
