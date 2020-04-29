@@ -39,6 +39,7 @@ For instances when you don't have room for the full loader, you can use the smal
 
 - [calcite-button](../calcite-button)
 - [calcite-card](../calcite-card)
+- [calcite-scrim](../calcite-scrim)
 
 ### Graph
 
@@ -46,6 +47,7 @@ For instances when you don't have room for the full loader, you can use the smal
 graph TD;
   calcite-button --> calcite-loader
   calcite-card --> calcite-loader
+  calcite-scrim --> calcite-loader
   style calcite-loader fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
