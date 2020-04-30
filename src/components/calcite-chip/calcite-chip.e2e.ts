@@ -11,7 +11,7 @@ describe("calcite-chip", () => {
 
   it("should emit event after the close button is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip>cheetos</calcite-chip>`);
+    await page.setContent(`<calcite-chip dismissible>cheetos</calcite-chip>`);
 
     const eventSpy = await page.spyOnEvent("calciteChipDismiss", "window");
 

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Breaking Changes
 
 - `calcite-checkbox` - `size` prop is now `scale` to be consistent with other components
+- `calcite-chip` - will not show the dismiss ("x") button unless new `dismissible` prop is `true`
 
 ## [v1.0.0-beta.25] - Apr 28th 2020
 
