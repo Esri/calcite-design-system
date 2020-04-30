@@ -188,12 +188,19 @@ export class CalciteRadioButton {
     this.input.name = this.name;
     this.input.onfocus = this.check;
     this.input.onblur = this.onInputBlur;
+
+    // We're using option #3 explained here to hide the radio input without compromising accessibility
+    // @link https://blog.bitsrc.io/customise-radio-buttons-without-compromising-accessibility-b03061b5ba93
+    // The only difference is we're using "fixed" instead of "absolute" positioning thanks to this StackOverflow:
+    // @link https://stackoverflow.com/questions/24299567/radio-button-causes-browser-to-jump-to-the-top/24323870
     this.input.style.opacity = "0";
-    this.input.style.position = "absolute";
+    this.input.style.position = "fixed";
     this.input.style.zIndex = "-1";
+
     this.input.value = this.value;
     this.input.required = this.required;
     this.input.type = "radio";
+
     // This renders the input as a sibling of calcite-radio-button because as it turns out
     // doing appendChild as hjorthhansen suggests doesn't really keep it out of the
     // shadow DOM as far as slot behavior goes.  This is required to render {this.value} as fallback slot content.
@@ -208,7 +215,11 @@ export class CalciteRadioButton {
         aria-disabled={this.disabled}
       >
         <div id="radio"></div>
-        <calcite-label htmlFor={this.guid} scale={this.scale}>
+        <calcite-label
+          dir={document.documentElement.getAttribute("dir")}
+          htmlFor={this.guid}
+          scale={this.scale}
+        >
           <slot>{this.value}</slot>
         </calcite-label>
       </Host>
