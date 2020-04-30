@@ -69,6 +69,12 @@ export class CalciteRadioButton {
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
   @Prop({ reflect: true }) name!: string;
+  @Watch("name")
+  onNameChange(newName: string) {
+    if (newName !== this.input.name) {
+      this.input.name = newName;
+    }
+  }
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
   @Prop({ reflect: true }) required: boolean = false;

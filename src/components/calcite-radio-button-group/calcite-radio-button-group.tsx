@@ -69,7 +69,7 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  componentWillLoad() {
     this.validateLayout(this.layout);
     this.validateScale(this.scale);
     this.validateTheme(this.theme);
@@ -83,9 +83,8 @@ export class CalciteRadioButtonGroup {
   //--------------------------------------------------------------------------
 
   private passPropsToRadioButtons = () => {
-    const radioButtons = Array.from(
-      this.el.querySelectorAll("calcite-radio-button")
-    );
+    const radioButtons = this.el.querySelectorAll("calcite-radio-button");
+    let firstCheckedRadioButton;
     if (radioButtons && radioButtons.length > 0) {
       radioButtons.forEach((radioButton) => {
         radioButton.disabled = radioButton.hasAttribute("disabled")
@@ -95,6 +94,12 @@ export class CalciteRadioButtonGroup {
         radioButton.required = this.required;
         radioButton.scale = this.scale;
         radioButton.theme = this.theme;
+        if (firstCheckedRadioButton) {
+          radioButton.checked = false;
+        } else if (radioButton.checked) {
+          firstCheckedRadioButton = radioButton;
+        }
+        return radioButton;
       });
     }
   };
