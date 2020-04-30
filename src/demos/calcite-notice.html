@@ -28,7 +28,14 @@
   </calcite-button>
   <br />
   <br />
-
+  <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
+    <div slot="notice-title">Something failed dismissible</div>
+    <div slot="notice-message">
+      That thing you wanted to do didn't work as expected
+    </div>
+    <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
+  </calcite-notice>
+  <br /> <br />
   <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
     <div slot="notice-title">Something failed dismissible</div>
     <div slot="notice-message">
@@ -92,9 +99,51 @@
   <br />
   <calcite-notice icon color="green" size="l" id="notice-five" active dismissible>
     <div slot="notice-message">
-      That thing you wanted to do didn't work as expected
+      <div>
+        That thing you wanted to do didn't work as expected
+      </div>
+      <div>
+        A second slotted div
+      </div>
     </div>
-    <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
+  </calcite-notice>
+  <br />
+  <br />
+  <calcite-notice color="green" size="l" id="notice-five" active>
+    <div slot="notice-message">
+      <div>
+        That thing you wanted to do didn't work as expected
+      </div>
+      <div>
+        A second slotted div
+      </div>
+    </div>
+  </calcite-notice>
+  <br />
+  <br />
+  <calcite-notice color="green" size="l" id="notice-five" active>
+    <div slot="notice-title">Welcome to your new website</div>
+    <div slot="notice-message">
+      <div>
+        That thing you wanted to do didn't work as expected
+      </div>
+      <div>
+        A second slotted div
+      </div>
+    </div>
+  </calcite-notice>
+  <br />
+  <br />
+  <calcite-notice dismissible color="green" size="l" id="notice-five" active>
+    <div slot="notice-title">Welcome to your new website</div>
+    <div slot="notice-message">
+      <div>
+        That thing you wanted to do didn't work as expected
+      </div>
+      <div>
+        A second slotted div
+      </div>
+    </div>
   </calcite-notice>
 </body>
 
