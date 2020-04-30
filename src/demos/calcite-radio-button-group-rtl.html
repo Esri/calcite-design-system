@@ -84,15 +84,6 @@
       }
     }
     customElements.define("calcite-spacer", CalciteSpacer);
-
-    function remove(event) {
-      const xs = document.querySelector("[value=xs-stencil]");
-      xs.parentNode.removeChild(xs);
-    }
-    function move(event) {
-      const xs = document.querySelector("[value=xs-stencil]");
-      xs.parentNode.appendChild(xs);
-    }
   </script>
 </head>
 
@@ -101,8 +92,6 @@
     <calcite-button href="/">
       < Home</calcite-button>
         <h1>Calcite Radio Button Group (RTL)</h1>
-        <button onclick="remove()">Remove</button>
-        <button onclick="move()">Move</button>
         <calcite-form>
           <form name="calcite-radio-button-group-demo-form">
             <calcite-spacer>
