@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Scrim</title>
+
+    <link
+      rel="stylesheet"
+      href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css"
+    />
+    <link rel="stylesheet" href="../build/calcite.css" />
+    <script type="module" src="../build/calcite.esm.js"></script>
+    <script nomodule src="../build/calcite.js"></script>
+  </head>
+
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Scrim</h1>
+    <div
+      style="position: relative; width: 200px; height: 200px; overflow: auto;"
+    >
+      <calcite-scrim>
+        <p>I'm a panel that is not loading.</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+      </calcite-scrim>
+    </div>
+    <h2>loading scrim</h2>
+    <div
+      style="position: relative; width: 200px; height: 200px; overflow: auto;"
+    >
+      <calcite-scrim loading>
+        <p>I'm a panel that is loading!</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+        <p>lol</p>
+      </calcite-scrim>
+    </div>
+  </body>
+</html>
