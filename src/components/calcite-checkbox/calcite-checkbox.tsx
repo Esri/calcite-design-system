@@ -36,8 +36,8 @@ export class CalciteCheckbox {
   /** The value of the checkbox input */
   @Prop({ reflect: true, mutable: true }) value?: string = "";
 
-  /** Size of the checkbox  */
-  @Prop({ reflect: true }) size?: "small" | "large" = null;
+  /** specify the scale of the checkbox, defaults to m */
+  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
   /** True if the checkbox is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
@@ -87,6 +87,8 @@ export class CalciteCheckbox {
 
   connectedCallback() {
     this.setupProxyInput();
+    let scale = ["s", "m", "l"];
+    if (!scale.includes(this.scale)) this.scale = "m";
   }
 
   disconnectedCallback() {
@@ -116,7 +118,7 @@ export class CalciteCheckbox {
         tabindex={this.disabled ? "-1" : "0"}
       >
         <svg class="check-svg" viewBox="0 0 16 16">
-          <path d={this.getPath()} fill="white" />
+          <path d={this.getPath()} />
         </svg>
         <slot />
       </Host>

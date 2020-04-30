@@ -145,7 +145,10 @@ export class CalciteCard {
         onClick={() => this.cardSelectClick()}
         onKeyDown={(e) => this.cardSelectKeyDown(e)}
       >
-        <calcite-checkbox checked={this.selected}></calcite-checkbox>
+        <calcite-checkbox
+          theme={this.theme}
+          checked={this.selected}
+        ></calcite-checkbox>
       </div>
     );
   }
