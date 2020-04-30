@@ -1,12 +1,27 @@
+// scale
+:host([scale="s"]) {
+  --calcite-checkbox-size: 12px;
+  top: 0.1em;
+}
+:host([scale="m"]) {
+  --calcite-checkbox-size: 16px;
+  top: 0.15em;
+}
+:host([scale="l"]) {
+  --calcite-checkbox-size: 20px;
+  top: 0.25em;
+}
 ::slotted(input) {
   display: none;
 }
-
 :host {
-  display: inline-block;
+  display: inline-flex;
   cursor: pointer;
+  position: relative;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  width: var(--calcite-checkbox-size);
+  height: var(--calcite-checkbox-size);
 }
 
 //focus
@@ -17,62 +32,24 @@
   @include focus-style-outset();
 }
 
-.check-svg {
-  width: 20px;
-  height: 20px;
+:host .check-svg {
+  width: var(--calcite-checkbox-size);
+  height: var(--calcite-checkbox-size);
   overflow: hidden;
   display: inline-block;
-  background-color: white;
-  border: 1px solid $blk-130;
-  vertical-align: -0.25em;
-  margin-right: 0.25em;
+  background-color: var(--calcite-ui-background);
+  border: 1px solid var(--calcite-ui-border-1);
+  fill: var(--calcite-ui-background);
   pointer-events: none;
-  transition: all 150ms linear;
+  transition: $transition;
   box-sizing: border-box;
-}
-
-:host([theme="dark"]) {
-  .check-svg {
-    background-color: transparent;
-    border-color: $blk-020;
-  }
-}
-
-:host([theme="dark"][disabled]) {
-  .check-svg {
-    border-color: $blk-130;
-    background-color: $blk-200;
-  }
-}
-
-:host([theme="dark"][checked]),
-:host([theme="dark"][indeterminate]) {
-  .check-svg {
-    background-color: $v-bb-140;
-  }
-}
-
-:host([size="large"]) {
-  .check-svg {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-:host([size="small"]) {
-  .check-svg {
-    width: 16px;
-    height: 16px;
-  }
 }
 
 :host([disabled]) {
   pointer-events: none;
   cursor: default;
-
   .check-svg {
-    background-color: $blk-010;
-    border-color: $blk-020;
+    background-color: var(--calcite-ui-foreground-2);
   }
 }
 
@@ -87,12 +64,16 @@
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    background-color: $ui-blue-1;
-    border: 1px solid $ui-blue-1;
+    background-color: var(--calcite-ui-blue-1);
+    border-color: var(--calcite-ui-blue-1);
   }
 }
 
 :host(:hover),
 :host(:focus) {
   outline: none;
+  .check-svg {
+    border-color: var(--calcite-ui-blue-1);
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-blue-1);
+  }
 }

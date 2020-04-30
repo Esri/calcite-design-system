@@ -269,6 +269,7 @@
   width: 100%;
   height: 3px;
   z-index: 103;
+  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
 
   &:after {
     height: 3px;
@@ -276,7 +277,7 @@
     right: 0;
     display: block;
     position: absolute;
-    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+    border-radius: 0 var(--calcite-border-radius) 0 0;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
     z-index: 104;
@@ -314,7 +315,11 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
     width: 0;
     opacity: 0.8;
   }
+  90% {
+    border-radius: 0 var(--calcite-border-radius) 0 0;
+  }
   100% {
+    border-radius: var(--calcite-border-radius) 0 0 0;
     width: 100%;
     opacity: 1;
   }
