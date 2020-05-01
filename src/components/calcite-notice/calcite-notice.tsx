@@ -62,7 +62,7 @@ export class CalciteNotice {
   @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
     "auto";
 
-  /** Select theme (light or dark) */
+  /** Optionally show a button the user can click to dismiss the notice */
   @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
 
   /** If false, no icon will be shown in the notice */

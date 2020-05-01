@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { withKnobs, select, boolean } from "@storybook/addon-knobs";
 import {
   darkBackground,
   iconNames,
@@ -16,6 +16,7 @@ storiesOf("Chip", module)
     <div style="background-color:white;padding:100px">
     <calcite-chip
     scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    dismissible="${boolean("dismissible", false)}"
     >My great chip</calcite-chip>
     </div>
   `,
@@ -28,6 +29,7 @@ storiesOf("Chip", module)
     <calcite-chip
     icon="${select("icon", iconNames, iconNames[0])}"
     scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    dismissible="${boolean("dismissible", false)}"
     >
     My great chip</calcite-chip>
     </div>
@@ -40,6 +42,7 @@ storiesOf("Chip", module)
     <div style="background-color:white;padding:100px">
     <calcite-chip
     scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    dismissible="${boolean("dismissible", false)}"
     >
     <img slot="chip-image" src="https://placekitten.com/50/50" />
     My great chip</calcite-chip>
@@ -54,6 +57,7 @@ storiesOf("Chip", module)
     <calcite-chip
     theme="dark"
     scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    dismissible="${boolean("dismissible", false)}"
     >My great chip</calcite-chip>
     </div>
   `,
@@ -66,6 +70,7 @@ storiesOf("Chip", module)
     <calcite-chip
     icon="${select("icon", iconNames, iconNames[0])}"
     scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    dismissible="${boolean("dismissible", false)}"
     >My great chip</calcite-chip>
     </div>
   `,

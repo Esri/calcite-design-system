@@ -54,11 +54,15 @@
 }
 
 :host span {
+  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l);
+}
+
+:host([dismissible]) span {
   padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
     var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l);
 }
 
-:host([dir="rtl"]) span {
+:host([dir="rtl"][dismissible]) span {
   padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l)
     var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s);
 }
