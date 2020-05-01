@@ -262,6 +262,59 @@ describe('calcite-radio-button-group', () => {
     expect(group.lastChild === firstInput);
   });
 
+  it("programmatically checking a radio button updates the group's state correctly", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button-group name="radio">
+        <calcite-radio-button id="first" value="one" checked>
+              One
+        </calcite-radio-button>
+        <calcite-radio-button id="second" value="two">
+            Two
+        </calcite-radio-button>
+        <calcite-radio-button id="third" value="three">
+            Three
+        </calcite-radio-button>
+      </calcite-radio-button-group>
+    `);
+    await page.evaluate(() => {
+      const second = document.querySelector("calcite-radio-button#second");
+      (second as HTMLCalciteRadioButtonElement).checked = true;
+    });
+    await page.waitForChanges();
+
+    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    expect(checkedItems).toHaveLength(1);
+
+    const selectedValue = await checkedItems[0].getProperty("value");
+    expect(selectedValue).toBe("two");
+  });
+
+  it("programmatically un-checking a radio button updates the group's state correctly", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button-group name="radio">
+        <calcite-radio-button id="first" value="one" checked>
+              One
+        </calcite-radio-button>
+        <calcite-radio-button id="second" value="two">
+            Two
+        </calcite-radio-button>
+        <calcite-radio-button id="third" value="three">
+            Three
+        </calcite-radio-button>
+      </calcite-radio-button-group>
+    `);
+    await page.evaluate(() => {
+      const second = document.querySelector("calcite-radio-button#first");
+      (second as HTMLCalciteRadioButtonElement).checked = false;
+    });
+    await page.waitForChanges();
+
+    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    expect(checkedItems).toHaveLength(0);
+  });
+
   it(`has a role of 'radiogroup'`, async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-radio-button-group></calcite-radio-button-group>");
