@@ -46,37 +46,28 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click", { capture: true }) toggle(event: Event) {
+  @Listen("click", { target: "window", capture: true }) closeOpenPopovers(
+    event: Event
+  ) {
     const target = event.target as HTMLElement;
-
+    const { autoClose, el, selector } = this;
+    const CALCITE_POPOVER_TAGNAME = "calcite-popover";
+    const isTargetInsidePopover = target.closest(CALCITE_POPOVER_TAGNAME);
     const describedByElement =
-      target && target.matches(this.selector) && getDescribedByElement(target);
+      target && target.matches(selector) && getDescribedByElement(target);
+
+    if (autoClose && !isTargetInsidePopover) {
+      Array.from(document.body.querySelectorAll(CALCITE_POPOVER_TAGNAME))
+        .filter((popover) => popover.open && popover !== describedByElement)
+        .forEach((popover) => popover.toggle(false));
+    }
+
+    if (!el.contains(target)) {
+      return;
+    }
 
     if (describedByElement) {
       (describedByElement as HTMLCalcitePopoverElement).toggle();
     }
-  }
-
-  @Listen("click", { target: "window", capture: true }) closeOpenPopovers(
-    event: Event
-  ) {
-    if (!this.autoClose) {
-      return;
-    }
-
-    const target = event.target as HTMLElement;
-    const CALCITE_POPOVER_TAGNAME = "calcite-popover";
-
-    const blacklistElements =
-      (target && target.matches(this.selector)) ||
-      target.closest(CALCITE_POPOVER_TAGNAME);
-
-    if (blacklistElements) {
-      return;
-    }
-
-    this.el
-      .querySelectorAll(CALCITE_POPOVER_TAGNAME)
-      .forEach((popover) => (popover.open = false));
   }
 }
