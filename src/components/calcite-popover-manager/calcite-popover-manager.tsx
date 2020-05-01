@@ -43,4 +43,23 @@ export class CalcitePopoverManager {
       (describedByElement as HTMLCalcitePopoverElement).toggle();
     }
   }
+
+  @Listen("click", { target: "window", capture: true }) closeOpenPopovers(
+    event: Event
+  ) {
+    const target = event.target as HTMLElement;
+    const CALCITE_POPOVER_TAGNAME = "calcite-popover";
+
+    const blacklistElements =
+      (target && target.matches(this.selector)) ||
+      target.closest(CALCITE_POPOVER_TAGNAME);
+
+    if (blacklistElements) {
+      return;
+    }
+
+    document.body
+      .querySelectorAll(CALCITE_POPOVER_TAGNAME)
+      .forEach((popover) => (popover.open = false));
+  }
 }
