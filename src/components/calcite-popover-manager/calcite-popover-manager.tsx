@@ -1,4 +1,4 @@
-import { Component, Host, h, Listen, Prop } from "@stencil/core";
+import { Component, Element, Host, h, Listen, Prop } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
@@ -6,6 +6,14 @@ import { getDescribedByElement } from "../../utils/dom";
   tag: "calcite-popover-manager",
 })
 export class CalcitePopoverManager {
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalcitePopoverManagerElement;
+
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -67,7 +75,7 @@ export class CalcitePopoverManager {
       return;
     }
 
-    document.body
+    this.el
       .querySelectorAll(CALCITE_POPOVER_TAGNAME)
       .forEach((popover) => (popover.open = false));
   }
