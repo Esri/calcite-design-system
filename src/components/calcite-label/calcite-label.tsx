@@ -101,6 +101,9 @@ export class CalciteLabel {
     // don't refocus the input if the click occurs on a slotted input action
     // defer to slider click events if the click occurs on a calcite-slider
     if (
+      e &&
+      e.target &&
+      e.target.parentElement &&
       e.target.parentElement.className !== "calcite-input-action-wrapper" &&
       e.target.nodeName !== "CALCITE-SLIDER" &&
       e.target.nodeName !== "CALCITE-RADIO-GROUP-ITEM"

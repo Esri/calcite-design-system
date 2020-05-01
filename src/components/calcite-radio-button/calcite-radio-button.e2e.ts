@@ -243,8 +243,6 @@ describe("calcite-radio-button", () => {
     expect(documentBody.lastChild === firstInput);
   });
 
-  /** Radio Button-specific tests */
-
   it("emits when checked", async () => {
     const page = await newE2EPage();
     await page.setContent(
