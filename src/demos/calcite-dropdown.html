@@ -333,6 +333,15 @@
       <calcite-dropdown-item id="item-25" active>25</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
+  <h3>Nested elements within dropdown-trigger slot should toggle dropdown</h3>
+
+  <calcite-dropdown>
+    <div style="padding:20px;border:1px solid red"slot="dropdown-trigger"><calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button></div>
+    <calcite-dropdown-group>
+      <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
 </body>
 
 </html>

@@ -70,6 +70,7 @@ export class CalciteDropdown {
     this.trigger = this.el.querySelector(
       "[slot=dropdown-trigger]"
     ) as HTMLSlotElement;
+
     if (!this.sorted) {
       const groups = this.items.sort(
         (a, b) => a.position - b.position
@@ -116,7 +117,10 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   @Listen("click") openDropdown(e) {
-    if (e.target.getAttribute("slot") === "dropdown-trigger") {
+    if (
+      e.target === this.trigger ||
+      e.target.offsetParent.nodeName === "CALCITE-DROPDOWN"
+    ) {
       this.openCalciteDropdown();
       e.preventDefault();
       e.stopPropagation();
@@ -134,7 +138,10 @@ export class CalciteDropdown {
 
   @Listen("keydown") keyDownHandler(e) {
     const key = getKey(e.key);
-    if (e.target.getAttribute("slot") === "dropdown-trigger") {
+    if (
+      e.target === this.trigger ||
+      e.target.offsetParent.nodeName === "CALCITE-DROPDOWN"
+    ) {
       if (
         e.target.nodeName !== "BUTTON" &&
         e.target.nodeName !== "CALCITE-BUTTON"
