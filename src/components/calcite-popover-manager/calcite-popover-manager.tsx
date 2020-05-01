@@ -1,9 +1,9 @@
-import { Component, Element, Host, h, Prop } from "@stencil/core";
+import { Component, Host, h, Listen, Prop } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-popover-manager"
+  tag: "calcite-popover-manager",
 })
 export class CalcitePopoverManager {
   // --------------------------------------------------------------------------
@@ -19,37 +19,21 @@ export class CalcitePopoverManager {
 
   // --------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Render Methods
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalcitePopoverManagerElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  componentDidLoad() {
-    const { el } = this;
-
-    el.addEventListener("click", this.toggle, true);
+  render() {
+    return <Host />;
   }
 
-  componentDidUnload() {
-    const { el } = this;
-
-    el.removeEventListener("click", this.toggle, true);
-  }
-
-  // --------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
   //
-  //  Private Methods
+  //  Event Listeners
   //
-  // --------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
 
-  toggle = (event: Event): void => {
+  @Listen("click", { capture: true }) toggle(event: Event) {
     const target = event.target as HTMLElement;
 
     const describedByElement =
@@ -58,15 +42,5 @@ export class CalcitePopoverManager {
     if (describedByElement) {
       (describedByElement as HTMLCalcitePopoverElement).toggle();
     }
-  };
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
-  render() {
-    return <Host />;
   }
 }
