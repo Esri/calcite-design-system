@@ -17,6 +17,11 @@ export class CalcitePopoverManager {
    */
   @Prop() selector = `[${POPOVER_REFERENCE}]`;
 
+  /**
+   * Automatically close popovers when clicking outside of them.
+   */
+  @Prop({ reflect: true }) autoClose?: boolean;
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -47,6 +52,10 @@ export class CalcitePopoverManager {
   @Listen("click", { target: "window", capture: true }) closeOpenPopovers(
     event: Event
   ) {
+    if (!this.autoClose) {
+      return;
+    }
+
     const target = event.target as HTMLElement;
     const CALCITE_POPOVER_TAGNAME = "calcite-popover";
 
