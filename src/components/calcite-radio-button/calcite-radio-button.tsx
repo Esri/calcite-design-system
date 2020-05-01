@@ -179,13 +179,13 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback() {
+    this.renderHiddenRadioInput();
+  }
+
   componentWillLoad() {
     this.validateScale(this.scale);
     this.validateTheme(this.theme);
-  }
-
-  connectedCallback() {
-    this.renderHiddenRadioInput();
     if (this.name) {
       this.checkFirstRadioButton();
     }

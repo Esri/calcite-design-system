@@ -27,6 +27,20 @@ describe("calcite-radio-button", () => {
     }
   });
 
+  it("when multiple items are checked, first one wins", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button name="multipleChecked" value="1" checked>one</calcite-radio-button>
+      <calcite-radio-button name="multipleChecked" value="2" checked>two</calcite-radio-button>
+      <calcite-radio-button name="multipleChecked" value="3" checked>three</calcite-radio-button>
+    `);
+    const checkedItems = await page.findAll("calcite-radio-button[checked]");
+    expect(checkedItems).toHaveLength(1);
+
+    const selectedValue = await checkedItems[0].getProperty("value");
+    expect(selectedValue).toBe("1");
+  });
+
   it("is un-checked by default", async () => {
     const page = await newE2EPage();
     await page.setContent(
