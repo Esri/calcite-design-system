@@ -336,7 +336,9 @@
   <h3>Nested elements within dropdown-trigger slot should toggle dropdown</h3>
 
   <calcite-dropdown>
-    <div style="padding:20px;border:1px solid red"slot="dropdown-trigger"><calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button></div>
+    <div style="padding:20px;border:1px solid red" slot="dropdown-trigger">
+      <calcite-button>Open Dropdown</calcite-button>
+    </div>
     <calcite-dropdown-group>
       <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
       <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
