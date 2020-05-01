@@ -27,141 +27,107 @@ describe("calcite-radio-button", () => {
     }
   });
 
-  // it("is un-checked by default", async () => {
-  //   const page = await newE2EPage();
-  //   await page.setContent(
-  //     "<calcite-radio-button value='test-value'></calcite-radio-button>"
-  //   );
-  //   const element = await page.find("calcite-radio-button");
+  it("is un-checked by default", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      "<calcite-radio-button value='test-value'></calcite-radio-button>"
+    );
+    const element = await page.find("calcite-radio-button");
 
-  //   const checked = await element.getProperty("checked");
-  //   expect(checked).toBe(false);
-  // });
+    const checked = await element.getProperty("checked");
+    expect(checked).toBe(false);
+  });
 
-  // it("emits when checked", async () => {
-  //   const page = await newE2EPage();
-  //   await page.setContent(
-  //     "<calcite-radio-button value='test-value'></calcite-radio-button>"
-  //   );
-  //   const element = await page.find("calcite-radio-button");
-  //   const focusSpy = await element.spyOnEvent("calciteRadioButtonFocus");
-  //   const blurSpy = await element.spyOnEvent("calciteRadioButtonBlur");
+  it("emits when checked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      "<calcite-radio-button value='test-value'></calcite-radio-button>"
+    );
+    const element = await page.find("calcite-radio-button");
+    const spy = await element.spyOnEvent("calciteRadioButtonChange");
 
-  //   await element.setProperty("checked", true);
-  //   await page.waitForChanges();
-  //   expect(focusSpy).toHaveReceivedEventTimes(1);
+    await element.setProperty("checked", true);
+    await page.waitForChanges();
+    await element.setProperty("checked", false);
+    await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(2);
+  });
 
-  //   await element.setProperty("checked", false);
-  //   await page.waitForChanges();
-  //   expect(blurSpy).toHaveReceivedEventTimes(1);
-  // });
+  it("supports value, label and checked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      "<calcite-radio-button value='test-value' checked>test-label</calcite-radio-button>"
+    );
+    const element = await page.find("calcite-radio-button");
 
-  // it("supports value, label and checked", async () => {
-  //   const page = await newE2EPage();
-  //   await page.setContent(
-  //     "<calcite-radio-button value='test-value' checked>test-label</calcite-radio-button>"
-  //   );
-  //   const element = await page.find("calcite-radio-button");
+    expect(element).toEqualText("test-label");
 
-  //   expect(element).toEqualText("test-label");
+    const checked = await element.getProperty("checked");
+    expect(checked).toBe(true);
 
-  //   const checked = await element.getProperty("checked");
-  //   expect(checked).toBe(true);
+    const value = await element.getProperty("value");
+    expect(value).toBe("test-value");
+  });
 
-  //   const value = await element.getProperty("value");
-  //   expect(value).toBe("test-value");
-  // });
+  it("uses value as fallback label", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      "<calcite-radio-button value='test-value' checked></calcite-radio-button>"
+    );
 
-  // it("uses value as fallback label", async () => {
-  //   const page = await newE2EPage();
-  //   await page.setContent(
-  //     "<calcite-radio-button value='test-value' checked></calcite-radio-button>"
-  //   );
+    const label = await page.find("calcite-radio-button >>> calcite-label");
+    expect(label).toEqualText("test-value");
+  });
 
-  //   const label = await page.find("calcite-radio-button >>> calcite-label");
-  //   expect(label).toEqualText("test-value");
-  // });
+  describe("WAI-ARIA Roles, States, and Properties", () => {
+    it(`has a role of 'radio'`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        "<calcite-radio-button></calcite-radio-button>"
+      );
+      const element = await page.find("calcite-radio-button");
 
-  // it("syncs w/ external inputs", async () => {
-  //   const page = await newE2EPage();
-  //   await page.setContent(
-  //     "<calcite-radio-button><input type='radio' slot='input' value='1'></calcite-radio-button>"
-  //   );
-  //   const element = await page.find("calcite-radio-button");
-  //   const label = await page.find("calcite-radio-button >>> label");
+      const role = await element.getAttribute("role");
 
-  //   expect(label).toEqualText("1");
+      expect(role).toEqualText("radio");
+    });
 
-  //   let checked = await element.getProperty("checked");
-  //   expect(checked).toBe(false);
+    it(`updates 'aria-checked' based on 'checked' property`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        "<calcite-radio-button></calcite-radio-button>"
+      );
+      const element = await page.find("calcite-radio-button");
 
-  //   const value = await element.getProperty("value");
-  //   expect(value).toBe("1");
+      let ariaChecked = await element.getAttribute("aria-checked");
 
-  //   await page.$eval("input", (input: HTMLInputElement) => {
-  //     // need to toggle this way so MutationObserver kicks in
-  //     input.toggleAttribute("checked");
-  //   });
+      expect(ariaChecked).toBe("false");
 
-  //   checked = await element.getProperty("checked");
-  //   expect(checked).toBe(true);
+      element.setProperty("checked", true);
+      await page.waitForChanges();
 
-  //   const input = await page.find("input");
-  //   element.setProperty("checked", false);
-  //   await page.waitForChanges();
-  //   checked = await input.getAttribute("checked");
-  //   expect(checked).toBeNull();
-  // });
+      ariaChecked = await element.getAttribute("aria-checked");
 
-  // describe("WAI-ARIA Roles, States, and Properties", () => {
-  //   it(`has a role of 'radio'`, async () => {
-  //     const page = await newE2EPage();
-  //     await page.setContent(
-  //       "<calcite-radio-button></calcite-radio-button>"
-  //     );
-  //     const element = await page.find("calcite-radio-button");
+      expect(ariaChecked).toEqualText("true");
 
-  //     const role = await element.getAttribute("role");
+      element.setProperty("checked", false);
+      await page.waitForChanges();
 
-  //     expect(role).toEqualText("radio");
-  //   });
+      ariaChecked = await element.getAttribute("aria-checked");
 
-  //   it(`updates 'aria-checked' based on 'checked' property`, async () => {
-  //     const page = await newE2EPage();
-  //     await page.setContent(
-  //       "<calcite-radio-button></calcite-radio-button>"
-  //     );
-  //     const element = await page.find("calcite-radio-button");
+      expect(ariaChecked).toEqualText("false");
+    });
 
-  //     let ariaChecked = await element.getAttribute("aria-checked");
+    it("content/value is wrapped by label", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        "<calcite-radio-button></calcite-radio-button>"
+      );
+      const defaultSlot = await page.find(
+        "calcite-radio-button >>> label slot"
+      );
 
-  //     expect(ariaChecked).toEqualText("false");
-
-  //     element.setProperty("checked", true);
-  //     await page.waitForChanges();
-
-  //     ariaChecked = await element.getAttribute("aria-checked");
-
-  //     expect(ariaChecked).toEqualText("true");
-
-  //     element.setProperty("checked", false);
-  //     await page.waitForChanges();
-
-  //     ariaChecked = await element.getAttribute("aria-checked");
-
-  //     expect(ariaChecked).toEqualText("false");
-  //   });
-
-  //   it("content/value is wrapped by label", async () => {
-  //     const page = await newE2EPage();
-  //     await page.setContent(
-  //       "<calcite-radio-button></calcite-radio-button>"
-  //     );
-  //     const defaultSlot = await page.find(
-  //       "calcite-radio-button >>> label slot"
-  //     );
-
-  //     expect(defaultSlot).toBeDefined();
-  //   });
-  // });
+      expect(defaultSlot).toBeDefined();
+    });
+  });
 });

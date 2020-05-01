@@ -6,6 +6,8 @@ import {
   Prop,
   Element,
   Watch,
+  Event,
+  EventEmitter,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 
@@ -43,6 +45,7 @@ export class CalciteRadioButton {
     if (newChecked !== this.input.checked) {
       this.input.checked = newChecked;
     }
+    this.calciteRadioButtonChange.emit();
   }
 
   /** The disabled state of the radio button. */
@@ -144,6 +147,15 @@ export class CalciteRadioButton {
 
   //--------------------------------------------------------------------------
   //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Event()
+  calciteRadioButtonChange: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
@@ -222,7 +234,7 @@ export class CalciteRadioButton {
     return (
       <Host
         role="radio"
-        aria-checked={this.checked}
+        aria-checked={this.checked.toString()}
         aria-disabled={this.disabled}
       >
         <div id="radio"></div>
