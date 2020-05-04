@@ -29,17 +29,33 @@ storiesOf("Radio Group", module)
   .add(
     "Wrapping Calcite Label",
     () => `
-    <calcite-label>
+    <calcite-label scale="${select("scale", ["s", "m", "l"], "m")}">
     My great radio group
     <calcite-radio-group
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
     >
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
       <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
       <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
       <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+    </calcite-radio-group>
+    </calcite-label>
+  `,
+    { notes }
+  )
+  .add(
+    "With icons",
+    () => `
+    <calcite-label scale="${select("scale", ["s", "m", "l"], "m")}">
+    My great radio group
+    <calcite-radio-group
+      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+      appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    >
+      <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
+      <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
+      <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-label>
   `,
