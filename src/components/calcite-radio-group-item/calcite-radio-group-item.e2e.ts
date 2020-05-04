@@ -63,7 +63,6 @@ describe("calcite-radio-group-item", () => {
     expect(label).toEqualText("test-value");
   });
 
-
   it("syncs w/ external inputs", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -93,6 +92,26 @@ describe("calcite-radio-group-item", () => {
     await page.waitForChanges();
     checked = await input.getAttribute("checked");
     expect(checked).toBeNull();
+  });
+
+  it("renders icon if requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-radio-group-item icon="car">Content</calcite-accordion-item>`);
+    const icon = await page.find(
+      "calcite-radio-group-item >>> .radio-group-item-icon"
+    );
+    expect(icon).not.toBe(null);
+  });
+
+  it("does not render icon if not requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-radio-group-item>Content</calcite-accordion-item>`);
+    const icon = await page.find(
+      "calcite-radio-group-item >>> .radio-group-item-icon"
+    );
+    expect(icon).toBe(null);
   });
 
   describe("WAI-ARIA Roles, States, and Properties", () => {
