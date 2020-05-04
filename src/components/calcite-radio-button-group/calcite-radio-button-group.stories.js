@@ -13,6 +13,7 @@ storiesOf("Radio Button Group", module)
   .add(
     "Horizontal",
     () => `
+    <div style="flex-grow: 1;">
     <calcite-radio-button-group
       name="simple"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -22,6 +23,7 @@ storiesOf("Radio Button Group", module)
       <calcite-radio-button value="angular">Angular</calcite-radio-button>
       <calcite-radio-button value="vue">Vue</calcite-radio-button>
     </calcite-radio-button-group>
+    </div>
   `,
     { notes }
   )
@@ -38,6 +40,25 @@ storiesOf("Radio Button Group", module)
       <calcite-radio-button value="angular">Angular</calcite-radio-button>
       <calcite-radio-button value="vue">Vue</calcite-radio-button>
     </calcite-radio-button-group>
+  `,
+    { notes }
+  )
+  .add(
+    "Wrapping Calcite Label",
+    () => `
+    <calcite-label>
+      <span style="margin-bottom: 15px;">My great radio button group</span>
+      <calcite-radio-button-group
+        name="vertical"
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        layout="vertical"
+      >
+        <calcite-radio-button value="react" checked>React</calcite-radio-button>
+        <calcite-radio-button value="ember">Ember</calcite-radio-button>
+        <calcite-radio-button value="angular">Angular</calcite-radio-button>
+        <calcite-radio-button value="vue">Vue</calcite-radio-button>
+      </calcite-radio-button-group>
+    </calcite-label>
   `,
     { notes }
   )
