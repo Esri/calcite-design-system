@@ -105,7 +105,7 @@
 
 :host([dir="rtl"]) {
   @include slotted("notice-message", "div") {
-    margin-right: unset;
+    margin-right: 0;
     margin-left: var(--calcite-notice-spacing-token-small);
   }
 }
@@ -120,6 +120,8 @@
 
 .notice-content {
   @include notice-element-base;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
@@ -130,20 +132,23 @@
   &:first-of-type:not(:only-child) {
     padding-left: var(--calcite-notice-spacing-token-large);
   }
-  &:only-child {
-    padding: var(--calcite-notice-spacing-token-small);
+  &:only-of-type {
+    padding: var(--calcite-notice-spacing-token-small)
+      var(--calcite-notice-spacing-token-large);
   }
 }
 
-:host([dir="rtl"]) {
-  .notice-content {
-    padding: var(--calcite-notice-spacing-token-small) 0
-      var(--calcite-notice-spacing-token-small)
-      var(--calcite-notice-spacing-token-small);
+:host([dir="rtl"]) .notice-content {
+  padding: var(--calcite-notice-spacing-token-small) 0
+    var(--calcite-notice-spacing-token-small)
+    var(--calcite-notice-spacing-token-small);
 
-    &:first-of-type:not(:only-child) {
-      padding-right: var(--calcite-notice-spacing-token-large);
-    }
+  &:first-of-type:not(:only-child) {
+    padding-right: var(--calcite-notice-spacing-token-large);
+  }
+  &:only-of-type {
+    padding: var(--calcite-notice-spacing-token-small)
+      var(--calcite-notice-spacing-token-large);
   }
 }
 .notice-icon {

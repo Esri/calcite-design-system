@@ -32,6 +32,9 @@ export class CalciteChip {
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
+  /** Optionally show a button the user can click to dismiss the chip */
+  @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -46,6 +49,7 @@ export class CalciteChip {
   //
   // --------------------------------------------------------------------------
 
+  /** Emitted when the dismiss button is clicked */
   @Event() calciteChipDismiss: EventEmitter;
 
   // --------------------------------------------------------------------------
@@ -86,6 +90,16 @@ export class CalciteChip {
       />
     );
 
+    const closeButton = (
+      <button
+        onClick={this.closeClickHandler}
+        class={CSS.close}
+        title={TEXT.close}
+      >
+        <calcite-icon scale={iconScale} icon="x" />
+      </button>
+    );
+
     return (
       <Host dir={dir}>
         {this.icon ? iconEl : null}
@@ -93,13 +107,7 @@ export class CalciteChip {
         <span>
           <slot />
         </span>
-        <button
-          onClick={this.closeClickHandler}
-          class={CSS.close}
-          title={TEXT.close}
-        >
-          <calcite-icon scale={iconScale} icon="x" />
-        </button>
+        {this.dismissible ? closeButton : null}
       </Host>
     );
   }

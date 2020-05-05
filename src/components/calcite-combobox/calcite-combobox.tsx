@@ -315,6 +315,7 @@ export class CalciteCombobox {
                 scale={this.scale}
                 value={item.value}
                 dir={dir}
+                dismissible
               >
                 {item.textLabel}
               </calcite-chip>

@@ -143,6 +143,7 @@ export class CalciteDatePicker {
               onCalciteInputBlur={(e) => this.blur(e.detail)}
               scale={this.scale}
               number-button-type="none"
+              class="input"
             />
           </div>
         )}

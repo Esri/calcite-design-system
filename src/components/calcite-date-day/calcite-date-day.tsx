@@ -82,7 +82,9 @@ export class CalciteDateDay {
     const intl = new Intl.NumberFormat(this.locale);
     return (
       <Host role="gridcell" tabindex={this.selected || this.active ? 0 : -1}>
-        <span class="day">{intl.format(this.day)}</span>
+        <span class="day">
+          <span class="text">{intl.format(this.day)}</span>
+        </span>
       </Host>
     );
   }
