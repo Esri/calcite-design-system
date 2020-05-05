@@ -13,7 +13,6 @@ storiesOf("Radio Button Group", module)
   .add(
     "Horizontal",
     () => `
-    <div style="flex-grow: 1;">
     <calcite-radio-button-group
       name="simple"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -23,7 +22,6 @@ storiesOf("Radio Button Group", module)
       <calcite-radio-button value="angular">Angular</calcite-radio-button>
       <calcite-radio-button value="vue">Vue</calcite-radio-button>
     </calcite-radio-button-group>
-    </div>
   `,
     { notes }
   )

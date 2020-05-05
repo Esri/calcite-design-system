@@ -1,11 +1,7 @@
 :host {
-  display: grid;
-  grid-gap: 15px;
+  max-width: 100vw;
 }
 :host([layout="horizontal"]) {
-  grid-template-columns: repeat(auto-fit, minmax(0, max-content));
-}
-:host([layout="vertical"]) {
-  grid-template-columns: 1fr;
-  grid-gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
