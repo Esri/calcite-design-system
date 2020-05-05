@@ -51,13 +51,13 @@ export class CalcitePopoverManager {
   ) {
     const target = event.target as HTMLElement;
     const { autoClose, el, selector } = this;
-    const CALCITE_POPOVER_TAGNAME = "calcite-popover";
-    const isTargetInsidePopover = target.closest(CALCITE_POPOVER_TAGNAME);
+    const popoverSelector = "calcite-popover";
+    const isTargetInsidePopover = target.closest(popoverSelector);
     const describedByElement =
       target && target.matches(selector) && getDescribedByElement(target);
 
     if (autoClose && !isTargetInsidePopover) {
-      Array.from(document.body.querySelectorAll(CALCITE_POPOVER_TAGNAME))
+      Array.from(document.body.querySelectorAll(popoverSelector))
         .filter((popover) => popover.open && popover !== describedByElement)
         .forEach((popover) => popover.toggle(false));
     }
