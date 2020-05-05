@@ -1,5 +1,4 @@
 :host {
-  --calcite-modal-scrim: rgba(0, 0, 0, 0.75);
   position: fixed;
   top: 0;
   right: 0;
@@ -12,9 +11,18 @@
   color: var(--calcite-ui-text-2);
   opacity: 0;
   visibility: hidden !important;
-  background: var(--calcite-modal-scrim);
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
+}
+
+.scrim {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  overflow-y: hidden;
 }
 
 .modal {

@@ -1,12 +1,12 @@
 :host {
   display: flex;
   position: relative;
-  --calcite-scrim-background: #{rgba($blk-000, 0.8)};
+  --calcite-scrim-background: #{rgba($blk-000, 0.75)};
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-scrim-background: #{rgba($blk-200, 0.8)};
+  --calcite-scrim-background: #{rgba($blk-200, 0.75)};
 }
 
 @keyframes calcite-scrim-fade-in {

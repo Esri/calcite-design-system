@@ -24,6 +24,9 @@ export class CalciteScrim {
    */
   @Prop({ reflect: true }) loading = false;
 
+  /** specify the theme of scrim, defaults to light */
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+
   // --------------------------------------------------------------------------
   //
   //  Render Method
