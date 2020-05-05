@@ -6,7 +6,7 @@
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-scrim-background: #{rgba($blk-200, 0.75)};
+  --calcite-scrim-background: #{rgba($blk-240, 0.75)};
 }
 
 @keyframes calcite-scrim-fade-in {
