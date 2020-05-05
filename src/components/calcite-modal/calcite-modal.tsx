@@ -68,6 +68,7 @@ export class CalciteModal {
         aria-modal="true"
         class={{ "is-active": this.isActive }}
       >
+        <calcite-scrim class="scrim" theme="dark"></calcite-scrim>
         <div class="modal">
           <div
             data-focus-fence="true"

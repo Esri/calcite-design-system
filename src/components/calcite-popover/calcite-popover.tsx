@@ -199,8 +199,8 @@ export class CalcitePopover {
     this.el?.focus();
   }
 
-  @Method() async toggle(): Promise<void> {
-    this.open = !this.open;
+  @Method() async toggle(value = !this.open): Promise<void> {
+    this.open = value;
   }
 
   // --------------------------------------------------------------------------
