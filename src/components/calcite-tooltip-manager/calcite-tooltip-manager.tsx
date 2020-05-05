@@ -1,9 +1,9 @@
-import { Component, Element, Host, h, Prop } from "@stencil/core";
+import { Component, Host, h, Listen, Prop } from "@stencil/core";
 import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-tooltip-manager"
+  tag: "calcite-tooltip-manager",
 })
 export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
@@ -16,38 +16,6 @@ export class CalciteTooltipManager {
    * CSS Selector to match reference elements for tooltips.
    */
   @Prop() selector = `[${TOOLTIP_REFERENCE}]`;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTooltipManagerElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  componentDidLoad() {
-    const { el } = this;
-
-    el.addEventListener("mouseenter", this.show, true);
-    el.addEventListener("mouseleave", this.hide, true);
-    el.addEventListener("focus", this.show, true);
-    el.addEventListener("blur", this.hide, true);
-  }
-
-  componentDidUnload() {
-    const { el } = this;
-
-    el.removeEventListener("mouseenter", this.show, true);
-    el.removeEventListener("mouseleave", this.hide, true);
-    el.removeEventListener("focus", this.show, true);
-    el.removeEventListener("blur", this.hide, true);
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -66,14 +34,6 @@ export class CalciteTooltipManager {
     }
   };
 
-  show = (event: Event): void => {
-    this.toggle(event, true);
-  };
-
-  hide = (event: Event): void => {
-    this.toggle(event, false);
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -82,5 +42,27 @@ export class CalciteTooltipManager {
 
   render() {
     return <Host />;
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("mouseenter", { capture: true }) mouseEnterShow(event: Event) {
+    this.toggle(event, true);
+  }
+
+  @Listen("mouseleave", { capture: true }) mouseLeaveHide(event: Event) {
+    this.toggle(event, false);
+  }
+
+  @Listen("focus", { capture: true }) focusShow(event: Event) {
+    this.toggle(event, true);
+  }
+
+  @Listen("blur", { capture: true }) blurHide(event: Event) {
+    this.toggle(event, false);
   }
 }
