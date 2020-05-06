@@ -117,6 +117,7 @@ calcite-input[dir="rtl"][icon] input {
   top: calc(50% - 9px);
   left: $baseline/2;
   margin: 1px auto 0;
+  z-index: 1;
 }
 
 calcite-input[dir="rtl"] .calcite-input-icon {
