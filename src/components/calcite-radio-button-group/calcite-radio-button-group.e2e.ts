@@ -12,6 +12,55 @@ describe('calcite-radio-button-group', () => {
     expect(element).toEqualAttribute("theme", "light");
   });
 
+  it("renders layouts, scales and checked correctly to design spec", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button-group name="small" scale="s">
+        <calcite-radio-button checked>Small Horizontal 1</calcite-radio-button>
+        <calcite-radio-button>Small Horizontal 2</calcite-radio-button>
+        <calcite-radio-button>Small Horizontal 3</calcite-radio-button>
+      </calcite-radio-button-group>
+      <calcite-radio-button-group name="medium" scale="m">
+        <calcite-radio-button checked>Medium Horizontal 1</calcite-radio-button>
+        <calcite-radio-button>Medium Horizontal 2</calcite-radio-button>
+        <calcite-radio-button>Medium Horizontal 3</calcite-radio-button>
+      </calcite-radio-button-group>
+      <calcite-radio-button-group name="large" scale="l">
+        <calcite-radio-button checked>Large Horizontal 1</calcite-radio-button>
+        <calcite-radio-button>Large Horizontal 2</calcite-radio-button>
+        <calcite-radio-button>Large Horizontal 3</calcite-radio-button>
+      </calcite-radio-button-group>
+      <calcite-radio-button-group name="small-vert" scale="s" layout="vertical">
+        <calcite-radio-button checked>Small Vertical 1</calcite-radio-button>
+        <calcite-radio-button>Small Vertical 2</calcite-radio-button>
+        <calcite-radio-button>Small Vertical 3</calcite-radio-button>
+      </calcite-radio-button-group>
+      <calcite-radio-button-group name="medium-vert" scale="m" layout="vertical">
+        <calcite-radio-button checked>Medium Vertical 1</calcite-radio-button>
+        <calcite-radio-button>Medium Vertical 2</calcite-radio-button>
+        <calcite-radio-button>Medium Vertical 3</calcite-radio-button>
+      </calcite-radio-button-group>
+      <calcite-radio-button-group name="large-vert" scale="l" layout="vertical">
+        <calcite-radio-button checked>Large Vertical 1</calcite-radio-button>
+        <calcite-radio-button>Large Vertical 2</calcite-radio-button>
+        <calcite-radio-button>Large Vertical 3</calcite-radio-button>
+      </calcite-radio-button-group>
+    `);
+
+    // To start comparing the visual result, you first must run page.compareScreenshot;
+    // This will capture a screenshot, and save the file to "/screenshot/images".
+    // You'll be able to check that into your repo to provide those results to your team.
+    // You can only have one of these commands per test.
+    const results = await page.compareScreenshot();
+
+    // Finally, we can test against the previous screenshots.
+    // Test against hard pixels
+    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 })
+
+    // Test against the percentage of changes. if 'allowableMismatchedRatio' is above 20% changed,
+    expect(results).toMatchScreenshot({ allowableMismatchedRatio: 0.2 })
+  });
+
   it("has a radio input for form compatibility", async () => {
     const page = await newE2EPage();
     await page.setContent(
