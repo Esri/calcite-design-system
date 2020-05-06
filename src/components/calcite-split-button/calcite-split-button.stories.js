@@ -1,6 +1,10 @@
 import { storiesOf } from "@storybook/html";
 import { withKnobs, text, select, boolean } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme } from "../../../.storybook/helpers";
+import {
+  darkBackground,
+  iconNames,
+  parseReadme,
+} from "../../../.storybook/helpers";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
 
@@ -20,7 +24,11 @@ storiesOf("Split Button", module)
         primary-text="${text("primary-text", "Primary Option")}"
         primary-label="${text("primary-label", "Primary Option")}"
         dropdown-label="${text("dropdown-label", "Additional Options")}"
-        dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret", "ellipsis"], "chevron")}">
+        dropdown-icon-type="${select(
+          "dropdown-icon-type",
+          ["chevron", "caret", "ellipsis"],
+          "chevron"
+        )}">
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
         <calcite-dropdown-item>Option 3</calcite-dropdown-item>
@@ -41,7 +49,12 @@ storiesOf("Split Button", module)
           disabled="${boolean("disabled", false)}"
           primary-icon="${select("primary-icon", iconNames, iconNames[0])}"
           primary-text="${text("primary-text", "Primary Option")}"
-          dropdown-label="${text("dropdown-label", "Additional Options")}">
+          dropdown-label="${text("dropdown-label", "Additional Options")}"
+          dropdown-icon-type="${select(
+            "dropdown-icon-type",
+            ["chevron", "caret", "ellipsis"],
+            "chevron"
+          )}">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
@@ -63,6 +76,11 @@ storiesOf("Split Button", module)
         primary-icon="${select("primary-icon", iconNames, iconNames[0])}"
         primary-text="${text("primary-text", "Primary Option")}"
         dropdown-label="${text("dropdown-label", "Additional Options")}"
+        dropdown-icon-type="${select(
+          "dropdown-icon-type",
+          ["chevron", "caret", "ellipsis"],
+          "chevron"
+        )}">
         theme="dark">
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -72,4 +90,4 @@ storiesOf("Split Button", module)
     </calcite-split-button>
   `,
     { notes, backgrounds: darkBackground }
-  )
+  );
