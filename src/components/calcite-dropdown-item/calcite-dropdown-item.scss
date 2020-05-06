@@ -61,10 +61,12 @@
 }
 
 //focus
-:host {
+:host,
+:host([islink]) a {
   @include focus-style-base();
 }
-:host(:focus) {
+:host(:focus),
+:host([islink]) a:focus {
   @include focus-style-inset();
 }
 

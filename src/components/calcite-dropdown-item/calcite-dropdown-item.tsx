@@ -114,7 +114,9 @@ export class CalciteDropdownItem {
     const contentEl = !this.href ? (
       slottedContent
     ) : (
-      <a {...attributes}>{slottedContent}</a>
+      <a {...attributes} ref={(el) => (this.childLink = el)}>
+        {slottedContent}
+      </a>
     );
     return (
       <Host
@@ -150,9 +152,15 @@ export class CalciteDropdownItem {
   @Listen("keydown") keyDownHandler(e) {
     switch (getKey(e.key)) {
       case " ":
+        this.emitRequestedItem();
+        if (this.href) {
+          e.preventDefault();
+          this.childLink.click();
+        }
+        break;
       case "Enter":
         this.emitRequestedItem();
-        if (e.path && e.path[0].nodeName === "A") e.click();
+        if (this.href) this.childLink.click();
         break;
       case "Escape":
         this.closeCalciteDropdown.emit();
@@ -201,6 +209,9 @@ export class CalciteDropdownItem {
 
   /** what selection mode is the parent dropdown group in */
   private selectionMode = getElementProp(this.el, "selection-mode", "single");
+
+  /** if href is requested, track the rendered child link*/
+  private childLink: HTMLAnchorElement;
 
   //--------------------------------------------------------------------------
   //
