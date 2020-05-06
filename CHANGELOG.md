@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixes
 
 - `calcite-input` - fixed missing icons in firefox
+- `calcite-date` - fixed small margin/gap above input
 
 ## [v1.0.0-beta.25] - Apr 28th 2020
 
