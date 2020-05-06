@@ -20,7 +20,7 @@ storiesOf("Split Button", module)
         primary-text="${text("primary-text", "Primary Option")}"
         primary-label="${text("primary-label", "Primary Option")}"
         dropdown-label="${text("dropdown-label", "Additional Options")}"
-        dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret"], "chevron")}">
+        dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret", "ellipsis"], "chevron")}">
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
         <calcite-dropdown-item>Option 3</calcite-dropdown-item>

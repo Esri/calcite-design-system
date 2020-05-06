@@ -16,14 +16,13 @@ Basic Usage:
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property           | Attribute            | Description                                                                                              | Type                                   | Default     |
 | ------------------ | -------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------- |
 | `color`            | `color`              | specify the color of the control, defaults to blue                                                       | `"blue" \| "dark" \| "light" \| "red"` | `"blue"`    |
 | `disabled`         | `disabled`           | is the control disabled                                                                                  | `boolean`                              | `undefined` |
-| `dropdownIconType` | `dropdown-icon-type` | specify the icon used for the dropdown menu, defaults to chevron                                         | `"caret" \| "chevron"`                 | `"chevron"` |
+| `dropdownIconType` | `dropdown-icon-type` | specify the icon used for the dropdown menu, defaults to chevron                                         | `"caret" \| "chevron" \| "ellipsis"`   | `"chevron"` |
 | `dropdownLabel`    | `dropdown-label`     | aria label for overflow button                                                                           | `string`                               | `undefined` |
 | `loading`          | `loading`            | optionally add a calcite-loader component to the control, disabling interaction. with the primary button | `boolean`                              | `false`     |
 | `primaryIcon`      | `primary-icon`       | optionally pass an icon to display on the primary button - accepts Calcite UI icon names                 | `string`                               | `undefined` |
@@ -32,13 +31,11 @@ Basic Usage:
 | `scale`            | `scale`              | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s"`                    | `"m"`       |
 | `theme`            | `theme`              | select theme (light or dark), defaults to light                                                          | `"dark" \| "light"`                    | `"light"`   |
 
-
 ## Events
 
 | Event                            | Description                              | Type               |
 | -------------------------------- | ---------------------------------------- | ------------------ |
 | `calciteSplitButtonPrimaryClick` | fired when the primary button is clicked | `CustomEvent<any>` |
-
 
 ## Dependencies
 
@@ -48,6 +45,7 @@ Basic Usage:
 - [calcite-dropdown](../calcite-dropdown)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-split-button --> calcite-button
@@ -57,6 +55,6 @@ graph TD;
   style calcite-split-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
