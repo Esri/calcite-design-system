@@ -1,11 +1,19 @@
-import { Component, Element, Host, h, Prop } from "@stencil/core";
+import { Component, Element, Host, h, Listen, Prop } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-popover-manager"
+  tag: "calcite-popover-manager",
 })
 export class CalcitePopoverManager {
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalcitePopoverManagerElement;
+
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -17,48 +25,10 @@ export class CalcitePopoverManager {
    */
   @Prop() selector = `[${POPOVER_REFERENCE}]`;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalcitePopoverManagerElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  componentDidLoad() {
-    const { el } = this;
-
-    el.addEventListener("click", this.toggle, true);
-  }
-
-  componentDidUnload() {
-    const { el } = this;
-
-    el.removeEventListener("click", this.toggle, true);
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  toggle = (event: Event): void => {
-    const target = event.target as HTMLElement;
-
-    const describedByElement =
-      target && target.matches(this.selector) && getDescribedByElement(target);
-
-    if (describedByElement) {
-      (describedByElement as HTMLCalcitePopoverElement).toggle();
-    }
-  };
+  /**
+   * Automatically close popovers when clicking outside of them.
+   */
+  @Prop({ reflect: true }) autoClose?: boolean;
 
   // --------------------------------------------------------------------------
   //
@@ -68,5 +38,36 @@ export class CalcitePopoverManager {
 
   render() {
     return <Host />;
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("click", { target: "window", capture: true }) closeOpenPopovers(
+    event: Event
+  ) {
+    const target = event.target as HTMLElement;
+    const { autoClose, el, selector } = this;
+    const popoverSelector = "calcite-popover";
+    const isTargetInsidePopover = target.closest(popoverSelector);
+    const describedByElement =
+      target && target.matches(selector) && getDescribedByElement(target);
+
+    if (autoClose && !isTargetInsidePopover) {
+      Array.from(document.body.querySelectorAll(popoverSelector))
+        .filter((popover) => popover.open && popover !== describedByElement)
+        .forEach((popover) => popover.toggle(false));
+    }
+
+    if (!el.contains(target)) {
+      return;
+    }
+
+    if (describedByElement) {
+      (describedByElement as HTMLCalcitePopoverElement).toggle();
+    }
   }
 }

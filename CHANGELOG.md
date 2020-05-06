@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-checkbox` - `size` prop is now `scale` to be consistent with other components
 - `calcite-chip` - will not show the dismiss ("x") button unless new `dismissible` prop is `true`
 
+### Added
+
+- `calcite-radio-group-item` can now display an icon by passing a Calcite UI Icon name to the `icon` attribute. The icon can be positioned with the `icon-position` attribute.
+
 ### Fixed
 
 - `calcite-dropdown` - will now properly open and close when children of the `dropdown-trigger` slot are acted on.
