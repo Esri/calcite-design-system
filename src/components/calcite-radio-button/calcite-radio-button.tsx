@@ -17,10 +17,6 @@ import { guid } from "../../utils/guid";
   shadow: true,
 })
 export class CalciteRadioButton {
-  constructor() {
-    this.check = this.check.bind(this);
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -31,7 +27,7 @@ export class CalciteRadioButton {
 
   //--------------------------------------------------------------------------
   //
-  //  Properties and Validators/Watchers
+  //  Properties
   //
   //--------------------------------------------------------------------------
 
@@ -107,13 +103,19 @@ export class CalciteRadioButton {
 
   //--------------------------------------------------------------------------
   //
-  //  Private Properties & Methods
+  //  Private Properties
   //
   //--------------------------------------------------------------------------
 
   private input: HTMLInputElement;
 
-  private checkFirstRadioButton = () => {
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private checkFirstRadioButton() {
     let radioButtons = document.querySelectorAll(
       `calcite-radio-button[name=${this.name}]`
     );
@@ -128,22 +130,20 @@ export class CalciteRadioButton {
         return radioButton;
       });
     }
-  };
+  }
 
-  private uncheckOtherRadioButtonsInGroup = () => {
+  private uncheckOtherRadioButtonsInGroup() {
     const otherRadioButtons = document.querySelectorAll(
       `calcite-radio-button[name=${this.name}]:not([guid="${this.guid}"])`
     );
-    if (otherRadioButtons) {
-      otherRadioButtons.forEach(
-        (otherRadioButton: HTMLCalciteRadioButtonElement) => {
-          if (otherRadioButton.checked) {
-            otherRadioButton.checked = false;
-          }
+    otherRadioButtons.forEach(
+      (otherRadioButton: HTMLCalciteRadioButtonElement) => {
+        if (otherRadioButton.checked) {
+          otherRadioButton.checked = false;
         }
-      );
-    }
-  };
+      }
+    );
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -169,9 +169,9 @@ export class CalciteRadioButton {
     }
   }
 
-  onInputBlur = () => {
+  onInputBlur() {
     this.focused = false;
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -209,8 +209,8 @@ export class CalciteRadioButton {
     this.input.disabled = this.disabled;
     this.input.id = this.guid;
     this.input.name = this.name;
-    this.input.onfocus = this.check;
-    this.input.onblur = this.onInputBlur;
+    this.input.onfocus = this.check.bind(this);
+    this.input.onblur = this.onInputBlur.bind(this);
 
     // We're using option #3 explained here to hide the radio input without compromising accessibility
     // @link https://blog.bitsrc.io/customise-radio-buttons-without-compromising-accessibility-b03061b5ba93

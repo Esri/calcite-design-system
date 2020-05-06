@@ -1,7 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
-  it("renders with default props", async () => {
+  it("renders", async () => renders("calcite-radio-button"));
+
+  it("renders with default props if none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(
       "<calcite-radio-button></calcite-radio-button>"
@@ -47,9 +50,9 @@ describe("calcite-radio-button", () => {
   it("has a radio input for form compatibility", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-radio-button name="hiddeninput" value="1">one</calcite-radio-button>
-      <calcite-radio-button name="hiddeninput" value="2" checked>two</calcite-radio-button>
-      <calcite-radio-button name="hiddeninput" value="3">three</calcite-radio-button>
+      <calcite-radio-button name="hidden-input" value="1">one</calcite-radio-button>
+      <calcite-radio-button name="hidden-input" value="2" checked>two</calcite-radio-button>
+      <calcite-radio-button name="hidden-input" value="3">three</calcite-radio-button>
     `);
 
     const radioInputs = await page.findAll('input[type="radio"]');
@@ -58,7 +61,7 @@ describe("calcite-radio-button", () => {
     for (let i = 0; i < radioInputs.length; i++) {
       const name = await radioInputs[i].getAttribute("name");
       const value = await radioInputs[i].getAttribute("value");
-      expect(name).toBe("hiddeninput")
+      expect(name).toBe("hidden-input")
       expect(value).toBe((i + 1).toString());
     }
   });
@@ -66,9 +69,9 @@ describe("calcite-radio-button", () => {
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-radio-button name="nonechecked" value="1"></calcite-radio-button>
-      <calcite-radio-button name="nonechecked" value="2"></calcite-radio-button>
-      <calcite-radio-button name="nonechecked" value="3"></calcite-radio-button>
+      <calcite-radio-button name="none-checked" value="1"></calcite-radio-button>
+      <calcite-radio-button name="none-checked" value="2"></calcite-radio-button>
+      <calcite-radio-button name="none-checked" value="3"></calcite-radio-button>
     `);
     const radioButtons = await page.findAll('calcite-radio-button');
     for (let i = 0; i < radioButtons.length; i++) {
@@ -80,9 +83,9 @@ describe("calcite-radio-button", () => {
   it("when multiple items are checked, first one wins", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-radio-button name="multipleChecked" value="1" checked>one</calcite-radio-button>
-      <calcite-radio-button name="multipleChecked" value="2" checked>two</calcite-radio-button>
-      <calcite-radio-button name="multipleChecked" value="3" checked>three</calcite-radio-button>
+      <calcite-radio-button name="multiple-checked" value="1" checked>one</calcite-radio-button>
+      <calcite-radio-button name="multiple-checked" value="2" checked>two</calcite-radio-button>
+      <calcite-radio-button name="multiple-checked" value="3" checked>three</calcite-radio-button>
     `);
     const checkedItems = await page.findAll("calcite-radio-button[checked]");
     expect(checkedItems).toHaveLength(1);
@@ -141,9 +144,9 @@ describe("calcite-radio-button", () => {
   it("selects item with up and down keys", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-radio-button name="updownkeys" value="1" checked>one</calcite-radio-button>
-      <calcite-radio-button name="updownkeys" value="2">two</calcite-radio-button>
-      <calcite-radio-button name="updownkeys" value="3">three</calcite-radio-button>
+      <calcite-radio-button name="up-down-keys" value="1" checked>one</calcite-radio-button>
+      <calcite-radio-button name="up-down-keys" value="2">two</calcite-radio-button>
+      <calcite-radio-button name="up-down-keys" value="3">three</calcite-radio-button>
     `);
     const element = await page.find("calcite-radio-button");
 

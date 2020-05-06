@@ -1,7 +1,10 @@
 import { newE2EPage } from '@stencil/core/testing';
+import { renders } from "../../tests/commonTests";
 
 describe('calcite-radio-button-group', () => {
-  it('renders with default props', async () => {
+  it("renders", async () => renders("calcite-radio-button-group"));
+
+  it('renders with default props if none are provided', async () => {
     const page = await newE2EPage();
     await page.setContent('<calcite-radio-button-group></calcite-radio-button-group>');
 
@@ -64,7 +67,7 @@ describe('calcite-radio-button-group', () => {
   it("has a radio input for form compatibility", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-radio-button-group name="hiddeninput">
+      `<calcite-radio-button-group name="hidden-input">
           <calcite-radio-button value="1">one</calcite-radio-button>
           <calcite-radio-button value="2" checked>two</calcite-radio-button>
           <calcite-radio-button value="3">three</calcite-radio-button>
@@ -77,7 +80,7 @@ describe('calcite-radio-button-group', () => {
     for (let i = 0; i < radioInputs.length; i++) {
       const name = await radioInputs[i].getAttribute("name");
       const value = await radioInputs[i].getAttribute("value");
-      expect(name).toBe("hiddeninput")
+      expect(name).toBe("hidden-input")
       expect(value).toBe((i + 1).toString());
     }
   });
@@ -85,7 +88,7 @@ describe('calcite-radio-button-group', () => {
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-radio-button-group name="nonechecked">
+      `<calcite-radio-button-group name="none-checked">
           <calcite-radio-button value="1"></calcite-radio-button>
           <calcite-radio-button value="2"></calcite-radio-button>
           <calcite-radio-button value="3"></calcite-radio-button>
@@ -101,7 +104,7 @@ describe('calcite-radio-button-group', () => {
   it("when multiple items are checked, first one wins", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-radio-button-group name="multipleChecked">
+      `<calcite-radio-button-group name="multiple-checked">
           <calcite-radio-button value="1" checked>one</calcite-radio-button>
           <calcite-radio-button value="2" checked>two</calcite-radio-button>
           <calcite-radio-button value="3" checked>three</calcite-radio-button>
@@ -168,7 +171,7 @@ describe('calcite-radio-button-group', () => {
   it("selects item with up and down keys", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-radio-button-group name="updownkeys">
+      `<calcite-radio-button-group name="up-down-keys">
           <calcite-radio-button value="1" checked>one</calcite-radio-button>
           <calcite-radio-button value="2">two</calcite-radio-button>
           <calcite-radio-button value="3">three</calcite-radio-button>
