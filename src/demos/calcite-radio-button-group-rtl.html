@@ -42,63 +42,22 @@
   </style>
   <script type="module" src="../build/calcite.esm.js"></script>
   <script nomodule src="../build/calcite.js"></script>
-  <script>
-    class CalciteForm extends HTMLElement {
-      connectedCallback() {
-        this.addEventListener("submit", this.onFormSubmit);
-        this.addEventListener("formdata", this.onFormData);
-      }
-      disconnectedCallback() {
-        this.removeEventListener("submit", this.onFormSubmit);
-        this.removeEventListener("formdata", this.onFormData);
-      }
-      onFormSubmit(event) {
-        event.preventDefault();
-        new FormData(event.target);
-      }
-      onFormData(event) {
-        let data = {};
-        for (var pair of event.formData.entries()) {
-          data[pair[0]] = pair[1];
-        }
-        console.log(data);
-        alert(JSON.stringify(data, null, 2))
-      }
-    }
-    customElements.define("calcite-form", CalciteForm);
-
-    class CalciteSpacer extends HTMLElement {
-      constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
-          <style>
-            :host {
-              display: grid;
-              grid-template-columns: 1fr;
-              grid-gap: 12px;
-            }
-          </style>
-          <slot></slot>
-        `;
-      }
-    }
-    customElements.define("calcite-spacer", CalciteSpacer);
-  </script>
+  <script type="module" src="./helpers/demo-form.js"></script>
+  <script type="module" src="./helpers/demo-spacer.js"></script>
 </head>
 
 <body>
-  <calcite-spacer>
+  <demo-spacer>
     <calcite-button href="/">
       < Home</calcite-button>
         <h1>Calcite Radio Button Group (RTL)</h1>
-        <calcite-form>
+        <demo-form>
           <form name="calcite-radio-button-group-demo-form">
-            <calcite-spacer>
+            <demo-spacer>
               <div
                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, max-content)); grid-gap: 8px;">
                 <div style="border: 1px solid #2B2B2B; padding: 1rem;">
-                  <calcite-spacer>
+                  <demo-spacer>
                     <h3>Scale s</h3>
                     <calcite-radio-button-group name="s" scale="s">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
@@ -448,10 +407,10 @@
                         <calcite-radio-button value="3" checked></calcite-radio-button>
                       </calcite-radio-button-group>
                     </div>
-                  </calcite-spacer>
+                  </demo-spacer>
                 </div>
                 <div class="dark">
-                  <calcite-spacer>
+                  <demo-spacer>
                     <h3>Scale s</h3>
                     <calcite-radio-button-group theme="dark" name="s-dark" scale="s">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
@@ -816,15 +775,15 @@
                         <calcite-radio-button value="3" checked></calcite-radio-button>
                       </calcite-radio-button-group>
                     </div>
-                  </calcite-spacer>
+                  </demo-spacer>
                 </div>
               </div>
               <calcite-button form="calcite-radio-button-group-demo-form" type="submit">Submit</calcite-button>
               <button type="submit" style="display: none">Submit</button>
-            </calcite-spacer>
+            </demo-spacer>
           </form>
-        </calcite-form>
-  </calcite-spacer>
+        </demo-form>
+  </demo-spacer>
 </body>
 
 </html>
