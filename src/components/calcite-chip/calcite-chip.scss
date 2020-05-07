@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 // scale
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="xs"]) {
@@ -34,7 +38,7 @@
   display: inline-flex;
   align-items: center;
   justify-self: center;
-  background-color: var(--calcite-ui-background);
+  background-color: var(--calcite-ui-foreground-2);
   border-radius: 50px;
   color: var(--calcite-ui-text-1);
   font-weight: 500;

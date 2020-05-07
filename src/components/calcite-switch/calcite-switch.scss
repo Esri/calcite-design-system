@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 // theme variables
 // light theme
 :host {
@@ -18,6 +22,7 @@
 
 // dark theme
 :host([theme="dark"]) {
+  // TODO: these need to reference the underlying calcite vars
   --calcite-switch-track-background: #{$blk-190};
   --calcite-switch-track-border: #{$blk-160};
   --calcite-switch-handle-background: #{$blk-200};
