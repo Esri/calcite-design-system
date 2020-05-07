@@ -101,6 +101,16 @@ export class CalciteRadioButton {
   /** The value of the radio button. */
   @Prop() value!: string;
 
+  /** The title of the radio button. */
+  @Prop({ reflect: true }) title: string =
+    this.name && this.value
+      ? `Radio button with name of ${this.name} and value of ${this.value}`
+      : this.guid;
+  @Watch("title")
+  onTitleChange(newTitle) {
+    this.input.title = newTitle;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -205,6 +215,7 @@ export class CalciteRadioButton {
     // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
     // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
     this.input = this.el.ownerDocument.createElement("input");
+    this.input.setAttribute("aria-label", this.value || this.guid);
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
     this.input.id = this.guid;
@@ -222,6 +233,7 @@ export class CalciteRadioButton {
 
     this.input.value = this.value;
     this.input.required = this.required;
+    this.input.title = this.title;
     this.input.type = "radio";
 
     // This renders the input as a sibling of calcite-radio-button because as it turns out

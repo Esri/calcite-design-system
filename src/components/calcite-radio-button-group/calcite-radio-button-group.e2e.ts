@@ -1,8 +1,11 @@
 import { newE2EPage } from '@stencil/core/testing';
-import { renders } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe('calcite-radio-button-group', () => {
   it("renders", async () => renders("calcite-radio-button-group"));
+
+  it("is accessible", async () =>
+    accessible(`<calcite-radio-button-group><calcite-radio-button></calcite-radio-button></calcite-radio-button-group>`));
 
   it('renders with default props if none are provided', async () => {
     const page = await newE2EPage();
