@@ -6,12 +6,9 @@ import {
   Event,
   EventEmitter,
   Listen,
-  h
+  h,
 } from "@stencil/core";
-import {
-  nodeListToArray,
-  getElementTheme
-} from "../../utils/dom";
+import { nodeListToArray } from "../../utils/dom";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectDetail } from "../../interfaces/TreeSelect";
@@ -19,7 +16,7 @@ import { TreeSelectDetail } from "../../interfaces/TreeSelect";
 @Component({
   tag: "calcite-tree",
   styleUrl: "calcite-tree.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteTree {
   //--------------------------------------------------------------------------
@@ -58,7 +55,7 @@ export class CalciteTree {
     const parent: HTMLCalciteTreeElement = this.el.parentElement.closest(
       "calcite-tree"
     );
-    this.theme = getElementTheme(this.el);
+    // this.theme = getElementTheme(this.el);
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
@@ -66,7 +63,6 @@ export class CalciteTree {
   }
 
   render() {
-
     return (
       <Host
         tabindex={this.root ? "1" : undefined}
@@ -128,8 +124,8 @@ export class CalciteTree {
       (((this.selectionMode === TreeSelectionMode.Single ||
         this.selectionMode === TreeSelectionMode.Multi) &&
         childItems.length <= 0) ||
-        (this.selectionMode === TreeSelectionMode.Children ||
-          this.selectionMode === TreeSelectionMode.MultiChildren));
+        this.selectionMode === TreeSelectionMode.Children ||
+        this.selectionMode === TreeSelectionMode.MultiChildren);
 
     const shouldExpandTarget =
       this.selectionMode === TreeSelectionMode.Children ||
@@ -143,7 +139,7 @@ export class CalciteTree {
       }
 
       if (shouldSelectChildren) {
-        childItems.forEach(treeItem => {
+        childItems.forEach((treeItem) => {
           targetItems.push(treeItem);
         });
       }
@@ -153,7 +149,7 @@ export class CalciteTree {
           this.el.querySelectorAll("calcite-tree-item[selected]")
         ) as HTMLCalciteTreeItemElement[];
 
-        selectedItems.forEach(treeItem => {
+        selectedItems.forEach((treeItem) => {
           if (!targetItems.includes(treeItem)) {
             treeItem.selected = false;
           }
@@ -172,11 +168,11 @@ export class CalciteTree {
         (shouldModifyToCurrentSelection && target.selected) ||
         (shouldSelectChildren && e.detail.forceToggle)
       ) {
-        targetItems.forEach(treeItem => {
+        targetItems.forEach((treeItem) => {
           treeItem.selected = false;
         });
       } else {
-        targetItems.forEach(treeItem => {
+        targetItems.forEach((treeItem) => {
           treeItem.selected = true;
         });
       }
@@ -190,7 +186,7 @@ export class CalciteTree {
     this.calciteTreeSelect.emit({
       selected: (nodeListToArray(
         this.el.querySelectorAll("calcite-tree-item")
-      ) as HTMLCalciteTreeItemElement[]).filter(i => i.selected)
+      ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected),
     });
   }
 
