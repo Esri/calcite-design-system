@@ -259,7 +259,7 @@ export class CalciteRadioButton {
         aria-checked={this.checked.toString()}
         aria-disabled={this.disabled}
       >
-        <div id="radio"></div>
+        <div class="radio"></div>
         <calcite-label
           dir={document.documentElement.getAttribute("dir")}
           htmlFor={this.guid}

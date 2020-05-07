@@ -144,32 +144,26 @@ describe("calcite-radio-button", () => {
     let selected = await page.find("calcite-radio-button[checked]");
     let value = await selected.getProperty("value");
     expect(value).toBe("2");
-
     await element.press("ArrowRight");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("3");
-
     await element.press("ArrowRight");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("1");
-
     await element.press("ArrowLeft");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("3");
-
     await element.press("ArrowLeft");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("2");
-
     await element.press("ArrowLeft");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("1");
-
   });
 
   it("selects item with up and down keys", async () => {
@@ -189,32 +183,26 @@ describe("calcite-radio-button", () => {
     let selected = await page.find("calcite-radio-button[checked]");
     let value = await selected.getProperty("value");
     expect(value).toBe("2");
-
     await element.press("ArrowDown");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("3");
-
     await element.press("ArrowDown");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("1");
-
     await element.press("ArrowUp");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("3");
-
     await element.press("ArrowUp");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("2");
-
     await element.press("ArrowUp");
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("1");
-
   });
 
   it("validates incorrect props", async () => {
