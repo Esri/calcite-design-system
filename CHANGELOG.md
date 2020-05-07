@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - `calcite-radio-group-item` can now display an icon by passing a Calcite UI Icon name to the `icon` attribute. The icon can be positioned with the `icon-position` attribute.
+- `calcite-split-button` now accepts `ellipsis` as a value for the `dropdown-icon-type` attribute
 
 ### Fixed
 
