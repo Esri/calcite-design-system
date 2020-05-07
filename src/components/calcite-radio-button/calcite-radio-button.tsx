@@ -55,7 +55,7 @@ export class CalciteRadioButton {
   @Prop({ mutable: true, reflect: true }) focused: boolean = false;
   @Watch("focused")
   onFocusedChange(focused: boolean) {
-    if (focused) {
+    if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
     } else {
       this.input.blur();
@@ -66,13 +66,18 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) guid: string =
     this.el.id || `calcite-radio-button-${guid()}`;
 
+  /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
+  @Prop({ reflect: true }) hidden: boolean = false;
+  @Watch("hidden")
+  onHiddenChange(newHidden: boolean) {
+    this.input.hidden = newHidden;
+  }
+
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
   @Prop({ reflect: true }) name!: string;
   @Watch("name")
   onNameChange(newName: string) {
-    if (newName !== this.input.name) {
-      this.input.name = newName;
-    }
+    this.input.name = newName;
   }
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
@@ -172,7 +177,7 @@ export class CalciteRadioButton {
 
   @Listen("click")
   check() {
-    if (!this.disabled) {
+    if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
       this.focused = true;
       this.checked = true;
@@ -218,8 +223,11 @@ export class CalciteRadioButton {
     this.input.setAttribute("aria-label", this.value || this.guid);
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
+    this.input.hidden = this.hidden;
     this.input.id = this.guid;
-    this.input.name = this.name;
+    if (this.name) {
+      this.input.name = this.name;
+    }
     this.input.onfocus = this.check.bind(this);
     this.input.onblur = this.onInputBlur.bind(this);
 
@@ -231,7 +239,9 @@ export class CalciteRadioButton {
     this.input.style.position = "fixed";
     this.input.style.zIndex = "-1";
 
-    this.input.value = this.value;
+    if (this.value) {
+      this.input.value = this.value;
+    }
     this.input.required = this.required;
     this.input.title = this.title;
     this.input.type = "radio";

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button"));
@@ -12,6 +12,27 @@ describe("calcite-radio-button", () => {
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "theme", defaultValue: "light" }
     ]));
+
+  it("honors hidden attribute", async () => {
+    hidden("calcite-radio-button");
+
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button name="hidden" value="first"></calcite-radio-button>
+      <calcite-radio-button name="hidden" value="second" hidden></calcite-radio-button>
+      <calcite-radio-button name="hidden" value="third"></calcite-radio-button>
+    `);
+    const first = await page.find("calcite-radio-button");
+
+    const firstElement = await page.find("calcite-radio-button");
+    await firstElement.click();
+    await first.press("ArrowDown");
+    await page.waitForChanges();
+
+    let selected = await page.find("calcite-radio-button[focused]");
+    let value = await selected.getProperty("value");
+    expect(value).toBe("third");
+  });
 
   it("renders scales, checked and focus states correctly to design spec", async () => {
     const page = await newE2EPage();
