@@ -510,5 +510,36 @@
         </label>
       </div>
     </div>
+
+    <div class="demo demo-background-dark" theme="dark">
+      <div class="demo-column">
+        <calcite-stepper numbered="zom" icon="zar">
+          <calcite-stepper-item item-title="Choose method" complete>
+            Something before a div
+              <calcite-notice active width="full">
+                <div slot="notice-message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+              Something after a div
+              <div>a non calcite element div</div>
+              Something else
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Compile member list" complete>
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 2 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Set member properties" item-subtitle="Some subtext" active>
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 3 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Confirm and complete">
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 4 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+        </calcite-stepper>
+      </div>
+    </div>
   </body>
 </html>
