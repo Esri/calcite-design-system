@@ -22,11 +22,10 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="hidden" value="second" hidden></calcite-radio-button>
       <calcite-radio-button name="hidden" value="third"></calcite-radio-button>
     `);
-    const first = await page.find("calcite-radio-button");
 
     const firstElement = await page.find("calcite-radio-button");
     await firstElement.click();
-    await first.press("ArrowDown");
+    await firstElement.press("ArrowDown");
     await page.waitForChanges();
 
     let selected = await page.find("calcite-radio-button[focused]");

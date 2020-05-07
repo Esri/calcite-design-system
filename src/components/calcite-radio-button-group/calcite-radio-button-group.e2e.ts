@@ -1,5 +1,5 @@
 import { newE2EPage } from '@stencil/core/testing';
-import { accessible, defaults, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe('calcite-radio-button-group', () => {
   it("renders", async () => renders("calcite-radio-button-group"));
@@ -13,6 +13,40 @@ describe('calcite-radio-button-group', () => {
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "theme", defaultValue: "light" }
     ]));
+
+  it("honors hidden attribute", async () => {
+    hidden("calcite-radio-button-group");
+
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button-group name="first">
+        <calcite-radio-button value="first">First</calcite-radio-button>
+        <calcite-radio-button value="second">Second</calcite-radio-button>
+        <calcite-radio-button value="third">Third</calcite-radio-button>
+      </calcite-radio-button-group>
+      <calcite-radio-button-group name="second" hidden>
+        <calcite-radio-button value="first">First</calcite-radio-button>
+        <calcite-radio-button value="second">Second</calcite-radio-button>
+        <calcite-radio-button value="third">Third</calcite-radio-button>
+      </calcite-radio-button-group>
+      <calcite-radio-button-group name="third">
+        <calcite-radio-button value="first">First</calcite-radio-button>
+        <calcite-radio-button value="second">Second</calcite-radio-button>
+        <calcite-radio-button value="third">Third</calcite-radio-button>
+      </calcite-radio-button-group>
+    `);
+
+    const firstElement = await page.find("calcite-radio-button");
+    await firstElement.click();
+    await firstElement.press("Tab");
+    await page.waitForChanges();
+
+    let selected = await page.find("calcite-radio-button[focused]");
+    let name = await selected.getProperty("name");
+    let value = await selected.getProperty("value");
+    expect(name).toBe("third");
+    expect(value).toBe("first");
+  });
 
   it("renders layouts, scales and checked correctly to design spec", async () => {
     const page = await newE2EPage();

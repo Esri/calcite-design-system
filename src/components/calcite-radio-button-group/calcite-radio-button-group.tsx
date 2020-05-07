@@ -22,6 +22,17 @@ export class CalciteRadioButtonGroup {
 
   /** The disabled state of the radio button group. */
   @Prop({ reflect: true }) disabled: boolean = false;
+  @Watch("disabled")
+  onDisabledChange() {
+    this.passPropsToRadioButtons();
+  }
+
+  /** The radio button group's hidden status.  When a radio button group is hidden none of its options are focusable or checkable. */
+  @Prop({ reflect: true }) hidden: boolean = false;
+  @Watch("hidden")
+  onHiddenChange() {
+    this.passPropsToRadioButtons();
+  }
 
   /** The name of the radio button group. <code>name</code> must be unique to other radio button group instances. */
   @Prop({ reflect: true }) name!: string;
@@ -90,6 +101,7 @@ export class CalciteRadioButtonGroup {
         radioButton.disabled = radioButton.hasAttribute("disabled")
           ? radioButton.disabled
           : this.disabled;
+        radioButton.hidden = this.hidden;
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;
