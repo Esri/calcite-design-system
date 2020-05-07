@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, defaults, renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button"));
@@ -7,17 +7,11 @@ describe("calcite-radio-button", () => {
   it("is accessible", async () =>
     accessible(`<calcite-radio-button></calcite-radio-button>`));
 
-  it("renders with default props if none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-button></calcite-radio-button>"
-    );
-    const element = await page.find("calcite-radio-button");
-
-    expect(element).toBeDefined();
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("theme", "light");
-  });
+  it("has defaults", async () =>
+    defaults("calcite-radio-button", [
+      { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "theme", defaultValue: "light" }
+    ]));
 
   it("renders scales, checked and focus states correctly to design spec", async () => {
     const page = await newE2EPage();
@@ -197,14 +191,6 @@ describe("calcite-radio-button", () => {
     const element = await page.find("calcite-radio-button");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("theme", "light");
-  });
-
-  it('defaults to medium', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<calcite-radio-button></calcite-radio-button>');
-
-    const element = await page.find('calcite-radio-button');
-    expect(element.getAttribute("scale")).toBe("m");
   });
 
   it('clicking a radio updates its checked status', async () => {

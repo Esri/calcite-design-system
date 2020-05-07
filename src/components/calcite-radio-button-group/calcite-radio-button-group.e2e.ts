@@ -1,5 +1,5 @@
 import { newE2EPage } from '@stencil/core/testing';
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, defaults, renders } from "../../tests/commonTests";
 
 describe('calcite-radio-button-group', () => {
   it("renders", async () => renders("calcite-radio-button-group"));
@@ -7,16 +7,12 @@ describe('calcite-radio-button-group', () => {
   it("is accessible", async () =>
     accessible(`<calcite-radio-button-group><calcite-radio-button></calcite-radio-button></calcite-radio-button-group>`));
 
-  it('renders with default props if none are provided', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<calcite-radio-button-group></calcite-radio-button-group>');
-
-    const element = await page.find('calcite-radio-button-group');
-    expect(element).toHaveClass('hydrated');
-    expect(element).toEqualAttribute("layout", "horizontal");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("theme", "light");
-  });
+  it("has defaults", async () =>
+    defaults("calcite-radio-button-group", [
+      { propertyName: "layout", defaultValue: "horizontal" },
+      { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "theme", defaultValue: "light" }
+    ]));
 
   it("renders layouts, scales and checked correctly to design spec", async () => {
     const page = await newE2EPage();
@@ -227,14 +223,6 @@ describe('calcite-radio-button-group', () => {
     expect(element).toEqualAttribute("layout", "horizontal");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("theme", "light");
-  });
-
-  it('defaults to medium', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<calcite-radio-button-group></calcite-radio-button-group>');
-
-    const element = await page.find('calcite-radio-button-group');
-    expect(element.getAttribute("scale")).toBe("m");
   });
 
   it('clicking a radio updates its checked status', async () => {
