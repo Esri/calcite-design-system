@@ -1,5 +1,5 @@
 import { newE2EPage } from '@stencil/core/testing';
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe('calcite-radio-button-group', () => {
   it("renders", async () => renders("calcite-radio-button-group"));
@@ -47,6 +47,17 @@ describe('calcite-radio-button-group', () => {
     expect(name).toBe("third");
     expect(value).toBe("first");
   });
+
+  it("reflects", async () =>
+    reflects("calcite-radio-button-group", [
+      { propertyName: "disabled", value: true },
+      { propertyName: "hidden", value: true },
+      { propertyName: "layout", value: "horizontal" },
+      { propertyName: "name", value: "reflects-name" },
+      { propertyName: "required", value: true },
+      { propertyName: "scale", value: "m" },
+      { propertyName: "theme", value: "light" },
+    ]));
 
   it("renders layouts, scales and checked correctly to design spec", async () => {
     const page = await newE2EPage();

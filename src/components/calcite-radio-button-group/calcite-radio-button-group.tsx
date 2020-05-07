@@ -34,6 +34,18 @@ export class CalciteRadioButtonGroup {
     this.passPropsToRadioButtons();
   }
 
+  /** The layout direction of the radio buttons in a group. */
+  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
+    "horizontal";
+  @Watch("layout")
+  validateLayout(newLayout: string) {
+    const layouts = ["horizontal", "vertical"];
+    if (!layouts.includes(newLayout)) {
+      this.layout = "horizontal";
+      this.passPropsToRadioButtons();
+    }
+  }
+
   /** The name of the radio button group. <code>name</code> must be unique to other radio button group instances. */
   @Prop({ reflect: true }) name!: string;
 
@@ -58,18 +70,6 @@ export class CalciteRadioButtonGroup {
     const themes = ["light", "dark"];
     if (!themes.includes(newTheme)) {
       this.theme = "light";
-      this.passPropsToRadioButtons();
-    }
-  }
-
-  /** The layout direction of the radio buttons in a group. */
-  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
-    "horizontal";
-  @Watch("layout")
-  validateLayout(newLayout: string) {
-    const layouts = ["horizontal", "vertical"];
-    if (!layouts.includes(newLayout)) {
-      this.layout = "horizontal";
       this.passPropsToRadioButtons();
     }
   }
