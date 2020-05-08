@@ -22,13 +22,12 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 
 ## Properties
 
-| Property  | Attribute  | Description                                                          | Type                                              | Default     |
-| --------- | ---------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
-| `htmlFor` | `html-for` | specify the for(htmlFor) attribute (optional)                        | `string`                                          | `undefined` |
-| `layout`  | `layout`   | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
-| `scale`   | `scale`    | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
-| `status`  | `status`   | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
-| `theme`   | `theme`    | specify theme of the lavel and its any child input / input messages  | `"dark" \| "light"`                               | `"light"`   |
+| Property | Attribute | Description                                                          | Type                                              | Default     |
+| -------- | --------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
+| `layout` | `layout`  | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
+| `scale`  | `scale`   | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
+| `status` | `status`  | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
+| `theme`  | `theme`   | specify theme of the lavel and its any child input / input messages  | `"dark" \| "light"`                               | `"light"`   |
 
 ## Events
 
@@ -49,8 +48,6 @@ graph TD;
   calcite-radio-button --> calcite-label
   style calcite-label fill:#f9f,stroke:#333,stroke-width:4px
 ```
-
----
 
 ---
 

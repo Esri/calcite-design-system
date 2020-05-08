@@ -30,9 +30,6 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the for (htmlFor) attribute (optional) */
-  @Prop({ reflect: true }) htmlFor: string;
-
   /** specify the status of the label and any child input / input messages */
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" =
     "idle";

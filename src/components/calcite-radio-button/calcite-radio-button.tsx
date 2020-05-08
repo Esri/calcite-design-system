@@ -262,7 +262,6 @@ export class CalciteRadioButton {
         <div class="radio"></div>
         <calcite-label
           dir={document.documentElement.getAttribute("dir")}
-          htmlFor={this.guid}
           scale={this.scale}
         >
           <slot>{this.value}</slot>
