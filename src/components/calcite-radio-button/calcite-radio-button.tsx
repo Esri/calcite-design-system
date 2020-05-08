@@ -34,7 +34,7 @@ export class CalciteRadioButton {
   /** The checked state of the radio button. */
   @Prop({ mutable: true, reflect: true }) checked: boolean = false;
   @Watch("checked")
-  onCheckedChange(newChecked: boolean, oldChecked: boolean) {
+  checkedChanged(newChecked: boolean, oldChecked: boolean) {
     if (newChecked === true && oldChecked === false) {
       this.uncheckOtherRadioButtonsInGroup();
     }
@@ -47,14 +47,14 @@ export class CalciteRadioButton {
   /** The disabled state of the radio button. */
   @Prop({ reflect: true }) disabled?: boolean = false;
   @Watch("disabled")
-  onDisabledChange(disabled: boolean) {
+  disabledChanged(disabled: boolean) {
     this.input.disabled = disabled;
   }
 
   /** The focused state of the radio button. */
   @Prop({ mutable: true, reflect: true }) focused: boolean = false;
   @Watch("focused")
-  onFocusedChange(focused: boolean) {
+  focusedChanged(focused: boolean) {
     if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
     } else {
@@ -69,21 +69,21 @@ export class CalciteRadioButton {
   /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
   @Prop({ reflect: true }) hidden: boolean = false;
   @Watch("hidden")
-  onHiddenChange(newHidden: boolean) {
+  hiddenChanged(newHidden: boolean) {
     this.input.hidden = newHidden;
   }
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
   @Prop({ reflect: true }) name!: string;
   @Watch("name")
-  onNameChange(newName: string) {
+  nameChanged(newName: string) {
     this.input.name = newName;
   }
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
   @Prop({ reflect: true }) required: boolean = false;
   @Watch("required")
-  onRequiredChange(required: boolean) {
+  requiredChanged(required: boolean) {
     this.input.required = required;
   }
 
@@ -112,7 +112,7 @@ export class CalciteRadioButton {
       ? `Radio button with name of ${this.name} and value of ${this.value}`
       : this.guid;
   @Watch("title")
-  onTitleChange(newTitle) {
+  titleChanged(newTitle) {
     this.input.title = newTitle;
   }
 
