@@ -106,21 +106,14 @@ export class CalciteRadioButton {
   /** The value of the radio button. */
   @Prop() value!: string;
 
-  /** The title of the radio button. */
-  @Prop({ reflect: true }) title: string =
-    this.name && this.value
-      ? `Radio button with name of ${this.name} and value of ${this.value}`
-      : this.guid;
-  @Watch("title")
-  titleChanged(newTitle) {
-    this.input.title = newTitle;
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  /** Watches for changing attributes **/
+  private titleAttributeObserver: MutationObserver;
 
   private input: HTMLInputElement;
 
@@ -145,6 +138,16 @@ export class CalciteRadioButton {
         return radioButton;
       });
     }
+  }
+
+  private setupTitleAttributeObserver() {
+    this.titleAttributeObserver = new MutationObserver(() => {
+      this.input.title = this.el.getAttribute("title");
+    });
+    this.titleAttributeObserver.observe(this.el, {
+      attributes: true,
+      attributeFilter: ["title"],
+    });
   }
 
   private uncheckOtherRadioButtonsInGroup() {
@@ -196,6 +199,7 @@ export class CalciteRadioButton {
 
   connectedCallback() {
     this.renderHiddenRadioInput();
+    this.setupTitleAttributeObserver();
   }
 
   componentWillLoad() {
@@ -208,6 +212,7 @@ export class CalciteRadioButton {
 
   disconnectedCallback() {
     this.input.parentNode.removeChild(this.input);
+    this.titleAttributeObserver.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -243,7 +248,15 @@ export class CalciteRadioButton {
       this.input.value = this.value;
     }
     this.input.required = this.required;
-    this.input.title = this.title;
+
+    if (this.el.getAttribute("title")) {
+      this.input.title = this.el.getAttribute("title");
+    } else if (this.name && this.value) {
+      this.input.title = `Radio button with name of ${this.name} and value of ${this.value}`;
+    } else {
+      this.input.title = this.guid;
+    }
+
     this.input.type = "radio";
 
     // This renders the input as a sibling of calcite-radio-button because as it turns out
@@ -255,7 +268,6 @@ export class CalciteRadioButton {
   render() {
     return (
       <Host
-        role="radio"
         aria-checked={this.checked.toString()}
         aria-disabled={this.disabled}
       >

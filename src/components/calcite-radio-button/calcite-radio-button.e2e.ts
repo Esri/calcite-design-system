@@ -389,18 +389,6 @@ describe("calcite-radio-button", () => {
     expect(label).toEqualText("test-value");
   });
 
-  it("has a role of 'radio'", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-button></calcite-radio-button>"
-    );
-    const element = await page.find("calcite-radio-button");
-
-    const role = await element.getAttribute("role");
-
-    expect(role).toEqualText("radio");
-  });
-
   it("updates 'aria-checked' based on 'checked' property", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -437,5 +425,48 @@ describe("calcite-radio-button", () => {
     );
 
     expect(defaultSlot).toBeDefined();
+  });
+
+  it("provides a default title attribute that reflects to the corresponding input", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button></calcite-radio-button>
+    `);
+
+    const input = await page.find("input[type=radio]");
+    const inputTitleAttribute = await input.getAttribute("title");
+
+    expect(inputTitleAttribute).toBeTruthy();
+  });
+
+  it("sets a title attribute based on name and value that reflects to the corresponding input", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button name="title" value="first"></calcite-radio-button>
+    `);
+
+    const input = await page.find("input[type=radio]");
+    const inputTitleAttribute = await input.getAttribute("title");
+
+    expect(inputTitleAttribute).toBe("Radio button with name of title and value of first");
+  });
+
+  it("sets the provided title attribute and reflects it to the corresponding input", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button name="title" value="first" title="first title"></calcite-radio-button>
+    `);
+
+    const button = await page.find('calcite-radio-button');
+    const input = await page.find('input[type=radio]');
+
+    let inputTitleAttribute = await input.getAttribute("title");
+    expect(inputTitleAttribute).toBe("first title");
+
+    await button.setAttribute("title", "second title");
+    await page.waitForChanges();
+
+    inputTitleAttribute = await input.getAttribute("title");
+    expect(inputTitleAttribute).toBe("second title");
   });
 });
