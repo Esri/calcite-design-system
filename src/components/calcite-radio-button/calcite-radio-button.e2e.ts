@@ -47,37 +47,6 @@ describe("calcite-radio-button", () => {
       { propertyName: "title", value: "reflects-title" },
     ]));
 
-  it("renders scales, checked and focus states correctly to design spec", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button scale="s">Small</calcite-radio-button>
-      <calcite-radio-button scale="s" focused>Small Focused</calcite-radio-button>
-      <calcite-radio-button scale="s" checked>Small Checked</calcite-radio-button>
-      <calcite-radio-button scale="s" checked focused>Small Checked and Focused</calcite-radio-button>
-      <calcite-radio-button scale="m">Medium</calcite-radio-button>
-      <calcite-radio-button scale="m" focused>Medium Focused</calcite-radio-button>
-      <calcite-radio-button scale="m" checked>Medium Checked </calcite-radio-button>
-      <calcite-radio-button scale="m" checked focused>Medium Checked and Focused</calcite-radio-button>
-      <calcite-radio-button scale="l">Large</calcite-radio-button>
-      <calcite-radio-button scale="l" focused>Large Focused</calcite-radio-button>
-      <calcite-radio-button scale="l" checked>Large Checked </calcite-radio-button>
-      <calcite-radio-button scale="l" checked focused>Large Checked and Focused</calcite-radio-button>
-    `);
-
-    // To start comparing the visual result, you first must run page.compareScreenshot;
-    // This will capture a screenshot, and save the file to "/screenshot/images".
-    // You'll be able to check that into your repo to provide those results to your team.
-    // You can only have one of these commands per test.
-    const results = await page.compareScreenshot();
-
-    // Finally, we can test against the previous screenshots.
-    // Test against hard pixels
-    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 })
-
-    // Test against the percentage of changes. if 'allowableMismatchedRatio' is above 20% changed,
-    expect(results).toMatchScreenshot({ allowableMismatchedRatio: 0.2 })
-  });
-
   it("has a radio input for form compatibility", async () => {
     const page = await newE2EPage();
     await page.setContent(`

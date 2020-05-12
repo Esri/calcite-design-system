@@ -112,10 +112,8 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  /** Watches for changing attributes **/
-  private titleAttributeObserver: MutationObserver;
-
   private input: HTMLInputElement;
+  private titleAttributeObserver: MutationObserver;
 
   //--------------------------------------------------------------------------
   //
