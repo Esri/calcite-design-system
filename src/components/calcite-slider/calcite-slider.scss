@@ -154,6 +154,9 @@ $tick-height: 4px;
   top: 0;
   height: $track-height;
   background-color: var(--calcite-ui-blue-1);
+  &:hover {
+    cursor: ew-resize;
+  }
 }
 
 .tick {
