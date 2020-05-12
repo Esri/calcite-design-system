@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { withKnobs, select, boolean } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-radio-button/readme.md";
@@ -11,27 +11,14 @@ const notes = notes1.concat(`\n${notes2}`);
 storiesOf("Radio Button Group", module)
   .addDecorator(withKnobs)
   .add(
-    "Horizontal",
+    "Default",
     () => `
     <calcite-radio-button-group
       name="simple"
+      disabled="${boolean("disabled", false)}"
+      hidden="${boolean("hidden", false)}"
+      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-    >
-      <calcite-radio-button value="react" checked>React</calcite-radio-button>
-      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-      <calcite-radio-button value="vue">Vue</calcite-radio-button>
-    </calcite-radio-button-group>
-  `,
-    { notes }
-  )
-  .add(
-    "Vertical",
-    () => `
-    <calcite-radio-button-group
-      name="vertical"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      layout="vertical"
     >
       <calcite-radio-button value="react" checked>React</calcite-radio-button>
       <calcite-radio-button value="ember">Ember</calcite-radio-button>
@@ -48,8 +35,10 @@ storiesOf("Radio Button Group", module)
       <span style="margin-bottom: 15px;">My great radio button group</span>
       <calcite-radio-button-group
         name="vertical"
+        disabled="${boolean("disabled", false)}"
+        hidden="${boolean("hidden", false)}"
+        layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        layout="vertical"
       >
         <calcite-radio-button value="react" checked>React</calcite-radio-button>
         <calcite-radio-button value="ember">Ember</calcite-radio-button>
@@ -66,6 +55,9 @@ storiesOf("Radio Button Group", module)
     <calcite-radio-button-group
       theme="dark"
       name="dark"
+      disabled="${boolean("disabled", false)}"
+      hidden="${boolean("hidden", false)}"
+      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
     >
       <calcite-radio-button value="react" checked>React</calcite-radio-button>
