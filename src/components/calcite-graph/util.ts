@@ -69,7 +69,12 @@ function bezier(
  * Generate a function which will translate a point
  * from the data coordinate space to svg viewbox oriented pixels
  */
-function Translate({ width, height, min, max }: TranslateOptions): Translator {
+export function translate({
+  width,
+  height,
+  min,
+  max,
+}: TranslateOptions): Translator {
   const rangeX = max[0] - min[0];
   const rangeY = max[1] - min[1];
   return (point) => {
@@ -82,7 +87,7 @@ function Translate({ width, height, min, max }: TranslateOptions): Translator {
 /**
  * Get the min and max values from the dataset
  */
-function range(data: DataSeries): Extent {
+export function range(data: DataSeries): Extent {
   const [startX, startY] = data[0];
   const min: Point = [startX, startY];
   const max: Point = [startX, startY];
@@ -99,14 +104,10 @@ function range(data: DataSeries): Extent {
  * Generate drawing commands for an area graph
  * returns a string can can be passed directly to a path element's `d` attribute
  */
-export function area({ data, width, height }: Graph): string {
+export function area({ data, min, max, t }: Graph): string {
   if (data.length === 0) {
     return "";
   }
-
-  // get size of data, create translation function
-  const { min, max } = range(data);
-  const t = Translate({ min, max, width, height });
 
   // important points for beginning and ending the path
   const [startX, startY] = t(data[0]);

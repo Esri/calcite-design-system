@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/html';
-import { withKnobs, text, number, boolean } from '@storybook/addon-knobs'
+import { withKnobs, text, number, boolean, array } from '@storybook/addon-knobs'
 import { darkBackground, parseReadme } from '../../../.storybook/helpers';
 import readme from './readme.md';
 const notes = parseReadme(readme);
@@ -38,6 +38,22 @@ storiesOf('Slider', module)
       snap="${boolean('snap', true)}"
     ></calcite-slider>
   `, { notes })
+  .add('Histogram', () => {
+    const slider = document.createElement("calcite-slider");
+    slider.min = number('min', 0)
+    slider.minValue = number('min-value', 25)
+    slider.max = number('max', 100)
+    slider.maxValue = number('max-value', 75)
+    slider.histogram = array('histogram', [
+      [0, 0],
+      [20, 12],
+      [40, 25],
+      [60, 55],
+      [80, 10],
+      [100, 0]
+    ], "  ")
+    return slider;
+  }, { notes })
   .add('Dark mode', () => `
     <calcite-slider
       min="0"

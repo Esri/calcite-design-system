@@ -202,3 +202,19 @@ $tick-height: 4px;
   margin: $thumb-size / 2 -3px;
   text-align: right;
 }
+
+.graph {
+  width: 100%;
+  height: 48px;
+  position: relative;
+  color: var(--calcite-ui-foreground-2);
+  svg {
+    position: absolute;
+    width: 100%;
+    height: 48px;
+  }
+  .graph-path--highlight {
+    fill: var(--calcite-ui-blue-1);
+    opacity: 0.25;
+  }
+}

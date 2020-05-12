@@ -4,6 +4,9 @@ export type Point = [number, number];
 /** array of coordinates */
 export type DataSeries = Point[];
 
+/** Function that converts point from data space to pixels */
+export type Translator = (p: Point) => Point;
+
 /** Dimensions (in pixels) */
 export interface Dimensions {
   width: number;
@@ -16,9 +19,9 @@ export interface Extent {
   max: Point;
 }
 
-export interface Graph extends Dimensions {
+export interface Graph extends Extent {
   data: DataSeries;
+  t: Translator;
 }
 
 export interface TranslateOptions extends Dimensions, Extent {}
-export type Translator = (p: Point) => Point;
