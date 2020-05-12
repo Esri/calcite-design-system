@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 :host {
   max-width: 100%;
   & .calcite-card-container {
@@ -53,7 +57,7 @@
   padding: $baseline/2;
   flex-direction: row;
   align-content: space-between;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 :host .card-content {

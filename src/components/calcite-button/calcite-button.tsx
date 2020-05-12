@@ -9,7 +9,7 @@ import {
   State,
 } from "@stencil/core";
 
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
@@ -52,7 +52,7 @@ export class CalciteButton {
     | "transparent" = "solid";
 
   /** Select theme (light or dark) */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
@@ -92,8 +92,6 @@ export class CalciteButton {
 
   connectedCallback() {
     // prop validations
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
 
     let appearance = ["solid", "outline", "clear", "transparent"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
@@ -129,7 +127,6 @@ export class CalciteButton {
 
   render() {
     const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
     const attributes = this.getAttributes();
     const Tag = this.childElType;
 
@@ -155,7 +152,7 @@ export class CalciteButton {
     );
 
     return (
-      <Host hasText={this.hasText} dir={dir} theme={theme}>
+      <Host hasText={this.hasText} dir={dir}>
         <Tag
           {...attributes}
           onClick={(e) => this.handleClick(e)}

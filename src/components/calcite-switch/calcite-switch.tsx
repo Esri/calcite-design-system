@@ -36,7 +36,7 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
   /** The component's theme. */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   @Event() calciteSwitchChange: EventEmitter;
   @Event() change: EventEmitter;
@@ -71,8 +71,6 @@ export class CalciteSwitch {
 
   connectedCallback() {
     // prop validations
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
 
     let color = ["blue", "red"];
     if (!color.includes(this.color)) this.color = "blue";

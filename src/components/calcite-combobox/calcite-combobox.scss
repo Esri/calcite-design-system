@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 // todo update to font and spacing value when added to calcite-base
 :host([scale="xs"]) {
   font-size: 10px;

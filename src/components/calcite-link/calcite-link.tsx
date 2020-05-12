@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop } from "@stencil/core";
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-link",
@@ -35,7 +35,7 @@ export class CalciteLink {
     | "red" = "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** optionally pass a href - used to determine if the component should render as a link or an anchor */
   @Prop({ reflect: true }) href?: string;
@@ -58,8 +58,6 @@ export class CalciteLink {
 
   connectedCallback() {
     // prop validations
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
 
     let color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
@@ -73,7 +71,6 @@ export class CalciteLink {
 
   render() {
     const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
     const attributes = this.getAttributes();
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
@@ -84,7 +81,7 @@ export class CalciteLink {
     );
 
     return (
-      <Host dir={dir} theme={theme}>
+      <Host dir={dir}>
         <Tag
           {...attributes}
           role={role}
