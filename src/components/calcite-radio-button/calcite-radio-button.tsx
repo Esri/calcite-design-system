@@ -63,8 +63,6 @@ export class CalciteRadioButton {
   }
 
   /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid: string =
-    this.el.id || `calcite-radio-button-${guid()}`;
 
   /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
   @Prop({ reflect: true }) hidden: boolean = false;
@@ -112,6 +110,7 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  private guid: string = this.el.id || `calcite-radio-button-${guid()}`;
   private input: HTMLInputElement;
   private titleAttributeObserver: MutationObserver;
 
