@@ -35,7 +35,8 @@ export class CalciteButtonWithDropdown {
   /** specify the icon used for the dropdown menu, defaults to chevron */
   @Prop({ mutable: true, reflect: true }) dropdownIconType:
     | "chevron"
-    | "caret" = "chevron";
+    | "caret"
+    | "ellipsis" = "chevron";
 
   /** text for primary action button  */
   @Prop({ reflect: true }) primaryText: string;
@@ -79,7 +80,7 @@ export class CalciteButtonWithDropdown {
 
   @Watch("dropdownIconType")
   validateDropdownIconType() {
-    let dropdownIconType = ["chevron", "caret"];
+    let dropdownIconType = ["chevron", "caret", "ellipsis"];
     if (!dropdownIconType.includes(this.dropdownIconType))
       this.dropdownIconType = "chevron";
   }
@@ -139,7 +140,11 @@ export class CalciteButtonWithDropdown {
     this.calciteSplitButtonPrimaryClick.emit(e);
 
   private get dropdownIcon() {
-    return this.dropdownIconType === "chevron" ? "chevronDown" : "caretDown";
+    return this.dropdownIconType === "chevron"
+      ? "chevronDown"
+      : this.dropdownIconType === "caret"
+      ? "caretDown"
+      : "ellipsis";
   }
 
   private get buttonScale() {

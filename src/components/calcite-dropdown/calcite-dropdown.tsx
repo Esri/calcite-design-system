@@ -2,6 +2,7 @@ import { Component, Element, h, Host, Listen, Prop } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
 import { GroupRegistration } from "../../interfaces/Dropdown";
 import { getKey } from "../../utils/key";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-dropdown",
@@ -56,6 +57,7 @@ export class CalciteDropdown {
     // validate props
     let alignment = ["start", "center", "end"];
     if (!alignment.includes(this.alignment)) this.alignment = "start";
+
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
@@ -70,6 +72,7 @@ export class CalciteDropdown {
     this.trigger = this.el.querySelector(
       "[slot=dropdown-trigger]"
     ) as HTMLSlotElement;
+
     if (!this.sorted) {
       const groups = this.items.sort(
         (a, b) => a.position - b.position
@@ -88,9 +91,9 @@ export class CalciteDropdown {
 
   render() {
     const { maxScrollerHeight } = this;
-
+    const dir = getElementDir(this.el);
     return (
-      <Host>
+      <Host dir={dir}>
         <slot
           name="dropdown-trigger"
           aria-haspopup="true"
@@ -116,10 +119,10 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   @Listen("click") openDropdown(e) {
-    if (e.target.getAttribute("slot") === "dropdown-trigger") {
-      this.openCalciteDropdown();
+    if (e.target === this.trigger || this.trigger.contains(e.target)) {
       e.preventDefault();
       e.stopPropagation();
+      this.openCalciteDropdown();
     }
   }
 
@@ -134,7 +137,7 @@ export class CalciteDropdown {
 
   @Listen("keydown") keyDownHandler(e) {
     const key = getKey(e.key);
-    if (e.target.getAttribute("slot") === "dropdown-trigger") {
+    if (e.target === this.trigger || this.trigger.contains(e.target)) {
       if (
         e.target.nodeName !== "BUTTON" &&
         e.target.nodeName !== "CALCITE-BUTTON"

@@ -78,7 +78,7 @@
   pointer-events: none;
 }
 
-:host-context([dir="rtl"]) .calcite-dropdown-wrapper {
+:host([dir="rtl"]) .calcite-dropdown-wrapper {
   right: 0;
   left: unset;
 }
@@ -96,11 +96,19 @@
 :host([alignment="center"]) .calcite-dropdown-wrapper {
   right: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate3d(0, -$baseline, 0) translateX(-50%);
+}
+
+:host([alignment="center"][active]) .calcite-dropdown-wrapper {
+  transform: translate3d(0, 0, 0) translateX(-50%);
 }
 
 :host([alignment="center"][dir="rtl"]) .calcite-dropdown-wrapper {
   right: 50%;
   left: 0;
-  transform: translateX(50%);
+  transform: translate3d(0, -$baseline, 0) translateX(50%);
+}
+
+:host([alignment="center"][dir="rtl"][active]) .calcite-dropdown-wrapper {
+  transform: translate3d(0, 0, 0) translateX(50%);
 }
