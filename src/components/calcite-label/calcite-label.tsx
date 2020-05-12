@@ -8,7 +8,7 @@ import {
   Prop,
   Listen,
 } from "@stencil/core";
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-label",
@@ -37,8 +37,8 @@ export class CalciteLabel {
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify theme of the lavel and its any child input / input messages */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  /** specify theme of the label and its any child input / input messages */
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** is the wrapped element positioned inline with the label slotted text */
   @Prop({ mutable: true, reflect: true }) layout:
@@ -59,9 +59,6 @@ export class CalciteLabel {
     let layout = ["inline", "inline-space-between", "default"];
     if (!layout.includes(this.layout)) this.layout = "default";
 
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
@@ -78,9 +75,8 @@ export class CalciteLabel {
   render() {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
     return (
-      <Host theme={theme} dir={dir}>
+      <Host dir={dir}>
         <label {...attributes} ref={(el) => (this.slottedContent = el)}>
           <slot />
         </label>

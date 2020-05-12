@@ -9,11 +9,32 @@
     <title>Calcite Component Starter</title>
 
     <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
       .nav {
         list-style: none;
         display: flex;
         flex-direction: column;
         padding: 0;
+      }
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+      .demo {
+        display: flex;
+        align-items: flex-start;
+        padding-bottom: 4rem;
+      }
+      .demo-column {
+        flex: 1;
+        margin: 0 2rem;
+      }
+      .demo-column > * {
+        margin-top: 2rem;
       }
     </style>
     <link
@@ -26,7 +47,7 @@
   </head>
 
   <body>
-    <div class="example-container">
+    <div class="demo-column">
       <h2>Calcite Component Examples - WIP !</h2>
       <ul class="nav">
         <li>
@@ -177,6 +198,360 @@
           >
         </li>
       </ul>
+    </div>
+    <div class="demo">
+      <div class="demo-column">
+        <calcite-accordion>
+          <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 2"><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"><img
+              src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 5" active>
+            <calcite-tree lines>
+              <calcite-tree-item>
+                Child 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Child 2
+
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Grandchild 1
+                  </calcite-tree-item>
+
+                  <calcite-tree-item>
+                    Grandchild 2
+                    <calcite-tree slot="children">
+                      <calcite-tree-item>
+                        Great-Grandchild 1
+                      </calcite-tree-item>
+                      <calcite-tree-item>
+                        Great-Grandchild 2
+                      </calcite-tree-item>
+                    </calcite-tree>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                Child 3
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-accordion-item>
+        </calcite-accordion>
+        <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
+          <div slot="notice-title">Something failed dismissible</div>
+          <div slot="notice-message">
+            That thing you wanted to do didn't work as expected
+          </div>
+          <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
+        </calcite-notice>
+        <calcite-notice icon color="green" scale="m" active dismissible>
+          <div slot="notice-title">Something worked</div>
+          <div slot="notice-message">
+            That thing you wanted to do worked as expected
+          </div>
+        </calcite-notice>
+        <calcite-label>
+          My Great Radio Group
+          <calcite-radio-group>
+            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+          </calcite-radio-group>
+        </calcite-label>
+      </div>
+      <div class="demo-column">
+        <div>
+          <calcite-dropdown>
+            <calcite-button slot="dropdown-trigger">Dropdown</calcite-button>
+            <calcite-dropdown-group group-title="View">
+              <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
+              <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
+              <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <calcite-button appearance='outline'>outline</calcite-button>
+          <calcite-button color="light">light</calcite-button>
+          <calcite-button color="red">red</calcite-button>
+        </div>
+        <div>
+          <calcite-card selected selectable>
+            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+
+            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+            <calcite-link slot="footer-leading">Lead füt</calcite-link>
+            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+          </calcite-card>
+        </div>
+        <div>
+          <label>
+            <calcite-checkbox indeterminate><input type="checkbox" name="" value=""></calcite-checkbox>
+            Initially indeterminate and unchecked
+          </label>
+        </div>
+        <div>
+          <calcite-chip active="" icon="camera-flash-on">
+            Camera Flash On
+          </calcite-chip>
+          <calcite-chip active="" icon="check-circle">
+            Siamese Cat
+          </calcite-chip>
+        </div>
+        <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
+        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
+        max-label="Temperature range (upper)"></calcite-slider>
+      </div>
+      <div class="demo-column">
+        <calcite-combobox label="test" placeholder="combobox">
+          <calcite-combobox-item value="Trees" text-label="Trees">
+            <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+            <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+            <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Flowers" text-label="Flowers">
+            <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+            <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+            <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Animals" text-label="Animals">
+            <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+            <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+            <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+          <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+          <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+        </calcite-combobox>
+        <calcite-date scale="m" value="2020-11-27" no-calendar-input="true" active></calcite-date>
+        <calcite-tabs is-active>
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab is-active>
+            <calcite-loader is-active text="loading tab 1&hellip;" type="indeterminate"></calcite-loader>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-loader is-active text="loading tab 2&hellip;" type="indeterminate"></calcite-loader>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-loader is-active text="loading tab 3&hellip;" type="indeterminate"></calcite-loader>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-loader is-active text="loading tab 4&hellip;" type="indeterminate"></calcite-loader>
+          </calcite-tab>
+        </calcite-tabs>
+
+        <label>
+          <calcite-switch scale="m" switched="true" color="red"> </calcite-switch>
+          Red switch scale medium
+        </label>
+      </div>
+    </div>
+
+    <div class="demo demo-background-dark" theme="dark">
+      <div class="demo-column">
+        <calcite-accordion>
+          <calcite-accordion-item item-title="Accordion Item"><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 2"><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"><img
+              src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 4"><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 5" active>
+            <calcite-tree lines>
+              <calcite-tree-item>
+                Child 1
+              </calcite-tree-item>
+
+              <calcite-tree-item>
+                Child 2
+
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    Grandchild 1
+                  </calcite-tree-item>
+
+                  <calcite-tree-item>
+                    Grandchild 2
+                    <calcite-tree slot="children">
+                      <calcite-tree-item>
+                        Great-Grandchild 1
+                      </calcite-tree-item>
+                      <calcite-tree-item>
+                        Great-Grandchild 2
+                      </calcite-tree-item>
+                    </calcite-tree>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                Child 3
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-accordion-item>
+        </calcite-accordion>
+        <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
+          <div slot="notice-title">Something failed dismissible</div>
+          <div slot="notice-message">
+            That thing you wanted to do didn't work as expected
+          </div>
+          <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
+        </calcite-notice>
+        <calcite-notice icon color="green" scale="m" active dismissible>
+          <div slot="notice-title">Something worked</div>
+          <div slot="notice-message">
+            That thing you wanted to do worked as expected
+          </div>
+        </calcite-notice>
+        <calcite-label>
+          My Great Radio Group
+          <calcite-radio-group>
+            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+          </calcite-radio-group>
+        </calcite-label>
+      </div>
+      <div class="demo-column">
+        <div>
+          <calcite-dropdown>
+            <calcite-button slot="dropdown-trigger">Dropdown</calcite-button>
+            <calcite-dropdown-group group-title="View">
+              <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
+              <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
+              <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <calcite-button appearance='outline'>outline</calcite-button>
+          <calcite-button color="light">light</calcite-button>
+          <calcite-button color="red">red</calcite-button>
+        </div>
+        <div>
+          <calcite-card selected selectable>
+            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+
+            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+            <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+              overly verbose.</span>
+            <calcite-link slot="footer-leading">Lead füt</calcite-link>
+            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+          </calcite-card>
+        </div>
+        <div>
+          <label>
+            <calcite-checkbox indeterminate><input type="checkbox" name="" value=""></calcite-checkbox>
+            Initially indeterminate and unchecked
+          </label>
+        </div>
+        <div>
+          <calcite-chip active="" icon="camera-flash-on">
+            Camera Flash On
+          </calcite-chip>
+          <calcite-chip active="" icon="check-circle">
+            Siamese Cat
+          </calcite-chip>
+        </div>
+        <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
+        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
+        max-label="Temperature range (upper)"></calcite-slider>
+      </div>
+      <div class="demo-column">
+        <calcite-combobox label="test" placeholder="combobox">
+          <calcite-combobox-item value="Trees" text-label="Trees">
+            <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+            <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+            <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Flowers" text-label="Flowers">
+            <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+            <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+            <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Animals" text-label="Animals">
+            <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+            <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+            <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+          <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+          <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+        </calcite-combobox>
+        <calcite-date scale="m" value="2020-11-27" no-calendar-input="true" active></calcite-date>
+        <calcite-tabs is-active>
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab is-active>
+            <calcite-loader is-active text="loading tab 1&hellip;" type="indeterminate"></calcite-loader>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-loader is-active text="loading tab 2&hellip;" type="indeterminate"></calcite-loader>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-loader is-active text="loading tab 3&hellip;" type="indeterminate"></calcite-loader>
+          </calcite-tab>
+          <calcite-tab>
+            <calcite-loader is-active text="loading tab 4&hellip;" type="indeterminate"></calcite-loader>
+          </calcite-tab>
+        </calcite-tabs>
+
+        <label>
+          <calcite-switch scale="m" switched="true" color="red"> </calcite-switch>
+          Red switch scale medium
+        </label>
+      </div>
+    </div>
+
+    <div class="demo demo-background-dark" theme="dark">
+      <div class="demo-column">
+        <calcite-stepper numbered="zom" icon="zar">
+          <calcite-stepper-item item-title="Choose method" complete>
+            Something before a div
+              <calcite-notice active width="full">
+                <div slot="notice-message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+              Something after a div
+              <div>a non calcite element div</div>
+              Something else
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Compile member list" complete>
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 2 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Set member properties" item-subtitle="Some subtext" active>
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 3 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Confirm and complete">
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 4 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+        </calcite-stepper>
+      </div>
     </div>
   </body>
 </html>
