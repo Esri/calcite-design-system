@@ -1,10 +1,10 @@
 import { getAssetPath } from "@stencil/core";
-import { Scale } from "../../interfaces/Icon";
+import { IconScale } from "../../interfaces/Icon";
 import { CalciteIconPath } from "@esri/calcite-ui-icons";
 
 export interface FetchIconProps {
   icon: string;
-  scale: Scale;
+  scale: IconScale;
 }
 
 /**
@@ -21,7 +21,7 @@ export const iconCache: Record<string, CalciteIconPath> = {};
  */
 export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 
-export const scaleToPx: Record<Scale, number> = {
+export const scaleToPx: Record<IconScale, number> = {
   s: 16,
   m: 24,
   l: 32

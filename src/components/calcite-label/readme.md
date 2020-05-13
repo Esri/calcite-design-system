@@ -27,13 +27,27 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 | `layout` | `layout`  | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
 | `scale`  | `scale`   | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
 | `status` | `status`  | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
-| `theme`  | `theme`   | specify theme of the lavel and its any child input / input messages  | `"dark" \| "light"`                               | `undefined` |
+| `theme`  | `theme`   | specify theme of the label and its any child input / input messages  | `"dark" \| "light"`                               | `undefined` |
 
 ## Events
 
 | Event                       | Description | Type               |
 | --------------------------- | ----------- | ------------------ |
 | `calciteLabelSelectedEvent` |             | `CustomEvent<any>` |
+
+## Dependencies
+
+### Used by
+
+- [calcite-radio-button](../calcite-radio-button)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-radio-button --> calcite-label
+  style calcite-label fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ---
 

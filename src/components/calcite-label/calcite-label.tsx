@@ -37,7 +37,7 @@ export class CalciteLabel {
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify theme of the lavel and its any child input / input messages */
+  /** specify theme of the label and its any child input / input messages */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** is the wrapped element positioned inline with the label slotted text */
@@ -94,7 +94,7 @@ export class CalciteLabel {
     // don't refocus the input if the click occurs on a slotted input action
     // defer to slider click events if the click occurs on a calcite-slider
     if (
-      e.target.parentElement.className !== "calcite-input-action-wrapper" &&
+      e.target.parentElement?.className !== "calcite-input-action-wrapper" &&
       e.target.nodeName !== "CALCITE-SLIDER" &&
       e.target.nodeName !== "CALCITE-RADIO-GROUP-ITEM"
     )
