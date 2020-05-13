@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 // width
 :host([width="s"]) {
   --calcite-dropdown-width: 12.5em;
@@ -78,7 +82,7 @@
   pointer-events: none;
 }
 
-:host-context([dir="rtl"]) .calcite-dropdown-wrapper {
+:host([dir="rtl"]) .calcite-dropdown-wrapper {
   right: 0;
   left: unset;
 }

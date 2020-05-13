@@ -1,0 +1,107 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+:host {
+  display: grid;
+  grid-gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  .radio {
+    border-radius: 100%;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+  }
+  --calcite-label-margin-bottom: 0;
+}
+:host(:hover) {
+  .radio {
+    box-shadow: inset 0 0 0 2px var(--calcite-ui-blue-1);
+  }
+}
+:host([disabled]) {
+  cursor: default;
+  opacity: 0.4;
+  .radio,
+  label {
+    cursor: default;
+  }
+}
+:host(:hover[disabled]) {
+  .radio {
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
+  }
+}
+
+:host([scale="s"]) {
+  grid-template-columns: 12px 1fr 4px;
+  grid-template-rows: 16px 1fr;
+  .radio {
+    height: 12px;
+    min-width: 12px;
+    max-width: 12px;
+  }
+  --calcite-label-font-size: 12px;
+}
+:host([scale="s"][checked]),
+:host(:hover[scale="s"][checked][disabled]) {
+  .radio {
+    box-shadow: inset 0 0 0 4px var(--calcite-ui-blue-1);
+  }
+}
+:host([scale="s"][focused]) {
+  .radio {
+    box-shadow: inset 0 0 0 4px var(--calcite-ui-blue-1),
+      0 0 0 2px var(--calcite-ui-foreground-1),
+      0 0 0 4px var(--calcite-ui-blue-1);
+  }
+}
+
+:host([scale="m"]) {
+  grid-template-columns: 16px 1fr 4px;
+  grid-template-rows: 20px 1fr;
+  .radio {
+    height: 16px;
+    min-width: 16px;
+    max-width: 16px;
+  }
+  --calcite-label-font-size: 16px;
+}
+:host([scale="m"][checked]),
+:host(:hover[scale="m"][checked][disabled]) {
+  .radio {
+    box-shadow: inset 0 0 0 5px var(--calcite-ui-blue-1);
+  }
+}
+:host([scale="m"][focused]) {
+  .radio {
+    box-shadow: inset 0 0 0 5px var(--calcite-ui-blue-1),
+      0 0 0 2px var(--calcite-ui-foreground-1),
+      0 0 0 4px var(--calcite-ui-blue-1);
+  }
+}
+
+:host([scale="l"]) {
+  grid-gap: 12px;
+  grid-template-columns: 20px 1fr 4px;
+  grid-template-rows: 24px 1fr;
+  .radio {
+    height: 20px;
+    min-width: 20px;
+    max-width: 20px;
+  }
+  --calcite-label-font-size: 20px;
+}
+:host([scale="l"][checked]),
+:host(:hover[scale="l"][checked][disabled]) {
+  .radio {
+    box-shadow: inset 0 0 0 6px var(--calcite-ui-blue-1);
+  }
+}
+:host([scale="l"][focused]) {
+  .radio {
+    box-shadow: inset 0 0 0 6px var(--calcite-ui-blue-1),
+      0 0 0 2px var(--calcite-ui-foreground-1),
+      0 0 0 4px var(--calcite-ui-blue-1);
+  }
+}

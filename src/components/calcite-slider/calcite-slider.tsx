@@ -9,10 +9,12 @@ import {
   Method,
   h,
   State,
+  VNode,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
+import { DataSeries } from "../../interfaces/Graph";
 
 @Component({
   tag: "calcite-slider",
@@ -64,6 +66,8 @@ export class CalciteSlider {
   @Prop({ reflect: true }) labelHandles?: boolean;
   /** Use finer point for handles */
   @Prop() precise?: boolean;
+  /** Display a histogram above the slider */
+  @Prop() histogram?: DataSeries;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -89,6 +93,7 @@ export class CalciteSlider {
 
     return (
       <Host id={id} is-range={this.isRange}>
+        {this.renderGraph()}
         <div class="track">
           <div
             class="track__range"
@@ -190,6 +195,20 @@ export class CalciteSlider {
         </button>
       </Host>
     );
+  }
+
+  private renderGraph(): VNode {
+    return this.histogram ? (
+      <div class="graph">
+        <calcite-graph
+          width={300}
+          height={48}
+          data={this.histogram}
+          highlightMin={this.isRange ? this.minValue : null}
+          highlightMax={this.isRange ? this.maxValue : null}
+        />
+      </div>
+    ) : null;
   }
   //--------------------------------------------------------------------------
   //
