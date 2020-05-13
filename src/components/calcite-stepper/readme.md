@@ -41,7 +41,7 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 | `layout`   | `layout`   | specify the layout of stepper, defaults to horizontal   | `"horizontal" \| "vertical"` | `"horizontal"` |
 | `numbered` | `numbered` | optionally display the number next to the step title    | `boolean`                    | `false`        |
 | `scale`    | `scale`    | specify the scale of stepper, defaults to m             | `"l" \| "m" \| "s"`          | `"m"`          |
-| `theme`    | `theme`    | specify the theme of stepper, defaults to light         | `"dark" \| "light"`          | `"light"`      |
+| `theme`    | `theme`    | specify the theme of stepper, defaults to light         | `"dark" \| "light"`          | `undefined`    |
 
 ## Events
 

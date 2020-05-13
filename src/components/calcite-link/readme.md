@@ -15,7 +15,7 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 | `href`         | `href`          | optionally pass a href - used to determine if the component should render as a link or an anchor | `string`                               | `undefined` |
 | `icon`         | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names                               | `string`                               | `undefined` |
 | `iconPosition` | `icon-position` | optionally used with icon, select where to position the icon                                     | `"end" \| "start"`                     | `"start"`   |
-| `theme`        | `theme`         | Select theme (light or dark)                                                                     | `"dark" \| "light"`                    | `"light"`   |
+| `theme`        | `theme`         | Select theme (light or dark)                                                                     | `"dark" \| "light"`                    | `undefined` |
 
 ## Methods
 
