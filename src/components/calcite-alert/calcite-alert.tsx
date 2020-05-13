@@ -118,11 +118,18 @@ export class CalciteAlert {
     if (!scale.includes(this.scale)) this.scale = "m";
 
     let durations = ["slow", "medium", "fast"];
+
     if (
       this.autoDismissDuration !== null &&
       !durations.includes(this.autoDismissDuration)
     ) {
       this.autoDismissDuration = "medium";
+    }
+
+    // if active attribute in dom, remove attribute and open with method
+    if (this.active) {
+      this.active = false;
+      this.open();
     }
   }
 
