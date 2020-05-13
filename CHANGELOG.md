@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-dropdown` - will now properly open and close when children of the `dropdown-trigger` slot are acted on.
 
+### Updated
+
+- `calcite-alert` - now handles (by calling `open`) having an `active` attribute when added to DOM.
+
 ## [v1.0.0-beta.25] - Apr 28th 2020
 
 ### Breaking Changes

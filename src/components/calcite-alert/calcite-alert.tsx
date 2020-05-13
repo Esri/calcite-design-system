@@ -126,7 +126,6 @@ export class CalciteAlert {
       this.autoDismissDuration = "medium";
     }
 
-    // if active attribute in dom, remove attribute and open with method
     if (this.active) {
       this.active = false;
       this.open();
