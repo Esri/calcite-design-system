@@ -37,6 +37,10 @@ export class CalciteLink {
   /** Select theme (light or dark) */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
+  /** specify the scale of the link, defaults to inherit */
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" | "inherit" =
+    "inherit";
+
   /** optionally pass a href - used to determine if the component should render as a link or an anchor */
   @Prop({ reflect: true }) href?: string;
 
@@ -75,9 +79,14 @@ export class CalciteLink {
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
     const tabIndex = this.childElType === "span" ? 0 : null;
+    const iconScale = this.scale === "l" ? "m" : "s";
 
     const iconEl = (
-      <calcite-icon class="calcite-link--icon" icon={this.icon} scale="s" />
+      <calcite-icon
+        class="calcite-link--icon"
+        icon={this.icon}
+        scale={iconScale}
+      />
     );
 
     return (

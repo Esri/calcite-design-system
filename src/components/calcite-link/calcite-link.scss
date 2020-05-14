@@ -16,6 +16,22 @@
   --calcite-link-red-underline: #{rgba($d-rr-420, 0.4)};
 }
 
+:host([scale="inherit"]) {
+  --calcite-link-font-size: inherit;
+}
+
+:host([scale="s"]) {
+  --calcite-link-font-size: 12px;
+}
+
+:host([scale="m"]) {
+  --calcite-link-font-size: 16px;
+}
+
+:host([scale="l"]) {
+  --calcite-link-font-size: 20px;
+}
+
 // link base
 :host a,
 :host span {
@@ -27,7 +43,7 @@
   border-radius: 0;
   border: none;
   line-height: inherit;
-  font-size: inherit;
+  font-size: var(--calcite-link-font-size);
   font-family: inherit;
   -webkit-appearance: none;
   cursor: pointer;
