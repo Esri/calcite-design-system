@@ -180,7 +180,8 @@ export class CalciteSlider {
           class={{
             thumb: true,
             "thumb--max": true,
-            "thumb--active": this.dragProp === maxProp,
+            "thumb--active":
+              this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
             "thumb--precise": this.precise,
           }}
         >
@@ -267,14 +268,27 @@ export class CalciteSlider {
     const num = this.translate(x);
     let prop: activeSliderProperty = "value";
     if (this.isRange) {
-      const closerToMax =
-        Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
-      prop = closerToMax ? "maxValue" : "minValue";
+      if (this.lastDragProp === "minMaxValue") {
+        prop = "minMaxValue";
+      } else {
+        const closerToMax =
+          Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
+        prop = closerToMax ? "maxValue" : "minValue";
+      }
     }
     this[prop] = this.bound(num, prop);
     this.calciteSliderUpdate.emit();
-    const handle = prop === "minValue" ? this.minHandle : this.maxHandle;
-    handle.focus();
+    switch (prop) {
+      default:
+      case "maxValue":
+        this.maxHandle.focus();
+        break;
+      case "minValue":
+        this.minHandle.focus();
+        break;
+      case "minMaxValue":
+        break;
+    }
   }
   //--------------------------------------------------------------------------
   //
@@ -311,6 +325,8 @@ export class CalciteSlider {
   private isRange: boolean = false;
   /** @internal */
   private dragProp: activeSliderProperty;
+  /** @internal */
+  private lastDragProp: activeSliderProperty;
   /** @internal */
   private minHandle: HTMLButtonElement;
   /** @internal */
@@ -349,6 +365,7 @@ export class CalciteSlider {
       this.dragEnd();
     }
     this.dragProp = prop;
+    this.lastDragProp = this.dragProp;
     this.activeProp = prop;
     this.dragListener = this.dragListener || this.dragUpdate.bind(this);
     document.addEventListener("mousemove", this.dragListener);
@@ -371,9 +388,6 @@ export class CalciteSlider {
           const newMaxValue = value + this.maxValueDragRange;
           this.minValue = this.bound(newMinValue, "minValue");
           this.maxValue = this.bound(newMaxValue, "maxValue");
-          console.log(
-            `minValue:${newMinValue} range:${this.minValueDragRange} mouse:${value} range:${this.maxValueDragRange} maxValue:${newMaxValue} `
-          );
         } else {
           this.minValueDragRange = value - this.minValue;
           this.maxValueDragRange = this.maxValue - value;
