@@ -5,17 +5,17 @@
 
 // temporary hardcoded values until new font scale and padding is added to calcite-base
 :host([scale="s"]) label {
-  font-size: var(--calcite-label-font-size, 10px);
+  font-size: var(--calcite-label-font-size, 12px);
   --calcite-label-spacing-value: 8px;
 }
 
 :host([scale="m"]) label {
-  font-size: var(--calcite-label-font-size, 14px);
+  font-size: var(--calcite-label-font-size, 16px);
   --calcite-label-spacing-value: 12px;
 }
 
 :host([scale="l"]) label {
-  font-size: var(--calcite-label-font-size, 18px);
+  font-size: var(--calcite-label-font-size, 20px);
   --calcite-label-spacing-value: 16px;
 }
 
@@ -35,7 +35,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  font-weight: 500;
   cursor: pointer;
   margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
 }
