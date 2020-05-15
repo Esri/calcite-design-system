@@ -42,8 +42,7 @@ export class CalciteCombobox {
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the combobox, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
-    "m";
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   @Prop() label!: string;
 
@@ -77,7 +76,7 @@ export class CalciteCombobox {
 
   connectedCallback() {
     // prop validations
-    let scale = ["xs", "s", "m", "l", "xl"];
+    let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
