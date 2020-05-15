@@ -7,58 +7,62 @@ import {
   Host,
   Prop,
   State,
-  Watch
+  Watch,
 } from "@stencil/core";
 
 import Color from "color";
 import { ColorMode } from "../../interfaces/ColorPicker";
 import { Scale, Theme } from "../../interfaces/common";
-import { CSS, DEFAULT_HEX_COLOR, DEFAULT_STORAGE_KEY_PREFIX } from "./resources";
+import {
+  CSS,
+  DEFAULT_HEX_COLOR,
+  DEFAULT_STORAGE_KEY_PREFIX,
+} from "./resources";
 
 // TODO: extract into ColorMode object w/ more details: parts, limits, labels, render()? etc...
 const RGB_LIMITS = {
   r: 255,
   g: 255,
-  b: 255
+  b: 255,
 };
 
 const HSV_LIMITS = {
   h: 360,
   s: 100,
-  v: 100
+  v: 100,
 };
 
 const DIMENSIONS = {
   s: {
     slider: {
       height: 15,
-      width: 170
+      width: 170,
     },
     colorPalette: {
       height: 80,
-      width: 170
-    }
+      width: 170,
+    },
   },
   m: {
     slider: {
       height: 15,
-      width: 240
+      width: 240,
     },
     colorPalette: {
       height: 130,
-      width: 240
-    }
+      width: 240,
+    },
   },
   l: {
     slider: {
       height: 15,
-      width: 370
+      width: 370,
     },
     colorPalette: {
       height: 200,
-      width: 370
-    }
-  }
+      width: 370,
+    },
+  },
 };
 
 const defaultColor = Color(DEFAULT_HEX_COLOR);
@@ -66,7 +70,7 @@ const defaultColor = Color(DEFAULT_HEX_COLOR);
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "calcite-color-picker.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteColorPicker {
   //--------------------------------------------------------------------------
@@ -94,7 +98,7 @@ export class CalciteColorPicker {
    * The scale of the color picker.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   scale: Exclude<Scale, "xs" | "xl"> = "m";
 
@@ -160,7 +164,7 @@ export class CalciteColorPicker {
    * The component's theme.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   theme: Theme = "light";
 
@@ -300,24 +304,24 @@ export class CalciteColorPicker {
           <div
             class={{
               [CSS.colorModeContainer]: true,
-              [CSS.splitSection]: true
+              [CSS.splitSection]: true,
             }}
           >
             <div
               class={{
                 [CSS.colorModeSelection]: true,
                 [CSS.header]: true,
-                [CSS.underlinedHeader]: true
+                [CSS.underlinedHeader]: true,
               }}
             >
               <div
                 class={{
                   [CSS.colorMode]: true,
-                  [CSS.colorModeSelected]: mode === "rgb"
+                  [CSS.colorModeSelected]: mode === "rgb",
                 }}
                 data-color-mode="rgb"
                 onClick={this.handleColorModeClick}
-                onKeyDown={event => {
+                onKeyDown={(event) => {
                   if (event.key === " " || event.key === "Enter") {
                     event.preventDefault();
                     event.stopPropagation();
@@ -331,11 +335,11 @@ export class CalciteColorPicker {
               <div
                 class={{
                   [CSS.colorMode]: true,
-                  [CSS.colorModeSelected]: mode === "hsv"
+                  [CSS.colorModeSelected]: mode === "hsv",
                 }}
                 data-color-mode="hsv"
                 onClick={this.handleColorModeClick}
-                onKeyDown={event => {
+                onKeyDown={(event) => {
                   if (event.key === " " || event.key === "Enter") {
                     event.preventDefault();
                     event.stopPropagation();
@@ -387,11 +391,11 @@ export class CalciteColorPicker {
           </div>
           <div class={CSS.savedColors}>
             {[
-              ...savedColors.map(color => (
+              ...savedColors.map((color) => (
                 <calcite-color-swatch
                   isActive={selectedColorInHex === color}
                   onClick={this.handleSavedColorSelect}
-                  onKeyDown={event => {
+                  onKeyDown={(event) => {
                     if (event.key === " " || event.key === "Enter") {
                       event.preventDefault();
                       event.stopPropagation();
@@ -405,7 +409,7 @@ export class CalciteColorPicker {
               <span
                 class={CSS.saveColor}
                 onClick={this.saveColor}
-                onKeyDown={event => {
+                onKeyDown={(event) => {
                   if (event.key === " " || event.key === "Enter") {
                     event.preventDefault();
                     event.stopPropagation();
@@ -414,8 +418,8 @@ export class CalciteColorPicker {
                 }}
                 tabIndex={0}
               >
-                <calcite-icon icon="plus" scale="s" filled></calcite-icon>
-              </span>
+                <calcite-icon icon="plus" scale="s"></calcite-icon>
+              </span>,
             ]}
           </div>
         </div>
@@ -462,8 +466,8 @@ export class CalciteColorPicker {
     const context = canvas.getContext("2d");
     const {
       dimensions: {
-        colorPalette: { height, width }
-      }
+        colorPalette: { height, width },
+      },
     } = this;
 
     context.fillStyle = this.activeColor
@@ -498,8 +502,8 @@ export class CalciteColorPicker {
     const captureColor = (x: number, y: number): void => {
       const {
         dimensions: {
-          colorPalette: { height, width }
-        }
+          colorPalette: { height, width },
+        },
       } = this;
       const saturation = (HSV_LIMITS.s / width) * x;
       const value = (HSV_LIMITS.v / height) * (height - y);
@@ -539,18 +543,15 @@ export class CalciteColorPicker {
 
     const {
       dimensions: {
-        colorPalette: { height, width }
-      }
+        colorPalette: { height, width },
+      },
     } = this;
     const x = color.saturationv() / (HSV_LIMITS.s / width);
     const y = height - color.value() / (HSV_LIMITS.v / height);
 
     context.beginPath();
     context.arc(x, y, 10, startAngle, endAngle);
-    context.fillStyle = color
-      .desaturate(0.5)
-      .rgb()
-      .toString();
+    context.fillStyle = color.desaturate(0.5).rgb().toString();
     context.fill();
 
     context.beginPath();
@@ -571,25 +572,19 @@ export class CalciteColorPicker {
     const canvas = this.hueSliderCanvas;
     const context = canvas.getContext("2d");
 
-    const color = this.activeColor
-      .hsv()
-      .saturationv(100)
-      .value(100);
+    const color = this.activeColor.hsv().saturationv(100).value(100);
 
     const {
       dimensions: {
-        slider: { height, width }
-      }
+        slider: { height, width },
+      },
     } = this;
     const x = color.hue() / (360 / width);
     const y = height / 2;
 
     context.beginPath();
     context.arc(x, y, 10, startAngle, endAngle);
-    context.fillStyle = color
-      .desaturate(0.5)
-      .rgb()
-      .toString();
+    context.fillStyle = color.desaturate(0.5).rgb().toString();
     context.fill();
 
     context.beginPath();
@@ -614,8 +609,8 @@ export class CalciteColorPicker {
     const captureColor = (x: number): void => {
       const {
         dimensions: {
-          slider: { width }
-        }
+          slider: { width },
+        },
       } = this;
       const hue = (360 / width) * x;
       this.activeColor = this.activeColor.hue(hue);
@@ -642,8 +637,8 @@ export class CalciteColorPicker {
     const context = canvas.getContext("2d");
     const {
       dimensions: {
-        slider: { height, width }
-      }
+        slider: { height, width },
+      },
     } = this;
 
     const gradient = context.createLinearGradient(0, 0, width, 0);
@@ -655,13 +650,13 @@ export class CalciteColorPicker {
       "cyan",
       "blue",
       "magenta",
-      "red"
+      "red",
     ];
 
     const offset = 1 / (hueSliderColorStopKeywords.length - 1);
     let currentOffset = 0;
 
-    hueSliderColorStopKeywords.forEach(keyword => {
+    hueSliderColorStopKeywords.forEach((keyword) => {
       gradient.addColorStop(currentOffset, Color(keyword).toString());
       currentOffset += offset;
     });
@@ -683,6 +678,6 @@ export class CalciteColorPicker {
     const { activeColor, mode } = this;
     return activeColor[mode]()
       .array()
-      .map(value => Math.floor(value)) as [number, number, number];
+      .map((value) => Math.floor(value)) as [number, number, number];
   }
 }
