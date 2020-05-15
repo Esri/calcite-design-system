@@ -8,7 +8,7 @@ import {
   Element,
   State,
   h,
-  Host
+  Host,
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { getSlottedElements } from "../../utils/dom";
@@ -16,7 +16,7 @@ import { getSlottedElements } from "../../utils/dom";
 @Component({
   tag: "calcite-tab-nav",
   styleUrl: "calcite-tab-nav.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteTabNav {
   //--------------------------------------------------------------------------
@@ -43,6 +43,9 @@ export class CalciteTabNav {
    */
   @Prop() syncId: string;
 
+  /** @internal Parent tabs component layout value */
+  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+
   /**
    * @internal
    */
@@ -64,7 +67,7 @@ export class CalciteTabNav {
     }
 
     this.calciteTabChange.emit({
-      tab: this.selectedTab
+      tab: this.selectedTab,
     });
   }
 
@@ -81,15 +84,19 @@ export class CalciteTabNav {
       this.selectedTab = JSON.parse(localStorage.getItem(storageKey));
 
       this.calciteTabChange.emit({
-        tab: this.selectedTab
+        tab: this.selectedTab,
       });
     }
+  }
+
+  componentWillRender() {
+    this.layout = this.el.closest("calcite-tabs")?.layout;
   }
 
   render() {
     return (
       <Host role="tablist">
-        <nav class="tab-nav" ref={el => (this.tabNavEl = el as HTMLElement)}>
+        <nav class="tab-nav" ref={(el) => (this.tabNavEl = el as HTMLElement)}>
           <slot />
         </nav>
       </Host>
@@ -100,12 +107,12 @@ export class CalciteTabNav {
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
-      this.tabTitles.every(title => !title.isActive) &&
+      this.tabTitles.every((title) => !title.isActive) &&
       !this.selectedTab
     ) {
-      this.tabTitles[0].getTabIdentifier().then(tab => {
+      this.tabTitles[0].getTabIdentifier().then((tab) => {
         this.calciteTabChange.emit({
-          tab
+          tab,
         });
       });
     }

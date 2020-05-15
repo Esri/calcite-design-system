@@ -5,14 +5,13 @@ import {
   Host,
   Element,
   Listen,
-  State
+  State,
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tabs",
   styleUrl: "calcite-tabs.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteTabs {
   //--------------------------------------------------------------------------
@@ -33,15 +32,15 @@ export class CalciteTabs {
    * Select theme (light or dark)
    */
   @Prop({
-    reflectToAttr: true
+    reflect: true,
   })
-  theme: "light" | "dark" = "light";
+  theme: "light" | "dark";
 
   /**
    * Align tab titles to the edge or fully justify them across the tab nav ("center")
    */
   @Prop({
-    reflectToAttr: true
+    reflect: true,
   })
   layout: "center" | "inline" = "inline";
 
@@ -52,16 +51,12 @@ export class CalciteTabs {
   //--------------------------------------------------------------------------
 
   render() {
-    const dir = getElementDir(this.el);
-
     return (
-      <Host dir={dir}>
-        <div>
-          <slot name="tab-nav" />
-          <section>
-            <slot />
-          </section>
-        </div>
+      <Host>
+        <slot name="tab-nav" />
+        <section>
+          <slot />
+        </section>
       </Host>
     );
   }
@@ -87,7 +82,7 @@ export class CalciteTabs {
   @Listen("calciteTabTitleUnregister") calciteTabTitleUnregister(
     e: CustomEvent
   ) {
-    this.titles = this.titles.filter(el => el !== e.target);
+    this.titles = this.titles.filter((el) => el !== e.target);
     this.registryHandler();
     e.stopPropagation();
   }
@@ -105,7 +100,7 @@ export class CalciteTabs {
    * @internal
    */
   @Listen("calciteTabUnregister") calciteTabUnregister(e: CustomEvent) {
-    this.tabs = this.tabs.filter(el => el !== e.target);
+    this.tabs = this.tabs.filter((el) => el !== e.target);
     this.registryHandler();
     e.stopPropagation();
   }
@@ -155,15 +150,15 @@ export class CalciteTabs {
     var titleIds;
 
     // determine if we are using `tab` based or `index` based tab identifiers.
-    if (this.tabs.some(e => e.tab) || this.titles.some(e => e.tab)) {
+    if (this.tabs.some((e) => e.tab) || this.titles.some((e) => e.tab)) {
       // if we are using `tab` based identifiers sort by `tab` to account for
       // possible out of order tabs and get the id of each tab
       tabIds = this.tabs
         .sort((a, b) => a.tab.localeCompare(b.tab))
-        .map(e => e.id);
+        .map((e) => e.id);
       titleIds = this.titles
         .sort((a, b) => a.tab.localeCompare(b.tab))
-        .map(e => e.id);
+        .map((e) => e.id);
     } else {
       // if we are using index based tabs then the `<calcite-tab>` and
       // `<calcite-tab-title>` might have been rendered out of order so the
@@ -171,11 +166,11 @@ export class CalciteTabs {
       // and might not match each other so we need to get the index of all the
       // tabs and titles in the DOM order to match them up as a source of truth
       const tabDomIndexes = await Promise.all(
-        this.tabs.map(el => el.getTabIndex())
+        this.tabs.map((el) => el.getTabIndex())
       );
 
       const titleDomIndexes = await Promise.all(
-        this.titles.map(el => el.getTabIndex())
+        this.titles.map((el) => el.getTabIndex())
       );
 
       // once we have the DOM order as a source of truth we can build the
@@ -194,7 +189,7 @@ export class CalciteTabs {
     // pass all our new aria information to each `<calcite-tab>` and
     // `<calcite-tab-title>` which will check if they can update their internal
     // `controlled` or `labeledBy` states and re-render if necessary
-    this.tabs.forEach(el => el.updateAriaInfo(tabIds, titleIds));
-    this.titles.forEach(el => el.updateAriaInfo(tabIds, titleIds));
+    this.tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
+    this.titles.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
   }
 }

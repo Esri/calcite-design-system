@@ -1,21 +1,38 @@
+import { storiesOf } from "@storybook/html";
 import { withKnobs, number, select } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-
-export default {
-  title: "Pagination",
-  decorators: [ withKnobs ],
-  parameters: { notes }
-};
-
-export const simple = () =>
-  `<calcite-pagination
-    start="${number("Start", 1)}"
-    total="${number("Total", 3)}"
-    num="${number("Num", 1)}"
-    dir="${select("dir", ["ltr", "rtl"],"ltr")}"
-    theme="${select("Theme", ["light", "dark"] ,"light")}"
-    background-style="${select("Background Style", ["backgroundColor", "foregroundColor"] ,"foregroundColor")}">
-  </calcite-pagination>`;
+storiesOf("Pagination", module)
+.addDecorator(withKnobs)
+.add(
+  "Simple",
+  () => `
+    <calcite-pagination
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      start="${number("start", 1)}"
+      total="${number("total", 128)}"
+      num="${number("num", 20)}"
+      dir="${select("dir", ["ltr", "rtl"],"ltr")}"
+      theme="light"
+    >
+    </calcite-pagination>
+  `,
+  { notes }
+)
+.add(
+  "Dark Mode",
+  () => `
+    <calcite-pagination
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      start="${number("start", 1)}"
+      total="${number("total", 128)}"
+      num="${number("num", 20)}"
+      dir="${select("dir", ["ltr", "rtl"],"ltr")}"
+      theme="dark"
+    >
+    </calcite-pagination>
+  `,
+  { notes, backgrounds: darkBackground }
+);

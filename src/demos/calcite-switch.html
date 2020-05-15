@@ -25,11 +25,11 @@
   <div>
     <label>
       <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
-      Without a proxy <code>input</code> element.
+      Without a proxy <code>input</code> element and listening for "change"
       <script>
         var basicSwitch = document.getElementById("basicSwitch");
 
-        basicSwitch.addEventListener("calciteSwitchChange", function (
+        basicSwitch.addEventListener("change", function (
           e
         ) {
           console.log(
@@ -91,10 +91,10 @@
   <div class="demo-background-dark">
     <div>
       <label>
-        <calcite-switch theme="dark" id="basicSwitch" switched="true"></calcite-switch>
-        Without a proxy <code>input</code> element.
+        <calcite-switch theme="dark" id="basicSwitch2" switched="true"></calcite-switch>
+        Without a proxy <code>input</code> element and listening for "calciteSwitchChange".
         <script>
-          var basicSwitch = document.getElementById("basicSwitch");
+          var basicSwitch = document.getElementById("basicSwitch2");
 
           basicSwitch.addEventListener("calciteSwitchChange", function (
             e

@@ -7,13 +7,14 @@ import {
   Element,
   Host,
   Watch,
-  Build
+  Build,
+  State,
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 @Component({
   tag: "calcite-radio-group-item",
   styleUrl: "calcite-radio-group-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
@@ -31,14 +32,15 @@ export class CalciteRadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Indicates whether the control is checked.
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  checked = false;
+  /** Indicates whether the control is checked. */
+  @Prop({ reflect: true, mutable: true }) checked = false;
+
+  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) icon?: string;
+
+  /** optionally used with icon, select where to position the icon */
+  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
+    "start";
 
   @Watch("checked")
   protected handleCheckedChange(): void {
@@ -72,24 +74,47 @@ export class CalciteRadioGroupItem {
     }
 
     this.inputProxy = inputProxy;
+
+    // prop validations
+    let iconPosition = ["start", "end"];
+    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
+      this.iconPosition = "start";
   }
 
   disconnectedCallback() {
     this.mutationObserver.disconnect();
   }
 
+  componentDidLoad() {
+    // only use default slot content in browsers that support shadow dom
+    // or if ie11 has no label provided (#374)
+    const label = this.el.querySelector("label");
+    this.useFallback = !label || label.textContent === "";
+  }
+
   render() {
-    const { checked, value } = this;
+    const { checked, useFallback, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
+    const appearance = getElementProp(this.el, "appearance", "m");
+    const layout = getElementProp(this.el, "layout", "m");
+
+    const iconEl = (
+      <calcite-icon class="radio-group-item-icon" icon={this.icon} scale="s" />
+    );
+
     return (
       <Host
         role="radio"
         aria-checked={checked.toString()}
         scale={scale}
+        appearance={appearance}
+        layout={layout}
       >
         <label>
-          <slot>{value}</slot>
+          {this.icon && this.iconPosition === "start" ? iconEl : null}
+          <slot>{useFallback ? value : ""}</slot>
           <slot name="input" />
+          {this.icon && this.iconPosition === "end" ? iconEl : null}
         </label>
       </Host>
     );
@@ -109,6 +134,8 @@ export class CalciteRadioGroupItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+  @State() private useFallback: boolean;
+
   private inputProxy: HTMLInputElement;
 
   private mutationObserver = this.getMutationObserver();
@@ -139,6 +166,10 @@ export class CalciteRadioGroupItem {
     }
 
     this.inputProxy.value = this.value;
-    this.inputProxy.toggleAttribute("checked", this.checked);
+    if (this.checked) {
+      this.inputProxy.setAttribute("checked", "true");
+    } else {
+      this.inputProxy.removeAttribute("checked");
+    }
   }
 }

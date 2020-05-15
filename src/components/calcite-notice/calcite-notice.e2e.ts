@@ -7,7 +7,7 @@ describe("calcite-notice", () => {
     <calcite-notice>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
     const element = await page.find("calcite-notice");
     expect(element).toHaveClass("hydrated");
@@ -19,14 +19,13 @@ describe("calcite-notice", () => {
     <calcite-notice>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
     expect(element).toHaveClass("hydrated");
     expect(element).toEqualAttribute("color", "blue");
-    expect(element).toEqualAttribute("theme", "light");
     expect(close).toBeNull();
     expect(icon).toBeNull();
   });
@@ -34,10 +33,10 @@ describe("calcite-notice", () => {
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice color="zip" theme="zat">
+    <calcite-notice color="zip">
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
 
     const element = await page.find("calcite-notice");
@@ -45,7 +44,6 @@ describe("calcite-notice", () => {
     const icon = await page.find("calcite-notice >>> .notice-icon");
     expect(element).toHaveClass("hydrated");
     expect(element).toEqualAttribute("color", "blue");
-    expect(element).toEqualAttribute("theme", "light");
     expect(close).toBeNull();
     expect(icon).toBeNull();
   });
@@ -56,7 +54,7 @@ describe("calcite-notice", () => {
     <calcite-notice theme="dark" color="yellow" dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
 
     const element = await page.find("calcite-notice");
@@ -76,7 +74,7 @@ describe("calcite-notice", () => {
     <calcite-notice icon dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
 
     const element = await page.find("calcite-notice");
@@ -93,7 +91,7 @@ describe("calcite-notice", () => {
     <calcite-notice id="notice-1" active dismissible>
     <div slot="notice-title">Title Text</div>
     <div slot="notice-message">Message Text</div>
-    <a slot="notice-link" href="">Action</a>
+    <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>
     `);
 
@@ -104,7 +102,7 @@ describe("calcite-notice", () => {
 
     await noticeclose1.click();
     // wait for animation to complete
-    await new Promise(resolve => setTimeout(resolve, 400));
+    await new Promise((resolve) => setTimeout(resolve, 400));
     expect(await notice1.isVisible()).not.toBe(true);
   });
 });

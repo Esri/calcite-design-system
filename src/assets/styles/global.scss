@@ -1,0 +1,27 @@
+@import "./node_modules/@esri/calcite-colors/colors.scss";
+@import "./node_modules/@esri/calcite-base/dist/_index.scss";
+
+:root {
+  font-family: $avenir-family;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --calcite-border-radius: 3px;
+  @include calcite-theme-light();
+}
+
+[theme="dark"] {
+  @include calcite-theme-dark();
+}
+
+[theme="light"] {
+  @include calcite-theme-light();
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.hydrated--invisible {
+  visibility: hidden;
+}

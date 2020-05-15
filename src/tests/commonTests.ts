@@ -24,15 +24,24 @@ function getTag(tagOrHTML: string): CalciteComponentTag {
   if (isHTML(tagOrHTML)) {
     const regex = /[>\s]/;
     const trimmedTag = tagOrHTML.trim();
-    return trimmedTag.substring(1, trimmedTag.search(regex)) as CalciteComponentTag;
+    return trimmedTag.substring(
+      1,
+      trimmedTag.search(regex)
+    ) as CalciteComponentTag;
   }
 
   return tagOrHTML as CalciteComponentTag;
 }
 
-async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
+async function simplePageSetup(
+  componentTagOrHTML: TagOrHTML
+): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
-  return setUpPage(isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}><${componentTag}/>`);
+  return setUpPage(
+    isHTML(componentTagOrHTML)
+      ? componentTagOrHTML
+      : `<${componentTag}><${componentTag}/>`
+  );
 }
 
 export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
@@ -69,7 +78,9 @@ export async function reflects(
 
   for (const propAndValue of propsToTest) {
     const { propertyName, value } = propAndValue;
-    const componentAttributeSelector = `${componentTag}[${propToAttr(propertyName)}]`;
+    const componentAttributeSelector = `${componentTag}[${propToAttr(
+      propertyName
+    )}]`;
 
     element.setProperty(propertyName, value);
     await page.waitForChanges();
@@ -91,7 +102,7 @@ export async function reflects(
 }
 
 function propToAttr(name: string): string {
-  return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+  return name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 }
 
 export async function defaults(
@@ -107,7 +118,7 @@ export async function defaults(
   for (const propAndValue of propsToTest) {
     const { propertyName, defaultValue } = propAndValue;
     const prop = await element.getProperty(propertyName);
-    expect(prop).toBe(defaultValue);
+    expect(prop).toEqual(defaultValue);
   }
 }
 

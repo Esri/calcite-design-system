@@ -1,59 +1,87 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 :host {
   display: flex;
+  justify-content: center;
   outline: none;
   color: var(--calcite-ui-text-3);
-  padding: .3rem .4rem;
   cursor: pointer;
   width: calc(100% / 7);
+  min-width: 0;
+}
 
-  .disabled {
-    pointer-events: none;
+.day {
+  display: flex;
+  border-radius: 100%;
+  @include font-size(-2);
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  color: var(--calcite-ui-text-3);
+  transition: all $transition;
+  background: none;
+  box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
+  opacity: 0.4;
+}
+
+.text {
+  margin: 1px 0 0 1px;
+}
+
+:host([scale="s"]) {
+  padding: 2px 0px;
+  .day {
+    height: 27px;
+    width: 27px;
+    font-size: 12px;
   }
 }
 
+:host([scale="m"]) {
+  padding: 4px 4px;
+  .day {
+    height: 33px;
+    width: 33px;
+    font-size: 14px;
+  }
+}
 
-:host .day {
-  display: flex;
-  width: 100%;
-  border-radius: 100%;
-  font-size: 14px;
-  justify-content: center;
-  align-items: center;
-  height: 2.0rem;
-  width: 2.0rem;
+:host([scale="l"]) {
+  padding: 4px 4px;
+  .day {
+    height: 43px;
+    width: 43px;
+    font-size: 16px;
+  }
+}
+
+:host([current-month]) .day {
+  opacity: 1;
+}
+
+:host([disabled]) {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.2;
 }
 
 :host(:hover),
-:host(:focus),
-:host(.active) {
+:host([active]) {
   & .day {
-    background-color: var(--calcite-ui-foreground-hover);
-    transition: all $transition;
+    background-color: var(--calcite-ui-foreground-2);
     color: var(--calcite-ui-text-1);
   }
 }
 
-:host(.selected-day) .day,
-:host(:focus.active) .day {
-  transition: all $transition;
-  background-color: var(--calcite-ui-blue);
-  border-radius: 100%;
-  color: var(--calcite-ui-foreground);
-  font-weight: 500;
+:host(:focus) .day {
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1),
+    0 0 0 4px var(--calcite-ui-blue-1);
 }
 
-:host(.disabled) {
-  cursor: default;
-  & .day {
-    color: $blk-060;
-    background: none;
-  }
-}
-:host(:hover),
-:host(.active),
-:host(:focus.active) {
-  .disabled .day {
-    color: $blk-060;
-    background: none;
-  }
+:host([selected]) .day {
+  background-color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-foreground-1);
+  font-weight: 500;
 }

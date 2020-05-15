@@ -6,29 +6,18 @@ import {
   h,
   Host,
   Listen,
-  Prop
+  Method,
+  Prop,
 } from "@stencil/core";
-import {
-  UP,
-  DOWN,
-  TAB,
-  ENTER,
-  ESCAPE,
-  HOME,
-  END,
-  SPACE
-} from "../../utils/keys";
-import {
-  getElementDir,
-  getElementTheme,
-  getElementProp
-} from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { ItemRegistration } from "../../interfaces/Dropdown";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "calcite-dropdown-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
@@ -47,12 +36,14 @@ export class CalciteDropdownItem {
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
-  /** pass an optional href to render an anchor around the link items */
-  @Prop() href?: string;
+  /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
 
-  /** pass an optional title for rendered href */
-  @Prop() linkTitle?: string;
+  /** optionally pass an icon to display at the end of an item - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconEnd?: string;
 
+  /** optionally pass a href - used to determine if the component should render as anchor */
+  @Prop({ reflect: true }) href?: string;
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -60,10 +51,21 @@ export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteDropdownItemKeyEvent: EventEmitter;
-  @Event() calciteDropdownItemMouseover: EventEmitter;
   @Event() calciteDropdownItemSelected: EventEmitter;
   @Event() closeCalciteDropdown: EventEmitter;
-  @Event() registerCalciteDropdownItem: EventEmitter;
+  @Event() registerCalciteDropdownItem: EventEmitter<ItemRegistration>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Focuses the selected item. */
+  @Method()
+  async setFocus(): Promise<void> {
+    this.el.focus();
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -74,44 +76,67 @@ export class CalciteDropdownItem {
   componentDidLoad() {
     this.itemPosition = this.getItemPosition();
     this.registerCalciteDropdownItem.emit({
-      position: this.itemPosition
+      position: this.itemPosition,
     });
   }
 
   render() {
+    const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
     const scale = getElementProp(this.el, "scale", "m");
-    if (!this.href) {
-      return (
-        <Host
-          theme={theme}
-          dir={dir}
-          scale={scale}
-          tabindex="0"
-          role="menuitem"
-          aria-selected={this.active.toString()}
-        >
-          <slot />
-        </Host>
+    const iconScale = scale === "s" || scale === "m" ? "s" : "m";
+    const iconStartEl = (
+      <calcite-icon
+        class="dropdown-item-icon-start"
+        icon={this.iconStart}
+        scale={iconScale}
+      />
+    );
+    const iconEndEl = (
+      <calcite-icon
+        class="dropdown-item-icon-end"
+        icon={this.iconEnd}
+        scale={iconScale}
+      />
+    );
+
+    const slottedContent =
+      this.iconStart && this.iconEnd ? (
+        [iconStartEl, <slot />, iconEndEl]
+      ) : this.iconStart ? (
+        [iconStartEl, <slot />]
+      ) : this.iconEnd ? (
+        [<slot />, iconEndEl]
+      ) : (
+        <slot />
       );
-    } else {
-      return (
-        <Host
-          theme={theme}
-          dir={dir}
-          scale={scale}
-          tabindex="0"
-          role="menuitem"
-          aria-selected={this.active.toString()}
-          isLink
-        >
-          <a href={this.href} title={this.linkTitle}>
-            <slot />
-          </a>
-        </Host>
-      );
-    }
+
+    const contentEl = !this.href ? (
+      slottedContent
+    ) : (
+      <a {...attributes} ref={(el) => (this.childLink = el)}>
+        {slottedContent}
+      </a>
+    );
+    return (
+      <Host
+        dir={dir}
+        tabindex="0"
+        role="menuitem"
+        selection-mode={this.selectionMode}
+        aria-selected={this.active.toString()}
+        isLink={this.href}
+      >
+        {this.selectionMode === "multi" ? (
+          <calcite-icon
+            class="dropdown-item-check-icon"
+            scale="s"
+            icon="check"
+          />
+        ) : null}
+        {contentEl}
+      </Host>
+    );
   }
 
   //--------------------------------------------------------------------------
@@ -124,25 +149,27 @@ export class CalciteDropdownItem {
     this.emitRequestedItem();
   }
 
-  @Listen("mouseover") onMouseover(e) {
-    this.calciteDropdownItemMouseover.emit(e);
-  }
-
   @Listen("keydown") keyDownHandler(e) {
-    switch (e.keyCode) {
-      case SPACE:
-      case ENTER:
+    switch (getKey(e.key)) {
+      case " ":
         this.emitRequestedItem();
-        if (e.path && e.path[0].nodeName === "A") e.click();
+        if (this.href) {
+          e.preventDefault();
+          this.childLink.click();
+        }
         break;
-      case ESCAPE:
+      case "Enter":
+        this.emitRequestedItem();
+        if (this.href) this.childLink.click();
+        break;
+      case "Escape":
         this.closeCalciteDropdown.emit();
         break;
-      case TAB:
-      case UP:
-      case DOWN:
-      case HOME:
-      case END:
+      case "Tab":
+      case "ArrowUp":
+      case "ArrowDown":
+      case "Home":
+      case "End":
         this.calciteDropdownItemKeyEvent.emit({ item: e });
         break;
     }
@@ -183,6 +210,9 @@ export class CalciteDropdownItem {
   /** what selection mode is the parent dropdown group in */
   private selectionMode = getElementProp(this.el, "selection-mode", "single");
 
+  /** if href is requested, track the rendered child link*/
+  private childLink: HTMLAnchorElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -212,9 +242,26 @@ export class CalciteDropdownItem {
   private emitRequestedItem() {
     this.calciteDropdownItemSelected.emit({
       requestedDropdownItem: this.dropdownItemId,
-      requestedDropdownGroup: this.currentDropdownGroup
+      requestedDropdownGroup: this.currentDropdownGroup,
     });
     this.closeCalciteDropdown.emit();
+  }
+
+  private getAttributes() {
+    // spread attributes from the component to rendered child, filtering out props
+    let props = [
+      "icon-start",
+      "icon-end",
+      "active",
+      "hasText",
+      "isLink",
+      "dir",
+      "id",
+      "theme",
+    ];
+    return Array.from(this.el.attributes)
+      .filter((a) => a && !props.includes(a.name))
+      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   private getItemPosition() {

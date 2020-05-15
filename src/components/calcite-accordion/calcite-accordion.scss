@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 // scale variants for child
 :host([scale="s"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline/3};
@@ -48,10 +52,10 @@
   display: block;
   position: relative;
   max-width: 100%;
-  border: 1px solid var(--calcite-ui-border-1);
+  border: 1px solid var(--calcite-ui-border-2);
   border-bottom: none;
   --calcite-accordion-item-border: var(--calcite-ui-border-2);
-  --calcite-accordion-item-background: var(--calcite-ui-foreground);
+  --calcite-accordion-item-background: var(--calcite-ui-foreground-1);
 }
 
 :host([appearance="minimal"]) {

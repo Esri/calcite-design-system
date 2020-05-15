@@ -9,28 +9,25 @@
     <calcite-tree slot="children">
       <calcite-tree-item>
         <a href="#">Grandchild 1</a>
-      <calcite-tree-item>
+      </calcite-tree-item>
       <calcite-tree-item>
         <a href="#">Grandchild 2</a>
-      <calcite-tree-item>
-    <calcite-tree>
-  <calcite-tree-item>
+      </calcite-tree-item>
+    </calcite-tree>
+  </calcite-tree-item>
 </calcite-tree>
 ```
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
-| Property        | Attribute        | Description                                                                                                                                                                 | Type                                                                                                                   | Default                    |
-| --------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| `lines`         | `lines`          | Be sure to add a jsdoc comment describing your propery for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag | `boolean`                                                                                                              | `false`                    |
-| `root`          | `root`           |                                                                                                                                                                             | `boolean`                                                                                                              | `true`                     |
-| `selectionMode` | `selection-mode` |                                                                                                                                                                             | `TreeSelectionMode.Children \| TreeSelectionMode.Multi \| TreeSelectionMode.MultiChildren \| TreeSelectionMode.Single` | `TreeSelectionMode.Single` |
-| `size`          | `size`           |                                                                                                                                                                             | `"m" \| "s"`                                                                                                           | `"m"`                      |
-| `theme`         | `theme`          |                                                                                                                                                                             | `"dark" \| "light"`                                                                                                    | `"light"`                  |
-
+| Property        | Attribute        | Description                                                                  | Type                                                                                                                   | Default                    |
+| --------------- | ---------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| `lines`         | `lines`          | Display indentation guide lines                                              | `boolean`                                                                                                              | `false`                    |
+| `scale`         | `scale`          | Specify the scale of the tree, defaults to m                                 | `"m" \| "s"`                                                                                                           | `"m"`                      |
+| `selectionMode` | `selection-mode` | Customize how tree selection works (single, multi, children, multi-children) | `TreeSelectionMode.Children \| TreeSelectionMode.Multi \| TreeSelectionMode.MultiChildren \| TreeSelectionMode.Single` | `TreeSelectionMode.Single` |
+| `theme`         | `theme`          | Select theme (light or dark)                                                 | `"dark" \| "light"`                                                                                                    | `undefined`                |
 
 ## Events
 
@@ -38,7 +35,6 @@
 | ------------------- | ----------- | ------------------------------- |
 | `calciteTreeSelect` |             | `CustomEvent<TreeSelectDetail>` |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

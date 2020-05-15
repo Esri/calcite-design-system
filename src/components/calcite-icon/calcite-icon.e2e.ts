@@ -3,7 +3,7 @@ import {
   accessible,
   defaults,
   reflects,
-  renders
+  renders,
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
@@ -11,22 +11,20 @@ import { scaleToPx } from "./utils";
 describe("calcite-icon", () => {
   it("has defaults", async () =>
     defaults("calcite-icon", [
-      { propertyName: "filled", defaultValue: false },
       { propertyName: "mirrored", defaultValue: false },
-      { propertyName: "theme", defaultValue: "light" },
-      { propertyName: "scale", defaultValue: "m" }
+      { propertyName: "scale", defaultValue: "m" },
     ]));
 
   it("reflects", async () =>
     reflects("calcite-icon", [
-      { propertyName: "filled", value: true },
       { propertyName: "mirrored", value: true },
-      { propertyName: "theme", value: "light" },
-      { propertyName: "scale", value: "m" }
+      { propertyName: "scale", value: "m" },
     ]));
 
   it("is accessible", async () =>
-    accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`));
+    accessible(
+      `<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`
+    ));
 
   it("mirrors icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
@@ -53,7 +51,6 @@ describe("calcite-icon", () => {
       const path = await page.find(`calcite-icon >>> path`);
 
       expect(await path.getAttribute("d")).toBeTruthy();
-
     });
 
     it("supports both camelcase and kebab case for icon name", async () => {
@@ -80,7 +77,7 @@ describe("calcite-icon", () => {
       const icon = await page.find(`calcite-icon`);
       let path = await page.find(`calcite-icon >>> path`);
 
-      expect(await path.getAttribute("d")).toBeNull();
+      expect(await path.getAttribute("d")).toBeFalsy();
 
       icon.setProperty("style", null);
       await page.waitForChanges();
@@ -91,7 +88,7 @@ describe("calcite-icon", () => {
     describe("scales", () => {
       const scales = ["s", "m", "l"];
 
-      scales.forEach(scale =>
+      scales.forEach((scale) =>
         it(`${scale} scale`, async () => {
           const page = await newE2EPage();
           await page.setContent(

@@ -8,14 +8,14 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build
+  Build,
 } from "@stencil/core";
-import { SPACE, ENTER } from "../../utils/keys";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "calcite-checkbox.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteCheckbox {
   @Element() el: HTMLElement;
@@ -36,14 +36,14 @@ export class CalciteCheckbox {
   /** The value of the checkbox input */
   @Prop({ reflect: true, mutable: true }) value?: string = "";
 
-  /** Size of the checkbox  */
-  @Prop({ reflect: true }) size?: "small" | "large" = null;
+  /** specify the scale of the checkbox, defaults to m */
+  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
   /** True if the checkbox is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
 
   /** Determines what theme to use */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** Emitted when the checkbox checked status changes */
   @Event() calciteCheckboxChange: EventEmitter;
@@ -69,7 +69,8 @@ export class CalciteCheckbox {
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    if (e.keyCode === SPACE || e.keyCode === ENTER) {
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
       e.preventDefault();
       this.toggle();
     }
@@ -86,6 +87,8 @@ export class CalciteCheckbox {
 
   connectedCallback() {
     this.setupProxyInput();
+    let scale = ["s", "m", "l"];
+    if (!scale.includes(this.scale)) this.scale = "m";
   }
 
   disconnectedCallback() {
@@ -115,7 +118,7 @@ export class CalciteCheckbox {
         tabindex={this.disabled ? "-1" : "0"}
       >
         <svg class="check-svg" viewBox="0 0 16 16">
-          <path d={this.getPath()} fill="white" />
+          <path d={this.getPath()} />
         </svg>
         <slot />
       </Host>
