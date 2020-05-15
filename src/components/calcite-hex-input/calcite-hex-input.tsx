@@ -5,6 +5,7 @@ import {
   h,
   Prop,
   State,
+  VNode,
   Watch,
 } from "@stencil/core";
 import {
@@ -107,7 +108,7 @@ export class HexInput {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const hexInputValue = this.formatForInternalInput(this.value);
 
     return (
@@ -137,7 +138,7 @@ export class HexInput {
   //
   //--------------------------------------------------------------------------
 
-  onHexChange = (event: CustomEvent): void => {
+  private onHexChange = (event: CustomEvent): void => {
     const node = event.currentTarget as HTMLInputElement;
     const hex = node.value;
 
@@ -151,7 +152,7 @@ export class HexInput {
     this.calciteHexInputChange.emit();
   };
 
-  onKeyDown = (event: KeyboardEvent): void => {
+  private onKeyDown = (event: KeyboardEvent): void => {
     const { key, altKey, ctrlKey, metaKey } = event;
 
     const withModifiers = altKey || ctrlKey || metaKey;
@@ -161,7 +162,7 @@ export class HexInput {
     }
   };
 
-  onBlur = (event: FocusEvent): void => {
+  private onBlur = (event: FocusEvent): void => {
     const node = event.currentTarget as HTMLInputElement;
     const hex = `#${node.value}`;
 
@@ -175,7 +176,7 @@ export class HexInput {
     );
   };
 
-  formatForInternalInput(hex: string): string {
+  private formatForInternalInput(hex: string): string {
     return hex.replace("#", "");
   }
 }

@@ -7,6 +7,7 @@ import {
   Host,
   Prop,
   State,
+  VNode,
   Watch,
 } from "@stencil/core";
 
@@ -177,19 +178,20 @@ export class CalciteColorPicker {
     this.activeColor = Color(value);
   }
 
-  colorPaletteCanvas: HTMLCanvasElement;
-  hueSliderCanvas: HTMLCanvasElement;
-
   //--------------------------------------------------------------------------
   //
   //  Internal State/Props
   //
   //--------------------------------------------------------------------------
 
+  private colorPaletteCanvas: HTMLCanvasElement;
+
+  private hueSliderCanvas: HTMLCanvasElement;
+
   @State() activeColor = defaultColor;
   @Watch("activeColor")
   handleActiveColorChange(): void {
-    this.renderCanvasParts();
+    this.drawCanvasParts();
     this.calciteColorPickerColorChange.emit();
   }
 
@@ -210,13 +212,13 @@ export class CalciteColorPicker {
   @Event()
   calciteColorPickerColorChange: EventEmitter;
 
-  handleColorModeClick = (event: Event): void => {
+  private handleColorModeClick = (event: Event): void => {
     this.mode = (event.currentTarget as HTMLElement).getAttribute(
       "data-color-mode"
     ) as ColorMode;
   };
 
-  handleHexInputChange = (event: Event): void => {
+  private handleHexInputChange = (event: Event): void => {
     event.stopPropagation();
     const { activeColor } = this;
     const input = event.target as HTMLCalciteHexInputElement;
@@ -227,12 +229,12 @@ export class CalciteColorPicker {
     }
   };
 
-  handleSavedColorSelect = (event: Event): void => {
+  private handleSavedColorSelect = (event: Event): void => {
     const swatch = event.currentTarget as HTMLCalciteColorSwatchElement;
     this.activeColor = Color(swatch.color);
   };
 
-  handleColorPartChange = (event: KeyboardEvent): void => {
+  private handleColorPartChange = (event: KeyboardEvent): void => {
     const input = event.target as HTMLInputElement;
     const partId = Number(input.getAttribute("data-color-part-id"));
 
@@ -264,7 +266,7 @@ export class CalciteColorPicker {
     this.updateDimensions(this.scale);
   }
 
-  render() {
+  render(): VNode {
     const { mode, activeColor, savedColors, theme } = this;
     const parts = this.getColorComponents();
     const partLabels =
@@ -433,11 +435,11 @@ export class CalciteColorPicker {
   //
   //--------------------------------------------------------------------------
 
-  updateDimensions(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
+  private updateDimensions(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
     this.dimensions = DIMENSIONS[scale];
   }
 
-  saveColor = (): void => {
+  private saveColor = (): void => {
     const colorToSave = this.activeColor.hex();
     const alreadySaved = this.savedColors.indexOf(colorToSave) > -1;
 
@@ -456,12 +458,12 @@ export class CalciteColorPicker {
     }
   };
 
-  renderCanvasParts(): void {
-    this.renderColorPalette();
-    this.renderHueSlider();
+  private drawCanvasParts(): void {
+    this.drawColorPalette();
+    this.drawHueSlider();
   }
 
-  private renderColorPalette(): void {
+  private drawColorPalette(): void {
     const canvas = this.colorPaletteCanvas;
     const context = canvas.getContext("2d");
     const {
@@ -490,13 +492,13 @@ export class CalciteColorPicker {
     context.fillStyle = blackGradient;
     context.fillRect(0, 0, width, height);
 
-    this.renderActiveColorPaletteColor();
+    this.drawActiveColorPaletteColor();
   }
 
   private initColorPalette = (node: HTMLCanvasElement): void => {
     this.colorPaletteCanvas = node;
     const canvas = this.colorPaletteCanvas;
-    this.renderColorPalette();
+    this.drawColorPalette();
     let trackingMouse = false;
 
     const captureColor = (x: number, y: number): void => {
@@ -532,7 +534,7 @@ export class CalciteColorPicker {
     });
   };
 
-  private renderActiveColorPaletteColor(): void {
+  private drawActiveColorPaletteColor(): void {
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
 
@@ -565,7 +567,7 @@ export class CalciteColorPicker {
     context.fill();
   }
 
-  private renderActiveHueSliderColor(): void {
+  private drawActiveHueSliderColor(): void {
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
 
@@ -602,7 +604,7 @@ export class CalciteColorPicker {
     this.hueSliderCanvas = node;
     const canvas = this.hueSliderCanvas;
 
-    this.renderHueSlider();
+    this.drawHueSlider();
 
     let trackingMouse = false;
 
@@ -632,7 +634,7 @@ export class CalciteColorPicker {
     });
   };
 
-  private renderHueSlider(): void {
+  private drawHueSlider(): void {
     const canvas = this.hueSliderCanvas;
     const context = canvas.getContext("2d");
     const {
@@ -664,17 +666,17 @@ export class CalciteColorPicker {
     context.fillStyle = gradient;
     context.fillRect(0, 0, width, height);
 
-    this.renderActiveHueSliderColor();
+    this.drawActiveHueSliderColor();
   }
 
-  updateColorFromParts(): void {
+  private updateColorFromParts(): void {
     this.activeColor = Color(
       [this.colorPart0, this.colorPart1, this.colorPart2],
       this.mode
     );
   }
 
-  getColorComponents(): [number, number, number] {
+  private getColorComponents(): [number, number, number] {
     const { activeColor, mode } = this;
     return activeColor[mode]()
       .array()

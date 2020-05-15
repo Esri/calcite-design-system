@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Watch } from "@stencil/core";
+import { Component, Prop, h, Host, Watch, VNode } from "@stencil/core";
 import Color from "color";
 import { CSS } from "./resources";
 
@@ -7,7 +7,7 @@ const DEFAULT_COLOR = Color();
 @Component({
   tag: "calcite-color-swatch",
   styleUrl: "calcite-color-swatch.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteColorSwatch {
   //--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ export class CalciteColorSwatch {
    * Used to display whether the swatch is active or not.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   isActive = false;
 
@@ -43,7 +43,7 @@ export class CalciteColorSwatch {
   //
   //--------------------------------------------------------------------------
 
-  internalColor: Color;
+  private internalColor: Color;
 
   //--------------------------------------------------------------------------
   //
@@ -55,27 +55,24 @@ export class CalciteColorSwatch {
     this.internalColor = Color(this.color);
   }
 
-  render() {
+  render(): VNode {
     const { internalColor, isActive } = this;
 
     const hex = internalColor.hex();
 
     const classes = {
       [CSS.swatch]: true,
-      [CSS.swatchActive]: isActive
+      [CSS.swatchActive]: isActive,
     };
 
     const style = {
       "background-color": hex,
-      "border-color": internalColor.darken(0.25).hex()
+      "border-color": internalColor.darken(0.25).hex(),
     };
 
     return (
       <Host aria-label={hex} title={hex}>
-        <div
-          class={classes}
-          style={style}
-        />
+        <div class={classes} style={style} />
       </Host>
     );
   }
