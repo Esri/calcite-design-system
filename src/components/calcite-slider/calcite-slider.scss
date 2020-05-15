@@ -160,6 +160,20 @@ $tick-height: 4px;
   height: $track-height;
   background-color: var(--calcite-ui-blue-1);
 }
+:host([is-range]) {
+  .track__range {
+    &:hover {
+      cursor: ew-resize;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      width: 100%;
+      height: 14px;
+    }
+  }
+}
 
 .tick {
   position: absolute;
