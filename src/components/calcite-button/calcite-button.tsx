@@ -55,8 +55,7 @@ export class CalciteButton {
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
-    "m";
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the width of the button, defaults to auto */
   @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
@@ -99,7 +98,7 @@ export class CalciteButton {
     let color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
 
-    let scale = ["xs", "s", "m", "l", "xl"];
+    let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
     let width = ["auto", "half", "full"];
@@ -136,12 +135,7 @@ export class CalciteButton {
       </div>
     );
 
-    const iconScale =
-      this.scale === "xs" || this.scale === "s" || this.scale === "m"
-        ? "s"
-        : this.scale === "l"
-        ? "m"
-        : "l";
+    const iconScale = this.scale === "l" ? "m" : "s";
 
     const iconEl = (
       <calcite-icon
@@ -201,7 +195,7 @@ export class CalciteButton {
   @State() private hasText?: boolean = false;
 
   private updateHasText() {
-    this.hasText = this.el.textContent.length > 0;
+    this.hasText = this.el.textContent.trim().length > 0;
   }
 
   private setupTextContentObserver() {

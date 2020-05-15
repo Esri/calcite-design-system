@@ -19,7 +19,7 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 | `iconPosition` | `icon-position` | optionally used with icon, select where to position the icon                                       | `"end" \| "start"`                                 | `"start"`   |
 | `loading`      | `loading`       | optionally add a calcite-loader component to the button, disabling interaction.                    | `boolean`                                          | `false`     |
 | `round`        | `round`         | optionally add a round style to the button                                                         | `boolean`                                          | `false`     |
-| `scale`        | `scale`         | specify the scale of the button, defaults to m                                                     | `"l" \| "m" \| "s" \| "xl" \| "xs"`                | `"m"`       |
+| `scale`        | `scale`         | specify the scale of the button, defaults to m                                                     | `"l" \| "m" \| "s"`                                | `"m"`       |
 | `theme`        | `theme`         | Select theme (light or dark)                                                                       | `"dark" \| "light"`                                | `undefined` |
 | `width`        | `width`         | specify the width of the button, defaults to auto                                                  | `"auto" \| "full" \| "half"`                       | `"auto"`    |
 
