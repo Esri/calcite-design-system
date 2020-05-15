@@ -1,8 +1,11 @@
 import {
   Component,
+  Element,
   Event,
   EventEmitter,
   h,
+  Listen,
+  Method,
   Prop,
   State,
   VNode,
@@ -20,6 +23,7 @@ import {
 import Color from "color";
 import { CSS } from "./resources";
 import { Theme } from "../../interfaces/common";
+import { IconScale } from "../../interfaces/Icon";
 
 const DEFAULT_COLOR = Color();
 
@@ -29,6 +33,14 @@ const DEFAULT_COLOR = Color();
   shadow: true,
 })
 export class HexInput {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteHexInputElement;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -49,6 +61,16 @@ export class HexInput {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * The component's scale.
+   * @private
+   * @todo use Scale once this uses calcite-input
+   */
+  @Prop({
+    reflect: true,
+  })
+  scale: IconScale = "m";
 
   /**
    * The component's theme.
@@ -91,11 +113,54 @@ export class HexInput {
    */
   @Event() calciteHexInputChange: EventEmitter;
 
+  @Listen("change")
+  onInputChange(event): void {
+    const node = event.currentTarget as HTMLInputElement;
+    const hex = node.value;
+
+    const color = hexToRGB(`#${hex}`);
+
+    if (!color) {
+      return;
+    }
+
+    this.value = normalizeHex(hex);
+    this.calciteHexInputChange.emit();
+  }
+
+  @Listen("keydown")
+  onKeyDown(event: KeyboardEvent): void {
+    const { key, altKey, ctrlKey, metaKey } = event;
+
+    const withModifiers = altKey || ctrlKey || metaKey;
+
+    if (key.length === 1 && !withModifiers && !hexChar.test(key)) {
+      event.preventDefault();
+    }
+  }
+
+  @Listen("blur")
+  onBlur(event: FocusEvent): void {
+    const node = event.currentTarget as HTMLInputElement;
+    const hex = `#${node.value}`;
+
+    if (isValidHex(hex) && isLonghandHex(hex)) {
+      return;
+    }
+
+    // manipulating DOM directly since rerender doesn't update input value
+    node.value = this.formatForInternalInput(
+      rgbToHex((this.internalColor.object() as any) as RGB)
+    );
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  private inputNode: HTMLInputElement;
 
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
@@ -114,16 +179,14 @@ export class HexInput {
     return (
       <div class={CSS.container}>
         <input
+          ref={(node) => (this.inputNode = node)}
           class={CSS.input}
           value={hexInputValue}
-          onBlur={this.onBlur}
-          onKeyDown={this.onKeyDown}
-          onChange={this.onHexChange}
           maxLength={6}
         />
         <calcite-icon
           class={CSS.preview}
-          scale="m"
+          scale={this.scale}
           icon="circle-f"
           style={{ color: `#${hexInputValue}` }}
         />
@@ -134,47 +197,21 @@ export class HexInput {
 
   //--------------------------------------------------------------------------
   //
-  //  Private Methods
+  //  Public Methods
   //
   //--------------------------------------------------------------------------
 
-  private onHexChange = (event: CustomEvent): void => {
-    const node = event.currentTarget as HTMLInputElement;
-    const hex = node.value;
+  /** Focuses the input. */
+  @Method()
+  async setFocus(): Promise<void> {
+    this.inputNode?.focus();
+  }
 
-    const color = hexToRGB(`#${hex}`);
-
-    if (!color) {
-      return;
-    }
-
-    this.value = normalizeHex(hex);
-    this.calciteHexInputChange.emit();
-  };
-
-  private onKeyDown = (event: KeyboardEvent): void => {
-    const { key, altKey, ctrlKey, metaKey } = event;
-
-    const withModifiers = altKey || ctrlKey || metaKey;
-
-    if (key.length === 1 && !withModifiers && !hexChar.test(key)) {
-      event.preventDefault();
-    }
-  };
-
-  private onBlur = (event: FocusEvent): void => {
-    const node = event.currentTarget as HTMLInputElement;
-    const hex = `#${node.value}`;
-
-    if (isValidHex(hex) && isLonghandHex(hex)) {
-      return;
-    }
-
-    // manipulating DOM directly since rerender doesn't update input value
-    node.value = this.formatForInternalInput(
-      rgbToHex((this.internalColor.object() as any) as RGB)
-    );
-  };
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
 
   private formatForInternalInput(hex: string): string {
     return hex.replace("#", "");
