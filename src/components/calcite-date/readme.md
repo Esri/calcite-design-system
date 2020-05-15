@@ -18,7 +18,6 @@ Date also supports passing in a proxy input to make event handling and binding e
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property          | Attribute           | Description                                                 | Type                | Default            |
@@ -34,13 +33,11 @@ Date also supports passing in a proxy input to make event handling and binding e
 | `value`           | `value`             | Selected date                                               | `string`            | `undefined`        |
 | `valueAsDate`     | --                  | Selected date as full date object                           | `Date`              | `undefined`        |
 
-
 ## Events
 
 | Event               | Description                                               | Type                |
 | ------------------- | --------------------------------------------------------- | ------------------- |
 | `calciteDateChange` | Trigger calcite date change when a user changes the date. | `CustomEvent<Date>` |
-
 
 ## Dependencies
 
@@ -51,6 +48,7 @@ Date also supports passing in a proxy input to make event handling and binding e
 - [calcite-date-month](../calcite-date-month)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-date --> calcite-input
@@ -63,6 +61,6 @@ graph TD;
   style calcite-date fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

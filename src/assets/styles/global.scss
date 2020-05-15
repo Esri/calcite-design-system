@@ -3,6 +3,9 @@
 
 :root {
   font-family: $avenir-family;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   --calcite-border-radius: 3px;
   @include calcite-theme-light();
 }
