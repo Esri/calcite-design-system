@@ -562,9 +562,20 @@ $btnScales: "s" 12px 16px 7px 12px, "m" 16px 16px 13px 20px,
   $padding-y: nth($btnScale, 4);
   $padding-x: nth($btnScale, 5);
 
-  :host([scale="#{$name}"][hastext]) button,
-  :host([scale="#{$name}"][hastext]) a {
+  :host([scale="#{$name}"][hastext]:not([appearance="transparent"])) button,
+  :host([scale="#{$name}"][hastext]:not([appearance="transparent"])) a {
     @include btn-scale($font-size, $line-height, $padding-y, $padding-x);
+  }
+  // accomodate for transparent buttons not having borders
+  :host([scale="#{$name}"][hastext][appearance="transparent"]) button,
+  :host([scale="#{$name}"][hastext][appearance="transparent"]) a {
+    $compensated-padding-y: $padding-y + 1px;
+    @include btn-scale(
+      $font-size,
+      $line-height,
+      $compensated-padding-y,
+      $padding-x
+    );
   }
 }
 

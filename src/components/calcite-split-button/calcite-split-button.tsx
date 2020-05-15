@@ -97,6 +97,7 @@ export class CalciteButtonWithDropdown {
       <Host dir={dir}>
         <div class="split-button__container">
           <calcite-button
+            dir={dir}
             aria-label={this.primaryLabel}
             color={this.color}
             scale={this.scale}
@@ -120,6 +121,7 @@ export class CalciteButtonWithDropdown {
             width={this.scale}
           >
             <calcite-button
+              dir={dir}
               aria-label={this.dropdownLabel}
               slot="dropdown-trigger"
               scale={this.scale}
