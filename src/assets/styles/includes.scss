@@ -17,8 +17,7 @@
 @mixin focus-style-base() {
   outline-offset: 0;
   outline-color: transparent;
-  transition: inherit, outline-offset 100ms ease-in-out,
-    outline-color 100ms ease-in-out;
+  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
 }
 
 // place on the element that receives focus style, while in focus
