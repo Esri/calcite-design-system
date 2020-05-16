@@ -1,6 +1,7 @@
 import { Component, Prop, h, Host, Watch, VNode } from "@stencil/core";
 import Color from "color";
 import { CSS } from "./resources";
+import { Scale } from "../../interfaces/common";
 
 const DEFAULT_COLOR = Color();
 
@@ -37,6 +38,14 @@ export class CalciteColorSwatch {
   })
   isActive = false;
 
+  /**
+   * The component scale.
+   */
+  @Prop({
+    reflect: true,
+  })
+  scale: Exclude<Scale, "xs" | "xl"> = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -56,23 +65,34 @@ export class CalciteColorSwatch {
   }
 
   render(): VNode {
-    const { internalColor, isActive } = this;
-
+    const { internalColor, isActive, scale } = this;
     const hex = internalColor.hex();
 
     const classes = {
       [CSS.swatch]: true,
-      [CSS.swatchActive]: isActive,
     };
 
-    const style = {
-      "background-color": hex,
-      "border-color": internalColor.darken(0.25).hex(),
-    };
+    const contrastingColor = internalColor.darken(0.25).hex();
 
     return (
       <Host aria-label={hex} title={hex}>
-        <div class={classes} style={style} />
+        {isActive ? (
+          <calcite-icon
+            icon="circle-f"
+            scale={scale}
+            style={{
+              color: contrastingColor,
+            }}
+          />
+        ) : (
+          <div
+            class={classes}
+            style={{
+              backgroundColor: hex,
+              borderColor: contrastingColor,
+            }}
+          />
+        )}
       </Host>
     );
   }
