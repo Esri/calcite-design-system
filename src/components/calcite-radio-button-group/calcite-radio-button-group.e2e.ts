@@ -213,12 +213,11 @@ describe("calcite-radio-button-group", () => {
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-radio-button-group scale='none' theme='none' layout='none'></calcite-radio-button-group>"
+      "<calcite-radio-button-group scale='none' layout='none'></calcite-radio-button-group>"
     );
     const element = await page.find("calcite-radio-button-group");
     expect(element).toEqualAttribute("layout", "horizontal");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("theme", "light");
   });
 
   it("clicking a radio updates its checked status", async () => {
@@ -392,7 +391,7 @@ describe("calcite-radio-button-group", () => {
   it("radio-button-group and radio-buttons receive necessary validated props", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-radio-button-group name="radio" layout="none" scale="none" theme="none">
+      <calcite-radio-button-group name="radio" layout="none" scale="none">
         <calcite-radio-button value="one" checked>
               One
         </calcite-radio-button>
@@ -408,7 +407,6 @@ describe("calcite-radio-button-group", () => {
     const radioButtonGroup = await page.find("calcite-radio-button-group");
     expect(await radioButtonGroup.getProperty("layout")).toBe("horizontal");
     expect(await radioButtonGroup.getProperty("scale")).toBe("m");
-    expect(await radioButtonGroup.getProperty("theme")).toBe("light");
 
     const child1 = await page.find("calcite-radio-button[value=one]");
     const child2 = await page.find("calcite-radio-button[value=two]");
@@ -416,8 +414,5 @@ describe("calcite-radio-button-group", () => {
     expect(child1).toEqualAttribute("scale", "m");
     expect(child2).toEqualAttribute("scale", "m");
     expect(child3).toEqualAttribute("scale", "m");
-    expect(child1).toEqualAttribute("theme", "light");
-    expect(child2).toEqualAttribute("theme", "light");
-    expect(child3).toEqualAttribute("theme", "light");
   });
 });

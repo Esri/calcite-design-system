@@ -183,7 +183,6 @@ describe("calcite-radio-button", () => {
     );
     const element = await page.find("calcite-radio-button");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("theme", "light");
   });
 
   it("clicking a radio updates its checked status", async () => {

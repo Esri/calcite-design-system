@@ -62,10 +62,6 @@ export class CalciteInputMessage {
     if (!scale.includes(this.scale))
       this.scale = getElementProp(this.el.parentElement, "scale", "m");
 
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme))
-      this.theme = getElementProp(this.el.parentElement, "theme", "light");
-
     let type = ["default", "floating"];
     if (!type.includes(this.type)) this.type = "default";
   }
