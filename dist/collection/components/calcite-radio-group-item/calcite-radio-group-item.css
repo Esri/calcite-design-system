@@ -1,0 +1,137 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host-context([theme=dark]) {
+  --calcite-ui-blue-1: #00A0FF;
+  --calcite-ui-blue-2: #0087D7;
+  --calcite-ui-blue-3: #47BBFF;
+  --calcite-ui-green-1: #36DA43;
+  --calcite-ui-green-2: #11AD1D;
+  --calcite-ui-green-3: #44ED51;
+  --calcite-ui-yellow-1: #FFC900;
+  --calcite-ui-yellow-2: #F4B000;
+  --calcite-ui-yellow-3: #FFE24D;
+  --calcite-ui-red-1: #FE583E;
+  --calcite-ui-red-2: #F3381B;
+  --calcite-ui-red-3: #FF7465;
+  --calcite-ui-background: #202020;
+  --calcite-ui-foreground-1: #2b2b2b;
+  --calcite-ui-foreground-2: #353535;
+  --calcite-ui-foreground-3: #404040;
+  --calcite-ui-text-1: #ffffff;
+  --calcite-ui-text-2: #bfbfbf;
+  --calcite-ui-text-3: #9f9f9f;
+  --calcite-ui-border-1: #4a4a4a;
+  --calcite-ui-border-2: #404040;
+  --calcite-ui-border-3: #353535;
+  --calcite-ui-border-4: #757575;
+  --calcite-ui-border-5: #9f9f9f;
+}
+
+:host {
+  display: flex;
+  align-self: stretch;
+  background-color: var(--calcite-ui-foreground-1);
+  color: var(--calcite-ui-text-3);
+  cursor: pointer;
+  line-height: 1.25;
+  margin: 0 -1px 0 0;
+  border: 1px solid var(--calcite-ui-border-1);
+  box-shadow: inset 0 0 0 1px transparent;
+  box-sizing: border-box;
+  font-weight: 400;
+  transition: background 0.1s ease-in-out, border-color 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+:host([layout=vertical]) {
+  margin: 0 0 -1px 0;
+}
+
+:host {
+  outline-offset: 0;
+  outline-color: transparent;
+  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
+}
+
+:host(:focus) {
+  outline: 2px solid var(--calcite-ui-blue-1);
+  outline-offset: 2px;
+}
+
+:host([scale=s]) {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  padding: 0.25rem 0.75rem;
+}
+
+:host([scale=m]) {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  padding: 0.4rem 1rem;
+}
+
+:host([scale=l]) {
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem 1.5rem;
+}
+
+:host(:hover) {
+  background-color: var(--calcite-ui-foreground-2);
+}
+
+:host(:active) {
+  background-color: var(--calcite-ui-foreground-3);
+}
+
+:host([checked]) {
+  background-color: var(--calcite-ui-blue-1);
+  border-color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-background);
+  cursor: default;
+}
+
+:host([appearance=outline][checked]) {
+  background-color: var(--calcite-ui-foreground-1);
+  border-color: var(--calcite-ui-blue-1);
+  box-shadow: inset 0 0 0 1px var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-blue-1);
+}
+
+label {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+::slotted(input) {
+  display: none;
+}
+
+.radio-group-item-icon {
+  display: inline-flex;
+  position: relative;
+  margin: 0;
+  line-height: inherit;
+  transition: 150ms ease-in-out;
+}
+
+:host([icon-position=start]) .radio-group-item-icon {
+  margin-right: 0.5rem;
+}
+
+:host([icon-position=start][dir=rtl]) .radio-group-item-icon {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+:host([icon-position=end]) .radio-group-item-icon {
+  margin-left: 0.5rem;
+}
+
+:host([icon-position=end][dir=rtl]) .radio-group-item-icon {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
