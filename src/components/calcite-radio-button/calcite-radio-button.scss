@@ -41,7 +41,6 @@
     min-width: 12px;
     max-width: 12px;
   }
-  --calcite-label-font-size: 12px;
 }
 :host([scale="s"][checked]),
 :host(:hover[scale="s"][checked][disabled]) {
@@ -65,7 +64,6 @@
     min-width: 16px;
     max-width: 16px;
   }
-  --calcite-label-font-size: 16px;
 }
 :host([scale="m"][checked]),
 :host(:hover[scale="m"][checked][disabled]) {
@@ -90,7 +88,6 @@
     min-width: 20px;
     max-width: 20px;
   }
-  --calcite-label-font-size: 20px;
 }
 :host([scale="l"][checked]),
 :host(:hover[scale="l"][checked][disabled]) {

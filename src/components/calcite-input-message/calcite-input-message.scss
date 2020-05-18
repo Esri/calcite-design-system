@@ -1,6 +1,5 @@
 // theme variables
 :host([scale="s"]) {
-  font-size: 12px;
   --calcite-input-message-spacing-value: 4px;
   .calcite-input-message-icon {
     margin-top: -2px;
@@ -8,12 +7,10 @@
 }
 
 :host([scale="m"]) {
-  font-size: 14px;
   --calcite-input-message-spacing-value: 8px;
 }
 
 :host([scale="l"]) {
-  font-size: 16px;
   --calcite-input-message-spacing-value: 12px;
 }
 
