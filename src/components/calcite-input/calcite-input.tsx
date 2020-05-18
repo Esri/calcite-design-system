@@ -277,7 +277,11 @@ export class CalciteInput {
             ? numberButtonsHorizontalDown
             : null}
           {this.prefixText ? prefixText : null}
-          {childEl}
+          <div class="calcite-input-element-wrapper">
+            {childEl}
+            {this.icon ? iconEl : null}
+            {this.loading ? loader : null}
+          </div>
           {this.hasAction ? inputAction : null}
           {this.type === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical
@@ -286,8 +290,6 @@ export class CalciteInput {
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp
             : null}
-          {this.icon ? iconEl : null}
-          {this.loading ? loader : null}
         </div>
       </Host>
     );
@@ -384,14 +386,18 @@ export class CalciteInput {
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
     let props = [
+      "alignment",
+      "dir",
       "min",
       "max",
       "step",
       "value",
       "icon",
       "loading",
+      "prefix-text",
       "scale",
       "status",
+      "suffix-text",
       "theme",
       "number-button-type",
     ];
