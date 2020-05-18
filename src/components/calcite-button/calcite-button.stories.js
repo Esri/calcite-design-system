@@ -20,7 +20,7 @@ storiesOf("Button", module)
         "solid"
       )}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-      scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
       round="${boolean("round", false)}"
       floating="${boolean("floating", false)}"
       href="${text("href", "")}"
@@ -42,7 +42,7 @@ storiesOf("Button", module)
         "solid"
       )}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-      scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
       round="${boolean("round", false)}"
       floating="${boolean("floating", false)}"
       href="${text("href", "")}"
@@ -128,7 +128,7 @@ storiesOf("Button", module)
   icon="${select("icon", iconNames, iconNames[0])}"
   appearance="${select("appearance", ["solid", "outline"], "solid")}"
   color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-  scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"></calcite-button>
+  scale="${select("scale", ["s", "m", "l"], "m")}"></calcite-button>
   </div>
 </div>
 <calcite-tooltip reference-element="calcite-fab-tooltip">Add new</calcite-tooltip>
@@ -165,7 +165,7 @@ storiesOf("Button", module)
     icon="${select("icon", iconNames, iconNames[0])}"
     appearance="${select("appearance", ["solid", "outline"], "solid")}"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}">
+    scale="${select("scale", ["s", "m", "l"], "m")}">
     ${text("text", "button text here")}
   </calcite-button>
   </div>
@@ -184,7 +184,7 @@ storiesOf("Button", module)
       "solid"
     )}"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
     round="${boolean("round", false)}"
     floating="${boolean("floating", false)}"
     href="${text("href", "")}"
@@ -227,7 +227,7 @@ storiesOf("Button", module)
     icon="${select("icon", iconNames, iconNames[0])}"
     appearance="${select("appearance", ["solid", "outline"], "solid")}"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-    scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}"></calcite-button>
+    scale="${select("scale", ["s", "m", "l"], "m")}"></calcite-button>
   </div>
 </div>
 <calcite-tooltip theme="dark" reference-element="calcite-fab-tooltip">Add new</calcite-tooltip>
@@ -264,7 +264,7 @@ storiesOf("Button", module)
   icon="${select("icon", iconNames, iconNames[0])}"
   appearance="${select("appearance", ["solid", "outline"], "solid")}"
   color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-  scale="${select("scale", ["xs", "s", "m", "l", "xl"], "m")}">
+  scale="${select("scale", ["s", "m", "l"], "m")}">
   ${text("text", "button text here")}</calcite-button>
   </div>
 </div>

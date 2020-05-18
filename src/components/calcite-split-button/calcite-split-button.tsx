@@ -8,7 +8,6 @@ import {
   Prop,
   Watch,
 } from "@stencil/core";
-import { Scale } from "../../interfaces/common";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -68,7 +67,7 @@ export class CalciteButtonWithDropdown {
 
   @Watch("scale")
   validateScale() {
-    let scale = ["xs", "s", "m", "l", "xl"];
+    let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
@@ -98,9 +97,10 @@ export class CalciteButtonWithDropdown {
       <Host dir={dir}>
         <div class="split-button__container">
           <calcite-button
+            dir={dir}
             aria-label={this.primaryLabel}
             color={this.color}
-            scale={this.buttonScale}
+            scale={this.scale}
             loading={this.loading}
             icon={this.primaryIcon}
             iconPosition="start"
@@ -117,13 +117,14 @@ export class CalciteButtonWithDropdown {
             alignment="end"
             dir={dir}
             theme={this.theme}
-            scale={this.dropdownScale}
-            width={this.dropdownScale}
+            scale={this.scale}
+            width={this.scale}
           >
             <calcite-button
+              dir={dir}
               aria-label={this.dropdownLabel}
               slot="dropdown-trigger"
-              scale={this.buttonScale}
+              scale={this.scale}
               color={this.color}
               disabled={this.disabled}
               theme={this.theme}
@@ -145,23 +146,5 @@ export class CalciteButtonWithDropdown {
       : this.dropdownIconType === "caret"
       ? "caretDown"
       : "ellipsis";
-  }
-
-  private get buttonScale() {
-    const scaleLookup: { [id in "s" | "m" | "l"]: Scale } = {
-      s: "xs",
-      m: "s",
-      l: "m",
-    };
-    return scaleLookup[this.scale];
-  }
-
-  private get dropdownScale() {
-    const scaleLookup: { [id in "s" | "m" | "l"]: "s" | "m" | "l" } = {
-      s: "s",
-      m: "s",
-      l: "m",
-    };
-    return scaleLookup[this.scale];
   }
 }

@@ -165,7 +165,7 @@
   <calcite-button title="dark solid button" color='dark'>dark solid button</calcite-button>
   <br />
   <br />
-  <h5>Theme="dark" on blue /red (no effect on light / dark)</h5>
+  <h5>Theme="dark" on blue /red</h5>
   <div class="demo-background-dark">
     <calcite-button theme="dark" title="blue solid button">blue solid button</calcite-button>
     <calcite-button theme="dark" title="red solid button" color='red'>red solid button</calcite-button>
@@ -184,7 +184,7 @@
   </calcite-button>
   <br />
   <br />
-  <h5>Theme="dark" on blue /red (no effect on light / dark except outline)</h5>
+  <h5>Theme="dark" on blue /red</h5>
   <div class="demo-background-dark">
     <calcite-button theme="dark" title="blue outline button" appearance='outline'>blue outline button
     </calcite-button>
@@ -205,7 +205,7 @@
   <calcite-button title="dark clear button" appearance='clear' color='dark'>dark clear button</calcite-button>
   <br />
   <br />
-  <h5>Theme="dark" on blue /red (no effect on light / dark)</h5>
+  <h5>Theme="dark" on blue /red</h5>
   <div class="demo-background-dark">
     <calcite-button theme="dark" title="blue clear button" appearance='clear'>blue clear button</calcite-button>
     <calcite-button theme="dark" title="red clear button" appearance='clear' color='red'>red clear button
@@ -232,17 +232,17 @@
   </calcite-button>
   <br />
   <br />
-  <h5>Theme="dark" on blue /red (no effect on light / dark)</h5>
+  <h5>Theme="dark" on blue /red</h5>
   <div class="demo-background-dark">
     <calcite-button theme="dark" title="blue transparent button" appearance='transparent'>blue transparent button
     </calcite-button>
     <calcite-button theme="dark" title="red transparent button" appearance='transparent' color='red'>red
       transparent button
     </calcite-button>
-    <calcite-button title="light transparent button" appearance='transparent' color='light'>light transparent
+    <calcite-button theme="dark" title="light transparent button" appearance='transparent' color='light'>light transparent
       button
     </calcite-button>
-    <calcite-button title="dark transparent button" appearance='transparent' color='dark'>dark transparent button
+    <calcite-button theme="dark" title="dark transparent button" appearance='transparent' color='dark'>dark transparent button
     </calcite-button>
   </div>
 
@@ -265,18 +265,14 @@
   </div>
 
   <h3>Scales</h3>
-  <calcite-button title="xl scale button" scale='xl'>xl scale button</calcite-button>
   <calcite-button title="l scale button" scale='l'>l scale button</calcite-button>
   <calcite-button title="m / default scale button">m / default scale button</calcite-button>
   <calcite-button title="s scale button" scale='s'>s scale button</calcite-button>
-  <calcite-button title="xs scale button" scale='xs'>xs scale button</calcite-button>
 
   <h3>Scales with icons</h3>
-  <calcite-button title="xl scale button" icon="check-circle" scale='xl'>xl scale button</calcite-button>
   <calcite-button title="l scale button" icon="check-circle" scale='l'>l scale button</calcite-button>
   <calcite-button title="m / default scale button" icon="check-circle">m / default scale button</calcite-button>
   <calcite-button title="s scale button" icon="check-circle" scale='s'>s scale button</calcite-button>
-  <calcite-button title="xs scale button" icon="check-circle" scale='xs'>xs scale button</calcite-button>
 
   <h3>Widths</h3>
   <calcite-button title="Auto / default width button">Auto / default width button</calcite-button>
@@ -326,8 +322,7 @@
   <calcite-button color='red' scale="l" appearance="outline" icon-position="end" onclick="loadingButton(this, 3000)"
     icon='trash'>
     Delete this (loader)</calcite-button>
-  <calcite-button color='red' scale="xs" appearance="outline" onclick="loadingButton(this, 3000)" icon='trash'>
-    Delete this (loader)</calcite-button>
+
 </body>
 
 </html>
