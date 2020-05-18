@@ -28,16 +28,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-dropdown` - will now properly open and close when children of the `dropdown-trigger` slot are acted on.
 - `calcite-button` - now trims whitespace to accurately display "icon only" buttons as squares.
 - `:root` styles now include some text rendering improvements
+- `calcite-input` - fixed missing icons in firefox
+- `calcite-date` - fixed small margin/gap above input
 
 ### Updated
 
 - `calcite-button` - styling of `appearance=transparent` buttons has been updated
 - `calcite-button` - dimensions and font-size of buttons have been updated
-
-### Fixes
-
-- `calcite-input` - fixed missing icons in firefox
-- `calcite-date` - fixed small margin/gap above input
 
 ## [v1.0.0-beta.25] - Apr 28th 2020
 
