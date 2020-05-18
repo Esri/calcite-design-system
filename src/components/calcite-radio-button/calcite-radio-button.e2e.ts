@@ -1,5 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  hidden,
+  reflects,
+  renders,
+} from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button"));
@@ -10,7 +16,7 @@ describe("calcite-radio-button", () => {
   it("has defaults", async () =>
     defaults("calcite-radio-button", [
       { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "theme", defaultValue: "light" }
+      { propertyName: "theme", defaultValue: "light" },
     ]));
 
   it("honors hidden attribute", async () => {
@@ -61,7 +67,7 @@ describe("calcite-radio-button", () => {
     for (let i = 0; i < radioInputs.length; i++) {
       const name = await radioInputs[i].getAttribute("name");
       const value = await radioInputs[i].getAttribute("value");
-      expect(name).toBe("hidden-input")
+      expect(name).toBe("hidden-input");
       expect(value).toBe((i + 1).toString());
     }
   });
@@ -73,7 +79,7 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="none-checked" value="2"></calcite-radio-button>
       <calcite-radio-button name="none-checked" value="3"></calcite-radio-button>
     `);
-    const radioButtons = await page.findAll('calcite-radio-button');
+    const radioButtons = await page.findAll("calcite-radio-button");
     for (let i = 0; i < radioButtons.length; i++) {
       expect(await radioButtons[i].getProperty("checked")).toBe(false);
       expect(await radioButtons[i].getAttribute("checked")).toBe(null);
@@ -103,9 +109,7 @@ describe("calcite-radio-button", () => {
     `);
     const element = await page.find("calcite-radio-button");
 
-    const firstElement = await page.find(
-      "calcite-radio-button[checked]"
-    );
+    const firstElement = await page.find("calcite-radio-button[checked]");
     await firstElement.click();
     await element.press("ArrowRight");
     await page.waitForChanges();
@@ -144,9 +148,7 @@ describe("calcite-radio-button", () => {
     `);
     const element = await page.find("calcite-radio-button");
 
-    const firstElement = await page.find(
-      "calcite-radio-button[checked]"
-    );
+    const firstElement = await page.find("calcite-radio-button[checked]");
     await firstElement.click();
     await element.press("ArrowDown");
     let selected = await page.find("calcite-radio-button[checked]");
@@ -184,7 +186,7 @@ describe("calcite-radio-button", () => {
     expect(element).toEqualAttribute("theme", "light");
   });
 
-  it('clicking a radio updates its checked status', async () => {
+  it("clicking a radio updates its checked status", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button name="radio" id="first" value="one" checked>
@@ -195,8 +197,8 @@ describe("calcite-radio-button", () => {
       </calcite-radio-button>
     `);
 
-    const first = await page.find('calcite-radio-button#first');
-    const second = await page.find('calcite-radio-button#second');
+    const first = await page.find("calcite-radio-button#first");
+    const second = await page.find("calcite-radio-button#second");
 
     await second.click();
     await page.waitForChanges();
@@ -211,7 +213,7 @@ describe("calcite-radio-button", () => {
     expect(await second.getProperty("checked")).toBe(false);
   });
 
-  it('removing a radio button also removes the hidden <input type=radio> element', async () => {
+  it("removing a radio button also removes the hidden <input type=radio> element", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button name="radio" id="first" value="one" checked>
@@ -222,7 +224,7 @@ describe("calcite-radio-button", () => {
       </calcite-radio-button>
     `);
 
-    let firstInput = await page.find('input#first');
+    let firstInput = await page.find("input#first");
     expect(firstInput).toBeTruthy();
 
     await page.evaluate(() => {
@@ -231,7 +233,7 @@ describe("calcite-radio-button", () => {
     });
     await page.waitForChanges();
 
-    firstInput = await page.find('input#first');
+    firstInput = await page.find("input#first");
 
     expect(firstInput).toBeFalsy();
   });
@@ -247,7 +249,9 @@ describe("calcite-radio-button", () => {
       </calcite-radio-button>
     `);
     const documentBody = await page.evaluate(() => {
-      document.body.appendChild(document.querySelector("calcite-radio-button#first"));
+      document.body.appendChild(
+        document.querySelector("calcite-radio-button#first")
+      );
       return document.body;
     });
     await page.waitForChanges();
@@ -360,9 +364,7 @@ describe("calcite-radio-button", () => {
 
   it("updates 'aria-checked' based on 'checked' property", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-button></calcite-radio-button>"
-    );
+    await page.setContent("<calcite-radio-button></calcite-radio-button>");
     const element = await page.find("calcite-radio-button");
 
     let ariaChecked = await element.getAttribute("aria-checked");
@@ -386,12 +388,8 @@ describe("calcite-radio-button", () => {
 
   it("content/value is wrapped by label", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-button></calcite-radio-button>"
-    );
-    const defaultSlot = await page.find(
-      "calcite-radio-button >>> label slot"
-    );
+    await page.setContent("<calcite-radio-button></calcite-radio-button>");
+    const defaultSlot = await page.find("calcite-radio-button >>> label slot");
 
     expect(defaultSlot).toBeDefined();
   });
@@ -417,7 +415,9 @@ describe("calcite-radio-button", () => {
     const input = await page.find("input[type=radio]");
     const inputTitleAttribute = await input.getAttribute("title");
 
-    expect(inputTitleAttribute).toBe("Radio button with name of title and value of first");
+    expect(inputTitleAttribute).toBe(
+      "Radio button with name of title and value of first"
+    );
   });
 
   it("sets the provided title attribute and reflects it to the corresponding input", async () => {
@@ -426,8 +426,8 @@ describe("calcite-radio-button", () => {
       <calcite-radio-button name="title" value="first" title="first title"></calcite-radio-button>
     `);
 
-    const button = await page.find('calcite-radio-button');
-    const input = await page.find('input[type=radio]');
+    const button = await page.find("calcite-radio-button");
+    const input = await page.find("input[type=radio]");
 
     let inputTitleAttribute = await input.getAttribute("title");
     expect(inputTitleAttribute).toBe("first title");

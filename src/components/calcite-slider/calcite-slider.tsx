@@ -13,8 +13,8 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
+type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 import { DataSeries } from "../../interfaces/Graph";
-type activeSliderProperty = "minValue" | "maxValue" | "value";
 
 @Component({
   tag: "calcite-slider",
@@ -95,7 +95,12 @@ export class CalciteSlider {
       <Host id={id} is-range={this.isRange}>
         {this.renderGraph()}
         <div class="track">
-          <div class="track__range" style={{ left, right }} />
+          <div
+            class="track__range"
+            onMouseDown={() => this.dragStart("minMaxValue")}
+            onTouchStart={(e) => this.dragStart("minMaxValue", e)}
+            style={{ left, right }}
+          />
           <div class="ticks">
             {this.tickValues.map((number) => (
               <span
@@ -175,7 +180,8 @@ export class CalciteSlider {
           class={{
             thumb: true,
             "thumb--max": true,
-            "thumb--active": this.dragProp === maxProp,
+            "thumb--active":
+              this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
             "thumb--precise": this.precise,
           }}
         >
@@ -262,14 +268,27 @@ export class CalciteSlider {
     const num = this.translate(x);
     let prop: activeSliderProperty = "value";
     if (this.isRange) {
-      const closerToMax =
-        Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
-      prop = closerToMax ? "maxValue" : "minValue";
+      if (this.lastDragProp === "minMaxValue") {
+        prop = "minMaxValue";
+      } else {
+        const closerToMax =
+          Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
+        prop = closerToMax ? "maxValue" : "minValue";
+      }
     }
     this[prop] = this.bound(num, prop);
     this.calciteSliderUpdate.emit();
-    const handle = prop === "minValue" ? this.minHandle : this.maxHandle;
-    handle.focus();
+    switch (prop) {
+      default:
+      case "maxValue":
+        this.maxHandle.focus();
+        break;
+      case "minValue":
+        this.minHandle.focus();
+        break;
+      case "minMaxValue":
+        break;
+    }
   }
   //--------------------------------------------------------------------------
   //
@@ -307,6 +326,8 @@ export class CalciteSlider {
   /** @internal */
   private dragProp: activeSliderProperty;
   /** @internal */
+  private lastDragProp: activeSliderProperty;
+  /** @internal */
   private minHandle: HTMLButtonElement;
   /** @internal */
   private maxHandle: HTMLButtonElement;
@@ -316,6 +337,12 @@ export class CalciteSlider {
   @State() private tickValues: number[] = [];
   /** @internal */
   @State() private activeProp: activeSliderProperty = "value";
+  /** @internal */
+  @State() private minMaxValueRange: number = null;
+  /** @internal */
+  @State() private minValueDragRange: number = null;
+  /** @internal */
+  @State() private maxValueDragRange: number = null;
 
   //--------------------------------------------------------------------------
   //
@@ -340,6 +367,7 @@ export class CalciteSlider {
       this.dragEnd();
     }
     this.dragProp = prop;
+    this.lastDragProp = this.dragProp;
     this.activeProp = prop;
     this.dragListener = this.dragListener || this.dragUpdate.bind(this);
     document.addEventListener("mousemove", this.dragListener);
@@ -356,7 +384,30 @@ export class CalciteSlider {
     e.stopPropagation();
     if (this.dragProp) {
       const value = this.translate(e.clientX || e.pageX);
-      this[this.dragProp] = this.bound(value, this.dragProp);
+      if (this.isRange && this.dragProp === "minMaxValue") {
+        if (
+          this.minValueDragRange &&
+          this.maxValueDragRange &&
+          this.minMaxValueRange
+        ) {
+          const newMinValue = value - this.minValueDragRange;
+          const newMaxValue = value + this.maxValueDragRange;
+          if (
+            newMaxValue <= this.max &&
+            newMinValue >= this.min &&
+            newMaxValue - newMinValue === this.minMaxValueRange
+          ) {
+            this.minValue = this.bound(newMinValue, "minValue");
+            this.maxValue = this.bound(newMaxValue, "maxValue");
+          }
+        } else {
+          this.minValueDragRange = value - this.minValue;
+          this.maxValueDragRange = this.maxValue - value;
+          this.minMaxValueRange = this.maxValue - this.minValue;
+        }
+      } else {
+        this[this.dragProp] = this.bound(value, this.dragProp);
+      }
       this.calciteSliderUpdate.emit();
     }
   }
@@ -365,6 +416,9 @@ export class CalciteSlider {
     this.dragProp = null;
     document.removeEventListener("mousemove", this.dragListener);
     document.removeEventListener("touchmove", this.dragListener);
+    this.minValueDragRange = null;
+    this.maxValueDragRange = null;
+    this.minMaxValueRange = null;
   }
   /**
    * If number is outside range, constrain to min or max

@@ -24,17 +24,17 @@ export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 export const scaleToPx: Record<IconScale, number> = {
   s: 16,
   m: 24,
-  l: 32
+  l: 32,
 };
 
 export async function fetchIcon({
   icon,
-  scale
+  scale,
 }: FetchIconProps): Promise<CalciteIconPath> {
   const size = scaleToPx[scale];
   const name = normalizeIconName(icon);
   const filled = name.charAt(name.length - 1) === "F";
-  const iconName = filled ? name.substring(0, name.length - 1): name;
+  const iconName = filled ? name.substring(0, name.length - 1) : name;
   const id = `${iconName}${size}${filled ? "F" : ""}`;
 
   if (iconCache[id]) {
@@ -42,7 +42,7 @@ export async function fetchIcon({
   }
   if (!requestCache[id]) {
     requestCache[id] = fetch(getAssetPath(`./assets/${id}.json`))
-      .then(resp => resp.json())
+      .then((resp) => resp.json())
       .catch(() => {
         console.error(`"${id}" is not a valid calcite-ui-icon name`);
         return "";
