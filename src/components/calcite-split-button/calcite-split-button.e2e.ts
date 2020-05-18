@@ -18,19 +18,17 @@ describe("calcite-split-button", () => {
     const element = await page.find("calcite-split-button");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("dropdown-icon-type", "chevron");
   });
 
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-split-button color="green" scale="fairly small" theme="some theme" dropdown-icon-type="circle">
+      <calcite-split-button color="green" scale="fairly small" dropdown-icon-type="circle">
       </calcite-split-button>`);
     const element = await page.find("calcite-split-button");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("dropdown-icon-type", "chevron");
   });
 

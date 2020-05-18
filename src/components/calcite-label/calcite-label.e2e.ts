@@ -19,7 +19,6 @@ describe("calcite-label", () => {
 
     const element = await page.find("calcite-label");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("layout", "default");
   });
 
@@ -34,7 +33,6 @@ describe("calcite-label", () => {
 
     const element = await page.find("calcite-label");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("layout", "default");
   });
 

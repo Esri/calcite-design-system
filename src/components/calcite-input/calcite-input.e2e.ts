@@ -16,7 +16,6 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("alignment", "start");
     expect(element).toEqualAttribute("number-button-type", "vertical");
     expect(element).toEqualAttribute("type", "text");
@@ -31,7 +30,6 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("alignment", "start");
     expect(element).toEqualAttribute("number-button-type", "vertical");
     expect(element).toEqualAttribute("type", "text");
@@ -64,7 +62,6 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("scale", "s");
   });
 
@@ -171,7 +168,6 @@ describe("calcite-input", () => {
     expect(numberHorizontalItemUp).toBeNull();
   });
 
-
   it("focuses child input when setFocus method is called", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -186,7 +182,6 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
     expect(activeEl).toEqual(element.nodeName);
-
   });
 
   it("correctly increments and decrements value when number buttons are clicked", async () => {
@@ -213,7 +208,6 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("4");
   });
-
 
   it("correctly increments and decrements value when number buttons are clicked and step is set", async () => {
     const page = await newE2EPage();

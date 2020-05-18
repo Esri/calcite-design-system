@@ -113,13 +113,10 @@ export class CalciteInput {
     if (!statusOptions.includes(this.status))
       this.status = getElementProp(this.el.parentElement, "status", "idle");
 
-    let theme = ["light", "dark"];
-    if (!theme.includes(this.theme))
-      this.theme = getElementProp(this.el.parentElement, "theme", "light");
-
     let scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale))
+    if (!scale.includes(this.scale)) {
       this.scale = getElementProp(this.el.parentElement, "scale", "m");
+    }
 
     let alignment = ["start", "end"];
     if (!alignment.includes(this.alignment)) this.alignment = "start";

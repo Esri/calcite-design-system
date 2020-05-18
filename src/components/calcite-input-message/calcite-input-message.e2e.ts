@@ -16,7 +16,6 @@ describe("calcite-input-message", () => {
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("appearance", "default");
     expect(element).toEqualAttribute("type", "default");
   });
@@ -29,7 +28,6 @@ describe("calcite-input-message", () => {
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("appearance", "default");
     expect(element).toEqualAttribute("type", "default");
   });
@@ -58,7 +56,6 @@ describe("calcite-input-message", () => {
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
   });
 
   it("does not render an icon if not requested", async () => {
