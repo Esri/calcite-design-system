@@ -20,6 +20,7 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property | Attribute | Description                                                          | Type                                              | Default     |
@@ -29,26 +30,27 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 | `status` | `status`  | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
 | `theme`  | `theme`   | specify theme of the label and its any child input / input messages  | `"dark" \| "light"`                               | `undefined` |
 
+
 ## Events
 
 | Event                       | Description | Type               |
 | --------------------------- | ----------- | ------------------ |
 | `calciteLabelSelectedEvent` |             | `CustomEvent<any>` |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-radio-button](../calcite-radio-button)
+ - [calcite-radio-button](../calcite-radio-button)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-radio-button --> calcite-label
   style calcite-label fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

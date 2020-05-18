@@ -6,6 +6,7 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property       | Attribute       | Description                                                                                        | Type                                               | Default     |
@@ -23,19 +24,25 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 | `theme`        | `theme`         | Select theme (light or dark)                                                                       | `"dark" \| "light"`                                | `undefined` |
 | `width`        | `width`         | specify the width of the button, defaults to auto                                                  | `"auto" \| "full" \| "half"`                       | `"auto"`    |
 
+
 ## Methods
 
 ### `setFocus() => Promise<void>`
+
+
 
 #### Returns
 
 Type: `Promise<void>`
 
+
+
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-split-button](../calcite-split-button)
+ - [calcite-split-button](../calcite-split-button)
 
 ### Depends on
 
@@ -43,7 +50,6 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-button --> calcite-loader
@@ -52,6 +58,6 @@ graph TD;
   style calcite-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
