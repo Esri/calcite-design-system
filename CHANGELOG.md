@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-checkbox` - `size` prop is now `scale` to be consistent with other components
 - `calcite-chip` - will not show the dismiss ("x") button unless new `dismissible` prop is `true`
+- `calcite-button` - no longer accepts `xs` or `xl` values for `scale` prop
 
 ### Added
 
@@ -21,7 +22,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - `calcite-dropdown` - will now properly open and close when children of the `dropdown-trigger` slot are acted on.
+- `calcite-button` - now trims whitespace to accurately display "icon only" buttons as squares.
 - `:root` styles now include some text rendering improvements
+
+### Updated
+
+- `calcite-button` - styling of `appearance=transparent` buttons has been updated
+- `calcite-button` - dimensions and font-size of buttons have been updated
 
 ### Fixes
 

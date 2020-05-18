@@ -36,7 +36,7 @@ describe("calcite-split-button", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-split-button
-          scale="xs"
+          scale="s"
           color="red"
           theme="dark"
           dropdown-icon-type="caret"
@@ -52,7 +52,7 @@ describe("calcite-split-button", () => {
     const dropdownButton = await page.find(
       "calcite-split-button >>> calcite-dropdown calcite-button"
     );
-    expect(element).toEqualAttribute("scale", "xs");
+    expect(element).toEqualAttribute("scale", "s");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("dropdown-icon-type", "caret");
@@ -80,13 +80,13 @@ describe("calcite-split-button", () => {
   it("changes the size and width of the dropdown + primary button based on scale", async () => {
     const elementScaleToDropdownScale = {
       s: "s",
-      m: "s",
-      l: "m",
+      m: "m",
+      l: "l",
     };
     const elementScaleToButtonScale = {
-      s: "xs",
-      m: "s",
-      l: "m",
+      s: "s",
+      m: "m",
+      l: "l",
     };
     const page = await newE2EPage();
     await page.setContent(`

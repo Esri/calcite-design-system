@@ -8,9 +8,7 @@ describe("calcite-button", () => {
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -32,9 +30,7 @@ describe("calcite-button", () => {
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -53,14 +49,12 @@ describe("calcite-button", () => {
   it("renders as a button with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button color="red" scale="xl" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -68,7 +62,7 @@ describe("calcite-button", () => {
     expect(element).toHaveClass("hydrated");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("appearance", "outline");
-    expect(element).toEqualAttribute("scale", "xl");
+    expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "half");
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
@@ -79,14 +73,12 @@ describe("calcite-button", () => {
   it("renders as a link with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button href="/" color="red" scale="xl" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button href="/" color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -94,7 +86,7 @@ describe("calcite-button", () => {
     expect(element).toHaveClass("hydrated");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("appearance", "outline");
-    expect(element).toEqualAttribute("scale", "xl");
+    expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "half");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsButton).toBeNull();
@@ -110,9 +102,7 @@ describe("calcite-button", () => {
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -135,9 +125,7 @@ describe("calcite-button", () => {
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -159,9 +147,7 @@ describe("calcite-button", () => {
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -184,9 +170,7 @@ describe("calcite-button", () => {
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -205,9 +189,7 @@ describe("calcite-button", () => {
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
     const elementAsLink = await page.find("calcite-button >>> a");
-    const icon = await page.find(
-      "calcite-button >>> .calcite-button--icon"
-    );
+    const icon = await page.find("calcite-button >>> .calcite-button--icon");
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
@@ -220,18 +202,14 @@ describe("calcite-button", () => {
 
   it("hastext is true when text is present", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-button>Continue</calcite-button>`
-    );
+    await page.setContent(`<calcite-button>Continue</calcite-button>`);
     const element = await page.find("calcite-button");
     expect(element).toHaveAttribute("hastext");
   });
 
   it("hastext is false when text is not present", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-button icon='plus'></calcite-button>`
-    );
+    await page.setContent(`<calcite-button icon='plus'></calcite-button>`);
     const element = await page.find("calcite-button");
     expect(element).not.toHaveAttribute("hastext");
   });
