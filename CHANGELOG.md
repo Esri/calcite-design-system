@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-split-button` now accepts `ellipsis` as a value for the `dropdown-icon-type` attribute
 - `calcite-graph` component for simple area graphs from series data sets
 - `calcite-chip` - now has a `color` prop that will accept `grey` (default), `blue`, `red`, `yellow`, and `green` as values
-- `calcite-chip` - now has an `appearance` prop that will accept `solid` (default) and `outline` as values
+- `calcite-chip` - now has an `appearance` prop that will accept `solid` (default) and `clear` as values
 
 ### Fixed
 

@@ -38,7 +38,7 @@ export class CalciteChip {
     | "grey" = "grey";
 
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ mutable: true, reflect: true }) appearance: "solid" | "outline" =
+  @Prop({ mutable: true, reflect: true }) appearance: "solid" | "clear" =
     "solid";
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
@@ -85,7 +85,7 @@ export class CalciteChip {
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
-    let appearance = ["solid", "outline"];
+    let appearance = ["solid", "clear"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
 
     let color = ["blue", "green", "grey", "yellow", "red"];

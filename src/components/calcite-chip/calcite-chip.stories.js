@@ -16,7 +16,7 @@ storiesOf("Chip", module)
     <div style="background-color:white;padding:100px">
     <calcite-chip
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "clear"], "solid")}"
     color="${select(
       "color",
       ["blue", "red", "yellow", "green", "grey"],
@@ -35,7 +35,7 @@ storiesOf("Chip", module)
     <calcite-chip
     icon="${select("icon", iconNames, iconNames[0])}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "clear"], "solid")}"
     color="${select(
       "color",
       ["blue", "red", "yellow", "green", "grey"],
@@ -54,7 +54,7 @@ storiesOf("Chip", module)
     <div style="background-color:white;padding:100px">
     <calcite-chip
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "clear"], "solid")}"
     color="${select(
       "color",
       ["blue", "red", "yellow", "green", "grey"],
@@ -75,7 +75,7 @@ storiesOf("Chip", module)
     <calcite-chip
     theme="dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "clear"], "solid")}"
     color="${select(
       "color",
       ["blue", "red", "yellow", "green", "grey"],
@@ -94,7 +94,7 @@ storiesOf("Chip", module)
     <calcite-chip
     icon="${select("icon", iconNames, iconNames[0])}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "clear"], "solid")}"
     color="${select(
       "color",
       ["blue", "red", "yellow", "green", "grey"],

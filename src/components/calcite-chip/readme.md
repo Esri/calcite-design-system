@@ -6,7 +6,7 @@
 
 | Property             | Attribute     | Description                                                        | Type                                               | Default     |
 | -------------------- | ------------- | ------------------------------------------------------------------ | -------------------------------------------------- | ----------- |
-| `appearance`         | `appearance`  | specify the appearance style of the button, defaults to solid.     | `"outline" \| "solid"`                             | `"solid"`   |
+| `appearance`         | `appearance`  | specify the appearance style of the button, defaults to solid.     | `"clear" \| "solid"`                               | `"solid"`   |
 | `color`              | `color`       | specify the color of the button, defaults to blue                  | `"blue" \| "green" \| "grey" \| "red" \| "yellow"` | `"grey"`    |
 | `dismissible`        | `dismissible` | Optionally show a button the user can click to dismiss the chip    | `boolean`                                          | `false`     |
 | `icon`               | `icon`        | optionally pass an icon to display - accepts Calcite UI icon names | `string`                                           | `undefined` |
