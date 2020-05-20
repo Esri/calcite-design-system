@@ -347,7 +347,7 @@ In generally follow the guidelines and standards in these articles:
 
 ## i18n
 
-Components should require as a few text translations as possible. In general lets users supply text values via slots and attributes. The lets user handle translations with their apps.
+Components should require as a few text translations as possible. In general, components should let users supply text values via slots and attributes; this lets a user handle translation within their apps.
 
 If you component involves formatting numbers or dates use the [`Intl` APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for formatting the display of numbers and dates in your component.
 
