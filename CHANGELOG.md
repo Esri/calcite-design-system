@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - `calcite-input` - will now properly position a requested `icon` if `prefix-text` is also set
+- `calcite-alert` - will now properly animate the direction of the auto-dismiss progress bar in RTL
 
 ## [v1.0.0-beta.26] - May 18th 2020
 
