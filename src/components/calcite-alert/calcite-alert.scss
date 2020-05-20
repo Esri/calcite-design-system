@@ -287,6 +287,11 @@
   }
 }
 
+:host([dir="rtl"]) .alert-dismiss-progress:after {
+  left: 0;
+  right: initial;
+}
+
 $alertColors: "blue" var(--calcite-ui-blue-1), "red" var(--calcite-ui-red-1),
   "yellow" var(--calcite-ui-yellow-1), "green" var(--calcite-ui-green-1);
 
@@ -310,11 +315,6 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 
   :host([auto-dismiss-duration="#{$name}"]) .alert-dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
-  }
-
-  :host([auto-dismiss-duration="#{$name}"][dir="rtl"])
-    .alert-dismiss-progress:after {
-    animation: dismissProgress $duration reverse ease-in;
   }
 }
 
