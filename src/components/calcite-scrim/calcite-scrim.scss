@@ -1,6 +1,7 @@
 :host {
   display: flex;
   position: relative;
+  pointer-events: none;
   --calcite-scrim-background: #{rgba($blk-000, 0.75)};
 }
 

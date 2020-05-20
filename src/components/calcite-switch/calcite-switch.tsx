@@ -10,6 +10,7 @@ import {
   Watch,
   Build,
 } from "@stencil/core";
+import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -89,8 +90,11 @@ export class CalciteSwitch {
   }
 
   render() {
+    const dir = getElementDir(this.el);
+
     return (
       <Host
+        dir={dir}
         role="checkbox"
         aria-checked={this.switched.toString()}
         tabIndex={this.tabIndex}
