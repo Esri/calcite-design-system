@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-input` - will now properly position a requested `icon` if `prefix-text` is also set
 - `calcite-switch` - will now properly display in RTL
-- `calcite-tree` - will now propertly wrap long, unbroken strings
+- `calcite-tree` - will now property wrap long, unbroken strings in `calcite-tree-item` children
 
 ## [v1.0.0-beta.26] - May 18th 2020
 
