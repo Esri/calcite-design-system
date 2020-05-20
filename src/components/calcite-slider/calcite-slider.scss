@@ -43,40 +43,49 @@ $tick-height: 4px;
   margin-bottom: $thumb-size + $thumb-padding;
 }
 
-// focus styles
-.thumb {
-  @include focus-style-base();
-  &:focus {
-    @include focus-style-outset();
-  }
-}
-
 .thumb {
   position: absolute;
-  height: $thumb-size;
-  width: $thumb-size;
-  margin: -15px;
+  top: -5px;
   box-sizing: border-box;
   border: none;
   background: transparent;
   cursor: pointer;
   font-family: inherit;
   z-index: 2;
-}
+  outline: none;
 
-.handle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: $handle-size;
-  width: $handle-size;
-  margin: $thumb-padding;
-  box-sizing: border-box;
-  border-radius: 100%;
-  background-color: var(--calcite-ui-foreground-1);
-  border: 2px solid var(--calcite-ui-text-3);
-  transition: border 0.25s ease, background-color 0.25s ease,
-    box-shadow 0.25s ease;
+  .handle {
+    @include focus-style-base();
+    position: absolute;
+    top: 6px;
+    height: $handle-size;
+    width: $handle-size;
+    box-sizing: border-box;
+    border-radius: 100%;
+    background-color: var(--calcite-ui-foreground-1);
+    box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
+    transition: border 0.25s ease, background-color 0.25s ease,
+      box-shadow 0.25s ease;
+    &:after {
+      content: "";
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  &:hover {
+    .handle {
+      box-shadow: 0 0 0 3px var(--calcite-ui-blue-1) inset;
+    }
+  }
+
+  &:focus .handle {
+    @include focus-style-outset();
+    outline-offset: 6px;
+  }
 }
 
 .handle__label {
@@ -90,12 +99,6 @@ $tick-height: 4px;
   line-height: 1;
   color: var(--calcite-ui-text-3);
   text-align: center;
-}
-
-.thumb:hover .handle {
-  border-width: 3px;
-  border-color: var(--calcite-ui-blue-1);
-  @include shadow(1, "hover");
 }
 
 .thumb:focus,
