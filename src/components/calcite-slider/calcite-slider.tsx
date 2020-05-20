@@ -10,6 +10,7 @@ import {
   h,
   State,
   VNode,
+  Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
@@ -68,6 +69,11 @@ export class CalciteSlider {
   @Prop() precise?: boolean;
   /** Display a histogram above the slider */
   @Prop() histogram?: DataSeries;
+  @Watch("histogram") histogramWatcher(newHistogram) {
+    this.hasHistogram = newHistogram ? true : false;
+  }
+  /** Indicates if a histogram is present */
+  @Prop({ reflect: true, mutable: true }) hasHistogram: boolean = false;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -79,6 +85,9 @@ export class CalciteSlider {
     this.value = this.bound(this.value);
     if (this.snap) {
       this.value = this.getClosestStep(this.value);
+    }
+    if (this.histogram) {
+      this.hasHistogram = true;
     }
     this.calciteSliderUpdate.emit();
   }
