@@ -45,18 +45,19 @@ $tick-height: 4px;
 
 .thumb {
   position: absolute;
-  top: -5px;
   border: none;
   background: transparent;
   cursor: pointer;
   font-family: inherit;
   z-index: 2;
   outline: none;
+  padding: 0;
 
   .handle {
     @include focus-style-base();
     position: absolute;
-    top: 6px;
+    top: -8px;
+    left: -7px;
     height: $handle-size;
     width: $handle-size;
     box-sizing: border-box;
