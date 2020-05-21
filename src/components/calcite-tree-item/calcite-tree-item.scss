@@ -88,6 +88,7 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   min-width: 0;
+  max-width: 100%;
 
   &:hover {
     text-decoration: none !important;
