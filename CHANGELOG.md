@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-input` - will now properly position a requested `icon` if `prefix-text` is also set
 - `calcite-switch` - will now properly display in RTL
 - `calcite-alert` - will now properly animate the direction of the auto-dismiss progress bar in RTL
+- `calcite-tree` - will now properly wrap long, unbroken strings in `calcite-tree-item` children
 
 ### Updated
 
