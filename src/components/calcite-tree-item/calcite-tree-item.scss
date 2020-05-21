@@ -85,9 +85,9 @@
   color: inherit;
   @include font-size(-2);
   text-decoration: none !important;
-  max-width: 100%;
   word-wrap: break-word;
-  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
 
   &:hover {
     text-decoration: none !important;
@@ -95,6 +95,7 @@
 }
 
 ::slotted(a) {
+  width: 100%;
   text-decoration: none;
 }
 // focus styles
@@ -112,7 +113,6 @@
   padding-left: var(--calcite-tree-children-padding-start);
   padding-right: var(--calcite-tree-children-padding-end);
   position: relative;
-
   transform: scaleY(0);
   opacity: 0;
   overflow: hidden;
