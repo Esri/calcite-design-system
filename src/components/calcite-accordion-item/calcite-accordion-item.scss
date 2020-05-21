@@ -40,13 +40,19 @@
 :host-context([icon-position="end"]) {
   --calcite-accordion-item-flex-direction: row;
   --calcite-accordion-item-icon-rotation: -90deg;
-  --calcite-accordion-item-active-icon-rotation: -180deg;
+  --calcite-accordion-item-active-icon-rotation: 0deg;
   --calcite-accordion-item-icon-rotation-rtl: 90deg;
-  --calcite-accordion-item-active-icon-rotation-rtl: 180deg;
+  --calcite-accordion-item-active-icon-rotation-rtl: 0deg;
   --calcite-accordion-item-icon-spacing-start: var(
     --calcite-accordion-item-spacing-unit
   );
   --calcite-accordion-item-icon-spacing-end: 0;
+}
+:host-context([icon-position="end"]:not([icon-type="plus-minus"])) {
+  --calcite-accordion-item-icon-rotation: 0deg;
+  --calcite-accordion-item-active-icon-rotation: 180deg;
+  --calcite-accordion-item-icon-rotation-rtl: 0deg;
+  --calcite-accordion-item-active-icon-rotation-rtl: -180deg;
 }
 
 :host {
