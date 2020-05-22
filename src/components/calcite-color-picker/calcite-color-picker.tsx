@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Method,
   Prop,
   State,
   VNode,
@@ -184,6 +185,8 @@ export class CalciteColorPicker {
   //
   //--------------------------------------------------------------------------
 
+  private hexInputNode: HTMLCalciteHexInputElement;
+
   private colorPaletteCanvas: HTMLCanvasElement;
 
   private hueSliderCanvas: HTMLCanvasElement;
@@ -276,6 +279,18 @@ export class CalciteColorPicker {
 
   //--------------------------------------------------------------------------
   //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    return this.hexInputNode?.setFocus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -321,6 +336,7 @@ export class CalciteColorPicker {
               {this.textHex}
             </span>
             <calcite-hex-input
+              ref={(node) => (this.hexInputNode = node)}
               class={CSS.control}
               onCalciteHexInputChange={this.handleHexInputChange}
               value={selectedColorInHex}
