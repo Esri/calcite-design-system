@@ -1,7 +1,7 @@
 import { Component, Prop, h, Host, Watch, VNode } from "@stencil/core";
 import Color from "color";
 import { CSS } from "./resources";
-import { Scale } from "../../interfaces/common";
+import { Scale, Theme } from "../../interfaces/common";
 
 const DEFAULT_COLOR = Color();
 
@@ -46,6 +46,14 @@ export class CalciteColorSwatch {
   })
   scale: Exclude<Scale, "xs" | "xl"> = "m";
 
+  /**
+   * The component's theme.
+   */
+  @Prop({
+    reflect: true,
+  })
+  theme: Theme = "light";
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -65,14 +73,16 @@ export class CalciteColorSwatch {
   }
 
   render(): VNode {
-    const { internalColor, isActive, scale } = this;
+    const { internalColor, isActive, scale, theme } = this;
     const hex = internalColor.hex();
 
     const classes = {
       [CSS.swatch]: true,
     };
 
-    const contrastingColor = internalColor.darken(0.25).hex();
+    const contrastToneMethod: Extract<keyof Color, "darken" | "whiten"> =
+      theme === "light" ? "darken" : "whiten";
+    const contrastingColor = internalColor[contrastToneMethod](0.25).hex();
 
     return (
       <Host aria-label={hex} title={hex}>

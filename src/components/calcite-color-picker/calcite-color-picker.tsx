@@ -427,7 +427,9 @@ export class CalciteColorPicker {
                   onClick={this.handleSavedColorSelect}
                   onKeyDown={this.handleSavedColorKeyDown}
                   color={color}
+                  key={color}
                   tabIndex={0}
+                  theme={theme}
                 />
               )),
               <span
