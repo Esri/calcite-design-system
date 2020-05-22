@@ -14,8 +14,10 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
-type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 import { DataSeries } from "../../interfaces/Graph";
+
+type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
+type OutOfViewport = "left" | "right" | "none";
 
 @Component({
   tag: "calcite-slider",
@@ -93,7 +95,10 @@ export class CalciteSlider {
   }
 
   componentDidRender() {
-    this.isHandleLabelObscured();
+    this.isHandleLabelObscured("value");
+    if (this.isRange) {
+      this.isHandleLabelObscured("minValue");
+    }
   }
 
   render() {
@@ -164,14 +169,34 @@ export class CalciteSlider {
               "thumb--precise": this.precise,
             }}
           >
-            <span class="handle"></span>
             {this.labelHandles ? (
-              <span class="handle__label" aria-hidden="true">
+              <span
+                class={{
+                  handle__label: true,
+                  "handle__label--obscured-right":
+                    this.minValueLabelObscured === "right" && true,
+                  "handle__label--obscured-left":
+                    this.minValueLabelObscured === "left" && true,
+                }}
+                aria-hidden="true"
+              >
                 {this.minValue}
               </span>
             ) : (
               ""
             )}
+            {this.labelHandles ? (
+              <span
+                id="handle__label--minValue"
+                class="handle__label handle__label--invisible-copy"
+                aria-hidden="true"
+              >
+                {this.minValue}
+              </span>
+            ) : (
+              ""
+            )}
+            <span class="handle"></span>
           </button>
         ) : (
           ""
@@ -203,9 +228,9 @@ export class CalciteSlider {
               class={{
                 handle__label: true,
                 "handle__label--obscured-right":
-                  this.handleLabelObscured === "right" && true,
+                  this.valueLabelObscured === "right" && true,
                 "handle__label--obscured-left":
-                  this.handleLabelObscured === "left" && true,
+                  this.valueLabelObscured === "left" && true,
               }}
               aria-hidden="true"
             >
@@ -216,6 +241,7 @@ export class CalciteSlider {
           )}
           {this.labelHandles ? (
             <span
+              id="handle__label--value"
               class="handle__label handle__label--invisible-copy"
               aria-hidden="true"
             >
@@ -376,23 +402,15 @@ export class CalciteSlider {
   /** @internal */
   @State() private maxValueDragRange: number = null;
   /** @internal */
-  @State() private handleLabelObscured: "left" | "right" | "none" = "none";
+  @State() private valueLabelObscured: OutOfViewport = "none";
+  /** @internal */
+  @State() private minValueLabelObscured: OutOfViewport = "none";
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  private isHandleLabelObscured() {
-    if (this.labelHandles) {
-      const element = this.el.shadowRoot.querySelector(
-        ".handle__label--invisible-copy"
-      );
-      if (element) {
-        this.handleLabelObscured = this.isOutOfViewport(element);
-      }
-    }
-  }
   private generateTickValues(): number[] {
     const ticks = [];
     let current = this.min;
@@ -516,14 +534,26 @@ export class CalciteSlider {
     const range = this.max - this.min;
     return (num - this.min) / range;
   }
+  private isHandleLabelObscured(name: "value" | "minValue") {
+    if (this.labelHandles) {
+      const element = this.el.shadowRoot.querySelector(
+        `#handle__label--${name}`
+      );
+      if (element) {
+        this[`${name}LabelObscured`] = this.isOutOfViewport(
+          element as HTMLElement
+        );
+      }
+    }
+  }
   /**
    * Checks if an element is out of the viewport on either the left or right side
    * @link https://gomakethings.com/how-to-check-if-any-part-of-an-element-is-out-of-the-viewport-with-vanilla-js/
    * @return {string} "left", "right" or "none"
    * @internal
    */
-  private isOutOfViewport(elem: any) {
-    const bounding = elem.getBoundingClientRect();
+  private isOutOfViewport(element: HTMLElement): OutOfViewport {
+    const bounding = element.getBoundingClientRect();
     if (bounding.left < 0) {
       return "left";
     }
