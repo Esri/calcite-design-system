@@ -93,15 +93,17 @@ $tick-height: 4px;
 
 .handle__label {
   position: absolute;
-  left: 0;
-  bottom: $thumb-size;
-  width: $thumb-size;
-  height: 0.75em;
+  bottom: 14px;
   @include font-size(-3);
   font-weight: 500;
   line-height: 1;
   color: var(--calcite-ui-text-3);
-  text-align: center;
+  &--visible {
+    left: 0;
+  }
+  &--obscured {
+    right: -7px;
+  }
 }
 
 .thumb:focus,

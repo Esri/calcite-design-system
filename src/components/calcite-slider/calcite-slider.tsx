@@ -100,6 +100,10 @@ export class CalciteSlider {
     const left = `${this.getUnitInterval(min) * 100}%`;
     const right = `${100 - this.getUnitInterval(max) * 100}%`;
 
+    console.clear();
+    const isLabelOutOfViewport = this.handleLabelOutOfViewport();
+    console.log(`render ${isLabelOutOfViewport}`);
+
     return (
       <Host id={id} is-range={this.isRange}>
         {this.renderGraph()}
@@ -196,7 +200,14 @@ export class CalciteSlider {
         >
           <span class="handle"></span>
           {this.labelHandles ? (
-            <span class="handle__label" aria-hidden="true">
+            <span
+              class={{
+                handle__label: true,
+                "handle__label--visible": !isLabelOutOfViewport,
+                "handle__label--obscured": isLabelOutOfViewport,
+              }}
+              aria-hidden="true"
+            >
               {this[maxProp]}
             </span>
           ) : (
@@ -358,6 +369,18 @@ export class CalciteSlider {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+  private handleLabelOutOfViewport(): boolean {
+    if (this.labelHandles) {
+      const handleLabelElement = this.el.shadowRoot.querySelector(
+        ".handle__label"
+      );
+      if (handleLabelElement) {
+        return this.isOutOfViewport(handleLabelElement).any;
+      }
+      return false;
+    }
+    return false;
+  }
   private generateTickValues(): number[] {
     const ticks = [];
     let current = this.min;
@@ -480,5 +503,32 @@ export class CalciteSlider {
     num = this.bound(num);
     const range = this.max - this.min;
     return (num - this.min) / range;
+  }
+  /*!
+   * Check if an element is out of the viewport
+   * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
+   * @link https://gomakethings.com/how-to-check-if-any-part-of-an-element-is-out-of-the-viewport-with-vanilla-js/
+   * @param  {Node}  elem The element to check
+   * @return {Object}     A set of booleans for each side of the element
+   * @internal
+   */
+  private isOutOfViewport(elem: any) {
+    // Get element's bounding
+    var bounding = elem.getBoundingClientRect();
+
+    // Check if it's out of the viewport on each side
+    var out = {} as Record<string, any>;
+    out.top = bounding.top < 0;
+    out.left = bounding.left < 0;
+    out.bottom =
+      bounding.bottom >
+      (window.innerHeight || document.documentElement.clientHeight);
+    out.right =
+      bounding.right >
+      (window.innerWidth || document.documentElement.clientWidth);
+    out.any = out.top || out.left || out.bottom || out.right;
+    out.all = out.top && out.left && out.bottom && out.right;
+
+    return out;
   }
 }
