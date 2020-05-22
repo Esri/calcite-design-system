@@ -7,27 +7,23 @@ $size-l: 32px;
 }
 
 :host([scale="s"]) {
-  .swatch {
-    height: $size-s;
-    width: $size-s;
-  }
+  height: $size-s;
+  width: $size-s;
 }
 
 :host([scale="m"]) {
-  .swatch {
-    height: $size-m;
-    width: $size-m;
-  }
+  height: $size-m;
+  width: $size-m;
 }
 
 :host([scale="l"]) {
-  .swatch {
-    height: $size-l;
-    width: $size-l;
-  }
+  height: $size-l;
+  width: $size-l;
 }
 
 .swatch {
   box-sizing: border-box;
   border: 1px solid;
+  height: inherit;
+  width: inherit;
 }
