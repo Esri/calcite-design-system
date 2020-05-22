@@ -92,6 +92,10 @@ export class CalciteSlider {
     this.calciteSliderUpdate.emit();
   }
 
+  componentDidRender() {
+    this.isHandleLabelObscured();
+  }
+
   render() {
     const id = this.el.id || this.guid;
     const min = this.minValue || this.min;
@@ -99,10 +103,6 @@ export class CalciteSlider {
     const maxProp = this.isRange ? "maxValue" : "value";
     const left = `${this.getUnitInterval(min) * 100}%`;
     const right = `${100 - this.getUnitInterval(max) * 100}%`;
-
-    console.clear();
-    const isLabelOutOfViewport = this.handleLabelOutOfViewport();
-    console.log(`render ${isLabelOutOfViewport}`);
 
     return (
       <Host id={id} is-range={this.isRange}>
@@ -200,15 +200,27 @@ export class CalciteSlider {
         >
           <span class="handle"></span>
           {this.labelHandles ? (
-            <span
-              class={{
-                handle__label: true,
-                "handle__label--visible": !isLabelOutOfViewport,
-                "handle__label--obscured": isLabelOutOfViewport,
-              }}
-              aria-hidden="true"
-            >
-              {this[maxProp]}
+            <span>
+              <span
+                class={{
+                  handle__label: true,
+                  "handle__label--visible": !this.handleLabelObscured,
+                  "handle__label--obscured": this.handleLabelObscured,
+                }}
+                aria-hidden="true"
+              >
+                {this[maxProp]}
+              </span>
+              <span
+                class={{
+                  handle__label: true,
+                  "handle__label--visible": true,
+                  "handle__label--visible-copy": true,
+                }}
+                aria-hidden="true"
+              >
+                {this[maxProp]}
+              </span>
             </span>
           ) : (
             ""
@@ -363,23 +375,25 @@ export class CalciteSlider {
   @State() private minValueDragRange: number = null;
   /** @internal */
   @State() private maxValueDragRange: number = null;
+  /** @internal */
+  @State() private handleLabelObscured: boolean = false;
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  private handleLabelOutOfViewport(): boolean {
+  private isHandleLabelObscured() {
     if (this.labelHandles) {
-      const handleLabelElement = this.el.shadowRoot.querySelector(
-        ".handle__label"
+      const element = this.el.shadowRoot.querySelector(
+        ".handle__label--visible-copy"
       );
-      if (handleLabelElement) {
-        return this.isOutOfViewport(handleLabelElement).any;
+      if (element) {
+        this.handleLabelObscured = this.isOutOfViewport(element).any
+          ? true
+          : false;
       }
-      return false;
     }
-    return false;
   }
   private generateTickValues(): number[] {
     const ticks = [];

@@ -105,6 +105,9 @@ $tick-height: 4px;
     right: -7px;
   }
 }
+.handle__label--visible-copy {
+  opacity: 0;
+}
 
 .thumb:focus,
 .thumb--active {
