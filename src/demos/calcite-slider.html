@@ -24,11 +24,12 @@
 
 <body>
   <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Slider</h1>
+  <!-- <h1>Calcite Slider</h1>
 
-  <h3>Single Value</h3>
+  <h3>Single Value</h3> -->
   <calcite-slider id="mySlider" min="0" max="1000" value="800" step="1" label="Temperature" label-handles></calcite-slider>
-  <!-- <calcite-slider id="mySlider" min="0" max="1000" value="0" step="1" label="Temperature" ></calcite-slider>
+  <calcite-slider id="mySlider" min="10000" max="100000" value="100000" step="1000" label="Temperature" label-handles></calcite-slider>
+  <calcite-slider id="mySlider" min="0" max="1000" value="0" step="1" label="Temperature" ></calcite-slider>
   <h3>Disabled</h3>
   <calcite-slider min="0" max="100" value="40" step="1" label="Temperature" disabled>
   </calcite-slider>
@@ -89,7 +90,7 @@
     [].slice.call(document.querySelectorAll(".js-histogram")).forEach(function (graphElement) {
       graphElement.histogram = histogram;
     });
-  </script> -->
+  </script>
 </body>
 
 </html>

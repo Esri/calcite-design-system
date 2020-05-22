@@ -52,12 +52,13 @@ $tick-height: 4px;
   z-index: 2;
   outline: none;
   padding: 0;
+  top: 0;
+  bottom: 0;
 
   .handle {
     @include focus-style-base();
     position: absolute;
-    top: -8px;
-    left: -7px;
+    transform: translate(-50%, -50%);
     height: $handle-size;
     width: $handle-size;
     box-sizing: border-box;
@@ -93,19 +94,22 @@ $tick-height: 4px;
 
 .handle__label {
   position: absolute;
-  bottom: 14px;
+  bottom: 0;
+  top: -5px;
+  transform: translate(-50%, -50%);
+  transition: transform 150ms;
   @include font-size(-3);
   font-weight: 500;
   line-height: 1;
   color: var(--calcite-ui-text-3);
-  &--visible {
-    left: 0;
+  &--obscured-right {
+    transform: translate(calc(-100% + 7px), -50%);
   }
-  &--obscured {
-    right: -7px;
+  &--obscured-left {
+    transform: translate(-7px, -50%);
   }
 }
-.handle__label--visible-copy {
+.handle__label--invisible-copy {
   opacity: 0;
 }
 

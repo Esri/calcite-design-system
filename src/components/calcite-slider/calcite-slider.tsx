@@ -198,35 +198,33 @@ export class CalciteSlider {
             "thumb--precise": this.precise,
           }}
         >
+          {this.labelHandles ? (
+            <span
+              class={{
+                handle__label: true,
+                "handle__label--obscured-right":
+                  this.handleLabelObscured === "right" && true,
+                "handle__label--obscured-left":
+                  this.handleLabelObscured === "left" && true,
+              }}
+              aria-hidden="true"
+            >
+              {this[maxProp]}
+            </span>
+          ) : (
+            ""
+          )}
+          {this.labelHandles ? (
+            <span
+              class="handle__label handle__label--invisible-copy"
+              aria-hidden="true"
+            >
+              {this[maxProp]}
+            </span>
+          ) : (
+            ""
+          )}
           <span class="handle"></span>
-          {this.labelHandles ? (
-            <span
-              class={{
-                handle__label: true,
-                "handle__label--visible": !this.handleLabelObscured,
-                "handle__label--obscured": this.handleLabelObscured,
-              }}
-              aria-hidden="true"
-            >
-              {this[maxProp]}
-            </span>
-          ) : (
-            ""
-          )}
-          {this.labelHandles ? (
-            <span
-              class={{
-                handle__label: true,
-                "handle__label--visible": true,
-                "handle__label--visible-copy": true,
-              }}
-              aria-hidden="true"
-            >
-              {this[maxProp]}
-            </span>
-          ) : (
-            ""
-          )}
         </button>
       </Host>
     );
@@ -378,7 +376,7 @@ export class CalciteSlider {
   /** @internal */
   @State() private maxValueDragRange: number = null;
   /** @internal */
-  @State() private handleLabelObscured: boolean = false;
+  @State() private handleLabelObscured: "left" | "right" | "none" = "none";
 
   //--------------------------------------------------------------------------
   //
@@ -388,12 +386,10 @@ export class CalciteSlider {
   private isHandleLabelObscured() {
     if (this.labelHandles) {
       const element = this.el.shadowRoot.querySelector(
-        ".handle__label--visible-copy"
+        ".handle__label--invisible-copy"
       );
       if (element) {
-        this.handleLabelObscured = this.isOutOfViewport(element).any
-          ? true
-          : false;
+        this.handleLabelObscured = this.isOutOfViewport(element);
       }
     }
   }
@@ -520,31 +516,23 @@ export class CalciteSlider {
     const range = this.max - this.min;
     return (num - this.min) / range;
   }
-  /*!
-   * Check if an element is out of the viewport
-   * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
+  /**
+   * Checks if an element is out of the viewport on either the left or right side
    * @link https://gomakethings.com/how-to-check-if-any-part-of-an-element-is-out-of-the-viewport-with-vanilla-js/
-   * @param  {Node}  elem The element to check
-   * @return {Object}     A set of booleans for each side of the element
+   * @return {string} "left", "right" or "none"
    * @internal
    */
   private isOutOfViewport(elem: any) {
-    // Get element's bounding
-    var bounding = elem.getBoundingClientRect();
-
-    // Check if it's out of the viewport on each side
-    var out = {} as Record<string, any>;
-    out.top = bounding.top < 0;
-    out.left = bounding.left < 0;
-    out.bottom =
-      bounding.bottom >
-      (window.innerHeight || document.documentElement.clientHeight);
-    out.right =
+    const bounding = elem.getBoundingClientRect();
+    if (bounding.left < 0) {
+      return "left";
+    }
+    if (
       bounding.right >
-      (window.innerWidth || document.documentElement.clientWidth);
-    out.any = out.top || out.left || out.bottom || out.right;
-    out.all = out.top && out.left && out.bottom && out.right;
-
-    return out;
+      (window.innerWidth || document.documentElement.clientWidth)
+    ) {
+      return "right";
+    }
+    return "none";
   }
 }
