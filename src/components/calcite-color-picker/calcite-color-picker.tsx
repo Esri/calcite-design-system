@@ -250,6 +250,30 @@ export class CalciteColorPicker {
     this.updateColorFromParts();
   };
 
+  private handleColorModeKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
+      this.handleColorModeClick(event);
+    }
+  };
+
+  private handleSaveColorKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
+      this.saveColor();
+    }
+  };
+
+  private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
+      this.handleSavedColorSelect(event);
+    }
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -323,13 +347,7 @@ export class CalciteColorPicker {
                 }}
                 data-color-mode="rgb"
                 onClick={this.handleColorModeClick}
-                onKeyDown={(event) => {
-                  if (event.key === " " || event.key === "Enter") {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    this.handleColorModeClick(event);
-                  }
-                }}
+                onKeyDown={this.handleColorModeKeyDown}
                 tabIndex={0}
               >
                 {this.textRgb}
@@ -341,13 +359,7 @@ export class CalciteColorPicker {
                 }}
                 data-color-mode="hsv"
                 onClick={this.handleColorModeClick}
-                onKeyDown={(event) => {
-                  if (event.key === " " || event.key === "Enter") {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    this.handleColorModeClick(event);
-                  }
-                }}
+                onKeyDown={this.handleColorModeKeyDown}
                 tabIndex={0}
               >
                 {this.textHsv}
@@ -397,13 +409,7 @@ export class CalciteColorPicker {
                 <calcite-color-swatch
                   isActive={selectedColorInHex === color}
                   onClick={this.handleSavedColorSelect}
-                  onKeyDown={(event) => {
-                    if (event.key === " " || event.key === "Enter") {
-                      event.preventDefault();
-                      event.stopPropagation();
-                      this.handleSavedColorSelect(event);
-                    }
-                  }}
+                  onKeyDown={this.handleSavedColorKeyDown}
                   color={color}
                   tabIndex={0}
                 />
@@ -411,13 +417,7 @@ export class CalciteColorPicker {
               <span
                 class={CSS.saveColor}
                 onClick={this.saveColor}
-                onKeyDown={(event) => {
-                  if (event.key === " " || event.key === "Enter") {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    this.saveColor();
-                  }
-                }}
+                onKeyDown={this.handleSaveColorKeyDown}
                 tabIndex={0}
               >
                 <calcite-icon icon="plus" scale="s"></calcite-icon>
