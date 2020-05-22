@@ -131,3 +131,15 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
 
   expect(await element.isVisible()).toBe(false);
 }
+
+export async function focusable(componentTagOrHTML: TagOrHTML): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHTML);
+  const tag = getTag(componentTagOrHTML);
+  const element = await page.find(tag);
+
+  await element.callMethod("setFocus"); // assumes element is CalciteFocusableElement
+
+  expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(
+    tag.toUpperCase()
+  );
+}
