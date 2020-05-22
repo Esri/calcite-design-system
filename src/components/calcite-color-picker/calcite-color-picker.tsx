@@ -306,7 +306,7 @@ export class CalciteColorPicker {
   }
 
   render(): VNode {
-    const { mode, activeColor, savedColors, theme } = this;
+    const { mode, activeColor, savedColors, scale, theme } = this;
     const parts = this.getColorComponents();
     const partLabels =
       this.mode === "rgb"
@@ -321,14 +321,14 @@ export class CalciteColorPicker {
         <canvas
           class={CSS.colorPalette}
           height={dimensions.colorPalette.height}
-          width={dimensions.colorPalette.width}
           ref={this.initColorPalette}
+          width={dimensions.colorPalette.width}
         />
         <canvas
           class={CSS.hueSlider}
           height={dimensions.slider.height}
-          width={dimensions.slider.width}
           ref={this.initHueSlider}
+          width={dimensions.slider.width}
         />
         <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
           <div class={CSS.colorHexOptions}>
@@ -336,9 +336,10 @@ export class CalciteColorPicker {
               {this.textHex}
             </span>
             <calcite-hex-input
-              ref={(node) => (this.hexInputNode = node)}
               class={CSS.control}
               onCalciteHexInputChange={this.handleHexInputChange}
+              ref={(node) => (this.hexInputNode = node)}
+              scale={scale}
               value={selectedColorInHex}
               theme={theme}
             />
@@ -386,30 +387,30 @@ export class CalciteColorPicker {
                 <span class={CSS.colorModePartLabel}>{partLabels[0]}</span>
                 <input
                   class={CSS.colorModePartInput}
-                  type="number"
-                  value={parts[0]}
                   data-color-part-id={0}
                   onChange={this.handleColorPartChange}
+                  type="number"
+                  value={parts[0]}
                 />
               </div>
               <div class={CSS.colorModePart}>
                 <span class={CSS.colorModePartLabel}>{partLabels[1]}</span>
                 <input
                   class={CSS.colorModePartInput}
-                  type="number"
-                  value={parts[1]}
                   data-color-part-id={1}
                   onChange={this.handleColorPartChange}
+                  type="number"
+                  value={parts[1]}
                 />
               </div>
               <div class={CSS.colorModePart}>
                 <span class={CSS.colorModePartLabel}>{partLabels[2]}</span>
                 <input
                   class={CSS.colorModePartInput}
-                  type="number"
-                  value={parts[2]}
                   data-color-part-id={2}
                   onChange={this.handleColorPartChange}
+                  type="number"
+                  value={parts[2]}
                 />
               </div>
             </div>
@@ -418,28 +419,31 @@ export class CalciteColorPicker {
         <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
           <div class={CSS.header}>
             <label>{this.textSavedColors}</label>
+            <calcite-button
+              appearance="clear"
+              class={CSS.addColor}
+              color={theme}
+              icon="plus"
+              onClick={this.saveColor}
+              onKeyDown={this.handleSaveColorKeyDown}
+              scale="s"
+              tabIndex={0}
+            />
           </div>
           <div class={CSS.savedColors}>
             {[
               ...savedColors.map((color) => (
                 <calcite-color-swatch
+                  color={color}
                   isActive={selectedColorInHex === color}
+                  key={color}
                   onClick={this.handleSavedColorSelect}
                   onKeyDown={this.handleSavedColorKeyDown}
-                  color={color}
-                  key={color}
+                  scale={scale}
                   tabIndex={0}
                   theme={theme}
                 />
               )),
-              <span
-                class={CSS.saveColor}
-                onClick={this.saveColor}
-                onKeyDown={this.handleSaveColorKeyDown}
-                tabIndex={0}
-              >
-                <calcite-icon icon="plus" scale="s"></calcite-icon>
-              </span>,
             ]}
           </div>
         </div>

@@ -18,7 +18,7 @@ export const CSS = {
   colorModePartInput: "color-mode-part-input",
   savedColors: "saved-colors",
   savedColorsSection: "saved-colors-section",
-  saveColor: "save-color"
+  addColor: "add-color",
 };
 
 export const DEFAULT_HEX_COLOR = "#007AC2";
