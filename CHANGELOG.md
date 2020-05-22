@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Breaking Changes
 
-- `calcite-input` - `calciteInputChange` has been renamed to `calciteInputInput`
+- `calcite-input` - `calciteInputChange` event has been renamed to `calciteInputInput`
 
 ### Fixed
 
