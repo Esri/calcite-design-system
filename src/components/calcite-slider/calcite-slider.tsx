@@ -200,27 +200,29 @@ export class CalciteSlider {
         >
           <span class="handle"></span>
           {this.labelHandles ? (
-            <span>
-              <span
-                class={{
-                  handle__label: true,
-                  "handle__label--visible": !this.handleLabelObscured,
-                  "handle__label--obscured": this.handleLabelObscured,
-                }}
-                aria-hidden="true"
-              >
-                {this[maxProp]}
-              </span>
-              <span
-                class={{
-                  handle__label: true,
-                  "handle__label--visible": true,
-                  "handle__label--visible-copy": true,
-                }}
-                aria-hidden="true"
-              >
-                {this[maxProp]}
-              </span>
+            <span
+              class={{
+                handle__label: true,
+                "handle__label--visible": !this.handleLabelObscured,
+                "handle__label--obscured": this.handleLabelObscured,
+              }}
+              aria-hidden="true"
+            >
+              {this[maxProp]}
+            </span>
+          ) : (
+            ""
+          )}
+          {this.labelHandles ? (
+            <span
+              class={{
+                handle__label: true,
+                "handle__label--visible": true,
+                "handle__label--visible-copy": true,
+              }}
+              aria-hidden="true"
+            >
+              {this[maxProp]}
             </span>
           ) : (
             ""
