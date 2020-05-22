@@ -32,7 +32,7 @@ const DEFAULT_COLOR = Color();
   styleUrl: "calcite-hex-input.scss",
   shadow: true,
 })
-export class HexInput {
+export class CalciteHexInput {
   //--------------------------------------------------------------------------
   //
   //  Element
