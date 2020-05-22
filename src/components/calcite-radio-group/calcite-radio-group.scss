@@ -9,6 +9,20 @@
   align-self: flex-start;
 }
 
+// radio group widths
+:host([width="auto"]) {
+  width: auto;
+}
+
+:host([width="full"]) {
+  width: 100%;
+  display: flex;
+  ::slotted(calcite-radio-group-item) {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
 ::slotted(calcite-radio-group-item[checked]),
 ::slotted(calcite-radio-group-item:focus) {
   z-index: 0;
