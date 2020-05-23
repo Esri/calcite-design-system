@@ -12,7 +12,7 @@
 | `scale`        | `scale`      | The scale of the radio group                                        | `"l" \| "m" \| "s"`                | `undefined`    |
 | `selectedItem` | --           | The group's selected item.                                          | `HTMLCalciteRadioGroupItemElement` | `undefined`    |
 | `theme`        | `theme`      | The component's theme.                                              | `"dark" \| "light"`                | `undefined`    |
-| `width`        | `width`      | specify the group's width.                                          | `"auto" \| "full"`                 | `auto`         |
+| `width`        | `width`      | specify the width of the group, defaults to auto                    | `"auto" \| "full"`                 | `"auto"`       |
 
 ## Events
 

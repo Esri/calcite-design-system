@@ -23,6 +23,10 @@
   }
 }
 
+:host([width="full"][layout="vertical"]) ::slotted(calcite-radio-group-item) {
+  justify-content: start;
+}
+
 ::slotted(calcite-radio-group-item[checked]),
 ::slotted(calcite-radio-group-item:focus) {
   z-index: 0;
