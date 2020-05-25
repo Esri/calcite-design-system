@@ -86,6 +86,9 @@ export class CalciteRadioGroup {
   /** specify the layout of the radio group, defaults to horizontal */
   @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
     "horizontal";
+
+  /** specify the width of the group, defaults to auto */
+  @Prop({ mutable: true, reflect: true }) width: "auto" | "full" = "auto";
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -103,6 +106,9 @@ export class CalciteRadioGroup {
 
     let layout = ["horizontal", "vertical"];
     if (!layout.includes(this.layout)) this.layout = "horizontal";
+
+    let width = ["auto", "full"];
+    if (!width.includes(this.width)) this.width = "auto";
 
     const items = this.getItems();
     let lastChecked = Array.from(items)
