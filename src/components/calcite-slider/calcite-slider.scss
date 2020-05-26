@@ -137,7 +137,7 @@ $tick-height: 4px;
     margin-top: 21px;
     .handle__label {
       bottom: unset;
-      top: $thumb-size;
+      top: 19px;
     }
     &:after {
       top: -14px;
@@ -145,6 +145,9 @@ $tick-height: 4px;
     }
   }
   &.thumb--max {
+    .handle__label {
+      top: -14px;
+    }
     .handle {
       top: -5px;
     }
