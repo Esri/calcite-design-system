@@ -139,7 +139,7 @@ export class CalciteDatePicker {
               placeholder={this.localeData.placeholder}
               icon="calendar"
               onCalciteInputFocus={() => (this.active = true)}
-              onCalciteInputChange={(e) => this.input(e.detail.value)}
+              onCalciteInputInput={(e) => this.input(e.detail.value)}
               onCalciteInputBlur={(e) => this.blur(e.detail)}
               scale={this.scale}
               number-button-type="none"

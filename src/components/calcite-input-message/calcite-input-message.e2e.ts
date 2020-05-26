@@ -16,32 +16,29 @@ describe("calcite-input-message", () => {
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("appearance", "default");
     expect(element).toEqualAttribute("type", "default");
   });
 
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message status="zip" theme="zap" appearance="zom" type="zur"></calcite-input-message>
+    <calcite-input-message status="zip" theme="zap" type="zur"></calcite-input-message>
     `);
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("appearance", "default");
     expect(element).toEqualAttribute("type", "default");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message status="valid" theme="dark" appearance="minimal" type="floating"></calcite-input-message>
+    <calcite-input-message status="valid" theme="dark" type="floating"></calcite-input-message>
     `);
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "valid");
     expect(element).toEqualAttribute("theme", "dark");
-    expect(element).toEqualAttribute("appearance", "minimal");
     expect(element).toEqualAttribute("type", "floating");
   });
 

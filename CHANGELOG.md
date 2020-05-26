@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Breaking Changes
+
+- `calcite-input` - `calciteInputChange` event has been renamed to `calciteInputInput`
+
+### Added
+
 - `calcite-radio-group` now has a `width` prop that accepts `auto` (default) or `full` values.
 
 ### Fixed
@@ -19,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Updated
 
 - `calcite-accordion` - styling of `icon-position=end` icons has been updated for `chevron` and `caret` values - it will now display upward when a `calcite-accordion-item` is collapsed, and downward when expanded
+- `calcite-input` - when `status="valid"`, icon (if present) will appear green
 
 ## [v1.0.0-beta.26] - May 18th 2020
 
