@@ -141,16 +141,15 @@ $tick-height: 4px;
 }
 
 .thumb--precise.thumb--min {
-  margin-top: -$track-height;
+  margin-top: 21px;
   .handle__label {
     bottom: unset;
     top: $thumb-size;
   }
-}
-
-.thumb--precise.thumb--min:after {
-  top: 0;
-  margin-top: 0;
+  &:after {
+    top: -14px;
+    margin-top: 0;
+  }
 }
 
 .track {
