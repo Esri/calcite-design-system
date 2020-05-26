@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-input` - `calciteInputChange` event has been renamed to `calciteInputInput`
 
+### Added
+
+- `calcite-radio-group` now has a `width` prop that accepts `auto` (default) or `full` values.
+
 ### Fixed
 
 - `calcite-input` - will now properly position a requested `icon` if `prefix-text` is also set

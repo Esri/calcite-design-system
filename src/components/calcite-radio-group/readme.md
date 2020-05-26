@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property       | Attribute    | Description                                                         | Type                               | Default        |
@@ -13,14 +12,13 @@
 | `scale`        | `scale`      | The scale of the radio group                                        | `"l" \| "m" \| "s"`                | `undefined`    |
 | `selectedItem` | --           | The group's selected item.                                          | `HTMLCalciteRadioGroupItemElement` | `undefined`    |
 | `theme`        | `theme`      | The component's theme.                                              | `"dark" \| "light"`                | `undefined`    |
-
+| `width`        | `width`      | specify the width of the group, defaults to auto                    | `"auto" \| "full"`                 | `"auto"`       |
 
 ## Events
 
 | Event                     | Description | Type               |
 | ------------------------- | ----------- | ------------------ |
 | `calciteRadioGroupChange` |             | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -32,9 +30,6 @@ Focuses the selected item. If there is no selection, it focuses the first item.
 
 Type: `Promise<void>`
 
+---
 
-
-
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
