@@ -412,3 +412,16 @@ calcite-input[type="file"] textarea {
   background-color: $blk-005;
   text-align: center;
 }
+
+// status
+$inputStatusColors: "invalid" var(--calcite-ui-red-1),
+  "valid" var(--calcite-ui-green-1), "idle" var(--calcite-ui-text-2);
+
+@each $statusColor in $inputStatusColors {
+  $name: nth($statusColor, 1);
+  $color: nth($statusColor, 2);
+
+  calcite-input[status="#{$name}"] .calcite-input-icon {
+    color: $color;
+  }
+}

@@ -17,6 +17,7 @@ storiesOf("Radio Group", module)
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      width="${select("width", ["auto", "full"], "auto")}"
     >
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
       <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
@@ -34,6 +35,7 @@ storiesOf("Radio Group", module)
     <calcite-radio-group
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
+      width="${select("width", ["auto", "full"], "auto")}"
     >
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
       <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
@@ -52,6 +54,7 @@ storiesOf("Radio Group", module)
     <calcite-radio-group
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
+      width="${select("width", ["auto", "full"], "auto")}"
     >
       <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
       <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
@@ -69,6 +72,7 @@ storiesOf("Radio Group", module)
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      width="${select("width", ["auto", "full"], "auto")}"
     >
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
       <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
@@ -77,4 +81,23 @@ storiesOf("Radio Group", module)
     </calcite-radio-group>
   `,
     { notes, backgrounds: darkBackground }
+  )
+  .add(
+    "Full width",
+    () => `
+    <div style="width:33vw;">
+      <calcite-radio-group
+        layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+        appearance="${select("appearance", ["solid", "outline"], "solid")}"
+        width="${select("width", ["auto", "full"], "full")}"
+      >
+        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+        <calcite-radio-group-item value="long-text-1">Longer text wraps.</calcite-radio-group-item>
+        <calcite-radio-group-item value="long-text-2">Longer text wraps.</calcite-radio-group-item>
+      </calcite-radio-group>
+    </div>
+    
+  `,
+    { notes }
   );

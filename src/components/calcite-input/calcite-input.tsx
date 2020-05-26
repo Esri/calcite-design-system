@@ -165,7 +165,7 @@ export class CalciteInput {
   }
 
   componentWillUpdate() {
-    this.calciteInputChange.emit({
+    this.calciteInputInput.emit({
       element: this.childEl as HTMLInputElement,
       value: this.value,
     });
@@ -241,7 +241,7 @@ export class CalciteInput {
           {...attributes}
           onBlur={() => this.inputBlurHandler()}
           onFocus={() => this.inputFocusHandler()}
-          onInput={(e) => this.inputChangeHandler(e)}
+          onInput={(e) => this.inputInputHandler(e)}
           type={this.type}
           min={this.min}
           max={this.max}
@@ -257,7 +257,7 @@ export class CalciteInput {
             {...attributes}
             onBlur={() => this.inputBlurHandler()}
             onFocus={() => this.inputFocusHandler()}
-            onInput={(e) => this.inputChangeHandler(e)}
+            onInput={(e) => this.inputInputHandler(e)}
             required={this.required ? true : null}
             placeholder={this.placeholder || ""}
             autofocus={this.autofocus ? true : null}
@@ -313,7 +313,7 @@ export class CalciteInput {
 
   @Event() calciteInputFocus: EventEmitter;
   @Event() calciteInputBlur: EventEmitter;
-  @Event() calciteInputChange: EventEmitter;
+  @Event() calciteInputInput: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -361,9 +361,9 @@ export class CalciteInput {
     this.childEl.focus();
   }
 
-  private inputChangeHandler(e) {
+  private inputInputHandler(e) {
     this.value = e.target.value;
-    this.calciteInputChange.emit({
+    this.calciteInputInput.emit({
       element: this.childEl as HTMLInputElement,
       value: this.value,
     });

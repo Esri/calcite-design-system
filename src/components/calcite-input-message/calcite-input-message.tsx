@@ -23,10 +23,6 @@ export class CalciteInputMessage {
 
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
-  /** specify the appearance type - minimal or default */
-  @Prop({ mutable: true, reflect: true }) appearance: "default" | "minimal" =
-    "default";
-
   /** optionally display an icon based on status */
   @Prop({ reflect: true }) icon: boolean;
 
@@ -50,10 +46,6 @@ export class CalciteInputMessage {
   //--------------------------------------------------------------------------
   connectedCallback() {
     // validate props
-
-    let appearance = ["default", "minimal"];
-    if (!appearance.includes(this.appearance)) this.appearance = "default";
-
     let statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
       this.status = getElementProp(this.el.parentElement, "status", "idle");

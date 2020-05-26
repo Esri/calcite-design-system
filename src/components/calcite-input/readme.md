@@ -8,8 +8,6 @@
 
 `loading` = boolean - defaults to `false`
 
-`appearance` = [`minimal`/`default`] - defaults to `default`
-
 `alignment` = [`start`/`end`] - defaults to `start` - specify the alignment of the value / placeholder inside the input. Useful for aligning numbers, etc.
 
 `icon` = boolean / string - defaults to false. You can use "icon" to default to a recommended icon for that field type (will only work on `tel`, `email`, `password`, `search`, `date`, `time`). You can also pass a valid calcite ui icon string to set a custom icon. We recommend using "icon" / default icon on the above field types for consistency across apps.
@@ -33,7 +31,6 @@ In addition to custom attributes, you can pass any attribute to `<calcite-input>
 - `file` type replaces browser "file" input with custom replacement
 
 - `tel`, `email`, `password`, `search`, `date`, `time` types will add type-specific icons by default
--
 
 ### Slots
 
@@ -122,7 +119,6 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property           | Attribute            | Description                                                         | Type                                                                                                                                                                                   | Default      |
@@ -135,25 +131,23 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `min`              | `min`                | input min                                                           | `string`                                                                                                                                                                               | `""`         |
 | `numberButtonType` | `number-button-type` | specify the placement of the number buttons                         | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"` |
 | `placeholder`      | `placeholder`        | explicitly whitelist placeholder attribute                          | `string`                                                                                                                                                                               | `undefined`  |
-| `prefixText`       | `prefix-text`        | optionally add prefix  *                                            | `string`                                                                                                                                                                               | `undefined`  |
+| `prefixText`       | `prefix-text`        | optionally add prefix \*                                            | `string`                                                                                                                                                                               | `undefined`  |
 | `required`         | `required`           | is the input required                                               | `boolean`                                                                                                                                                                              | `false`      |
 | `scale`            | `scale`              | specify the scale of the input, defaults to m                       | `"l" \| "m" \| "s"`                                                                                                                                                                    | `undefined`  |
 | `status`           | `status`             | specify the status of the input field, determines message and icons | `"idle" \| "invalid" \| "valid"`                                                                                                                                                       | `undefined`  |
 | `step`             | `step`               | input step                                                          | `string`                                                                                                                                                                               | `""`         |
-| `suffixText`       | `suffix-text`        | optionally add suffix  *                                            | `string`                                                                                                                                                                               | `undefined`  |
+| `suffixText`       | `suffix-text`        | optionally add suffix \*                                            | `string`                                                                                                                                                                               | `undefined`  |
 | `theme`            | `theme`              | specify the alignment of dropdown, defaults to left                 | `"dark" \| "light"`                                                                                                                                                                    | `undefined`  |
 | `type`             | `type`               | specify the input type                                              | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`     |
 | `value`            | `value`              | input value                                                         | `string`                                                                                                                                                                               | `""`         |
 
-
 ## Events
 
-| Event                | Description | Type               |
-| -------------------- | ----------- | ------------------ |
-| `calciteInputBlur`   |             | `CustomEvent<any>` |
-| `calciteInputChange` |             | `CustomEvent<any>` |
-| `calciteInputFocus`  |             | `CustomEvent<any>` |
-
+| Event               | Description | Type               |
+| ------------------- | ----------- | ------------------ |
+| `calciteInputBlur`  |             | `CustomEvent<any>` |
+| `calciteInputFocus` |             | `CustomEvent<any>` |
+| `calciteInputInput` |             | `CustomEvent<any>` |
 
 ## Methods
 
@@ -165,14 +159,11 @@ focus the rendered child element
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-date](../calcite-date)
+- [calcite-date](../calcite-date)
 
 ### Depends on
 
@@ -180,6 +171,7 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-input --> calcite-progress
@@ -188,6 +180,6 @@ graph TD;
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
