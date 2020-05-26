@@ -1,0 +1,130 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host-context([theme=dark]) {
+  --calcite-ui-blue-1: #00A0FF;
+  --calcite-ui-blue-2: #0087D7;
+  --calcite-ui-blue-3: #47BBFF;
+  --calcite-ui-green-1: #36DA43;
+  --calcite-ui-green-2: #11AD1D;
+  --calcite-ui-green-3: #44ED51;
+  --calcite-ui-yellow-1: #FFC900;
+  --calcite-ui-yellow-2: #F4B000;
+  --calcite-ui-yellow-3: #FFE24D;
+  --calcite-ui-red-1: #FE583E;
+  --calcite-ui-red-2: #F3381B;
+  --calcite-ui-red-3: #FF7465;
+  --calcite-ui-background: #202020;
+  --calcite-ui-foreground-1: #2b2b2b;
+  --calcite-ui-foreground-2: #353535;
+  --calcite-ui-foreground-3: #404040;
+  --calcite-ui-text-1: #ffffff;
+  --calcite-ui-text-2: #bfbfbf;
+  --calcite-ui-text-3: #9f9f9f;
+  --calcite-ui-border-1: #4a4a4a;
+  --calcite-ui-border-2: #404040;
+  --calcite-ui-border-3: #353535;
+  --calcite-ui-border-4: #757575;
+  --calcite-ui-border-5: #9f9f9f;
+}
+
+:host([scale=s]) {
+  font-size: 12px;
+  --calcite-combobox-item-spacing-unit-l: 12px;
+  --calcite-combobox-item-spacing-unit-s: 8px;
+}
+
+:host([scale=m]) {
+  font-size: 14px;
+  --calcite-combobox-item-spacing-unit-l: 16px;
+  --calcite-combobox-item-spacing-unit-s: 12px;
+}
+
+:host([scale=l]) {
+  font-size: 16px;
+  --calcite-combobox-item-spacing-unit-l: 20px;
+  --calcite-combobox-item-spacing-unit-s: 16px;
+}
+
+:host {
+  display: block;
+  position: relative;
+}
+
+[role=combobox] {
+  display: flex;
+}
+
+input {
+  flex-grow: 1;
+  font-size: inherit;
+  font-family: inherit;
+  padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l);
+  background-color: var(--calcite-ui-foreground-1);
+  border: 1px solid var(--calcite-ui-border-1);
+  color: 1px solid var(--calcite-ui-text-1);
+}
+
+input {
+  outline-offset: 0;
+  outline-color: transparent;
+  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
+}
+input:focus {
+  outline: 2px solid var(--calcite-ui-blue-1);
+  outline-offset: -2px;
+}
+
+.list {
+  transform: translate3d(0, -1.5rem, 0);
+  transition: all 0.15s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  display: block;
+  position: absolute;
+  left: 0;
+  z-index: 200;
+  overflow: hidden;
+  max-height: 0;
+  width: auto;
+  width: var(--calcite-dropdown-width);
+  background: var(--calcite-ui-foreground-1);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  right: 0;
+}
+
+:host([active]) .list {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  max-height: 100vh;
+  visibility: visible;
+  pointer-events: initial;
+  overflow-y: scroll;
+}
+
+.selections calcite-chip {
+  margin-right: var(--calcite-combobox-item-spacing-unit-s);
+  margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
+}
+
+.selections calcite-chip:last-child {
+  margin-right: 0;
+}
+
+:host([dir=rtl]) .selections calcite-chip {
+  margin-right: unset;
+  margin-left: var(--calcite-combobox-item-spacing-unit-s);
+}
+
+:host([dir=rtl]) .selections calcite-chip:last-child {
+  margin-left: 0;
+}
+
+.item {
+  display: block;
+}

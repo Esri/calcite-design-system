@@ -1,0 +1,15 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: inline-flex;
+}
+
+.mirrored {
+  transform: scaleX(-1);
+}
+
+.svg {
+  display: block;
+}
