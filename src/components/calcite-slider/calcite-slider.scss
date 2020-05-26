@@ -120,36 +120,44 @@ $tick-height: 4px;
   }
 }
 
-.thumb--precise:after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: $handle-size;
-  left: 50%;
-  width: 2px;
-  height: $thumb-padding;
-  background-color: var(--calcite-ui-text-3);
-  margin-left: -1px;
-  margin-top: $thumb-padding;
-  z-index: 1;
+.thumb--precise {
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: $handle-size;
+    left: 50%;
+    width: 2px;
+    height: $thumb-padding;
+    background-color: var(--calcite-ui-text-3);
+    margin-left: -1px;
+    z-index: 1;
+  }
+  &.thumb--min {
+    margin-top: 21px;
+    .handle__label {
+      bottom: unset;
+      top: $thumb-size;
+    }
+    &:after {
+      top: -14px;
+      margin-top: 0;
+    }
+  }
+  &.thumb--max {
+    .handle {
+      top: -5px;
+    }
+    &:after {
+      top: 2px;
+    }
+  }
 }
 
 .thumb:hover.thumb--precise:after,
 .thumb:focus.thumb--precise:after,
 .thumb--active.thumb--precise:after {
   background-color: var(--calcite-ui-blue-1);
-}
-
-.thumb--precise.thumb--min {
-  margin-top: 21px;
-  .handle__label {
-    bottom: unset;
-    top: $thumb-size;
-  }
-  &:after {
-    top: -14px;
-    margin-top: 0;
-  }
 }
 
 .track {
