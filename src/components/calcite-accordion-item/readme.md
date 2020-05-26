@@ -4,7 +4,6 @@ individual `calcite-accordion` item
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property       | Attribute       | Description                                                        | Type      | Default     |
@@ -14,16 +13,14 @@ individual `calcite-accordion` item
 | `itemSubtitle` | `item-subtitle` | pass a title for the accordion item                                | `string`  | `undefined` |
 | `itemTitle`    | `item-title`    | pass a title for the accordion item                                | `string`  | `undefined` |
 
-
 ## Events
 
 | Event                          | Description | Type               |
 | ------------------------------ | ----------- | ------------------ |
+| `calciteAccordionItemClose`    |             | `CustomEvent<any>` |
 | `calciteAccordionItemKeyEvent` |             | `CustomEvent<any>` |
-| `calciteAccordionItemSelected` |             | `CustomEvent<any>` |
-| `closeCalciteAccordionItem`    |             | `CustomEvent<any>` |
-| `registerCalciteAccordionItem` |             | `CustomEvent<any>` |
-
+| `calciteAccordionItemRegister` |             | `CustomEvent<any>` |
+| `calciteAccordionItemSelect`   |             | `CustomEvent<any>` |
 
 ## Dependencies
 
@@ -32,12 +29,13 @@ individual `calcite-accordion` item
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-accordion-item --> calcite-icon
   style calcite-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
