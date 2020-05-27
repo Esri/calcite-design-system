@@ -80,7 +80,12 @@ export class CalciteAccordionItem {
     );
 
     return (
-      <Host tabindex="0" aria-expanded={this.active.toString()} dir={dir}>
+      <Host
+        tabindex="0"
+        aria-expanded={this.active.toString()}
+        dir={dir}
+        icon-position={this.iconPosition}
+      >
         <div
           class="accordion-item-header"
           onClick={this.itemHeaderClickHandler}
@@ -166,6 +171,9 @@ export class CalciteAccordionItem {
 
   /** what icon type does the parent accordion specify */
   private iconType = getElementProp(this.el, "icon-type", "chevron");
+
+  /** what icon position does the parent accordion specify */
+  private iconPosition = getElementProp(this.el, "icon-position", "end");
 
   /** the scale of the parent accordion */
   private scale = getElementProp(this.el, "scale", "m");

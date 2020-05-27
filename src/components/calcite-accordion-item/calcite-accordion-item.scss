@@ -26,7 +26,7 @@
 }
 
 // icon position variants for child
-:host-context([icon-position="start"]) {
+:host([icon-position="start"]) {
   --calcite-accordion-item-flex-direction: row-reverse;
   --calcite-accordion-item-icon-rotation: 90deg;
   --calcite-accordion-item-active-icon-rotation: 180deg;
@@ -37,7 +37,7 @@
     --calcite-accordion-item-spacing-unit
   );
 }
-:host-context([icon-position="end"]) {
+:host([icon-position="end"]) {
   --calcite-accordion-item-flex-direction: row;
   --calcite-accordion-item-icon-rotation: -90deg;
   --calcite-accordion-item-active-icon-rotation: 0deg;
@@ -48,7 +48,7 @@
   );
   --calcite-accordion-item-icon-spacing-end: 0;
 }
-:host-context([icon-position="end"]:not([icon-type="plus-minus"])) {
+:host([icon-position="end"]:not([icon-type="plus-minus"])) {
   --calcite-accordion-item-icon-rotation: 0deg;
   --calcite-accordion-item-active-icon-rotation: 180deg;
   --calcite-accordion-item-icon-rotation-rtl: 0deg;
