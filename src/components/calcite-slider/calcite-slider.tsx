@@ -120,29 +120,17 @@ export class CalciteSlider {
             style={{ left, right }}
           />
           <div class="ticks">
-            {this.tickValues.map((number) => (
+            {this.tickValues.map((tick) => (
               <span
                 class={{
                   tick: true,
-                  "tick--active": number >= min && number <= max,
+                  "tick--active": tick >= min && tick <= max,
                 }}
                 style={{
-                  left: `${this.getUnitInterval(number) * 100}%`,
+                  left: `${this.getUnitInterval(tick) * 100}%`,
                 }}
               >
-                {this.labelTicks ? (
-                  <span
-                    class={{
-                      tick__label: true,
-                      "tick__label--min": number === this.min,
-                      "tick__label--max": number === this.max,
-                    }}
-                  >
-                    {number}
-                  </span>
-                ) : (
-                  ""
-                )}
+                {this.renderTickLabel(tick)}
               </span>
             ))}
           </div>
@@ -269,6 +257,35 @@ export class CalciteSlider {
       </div>
     ) : null;
   }
+
+  private renderTickLabel(tick: number): VNode {
+    const tickLabel = (
+      <span
+        class={{
+          tick__label: true,
+          "tick__label--min": tick === this.min,
+          "tick__label--max": tick === this.max,
+        }}
+      >
+        {tick}
+      </span>
+    );
+    if (this.labelTicks) {
+      if (this.isRange) {
+        if (this.precise) {
+          if (tick === this.min || tick === this.max) {
+            return tickLabel;
+          } else {
+            return null;
+          }
+        }
+        return tickLabel;
+      }
+      return tickLabel;
+    }
+    return null;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
