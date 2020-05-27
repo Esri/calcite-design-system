@@ -20,7 +20,6 @@ A basic implementation looks like this:
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property        | Attribute        | Description                                                                                                                                                               | Type                                      | Default     |
@@ -32,14 +31,12 @@ A basic implementation looks like this:
 | `selectionMode` | `selection-mode` | specify the selection mode - multi (allow any number of open items), single (allow one open item), or single-persist (allow and require one open item), defaults to multi | `"multi" \| "single" \| "single-persist"` | `"multi"`   |
 | `theme`         | `theme`          | specify the theme of accordion, defaults to light                                                                                                                         | `"dark" \| "light"`                       | `undefined` |
 
-
 ## Events
 
-| Event                            | Description | Type               |
-| -------------------------------- | ----------- | ------------------ |
-| `calciteAccordionItemHasChanged` |             | `CustomEvent<any>` |
+| Event                        | Description | Type               |
+| ---------------------------- | ----------- | ------------------ |
+| `calciteAccordionItemChange` |             | `CustomEvent<any>` |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
