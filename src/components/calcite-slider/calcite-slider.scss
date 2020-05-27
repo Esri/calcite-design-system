@@ -63,7 +63,7 @@ $tick-height: 4px;
     width: $handle-size;
     box-sizing: border-box;
     border-radius: 100%;
-    // background-color: var(--calcite-ui-foreground-1);
+    background-color: var(--calcite-ui-foreground-1);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
     transition: border 0.25s ease, background-color 0.25s ease,
       box-shadow 0.25s ease;
@@ -114,8 +114,7 @@ $tick-height: 4px;
 .thumb--active {
   z-index: 3;
   .handle {
-    // background-color: var(--calcite-ui-blue-1);
-    border-color: var(--calcite-ui-blue-1);
+    background-color: var(--calcite-ui-blue-1);
     @include shadow(1, "press");
   }
 }
