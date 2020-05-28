@@ -98,6 +98,19 @@ export class CalciteSlider {
     this.isHandleLabelObscured("value");
     if (this.isRange) {
       this.isHandleLabelObscured("minValue");
+      if (this.precise && this.labelTicks) {
+        const minValueButton = this.el.shadowRoot.querySelector(
+          "button.thumb--min"
+        );
+        console.log(minValueButton);
+        const minTickLabel = this.el.shadowRoot.querySelector(
+          ".tick__label--min"
+        );
+        console.log(minTickLabel);
+        const isMinColliding = this.isColliding(minValueButton, minTickLabel);
+        this.minTickLabelObscured = isMinColliding ? true : false;
+        console.log(`isMinColliding:${isMinColliding}`);
+      }
     }
   }
 
@@ -259,13 +272,21 @@ export class CalciteSlider {
   }
 
   private renderTickLabel(tick: number): VNode {
+    const isMinTickLabel = tick === this.min;
+    const isMaxTickLabel = tick === this.max;
+    const isObscured =
+      (isMinTickLabel && this.minTickLabelObscured) ||
+      (isMaxTickLabel && this.maxTickLabelObscured)
+        ? true
+        : false;
     const tickLabel = (
       <span
         class={{
           tick__label: true,
-          "tick__label--min": tick === this.min,
-          "tick__label--max": tick === this.max,
+          "tick__label--min": isMinTickLabel,
+          "tick__label--max": isMaxTickLabel,
         }}
+        style={{ opacity: isObscured ? "0" : "1" }}
       >
         {tick}
       </span>
@@ -273,7 +294,7 @@ export class CalciteSlider {
     if (this.labelTicks) {
       if (this.isRange) {
         if (this.precise) {
-          if (tick === this.min || tick === this.max) {
+          if (isMinTickLabel || isMaxTickLabel) {
             return tickLabel;
           } else {
             return null;
@@ -422,6 +443,10 @@ export class CalciteSlider {
   @State() private valueLabelObscured: OutOfViewport = "none";
   /** @internal */
   @State() private minValueLabelObscured: OutOfViewport = "none";
+  /** @internal */
+  @State() private minTickLabelObscured: boolean = false;
+  /** @internal */
+  @State() private maxTickLabelObscured: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -581,5 +606,33 @@ export class CalciteSlider {
       return "right";
     }
     return "none";
+  }
+  /**
+   * Detects if two elements are colliding
+   *
+   * Credit goes to BC on Stack Overflow, cleaned up a little bit
+   *
+   * @link http://stackoverflow.com/questions/5419134/how-to-detect-if-two-divs-touch-with-jquery
+   * @param $div1
+   * @param $div2
+   * @returns {boolean}
+   */
+  private isColliding(div1, div2) {
+    const d1_height = div1.offsetHeight;
+    const d1_width = div1.offsetWidth;
+    const d1_distance_from_top = div1.offsetTop + d1_height;
+    const d1_distance_from_left = div1.offsetLeft + d1_width;
+
+    const d2_height = div2.offsetHeight;
+    const d2_width = div2.offsetWidth;
+    const d2_distance_from_top = div2.offsetTop + d2_height;
+    const d2_distance_from_left = div2.offsetLeft + d2_width;
+    const not_colliding =
+      d1_distance_from_top < div2.offsetTop ||
+      div1.offsetTop > d2_distance_from_top ||
+      d1_distance_from_left < div2.offsetTop ||
+      div1.offsetLeft > d2_distance_from_left;
+
+    return !not_colliding;
   }
 }

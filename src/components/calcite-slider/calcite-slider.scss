@@ -225,6 +225,7 @@ $tick-height: 4px;
   left: 0;
   margin: $thumb-size / 2 -3px;
   text-align: left;
+  transition: opacity 150ms;
 }
 
 .tick__label--max {
@@ -232,6 +233,7 @@ $tick-height: 4px;
   right: 0;
   margin: $thumb-size / 2 -3px;
   text-align: right;
+  transition: opacity 50ms;
 }
 
 .graph {
