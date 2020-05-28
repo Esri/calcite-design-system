@@ -16,6 +16,8 @@ import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { DataSeries } from "../../interfaces/Graph";
 
+const Fragment = (props, children) => [...children];
+
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type OutOfViewport = "left" | "right" | "none";
 
@@ -122,6 +124,270 @@ export class CalciteSlider {
     const left = `${this.getUnitInterval(min) * 100}%`;
     const right = `${100 - this.getUnitInterval(max) * 100}%`;
 
+    const minLabel = (
+      <Fragment>
+        <span
+          class={{
+            handle__label: true,
+            "handle__label--obscured-right":
+              this.minValueLabelObscured === "right" && true,
+            "handle__label--obscured-left":
+              this.minValueLabelObscured === "left" && true,
+          }}
+          aria-hidden="true"
+        >
+          {this.minValue}
+        </span>
+        <span
+          id="handle__label--minValue"
+          class="handle__label handle__label--invisible-copy"
+          aria-hidden="true"
+        >
+          {this.minValue}
+        </span>
+      </Fragment>
+    );
+
+    const label = (
+      <Fragment>
+        <span
+          class={{
+            handle__label: true,
+            "handle__label--obscured-right":
+              this.valueLabelObscured === "right" && true,
+            "handle__label--obscured-left":
+              this.valueLabelObscured === "left" && true,
+          }}
+          aria-hidden="true"
+        >
+          {this[maxProp]}
+        </span>
+        <span
+          id="handle__label--value"
+          class="handle__label handle__label--invisible-copy"
+          aria-hidden="true"
+        >
+          {this[maxProp]}
+        </span>
+      </Fragment>
+    );
+
+    const handle = (
+      <button
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.isRange ? this.maxLabel : this.minLabel}
+        aria-valuenow={this[maxProp]}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ right }}
+        class={{
+          thumb: true,
+          "thumb--max": true,
+          "thumb--active":
+            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+        }}
+      >
+        <div class="handle"></div>
+      </button>
+    );
+
+    const labeledHandle = (
+      <button
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.isRange ? this.maxLabel : this.minLabel}
+        aria-valuenow={this[maxProp]}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ right }}
+        class={{
+          thumb: true,
+          "thumb--max": true,
+          "thumb--active":
+            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+        }}
+      >
+        {label}
+        <div class="handle"></div>
+      </button>
+    );
+
+    const preciseHandle = (
+      <button
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.isRange ? this.maxLabel : this.minLabel}
+        aria-valuenow={this[maxProp]}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ right }}
+        class={{
+          thumb: true,
+          "thumb--max": true,
+          "thumb--active":
+            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--precise": true,
+        }}
+      >
+        <div class="handle"></div>
+        <div class="handle-extension"></div>
+      </button>
+    );
+
+    const labeledPreciseHandle = (
+      <button
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.isRange ? this.maxLabel : this.minLabel}
+        aria-valuenow={this[maxProp]}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ right }}
+        class={{
+          thumb: true,
+          "thumb--max": true,
+          "thumb--active":
+            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--precise": true,
+        }}
+      >
+        {label}
+        <div class="handle"></div>
+        <div class="handle-extension"></div>
+      </button>
+    );
+
+    const minHandle = (
+      <button
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.minLabel}
+        aria-valuenow={this.minValue}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ left }}
+        class={{
+          thumb: true,
+          "thumb--min": true,
+          "thumb--active": this.dragProp === "minValue",
+        }}
+      >
+        <div class="handle"></div>
+      </button>
+    );
+
+    const minLabeledHandle = (
+      <button
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.minLabel}
+        aria-valuenow={this.minValue}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ left }}
+        class={{
+          thumb: true,
+          "thumb--min": true,
+          "thumb--active": this.dragProp === "minValue",
+        }}
+      >
+        {minLabel}
+        <div class="handle"></div>
+      </button>
+    );
+
+    const minPreciseHandle = (
+      <button
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.minLabel}
+        aria-valuenow={this.minValue}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ left }}
+        class={{
+          thumb: true,
+          "thumb--min": true,
+          "thumb--active": this.dragProp === "minValue",
+          "thumb--precise": true,
+        }}
+      >
+        <div class="handle-extension"></div>
+        <div class="handle"></div>
+      </button>
+    );
+
+    const minLabeledPreciseHandle = (
+      <button
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.minLabel}
+        aria-valuenow={this.minValue}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ left }}
+        class={{
+          thumb: true,
+          "thumb--min": true,
+          "thumb--active": this.dragProp === "minValue",
+          "thumb--precise": true,
+        }}
+      >
+        <div class="handle-extension"></div>
+        <div class="handle"></div>
+        {label}
+      </button>
+    );
+
     return (
       <Host id={id} is-range={this.isRange}>
         {this.renderGraph()}
@@ -148,111 +414,21 @@ export class CalciteSlider {
             ))}
           </div>
         </div>
-        {this.isRange ? (
-          <button
-            ref={(el) => (this.minHandle = el as HTMLButtonElement)}
-            onFocus={() => (this.activeProp = "minValue")}
-            onBlur={() => (this.activeProp = null)}
-            onMouseDown={() => this.dragStart("minValue")}
-            onTouchStart={(e) => this.dragStart("minValue", e)}
-            role="slider"
-            aria-orientation="horizontal"
-            aria-label={this.minLabel}
-            aria-valuenow={this.minValue}
-            aria-valuemin={this.min}
-            aria-valuemax={this.max}
-            disabled={this.disabled}
-            style={{ left }}
-            class={{
-              thumb: true,
-              "thumb--min": true,
-              "thumb--active": this.dragProp === "minValue",
-              "thumb--precise": this.precise,
-            }}
-          >
-            {this.labelHandles ? (
-              <span
-                class={{
-                  handle__label: true,
-                  "handle__label--obscured-right":
-                    this.minValueLabelObscured === "right" && true,
-                  "handle__label--obscured-left":
-                    this.minValueLabelObscured === "left" && true,
-                }}
-                aria-hidden="true"
-              >
-                {this.minValue}
-              </span>
-            ) : (
-              ""
-            )}
-            {this.labelHandles ? (
-              <span
-                id="handle__label--minValue"
-                class="handle__label handle__label--invisible-copy"
-                aria-hidden="true"
-              >
-                {this.minValue}
-              </span>
-            ) : (
-              ""
-            )}
-            <span class="handle"></span>
-          </button>
-        ) : (
-          ""
-        )}
-        <button
-          ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
-          onFocus={() => (this.activeProp = maxProp)}
-          onBlur={() => (this.activeProp = null)}
-          onMouseDown={() => this.dragStart(maxProp)}
-          onTouchStart={(e) => this.dragStart(maxProp, e)}
-          role="slider"
-          aria-orientation="horizontal"
-          aria-label={this.isRange ? this.maxLabel : this.minLabel}
-          aria-valuenow={this[maxProp]}
-          aria-valuemin={this.min}
-          aria-valuemax={this.max}
-          disabled={this.disabled}
-          style={{ right }}
-          class={{
-            thumb: true,
-            "thumb--max": true,
-            "thumb--active":
-              this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-            "thumb--precise": this.precise,
-          }}
-        >
-          {this.labelHandles ? (
-            <span
-              class={{
-                handle__label: true,
-                "handle__label--obscured-right":
-                  this.valueLabelObscured === "right" && true,
-                "handle__label--obscured-left":
-                  this.valueLabelObscured === "left" && true,
-              }}
-              aria-hidden="true"
-            >
-              {this[maxProp]}
-            </span>
-          ) : (
-            ""
-          )}
-          {this.labelHandles ? (
-            <span
-              id="handle__label--value"
-              class="handle__label handle__label--invisible-copy"
-              aria-hidden="true"
-            >
-              {this[maxProp]}
-            </span>
-          ) : (
-            ""
-          )}
-          <span class="handle"></span>
-        </button>
+        {!this.precise && !this.labelHandles && this.isRange ? minHandle : null}
+        {!this.precise && this.labelHandles && this.isRange
+          ? minLabeledHandle
+          : null}
+        {this.precise && !this.labelHandles && this.isRange
+          ? minPreciseHandle
+          : null}
+        {this.precise && this.labelHandles && this.isRange
+          ? minLabeledPreciseHandle
+          : null}
+
+        {!this.precise && !this.labelHandles ? handle : null}
+        {!this.precise && this.labelHandles ? labeledHandle : null}
+        {this.precise && !this.labelHandles ? preciseHandle : null}
+        {this.precise && this.labelHandles ? labeledPreciseHandle : null}
       </Host>
     );
   }
@@ -617,21 +793,21 @@ export class CalciteSlider {
    * @param $div2
    * @returns {boolean}
    */
-  private isColliding(div1, div2) {
-    const d1_height = div1.offsetHeight;
-    const d1_width = div1.offsetWidth;
-    const d1_distance_from_top = div1.offsetTop + d1_height;
-    const d1_distance_from_left = div1.offsetLeft + d1_width;
+  private isColliding(element1, element2): boolean {
+    const element1_height = element1.offsetHeight;
+    const element1_width = element1.offsetWidth;
+    const element1_distance_from_top = element1.offsetTop + element1_height;
+    const element1_distance_from_left = element1.offsetLeft + element1_width;
 
-    const d2_height = div2.offsetHeight;
-    const d2_width = div2.offsetWidth;
-    const d2_distance_from_top = div2.offsetTop + d2_height;
-    const d2_distance_from_left = div2.offsetLeft + d2_width;
+    const element2_height = element2.offsetHeight;
+    const element2_width = element2.offsetWidth;
+    const element2_distance_from_top = element2.offsetTop + element2_height;
+    const element2_distance_from_left = element2.offsetLeft + element2_width;
     const not_colliding =
-      d1_distance_from_top < div2.offsetTop ||
-      div1.offsetTop > d2_distance_from_top ||
-      d1_distance_from_left < div2.offsetTop ||
-      div1.offsetLeft > d2_distance_from_left;
+      element1_distance_from_top < element2.offsetTop ||
+      element1.offsetTop > element2_distance_from_top ||
+      element1_distance_from_left < element2.offsetTop ||
+      element1.offsetLeft > element2_distance_from_left;
 
     return !not_colliding;
   }

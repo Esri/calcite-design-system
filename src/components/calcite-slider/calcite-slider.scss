@@ -52,13 +52,12 @@ $tick-height: 4px;
   z-index: 2;
   outline: none;
   padding: 0;
-  top: 0;
-  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .handle {
     @include focus-style-base();
-    position: absolute;
-    transform: translate(-50%, -50%);
     height: $handle-size;
     width: $handle-size;
     box-sizing: border-box;
@@ -67,14 +66,12 @@ $tick-height: 4px;
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
     transition: border 0.25s ease, background-color 0.25s ease,
       box-shadow 0.25s ease;
-    &:after {
-      content: "";
-      position: absolute;
-      top: -6px;
-      left: -6px;
-      width: 26px;
-      height: 26px;
-    }
+  }
+
+  .handle-extension {
+    width: 2px;
+    height: $thumb-padding;
+    background-color: var(--calcite-ui-text-3);
   }
 
   &:hover {
@@ -90,10 +87,6 @@ $tick-height: 4px;
 }
 
 .handle__label {
-  position: absolute;
-  bottom: 0;
-  top: -5px;
-  transform: translate(-50%, -50%);
   transition: transform 150ms;
   @include font-size(-3);
   font-weight: 500;
@@ -107,6 +100,8 @@ $tick-height: 4px;
   }
   &--invisible-copy {
     opacity: 0;
+    position: absolute;
+    top: 0;
   }
 }
 
@@ -131,17 +126,6 @@ $tick-height: 4px;
     background-color: var(--calcite-ui-text-3);
     margin-left: -1px;
     z-index: 1;
-  }
-  &.thumb--min {
-    margin-top: 21px;
-    .handle__label {
-      bottom: unset;
-      top: 19px;
-    }
-    &:after {
-      top: -14px;
-      margin-top: 0;
-    }
   }
   &.thumb--max {
     .handle__label {
