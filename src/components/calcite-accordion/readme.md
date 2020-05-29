@@ -33,9 +33,9 @@ A basic implementation looks like this:
 
 ## Events
 
-| Event                        | Description | Type               |
-| ---------------------------- | ----------- | ------------------ |
-| `calciteAccordionItemChange` |             | `CustomEvent<any>` |
+| Event                    | Description | Type               |
+| ------------------------ | ----------- | ------------------ |
+| `calciteAccordionChange` |             | `CustomEvent<any>` |
 
 ---
 
