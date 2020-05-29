@@ -141,11 +141,6 @@
   }
 }
 
-:host([dir="rtl"]:hover) .handle {
-  right: 1px;
-  left: auto;
-}
-
 :host([dir="rtl"][switched]) .handle {
   right: auto;
   left: -1px;
