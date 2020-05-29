@@ -8,7 +8,7 @@ export class CalciteProgress {
   @Element() el: HTMLElement;
   /** Use indeterminate if finding actual progress value is impossible */
   @Prop() type: "indeterminate" | "determinate" = "determinate";
-  /** Percent complete of 100 */
+  /** Fraction completed, in the range of 0 - 1.0 */
   @Prop() value = 0;
   /** Text label for the progress indicator */
   @Prop() text: string = null;
