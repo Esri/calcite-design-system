@@ -18,7 +18,7 @@ The `calcite-progress` component is used to show progress on some async task to 
 | `text`     | `text`     | Text label for the progress indicator                            | `string`                           | `null`          |
 | `theme`    | `theme`    | Select theme (light or dark)                                     | `"dark" \| "light"`                | `undefined`     |
 | `type`     | `type`     | Use indeterminate if finding actual progress value is impossible | `"determinate" \| "indeterminate"` | `"determinate"` |
-| `value`    | `value`    | Percent complete of 100                                          | `number`                           | `0`             |
+| `value`    | `value`    | Fraction completed, in the range of 0 - 1.0                      | `number`                           | `0`             |
 
 ## Dependencies
 
