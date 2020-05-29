@@ -14,7 +14,7 @@ The `calcite-progress` component is used to show progress on some async task to 
 
 | Property   | Attribute  | Description                                                      | Type                               | Default         |
 | ---------- | ---------- | ---------------------------------------------------------------- | ---------------------------------- | --------------- |
-| `reversed` | `reversed` | Fill bar in the opposite direction                               | `boolean`                          | `false`         |
+| `reversed` | `reversed` | For indeterminate progress bars, reverse the animation direction | `boolean`                          | `false`         |
 | `text`     | `text`     | Text label for the progress indicator                            | `string`                           | `null`          |
 | `theme`    | `theme`    | Select theme (light or dark)                                     | `"dark" \| "light"`                | `undefined`     |
 | `type`     | `type`     | Use indeterminate if finding actual progress value is impossible | `"determinate" \| "indeterminate"` | `"determinate"` |

@@ -12,7 +12,7 @@ export class CalciteProgress {
   @Prop() value = 0;
   /** Text label for the progress indicator */
   @Prop() text: string = null;
-  /** Fill bar in the opposite direction */
+  /** For indeterminate progress bars, reverse the animation direction */
   @Prop() reversed = false;
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";

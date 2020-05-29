@@ -1,7 +1,6 @@
 :host {
   position: relative;
   display: block;
-  height: 2px;
   width: 100%;
 }
 
@@ -30,7 +29,7 @@
 }
 
 .reversed {
-  right: 0;
+  animation-direction: reverse;
 }
 
 .text {
