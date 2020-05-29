@@ -52,9 +52,10 @@ $tick-height: 4px;
   z-index: 2;
   outline: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-gap: 5px;
+  justify-items: center;
+  transform: translate(7px, -8px);
 
   .handle {
     @include focus-style-base();
@@ -62,7 +63,7 @@ $tick-height: 4px;
     width: $handle-size;
     box-sizing: border-box;
     border-radius: 100%;
-    background-color: var(--calcite-ui-foreground-1);
+    // background-color: var(--calcite-ui-foreground-1);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
     transition: border 0.25s ease, background-color 0.25s ease,
       box-shadow 0.25s ease;
@@ -85,6 +86,11 @@ $tick-height: 4px;
     outline-offset: 6px;
   }
 }
+:host([label-handles]) {
+  .thumb {
+    transform: translate(49%, -26px);
+  }
+}
 
 .handle__label {
   transition: transform 150ms;
@@ -93,10 +99,10 @@ $tick-height: 4px;
   line-height: 1;
   color: var(--calcite-ui-text-3);
   &--obscured-right {
-    transform: translate(calc(-100% + 7px), -50%);
+    transform: translateX(-25%);
   }
   &--obscured-left {
-    transform: translate(-7px, -50%);
+    transform: translateX(25%);
   }
   &--invisible-copy {
     opacity: 0;
