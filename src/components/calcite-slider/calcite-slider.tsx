@@ -19,7 +19,6 @@ import { DataSeries } from "../../interfaces/Graph";
 const Fragment = (props, children) => [...children];
 
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
-type OutOfViewport = "left" | "right" | "none";
 
 @Component({
   tag: "calcite-slider",
@@ -126,21 +125,11 @@ export class CalciteSlider {
 
     const minLabel = (
       <Fragment>
-        <span
-          class={{
-            handle__label: true,
-            "handle__label--obscured-right":
-              this.minValueLabelObscured === "right" && true,
-            "handle__label--obscured-left":
-              this.minValueLabelObscured === "left" && true,
-          }}
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--minValue" aria-hidden="true">
           {this.minValue}
         </span>
         <span
-          id="handle__label--minValue"
-          class="handle__label handle__label--invisible-copy"
+          class="handle__label handle__label--minValue copy"
           aria-hidden="true"
         >
           {this.minValue}
@@ -150,21 +139,11 @@ export class CalciteSlider {
 
     const label = (
       <Fragment>
-        <span
-          class={{
-            handle__label: true,
-            "handle__label--obscured-right":
-              this.valueLabelObscured === "right" && true,
-            "handle__label--obscured-left":
-              this.valueLabelObscured === "left" && true,
-          }}
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value" aria-hidden="true">
           {this[maxProp]}
         </span>
         <span
-          id="handle__label--value"
-          class="handle__label handle__label--invisible-copy"
+          class="handle__label handle__label--value copy"
           aria-hidden="true"
         >
           {this[maxProp]}
@@ -616,10 +595,6 @@ export class CalciteSlider {
   /** @internal */
   @State() private maxValueDragRange: number = null;
   /** @internal */
-  @State() private valueLabelObscured: OutOfViewport = "none";
-  /** @internal */
-  @State() private minValueLabelObscured: OutOfViewport = "none";
-  /** @internal */
   @State() private minTickLabelObscured: boolean = false;
   /** @internal */
   @State() private maxTickLabelObscured: boolean = false;
@@ -755,33 +730,42 @@ export class CalciteSlider {
   private isHandleLabelObscured(name: "value" | "minValue") {
     if (this.labelHandles) {
       const element = this.el.shadowRoot.querySelector(
-        `#handle__label--${name}`
+        `.handle__label--${name}`
       );
-      if (element) {
-        this[`${name}LabelObscured`] = this.isOutOfViewport(
-          element as HTMLElement
+      const elementCopy = this.el.shadowRoot.querySelector(
+        `.handle__label--${name}.copy`
+      );
+      if (element && elementCopy) {
+        const isOutOfViewport = this.isOutOfViewport(
+          elementCopy as HTMLElement
         );
+        if (isOutOfViewport) {
+          (element as HTMLElement).style.transform = `translateX(${isOutOfViewport}px)`;
+        } else {
+          (element as HTMLElement).style.transform = "";
+        }
       }
     }
   }
   /**
    * Checks if an element is out of the viewport on either the left or right side
    * @link https://gomakethings.com/how-to-check-if-any-part-of-an-element-is-out-of-the-viewport-with-vanilla-js/
-   * @return {string} "left", "right" or "none"
    * @internal
    */
-  private isOutOfViewport(element: HTMLElement): OutOfViewport {
+  private isOutOfViewport(element: HTMLElement): number {
     const bounding = element.getBoundingClientRect();
     if (bounding.left < 0) {
-      return "left";
+      const offset = Math.abs(bounding.left);
+      return offset;
     }
     if (
       bounding.right >
       (window.innerWidth || document.documentElement.clientWidth)
     ) {
-      return "right";
+      const offset = Math.floor(-(bounding.right - window.innerWidth + 1));
+      return offset;
     }
-    return "none";
+    return 0;
   }
   /**
    * Detects if two elements are colliding

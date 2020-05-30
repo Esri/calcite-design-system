@@ -91,6 +91,17 @@ $tick-height: 4px;
     transform: translate(49%, -26px);
   }
 }
+:host([precise]) {
+  .thumb {
+    grid-gap: 0;
+    transform: translate(7px, -21px);
+  }
+}
+:host([precise][label-handles]) {
+  .thumb {
+    transform: translate(49%, -34px);
+  }
+}
 
 .handle__label {
   transition: transform 150ms;
@@ -98,13 +109,7 @@ $tick-height: 4px;
   font-weight: 500;
   line-height: 1;
   color: var(--calcite-ui-text-3);
-  &--obscured-right {
-    transform: translateX(-25%);
-  }
-  &--obscured-left {
-    transform: translateX(25%);
-  }
-  &--invisible-copy {
+  &.copy {
     opacity: 0;
     position: absolute;
     top: 0;
@@ -117,32 +122,6 @@ $tick-height: 4px;
   .handle {
     background-color: var(--calcite-ui-blue-1);
     @include shadow(1, "press");
-  }
-}
-
-.thumb--precise {
-  &:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: $handle-size;
-    left: 50%;
-    width: 2px;
-    height: $thumb-padding;
-    background-color: var(--calcite-ui-text-3);
-    margin-left: -1px;
-    z-index: 1;
-  }
-  &.thumb--max {
-    .handle__label {
-      top: -14px;
-    }
-    .handle {
-      top: -5px;
-    }
-    &:after {
-      top: 2px;
-    }
   }
 }
 
