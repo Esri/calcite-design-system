@@ -7,10 +7,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Breaking Changes
+
+- `calcite-accordion` - `calciteAccordionItemHasChanged` event has been renamed to `calciteAccordionChange`
+- `calcite-accordion-item` - `calciteAccordionItemSelected` event has been renamed to `calciteAccordionItemSelect`
+- `calcite-accordion-item` - `closeCalciteAccordionItem` event has been renamed to `calciteAccordionItemClose`
+- `calcite-accordion-item` - `registerCalciteAccordionItem` event has been renamed to `calciteAccordionItemRegister`
+
+### Fixed
+
+- `calcite-accordion` - Fix for incorrect keyboard navigation behavior when a `calcite-accordion` was nested inside another `calcite-accordion`
+- `calcite-accordion` - Fix for incorrect display of `icon-position` when a `calcite-accordion` was nested inside another `calcite-accordion`
+
+## [v1.0.0-beta.27] - May 26th 2020
+
+### Breaking Changes
+
+- `calcite-input` - `calciteInputChange` event has been renamed to `calciteInputInput`
+
+### Added
+
+- `calcite-radio-group` now has a `width` prop that accepts `auto` (default) or `full` values.
+
 ### Fixed
 
 - `calcite-input` - will now properly position a requested `icon` if `prefix-text` is also set
 - `calcite-switch` - will now properly display in RTL
+- `calcite-alert` - will now properly animate the direction of the auto-dismiss progress bar in RTL
+- `calcite-tree` - will now properly wrap long, unbroken strings in `calcite-tree-item` children
+
+### Updated
+
+- `calcite-accordion` - styling of `icon-position=end` icons has been updated for `chevron` and `caret` values - it will now display upward when a `calcite-accordion-item` is collapsed, and downward when expanded
+- `calcite-input` - when `status="valid"`, icon (if present) will appear green
 
 ## [v1.0.0-beta.26] - May 18th 2020
 
@@ -410,6 +439,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.27]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.26...v1.0.0-beta.27 "v1.0.0-beta.27"
 [v1.0.0-beta.26]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.25...v1.0.0-beta.26 "v1.0.0-beta.26"
 [v1.0.0-beta.25]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.24...v1.0.0-beta.25 "v1.0.0-beta.25"
 [v1.0.0-beta.24]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.23...v1.0.0-beta.24 "v1.0.0-beta.24"

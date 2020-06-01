@@ -185,25 +185,27 @@ describe("calcite-radio-group", () => {
   it("renders requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-radio-group theme='dark' scale='l' layout='vertical' appearance='outline'></calcite-radio-group>"
+      "<calcite-radio-group theme='dark' scale='l' layout='vertical' appearance='outline' width='full'></calcite-radio-group>"
     );
     const element = await page.find("calcite-radio-group");
     expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("layout", "vertical");
     expect(element).toEqualAttribute("appearance", "outline");
+    expect(element).toEqualAttribute("width", "full");
   });
 
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-radio-group scale='zap' layout='zop' apperance='zat'></calcite-radio-group>"
+      "<calcite-radio-group scale='zap' layout='zop' apperance='zat' width='zut'></calcite-radio-group>"
     );
 
     const element = await page.find("calcite-radio-group");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("layout", "horizontal");
     expect(element).toEqualAttribute("appearance", "solid");
+    expect(element).toEqualAttribute("width", "auto");
   });
 
   it("renders default props", async () => {
@@ -213,6 +215,7 @@ describe("calcite-radio-group", () => {
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("layout", "horizontal");
     expect(element).toEqualAttribute("appearance", "solid");
+    expect(element).toEqualAttribute("width", "auto");
   });
 
   it("passes requested scale prop to child components", async () => {
