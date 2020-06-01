@@ -52,9 +52,9 @@ $tick-height: 4px;
   z-index: 2;
   outline: none;
   padding: 0;
-  display: grid;
-  grid-gap: 5px;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transform: translate(7px, -8px);
 
   .handle {
@@ -79,27 +79,39 @@ $tick-height: 4px;
     .handle {
       box-shadow: 0 0 0 3px var(--calcite-ui-blue-1) inset;
     }
+    .handle-extension {
+      background-color: var(--calcite-ui-blue-1);
+    }
   }
 
-  &:focus .handle {
-    @include focus-style-outset();
-    outline-offset: 6px;
+  &:focus {
+    .handle {
+      @include focus-style-outset();
+      outline-offset: 6px;
+    }
+    .handle-extension {
+      background-color: var(--calcite-ui-blue-1);
+    }
   }
 }
 :host([label-handles]) {
   .thumb {
-    transform: translate(49%, -26px);
+    transform: translate(50%, -26px);
   }
 }
 :host([precise]) {
   .thumb {
-    grid-gap: 0;
     transform: translate(7px, -21px);
   }
 }
 :host([precise][label-handles]) {
   .thumb {
-    transform: translate(49%, -34px);
+    transform: translate(50%, -39px);
+  }
+}
+:host([precise][label-ticks]) {
+  .handle-extension {
+    height: 8px;
   }
 }
 
@@ -109,6 +121,7 @@ $tick-height: 4px;
   font-weight: 500;
   line-height: 1;
   color: var(--calcite-ui-text-3);
+  margin-bottom: 5px;
   &.copy {
     opacity: 0;
     position: absolute;
