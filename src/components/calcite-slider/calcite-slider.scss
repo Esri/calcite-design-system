@@ -110,10 +110,6 @@ $tick-height: 4px;
 }
 .thumb--min {
   transform: translate(-7px, -8px);
-  .handle__label {
-    margin-bottom: unset;
-    margin-top: 5px;
-  }
 }
 :host([label-handles]) {
   .thumb {
@@ -128,6 +124,18 @@ $tick-height: 4px;
     transform: translate(7px, -21px);
   }
   .thumb--min {
+    transform: translate(-7px, -2px);
+    .handle__label {
+      margin-bottom: unset;
+      margin-top: 5px;
+    }
+  }
+}
+:host([precise][ticks]) {
+  .thumb {
+    transform: translate(7px, -20px);
+  }
+  .thumb--min {
     transform: translate(-7px, -3px);
   }
 }
@@ -139,9 +147,12 @@ $tick-height: 4px;
     transform: translate(-50%, -2px);
   }
 }
-:host([precise][label-ticks]) {
-  .handle-extension {
-    height: 8px;
+:host([precise][ticks][label-handles]) {
+  .thumb {
+    transform: translate(50%, -38px);
+  }
+  .thumb--min {
+    transform: translate(-50%, -3px);
   }
 }
 
