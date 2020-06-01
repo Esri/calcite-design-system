@@ -90,6 +90,54 @@ export class CalciteColorPicker {
   //
   //--------------------------------------------------------------------------
 
+  /** Label used for the blue channel */
+  @Prop() intlB = "B";
+
+  /** Label used for the blue channel description */
+  @Prop() intlBlue = "Blue";
+
+  /** Label used for the green channel */
+  @Prop() intlG = "G";
+
+  /** Label used for the green channel description */
+  @Prop() intlGreen = "Green";
+
+  /** Label used for the hue channel */
+  @Prop() intlH = "H";
+
+  /** Label used for the HSV mode */
+  @Prop() intlHsv = "HSV";
+
+  /** Label used for the hex input */
+  @Prop() intlHex = "Hex";
+
+  /** Label used for the hue channel description */
+  @Prop() intlHue = "Hue";
+
+  /** Label used for the red channel */
+  @Prop() intlR = "R";
+
+  /** Label used for the red channel description */
+  @Prop() intlRed = "Red";
+
+  /** Label used for the RGB mode */
+  @Prop() intlRgb = "RGB";
+
+  /** Label used for the saturation channel */
+  @Prop() intlS = "S";
+
+  /** Label used for the saturation channel description */
+  @Prop() intlSaturation = "Saturation";
+
+  /** Label used for the  */
+  @Prop() intlSavedColors = "Saved Colors";
+
+  /** Label used for the value channel */
+  @Prop() intlV = "V";
+
+  /** Label used for the  */
+  @Prop() intlValue = "Value";
+
   // TODO: should this be state?
   /**
    * The color mode. Can be `rgb` or `hsv`.
@@ -113,54 +161,6 @@ export class CalciteColorPicker {
    * Storage ID for colors.
    */
   @Prop() storageId: string;
-
-  /** @todo doc */
-  @Prop() textB = "B";
-
-  /** @todo doc */
-  @Prop() textBlue = "Blue";
-
-  /** @todo doc */
-  @Prop() textG = "G";
-
-  /** @todo doc */
-  @Prop() textGreen = "Green";
-
-  /** @todo doc */
-  @Prop() textH = "H";
-
-  /** @todo doc */
-  @Prop() textHsv = "HSV";
-
-  /** @todo doc */
-  @Prop() textHex = "Hex";
-
-  /** @todo doc */
-  @Prop() textHue = "Hue";
-
-  /** @todo doc */
-  @Prop() textR = "R";
-
-  /** @todo doc */
-  @Prop() textRed = "Red";
-
-  /** @todo doc */
-  @Prop() textRgb = "RGB";
-
-  /** @todo doc */
-  @Prop() textS = "S";
-
-  /** @todo doc */
-  @Prop() textSaturation = "Saturation";
-
-  /** @todo doc */
-  @Prop() textSavedColors = "Saved Colors";
-
-  /** @todo doc */
-  @Prop() textV = "V";
-
-  /** @todo doc */
-  @Prop() textValue = "Value";
 
   /**
    * The component's theme.
@@ -310,8 +310,8 @@ export class CalciteColorPicker {
     const parts = this.getColorComponents();
     const partLabels =
       this.mode === "rgb"
-        ? [this.textR, this.textG, this.textB]
-        : [this.textH, this.textS, this.textV];
+        ? [this.intlR, this.intlG, this.intlB]
+        : [this.intlH, this.intlS, this.intlV];
     const selectedColorInHex = activeColor.hex();
 
     const { dimensions } = this;
@@ -333,7 +333,7 @@ export class CalciteColorPicker {
         <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
           <div class={CSS.colorHexOptions}>
             <span class={{ [CSS.header]: true, [CSS.underlinedHeader]: true }}>
-              {this.textHex}
+              {this.intlHex}
             </span>
             <calcite-hex-input
               class={CSS.control}
@@ -367,7 +367,7 @@ export class CalciteColorPicker {
                 onKeyDown={this.handleColorModeKeyDown}
                 tabIndex={0}
               >
-                {this.textRgb}
+                {this.intlRgb}
               </div>
               <div
                 class={{
@@ -379,7 +379,7 @@ export class CalciteColorPicker {
                 onKeyDown={this.handleColorModeKeyDown}
                 tabIndex={0}
               >
-                {this.textHsv}
+                {this.intlHsv}
               </div>
             </div>
             <div class={{ [CSS.colorModeParts]: true, [CSS.control]: true }}>
@@ -418,7 +418,7 @@ export class CalciteColorPicker {
         </div>
         <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
           <div class={CSS.header}>
-            <label>{this.textSavedColors}</label>
+            <label>{this.intlSavedColors}</label>
             <calcite-button
               appearance="clear"
               class={CSS.addColor}
