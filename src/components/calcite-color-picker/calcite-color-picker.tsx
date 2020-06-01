@@ -269,6 +269,14 @@ export class CalciteColorPicker {
     }
   };
 
+  private handleDeleteColorKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
+      this.deleteColor();
+    }
+  };
+
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " " || event.key === "Enter") {
       event.preventDefault();
@@ -419,16 +427,28 @@ export class CalciteColorPicker {
         <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
           <div class={CSS.header}>
             <label>{this.intlSavedColors}</label>
-            <calcite-button
-              appearance="clear"
-              class={CSS.addColor}
-              color={theme}
-              icon="plus"
-              onClick={this.saveColor}
-              onKeyDown={this.handleSaveColorKeyDown}
-              scale="s"
-              tabIndex={0}
-            />
+            <div>
+              <calcite-button
+                appearance="clear"
+                class={CSS.addColor}
+                color={theme}
+                icon="minus"
+                onClick={this.deleteColor}
+                onKeyDown={this.handleDeleteColorKeyDown}
+                scale="s"
+                tabIndex={0}
+              />
+              <calcite-button
+                appearance="clear"
+                class={CSS.addColor}
+                color={theme}
+                icon="plus"
+                onClick={this.saveColor}
+                onKeyDown={this.handleSaveColorKeyDown}
+                scale="s"
+                tabIndex={0}
+              />
+            </div>
           </div>
           <div class={CSS.savedColors}>
             {[
@@ -460,6 +480,27 @@ export class CalciteColorPicker {
   private updateDimensions(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
     this.dimensions = DIMENSIONS[scale];
   }
+
+  private deleteColor = (): void => {
+    const colorToDelete = this.activeColor.hex();
+    const inStorage = this.savedColors.indexOf(colorToDelete) > -1;
+
+    if (!inStorage) {
+      return;
+    }
+
+    const savedColors = this.savedColors.filter(
+      (color) => color !== colorToDelete
+    );
+
+    this.savedColors = savedColors;
+
+    const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
+
+    if (this.storageId) {
+      localStorage.setItem(storageKey, JSON.stringify(savedColors));
+    }
+  };
 
   private saveColor = (): void => {
     const colorToSave = this.activeColor.hex();
