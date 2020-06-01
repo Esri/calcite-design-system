@@ -363,7 +363,7 @@ export class CalciteSlider {
       >
         <div class="handle-extension"></div>
         <div class="handle"></div>
-        {label}
+        {minLabel}
       </button>
     );
 
