@@ -16,8 +16,6 @@ import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { DataSeries } from "../../interfaces/Graph";
 
-const Fragment = (props, children) => [...children];
-
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
 @Component({
@@ -103,14 +101,11 @@ export class CalciteSlider {
         const minValueButton = this.el.shadowRoot.querySelector(
           "button.thumb--min"
         );
-        console.log(minValueButton);
         const minTickLabel = this.el.shadowRoot.querySelector(
           ".tick__label--min"
         );
-        console.log(minTickLabel);
         const isMinColliding = this.isColliding(minValueButton, minTickLabel);
         this.minTickLabelObscured = isMinColliding ? true : false;
-        console.log(`isMinColliding:${isMinColliding}`);
       }
     }
   }
@@ -122,34 +117,6 @@ export class CalciteSlider {
     const maxProp = this.isRange ? "maxValue" : "value";
     const left = `${this.getUnitInterval(min) * 100}%`;
     const right = `${100 - this.getUnitInterval(max) * 100}%`;
-
-    const minLabel = (
-      <Fragment>
-        <span class="handle__label handle__label--minValue" aria-hidden="true">
-          {this.minValue}
-        </span>
-        <span
-          class="handle__label handle__label--minValue copy"
-          aria-hidden="true"
-        >
-          {this.minValue}
-        </span>
-      </Fragment>
-    );
-
-    const label = (
-      <Fragment>
-        <span class="handle__label handle__label--value" aria-hidden="true">
-          {this[maxProp]}
-        </span>
-        <span
-          class="handle__label handle__label--value copy"
-          aria-hidden="true"
-        >
-          {this[maxProp]}
-        </span>
-      </Fragment>
-    );
 
     const handle = (
       <button
@@ -199,7 +166,15 @@ export class CalciteSlider {
             this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
         }}
       >
-        {label}
+        <span class="handle__label handle__label--value" aria-hidden="true">
+          {this[maxProp]}
+        </span>
+        <span
+          class="handle__label handle__label--value copy"
+          aria-hidden="true"
+        >
+          {this[maxProp]}
+        </span>
         <div class="handle"></div>
       </button>
     );
@@ -255,7 +230,15 @@ export class CalciteSlider {
           "thumb--precise": true,
         }}
       >
-        {label}
+        <span class="handle__label handle__label--value" aria-hidden="true">
+          {this[maxProp]}
+        </span>
+        <span
+          class="handle__label handle__label--value copy"
+          aria-hidden="true"
+        >
+          {this[maxProp]}
+        </span>
         <div class="handle"></div>
         <div class="handle-extension"></div>
       </button>
@@ -307,7 +290,15 @@ export class CalciteSlider {
           "thumb--active": this.dragProp === "minValue",
         }}
       >
-        {minLabel}
+        <span class="handle__label handle__label--minValue" aria-hidden="true">
+          {this.minValue}
+        </span>
+        <span
+          class="handle__label handle__label--minValue copy"
+          aria-hidden="true"
+        >
+          {this.minValue}
+        </span>
         <div class="handle"></div>
       </button>
     );
@@ -363,7 +354,15 @@ export class CalciteSlider {
       >
         <div class="handle-extension"></div>
         <div class="handle"></div>
-        {minLabel}
+        <span class="handle__label handle__label--minValue" aria-hidden="true">
+          {this.minValue}
+        </span>
+        <span
+          class="handle__label handle__label--minValue copy"
+          aria-hidden="true"
+        >
+          {this.minValue}
+        </span>
       </button>
     );
 
