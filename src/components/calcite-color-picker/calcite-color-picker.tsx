@@ -310,6 +310,11 @@ export class CalciteColorPicker {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
 
+    const valueAttr = this.el.getAttribute("value");
+    if (valueAttr) {
+      this.handleColorChange(valueAttr);
+    }
+
     this.updateDimensions(this.scale);
   }
 
