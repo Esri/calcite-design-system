@@ -432,9 +432,9 @@ export class CalciteColorPicker {
         <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
           <div class={CSS.header}>
             <label>{this.intlSavedColors}</label>
-            <div>
+            <div class={CSS.savedColorsButtons}>
               <calcite-button
-                appearance="clear"
+                appearance="solid"
                 class={CSS.addColor}
                 color={theme}
                 icon="minus"
@@ -444,7 +444,7 @@ export class CalciteColorPicker {
                 tabIndex={0}
               />
               <calcite-button
-                appearance="clear"
+                appearance="solid"
                 class={CSS.addColor}
                 color={theme}
                 icon="plus"

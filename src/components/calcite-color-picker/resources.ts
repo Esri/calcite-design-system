@@ -19,6 +19,7 @@ export const CSS = {
   savedColors: "saved-colors",
   savedColorsSection: "saved-colors-section",
   addColor: "add-color",
+  savedColorsButtons: "saved-colors-buttons",
 };
 
 export const DEFAULT_HEX_COLOR = "#007AC2";
