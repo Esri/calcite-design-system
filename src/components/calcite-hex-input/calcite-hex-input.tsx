@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Listen,
   Method,
   Prop,
   State,
@@ -113,34 +112,7 @@ export class CalciteHexInput {
    */
   @Event() calciteHexInputChange: EventEmitter;
 
-  @Listen("change")
-  onInputChange(event): void {
-    const node = event.currentTarget as HTMLInputElement;
-    const hex = node.value;
-
-    const color = hexToRGB(`#${hex}`);
-
-    if (!color) {
-      return;
-    }
-
-    this.value = normalizeHex(hex);
-    this.calciteHexInputChange.emit();
-  }
-
-  @Listen("keydown")
-  onKeyDown(event: KeyboardEvent): void {
-    const { key, altKey, ctrlKey, metaKey } = event;
-
-    const withModifiers = altKey || ctrlKey || metaKey;
-
-    if (key.length === 1 && !withModifiers && !hexChar.test(key)) {
-      event.preventDefault();
-    }
-  }
-
-  @Listen("blur")
-  onBlur(event: FocusEvent): void {
+  private onInputBlur = (event: FocusEvent): void => {
     const node = event.currentTarget as HTMLInputElement;
     const hex = `#${node.value}`;
 
@@ -152,6 +124,30 @@ export class CalciteHexInput {
     node.value = this.formatForInternalInput(
       rgbToHex((this.internalColor.object() as any) as RGB)
     );
+  };
+
+  private onInputChange = (event): void => {
+    const node = event.currentTarget as HTMLInputElement;
+    const hex = node.value;
+
+    const color = hexToRGB(`#${hex}`);
+
+    if (!color) {
+      return;
+    }
+
+    this.value = normalizeHex(hex);
+    this.calciteHexInputChange.emit();
+  };
+
+  private onInputKeyDown(event: KeyboardEvent): void {
+    const { key, altKey, ctrlKey, metaKey } = event;
+
+    const withModifiers = altKey || ctrlKey || metaKey;
+
+    if (key.length === 1 && !withModifiers && !hexChar.test(key)) {
+      event.preventDefault();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -183,6 +179,9 @@ export class CalciteHexInput {
           class={CSS.input}
           value={hexInputValue}
           maxLength={6}
+          onChange={this.onInputChange}
+          onBlur={this.onInputBlur}
+          onKeyDown={this.onInputKeyDown}
         />
         <calcite-icon
           class={CSS.preview}
