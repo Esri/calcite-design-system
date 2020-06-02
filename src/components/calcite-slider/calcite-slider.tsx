@@ -94,18 +94,11 @@ export class CalciteSlider {
   }
 
   componentDidRender() {
-    this.isHandleLabelObscured("value");
+    this.adjustObscuredHandleLabel("value");
     if (this.isRange) {
-      this.isHandleLabelObscured("minValue");
+      this.adjustObscuredHandleLabel("minValue");
       if (this.precise && this.labelTicks) {
-        const minValueButton = this.el.shadowRoot.querySelector(
-          "button.thumb--min"
-        );
-        const minTickLabel = this.el.shadowRoot.querySelector(
-          ".tick__label--min"
-        );
-        const isMinColliding = this.isColliding(minValueButton, minTickLabel);
-        this.minTickLabelObscured = isMinColliding ? true : false;
+        this.hideBoundingTrackLabels();
       }
     }
   }
@@ -428,11 +421,6 @@ export class CalciteSlider {
   private renderTickLabel(tick: number): VNode {
     const isMinTickLabel = tick === this.min;
     const isMaxTickLabel = tick === this.max;
-    const isObscured =
-      (isMinTickLabel && this.minTickLabelObscured) ||
-      (isMaxTickLabel && this.maxTickLabelObscured)
-        ? true
-        : false;
     const tickLabel = (
       <span
         class={{
@@ -440,7 +428,6 @@ export class CalciteSlider {
           "tick__label--min": isMinTickLabel,
           "tick__label--max": isMaxTickLabel,
         }}
-        style={{ opacity: isObscured ? "0" : "1" }}
       >
         {tick}
       </span>
@@ -593,10 +580,6 @@ export class CalciteSlider {
   @State() private minValueDragRange: number = null;
   /** @internal */
   @State() private maxValueDragRange: number = null;
-  /** @internal */
-  @State() private minTickLabelObscured: boolean = false;
-  /** @internal */
-  @State() private maxTickLabelObscured: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -726,7 +709,7 @@ export class CalciteSlider {
     const range = this.max - this.min;
     return (num - this.min) / range;
   }
-  private isHandleLabelObscured(name: "value" | "minValue") {
+  private adjustObscuredHandleLabel(name: "value" | "minValue") {
     if (this.labelHandles) {
       const element = this.el.shadowRoot.querySelector(
         `.handle__label--${name}`
@@ -744,6 +727,32 @@ export class CalciteSlider {
           (element as HTMLElement).style.transform = "";
         }
       }
+    }
+  }
+  private hideBoundingTrackLabels() {
+    const minHandle = this.el.shadowRoot.querySelector(".thumb--min");
+    const minTickLabel = this.el.shadowRoot.querySelector(".tick__label--min");
+    const maxTickLabel = this.el.shadowRoot.querySelector(".tick__label--max");
+
+    if (
+      this.isMinBoundingLabelObscured(
+        (minTickLabel as HTMLElement).offsetParent,
+        minHandle
+      )
+    ) {
+      (minTickLabel as HTMLSpanElement).style.opacity = "0";
+    } else {
+      (minTickLabel as HTMLSpanElement).style.opacity = "1";
+    }
+    if (
+      this.isMaxBoundingLabelObscured(
+        (maxTickLabel as HTMLElement).offsetParent,
+        minHandle
+      )
+    ) {
+      (maxTickLabel as HTMLSpanElement).style.opacity = "0";
+    } else {
+      (maxTickLabel as HTMLSpanElement).style.opacity = "1";
     }
   }
   /**
@@ -766,32 +775,22 @@ export class CalciteSlider {
     }
     return 0;
   }
-  /**
-   * Detects if two elements are colliding
-   *
-   * Credit goes to BC on Stack Overflow, cleaned up a little bit
-   *
-   * @link http://stackoverflow.com/questions/5419134/how-to-detect-if-two-divs-touch-with-jquery
-   * @param $div1
-   * @param $div2
-   * @returns {boolean}
-   */
-  private isColliding(element1, element2): boolean {
-    const element1_height = element1.offsetHeight;
-    const element1_width = element1.offsetWidth;
-    const element1_distance_from_top = element1.offsetTop + element1_height;
-    const element1_distance_from_left = element1.offsetLeft + element1_width;
 
-    const element2_height = element2.offsetHeight;
-    const element2_width = element2.offsetWidth;
-    const element2_distance_from_top = element2.offsetTop + element2_height;
-    const element2_distance_from_left = element2.offsetLeft + element2_width;
-    const not_colliding =
-      element1_distance_from_top < element2.offsetTop ||
-      element1.offsetTop > element2_distance_from_top ||
-      element1_distance_from_left < element2.offsetTop ||
-      element1.offsetLeft > element2_distance_from_left;
+  private isMinBoundingLabelObscured(minLabel, handle) {
+    const minLabelRight = minLabel.offsetLeft + minLabel.offsetWidth;
+    const handleLeft = handle.offsetLeft;
+    if (handleLeft < minLabelRight) {
+      return true;
+    }
+    return false;
+  }
 
-    return !not_colliding;
+  private isMaxBoundingLabelObscured(maxLabel, handle) {
+    const maxLabelLeft = maxLabel.offsetLeft;
+    const handleRight = handle.offsetLeft + handle.offsetWidth;
+    if (handleRight > maxLabelLeft) {
+      return true;
+    }
+    return false;
   }
 }
