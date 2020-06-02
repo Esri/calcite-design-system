@@ -331,18 +331,8 @@ export class CalciteColorPicker {
 
     return (
       <Host>
-        <canvas
-          class={CSS.colorPalette}
-          height={dimensions.colorPalette.height}
-          ref={this.initColorPalette}
-          width={dimensions.colorPalette.width}
-        />
-        <canvas
-          class={CSS.hueSlider}
-          height={dimensions.slider.height}
-          ref={this.initHueSlider}
-          width={dimensions.slider.width}
-        />
+        <canvas class={CSS.colorPalette} ref={this.initColorPalette} />
+        <canvas class={CSS.hueSlider} ref={this.initHueSlider} />
         <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
           <div class={CSS.colorHexOptions}>
             <span class={{ [CSS.header]: true, [CSS.underlinedHeader]: true }}>
@@ -563,10 +553,28 @@ export class CalciteColorPicker {
     this.drawActiveColorPaletteColor();
   }
 
+  private setCanvasContextSize(
+    canvas: HTMLCanvasElement,
+    { height, width }: { height: number; width: number }
+  ): void {
+    const devicePixelRatio = window.devicePixelRatio || 1;
+
+    canvas.width = width * devicePixelRatio;
+    canvas.height = height * devicePixelRatio;
+    canvas.style.height = `${height}px`;
+    canvas.style.width = `${width}px`;
+
+    const context = canvas.getContext("2d");
+    context.scale(devicePixelRatio, devicePixelRatio);
+  }
+
   private initColorPalette = (node: HTMLCanvasElement): void => {
     this.colorPaletteCanvas = node;
     const canvas = this.colorPaletteCanvas;
+
+    this.setCanvasContextSize(canvas, this.dimensions.colorPalette);
     this.drawColorPalette();
+
     let trackingMouse = false;
 
     const captureColor = (x: number, y: number): void => {
@@ -672,6 +680,7 @@ export class CalciteColorPicker {
     this.hueSliderCanvas = node;
     const canvas = this.hueSliderCanvas;
 
+    this.setCanvasContextSize(canvas, this.dimensions.slider);
     this.drawHueSlider();
 
     let trackingMouse = false;
