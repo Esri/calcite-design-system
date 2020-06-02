@@ -18,6 +18,14 @@ export class CalciteColorSwatch {
   //--------------------------------------------------------------------------
 
   /**
+   * Used to display whether the swatch is active or not.
+   */
+  @Prop({
+    reflect: true,
+  })
+  active = false;
+
+  /**
    * The color value.
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
@@ -29,14 +37,6 @@ export class CalciteColorSwatch {
   handleColorChange(color: string): void {
     this.internalColor = Color(color);
   }
-
-  /**
-   * Used to display whether the swatch is active or not.
-   */
-  @Prop({
-    reflect: true,
-  })
-  isActive = false;
 
   /**
    * The component scale.
@@ -73,7 +73,7 @@ export class CalciteColorSwatch {
   }
 
   render(): VNode {
-    const { internalColor, isActive, scale, theme } = this;
+    const { internalColor, active, scale, theme } = this;
     const hex = internalColor.hex();
 
     const classes = {
@@ -86,7 +86,7 @@ export class CalciteColorSwatch {
 
     return (
       <Host aria-label={hex} title={hex}>
-        {isActive ? (
+        {active ? (
           <calcite-icon
             icon="circle-f"
             scale={scale}

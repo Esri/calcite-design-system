@@ -460,7 +460,7 @@ export class CalciteColorPicker {
               ...savedColors.map((color) => (
                 <calcite-color-swatch
                   color={color}
-                  isActive={selectedColorInHex === color}
+                  active={selectedColorInHex === color}
                   key={color}
                   onClick={this.handleSavedColorSelect}
                   onKeyDown={this.handleSavedColorKeyDown}

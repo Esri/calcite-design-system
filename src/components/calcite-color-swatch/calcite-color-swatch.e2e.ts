@@ -17,7 +17,7 @@ describe("calcite-color-swatch", () => {
         defaultValue: "#000000",
       },
       {
-        propertyName: "isActive",
+        propertyName: "active",
         defaultValue: false,
       },
     ]));
@@ -25,7 +25,7 @@ describe("calcite-color-swatch", () => {
   it("reflects", () =>
     reflects("calcite-color-swatch", [
       {
-        propertyName: "isActive",
+        propertyName: "active",
         value: true,
       },
     ]));
