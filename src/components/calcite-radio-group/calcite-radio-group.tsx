@@ -67,7 +67,7 @@ export class CalciteRadioGroup {
 
     if (match) {
       this.selectItem(match);
-      this.calciteRadioGroupChange.emit();
+      this.calciteRadioGroupChange.emit(match.value);
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
@@ -234,7 +234,7 @@ export class CalciteRadioGroup {
   //--------------------------------------------------------------------------
 
   @Event()
-  calciteRadioGroupChange: EventEmitter;
+  calciteRadioGroupChange: EventEmitter<any>;
 
   // --------------------------------------------------------------------------
   //

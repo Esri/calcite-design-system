@@ -70,31 +70,37 @@ describe("calcite-radio-group", () => {
       let selected = await element.find("calcite-radio-group-item[checked]");
       let value = await selected.getProperty("value");
       expect(value).toBe("2");
+      expect(spy).toHaveNthReceivedEventDetail(0, "2");
 
       await element.press("ArrowRight");
       selected = await element.find("calcite-radio-group-item[checked]");
       value = await selected.getProperty("value");
       expect(value).toBe("3");
+      expect(spy).toHaveNthReceivedEventDetail(1, "3");
 
       await element.press("ArrowRight");
       selected = await element.find("calcite-radio-group-item[checked]");
       value = await selected.getProperty("value");
       expect(value).toBe("1");
+      expect(spy).toHaveNthReceivedEventDetail(2, "1");
 
       await element.press("ArrowLeft");
       selected = await element.find("calcite-radio-group-item[checked]");
       value = await selected.getProperty("value");
       expect(value).toBe("3");
+      expect(spy).toHaveNthReceivedEventDetail(3, "3");
 
       await element.press("ArrowLeft");
       selected = await element.find("calcite-radio-group-item[checked]");
       value = await selected.getProperty("value");
       expect(value).toBe("2");
+      expect(spy).toHaveNthReceivedEventDetail(4, "2");
 
       await element.press("ArrowLeft");
       selected = await element.find("calcite-radio-group-item[checked]");
       value = await selected.getProperty("value");
       expect(value).toBe("1");
+      expect(spy).toHaveNthReceivedEventDetail(5, "1");
 
       expect(spy).toHaveReceivedEventTimes(6);
     });
