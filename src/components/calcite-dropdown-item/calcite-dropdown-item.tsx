@@ -73,7 +73,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad() {
+  componentWillLoad() {
     this.itemPosition = this.getItemPosition();
     this.calciteDropdownItemRegister.emit({
       position: this.itemPosition,
