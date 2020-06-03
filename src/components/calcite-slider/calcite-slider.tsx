@@ -111,6 +111,7 @@ export class CalciteSlider {
     const min = this.minValue || this.min;
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
+    const value = this[maxProp];
     const left = `${this.getUnitInterval(min) * 100}%`;
     const right = `${100 - this.getUnitInterval(max) * 100}%`;
 
@@ -124,7 +125,7 @@ export class CalciteSlider {
         role="slider"
         aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={this[maxProp]}
+        aria-valuenow={value}
         aria-valuemin={this.min}
         aria-valuemax={this.max}
         disabled={this.disabled}
@@ -150,7 +151,7 @@ export class CalciteSlider {
         role="slider"
         aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={this[maxProp]}
+        aria-valuenow={value}
         aria-valuemin={this.min}
         aria-valuemax={this.max}
         disabled={this.disabled}
@@ -163,13 +164,13 @@ export class CalciteSlider {
         }}
       >
         <span class="handle__label handle__label--value" aria-hidden="true">
-          {this[maxProp]}
+          {value ? value.toLocaleString() : value}
         </span>
         <span
           class="handle__label handle__label--value copy"
           aria-hidden="true"
         >
-          {this[maxProp]}
+          {value ? value.toLocaleString() : value}
         </span>
         <div class="handle"></div>
       </button>
@@ -185,7 +186,7 @@ export class CalciteSlider {
         role="slider"
         aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={this[maxProp]}
+        aria-valuenow={value}
         aria-valuemin={this.min}
         aria-valuemax={this.max}
         disabled={this.disabled}
@@ -213,7 +214,7 @@ export class CalciteSlider {
         role="slider"
         aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={this[maxProp]}
+        aria-valuenow={value}
         aria-valuemin={this.min}
         aria-valuemax={this.max}
         disabled={this.disabled}
@@ -227,13 +228,13 @@ export class CalciteSlider {
         }}
       >
         <span class="handle__label handle__label--value" aria-hidden="true">
-          {this[maxProp]}
+          {value ? value.toLocaleString() : value}
         </span>
         <span
           class="handle__label handle__label--value copy"
           aria-hidden="true"
         >
-          {this[maxProp]}
+          {value ? value.toLocaleString() : value}
         </span>
         <div class="handle"></div>
         <div class="handle-extension"></div>
@@ -250,7 +251,7 @@ export class CalciteSlider {
         role="slider"
         aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={this[maxProp]}
+        aria-valuenow={value}
         aria-valuemin={this.min}
         aria-valuemax={this.max}
         disabled={this.disabled}
@@ -266,13 +267,13 @@ export class CalciteSlider {
         <div class="handle-extension"></div>
         <div class="handle"></div>
         <span class="handle__label handle__label--value" aria-hidden="true">
-          {this[maxProp]}
+          {value ? value.toLocaleString() : value}
         </span>
         <span
           class="handle__label handle__label--value copy"
           aria-hidden="true"
         >
-          {this[maxProp]}
+          {value ? value.toLocaleString() : value}
         </span>
       </button>
     );
@@ -324,13 +325,13 @@ export class CalciteSlider {
         }}
       >
         <span class="handle__label handle__label--minValue" aria-hidden="true">
-          {this.minValue}
+          {this.minValue && this.minValue.toLocaleString()}
         </span>
         <span
           class="handle__label handle__label--minValue copy"
           aria-hidden="true"
         >
-          {this.minValue}
+          {this.minValue && this.minValue.toLocaleString()}
         </span>
         <div class="handle"></div>
       </button>
@@ -388,13 +389,13 @@ export class CalciteSlider {
         <div class="handle-extension"></div>
         <div class="handle"></div>
         <span class="handle__label handle__label--minValue" aria-hidden="true">
-          {this.minValue}
+          {this.minValue && this.minValue.toLocaleString()}
         </span>
         <span
           class="handle__label handle__label--minValue copy"
           aria-hidden="true"
         >
-          {this.minValue}
+          {this.minValue && this.minValue.toLocaleString()}
         </span>
       </button>
     );
@@ -477,7 +478,7 @@ export class CalciteSlider {
           "tick__label--max": isMaxTickLabel,
         }}
       >
-        {tick}
+        {tick.toLocaleString()}
       </span>
     );
     if (this.labelTicks) {
