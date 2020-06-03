@@ -155,6 +155,18 @@ $tick-height: 4px;
     transform: translate(-50%, -3px);
   }
 }
+:host([has-histogram][precise][label-handles][is-range]) {
+  .thumb {
+    transform: translate(50%, -2px);
+    .handle__label {
+      margin-bottom: unset;
+      margin-top: 5px;
+    }
+  }
+  .thumb--min {
+    transform: translate(-50%, -2px);
+  }
+}
 
 .thumb:focus,
 .thumb--active {

@@ -98,7 +98,10 @@ export class CalciteSlider {
     if (this.isRange) {
       this.adjustObscuredHandleLabel("minValue");
       if (this.precise && this.labelTicks) {
-        this.hideBoundingTrackLabels();
+        this.hideObscuredBoundingTrackLabels("min");
+        if (this.hasHistogram && this.labelHandles) {
+          this.hideObscuredBoundingTrackLabels("both");
+        }
       }
     }
   }
@@ -234,6 +237,43 @@ export class CalciteSlider {
         </span>
         <div class="handle"></div>
         <div class="handle-extension"></div>
+      </button>
+    );
+
+    const histogramLabeledPreciseHandle = (
+      <button
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.isRange ? this.maxLabel : this.minLabel}
+        aria-valuenow={this[maxProp]}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ right }}
+        class={{
+          thumb: true,
+          "thumb--max": true,
+          "thumb--active":
+            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--precise": true,
+        }}
+      >
+        <div class="handle-extension"></div>
+        <div class="handle"></div>
+        <span class="handle__label handle__label--value" aria-hidden="true">
+          {this[maxProp]}
+        </span>
+        <span
+          class="handle__label handle__label--value copy"
+          aria-hidden="true"
+        >
+          {this[maxProp]}
+        </span>
       </button>
     );
 
@@ -399,7 +439,15 @@ export class CalciteSlider {
         {!this.precise && !this.labelHandles ? handle : null}
         {!this.precise && this.labelHandles ? labeledHandle : null}
         {this.precise && !this.labelHandles ? preciseHandle : null}
-        {this.precise && this.labelHandles ? labeledPreciseHandle : null}
+        {!this.hasHistogram && this.precise && this.labelHandles
+          ? labeledPreciseHandle
+          : null}
+        {this.hasHistogram && this.precise && this.labelHandles && !this.isRange
+          ? labeledPreciseHandle
+          : null}
+        {this.hasHistogram && this.precise && this.labelHandles && this.isRange
+          ? histogramLabeledPreciseHandle
+          : null}
       </Host>
     );
   }
@@ -729,35 +777,70 @@ export class CalciteSlider {
       }
     }
   }
-  private hideBoundingTrackLabels() {
-    const minHandle = this.el.shadowRoot.querySelector(".thumb--min");
+  private hideObscuredBoundingTrackLabels(whichHandles: "min" | "both") {
+    const minHandle = this.el.shadowRoot.querySelector(`.thumb--min`);
     const minTickLabel = this.el.shadowRoot.querySelector(".tick__label--min");
     const maxTickLabel = this.el.shadowRoot.querySelector(".tick__label--max");
-
-    if (
-      this.isMinBoundingLabelObscured(
-        (minTickLabel as HTMLElement).offsetParent,
-        minHandle
-      )
-    ) {
-      (minTickLabel as HTMLSpanElement).style.opacity = "0";
-    } else {
-      (minTickLabel as HTMLSpanElement).style.opacity = "1";
-    }
-    if (
-      this.isMaxBoundingLabelObscured(
-        (maxTickLabel as HTMLElement).offsetParent,
-        minHandle
-      )
-    ) {
-      (maxTickLabel as HTMLSpanElement).style.opacity = "0";
-    } else {
-      (maxTickLabel as HTMLSpanElement).style.opacity = "1";
+    switch (whichHandles) {
+      default:
+        break;
+      case "min":
+        if (
+          this.isMinBoundingLabelObscured(
+            (minTickLabel as HTMLElement).offsetParent,
+            minHandle
+          )
+        ) {
+          (minTickLabel as HTMLSpanElement).style.opacity = "0";
+        } else {
+          (minTickLabel as HTMLSpanElement).style.opacity = "1";
+        }
+        if (
+          this.isMaxBoundingLabelObscured(
+            (maxTickLabel as HTMLElement).offsetParent,
+            minHandle
+          )
+        ) {
+          (maxTickLabel as HTMLSpanElement).style.opacity = "0";
+        } else {
+          (maxTickLabel as HTMLSpanElement).style.opacity = "1";
+        }
+        break;
+      case "both":
+        const maxHandle = this.el.shadowRoot.querySelector(`.thumb--max`);
+        if (
+          this.isMinBoundingLabelObscured(
+            (minTickLabel as HTMLElement).offsetParent,
+            minHandle
+          ) ||
+          this.isMinBoundingLabelObscured(
+            (minTickLabel as HTMLElement).offsetParent,
+            maxHandle
+          )
+        ) {
+          (minTickLabel as HTMLSpanElement).style.opacity = "0";
+        } else {
+          (minTickLabel as HTMLSpanElement).style.opacity = "1";
+        }
+        if (
+          this.isMaxBoundingLabelObscured(
+            (maxTickLabel as HTMLElement).offsetParent,
+            minHandle
+          ) ||
+          this.isMaxBoundingLabelObscured(
+            (maxTickLabel as HTMLElement).offsetParent,
+            maxHandle
+          )
+        ) {
+          (maxTickLabel as HTMLSpanElement).style.opacity = "0";
+        } else {
+          (maxTickLabel as HTMLSpanElement).style.opacity = "1";
+        }
+        break;
     }
   }
   /**
    * Checks if an element is out of the viewport on either the left or right side
-   * @link https://gomakethings.com/how-to-check-if-any-part-of-an-element-is-out-of-the-viewport-with-vanilla-js/
    * @internal
    */
   private isOutOfViewport(element: HTMLElement): number {
