@@ -46,8 +46,8 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteDropdownItemHasChanged: EventEmitter;
-  @Event() registerCalciteDropdownGroup: EventEmitter<GroupRegistration>;
+  @Event() calciteDropdownGroupRegister: EventEmitter<GroupRegistration>;
+  @Event() calciteDropdownItemChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -65,7 +65,7 @@ export class CalciteDropdownGroup {
   componentDidLoad() {
     this.groupPosition = this.getGroupPosition();
     this.items = this.sortItems(this.items) as HTMLCalciteDropdownItemElement[];
-    this.registerCalciteDropdownGroup.emit({
+    this.calciteDropdownGroupRegister.emit({
       items: this.items,
       position: this.groupPosition,
       groupId: this.dropdownGroupId,
@@ -94,7 +94,7 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("registerCalciteDropdownItem") registerCalciteDropdownItem(
+  @Listen("calciteDropdownItemRegister") registerCalciteDropdownItem(
     event: CustomEvent<ItemRegistration>
   ) {
     const item = {
@@ -102,14 +102,16 @@ export class CalciteDropdownGroup {
       position: event.detail.position,
     };
     this.items.push(item);
+
+    event.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelected") updateActiveItemOnChange(
+  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(
     event: CustomEvent
   ) {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
-    this.calciteDropdownItemHasChanged.emit({
+    this.calciteDropdownItemChange.emit({
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem,
     });

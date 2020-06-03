@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property    | Attribute    | Description                                                                                | Type      | Default     |
@@ -12,16 +11,14 @@
 | `iconEnd`   | `icon-end`   | optionally pass an icon to display at the end of an item - accepts calcite ui icon names   | `string`  | `undefined` |
 | `iconStart` | `icon-start` | optionally pass an icon to display at the start of an item - accepts calcite ui icon names | `string`  | `undefined` |
 
-
 ## Events
 
 | Event                         | Description | Type                            |
 | ----------------------------- | ----------- | ------------------------------- |
+| `calciteDropdownClose`        |             | `CustomEvent<any>`              |
 | `calciteDropdownItemKeyEvent` |             | `CustomEvent<any>`              |
-| `calciteDropdownItemSelected` |             | `CustomEvent<any>`              |
-| `closeCalciteDropdown`        |             | `CustomEvent<any>`              |
-| `registerCalciteDropdownItem` |             | `CustomEvent<ItemRegistration>` |
-
+| `calciteDropdownItemRegister` |             | `CustomEvent<ItemRegistration>` |
+| `calciteDropdownItemSelect`   |             | `CustomEvent<any>`              |
 
 ## Methods
 
@@ -33,9 +30,6 @@ Focuses the selected item.
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Depends on
@@ -43,12 +37,13 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-dropdown-item --> calcite-icon
   style calcite-dropdown-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
