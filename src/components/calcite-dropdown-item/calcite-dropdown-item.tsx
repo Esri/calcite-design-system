@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { ItemRegistration } from "../../interfaces/Dropdown";
+import { ItemKeyboardEvent, ItemRegistration } from "../../interfaces/Dropdown";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -50,10 +50,10 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteDropdownItemKeyEvent: EventEmitter;
-  @Event() calciteDropdownItemSelected: EventEmitter;
-  @Event() closeCalciteDropdown: EventEmitter;
-  @Event() registerCalciteDropdownItem: EventEmitter<ItemRegistration>;
+  @Event() calciteDropdownClose: EventEmitter;
+  @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
+  @Event() calciteDropdownItemRegister: EventEmitter<ItemRegistration>;
+  @Event() calciteDropdownItemSelect: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -75,7 +75,7 @@ export class CalciteDropdownItem {
 
   componentDidLoad() {
     this.itemPosition = this.getItemPosition();
-    this.registerCalciteDropdownItem.emit({
+    this.calciteDropdownItemRegister.emit({
       position: this.itemPosition,
     });
   }
@@ -149,7 +149,7 @@ export class CalciteDropdownItem {
     this.emitRequestedItem();
   }
 
-  @Listen("keydown") keyDownHandler(e) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     switch (getKey(e.key)) {
       case " ":
         this.emitRequestedItem();
@@ -163,25 +163,25 @@ export class CalciteDropdownItem {
         if (this.href) this.childLink.click();
         break;
       case "Escape":
-        this.closeCalciteDropdown.emit();
+        this.calciteDropdownClose.emit();
         break;
       case "Tab":
       case "ArrowUp":
       case "ArrowDown":
       case "Home":
       case "End":
-        this.calciteDropdownItemKeyEvent.emit({ item: e });
+        this.calciteDropdownItemKeyEvent.emit({ keyboardEvent: e });
         break;
     }
     e.preventDefault();
   }
 
-  @Listen("registerCalciteDropdownGroup", { target: "parent" })
+  @Listen("calciteDropdownGroupRegister", { target: "parent" })
   registerCalciteDropdownGroup(event: CustomEvent) {
     this.currentDropdownGroup = event.detail.groupId;
   }
 
-  @Listen("calciteDropdownItemHasChanged", { target: "parent" })
+  @Listen("calciteDropdownItemChange", { target: "parent" })
   updateActiveItemOnChange(event: CustomEvent) {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
@@ -240,11 +240,11 @@ export class CalciteDropdownItem {
   }
 
   private emitRequestedItem() {
-    this.calciteDropdownItemSelected.emit({
+    this.calciteDropdownItemSelect.emit({
       requestedDropdownItem: this.dropdownItemId,
       requestedDropdownGroup: this.currentDropdownGroup,
     });
-    this.closeCalciteDropdown.emit();
+    this.calciteDropdownClose.emit();
   }
 
   private getAttributes() {
