@@ -143,12 +143,28 @@ $tick-height: 4px;
     }
   }
 }
+:host([has-histogram][precise]) {
+  .thumb {
+    transform: translate(7px, -2px);
+  }
+  .thumb--min {
+    transform: translate(-50%, -2px);
+  }
+}
 :host([precise][ticks]) {
   .thumb {
     transform: translate(7px, -20px);
   }
   .thumb--min {
     transform: translate(-7px, -3px);
+  }
+}
+:host([has-histogram][precise][ticks]) {
+  .thumb {
+    transform: translate(7px, -3px);
+  }
+  .thumb--min {
+    transform: translate(-50%, -3px);
   }
 }
 :host([precise][label-handles]) {
@@ -159,9 +175,25 @@ $tick-height: 4px;
     transform: translate(-50%, -2px);
   }
 }
+:host([has-histogram][precise][label-handles]) {
+  .thumb {
+    transform: translate(7px, -2px);
+  }
+  .thumb--min {
+    transform: translate(-50%, -2px);
+  }
+}
 :host([precise][ticks][label-handles]) {
   .thumb {
     transform: translate(50%, -38px);
+  }
+  .thumb--min {
+    transform: translate(-50%, -3px);
+  }
+}
+:host([has-histogram][precise][ticks][label-handles]) {
+  .thumb {
+    transform: translate(50%, -3px);
   }
   .thumb--min {
     transform: translate(-50%, -3px);

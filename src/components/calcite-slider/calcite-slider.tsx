@@ -239,6 +239,34 @@ export class CalciteSlider {
       </button>
     );
 
+    const histogramPreciseHandle = (
+      <button
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.isRange ? this.maxLabel : this.minLabel}
+        aria-valuenow={value}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ right }}
+        class={{
+          thumb: true,
+          "thumb--max": true,
+          "thumb--active":
+            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--precise": true,
+        }}
+      >
+        <div class="handle-extension"></div>
+        <div class="handle"></div>
+      </button>
+    );
+
     const labeledPreciseHandle = (
       <button
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
@@ -517,7 +545,14 @@ export class CalciteSlider {
           !this.precise &&
           this.labelHandles &&
           labeledHandle}
-        {this.precise && !this.labelHandles && preciseHandle}
+        {!this.hasHistogram &&
+          this.precise &&
+          !this.labelHandles &&
+          preciseHandle}
+        {this.hasHistogram &&
+          this.precise &&
+          !this.labelHandles &&
+          histogramPreciseHandle}
         {!this.hasHistogram &&
           this.precise &&
           this.labelHandles &&
@@ -529,12 +564,6 @@ export class CalciteSlider {
         {this.hasHistogram &&
           this.precise &&
           this.labelHandles &&
-          !this.isRange &&
-          labeledPreciseHandle}
-        {this.hasHistogram &&
-          this.precise &&
-          this.labelHandles &&
-          this.isRange &&
           histogramLabeledPreciseHandle}
       </Host>
     );
