@@ -599,7 +599,7 @@ export class CalciteSlider {
     );
     if (this.labelTicks) {
       if (this.isRange) {
-        if (this.precise) {
+        if (this.precise || this.labelHandles) {
           if (isMinTickLabel || isMaxTickLabel) {
             return tickLabel;
           } else {
