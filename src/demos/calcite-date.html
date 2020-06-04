@@ -103,8 +103,8 @@
     </calcite-dropdown-group>
   </calcite-dropdown>
   <script>
-    document.getElementById("localePicker").addEventListener("calciteDropdownItemSelected", function (e) {
-      document.getElementById("locale").locale = e.target.getAttribute("data-locale")
+    document.getElementById("localePicker").addEventListener("calciteDropdownSelect", function (e) {
+      document.getElementById("locale").locale = e.target.selectedItems[0].getAttribute("data-locale");
     });
   </script>
 
