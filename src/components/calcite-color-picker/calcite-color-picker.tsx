@@ -340,8 +340,6 @@ export class CalciteColorPicker {
         : [this.intlH, this.intlS, this.intlV];
     const selectedColorInHex = activeColor.hex();
 
-    const { dimensions } = this;
-
     return (
       <Host>
         <canvas class={CSS.colorPalette} ref={this.initColorPalette} />
