@@ -447,7 +447,6 @@ export class CalciteColorPicker {
                 onClick={this.deleteColor}
                 onKeyDown={this.handleDeleteColorKeyDown}
                 scale="s"
-                tabIndex={0}
               />
               <calcite-button
                 appearance="solid"
@@ -457,7 +456,6 @@ export class CalciteColorPicker {
                 onClick={this.saveColor}
                 onKeyDown={this.handleSaveColorKeyDown}
                 scale="s"
-                tabIndex={0}
               />
             </div>
           </div>
