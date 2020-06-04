@@ -37,32 +37,41 @@ const HSV_LIMITS = {
 const DIMENSIONS = {
   s: {
     slider: {
-      height: 15,
+      height: 8,
       width: 170,
     },
     colorPalette: {
       height: 80,
       width: 170,
     },
+    thumb: {
+      radius: 8,
+    },
   },
   m: {
     slider: {
-      height: 15,
+      height: 12,
       width: 240,
     },
     colorPalette: {
       height: 130,
       width: 240,
     },
+    thumb: {
+      radius: 10,
+    },
   },
   l: {
     slider: {
-      height: 15,
+      height: 12,
       width: 370,
     },
     colorPalette: {
       height: 200,
       width: 370,
+    },
+    thumb: {
+      radius: 10,
     },
   },
 };
@@ -237,7 +246,7 @@ export class CalciteColorPicker {
     this.activeColor = Color(swatch.color);
   };
 
-  private handleColorPartChange = (event: KeyboardEvent): void => {
+  private handleColorPartInput = (event: KeyboardEvent): void => {
     const input = event.target as HTMLInputElement;
     const partId = Number(input.getAttribute("data-color-part-id"));
 
@@ -248,8 +257,12 @@ export class CalciteColorPicker {
 
     const clamped = Math.max(0, Math.min(Number(input.value), limit));
     input.value = `${clamped}`;
+  };
 
-    this[`colorPart${partId}`] = clamped;
+  private handleColorPartChange = (event: KeyboardEvent): void => {
+    const input = event.target as HTMLInputElement;
+    const partId = Number(input.getAttribute("data-color-part-id"));
+    this[`colorPart${partId}`] = Number(input.value);
     this.updateColorFromParts();
   };
 
@@ -391,6 +404,7 @@ export class CalciteColorPicker {
                 <input
                   class={CSS.colorModePartInput}
                   data-color-part-id={0}
+                  onInput={this.handleColorPartInput}
                   onChange={this.handleColorPartChange}
                   type="number"
                   value={parts[0]}
@@ -401,6 +415,7 @@ export class CalciteColorPicker {
                 <input
                   class={CSS.colorModePartInput}
                   data-color-part-id={1}
+                  onInput={this.handleColorPartInput}
                   onChange={this.handleColorPartChange}
                   type="number"
                   value={parts[1]}
@@ -411,6 +426,7 @@ export class CalciteColorPicker {
                 <input
                   class={CSS.colorModePartInput}
                   data-color-part-id={2}
+                  onInput={this.handleColorPartInput}
                   onChange={this.handleColorPartChange}
                   type="number"
                   value={parts[2]}
@@ -622,23 +638,24 @@ export class CalciteColorPicker {
     const {
       dimensions: {
         colorPalette: { height, width },
+        thumb: { radius },
       },
     } = this;
     const x = color.saturationv() / (HSV_LIMITS.s / width);
     const y = height - color.value() / (HSV_LIMITS.v / height);
 
     context.beginPath();
-    context.arc(x, y, 10, startAngle, endAngle);
+    context.arc(x, y, radius, startAngle, endAngle);
     context.fillStyle = color.desaturate(0.5).rgb().toString();
     context.fill();
 
     context.beginPath();
-    context.arc(x, y, 7, startAngle, endAngle);
-    context.fillStyle = this.theme === "light" ? "#fff" : "#000";
+    context.arc(x, y, radius - 2, startAngle, endAngle);
+    context.fillStyle = "#fff";
     context.fill();
 
     context.beginPath();
-    context.arc(x, y, 5, startAngle, endAngle);
+    context.arc(x, y, radius - 4, startAngle, endAngle);
     context.fillStyle = color.rgb().toString();
     context.fill();
   }
@@ -655,23 +672,24 @@ export class CalciteColorPicker {
     const {
       dimensions: {
         slider: { height, width },
+        thumb: { radius },
       },
     } = this;
     const x = color.hue() / (360 / width);
     const y = height / 2;
 
     context.beginPath();
-    context.arc(x, y, 10, startAngle, endAngle);
+    context.arc(x, y, radius, startAngle, endAngle);
     context.fillStyle = color.desaturate(0.5).rgb().toString();
     context.fill();
 
     context.beginPath();
-    context.arc(x, y, 7, startAngle, endAngle);
-    context.fillStyle = this.theme === "light" ? "#fff" : "#000";
+    context.arc(x, y, radius - 2, startAngle, endAngle);
+    context.fillStyle = "#fff";
     context.fill();
 
     context.beginPath();
-    context.arc(x, y, 5, startAngle, endAngle);
+    context.arc(x, y, radius - 4, startAngle, endAngle);
     context.fillStyle = color.rgb().toString();
     context.fill();
   }

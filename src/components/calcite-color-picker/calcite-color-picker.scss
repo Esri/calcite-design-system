@@ -1,3 +1,5 @@
+$font-weight--medium: 500;
+
 :host {
   border: 1px solid var(--calcite-ui-border-1);
   display: inline-block;
@@ -5,6 +7,11 @@
 
 :host([scale="s"]) {
   width: 170px;
+
+  .header,
+  .color-mode-part-label {
+    font-size: 12px;
+  }
 }
 
 :host([scale="m"]) {
@@ -66,9 +73,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--calcite-ui-text-3);
+  font-weight: $font-weight--medium;
+  font-size: 14px;
 
   &.header--underlined {
-    border-bottom: 1px solid var(--calcite-ui-border-1);
+    border-bottom: 1px solid var(--calcite-ui-border-3);
   }
 }
 
@@ -121,31 +131,36 @@
 }
 
 .color-mode-part-input {
-  width: 5ch;
+  width: 4ch;
   padding-left: 16px;
   height: 27px;
-  font-size: 0.9em;
   background-color: var(--calcite-ui-background);
-  border-color: var(--calcite-ui-border-1);
+  border: solid 1px var(--calcite-ui-border-2);
   color: var(--calcite-ui-text-1);
+  font-family: $avenir-family;
+
+  // hide stepper arrows
+  -moz-appearance: textfield;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 
 .color-mode-part-label {
+  @include avenir-demi();
+
   position: absolute;
   left: 4px;
-  font-size: 0.9em;
+  font-size: 14px;
   color: var(--calcite-ui-text-3);
 }
 
 .saved-colors {
   display: flex;
   flex-wrap: wrap;
-}
-
-.saved-colors-buttons {
-  :first-child {
-    margin: 0 8px;
-  }
 }
 
 calcite-color-swatch {
