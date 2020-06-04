@@ -115,6 +115,7 @@ export class CalciteDropdownGroup {
     event: CustomEvent
   ) {
     if (this.selectionMode === "none") {
+      event.stopPropagation();
       return;
     }
 

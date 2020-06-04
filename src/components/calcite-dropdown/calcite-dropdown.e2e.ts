@@ -261,7 +261,7 @@ describe("calcite-dropdown", () => {
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
-    const itemChangeSpy = await element.spyOnEvent("calciteDropdownItemChange");
+    const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     expect(group1).toEqualAttribute("selection-mode", "multi");
     await trigger.click();
     await page.waitForChanges();
@@ -309,7 +309,7 @@ describe("calcite-dropdown", () => {
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
-    const itemChangeSpy = await element.spyOnEvent("calciteDropdownItemChange");
+    const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     expect(group1).toEqualAttribute("selection-mode", "single");
     await assertSelectedItems(page, ["item-2"]);
     await trigger.click();
@@ -353,7 +353,7 @@ describe("calcite-dropdown", () => {
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
-    const itemChangeSpy = await element.spyOnEvent("calciteDropdownItemChange");
+    const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     expect(group1).toEqualAttribute("selection-mode", "none");
     await assertSelectedItems(page, []);
     await trigger.click();
@@ -428,7 +428,7 @@ describe("calcite-dropdown", () => {
     const item7 = await element.find("calcite-dropdown-item[id='item-7']");
     const item8 = await element.find("calcite-dropdown-item[id='item-8']");
     const item9 = await element.find("calcite-dropdown-item[id='item-9']");
-    const itemChangeSpy = await element.spyOnEvent("calciteDropdownItemChange");
+    const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
 
     expect(group1).toEqualAttribute("selection-mode", "multi");
     expect(group2).toEqualAttribute("selection-mode", "single");

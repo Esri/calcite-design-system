@@ -1,4 +1,13 @@
-import { Component, Element, h, Host, Listen, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+} from "@stencil/core";
 import { focusElement } from "../../utils/dom";
 import {
   GroupRegistration,
@@ -124,9 +133,12 @@ export class CalciteDropdown {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
+  //  Events
   //
   //--------------------------------------------------------------------------
+
+  /** fires when a dropdown item has been selected or deselected **/
+  @Event() calciteDropdownSelect: EventEmitter<void>;
 
   @Listen("click") openDropdown(e) {
     if (e.target === this.trigger || this.trigger.contains(e.target)) {
@@ -214,8 +226,12 @@ export class CalciteDropdown {
     e.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelect") handleItemSelect(): void {
+  @Listen("calciteDropdownItemSelect") handleItemSelect(
+    event: CustomEvent
+  ): void {
     this.updateSelectedItems();
+    event.stopPropagation();
+    this.calciteDropdownSelect.emit();
   }
 
   @Listen("calciteDropdownGroupRegister") registerCalciteDropdownGroup(
