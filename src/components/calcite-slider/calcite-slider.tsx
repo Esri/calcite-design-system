@@ -176,6 +176,41 @@ export class CalciteSlider {
       </button>
     );
 
+    const histogramLabeledHandle = (
+      <button
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.isRange ? this.maxLabel : this.minLabel}
+        aria-valuenow={value}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ right }}
+        class={{
+          thumb: true,
+          "thumb--max": true,
+          "thumb--active":
+            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+        }}
+      >
+        <div class="handle"></div>
+        <span class="handle__label handle__label--value" aria-hidden="true">
+          {value ? value.toLocaleString() : value}
+        </span>
+        <span
+          class="handle__label handle__label--value copy"
+          aria-hidden="true"
+        >
+          {value ? value.toLocaleString() : value}
+        </span>
+      </button>
+    );
+
     const preciseHandle = (
       <button
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
@@ -337,6 +372,40 @@ export class CalciteSlider {
       </button>
     );
 
+    const minHistogramLabeledHandle = (
+      <button
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onBlur={() => (this.activeProp = null)}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        role="slider"
+        aria-orientation="horizontal"
+        aria-label={this.minLabel}
+        aria-valuenow={this.minValue}
+        aria-valuemin={this.min}
+        aria-valuemax={this.max}
+        disabled={this.disabled}
+        style={{ left }}
+        class={{
+          thumb: true,
+          "thumb--min": true,
+          "thumb--active": this.dragProp === "minValue",
+        }}
+      >
+        <div class="handle"></div>
+        <span class="handle__label handle__label--minValue" aria-hidden="true">
+          {this.minValue && this.minValue.toLocaleString()}
+        </span>
+        <span
+          class="handle__label handle__label--minValue copy"
+          aria-hidden="true"
+        >
+          {this.minValue && this.minValue.toLocaleString()}
+        </span>
+      </button>
+    );
+
     const minPreciseHandle = (
       <button
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
@@ -426,29 +495,47 @@ export class CalciteSlider {
             ))}
           </div>
         </div>
-        {!this.precise && !this.labelHandles && this.isRange ? minHandle : null}
-        {!this.precise && this.labelHandles && this.isRange
-          ? minLabeledHandle
-          : null}
-        {this.precise && !this.labelHandles && this.isRange
-          ? minPreciseHandle
-          : null}
-        {this.precise && this.labelHandles && this.isRange
-          ? minLabeledPreciseHandle
-          : null}
+        {!this.precise && !this.labelHandles && this.isRange && minHandle}
+        {!this.hasHistogram &&
+          !this.precise &&
+          this.labelHandles &&
+          this.isRange &&
+          minLabeledHandle}
+        {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
+        {this.precise &&
+          this.labelHandles &&
+          this.isRange &&
+          minLabeledPreciseHandle}
+        {this.hasHistogram &&
+          !this.precise &&
+          this.labelHandles &&
+          this.isRange &&
+          minHistogramLabeledHandle}
 
-        {!this.precise && !this.labelHandles ? handle : null}
-        {!this.precise && this.labelHandles ? labeledHandle : null}
-        {this.precise && !this.labelHandles ? preciseHandle : null}
-        {!this.hasHistogram && this.precise && this.labelHandles
-          ? labeledPreciseHandle
-          : null}
-        {this.hasHistogram && this.precise && this.labelHandles && !this.isRange
-          ? labeledPreciseHandle
-          : null}
-        {this.hasHistogram && this.precise && this.labelHandles && this.isRange
-          ? histogramLabeledPreciseHandle
-          : null}
+        {!this.precise && !this.labelHandles && handle}
+        {!this.hasHistogram &&
+          !this.precise &&
+          this.labelHandles &&
+          labeledHandle}
+        {this.precise && !this.labelHandles && preciseHandle}
+        {!this.hasHistogram &&
+          this.precise &&
+          this.labelHandles &&
+          labeledPreciseHandle}
+        {this.hasHistogram &&
+          !this.precise &&
+          this.labelHandles &&
+          histogramLabeledHandle}
+        {this.hasHistogram &&
+          this.precise &&
+          this.labelHandles &&
+          !this.isRange &&
+          labeledPreciseHandle}
+        {this.hasHistogram &&
+          this.precise &&
+          this.labelHandles &&
+          this.isRange &&
+          histogramLabeledPreciseHandle}
       </Host>
     );
   }

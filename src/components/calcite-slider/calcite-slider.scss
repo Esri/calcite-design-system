@@ -119,6 +119,18 @@ $tick-height: 4px;
     transform: translate(-50%, -26px);
   }
 }
+:host([has-histogram][label-handles]) {
+  .thumb {
+    transform: translate(7px, -8px);
+    .handle__label {
+      margin-bottom: unset;
+      margin-top: 5px;
+    }
+  }
+  .thumb--min {
+    transform: translate(-50%, -8px);
+  }
+}
 :host([precise]) {
   .thumb {
     transform: translate(7px, -21px);
@@ -165,6 +177,18 @@ $tick-height: 4px;
   }
   .thumb--min {
     transform: translate(-50%, -2px);
+  }
+}
+:host([has-histogram][precise][label-handles][is-range][ticks]) {
+  .thumb {
+    transform: translate(50%, -3px);
+    .handle__label {
+      margin-bottom: unset;
+      margin-top: 5px;
+    }
+  }
+  .thumb--min {
+    transform: translate(-50%, -3px);
   }
 }
 
