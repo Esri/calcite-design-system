@@ -77,7 +77,7 @@ $tick-height: 4px;
     width: $handle-size;
     box-sizing: border-box;
     border-radius: 100%;
-    background-color: var(--calcite-ui-foreground-1);
+    // background-color: var(--calcite-ui-foreground-1);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
     transition: border 0.25s ease, background-color 0.25s ease,
       box-shadow 0.25s ease;
@@ -113,15 +113,15 @@ $tick-height: 4px;
 }
 :host([label-handles]) {
   .thumb {
-    transform: translate(50%, -26px);
+    transform: translate(50%, -25px);
   }
   .thumb--min {
-    transform: translate(-50%, -26px);
+    transform: translate(-50%, -25px);
   }
 }
 :host([has-histogram][label-handles]) {
   .thumb {
-    transform: translate(7px, -8px);
+    transform: translate(50%, -8px);
     .handle__label {
       margin-bottom: unset;
       margin-top: 5px;
@@ -177,7 +177,7 @@ $tick-height: 4px;
 }
 :host([has-histogram][precise][label-handles]) {
   .thumb {
-    transform: translate(7px, -2px);
+    transform: translate(50%, -2px);
   }
   .thumb--min {
     transform: translate(-50%, -2px);
@@ -204,7 +204,7 @@ $tick-height: 4px;
 .thumb--active {
   z-index: 3;
   .handle {
-    background-color: var(--calcite-ui-blue-1);
+    // background-color: var(--calcite-ui-blue-1);
     @include shadow(1, "press");
   }
 }
