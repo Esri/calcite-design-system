@@ -1,6 +1,27 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 
 describe("calcite-dropdown", () => {
+  /**
+   * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
+   */
+  async function assertSelectedItems(
+    page: E2EPage,
+    expectedItemIds: string[]
+  ): Promise<void> {
+    const selectedItemIds = await page.evaluate(() => {
+      const dropdown = document.querySelector<HTMLCalciteDropdownElement>(
+        "calcite-dropdown"
+      );
+      return dropdown.selectedItems.map((item) => item.id);
+    });
+
+    expect(selectedItemIds).toHaveLength(expectedItemIds.length);
+
+    expectedItemIds.forEach((itemId, index) =>
+      expect(selectedItemIds[index]).toEqual(itemId)
+    );
+  }
+
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -240,22 +261,28 @@ describe("calcite-dropdown", () => {
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
+    const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     expect(group1).toEqualAttribute("selection-mode", "multi");
     await trigger.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-2"]);
     await item1.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-2"]);
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1"]);
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-3"]);
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
+    expect(itemChangeSpy).toHaveReceivedEventTimes(3);
   });
 
   it("renders just one active item when group is in single selection mode", async () => {
@@ -282,19 +309,24 @@ describe("calcite-dropdown", () => {
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
+    const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     expect(group1).toEqualAttribute("selection-mode", "single");
+    await assertSelectedItems(page, ["item-2"]);
     await trigger.click();
     await page.waitForChanges();
     await item1.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1"]);
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-3"]);
 
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
+    expect(itemChangeSpy).toHaveReceivedEventTimes(2);
   });
 
   it("renders no active item when group is in none selection mode (and removes any active state set in dom)", async () => {
@@ -321,16 +353,25 @@ describe("calcite-dropdown", () => {
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
+    const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     expect(group1).toEqualAttribute("selection-mode", "none");
+    await assertSelectedItems(page, []);
     await trigger.click();
     await item1.click();
+    await page.waitForChanges();
+    await assertSelectedItems(page, []);
     await trigger.click();
     await item2.click();
+    await page.waitForChanges();
+    await assertSelectedItems(page, []);
     await trigger.click();
     await item3.click();
+    await page.waitForChanges();
+    await assertSelectedItems(page, []);
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).not.toHaveAttribute("active");
+    expect(itemChangeSpy).toHaveReceivedEventTimes(0);
   });
 
   it("renders the correct active state when parent contains groups of assorted selection modes", async () => {
@@ -387,39 +428,48 @@ describe("calcite-dropdown", () => {
     const item7 = await element.find("calcite-dropdown-item[id='item-7']");
     const item8 = await element.find("calcite-dropdown-item[id='item-8']");
     const item9 = await element.find("calcite-dropdown-item[id='item-9']");
+    const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
 
     expect(group1).toEqualAttribute("selection-mode", "multi");
     expect(group2).toEqualAttribute("selection-mode", "single");
     expect(group3).toEqualAttribute("selection-mode", "none");
+    await assertSelectedItems(page, ["item-2", "item-5"]);
 
     await trigger.click();
     await page.waitForChanges();
     await item1.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-2", "item-5"]);
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-5"]);
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-3", "item-5"]);
     await trigger.click();
     await page.waitForChanges();
     await item4.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-3", "item-4"]);
     await trigger.click();
     await page.waitForChanges();
     await item6.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-3", "item-6"]);
     await trigger.click();
     await page.waitForChanges();
     await item7.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-3", "item-6"]);
     await trigger.click();
     await page.waitForChanges();
     await item9.click();
     await page.waitForChanges();
+    await assertSelectedItems(page, ["item-1", "item-3", "item-6"]);
 
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
@@ -430,6 +480,7 @@ describe("calcite-dropdown", () => {
     expect(item7).not.toHaveAttribute("active");
     expect(item8).not.toHaveAttribute("active");
     expect(item9).not.toHaveAttribute("active");
+    expect(itemChangeSpy).toHaveReceivedEventTimes(5);
   });
 
   it("renders a calcite-dropdown-item with child anchor link with passed attributes if href is present", async () => {
@@ -450,7 +501,9 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown-group>
       </calcite-dropdown>`
     );
-    const elementAsLink = await page.find("calcite-dropdown-item[id='item-2'] >>> a");
+    const elementAsLink = await page.find(
+      "calcite-dropdown-item[id='item-2'] >>> a"
+    );
     expect(elementAsLink).not.toBeNull();
     expect(elementAsLink).toEqualAttribute("href", "google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
@@ -467,7 +520,7 @@ describe("calcite-dropdown", () => {
       <calcite-dropdown-item id="3">3</calcite-dropdown-item>
       <calcite-dropdown-item id="4">4</calcite-dropdown-item>
       </calcite-dropdown-group>
-      </calcite-dropdown>`
+      </calcite-dropdown>`,
     });
 
     const element = await page.find("calcite-dropdown");
@@ -487,14 +540,16 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-3" active>3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`
+      </calcite-dropdown>`,
     });
 
     const element = await page.find("calcite-dropdown");
     await element.click();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(
+      "item-3"
+    );
   });
 
   it("should focus the first active item on open", async () => {
@@ -507,14 +562,16 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4" active>4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`
+      </calcite-dropdown>`,
     });
 
     const element = await page.find("calcite-dropdown");
     await element.click();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(
+      "item-2"
+    );
   });
 
   describe("scrolling", () => {
@@ -616,5 +673,4 @@ describe("calcite-dropdown", () => {
       }
     });
   });
-
 });

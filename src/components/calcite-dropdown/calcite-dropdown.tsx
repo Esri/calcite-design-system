@@ -1,4 +1,13 @@
-import { Component, Element, h, Host, Listen, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+} from "@stencil/core";
 import { focusElement } from "../../utils/dom";
 import {
   GroupRegistration,
@@ -40,6 +49,13 @@ export class CalciteDropdown {
 
   /** specify the theme of the dropdown, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+
+  /**
+   * **read-only** The currently selected items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedItems: HTMLCalciteDropdownItemElement[] = [];
 
   /** specify the scale of dropdown, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -117,9 +133,12 @@ export class CalciteDropdown {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
+  //  Events
   //
   //--------------------------------------------------------------------------
+
+  /** fires when a dropdown item has been selected or deselected **/
+  @Event() calciteDropdownSelect: EventEmitter<void>;
 
   @Listen("click") openDropdown(e) {
     if (e.target === this.trigger || this.trigger.contains(e.target)) {
@@ -207,6 +226,14 @@ export class CalciteDropdown {
     e.stopPropagation();
   }
 
+  @Listen("calciteDropdownItemSelect") handleItemSelect(
+    event: CustomEvent
+  ): void {
+    this.updateSelectedItems();
+    event.stopPropagation();
+    this.calciteDropdownSelect.emit();
+  }
+
   @Listen("calciteDropdownGroupRegister") registerCalciteDropdownGroup(
     e: CustomEvent<GroupRegistration>
   ) {
@@ -221,6 +248,8 @@ export class CalciteDropdown {
     });
 
     e.stopPropagation();
+
+    this.updateSelectedItems();
   }
 
   //--------------------------------------------------------------------------
@@ -246,6 +275,16 @@ export class CalciteDropdown {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private updateSelectedItems(): void {
+    const items = Array.from(
+      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>(
+        "calcite-dropdown-item"
+      )
+    );
+
+    this.selectedItems = items.filter((item) => item.active);
+  }
 
   private getMaxScrollerHeight(groups: GroupRegistration[]): number {
     const { maxItems } = this;
