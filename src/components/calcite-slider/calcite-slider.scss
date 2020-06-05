@@ -289,6 +289,13 @@ $tick-height: 4px;
   transition: opacity 50ms;
 }
 
+:host([has-histogram]) {
+  .tick__label--min,
+  .tick__label--max {
+    margin: 6px -3px;
+  }
+}
+
 .graph {
   width: 100%;
   height: 48px;
