@@ -293,6 +293,8 @@ $tick-height: 4px;
   .tick__label--min,
   .tick__label--max {
     margin: 6px -3px;
+    font-weight: 300;
+    color: var(--calcite-ui-text-3);
   }
 }
 
