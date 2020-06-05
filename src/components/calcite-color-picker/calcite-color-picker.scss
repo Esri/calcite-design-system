@@ -1,8 +1,10 @@
 $font-weight--medium: 500;
+$section-label-bottom-padding: 10px;
 
 :host {
   border: 1px solid var(--calcite-ui-border-1);
   display: inline-block;
+  background-color: var(--calcite-ui-foreground-1);
 }
 
 :host([scale="s"]) {
@@ -11,6 +13,11 @@ $font-weight--medium: 500;
   .header,
   .color-mode-part-label {
     font-size: 12px;
+  }
+
+  .color-mode-part {
+    width: 48px;
+    margin-right: 3px;
   }
 }
 
@@ -48,7 +55,7 @@ $font-weight--medium: 500;
 }
 
 .section {
-  padding: 16px 12px 0;
+  padding: 16px 10px 0;
 
   &:last-child {
     padding-bottom: 16px;
@@ -82,12 +89,19 @@ $font-weight--medium: 500;
   }
 }
 
+.color-mode,
+.header--hex {
+  padding-bottom: $section-label-bottom-padding;
+}
+
 .control {
-  padding-top: 8px;
+  margin-top: 8px;
 }
 
 .color-mode {
   cursor: pointer;
+  margin-bottom: -1px;
+  border-bottom: 3px solid transparent;
 }
 
 .color-mode-selection {
@@ -112,6 +126,7 @@ $font-weight--medium: 500;
   position: relative;
   display: flex;
   align-items: center;
+  width: 65px;
   margin-right: 8px;
 
   &:last-child {
@@ -127,14 +142,13 @@ $font-weight--medium: 500;
 .color-mode-selected {
   cursor: none;
   color: var(--calcite-ui-text-1);
-  border-bottom: 2px solid var(--calcite-ui-blue);
+  border-bottom-color: var(--calcite-ui-blue-1);
 }
 
 .color-mode-part-input {
-  width: 4ch;
-  padding-left: 16px;
+  padding-left: 18px;
   height: 27px;
-  background-color: var(--calcite-ui-background);
+  width: 100%;
   border: solid 1px var(--calcite-ui-border-2);
   color: var(--calcite-ui-text-1);
   font-family: $avenir-family;
@@ -153,7 +167,7 @@ $font-weight--medium: 500;
   @include avenir-demi();
 
   position: absolute;
-  left: 4px;
+  left: 5px;
   font-size: 14px;
   color: var(--calcite-ui-text-3);
 }

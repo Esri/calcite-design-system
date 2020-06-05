@@ -8,7 +8,6 @@ $height: 28px;
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0.25rem 0 0 0;
   height: $height;
   @include avenir-regular();
 }
@@ -37,8 +36,8 @@ $height: 28px;
   padding: 0 0 0 40px;
   text-transform: uppercase;
   height: inherit;
-  width: 65px;
-  background-color: var(--calcite-ui-background);
+  width: 100%;
+  background-color: var(--calcite-ui-foreground-1);
   border: solid 1px var(--calcite-ui-border-2);
   color: var(--calcite-ui-text-1);
   font-family: $avenir-family;

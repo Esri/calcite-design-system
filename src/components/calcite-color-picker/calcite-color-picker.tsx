@@ -339,6 +339,7 @@ export class CalciteColorPicker {
         ? [this.intlR, this.intlG, this.intlB]
         : [this.intlH, this.intlS, this.intlV];
     const selectedColorInHex = activeColor.hex();
+    const hexInputScale = scale !== "s" ? "m" : scale;
 
     return (
       <Host>
@@ -346,14 +347,20 @@ export class CalciteColorPicker {
         <canvas class={CSS.hueSlider} ref={this.initHueSlider} />
         <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
           <div class={CSS.colorHexOptions}>
-            <span class={{ [CSS.header]: true, [CSS.underlinedHeader]: true }}>
+            <span
+              class={{
+                [CSS.header]: true,
+                [CSS.headerHex]: true,
+                [CSS.underlinedHeader]: true,
+              }}
+            >
               {this.intlHex}
             </span>
             <calcite-hex-input
               class={CSS.control}
               onCalciteHexInputChange={this.handleHexInputChange}
               ref={(node) => (this.hexInputNode = node)}
-              scale={scale}
+              scale={hexInputScale}
               value={selectedColorInHex}
               theme={theme}
             />
