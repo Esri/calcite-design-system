@@ -59,10 +59,10 @@ $tick-height: 4px;
 
   .handle__label {
     transition: transform 150ms;
-    @include font-size(-3);
+    @include font-size(-4);
     font-weight: 500;
     line-height: 1;
-    color: var(--calcite-ui-text-3);
+    color: var(--calcite-ui-text-2);
     margin-bottom: 5px;
     &.copy {
       opacity: 0;
@@ -169,7 +169,7 @@ $tick-height: 4px;
 }
 :host([precise][label-handles]) {
   .thumb {
-    transform: translate(50%, -39px);
+    transform: translate(50%, -38px);
   }
   .thumb--min {
     transform: translate(-50%, -2px);
@@ -185,7 +185,7 @@ $tick-height: 4px;
 }
 :host([precise][ticks][label-handles]) {
   .thumb {
-    transform: translate(50%, -38px);
+    transform: translate(50%, -37px);
   }
   .thumb--min {
     transform: translate(-50%, -3px);
@@ -264,9 +264,9 @@ $tick-height: 4px;
 
 .tick__label {
   position: absolute;
-  @include font-size(-3);
+  @include font-size(-4);
   font-weight: 500;
-  color: var(--calcite-ui-text-3);
+  color: var(--calcite-ui-text-2);
   width: 4em;
   margin: $thumb-size / 2 -2em;
   text-align: center;
