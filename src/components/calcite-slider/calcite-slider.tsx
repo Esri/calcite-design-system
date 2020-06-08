@@ -97,12 +97,15 @@ export class CalciteSlider {
     this.adjustObscuredHandleLabel("value");
     if (this.isRange) {
       this.adjustObscuredHandleLabel("minValue");
-      if (this.precise && this.labelTicks) {
-        this.hideObscuredBoundingTrackLabels("min");
-        if (this.hasHistogram && this.labelHandles) {
-          this.hideObscuredBoundingTrackLabels("both");
-        }
-      }
+    }
+    if (!this.hasHistogram && this.precise && this.labelTicks && this.isRange) {
+      this.hideObscuredBoundingTrackLabels("min");
+    }
+    if (this.hasHistogram && this.labelTicks && !this.isRange) {
+      this.hideObscuredBoundingTrackLabels("max");
+    }
+    if (this.hasHistogram && this.labelTicks && this.isRange) {
+      this.hideObscuredBoundingTrackLabels("both");
     }
   }
 
@@ -597,17 +600,69 @@ export class CalciteSlider {
         {tick.toLocaleString()}
       </span>
     );
-    if (this.labelTicks) {
-      if (this.hasHistogram || (this.isRange && this.precise)) {
-        if (
-          (this.precise || this.labelHandles) &&
-          (isMinTickLabel || isMaxTickLabel)
-        ) {
-          return tickLabel;
-        } else {
-          return null;
-        }
-      }
+    if (this.labelTicks && !this.hasHistogram && !this.isRange) {
+      return tickLabel;
+    }
+    if (
+      this.labelTicks &&
+      !this.hasHistogram &&
+      this.isRange &&
+      !this.precise &&
+      !this.labelHandles
+    ) {
+      return tickLabel;
+    }
+    if (
+      this.labelTicks &&
+      !this.hasHistogram &&
+      this.isRange &&
+      !this.precise &&
+      this.labelHandles
+    ) {
+      return tickLabel;
+    }
+    if (
+      this.labelTicks &&
+      !this.hasHistogram &&
+      this.isRange &&
+      this.precise &&
+      (isMinTickLabel || isMaxTickLabel)
+    ) {
+      return tickLabel;
+    }
+    if (
+      this.labelTicks &&
+      this.hasHistogram &&
+      !this.precise &&
+      !this.labelHandles
+    ) {
+      return tickLabel;
+    }
+    if (
+      this.labelTicks &&
+      this.hasHistogram &&
+      this.precise &&
+      !this.labelHandles &&
+      (isMinTickLabel || isMaxTickLabel)
+    ) {
+      return tickLabel;
+    }
+    if (
+      this.labelTicks &&
+      this.hasHistogram &&
+      !this.precise &&
+      this.labelHandles &&
+      (isMinTickLabel || isMaxTickLabel)
+    ) {
+      return tickLabel;
+    }
+    if (
+      this.labelTicks &&
+      this.hasHistogram &&
+      this.precise &&
+      this.labelHandles &&
+      (isMinTickLabel || isMaxTickLabel)
+    ) {
       return tickLabel;
     }
     return null;
@@ -894,7 +949,9 @@ export class CalciteSlider {
       }
     }
   }
-  private hideObscuredBoundingTrackLabels(whichHandles: "min" | "both") {
+  private hideObscuredBoundingTrackLabels(
+    whichHandles: "min" | "max" | "both"
+  ) {
     const minHandle = this.el.shadowRoot.querySelector(`.thumb--min`);
     const minTickLabel = this.el.shadowRoot.querySelector(".tick__label--min");
     const maxTickLabel = this.el.shadowRoot.querySelector(".tick__label--max");
@@ -912,6 +969,8 @@ export class CalciteSlider {
         } else {
           (minTickLabel as HTMLSpanElement).style.opacity = "1";
         }
+        break;
+      case "max":
         if (
           this.isMaxBoundingLabelObscured(
             (maxTickLabel as HTMLElement).offsetParent,
