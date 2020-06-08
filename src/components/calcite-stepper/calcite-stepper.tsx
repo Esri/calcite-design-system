@@ -284,7 +284,7 @@ export class CalciteStepper {
       .sort((a, b) => a.position - b.position)
       .map((a) => a.item);
 
-    return [...new Set(items)];
+    return [...Array.from(new Set(items))];
   }
 
   private updateContent(content) {
