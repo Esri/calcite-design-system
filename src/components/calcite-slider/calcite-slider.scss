@@ -9,6 +9,15 @@ $thumb-padding: ($thumb-size - $handle-size) / 2;
 $track-height: 2px;
 $tick-height: 4px;
 
+@mixin histogramEndcaps() {
+  .tick__label--min,
+  .tick__label--max {
+    margin: 6px -3px;
+    font-weight: 300;
+    color: var(--calcite-ui-text-3);
+  }
+}
+
 :host {
   display: block;
   padding: $handle-size / 2 0;
@@ -77,7 +86,7 @@ $tick-height: 4px;
     width: $handle-size;
     box-sizing: border-box;
     border-radius: 100%;
-    // background-color: var(--calcite-ui-foreground-1);
+    background-color: var(--calcite-ui-foreground-1);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
     transition: border 0.25s ease, background-color 0.25s ease,
       box-shadow 0.25s ease;
@@ -204,7 +213,7 @@ $tick-height: 4px;
 .thumb--active {
   z-index: 3;
   .handle {
-    // background-color: var(--calcite-ui-blue-1);
+    background-color: var(--calcite-ui-blue-1);
     @include shadow(1, "press");
   }
 }
@@ -289,13 +298,11 @@ $tick-height: 4px;
   transition: opacity 50ms;
 }
 
-:host([has-histogram]) {
-  .tick__label--min,
-  .tick__label--max {
-    margin: 6px -3px;
-    font-weight: 300;
-    color: var(--calcite-ui-text-3);
-  }
+:host([has-histogram][label-handles]) {
+  @include histogramEndcaps();
+}
+:host([has-histogram][precise]) {
+  @include histogramEndcaps();
 }
 
 .graph {

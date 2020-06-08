@@ -977,6 +977,9 @@ export class CalciteSlider {
     if (!this.hasHistogram && this.isRange && !this.precise) {
       return;
     }
+    if (this.hasHistogram && !this.precise && !this.labelHandles) {
+      return;
+    }
 
     const minHandle = this.el.shadowRoot.querySelector(".thumb--min");
     const maxHandle = this.el.shadowRoot.querySelector(".thumb--max");
