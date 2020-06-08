@@ -98,15 +98,7 @@ export class CalciteSlider {
     if (this.isRange) {
       this.adjustObscuredHandleLabel("minValue");
     }
-    if (!this.hasHistogram && this.precise && this.labelTicks && this.isRange) {
-      this.hideObscuredBoundingTrackLabels("min");
-    }
-    if (this.hasHistogram && this.labelTicks && !this.isRange) {
-      this.hideObscuredBoundingTrackLabels("max");
-    }
-    if (this.hasHistogram && this.labelTicks && this.isRange) {
-      this.hideObscuredBoundingTrackLabels("both");
-    }
+    this.hideObscuredBoundingTickLabels();
   }
 
   render() {
@@ -949,70 +941,84 @@ export class CalciteSlider {
       }
     }
   }
-  private hideObscuredBoundingTrackLabels(
-    whichHandles: "min" | "max" | "both"
-  ) {
-    const minHandle = this.el.shadowRoot.querySelector(`.thumb--min`);
-    const minTickLabel = this.el.shadowRoot.querySelector(".tick__label--min");
-    const maxTickLabel = this.el.shadowRoot.querySelector(".tick__label--max");
-    switch (whichHandles) {
-      default:
-        break;
-      case "min":
-        if (
-          this.isMinBoundingLabelObscured(
-            (minTickLabel as HTMLElement).offsetParent,
-            minHandle
-          )
-        ) {
-          (minTickLabel as HTMLSpanElement).style.opacity = "0";
-        } else {
-          (minTickLabel as HTMLSpanElement).style.opacity = "1";
-        }
-        break;
-      case "max":
-        if (
-          this.isMaxBoundingLabelObscured(
-            (maxTickLabel as HTMLElement).offsetParent,
-            minHandle
-          )
-        ) {
-          (maxTickLabel as HTMLSpanElement).style.opacity = "0";
-        } else {
-          (maxTickLabel as HTMLSpanElement).style.opacity = "1";
-        }
-        break;
-      case "both":
-        const maxHandle = this.el.shadowRoot.querySelector(`.thumb--max`);
-        if (
-          this.isMinBoundingLabelObscured(
-            (minTickLabel as HTMLElement).offsetParent,
-            minHandle
-          ) ||
-          this.isMinBoundingLabelObscured(
-            (minTickLabel as HTMLElement).offsetParent,
-            maxHandle
-          )
-        ) {
-          (minTickLabel as HTMLSpanElement).style.opacity = "0";
-        } else {
-          (minTickLabel as HTMLSpanElement).style.opacity = "1";
-        }
-        if (
-          this.isMaxBoundingLabelObscured(
-            (maxTickLabel as HTMLElement).offsetParent,
-            minHandle
-          ) ||
-          this.isMaxBoundingLabelObscured(
-            (maxTickLabel as HTMLElement).offsetParent,
-            maxHandle
-          )
-        ) {
-          (maxTickLabel as HTMLSpanElement).style.opacity = "0";
-        } else {
-          (maxTickLabel as HTMLSpanElement).style.opacity = "1";
-        }
-        break;
+  private hideObscuredBoundingTickLabels() {
+    if (
+      !this.hasHistogram &&
+      !this.isRange &&
+      !this.labelHandles &&
+      !this.precise
+    ) {
+      return;
+    }
+    if (
+      !this.hasHistogram &&
+      !this.isRange &&
+      this.labelHandles &&
+      !this.precise
+    ) {
+      return;
+    }
+    if (
+      !this.hasHistogram &&
+      !this.isRange &&
+      !this.labelHandles &&
+      this.precise
+    ) {
+      return;
+    }
+    if (
+      !this.hasHistogram &&
+      !this.isRange &&
+      this.labelHandles &&
+      this.precise
+    ) {
+      return;
+    }
+    if (!this.hasHistogram && this.isRange && !this.precise) {
+      return;
+    }
+
+    const minHandle = this.el.shadowRoot.querySelector(".thumb--min");
+    const maxHandle = this.el.shadowRoot.querySelector(".thumb--max");
+
+    const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      ".tick__label--min"
+    );
+    const maxTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      ".tick__label--max"
+    );
+
+    if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
+      if (this.isMinTickLabelObscured(minTickLabel.offsetParent, maxHandle)) {
+        minTickLabel.style.opacity = "0";
+      } else {
+        minTickLabel.style.opacity = "1";
+      }
+      if (this.isMaxTickLabelObscured(maxTickLabel.offsetParent, maxHandle)) {
+        maxTickLabel.style.opacity = "0";
+      } else {
+        maxTickLabel.style.opacity = "1";
+      }
+    }
+
+    if (minHandle && maxHandle && minTickLabel && maxTickLabel) {
+      if (
+        this.isMinTickLabelObscured(minTickLabel.offsetParent, minHandle) ||
+        this.isMinTickLabelObscured(minTickLabel.offsetParent, maxHandle)
+      ) {
+        minTickLabel.style.opacity = "0";
+      } else {
+        minTickLabel.style.opacity = "1";
+      }
+      if (
+        this.isMaxTickLabelObscured(maxTickLabel.offsetParent, minHandle) ||
+        (this.isMaxTickLabelObscured(maxTickLabel.offsetParent, maxHandle) &&
+          this.hasHistogram)
+      ) {
+        maxTickLabel.style.opacity = "0";
+      } else {
+        maxTickLabel.style.opacity = "1";
+      }
     }
   }
   /**
@@ -1035,7 +1041,7 @@ export class CalciteSlider {
     return 0;
   }
 
-  private isMinBoundingLabelObscured(minLabel, handle) {
+  private isMinTickLabelObscured(minLabel, handle) {
     const minLabelRight = minLabel.offsetLeft + minLabel.offsetWidth;
     const handleLeft = handle.offsetLeft;
     if (handleLeft < minLabelRight) {
@@ -1044,7 +1050,7 @@ export class CalciteSlider {
     return false;
   }
 
-  private isMaxBoundingLabelObscured(maxLabel, handle) {
+  private isMaxTickLabelObscured(maxLabel, handle) {
     const maxLabelLeft = maxLabel.offsetLeft;
     const handleRight = handle.offsetLeft + handle.offsetWidth;
     if (handleRight > maxLabelLeft) {
