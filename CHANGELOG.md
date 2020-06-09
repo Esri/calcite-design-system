@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-accordion` - styling of `icon-position=end` icons has been updated for `chevron` and `caret` values - it will now display upward when a `calcite-accordion-item` is collapsed, and downward when expanded
 - `calcite-input` - when `status="valid"`, icon (if present) will appear green
+- `calcite-popover` - `max-width` has been removed. Content may need width set.
 
 ## [v1.0.0-beta.26] - May 18th 2020
 
