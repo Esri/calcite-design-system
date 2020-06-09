@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+- `calcite-popover` - `max-width` has been removed. Content may need width set.
+
 ### Breaking Changes
 
 - `calcite-accordion` - `calciteAccordionItemHasChanged` event has been renamed to `calciteAccordionChange`
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-dropdown-item` - `registerCalciteDropdownItem` event has been renamed to `calciteDropdownItemRegister`
 - `calcite-dropdown-item` - `calciteDropdownItemSelected` event has been renamed to `calciteDropdownItemSelect` and is now internal.
 - `calcite-dropdown-item` - `closeCalciteDropdown` event has been renamed to `calciteDropdownClose`
+- `calcite-popover` - `max-width` has been removed. Content may need width set.
 
 ### Added
 
