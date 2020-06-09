@@ -117,14 +117,14 @@ $tick-height: 4px;
     }
   }
 }
-.thumb--min {
+.thumb--minValue {
   transform: translate(-7px, -8px);
 }
 :host([label-handles]) {
   .thumb {
     transform: translate(50%, -25px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-50%, -25px);
   }
 }
@@ -136,7 +136,7 @@ $tick-height: 4px;
       margin-top: 5px;
     }
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-50%, -8px);
   }
 }
@@ -144,7 +144,7 @@ $tick-height: 4px;
   .thumb {
     transform: translate(7px, -21px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-7px, -2px);
     .handle__label {
       margin-bottom: unset;
@@ -156,7 +156,7 @@ $tick-height: 4px;
   .thumb {
     transform: translate(7px, -2px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-50%, -2px);
   }
 }
@@ -164,7 +164,7 @@ $tick-height: 4px;
   .thumb {
     transform: translate(7px, -20px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-7px, -3px);
   }
 }
@@ -172,7 +172,7 @@ $tick-height: 4px;
   .thumb {
     transform: translate(7px, -3px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-50%, -3px);
   }
 }
@@ -180,7 +180,7 @@ $tick-height: 4px;
   .thumb {
     transform: translate(50%, -38px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-50%, -2px);
   }
 }
@@ -188,7 +188,7 @@ $tick-height: 4px;
   .thumb {
     transform: translate(50%, -2px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-50%, -2px);
   }
 }
@@ -196,7 +196,7 @@ $tick-height: 4px;
   .thumb {
     transform: translate(50%, -37px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-50%, -3px);
   }
 }
@@ -204,7 +204,7 @@ $tick-height: 4px;
   .thumb {
     transform: translate(50%, -3px);
   }
-  .thumb--min {
+  .thumb--minValue {
     transform: translate(-50%, -3px);
   }
 }

@@ -127,7 +127,7 @@ export class CalciteSlider {
         style={{ right }}
         class={{
           thumb: true,
-          "thumb--max": true,
+          "thumb--value": true,
           "thumb--active":
             this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
         }}
@@ -153,7 +153,7 @@ export class CalciteSlider {
         style={{ right }}
         class={{
           thumb: true,
-          "thumb--max": true,
+          "thumb--value": true,
           "thumb--active":
             this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
         }}
@@ -188,7 +188,7 @@ export class CalciteSlider {
         style={{ right }}
         class={{
           thumb: true,
-          "thumb--max": true,
+          "thumb--value": true,
           "thumb--active":
             this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
         }}
@@ -223,7 +223,7 @@ export class CalciteSlider {
         style={{ right }}
         class={{
           thumb: true,
-          "thumb--max": true,
+          "thumb--value": true,
           "thumb--active":
             this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true,
@@ -251,7 +251,7 @@ export class CalciteSlider {
         style={{ right }}
         class={{
           thumb: true,
-          "thumb--max": true,
+          "thumb--value": true,
           "thumb--active":
             this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true,
@@ -279,7 +279,7 @@ export class CalciteSlider {
         style={{ right }}
         class={{
           thumb: true,
-          "thumb--max": true,
+          "thumb--value": true,
           "thumb--active":
             this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true,
@@ -316,7 +316,7 @@ export class CalciteSlider {
         style={{ right }}
         class={{
           thumb: true,
-          "thumb--max": true,
+          "thumb--value": true,
           "thumb--active":
             this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true,
@@ -353,7 +353,7 @@ export class CalciteSlider {
         style={{ left }}
         class={{
           thumb: true,
-          "thumb--min": true,
+          "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
         }}
       >
@@ -378,7 +378,7 @@ export class CalciteSlider {
         style={{ left }}
         class={{
           thumb: true,
-          "thumb--min": true,
+          "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
         }}
       >
@@ -412,7 +412,7 @@ export class CalciteSlider {
         style={{ left }}
         class={{
           thumb: true,
-          "thumb--min": true,
+          "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
         }}
       >
@@ -446,7 +446,7 @@ export class CalciteSlider {
         style={{ left }}
         class={{
           thumb: true,
-          "thumb--min": true,
+          "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
           "thumb--precise": true,
         }}
@@ -473,7 +473,7 @@ export class CalciteSlider {
         style={{ left }}
         class={{
           thumb: true,
-          "thumb--min": true,
+          "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
           "thumb--precise": true,
         }}
@@ -923,20 +923,21 @@ export class CalciteSlider {
   }
   private adjustObscuredHandleLabel(name: "value" | "minValue") {
     if (this.labelHandles) {
-      const element = this.el.shadowRoot.querySelector(
+      const handle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
+        `.thumb--${name}`
+      );
+      const label: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
         `.handle__label--${name}`
       );
-      const elementCopy = this.el.shadowRoot.querySelector(
+      const labelCopy: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
         `.handle__label--${name}.copy`
       );
-      if (element && elementCopy) {
-        const isOutOfViewport = this.isOutOfViewport(
-          elementCopy as HTMLElement
-        );
-        if (isOutOfViewport) {
-          (element as HTMLElement).style.transform = `translateX(${isOutOfViewport}px)`;
+      if (handle && label && labelCopy) {
+        const labelOffset = this.getLabelOffset(handle, labelCopy);
+        if (labelOffset) {
+          (label as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
         } else {
-          (element as HTMLElement).style.transform = "";
+          (label as HTMLSpanElement).style.transform = "";
         }
       }
     }
@@ -981,8 +982,8 @@ export class CalciteSlider {
       return;
     }
 
-    const minHandle = this.el.shadowRoot.querySelector(".thumb--min");
-    const maxHandle = this.el.shadowRoot.querySelector(".thumb--max");
+    const minHandle = this.el.shadowRoot.querySelector(".thumb--minValue");
+    const maxHandle = this.el.shadowRoot.querySelector(".thumb--value");
 
     const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
       ".tick__label--min"
@@ -1025,20 +1026,31 @@ export class CalciteSlider {
     }
   }
   /**
-   * Checks if an element is out of the viewport on either the left or right side
+   * Returns an integer representing the number of pixels to offset handle labels based on desired position behavior.
    * @internal
    */
-  private isOutOfViewport(element: HTMLElement): number {
-    const bounding = element.getBoundingClientRect();
-    if (bounding.left < 0) {
-      const offset = Math.abs(bounding.left);
+  private getLabelOffset(
+    handle: HTMLButtonElement,
+    label: HTMLSpanElement
+  ): number {
+    const handleBounds = handle.getBoundingClientRect();
+    const labelBounds = label.getBoundingClientRect();
+    const hostBounds = this.el.getBoundingClientRect();
+    if (
+      handleBounds.left < labelBounds.left ||
+      handleBounds.right > labelBounds.right
+    ) {
+      return 0;
+    }
+    if (labelBounds.left < hostBounds.left) {
+      const offset = Math.floor(hostBounds.left - labelBounds.left - 7);
       return offset;
     }
     if (
-      bounding.right >
-      (window.innerWidth || document.documentElement.clientWidth)
+      labelBounds.right > hostBounds.right ||
+      labelBounds.right > handleBounds.right
     ) {
-      const offset = Math.floor(-(bounding.right - window.innerWidth + 1));
+      const offset = Math.floor(-(labelBounds.right - hostBounds.right) + 7);
       return offset;
     }
     return 0;

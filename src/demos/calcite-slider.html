@@ -8,12 +8,10 @@
   <title>Calcite Slider</title>
   <style>
     body {
-      margin: 0;
+      margin: 20px;
     }
     .demo-background-light {
-      border-top: 1px solid #202020;
-      border-right: 1px solid #202020;
-      border-bottom: 1px solid #202020;
+      border: 1px solid #202020;
       padding: 1rem;
     }
     .demo-background-dark {
@@ -69,6 +67,8 @@
 
         <h3>Ticks with Labeled Handle</h3>
         <calcite-slider min="0" max="100" value="40" step="10" ticks="10" label="Temperature" label-handles>
+        </calcite-slider>
+        <calcite-slider min="-100" max="0" value="0" step="10" ticks="10" label="Temperature" label-handles>
         </calcite-slider>
 
         <h3>Ticks with Precise Handle</h3>
