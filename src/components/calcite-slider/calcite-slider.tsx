@@ -94,9 +94,12 @@ export class CalciteSlider {
   }
 
   componentDidRender() {
-    this.adjustObscuredHandleLabel("value");
-    if (this.isRange) {
-      this.adjustObscuredHandleLabel("minValue");
+    const valueOffset = this.adjustObscuredEndcapLabel("value");
+    if (this.isRange && this.labelHandles) {
+      const minValueOffset = this.adjustObscuredEndcapLabel("minValue");
+      if (!(this.precise && this.isRange && !this.hasHistogram)) {
+        this.hyphenateCollidingRangeHandleLabels(valueOffset, minValueOffset);
+      }
     }
     this.hideObscuredBoundingTickLabels();
   }
@@ -162,7 +165,13 @@ export class CalciteSlider {
           {value ? value.toLocaleString() : value}
         </span>
         <span
-          class="handle__label handle__label--value copy"
+          class="handle__label handle__label--value static"
+          aria-hidden="true"
+        >
+          {value ? value.toLocaleString() : value}
+        </span>
+        <span
+          class="handle__label handle__label--value transformed"
           aria-hidden="true"
         >
           {value ? value.toLocaleString() : value}
@@ -198,7 +207,13 @@ export class CalciteSlider {
           {value ? value.toLocaleString() : value}
         </span>
         <span
-          class="handle__label handle__label--value copy"
+          class="handle__label handle__label--value static"
+          aria-hidden="true"
+        >
+          {value ? value.toLocaleString() : value}
+        </span>
+        <span
+          class="handle__label handle__label--value transformed"
           aria-hidden="true"
         >
           {value ? value.toLocaleString() : value}
@@ -289,7 +304,13 @@ export class CalciteSlider {
           {value ? value.toLocaleString() : value}
         </span>
         <span
-          class="handle__label handle__label--value copy"
+          class="handle__label handle__label--value static"
+          aria-hidden="true"
+        >
+          {value ? value.toLocaleString() : value}
+        </span>
+        <span
+          class="handle__label handle__label--value transformed"
           aria-hidden="true"
         >
           {value ? value.toLocaleString() : value}
@@ -328,7 +349,13 @@ export class CalciteSlider {
           {value ? value.toLocaleString() : value}
         </span>
         <span
-          class="handle__label handle__label--value copy"
+          class="handle__label handle__label--value static"
+          aria-hidden="true"
+        >
+          {value ? value.toLocaleString() : value}
+        </span>
+        <span
+          class="handle__label handle__label--value transformed"
           aria-hidden="true"
         >
           {value ? value.toLocaleString() : value}
@@ -386,7 +413,13 @@ export class CalciteSlider {
           {this.minValue && this.minValue.toLocaleString()}
         </span>
         <span
-          class="handle__label handle__label--minValue copy"
+          class="handle__label handle__label--minValue static"
+          aria-hidden="true"
+        >
+          {this.minValue && this.minValue.toLocaleString()}
+        </span>
+        <span
+          class="handle__label handle__label--minValue transformed"
           aria-hidden="true"
         >
           {this.minValue && this.minValue.toLocaleString()}
@@ -421,7 +454,13 @@ export class CalciteSlider {
           {this.minValue && this.minValue.toLocaleString()}
         </span>
         <span
-          class="handle__label handle__label--minValue copy"
+          class="handle__label handle__label--minValue static"
+          aria-hidden="true"
+        >
+          {this.minValue && this.minValue.toLocaleString()}
+        </span>
+        <span
+          class="handle__label handle__label--minValue transformed"
           aria-hidden="true"
         >
           {this.minValue && this.minValue.toLocaleString()}
@@ -484,7 +523,13 @@ export class CalciteSlider {
           {this.minValue && this.minValue.toLocaleString()}
         </span>
         <span
-          class="handle__label handle__label--minValue copy"
+          class="handle__label handle__label--minValue static"
+          aria-hidden="true"
+        >
+          {this.minValue && this.minValue.toLocaleString()}
+        </span>
+        <span
+          class="handle__label handle__label--minValue transformed"
           aria-hidden="true"
         >
           {this.minValue && this.minValue.toLocaleString()}
@@ -921,24 +966,93 @@ export class CalciteSlider {
     const range = this.max - this.min;
     return (num - this.min) / range;
   }
-  private adjustObscuredHandleLabel(name: "value" | "minValue") {
-    if (this.labelHandles) {
-      const handle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
-        `.thumb--${name}`
-      );
-      const label: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-        `.handle__label--${name}`
-      );
-      const labelCopy: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-        `.handle__label--${name}.copy`
-      );
-      if (handle && label && labelCopy) {
-        const labelOffset = this.getLabelOffset(handle, labelCopy);
-        if (labelOffset) {
-          (label as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
-        } else {
-          (label as HTMLSpanElement).style.transform = "";
-        }
+  private adjustObscuredEndcapLabel(name: "value" | "minValue"): number {
+    const handle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
+      `.thumb--${name}`
+    );
+    const label: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--${name}`
+    );
+    const labelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--${name}.static`
+    );
+    const labelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--${name}.transformed`
+    );
+    if (handle && label && labelStatic && labelTransformed) {
+      const labelOffset = this.getLabelOffset(handle, labelStatic);
+      if (labelOffset) {
+        (label as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
+        (labelTransformed as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
+      } else {
+        (label as HTMLSpanElement).style.transform = "";
+        (labelTransformed as HTMLSpanElement).style.transform = "";
+      }
+      return Math.abs(labelOffset);
+    }
+    return 0;
+  }
+  private hyphenateCollidingRangeHandleLabels(
+    valueLabelOffset: number,
+    minValueLabelOffset: number
+  ) {
+    const minValueLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--minValue`
+    );
+    const minValueLabelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--minValue.static`
+    );
+    const minValueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--minValue.transformed`
+    );
+
+    const valueLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--value`
+    );
+    const valueLabelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--value.static`
+    );
+    const valueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.handle__label--value.transformed`
+    );
+
+    if (
+      minValueLabel &&
+      valueLabel &&
+      minValueLabelStatic &&
+      valueLabelStatic &&
+      minValueLabelTransformed &&
+      valueLabelTransformed
+    ) {
+      if (valueLabelOffset > 0) {
+        const labelOverlap = this.getRangeLabelOverlap(
+          minValueLabelTransformed,
+          valueLabelTransformed
+        );
+        minValueLabel.style.marginRight = `${
+          labelOverlap !== 0 ? labelOverlap * 2 + valueLabelOffset + 5 : 0
+        }px`;
+        valueLabel.style.marginLeft = "0px";
+      } else if (minValueLabelOffset > 0) {
+        const labelOverlap = this.getRangeLabelOverlap(
+          minValueLabelTransformed,
+          valueLabelTransformed
+        );
+        minValueLabel.style.marginRight = "0px";
+        valueLabel.style.marginLeft = `${
+          labelOverlap !== 0 ? labelOverlap * 2 + minValueLabelOffset + 5 : 0
+        }px`;
+      } else {
+        const labelStaticOverlap = this.getRangeLabelOverlap(
+          minValueLabelStatic,
+          valueLabelStatic
+        );
+        minValueLabel.style.marginRight = `${
+          labelStaticOverlap !== 0 ? labelStaticOverlap + 5 : 0
+        }px`;
+        valueLabel.style.marginLeft = `${
+          labelStaticOverlap !== 0 ? labelStaticOverlap + 5 : 0
+        }px`;
       }
     }
   }
@@ -1052,6 +1166,18 @@ export class CalciteSlider {
     ) {
       const offset = Math.floor(-(labelBounds.right - hostBounds.right) + 7);
       return offset;
+    }
+    return 0;
+  }
+
+  private getRangeLabelOverlap(
+    minValueLabel: HTMLSpanElement,
+    valueLabel: HTMLSpanElement
+  ): number {
+    const minValueLabelBounds = minValueLabel.getBoundingClientRect();
+    const valueLabelBounds = valueLabel.getBoundingClientRect();
+    if (minValueLabelBounds.right > valueLabelBounds.left) {
+      return minValueLabelBounds.right - valueLabelBounds.left;
     }
     return 0;
   }

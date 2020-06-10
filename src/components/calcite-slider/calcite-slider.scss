@@ -73,7 +73,8 @@ $tick-height: 4px;
     line-height: 1;
     color: var(--calcite-ui-text-2);
     margin-bottom: 5px;
-    &.copy {
+    &.static,
+    &.transformed {
       opacity: 0;
       position: absolute;
       top: 0;
