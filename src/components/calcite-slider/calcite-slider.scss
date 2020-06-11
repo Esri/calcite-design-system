@@ -67,8 +67,6 @@ $tick-height: 4px;
   transform: translate(7px, -8px);
 
   .handle__label {
-    background-color: rgba(255, 0, 0, 0.3);
-    box-sizing: border-box;
     transition: transform 150ms;
     @include font-size(-4);
     font-weight: 500;
