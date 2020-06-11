@@ -114,11 +114,6 @@ export class CalciteDropdownGroup {
   @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(
     event: CustomEvent
   ) {
-    if (this.selectionMode === "none") {
-      event.stopPropagation();
-      return;
-    }
-
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
     this.calciteDropdownItemChange.emit({

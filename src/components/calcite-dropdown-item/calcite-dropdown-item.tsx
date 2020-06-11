@@ -243,8 +243,8 @@ export class CalciteDropdownItem {
     this.calciteDropdownItemSelect.emit({
       requestedDropdownItem: this.dropdownItemId,
       requestedDropdownGroup: this.currentDropdownGroup,
+      requestedDropdownGroupMode: this.selectionMode,
     });
-    this.calciteDropdownClose.emit();
   }
 
   private getAttributes() {

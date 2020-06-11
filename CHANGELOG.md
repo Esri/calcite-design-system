@@ -23,15 +23,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-dropdown` now has a read-only `selectedItems` prop that contains all selected items.
 - `calcite-dropdown` now emits `calciteDropdownSelect` when an item selection changes.
+- `calcite-dropdown` now has a `disable-close-on-select` attribute that allows dropdowns to remain open on selection when `calcite-dropdown-group` `selection-mode` is set to `single` or `multi`
 
 ### Fixed
 
 - `calcite-accordion` - Fix for incorrect keyboard navigation behavior when a `calcite-accordion` was nested inside another `calcite-accordion`
 - `calcite-accordion` - Fix for incorrect display of `icon-position` when a `calcite-accordion` was nested inside another `calcite-accordion`
+- `calcite-dropdown` - will now correctly focus the slotted `dropdown-trigger` element when the dropdown is closed
 
 ### Updated
 
 - `calcite-popover` - `max-width` has been removed. Content may need width set.
+- `calcite-dropdown` - a dropdown will now close if another dropdown is opened
+- `calcite-dropdown` - mouse clicks on `calcite-dropdown-group` titles will no longer close the dropdown
 
 ## [v1.0.0-beta.27] - May 26th 2020
 
