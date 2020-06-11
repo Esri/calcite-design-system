@@ -252,7 +252,7 @@ export class CalciteDropdown {
     this.calciteDropdownSelect.emit();
     if (
       !this.disableCloseOnSelect ||
-      event.detail.requestedDropdownGroupMode === "none"
+      event.detail.requestedDropdownGroup.selectionMode === "none"
     )
       this.closeCalciteDropdown();
   }

@@ -10,7 +10,6 @@ import {
   Prop,
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { ItemKeyboardEvent, ItemRegistration } from "../../interfaces/Dropdown";
 import { getKey } from "../../utils/key";
 
@@ -178,7 +177,7 @@ export class CalciteDropdownItem {
 
   @Listen("calciteDropdownGroupRegister", { target: "parent" })
   registerCalciteDropdownGroup(event: CustomEvent) {
-    this.currentDropdownGroup = event.detail.groupId;
+    this.currentDropdownGroup = event.detail.group;
   }
 
   @Listen("calciteDropdownItemChange", { target: "parent" })
@@ -193,19 +192,18 @@ export class CalciteDropdownItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  private dropdownItemId = `calcite-dropdown-item-${guid()}`;
 
   /** position withing group */
   private itemPosition: number;
 
   /** id of containing group */
-  private currentDropdownGroup: string;
+  private currentDropdownGroup: HTMLCalciteDropdownGroupElement;
 
   /** requested group */
-  private requestedDropdownGroup: string;
+  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
 
   /** requested item */
-  private requestedDropdownItem: string;
+  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   /** what selection mode is the parent dropdown group in */
   private selectionMode = getElementProp(this.el, "selection-mode", "single");
@@ -222,13 +220,11 @@ export class CalciteDropdownItem {
   private determineActiveItem() {
     switch (this.selectionMode) {
       case "multi":
-        if (this.dropdownItemId === this.requestedDropdownItem)
-          this.active = !this.active;
+        if (this.el === this.requestedDropdownItem) this.active = !this.active;
         break;
 
       case "single":
-        if (this.dropdownItemId === this.requestedDropdownItem)
-          this.active = true;
+        if (this.el === this.requestedDropdownItem) this.active = true;
         else if (this.requestedDropdownGroup === this.currentDropdownGroup)
           this.active = false;
         break;
@@ -241,9 +237,8 @@ export class CalciteDropdownItem {
 
   private emitRequestedItem() {
     this.calciteDropdownItemSelect.emit({
-      requestedDropdownItem: this.dropdownItemId,
+      requestedDropdownItem: this.el as HTMLCalciteDropdownItemElement,
       requestedDropdownGroup: this.currentDropdownGroup,
-      requestedDropdownGroupMode: this.selectionMode,
     });
   }
 

@@ -8,7 +8,6 @@ import {
   Listen,
   Prop,
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
 import { GroupRegistration, ItemRegistration } from "../../interfaces/Dropdown";
 
 @Component({
@@ -68,7 +67,7 @@ export class CalciteDropdownGroup {
     this.calciteDropdownGroupRegister.emit({
       items: this.items,
       position: this.groupPosition,
-      groupId: this.dropdownGroupId,
+      group: this.el as HTMLCalciteDropdownGroupElement,
       titleEl: this.titleEl,
     });
   }
@@ -131,17 +130,14 @@ export class CalciteDropdownGroup {
   /** created list of dropdown items */
   private items = [];
 
-  /** unique id for dropdown group */
-  private dropdownGroupId = `calcite-dropdown-group-${guid()}`;
-
   /** position of group within a dropdown */
   private groupPosition: number;
 
   /** the requested group */
-  private requestedDropdownGroup: string;
+  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
 
   /** the requested item */
-  private requestedDropdownItem: string;
+  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   private titleEl: HTMLSpanElement = null;
 
