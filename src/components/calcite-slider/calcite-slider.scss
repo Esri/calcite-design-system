@@ -277,10 +277,8 @@ $tick-height: 4px;
   width: 2px;
   height: $tick-height;
   left: var(--calcite-ui-border-1-offset);
-  margin-left: -3px;
+  margin-left: -2px;
   border: 1px solid var(--calcite-ui-foreground-1);
-  border-right-width: 2px;
-  border-left-width: 2px;
   background-color: var(--calcite-ui-border-1);
 }
 
