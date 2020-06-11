@@ -371,7 +371,7 @@ describe("calcite-dropdown", () => {
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).not.toHaveAttribute("active");
-    expect(itemChangeSpy).toHaveReceivedEventTimes(0);
+    expect(itemChangeSpy).toHaveReceivedEventTimes(3);
   });
 
   it("renders the correct active state when parent contains groups of assorted selection modes", async () => {
@@ -480,7 +480,7 @@ describe("calcite-dropdown", () => {
     expect(item7).not.toHaveAttribute("active");
     expect(item8).not.toHaveAttribute("active");
     expect(item9).not.toHaveAttribute("active");
-    expect(itemChangeSpy).toHaveReceivedEventTimes(5);
+    expect(itemChangeSpy).toHaveReceivedEventTimes(7);
   });
 
   it("renders a calcite-dropdown-item with child anchor link with passed attributes if href is present", async () => {
