@@ -79,6 +79,9 @@ $tick-height: 4px;
       position: absolute;
       top: 0;
     }
+    &--minValue.hyphen::after {
+      content: " \2014";
+    }
   }
 
   .handle {

@@ -1025,34 +1025,45 @@ export class CalciteSlider {
       valueLabelTransformed
     ) {
       if (valueLabelOffset > 0) {
-        const labelOverlap = this.getRangeLabelOverlap(
+        const labelTransformedOverlap = this.getRangeLabelOverlap(
           minValueLabelTransformed,
           valueLabelTransformed
         );
-        minValueLabel.style.marginRight = `${
-          labelOverlap !== 0 ? labelOverlap * 2 + valueLabelOffset + 5 : 0
-        }px`;
+        if (labelTransformedOverlap > 0) {
+          minValueLabel.classList.add("hyphen");
+          minValueLabel.style.marginRight = `${
+            labelTransformedOverlap * 2 + valueLabelOffset
+          }px`;
+        } else {
+          minValueLabel.classList.remove("hyphen");
+          minValueLabel.style.marginRight = "0px";
+        }
         valueLabel.style.marginLeft = "0px";
       } else if (minValueLabelOffset > 0) {
-        const labelOverlap = this.getRangeLabelOverlap(
+        const labelTransformedOverlap = this.getRangeLabelOverlap(
           minValueLabelTransformed,
           valueLabelTransformed
         );
         minValueLabel.style.marginRight = "0px";
         valueLabel.style.marginLeft = `${
-          labelOverlap !== 0 ? labelOverlap * 2 + minValueLabelOffset + 5 : 0
+          labelTransformedOverlap !== 0
+            ? labelTransformedOverlap * 2 + minValueLabelOffset
+            : 0
         }px`;
       } else {
-        const labelStaticOverlap = this.getRangeLabelOverlap(
-          minValueLabelStatic,
-          valueLabelStatic
+        const labelTransformedOverlap = this.getRangeLabelOverlap(
+          minValueLabelTransformed,
+          valueLabelTransformed
         );
-        minValueLabel.style.marginRight = `${
-          labelStaticOverlap !== 0 ? labelStaticOverlap + 5 : 0
-        }px`;
-        valueLabel.style.marginLeft = `${
-          labelStaticOverlap !== 0 ? labelStaticOverlap + 5 : 0
-        }px`;
+        if (labelTransformedOverlap > 0) {
+          minValueLabel.classList.add("hyphen");
+          minValueLabel.style.marginRight = `${labelTransformedOverlap + 10}px`;
+          valueLabel.style.marginLeft = `${labelTransformedOverlap + 10}px`;
+        } else {
+          minValueLabel.classList.remove("hyphen");
+          minValueLabel.style.marginRight = "0px";
+          valueLabel.style.marginLeft = "0px";
+        }
       }
     }
   }
