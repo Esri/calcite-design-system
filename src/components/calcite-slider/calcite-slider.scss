@@ -127,7 +127,7 @@ $tick-height: 4px;
   &:focus {
     .handle {
       @include focus-style-outset();
-      outline-offset: 6px;
+      outline-offset: 2px;
     }
     .handle-extension {
       background-color: var(--calcite-ui-blue-1);
