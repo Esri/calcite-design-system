@@ -35,20 +35,20 @@ $tick-height: 4px;
  * with text elements to prevent overlap
  */
 :host([label-handles]),
-:host([precise]) {
+:host([precise]:not([precise="false"])) {
   margin-top: $handle-size + $thumb-padding;
 }
 
 :host([label-ticks]),
-:host([precise][is-range]) {
+:host([precise]:not([precise="false"])[is-range]) {
   margin-bottom: $handle-size + $thumb-padding;
 }
 
-:host([precise][label-handles]) {
+:host([precise]:not([precise="false"])[label-handles]) {
   margin-top: $thumb-size + $thumb-padding;
 }
 
-:host([precise][label-handles][is-range]) {
+:host([precise]:not([precise="false"])[label-handles][is-range]) {
   margin-bottom: $thumb-size + $thumb-padding;
 }
 
@@ -157,7 +157,7 @@ $tick-height: 4px;
     transform: translate(-50%, -8px);
   }
 }
-:host([precise]) {
+:host([precise]:not([precise="false"])) {
   .thumb {
     transform: translate(7px, -21px);
   }
@@ -169,7 +169,7 @@ $tick-height: 4px;
     }
   }
 }
-:host([has-histogram][precise]) {
+:host([has-histogram][precise]:not([precise="false"])) {
   .thumb {
     transform: translate(7px, -2px);
   }
@@ -177,7 +177,7 @@ $tick-height: 4px;
     transform: translate(-50%, -2px);
   }
 }
-:host([precise][ticks]) {
+:host([ticks][precise]:not([precise="false"])) {
   .thumb {
     transform: translate(7px, -20px);
   }
@@ -185,7 +185,7 @@ $tick-height: 4px;
     transform: translate(-7px, -3px);
   }
 }
-:host([has-histogram][precise][ticks]) {
+:host([has-histogram][ticks][precise]:not([precise="false"])) {
   .thumb {
     transform: translate(7px, -3px);
   }
@@ -193,7 +193,7 @@ $tick-height: 4px;
     transform: translate(-50%, -3px);
   }
 }
-:host([precise][label-handles]) {
+:host([label-handles][precise]:not([precise="false"])) {
   .thumb {
     transform: translate(50%, -38px);
   }
@@ -201,7 +201,7 @@ $tick-height: 4px;
     transform: translate(-50%, -2px);
   }
 }
-:host([has-histogram][precise][label-handles]) {
+:host([has-histogram][label-handles][precise]:not([precise="false"])) {
   .thumb {
     transform: translate(50%, -2px);
   }
@@ -209,7 +209,7 @@ $tick-height: 4px;
     transform: translate(-50%, -2px);
   }
 }
-:host([precise][ticks][label-handles]) {
+:host([ticks][label-handles][precise]:not([precise="false"])) {
   .thumb {
     transform: translate(50%, -37px);
   }
@@ -217,7 +217,7 @@ $tick-height: 4px;
     transform: translate(-50%, -3px);
   }
 }
-:host([has-histogram][precise][ticks][label-handles]) {
+:host([has-histogram][ticks][label-handles][precise]:not([precise="false"])) {
   .thumb {
     transform: translate(50%, -3px);
   }
@@ -318,7 +318,7 @@ $tick-height: 4px;
 :host([has-histogram][label-handles]) {
   @include histogramEndcaps();
 }
-:host([has-histogram][precise]) {
+:host([has-histogram][precise]:not([precise="false"])) {
   @include histogramEndcaps();
 }
 
