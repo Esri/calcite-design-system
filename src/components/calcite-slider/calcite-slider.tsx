@@ -1005,7 +1005,6 @@ export class CalciteSlider {
     const minValueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.transformed`
     );
-
     const valueLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
       `.handle__label--value`
     );
@@ -1015,7 +1014,6 @@ export class CalciteSlider {
     const valueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
       `.handle__label--value.transformed`
     );
-
     if (
       minValueLabel &&
       valueLabel &&
@@ -1025,42 +1023,52 @@ export class CalciteSlider {
       valueLabelTransformed
     ) {
       if (valueLabelOffset > 0) {
-        const labelTransformedOverlap = this.getRangeLabelOverlap(
-          minValueLabelTransformed,
+        const valueLabelTransformedOverlap = this.getRangeLabelOverlap(
+          minValueLabelStatic,
           valueLabelTransformed
         );
-        if (labelTransformedOverlap > 0) {
+        if (valueLabelTransformedOverlap > 0) {
           minValueLabel.classList.add("hyphen");
+          minValueLabel.classList.add("max-offset");
           minValueLabel.style.marginRight = `${
-            labelTransformedOverlap * 2 + valueLabelOffset
+            valueLabelTransformedOverlap * 2
           }px`;
         } else {
           minValueLabel.classList.remove("hyphen");
+          minValueLabel.classList.remove("max-offset");
           minValueLabel.style.marginRight = "0px";
         }
         valueLabel.style.marginLeft = "0px";
       } else if (minValueLabelOffset > 0) {
-        const labelTransformedOverlap = this.getRangeLabelOverlap(
+        const minValueLabelTransformedOverlap = this.getRangeLabelOverlap(
           minValueLabelTransformed,
-          valueLabelTransformed
+          valueLabelStatic
         );
+        if (minValueLabelTransformedOverlap > 0) {
+          valueLabel.classList.add("hyphen");
+          valueLabel.classList.add("min-offset");
+          valueLabel.style.marginLeft = `${
+            minValueLabelTransformedOverlap * 2
+          }px`;
+        } else {
+          valueLabel.classList.remove("hyphen");
+          valueLabel.classList.remove("min-offset");
+          valueLabel.style.marginLeft = "0px";
+        }
         minValueLabel.style.marginRight = "0px";
-        valueLabel.style.marginLeft = `${
-          labelTransformedOverlap !== 0
-            ? labelTransformedOverlap * 2 + minValueLabelOffset
-            : 0
-        }px`;
       } else {
-        const labelTransformedOverlap = this.getRangeLabelOverlap(
-          minValueLabelTransformed,
-          valueLabelTransformed
+        const labelStaticOverlap = this.getRangeLabelOverlap(
+          minValueLabelStatic,
+          valueLabelStatic
         );
-        if (labelTransformedOverlap > 0) {
+        if (labelStaticOverlap > 0) {
           minValueLabel.classList.add("hyphen");
-          minValueLabel.style.marginRight = `${labelTransformedOverlap + 10}px`;
-          valueLabel.style.marginLeft = `${labelTransformedOverlap + 10}px`;
+          valueLabel.classList.add("hyphen");
+          minValueLabel.style.marginRight = `${labelStaticOverlap}px`;
+          valueLabel.style.marginLeft = `${labelStaticOverlap}px`;
         } else {
           minValueLabel.classList.remove("hyphen");
+          valueLabel.classList.remove("hyphen");
           minValueLabel.style.marginRight = "0px";
           valueLabel.style.marginLeft = "0px";
         }

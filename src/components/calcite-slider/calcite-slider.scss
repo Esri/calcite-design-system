@@ -67,6 +67,8 @@ $tick-height: 4px;
   transform: translate(7px, -8px);
 
   .handle__label {
+    background-color: rgba(255, 0, 0, 0.3);
+    box-sizing: border-box;
     transition: transform 150ms;
     @include font-size(-4);
     font-weight: 500;
@@ -80,7 +82,20 @@ $tick-height: 4px;
       top: 0;
     }
     &--minValue.hyphen::after {
-      content: " \2014";
+      content: "\2014";
+      display: inline-block;
+      width: 1em;
+    }
+    &--minValue.hyphen.max-offset::after {
+      margin-right: 1em;
+    }
+    &--value.hyphen::before {
+      content: "\2014";
+      display: inline-block;
+      width: 1em;
+    }
+    &--value.hyphen.min-offset::before {
+      margin-left: 1em;
     }
   }
 
