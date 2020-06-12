@@ -616,8 +616,8 @@ export class CalciteSlider {
           width={300}
           height={48}
           data={this.histogram}
-          highlightMin={this.isRange ? this.minValue : null}
-          highlightMax={this.isRange ? this.maxValue : null}
+          highlightMin={this.isRange ? this.minValue : this.min}
+          highlightMax={this.isRange ? this.maxValue : this.value}
         />
       </div>
     ) : null;
