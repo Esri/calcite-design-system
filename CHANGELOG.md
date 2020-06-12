@@ -5,7 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [v1.0.0-beta.30] - June 12th 2020
+
+### Fixed
+
+- fix NPM release issue
+
+## [v1.0.0-beta.29] - June 12th 2020
+
+### Fixed
+
+- fix NPM release issue
+
+## [v1.0.0-beta.28] - June 11th 2020
 
 ### Breaking Changes
 
@@ -457,6 +469,8 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.29]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.28...v1.0.0-beta.29 "v1.0.0-beta.29"
+[v1.0.0-beta.28]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.27...v1.0.0-beta.28 "v1.0.0-beta.28"
 [v1.0.0-beta.27]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.26...v1.0.0-beta.27 "v1.0.0-beta.27"
 [v1.0.0-beta.26]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.25...v1.0.0-beta.26 "v1.0.0-beta.26"
 [v1.0.0-beta.25]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.24...v1.0.0-beta.25 "v1.0.0-beta.25"
