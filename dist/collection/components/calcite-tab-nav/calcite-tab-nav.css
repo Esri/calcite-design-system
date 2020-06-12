@@ -1,0 +1,13 @@
+:host([hidden]) {
+  display: none;
+}
+
+.tab-nav {
+  display: flex;
+  overflow: auto;
+  justify-content: flex-start;
+}
+
+:host([layout=center]) .tab-nav {
+  justify-content: center;
+}
