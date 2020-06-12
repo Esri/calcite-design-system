@@ -379,6 +379,7 @@ export class CalciteDropdown {
   }
 
   private openCalciteDropdown() {
+    this.calciteDropdownOpen.emit();
     this.active = !this.active;
     const animationDelayInMs = 50;
 
@@ -388,6 +389,5 @@ export class CalciteDropdown {
         animationDelayInMs
       );
     }
-    this.calciteDropdownOpen.emit();
   }
 }
