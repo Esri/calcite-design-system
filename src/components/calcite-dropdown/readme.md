@@ -44,22 +44,22 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ## Properties
 
-| Property        | Attribute   | Description                                                                             | Type                               | Default     |
-| --------------- | ----------- | --------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
-| `active`        | `active`    |                                                                                         | `boolean`                          | `false`     |
-| `alignment`     | `alignment` | specify the alignment of dropdown, defaults to start                                    | `"center" \| "end" \| "start"`     | `"start"`   |
-| `maxItems`      | `max-items` | specify the max items to display before showing the scroller, must be greater than 0 \* | `number`                           | `0`         |
-| `scale`         | `scale`     | specify the scale of dropdown, defaults to m                                            | `"l" \| "m" \| "s"`                | `"m"`       |
-| `selectedItems` | --          | **read-only** The currently selected items                                              | `HTMLCalciteDropdownItemElement[]` | `[]`        |
-| `theme`         | `theme`     | specify the theme of the dropdown, defaults to light                                    | `"dark" \| "light"`                | `undefined` |
-| `type`          | `type`      | specify whether the dropdown is opened by hover or click of the trigger element         | `"click" \| "hover"`               | `"click"`   |
-| `width`         | `width`     | specify the width of dropdown, defaults to m                                            | `"l" \| "m" \| "s"`                | `"m"`       |
+| Property        | Attribute   | Description                                                                             | Type                           | Default     |
+| --------------- | ----------- | --------------------------------------------------------------------------------------- | ------------------------------ | ----------- |
+| `active`        | `active`    |                                                                                         | `boolean`                      | `false`     |
+| `alignment`     | `alignment` | specify the alignment of dropdown, defaults to start                                    | `"center" \| "end" \| "start"` | `"start"`   |
+| `maxItems`      | `max-items` | specify the max items to display before showing the scroller, must be greater than 0 \* | `number`                       | `0`         |
+| `scale`         | `scale`     | specify the scale of dropdown, defaults to m                                            | `"l" \| "m" \| "s"`            | `"m"`       |
+| `selectedItems` | --          | **read-only** The currently selected items                                              | `any[]`                        | `[]`        |
+| `theme`         | `theme`     | specify the theme of the dropdown, defaults to light                                    | `"dark" \| "light"`            | `undefined` |
+| `type`          | `type`      | specify whether the dropdown is opened by hover or click of the trigger element         | `"click" \| "hover"`           | `"click"`   |
+| `width`         | `width`     | specify the width of dropdown, defaults to m                                            | `"l" \| "m" \| "s"`            | `"m"`       |
 
 ## Events
 
-| Event                   | Description                                     | Type                |
-| ----------------------- | ----------------------------------------------- | ------------------- |
-| `calciteDropdownSelect` | fires when a dropdown item has been selected \* | `CustomEvent<void>` |
+| Event                   | Description                                                   | Type                |
+| ----------------------- | ------------------------------------------------------------- | ------------------- |
+| `calciteDropdownSelect` | fires when a dropdown item has been selected or deselected \* | `CustomEvent<void>` |
 
 ## Dependencies
 
