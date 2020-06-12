@@ -1,0 +1,1 @@
+export const objectDetection32 = "M3 9H2V2h7v1H3zm19-6h6v6h1V2h-7zM9 28H3v-6H2v7h7zm19 0h-6v1h7v-7h-1zm-4-13h-6v1h6zM7 16h6v-1H7zm9 2h-1v6h1zm0-11h-1v6h1zm-2 8.93v-.86A1.07 1.07 0 0 1 15.07 14h.86A1.07 1.07 0 0 1 17 15.07v.86A1.07 1.07 0 0 1 15.93 17h-.86A1.07 1.07 0 0 1 14 15.93zm1 .07h1v-1h-1z";

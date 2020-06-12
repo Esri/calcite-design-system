@@ -1,0 +1,109 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host-context([theme=dark]) {
+  --calcite-ui-blue-1: #00A0FF;
+  --calcite-ui-blue-2: #0087D7;
+  --calcite-ui-blue-3: #47BBFF;
+  --calcite-ui-green-1: #36DA43;
+  --calcite-ui-green-2: #11AD1D;
+  --calcite-ui-green-3: #44ED51;
+  --calcite-ui-yellow-1: #FFC900;
+  --calcite-ui-yellow-2: #F4B000;
+  --calcite-ui-yellow-3: #FFE24D;
+  --calcite-ui-red-1: #FE583E;
+  --calcite-ui-red-2: #F3381B;
+  --calcite-ui-red-3: #FF7465;
+  --calcite-ui-background: #202020;
+  --calcite-ui-foreground-1: #2b2b2b;
+  --calcite-ui-foreground-2: #353535;
+  --calcite-ui-foreground-3: #404040;
+  --calcite-ui-text-1: #ffffff;
+  --calcite-ui-text-2: #bfbfbf;
+  --calcite-ui-text-3: #9f9f9f;
+  --calcite-ui-border-1: #4a4a4a;
+  --calcite-ui-border-2: #404040;
+  --calcite-ui-border-3: #353535;
+  --calcite-ui-border-4: #757575;
+  --calcite-ui-border-5: #9f9f9f;
+}
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.slot {
+  display: none;
+}
+
+:host([scale=s]) {
+  max-width: 216px;
+}
+
+:host([scale=m]) {
+  max-width: 286px;
+}
+
+:host([scale=l]) {
+  max-width: 398px;
+}
+
+.calendar-icon {
+  color: var(--calcite-ui-text-3);
+  position: absolute;
+  top: 50%;
+  margin: -8px 0.75rem;
+  pointer-events: none;
+}
+
+.calendar-picker-wrapper {
+  position: absolute;
+  top: 100%;
+  background-color: var(--calcite-ui-foreground-1);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  width: 100%;
+  line-height: 0;
+  visibility: hidden;
+  overflow: visible;
+  transform: translate3d(0, -1.5rem, 0);
+  transition: all 0.15s ease-in-out;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.input .calcite-input-wrapper {
+  margin-top: 0;
+}
+
+:host([active]) {
+  background-color: var(--calcite-ui-foreground-1);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+}
+:host([active]) .calendar-picker-wrapper {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+  pointer-events: initial;
+}
+:host([active]) .date-input-wrapper {
+  border: 1px solid var(--calcite-ui-foreground-1);
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+}
+
+:host([no-calendar-input]) {
+  box-shadow: none;
+}
+:host([no-calendar-input]) .calendar-picker-wrapper {
+  position: static;
+  transform: translate3d(0, 0, 0);
+  border-radius: none;
+  box-shadow: none;
+  border: 1px solid var(--calcite-ui-border-2);
+}

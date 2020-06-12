@@ -1,0 +1,137 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host-context([theme=dark]) {
+  --calcite-ui-blue-1: #00A0FF;
+  --calcite-ui-blue-2: #0087D7;
+  --calcite-ui-blue-3: #47BBFF;
+  --calcite-ui-green-1: #36DA43;
+  --calcite-ui-green-2: #11AD1D;
+  --calcite-ui-green-3: #44ED51;
+  --calcite-ui-yellow-1: #FFC900;
+  --calcite-ui-yellow-2: #F4B000;
+  --calcite-ui-yellow-3: #FFE24D;
+  --calcite-ui-red-1: #FE583E;
+  --calcite-ui-red-2: #F3381B;
+  --calcite-ui-red-3: #FF7465;
+  --calcite-ui-background: #202020;
+  --calcite-ui-foreground-1: #2b2b2b;
+  --calcite-ui-foreground-2: #353535;
+  --calcite-ui-foreground-3: #404040;
+  --calcite-ui-text-1: #ffffff;
+  --calcite-ui-text-2: #bfbfbf;
+  --calcite-ui-text-3: #9f9f9f;
+  --calcite-ui-border-1: #4a4a4a;
+  --calcite-ui-border-2: #404040;
+  --calcite-ui-border-3: #353535;
+  --calcite-ui-border-4: #757575;
+  --calcite-ui-border-5: #9f9f9f;
+}
+
+:host([width=s]) {
+  --calcite-dropdown-width: 12.5em;
+}
+
+:host([width=m]) {
+  --calcite-dropdown-width: 15em;
+}
+
+:host([width=l]) {
+  --calcite-dropdown-width: 20em;
+}
+
+:host([scale=s]) {
+  --calcite-dropdown-group-padding: 0.5rem 0;
+  --calcite-dropdown-item-padding: 0.3rem 1rem 0.3rem 2.25rem;
+}
+
+:host([scale=m]) {
+  --calcite-dropdown-group-padding: 0.75rem 0;
+  --calcite-dropdown-item-padding: 0.5rem 1rem 0.5rem 2.25rem;
+}
+
+:host([scale=l]) {
+  --calcite-dropdown-group-padding: 1rem 0;
+  --calcite-dropdown-item-padding: 0.75rem 1rem 0.75rem 2.25rem;
+}
+
+:host([dir=rtl][scale=s]) {
+  --calcite-dropdown-item-padding: 0.3rem 2.25rem 0.3rem 1rem;
+}
+
+:host([dir=rtl][scale=m]) {
+  --calcite-dropdown-item-padding: 0.5rem 2.25rem 0.5rem 1rem;
+}
+
+:host([dir=rtl][scale=l]) {
+  --calcite-dropdown-item-padding: 0.75rem 2.25rem 0.75rem 1rem;
+}
+
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+:host([active]) .calcite-dropdown-wrapper {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  max-height: 90vh;
+  overflow-y: auto;
+  visibility: visible;
+  pointer-events: initial;
+}
+
+:host .calcite-dropdown-wrapper {
+  transform: translate3d(0, -1.5rem, 0);
+  transition: all 0.15s ease-in-out, max-height 0.15s;
+  visibility: hidden;
+  opacity: 0;
+  display: block;
+  position: absolute;
+  left: 0;
+  z-index: 200;
+  overflow: hidden;
+  max-height: 0;
+  width: auto;
+  width: var(--calcite-dropdown-width);
+  background: var(--calcite-ui-foreground-1);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  pointer-events: none;
+}
+
+:host([dir=rtl]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: unset;
+}
+
+:host([alignment=end]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: unset;
+}
+
+:host([dir=rtl][alignment=end]) .calcite-dropdown-wrapper {
+  right: unset;
+  left: 0;
+}
+
+:host([alignment=center]) .calcite-dropdown-wrapper {
+  right: 0;
+  left: 50%;
+  transform: translate3d(0, -1.5rem, 0) translateX(-50%);
+}
+
+:host([alignment=center][active]) .calcite-dropdown-wrapper {
+  transform: translate3d(0, 0, 0) translateX(-50%);
+}
+
+:host([alignment=center][dir=rtl]) .calcite-dropdown-wrapper {
+  right: 50%;
+  left: 0;
+  transform: translate3d(0, -1.5rem, 0) translateX(50%);
+}
+
+:host([alignment=center][dir=rtl][active]) .calcite-dropdown-wrapper {
+  transform: translate3d(0, 0, 0) translateX(50%);
+}

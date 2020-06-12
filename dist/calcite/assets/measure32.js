@@ -1,0 +1,1 @@
+export const measure32 = "M0 18v10h32V18zm31 6h-1v3h-1v-4h-1v4h-1v-3h-1v3h-1v-7h-1v7h-1v-3h-1v3h-1v-4h-1v4h-1v-3h-1v3h-1v-7h-1v7h-1v-3h-1v3h-1v-4h-1v4h-1v-3h-1v3H9v-7H8v7H7v-3H6v3H5v-4H4v4H3v-3H2v3H1v-8h30zM29.21 8.5l-3.86 3.85-.7-.7L27.29 9H20V8h7.29l-2.64-2.65.7-.7zM3.71 8H11v1H3.71l2.64 2.65-.7.7L1.79 8.5l3.86-3.85.7.7z";
