@@ -1,0 +1,1 @@
+function r(r){return{Up:"ArrowUp",Down:"ArrowDown",Left:"ArrowLeft",Right:"ArrowRight",Spacebar:" ",Esc:"Escape"}[r]||r}export{r as g}

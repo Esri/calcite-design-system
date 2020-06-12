@@ -1,0 +1,56 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.track,
+.bar {
+  position: absolute;
+  top: 0;
+  height: 2px;
+}
+
+.track {
+  background: var(--calcite-ui-border-3);
+  z-index: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.bar {
+  background-color: var(--calcite-ui-blue-1);
+  z-index: 0;
+}
+
+.indeterminate {
+  width: 20%;
+  animation: looping-progress-bar-ani 2200ms linear infinite;
+}
+
+.reversed {
+  animation-direction: reverse;
+}
+
+.text {
+  padding: 1.5rem 0 0 0;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@keyframes looping-progress-bar-ani {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  50% {
+    width: 40%;
+  }
+  100% {
+    transform: translate3d(600%, 0, 0);
+  }
+}
