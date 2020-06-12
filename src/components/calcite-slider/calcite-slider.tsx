@@ -1115,8 +1115,12 @@ export class CalciteSlider {
       return;
     }
 
-    const minHandle = this.el.shadowRoot.querySelector(".thumb--minValue");
-    const maxHandle = this.el.shadowRoot.querySelector(".thumb--value");
+    const minHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
+      ".thumb--minValue"
+    );
+    const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
+      ".thumb--value"
+    );
 
     const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
       ".tick__label--min"
@@ -1126,12 +1130,12 @@ export class CalciteSlider {
     );
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      if (this.isMinTickLabelObscured(minTickLabel.offsetParent, maxHandle)) {
+      if (this.isMinTickLabelObscured(minTickLabel, maxHandle)) {
         minTickLabel.style.opacity = "0";
       } else {
         minTickLabel.style.opacity = "1";
       }
-      if (this.isMaxTickLabelObscured(maxTickLabel.offsetParent, maxHandle)) {
+      if (this.isMaxTickLabelObscured(maxTickLabel, maxHandle)) {
         maxTickLabel.style.opacity = "0";
       } else {
         maxTickLabel.style.opacity = "1";
@@ -1140,16 +1144,16 @@ export class CalciteSlider {
 
     if (minHandle && maxHandle && minTickLabel && maxTickLabel) {
       if (
-        this.isMinTickLabelObscured(minTickLabel.offsetParent, minHandle) ||
-        this.isMinTickLabelObscured(minTickLabel.offsetParent, maxHandle)
+        this.isMinTickLabelObscured(minTickLabel, minHandle) ||
+        this.isMinTickLabelObscured(minTickLabel, maxHandle)
       ) {
         minTickLabel.style.opacity = "0";
       } else {
         minTickLabel.style.opacity = "1";
       }
       if (
-        this.isMaxTickLabelObscured(maxTickLabel.offsetParent, minHandle) ||
-        (this.isMaxTickLabelObscured(maxTickLabel.offsetParent, maxHandle) &&
+        this.isMaxTickLabelObscured(maxTickLabel, minHandle) ||
+        (this.isMaxTickLabelObscured(maxTickLabel, maxHandle) &&
           this.hasHistogram)
       ) {
         maxTickLabel.style.opacity = "0";
@@ -1201,19 +1205,25 @@ export class CalciteSlider {
     return 0;
   }
 
-  private isMinTickLabelObscured(minLabel, handle) {
-    const minLabelRight = minLabel.offsetLeft + minLabel.offsetWidth;
-    const handleLeft = handle.offsetLeft;
-    if (handleLeft < minLabelRight) {
+  private isMinTickLabelObscured(
+    minLabel: HTMLSpanElement,
+    handle: HTMLButtonElement
+  ) {
+    const minLabelBounds = minLabel.getBoundingClientRect();
+    const handleBounds = handle.getBoundingClientRect();
+    if (handleBounds.left < minLabelBounds.right) {
       return true;
     }
     return false;
   }
 
-  private isMaxTickLabelObscured(maxLabel, handle) {
-    const maxLabelLeft = maxLabel.offsetLeft;
-    const handleRight = handle.offsetLeft + handle.offsetWidth;
-    if (handleRight > maxLabelLeft) {
+  private isMaxTickLabelObscured(
+    maxLabel: HTMLSpanElement,
+    handle: HTMLButtonElement
+  ) {
+    const maxLabelBounds = maxLabel.getBoundingClientRect();
+    const handleBounds = handle.getBoundingClientRect();
+    if (handleBounds.right > maxLabelBounds.left) {
       return true;
     }
     return false;
