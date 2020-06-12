@@ -84,16 +84,10 @@ $tick-height: 4px;
       display: inline-block;
       width: 1em;
     }
-    &--minValue.hyphen.max-offset::after {
-      margin-right: 1em;
-    }
     &--value.hyphen::before {
       content: "\2014";
       display: inline-block;
       width: 1em;
-    }
-    &--value.hyphen.min-offset::before {
-      margin-left: 1em;
     }
   }
 

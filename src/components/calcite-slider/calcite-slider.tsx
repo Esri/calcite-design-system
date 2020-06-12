@@ -956,6 +956,14 @@ export class CalciteSlider {
     }
     return num;
   }
+  private getFontSizeForElement(element: HTMLElement) {
+    return Number(
+      window
+        .getComputedStyle(element)
+        .getPropertyValue("font-size")
+        .match(/\d+/)[0]
+    );
+  }
   /**
    * Get position of value along range as fractional value
    * @return {number} number in the unit interval [0,1]
@@ -1014,6 +1022,7 @@ export class CalciteSlider {
     const valueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
       `.handle__label--value.transformed`
     );
+    const labelFontSize = this.getFontSizeForElement(minValueLabel);
     if (
       minValueLabel &&
       valueLabel &&
@@ -1031,7 +1040,7 @@ export class CalciteSlider {
           minValueLabel.classList.add("hyphen");
           minValueLabel.classList.add("max-offset");
           minValueLabel.style.marginRight = `${
-            valueLabelTransformedOverlap * 2
+            valueLabelTransformedOverlap * 2 - labelFontSize
           }px`;
         } else {
           minValueLabel.classList.remove("hyphen");
@@ -1048,7 +1057,7 @@ export class CalciteSlider {
           valueLabel.classList.add("hyphen");
           valueLabel.classList.add("min-offset");
           valueLabel.style.marginLeft = `${
-            minValueLabelTransformedOverlap * 2
+            minValueLabelTransformedOverlap * 2 - labelFontSize
           }px`;
         } else {
           valueLabel.classList.remove("hyphen");
@@ -1064,8 +1073,12 @@ export class CalciteSlider {
         if (labelStaticOverlap > 0) {
           minValueLabel.classList.add("hyphen");
           valueLabel.classList.add("hyphen");
-          minValueLabel.style.marginRight = `${labelStaticOverlap}px`;
-          valueLabel.style.marginLeft = `${labelStaticOverlap}px`;
+          minValueLabel.style.marginRight = `${
+            labelStaticOverlap - labelFontSize
+          }px`;
+          valueLabel.style.marginLeft = `${
+            labelStaticOverlap - labelFontSize
+          }px`;
         } else {
           minValueLabel.classList.remove("hyphen");
           valueLabel.classList.remove("hyphen");
@@ -1075,6 +1088,9 @@ export class CalciteSlider {
       }
     }
   }
+  /**
+   * Hides bounding tick labels that are obscured by either handle.
+   */
   private hideObscuredBoundingTickLabels() {
     if (
       !this.hasHistogram &&
@@ -1192,23 +1208,32 @@ export class CalciteSlider {
     }
     return 0;
   }
-
+  /**
+   * Returns an integer representing the number of pixels that the two given span elements are overlapping, taking into account
+   * a space in between the two spans equal to the font-size set on them to account for the space needed to render a hyphen.
+   * @param minValueLabel
+   * @param valueLabel
+   */
   private getRangeLabelOverlap(
     minValueLabel: HTMLSpanElement,
     valueLabel: HTMLSpanElement
   ): number {
     const minValueLabelBounds = minValueLabel.getBoundingClientRect();
     const valueLabelBounds = valueLabel.getBoundingClientRect();
-    if (minValueLabelBounds.right > valueLabelBounds.left) {
-      return minValueLabelBounds.right - valueLabelBounds.left;
-    }
-    return 0;
+    const minValueLabelFontSize = this.getFontSizeForElement(minValueLabel);
+    const rangeLabelOverlap =
+      minValueLabelBounds.right + minValueLabelFontSize - valueLabelBounds.left;
+    return rangeLabelOverlap > 0 ? rangeLabelOverlap : 0;
   }
-
+  /**
+   * Returns a boolean value representing if the minLabel span element is obscured (being overlapped) by the given handle button element.
+   * @param minLabel
+   * @param handle
+   */
   private isMinTickLabelObscured(
     minLabel: HTMLSpanElement,
     handle: HTMLButtonElement
-  ) {
+  ): boolean {
     const minLabelBounds = minLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
     if (handleBounds.left < minLabelBounds.right) {
@@ -1216,11 +1241,15 @@ export class CalciteSlider {
     }
     return false;
   }
-
+  /**
+   * Returns a boolean value representing if the maxLabel span element is obscured (being overlapped) by the given handle button element.
+   * @param maxLabel
+   * @param handle
+   */
   private isMaxTickLabelObscured(
     maxLabel: HTMLSpanElement,
     handle: HTMLButtonElement
-  ) {
+  ): boolean {
     const maxLabelBounds = maxLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
     if (handleBounds.right > maxLabelBounds.left) {
