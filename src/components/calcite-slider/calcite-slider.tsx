@@ -1031,7 +1031,11 @@ export class CalciteSlider {
       minValueLabelTransformed &&
       valueLabelTransformed
     ) {
-      if (valueLabelOffset > 0) {
+      if (
+        valueLabelOffset > 0 ||
+        valueLabel.getBoundingClientRect().right >
+          this.el.getBoundingClientRect().right
+      ) {
         const valueLabelTransformedOverlap = this.getRangeLabelOverlap(
           minValueLabelStatic,
           valueLabelTransformed
@@ -1048,7 +1052,11 @@ export class CalciteSlider {
           minValueLabel.style.marginRight = "0px";
         }
         valueLabel.style.marginLeft = "0px";
-      } else if (minValueLabelOffset > 0) {
+      } else if (
+        minValueLabelOffset > 0 ||
+        minValueLabel.getBoundingClientRect().left <
+          this.el.getBoundingClientRect().left
+      ) {
         const minValueLabelTransformedOverlap = this.getRangeLabelOverlap(
           minValueLabelTransformed,
           valueLabelStatic
