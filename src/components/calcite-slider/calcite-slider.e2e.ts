@@ -48,8 +48,8 @@ describe("calcite-slider", () => {
       >
       </calcite-slider>
     `);
-    const maxButton = await page.find("calcite-slider >>> .thumb--max");
-    const minButton = await page.find("calcite-slider >>> .thumb--min");
+    const maxButton = await page.find("calcite-slider >>> .thumb--value");
+    const minButton = await page.find("calcite-slider >>> .thumb--minValue");
     expect(minButton).toEqualAttribute("role", "slider");
     expect(maxButton).toEqualAttribute("role", "slider");
     expect(minButton).toEqualAttribute("aria-label", "Min Label");
@@ -112,7 +112,7 @@ describe("calcite-slider", () => {
       </calcite-slider>
     `);
     const slider = await page.find("calcite-slider");
-    const handle = await page.find("calcite-slider >>> .thumb--max");
+    const handle = await page.find("calcite-slider >>> .thumb--value");
     await page.waitForChanges();
     let value = await slider.getProperty("value");
     expect(value).toBe(20);
