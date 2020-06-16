@@ -94,11 +94,16 @@ export class CalciteSlider {
   }
 
   componentDidRender() {
-    const valueOffset = this.adjustObscuredEndcapLabel("value");
-    if (this.isRange && this.labelHandles) {
-      const minValueOffset = this.adjustObscuredEndcapLabel("minValue");
-      if (!(this.precise && this.isRange && !this.hasHistogram)) {
-        this.hyphenateCollidingRangeHandleLabels(valueOffset, minValueOffset);
+    if (this.labelHandles) {
+      const valueLabelOffset = this.adjustObscuredEndcapLabel("value");
+      if (this.isRange) {
+        const minValueLabelOffset = this.adjustObscuredEndcapLabel("minValue");
+        if (!(this.precise && this.isRange && !this.hasHistogram)) {
+          this.hyphenateCollidingRangeHandleLabels(
+            valueLabelOffset,
+            minValueLabelOffset
+          );
+        }
       }
     }
     this.hideObscuredBoundingTickLabels();
@@ -975,124 +980,110 @@ export class CalciteSlider {
     return (num - this.min) / range;
   }
   private adjustObscuredEndcapLabel(name: "value" | "minValue"): number {
-    const handle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
+    const handle: HTMLButtonElement = this.el.shadowRoot.querySelector(
       `.thumb--${name}`
     );
-    const label: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}`
     );
-    const labelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.static`
     );
-    const labelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.transformed`
     );
-    if (handle && label && labelStatic && labelTransformed) {
-      const labelOffset = this.getLabelOffset(handle, labelStatic);
-      if (labelOffset) {
-        (label as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
-        (labelTransformed as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
-      } else {
-        (label as HTMLSpanElement).style.transform = "";
-        (labelTransformed as HTMLSpanElement).style.transform = "";
-      }
-      return Math.abs(labelOffset);
+    const labelOffset = this.getLabelOffset(handle, labelStatic);
+    if (labelOffset) {
+      (label as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
+      (labelTransformed as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
+    } else {
+      (label as HTMLSpanElement).style.transform = "";
+      (labelTransformed as HTMLSpanElement).style.transform = "";
     }
-    return 0;
+    return Math.abs(labelOffset);
   }
   private hyphenateCollidingRangeHandleLabels(
     valueLabelOffset: number,
     minValueLabelOffset: number
   ) {
-    const minValueLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue`
     );
-    const minValueLabelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const minValueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.static`
     );
-    const minValueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const minValueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.transformed`
     );
-    const valueLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const valueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value`
     );
-    const valueLabelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const valueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value.static`
     );
-    const valueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const valueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value.transformed`
     );
     const labelFontSize = this.getFontSizeForElement(minValueLabel);
     if (
-      minValueLabel &&
-      valueLabel &&
-      minValueLabelStatic &&
-      valueLabelStatic &&
-      minValueLabelTransformed &&
-      valueLabelTransformed
+      valueLabelOffset > 0 ||
+      valueLabel.getBoundingClientRect().right >
+        this.el.getBoundingClientRect().right
     ) {
-      if (
-        valueLabelOffset > 0 ||
-        valueLabel.getBoundingClientRect().right >
-          this.el.getBoundingClientRect().right
-      ) {
-        const valueLabelTransformedOverlap = this.getRangeLabelOverlap(
-          minValueLabelStatic,
-          valueLabelTransformed
-        );
-        if (valueLabelTransformedOverlap > 0) {
-          minValueLabel.classList.add("hyphen");
-          minValueLabel.classList.add("max-offset");
-          minValueLabel.style.marginRight = `${
-            valueLabelTransformedOverlap * 2 - labelFontSize
-          }px`;
-        } else {
-          minValueLabel.classList.remove("hyphen");
-          minValueLabel.classList.remove("max-offset");
-          minValueLabel.style.marginRight = "0px";
-        }
-        valueLabel.style.marginLeft = "0px";
-      } else if (
-        minValueLabelOffset > 0 ||
-        minValueLabel.getBoundingClientRect().left <
-          this.el.getBoundingClientRect().left
-      ) {
-        const minValueLabelTransformedOverlap = this.getRangeLabelOverlap(
-          minValueLabelTransformed,
-          valueLabelStatic
-        );
-        if (minValueLabelTransformedOverlap > 0) {
-          valueLabel.classList.add("hyphen");
-          valueLabel.classList.add("min-offset");
-          valueLabel.style.marginLeft = `${
-            minValueLabelTransformedOverlap * 2 - labelFontSize
-          }px`;
-        } else {
-          valueLabel.classList.remove("hyphen");
-          valueLabel.classList.remove("min-offset");
-          valueLabel.style.marginLeft = "0px";
-        }
-        minValueLabel.style.marginRight = "0px";
+      const valueLabelTransformedOverlap = this.getRangeLabelOverlap(
+        minValueLabelStatic,
+        valueLabelTransformed
+      );
+      if (valueLabelTransformedOverlap > 0) {
+        minValueLabel.classList.add("hyphen");
+        minValueLabel.classList.add("max-offset");
+        minValueLabel.style.marginRight = `${
+          valueLabelTransformedOverlap * 2 - labelFontSize
+        }px`;
       } else {
-        const labelStaticOverlap = this.getRangeLabelOverlap(
-          minValueLabelStatic,
-          valueLabelStatic
-        );
-        if (labelStaticOverlap > 0) {
-          minValueLabel.classList.add("hyphen");
-          valueLabel.classList.add("hyphen");
-          minValueLabel.style.marginRight = `${
-            labelStaticOverlap - labelFontSize
-          }px`;
-          valueLabel.style.marginLeft = `${
-            labelStaticOverlap - labelFontSize
-          }px`;
-        } else {
-          minValueLabel.classList.remove("hyphen");
-          valueLabel.classList.remove("hyphen");
-          minValueLabel.style.marginRight = "0px";
-          valueLabel.style.marginLeft = "0px";
-        }
+        minValueLabel.classList.remove("hyphen");
+        minValueLabel.classList.remove("max-offset");
+        minValueLabel.style.marginRight = "0px";
+      }
+      valueLabel.style.marginLeft = "0px";
+    } else if (
+      minValueLabelOffset > 0 ||
+      minValueLabel.getBoundingClientRect().left <
+        this.el.getBoundingClientRect().left
+    ) {
+      const minValueLabelTransformedOverlap = this.getRangeLabelOverlap(
+        minValueLabelTransformed,
+        valueLabelStatic
+      );
+      if (minValueLabelTransformedOverlap > 0) {
+        valueLabel.classList.add("hyphen");
+        valueLabel.classList.add("min-offset");
+        valueLabel.style.marginLeft = `${
+          minValueLabelTransformedOverlap * 2 - labelFontSize
+        }px`;
+      } else {
+        valueLabel.classList.remove("hyphen");
+        valueLabel.classList.remove("min-offset");
+        valueLabel.style.marginLeft = "0px";
+      }
+      minValueLabel.style.marginRight = "0px";
+    } else {
+      const labelStaticOverlap = this.getRangeLabelOverlap(
+        minValueLabelStatic,
+        valueLabelStatic
+      );
+      if (labelStaticOverlap > 0) {
+        minValueLabel.classList.add("hyphen");
+        valueLabel.classList.add("hyphen");
+        minValueLabel.style.marginRight = `${
+          labelStaticOverlap - labelFontSize
+        }px`;
+        valueLabel.style.marginLeft = `${labelStaticOverlap - labelFontSize}px`;
+      } else {
+        minValueLabel.classList.remove("hyphen");
+        valueLabel.classList.remove("hyphen");
+        minValueLabel.style.marginRight = "0px";
+        valueLabel.style.marginLeft = "0px";
       }
     }
   }

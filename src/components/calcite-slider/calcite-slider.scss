@@ -67,7 +67,6 @@ $tick-height: 4px;
   transform: translate(7px, -8px);
 
   .handle__label {
-    transition: transform 150ms;
     @include font-size(-4);
     font-weight: 500;
     line-height: 1;
