@@ -151,6 +151,7 @@ export class CalciteButton {
           {...attributes}
           onClick={(e) => this.handleClick(e)}
           disabled={this.disabled}
+          tabIndex={this.disabled ? -1 : null}
           ref={(el) => (this.childEl = el)}
         >
           {this.loading ? loader : null}

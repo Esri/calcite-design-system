@@ -9,6 +9,15 @@ $thumb-padding: ($thumb-size - $handle-size) / 2;
 $track-height: 2px;
 $tick-height: 4px;
 
+@mixin histogramEndcaps() {
+  .tick__label--min,
+  .tick__label--max {
+    margin: 6px -3px;
+    font-weight: 300;
+    color: var(--calcite-ui-text-3);
+  }
+}
+
 :host {
   display: block;
   padding: $handle-size / 2 0;
@@ -26,76 +35,189 @@ $tick-height: 4px;
  * with text elements to prevent overlap
  */
 :host([label-handles]),
-:host([precise]) {
+:host([precise]:not([precise="false"])) {
   margin-top: $handle-size + $thumb-padding;
 }
 
 :host([label-ticks]),
-:host([precise][is-range]) {
+:host([precise]:not([precise="false"])[is-range]) {
   margin-bottom: $handle-size + $thumb-padding;
 }
 
-:host([precise][label-handles]) {
+:host([precise]:not([precise="false"])[label-handles]) {
   margin-top: $thumb-size + $thumb-padding;
 }
 
-:host([precise][label-handles][is-range]) {
+:host([precise]:not([precise="false"])[label-handles][is-range]) {
   margin-bottom: $thumb-size + $thumb-padding;
-}
-
-// focus styles
-.thumb {
-  @include focus-style-base();
-  &:focus {
-    @include focus-style-outset();
-  }
 }
 
 .thumb {
   position: absolute;
-  height: $thumb-size;
-  width: $thumb-size;
-  margin: -15px;
-  box-sizing: border-box;
   border: none;
   background: transparent;
   cursor: pointer;
   font-family: inherit;
   z-index: 2;
-}
+  outline: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(7px, -8px);
 
-.handle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: $handle-size;
-  width: $handle-size;
-  margin: $thumb-padding;
-  box-sizing: border-box;
-  border-radius: 100%;
-  background-color: var(--calcite-ui-foreground-1);
-  border: 2px solid var(--calcite-ui-text-3);
-  transition: border 0.25s ease, background-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
+  .handle__label {
+    transition: transform 150ms;
+    @include font-size(-4);
+    font-weight: 500;
+    line-height: 1;
+    color: var(--calcite-ui-text-2);
+    margin-bottom: 5px;
+    &.static,
+    &.transformed {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+    }
+    &--minValue.hyphen::after {
+      content: "\2014";
+      display: inline-block;
+      width: 1em;
+    }
+    &--value.hyphen::before {
+      content: "\2014";
+      display: inline-block;
+      width: 1em;
+    }
+  }
 
-.handle__label {
-  position: absolute;
-  left: 0;
-  bottom: $thumb-size;
-  width: $thumb-size;
-  height: 0.75em;
-  @include font-size(-3);
-  font-weight: 500;
-  line-height: 1;
-  color: var(--calcite-ui-text-3);
-  text-align: center;
-}
+  .handle {
+    @include focus-style-base();
+    height: $handle-size;
+    width: $handle-size;
+    box-sizing: border-box;
+    border-radius: 100%;
+    background-color: var(--calcite-ui-foreground-1);
+    box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
+    transition: border 0.25s ease, background-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
 
-.thumb:hover .handle {
-  border-width: 3px;
-  border-color: var(--calcite-ui-blue-1);
-  @include shadow(1, "hover");
+  .handle-extension {
+    width: 2px;
+    height: $thumb-padding;
+    background-color: var(--calcite-ui-text-3);
+  }
+
+  &:hover {
+    .handle {
+      box-shadow: 0 0 0 3px var(--calcite-ui-blue-1) inset;
+    }
+    .handle-extension {
+      background-color: var(--calcite-ui-blue-1);
+    }
+  }
+
+  &:focus {
+    .handle {
+      @include focus-style-outset();
+      outline-offset: 2px;
+    }
+    .handle-extension {
+      background-color: var(--calcite-ui-blue-1);
+    }
+  }
+}
+.thumb--minValue {
+  transform: translate(-7px, -8px);
+}
+:host([label-handles]) {
+  .thumb {
+    transform: translate(50%, -25px);
+  }
+  .thumb--minValue {
+    transform: translate(-50%, -25px);
+  }
+}
+:host([has-histogram][label-handles]) {
+  .thumb {
+    transform: translate(50%, -8px);
+    .handle__label {
+      margin-bottom: unset;
+      margin-top: 5px;
+    }
+  }
+  .thumb--minValue {
+    transform: translate(-50%, -8px);
+  }
+}
+:host([precise]:not([precise="false"])) {
+  .thumb {
+    transform: translate(7px, -21px);
+  }
+  .thumb--minValue {
+    transform: translate(-7px, -2px);
+    .handle__label {
+      margin-bottom: unset;
+      margin-top: 5px;
+    }
+  }
+}
+:host([has-histogram][precise]:not([precise="false"])) {
+  .thumb {
+    transform: translate(7px, -2px);
+  }
+  .thumb--minValue {
+    transform: translate(-50%, -2px);
+  }
+}
+:host([ticks][precise]:not([precise="false"])) {
+  .thumb {
+    transform: translate(7px, -20px);
+  }
+  .thumb--minValue {
+    transform: translate(-7px, -3px);
+  }
+}
+:host([has-histogram][ticks][precise]:not([precise="false"])) {
+  .thumb {
+    transform: translate(7px, -3px);
+  }
+  .thumb--minValue {
+    transform: translate(-50%, -3px);
+  }
+}
+:host([label-handles][precise]:not([precise="false"])) {
+  .thumb {
+    transform: translate(50%, -38px);
+  }
+  .thumb--minValue {
+    transform: translate(-50%, -2px);
+  }
+}
+:host([has-histogram][label-handles][precise]:not([precise="false"])) {
+  .thumb {
+    transform: translate(50%, -2px);
+  }
+  .thumb--minValue {
+    transform: translate(-50%, -2px);
+  }
+}
+:host([ticks][label-handles][precise]:not([precise="false"])) {
+  .thumb {
+    transform: translate(50%, -37px);
+  }
+  .thumb--minValue {
+    transform: translate(-50%, -3px);
+  }
+}
+:host([has-histogram][ticks][label-handles][precise]:not([precise="false"])) {
+  .thumb {
+    transform: translate(50%, -3px);
+  }
+  .thumb--minValue {
+    transform: translate(-50%, -3px);
+  }
 }
 
 .thumb:focus,
@@ -103,46 +225,14 @@ $tick-height: 4px;
   z-index: 3;
   .handle {
     background-color: var(--calcite-ui-blue-1);
-    border-color: var(--calcite-ui-blue-1);
     @include shadow(1, "press");
   }
-}
-
-.thumb--precise {
-  margin-top: -$thumb-size;
-}
-
-.thumb--precise:after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: $handle-size;
-  left: 50%;
-  width: 2px;
-  height: $thumb-padding;
-  background-color: var(--calcite-ui-text-3);
-  margin-left: -1px;
-  margin-top: $thumb-padding;
-  z-index: 1;
 }
 
 .thumb:hover.thumb--precise:after,
 .thumb:focus.thumb--precise:after,
 .thumb--active.thumb--precise:after {
   background-color: var(--calcite-ui-blue-1);
-}
-
-.thumb--precise.thumb--min {
-  margin-top: -$track-height;
-  .handle__label {
-    bottom: unset;
-    top: $thumb-size;
-  }
-}
-
-.thumb--precise.thumb--min:after {
-  top: 0;
-  margin-top: 0;
 }
 
 .track {
@@ -181,10 +271,8 @@ $tick-height: 4px;
   width: 2px;
   height: $tick-height;
   left: var(--calcite-ui-border-1-offset);
-  margin-left: -3px;
+  margin-left: -2px;
   border: 1px solid var(--calcite-ui-foreground-1);
-  border-right-width: 2px;
-  border-left-width: 2px;
   background-color: var(--calcite-ui-border-1);
 }
 
@@ -194,9 +282,9 @@ $tick-height: 4px;
 
 .tick__label {
   position: absolute;
-  @include font-size(-3);
+  @include font-size(-4);
   font-weight: 500;
-  color: var(--calcite-ui-text-3);
+  color: var(--calcite-ui-text-2);
   width: 4em;
   margin: $thumb-size / 2 -2em;
   text-align: center;
@@ -208,6 +296,7 @@ $tick-height: 4px;
   left: 0;
   margin: $thumb-size / 2 -3px;
   text-align: left;
+  transition: opacity 150ms;
 }
 
 .tick__label--max {
@@ -215,6 +304,14 @@ $tick-height: 4px;
   right: 0;
   margin: $thumb-size / 2 -3px;
   text-align: right;
+  transition: opacity 50ms;
+}
+
+:host([has-histogram][label-handles]) {
+  @include histogramEndcaps();
+}
+:host([has-histogram][precise]:not([precise="false"])) {
+  @include histogramEndcaps();
 }
 
 .graph {

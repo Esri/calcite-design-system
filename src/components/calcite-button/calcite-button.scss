@@ -119,6 +119,7 @@
 
 // disabled styles
 :host([disabled]) {
+  pointer-events: none;
   button,
   span,
   a {
