@@ -95,18 +95,11 @@ export class CalciteSlider {
 
   componentDidRender() {
     if (this.labelHandles) {
-      const valueLabelStaticHostOffset = this.adjustHostObscuredHandleLabel(
-        "value"
-      );
+      this.adjustHostObscuredHandleLabel("value");
       if (this.isRange) {
-        const minValueLabelStaticHostOffset = this.adjustHostObscuredHandleLabel(
-          "minValue"
-        );
+        this.adjustHostObscuredHandleLabel("minValue");
         if (!(this.precise && this.isRange && !this.hasHistogram)) {
-          this.hyphenateCollidingRangeHandleLabels(
-            valueLabelStaticHostOffset,
-            minValueLabelStaticHostOffset
-          );
+          this.hyphenateCollidingRangeHandleLabels();
         }
       }
     }
@@ -983,7 +976,7 @@ export class CalciteSlider {
     const range = this.max - this.min;
     return (num - this.min) / range;
   }
-  private adjustHostObscuredHandleLabel(name: "value" | "minValue"): number {
+  private adjustHostObscuredHandleLabel(name: "value" | "minValue") {
     const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}`
     );
@@ -996,24 +989,34 @@ export class CalciteSlider {
     const labelStaticOffset = this.getLabelHostOffset(labelStatic);
     label.style.transform = `translateX(${labelStaticOffset}px)`;
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
-    return labelStaticOffset;
   }
-  private hyphenateCollidingRangeHandleLabels(
-    valueLabelStaticHostOffset: number,
-    minValueLabelStaticHostOffset: number
-  ) {
+  private hyphenateCollidingRangeHandleLabels() {
     const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue`
+    );
+    const minValueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
+      `.handle__label--minValue.static`
     );
     const minValueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.transformed`
     );
+    const minValueLabelStaticHostOffset = this.getLabelHostOffset(
+      minValueLabelStatic
+    );
+
     const valueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value`
+    );
+    const valueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
+      `.handle__label--value.static`
     );
     const valueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value.transformed`
     );
+    const valueLabelStaticHostOffset = this.getLabelHostOffset(
+      valueLabelStatic
+    );
+
     const labelFontSize = this.getFontSizeForElement(minValueLabel);
     const labelTransformedOverlap = this.getRangeLabelOverlap(
       minValueLabelTransformed,
@@ -1042,8 +1045,12 @@ export class CalciteSlider {
           Math.sign(valueLabelStaticHostOffset) === 1)
       ) {
         // minValueLabel overlaps host boundary on the left side
-        minValueLabel.style.marginRight = `-${labelFontSize}px`;
-        valueLabel.style.marginLeft = `${labelTransformedOverlap * 2}px`;
+        minValueLabel.style.transform = `translateX(${
+          minValueLabelStaticHostOffset + labelFontSize / 2
+        }px)`;
+        valueLabel.style.transform = `translateX(${
+          labelTransformedOverlap + valueLabelStaticHostOffset
+        }px)`;
       } else if (valueLabelStaticHostOffset !== 0) {
         // valueLabel overlaps host boundary on the right side
         minValueLabel.style.marginRight = `${
@@ -1052,8 +1059,8 @@ export class CalciteSlider {
       }
     } else {
       minValueLabel.classList.remove("hyphen");
-      // minValueLabel.style.transform = `translateX(0px)`;
-      valueLabel.style.marginLeft = "0px";
+      minValueLabel.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
+      valueLabel.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
     }
   }
   /**
