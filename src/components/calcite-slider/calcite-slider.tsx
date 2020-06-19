@@ -1083,6 +1083,7 @@ export class CalciteSlider {
       minValueLabel.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
       minValueLabelTransformed.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
       valueLabel.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
+      valueLabelTransformed.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
     }
   }
   /**
