@@ -1022,6 +1022,7 @@ export class CalciteSlider {
       minValueLabelTransformed,
       valueLabelTransformed
     );
+    console.clear();
     if (labelTransformedOverlap > 0) {
       minValueLabel.classList.add("hyphen");
       if (
@@ -1029,14 +1030,21 @@ export class CalciteSlider {
         minValueLabelStaticHostOffset === 0
       ) {
         // Neither handle overlaps the host boundary
-        let minValueTranslate = labelTransformedOverlap / 2 - labelFontSize / 2;
-        if (Math.sign(minValueTranslate) === -1) {
-          minValueTranslate = Math.abs(minValueTranslate);
+        let minValueLabelTranslate =
+          labelTransformedOverlap / 2 - labelFontSize / 2;
+        if (Math.sign(minValueLabelTranslate) === -1) {
+          minValueLabelTranslate = Math.abs(minValueLabelTranslate);
         } else {
-          minValueTranslate = -minValueTranslate;
+          minValueLabelTranslate = -minValueLabelTranslate;
         }
-        minValueLabel.style.transform = `translateX(${minValueTranslate}px)`;
+        minValueLabel.style.transform = `translateX(${minValueLabelTranslate}px)`;
+        minValueLabelTransformed.style.transform = `translateX(${
+          minValueLabelTranslate - labelFontSize / 2
+        }px)`;
         valueLabel.style.transform = `translateX(${
+          labelTransformedOverlap / 2
+        }px)`;
+        valueLabelTransformed.style.transform = `translateX(${
           labelTransformedOverlap / 2
         }px)`;
       } else if (
@@ -1051,15 +1059,29 @@ export class CalciteSlider {
         valueLabel.style.transform = `translateX(${
           labelTransformedOverlap + valueLabelStaticHostOffset
         }px)`;
+        valueLabelTransformed.style.transform = `translateX(${
+          labelTransformedOverlap + valueLabelStaticHostOffset
+        }px)`;
       } else if (valueLabelStaticHostOffset !== 0) {
         // valueLabel overlaps host boundary on the right side
-        minValueLabel.style.marginRight = `${
-          labelTransformedOverlap * 2 - labelFontSize
-        }px`;
+        let minValueLabelTranslate =
+          Math.abs(minValueLabelStaticHostOffset) +
+          labelTransformedOverlap -
+          labelFontSize / 2;
+        if (Math.sign(minValueLabelTranslate) === -1) {
+          minValueLabelTranslate = Math.abs(minValueLabelTranslate);
+        } else {
+          minValueLabelTranslate = -minValueLabelTranslate;
+        }
+        minValueLabel.style.transform = `translateX(${minValueLabelTranslate}px)`;
+        minValueLabelTransformed.style.transform = `translateX(${
+          minValueLabelTranslate - labelFontSize / 2
+        }px)`;
       }
     } else {
       minValueLabel.classList.remove("hyphen");
       minValueLabel.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
+      minValueLabelTransformed.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
       valueLabel.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
     }
   }
