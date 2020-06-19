@@ -1026,10 +1026,16 @@ export class CalciteSlider {
         minValueLabelStaticHostOffset === 0
       ) {
         // Neither handle overlaps the host boundary
-        minValueLabel.style.marginRight = `${
-          labelTransformedOverlap - labelFontSize
-        }px`;
-        valueLabel.style.marginLeft = `${labelTransformedOverlap}px`;
+        let minValueTranslate = labelTransformedOverlap / 2 - labelFontSize / 2;
+        if (Math.sign(minValueTranslate) === -1) {
+          minValueTranslate = Math.abs(minValueTranslate);
+        } else {
+          minValueTranslate = -minValueTranslate;
+        }
+        minValueLabel.style.transform = `translateX(${minValueTranslate}px)`;
+        valueLabel.style.transform = `translateX(${
+          labelTransformedOverlap / 2
+        }px)`;
       } else if (
         minValueLabelStaticHostOffset !== 0 &&
         (Math.sign(valueLabelStaticHostOffset) === 0 ||
@@ -1046,8 +1052,7 @@ export class CalciteSlider {
       }
     } else {
       minValueLabel.classList.remove("hyphen");
-      minValueLabel.style.marginLeft = "0px";
-      minValueLabel.style.marginRight = "0px";
+      // minValueLabel.style.transform = `translateX(0px)`;
       valueLabel.style.marginLeft = "0px";
     }
   }
