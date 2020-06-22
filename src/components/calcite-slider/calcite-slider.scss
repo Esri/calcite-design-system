@@ -67,7 +67,6 @@ $tick-height: 4px;
   transform: translate(7px, -8px);
 
   .handle__label {
-    transition: transform 150ms;
     @include font-size(-4);
     font-weight: 500;
     line-height: 1;
@@ -78,13 +77,9 @@ $tick-height: 4px;
       opacity: 0;
       position: absolute;
       top: 0;
+      bottom: 0;
     }
     &--minValue.hyphen::after {
-      content: "\2014";
-      display: inline-block;
-      width: 1em;
-    }
-    &--value.hyphen::before {
       content: "\2014";
       display: inline-block;
       width: 1em;
@@ -130,6 +125,22 @@ $tick-height: 4px;
 }
 .thumb--minValue {
   transform: translate(-7px, -8px);
+}
+:host([debug]) {
+  .handle__label {
+    &.static {
+      background-color: var(--calcite-ui-blue-1);
+      opacity: 0.3;
+      color: transparent;
+    }
+    &.transformed:not([style*="translateX(0px)"]),
+    &.transformed:not([style*="margin-left: 0px"]),
+    &.transformed:not([style*="margin-right: 0px"]) {
+      background-color: red;
+      opacity: 0.3;
+      color: transparent;
+    }
+  }
 }
 :host([label-handles]) {
   .thumb {

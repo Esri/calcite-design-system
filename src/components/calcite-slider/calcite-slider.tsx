@@ -94,11 +94,13 @@ export class CalciteSlider {
   }
 
   componentDidRender() {
-    const valueOffset = this.adjustObscuredEndcapLabel("value");
-    if (this.isRange && this.labelHandles) {
-      const minValueOffset = this.adjustObscuredEndcapLabel("minValue");
-      if (!(this.precise && this.isRange && !this.hasHistogram)) {
-        this.hyphenateCollidingRangeHandleLabels(valueOffset, minValueOffset);
+    if (this.labelHandles) {
+      this.adjustHostObscuredHandleLabel("value");
+      if (this.isRange) {
+        this.adjustHostObscuredHandleLabel("minValue");
+        if (!(this.precise && this.isRange && !this.hasHistogram)) {
+          this.hyphenateCollidingRangeHandleLabels();
+        }
       }
     }
     this.hideObscuredBoundingTickLabels();
@@ -974,126 +976,114 @@ export class CalciteSlider {
     const range = this.max - this.min;
     return (num - this.min) / range;
   }
-  private adjustObscuredEndcapLabel(name: "value" | "minValue"): number {
-    const handle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
-      `.thumb--${name}`
-    );
-    const label: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+  private adjustHostObscuredHandleLabel(name: "value" | "minValue") {
+    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}`
     );
-    const labelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.static`
     );
-    const labelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.transformed`
     );
-    if (handle && label && labelStatic && labelTransformed) {
-      const labelOffset = this.getLabelOffset(handle, labelStatic);
-      if (labelOffset) {
-        (label as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
-        (labelTransformed as HTMLSpanElement).style.transform = `translateX(${labelOffset}px)`;
-      } else {
-        (label as HTMLSpanElement).style.transform = "";
-        (labelTransformed as HTMLSpanElement).style.transform = "";
-      }
-      return Math.abs(labelOffset);
-    }
-    return 0;
+    const labelStaticOffset = this.getLabelHostOffset(labelStatic);
+    label.style.transform = `translateX(${labelStaticOffset}px)`;
+    labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
-  private hyphenateCollidingRangeHandleLabels(
-    valueLabelOffset: number,
-    minValueLabelOffset: number
-  ) {
-    const minValueLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+  private hyphenateCollidingRangeHandleLabels() {
+    const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue`
     );
-    const minValueLabelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const minValueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.static`
     );
-    const minValueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const minValueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.transformed`
     );
-    const valueLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const minValueLabelStaticHostOffset = this.getLabelHostOffset(
+      minValueLabelStatic
+    );
+
+    const valueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value`
     );
-    const valueLabelStatic: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const valueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value.static`
     );
-    const valueLabelTransformed: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+    const valueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value.transformed`
     );
+    const valueLabelStaticHostOffset = this.getLabelHostOffset(
+      valueLabelStatic
+    );
+
     const labelFontSize = this.getFontSizeForElement(minValueLabel);
-    if (
-      minValueLabel &&
-      valueLabel &&
-      minValueLabelStatic &&
-      valueLabelStatic &&
-      minValueLabelTransformed &&
+    const labelTransformedOverlap = this.getRangeLabelOverlap(
+      minValueLabelTransformed,
       valueLabelTransformed
-    ) {
+    );
+
+    if (labelTransformedOverlap > 0) {
+      minValueLabel.classList.add("hyphen");
       if (
-        valueLabelOffset > 0 ||
-        valueLabel.getBoundingClientRect().right >
-          this.el.getBoundingClientRect().right
+        valueLabelStaticHostOffset === 0 &&
+        minValueLabelStaticHostOffset === 0
       ) {
-        const valueLabelTransformedOverlap = this.getRangeLabelOverlap(
-          minValueLabelStatic,
-          valueLabelTransformed
-        );
-        if (valueLabelTransformedOverlap > 0) {
-          minValueLabel.classList.add("hyphen");
-          minValueLabel.classList.add("max-offset");
-          minValueLabel.style.marginRight = `${
-            valueLabelTransformedOverlap * 2 - labelFontSize
-          }px`;
+        // Neither handle overlaps the host boundary
+        let minValueLabelTranslate =
+          labelTransformedOverlap / 2 - labelFontSize / 2;
+        if (Math.sign(minValueLabelTranslate) === -1) {
+          minValueLabelTranslate = Math.abs(minValueLabelTranslate);
         } else {
-          minValueLabel.classList.remove("hyphen");
-          minValueLabel.classList.remove("max-offset");
-          minValueLabel.style.marginRight = "0px";
+          minValueLabelTranslate = -minValueLabelTranslate;
         }
-        valueLabel.style.marginLeft = "0px";
+        minValueLabel.style.transform = `translateX(${minValueLabelTranslate}px)`;
+        minValueLabelTransformed.style.transform = `translateX(${
+          minValueLabelTranslate - labelFontSize / 2
+        }px)`;
+        valueLabel.style.transform = `translateX(${
+          labelTransformedOverlap / 2
+        }px)`;
+        valueLabelTransformed.style.transform = `translateX(${
+          labelTransformedOverlap / 2
+        }px)`;
       } else if (
-        minValueLabelOffset > 0 ||
-        minValueLabel.getBoundingClientRect().left <
-          this.el.getBoundingClientRect().left
+        minValueLabelStaticHostOffset !== 0 &&
+        (Math.sign(valueLabelStaticHostOffset) === 0 ||
+          Math.sign(valueLabelStaticHostOffset) === 1)
       ) {
-        const minValueLabelTransformedOverlap = this.getRangeLabelOverlap(
-          minValueLabelTransformed,
-          valueLabelStatic
-        );
-        if (minValueLabelTransformedOverlap > 0) {
-          valueLabel.classList.add("hyphen");
-          valueLabel.classList.add("min-offset");
-          valueLabel.style.marginLeft = `${
-            minValueLabelTransformedOverlap * 2 - labelFontSize
-          }px`;
+        // minValueLabel overlaps host boundary on the left side
+        minValueLabel.style.transform = `translateX(${
+          minValueLabelStaticHostOffset + labelFontSize / 2
+        }px)`;
+        valueLabel.style.transform = `translateX(${
+          labelTransformedOverlap + valueLabelStaticHostOffset
+        }px)`;
+        valueLabelTransformed.style.transform = `translateX(${
+          labelTransformedOverlap + valueLabelStaticHostOffset
+        }px)`;
+      } else if (valueLabelStaticHostOffset !== 0) {
+        // valueLabel overlaps host boundary on the right side
+        let minValueLabelTranslate =
+          Math.abs(minValueLabelStaticHostOffset) +
+          labelTransformedOverlap -
+          labelFontSize / 2;
+        if (Math.sign(minValueLabelTranslate) === -1) {
+          minValueLabelTranslate = Math.abs(minValueLabelTranslate);
         } else {
-          valueLabel.classList.remove("hyphen");
-          valueLabel.classList.remove("min-offset");
-          valueLabel.style.marginLeft = "0px";
+          minValueLabelTranslate = -minValueLabelTranslate;
         }
-        minValueLabel.style.marginRight = "0px";
-      } else {
-        const labelStaticOverlap = this.getRangeLabelOverlap(
-          minValueLabelStatic,
-          valueLabelStatic
-        );
-        if (labelStaticOverlap > 0) {
-          minValueLabel.classList.add("hyphen");
-          valueLabel.classList.add("hyphen");
-          minValueLabel.style.marginRight = `${
-            labelStaticOverlap - labelFontSize
-          }px`;
-          valueLabel.style.marginLeft = `${
-            labelStaticOverlap - labelFontSize
-          }px`;
-        } else {
-          minValueLabel.classList.remove("hyphen");
-          valueLabel.classList.remove("hyphen");
-          minValueLabel.style.marginRight = "0px";
-          valueLabel.style.marginLeft = "0px";
-        }
+        minValueLabel.style.transform = `translateX(${minValueLabelTranslate}px)`;
+        minValueLabelTransformed.style.transform = `translateX(${
+          minValueLabelTranslate - labelFontSize / 2
+        }px)`;
       }
+    } else {
+      minValueLabel.classList.remove("hyphen");
+      minValueLabel.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
+      minValueLabelTransformed.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
+      valueLabel.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
+      valueLabelTransformed.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
     }
   }
   /**
@@ -1190,27 +1180,14 @@ export class CalciteSlider {
    * Returns an integer representing the number of pixels to offset handle labels based on desired position behavior.
    * @internal
    */
-  private getLabelOffset(
-    handle: HTMLButtonElement,
-    label: HTMLSpanElement
-  ): number {
-    const handleBounds = handle.getBoundingClientRect();
+  private getLabelHostOffset(label: HTMLSpanElement): number {
     const labelBounds = label.getBoundingClientRect();
     const hostBounds = this.el.getBoundingClientRect();
-    if (
-      handleBounds.left < labelBounds.left ||
-      handleBounds.right > labelBounds.right
-    ) {
-      return 0;
-    }
-    if (labelBounds.left < hostBounds.left) {
+    if (labelBounds.left + 7 < hostBounds.left) {
       const offset = Math.floor(hostBounds.left - labelBounds.left - 7);
       return offset;
     }
-    if (
-      labelBounds.right > hostBounds.right ||
-      labelBounds.right > handleBounds.right
-    ) {
+    if (labelBounds.right - 7 > hostBounds.right) {
       const offset = Math.floor(-(labelBounds.right - hostBounds.right) + 7);
       return offset;
     }
