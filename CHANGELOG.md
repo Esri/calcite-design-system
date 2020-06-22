@@ -21,9 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-dropdown` - a dropdown will now close if another dropdown is opened
 - `calcite-dropdown` - mouse clicks on `calcite-dropdown-group` titles will no longer close the dropdown
-- `calcite-dropdown` - will now correctly focus the slotted `dropdown-trigger` element when the dropdown is closed
-- `calcite-dropdown` - a dropdown will now close if another dropdown is opened
-- `calcite-dropdown` - mouse clicks on `calcite-dropdown-group` titles will no longer close the dropdown
 
 ## [v1.0.0-beta.30] - June 12th 2020
 
