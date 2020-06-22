@@ -73,7 +73,25 @@
     </calcite-dropdown>
     <br />
     <br />
-
+    <h3>Disabled close on select</h3>
+    <h4>Selecting will remain open except selection-mode:none</h4>
+    <calcite-dropdown disable-close-on-select>
+      <calcite-button slot="dropdown-trigger">Open</calcite-button>
+      <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single - default">
+        <calcite-dropdown-item icon-start="number" icon-end="data-check">Indicator</calcite-dropdown-item>
+        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item>Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group selection-mode="multi" group-title="Selection Mode: Multi">
+        <calcite-dropdown-item icon-end="grid" active>This</calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="list">That</calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="table" active>Also this that might wrap</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group selection-mode="none" group-title="Selection Mode: None">
+        <calcite-dropdown-item icon-start="grid">Less</calcite-dropdown-item>
+        <calcite-dropdown-item icon-start="list">Also this that might wrap</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
     <h3>Dropdown widths</h3>
     <calcite-dropdown width="s">
       <calcite-button slot="dropdown-trigger">Icon - Width S</calcite-button>

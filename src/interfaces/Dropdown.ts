@@ -9,7 +9,7 @@ export interface ItemKeyboardEvent {
 export interface GroupRegistration {
   items: HTMLCalciteDropdownItemElement[];
   position: number;
-  groupId: string;
+  group: HTMLCalciteDropdownGroupElement;
   titleEl: HTMLSpanElement;
 }
 
