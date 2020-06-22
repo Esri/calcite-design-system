@@ -50,7 +50,7 @@ You can choose to leave the dropdown open when an item is selected with the `dis
 | ---------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
 | `active`               | `active`                  |                                                                                                                                                                     | `boolean`                          | `false`     |
 | `alignment`            | `alignment`               | specify the alignment of dropdown, defaults to start                                                                                                                | `"center" \| "end" \| "start"`     | `"start"`   |
-| `disableCloseOnSelect` | `disable-close-on-select` | allow the dropdown to remain open after a selection is made if the selection-mode of the selected item's containing group is "none", the dropdown will alwqys close | `boolean`                          | `false`     |
+| `disableCloseOnSelect` | `disable-close-on-select` | allow the dropdown to remain open after a selection is made if the selection-mode of the selected item's containing group is "none", the dropdown will always close | `boolean`                          | `false`     |
 | `maxItems`             | `max-items`               | specify the max items to display before showing the scroller, must be greater than 0 \*                                                                             | `number`                           | `0`         |
 | `scale`                | `scale`                   | specify the scale of dropdown, defaults to m                                                                                                                        | `"l" \| "m" \| "s"`                | `"m"`       |
 | `selectedItems`        | --                        | **read-only** The currently selected items                                                                                                                          | `HTMLCalciteDropdownItemElement[]` | `[]`        |
@@ -62,6 +62,7 @@ You can choose to leave the dropdown open when an item is selected with the `dis
 
 | Event                   | Description                                                   | Type                |
 | ----------------------- | ------------------------------------------------------------- | ------------------- |
+| `calciteDropdownClose`  | fires when a dropdown has been closed \*                      | `CustomEvent<void>` |
 | `calciteDropdownOpen`   | fires when a dropdown has been opened \*                      | `CustomEvent<void>` |
 | `calciteDropdownSelect` | fires when a dropdown item has been selected or deselected \* | `CustomEvent<void>` |
 

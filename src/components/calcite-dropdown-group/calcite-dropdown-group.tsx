@@ -21,7 +21,7 @@ export class CalciteDropdownGroup {
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDropdownGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -67,7 +67,7 @@ export class CalciteDropdownGroup {
     this.calciteDropdownGroupRegister.emit({
       items: this.items,
       position: this.groupPosition,
-      group: this.el as HTMLCalciteDropdownGroupElement,
+      group: this.el,
       titleEl: this.titleEl,
     });
   }

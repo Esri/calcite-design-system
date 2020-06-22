@@ -50,7 +50,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-dropdown` now has a read-only `selectedItems` prop that contains all selected items.
 - `calcite-dropdown` now emits `calciteDropdownSelect` when an item selection changes.
-- `calcite-dropdown` now has a `disable-close-on-select` attribute that allows dropdowns to remain open on selection when `calcite-dropdown-group` `selection-mode` is set to `single` or `multi`
+- `calcite-dropdown` now emits `calciteDropdownClose` when it closes.
+- `calcite-dropdown` now emits `calciteDropdownOpen` when it opens.
+- `calcite-dropdown` now has a `disable-close-on-select` attribute that allows dropdowns to remain open on selection when `calcite-dropdown-group` `selection-mode` is set to `single` or `multi`.
 
 ### Fixed
 

@@ -13,12 +13,9 @@
 
 ## Events
 
-| Event                         | Description | Type                             |
-| ----------------------------- | ----------- | -------------------------------- |
-| `calciteDropdownClose`        |             | `CustomEvent<any>`               |
-| `calciteDropdownItemKeyEvent` |             | `CustomEvent<ItemKeyboardEvent>` |
-| `calciteDropdownItemRegister` |             | `CustomEvent<ItemRegistration>`  |
-| `calciteDropdownItemSelect`   |             | `CustomEvent<any>`               |
+| Event                       | Description | Type               |
+| --------------------------- | ----------- | ------------------ |
+| `calciteDropdownItemSelect` |             | `CustomEvent<any>` |
 
 ## Methods
 

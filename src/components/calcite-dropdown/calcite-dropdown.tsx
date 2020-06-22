@@ -27,7 +27,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDropdownElement;
 
   //--------------------------------------------------------------------------
   //
@@ -67,7 +67,7 @@ export class CalciteDropdown {
 
   /**
   allow the dropdown to remain open after a selection is made
-  if the selection-mode of the selected item's containing group is "none", the dropdown will alwqys close
+  if the selection-mode of the selected item's containing group is "none", the dropdown will always close
   */
 
   @Prop({ mutable: true, reflect: true }) disableCloseOnSelect: boolean = false;
@@ -149,6 +149,9 @@ export class CalciteDropdown {
   /** fires when a dropdown has been opened **/
   @Event() calciteDropdownOpen: EventEmitter<void>;
 
+  /** fires when a dropdown has been closed **/
+  @Event() calciteDropdownClose: EventEmitter<void>;
+
   @Listen("click") openDropdown(e) {
     if (e.target === this.trigger || this.trigger.contains(e.target)) {
       e.preventDefault();
@@ -167,7 +170,7 @@ export class CalciteDropdown {
     }
   }
 
-  @Listen("calciteDropdownClose") closeCalciteDropdownOnEvent() {
+  @Listen("calciteDropdownCloseRequest") closeCalciteDropdownOnEvent() {
     this.closeCalciteDropdown();
   }
 
@@ -330,6 +333,7 @@ export class CalciteDropdown {
   }
 
   private closeCalciteDropdown() {
+    this.calciteDropdownClose.emit();
     this.active = false;
     focusElement(this.trigger);
   }

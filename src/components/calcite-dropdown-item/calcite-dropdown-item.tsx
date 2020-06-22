@@ -25,7 +25,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDropdownItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -49,11 +49,16 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteDropdownClose: EventEmitter;
-  @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
-  @Event() calciteDropdownItemRegister: EventEmitter<ItemRegistration>;
   @Event() calciteDropdownItemSelect: EventEmitter;
 
+  /** @internal */
+  @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
+
+  /** @internal */
+  @Event() calciteDropdownItemRegister: EventEmitter<ItemRegistration>;
+
+  /** @internal */
+  @Event() calciteDropdownCloseRequest: EventEmitter;
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -162,7 +167,7 @@ export class CalciteDropdownItem {
         if (this.href) this.childLink.click();
         break;
       case "Escape":
-        this.calciteDropdownClose.emit();
+        this.calciteDropdownCloseRequest.emit();
         break;
       case "Tab":
       case "ArrowUp":
@@ -237,7 +242,7 @@ export class CalciteDropdownItem {
 
   private emitRequestedItem() {
     this.calciteDropdownItemSelect.emit({
-      requestedDropdownItem: this.el as HTMLCalciteDropdownItemElement,
+      requestedDropdownItem: this.el,
       requestedDropdownGroup: this.currentDropdownGroup,
     });
   }
