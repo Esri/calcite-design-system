@@ -986,7 +986,10 @@ export class CalciteSlider {
     const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.transformed`
     );
-    const labelStaticOffset = this.getLabelHostOffset(labelStatic);
+    const labelStaticOffset = this.getHostOffset(
+      labelStatic.getBoundingClientRect().left,
+      labelStatic.getBoundingClientRect().right
+    );
     label.style.transform = `translateX(${labelStaticOffset}px)`;
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
@@ -1000,8 +1003,9 @@ export class CalciteSlider {
     const minValueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.transformed`
     );
-    const minValueLabelStaticHostOffset = this.getLabelHostOffset(
-      minValueLabelStatic
+    const minValueLabelStaticHostOffset = this.getHostOffset(
+      minValueLabelStatic.getBoundingClientRect().left,
+      minValueLabelStatic.getBoundingClientRect().right
     );
 
     const valueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
@@ -1013,8 +1017,9 @@ export class CalciteSlider {
     const valueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value.transformed`
     );
-    const valueLabelStaticHostOffset = this.getLabelHostOffset(
-      valueLabelStatic
+    const valueLabelStaticHostOffset = this.getHostOffset(
+      valueLabelStatic.getBoundingClientRect().left,
+      valueLabelStatic.getBoundingClientRect().right
     );
 
     const labelFontSize = this.getFontSizeForElement(minValueLabel);
@@ -1037,16 +1042,28 @@ export class CalciteSlider {
         } else {
           minValueLabelTranslate = -minValueLabelTranslate;
         }
+
+        let valueLabelTranslate = labelTransformedOverlap / 2;
+        const valueLabelTransformedHostOffset = this.getHostOffset(
+          valueLabelTransformed.getBoundingClientRect().left +
+            valueLabelTranslate,
+          valueLabelTransformed.getBoundingClientRect().right +
+            valueLabelTranslate
+        );
+
+        if (valueLabelTransformedHostOffset !== 0) {
+          minValueLabelTranslate =
+            minValueLabelTranslate + valueLabelTransformedHostOffset;
+          valueLabelTranslate =
+            valueLabelTranslate + valueLabelTransformedHostOffset;
+        }
+
         minValueLabel.style.transform = `translateX(${minValueLabelTranslate}px)`;
         minValueLabelTransformed.style.transform = `translateX(${
           minValueLabelTranslate - labelFontSize / 2
         }px)`;
-        valueLabel.style.transform = `translateX(${
-          labelTransformedOverlap / 2
-        }px)`;
-        valueLabelTransformed.style.transform = `translateX(${
-          labelTransformedOverlap / 2
-        }px)`;
+        valueLabel.style.transform = `translateX(${valueLabelTranslate}px)`;
+        valueLabelTransformed.style.transform = `translateX(${valueLabelTranslate}px)`;
       } else if (
         minValueLabelStaticHostOffset !== 0 &&
         (Math.sign(valueLabelStaticHostOffset) === 0 ||
@@ -1177,18 +1194,17 @@ export class CalciteSlider {
     }
   }
   /**
-   * Returns an integer representing the number of pixels to offset handle labels based on desired position behavior.
+   * Returns an integer representing the number of pixels to offset on the left or right side based on desired position behavior.
    * @internal
    */
-  private getLabelHostOffset(label: HTMLSpanElement): number {
-    const labelBounds = label.getBoundingClientRect();
+  private getHostOffset(leftBounds: number, rightBounds: number): number {
     const hostBounds = this.el.getBoundingClientRect();
-    if (labelBounds.left + 7 < hostBounds.left) {
-      const offset = Math.floor(hostBounds.left - labelBounds.left - 7);
+    if (leftBounds + 7 < hostBounds.left) {
+      const offset = hostBounds.left - leftBounds - 7;
       return offset;
     }
-    if (labelBounds.right - 7 > hostBounds.right) {
-      const offset = Math.floor(-(labelBounds.right - hostBounds.right) + 7);
+    if (rightBounds - 7 > hostBounds.right) {
+      const offset = -(rightBounds - hostBounds.right) + 7;
       return offset;
     }
     return 0;
