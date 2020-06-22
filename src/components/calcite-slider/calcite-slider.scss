@@ -127,20 +127,18 @@ $tick-height: 4px;
   transform: translate(-7px, -8px);
 }
 :host([debug]) {
-  .thumb {
-    .handle__label {
-      &.static {
-        background-color: var(--calcite-ui-blue-1);
-        opacity: 0.3;
-        color: transparent;
-      }
-      &.transformed:not([style*="translateX(0px)"]),
-      &.transformed:not([style*="margin-left: 0px"]),
-      &.transformed:not([style*="margin-right: 0px"]) {
-        background-color: red;
-        opacity: 0.3;
-        color: transparent;
-      }
+  .handle__label {
+    &.static {
+      background-color: var(--calcite-ui-blue-1);
+      opacity: 0.3;
+      color: transparent;
+    }
+    &.transformed:not([style*="translateX(0px)"]),
+    &.transformed:not([style*="margin-left: 0px"]),
+    &.transformed:not([style*="margin-right: 0px"]) {
+      background-color: red;
+      opacity: 0.3;
+      color: transparent;
     }
   }
 }
