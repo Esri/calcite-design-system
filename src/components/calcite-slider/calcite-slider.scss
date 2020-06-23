@@ -126,33 +126,34 @@ $tick-height: 4px;
 .thumb--minValue {
   transform: translate(-7px, -8px);
 }
-:host([debug]) {
-  &:after {
-    content: "";
-    display: block;
-    width: calc(100% + 14px);
-    height: 50px;
-    position: absolute;
-    top: -16px;
-    left: -7px;
-    background-color: #ccc;
-    opacity: 0.3;
-  }
-  .handle__label {
-    &.static {
-      background-color: var(--calcite-ui-blue-1);
-      opacity: 0.3;
-      color: transparent;
-    }
-    &.transformed:not([style*="translateX(0px)"]),
-    &.transformed:not([style*="margin-left: 0px"]),
-    &.transformed:not([style*="margin-right: 0px"]) {
-      background-color: red;
-      opacity: 0.3;
-      color: transparent;
-    }
-  }
-}
+/* uncomment for helpful debugging UI */
+// :host([debug]) {
+//   &:after {
+//     content: "";
+//     display: block;
+//     width: calc(100% + 14px);
+//     height: 50px;
+//     position: absolute;
+//     top: -16px;
+//     left: -7px;
+//     background-color: #ccc;
+//     opacity: 0.3;
+//   }
+//   .handle__label {
+//     &.static {
+//       background-color: var(--calcite-ui-blue-1);
+//       opacity: 0.3;
+//       color: transparent;
+//     }
+//     &.transformed:not([style*="translateX(0px)"]),
+//     &.transformed:not([style*="margin-left: 0px"]),
+//     &.transformed:not([style*="margin-right: 0px"]) {
+//       background-color: red;
+//       opacity: 0.3;
+//       color: transparent;
+//     }
+//   }
+// }
 :host([label-handles]) {
   .thumb {
     transform: translate(50%, -25px);
