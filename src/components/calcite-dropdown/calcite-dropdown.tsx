@@ -8,13 +8,12 @@ import {
   Listen,
   Prop,
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
 import {
   GroupRegistration,
   ItemKeyboardEvent,
 } from "../../interfaces/Dropdown";
 import { getKey } from "../../utils/key";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-dropdown",
@@ -28,7 +27,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDropdownElement;
 
   //--------------------------------------------------------------------------
   //
@@ -65,6 +64,13 @@ export class CalciteDropdown {
 
   /** specify whether the dropdown is opened by hover or click of the trigger element */
   @Prop({ mutable: true, reflect: true }) type: "hover" | "click" = "click";
+
+  /**
+  allow the dropdown to remain open after a selection is made
+  if the selection-mode of the selected item's containing group is "none", the dropdown will always close
+  */
+
+  @Prop({ mutable: true, reflect: true }) disableCloseOnSelect: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -140,6 +146,12 @@ export class CalciteDropdown {
   /** fires when a dropdown item has been selected or deselected **/
   @Event() calciteDropdownSelect: EventEmitter<void>;
 
+  /** fires when a dropdown has been opened **/
+  @Event() calciteDropdownOpen: EventEmitter<void>;
+
+  /** fires when a dropdown has been closed **/
+  @Event() calciteDropdownClose: EventEmitter<void>;
+
   @Listen("click") openDropdown(e) {
     if (e.target === this.trigger || this.trigger.contains(e.target)) {
       e.preventDefault();
@@ -149,13 +161,22 @@ export class CalciteDropdown {
   }
 
   @Listen("click", { target: "window" }) closeCalciteDropdownOnClick(e) {
-    if (this.active && e.target.offsetParent !== this.el) {
+    if (
+      this.active &&
+      e.target.nodeName !== "CALCITE-DROPDOWN-ITEM" &&
+      e.target.nodeName !== "CALCITE-DROPDOWN-GROUP"
+    ) {
       this.closeCalciteDropdown();
     }
   }
 
-  @Listen("calciteDropdownClose") closeCalciteDropdownOnEvent() {
+  @Listen("calciteDropdownCloseRequest") closeCalciteDropdownOnEvent() {
     this.closeCalciteDropdown();
+  }
+
+  @Listen("calciteDropdownOpen", { target: "window" })
+  closeCalciteDropdownOnOpenEvent(e) {
+    if (e.target !== this.el) this.active = false;
   }
 
   @Listen("keydown") keyDownHandler(e) {
@@ -232,6 +253,11 @@ export class CalciteDropdown {
     this.updateSelectedItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
+    if (
+      !this.disableCloseOnSelect ||
+      event.detail.requestedDropdownGroup.selectionMode === "none"
+    )
+      this.closeCalciteDropdown();
   }
 
   @Listen("calciteDropdownGroupRegister") registerCalciteDropdownGroup(
@@ -282,7 +308,6 @@ export class CalciteDropdown {
         "calcite-dropdown-item"
       )
     );
-
     this.selectedItems = items.filter((item) => item.active);
   }
 
@@ -308,8 +333,9 @@ export class CalciteDropdown {
   }
 
   private closeCalciteDropdown() {
+    this.calciteDropdownClose.emit();
     this.active = false;
-    this.trigger.focus();
+    focusElement(this.trigger);
   }
 
   private focusOnFirstActiveOrFirstItem(): void {
@@ -357,6 +383,7 @@ export class CalciteDropdown {
   }
 
   private openCalciteDropdown() {
+    this.calciteDropdownOpen.emit();
     this.active = !this.active;
     const animationDelayInMs = 50;
 
