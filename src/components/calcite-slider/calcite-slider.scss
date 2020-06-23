@@ -32,6 +32,9 @@ $tick-height: 4px;
   .tick--active {
     background-color: var(--calcite-ui-text-3);
   }
+  .graph .graph-path--highlight {
+    fill: var(--calcite-ui-text-3);
+  }
 }
 
 /*
