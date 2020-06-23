@@ -127,6 +127,17 @@ $tick-height: 4px;
   transform: translate(-7px, -8px);
 }
 :host([debug]) {
+  &:after {
+    content: "";
+    display: block;
+    width: calc(100% + 14px);
+    height: 50px;
+    position: absolute;
+    top: -16px;
+    left: -7px;
+    background-color: #ccc;
+    opacity: 0.3;
+  }
   .handle__label {
     &.static {
       background-color: var(--calcite-ui-blue-1);

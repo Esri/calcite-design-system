@@ -1027,7 +1027,7 @@ export class CalciteSlider {
       minValueLabelTransformed,
       valueLabelTransformed
     );
-
+    console.clear();
     if (labelTransformedOverlap > 0) {
       minValueLabel.classList.add("hyphen");
       if (
@@ -1043,6 +1043,15 @@ export class CalciteSlider {
           minValueLabelTranslate = -minValueLabelTranslate;
         }
 
+        const minValueLabelTransformedHostOffset = this.getHostOffset(
+          minValueLabelTransformed.getBoundingClientRect().left +
+            minValueLabelTranslate -
+            labelFontSize / 2,
+          minValueLabelTransformed.getBoundingClientRect().right +
+            minValueLabelTranslate -
+            labelFontSize / 2
+        );
+
         let valueLabelTranslate = labelTransformedOverlap / 2;
         const valueLabelTransformedHostOffset = this.getHostOffset(
           valueLabelTransformed.getBoundingClientRect().left +
@@ -1050,6 +1059,13 @@ export class CalciteSlider {
           valueLabelTransformed.getBoundingClientRect().right +
             valueLabelTranslate
         );
+
+        if (minValueLabelTransformedHostOffset !== 0) {
+          minValueLabelTranslate =
+            minValueLabelTranslate + minValueLabelTransformedHostOffset;
+          valueLabelTranslate =
+            valueLabelTranslate + minValueLabelTransformedHostOffset;
+        }
 
         if (valueLabelTransformedHostOffset !== 0) {
           minValueLabelTranslate =
