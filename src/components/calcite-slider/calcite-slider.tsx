@@ -1027,7 +1027,7 @@ export class CalciteSlider {
       minValueLabelTransformed,
       valueLabelTransformed
     );
-    console.clear();
+
     if (labelTransformedOverlap > 0) {
       minValueLabel.classList.add("hyphen");
       if (
