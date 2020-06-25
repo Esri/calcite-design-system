@@ -53,6 +53,7 @@
 
 // disabled styles
 :host([disabled]) {
+  pointer-events: none;
   span,
   a {
     pointer-events: none;
