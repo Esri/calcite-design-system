@@ -351,16 +351,6 @@ describe("calcite-radio-button", () => {
     expect(value).toBe("test-value");
   });
 
-  it("uses value as fallback label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-button value='test-value' checked></calcite-radio-button>"
-    );
-
-    const label = await page.find("calcite-radio-button >>> calcite-label");
-    expect(label).toEqualText("test-value");
-  });
-
   it("updates 'aria-checked' based on 'checked' property", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-radio-button></calcite-radio-button>");
