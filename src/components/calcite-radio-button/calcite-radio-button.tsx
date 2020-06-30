@@ -254,26 +254,28 @@ export class CalciteRadioButton {
     }
 
     this.input.type = "radio";
-
-    // This renders the input as a sibling of calcite-radio-button because as it turns out
-    // doing appendChild as hjorthhansen suggests doesn't really keep it out of the
-    // shadow DOM as far as slot behavior goes.  This is required to render {this.value} as fallback slot content.
-    this.el.insertAdjacentElement("afterend", this.input);
+    this.el.insertAdjacentElement("beforeend", this.input);
   }
 
   render() {
+    const hasLabel = this.el.textContent ? true : false;
     return (
       <Host
         aria-checked={this.checked.toString()}
         aria-disabled={this.disabled}
+        class={{ hasLabel }}
       >
         <div class="radio"></div>
-        <calcite-label
-          dir={document.documentElement.getAttribute("dir")}
-          scale={this.scale}
-        >
-          <slot></slot>
-        </calcite-label>
+        {hasLabel ? (
+          <calcite-label
+            dir={document.documentElement.getAttribute("dir")}
+            scale={this.scale}
+          >
+            <slot />
+          </calcite-label>
+        ) : (
+          <slot />
+        )}
       </Host>
     );
   }

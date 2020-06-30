@@ -24,7 +24,7 @@
 
     .two-columns {
       display: grid;
-      grid-template-columns: 350px 350px;
+      grid-template-columns: 1fr 1fr;
       grid-gap: 20px;
     }
 
@@ -47,6 +47,7 @@
 
   <demo-form>
     <form name="calcite-tile-select-demo-form">
+
       <demo-spacer>
         <div class="two-columns">
           <div class="demo-background-light">
@@ -56,6 +57,9 @@
 
               <h3>Left Radio</h3>
               <calcite-tile-select name="left-radio" value="one"></calcite-tile-select>
+
+              <h3>Left Checkbox</h3>
+              <calcite-tile-select name="left-checkbox" value="one" type="checkbox"></calcite-tile-select>
 
             </demo-spacer>
 

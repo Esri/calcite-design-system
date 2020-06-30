@@ -20,8 +20,9 @@ export class CalciteTileSelect {
   //
   //--------------------------------------------------------------------------
 
-  @Prop() name: string;
-  @Prop() value: string;
+  @Prop({ reflect: true }) name: string;
+  @Prop({ reflect: true }) type: "radio" | "checkbox" = "radio";
+  @Prop({ reflect: true }) value: string;
 
   //--------------------------------------------------------------------------
   //
@@ -29,7 +30,7 @@ export class CalciteTileSelect {
   //
   //--------------------------------------------------------------------------
 
-  private radioButton: HTMLCalciteRadioButtonElement;
+  private input: HTMLCalciteCheckboxElement | HTMLCalciteRadioButtonElement;
 
   //--------------------------------------------------------------------------
   //
@@ -38,7 +39,11 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    this.renderRadioButton();
+    this.renderInput();
+  }
+
+  disconnectedCallback() {
+    this.input.parentNode.removeChild(this.input);
   }
 
   // --------------------------------------------------------------------------
@@ -47,22 +52,17 @@ export class CalciteTileSelect {
   //
   // --------------------------------------------------------------------------
 
-  private renderRadioButton() {
-    // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
-    // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
-    this.radioButton = this.el.ownerDocument.createElement(
-      "calcite-radio-button"
+  private renderInput() {
+    this.input = this.el.ownerDocument.createElement(
+      this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox"
     );
     if (this.name) {
-      this.radioButton.name = this.name;
+      this.input.name = this.name;
     }
     if (this.value) {
-      this.radioButton.value = this.value;
+      this.input.value = this.value;
     }
-    // This renders the input as a sibling of calcite-radio-button because as it turns out
-    // doing appendChild as hjorthhansen suggests doesn't really keep it out of the
-    // shadow DOM as far as slot behavior goes.  This is required to render {this.value} as fallback slot content.
-    this.el.insertAdjacentElement("afterend", this.radioButton);
+    this.el.insertAdjacentElement("beforeend", this.input);
   }
 
   render() {

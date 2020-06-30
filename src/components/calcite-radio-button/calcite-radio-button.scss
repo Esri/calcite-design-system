@@ -2,9 +2,6 @@
   @include calcite-theme-dark();
 }
 :host {
-  display: grid;
-  grid-gap: 8px;
-  align-items: center;
   cursor: pointer;
   .radio {
     border-radius: 100%;
@@ -12,6 +9,11 @@
     cursor: pointer;
     transition: all 0.15s ease-in-out;
   }
+}
+:host(.hasLabel) {
+  display: grid;
+  grid-gap: 8px;
+  align-items: center;
   --calcite-label-margin-bottom: 0;
 }
 :host(:hover) {
@@ -34,13 +36,15 @@
 }
 
 :host([scale="s"]) {
-  grid-template-columns: 12px 1fr 4px;
-  grid-template-rows: 16px 1fr;
   .radio {
     height: 12px;
     min-width: 12px;
     max-width: 12px;
   }
+}
+:host([scale="s"].hasLabel) {
+  grid-template-columns: 12px 1fr 4px;
+  grid-template-rows: 16px 1fr;
 }
 :host([scale="s"][checked]),
 :host(:hover[scale="s"][checked][disabled]) {
@@ -57,13 +61,15 @@
 }
 
 :host([scale="m"]) {
-  grid-template-columns: 16px 1fr 4px;
-  grid-template-rows: 20px 1fr;
   .radio {
     height: 16px;
     min-width: 16px;
     max-width: 16px;
   }
+}
+:host([scale="m"].hasLabel) {
+  grid-template-columns: 16px 1fr 4px;
+  grid-template-rows: 20px 1fr;
 }
 :host([scale="m"][checked]),
 :host(:hover[scale="m"][checked][disabled]) {
@@ -80,14 +86,16 @@
 }
 
 :host([scale="l"]) {
-  grid-gap: 12px;
-  grid-template-columns: 20px 1fr 4px;
-  grid-template-rows: 24px 1fr;
   .radio {
     height: 20px;
     min-width: 20px;
     max-width: 20px;
   }
+}
+:host([scale="l"].hasLabel) {
+  grid-gap: 12px;
+  grid-template-columns: 20px 1fr 4px;
+  grid-template-rows: 24px 1fr;
 }
 :host([scale="l"][checked]),
 :host(:hover[scale="l"][checked][disabled]) {
