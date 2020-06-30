@@ -1,5 +1,6 @@
 import { Config } from "@stencil/core";
 import { sass } from "@stencil/sass";
+import { generatePreactTypes } from "./support/preact";
 
 export const config: Config = {
   namespace: "calcite",
@@ -56,6 +57,7 @@ export const config: Config = {
     { type: "dist-hydrate-script" },
     { type: "dist" },
     { type: "docs-readme" },
+    { type: "custom", name: "preact", generator: generatePreactTypes },
     {
       type: "www",
       baseUrl: "https://stenciljs.com/",
