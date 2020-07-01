@@ -101,7 +101,7 @@ loader.isActive = true;
 
 ### TypeScript with Preact
 
-For preact applications using TypeScript, you must an additional file to your `tsconfig.json`:
+For preact applications using TypeScript, you must add an additional file to your `tsconfig.json`:
 
 ```
 "files": [
