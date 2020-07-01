@@ -867,4 +867,34 @@ describe("calcite-dropdown", () => {
       "trigger"
     );
   });
+
+  it("when disabled, clicks on slotted dropdown trigger do not open dropdown", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-dropdown disabled>
+    <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
+    <calcite-dropdown-group id="group-1" selection-mode="single">
+    <calcite-dropdown-item id="item-1">
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-2" active>
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-3">
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    </calcite-dropdown-group>
+    </calcite-dropdown>
+   `);
+
+    const element = await page.find("calcite-dropdown");
+    const trigger = await element.find("#trigger");
+    const dropdownWrapper = await page.find(
+      "calcite-dropdown >>> .calcite-dropdown-wrapper"
+    );
+    expect(await dropdownWrapper.isVisible()).toBe(false);
+    await trigger.click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(false);
+  });
 });

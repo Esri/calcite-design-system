@@ -73,6 +73,17 @@
     </calcite-dropdown>
     <br />
     <br />
+    <h3>Disabled dropdown</h3>
+    <calcite-dropdown disabled>
+      <calcite-button slot="dropdown-trigger">Disabled dropdown</calcite-button>
+        <calcite-dropdown-group group-title="View">
+          <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+        </calcite-dropdown-group>
+    </calcite-dropdown>
+    <br />
+    <br />
     <h3>Disabled close on select</h3>
     <h4>Selecting will remain open except selection-mode:none</h4>
     <calcite-dropdown disable-close-on-select>

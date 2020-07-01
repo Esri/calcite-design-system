@@ -72,6 +72,8 @@ export class CalciteDropdown {
 
   @Prop({ mutable: true, reflect: true }) disableCloseOnSelect: boolean = false;
 
+  /** is the dropdown disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -118,7 +120,7 @@ export class CalciteDropdown {
     const { maxScrollerHeight } = this;
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
+      <Host dir={dir} tabIndex={this.disabled ? -1 : null}>
         <slot
           name="dropdown-trigger"
           aria-haspopup="true"
