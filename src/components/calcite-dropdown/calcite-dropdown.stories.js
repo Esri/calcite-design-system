@@ -21,6 +21,7 @@ storiesOf("Dropdown", module)
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       disable-close-on-select="${boolean("disable close on select", false)}"
+      disabled="${boolean("disabled", false)}"
     >
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="${select(
@@ -45,6 +46,7 @@ storiesOf("Dropdown", module)
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       disable-close-on-select="${boolean("disable close on select", false)}"
+      disabled="${boolean("disabled", false)}"
     >
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="${select(
@@ -87,6 +89,7 @@ storiesOf("Dropdown", module)
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     disable-close-on-select="${boolean("disable close on select", false)}"
+    disabled="${boolean("disabled", false)}"
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
@@ -116,6 +119,7 @@ storiesOf("Dropdown", module)
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     disable-close-on-select="${boolean("disable close on select", false)}"
+    disabled="${boolean("disabled", false)}"
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
@@ -138,6 +142,7 @@ storiesOf("Dropdown", module)
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     disable-close-on-select="${boolean("disable close on select", false)}"
+    disabled="${boolean("disabled", false)}"
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
@@ -161,6 +166,7 @@ storiesOf("Dropdown", module)
        width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       disable-close-on-select="${boolean("disable close on select", false)}"
+      disabled="${boolean("disabled", false)}"
     >
       <calcite-button slot="dropdown-trigger" theme="dark">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="${select(
@@ -186,6 +192,7 @@ storiesOf("Dropdown", module)
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       disable-close-on-select="${boolean("disable close on select", false)}"
+      disabled="${boolean("disabled", false)}"
     >
       <calcite-button theme="dark" slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="${select(
@@ -228,6 +235,7 @@ storiesOf("Dropdown", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     disable-close-on-select="${boolean("disable close on select", false)}"
+    disabled="${boolean("disabled", false)}"
   >
     <calcite-button theme="dark" slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
@@ -258,6 +266,7 @@ storiesOf("Dropdown", module)
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     disable-close-on-select="${boolean("disable close on select", false)}"
+    disabled="${boolean("disabled", false)}"
   >
     <calcite-button theme="dark" slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
@@ -281,6 +290,7 @@ storiesOf("Dropdown", module)
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       disable-close-on-select="${boolean("disable close on select", false)}"
+      disabled="${boolean("disabled", false)}"
     >
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="${select(
@@ -306,6 +316,7 @@ storiesOf("Dropdown", module)
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
       disable-close-on-select="${boolean("disable close on select", false)}"
+      disabled="${boolean("disabled", false)}"
     >
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group group-title="First group">

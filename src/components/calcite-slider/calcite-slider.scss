@@ -26,8 +26,15 @@ $tick-height: 4px;
 }
 
 :host([disabled]) {
-  opacity: 0.5;
+  opacity: 0.4;
   pointer-events: none;
+  .track__range,
+  .tick--active {
+    background-color: var(--calcite-ui-text-3);
+  }
+  .graph .graph-path--highlight {
+    fill: var(--calcite-ui-text-3);
+  }
 }
 
 /*

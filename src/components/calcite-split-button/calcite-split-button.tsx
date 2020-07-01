@@ -15,7 +15,7 @@ import { getElementDir } from "../../utils/dom";
   styleUrl: "calcite-split-button.scss",
   shadow: true,
 })
-export class CalciteButtonWithDropdown {
+export class CalciteSplitButton {
   @Element() el: HTMLElement;
 
   /** specify the color of the control, defaults to blue */

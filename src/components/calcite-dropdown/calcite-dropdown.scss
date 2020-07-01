@@ -54,6 +54,12 @@
   display: inline-block;
 }
 
+// disabled styles
+:host([disabled]) {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 :host([active]) .calcite-dropdown-wrapper {
   transform: translate3d(0, 0, 0);
   opacity: 1;

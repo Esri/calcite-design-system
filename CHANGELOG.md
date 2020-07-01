@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-dropdown` now has a `disable-close-on-select` attribute that allows dropdowns to remain open on selection when `calcite-dropdown-group` `selection-mode` is set to `single` or `multi`
 - `calcite-dropdown` now emits `calciteDropdownClose` when it closes.
 - `calcite-dropdown` now emits `calciteDropdownOpen` when it opens.
+- `calcite-dropdown` now has a `disabled` prop.
 - `calcite-input` - adds `clearable` prop to display a clear button when field has a value - this also enables clearing of value while focused and using `Escape` key.
 - `calcite-input` - adds `disabled` prop
 
