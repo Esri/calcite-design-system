@@ -99,6 +99,18 @@ const loader = document.querySelector(
 loader.isActive = true;
 ```
 
+### TypeScript with Preact
+
+For preact applications using TypeScript, you must an additional file to your `tsconfig.json`:
+
+```
+"files": [
+  "node_modules/@esri/calcite-components/dist/types/preact.d.ts"
+],
+```
+
+This allows you to use custom tags and provides auto-complete for calcite-components. See the [Preact + TypeScript example](https://github.com/ArcGIS/calcite-components-examples/tree/master/preact-typescript) for more details.
+
 ## Browser Support
 
 | <img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/edge.png" alt="IE / Edge" width="16px" height="16px" /></br>IE / Edge | <img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/firefox.png" alt="Firefox" width="16px" height="16px" /></br>Firefox | <img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome.png" alt="Chrome" width="16px" height="16px" /></br>Chrome | <img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari.png" alt="Safari" width="16px" height="16px" /></br>Safari |

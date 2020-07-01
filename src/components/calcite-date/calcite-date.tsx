@@ -28,7 +28,7 @@ import { getKey } from "../../utils/key";
   styleUrl: "calcite-date.scss",
   shadow: true,
 })
-export class CalciteDatePicker {
+export class CalciteDate {
   //--------------------------------------------------------------------------
   //
   //  Element
