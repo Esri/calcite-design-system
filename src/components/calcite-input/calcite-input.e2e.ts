@@ -319,4 +319,67 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("0");
   });
+
+  it("renders clear button when clearable is requested and value is populated at load", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input clearable value="John Doe"></calcite-input>
+    `);
+    const clearButton = await page.find(
+      "calcite-input .calcite-input-clear-button"
+    );
+    expect(clearButton).not.toBe(null);
+  });
+
+  it("does not render clear button when clearable is requested and value is not populated", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input clearable></calcite-input>
+    `);
+
+    const clearButton = await page.find(
+      "calcite-input .calcite-input-clear-button"
+    );
+    expect(clearButton).toBe(null);
+  });
+
+  it("does not render clear button when clearable is not requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input></calcite-input>
+    `);
+
+    const clearButton = await page.find(
+      "calcite-input .calcite-input-clear-button"
+    );
+    expect(clearButton).toBe(null);
+  });
+
+  it("when clearable is requested, value is cleared on escape key press", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input clearable value="John Doe"></calcite-input>
+    `);
+
+    const element = await page.find("calcite-input");
+    expect(element.getAttribute("value")).toBe("John Doe");
+    await element.callMethod("setFocus");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("");
+  });
+
+  it("when clearable is requested, value is cleared on clear button click", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input clearable value="John Doe"></calcite-input>
+    `);
+
+    const element = await page.find("calcite-input");
+    const clearButton = await page.find(".calcite-input-clear-button");
+    expect(element.getAttribute("value")).toBe("John Doe");
+    clearButton.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("");
+  });
 });

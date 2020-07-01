@@ -15,6 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { DataSeries } from "../../interfaces/Graph";
+import { hasLabel } from "../../utils/dom";
 
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -712,6 +713,16 @@ export class CalciteSlider {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+    if (
+      e.detail.interactedEl !== this.el &&
+      hasLabel(e.detail.labelEl, this.el)
+    ) {
+      this.setFocus();
+    }
+  }
+
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     const value = this[this.activeProp];
     switch (getKey(e.key)) {

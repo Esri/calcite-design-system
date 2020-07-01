@@ -50,6 +50,7 @@
 :host {
   display: inline-block;
   position: relative;
+  width: auto;
   cursor: pointer;
   user-select: none;
   vertical-align: middle;
@@ -59,6 +60,7 @@
 // focus styles
 :host {
   @include focus-style-base();
+  width: auto;
 }
 
 :host(:focus) {

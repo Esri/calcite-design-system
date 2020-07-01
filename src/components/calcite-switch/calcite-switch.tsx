@@ -10,7 +10,7 @@ import {
   Watch,
   Build,
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -43,6 +43,16 @@ export class CalciteSwitch {
   @Event() change: EventEmitter;
 
   private observer: MutationObserver;
+
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+    if (
+      !this.el.contains(e.detail.interactedEl) &&
+      hasLabel(e.detail.labelEl, this.el)
+    ) {
+      this.updateSwitch(event);
+      this.el.focus();
+    } else return;
+  }
 
   @Listen("click") onClick(e) {
     // prevent duplicate click events that occur

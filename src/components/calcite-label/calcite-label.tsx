@@ -6,9 +6,8 @@ import {
   Host,
   h,
   Prop,
-  Listen,
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, focusElement } from "../../utils/dom";
 
 @Component({
   tag: "calcite-label",
@@ -22,7 +21,7 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteLabelElement;
 
   //--------------------------------------------------------------------------
   //
@@ -64,11 +63,13 @@ export class CalciteLabel {
   }
 
   componentDidLoad() {
-    this.requestedInputId = this.el.getAttribute("for");
+    this.requestedFor = this.el.getAttribute("for");
     if (this.layout === "inline" || this.layout === "inline-space-between") {
       this.displayedSlottedContent = this.handleSlottedContent();
       this.slottedContent.innerHTML = "";
-      this.slottedContent.append(...this.displayedSlottedContent);
+      this.displayedSlottedContent.map((item) => {
+        this.slottedContent.append(item);
+      });
     }
   }
 
@@ -76,7 +77,7 @@ export class CalciteLabel {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
+      <Host dir={dir} onClick={this.handleClick}>
         <label {...attributes} ref={(el) => (this.slottedContent = el)}>
           <slot />
         </label>
@@ -86,37 +87,21 @@ export class CalciteLabel {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-  private slottedContent;
-  @Listen("click") handleClick(e) {
-    // don't refocus the input if the click occurs on a slotted input action
-    // defer to slider click events if the click occurs on a calcite-slider
-    if (
-      e.target.parentElement?.className !== "calcite-input-action-wrapper" &&
-      e.target.nodeName !== "CALCITE-SLIDER" &&
-      e.target.nodeName !== "CALCITE-RADIO-GROUP-ITEM"
-    )
-      this.focusChildEl();
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteLabelSelectedEvent: EventEmitter;
+  @Event() calciteLabelFocus: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+  private slottedContent;
 
   /** the input requested with the for attribute */
-  private requestedInputId: string;
+  private requestedFor: string;
 
   /** the slotted content after it has been interpreted */
   private displayedSlottedContent: HTMLElement[];
@@ -127,31 +112,19 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  // take unique action on calcite child controls if present
-  private focusChildEl() {
-    if (this.requestedInputId) {
-      this.emitSelectedItem();
-      document.getElementById(this.requestedInputId).focus();
-    } else if (this.el.querySelector("calcite-radio-group")) {
-      (this.el.querySelectorAll(
-        "calcite-radio-group-item[checked]"
-      )[0] as HTMLCalciteRadioGroupItemElement).focus();
-    } else if (this.el.querySelector("calcite-switch")) {
-      this.el.querySelector("calcite-switch").focus();
-      this.el.querySelector("calcite-switch").toggleAttribute("switched");
-    } else if (this.el.querySelector("calcite-checkbox")) {
-      this.el.querySelector("calcite-checkbox").focus();
-      this.el.querySelector("calcite-checkbox").toggleAttribute("checked");
-    } else if (this.el.querySelector("calcite-slider")) {
-      this.el.querySelector("calcite-slider").setFocus();
+  // emit focus event and focus the requested input if available
+  private handleClick = (event: MouseEvent) => {
+    this.emitSelectedItem(event.target);
+    if (this.requestedFor) {
+      focusElement(document.getElementById(this.requestedFor));
     } else if (this.el.querySelector("textarea")) {
       this.el.querySelector("textarea").focus();
     } else if (this.el.querySelector("input")) {
       this.el.querySelector("input").focus();
     }
-  }
+  };
 
-  // wrap slotted text nodes in span to handle spacing of inline and inline space between layout
+  // wrap slotted text nodes in span to handle spacing of inline and inline space between layouts
   private handleSlottedContent() {
     let nodeList = [];
     let requestedSlottedContent = this.el.childNodes;
@@ -161,7 +134,6 @@ export class CalciteLabel {
         if (item.nodeName === "#text" && item.textContent.trim().length > 0) {
           const node = document.createElement("span");
           node.classList.add("calcite-label-text");
-          node.classList.add("sc-calcite-label");
           node.innerHTML = item.textContent.trim();
           nodeList.push(node as HTMLSpanElement);
         } else if (item.nodeName !== "#text") {
@@ -169,12 +141,14 @@ export class CalciteLabel {
         }
       });
     }
-    return nodeList;
+    return [...Array.from(new Set(nodeList))];
   }
 
-  private emitSelectedItem() {
-    this.calciteLabelSelectedEvent.emit({
-      requestedInput: this.requestedInputId,
+  private emitSelectedItem(target) {
+    this.calciteLabelFocus.emit({
+      labelEl: this.el,
+      interactedEl: target,
+      requestedInput: this.requestedFor,
     });
   }
 

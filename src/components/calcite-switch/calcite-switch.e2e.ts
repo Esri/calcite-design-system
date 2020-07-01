@@ -95,7 +95,7 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).not.toHaveAttribute("switched");
     expect(input).not.toHaveAttribute("checked");
 
-    await page.$eval("input", element => {
+    await page.$eval("input", (element) => {
       element.setAttribute("checked", "");
     });
 

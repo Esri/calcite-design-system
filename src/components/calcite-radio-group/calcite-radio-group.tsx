@@ -12,7 +12,7 @@ import {
   Method,
 } from "@stencil/core";
 
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -149,6 +149,12 @@ export class CalciteRadioGroup {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+    if (hasLabel(e.detail.labelEl, this.el)) {
+      this.setFocus();
+    }
+  }
 
   @Listen("click")
   protected handleClick(event: MouseEvent): void {

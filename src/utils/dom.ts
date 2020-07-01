@@ -43,9 +43,9 @@ export function getSlottedElements<T extends Element>(
 ) {
   const slot: HTMLSlotElement = wrapperEl.querySelector("slot");
   const elements = slot ? slot.assignedElements() : wrapperEl.children;
-  return nodeListToArray(elements).filter(el => el.matches(selector)) as Array<
-    T
-  >;
+  return nodeListToArray(elements).filter((el) =>
+    el.matches(selector)
+  ) as Array<T>;
 }
 
 export function getDescribedByElement<T extends HTMLElement>(
@@ -57,5 +57,9 @@ export function getDescribedByElement<T extends HTMLElement>(
 }
 
 export const HOST_CSS = {
-  hydratedInvisible: "hydrated--invisible"
+  hydratedInvisible: "hydrated--invisible",
 };
+
+export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement) {
+  return labelEl.shadowRoot.contains(el) || labelEl.contains(el);
+}
