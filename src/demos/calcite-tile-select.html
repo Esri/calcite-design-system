@@ -28,8 +28,10 @@
       grid-gap: 20px;
     }
 
+    h1,
+    h2,
     h3 {
-      margin-top: 24px;
+      margin: 0;
     }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
@@ -41,48 +43,47 @@
 </head>
 
 <body>
-
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Tile Select</h1>
-
-  <demo-form>
-    <form name="calcite-tile-select-demo-form">
-
-      <demo-spacer>
-        <div class="two-columns">
-          <div class="demo-background-light">
-            <h2>Heading</h2>
-
+  <demo-spacer>
+    <calcite-button href="/">
+      < Home</calcite-button>
+        <h1>Calcite Tile Select</h1>
+        <demo-form>
+          <form name="calcite-tile-select-demo-form">
             <demo-spacer>
+              <div class="two-columns">
+                <div class="demo-background-light">
+                  <demo-spacer gap="25px">
+                    <h2>Heading</h2>
 
-              <h3>Left Radio</h3>
-              <calcite-tile-select name="left-radio" value="one"></calcite-tile-select>
+                    <h3>Left Radio</h3>
+                    <calcite-tile-select name="left-radio" value="one"></calcite-tile-select>
+                    <calcite-tile-select checked name="left-radio" value="two"></calcite-tile-select>
+                    <calcite-tile-select name="left-radio" value="three"></calcite-tile-select>
+                    <calcite-tile-select name="left-radio" value="four"></calcite-tile-select>
 
-              <h3>Left Checkbox</h3>
-              <calcite-tile-select name="left-checkbox" value="one" type="checkbox"></calcite-tile-select>
-
+                    <h3>Left Checkbox</h3>
+                    <calcite-tile-select name="left-checkbox-one" type="checkbox" value="one"></calcite-tile-select>
+                    <calcite-tile-select name="left-checkbox-two" type="checkbox"></calcite-tile-select>
+                    <calcite-tile-select name="left-checkbox-three" type="checkbox"></calcite-tile-select>
+                    <calcite-tile-select name="left-checkbox-four" type="checkbox"></calcite-tile-select>
+                  </demo-spacer>
+                </div>
+                <div class="demo-background-dark" theme="dark">
+                  <demo-spacer gap="25px">
+                    <h2>Heading</h2>
+                    <h3>Left Radio</h3>
+                    <calcite-tile-select name="left-radio-dark" value="one" theme="dark"></calcite-tile-select>
+                    <h3>Left Checkbox</h3>
+                    <calcite-tile-select name="left-checkbox-dark" type="checkbox" theme="dark"></calcite-tile-select>
+                  </demo-spacer>
+                </div>
+              </div>
+              <calcite-button form="calcite-tile-select-demo-form" type="submit">Submit</calcite-button>
+              <button type="submit" style="display: none">Submit</button>
             </demo-spacer>
-
-          </div>
-
-          <div class="demo-background-dark" theme="dark">
-
-            <h2>Heading</h2>
-
-            <demo-spacer>
-
-              <h3>Left Radio</h3>
-              <calcite-tile-select></calcite-tile-select>
-
-            </demo-spacer>
-
-          </div>
-        </div>
-        <calcite-button form="calcite-tile-select-demo-form" type="submit">Submit</calcite-button>
-        <button type="submit" style="display: none">Submit</button>
-      </demo-spacer>
-    </form>
-  </demo-form>
+          </form>
+        </demo-form>
+  </demo-spacer>
 </body>
 
 </html>

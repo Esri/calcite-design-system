@@ -2,7 +2,7 @@ import { Component, Element, Host, h, Prop } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile-select",
-  styleUrl: "calcite-tile-select.css",
+  styleUrl: "calcite-tile-select.scss",
   shadow: true,
 })
 export class CalciteTileSelect {
@@ -20,9 +20,11 @@ export class CalciteTileSelect {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ reflect: true }) name: string;
+  @Prop({ reflect: true }) checked: boolean = false;
+  @Prop({ reflect: true }) name: string = "";
+  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
   @Prop({ reflect: true }) type: "radio" | "checkbox" = "radio";
-  @Prop({ reflect: true }) value: string;
+  @Prop({ reflect: true }) value?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -56,9 +58,11 @@ export class CalciteTileSelect {
     this.input = this.el.ownerDocument.createElement(
       this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox"
     );
+    this.input.checked = this.checked;
     if (this.name) {
       this.input.name = this.name;
     }
+    this.input.theme = this.theme;
     if (this.value) {
       this.input.value = this.value;
     }
