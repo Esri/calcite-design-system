@@ -25,8 +25,10 @@
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Input</h1>
   <div style="text-align:center">
+    <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf">
+    </calcite-input>
     <div style="width:400px;display:inline-flex;max-width:100%;flex-direction:column;margin:0 auto;padding:2em">
-      <calcite-accordion scale="m" icon-position="start" selection-mode="single">
+      <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
         <calcite-accordion-item item-title="Scales" active>
 
           <calcite-label scale="s">
@@ -52,12 +54,18 @@
 
 
         </calcite-accordion-item>
-        <calcite-accordion-item item-title="With other components" item-subtitle="Handle wrapped components">
+        <calcite-accordion-item active item-title="With other components" item-subtitle="Handle wrapped components">
 
           <calcite-label>
             Default label wrapping a switch
             <calcite-switch></calcite-switch>
           </calcite-label>
+
+          <calcite-label>
+            Default label wrapping a checkbox
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+
           <calcite-label>
             Default label wrapping a radio group
             <calcite-radio-group>
@@ -66,7 +74,13 @@
               <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
             </calcite-radio-group>
           </calcite-label>
-
+          <calcite-label layout="inline">
+            Inline label wrapping a radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+          </calcite-label>
 
           <calcite-label layout="inline">
             Text leading inline
@@ -84,9 +98,6 @@
             On
           </calcite-label>
 
-
-
-
           <calcite-label layout="inline">
             <calcite-switch></calcite-switch>
             Text trailing inline
@@ -95,9 +106,18 @@
             Text leading inline
             <calcite-checkbox></calcite-checkbox>
           </calcite-label>
-          <calcite-label>
+          <calcite-label layout="inline">
             Focus slider test
-            <calcite-slider></calcite-slider>
+            <calcite-slider style="width:100%"></calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Focus slider test
+            <calcite-slider min-value="10" max-value="80" style="width:50%"></calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Value
+            <calcite-slider style="width:100%"></calcite-slider>
+            Value
           </calcite-label>
           <calcite-label>
             Focus slider test
@@ -149,7 +169,33 @@
             <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?">
             </calcite-input>
           </calcite-label>
+          <calcite-label>
+            Number input clearable horizontal
+            <calcite-input clearable type="number" number-button-type="horizontal" placeholder="How many apples?">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Number input clearable vertical
+            <calcite-input clearable type="number" placeholder="How many apples?">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Text input clearable
+            <calcite-input clearable placeholder="John Doe">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Text input clearable with value on load
+            <calcite-input clearable value="My great name" placeholder="John Doe">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Number input clearable kitchen sync
+            <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
+              <calcite-button slot="input-action">Go</calcite-button>
 
+            </calcite-input>
+          </calcite-label>
           <calcite-label>
             Number input - button type none
             <calcite-input type="number" number-button-type="none" placeholder="How many apples?">
@@ -182,7 +228,7 @@
             with button and min max step set
             <calcite-input min="-100" max="100" step="10" value="40" type="number" number-button-type="horizontal"
               placeholder="0">
-              <calcite-button slot="input-action">Go or some long text that might wrap</calcite-button>
+              <calcite-button slot="input-action">Go or some long text</calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
@@ -238,23 +284,34 @@
             </calcite-input>
           </calcite-label>
 
+          <h4>Disabled - set on input with wrapping label</h4>
 
+          <calcite-label>
+            Disabled
+            <calcite-input disabled value="Readonly value">
+            </calcite-input>
+          </calcite-label>
 
+          <calcite-label>
+            Disabled textarea
+            <calcite-input disabled type="textarea">Disabled value
+            </calcite-input>
+          </calcite-label>
 
+          <h4>Disabled - set on input without wrapping label</h4>
 
+          <calcite-input disabled value="Disabled value">
+          </calcite-input>
+          <br />
+          <calcite-input disabled type="textarea" value="Disabled value">Disabled value
+          </calcite-input>
 
-
-
-
+          <h4>Readonly</h4>
           <calcite-label>
             Readonly
             <calcite-input readonly value="Readonly value">
             </calcite-input>
           </calcite-label>
-
-
-
-
 
 
 
@@ -476,7 +533,7 @@
           </calcite-notice>
           <form name="form-input-example-3" id="form-input-example-3">
             <calcite-label theme="dark">
-              Create username
+              Create username (autofocus)
               <calcite-input focusIn='nativeInlineEventFocusIn()' focusOut='nativeInlineEventFocusOut()'
                 id="validate-input-example-native-function-username" placeholder="Enter username" required autofocus>
               </calcite-input>
@@ -505,6 +562,7 @@
           </script>
 
         </calcite-accordion-item>
+
       </calcite-accordion>
     </div>
   </div>

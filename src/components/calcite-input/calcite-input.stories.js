@@ -49,6 +49,8 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -178,6 +180,8 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -227,13 +231,11 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
-      <calcite-button slot="input-action" width=${select(
-        "button width",
-        ["half", "auto"],
-        "auto"
-      )}">${text("action button text", "Go")}</calcite-button>
+      <calcite-button slot="input-action">${text("action button text", "Go")}</calcite-button>
     </calcite-input>
     <calcite-input-message
     active="${boolean("input-message-active", false)}"
@@ -264,6 +266,8 @@ storiesOf("Input", module)
     <calcite-input
       type="textarea"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -323,6 +327,8 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>

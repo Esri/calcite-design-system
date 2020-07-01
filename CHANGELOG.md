@@ -7,16 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Breaking Changes
+
+- `calcite-label` - `calciteLabelSelectedEvent` event has been renamed to `calciteLabelFocus`
+
 ### Added
 
 - `calcite-dropdown` now has a `disable-close-on-select` attribute that allows dropdowns to remain open on selection when `calcite-dropdown-group` `selection-mode` is set to `single` or `multi`
 - `calcite-dropdown` now emits `calciteDropdownClose` when it closes.
 - `calcite-dropdown` now emits `calciteDropdownOpen` when it opens.
 - `calcite-dropdown` now has a `disabled` prop.
+- `calcite-input` - adds `clearable` prop to display a clear button when field has a value - this also enables clearing of value while focused and using `Escape` key.
+- `calcite-input` - adds `disabled` prop
 
 ### Fixed
 
 - `calcite-dropdown` - will now correctly focus the slotted `dropdown-trigger` element when the dropdown is closed
+- `calcite-input` - fixes inconsistencies in height of inputs with various configurations
+- `calcite-label` - fixes inconsistencies in `layout=inline` padding applications
 
 ### Updated
 
