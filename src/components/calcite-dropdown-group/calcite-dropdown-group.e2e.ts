@@ -6,6 +6,6 @@ describe("calcite-dropdown", () => {
 
     await page.setContent("<calcite-dropdown></calcite-dropdown>");
     const element = await page.find("calcite-dropdown");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
   });
 });

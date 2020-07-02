@@ -6,6 +6,6 @@ describe("calcite-stepper-item", () => {
 
     await page.setContent("<calcite-stepper-item></calcite-stepper-item>");
     const element = await page.find("calcite-stepper-item");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
   });
 });

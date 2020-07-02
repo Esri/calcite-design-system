@@ -7,7 +7,7 @@ describe("calcite-switch", () => {
 
     const calciteSwitch = await page.find("calcite-switch");
 
-    expect(calciteSwitch).toHaveClass("hydrated");
+    expect(calciteSwitch).toHaveAttribute("hydrated");
     expect(calciteSwitch).toEqualAttribute("role", "checkbox");
     expect(calciteSwitch).toHaveAttribute("switched");
   });

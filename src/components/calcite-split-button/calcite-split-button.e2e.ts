@@ -7,7 +7,7 @@ describe("calcite-split-button", () => {
       <calcite-split-button>
       </calcite-split-button>`);
     const element = await page.find("calcite-split-button");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
   });
 
   it("renders default props when none are provided", async () => {

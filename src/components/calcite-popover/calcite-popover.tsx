@@ -20,9 +20,8 @@ import {
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { VNode } from "@stencil/core/internal/stencil-core";
 import { guid } from "../../utils/guid";
-import { HOST_CSS } from "../../utils/dom";
 
-type FocusId = "close-button";
+export type FocusId = "close-button";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -358,9 +357,6 @@ export class CalcitePopover {
     return (
       <Host
         role="dialog"
-        class={{
-          [HOST_CSS.hydratedInvisible]: !displayed,
-        }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >

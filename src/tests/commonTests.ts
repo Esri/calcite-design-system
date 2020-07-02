@@ -57,12 +57,15 @@ export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
   ).toHaveNoViolations();
 }
 
-export async function renders(componentTagOrHTML: TagOrHTML): Promise<void> {
+export async function renders(
+  componentTagOrHTML: TagOrHTML,
+  invisible?: true
+): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
-  expect(element).toHaveClass("hydrated");
-  expect(await element.isVisible()).toBe(true);
+  expect(element).toHaveAttribute("hydrated");
+  expect(await element.isVisible()).toBe(!invisible);
 }
 
 export async function reflects(

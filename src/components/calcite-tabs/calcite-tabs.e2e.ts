@@ -20,7 +20,7 @@ describe("calcite-tabs", () => {
       </calcite-tabs>
     `);
     const element = await page.find("calcite-tabs");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
 
     const results = await page.compareScreenshot();
 
@@ -48,7 +48,7 @@ describe("calcite-tabs", () => {
       </div>
     `);
     const element = await page.find("calcite-tabs");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
 
     const results = await page.compareScreenshot();
 

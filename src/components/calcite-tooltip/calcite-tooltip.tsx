@@ -17,7 +17,6 @@ import {
   createPopper,
   updatePopper,
 } from "../../utils/popper";
-import { HOST_CSS } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -256,9 +255,6 @@ export class CalciteTooltip {
     return (
       <Host
         role="tooltip"
-        class={{
-          [HOST_CSS.hydratedInvisible]: !displayed,
-        }}
         aria-hidden={!displayed ? "true" : "false"}
         id={this.getId()}
       >

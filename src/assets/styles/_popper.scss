@@ -7,10 +7,6 @@
     left: -999999px;
   }
 
-  :host([aria-hidden="true"]) {
-    pointer-events: none;
-  }
-
   :host([aria-hidden="false"]) {
     box-shadow: $shadow-2;
   }

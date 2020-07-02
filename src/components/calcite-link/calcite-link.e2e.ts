@@ -10,7 +10,7 @@ describe("calcite-link", () => {
     const elementAsLink = await page.find("calcite-link >>> a");
     const icon = await page.find("calcite-link >>> .calcite-link--icon");
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -25,7 +25,7 @@ describe("calcite-link", () => {
     const elementAsLink = await page.find("calcite-link >>> a");
     const icon = await page.find("calcite-link >>> .calcite-link--icon");
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
@@ -40,7 +40,7 @@ describe("calcite-link", () => {
     const elementAsLink = await page.find("calcite-link >>> a");
     const icon = await page.find("calcite-link >>> .calcite-link--icon");
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(element).toEqualAttribute("color", "red");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -57,7 +57,7 @@ describe("calcite-link", () => {
     const elementAsLink = await page.find("calcite-link >>> a");
     const icon = await page.find("calcite-link >>> .calcite-link--icon");
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(element).toEqualAttribute("color", "red");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
@@ -73,7 +73,7 @@ describe("calcite-link", () => {
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
     const icon = await page.find("calcite-link >>> .calcite-link--icon");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
     expect(elementAsLink).toHaveClass("mycustomclass");
@@ -92,7 +92,7 @@ describe("calcite-link", () => {
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
     const icon = await page.find("calcite-link >>> .calcite-link--icon");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(elementAsSpan).toHaveClass("mycustomclass");
@@ -102,14 +102,12 @@ describe("calcite-link", () => {
 
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-link color="zip">Continue</calcite-link>`
-    );
+    await page.setContent(`<calcite-link color="zip">Continue</calcite-link>`);
     const element = await page.find("calcite-link");
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
     const icon = await page.find("calcite-link >>> .calcite-link--icon");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -123,7 +121,7 @@ describe("calcite-link", () => {
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
     const icon = await page.find("calcite-link >>> .calcite-link--icon");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(icon).not.toBeNull();

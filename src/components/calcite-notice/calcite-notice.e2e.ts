@@ -10,7 +10,7 @@ describe("calcite-notice", () => {
     <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
     const element = await page.find("calcite-notice");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
   });
 
   it("renders default props when none are provided", async () => {
@@ -24,7 +24,7 @@ describe("calcite-notice", () => {
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(close).toBeNull();
     expect(icon).toBeNull();
@@ -42,7 +42,7 @@ describe("calcite-notice", () => {
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(close).toBeNull();
     expect(icon).toBeNull();
@@ -61,7 +61,7 @@ describe("calcite-notice", () => {
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("theme", "dark");
     expect(close).not.toBeNull();
@@ -80,7 +80,7 @@ describe("calcite-notice", () => {
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("hydrated");
     expect(close).not.toBeNull();
     expect(icon).not.toBeNull();
   });
@@ -102,7 +102,7 @@ describe("calcite-notice", () => {
 
     await noticeclose1.click();
     // wait for animation to complete
-    await new Promise(resolve => setTimeout(resolve, 400));
+    await new Promise((resolve) => setTimeout(resolve, 400));
     expect(await notice1.isVisible()).not.toBe(true);
   });
 });
