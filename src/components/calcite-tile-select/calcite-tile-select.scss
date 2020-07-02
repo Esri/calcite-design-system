@@ -1,31 +1,56 @@
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
+$spacing: $baseline/2;
+
 :host {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-gap: $spacing;
   background-color: var(--calcite-ui-foreground-1);
   transition: $transition;
   position: relative;
   color: var(--calcite-ui-text-3);
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
   box-sizing: border-box;
-  padding: $baseline/2;
+  padding: $spacing;
   width: 100%;
   height: 100%;
   cursor: pointer;
 }
-:host(:not([hide-input])[checked]) {
+:host(:not([show-input="none"])[checked]) {
   box-shadow: 0 0 0 1px var(--calcite-ui-blue-1);
 }
-:host([hide-input]:hover) {
+:host([show-input="none"]:hover) {
   box-shadow: 0 0 0 2px var(--calcite-ui-blue-1);
 }
-:host([hide-input][checked]) {
+:host([show-input="none"][checked]) {
   box-shadow: 0 0 0 3px var(--calcite-ui-blue-1);
 }
-:host([hide-input][focused]) {
+:host([show-input="none"][focused]) {
   box-shadow: 0 0 0 3px var(--calcite-ui-blue-1),
     0 0 0 5px var(--calcite-ui-foreground-1), 0 0 0 7px var(--calcite-ui-blue-1);
+}
+#content {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: $spacing;
+}
+:host([show-input="left"]) {
+  #content {
+    order: 1;
+  }
+}
+:host([show-input="right"]) {
+  #content {
+    order: 0;
+  }
+}
+#title {
+  @include font-size(0);
+  color: var(--calcite-ui-text-1);
+}
+#description {
+  @include font-size(-1);
+  color: var(--calcite-ui-text-2);
 }

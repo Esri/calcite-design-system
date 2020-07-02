@@ -53,31 +53,37 @@
               <div class="two-columns">
                 <div class="demo-background-light">
                   <demo-spacer gap="25px">
-                    <h3>Basic</h3>
-                    <calcite-tile-select name="basic" value="one" hide-input></calcite-tile-select>
-                    <calcite-tile-select checked name="basic" value="two" hide-input></calcite-tile-select>
-                    <calcite-tile-select name="basic" value="three" hide-input></calcite-tile-select>
-                    <calcite-tile-select name="basic" value="four" hide-input></calcite-tile-select>
-
                     <h3>Left Radio</h3>
-                    <calcite-tile-select name="left-radio" value="one"></calcite-tile-select>
-                    <calcite-tile-select checked name="left-radio" value="two"></calcite-tile-select>
-                    <calcite-tile-select name="left-radio" value="three"></calcite-tile-select>
-                    <calcite-tile-select name="left-radio" value="four"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-radio" value="one" title="Tile title lorem ipsum" description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."></calcite-tile-select>
+                    <calcite-tile-select icon="layers" checked name="left-radio" value="two"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-radio" value="three"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-radio" value="four"></calcite-tile-select>
+
+                    <h3>Right Radio</h3>
+                    <calcite-tile-select icon="layers" name="left-radio" show-input="right" value="one"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" checked name="left-radio" show-input="right" value="two"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-radio" show-input="right" value="three"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-radio" show-input="right" value="four"></calcite-tile-select>
 
                     <h3>Left Checkbox</h3>
-                    <calcite-tile-select name="left-checkbox-one" type="checkbox" value="one"></calcite-tile-select>
-                    <calcite-tile-select name="left-checkbox-two" type="checkbox"></calcite-tile-select>
-                    <calcite-tile-select name="left-checkbox-three" type="checkbox"></calcite-tile-select>
-                    <calcite-tile-select name="left-checkbox-four" type="checkbox"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-checkbox-one" type="checkbox" value="one"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-checkbox-two" type="checkbox"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-checkbox-three" type="checkbox"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-checkbox-four" type="checkbox"></calcite-tile-select>
+
+                    <h3>Basic</h3>
+                    <calcite-tile-select icon="layers" name="basic" value="one" show-input="none"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" checked name="basic" value="two" show-input="none"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="basic" value="three" show-input="none"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="basic" value="four" show-input="none"></calcite-tile-select>
                   </demo-spacer>
                 </div>
                 <div class="demo-background-dark" theme="dark">
                   <demo-spacer gap="25px">
                     <h3>Left Radio</h3>
-                    <calcite-tile-select name="left-radio-dark" value="one" theme="dark"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-radio-dark" value="one" theme="dark"></calcite-tile-select>
                     <h3>Left Checkbox</h3>
-                    <calcite-tile-select name="left-checkbox-dark" type="checkbox" theme="dark"></calcite-tile-select>
+                    <calcite-tile-select icon="layers" name="left-checkbox-dark" type="checkbox" theme="dark"></calcite-tile-select>
                   </demo-spacer>
                 </div>
               </div>

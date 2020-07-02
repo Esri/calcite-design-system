@@ -21,12 +21,15 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   @Prop({ reflect: true, mutable: true }) checked: boolean = false;
+  @Prop() description: string = "";
   @Prop({ reflect: true }) disabled: boolean = false;
   @Prop({ reflect: true }) focused: boolean = false;
   @Prop({ reflect: true }) hidden: boolean = false;
+  @Prop({ reflect: true }) icon: string = "";
   @Prop({ reflect: true }) name: string = "";
-  @Prop({ reflect: true }) hideInput: boolean = false;
+  @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop() title: string = "";
   @Prop({ reflect: true }) type: "radio" | "checkbox" = "radio";
   @Prop({ reflect: true }) value?: string;
 
@@ -113,8 +116,17 @@ export class CalciteTileSelect {
     if (this.value) {
       this.input.value = this.value;
     }
-    if (this.hideInput) {
-      this.input.style.opacity = "0";
+    switch (this.showInput) {
+      case "none":
+        this.input.style.opacity = "0";
+        this.input.style.position = "absolute";
+        break;
+      case "left":
+        this.input.style.order = "0";
+        break;
+      case "right":
+        this.input.style.order = "2";
+        break;
     }
     this.el.insertAdjacentElement("beforeend", this.input);
   }
@@ -122,6 +134,15 @@ export class CalciteTileSelect {
   render() {
     return (
       <Host>
+        <div id="content">
+          <div id="icon">
+            {this.icon && (
+              <calcite-icon icon={this.icon} scale="l"></calcite-icon>
+            )}
+          </div>
+          <div id="title">{this.title}</div>
+          <div id="description">{this.description}</div>
+        </div>
         <slot></slot>
       </Host>
     );
