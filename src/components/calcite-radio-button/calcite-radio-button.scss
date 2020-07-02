@@ -16,7 +16,7 @@
   align-items: center;
   --calcite-label-margin-bottom: 0;
 }
-:host(:hover) {
+:host([hovered]) {
   .radio {
     box-shadow: inset 0 0 0 2px var(--calcite-ui-blue-1);
   }
@@ -29,7 +29,7 @@
     cursor: default;
   }
 }
-:host(:hover[disabled]) {
+:host([hovered][disabled]) {
   .radio {
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
   }
@@ -47,7 +47,7 @@
   grid-template-rows: 16px 1fr;
 }
 :host([scale="s"][checked]),
-:host(:hover[scale="s"][checked][disabled]) {
+:host([hovered][scale="s"][checked][disabled]) {
   .radio {
     box-shadow: inset 0 0 0 4px var(--calcite-ui-blue-1);
   }
@@ -72,7 +72,7 @@
   grid-template-rows: 20px 1fr;
 }
 :host([scale="m"][checked]),
-:host(:hover[scale="m"][checked][disabled]) {
+:host([hovered][scale="m"][checked][disabled]) {
   .radio {
     box-shadow: inset 0 0 0 5px var(--calcite-ui-blue-1);
   }
@@ -98,7 +98,7 @@
   grid-template-rows: 24px 1fr;
 }
 :host([scale="l"][checked]),
-:host(:hover[scale="l"][checked][disabled]) {
+:host([hovered][scale="l"][checked][disabled]) {
   .radio {
     box-shadow: inset 0 0 0 6px var(--calcite-ui-blue-1);
   }

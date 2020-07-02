@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop } from "@stencil/core";
+import { Component, Element, Host, h, Prop, Listen } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile-select",
@@ -20,9 +20,12 @@ export class CalciteTileSelect {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ reflect: true }) checked: boolean = false;
+  @Prop({ reflect: true, mutable: true }) checked: boolean = false;
+  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) hidden: boolean = false;
   @Prop({ reflect: true }) name: string = "";
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) hideInput: boolean = false;
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
   @Prop({ reflect: true }) type: "radio" | "checkbox" = "radio";
   @Prop({ reflect: true }) value?: string;
 
@@ -33,6 +36,39 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   private input: HTMLCalciteCheckboxElement | HTMLCalciteRadioButtonElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("calciteRadioButtonChange")
+  calciteRadioButtonChangeEvent(event: CustomEvent) {
+    const radioButton = event.target as HTMLCalciteRadioButtonElement;
+    if (radioButton === this.input) {
+      this.checked = radioButton.checked;
+    }
+  }
+
+  @Listen("click")
+  click() {
+    this.input.click();
+  }
+
+  @Listen("mouseenter")
+  mouseenter() {
+    if (this.input.localName === "calcite-radio-button") {
+      (this.input as HTMLCalciteRadioButtonElement).hovered = true;
+    }
+  }
+
+  @Listen("mouseleave")
+  mouseleave() {
+    if (this.input.localName === "calcite-radio-button") {
+      (this.input as HTMLCalciteRadioButtonElement).hovered = false;
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -59,6 +95,8 @@ export class CalciteTileSelect {
       this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox"
     );
     this.input.checked = this.checked;
+    this.input.disabled = this.disabled;
+    this.input.hidden = this.hidden;
     if (this.name) {
       this.input.name = this.name;
     }

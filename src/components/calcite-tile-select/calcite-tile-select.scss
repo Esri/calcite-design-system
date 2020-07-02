@@ -15,12 +15,8 @@
   padding: $baseline/2;
   width: 100%;
   height: 100%;
-  &:hover {
-    box-shadow: $shadow-1--hover;
-    z-index: 1;
-  }
-  &:active {
-    box-shadow: $shadow-1--press;
-    z-index: 1;
-  }
+  cursor: pointer;
+}
+:host(:not([hide-input])[checked]) {
+  border: 1px solid var(--calcite-ui-blue-1);
 }

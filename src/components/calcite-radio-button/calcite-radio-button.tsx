@@ -71,6 +71,9 @@ export class CalciteRadioButton {
     this.input.hidden = newHidden;
   }
 
+  /** The hovered state of the radio button. */
+  @Prop({ reflect: true, mutable: true }) hovered: boolean = false;
+
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ reflect: true }) name!: string;
   @Watch("name")
@@ -181,6 +184,15 @@ export class CalciteRadioButton {
       this.focused = true;
       this.checked = true;
     }
+  }
+
+  @Listen("mouseenter")
+  mouseenter() {
+    this.hovered = true;
+  }
+  @Listen("mouseleave")
+  mouseleave() {
+    this.hovered = false;
   }
 
   onInputBlur() {
