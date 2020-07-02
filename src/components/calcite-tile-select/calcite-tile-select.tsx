@@ -22,6 +22,7 @@ export class CalciteTileSelect {
 
   @Prop({ reflect: true, mutable: true }) checked: boolean = false;
   @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) focused: boolean = false;
   @Prop({ reflect: true }) hidden: boolean = false;
   @Prop({ reflect: true }) name: string = "";
   @Prop({ reflect: true }) hideInput: boolean = false;
@@ -48,6 +49,14 @@ export class CalciteTileSelect {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
+    }
+  }
+
+  @Listen("calciteRadioButtonFocusedChange")
+  calciteRadioButtonFocusedChangeEvent(event: CustomEvent) {
+    const radioButton = event.target as HTMLCalciteRadioButtonElement;
+    if (radioButton === this.input) {
+      this.focused = radioButton.focused;
     }
   }
 
@@ -103,6 +112,9 @@ export class CalciteTileSelect {
     this.input.theme = this.theme;
     if (this.value) {
       this.input.value = this.value;
+    }
+    if (this.hideInput) {
+      this.input.style.opacity = "0";
     }
     this.el.insertAdjacentElement("beforeend", this.input);
   }

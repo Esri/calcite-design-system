@@ -8,9 +8,8 @@
   background-color: var(--calcite-ui-foreground-1);
   transition: $transition;
   position: relative;
-  border: 1px solid var(--calcite-ui-border-2);
   color: var(--calcite-ui-text-3);
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
   box-sizing: border-box;
   padding: $baseline/2;
   width: 100%;
@@ -18,5 +17,15 @@
   cursor: pointer;
 }
 :host(:not([hide-input])[checked]) {
-  border: 1px solid var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 1px var(--calcite-ui-blue-1);
+}
+:host([hide-input]:hover) {
+  box-shadow: 0 0 0 2px var(--calcite-ui-blue-1);
+}
+:host([hide-input][checked]) {
+  box-shadow: 0 0 0 3px var(--calcite-ui-blue-1);
+}
+:host([hide-input][focused]) {
+  box-shadow: 0 0 0 3px var(--calcite-ui-blue-1),
+    0 0 0 5px var(--calcite-ui-foreground-1), 0 0 0 7px var(--calcite-ui-blue-1);
 }

@@ -58,6 +58,7 @@ export class CalciteRadioButton {
     } else {
       this.input.blur();
     }
+    this.calciteRadioButtonFocusedChange.emit();
   }
 
   /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
@@ -170,6 +171,8 @@ export class CalciteRadioButton {
 
   @Event()
   calciteRadioButtonChange: EventEmitter;
+  @Event()
+  calciteRadioButtonFocusedChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
