@@ -56,10 +56,6 @@ export function getDescribedByElement<T extends HTMLElement>(
   return (id && document.getElementById(id)) || null;
 }
 
-export const HOST_CSS = {
-  hydratedInvisible: "hydrated--invisible",
-};
-
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement) {
   return labelEl.shadowRoot.contains(el) || labelEl.contains(el);
 }
