@@ -74,7 +74,11 @@ export class CalciteLink {
     const attributes = this.getAttributes();
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
-    const tabIndex = this.childElType === "span" ? 0 : null;
+    const tabIndex = this.disabled
+      ? -1
+      : this.childElType === "span"
+      ? 0
+      : null;
 
     const iconEl = (
       <calcite-icon class="calcite-link--icon" icon={this.icon} scale="s" />
@@ -85,7 +89,7 @@ export class CalciteLink {
         <Tag
           {...attributes}
           role={role}
-          tabindex={tabIndex}
+          tabIndex={tabIndex}
           ref={(el) => (this.childEl = el)}
         >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
