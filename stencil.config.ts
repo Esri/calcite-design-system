@@ -1,6 +1,7 @@
 import { Config } from "@stencil/core";
 import { sass } from "@stencil/sass";
 import { generatePreactTypes } from "./support/preact";
+import tailwind from "stencil-tailwind";
 
 export const config: Config = {
   namespace: "calcite",
@@ -73,6 +74,7 @@ export const config: Config = {
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"],
     }),
+    tailwind(),
   ],
   testing: {
     moduleNameMapper: {
