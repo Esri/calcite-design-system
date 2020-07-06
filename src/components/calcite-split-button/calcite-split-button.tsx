@@ -35,13 +35,17 @@ export class CalciteSplitButton {
   @Prop({ mutable: true, reflect: true }) dropdownIconType:
     | "chevron"
     | "caret"
-    | "ellipsis" = "chevron";
+    | "ellipsis"
+    | "overflow" = "chevron";
 
   /** text for primary action button  */
   @Prop({ reflect: true }) primaryText: string;
 
-  /** optionally pass an icon to display on the primary button - accepts Calcite UI icon names  */
-  @Prop({ reflect: true }) primaryIcon?: string;
+  /** optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) primaryIconStart?: string;
+
+  /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) primaryIconEnd?: string;
 
   /** optionally pass an aria-label for the primary button */
   @Prop({ reflect: true }) primaryLabel?: string;
@@ -79,7 +83,7 @@ export class CalciteSplitButton {
 
   @Watch("dropdownIconType")
   validateDropdownIconType() {
-    let dropdownIconType = ["chevron", "caret", "ellipsis"];
+    let dropdownIconType = ["chevron", "caret", "ellipsis", "overflow"];
     if (!dropdownIconType.includes(this.dropdownIconType))
       this.dropdownIconType = "chevron";
   }
@@ -102,8 +106,8 @@ export class CalciteSplitButton {
             color={this.color}
             scale={this.scale}
             loading={this.loading}
-            icon={this.primaryIcon}
-            iconPosition="start"
+            icon-start={this.primaryIconStart ? this.primaryIconStart : null}
+            icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
             disabled={this.disabled}
             theme={this.theme}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
@@ -128,7 +132,7 @@ export class CalciteSplitButton {
               color={this.color}
               disabled={this.disabled}
               theme={this.theme}
-              icon={this.dropdownIcon}
+              icon-start={this.dropdownIcon}
             />
             <slot />
           </calcite-dropdown>
@@ -145,6 +149,8 @@ export class CalciteSplitButton {
       ? "chevronDown"
       : this.dropdownIconType === "caret"
       ? "caretDown"
-      : "ellipsis";
+      : this.dropdownIconType === "ellipsis"
+      ? "ellipsis"
+      : "handle-vertical";
   }
 }

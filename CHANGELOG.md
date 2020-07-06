@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Breaking Changes
 
 - `calcite-label` - `calciteLabelSelectedEvent` event has been renamed to `calciteLabelFocus`
+- `calcite-button` - `icon-position` and `icon` props have been removed - you can now use `icon-start` and `icon-end` props to position up to two icons.
+- `calcite-split-button` - `primary-icon` prop has been removed - you can now use `primary-icon-start` and `primary-icon-end` props to position up to two icons.
 
 ### Added
 
@@ -19,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-dropdown` now has a `disabled` prop.
 - `calcite-input` - adds `clearable` prop to display a clear button when field has a value - this also enables clearing of value while focused and using `Escape` key.
 - `calcite-input` - adds `disabled` prop
+- `calcite-button` - `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
+- `calcite-split-button` - `dropdown-icon-type` prop now accepts an `overflow` value for an additional icon option.
 
 ### Fixed
 
