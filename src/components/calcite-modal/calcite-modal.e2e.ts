@@ -15,6 +15,16 @@ describe("calcite-modal properties", () => {
     expect(button).toEqualAttribute("aria-label", "test");
   });
 
+  it("should hide closeButton when disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-modal></calcite-modal>");
+    const modal = await page.find("calcite-modal");
+    modal.setProperty("closeButton", false);
+    await page.waitForChanges();
+    const closeButton = await page.find("calcite-modal >>> .modal__close");
+    expect(closeButton).toBe(null);
+  });
+
   it("focuses the firstFocus element on load", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -96,9 +106,9 @@ describe("calcite-modal accessibility checks", () => {
     let $button1;
     let $button2;
     let $close;
-    await page.$eval(".btn-1", elm => ($button1 = elm));
-    await page.$eval(".btn-2", elm => ($button2 = elm));
-    await page.$eval("calcite-modal", elm => {
+    await page.$eval(".btn-1", (elm) => ($button1 = elm));
+    await page.$eval(".btn-2", (elm) => ($button2 = elm));
+    await page.$eval("calcite-modal", (elm) => {
       $close = elm.shadowRoot.querySelector(".modal__close");
     });
     await modal.callMethod("open");

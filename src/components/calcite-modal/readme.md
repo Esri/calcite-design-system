@@ -56,21 +56,20 @@ modal.open();
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
-| Property        | Attribute        | Description                                                                                                  | Type                                             | Default                       |
-| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ | ----------------------------- |
-| `beforeClose`   | --               | Optionally pass a function to run before close                                                               | `(el: HTMLElement) => Promise<void>`             | `() =>     Promise.resolve()` |
-| `closeLabel`    | `close-label`    | Aria label for the close button                                                                              | `string`                                         | `"Close"`                     |
-| `color`         | `color`          | Adds a color bar at the top for visual impact, Use color to add importance to desctructive/workflow dialogs. | `"blue" \| "red"`                                | `undefined`                   |
-| `disableEscape` | `disable-escape` | Flag to disable the default close on escape behavior                                                         | `boolean`                                        | `undefined`                   |
-| `docked`        | `docked`         | Prevent the modal from taking up the entire screen on mobile                                                 | `boolean`                                        | `undefined`                   |
-| `firstFocus`    | --               | Specify an element to focus when the modal is first opened                                                   | `HTMLElement`                                    | `undefined`                   |
-| `noPadding`     | `no-padding`     | Turn off spacing around the content area slot                                                                | `boolean`                                        | `undefined`                   |
-| `size`          | `size`           | Set the overall size of the modal                                                                            | `"fullscreen" \| "large" \| "medium" \| "small"` | `"small"`                     |
-| `theme`         | `theme`          | Select theme (light or dark)                                                                                 | `"dark" \| "light"`                              | `undefined`                   |
-
+| Property        | Attribute        | Description                                                                                                  | Type                                             | Default                   |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ | ------------------------- |
+| `beforeClose`   | --               | Optionally pass a function to run before close                                                               | `(el: HTMLElement) => Promise<void>`             | `() => Promise.resolve()` |
+| `closeButton`   | `close-button`   | Display a close button within the Modal                                                                      | `boolean`                                        | `true`                    |
+| `closeLabel`    | `close-label`    | Aria label for the close button                                                                              | `string`                                         | `"Close"`                 |
+| `color`         | `color`          | Adds a color bar at the top for visual impact, Use color to add importance to desctructive/workflow dialogs. | `"blue" \| "red"`                                | `undefined`               |
+| `disableEscape` | `disable-escape` | Flag to disable the default close on escape behavior                                                         | `boolean`                                        | `undefined`               |
+| `docked`        | `docked`         | Prevent the modal from taking up the entire screen on mobile                                                 | `boolean`                                        | `undefined`               |
+| `firstFocus`    | --               | Specify an element to focus when the modal is first opened                                                   | `HTMLElement`                                    | `undefined`               |
+| `noPadding`     | `no-padding`     | Turn off spacing around the content area slot                                                                | `boolean`                                        | `undefined`               |
+| `size`          | `size`           | Set the overall size of the modal                                                                            | `"fullscreen" \| "large" \| "medium" \| "small"` | `"small"`                 |
+| `theme`         | `theme`          | Select theme (light or dark)                                                                                 | `"dark" \| "light"`                              | `undefined`               |
 
 ## Events
 
@@ -78,7 +77,6 @@ modal.open();
 | ------------------- | ----------------------------------------------- | ------------------ |
 | `calciteModalClose` | Fired when the modal begins the close animation | `CustomEvent<any>` |
 | `calciteModalOpen`  | Fired when the modal begins the open animation  | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -90,8 +88,6 @@ Close the modal, first running the `beforeClose` method
 
 Type: `Promise<HTMLElement>`
 
-
-
 ### `focusElement(el?: HTMLElement) => Promise<void>`
 
 Focus first interactive element
@@ -99,8 +95,6 @@ Focus first interactive element
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `open() => Promise<HTMLElement>`
 
@@ -110,8 +104,6 @@ Open the modal
 
 Type: `Promise<HTMLElement>`
 
-
-
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
 Set the scroll top of the modal content
@@ -120,25 +112,23 @@ Set the scroll top of the modal content
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Depends on
 
-- [calcite-scrim](../calcite-scrim)
 - [calcite-icon](../calcite-icon)
+- [calcite-scrim](../calcite-scrim)
 
 ### Graph
+
 ```mermaid
 graph TD;
-  calcite-modal --> calcite-scrim
   calcite-modal --> calcite-icon
+  calcite-modal --> calcite-scrim
   calcite-scrim --> calcite-loader
   style calcite-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
