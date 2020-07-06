@@ -14,24 +14,24 @@ describe("calcite-tooltip", () => {
     defaults("calcite-tooltip", [
       {
         propertyName: "open",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "placement",
-        defaultValue: "auto"
+        defaultValue: "auto",
       },
       {
         propertyName: "offsetDistance",
-        defaultValue: 6
+        defaultValue: 6,
       },
       {
         propertyName: "offsetSkidding",
-        defaultValue: 0
+        defaultValue: 0,
       },
       {
         propertyName: "referenceElement",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]));
 
   it("tooltip positions when referenceElement is set", async () => {
@@ -126,6 +126,26 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.isVisible()).toBe(true);
   });
 
+  it("should honor hover interaction with span inside", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><calcite-tooltip-manager><div id="ref"><span>referenceElement<span></div></calcite-tooltip-manager>`
+    );
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find(`calcite-tooltip`);
+
+    expect(await tooltip.isVisible()).toBe(false);
+
+    const ref = await page.find("#ref span");
+
+    await ref.hover();
+
+    expect(await tooltip.isVisible()).toBe(true);
+  });
+
   it("should honor text", async () => {
     const page = await newE2EPage();
 
@@ -145,9 +165,7 @@ describe("calcite-tooltip", () => {
   it("guid id should match referenceElement's aria-describedby", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-tooltip open></calcite-tooltip>`
-    );
+    await page.setContent(`<calcite-tooltip open></calcite-tooltip>`);
 
     await page.waitForChanges();
 
