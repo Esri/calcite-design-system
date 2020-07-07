@@ -173,7 +173,7 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** the close button element */
-  private closeButton?: HTMLCalciteNoticeElement;
+  private closeButton?: HTMLElement;
 
   /** the notice link child element  */
   private noticeLinkEl?: HTMLCalciteLinkElement;
