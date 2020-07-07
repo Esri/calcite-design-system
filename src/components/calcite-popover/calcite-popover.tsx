@@ -10,7 +10,7 @@ import {
   Watch,
   h,
 } from "@stencil/core";
-import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE } from "./resources";
+import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE, TEXT } from "./resources";
 import {
   CalcitePlacement,
   defaultOffsetDistance,
@@ -119,7 +119,7 @@ export class CalcitePopover {
   }
 
   /** Text for close button. */
-  @Prop() textClose = "Close";
+  @Prop() intlClose = TEXT.close;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
@@ -332,13 +332,13 @@ export class CalcitePopover {
   }
 
   renderCloseButton(): VNode {
-    const { closeButton, textClose } = this;
+    const { closeButton, intlClose } = this;
 
     return closeButton ? (
       <button
         ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
-        aria-label={textClose}
-        title={textClose}
+        aria-label={intlClose}
+        title={intlClose}
         class={{ [CSS.closeButton]: true }}
         onClick={this.hide}
       >
