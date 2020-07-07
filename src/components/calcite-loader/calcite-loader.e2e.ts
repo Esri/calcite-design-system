@@ -5,7 +5,7 @@ describe("calcite-loader", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-loader></calcite-loader>");
     const loader = await page.find("calcite-loader");
-    expect(loader).toHaveClass("hydrated");
+    expect(loader).toHaveAttribute("calcite-hydrated");
   });
 
   it("becomes visible when is-active prop is set", async () => {

@@ -83,6 +83,10 @@ export const config: Config = {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js",
     },
   },
+  hydratedFlag: {
+    selector: "attribute",
+    name: "calcite-hydrated",
+  },
   extras: {
     appendChildSlotFix: true,
     slotChildNodesFix: true,

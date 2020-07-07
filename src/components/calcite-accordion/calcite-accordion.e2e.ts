@@ -1,20 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { renders } from "../../tests/commonTests";
 
 describe("calcite-accordion", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-accordion>
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
-    </calcite-accordion>`);
-    const element = await page.find("calcite-accordion");
-    expect(element).toHaveClass("hydrated");
-  });
+  it("renders", async () => renders("calcite-accordion"));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
@@ -85,9 +73,15 @@ describe("calcite-accordion", () => {
     <calcite-accordion-item item-title="Accordion Title 3" icon="car" id="3">Accordion Item Content
     </calcite-accordion-item>
     </calcite-accordion>`);
-    const icon1 = await page.find("calcite-accordion-item[id='1'] >>> .accordion-item-icon");
-    const icon2 = await page.find("calcite-accordion-item[id='2'] >>> .accordion-item-icon");
-    const icon3 = await page.find("calcite-accordion-item[id='3'] >>> .accordion-item-icon");
+    const icon1 = await page.find(
+      "calcite-accordion-item[id='1'] >>> .accordion-item-icon"
+    );
+    const icon2 = await page.find(
+      "calcite-accordion-item[id='2'] >>> .accordion-item-icon"
+    );
+    const icon3 = await page.find(
+      "calcite-accordion-item[id='3'] >>> .accordion-item-icon"
+    );
     expect(icon1).not.toBe(null);
     expect(icon2).toBe(null);
     expect(icon3).not.toBe(null);

@@ -157,9 +157,10 @@ export class CalciteAlert {
       : this.autoDismiss
       ? "alert"
       : "alertdialog";
+    const hidden = this.active ? "false" : "true";
 
     return (
-      <Host active={this.active} role={role} dir={dir}>
+      <Host active={this.active} role={role} dir={dir} aria-hidden={hidden}>
         {this.icon ? this.setIcon() : null}
         <div class="alert-content">
           <slot name="alert-title"></slot>

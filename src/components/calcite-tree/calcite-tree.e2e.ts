@@ -6,6 +6,6 @@ describe("calcite-tree", () => {
 
     await page.setContent("<calcite-tree></calcite-tree>");
     const element = await page.find("calcite-tree");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 });
