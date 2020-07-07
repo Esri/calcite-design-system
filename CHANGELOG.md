@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-- `calcite-notice` now has a `text-label-close` attribute that allows the title of the close button to be set. It defaults to the English "close".
+- `calcite-notice` now has a `intl-close` attribute that allows the title of the close button to be set. It defaults to the English "Close".
 
 ### Breaking Changes
 

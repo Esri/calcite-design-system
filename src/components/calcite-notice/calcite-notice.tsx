@@ -56,7 +56,7 @@ export class CalciteNotice {
 
 
   /** String for the close button. */
-  @Prop({ reflect: false }) intlLabelClose: string = TEXT.closeLabel;
+  @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
@@ -103,7 +103,7 @@ export class CalciteNotice {
     const closeButton = (
       <button
         class="notice-close"
-        aria-label={this.intlLabelClose}
+        aria-label={this.intlClose}
         onClick={() => this.close()}
         ref={() => (this.closeButton)}
       >
