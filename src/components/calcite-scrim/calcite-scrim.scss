@@ -21,8 +21,7 @@
 
 .scrim {
   align-items: center;
-  animation: calcite-scrim-fade-in 250ms ease-in-out;
-  background-color: var(--calcite-scrim-background);
+  background-color: transparent;
   bottom: 0;
   display: flex;
   justify-content: center;
@@ -31,11 +30,19 @@
   right: 0;
   top: 0;
   user-select: none;
+  pointer-events: none;
+  z-index: -1;
+}
+
+:host([active]) .scrim {
+  background-color: var(--calcite-scrim-background);
+  animation: calcite-scrim-fade-in 250ms ease-in-out;
   z-index: 2;
 }
 
 .content {
   position: relative;
+  pointer-events: none;
   z-index: 1;
   color: var(--calcite-ui-text-2);
 }

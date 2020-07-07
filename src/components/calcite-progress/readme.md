@@ -25,12 +25,14 @@ The `calcite-progress` component is used to show progress on some async task to 
 ### Used by
 
 - [calcite-input](../calcite-input)
+- [calcite-video](../calcite-video)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-input --> calcite-progress
+  calcite-video --> calcite-progress
   style calcite-progress fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

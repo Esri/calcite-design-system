@@ -61,6 +61,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+- [calcite-video](../calcite-video)
+
 ### Depends on
 
 - [calcite-graph](../calcite-graph)
@@ -70,6 +74,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-slider --> calcite-graph
+  calcite-video --> calcite-slider
   style calcite-slider fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
