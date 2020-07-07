@@ -36,7 +36,7 @@ export class CalciteModal {
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () =>
     Promise.resolve();
-  /** Display a close button within the Modal */
+  /** Disables the display a close button within the Modal */
   @Prop() disableCloseButton?: boolean;
   /** Aria label for the close button */
   @Prop() closeLabel: string = "Close";
