@@ -7,7 +7,7 @@ describe("calcite-checkbox", () => {
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
-    expect(calciteCheckbox).toHaveAttribute("hydrated");
+    expect(calciteCheckbox).toHaveAttribute("calcite-hydrated");
     expect(calciteCheckbox).toEqualAttribute("role", "checkbox");
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(calciteCheckbox).not.toHaveAttribute("indeterminate");

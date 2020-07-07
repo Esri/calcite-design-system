@@ -5,7 +5,7 @@ describe("calcite-slider", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-slider></calcite-slider>");
     const element = await page.find("calcite-slider");
-    expect(element).toHaveAttribute("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 
   it("becomes inactive from disabled prop", async () => {

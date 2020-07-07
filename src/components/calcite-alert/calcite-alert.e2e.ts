@@ -70,7 +70,7 @@ describe("calcite-alert", () => {
     const element = await page.find("calcite-alert");
     const close = await page.find("calcite-alert >>> .alert-close");
     const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(element).toHaveAttribute("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(close).not.toBeNull();
     expect(icon).not.toBeNull();
   });

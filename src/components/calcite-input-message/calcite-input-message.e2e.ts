@@ -5,7 +5,7 @@ describe("calcite-input-message", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-message></calcite-input-message>");
     const input = await page.find("calcite-input-message");
-    expect(input).toHaveAttribute("hydrated");
+    expect(input).toHaveAttribute("calcite-hydrated");
   });
 
   it("renders default props when none are provided", async () => {

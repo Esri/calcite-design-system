@@ -41,7 +41,7 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown>`);
 
     const element = await page.find("calcite-dropdown");
-    expect(element).toHaveAttribute("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 
   it("renders default props when none are provided", async () => {

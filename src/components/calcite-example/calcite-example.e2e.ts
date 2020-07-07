@@ -6,6 +6,6 @@ describe("calcite-example", () => {
 
     await page.setContent("<calcite-example></calcite-example>");
     const element = await page.find("calcite-example");
-    expect(element).toHaveAttribute("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 });

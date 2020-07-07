@@ -6,7 +6,7 @@ describe("calcite-tree", () => {
 
     await page.setContent("<calcite-tree></calcite-tree>");
     const element = await page.find("calcite-tree");
-    expect(element).toHaveAttribute("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 
   // click on icon

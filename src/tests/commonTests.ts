@@ -64,7 +64,7 @@ export async function renders(
   const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
-  expect(element).toHaveAttribute("hydrated");
+  expect(element).toHaveAttribute("calcite-hydrated");
   expect(await element.isVisible()).toBe(!invisible);
 }
 

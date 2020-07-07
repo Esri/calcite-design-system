@@ -20,7 +20,7 @@ describe("calcite-stepper", () => {
       </calcite-stepper-item>
     </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
-    expect(element).toHaveAttribute("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 
   it("renders default props when none are provided", async () => {

@@ -5,7 +5,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-modal></calcite-modal>");
     const element = await page.find("calcite-modal");
-    expect(element).toHaveAttribute("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 
   it("adds closeLabel property to close button", async () => {
