@@ -127,8 +127,8 @@ export class CalciteDropdown {
           aria-expanded={this.active.toString()}
         />
         <div
+          tabIndex={-1}
           class="calcite-dropdown-wrapper"
-          role="menu"
           style={{
             maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "",
           }}

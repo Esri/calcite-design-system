@@ -74,13 +74,17 @@ export class CalciteDropdownGroup {
 
   render() {
     const groupTitle = this.groupTitle ? (
-      <span class="dropdown-title" ref={(node) => (this.titleEl = node)}>
+      <span
+        class="dropdown-title"
+        ref={(node) => (this.titleEl = node)}
+        aria-hidden="true"
+      >
         {this.groupTitle}
       </span>
     ) : null;
 
     return (
-      <Host>
+      <Host title={this.groupTitle} role="menu">
         {groupTitle}
         <slot />
       </Host>

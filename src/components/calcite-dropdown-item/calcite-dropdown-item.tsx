@@ -122,13 +122,25 @@ export class CalciteDropdownItem {
         {slottedContent}
       </a>
     );
+
+    const itemRole = this.href
+      ? null
+      : this.selectionMode === "single"
+      ? "menuitemradio"
+      : this.selectionMode === "multi"
+      ? "menuitemcheckbox"
+      : "menuitem";
+
+    const itemAria =
+      this.selectionMode !== "none" ? this.active.toString() : null;
+
     return (
       <Host
         dir={dir}
         tabindex="0"
-        role="menuitem"
+        role={itemRole}
+        aria-checked={itemAria}
         selection-mode={this.selectionMode}
-        aria-selected={this.active.toString()}
         isLink={this.href}
       >
         {this.selectionMode === "multi" ? (
