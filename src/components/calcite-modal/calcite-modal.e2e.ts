@@ -19,7 +19,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-modal></calcite-modal>");
     const modal = await page.find("calcite-modal");
-    modal.setProperty("closeButton", false);
+    modal.setProperty("disableCloseButton", true);
     await page.waitForChanges();
     const closeButton = await page.find("calcite-modal >>> .modal__close");
     expect(closeButton).toBe(null);
