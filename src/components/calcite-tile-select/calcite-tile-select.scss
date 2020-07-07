@@ -5,7 +5,6 @@ $spacing: $baseline/2;
 
 :host {
   display: grid;
-  grid-template-columns: max-content 1fr;
   grid-gap: $spacing;
   background-color: var(--calcite-ui-foreground-1);
   transition: $transition;
@@ -31,6 +30,12 @@ $spacing: $baseline/2;
   box-shadow: 0 0 0 3px var(--calcite-ui-blue-1),
     0 0 0 5px var(--calcite-ui-foreground-1), 0 0 0 7px var(--calcite-ui-blue-1);
 }
+:host([show-input="left"]) {
+  grid-template-columns: max-content 1fr;
+}
+:host([show-input="right"]) {
+  grid-template-columns: 1fr max-content;
+}
 #content {
   display: grid;
   grid-template-columns: 1fr;
@@ -49,6 +54,11 @@ $spacing: $baseline/2;
 #title {
   @include font-size(0);
   color: var(--calcite-ui-text-1);
+}
+:host([checked]) {
+  #title {
+    font-weight: 500;
+  }
 }
 #description {
   @include font-size(-1);
