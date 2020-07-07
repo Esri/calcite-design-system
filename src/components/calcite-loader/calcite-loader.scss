@@ -45,7 +45,7 @@ $segment-3-duration: 1.16s;
   padding-bottom: 0;
 }
 
-:host([is-active]) {
+:host([active]) {
   display: block;
 }
 
@@ -136,7 +136,7 @@ $segment-3-duration: 1.16s;
   margin-right: 0;
 }
 
-:host([is-active][inline]) {
+:host([active][inline]) {
   display: inline-block;
 }
 

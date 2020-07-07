@@ -20,7 +20,7 @@ export class CalciteLoader {
   //
   //--------------------------------------------------------------------------
   /** Show the loader */
-  @Prop({ reflect: true }) isActive: boolean = false;
+  @Prop({ reflect: true }) active: boolean = false;
   /** Inline loaders are smaller and will appear to the left of the text */
   @Prop({ reflect: true }) inline: boolean = false;
   /** Use indeterminate if finding actual progress value is impossible */
