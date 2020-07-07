@@ -37,7 +37,7 @@ export class CalciteModal {
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () =>
     Promise.resolve();
   /** Display a close button within the Modal */
-  @Prop({ reflect: true }) closeButton = true;
+  @Prop() disableCloseButton?: boolean;
   /** Aria label for the close button */
   @Prop() closeLabel: string = "Close";
   /** Prevent the modal from taking up the entire screen on mobile */
@@ -63,7 +63,7 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   renderCloseButton(): VNode {
-    return this.closeButton ? (
+    return !this.disableCloseButton ? (
       <button
         class="modal__close"
         aria-label={this.closeLabel}
