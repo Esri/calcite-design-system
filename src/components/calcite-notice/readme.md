@@ -16,6 +16,7 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 | `dismissible` | `dismissible` | Optionally show a button the user can click to dismiss the notice | `boolean`                                | `false`     |
 | `icon`        | `icon`        | If false, no icon will be shown in the notice                     | `boolean`                                | `false`     |
 | `scale`       | `scale`       | specify the scale of the notice, defaults to m                    | `"l" \| "m" \| "s"`                      | `"m"`       |
+| `textLabelClose` | `text-label-close` | String for the close button.                               | `string`                               | `TEXT.closeLabel` |
 | `theme`       | `theme`       | Select theme (light or dark)                                      | `"dark" \| "light"`                      | `undefined` |
 | `width`       | `width`       | specify the width of the notice, defaults to m                    | `"auto" \| "full" \| "half"`             | `"auto"`    |
 

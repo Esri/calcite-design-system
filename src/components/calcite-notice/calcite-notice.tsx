@@ -8,6 +8,8 @@ import {
   Method,
   Prop,
 } from "@stencil/core";
+
+import { TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -51,6 +53,10 @@ export class CalciteNotice {
     | "green"
     | "red"
     | "yellow" = "blue";
+
+
+  /** String for the close button. */
+  @Prop({ reflect: false }) textLabelClose: string = TEXT.closeLabel;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
@@ -97,7 +103,7 @@ export class CalciteNotice {
     const closeButton = (
       <button
         class="notice-close"
-        aria-label="close"
+        aria-label={this.textLabelClose}
         onClick={() => this.close()}
         ref={(el) => (this.closeButton = el)}
       >
