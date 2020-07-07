@@ -123,13 +123,7 @@ export class CalciteDropdownItem {
       </a>
     );
 
-    const itemRole = this.href
-      ? null
-      : this.selectionMode === "single"
-      ? "menuitemradio"
-      : this.selectionMode === "multi"
-      ? "menuitemcheckbox"
-      : "menuitem";
+    const itemRole = this.determineItemRole();
 
     const itemAria =
       this.selectionMode !== "none" ? this.active.toString() : null;
@@ -141,7 +135,7 @@ export class CalciteDropdownItem {
         role={itemRole}
         aria-checked={itemAria}
         selection-mode={this.selectionMode}
-        isLink={this.href}
+        isLink={!!this.href}
       >
         {this.selectionMode === "multi" ? (
           <calcite-icon
@@ -250,6 +244,27 @@ export class CalciteDropdownItem {
         this.active = false;
         break;
     }
+  }
+
+  private determineItemRole() {
+    let itemRole = null;
+    // items that are rendered as links should not have a role assigned
+    if (!this.href) {
+      switch (this.selectionMode) {
+        case "multi":
+          itemRole = "menuitemcheckbox";
+          break;
+
+        case "single":
+          itemRole = "menuitemradio";
+          break;
+
+        case "none":
+          itemRole = "menuitem";
+          break;
+      }
+    }
+    return itemRole;
   }
 
   private emitRequestedItem() {
