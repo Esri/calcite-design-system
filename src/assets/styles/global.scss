@@ -22,6 +22,7 @@
   overflow: hidden;
 }
 
-.hydrated--invisible {
+[calcite-hydrated][aria-hidden="true"] {
   visibility: hidden;
+  pointer-events: none;
 }

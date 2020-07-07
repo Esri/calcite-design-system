@@ -6,7 +6,7 @@ describe("calcite-tree", () => {
 
     await page.setContent("<calcite-tree></calcite-tree>");
     const element = await page.find("calcite-tree");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 
   // click on icon
@@ -28,7 +28,9 @@ describe("calcite-tree", () => {
     const icon = await page.find('#firstItem >>> [data-test-id="icon"]');
     await icon.click();
 
-    const childContainer = await page.find('#firstItem >>> [data-test-id="calcite-tree-children"]');
+    const childContainer = await page.find(
+      '#firstItem >>> [data-test-id="calcite-tree-children"]'
+    );
     const isVisible = await childContainer.isVisible();
     expect(isVisible).toBe(true);
   });
@@ -43,7 +45,7 @@ describe("calcite-tree", () => {
       </calcite-tree-item>
     </calcite-tree>`);
 
-    const anchor = await page.find('#firstItem a');
+    const anchor = await page.find("#firstItem a");
     await anchor.click();
 
     await page.waitForChanges();
@@ -60,7 +62,7 @@ describe("calcite-tree", () => {
       </calcite-tree-item>
     </calcite-tree>`);
 
-    const item = await page.find('#firstItem');
+    const item = await page.find("#firstItem");
     await item.click();
 
     await page.waitForChanges();
@@ -84,7 +86,7 @@ describe("calcite-tree", () => {
     </calcite-tree>`);
 
     await page.waitForChanges();
-    const item = await page.find('#secondItem');
+    const item = await page.find("#secondItem");
     await item.click();
 
     await page.waitForChanges();

@@ -83,10 +83,6 @@
     max-width: 100%;
     border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
-
-  &:host(.hydrated) {
-    visibility: hidden !important;
-  }
 }
 
 // focus styles
@@ -103,9 +99,6 @@
   transform: translate3d(0, -$baseline, 0);
   pointer-events: initial;
   border-top-width: 3px;
-  &:host(.hydrated) {
-    visibility: visible !important;
-  }
 
   @media only screen and (max-width: $viewport-medium) {
     transform: translate3d(0, 0, 0);
