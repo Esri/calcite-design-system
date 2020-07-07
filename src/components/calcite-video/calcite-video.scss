@@ -2,10 +2,10 @@
   @include calcite-theme-dark();
 }
 :host {
-  --calcite-video-scrubber-bg: rgba(255, 255, 255, 0.92);
+  --calcite-video-controls-on-hover-bg: rgba(255, 255, 255, 0.92);
 }
 :host([theme="dark"]) {
-  --calcite-video-scrubber-bg: rgba(43, 43, 43, 0.92);
+  --calcite-video-controls-on-hover-bg: rgba(43, 43, 43, 0.92);
 }
 
 :host {
@@ -40,6 +40,37 @@
   *::-webkit-media-controls-panel {
     display: none !important;
     -webkit-appearance: none;
+  }
+}
+
+//focus
+:host {
+  @include focus-style-base();
+}
+:host(:focus) {
+  @include focus-style-outset();
+}
+// show controls on hover
+:host([show-controls-on-hover]) {
+  & .calcite-video-footer {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: all 0.15s ease-in-out;
+    background-color: var(--calcite-ui-foreground-1);
+    box-sizing: border-box;
+    z-index: 9;
+  }
+}
+:host([show-controls-on-hover]:focus),
+:host([show-controls-on-hover]:focus-within),
+:host([show-controls-on-hover]:hover) {
+  .calcite-video-footer {
+    visibility: visible;
+    opacity: 1;
   }
 }
 
@@ -84,7 +115,6 @@
 
 calcite-slider.calcite-video-scrubber {
   box-sizing: border-box;
-  background-color: var(--calcite-video-scrubber-bg);
   margin: 0;
   padding: 10px 0;
 }

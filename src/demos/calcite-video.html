@@ -33,7 +33,7 @@
     </script>
     <calcite-button onclick={loadingButton()}>Change to another href</calcite-button>
 
-    <calcite-video id="my-example-video" allow-scrubbing allow-fullscreen show-timestamp
+    <calcite-video id="my-example-video" allow-scrubbing allow-fullscreen
       src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4">
     </calcite-video>
 
@@ -47,22 +47,26 @@
     <h4>Autoplay</h4>
     <calcite-video autoplay src="../assets/demo/alert-timing-good.mp4"></calcite-video>
     <h4>Sound Demo</h4>
-    <calcite-video allow-scrubbing allow-fullscreen show-timestamp
+    <calcite-video allow-scrubbing allow-fullscreen
       src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4">
     </calcite-video>
     <h4>explicit height / width</h4>
-    <calcite-video width="200" allow-fullscreen show-timestamp src="../assets/demo/sounddemo.mp4"></calcite-video>
-    <calcite-video height="200" allow-fullscreen show-timestamp src="../assets/demo/sounddemo.mp4"></calcite-video>
-    <calcite-video height="200" width="500" allow-fullscreen show-timestamp src="../assets/demo/sounddemo.mp4">
+    <calcite-video width="200" allow-fullscreen src="../assets/demo/sounddemo.mp4"></calcite-video>
+    <calcite-video height="200" allow-fullscreen src="../assets/demo/sounddemo.mp4"></calcite-video>
+    <calcite-video height="200" width="500" allow-fullscreen src="../assets/demo/sounddemo.mp4">
     </calcite-video>
     <h4>demo no sound</h4>
-    <calcite-video allow-fullscreen src="../assets/demo/demo.mp4"></calcite-video>
+    <calcite-video allow-fullscreen hide-timestamp src="../assets/demo/demo.mp4"></calcite-video>
     <h4>play on hover</h4>
-    <calcite-video play-on-hover src="../assets/demo/demo.mp4"></calcite-video>
+    <calcite-video play-on-hover hide-controls src="../assets/demo/demo.mp4"></calcite-video>
     <br />
     <div class="demo-background-dark">
+      <h4>Show controls on hover</h4>
+      <calcite-video theme="dark" show-controls-on-hover allow-scrubbing
+        src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4">
+      </calcite-video>
       <h4>Sound Demo</h4>
-      <calcite-video theme="dark" allow-scrubbing allow-fullscreen show-timestamp
+      <calcite-video theme="dark" allow-scrubbing allow-fullscreen
         src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4">
       </calcite-video>
       <h4>Dark Theme</h4>

@@ -36,9 +36,6 @@ export class CalciteVideo {
   /** preload type */
   @Prop({ reflect: true }) preload: "auto" | "none" | "preload" = "auto";
 
-  /** show a current time and duration */
-  @Prop({ reflect: true }) showTimestamp: boolean = false;
-
   /** loop the media */
   @Prop({ reflect: true }) loop: boolean = false;
 
@@ -54,8 +51,20 @@ export class CalciteVideo {
   /** is scrubbing mode allowed */
   @Prop({ reflect: true }) allowScrubbing: boolean = false;
 
-  /** allow play on hover - don't display footer */
+  /** allow play on hover  */
   @Prop({ reflect: true }) playOnHover: boolean = false;
+
+  /** hide progress */
+  @Prop({ reflect: true }) hideProgress: boolean = false;
+
+  /** hide controls */
+  @Prop({ reflect: true }) hideControls: boolean = false;
+
+  /** hide controls */
+  @Prop({ reflect: true }) showControlsOnHover: boolean = false;
+
+  /** hide timestamp */
+  @Prop({ reflect: true }) hideTimestamp: boolean = false;
 
   /** a desired height of the video */
   @Prop({ reflect: true }) height?: string;
@@ -160,14 +169,14 @@ export class CalciteVideo {
     );
 
     return (
-      <Host dir={dir}>
+      <Host dir={dir} tabIndex={0}>
         <calcite-loader
           type="indeterminate"
           is-active={this.isLoading}
         ></calcite-loader>
         <div
           class={`calcite-video-wrapper ${
-            this.isFullscreen ? " calcite-video-fullscreen" : null
+            this.isFullscreen ? " calcite-video-fullscreen" : ""
           }`}
         >
           <video
@@ -188,15 +197,17 @@ export class CalciteVideo {
             onCanPlay={() => this.videoLoadFinish()}
           />
         </div>
-        {!this.playOnHover ? (
+        {!this.hideControls && !this.hideProgress ? (
           <div class="calcite-video-footer">
-            {progress}
-            <div class="calcite-video-controls">
-              {playControl}
-              {this.hasAudio ? volumeControl : null}
-              {this.showTimestamp ? time : null}
-              {this.allowFullscreen ? fullscreenControl : null}
-            </div>
+            {!this.hideProgress ? progress : null}
+            {!this.hideControls ? (
+              <div class="calcite-video-controls">
+                {playControl}
+                {this.hasAudio ? volumeControl : null}
+                {!this.hideTimestamp ? time : null}
+                {this.allowFullscreen ? fullscreenControl : null}
+              </div>
+            ) : null}
           </div>
         ) : null}
       </Host>
@@ -211,18 +222,36 @@ export class CalciteVideo {
   // pause other instances of video on page when another starts
   @Listen("calciteVideoPlay", { target: "window" }) videoPlayListener(e) {
     if (e.target !== this.el) {
-      this.videoEl.pause();
-      this.isPlaying = false;
-      this.calciteVideoPause.emit();
+      this.pauseVideo();
     }
   }
 
   @Listen("mouseenter") mouseEnterListener() {
-    if (this.playOnHover) this.toggleVideo();
+    if (this.playOnHover && document.activeElement !== this.el)
+      this.playVideo();
   }
 
   @Listen("mouseleave") mouseLeaveListener() {
-    if (this.playOnHover) this.toggleVideo();
+    if (this.playOnHover && document.activeElement !== this.el)
+      this.pauseVideo();
+  }
+
+  @Listen("focus") focusInListener() {
+    if (this.playOnHover) this.playVideo();
+  }
+
+  @Listen("blur") focusOutListener() {
+    if (this.playOnHover) this.pauseVideo();
+  }
+
+  @Listen("keydown") keydownListener(e: KeyboardEvent): void {
+    if (!this.playOnHover && e.composedPath()[0] === this.el) {
+      const key = getKey(e.key);
+      if (key === " " || key === "Enter") {
+        e.preventDefault();
+        this.toggleVideo();
+      }
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -287,15 +316,23 @@ export class CalciteVideo {
 
   toggleVideo = () => {
     if (this.isComplete || !this.isPlaying) {
-      this.videoEl.play();
-      this.isPlaying = true;
-      this.calciteVideoPlay.emit();
+      this.playVideo();
     } else {
-      this.videoEl.pause();
-      this.isPlaying = false;
-      this.calciteVideoPause.emit();
+      this.pauseVideo();
     }
   };
+
+  playVideo() {
+    this.videoEl.play();
+    this.isPlaying = true;
+    this.calciteVideoPlay.emit();
+  }
+
+  pauseVideo() {
+    this.videoEl.pause();
+    this.isPlaying = false;
+    this.calciteVideoPause.emit();
+  }
 
   toggleMuted = () => {
     this.muted = !this.muted;
@@ -330,8 +367,7 @@ export class CalciteVideo {
   };
 
   toggleFullscreen = () => {
-    // todo other browsers
-    // todo remove any - not sure about how
+    // todo remove type any - get errors without
     if (!this.isFullscreen) {
       this.isFullscreen = true;
       if ((this.el as any).requestFullscreen) {
@@ -374,17 +410,19 @@ export class CalciteVideo {
   }
 
   determineProgress() {
-    this.isComplete = this.currentTime === this.videoDuration;
-    this.currentTime = this.videoEl?.currentTime;
-    if (this.allowScrubbing) {
-      let position =
-        ((this.currentTime as number) / (this.videoDuration as number)) * 100;
-      this.scrubberEl.setAttribute("value", `${position}`);
-    } else {
-      let position =
-        (this.currentTime as number) / (this.videoDuration as number);
-      this.progressEl.setAttribute("value", `${position}`);
+    if (!this.hideProgress) {
+      this.isComplete = this.currentTime === this.videoDuration;
+      this.currentTime = this.videoEl?.currentTime;
+      if (this.allowScrubbing) {
+        let position =
+          ((this.currentTime as number) / (this.videoDuration as number)) * 100;
+        this.scrubberEl?.setAttribute("value", `${position}`);
+      } else {
+        let position =
+          (this.currentTime as number) / (this.videoDuration as number);
+        this.progressEl?.setAttribute("value", `${position}`);
+      }
+      if (this.isComplete) this.calciteVideoComplete.emit();
     }
-    if (this.isComplete) this.calciteVideoComplete.emit();
   }
 }
