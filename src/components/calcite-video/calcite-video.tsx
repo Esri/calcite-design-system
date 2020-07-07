@@ -45,26 +45,26 @@ export class CalciteVideo {
   /** is the media muted */
   @Prop({ reflect: true }) muted: boolean = false;
 
-  /** is fullscreen mode allowed */
-  @Prop({ reflect: true }) allowFullscreen: boolean = false;
-
-  /** is scrubbing mode allowed */
-  @Prop({ reflect: true }) allowScrubbing: boolean = false;
-
   /** allow play on hover  */
   @Prop({ reflect: true }) playOnHover: boolean = false;
 
-  /** hide progress */
-  @Prop({ reflect: true }) hideProgress: boolean = false;
-
-  /** hide controls */
-  @Prop({ reflect: true }) hideControls: boolean = false;
-
-  /** hide controls */
+  /** show controls on hover */
   @Prop({ reflect: true }) showControlsOnHover: boolean = false;
 
-  /** hide timestamp */
-  @Prop({ reflect: true }) hideTimestamp: boolean = false;
+  /** is fullscreen mode disabled */
+  @Prop({ reflect: true }) disableFullscreen: boolean = false;
+
+  /** is scrubbing mode disabled */
+  @Prop({ reflect: true }) disableScrubbing: boolean = false;
+
+  /** disable progress */
+  @Prop({ reflect: true }) disableProgress: boolean = false;
+
+  /** disable controls */
+  @Prop({ reflect: true }) disableControls: boolean = false;
+
+  /** disable timestamp */
+  @Prop({ reflect: true }) disableTimestamp: boolean = false;
 
   /** a desired height of the video */
   @Prop({ reflect: true }) height?: string;
@@ -144,7 +144,7 @@ export class CalciteVideo {
       </div>
     );
 
-    const progress = this.allowScrubbing ? (
+    const progress = !this.disableScrubbing ? (
       <div class="calcite-video-scrubber-wrapper">
         <calcite-slider
           theme={this.theme}
@@ -197,15 +197,15 @@ export class CalciteVideo {
             onCanPlay={() => this.videoLoadFinish()}
           />
         </div>
-        {!this.hideControls && !this.hideProgress ? (
+        {!this.disableControls && !this.disableProgress ? (
           <div class="calcite-video-footer">
-            {!this.hideProgress ? progress : null}
-            {!this.hideControls ? (
+            {!this.disableProgress ? progress : null}
+            {!this.disableControls ? (
               <div class="calcite-video-controls">
                 {playControl}
                 {this.hasAudio ? volumeControl : null}
-                {!this.hideTimestamp ? time : null}
-                {this.allowFullscreen ? fullscreenControl : null}
+                {!this.disableTimestamp ? time : null}
+                {!this.disableFullscreen ? fullscreenControl : null}
               </div>
             ) : null}
           </div>
@@ -291,6 +291,7 @@ export class CalciteVideo {
   @State() isComplete?: boolean = false;
 
   /** does the video have an audio track */
+  // todo determine if there is an audio track, if not, hide volume control
   @State() hasAudio?: boolean = true;
 
   //--------------------------------------------------------------------------
@@ -410,10 +411,10 @@ export class CalciteVideo {
   }
 
   determineProgress() {
-    if (!this.hideProgress) {
+    if (!this.disableProgress) {
       this.isComplete = this.currentTime === this.videoDuration;
       this.currentTime = this.videoEl?.currentTime;
-      if (this.allowScrubbing) {
+      if (!this.disableScrubbing) {
         let position =
           ((this.currentTime as number) / (this.videoDuration as number)) * 100;
         this.scrubberEl?.setAttribute("value", `${position}`);

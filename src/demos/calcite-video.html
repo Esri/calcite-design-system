@@ -32,41 +32,40 @@
 
     </script>
     <calcite-button onclick={loadingButton()}>Change to another href</calcite-button>
-
-    <calcite-video id="my-example-video" allow-scrubbing allow-fullscreen
+    <calcite-video id="my-example-video" disable-fullscreen
       src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4">
     </calcite-video>
 
 
     <h4>Default</h4>
-    <calcite-video src="../assets/demo/alert-timing-good.mp4"></calcite-video>
+    <calcite-video disable-scrubbing src="../assets/demo/alert-timing-good.mp4"></calcite-video>
     <h4>Loop</h4>
-    <calcite-video loop src="../assets/demo/alert-timing-good.mp4"></calcite-video>
+    <calcite-video disable-scrubbing loop src="../assets/demo/alert-timing-good.mp4"></calcite-video>
     <h4>Autoplay Loop</h4>
-    <calcite-video allow-fullscreen autoplay loop src="../assets/demo/alert-timing-good.mp4"></calcite-video>
+    <calcite-video disable-fullscreen disable-scrubbing autoplay loop src="../assets/demo/alert-timing-good.mp4"></calcite-video>
     <h4>Autoplay</h4>
     <calcite-video autoplay src="../assets/demo/alert-timing-good.mp4"></calcite-video>
     <h4>Sound Demo</h4>
-    <calcite-video allow-scrubbing allow-fullscreen
+    <calcite-video  disable-fullscreen
       src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4">
     </calcite-video>
     <h4>explicit height / width</h4>
-    <calcite-video width="200" allow-fullscreen src="../assets/demo/sounddemo.mp4"></calcite-video>
-    <calcite-video height="200" allow-fullscreen src="../assets/demo/sounddemo.mp4"></calcite-video>
-    <calcite-video height="200" width="500" allow-fullscreen src="../assets/demo/sounddemo.mp4">
+    <calcite-video width="200" disable-scrubbing disable-fullscreen src="../assets/demo/sounddemo.mp4"></calcite-video>
+    <calcite-video height="200" disable-scrubbing disable-fullscreen src="../assets/demo/sounddemo.mp4"></calcite-video>
+    <calcite-video height="200" width="500" disable-scrubbing disable-fullscreen src="../assets/demo/sounddemo.mp4">
     </calcite-video>
     <h4>demo no sound</h4>
-    <calcite-video allow-fullscreen hide-timestamp src="../assets/demo/demo.mp4"></calcite-video>
+    <calcite-video disable-scrubbing disable-fullscreen disable-timestamp src="../assets/demo/demo.mp4"></calcite-video>
     <h4>play on hover</h4>
-    <calcite-video play-on-hover hide-controls src="../assets/demo/demo.mp4"></calcite-video>
+    <calcite-video play-on-hover disable-controls src="../assets/demo/demo.mp4"></calcite-video>
     <br />
     <div class="demo-background-dark">
       <h4>Show controls on hover</h4>
-      <calcite-video theme="dark" show-controls-on-hover allow-scrubbing
+      <calcite-video theme="dark" show-controls-on-hover
         src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4">
       </calcite-video>
       <h4>Sound Demo</h4>
-      <calcite-video theme="dark" allow-scrubbing allow-fullscreen
+      <calcite-video theme="dark" disable-fullscreen
         src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4">
       </calcite-video>
       <h4>Dark Theme</h4>

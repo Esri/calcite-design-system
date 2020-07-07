@@ -11,12 +11,12 @@ storiesOf("Video", module)
     () => `
     <div style="width:400px">
     <calcite-video
-    allow-scrubbing="${boolean("allow-scrubbing", false)}"
-    allow-fullscreen="${boolean("allow-scrubbing", false)}"
+    disable-scrubbing="${boolean("disable-scrubbing", false)}"
+    disable-fullscreen="${boolean("disable-scrubbing", false)}"
+    disable-timestamp="${boolean("disable-timestamp", false)}"
+    disable-progress="${boolean("disable-progress", false)}"
+    disable-controls="${boolean("disable-controls", false)}"
     play-on-hover="${boolean("play-on-hover", false)}"
-    hide-timestamp="${boolean("hide-timestamp", false)}"
-    hide-progress="${boolean("hide-progress", false)}"
-    hide-controls="${boolean("hide-controls", false)}"
     show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
     loop="${boolean("loop", false)}"
     autoplay="${boolean("autoplay", false)}"
@@ -36,12 +36,12 @@ storiesOf("Video", module)
     <div style="width:400px">
     <calcite-video
     theme="dark"
-    allow-scrubbing="${boolean("allow-scrubbing", false)}"
-    allow-fullscreen="${boolean("allow-scrubbing", false)}"
+    disable-scrubbing="${boolean("disable-scrubbing", false)}"
+    disable-fullscreen="${boolean("disable-scrubbing", false)}"
+    disable-timestamp="${boolean("disable-timestamp", false)}"
+    disable-progress="${boolean("disable-progress", false)}"
+    disable-controls="${boolean("disable-controls", false)}"
     play-on-hover="${boolean("play-on-hover", false)}"
-    hide-timestamp="${boolean("hide-timestamp", false)}"
-    hide-progress="${boolean("hide-progress", false)}"
-    hide-controls="${boolean("hide-controls", false)}"
     show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
     loop="${boolean("loop", false)}"
     autoplay="${boolean("autoplay", false)}"
@@ -60,12 +60,12 @@ storiesOf("Video", module)
     () => `
     <div style="width:400px" dir="rtl">
     <calcite-video
-    allow-scrubbing="${boolean("allow-scrubbing", false)}"
-    allow-fullscreen="${boolean("allow-scrubbing", false)}"
+    disable-scrubbing="${boolean("disable-scrubbing", false)}"
+    disable-fullscreen="${boolean("disable-scrubbing", false)}"
+    disable-timestamp="${boolean("disable-timestamp", false)}"
+    disable-progress="${boolean("disable-progress", false)}"
+    disable-controls="${boolean("disable-controls", false)}"
     play-on-hover="${boolean("play-on-hover", false)}"
-    hide-timestamp="${boolean("hide-timestamp", false)}"
-    hide-progress="${boolean("hide-progress", false)}"
-    hide-controls="${boolean("hide-controls", false)}"
     show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
     loop="${boolean("loop", false)}"
     autoplay="${boolean("autoplay", false)}"
