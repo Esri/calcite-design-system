@@ -36,7 +36,7 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteNoticeElement;
 
   //--------------------------------------------------------------------------
   //
@@ -56,7 +56,7 @@ export class CalciteNotice {
 
 
   /** String for the close button. */
-  @Prop({ reflect: false }) textLabelClose: string = TEXT.closeLabel;
+  @Prop({ reflect: false }) intlLabelClose: string = TEXT.closeLabel;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
@@ -103,9 +103,9 @@ export class CalciteNotice {
     const closeButton = (
       <button
         class="notice-close"
-        aria-label={this.textLabelClose}
+        aria-label={this.intlLabelClose}
         onClick={() => this.close()}
-        ref={(el) => (this.closeButton = el)}
+        ref={() => (this.closeButton)}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -131,10 +131,10 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** Fired when an notice is closed */
-  @Event() calciteNoticeClose: EventEmitter;
+  @Event() calciteNoticeClose: EventEmitter<HTMLCalciteNoticeElement>;
 
   /** Fired when an Notice is opened */
-  @Event() calciteNoticeOpen: EventEmitter;
+  @Event() calciteNoticeOpen: EventEmitter<HTMLCalciteNoticeElement>;
 
   //--------------------------------------------------------------------------
   //
@@ -145,13 +145,13 @@ export class CalciteNotice {
   /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
   @Method() async close() {
     this.active = false;
-    this.calciteNoticeClose.emit({ requestedNotice: this.noticeId });
+    this.calciteNoticeClose.emit(this.el);
   }
 
   /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
   @Method() async open() {
     this.active = true;
-    this.calciteNoticeOpen.emit({ requestedNotice: this.noticeId });
+    this.calciteNoticeOpen.emit(this.el);
   }
 
   /** focus the close button, if present and requested */
@@ -172,11 +172,8 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  /** Unique ID for this notice */
-  private noticeId: string = this.el.id;
-
   /** the close button element */
-  private closeButton?: HTMLElement;
+  private closeButton?: HTMLCalciteNoticeElement;
 
   /** the notice link child element  */
   private noticeLinkEl?: HTMLCalciteLinkElement;
