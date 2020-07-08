@@ -29,7 +29,7 @@ export class CalciteTileSelect {
   @Prop({ reflect: true }) name: string = "";
   @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-  @Prop() title: string = "";
+  @Prop() heading: string = "";
   @Prop({ reflect: true }) type: "radio" | "checkbox" = "radio";
   @Prop({ reflect: true }) value?: string;
 
@@ -46,6 +46,14 @@ export class CalciteTileSelect {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("calciteCheckboxChange")
+  calciteCheckboxChangeEvent(event: CustomEvent) {
+    const checkbox = event.target as HTMLCalciteCheckboxElement;
+    if (checkbox === this.input) {
+      this.checked = checkbox.checked;
+    }
+  }
 
   @Listen("calciteRadioButtonChange")
   calciteRadioButtonChangeEvent(event: CustomEvent) {
@@ -64,8 +72,10 @@ export class CalciteTileSelect {
   }
 
   @Listen("click")
-  click() {
-    this.input.click();
+  click(event: MouseEvent) {
+    if ((event.target as HTMLElement).localName === "calcite-tile-select") {
+      this.input.click();
+    }
   }
 
   @Listen("mouseenter")
@@ -73,12 +83,18 @@ export class CalciteTileSelect {
     if (this.input.localName === "calcite-radio-button") {
       (this.input as HTMLCalciteRadioButtonElement).hovered = true;
     }
+    if (this.input.localName === "calcite-checkbox") {
+      (this.input as HTMLCalciteCheckboxElement).hovered = true;
+    }
   }
 
   @Listen("mouseleave")
   mouseleave() {
     if (this.input.localName === "calcite-radio-button") {
       (this.input as HTMLCalciteRadioButtonElement).hovered = false;
+    }
+    if (this.input.localName === "calcite-checkbox") {
+      (this.input as HTMLCalciteCheckboxElement).hovered = false;
     }
   }
 
@@ -140,7 +156,7 @@ export class CalciteTileSelect {
               <calcite-icon icon={this.icon} scale="l"></calcite-icon>
             )}
           </div>
-          <div id="title">{this.title}</div>
+          <div id="heading">{this.heading}</div>
           <div id="description">{this.description}</div>
         </div>
         <slot></slot>

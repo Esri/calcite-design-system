@@ -23,6 +23,9 @@ export class CalciteCheckbox {
   /** True if the checkbox is initially checked */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
 
+  /** The hovered state of the checkbox. */
+  @Prop({ reflect: true, mutable: true }) hovered: boolean = false;
+
   /**
    * True if the checkbox is initially indeterminate,
    * which is independent from its checked state
@@ -74,6 +77,16 @@ export class CalciteCheckbox {
       e.preventDefault();
       this.toggle();
     }
+  }
+
+  @Listen("mouseenter")
+  mouseenter() {
+    this.hovered = true;
+  }
+
+  @Listen("mouseleave")
+  mouseleave() {
+    this.hovered = false;
   }
 
   @Watch("checked") checkedWatcher() {

@@ -69,7 +69,7 @@
   }
 }
 
-:host(:hover),
+:host([hovered]),
 :host(:focus) {
   outline: none;
   .check-svg {

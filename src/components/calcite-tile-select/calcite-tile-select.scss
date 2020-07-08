@@ -51,12 +51,12 @@ $spacing: $baseline/2;
     order: 0;
   }
 }
-#title {
+#heading {
   @include font-size(0);
   color: var(--calcite-ui-text-1);
 }
 :host([checked]) {
-  #title {
+  #heading {
     font-weight: 500;
   }
 }

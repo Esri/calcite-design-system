@@ -193,6 +193,7 @@ export class CalciteRadioButton {
   mouseenter() {
     this.hovered = true;
   }
+
   @Listen("mouseleave")
   mouseleave() {
     this.hovered = false;
