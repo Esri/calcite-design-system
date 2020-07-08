@@ -5,7 +5,7 @@ describe("calcite-label", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-label></calcite-label>");
     const label = await page.find("calcite-label");
-    expect(label).toHaveClass("hydrated");
+    expect(label).toHaveAttribute("calcite-hydrated");
   });
 
   it("renders default props when none are provided", async () => {

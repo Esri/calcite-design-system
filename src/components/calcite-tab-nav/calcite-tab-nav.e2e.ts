@@ -6,6 +6,6 @@ describe("calcite-tab-nav", () => {
 
     await page.setContent("<calcite-tab-nav></calcite-tab-nav>");
     const element = await page.find("calcite-tab-nav");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 });

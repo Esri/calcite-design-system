@@ -13,6 +13,7 @@ import {
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { VNode } from "@stencil/core/internal/stencil-core";
 
 @Component({
   tag: "calcite-modal",
@@ -35,6 +36,8 @@ export class CalciteModal {
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () =>
     Promise.resolve();
+  /** Disables the display a close button within the Modal */
+  @Prop() disableCloseButton?: boolean;
   /** Aria label for the close button */
   @Prop() closeLabel: string = "Close";
   /** Prevent the modal from taking up the entire screen on mobile */
@@ -59,6 +62,20 @@ export class CalciteModal {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+  renderCloseButton(): VNode {
+    return !this.disableCloseButton ? (
+      <button
+        class="modal__close"
+        aria-label={this.closeLabel}
+        title={this.closeLabel}
+        ref={(el) => (this.closeButtonEl = el)}
+        onClick={() => this.close()}
+      >
+        <calcite-icon icon="x" scale="l"></calcite-icon>
+      </button>
+    ) : null;
+  }
+
   render() {
     const dir = getElementDir(this.el);
     return (
@@ -76,14 +93,7 @@ export class CalciteModal {
             onFocus={this.focusLastElement.bind(this)}
           />
           <div class="modal__header">
-            <button
-              class="modal__close"
-              aria-label={this.closeLabel}
-              ref={(el) => (this.closeButton = el)}
-              onClick={() => this.close()}
-            >
-              <calcite-icon icon="x" scale="l"></calcite-icon>
-            </button>
+            {this.renderCloseButton()}
             <header class="modal__title">
               <slot name="header" />
             </header>
@@ -183,7 +193,7 @@ export class CalciteModal {
     if (focusableElements.length > 0) {
       focusableElements[0].focus();
     } else {
-      this.closeButton && this.closeButton.focus();
+      this.closeButtonEl?.focus();
     }
   }
 
@@ -209,11 +219,11 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   @State() isActive: boolean;
   private previousActiveElement: HTMLElement;
-  private closeButton: HTMLButtonElement;
+  private closeButtonEl: HTMLButtonElement;
   private modalContent: HTMLDivElement;
 
   private focusFirstElement() {
-    this.closeButton && this.closeButton.focus();
+    this.closeButtonEl?.focus();
   }
 
   private focusLastElement() {
@@ -225,7 +235,7 @@ export class CalciteModal {
     if (focusableElements.length > 0) {
       focusableElements[focusableElements.length - 1].focus();
     } else {
-      this.closeButton && this.closeButton.focus();
+      this.closeButtonEl?.focus();
     }
   }
 }
