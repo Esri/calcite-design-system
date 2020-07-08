@@ -75,6 +75,7 @@ export class CalciteTileSelect {
   click(event: MouseEvent) {
     if ((event.target as HTMLElement).localName === "calcite-tile-select") {
       this.input.click();
+      this.input.focus();
     }
   }
 
