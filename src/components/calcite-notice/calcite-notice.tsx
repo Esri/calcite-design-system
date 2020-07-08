@@ -8,6 +8,8 @@ import {
   Method,
   Prop,
 } from "@stencil/core";
+
+import { TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -34,7 +36,7 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteNoticeElement;
 
   //--------------------------------------------------------------------------
   //
@@ -51,6 +53,10 @@ export class CalciteNotice {
     | "green"
     | "red"
     | "yellow" = "blue";
+
+
+  /** String for the close button. */
+  @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
@@ -97,9 +103,9 @@ export class CalciteNotice {
     const closeButton = (
       <button
         class="notice-close"
-        aria-label="close"
+        aria-label={this.intlClose}
         onClick={() => this.close()}
-        ref={(el) => (this.closeButton = el)}
+        ref={() => (this.closeButton)}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -139,13 +145,13 @@ export class CalciteNotice {
   /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
   @Method() async close() {
     this.active = false;
-    this.calciteNoticeClose.emit({ requestedNotice: this.noticeId });
+    this.calciteNoticeClose.emit();
   }
 
   /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
   @Method() async open() {
     this.active = true;
-    this.calciteNoticeOpen.emit({ requestedNotice: this.noticeId });
+    this.calciteNoticeOpen.emit();
   }
 
   /** focus the close button, if present and requested */
@@ -165,9 +171,6 @@ export class CalciteNotice {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  /** Unique ID for this notice */
-  private noticeId: string = this.el.id;
 
   /** the close button element */
   private closeButton?: HTMLElement;
