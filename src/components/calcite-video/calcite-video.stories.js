@@ -22,7 +22,7 @@ storiesOf("Video", module)
     autoplay="${boolean("autoplay", false)}"
     muted="${boolean("muted", false)}"
     >
-    <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
+    <source src="../../assets/demo/video/sintel-short.mp4" type="video/mp4">
     </calcite-video>
     </div>
   `,
@@ -44,8 +44,8 @@ storiesOf("Video", module)
     autoplay="${boolean("autoplay", false)}"
     muted="${boolean("muted", false)}"
     >
-    <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
-    <track label="English" kind="subtitles" srclang="en" src="../assets/demo/subtitles/vtt/sintel-en.vtt" default>
+    <source src="../../assets/demo/video/sintel-short.mp4" type="video/mp4">
+    <track label="English" kind="subtitles" srclang="en" src="../../assets/demo/subtitles/vtt/sintel-en.vtt" default>
     </calcite-video>
     </div>
   `,
@@ -67,11 +67,11 @@ storiesOf("Video", module)
     autoplay="${boolean("autoplay", false)}"
     muted="${boolean("muted", false)}"
     >
-    <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
-    <source src="../assets/demo/video/sintel-short.webm" type="video/webm">
-    <track label="English" kind="subtitles" srclang="en" src="../assets/demo/subtitles/vtt/sintel-en.vtt" default>
-    <track label="Deutsch" kind="subtitles" srclang="de" src="../assets/demo/subtitles/vtt/sintel-de.vtt">
-    <track label="Español" kind="subtitles" srclang="es" src="../assets/demo/subtitles/vtt/sintel-es.vtt">
+    <source src="../../assets/demo/video/sintel-short.mp4" type="video/mp4">
+    <source src="../../assets/demo/video/sintel-short.webm" type="video/webm">
+    <track label="English" kind="subtitles" srclang="en" src="../../assets/demo/subtitles/vtt/sintel-en.vtt" default>
+    <track label="Deutsch" kind="subtitles" srclang="de" src="../../assets/demo/subtitles/vtt/sintel-de.vtt">
+    <track label="Español" kind="subtitles" srclang="es" src="../../assets/demo/subtitles/vtt/sintel-es.vtt">
     </calcite-video>
     </div>
   `,

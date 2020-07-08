@@ -147,31 +147,30 @@ export class CalciteVideo {
           scale="s"
           appearance="transparent"
           color="dark"
-          icon={!this.isSubtitleActive ? "speech-bubble" : "banana"}
+          icon="speech-bubble"
           onClick={() => this.handleSubtitleToggle()}
-        />
+        >
+          {this.isSubtitleActive
+            ? `${this.currentSubtitleLang?.toUpperCase()}`
+            : null}
+        </calcite-button>
       </div>
     );
 
     const subtitleControlMultiple = (
       <div class="calcite-video-control-item subtitle-control-item">
         <calcite-dropdown alignment="end" width="s">
-          <div slot="dropdown-trigger">
-            <calcite-button
-              scale="s"
-              appearance="transparent"
-              color="dark"
-              icon={!this.isSubtitleActive ? "speech-bubbles" : "banana"}
-            />
-            {this.isSubtitleActive ? (
-              <calcite-chip
-                scale="s"
-                value={this.currentSubtitleLang?.toUpperCase()}
-              >
-                {this.currentSubtitleLang?.toUpperCase()}
-              </calcite-chip>
-            ) : null}
-          </div>
+          <calcite-button
+            slot="dropdown-trigger"
+            scale="s"
+            appearance="transparent"
+            color="dark"
+            icon="speech-bubbles"
+          >
+            {this.isSubtitleActive
+              ? `${this.currentSubtitleLang?.toUpperCase()}`
+              : null}
+          </calcite-button>
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item
               active={!this.isSubtitleActive}
@@ -276,25 +275,37 @@ export class CalciteVideo {
   }
 
   @Listen("mouseenter") mouseEnterListener() {
-    if (this.playOnHover && document.activeElement !== this.el)
+    if (
+      !this.isLoading &&
+      this.playOnHover &&
+      document.activeElement !== this.el
+    )
       this.playVideo();
   }
 
   @Listen("mouseleave") mouseLeaveListener() {
-    if (this.playOnHover && document.activeElement !== this.el)
+    if (
+      !this.isLoading &&
+      this.playOnHover &&
+      document.activeElement !== this.el
+    )
       this.pauseVideo();
   }
 
   @Listen("focus") focusInListener() {
-    if (this.playOnHover) this.playVideo();
+    if (!this.isLoading && this.playOnHover) this.playVideo();
   }
 
   @Listen("blur") focusOutListener() {
-    if (this.playOnHover) this.pauseVideo();
+    if (!this.isLoading && this.playOnHover) this.pauseVideo();
   }
 
   @Listen("keydown") keydownListener(e: KeyboardEvent): void {
-    if (!this.playOnHover && e.composedPath()[0] === this.el) {
+    if (
+      !this.isLoading &&
+      !this.playOnHover &&
+      e.composedPath()[0] === this.el
+    ) {
       const key = getKey(e.key);
       if (key === " " || key === "Enter") {
         e.preventDefault();
@@ -442,7 +453,7 @@ export class CalciteVideo {
           this.isSubtitleActive = true;
           if (this.currentSubtitleLang === item.language) item.mode = "showing";
         } else {
-          this.isSubtitleActive = !this.isSubtitleActive;
+          this.isSubtitleActive = false;
         }
       }
     }
