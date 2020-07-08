@@ -5,7 +5,7 @@ import { INLINE_SIZES, SIZES } from "./resources";
 @Component({
   tag: "calcite-loader",
   styleUrl: "calcite-loader.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteLoader {
   //--------------------------------------------------------------------------
@@ -41,20 +41,15 @@ export class CalciteLoader {
   //
   //--------------------------------------------------------------------------
   render() {
-    const {
-      el,
-      inline,
-      scale,
-      text,
-      type,
-      value
-    } = this;
+    const { el, inline, scale, text, type, value } = this;
 
     const radiusRatio = 0.45;
 
     const id = el.id || guid;
     const size = inline ? INLINE_SIZES[scale] : SIZES[scale];
-    const radius = inline ? 9 : SIZES[scale] * radiusRatio;
+    const radius = inline
+      ? INLINE_SIZES[scale] * radiusRatio
+      : SIZES[scale] * radiusRatio;
     const viewbox = `0 0 ${size} ${size}`;
     const isDeterminate = type === "determinate";
     const circumference = 2 * radius * Math.PI;
