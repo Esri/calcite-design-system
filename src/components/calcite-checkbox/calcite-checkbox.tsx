@@ -37,7 +37,7 @@ export class CalciteCheckbox {
   @Prop({ reflect: true, mutable: true }) name?: string = "";
 
   /** The value of the checkbox input */
-  @Prop({ reflect: true, mutable: true }) value?: string = "";
+  @Prop({ reflect: true, mutable: true }) value?: string;
 
   /** specify the scale of the checkbox, defaults to m */
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
@@ -168,6 +168,8 @@ export class CalciteCheckbox {
       ? this.inputProxy.setAttribute("checked", "")
       : this.inputProxy.removeAttribute("checked");
     this.inputProxy.name = this.name;
-    this.inputProxy.value = this.value;
+    if (this.value) {
+      this.inputProxy.value = this.value;
+    }
   };
 }
