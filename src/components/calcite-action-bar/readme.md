@@ -101,6 +101,7 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 
 - [calcite-action-group](../calcite-action-group)
 - [calcite-action](../calcite-action)
+- [calcite-tooltip-manager](../calcite-tooltip-manager)
 
 ### Graph
 
@@ -108,6 +109,9 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 graph TD;
   calcite-action-bar --> calcite-action-group
   calcite-action-bar --> calcite-action
+  calcite-action-bar --> calcite-tooltip-manager
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
   style calcite-action-bar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

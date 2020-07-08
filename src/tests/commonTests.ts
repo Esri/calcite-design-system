@@ -59,13 +59,14 @@ export async function accessible(
 
 export async function renders(
   componentTagOrHTML: TagOrHTML,
-  options?: SetUpPageOptions
+  options?: SetUpPageOptions,
+  invisible?: true
 ): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML, options);
   const element = await page.find(getTag(componentTagOrHTML));
 
-  expect(element).toHaveClass("hydrated");
-  expect(await element.isVisible()).toBe(true);
+  expect(element).toHaveAttribute("calcite-hydrated");
+  expect(await element.isVisible()).toBe(!invisible);
 }
 
 export async function reflects(

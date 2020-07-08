@@ -91,13 +91,19 @@ Renders a header with a clickable icon to toggle the block open and closed.
 
 ### Depends on
 
+- [calcite-scrim](../calcite-scrim)
 - [calcite-handle](../calcite-handle)
+- [calcite-loader](../calcite-loader)
 
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-block --> calcite-scrim
   calcite-block --> calcite-handle
+  calcite-block --> calcite-loader
+  calcite-scrim --> calcite-loader
+  calcite-handle --> calcite-icon
   style calcite-block fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -37,8 +36,6 @@
 </div>
 ```
 
-
-
 ## Properties
 
 | Property  | Attribute | Description                                                                                             | Type                | Default     |
@@ -46,25 +43,33 @@
 | `loading` | `loading` | Determines if the component will have the loader overlay. Otherwise, will render opaque disabled state. | `boolean`           | `false`     |
 | `theme`   | `theme`   | specify the theme of scrim, defaults to light                                                           | `"dark" \| "light"` | `undefined` |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-modal](../calcite-modal)
+- [calcite-block](../calcite-block)
+- [calcite-modal](../calcite-modal)
+- [calcite-panel](../calcite-panel)
+- [calcite-pick-list](../calcite-pick-list)
+- [calcite-value-list](../calcite-value-list)
 
 ### Depends on
 
 - [calcite-loader](../calcite-loader)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-scrim --> calcite-loader
+  calcite-block --> calcite-scrim
   calcite-modal --> calcite-scrim
+  calcite-panel --> calcite-scrim
+  calcite-pick-list --> calcite-scrim
+  calcite-value-list --> calcite-scrim
   style calcite-scrim fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

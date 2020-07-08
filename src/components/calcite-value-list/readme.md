@@ -114,11 +114,11 @@ Renders a value list with label editing and single select.
 
 ## Methods
 
-### `getSelectedItems() => Promise<Map<string, object>>`
+### `getSelectedItems() => Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
 #### Returns
 
-Type: `Promise<Map<string, object>>`
+Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
 ### `setFocus() => Promise<void>`
 
@@ -138,12 +138,16 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-filter](../calcite-filter)
+- [calcite-scrim](../calcite-scrim)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-value-list --> calcite-filter
+  calcite-value-list --> calcite-scrim
+  calcite-filter --> calcite-icon
+  calcite-scrim --> calcite-loader
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

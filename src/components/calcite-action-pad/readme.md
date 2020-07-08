@@ -81,6 +81,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 - [calcite-action-group](../calcite-action-group)
 - [calcite-action](../calcite-action)
+- [calcite-tooltip-manager](../calcite-tooltip-manager)
 
 ### Graph
 
@@ -88,6 +89,9 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 graph TD;
   calcite-action-pad --> calcite-action-group
   calcite-action-pad --> calcite-action
+  calcite-action-pad --> calcite-tooltip-manager
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
   style calcite-action-pad fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

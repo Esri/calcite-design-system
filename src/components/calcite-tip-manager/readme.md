@@ -105,6 +105,8 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-tip-manager --> calcite-action
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
   style calcite-tip-manager fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

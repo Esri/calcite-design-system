@@ -24,10 +24,15 @@
 - [calcite-pick-list](../calcite-pick-list)
 - [calcite-value-list](../calcite-value-list)
 
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-filter --> calcite-icon
   calcite-pick-list --> calcite-filter
   calcite-value-list --> calcite-filter
   style calcite-filter fill:#f9f,stroke:#333,stroke-width:4px

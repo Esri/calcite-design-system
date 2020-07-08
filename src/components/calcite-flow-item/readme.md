@@ -42,6 +42,7 @@ A `calcite-flow-item` is a child element of `calcite-flow` and lives in a panel 
 ### Depends on
 
 - [calcite-action](../calcite-action)
+- [calcite-popover](../calcite-popover)
 - [calcite-panel](../calcite-panel)
 
 ### Graph
@@ -49,8 +50,14 @@ A `calcite-flow-item` is a child element of `calcite-flow` and lives in a panel 
 ```mermaid
 graph TD;
   calcite-flow-item --> calcite-action
+  calcite-flow-item --> calcite-popover
   calcite-flow-item --> calcite-panel
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
+  calcite-popover --> calcite-icon
   calcite-panel --> calcite-action
+  calcite-panel --> calcite-scrim
+  calcite-scrim --> calcite-loader
   style calcite-flow-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

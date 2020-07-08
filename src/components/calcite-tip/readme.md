@@ -61,6 +61,8 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 ```mermaid
 graph TD;
   calcite-tip --> calcite-action
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
   style calcite-tip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

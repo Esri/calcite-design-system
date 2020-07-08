@@ -18,11 +18,6 @@ describe("calcite-sortable-list", () => {
         <div id="two"><calcite-handle></calcite-handle>2</div>
         <div id="three"><calcite-handle></calcite-handle>3</div>
       </calcite-sortable-list>`);
-      await page.addScriptTag({
-        url:
-          "https://unpkg.com/@esri/calcite-components@1.0.0-beta.16/dist/calcite/calcite.esm.js",
-        type: "module",
-      });
     });
     it.skip("works using a mouse", async () => {
       // TODO: remove skip once https://github.com/GoogleChrome/puppeteer/issues/1376 addressed

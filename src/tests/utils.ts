@@ -12,11 +12,6 @@ export async function setUpPage(
   await page.setContent(content);
 
   if (options?.withPeerDependencies) {
-    await page.addScriptTag({
-      url: "vendor/@esri/calcite-components/calcite.esm.js",
-      type: "module",
-    });
-
     await page.waitForChanges();
     await page.waitFor(1000);
   }

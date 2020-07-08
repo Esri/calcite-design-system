@@ -57,6 +57,22 @@ Renders a `calcite-fab` that is loading and disabled.
 
 Type: `Promise<void>`
 
+## Dependencies
+
+### Depends on
+
+- [calcite-button](../calcite-button)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-fab --> calcite-button
+  calcite-button --> calcite-loader
+  calcite-button --> calcite-icon
+  style calcite-fab fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

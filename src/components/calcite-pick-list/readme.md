@@ -135,11 +135,11 @@ Renders groups of pick list items that are visually separated.
 
 ## Methods
 
-### `getSelectedItems() => Promise<Map<string, object>>`
+### `getSelectedItems() => Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
 #### Returns
 
-Type: `Promise<Map<string, object>>`
+Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
 ### `setFocus() => Promise<void>`
 
@@ -159,12 +159,16 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-filter](../calcite-filter)
+- [calcite-scrim](../calcite-scrim)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-pick-list --> calcite-filter
+  calcite-pick-list --> calcite-scrim
+  calcite-filter --> calcite-icon
+  calcite-scrim --> calcite-loader
   style calcite-pick-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

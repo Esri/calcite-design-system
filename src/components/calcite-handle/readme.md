@@ -28,10 +28,15 @@ Type: `Promise<void>`
 
 - [calcite-block](../calcite-block)
 
+### Depends on
+
+- [calcite-icon](../calcite-icon)
+
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-handle --> calcite-icon
   calcite-block --> calcite-handle
   style calcite-handle fill:#f9f,stroke:#333,stroke-width:4px
 ```

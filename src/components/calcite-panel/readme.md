@@ -116,12 +116,17 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-action](../calcite-action)
+- [calcite-scrim](../calcite-scrim)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-panel --> calcite-action
+  calcite-panel --> calcite-scrim
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
+  calcite-scrim --> calcite-loader
   calcite-flow-item --> calcite-panel
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
