@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- `calcite-popover` `textClose` has been changed to `intlClose`.
+
 ### Breaking Changes
 
 - `calcite-label` - `calciteLabelSelectedEvent` event has been renamed to `calciteLabelFocus`
