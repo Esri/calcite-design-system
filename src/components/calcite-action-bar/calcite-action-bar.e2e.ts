@@ -49,12 +49,7 @@ describe("calcite-action-bar", () => {
     });
 
     it("should toggle expanded", async () => {
-      const page = await setUpPage(
-        "<calcite-action-bar></calcite-action-bar>",
-        {
-          withPeerDependencies: true,
-        }
-      );
+      const page = await setUpPage("<calcite-action-bar></calcite-action-bar>");
 
       const bar = await page.find("calcite-action-bar");
 

@@ -35,8 +35,7 @@ describe("calcite-block", () => {
         <calcite-block heading="heading" summary="summary" open collapsible>
           <div class="content">content</div>
         </calcite-block>
-    `,
-      { withPeerDependencies: true }
+    `
     );
 
     const content = await page.find(".content");
@@ -73,8 +72,7 @@ describe("calcite-block", () => {
         <calcite-block heading="heading" summary="summary" open collapsible>
           <div class="content">content</div>
         </calcite-block>
-    `,
-      { withPeerDependencies: true }
+    `
     );
 
     expect(await page.find("calcite-block >>> calcite-scrim")).toBeNull();
@@ -122,12 +120,7 @@ describe("calcite-block", () => {
   });
 
   it("allows toggling its content", async () => {
-    const page = await setUpPage(
-      "<calcite-block collapsible></calcite-block>",
-      {
-        withPeerDependencies: true,
-      }
-    );
+    const page = await setUpPage("<calcite-block collapsible></calcite-block>");
 
     const element = await page.find("calcite-block");
     const toggleSpy = await element.spyOnEvent("calciteBlockToggle");

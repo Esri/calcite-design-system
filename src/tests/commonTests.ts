@@ -2,7 +2,7 @@ import { E2EPage } from "@stencil/core/testing";
 import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
-import { SetUpPageOptions, setUpPage } from "./utils";
+import { setUpPage } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -29,23 +29,18 @@ function getTag(tagOrHTML: string): CalciteComponentTag {
 }
 
 async function simplePageSetup(
-  componentTagOrHTML: TagOrHTML,
-  options?: SetUpPageOptions
+  componentTagOrHTML: TagOrHTML
 ): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
   return setUpPage(
     isHTML(componentTagOrHTML)
       ? componentTagOrHTML
-      : `<${componentTag}><${componentTag}/>`,
-    options
+      : `<${componentTag}><${componentTag}/>`
   );
 }
 
-export async function accessible(
-  componentTagOrHTML: TagOrHTML,
-  options?: SetUpPageOptions
-): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML, options);
+export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHTML);
   await page.addScriptTag({ path: require.resolve("axe-core") });
 
   expect(
@@ -59,14 +54,13 @@ export async function accessible(
 
 export async function renders(
   componentTagOrHTML: TagOrHTML,
-  options?: SetUpPageOptions,
-  invisible?: true
+  visible = true
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML, options);
+  const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
   expect(element).toHaveAttribute("calcite-hydrated");
-  expect(await element.isVisible()).toBe(!invisible);
+  expect(await element.isVisible()).toBe(visible);
 }
 
 export async function reflects(
@@ -74,10 +68,9 @@ export async function reflects(
   propsToTest: {
     propertyName: string;
     value: any;
-  }[],
-  options?: SetUpPageOptions
+  }[]
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML, options);
+  const page = await simplePageSetup(componentTagOrHTML);
   const componentTag = getTag(componentTagOrHTML);
   const element = await page.find(componentTag);
 
@@ -115,24 +108,20 @@ export async function defaults(
   propsToTest: {
     propertyName: string;
     defaultValue: any;
-  }[],
-  options?: SetUpPageOptions
+  }[]
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML, options);
+  const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
   for (const propAndValue of propsToTest) {
     const { propertyName, defaultValue } = propAndValue;
     const prop = await element.getProperty(propertyName);
-    expect(prop).toBe(defaultValue);
+    expect(prop).toEqual(defaultValue);
   }
 }
 
-export async function hidden(
-  componentTagOrHTML: TagOrHTML,
-  options?: SetUpPageOptions
-): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML, options);
+export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
   element.setAttribute("hidden", "");

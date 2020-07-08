@@ -50,12 +50,7 @@ describe("calcite-action-pad", () => {
     });
 
     it("should toggle expanded", async () => {
-      const page = await setUpPage(
-        "<calcite-action-pad></calcite-action-pad>",
-        {
-          withPeerDependencies: true,
-        }
-      );
+      const page = await setUpPage("<calcite-action-pad></calcite-action-pad>");
 
       const pad = await page.find("calcite-action-pad");
 

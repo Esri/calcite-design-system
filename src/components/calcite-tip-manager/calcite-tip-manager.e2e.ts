@@ -45,10 +45,7 @@ describe("calcite-tip-manager", () => {
   describe("close button", () => {
     it("should be hidden after the close button is clicked", async () => {
       const page = await setUpPage(
-        `<calcite-tip-manager><calcite-tip><p>Close behavior</p></calcite-tip></calcite-tip-manager>`,
-        {
-          withPeerDependencies: true,
-        }
+        `<calcite-tip-manager><calcite-tip><p>Close behavior</p></calcite-tip></calcite-tip-manager>`
       );
 
       const tipManager = await page.find("calcite-tip-manager");
@@ -88,10 +85,7 @@ describe("calcite-tip-manager", () => {
         `<calcite-tip-manager>
       <calcite-tip id="one"><p>first tip default selected</p></calcite-tip>
       <calcite-tip id="two"><p>next/prev behavior</p></calcite-tip>
-    </calcite-tip-manager>`,
-        {
-          withPeerDependencies: true,
-        }
+    </calcite-tip-manager>`
       );
 
       await page.waitForChanges();
@@ -156,10 +150,7 @@ describe("calcite-tip-manager", () => {
         <calcite-tip ><p>different title</p></calcite-tip>
       </calcite-tip-group>
       <calcite-tip><p>default title</p></calcite-tip>
-    </calcite-tip-manager>`,
-        {
-          withPeerDependencies: true,
-        }
+    </calcite-tip-manager>`
       );
 
       await page.waitForChanges();
@@ -208,10 +199,7 @@ describe("calcite-tip-manager", () => {
       const page = await setUpPage(
         `<calcite-tip-manager>
       <calcite-tip><p>dynamically adding/removing tips</p></calcite-tip>
-    </calcite-tip-manager>`,
-        {
-          withPeerDependencies: true,
-        }
+    </calcite-tip-manager>`
       );
 
       const tipManager = await page.find("calcite-tip-manager");

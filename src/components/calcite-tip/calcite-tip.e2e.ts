@@ -26,10 +26,7 @@ describe("calcite-tip", () => {
 
   it("should be hidden after the close button is clicked", async () => {
     const page = await setUpPage(
-      `<calcite-tip><p>testing close button</p></calcite-tip>`,
-      {
-        withPeerDependencies: true,
-      }
+      `<calcite-tip><p>testing close button</p></calcite-tip>`
     );
 
     const eventSpy = await page.spyOnEvent("calciteTipDismiss", "window");

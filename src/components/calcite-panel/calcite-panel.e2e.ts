@@ -29,10 +29,7 @@ describe("calcite-panel", () => {
 
   it("dismissible should fire event when closed", async () => {
     const page = await setUpPage(
-      "<calcite-panel dismissible>test</calcite-panel>",
-      {
-        withPeerDependencies: true,
-      }
+      "<calcite-panel dismissible>test</calcite-panel>"
     );
 
     const eventSpy = await page.spyOnEvent(
@@ -60,10 +57,7 @@ describe("calcite-panel", () => {
 
   it("should focus on close button", async () => {
     const page = await setUpPage(
-      "<calcite-panel dismissible>test</calcite-panel>",
-      {
-        withPeerDependencies: true,
-      }
+      "<calcite-panel dismissible>test</calcite-panel>"
     );
 
     const tagName = await page.evaluate(async () => {
@@ -78,10 +72,7 @@ describe("calcite-panel", () => {
 
   it("should focus on container", async () => {
     const page = await setUpPage(
-      "<calcite-panel dismissible>test</calcite-panel>",
-      {
-        withPeerDependencies: true,
-      }
+      "<calcite-panel dismissible>test</calcite-panel>"
     );
 
     const tagName = await page.evaluate(async () => {

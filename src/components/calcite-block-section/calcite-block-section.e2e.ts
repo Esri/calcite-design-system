@@ -38,43 +38,32 @@ describe("calcite-block-section", () => {
     describe("accessibility", () => {
       it("when open", async () =>
         accessible(
-          `<calcite-block-section text="text" toggle-display="switch" open><div>some content</div></calcite-block-section>`,
-          { withPeerDependencies: true }
+          `<calcite-block-section text="text" toggle-display="switch" open><div>some content</div></calcite-block-section>`
         ));
 
       it("when closed", async () =>
         accessible(
-          `<calcite-block-section text="text" toggle-display="switch"><div>some content</div></calcite-block-section>`,
-          { withPeerDependencies: true }
+          `<calcite-block-section text="text" toggle-display="switch"><div>some content</div></calcite-block-section>`
         ));
     });
 
     it("can display/hide content", async () => {
       const page = await setUpPage(
-        `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`,
-        {
-          withPeerDependencies: true,
-        }
+        `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`
       );
       await assertContentIsDisplayedAndHidden(page);
     });
 
     it("can be toggled", async () => {
       const page = await setUpPage(
-        `<calcite-block-section toggle-display="switch"></calcite-block-section>`,
-        {
-          withPeerDependencies: true,
-        }
+        `<calcite-block-section toggle-display="switch"></calcite-block-section>`
       );
       await assertToggleBehavior(page);
     });
 
     it("renders section text", async () => {
       const page = await setUpPage(
-        `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`,
-        {
-          withPeerDependencies: true,
-        }
+        `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`
       );
       const element = await page.find(
         `calcite-block-section >>> .${CSS.toggle}`
@@ -105,10 +94,7 @@ describe("calcite-block-section", () => {
 
     it("can be toggled", async () => {
       const page = await setUpPage(
-        "<calcite-block-section></calcite-block-section>",
-        {
-          withPeerDependencies: true,
-        }
+        "<calcite-block-section></calcite-block-section>"
       );
       await assertToggleBehavior(page);
     });
