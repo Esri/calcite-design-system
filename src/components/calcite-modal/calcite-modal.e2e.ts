@@ -15,6 +15,16 @@ describe("calcite-modal properties", () => {
     expect(button).toEqualAttribute("aria-label", "test");
   });
 
+  it("should hide closeButton when disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-modal></calcite-modal>");
+    const modal = await page.find("calcite-modal");
+    modal.setProperty("disableCloseButton", true);
+    await page.waitForChanges();
+    const closeButton = await page.find("calcite-modal >>> .modal__close");
+    expect(closeButton).toBe(null);
+  });
+
   it("focuses the firstFocus element on load", async () => {
     const page = await newE2EPage();
     await page.setContent(`
