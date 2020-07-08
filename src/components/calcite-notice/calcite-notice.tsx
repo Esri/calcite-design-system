@@ -131,10 +131,10 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** Fired when an notice is closed */
-  @Event() calciteNoticeClose: EventEmitter<HTMLCalciteNoticeElement>;
+  @Event() calciteNoticeClose: EventEmitter;
 
   /** Fired when an Notice is opened */
-  @Event() calciteNoticeOpen: EventEmitter<HTMLCalciteNoticeElement>;
+  @Event() calciteNoticeOpen: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -145,13 +145,13 @@ export class CalciteNotice {
   /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
   @Method() async close() {
     this.active = false;
-    this.calciteNoticeClose.emit(this.el);
+    this.calciteNoticeClose.emit();
   }
 
   /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
   @Method() async open() {
     this.active = true;
-    this.calciteNoticeOpen.emit(this.el);
+    this.calciteNoticeOpen.emit();
   }
 
   /** focus the close button, if present and requested */
