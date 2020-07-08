@@ -18,7 +18,7 @@ describe("calcite-button", () => {
       "calcite-button >>> .calcite-button--loader"
     );
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
@@ -46,7 +46,7 @@ describe("calcite-button", () => {
       "calcite-button >>> .calcite-button--loader"
     );
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
@@ -76,7 +76,7 @@ describe("calcite-button", () => {
       "calcite-button >>> .calcite-button--loader"
     );
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("appearance", "outline");
     expect(element).toEqualAttribute("scale", "l");
@@ -106,7 +106,7 @@ describe("calcite-button", () => {
       "calcite-button >>> .calcite-button--loader"
     );
 
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(element).toEqualAttribute("color", "red");
     expect(element).toEqualAttribute("appearance", "outline");
     expect(element).toEqualAttribute("scale", "l");
@@ -135,7 +135,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsButton).toBeNull();
     expect(elementAsLink).toHaveClass("mycustomclass");
@@ -164,7 +164,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(elementAsButton).toHaveClass("mycustomclass");
@@ -192,7 +192,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
@@ -271,7 +271,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();
@@ -346,7 +346,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();

@@ -5,7 +5,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-modal></calcite-modal>");
     const element = await page.find("calcite-modal");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
   });
 
   it("adds closeLabel property to close button", async () => {
@@ -96,9 +96,9 @@ describe("calcite-modal accessibility checks", () => {
     let $button1;
     let $button2;
     let $close;
-    await page.$eval(".btn-1", elm => ($button1 = elm));
-    await page.$eval(".btn-2", elm => ($button2 = elm));
-    await page.$eval("calcite-modal", elm => {
+    await page.$eval(".btn-1", (elm) => ($button1 = elm));
+    await page.$eval(".btn-2", (elm) => ($button2 = elm));
+    await page.$eval("calcite-modal", (elm) => {
       $close = elm.shadowRoot.querySelector(".modal__close");
     });
     await modal.callMethod("open");
