@@ -39,7 +39,7 @@ $segment-3-duration: 1.16s;
   margin-right: auto;
   min-height: var(--loader-size);
   stroke: var(--calcite-ui-blue-1);
-  stroke-width: $loader-stroke;
+  stroke-width: var(--stroke-width);
   fill: none;
   opacity: 1;
   transform: scale(1, 1);
@@ -48,12 +48,18 @@ $segment-3-duration: 1.16s;
 
 :host([scale="s"]) {
   --loader-size: #{ $loader-size-small + 1 }px;
+  --stroke-width: 2px;
+  --stroke-width-inline: 1px;
 }
 :host([scale="m"]) {
   --loader-size: #{ $loader-size-medium + 1 }px;
+  --stroke-width: 3px;
+  --stroke-width-inline: 1px;
 }
 :host([scale="l"]) {
   --loader-size: #{ $loader-size-large + 1 }px;
+  --stroke-width: 4px;
+  --stroke-width-inline: 2px;
 }
 
 :host([no-padding]) {
@@ -134,7 +140,7 @@ $segment-3-duration: 1.16s;
 
 :host([inline]) {
   stroke: currentColor;
-  stroke-width: $loader-stroke-inline;
+  stroke-width: var(--stroke-width-inline);
   animation: none;
   margin: 0;
   padding-bottom: 0;
