@@ -40,6 +40,7 @@
     "url": "git+https://github.com/Esri/calcite-components.git"
   },
   "dependencies": {
+    "sortablejs": "1.10.2",
     "@esri/calcite-colors": "2.1.0",
     "@a11y/focus-trap": "git+https://github.com/patrickarlt/focus-trap.git#conditional-define-build",
     "@popperjs/core": "~2.3.3"
@@ -62,6 +63,7 @@
     "@types/jest": "24.0.21",
     "@types/jest-axe": "^3.2.1",
     "@types/puppeteer": "1.20.2",
+    "@types/sortablejs": "1.10.4",
     "axe-core": "~3.5.2",
     "babel-loader": "~8.1.0",
     "cpy-cli": "^3.1.0",

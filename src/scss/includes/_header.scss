@@ -1,0 +1,36 @@
+.header {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--calcite-app-foreground);
+  fill: var(--calcite-app-foreground);
+}
+
+.heading {
+  padding: 0;
+  margin: 0;
+  font-weight: var(--calcite-app-font-weight);
+}
+
+.header .heading {
+  flex: 1 0 auto;
+  padding: var(--calcite-app-cap-spacing-half)
+    var(--calcite-app-side-spacing-half);
+}
+
+h1.heading {
+  font-size: var(--calcite-app-font-size-3);
+}
+
+h2.heading {
+  font-size: var(--calcite-app-font-size-2);
+}
+
+h3.heading {
+  font-size: var(--calcite-app-font-size-1);
+}
+h4.heading,
+h5.heading {
+  font-size: var(--calcite-app-font-size-0);
+}

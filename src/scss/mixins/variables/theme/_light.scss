@@ -1,0 +1,25 @@
+@mixin componentLightThemeVars() {
+  /* Component "light" theme variables */
+  --calcite-app-background: #{$blk-000};
+  --calcite-app-foreground: #{$blk-180};
+
+  --calcite-app-background-hover: #{$blk-020};
+  --calcite-app-foreground-hover: #{$blk-200};
+
+  --calcite-app-background-active: #{$h-bb-010};
+  --calcite-app-foreground-active: #{$h-bb-070};
+
+  --calcite-app-foreground-subtle: #{$blk-130};
+  --calcite-app-foreground-link: #{$h-bb-060};
+
+  --calcite-app-background-content: #{$blk-010};
+  --calcite-app-background-clear: transparent;
+
+  --calcite-app-border: #{$blk-020};
+  --calcite-app-border-hover: #{$blk-030};
+  --calcite-app-border-subtle: #{$blk-010};
+  --calcite-app-border-active: #{$h-bb-070};
+
+  --calcite-app-disabled-opacity: 0.25;
+  --calcite-app-scrim: #{rgba($blk-000, 0.8)};
+}
