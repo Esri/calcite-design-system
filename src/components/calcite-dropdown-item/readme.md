@@ -29,6 +29,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+- [calcite-video](../calcite-video)
+
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
@@ -38,6 +42,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-dropdown-item --> calcite-icon
+  calcite-video --> calcite-dropdown-item
   style calcite-dropdown-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -15,7 +15,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-video",
   styleUrl: "calcite-video.scss",
-  shadow: true,
+  shadow: false,
 })
 export class CalciteVideo {
   //--------------------------------------------------------------------------
@@ -29,9 +29,6 @@ export class CalciteVideo {
 
   /** specify the scale of the video player, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** the src of the media  */
-  @Prop({ reflect: true }) src?: string;
 
   /** preload type */
   @Prop({ reflect: true }) preload: "auto" | "none" | "preload" = "auto";
@@ -144,6 +141,52 @@ export class CalciteVideo {
       </div>
     );
 
+    const subtitleControlSingle = (
+      <div class="calcite-video-control-item subtitle-control-item">
+        <calcite-button
+          scale="s"
+          appearance="transparent"
+          color="dark"
+          icon={!this.isSubtitleActive ? "speech-bubble" : "banana"}
+          onClick={() => this.handleSubtitleToggle()}
+        />
+      </div>
+    );
+
+    const subtitleControlMultiple = (
+      <div class="calcite-video-control-item subtitle-control-item">
+        <calcite-dropdown alignment="end" width="s">
+          <div slot="dropdown-trigger">
+            <calcite-button
+              scale="s"
+              appearance="transparent"
+              color="dark"
+              icon={!this.isSubtitleActive ? "speech-bubbles" : "banana"}
+            />
+            {this.isSubtitleActive ? (
+              <calcite-chip
+                scale="s"
+                value={this.currentSubtitleLang?.toUpperCase()}
+              >
+                {this.currentSubtitleLang?.toUpperCase()}
+              </calcite-chip>
+            ) : null}
+          </div>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item
+              active={!this.isSubtitleActive}
+              onCalciteDropdownItemSelect={(e) =>
+                this.handleSubtitleSelection(e)
+              }
+            >
+              Off
+            </calcite-dropdown-item>
+            {this.availableSubtitleDropdownOptions}
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+    );
+
     const progress = !this.disableScrubbing ? (
       <div class="calcite-video-scrubber-wrapper">
         <calcite-slider
@@ -180,7 +223,6 @@ export class CalciteVideo {
           }`}
         >
           <video
-            src={this.src}
             loop={this.loop}
             autoplay={this.autoplay}
             preload={this.preload}
@@ -195,7 +237,9 @@ export class CalciteVideo {
             onLoadedMetaData={() => this.getVideoInfo()}
             onLoadStart={() => this.videoLoadStart()}
             onCanPlay={() => this.videoLoadFinish()}
-          />
+          >
+            <slot />
+          </video>
         </div>
         {!this.disableControls && !this.disableProgress ? (
           <div class="calcite-video-footer">
@@ -205,6 +249,11 @@ export class CalciteVideo {
                 {playControl}
                 {this.hasAudio ? volumeControl : null}
                 {!this.disableTimestamp ? time : null}
+                {this.hasSubtitle && this.availableSubtitles?.length > 1
+                  ? subtitleControlMultiple
+                  : this.hasSubtitle
+                  ? subtitleControlSingle
+                  : null}
                 {!this.disableFullscreen ? fullscreenControl : null}
               </div>
             ) : null}
@@ -294,6 +343,21 @@ export class CalciteVideo {
   // todo determine if there is an audio track, if not, hide volume control
   @State() hasAudio?: boolean = true;
 
+  /** does the video have availble subtitle */
+  @State() hasSubtitle?: boolean = true;
+
+  /** is a subtitle currently active */
+  @State() isSubtitleActive?: boolean = false;
+
+  /** the videos available subtitles */
+  @State() availableSubtitles?: TextTrackList;
+
+  /** the language of the current subtitle */
+  @State() currentSubtitleLang?: String;
+
+  @State()
+  availableSubtitleDropdownOptions: HTMLCalciteDropdownItemElement[] = [];
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -311,8 +375,77 @@ export class CalciteVideo {
 
   getVideoInfo = () => {
     this.videoDuration = this.videoEl?.duration;
-    // check if has audio to display volume
-    // if no audio, dont show volume controls
+    this.availableSubtitles = this.videoEl?.textTracks;
+    this.hasSubtitle = this.availableSubtitles?.length > 0;
+    this.initializeSubtitles();
+  };
+
+  initializeSubtitles = () => {
+    // get the default track language and disable until requested
+    let subtitles = Object.values(this.availableSubtitles);
+    for (let item of subtitles) {
+      if (item.mode === "showing") this.currentSubtitleLang = item.language;
+      item.mode = "hidden";
+    }
+    this.getSubtitleDropdownOptions();
+  };
+
+  getSubtitleDropdownOptions = () => {
+    // create the list of abailable subtitles for the dropdown
+    if (this.availableSubtitles) {
+      let items = [];
+      Object.values(this.availableSubtitles).map((item) => {
+        let node = (
+          <calcite-dropdown-item
+            active={
+              this.isSubtitleActive &&
+              this.currentSubtitleLang === item.language
+            }
+            onCalciteDropdownItemSelect={(e) => this.handleSubtitleSelection(e)}
+            data-language={item.language}
+          >
+            {item.language.toUpperCase()}
+          </calcite-dropdown-item>
+        );
+        items.push(node);
+      });
+      this.availableSubtitleDropdownOptions = [...Array.from(new Set(items))];
+    }
+  };
+
+  handleSubtitleToggle = () => {
+    // if one language, toggle and don't show a menu
+    if (this.availableSubtitles) {
+      for (let item of Object.values(this.availableSubtitles)) {
+        if (item.language === this.currentSubtitleLang) {
+          if (item.mode === "hidden") {
+            item.mode = "showing";
+            this.isSubtitleActive = true;
+          } else if (item.mode === "showing") {
+            item.mode = "hidden";
+            this.isSubtitleActive = false;
+          }
+        }
+      }
+    } else return;
+  };
+
+  handleSubtitleSelection = (e) => {
+    // if more than one language, show a menu and toggle on selection
+    // if user selects "off" - disable all
+    let requestedLang = e.target.dataset.language;
+    if (this.availableSubtitles) {
+      for (let item of Object.values(this.availableSubtitles)) {
+        item.mode = "hidden";
+        if (requestedLang) {
+          this.currentSubtitleLang = requestedLang;
+          this.isSubtitleActive = true;
+          if (this.currentSubtitleLang === item.language) item.mode = "showing";
+        } else {
+          this.isSubtitleActive = !this.isSubtitleActive;
+        }
+      }
+    }
   };
 
   toggleVideo = () => {

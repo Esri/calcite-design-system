@@ -72,12 +72,14 @@ You can choose to leave the dropdown open when an item is selected with the `dis
 ### Used by
 
 - [calcite-split-button](../calcite-split-button)
+- [calcite-video](../calcite-video)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-split-button --> calcite-dropdown
+  calcite-video --> calcite-dropdown
   style calcite-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

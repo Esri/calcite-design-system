@@ -16,6 +16,20 @@
 | `calciteDropdownGroupRegister` |             | `CustomEvent<GroupRegistration>` |
 | `calciteDropdownItemChange`    |             | `CustomEvent<any>`               |
 
+## Dependencies
+
+### Used by
+
+- [calcite-video](../calcite-video)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-video --> calcite-dropdown-group
+  style calcite-dropdown-group fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_
