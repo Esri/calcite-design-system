@@ -1,0 +1,249 @@
+:host {
+  @extend %component-host;
+  display: flex;
+  background-color: var(--calcite-app-background-clear);
+}
+
+:host([disabled]) {
+  pointer-events: none;
+}
+
+@import "../../scss/includes/_component";
+
+.button {
+  font-family: var(--calcite-app-font-family);
+  display: flex;
+  color: var(--calcite-app-foreground);
+  fill: var(--calcite-app-foreground);
+  background-color: var(--calcite-app-background);
+  outline-offset: var(--calcite-app-outline-inset);
+  margin: 0;
+  justify-content: flex-start;
+  align-items: center;
+  border: none;
+  width: auto;
+  cursor: pointer;
+  font-size: var(--calcite-app-font-size--1);
+  line-height: normal;
+  transition: color 125ms ease-in-out, fill 125ms ease-in-out,
+    background-color 125ms ease-in-out;
+  text-align: unset;
+  position: relative;
+  @include focus-style-base();
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-app-background-hover);
+    color: var(--calcite-app-foreground-hover);
+    fill: var(--calcite-app-foreground-hover);
+  }
+
+  &:focus {
+    @include focus-style-inset();
+  }
+
+  .icon-container {
+    min-width: var(--calcite-app-icon-size);
+    min-height: var(--calcite-app-icon-size);
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    pointer-events: none;
+  }
+
+  .text-container {
+    line-height: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    opacity: 0;
+    width: 0;
+    transition: opacity var(--calcite-app-animation-time)
+        var(--calcite-app-easing-function),
+      margin var(--calcite-app-animation-time-fast)
+        var(--calcite-app-easing-function),
+      width var(--calcite-app-animation-time-fast)
+        var(--calcite-app-easing-function);
+  }
+
+  .text-container--visible {
+    flex: 1 1 auto;
+    opacity: 1;
+    width: auto;
+  }
+}
+
+:host([scale="s"]) .button {
+  padding: var(--calcite-app-cap-spacing-half)
+    var(--calcite-app-side-spacing-half);
+}
+
+:host([scale="m"]) .button {
+  padding: var(--calcite-app-cap-spacing) var(--calcite-app-side-spacing);
+}
+
+:host([scale="l"]) .button {
+  padding: var(--calcite-app-cap-spacing-plus-half)
+    var(--calcite-app-side-spacing-plus-half);
+}
+
+// Compact
+:host([scale="s"][compact]) .button,
+:host([scale="m"][compact]) .button,
+:host([scale="l"][compact]) .button {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.slot-container {
+  display: flex;
+}
+
+.slot-container--hidden {
+  display: none;
+}
+
+.button--text-visible {
+  width: 100%;
+
+  .icon-container {
+    margin: 0 var(--calcite-app-side-spacing-half) 0 0;
+  }
+  .text-container--visible {
+    margin: 0 var(--calcite-app-side-spacing-half) 0 0;
+  }
+}
+
+.button--text-visible.calcite--rtl {
+  .icon-container {
+    margin: 0 0 0 var(--calcite-app-side-spacing-half);
+  }
+  .text-container--visible {
+    margin: 0 0 0 var(--calcite-app-side-spacing-half);
+  }
+}
+
+:host([active]) .button,
+:host([active]) .button:hover,
+:host([active]) .button:focus,
+:host([active][loading]) .button {
+  color: var(--calcite-app-foreground-active);
+  fill: var(--calcite-app-foreground-active);
+  background-color: var(--calcite-app-background-active);
+}
+
+:host([appearance="clear"]) .button {
+  background-color: var(--calcite-app-background-clear);
+  transition: box-shadow var(--calcite-app-animation-time-fast)
+    var(--calcite-app-easing-function);
+}
+
+:host([appearance="clear"]) .button:hover,
+:host([appearance="clear"]) .button:focus {
+  background-color: var(--calcite-app-background-clear);
+  @include borderShadowHover();
+}
+
+:host([active][appearance="clear"]) .button,
+:host([active][appearance="clear"]) .button:hover,
+:host([active][appearance="clear"]) .button:focus {
+  color: var(--calcite-app-foreground-active);
+  fill: var(--calcite-app-foreground-active);
+  background-color: var(--calcite-app-background-active);
+  box-shadow: none;
+}
+
+:host([appearance="clear"][loading]) .button,
+:host([appearance="clear"][disabled]) .button {
+  background-color: var(--calcite-app-background-clear);
+}
+
+:host([loading]) .button,
+:host([loading]) .button:hover,
+:host([loading]) .button:focus {
+  background-color: var(--calcite-app-background);
+}
+
+:host([loading]) calcite-loader[inline] {
+  color: var(--calcite-app-foreground-subtle);
+  margin-right: 0;
+}
+
+:host([disabled]) .button,
+:host([disabled]) .button:hover,
+:host([disabled]) .button:focus {
+  cursor: default;
+  opacity: var(--calcite-app-disabled-opacity);
+  background-color: var(--calcite-app-background);
+}
+
+:host([disabled][active]) .button,
+:host([disabled][active]) .button:hover,
+:host([disabled][active]) .button:focus {
+  opacity: var(--calcite-app-disabled-opacity);
+  background-color: var(--calcite-app-background-active);
+}
+
+:host([indicator]) .button--text-visible,
+:host([indicator][scale="s"]) .button--text-visible,
+:host([indicator][scale="l"]) .button--text-visible {
+  padding-right: var(--calcite-app-side-spacing);
+}
+
+:host([indicator]) .button::after {
+  content: "";
+  border-radius: 50%;
+  width: var(--calcite-app-side-spacing-half);
+  height: var(--calcite-app-side-spacing-half);
+  border: var(--calcite-app-side-spacing-eighth) solid
+    var(--calcite-app-background);
+  background-color: var(--calcite-app-foreground-active);
+  position: absolute;
+  bottom: var(--calcite-app-cap-spacing-half);
+  right: var(--calcite-app-side-spacing-half);
+  z-index: 1;
+}
+
+:host([indicator][scale="s"]) .button::after {
+  bottom: var(--calcite-app-cap-spacing-quarter);
+  right: var(--calcite-app-side-spacing-quarter);
+}
+
+:host([indicator][scale="l"]) .button::after {
+  bottom: var(--calcite-app-cap-spacing-half);
+  right: var(--calcite-app-side-spacing-half);
+}
+
+:host([indicator]) .calcite--rtl::after {
+  right: unset;
+  left: var(--calcite-app-side-spacing-quarter);
+}
+
+:host([indicator]) .button--text-visible.calcite--rtl {
+  padding-right: var(--calcite-app-side-spacing-three-quarters);
+  padding-left: var(--calcite-app-side-spacing);
+}
+
+:host([indicator]) .button:hover::after,
+:host([indicator]) .button:focus::after {
+  border-color: var(--calcite-app-background-hover);
+}
+
+:host([indicator][active]) .button::after {
+  border-color: var(--calcite-app-background-active);
+}
+
+:host([indicator]) .button--text-visible::after,
+:host([indicator][scale="s"]) .button--text-visible::after,
+:host([indicator][scale="l"]) .button--text-visible::after {
+  bottom: unset;
+  right: var(--calcite-app-side-spacing-half);
+}
+
+:host([indicator]) .button--text-visible.calcite--rtl::after,
+:host([indicator][scale="s"]) .button--text-visible.calcite--rtl::after,
+:host([indicator][scale="l"]) .button--text-visible.calcite--rtl::after {
+  right: unset;
+  left: var(--calcite-app-side-spacing-half);
+}

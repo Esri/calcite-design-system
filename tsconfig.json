@@ -13,7 +13,7 @@
     "jsx": "react",
     "jsxFactory": "h"
   },
-  "include": ["src", "types/jsx.d.ts"],
+  "include": ["src", "types/jsx.d.ts", ".storybook/declarations.d.ts"],
   "typeRoots": ["node_modules/@types"],
   "exclude": ["node_modules"]
 }

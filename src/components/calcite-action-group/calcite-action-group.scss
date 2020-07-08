@@ -1,0 +1,17 @@
+:host {
+  @extend %component-host;
+  display: flex;
+  flex-direction: column;
+  padding: var(--calcite-app-cap-spacing-half) 0;
+}
+
+@import "../../scss/includes/_component";
+
+:host(:first-child) {
+  padding-top: 0;
+}
+
+::slotted(calcite-action) {
+  display: flex;
+  width: 100%;
+}

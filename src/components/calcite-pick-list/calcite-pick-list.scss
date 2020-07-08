@@ -1,0 +1,44 @@
+:host {
+  @extend %component-host;
+  align-items: stretch;
+  display: flex;
+  flex: 1 0 auto;
+  flex-flow: column;
+  padding-bottom: var(--calcite-app-cap-spacing);
+  position: relative;
+}
+
+@import "../../scss/includes/_component";
+
+header {
+  background-color: var(--calcite-app-background);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: var(--calcite-app-cap-spacing-half);
+  &.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  @include borderShadow();
+}
+
+calcite-filter {
+  margin-bottom: 1px;
+}
+
+calcite-scrim {
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: column;
+  pointer-events: none;
+}
+
+slot[name="menu-actions"]::slotted(calcite-action) {
+  padding: 0 var(--calcite-app-side-spacing-half);
+}
+
+:host([loading][disabled]) {
+  min-height: 2rem;
+}

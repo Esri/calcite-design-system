@@ -1,0 +1,72 @@
+:host {
+  @extend %component-host;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  --calcite-app-shell-tip-spacing: 26vw;
+}
+
+@import "../../scss/includes/_component";
+
+.main {
+  height: 100%;
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  border-top: 1px solid var(--calcite-app-border-subtle);
+  border-bottom: 1px solid var(--calcite-app-border-subtle);
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.main--reversed {
+  flex-direction: row-reverse;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 0;
+}
+
+::slotted(.header .heading) {
+  font-weight: var(--calcite-app-font-weight);
+  font-size: var(--calcite-app-font-size-1);
+}
+
+::slotted(calcite-shell-panel),
+::slotted(calcite-shell-center-row) {
+  position: relative;
+  z-index: 1;
+}
+
+::slotted(calcite-tip-manager) {
+  animation: calcite-app-fade-in-up var(--calcite-app-animation-time)
+    var(--calcite-app-easing-function);
+  border-radius: var(--calcite-app-border-radius);
+  bottom: var(--calcite-app-cap-spacing-plus-half);
+  box-shadow: var(--calcite-app-shadow-2);
+  box-sizing: border-box;
+  left: var(--calcite-app-shell-tip-spacing);
+  position: absolute;
+  right: var(--calcite-app-shell-tip-spacing);
+  z-index: 2;
+}
+
+.footer {
+  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing);
+}
