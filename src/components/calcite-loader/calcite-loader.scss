@@ -1,11 +1,15 @@
-$loader-size: 56;
+$loader-size-small: 32;
+$loader-size-medium: 56;
+$loader-size-large: 80;
+
+$loader-scale: 56;
 $loader-size-inline: 20;
-$loader-width: $loader-size * 1px;
+$loader-width: $loader-scale * 1px;
 $loader-width-inline: $loader-size-inline * 1px;
 $loader-stroke: 3;
 $loader-stroke-inline: 2;
 $loader-padding: 4rem;
-$loader-circumference: ($loader-size - (2 * $loader-stroke)) * 3.14159;
+$loader-circumference: ($loader-scale - (2 * $loader-stroke)) * 3.14159;
 
 /**
   Segment variables
@@ -25,13 +29,15 @@ $segment-3-growth: 45;
 $segment-3-duration: 1.16s;
 
 :host {
+  align-items: center;
+  justify-content: center;
   position: relative;
   display: none;
   padding-bottom: $loader-padding;
   padding-top: $loader-padding;
   margin-left: auto;
   margin-right: auto;
-  min-height: $loader-width;
+  min-height: var(--loader-size);
   stroke: var(--calcite-ui-blue-1);
   stroke-width: $loader-stroke;
   fill: none;
@@ -40,13 +46,23 @@ $segment-3-duration: 1.16s;
   animation: loader-color-shift 6s alternate-reverse infinite linear;
 }
 
+:host([scale="s"]) {
+  --loader-size: #{ $loader-size-small + 1 }px;
+}
+:host([scale="m"]) {
+  --loader-size: #{ $loader-size-medium + 1 }px;
+}
+:host([scale="l"]) {
+  --loader-size: #{ $loader-size-large + 1 }px;
+}
+
 :host([no-padding]) {
   padding-top: 0;
   padding-bottom: 0;
 }
 
 :host([active]) {
-  display: block;
+  display: flex;
 }
 
 .loader__text {
@@ -58,12 +74,12 @@ $segment-3-duration: 1.16s;
 
 .loader__percentage {
   display: block;
-  width: $loader-width;
+  width: var(--loader-size);
   position: absolute;
   top: $loader-padding;
   left: 50%;
-  margin-left: -$loader-width / 2;
-  margin-top: ($loader-width / 2);
+  margin-left: calc(var(--loader-size) / 2 * -1);
+  margin-top: calc(var(--loader-size) / 2);
   text-align: center;
   font-size: 0.875rem;
   color: var(--calcite-ui-text-1);
@@ -72,20 +88,20 @@ $segment-3-duration: 1.16s;
 }
 
 .loader__svgs {
-  width: $loader-width;
-  height: $loader-width;
+  width: var(--loader-size);
+  height: var(--loader-size);
   position: absolute;
   top: $loader-padding;
   left: 50%;
-  margin-left: -$loader-width / 2;
+  margin-left: calc(var(--loader-size) / 2 * -1);
   overflow: visible;
   opacity: 1;
   transform: scale(1, 1);
 }
 
 .loader__svg {
-  width: $loader-width;
-  height: $loader-width;
+  width: var(--loader-size);
+  height: var(--loader-size);
   position: absolute;
   top: 0;
   left: 0;
@@ -109,7 +125,7 @@ $segment-3-duration: 1.16s;
   animation: none;
   .loader__svg--3 {
     stroke: var(--calcite-ui-blue-1);
-    stroke-dasharray: $loader-circumference;
+    stroke-dasharray: $loader-circumference; // CHECK ME
     transform: rotate(-90deg);
     animation: none;
     transition: all 100ms linear;
@@ -175,7 +191,7 @@ $segment-3-duration: 1.16s;
 }
 
 @mixin generateSegment($i, $size, $growth, $duration) {
-  $circumference: $loader-circumference / $loader-size * 100%;
+  $circumference: $loader-circumference / $loader-scale * 100%;
   $length: ($size / 100) * $circumference;
   $end: $length + ($growth / 100) * $circumference;
   .loader__svg--#{$i} {

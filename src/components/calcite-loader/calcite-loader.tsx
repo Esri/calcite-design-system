@@ -1,5 +1,6 @@
 import { Component, Element, h, Host, Prop } from "@stencil/core";
 import { guid } from "../../utils/guid";
+import { INLINE_SIZES, SIZES } from "./resources";
 
 @Component({
   tag: "calcite-loader",
@@ -49,21 +50,11 @@ export class CalciteLoader {
       value
     } = this;
 
-    const sizes = {
-      "s": 32,
-      "m": 56,
-      "l": 128
-    }
-    const radii = {
-      "s": 16,
-      "m": 25,
-      "l": 60
-    }
-    // const sizeBase = sizes[scale];
+    const radiusRatio = 0.45;
 
     const id = el.id || guid;
-    const size = inline ? 20 : sizes[scale];
-    const radius = inline ? 9 : radii[scale];
+    const size = inline ? INLINE_SIZES[scale] : SIZES[scale];
+    const radius = inline ? 9 : SIZES[scale] * radiusRatio;
     const viewbox = `0 0 ${size} ${size}`;
     const isDeterminate = type === "determinate";
     const circumference = 2 * radius * Math.PI;
@@ -111,5 +102,5 @@ export class CalciteLoader {
   //
   //--------------------------------------------------------------------------
   /** @internal */
-  private guid = `calcite-loader-${guid()}`;
+  // private guid = `calcite-loader-${guid()}`;
 }
