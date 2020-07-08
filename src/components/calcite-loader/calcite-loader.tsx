@@ -4,7 +4,7 @@ import { guid } from "../../utils/guid";
 @Component({
   tag: "calcite-loader",
   styleUrl: "calcite-loader.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteLoader {
   //--------------------------------------------------------------------------
