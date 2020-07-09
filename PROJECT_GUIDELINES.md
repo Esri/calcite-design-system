@@ -1,6 +1,6 @@
 # Project Guidelines
 
-Hey there and thanks for stopping by! We welcome all feedback and contributions to [Calcite App Components](https://github.com/Esri/calcite-components/blob/master/README.md). If you are interested in getting involved, we ask that you give our guidelines a read. Below is a list of things we've found work well for us as we continue developing our components.
+Hey there and thanks for stopping by! We welcome all feedback and contributions to [Calcite Components](https://github.com/Esri/calcite-components/blob/master/README.md). If you are interested in getting involved, we ask that you give our guidelines a read. Below is a list of things we've found work well for us as we continue developing our components.
 
 ## TOC
 
