@@ -1,6 +1,5 @@
 import { Component, Element, h, Host, Prop } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { INLINE_SIZES, SIZES } from "./resources";
 
 @Component({
   tag: "calcite-loader",
@@ -43,13 +42,10 @@ export class CalciteLoader {
   render() {
     const { el, inline, scale, text, type, value } = this;
 
-    const radiusRatio = 0.45;
-
     const id = el.id || guid;
-    const size = inline ? INLINE_SIZES[scale] : SIZES[scale];
-    const radius = inline
-      ? INLINE_SIZES[scale] * radiusRatio
-      : SIZES[scale] * radiusRatio;
+    const radiusRatio = 0.45;
+    const size = inline ? this.getInlineSize(scale) : this.getSize(scale);
+    const radius = size * radiusRatio;
     const viewbox = `0 0 ${size} ${size}`;
     const isDeterminate = type === "determinate";
     const circumference = 2 * radius * Math.PI;
@@ -89,6 +85,46 @@ export class CalciteLoader {
         {isDeterminate && <div class="loader__percentage">{value}</div>}
       </Host>
     );
+  }
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Return the proper sizes based on the scale property
+   */
+  private getSize(scale: string) {
+    let size = 32;
+    switch (scale) {
+      case "s":
+        size = 32;
+        break;
+      case "m":
+        size = 56;
+        break;
+      case "l":
+        size = 80;
+        break;
+    }
+    return size;
+  }
+
+  private getInlineSize(scale: string) {
+    let size = 16;
+    switch (scale) {
+      case "s":
+        size = 12;
+        break;
+      case "m":
+        size = 16;
+        break;
+      case "l":
+        size = 20;
+        break;
+    }
+    return size;
   }
 
   //--------------------------------------------------------------------------
