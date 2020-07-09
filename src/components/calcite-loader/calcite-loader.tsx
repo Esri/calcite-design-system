@@ -39,6 +39,17 @@ export class CalciteLoader {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback() {
+    // prop validations
+
+    let scales = ["s", "m", "l"];
+    if (!scales.includes(this.scale)) this.scale = "m";
+
+    let types = ["indeterminate", "determinate"];
+    if (!types.includes(this.type)) this.type = "indeterminate";
+  }
+
   render() {
     const { el, inline, scale, text, type, value } = this;
 
