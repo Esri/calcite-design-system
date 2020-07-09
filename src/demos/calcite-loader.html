@@ -64,7 +64,6 @@
       const scaleSelectors = document.querySelectorAll(".scale-selector");
       scaleSelectors.forEach((selector) => {
         selector.addEventListener("click", function (e) {
-          // console.log(e.target.getAttribute("data-scale"));
           const scale = e.target.getAttribute("data-scale");
           const loaders = document.querySelectorAll("calcite-loader");
           loaders.forEach((loader) => {
