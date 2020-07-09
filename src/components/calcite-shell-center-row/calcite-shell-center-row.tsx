@@ -11,7 +11,7 @@ import { CSS_UTILITY } from "../utils/resources";
 @Component({
   tag: "calcite-shell-center-row",
   styleUrl: "calcite-shell-center-row.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteShellCenterRow {
   // --------------------------------------------------------------------------
@@ -59,10 +59,7 @@ export class CalciteShellCenterRow {
       </div>
     );
 
-    const actionBar = getSlotted<HTMLCalciteActionBarElement>(
-      el,
-      SLOTS.actionBar
-    );
+    const actionBar = getSlotted<HTMLCalciteActionBarElement>(el, SLOTS.actionBar);
 
     const actionBarNode = actionBar ? (
       <div class={{ [CSS.actionBarContainer]: true, [CSS_UTILITY.rtl]: rtl }}>
@@ -70,9 +67,9 @@ export class CalciteShellCenterRow {
       </div>
     ) : null;
 
-    const children = [actionBarNode, contentNode];
+    const children: VNode[] = [actionBarNode, contentNode];
 
-    if (actionBar.position === "end") {
+    if (actionBar?.position === "end") {
       children.reverse();
     }
 
