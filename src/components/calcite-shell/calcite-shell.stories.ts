@@ -1,11 +1,6 @@
 import { boolean, select, withKnobs } from "@storybook/addon-knobs";
 import { withA11y } from "@storybook/addon-a11y";
-import {
-  Attributes,
-  createComponentHTML as create,
-  darkBackground,
-  parseReadme,
-} from "../../../.storybook/utils";
+import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, position, scale, theme } = ATTRIBUTES;
 import readme from "./readme.md";
@@ -13,49 +8,47 @@ import panelReadme from "../calcite-shell-panel/readme.md";
 import dedent from "dedent";
 
 export default {
-  title: "components|calcite-shell",
+  title: "app components|calcite-shell",
   decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     notes: {
       shell: parseReadme(readme),
-      panel: parseReadme(panelReadme),
-    },
-  },
+      panel: parseReadme(panelReadme)
+    }
+  }
 };
 
 const createAttributes: (group: string) => Attributes = (group) => {
   return [
     {
       name: "dir",
-      value: select("dir", dir.values, dir.defaultValue, group),
+      value: select("dir", dir.values, dir.defaultValue, group)
     },
     {
       name: "theme",
-      value: select("theme", theme.values, theme.defaultValue, group),
-    },
+      value: select("theme", theme.values, theme.defaultValue, group)
+    }
   ];
 };
 
-const createShellPanelAttributes: (
-  group: "Leading Panel" | "Trailing Panel"
-) => Attributes = (group) => {
+const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") => Attributes = (group) => {
   return [
     {
       name: "slot",
-      value: group === "Leading Panel" ? "primary-panel" : "contextual-panel",
+      value: group === "Leading Panel" ? "primary-panel" : "contextual-panel"
     },
     {
       name: "collapsed",
-      value: boolean("collapsed", false, group),
+      value: boolean("collapsed", false, group)
     },
     {
       name: "detached",
-      value: boolean("detached", false, group),
+      value: boolean("detached", false, group)
     },
     {
       name: "detached-scale",
-      value: select("detachedScale", scale.values, scale.defaultValue, group),
+      value: select("detachedScale", scale.values, scale.defaultValue, group)
     },
     {
       name: "position",
@@ -64,31 +57,29 @@ const createShellPanelAttributes: (
         position.values,
         group === "Leading Panel" ? position.values[0] : position.values[1],
         group
-      ),
-    },
+      )
+    }
   ];
 };
 
-const createShellCenterRowAttributes: (group: string) => Attributes = (
-  group
-) => {
+const createShellCenterRowAttributes: (group: string) => Attributes = (group) => {
   return [
     {
       name: "detached",
-      value: boolean("detached", false, group),
+      value: boolean("detached", false, group)
     },
     {
       name: "height-scale",
-      value: select("heightScale", scale.values, scale.values[0], group),
+      value: select("heightScale", scale.values, scale.values[0], group)
     },
     {
       name: "position",
-      value: select("position", position.values, position.values[1], group),
+      value: select("position", position.values, position.values[1], group)
     },
     {
       name: "slot",
-      value: "center-row",
-    },
+      value: "center-row"
+    }
   ];
 };
 
@@ -224,22 +215,10 @@ export const basic = (): string =>
     createAttributes("Shell"),
     dedent`
     ${headerHTML}
-    ${create(
-      "calcite-shell-panel",
-      createShellPanelAttributes("Leading Panel"),
-      leadingPanelHTML
-    )}
+    ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
     ${contentHTML}
-    ${create(
-      "calcite-shell-center-row",
-      createShellCenterRowAttributes("Center Row"),
-      centerRowHTML
-    )}
-    ${create(
-      "calcite-shell-panel",
-      createShellPanelAttributes("Trailing Panel"),
-      trailingPanelHTML
-    )}
+    ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
+    ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)}
     ${footerHTML}
   `
   );
@@ -346,18 +325,10 @@ export const advanced = (): string =>
     createAttributes("Shell"),
     dedent`
     ${headerHTML}
-    ${create(
-      "calcite-shell-panel",
-      createShellPanelAttributes("Leading Panel"),
-      advancedLeadingPanelHTML
-    )}
+    ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
     ${contentHTML}
     ${centerRowAdvancedHTML}
-    ${create(
-      "calcite-shell-panel",
-      createShellPanelAttributes("Trailing Panel"),
-      advancedTrailingPanelHTMl
-    )}
+    ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
     ${footerHTML}
   `
   );

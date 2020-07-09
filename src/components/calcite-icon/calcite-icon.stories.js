@@ -9,7 +9,7 @@ import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 export default {
-  title: "Icon",
+  title: "components|Icon",
   decorators: [withKnobs],
   parameters: { notes }
 };

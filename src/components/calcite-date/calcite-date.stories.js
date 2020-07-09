@@ -44,7 +44,7 @@ const locales = [
   "zh-tw"
 ];
 
-storiesOf("Date", module)
+storiesOf("components|Date", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

@@ -5,7 +5,7 @@ import {
   createComponentHTML as create,
   darkBackground,
   parseReadme,
-  titlelessDocsPage,
+  titlelessDocsPage
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -13,58 +13,58 @@ import { ICONS } from "./resources";
 const { appearance, dir, scale, theme } = ATTRIBUTES;
 
 export default {
-  title: "components|calcite-fab",
+  title: "app components|calcite-fab",
   decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     docs: {
-      page: titlelessDocsPage,
+      page: titlelessDocsPage
     },
-    notes: parseReadme(readme),
-  },
+    notes: parseReadme(readme)
+  }
 };
 
 const createAttributes: () => Attributes = () => [
   {
     name: "appearance",
-    value: select("appearance", appearance.values, appearance.values[2]),
+    value: select("appearance", appearance.values, appearance.values[2])
   },
   {
     name: "dir",
-    value: select("dir", dir.values, dir.defaultValue),
+    value: select("dir", dir.values, dir.defaultValue)
   },
   {
     name: "disabled",
-    value: boolean("disabled", false),
+    value: boolean("disabled", false)
   },
   {
     name: "icon",
-    value: text("icon", ICONS.plus),
+    value: text("icon", ICONS.plus)
   },
   {
     name: "label",
-    value: text("label", "Label"),
+    value: text("label", "Label")
   },
   {
     name: "loading",
-    value: boolean("loading", false),
+    value: boolean("loading", false)
   },
   {
     name: "text",
-    value: text("text", "Text"),
+    value: text("text", "Text")
   },
   {
     name: "text-enabled",
-    value: boolean("textEnabled", false),
+    value: boolean("textEnabled", false)
   },
   {
     name: "scale",
-    value: select("scale", scale.values, scale.defaultValue),
+    value: select("scale", scale.values, scale.defaultValue)
   },
   {
     name: "theme",
-    value: select("theme", theme.values, theme.defaultValue),
-  },
+    value: select("theme", theme.values, theme.defaultValue)
+  }
 ];
 
 export const basic = (): string => create("calcite-fab", createAttributes());

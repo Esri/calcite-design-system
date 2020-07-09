@@ -1,11 +1,6 @@
 import { boolean, select, text, withKnobs } from "@storybook/addon-knobs";
 import { withA11y } from "@storybook/addon-a11y";
-import {
-  Attributes,
-  createComponentHTML as create,
-  darkBackground,
-  parseReadme,
-} from "../../../.storybook/utils";
+import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, theme } = ATTRIBUTES;
 import readme from "./readme.md";
@@ -14,15 +9,15 @@ import { SLOTS, TEXT } from "../calcite-flow-item/resources";
 import dedent from "dedent";
 
 export default {
-  title: "components|calcite-flow",
+  title: "app components|calcite-flow",
   decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     notes: {
       flow: parseReadme(readme),
-      item: parseReadme(itemReadme),
-    },
-  },
+      item: parseReadme(itemReadme)
+    }
+  }
 };
 
 const createAttributes: () => Attributes = () => {
@@ -31,12 +26,12 @@ const createAttributes: () => Attributes = () => {
   return [
     {
       name: "dir",
-      value: select("dir", dir.values, dir.defaultValue, group),
+      value: select("dir", dir.values, dir.defaultValue, group)
     },
     {
       name: "theme",
-      value: select("theme", theme.values, theme.defaultValue, group),
-    },
+      value: select("theme", theme.values, theme.defaultValue, group)
+    }
   ];
 };
 
@@ -44,36 +39,36 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
   return [
     {
       name: "disabled",
-      value: boolean("disabled", false, group),
+      value: boolean("disabled", false, group)
     },
     {
       name: "heading",
-      value: text("heading", "Heading", group),
+      value: text("heading", "Heading", group)
     },
     {
       name: "loading",
-      value: boolean("loading", false, group),
+      value: boolean("loading", false, group)
     },
     {
       name: "menu-open",
-      value: boolean("menuOpen", false, group),
+      value: boolean("menuOpen", false, group)
     },
     {
       name: "summary",
-      value: text("summary", "Summary", group),
+      value: text("summary", "Summary", group)
     },
     {
       name: "intl-back",
-      value: text("intlBack", TEXT.back, group),
+      value: text("intlBack", TEXT.back, group)
     },
     {
       name: "intl-open",
-      value: text("intlOpen", TEXT.open, group),
+      value: text("intlOpen", TEXT.open, group)
     },
     {
       name: "intl-close",
-      value: text("intlClose", TEXT.close, group),
-    },
+      value: text("intlClose", TEXT.close, group)
+    }
   ];
 };
 
@@ -123,14 +118,6 @@ export const basic = (): string =>
   create(
     "calcite-flow",
     createAttributes(),
-    `${create(
-      "calcite-flow-item",
-      createFlowItemAttributes("Flow Item 1"),
-      createItemHTML(item1HTML)
-    )}
-    ${create(
-      "calcite-flow-item",
-      createFlowItemAttributes("Flow Item 2"),
-      createItemHTML(item2HTML)
-    )}`
+    `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
   );

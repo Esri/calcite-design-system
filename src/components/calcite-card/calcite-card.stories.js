@@ -4,7 +4,7 @@ import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("Card", module)
+storiesOf("components|Card", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

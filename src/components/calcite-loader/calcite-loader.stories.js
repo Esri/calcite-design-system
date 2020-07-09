@@ -4,7 +4,7 @@ import { darkBackground, parseReadme } from '../../../.storybook/helpers';
 import readme from './readme.md';
 const notes = parseReadme(readme);
 
-storiesOf('Loader', module)
+storiesOf('components|Loader', module)
   .addDecorator(withKnobs)
   .add('Indeterminate', () => `
     <calcite-loader

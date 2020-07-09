@@ -1,11 +1,6 @@
 import { boolean, select, text, withKnobs } from "@storybook/addon-knobs";
 import { withA11y } from "@storybook/addon-a11y";
-import {
-  Attributes,
-  createComponentHTML as create,
-  darkBackground,
-  parseReadme,
-} from "../../../.storybook/utils";
+import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -13,47 +8,47 @@ import dedent from "dedent";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "components|calcite-tip-manager",
+  title: "app components|calcite-tip-manager",
   decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
-    notes: parseReadme(readme),
-  },
+    notes: parseReadme(readme)
+  }
 };
 
 const createAttributes: () => Attributes = () => [
   {
     name: "closed",
-    value: boolean("closed", false),
+    value: boolean("closed", false)
   },
   {
     name: "dir",
-    value: select("dir", dir.values, dir.defaultValue),
+    value: select("dir", dir.values, dir.defaultValue)
   },
   {
     name: "intl-close",
-    value: text("intlClose", TEXT.close),
+    value: text("intlClose", TEXT.close)
   },
   {
     name: "text-defalut-title",
-    value: text("textDefaultTitle", TEXT.defaultGroupTitle),
+    value: text("textDefaultTitle", TEXT.defaultGroupTitle)
   },
   {
     name: "intl-pagination-label",
-    value: text("intlPaginationLabel", TEXT.defaultPaginationLabel),
+    value: text("intlPaginationLabel", TEXT.defaultPaginationLabel)
   },
   {
     name: "intl-next",
-    value: text("intlNext", TEXT.next),
+    value: text("intlNext", TEXT.next)
   },
   {
     name: "intl-previous",
-    value: text("intlPrevious", TEXT.previous),
+    value: text("intlPrevious", TEXT.previous)
   },
   {
     name: "theme",
-    value: select("theme", theme.values, theme.defaultValue),
-  },
+    value: select("theme", theme.values, theme.defaultValue)
+  }
 ];
 
 export const basic = (): string =>

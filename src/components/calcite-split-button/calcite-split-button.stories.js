@@ -10,7 +10,7 @@ import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
-storiesOf("Split Button", module)
+storiesOf("components|Split Button", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

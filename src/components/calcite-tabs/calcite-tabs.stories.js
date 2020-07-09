@@ -4,7 +4,7 @@ import { darkBackground, parseReadme } from '../../../.storybook/helpers';
 import readme from './readme.md';
 const notes = parseReadme(readme);
 
-storiesOf('Tabs', module)
+storiesOf('components|Tabs', module)
   .addDecorator(withKnobs)
   .add('Simple', () => `
     <calcite-tabs

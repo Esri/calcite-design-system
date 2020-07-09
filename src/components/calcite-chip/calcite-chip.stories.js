@@ -8,7 +8,7 @@ import {
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("Chip", module)
+storiesOf("components|Chip", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

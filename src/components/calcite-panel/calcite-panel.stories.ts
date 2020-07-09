@@ -1,11 +1,6 @@
 import { boolean, select, text, withKnobs } from "@storybook/addon-knobs";
 import { withA11y } from "@storybook/addon-a11y";
-import {
-  Attributes,
-  createComponentHTML as create,
-  darkBackground,
-  parseReadme,
-} from "../../../.storybook/utils";
+import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, theme, scale } = ATTRIBUTES;
 import readme from "./readme.md";
@@ -13,47 +8,47 @@ import { SLOTS, TEXT } from "./resources";
 import dedent from "dedent";
 
 export default {
-  title: "components|calcite-panel",
+  title: "app components|calcite-panel",
   decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
-    notes: parseReadme(readme),
-  },
+    notes: parseReadme(readme)
+  }
 };
 
 const createAttributes: () => Attributes = () => [
   {
     name: "dir",
-    value: select("dir", dir.values, dir.defaultValue),
+    value: select("dir", dir.values, dir.defaultValue)
   },
   {
     name: "dismissed",
-    value: boolean("dismissed", false),
+    value: boolean("dismissed", false)
   },
   {
     name: "disabled",
-    value: boolean("disabled", false),
+    value: boolean("disabled", false)
   },
   {
     name: "dismissible",
-    value: boolean("dismissible", false),
+    value: boolean("dismissible", false)
   },
   {
     name: "height-scale",
-    value: select("heightScale", scale.values, scale.defaultValue),
+    value: select("heightScale", scale.values, scale.defaultValue)
   },
   {
     name: "loading",
-    value: boolean("loading", false),
+    value: boolean("loading", false)
   },
   {
     name: "intl-close",
-    value: text("intlClose", TEXT.close),
+    value: text("intlClose", TEXT.close)
   },
   {
     name: "theme",
-    value: select("theme", theme.values, theme.defaultValue),
-  },
+    value: select("theme", theme.values, theme.defaultValue)
+  }
 ];
 
 const headerHTML = `<h3 class="heading" slot="${SLOTS.headerContent}">Heading</h3>`;

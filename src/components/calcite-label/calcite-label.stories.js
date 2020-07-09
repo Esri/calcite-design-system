@@ -4,7 +4,7 @@ import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("Label", module)
+storiesOf("components|Label", module)
   .addDecorator(withKnobs)
   .add(
     "Wrapping components other than input",

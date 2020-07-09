@@ -5,7 +5,7 @@ import {
   Attributes,
   createComponentHTML as create,
   darkBackground,
-  parseReadme,
+  parseReadme
 } from "../../../.storybook/utils";
 import blockReadme from "./readme.md";
 import sectionReadme from "../calcite-block-section/readme.md";
@@ -13,20 +13,18 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import dedent from "dedent";
 
 export default {
-  title: "components|calcite-block",
+  title: "app components|calcite-block",
   decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     notes: {
       block: parseReadme(blockReadme),
-      section: parseReadme(sectionReadme),
-    },
-  },
+      section: parseReadme(sectionReadme)
+    }
+  }
 };
 
-const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
-  { except } = { except: [] }
-) => {
+const createBlockAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
   const group = "block";
   const { dir, theme } = ATTRIBUTES;
 
@@ -42,7 +40,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = text("heading", "Heading", group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "dir",
@@ -50,7 +48,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = select("dir", dir.values, dir.defaultValue, group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "summary",
@@ -58,7 +56,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = text("summary", "summary", group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "open",
@@ -66,7 +64,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = boolean("open", true, group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "collapsible",
@@ -74,7 +72,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = boolean("collapsible", true, group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "loading",
@@ -82,7 +80,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = boolean("loading", false, group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "disabled",
@@ -90,7 +88,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = boolean("disabled", false, group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "theme",
@@ -98,7 +96,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = select("theme", theme.values, theme.defaultValue, group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "intl-collapse",
@@ -106,7 +104,7 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = text("intlCollapse", "Collapse", group);
         delete this.build;
         return this;
-      },
+      }
     },
     {
       name: "intl-expand",
@@ -114,8 +112,8 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = (
         this.value = text("intlExpand", "Expand", group);
         delete this.build;
         return this;
-      },
-    },
+      }
+    }
   ] as DeferredAttribute[])
     .filter((attr) => !except.find((excluded) => excluded === attr.name))
     .map((attr) => attr.commit());
@@ -128,29 +126,24 @@ const createSectionAttributes: () => Attributes = () => {
   return [
     {
       name: "text",
-      value: text("text", "Animals", group),
+      value: text("text", "Animals", group)
     },
     {
       name: "open",
-      value: boolean("open", true, group),
+      value: boolean("open", true, group)
     },
     {
       name: "toggle-display",
-      value: select(
-        "toggleDisplay",
-        toggleDisplayOptions,
-        toggleDisplayOptions[0],
-        group
-      ),
+      value: select("toggleDisplay", toggleDisplayOptions, toggleDisplayOptions[0], group)
     },
     {
       name: "intl-collapse",
-      value: text("intlCollapse", "Collapse", group),
+      value: text("intlCollapse", "Collapse", group)
     },
     {
       name: "intl-expand",
-      value: text("intlExpand", "Expand", group),
-    },
+      value: text("intlExpand", "Expand", group)
+    }
   ];
 };
 
@@ -179,8 +172,4 @@ export const withHeaderControl = (): string =>
   );
 
 export const withIconAndHeader = (): string =>
-  create(
-    "calcite-block",
-    createBlockAttributes({ except: ["open", "collapsible"] }),
-    `<div slot="icon">✅</div>`
-  );
+  create("calcite-block", createBlockAttributes({ except: ["open", "collapsible"] }), `<div slot="icon">✅</div>`);
