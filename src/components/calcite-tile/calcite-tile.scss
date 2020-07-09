@@ -1,0 +1,39 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+$spacing: $baseline/2;
+
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: $spacing;
+  background-color: var(--calcite-ui-foreground-1);
+  transition: $transition;
+  color: var(--calcite-ui-text-3);
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+  max-width: inherit;
+}
+:host(:not([embed])) {
+  box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
+  max-width: 300px;
+  padding: $spacing;
+}
+:host(:not([embed]):hover) {
+  box-shadow: 0 0 0 2px var(--calcite-ui-blue-1);
+}
+:host(:not([embed]):active) {
+  box-shadow: 0 0 0 3px var(--calcite-ui-blue-1);
+  #heading {
+    font-weight: 500;
+  }
+}
+#heading {
+  @include font-size(0);
+  color: var(--calcite-ui-text-1);
+}
+#description {
+  @include font-size(-1);
+  color: var(--calcite-ui-text-2);
+}

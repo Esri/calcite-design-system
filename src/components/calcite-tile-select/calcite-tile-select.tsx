@@ -151,15 +151,12 @@ export class CalciteTileSelect {
   render() {
     return (
       <Host>
-        <div id="content">
-          <div id="icon">
-            {this.icon && (
-              <calcite-icon icon={this.icon} scale="l"></calcite-icon>
-            )}
-          </div>
-          <div id="heading">{this.heading}</div>
-          <div id="description">{this.description}</div>
-        </div>
+        <calcite-tile
+          embed
+          heading={this.heading}
+          description={this.description}
+          icon={this.icon}
+        ></calcite-tile>
         <slot></slot>
       </Host>
     );
