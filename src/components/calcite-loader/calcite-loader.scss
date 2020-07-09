@@ -51,16 +51,25 @@ $segment-3-duration: 1.16s;
   --loader-size: #{ $loader-size-small + 1 }px;
   --loader-size-inline: #{ $loader-size-small-inline + 1 }px;
   @include font-size(-3);
+  .loader__percentage {
+    font-size: 0.625rem;
+  }
 }
 :host([scale="m"]) {
   --loader-size: #{ $loader-size-medium + 1 }px;
   --loader-size-inline: #{ $loader-size-medium-inline + 1 }px;
   @include font-size(-2);
+  .loader__percentage {
+    font-size: 0.875rem;
+  }
 }
 :host([scale="l"]) {
   --loader-size: #{ $loader-size-large + 1 }px;
   --loader-size-inline: #{ $loader-size-large-inline + 1 }px;
   @include font-size(-1);
+  .loader__percentage {
+    font-size: 1.25rem;
+  }
 }
 
 :host([no-padding]) {
@@ -74,7 +83,7 @@ $segment-3-duration: 1.16s;
 
 .loader__text {
   display: block;
-  margin-top: calc(var(--loader-size) + 1rem);
+  margin-top: calc(var(--loader-size) + 3rem);
   text-align: center;
 }
 
@@ -190,7 +199,7 @@ $segment-3-duration: 1.16s;
 
 :host([complete]) .loader__percentage {
   color: var(--calcite-ui-blue-1);
-  transform: scale(1.075, 1.075);
+  transform: scale(1.05, 1.05);
   transform-origin: center;
   transition: color 200ms linear, transform 200ms linear;
 }
