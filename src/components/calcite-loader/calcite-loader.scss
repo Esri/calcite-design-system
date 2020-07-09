@@ -74,7 +74,7 @@ $segment-3-duration: 1.16s;
 
 .loader__text {
   display: block;
-  margin-top: calc(var(--loader-size) + 1rem);//$loader-padding + 1rem;
+  margin-top: calc(var(--loader-size) + 1rem);
   text-align: center;
 }
 
@@ -130,7 +130,7 @@ $segment-3-duration: 1.16s;
   animation: none;
   .loader__svg--3 {
     stroke: var(--calcite-ui-blue-1);
-    stroke-dasharray: $loader-circumference; // CHECK ME
+    stroke-dasharray: $loader-circumference;
     transform: rotate(-90deg);
     animation: none;
     transition: all 100ms linear;
