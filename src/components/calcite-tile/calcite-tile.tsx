@@ -17,6 +17,7 @@ export class CalciteTile {
   @Prop({ reflect: true }) embed: boolean = false;
   @Prop({ reflect: true }) focused: boolean = false;
   @Prop({ reflect: true }) hidden: boolean = false;
+  @Prop({ reflect: true }) href?: string;
   @Prop({ reflect: true }) icon: string = "";
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
   @Prop() heading: string = "";
@@ -27,17 +28,23 @@ export class CalciteTile {
   //
   // --------------------------------------------------------------------------
 
+  renderTile() {
+    return [
+      <div id="icon">
+        {this.icon && <calcite-icon icon={this.icon} scale="l"></calcite-icon>}
+      </div>,
+      <div id="heading">{this.heading}</div>,
+      <div id="description">{this.description}</div>,
+    ];
+  }
   render() {
     return (
       <Host>
-        <div id="icon">
-          {this.icon && (
-            <calcite-icon icon={this.icon} scale="l"></calcite-icon>
-          )}
-        </div>
-        <div id="heading">{this.heading}</div>
-        <div id="description">{this.description}</div>
-        <slot></slot>
+        {this.href ? (
+          <calcite-link href={this.href}>{this.renderTile()}</calcite-link>
+        ) : (
+          this.renderTile()
+        )}
       </Host>
     );
   }

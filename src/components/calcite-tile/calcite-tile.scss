@@ -11,19 +11,18 @@ $spacing: $baseline/2;
   transition: $transition;
   color: var(--calcite-ui-text-3);
   box-sizing: border-box;
-  cursor: pointer;
   user-select: none;
-  max-width: inherit;
 }
 :host(:not([embed])) {
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
   max-width: 300px;
   padding: $spacing;
 }
-:host(:not([embed]):hover) {
+:host(:not([embed])[href]:hover) {
   box-shadow: 0 0 0 2px var(--calcite-ui-blue-1);
+  cursor: pointer;
 }
-:host(:not([embed]):active) {
+:host(:not([embed])[href]:active) {
   box-shadow: 0 0 0 3px var(--calcite-ui-blue-1);
   #heading {
     font-weight: 500;
