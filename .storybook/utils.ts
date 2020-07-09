@@ -10,7 +10,7 @@ import {
   optionsKnob as options,
   radios,
   select,
-  text,
+  text
 } from "@storybook/addon-knobs";
 
 import colors from "../node_modules/@esri/calcite-colors/colors.json";
@@ -20,8 +20,8 @@ export const darkBackground = [
   {
     name: "Dark",
     value: colors["blk-210"],
-    default: true,
-  },
+    default: true
+  }
 ];
 
 /**
@@ -31,10 +31,7 @@ export const parseReadme = (content: string): string => {
   return (
     content
       // markdown uses relative paths for component links
-      .replace(
-        /\.\.\//g,
-        "https://github.com/Esri/calcite-app-components/tree/master/src/components/"
-      )
+      .replace(/\.\.\//g, "https://github.com/Esri/calcite-components/tree/master/src/components/")
   );
 };
 
@@ -64,17 +61,11 @@ export interface SimpleAttribute {
 export type Attribute = KnobbedAttribute | SimpleAttribute;
 export type Attributes = Attribute[];
 
-export const createComponentHTML = (
-  tagName: string,
-  attributes: Attributes,
-  contentHTML: string = ""
-): string =>
-  `<${tagName} ${attributes
-    .map(({ name, value }) => `${name}="${value}"`)
-    .join(" ")}>${contentHTML}</${tagName}>`;
+export const createComponentHTML = (tagName: string, attributes: Attributes, contentHTML: string = ""): string =>
+  `<${tagName} ${attributes.map(({ name, value }) => `${name}="${value}"`).join(" ")}>${contentHTML}</${tagName}>`;
 
 export const titlelessDocsPage: typeof DocsPage = () =>
   DocsPage({
     // no title since README already has one
-    titleSlot: () => "",
+    titleSlot: () => ""
   });

@@ -2,11 +2,7 @@
   const DEMO_ROOT = "demos";
   const ASSETS_PATH = "demos/_assets";
 
-  const CSS = [
-    `${ASSETS_PATH}/demos.css`,
-    "build/calcite-app.css",
-    "vendor/@esri/calcite-components/calcite.css",
-  ];
+  const CSS = [`${ASSETS_PATH}/demos.css`, "build/calcite.css"];
 
   interface Script {
     src: string;
@@ -16,30 +12,22 @@
 
   const SCRIPTS: Script[] = [
     {
-      src: "build/calcite-app.esm.js",
-      type: "module",
+      src: "build/calcite.esm.js",
+      type: "module"
     },
     {
-      src: "build/calcite-app.js",
-      noModule: true,
+      src: "build/calcite.js",
+      noModule: true
     },
     {
-      src: "vendor/@esri/calcite-components/calcite.esm.js",
-      type: "module",
-    },
-    {
-      src: "vendor/@esri/calcite-components/calcite.js",
-      noModule: true,
-    },
-    {
-      src: "vendor/dedent/dedent.js",
-    },
+      src: "vendor/dedent/dedent.js"
+    }
   ];
 
   // Assume server is running in a development environment if there is a port present in the URL and reload demo pages.
   if (location.port) {
     SCRIPTS.push({
-      src: `${ASSETS_PATH}/demoPageReloader.js`,
+      src: `${ASSETS_PATH}/demoPageReloader.js`
     });
   }
 

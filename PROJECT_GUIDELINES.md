@@ -1,6 +1,6 @@
 # Project Guidelines
 
-Hey there and thanks for stopping by! We welcome all feedback and contributions to [Calcite App Components](https://github.com/Esri/calcite-app-components/blob/master/README.md). If you are interested in getting involved, we ask that you give our guidelines a read. Below is a list of things we've found work well for us as we continue developing our components.
+Hey there and thanks for stopping by! We welcome all feedback and contributions to [Calcite App Components](https://github.com/Esri/calcite-components/blob/master/README.md). If you are interested in getting involved, we ask that you give our guidelines a read. Below is a list of things we've found work well for us as we continue developing our components.
 
 ## TOC
 
@@ -10,7 +10,7 @@ Hey there and thanks for stopping by! We welcome all feedback and contributions 
   - [Formatting](#formatting)
   - [Github](#github)
   - [Report a bug!](#report-a-bug)
-- [Dist/package](https://github.com/Esri/calcite-app-components/blob/master/GETTING_STARTED.md_)
+- [Dist/package](https://github.com/Esri/calcite-components/blob/master/GETTING_STARTED.md_)
 - [Code base](#code-base)
   - [A11y](#a11y)
   - [Components](#components)
@@ -20,7 +20,7 @@ Hey there and thanks for stopping by! We welcome all feedback and contributions 
 
 ### Contributing
 
-Please see our [contributing guidelines](https://github.com/Esri/calcite-app-components/blob/master/CONTRIBUTING.md).
+Please see our [contributing guidelines](https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md).
 
 ### Formatting
 
@@ -30,7 +30,7 @@ This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to au
 
 #### Issues
 
-We have created [templates](https://github.com/Esri/calcite-app-components/issues/new/choose) for new issues for everyone to follow for consistency. Please be specific and thorough when submitting new issues! Think about things like user stories, acceptance criteria, design, and any other details that might be helpful for developers and designers.
+We have created [templates](https://github.com/Esri/calcite-components/issues/new/choose) for new issues for everyone to follow for consistency. Please be specific and thorough when submitting new issues! Think about things like user stories, acceptance criteria, design, and any other details that might be helpful for developers and designers.
 
 #### Commits
 
@@ -56,7 +56,7 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 
 ### Report a bug
 
-We use GitHub issues to keep track of bugs. Please follow our [bug issue template](https://github.com/Esri/calcite-app-components/issues/new?assignees=&labels=bug%2C+0+-+new&template=bug.md&title=Bug%3A+) and explain the problem clearly for us maintainers to understand and reproduce. The more details the better!
+We use GitHub issues to keep track of bugs. Please follow our [bug issue template](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=bug%2C+0+-+new&template=bug.md&title=Bug%3A+) and explain the problem clearly for us maintainers to understand and reproduce. The more details the better!
 
 Things to consider:
 
@@ -85,11 +85,11 @@ Components must be accessible and are required to have tests that focus on a11y.
 
 ### Components
 
-New components should have an [issue](https://github.com/Esri/calcite-app-components/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+) so we can determine whether they belong here or [calcite-components](https://github.com/Esri/calcite-components).
+New components should have an [issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+) so we can determine whether they belong here or [calcite-components](https://github.com/Esri/calcite-components).
 
 #### General checklist
 
-See the [new component checklist](https://github.com/Esri/calcite-app-components/wiki/New-Component-Checklist).
+See the [new component checklist](https://github.com/Esri/calcite-components/wiki/New-Component-Checklist).
 
 #### Documentation
 
@@ -99,7 +99,7 @@ For each main component (i.e., one that can be used by itself), there should be 
 
 Each story should provide access to relevant [knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs) so users can test out different properties.
 
-For additional documentation, create a [usage folder](https://github.com/Esri/calcite-app-components/tree/master/src/components/calcite-action/usage) in the component directory with a basic.md and optionally an advanced.md file (if additional documentation or examples are required) with snippets showing different supported use cases for the component.
+For additional documentation, create a [usage folder](https://github.com/Esri/calcite-components/tree/master/src/components/calcite-action/usage) in the component directory with a basic.md and optionally an advanced.md file (if additional documentation or examples are required) with snippets showing different supported use cases for the component.
 
 #### Best practices
 
@@ -120,7 +120,7 @@ Be sure to set `shadow: true` in Stencil's `@Component` options to make sure sty
 
 ##### Unique IDs for components
 
-Many times it is necessary for components to have an `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component, but to also allow a user supplied `id` attribute to work, follow the pattern using `guid` in our [calcite-value-list](https://github.com/Esri/calcite-app-components/blob/master/src/components/calcite-value-list/calcite-value-list.tsx).
+Many times it is necessary for components to have an `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component, but to also allow a user supplied `id` attribute to work, follow the pattern using `guid` in our [calcite-value-list](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-value-list/calcite-value-list.tsx).
 
 This will create a unique id attribute like `id="calcite-example-51af-0941-54ae-22c14d441beb"`, which should have a VERY low collision change since guid() generates IDs with `window.crypto.getRandomValues`. If a user supplies an `id`, it will respect the users `id`.
 
@@ -130,9 +130,9 @@ Components should require as a few text translations as possible. In general, th
 
 If your component involves formatting numbers or dates use the [`Intl` APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for formatting.
 
-To add RTL support to your components, use the internal `getElementDir` helper to apply the `dir` attribute to the component. That way, the `dir` attribute of the component will always match that of the document. See use of `getElementDir` in [calcite-panel](https://github.com/Esri/calcite-app-components/blob/master/src/components/calcite-panel/calcite-panel.tsx).
+To add RTL support to your components, use the internal `getElementDir` helper to apply the `dir` attribute to the component. That way, the `dir` attribute of the component will always match that of the document. See use of `getElementDir` in [calcite-panel](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-panel/calcite-panel.tsx).
 
-Direction specific CSS can be implemented with CSS variables- see example [here](https://github.com/Esri/calcite-app-components/blob/master/src/components/calcite-block-section/calcite-block-section.scss).
+Direction specific CSS can be implemented with CSS variables- see example [here](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-block-section/calcite-block-section.scss).
 
 - https://medium.com/stencil-tricks/implementing-internationalisation-i18n-with-stencil-5e6559554117 and https://codesandbox.io/s/43pmx55vo9
 - https://github.com/ionic-team/ionic-stencil-conference-app/issues/69
@@ -143,12 +143,12 @@ Components should have an automated test for any incoming features or bug fixes.
 
 We encourage writing expressive test cases and code that indicates intent. Use comments sparingly when the aforementioned can't be fully achieved. Keep it clean!
 
-Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/docs/end-to-end-testing) testing. See one of our test examples [here](https://github.com/Esri/calcite-app-components/blob/master/src/components/calcite-block/calcite-block.e2e.ts).
+Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/docs/end-to-end-testing) testing. See one of our test examples [here](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-block/calcite-block.e2e.ts).
 
 #### Browser support
 
-See our [README.md](https://github.com/Esri/calcite-app-components/blob/master/README.md#browser-support) for a list of supported browsers.
+See our [README.md](https://github.com/Esri/calcite-components/blob/master/README.md#browser-support) for a list of supported browsers.
 
 ## Gotchas
 
-- See our [gotchas wiki](https://github.com/Esri/calcite-app-components/wiki/Stencil-Tidbits#gotchas) for issues we've found with Stencil.
+- See our [gotchas wiki](https://github.com/Esri/calcite-components/wiki/Stencil-Tidbits#gotchas) for issues we've found with Stencil.
