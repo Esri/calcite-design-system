@@ -117,5 +117,5 @@ export class CalciteLoader {
   //
   //--------------------------------------------------------------------------
   /** @internal */
-  // private guid = `calcite-loader-${guid()}`;
+  private guid = `calcite-loader-${guid()}`;
 }
