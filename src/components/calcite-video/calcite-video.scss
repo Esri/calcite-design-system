@@ -1,12 +1,6 @@
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
-calcite-video {
-  --calcite-video-controls-on-hover-bg: rgba(255, 255, 255, 0.92);
-}
-calcite-video[theme="dark"] {
-  --calcite-video-controls-on-hover-bg: rgba(43, 43, 43, 0.92);
-}
 
 calcite-video {
   display: inline-flex;
@@ -18,6 +12,7 @@ calcite-video {
   & video {
     max-height: 100%;
     max-width: 100%;
+    cursor: pointer;
   }
 
   & calcite-loader {
@@ -140,26 +135,26 @@ calcite-slider.calcite-video-scrubber {
     cursor: pointer;
   }
 }
-.subtitle-control-item {
+.calcite-video-subtitle-control-item {
   border-right: 0;
   border-left: 1px solid var(--calcite-ui-border-3);
   order: 4;
   &:nth-last-child(2) {
     margin-left: auto;
   }
-  & ~ .fullscreen-control-item {
+  & ~ .calcite-video-fullscreen-control-item {
     margin-left: 0;
   }
 }
 
-.fullscreen-control-item {
+.calcite-video-fullscreen-control-item {
   margin-left: auto;
   border-right: 0;
   border-left: 1px solid var(--calcite-ui-border-3);
   order: 5;
 }
 
-.volume-control-item {
+.calcite-video-volume-control-item {
   order: 2;
 }
 
@@ -172,7 +167,7 @@ calcite-slider.calcite-video-scrubber {
     font-weight: 500;
   }
 }
-.calcite-video-control-item.volume-control-item calcite-slider {
+.calcite-video-control-item.calcite-video-volume-control-item calcite-slider {
   width: 0;
   opacity: 0;
   visibility: hidden;
@@ -181,11 +176,15 @@ calcite-slider.calcite-video-scrubber {
   transition: all ease-in-out 0.15s;
 }
 
-.calcite-video-control-item.volume-control-item:active ~ calcite-slider,
-.calcite-video-control-item.volume-control-item *:focus-within ~ calcite-slider,
-.calcite-video-control-item.volume-control-item calcite-slider:focus,
-.calcite-video-control-item.volume-control-item calcite-slider:focus-within,
-.calcite-video-control-item.volume-control-item:hover calcite-slider {
+.calcite-video-control-item.calcite-video-volume-control-item
+  *:focus-within
+  ~ calcite-slider,
+.calcite-video-control-item.calcite-video-volume-control-item
+  calcite-slider:focus,
+.calcite-video-control-item.calcite-video-volume-control-item
+  calcite-slider:focus-within,
+.calcite-video-control-item.calcite-video-volume-control-item:hover
+  calcite-slider {
   width: 60px;
   margin-left: 20px;
   margin-right: 20px;

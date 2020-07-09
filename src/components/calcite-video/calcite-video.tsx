@@ -109,7 +109,7 @@ export class CalciteVideo {
     );
 
     const volumeControl = (
-      <div class="calcite-video-control-item volume-control-item">
+      <div class="calcite-video-control-item calcite-video-volume-control-item">
         <calcite-button
           scale="s"
           appearance="transparent"
@@ -130,7 +130,7 @@ export class CalciteVideo {
     );
 
     const fullscreenControl = (
-      <div class="calcite-video-control-item fullscreen-control-item">
+      <div class="calcite-video-control-item calcite-video-fullscreen-control-item">
         <calcite-button
           scale="s"
           appearance="transparent"
@@ -142,7 +142,7 @@ export class CalciteVideo {
     );
 
     const subtitleControlSingle = (
-      <div class="calcite-video-control-item subtitle-control-item">
+      <div class="calcite-video-control-item calcite-video-subtitle-control-item">
         <calcite-button
           scale="s"
           appearance="transparent"
@@ -158,7 +158,7 @@ export class CalciteVideo {
     );
 
     const subtitleControlMultiple = (
-      <div class="calcite-video-control-item subtitle-control-item">
+      <div class="calcite-video-control-item calcite-video-subtitle-control-item">
         <calcite-dropdown alignment="end" width="s">
           <calcite-button
             slot="dropdown-trigger"
@@ -271,6 +271,11 @@ export class CalciteVideo {
   @Listen("calciteVideoPlay", { target: "window" }) videoPlayListener(e) {
     if (e.target !== this.el) {
       this.pauseVideo();
+    }
+  }
+  @Listen("click") clickListener() {
+    if (!this.isLoading && !this.playOnHover && event.target === this.videoEl) {
+      this.toggleVideo();
     }
   }
 
