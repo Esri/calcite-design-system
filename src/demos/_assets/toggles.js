@@ -48,7 +48,8 @@ var _this = this;
         var components_1 = null;
         var excludedComponents_1 = ["calcite-button"];
         var toggleProperty_1 = function (property) {
-            components_1 = components_1 || Array.from(document.body.querySelectorAll(".hydrated"));
+            components_1 =
+                components_1 || Array.from(document.body.querySelectorAll(".hydrated"));
             components_1.forEach(function (component) {
                 if (!excludedComponents_1.includes(component.tagName.toLowerCase())) {
                     component.toggleAttribute(property);
@@ -58,7 +59,9 @@ var _this = this;
         var attachHandlers_1 = function () {
             var buttons = document.querySelectorAll(".toggles calcite-button");
             buttons.forEach(function (button) {
-                return button.addEventListener("click", function (event) { return toggleProperty_1(event.target.dataset.jsId); });
+                return button.addEventListener("click", function (event) {
+                    return toggleProperty_1(event.target.dataset.jsId);
+                });
             });
         };
         var loadToggles = function () { return __awaiter(_this, void 0, void 0, function () {

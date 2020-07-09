@@ -1,22 +1,14 @@
 (function () {
     var DEMO_ROOT = "demos";
     var ASSETS_PATH = "demos/_assets";
-    var CSS = [ASSETS_PATH + "/demos.css", "build/calcite-app.css", "vendor/@esri/calcite-components/calcite.css"];
+    var CSS = [ASSETS_PATH + "/demos.css", "build/calcite.css"];
     var SCRIPTS = [
         {
-            src: "build/calcite-app.esm.js",
+            src: "build/calcite.esm.js",
             type: "module"
         },
         {
-            src: "build/calcite-app.js",
-            noModule: true
-        },
-        {
-            src: "vendor/@esri/calcite-components/calcite.esm.js",
-            type: "module"
-        },
-        {
-            src: "vendor/@esri/calcite-components/calcite.js",
+            src: "build/calcite.js",
             noModule: true
         },
         {
