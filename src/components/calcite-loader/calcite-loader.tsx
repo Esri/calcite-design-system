@@ -96,35 +96,19 @@ export class CalciteLoader {
    * Return the proper sizes based on the scale property
    */
   private getSize(scale: string) {
-    let size = 32;
-    switch (scale) {
-      case "s":
-        size = 32;
-        break;
-      case "m":
-        size = 56;
-        break;
-      case "l":
-        size = 80;
-        break;
-    }
-    return size;
+    return {
+      "s": 32,
+      "m": 56,
+      "l": 80
+    }[scale];
   }
 
   private getInlineSize(scale: string) {
-    let size = 16;
-    switch (scale) {
-      case "s":
-        size = 12;
-        break;
-      case "m":
-        size = 16;
-        break;
-      case "l":
-        size = 20;
-        break;
-    }
-    return size;
+    return {
+      "s": 12,
+      "m": 16,
+      "l": 20
+    }[scale];
   }
 
   //--------------------------------------------------------------------------

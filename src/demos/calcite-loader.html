@@ -28,9 +28,13 @@
 
 <body>
   <calcite-button href="/">Home</calcite-button>
+  <hr>
+  <calcite-button scale="s" data-scale="s" class="scale-selector">Small</calcite-button>
+  <calcite-button scale="s" data-scale="m" class="scale-selector">Medium</calcite-button>
+  <calcite-button scale="s" data-scale="l" class="scale-selector">Large</calcite-button>
   <h1>Calcite Loader</h1>
   <h2>Standard</h2>
-  <calcite-loader active></calcite-loader>
+  <calcite-loader active scale="m"></calcite-loader>
   <h2>Determinate</h2>
   <calcite-loader active type="determinate" value="0" id="loader-determinate" text="Determinate loader">
   </calcite-loader>
@@ -39,12 +43,12 @@
   </div>
   <script>
     (function () {
-      var loader = document.querySelector("#loader-determinate");
+      var determinateLoader = document.querySelector("#loader-determinate");
       var randoms = [0, 0, 0, 0, 0, 0, 1, 3];
       function updateLoader() {
         var random = randoms[Math.floor(Math.random() * randoms.length)];
-        loader.value = Math.min(loader.value + random, 100);
-        if (loader.value !== 100) {
+        determinateLoader.value = Math.min(determinateLoader.value + random, 100);
+        if (determinateLoader.value !== 100) {
           requestAnimationFrame(updateLoader);
         }
       }
@@ -53,8 +57,24 @@
 
       document.querySelector("#replay").addEventListener("click", function () {
         cancelAnimationFrame(updateLoader);
-        loader.value = 0;
+        determinateLoader.value = 0;
         updateLoader();
+      });
+
+      const scaleSelectors = document.querySelectorAll(".scale-selector");
+      scaleSelectors.forEach((selector) => {
+        selector.addEventListener("click", function (e) {
+          // console.log(e.target.getAttribute("data-scale"));
+          const scale = e.target.getAttribute("data-scale");
+          const loaders = document.querySelectorAll("calcite-loader");
+          loaders.forEach((loader) => {
+            console.log("scale: " + loader.getAttribute("scale"));
+            loader.setAttribute("scale", scale);
+          });
+          cancelAnimationFrame(updateLoader);
+          determinateLoader.value = 0;
+          updateLoader();
+        });
       });
     })();
   </script>
