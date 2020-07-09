@@ -10,6 +10,7 @@ The `calcite-progress` component is used to show progress on some async task to 
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property   | Attribute  | Description                                                      | Type                               | Default         |
@@ -20,20 +21,20 @@ The `calcite-progress` component is used to show progress on some async task to 
 | `type`     | `type`     | Use indeterminate if finding actual progress value is impossible | `"determinate" \| "indeterminate"` | `"determinate"` |
 | `value`    | `value`    | Fraction completed, in the range of 0 - 1.0                      | `number`                           | `0`             |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-input](../calcite-input)
+ - [calcite-input](../calcite-input)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-input --> calcite-progress
   style calcite-progress fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

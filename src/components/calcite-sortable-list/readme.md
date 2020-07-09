@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property         | Attribute         | Description                                                                                 | Type      | Default            |
@@ -10,11 +11,13 @@
 | `handleSelector` | `handle-selector` | The class on the handle elements.                                                           | `string`  | `"calcite-handle"` |
 | `loading`        | `loading`         | When true, content is waiting to be loaded. This state shows a busy indicator.              | `boolean` | `false`            |
 
+
 ## Events
 
 | Event                    | Description                                      | Type               |
 | ------------------------ | ------------------------------------------------ | ------------------ |
 | `calciteListOrderChange` | Emmitted when the order of the list has changed. | `CustomEvent<any>` |
+
 
 ## Slots
 
@@ -22,6 +25,7 @@
 | ---- | -------------------------------- |
 |      | A slot for adding sortable items |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

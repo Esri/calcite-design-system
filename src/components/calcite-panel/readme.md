@@ -4,6 +4,7 @@ The `calcite-panel` component is a container for a header, content and optional 
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -69,6 +70,8 @@ Renders a panel that is dismissible with a click of the "x".
 </calcite-panel>
 ```
 
+
+
 ## Properties
 
 | Property      | Attribute      | Description                                                                                               | Type                | Default     |
@@ -81,6 +84,7 @@ Renders a panel that is dismissible with a click of the "x".
 | `loading`     | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                            | `boolean`           | `false`     |
 | `theme`       | `theme`        | Used to set the component's color scheme.                                                                 | `"dark" \| "light"` | `undefined` |
 
+
 ## Events
 
 | Event                         | Description                                     | Type               |
@@ -88,13 +92,19 @@ Renders a panel that is dismissible with a click of the "x".
 | `calcitePanelDismissedChange` | Emitted when the close button has been clicked. | `CustomEvent<any>` |
 | `calcitePanelScroll`          | Emitted when the content has been scrolled.     | `CustomEvent<any>` |
 
+
 ## Methods
 
 ### `setFocus(focusId?: "dismiss-button") => Promise<void>`
 
+
+
 #### Returns
 
 Type: `Promise<void>`
+
+
+
 
 ## Slots
 
@@ -107,11 +117,12 @@ Type: `Promise<void>`
 | `"header-leading-content"`  | A slot for adding a `calcite-action` on the leading side of the header.          |
 | `"header-trailing-content"` | A slot for adding a `calcite-action` on the trailing side of the header.         |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-flow-item](../calcite-flow-item)
+ - [calcite-flow-item](../calcite-flow-item)
 
 ### Depends on
 
@@ -119,7 +130,6 @@ Type: `Promise<void>`
 - [calcite-scrim](../calcite-scrim)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-panel --> calcite-action
@@ -131,6 +141,6 @@ graph TD;
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

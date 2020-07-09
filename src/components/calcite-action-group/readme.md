@@ -4,15 +4,15 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 
 <!-- Auto Generated Below -->
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-action-bar](../calcite-action-bar)
-- [calcite-action-pad](../calcite-action-pad)
+ - [calcite-action-bar](../calcite-action-bar)
+ - [calcite-action-pad](../calcite-action-pad)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-action-bar --> calcite-action-group
@@ -20,6 +20,6 @@ graph TD;
   style calcite-action-group fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -4,6 +4,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -94,6 +95,8 @@ Renders a value list with label editing and single select.
 </calcite-value-list>
 ```
 
+
+
 ## Properties
 
 | Property                | Attribute                 | Description                                                                                                                                                                                                                                       | Type      | Default                  |
@@ -105,6 +108,7 @@ Renders a value list with label editing and single select.
 | `multiple`              | `multiple`                | Multiple Works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean` | `false`                  |
 | `textFilterPlaceholder` | `text-filter-placeholder` | Placeholder text for the filter input field.                                                                                                                                                                                                      | `string`  | `TEXT.filterPlaceholder` |
 
+
 ## Events
 
 | Event                    | Description                                           | Type               |
@@ -112,19 +116,29 @@ Renders a value list with label editing and single select.
 | `calciteListChange`      | Emitted when any of the item selections have changed. | `CustomEvent<any>` |
 | `calciteListOrderChange` | Emmitted when the order of the list has changed.      | `CustomEvent<any>` |
 
+
 ## Methods
 
 ### `getSelectedItems() => Promise<Map<string, HTMLCalciteValueListItemElement>>`
+
+
 
 #### Returns
 
 Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
+
+
 ### `setFocus() => Promise<void>`
+
+
 
 #### Returns
 
 Type: `Promise<void>`
+
+
+
 
 ## Slots
 
@@ -132,6 +146,7 @@ Type: `Promise<void>`
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 |                  | A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list. |
 | `"menu-actions"` | A slot for adding a button + menu combo for performing actions like sorting.                                                       |
+
 
 ## Dependencies
 
@@ -141,7 +156,6 @@ Type: `Promise<void>`
 - [calcite-scrim](../calcite-scrim)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-value-list --> calcite-filter
@@ -151,6 +165,6 @@ graph TD;
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

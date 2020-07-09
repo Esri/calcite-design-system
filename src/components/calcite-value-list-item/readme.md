@@ -4,6 +4,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property                 | Attribute          | Description                                                                                       | Type                                                        | Default     |
@@ -17,25 +18,36 @@
 | `textLabel` _(required)_ | `text-label`       | The main label for this item. Appears next to the icon.                                           | `string`                                                    | `undefined` |
 | `value` _(required)_     | `value`            | A unique value used to identify this item - similar to the value attribute on an <input>.         | `string`                                                    | `undefined` |
 
+
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
+
+
 #### Returns
 
 Type: `Promise<void>`
+
+
 
 ### `toggleSelected(coerce?: boolean) => Promise<void>`
 
+
+
 #### Returns
 
 Type: `Promise<void>`
+
+
+
 
 ## Slots
 
 | Slot                 | Description                                                                                               |
 | -------------------- | --------------------------------------------------------------------------------------------------------- |
 | `"secondary-action"` | A slot intended for adding a `calcite-action` or `calcite-button`. This is placed at the end of the item. |
+
 
 ## Dependencies
 
@@ -45,7 +57,6 @@ Type: `Promise<void>`
 - [calcite-pick-list-item](../calcite-pick-list-item)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-value-list-item --> calcite-icon
@@ -57,6 +68,6 @@ graph TD;
   style calcite-value-list-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

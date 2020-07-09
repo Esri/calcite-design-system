@@ -4,6 +4,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -117,6 +118,8 @@ Renders groups of pick list items that are visually separated.
 </calcite-pick-list>
 ```
 
+
+
 ## Properties
 
 | Property                | Attribute                 | Description                                                                                                                                                                                                                                       | Type      | Default                  |
@@ -127,25 +130,36 @@ Renders groups of pick list items that are visually separated.
 | `multiple`              | `multiple`                | Multiple works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean` | `false`                  |
 | `textFilterPlaceholder` | `text-filter-placeholder` | Placeholder text for the filter input field.                                                                                                                                                                                                      | `string`  | `TEXT.filterPlaceholder` |
 
+
 ## Events
 
 | Event               | Description                                           | Type               |
 | ------------------- | ----------------------------------------------------- | ------------------ |
 | `calciteListChange` | Emitted when any of the item selections have changed. | `CustomEvent<any>` |
 
+
 ## Methods
 
 ### `getSelectedItems() => Promise<Map<string, HTMLCalcitePickListItemElement>>`
+
+
 
 #### Returns
 
 Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
+
+
 ### `setFocus() => Promise<void>`
+
+
 
 #### Returns
 
 Type: `Promise<void>`
+
+
+
 
 ## Slots
 
@@ -153,6 +167,7 @@ Type: `Promise<void>`
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 |                  | A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list. |
 | `"menu-actions"` | A slot for adding a button + menu combo for performing actions like sorting.                                                       |
+
 
 ## Dependencies
 
@@ -162,7 +177,6 @@ Type: `Promise<void>`
 - [calcite-scrim](../calcite-scrim)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-pick-list --> calcite-filter
@@ -172,6 +186,6 @@ graph TD;
   style calcite-pick-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

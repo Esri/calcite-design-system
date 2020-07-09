@@ -4,7 +4,7 @@ import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { generatePreactTypes } from "./support/preact";
 
-export const config: Config = {
+export const create: () => Config = () => ({
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
@@ -115,4 +115,6 @@ export const config: Config = {
     appendChildSlotFix: true,
     slotChildNodesFix: true,
   },
-};
+});
+
+export const config = create();

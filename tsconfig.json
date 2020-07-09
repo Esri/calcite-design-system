@@ -1,19 +1,5 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "allowUnreachableCode": false,
-    "declaration": false,
-    "experimentalDecorators": true,
-    "lib": ["dom", "es2017"],
-    "moduleResolution": "node",
-    "module": "esnext",
-    "target": "es2017",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "jsx": "react",
-    "jsxFactory": "h"
-  },
+  "extends": "./tsconfig-base",
   "include": ["src", "types/jsx.d.ts", ".storybook/declarations.d.ts"],
-  "typeRoots": ["node_modules/@types"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/*.stories.ts", "**/tests/**"]
 }

@@ -4,11 +4,13 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property         | Attribute          | Description                                            | Type     | Default     |
 | ---------------- | ------------------ | ------------------------------------------------------ | -------- | ----------- |
 | `textGroupTitle` | `text-group-title` | The title used for all nested `calcite-pick-list` rows | `string` | `undefined` |
+
 
 ## Slots
 
@@ -16,6 +18,7 @@
 | ---- | ---------------------------------------------------- |
 |      | A slot for adding `calcite-pick-list-item` elements. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*
