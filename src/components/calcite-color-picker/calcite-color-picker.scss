@@ -1,6 +1,7 @@
 $font-weight--medium: 500;
 $section-label-bottom-padding: 10px;
 $inline-button-size: 24px;
+$color-mode-selected-border-height: 3px;
 
 :host {
   border: 1px solid var(--calcite-ui-border-1);
@@ -34,6 +35,7 @@ $inline-button-size: 24px;
   }
 
   .color-hex-options {
+    flex-basis: 33%;
     flex-grow: 0;
   }
 
@@ -101,6 +103,11 @@ $inline-button-size: 24px;
   }
 }
 
+.header--hex {
+  padding-bottom: $section-label-bottom-padding +
+    $color-mode-selected-border-height - 1px;
+}
+
 .control {
   margin-top: 8px;
 }
@@ -108,7 +115,7 @@ $inline-button-size: 24px;
 .color-mode {
   cursor: pointer;
   margin-bottom: -1px;
-  border-bottom: 3px solid transparent;
+  border-bottom: $color-mode-selected-border-height solid transparent;
 }
 
 .color-mode-selection {
