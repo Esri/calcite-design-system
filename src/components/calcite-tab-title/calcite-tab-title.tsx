@@ -42,7 +42,7 @@ export class CalciteTabTitle {
   @Prop({ reflect: true, mutable: true }) tab?: string;
 
   /** Show this tab title as selected */
-  @Prop({ reflect: true, mutable: true }) isActive: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
@@ -53,7 +53,7 @@ export class CalciteTabTitle {
   //--------------------------------------------------------------------------
 
   componentWillLoad() {
-    if (this.tab && this.isActive) {
+    if (this.tab && this.active) {
       this.calciteTabsActivate.emit({
         tab: this.tab,
       });
@@ -71,7 +71,7 @@ export class CalciteTabTitle {
       <Host
         id={id}
         aria-controls={this.controls}
-        aria-expanded={this.isActive.toString()}
+        aria-expanded={this.active.toString()}
         role="tab"
         tabindex="0"
       >
@@ -100,10 +100,10 @@ export class CalciteTabTitle {
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (this.tab) {
-      this.isActive = this.tab === event.detail.tab;
+      this.active = this.tab === event.detail.tab;
     } else {
       this.getTabIndex().then((index) => {
-        this.isActive = index === event.detail.tab;
+        this.active = index === event.detail.tab;
       });
     }
   }

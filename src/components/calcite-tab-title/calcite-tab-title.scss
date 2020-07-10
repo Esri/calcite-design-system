@@ -42,7 +42,7 @@ $tab-margin: 1.25rem;
   }
 }
 
-:host([is-active]) a {
+:host([active]) a {
   color: var(--calcite-ui-text-1);
   border-bottom-color: var(--calcite-ui-blue-1);
   font-weight: 500;
