@@ -96,6 +96,12 @@
   font-size: $font-size;
 }
 
+@mixin btn-scale-notext-two-icons($font-size, $size) {
+  height: $size;
+  width: $size * 1.5;
+  font-size: $font-size;
+}
+
 // button width
 :host([width="auto"]) {
   width: auto;
@@ -128,22 +134,36 @@
   }
 }
 // icon positioning and styles
-:host([hastext][icon-position="start"]) .calcite-button--icon {
+:host([hastext]) .calcite-button--icon.icon-start {
   margin-right: $baseline/3;
 }
 
-:host([hastext][icon-position="start"][dir="rtl"]) .calcite-button--icon {
+:host([hastext][dir="rtl"]) .calcite-button--icon.icon-start {
   margin-right: 0;
   margin-left: $baseline/3;
 }
 
-:host([hastext][icon-position="end"]) .calcite-button--icon {
+:host([hastext]) .calcite-button--icon.icon-end {
   margin-left: $baseline/3;
 }
 
-:host([hastext][icon-position="end"][dir="rtl"]) .calcite-button--icon {
+:host([hastext][dir="rtl"]) .calcite-button--icon.icon-end {
   margin-left: 0;
   margin-right: $baseline/3;
+}
+
+// compensate for spacing when no hastext and two icons
+:host([icon-start][icon-end]) {
+  .calcite-button--icon:first-child {
+    margin-right: $baseline/3;
+  }
+}
+
+:host([icon-start][icon-end][dir="rtl"]) {
+  .calcite-button--icon:first-child {
+    margin-right: 0;
+    margin-left: $baseline/3;
+  }
 }
 
 .calcite-button--loader {
@@ -591,5 +611,19 @@ $btnScales2: "s" 12px 32px, "m" 16px 44px, "l" 20px 56px;
   :host([scale="#{$name}"]:not([hastext])) button,
   :host([scale="#{$name}"]:not([hastext])) a {
     @include btn-scale-notext($font-size, $size);
+  }
+}
+
+// generate fab scales
+$btnScales3: "s" 12px 32px, "m" 16px 44px, "l" 20px 56px;
+
+@each $btnScale in $btnScales3 {
+  $name: nth($btnScale, 1);
+  $font-size: nth($btnScale, 2);
+  $size: nth($btnScale, 3);
+
+  :host([scale="#{$name}"][icon-start][icon-end]:not([hastext])) button,
+  :host([scale="#{$name}"][icon-start][icon-end]:not([hastext])) a {
+    @include btn-scale-notext-two-icons($font-size, $size);
   }
 }

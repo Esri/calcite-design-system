@@ -61,39 +61,22 @@
   }
 }
 // icon positioning and styles
-:host([icon-position="start"]) .calcite-link--icon {
+:host .calcite-link--icon.icon-start {
   margin-right: $baseline/3;
 }
 
-:host([icon-position="start"][dir="rtl"]) .calcite-link--icon {
+:host([dir="rtl"]) .calcite-link--icon.icon-start {
   margin-right: 0;
   margin-left: $baseline/3;
 }
 
-:host([icon-position="end"]) .calcite-link--icon {
+:host .calcite-link--icon.icon-end {
   margin-left: $baseline/3;
 }
 
-:host([icon-position="end"][dir="rtl"]) .calcite-link--icon {
+:host([dir="rtl"]) .calcite-link--icon.icon-end {
   margin-left: 0;
   margin-right: $baseline/3;
-}
-
-:host([icon-position="start"]) .calcite-link--icon {
-  margin-right: $baseline/4;
-}
-
-:host([icon-position="start"][dir="rtl"]) .calcite-link--icon {
-  margin-left: $baseline/4;
-  margin-right: 0;
-}
-
-:host([icon-position="end"]) .calcite-link--icon {
-  margin-left: $baseline/4;
-}
-:host([icon-position="end"][dir="rtl"]) .calcite-link--icon {
-  margin-left: 0;
-  margin-right: $baseline/4;
 }
 
 // inline

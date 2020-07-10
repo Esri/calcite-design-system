@@ -73,12 +73,11 @@ export class CalciteButton {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
-  @Prop({ reflect: true }) icon?: string;
+  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
 
-  /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
-    "start";
+  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
@@ -103,10 +102,6 @@ export class CalciteButton {
 
     let width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
-
-    let iconPosition = ["start", "end"];
-    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
-      this.iconPosition = "start";
 
     this.childElType = this.href ? "a" : "button";
     this.setupTextContentObserver();
@@ -137,10 +132,18 @@ export class CalciteButton {
 
     const iconScale = this.scale === "l" ? "m" : "s";
 
-    const iconEl = (
+    const iconStartEl = (
       <calcite-icon
-        class="calcite-button--icon"
-        icon={this.icon}
+        class="calcite-button--icon icon-start"
+        icon={this.iconStart}
+        scale={iconScale}
+      />
+    );
+
+    const iconEndEl = (
+      <calcite-icon
+        class="calcite-button--icon icon-end"
+        icon={this.iconEnd}
         scale={iconScale}
       />
     );
@@ -155,9 +158,9 @@ export class CalciteButton {
           ref={(el) => (this.childEl = el)}
         >
           {this.loading ? loader : null}
-          {this.icon && this.iconPosition === "start" ? iconEl : null}
+          {this.iconStart ? iconStartEl : null}
           <slot />
-          {this.icon && this.iconPosition === "end" ? iconEl : null}
+          {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>
     );
@@ -215,8 +218,8 @@ export class CalciteButton {
       "color",
       "dir",
       "hasText",
-      "icon",
-      "iconPosition",
+      "icon-start",
+      "icon-end",
       "id",
       "loading",
       "scale",

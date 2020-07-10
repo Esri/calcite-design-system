@@ -1,11 +1,16 @@
-$loader-size: 56;
-$loader-size-inline: 20;
-$loader-width: $loader-size * 1px;
-$loader-width-inline: $loader-size-inline * 1px;
-$loader-stroke: 3;
-$loader-stroke-inline: 2;
+$loader-size-small: 32;
+$loader-size-medium: 56;
+$loader-size-large: 80;
+
+$loader-size-small-inline: 12;
+$loader-size-medium-inline: 16;
+$loader-size-large-inline: 20;
+
+$loader-scale: 56;
+$stroke-width: 3;
+$stroke-width-inline: 2;
 $loader-padding: 4rem;
-$loader-circumference: ($loader-size - (2 * $loader-stroke)) * 3.14159;
+$loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 /**
   Segment variables
@@ -25,19 +30,46 @@ $segment-3-growth: 45;
 $segment-3-duration: 1.16s;
 
 :host {
+  align-items: center;
+  justify-content: center;
   position: relative;
   display: none;
   padding-bottom: $loader-padding;
   padding-top: $loader-padding;
   margin-left: auto;
   margin-right: auto;
-  min-height: $loader-width;
+  min-height: var(--loader-size);
   stroke: var(--calcite-ui-blue-1);
-  stroke-width: $loader-stroke;
+  stroke-width: $stroke-width;
   fill: none;
   opacity: 1;
   transform: scale(1, 1);
   animation: loader-color-shift 6s alternate-reverse infinite linear;
+}
+
+:host([scale="s"]) {
+  --loader-size: #{ $loader-size-small + 1 }px;
+  --loader-size-inline: #{ $loader-size-small-inline + 1 }px;
+  @include font-size(-3);
+  .loader__percentage {
+    font-size: 0.625rem;
+  }
+}
+:host([scale="m"]) {
+  --loader-size: #{ $loader-size-medium + 1 }px;
+  --loader-size-inline: #{ $loader-size-medium-inline + 1 }px;
+  @include font-size(-2);
+  .loader__percentage {
+    font-size: 0.875rem;
+  }
+}
+:host([scale="l"]) {
+  --loader-size: #{ $loader-size-large + 1 }px;
+  --loader-size-inline: #{ $loader-size-large-inline + 1 }px;
+  @include font-size(-1);
+  .loader__percentage {
+    font-size: 1.25rem;
+  }
 }
 
 :host([no-padding]) {
@@ -45,47 +77,45 @@ $segment-3-duration: 1.16s;
   padding-bottom: 0;
 }
 
-:host([is-active]) {
-  display: block;
+:host([active]) {
+  display: flex;
 }
 
 .loader__text {
   display: block;
-  margin-top: $loader-padding + 1rem;
+  margin-top: calc(var(--loader-size) + 3rem);
   text-align: center;
-  @include font-size(-2);
 }
 
 .loader__percentage {
   display: block;
-  width: $loader-width;
+  width: var(--loader-size);
   position: absolute;
   top: $loader-padding;
   left: 50%;
-  margin-left: -$loader-width / 2;
-  margin-top: ($loader-width / 2);
+  margin-left: calc(var(--loader-size) / 2 * -1);
+  margin-top: calc(var(--loader-size) / 2);
   text-align: center;
-  font-size: 0.875rem;
   color: var(--calcite-ui-text-1);
   line-height: 0.25;
   transform: scale(1, 1);
 }
 
 .loader__svgs {
-  width: $loader-width;
-  height: $loader-width;
+  width: var(--loader-size);
+  height: var(--loader-size);
   position: absolute;
   top: $loader-padding;
   left: 50%;
-  margin-left: -$loader-width / 2;
+  margin-left: calc(var(--loader-size) / 2 * -1);
   overflow: visible;
   opacity: 1;
   transform: scale(1, 1);
 }
 
 .loader__svg {
-  width: $loader-width;
-  height: $loader-width;
+  width: var(--loader-size);
+  height: var(--loader-size);
   position: absolute;
   top: 0;
   left: 0;
@@ -118,25 +148,25 @@ $segment-3-duration: 1.16s;
 
 :host([inline]) {
   stroke: currentColor;
-  stroke-width: $loader-stroke-inline;
+  stroke-width: $stroke-width-inline;
   animation: none;
   margin: 0;
   padding-bottom: 0;
   padding-top: 0;
   position: relative;
-  height: $loader-width-inline;
-  min-height: $loader-width-inline;
-  width: $loader-width-inline;
-  margin-right: $loader-width-inline / 2;
-  vertical-align: -$loader-width-inline / 5;
+  height: var(--loader-size-inline);
+  min-height: var(--loader-size-inline);
+  width: var(--loader-size-inline);
+  margin-right: var(--loader-size-inline) / 2;
+  vertical-align: -var(--loader-size-inline) / 5;
 }
 
 :host([inline][dir="rtl"]) {
-  margin-left: $loader-width-inline / 2;
+  margin-left: var(--loader-size-inline) / 2;
   margin-right: 0;
 }
 
-:host([is-active][inline]) {
+:host([active][inline]) {
   display: inline-block;
 }
 
@@ -144,13 +174,13 @@ $segment-3-duration: 1.16s;
   top: 0;
   left: 0;
   margin: 0;
-  width: $loader-width-inline;
-  height: $loader-width-inline;
+  width: var(--loader-size-inline);
+  height: var(--loader-size-inline);
 }
 
 :host([inline]) .loader__svg {
-  width: $loader-width-inline;
-  height: $loader-width-inline;
+  width: var(--loader-size-inline);
+  height: var(--loader-size-inline);
 }
 
 :host([complete]) {
@@ -169,13 +199,13 @@ $segment-3-duration: 1.16s;
 
 :host([complete]) .loader__percentage {
   color: var(--calcite-ui-blue-1);
-  transform: scale(1.075, 1.075);
+  transform: scale(1.05, 1.05);
   transform-origin: center;
   transition: color 200ms linear, transform 200ms linear;
 }
 
 @mixin generateSegment($i, $size, $growth, $duration) {
-  $circumference: $loader-circumference / $loader-size * 100%;
+  $circumference: $loader-circumference / $loader-scale * 100%;
   $length: ($size / 100) * $circumference;
   $end: $length + ($growth / 100) * $circumference;
   .loader__svg--#{$i} {

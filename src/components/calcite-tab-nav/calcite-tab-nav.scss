@@ -1,7 +1,15 @@
+:host {
+  z-index: 2;
+}
+
 .tab-nav {
   display: flex;
   overflow: auto;
   justify-content: flex-start;
+  -webkit-overflow-scrolling: touch;
+  // workaround for outset focus within a scrolling container
+  padding: 4px;
+  margin: -4px;
 }
 
 :host([layout="center"]) .tab-nav {
