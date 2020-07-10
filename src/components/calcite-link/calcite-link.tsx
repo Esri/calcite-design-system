@@ -84,6 +84,7 @@ export class CalciteLink {
       <Host dir={dir}>
         <Tag
           {...attributes}
+          href={Tag === "a" && this.href}
           role={role}
           tabindex={tabIndex}
           ref={(el) => (this.childEl = el)}
@@ -121,7 +122,7 @@ export class CalciteLink {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = ["color", "dir", "icon", "iconPosition", "id", "theme"];
+    let props = ["color", "dir", "icon", "icon-position", "id", "theme"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
