@@ -77,7 +77,6 @@ calcite-video[show-controls-on-hover]:hover {
   box-sizing: border-box;
   height: 100%;
   border: 1px solid var(--calcite-ui-border-3);
-  border-bottom: 0;
   &.calcite-video-fullscreen {
     height: 100%;
     border-color: transparent;
@@ -93,7 +92,7 @@ calcite-video[show-controls-on-hover]:hover {
   flex-direction: column;
   width: 100%;
   border: 1px solid var(--calcite-ui-border-3);
-  border-top: none;
+  border-top: 0;
   box-sizing: border-box;
 }
 
@@ -135,6 +134,12 @@ calcite-slider.calcite-video-scrubber {
     cursor: pointer;
   }
 }
+
+calcite-video[dir="rtl"] .calcite-video-control-item {
+  border-right: 0;
+  border-left: 1px solid var(--calcite-ui-border-3);
+}
+
 .calcite-video-subtitle-control-item {
   border-right: 0;
   border-left: 1px solid var(--calcite-ui-border-3);
@@ -146,12 +151,32 @@ calcite-slider.calcite-video-scrubber {
     margin-left: 0;
   }
 }
+calcite-video[dir="rtl"] {
+  & .calcite-video-subtitle-control-item {
+    border-left: 0;
+    border-right: 1px solid var(--calcite-ui-border-3);
+    &:nth-last-child(2) {
+      margin-right: auto;
+      margin-left: 0;
+    }
+    & ~ .calcite-video-fullscreen-control-item {
+      margin-right: 0;
+    }
+  }
+}
 
 .calcite-video-fullscreen-control-item {
   margin-left: auto;
   border-right: 0;
   border-left: 1px solid var(--calcite-ui-border-3);
   order: 5;
+}
+
+calcite-video[dir="rtl"] .calcite-video-fullscreen-control-item {
+  margin-right: auto;
+  margin-left: 0;
+  border-left: 0;
+  border-right: 1px solid var(--calcite-ui-border-3);
 }
 
 .calcite-video-volume-control-item {

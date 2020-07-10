@@ -25,7 +25,6 @@
 ### Used by
 
 - [calcite-combobox](../calcite-combobox)
-- [calcite-video](../calcite-video)
 
 ### Depends on
 
@@ -37,7 +36,6 @@
 graph TD;
   calcite-chip --> calcite-icon
   calcite-combobox --> calcite-chip
-  calcite-video --> calcite-chip
   style calcite-chip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

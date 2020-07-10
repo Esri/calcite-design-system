@@ -127,7 +127,9 @@ export class CalciteVideo {
           scale="s"
           appearance="transparent"
           color="dark"
-          icon={this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"}
+          icon-start={
+            this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"
+          }
           title={
             this.isComplete
               ? this.intlRestart
@@ -150,15 +152,17 @@ export class CalciteVideo {
     const volumeControl = (
       <div class="calcite-video-control-item calcite-video-volume-control-item">
         <calcite-button
+          dir={dir}
           scale="s"
           appearance="transparent"
           color="dark"
-          icon={this.muted ? "sound-unavailable" : "sound"}
+          icon-start={this.muted ? "sound-unavailable" : "sound"}
           title={!this.muted ? this.intlMute : this.intlUnmute}
           aria-label={!this.muted ? this.intlMute : this.intlUnmute}
           onClick={() => this.toggleMuted()}
         />
         <calcite-slider
+          dir={dir}
           theme={this.theme}
           min={0}
           max={1}
@@ -176,7 +180,7 @@ export class CalciteVideo {
           scale="s"
           appearance="transparent"
           color="dark"
-          icon={!this.isFullscreen ? "extent" : "full-screen-exit"}
+          icon-start={!this.isFullscreen ? "extent" : "full-screen-exit"}
           title={
             !this.isFullscreen
               ? this.intlEnterFullscreen
@@ -199,7 +203,7 @@ export class CalciteVideo {
           class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
           appearance="transparent"
           color="dark"
-          icon="speech-bubble"
+          icon-start="speech-bubble"
           onClick={() => this.handleSubtitleToggle()}
           title={this.intlSubtitles}
           aria-label={this.intlSubtitles}
@@ -220,7 +224,7 @@ export class CalciteVideo {
             class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
             appearance="transparent"
             color="dark"
-            icon="speech-bubbles"
+            icon-start="speech-bubbles"
             title={this.intlSubtitles}
             aria-label={this.intlSubtitles}
           >
@@ -237,7 +241,7 @@ export class CalciteVideo {
             >
               Off
             </calcite-dropdown-item>
-            {this.availableSubtitleDropdownOptions}
+            {this.subtitleDropdownItems}
           </calcite-dropdown-group>
         </calcite-dropdown>
       </div>
@@ -246,6 +250,7 @@ export class CalciteVideo {
     const progress = !this.disableScrubbing ? (
       <div class="calcite-video-scrubber-wrapper">
         <calcite-slider
+          dir={dir}
           theme={this.theme}
           class="calcite-video-scrubber"
           ref={(el) => (this.scrubberEl = el)}
@@ -255,6 +260,7 @@ export class CalciteVideo {
       </div>
     ) : (
       <calcite-progress
+        dir={dir}
         theme={this.theme}
         ref={(el) => (this.progressEl = el)}
       />
@@ -271,7 +277,7 @@ export class CalciteVideo {
       <Host dir={dir} tabIndex={0}>
         <calcite-loader
           type="indeterminate"
-          is-active={this.isLoading}
+          active={this.isLoading}
         ></calcite-loader>
         <div
           class={`calcite-video-wrapper ${
@@ -429,7 +435,7 @@ export class CalciteVideo {
   @State() currentSubtitleLang?: String;
 
   @State()
-  availableSubtitleDropdownOptions: HTMLCalciteDropdownItemElement[] = [];
+  subtitleDropdownItems: HTMLCalciteDropdownItemElement[] = [];
 
   //--------------------------------------------------------------------------
   //
@@ -460,10 +466,10 @@ export class CalciteVideo {
       if (item.mode === "showing") this.currentSubtitleLang = item.language;
       item.mode = "hidden";
     }
-    this.getSubtitleDropdownOptions();
+    this.getSubtitleDropdownItems();
   };
 
-  getSubtitleDropdownOptions = () => {
+  getSubtitleDropdownItems = () => {
     // create the list of abailable subtitles for the dropdown
     if (this.availableSubtitles) {
       let items = [];
@@ -482,8 +488,8 @@ export class CalciteVideo {
         );
         items.push(node);
       });
-      this.availableSubtitleDropdownOptions = [...Array.from(new Set(items))];
-    }
+      this.subtitleDropdownItems = [...Array.from(new Set(items))];
+    } else return;
   };
 
   handleSubtitleToggle = () => {
@@ -518,7 +524,7 @@ export class CalciteVideo {
           this.isSubtitleActive = false;
         }
       }
-    }
+    } else return;
   };
 
   toggleVideo = () => {
