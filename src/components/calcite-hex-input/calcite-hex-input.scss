@@ -31,6 +31,7 @@ $height: 28px;
 
 .input {
   @include avenir-regular();
+  @include focus-style-base();
 
   margin: 0;
   padding: 0 0 0 40px;
@@ -41,4 +42,8 @@ $height: 28px;
   border: solid 1px var(--calcite-ui-border-2);
   color: var(--calcite-ui-text-1);
   font-family: $avenir-family;
+
+  &:focus {
+    @include focus-style-inset();
+  }
 }

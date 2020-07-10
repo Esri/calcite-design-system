@@ -91,7 +91,13 @@ $section-label-bottom-padding: 10px;
 
 .color-mode,
 .header--hex {
+  @include focus-style-base();
+
   padding-bottom: $section-label-bottom-padding;
+
+  &:focus {
+    @include focus-style-outset();
+  }
 }
 
 .control {
@@ -146,12 +152,18 @@ $section-label-bottom-padding: 10px;
 }
 
 .color-mode-part-input {
+  @include focus-style-base();
+
   padding-left: 18px;
   height: 27px;
   width: 100%;
   border: solid 1px var(--calcite-ui-border-2);
   color: var(--calcite-ui-text-1);
   font-family: $avenir-family;
+
+  &:focus {
+    @include focus-style-inset();
+  }
 
   // hide stepper arrows
   -moz-appearance: textfield;
@@ -178,7 +190,13 @@ $section-label-bottom-padding: 10px;
 }
 
 calcite-color-swatch {
+  @include focus-style-base();
+
   margin: 4px 8px 0 0;
+
+  &:focus {
+    @include focus-style-outset();
+  }
 }
 
 calcite-color-swatch:not([is-active]):hover {
