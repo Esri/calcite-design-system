@@ -8,22 +8,20 @@ describe("calcite-loader", () => {
     expect(loader).toHaveAttribute("calcite-hydrated");
   });
 
-  it("becomes visible when is-active prop is set", async () => {
+  it("becomes visible when active prop is set", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-loader></calcite-loader>`);
     const loader = await page.find("calcite-loader");
-    let isVisible = await loader.isIntersectingViewport();
-    expect(isVisible).toBe(false);
-    loader.setProperty("is-active", true);
+    expect(await loader.isVisible()).not.toBe(true);
+    loader.setProperty("active", true);
     await page.waitForChanges();
-    isVisible = await loader.isIntersectingViewport();
-    expect(isVisible).toBe(false);
+    expect(await loader.isVisible()).toBe(true);
   });
 
   it("displays label from text prop", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-loader is-active text="testing"></calcite-loader>`
+      `<calcite-loader active text="testing"></calcite-loader>`
     );
     const elm = await page.find("calcite-loader >>> .loader__text");
     expect(elm).toEqualText("testing");
@@ -56,14 +54,16 @@ describe("calcite-loader", () => {
 
   it("displays inline with text from inline prop", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader is-active inline></calcite-loader>`);
+    await page.setContent(`<calcite-loader active inline></calcite-loader>`);
     const rect = await page.find("calcite-loader >>> circle");
     expect(rect).toEqualAttribute("r", "7.2");
   });
 
   it("validates scale and type properties", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader scale="bleep" type="bloop"></calcite-loader>`);
+    await page.setContent(
+      `<calcite-loader scale="bleep" type="bloop"></calcite-loader>`
+    );
     const loader = await page.find("calcite-loader");
     expect(loader).toEqualAttribute("scale", "m");
     expect(loader).toEqualAttribute("type", "indeterminate");
