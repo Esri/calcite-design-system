@@ -4,6 +4,7 @@
 
 :host {
   display: none;
+  z-index: 1;
 }
 
 :host([active]) {

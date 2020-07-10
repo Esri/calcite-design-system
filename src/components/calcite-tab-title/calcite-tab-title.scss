@@ -29,7 +29,7 @@ $tab-margin: 1.25rem;
   @include focus-style-base();
 }
 :host(:focus) {
-  @include focus-style-inset();
+  @include focus-style-outset();
 }
 :host(:active),
 :host(:focus),
