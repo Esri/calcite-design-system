@@ -64,7 +64,7 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /** Fired when a selectable card is selected */
-  @Event() calciteCardSelected: EventEmitter;
+  @Event() calciteCardSelect: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -123,8 +123,7 @@ export class CalciteCard {
 
   private selectCard() {
     this.selected = !this.selected;
-    this.calciteCardSelected.emit({
-      element: this.el as HTMLCalciteCardElement,
+    this.calciteCardSelect.emit({
       selected: this.selected,
     });
   }
