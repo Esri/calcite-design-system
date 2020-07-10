@@ -123,9 +123,7 @@ export class CalciteCard {
 
   private selectCard() {
     this.selected = !this.selected;
-    this.calciteCardSelect.emit({
-      selected: this.selected,
-    });
+    this.calciteCardSelect.emit();
   }
 
   private renderThumbnail(): VNode {
