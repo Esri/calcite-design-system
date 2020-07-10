@@ -1,4 +1,4 @@
-:host([is-active]) section {
+:host([active]) section {
   display: block;
 }
 
@@ -6,7 +6,7 @@
   display: none;
 }
 
-:host([is-active]) {
+:host([active]) {
   display: block;
 }
 
