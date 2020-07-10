@@ -58,6 +58,14 @@ describe("calcite-loader", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-loader is-active inline></calcite-loader>`);
     const rect = await page.find("calcite-loader >>> circle");
-    expect(rect).toEqualAttribute("r", "9");
+    expect(rect).toEqualAttribute("r", "7.2");
+  });
+
+  it("validates scale and type properties", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-loader scale="bleep" type="bloop"></calcite-loader>`);
+    const loader = await page.find("calcite-loader");
+    expect(loader).toEqualAttribute("scale", "m");
+    expect(loader).toEqualAttribute("type", "indeterminate");
   });
 });

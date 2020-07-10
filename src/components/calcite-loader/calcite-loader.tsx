@@ -4,7 +4,7 @@ import { guid } from "../../utils/guid";
 @Component({
   tag: "calcite-loader",
   styleUrl: "calcite-loader.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteLoader {
   //--------------------------------------------------------------------------
@@ -20,9 +20,11 @@ export class CalciteLoader {
   //
   //--------------------------------------------------------------------------
   /** Show the loader */
-  @Prop({ reflect: true }) isActive: boolean = false;
+  @Prop({ reflect: true }) active: boolean = false;
   /** Inline loaders are smaller and will appear to the left of the text */
   @Prop({ reflect: true }) inline: boolean = false;
+  /** Speficy the scale of the loader. Defaults to "m" */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
   /** Use indeterminate if finding actual progress value is impossible */
   @Prop({ reflect: true }) type: "indeterminate" | "determinate";
   /** Percent complete of 100, only valid for determinate indicators */
@@ -37,21 +39,35 @@ export class CalciteLoader {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback() {
+    // prop validations
+
+    let scales = ["s", "m", "l"];
+    if (!scales.includes(this.scale)) this.scale = "m";
+
+    let types = ["indeterminate", "determinate"];
+    if (!types.includes(this.type)) this.type = "indeterminate";
+  }
+
   render() {
-    const id = this.el.id || this.guid;
-    const size = this.inline ? 20 : 56;
-    const radius = this.inline ? 9 : 25;
+    const { el, inline, scale, text, type, value } = this;
+
+    const id = el.id || guid;
+    const radiusRatio = 0.45;
+    const size = inline ? this.getInlineSize(scale) : this.getSize(scale);
+    const radius = size * radiusRatio;
     const viewbox = `0 0 ${size} ${size}`;
-    const isDeterminate = this.type === "determinate";
+    const isDeterminate = type === "determinate";
     const circumference = 2 * radius * Math.PI;
-    const progress = (this.value / 100) * circumference;
+    const progress = (value / 100) * circumference;
     const remaining = circumference - progress;
-    const value = Math.floor(this.value);
+    const valueNow = Math.floor(value);
     const hostAttributes = {
-      "aria-valuenow": value,
+      "aria-valuenow": valueNow,
       "aria-valuemin": 0,
       "aria-valuemax": 100,
-      complete: value === 100
+      complete: valueNow === 100,
     };
     const svgAttributes = { r: radius, cx: size / 2, cy: size / 2 };
     const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
@@ -76,17 +92,33 @@ export class CalciteLoader {
             <circle {...svgAttributes} />
           </svg>
         </div>
-        {this.text && <div class="loader__text">{this.text}</div>}
+        {text && <div class="loader__text">{text}</div>}
         {isDeterminate && <div class="loader__percentage">{value}</div>}
       </Host>
     );
   }
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-  /** @internal */
-  private guid = `calcite-loader-${guid()}`;
+  /**
+   * Return the proper sizes based on the scale property
+   */
+  private getSize(scale: string) {
+    return {
+      "s": 32,
+      "m": 56,
+      "l": 80
+    }[scale];
+  }
+
+  private getInlineSize(scale: string) {
+    return {
+      "s": 12,
+      "m": 16,
+      "l": 20
+    }[scale];
+  }
 }
