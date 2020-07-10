@@ -70,7 +70,7 @@ describe("calcite-tree", () => {
   });
 
   // click on childItem
-  it("should navigate to the inner link when a child item is clicked and not the outer link", async () => {
+  it.skip("should navigate to the inner link when a child item is clicked and not the outer link", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-tree lines id="parentTree">
