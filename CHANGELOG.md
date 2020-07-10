@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-split-button` - `primary-icon` prop has been removed - you can now use `primary-icon-start` and `primary-icon-end` props to position up to two icons.
 - `calcite-tab` - `isActive` prop is now `active` to be consistent with other components
 - `calcite-tab-title` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-loader` - `isActive` prop is now `active` to be consistent with other components
 
 ### Added
 
