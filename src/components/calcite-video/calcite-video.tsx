@@ -11,6 +11,7 @@ import {
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { TEXT } from "./calcite-video.resources";
 
 @Component({
   tag: "calcite-video",
@@ -69,6 +70,30 @@ export class CalciteVideo {
   /** a desired width of the video */
   @Prop({ reflect: true }) width?: string;
 
+  /** string to override English play text */
+  @Prop() intlPlay = TEXT.intlPlay;
+  /** string to override English pause text */
+
+  @Prop() intlPause = TEXT.intlPause;
+
+  /** string to override English restart text */
+  @Prop() intlRestart = TEXT.intlRestart;
+
+  /** string to override English enter fullscreen text */
+  @Prop() intlEnterFullscreen = TEXT.intlEnterFullscreen;
+
+  /** string to override English exit fullscreen text */
+  @Prop() intlExitFullscreen = TEXT.intlExitFullscreen;
+
+  /** string to override English mute text */
+  @Prop() intlMute = TEXT.intlMute;
+
+  /** string to override English unmute text */
+  @Prop() intlUnmute = TEXT.intlUnmute;
+
+  /** string to override English subtitles text */
+  @Prop() intlSubtitles = TEXT.intlSubtitles;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -103,6 +128,20 @@ export class CalciteVideo {
           appearance="transparent"
           color="dark"
           icon={this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"}
+          title={
+            this.isComplete
+              ? this.intlRestart
+              : this.isPlaying
+              ? this.intlPause
+              : this.intlPlay
+          }
+          aria-label={
+            this.isComplete
+              ? this.intlRestart
+              : this.isPlaying
+              ? this.intlPause
+              : this.intlPlay
+          }
           onClick={() => this.toggleVideo()}
         />
       </div>
@@ -115,6 +154,8 @@ export class CalciteVideo {
           appearance="transparent"
           color="dark"
           icon={this.muted ? "sound-unavailable" : "sound"}
+          title={!this.muted ? this.intlMute : this.intlUnmute}
+          aria-label={!this.muted ? this.intlMute : this.intlUnmute}
           onClick={() => this.toggleMuted()}
         />
         <calcite-slider
@@ -136,6 +177,16 @@ export class CalciteVideo {
           appearance="transparent"
           color="dark"
           icon={!this.isFullscreen ? "extent" : "full-screen-exit"}
+          title={
+            !this.isFullscreen
+              ? this.intlEnterFullscreen
+              : this.intlExitFullscreen
+          }
+          aria-label={
+            !this.isFullscreen
+              ? this.intlEnterFullscreen
+              : this.intlExitFullscreen
+          }
           onClick={() => this.toggleFullscreen()}
         />
       </div>
@@ -145,10 +196,13 @@ export class CalciteVideo {
       <div class="calcite-video-control-item calcite-video-subtitle-control-item">
         <calcite-button
           scale="s"
+          class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
           appearance="transparent"
           color="dark"
           icon="speech-bubble"
           onClick={() => this.handleSubtitleToggle()}
+          title={this.intlSubtitles}
+          aria-label={this.intlSubtitles}
         >
           {this.isSubtitleActive
             ? `${this.currentSubtitleLang?.toUpperCase()}`
@@ -163,9 +217,12 @@ export class CalciteVideo {
           <calcite-button
             slot="dropdown-trigger"
             scale="s"
+            class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
             appearance="transparent"
             color="dark"
             icon="speech-bubbles"
+            title={this.intlSubtitles}
+            aria-label={this.intlSubtitles}
           >
             {this.isSubtitleActive
               ? `${this.currentSubtitleLang?.toUpperCase()}`
