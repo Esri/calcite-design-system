@@ -19,6 +19,7 @@ export const CSS = {
   savedColors: "saved-colors",
   savedColorsSection: "saved-colors-section",
   addColor: "add-color",
+  removeColor: "remove-color",
   savedColorsButtons: "saved-colors-buttons",
   headerHex: "header--hex",
 };

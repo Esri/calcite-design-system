@@ -444,24 +444,22 @@ export class CalciteColorPicker {
           <div class={CSS.header}>
             <label>{this.intlSavedColors}</label>
             <div class={CSS.savedColorsButtons}>
-              <calcite-button
-                appearance="solid"
+              <div
                 class={CSS.addColor}
-                color={theme}
-                icon="minus"
                 onClick={this.deleteColor}
                 onKeyDown={this.handleDeleteColorKeyDown}
-                scale="s"
-              />
-              <calcite-button
-                appearance="solid"
-                class={CSS.addColor}
-                color={theme}
-                icon="plus"
+                tabIndex={0}
+              >
+                <calcite-icon icon="minus" />
+              </div>
+              <div
+                class={CSS.removeColor}
                 onClick={this.saveColor}
                 onKeyDown={this.handleSaveColorKeyDown}
-                scale="s"
-              />
+                tabIndex={0}
+              >
+                <calcite-icon icon="plus" />
+              </div>
             </div>
           </div>
           <div class={CSS.savedColors}>
