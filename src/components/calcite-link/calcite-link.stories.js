@@ -40,7 +40,7 @@ storiesOf("Link", module)
     { notes }
   )
   .add(
-    "With icon",
+    "With icon-start",
     () => `
     <div style="font-size: ${select(
       "containing font size",
@@ -54,8 +54,52 @@ storiesOf("Link", module)
       href="${text("href", "")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       disabled="${boolean("disabled", false)}"
-      icon="${select("icon", iconNames, iconNames[0])}"
-      icon-position="${select("icon-position", ["start", "end"], "end")}">
+      icon-start="${select("icon-start", iconNames, iconNames[0])}">
+      ${text("text", "link text here")}</calcite-link>
+      around the link
+      </div>
+  `,
+    { notes }
+  )
+  .add(
+    "With icon-end",
+    () => `
+    <div style="font-size: ${select(
+      "containing font size",
+      ["12", "14", "16", "18", "20", "24", "32"],
+      "16"
+    )}px; font-weight: ${select(
+      "containing font weight",
+      ["300", "400", "500", "700"], "400"
+    )};">
+    Some wrapping text <calcite-link
+      href="${text("href", "")}"
+      color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+      disabled="${boolean("disabled", false)}"
+      icon-end="${select("icon-end", iconNames, iconNames[0])}">
+      ${text("text", "link text here")}</calcite-link>
+      around the link
+      </div>
+  `,
+    { notes }
+  )
+  .add(
+    "With icon-start and icon-end",
+    () => `
+    <div style="font-size: ${select(
+      "containing font size",
+      ["12", "14", "16", "18", "20", "24", "32"],
+      "16"
+    )}px; font-weight: ${select(
+      "containing font weight",
+      ["300", "400", "500", "700"], "400"
+    )};">
+    Some wrapping text <calcite-link
+      href="${text("href", "")}"
+      color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+      disabled="${boolean("disabled", false)}"
+      icon-start="${select("icon-start", iconNames, iconNames[0])}"
+      icon-end="${select("icon-end", iconNames, iconNames[0])}">
       ${text("text", "link text here")}</calcite-link>
       around the link
       </div>

@@ -62,19 +62,57 @@ describe("calcite-split-button", () => {
     expect(dropdownButton).toEqualAttribute("aria-label", "more actions");
   });
 
-  it("renders primaryText + primaryIcon as inner content of primary button", async () => {
+  it("renders primaryText without icons as inner content of primary button", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-split-button primary-text="primary action" primary-icon="save">
+      <calcite-split-button primary-text="primary action">
       </calcite-split-button>`);
     const primaryButton = await page.find(
       "calcite-split-button >>> calcite-button"
     );
-    const icon = await page.find(
-      "calcite-split-button >>> calcite-button >>> .calcite-button--icon"
+
+    expect(primaryButton).toEqualText("primary action");
+    expect(primaryButton).not.toHaveAttribute("icon-start");
+    expect(primaryButton).not.toHaveAttribute("icon-end");
+  });
+
+  it("renders primaryText + primary-icon-start as inner content of primary button", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-split-button primary-text="primary action" primary-icon-start="save">
+      </calcite-split-button>`);
+    const primaryButton = await page.find(
+      "calcite-split-button >>> calcite-button"
+    );
+
+    expect(primaryButton).toEqualText("primary action");
+    expect(primaryButton).toEqualAttribute("icon-start", "save");
+    expect(primaryButton).not.toHaveAttribute("icon-end");
+  });
+
+  it("renders primaryText + primary-icon-end as inner content of primary button", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-split-button primary-text="primary action" primary-icon-end="save">
+      </calcite-split-button>`);
+    const primaryButton = await page.find(
+      "calcite-split-button >>> calcite-button"
     );
     expect(primaryButton).toEqualText("primary action");
-    expect(icon).not.toBeNull();
+    expect(primaryButton).not.toHaveAttribute("icon-start");
+    expect(primaryButton).toEqualAttribute("icon-end", "save");
+  });
+  it("renders primaryText + primary-icon-end and primary-icon-start as inner content of primary button", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-split-button primary-text="primary action" primary-icon-start="save" primary-icon-end="save">
+      </calcite-split-button>`);
+    const primaryButton = await page.find(
+      "calcite-split-button >>> calcite-button"
+    );
+    expect(primaryButton).toEqualText("primary action");
+    expect(primaryButton).toEqualAttribute("icon-start", "save");
+    expect(primaryButton).toEqualAttribute("icon-end", "save");
   });
 
   it("changes the size and width of the dropdown + primary button based on scale", async () => {

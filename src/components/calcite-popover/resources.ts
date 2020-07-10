@@ -3,7 +3,11 @@ export const CSS = {
   arrow: "arrow",
   imageContainer: "image-container",
   closeButton: "close-button",
-  content: "content"
+  content: "content",
+};
+
+export const TEXT = {
+  close: "Close",
 };
 
 export const POPOVER_REFERENCE = "data-calcite-tooltip-reference";

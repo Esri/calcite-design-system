@@ -8,7 +8,7 @@ import {
   EventEmitter,
   h,
   State,
-  Host
+  Host,
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -17,7 +17,7 @@ import { nodeListToArray } from "../../utils/dom";
 @Component({
   tag: "calcite-tab",
   styleUrl: "calcite-tab.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteTab {
   //--------------------------------------------------------------------------
@@ -43,7 +43,7 @@ export class CalciteTab {
   /**
    * Show this tab
    */
-  @Prop({ reflect: true, mutable: true }) isActive: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -58,7 +58,7 @@ export class CalciteTab {
       <Host
         id={id}
         aria-labeledby={this.labeledBy}
-        aria-expanded={this.isActive.toString()}
+        aria-expanded={this.active.toString()}
         role="tabpanel"
       >
         <section>
@@ -112,10 +112,10 @@ export class CalciteTab {
     }
 
     if (this.tab) {
-      this.isActive = this.tab === event.detail.tab;
+      this.active = this.tab === event.detail.tab;
     } else {
-      this.getTabIndex().then(index => {
-        this.isActive = index === event.detail.tab;
+      this.getTabIndex().then((index) => {
+        this.active = index === event.detail.tab;
       });
     }
   }
@@ -133,7 +133,7 @@ export class CalciteTab {
   async getTabIndex(): Promise<number> {
     return Promise.resolve(
       Array.prototype.indexOf.call(
-        nodeListToArray(this.el.parentElement.children).filter(e =>
+        nodeListToArray(this.el.parentElement.children).filter((e) =>
           e.matches("calcite-tab")
         ),
         this.el
