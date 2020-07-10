@@ -221,7 +221,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();
@@ -246,7 +246,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).toBeNull();
@@ -296,7 +296,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();
@@ -321,7 +321,7 @@ describe("calcite-button", () => {
     const loader = await page.find(
       "calcite-button >>> .calcite-button--loader"
     );
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute("calcite-hydrated");
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).toBeNull();
