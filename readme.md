@@ -21,9 +21,12 @@ Calcite components can be loaded via two `<script>` tags in the head of your HTM
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.29/dist/calcite/calcite.esm.js"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.31/dist/calcite/calcite.esm.js"
 ></script>
-<script nomodule="" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.29/dist/calcite/calcite.js"></script>
+<script
+  nomodule=""
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.31/dist/calcite/calcite.js"
+></script>
 ```
 
 Browsers that support modules will load the first, while older browsers will load the second, bundled version.
@@ -38,7 +41,7 @@ You will also need to explicitly load the `calcite.css` file:
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.29/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.31/dist/calcite/calcite.css"
 />
 ```
 
@@ -90,7 +93,9 @@ loader.isActive = true;
 
 // you can also explicitly type an element using the generated types
 // the type name will always be formatted like HTML{CamelCaseComponentName}Element
-const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoaderElement;
+const loader = document.querySelector(
+  ".my-loader-element"
+) as HTMLCalciteLoaderElement;
 loader.isActive = true;
 ```
 
@@ -106,24 +111,26 @@ For preact applications using TypeScript, you must add an additional file to you
 
 This allows you to use custom tags and provides auto-complete for calcite-components. See the [Preact + TypeScript example](https://github.com/ArcGIS/calcite-components-examples/tree/master/preact-typescript) for more details.
 
-## Getting Started
-
-Please see our [Getting Started](GETTING_STARTED.md) readme for more information.
-
-## Issues
-
-Find a bug or want to request a new feature? Please let us know by [submitting an issue](https://github.com/Esri/calcite-components/issues/new/choose).
-
 ## Browser Support
 
-| ![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Edge Legacy](https://raw.githubusercontent.com/alrra/browser-logos/master/src/archive/edge_12-18/edge_12-18_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png) |
-| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| **Chrome**<br />Last 2 versions ✔                                                                   | **Firefox**<br />Last 2 versions ✔                                                                     | **Edge** (Chromium)<br />Last 2 versions ✔                                                  | **Edge** (Legacy)<br />Last 2 versions ✔                                                                                 | **Safari**<br />Last 2 versions ✔                                                                   |
+| <img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/edge.png" alt="IE / Edge" width="16px" height="16px" /></br>IE / Edge | <img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/firefox.png" alt="Firefox" width="16px" height="16px" /></br>Firefox | <img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome.png" alt="Chrome" width="16px" height="16px" /></br>Chrome | <img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari.png" alt="Safari" width="16px" height="16px" /></br>Safari |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IE11, Edge                                                                                                                                                         | last 2 versions                                                                                                                                                   | last 2 versions                                                                                                                                                | last 2 versions                                                                                                                                                |
 
 ## Contributing
 
-Please see our [Contributing](CONTRIBUTING.md) readme for more information.
+We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for an overview of contribution guidelines.
 
-## Licensing
+## License
 
-Please see our [Licensing](LICENSING.md) readme for more information.
+COPYRIGHT © 2020 Esri
+
+All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
+
+This material is licensed for use under the Esri Master License Agreement (MLA), and is bound by the terms of that agreement. You may redistribute and use this code without modification, provided you adhere to the terms of the MLA and include this copyright notice.
+
+See use restrictions at http://www.esri.com/legal/pdfs/mla_e204_e300/english
+
+For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
+
+email: contracts@esri.com

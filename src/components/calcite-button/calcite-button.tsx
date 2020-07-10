@@ -126,7 +126,7 @@ export class CalciteButton {
 
     const loader = (
       <div class="calcite-button--loader">
-        <calcite-loader is-active inline></calcite-loader>
+        <calcite-loader active inline></calcite-loader>
       </div>
     );
 

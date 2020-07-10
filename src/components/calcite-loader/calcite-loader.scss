@@ -21,10 +21,10 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 */
 $segment-1-size: 10;
 $segment-1-growth: 40;
-$segment-1-duration: .72s;
+$segment-1-duration: 0.72s;
 $segment-2-size: 20;
 $segment-2-growth: 30;
-$segment-2-duration: .96s;
+$segment-2-duration: 0.96s;
 $segment-3-size: 5;
 $segment-3-growth: 45;
 $segment-3-duration: 1.16s;
@@ -48,24 +48,24 @@ $segment-3-duration: 1.16s;
 }
 
 :host([scale="s"]) {
-  --loader-size: #{ $loader-size-small + 1 }px;
-  --loader-size-inline: #{ $loader-size-small-inline + 1 }px;
+  --loader-size: #{$loader-size-small + 1}px;
+  --loader-size-inline: #{$loader-size-small-inline + 1}px;
   @include font-size(-3);
   .loader__percentage {
     font-size: 0.625rem;
   }
 }
 :host([scale="m"]) {
-  --loader-size: #{ $loader-size-medium + 1 }px;
-  --loader-size-inline: #{ $loader-size-medium-inline + 1 }px;
+  --loader-size: #{$loader-size-medium + 1}px;
+  --loader-size-inline: #{$loader-size-medium-inline + 1}px;
   @include font-size(-2);
   .loader__percentage {
     font-size: 0.875rem;
   }
 }
 :host([scale="l"]) {
-  --loader-size: #{ $loader-size-large + 1 }px;
-  --loader-size-inline: #{ $loader-size-large-inline + 1 }px;
+  --loader-size: #{$loader-size-large + 1}px;
+  --loader-size-inline: #{$loader-size-large-inline + 1}px;
   @include font-size(-1);
   .loader__percentage {
     font-size: 1.25rem;
@@ -129,9 +129,15 @@ $segment-3-duration: 1.16s;
 
 // in newer browsers use the stroke-dash-offset animation as it looks better
 @supports (display: grid) {
-  .loader__svg--1 { animation-name: loader-offset-1; }
-  .loader__svg--2 { animation-name: loader-offset-2; }
-  .loader__svg--3 { animation-name: loader-offset-3; }
+  .loader__svg--1 {
+    animation-name: loader-offset-1;
+  }
+  .loader__svg--2 {
+    animation-name: loader-offset-2;
+  }
+  .loader__svg--3 {
+    animation-name: loader-offset-3;
+  }
 }
 
 :host([type="determinate"]) {
@@ -185,14 +191,14 @@ $segment-3-duration: 1.16s;
 
 :host([complete]) {
   opacity: 0;
-  transform: scale(.75, .75);
+  transform: scale(0.75, 0.75);
   transform-origin: center;
   transition: opacity 200ms linear 1000ms, transform 200ms linear 1000ms;
 }
 
 :host([complete]) .loader__svgs {
   opacity: 0;
-  transform: scale(.75, .75);
+  transform: scale(0.75, 0.75);
   transform-origin: center;
   transition: opacity 180ms linear 800ms, transform 180ms linear 800ms;
 }
@@ -228,9 +234,24 @@ $segment-3-duration: 1.16s;
   }
 }
 
-@include generateSegment(1, $segment-1-size, $segment-1-growth, $segment-1-duration);
-@include generateSegment(2, $segment-2-size, $segment-2-growth, $segment-2-duration);
-@include generateSegment(3, $segment-3-size, $segment-3-growth, $segment-3-duration);
+@include generateSegment(
+  1,
+  $segment-1-size,
+  $segment-1-growth,
+  $segment-1-duration
+);
+@include generateSegment(
+  2,
+  $segment-2-size,
+  $segment-2-growth,
+  $segment-2-duration
+);
+@include generateSegment(
+  3,
+  $segment-3-size,
+  $segment-3-growth,
+  $segment-3-duration
+);
 
 @keyframes loader-color-shift {
   0% {
