@@ -1,0 +1,67 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: block;
+  position: absolute;
+  z-index: 999;
+  top: -999999px;
+  left: -999999px;
+}
+
+:host([aria-hidden=false]) {
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+}
+
+.arrow,
+.arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: -1;
+}
+
+.arrow::before {
+  content: "";
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  transform: rotate(45deg);
+  background: var(--calcite-ui-foreground-1);
+}
+
+:host([data-popper-placement^=top]) > .arrow {
+  bottom: -4px;
+}
+
+:host([data-popper-placement^=bottom]) > .arrow {
+  top: -4px;
+}
+
+:host([data-popper-placement^=left]) > .arrow {
+  right: -4px;
+}
+
+:host([data-popper-placement^=right]) > .arrow {
+  left: -4px;
+}
+
+.container {
+  position: relative;
+  border-radius: var(--calcite-border-radius);
+  background: var(--calcite-ui-foreground-1);
+  max-width: 300px;
+  max-height: 300px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  font-weight: 500;
+  color: var(--calcite-ui-text-1);
+  padding: 12px 16px;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+:host([theme=dark]) .container {
+  background: var(--calcite-ui-foreground-2);
+}

@@ -1,0 +1,1 @@
+export const forkMiddle24F = "M14 7v17h-3V7H8l4.5-6L17 7zm-9.988 3.991L4 11l6 7v-5L6.671 9zm16.988 0L18.532 9 15 13v5l6.012-7z";

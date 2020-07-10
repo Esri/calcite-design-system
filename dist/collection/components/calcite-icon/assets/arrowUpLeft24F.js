@@ -1,0 +1,1 @@
+export const arrowUpLeft24F = "M13 6H7.415L20 18.585 18.585 20 6 7.414V13H4V4h9z";
