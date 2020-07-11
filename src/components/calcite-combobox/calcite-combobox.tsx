@@ -9,6 +9,7 @@ import {
   EventEmitter,
   Element,
   VNode,
+  Build,
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -66,7 +67,7 @@ export class CalciteCombobox {
 
   data: ItemData[];
 
-  observer = new MutationObserver(this.updateItems);
+  observer: MutationObserver = null;
 
   // --------------------------------------------------------------------------
   //
@@ -78,6 +79,9 @@ export class CalciteCombobox {
     // prop validations
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.updateItems);
+    }
   }
 
   componentWillLoad(): void {
@@ -85,11 +89,11 @@ export class CalciteCombobox {
   }
 
   componentDidLoad(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.observer?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidUnload(): void {
-    this.observer.disconnect();
+    this.observer?.disconnect();
   }
 
   // --------------------------------------------------------------------------
