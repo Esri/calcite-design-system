@@ -46,7 +46,7 @@ export class CalciteIcon {
   icon: string = null;
 
   /**
-   * When true, the icon will be mirrored when the element direction is 'rtl'.
+   * When true, the icon will be mirrored.
    */
   @Prop({
     reflect: true,
@@ -114,7 +114,7 @@ export class CalciteIcon {
       >
         <svg
           class={{
-            [CSS.mirrored]: dir === "rtl" && mirrored,
+            [CSS.mirrored]: mirrored,
             svg: true,
           }}
           xmlns="http://www.w3.org/2000/svg"

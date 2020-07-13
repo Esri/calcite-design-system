@@ -152,17 +152,16 @@ export class CalciteVideo {
     const volumeControl = (
       <div class="calcite-video-control-item calcite-video-volume-control-item">
         <calcite-button
-          dir={dir}
           scale="s"
           appearance="transparent"
           color="dark"
           icon-start={this.muted ? "sound-unavailable" : "sound"}
+          icon-mirror={dir == "rtl" ? "start" : null}
           title={!this.muted ? this.intlMute : this.intlUnmute}
           aria-label={!this.muted ? this.intlMute : this.intlUnmute}
           onClick={() => this.toggleMuted()}
         />
         <calcite-slider
-          dir={dir}
           theme={this.theme}
           min={0}
           max={1}
@@ -247,10 +246,18 @@ export class CalciteVideo {
       </div>
     );
 
+    const subtitleContainer = (
+      <div
+        class={`calcite-video-subtitle-container ${
+          this.isSubtitleActive ? "calcite-video-subtitle-container-active" : ""
+        }`}
+        ref={(el) => (this.subtitleContainerEl = el)}
+      ></div>
+    );
+
     const progress = !this.disableScrubbing ? (
       <div class="calcite-video-scrubber-wrapper">
         <calcite-slider
-          dir={dir}
           theme={this.theme}
           class="calcite-video-scrubber"
           ref={(el) => (this.scrubberEl = el)}
@@ -259,8 +266,9 @@ export class CalciteVideo {
         />
       </div>
     ) : (
+      // progress should always be ltr so explicitly set dir
       <calcite-progress
-        dir={dir}
+        dir="ltr"
         theme={this.theme}
         ref={(el) => (this.progressEl = el)}
       />
@@ -294,14 +302,15 @@ export class CalciteVideo {
             height={this.height}
             width={this.width}
             controls={false}
-            onTimeUpdate={() => this.determineProgress()}
-            onEnded={() => this.determineProgress()}
+            onTimeUpdate={() => this.handleVideoUpdate()}
+            onEnded={() => this.handleVideoUpdate()}
             onLoadedMetaData={() => this.getVideoInfo()}
             onLoadStart={() => this.videoLoadStart()}
             onCanPlay={() => this.videoLoadFinish()}
           >
             <slot />
           </video>
+          {subtitleContainer}
         </div>
         {!this.disableControls && !this.disableProgress ? (
           <div class="calcite-video-footer">
@@ -397,6 +406,9 @@ export class CalciteVideo {
   /** the rendered child element */
   private scrubberEl?: HTMLCalciteSliderElement;
 
+  /** the container element for custom subtitle placement */
+  private subtitleContainerEl?: HTMLElement;
+
   /** the unformatted video duration */
   private videoDuration?: Number = 0;
 
@@ -431,6 +443,12 @@ export class CalciteVideo {
   /** the videos available subtitles */
   @State() availableSubtitles?: TextTrackList;
 
+  /** the track of the current subtitle */
+  @State() currentSubtitleTrack?: TextTrack;
+
+  /** the track cue list of the current subtitle */
+  @State() currentSubtitleTrackCue: TextTrackCue;
+
   /** the language of the current subtitle */
   @State() currentSubtitleLang?: String;
 
@@ -460,13 +478,20 @@ export class CalciteVideo {
   };
 
   initializeSubtitles = () => {
-    // get the default track language and disable until requested
-    let subtitles = Object.values(this.availableSubtitles);
-    for (let item of subtitles) {
-      if (item.mode === "showing") this.currentSubtitleLang = item.language;
-      item.mode = "hidden";
+    if (this.availableSubtitles) {
+      // get the default track language and hide all so we can use our own
+      let subtitles = Object.values(this.availableSubtitles);
+      for (let item of subtitles) {
+        if (item.mode === "showing") {
+          item.mode = "hidden";
+          this.currentSubtitleTrack = item;
+          this.currentSubtitleLang = item.language;
+        }
+      }
+      this.getSubtitleDropdownItems();
+      this.subtitleContainerEl.innerHTML = (this.currentSubtitleTrack
+        ?.cues[0] as any)?.text;
     }
-    this.getSubtitleDropdownItems();
   };
 
   getSubtitleDropdownItems = () => {
@@ -497,15 +522,10 @@ export class CalciteVideo {
     if (this.availableSubtitles) {
       for (let item of Object.values(this.availableSubtitles)) {
         if (item.language === this.currentSubtitleLang) {
-          if (item.mode === "hidden") {
-            item.mode = "showing";
-            this.isSubtitleActive = true;
-          } else if (item.mode === "showing") {
-            item.mode = "hidden";
-            this.isSubtitleActive = false;
-          }
+          this.isSubtitleActive = !this.isSubtitleActive;
         }
       }
+      this.handleSubtitleUpdate();
     } else return;
   };
 
@@ -519,11 +539,13 @@ export class CalciteVideo {
         if (requestedLang) {
           this.currentSubtitleLang = requestedLang;
           this.isSubtitleActive = true;
-          if (this.currentSubtitleLang === item.language) item.mode = "showing";
+          if (this.currentSubtitleLang === item.language)
+            this.currentSubtitleTrack = item;
         } else {
           this.isSubtitleActive = false;
         }
       }
+      this.handleSubtitleUpdate();
     } else return;
   };
 
@@ -536,13 +558,13 @@ export class CalciteVideo {
   };
 
   playVideo() {
-    this.videoEl.play();
+    this.videoEl?.play();
     this.isPlaying = true;
     this.calciteVideoPlay.emit();
   }
 
   pauseVideo() {
-    this.videoEl.pause();
+    this.videoEl?.pause();
     this.isPlaying = false;
     this.calciteVideoPause.emit();
   }
@@ -553,7 +575,7 @@ export class CalciteVideo {
 
   updateVolumeLevel = (e) => {
     this.volumeLevel = e.target.value;
-    this.videoEl.volume = this.volumeLevel as number;
+    this.videoEl?.volume = this.volumeLevel as number;
     this.muted = this.volumeLevel === 0;
   };
 
@@ -622,7 +644,17 @@ export class CalciteVideo {
     } else return `0:00`;
   }
 
-  determineProgress() {
+  handleVideoUpdate() {
+    this.currentSubtitleTrackCue = this.currentSubtitleTrack?.activeCues[0];
+    if (
+      this.isSubtitleActive &&
+      (this.currentSubtitleTrackCue as any)?.text !== undefined
+    ) {
+      this.subtitleContainerEl.innerHTML = (this
+        .currentSubtitleTrackCue as any)?.text;
+      this.handleSubtitleUpdate();
+    }
+
     if (!this.disableProgress) {
       this.isComplete = this.currentTime === this.videoDuration;
       this.currentTime = this.videoEl?.currentTime;
@@ -637,5 +669,18 @@ export class CalciteVideo {
       }
       if (this.isComplete) this.calciteVideoComplete.emit();
     }
+  }
+
+  handleSubtitleUpdate() {
+    // replace current lang with the active cue if change occurs mid-cue
+    if ((this.currentSubtitleTrackCue as any)?.text !== undefined)
+      this.subtitleContainerEl.innerHTML = (this
+        .currentSubtitleTrackCue as any)?.text;
+    // and update on any change
+    this.currentSubtitleTrack.oncuechange = () => {
+      if ((this.currentSubtitleTrackCue as any)?.text !== undefined)
+        this.subtitleContainerEl.innerHTML = (this
+          .currentSubtitleTrackCue as any)?.text;
+    };
   }
 }

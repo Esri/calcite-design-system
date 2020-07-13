@@ -41,6 +41,9 @@ export class CalciteDropdownItem {
   /** optionally pass an icon to display at the end of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** mirror the icon  */
+  @Prop({ reflect: true }) iconMirror?: "both" | "start" | "end";
+
   /** optionally pass a href - used to determine if the component should render as anchor */
   @Prop({ reflect: true }) href?: string;
   //--------------------------------------------------------------------------
@@ -94,6 +97,7 @@ export class CalciteDropdownItem {
         class="dropdown-item-icon-start"
         icon={this.iconStart}
         scale={iconScale}
+        mirrored={this.iconMirror === "start" || this.iconMirror === "both"}
       />
     );
     const iconEndEl = (
@@ -101,6 +105,7 @@ export class CalciteDropdownItem {
         class="dropdown-item-icon-end"
         icon={this.iconEnd}
         scale={iconScale}
+        mirrored={this.iconMirror === "end" || this.iconMirror === "both"}
       />
     );
 

@@ -108,6 +108,32 @@ calcite-video[show-controls-on-hover]:hover {
   border-bottom: 1px solid var(--calcite-ui-border-3);
 }
 
+// custom subtitles
+.calcite-video-subtitle-container {
+  background-color: rgba(20, 20, 20, 0.7);
+  text-align: center;
+  color: white;
+  border-radius: 3px;
+  box-shadow: $shadow-2;
+  position: absolute;
+  margin-left: 0;
+  margin-right: 0;
+  width: auto;
+  padding: 0.25em 0.5em;
+  bottom: 1em;
+  z-index: 99;
+  @include font-size(-2);
+  display: none;
+
+  &.calcite-video-subtitle-container-active {
+    display: block;
+  }
+}
+
+.calcite-video-wrapper.calcite-video-fullscreen
+  .calcite-video-subtitle-container {
+  @include font-size(5);
+}
 calcite-slider.calcite-video-scrubber {
   box-sizing: border-box;
   margin: 0;

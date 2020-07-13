@@ -78,6 +78,41 @@ storiesOf("Video", module)
     { notes }
   )
   .add(
+    "Custom intl strings",
+    () => `
+    <div style="width:400px">
+    <calcite-video
+    disable-scrubbing="${boolean("disable-scrubbing", false)}"
+    disable-fullscreen="${boolean("disable-scrubbing", false)}"
+    disable-timestamp="${boolean("disable-timestamp", false)}"
+    disable-progress="${boolean("disable-progress", false)}"
+    disable-controls="${boolean("disable-controls", false)}"
+    play-on-hover="${boolean("play-on-hover", false)}"
+    show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
+    intl-play="${text("intl-play", "play")}"
+    intl-pause="${text("intl-pause", "pause")}"
+    intl-restart="${text("intl-restart", "restart")}"
+    intl-enter-fullscreen="${text("intl-enter-fullscreen", "enter fullscreen")}"
+    intl-exit-fullscreen="${text("intl-exit-fullscreen", "exit fullscreen")}"
+    intl-mute="${text("intl-mute", "mute")}"
+    intl-unmute="${text("intl-unmute", "unmute")}"
+    intl-subtitles="${text("intl-subtitles", "subtitles")}"
+    loop="${boolean("loop", false)}"
+    autoplay="${boolean("autoplay", false)}"
+    muted="${boolean("muted", false)}"
+    >
+    <source src="../../assets/demo/video/sintel-short.mp4" type="video/mp4">
+    <source src="../../assets/demo/video/sintel-short.webm" type="video/webm">
+    <track label="English" kind="subtitles" srclang="en" src="../../assets/demo/subtitles/vtt/sintel-en.vtt" default>
+    <track label="Deutsch" kind="subtitles" srclang="de" src="../../assets/demo/subtitles/vtt/sintel-de.vtt">
+    <track label="Español" kind="subtitles" srclang="es" src="../../assets/demo/subtitles/vtt/sintel-es.vtt">
+    </calcite-video>
+    </div>
+  `,
+    { notes }
+  )
+
+  .add(
     "Dark theme",
     () => `
     <div style="width:400px">

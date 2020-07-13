@@ -79,6 +79,9 @@ export class CalciteButton {
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** mirror the icon  */
+  @Prop({ reflect: true }) iconMirror?: "both" | "start" | "end";
+
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
@@ -137,6 +140,7 @@ export class CalciteButton {
         class="calcite-button--icon icon-start"
         icon={this.iconStart}
         scale={iconScale}
+        mirrored={this.iconMirror === "start" || this.iconMirror === "both"}
       />
     );
 
@@ -145,6 +149,7 @@ export class CalciteButton {
         class="calcite-button--icon icon-end"
         icon={this.iconEnd}
         scale={iconScale}
+        mirrored={this.iconMirror === "end" || this.iconMirror === "both"}
       />
     );
 
