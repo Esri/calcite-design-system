@@ -79,8 +79,8 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteStepperItemKeyEvent: EventEmitter;
-  @Event() calciteStepperItemSelected: EventEmitter;
-  @Event() registerCalciteStepperItem: EventEmitter;
+  @Event() calciteStepperItemSelect: EventEmitter;
+  @Event() calciteStepperItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -159,7 +159,7 @@ export class CalciteStepperItem {
     }
   }
 
-  @Listen("calciteStepperItemHasChanged", { target: "parent" })
+  @Listen("calciteStepperItemChanged", { target: "parent" })
   updateActiveItemOnChange(event: CustomEvent) {
     this.activePosition = event.detail.position;
     this.determineActiveItem();
@@ -202,7 +202,7 @@ export class CalciteStepperItem {
   }
 
   private registerStepperItem() {
-    this.registerCalciteStepperItem.emit({
+    this.calciteStepperItemRegister.emit({
       position: this.itemPosition,
       content: this.itemContent,
     });
@@ -210,7 +210,7 @@ export class CalciteStepperItem {
 
   private emitRequestedItem() {
     if (!this.disabled) {
-      this.calciteStepperItemSelected.emit({
+      this.calciteStepperItemSelect.emit({
         position: this.itemPosition,
         content: this.itemContent,
       });
