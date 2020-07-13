@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-- `calcite-notice` now has a `intl-close` attribute that allows the title of the close button to be set. It defaults to the English "Close".
-- `calcite-popover` `textClose` has been changed to `intlClose`.
+### Added
+
+- new component `calcite-video`
+-
+
+## [v1.0.0-beta.31]
 
 ### Breaking Changes
 
@@ -18,10 +22,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-split-button` - `primary-icon` prop has been removed - you can now use `primary-icon-start` and `primary-icon-end` props to position up to two icons.
 - `calcite-tab` - `isActive` prop is now `active` to be consistent with other components
 - `calcite-tab-title` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-loader` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-popover` `textClose` has been changed to `intlClose`.
+- `calcite-card` - event name change `calciteCardSelected => calciteCardSelect` (#459)
 
 ### Added
 
-- new component `calcite-video`
+- Generate new types for using components inside a Preact + TypeScript
+- `calcite-loader` - add `scale` for both standard and inline loaders (#465)
 - `calcite-dropdown` now has a `disable-close-on-select` attribute that allows dropdowns to remain open on selection when `calcite-dropdown-group` `selection-mode` is set to `single` or `multi`
 - `calcite-dropdown` now emits `calciteDropdownClose` when it closes.
 - `calcite-dropdown` now emits `calciteDropdownOpen` when it opens.
@@ -32,17 +40,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-link` - `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
 - `calcite-split-button` - `primary-icon-start` and `primary-icon-end` props have been added for explicit positioning of up to two icons.
 - `calcite-split-button` - `dropdown-icon-type` prop now accepts an `overflow` value for an additional icon option.
+- `calcite-notice` now has a `intl-close` attribute that allows the title of the close button to be set. It defaults to the English "Close".
+- `calcite-modal` - added `disable-close-button` prop for hiding X (#669)
+- `calcite-popover` - added `disable-close-button` prop for hiding X (#669)
 
 ### Fixed
 
 - `calcite-dropdown` - will now correctly focus the slotted `dropdown-trigger` element when the dropdown is closed
 - `calcite-input` - fixes inconsistencies in height of inputs with various configurations
 - `calcite-label` - fixes inconsistencies in `layout=inline` padding applications
+- `calcite-slider` - fixes positioning of handles and labels, better focus styles (#660)
+- `calcite-split-button` - fixed split button triggering of dropdown
+- `calcite-tab-title` - improve focus state
 
 ### Updated
 
 - `calcite-dropdown` - a dropdown will now close if another dropdown is opened
 - `calcite-dropdown` - mouse clicks on `calcite-dropdown-group` titles will no longer close the dropdown
+- `calcite-slider` - improved `disabled` styles (#676)
 
 ## [v1.0.0-beta.30] - June 12th 2020
 
@@ -504,6 +519,8 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.31]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.30...v1.0.0-beta.31 "v1.0.0-beta.31"
+[v1.0.0-beta.30]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.29...v1.0.0-beta.30 "v1.0.0-beta.30"
 [v1.0.0-beta.29]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.28...v1.0.0-beta.29 "v1.0.0-beta.29"
 [v1.0.0-beta.28]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.27...v1.0.0-beta.28 "v1.0.0-beta.28"
 [v1.0.0-beta.27]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.26...v1.0.0-beta.27 "v1.0.0-beta.27"

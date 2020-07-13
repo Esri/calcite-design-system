@@ -12,10 +12,12 @@
       color: white;
       padding: 1rem;
     }
+
     h2 {
       text-align: center;
       padding-top: 6rem;
     }
+
     h2:first-of-type {
       padding-top: 2rem;
     }
@@ -78,9 +80,9 @@
     })();
   </script>
   <h2>Inline</h2>
-  <p style="text-align: center;">
-    <calcite-loader active inline></calcite-loader>Inline Loader
-  </p>
+  <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
+    <calcite-loader active inline></calcite-loader><span style="margin:0 10px">Inline Loader</span>
+  </div>
   <h2>Custom theme</h2>
   <style>
     calcite-loader.green {
@@ -88,8 +90,8 @@
       --calcite-ui-blue-2: #1a6324;
       --calcite-ui-blue-3: #338033;
     }
-    </style>
-    <calcite-loader active class="green"></calcite-loader>
+  </style>
+  <calcite-loader active class="green"></calcite-loader>
   <h2>Loading Text</h2>
   <calcite-loader active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
 </body>

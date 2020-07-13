@@ -79,7 +79,7 @@ export class CalciteCard {
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
-              <calcite-loader is-active></calcite-loader>
+              <calcite-loader active></calcite-loader>
             </div>
           ) : null}
           <section class={{ [CSS.container]: true }} aria-busy={this.loading}>

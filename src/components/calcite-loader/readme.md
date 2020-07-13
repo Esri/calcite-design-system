@@ -1,15 +1,15 @@
 # calcite-loader
 
-The calcite-loader component can act as a determinate or indeterminate loading indicator. Use the `is-active` attribute to toggle visibility:
+The calcite-loader component can act as a determinate or indeterminate loading indicator. Use the `active` attribute to toggle visibility:
 
 ```html
-<calcite-loader text="Fetching data..." is-active></calcite-loader>
+<calcite-loader text="Fetching data..." active></calcite-loader>
 ```
 
 If you can calculate your progress, it's best to use the determinate version of the loader. Update the `value` of the element when progress is made:
 
 ```html
-<calcite-loader type="determinate" value="32" is-active></calcite-loader>
+<calcite-loader type="determinate" value="32" active></calcite-loader>
 ```
 
 The above will display a progress bar along the perimeter of the loader showing 32% complete.
@@ -17,7 +17,7 @@ The above will display a progress bar along the perimeter of the loader showing 
 For instances when you don't have room for the full loader, you can use the smaller `inline` version of the loader. The inline version is meant to sit to the left of text:
 
 ```html
-<p><calcite-loader is-active inline></calcite-loader> Inline loader</p>
+<p><calcite-loader active inline></calcite-loader> Inline loader</p>
 ```
 
 <!-- Auto Generated Below -->
