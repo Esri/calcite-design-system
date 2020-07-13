@@ -40,7 +40,6 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   @Event() calciteSwitchChange: EventEmitter;
-  @Event() change: EventEmitter;
 
   private observer: MutationObserver;
 
@@ -161,7 +160,6 @@ export class CalciteSwitch {
   private updateSwitch(e) {
     e.preventDefault();
     this.switched = !this.switched;
-    this.change.emit();
     this.calciteSwitchChange.emit();
   }
 }

@@ -219,7 +219,7 @@ export class CalciteStepperItem {
 
   private getItemContent() {
     // handle ie and edge
-    return this.el.shadowRoot.querySelector("slot")
+    return this.el.shadowRoot?.querySelector("slot")
       ? (this.el.shadowRoot
           .querySelector("slot")
           .assignedNodes({ flatten: true }) as HTMLElement[])

@@ -249,7 +249,7 @@ export class CalciteDropdownItem {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = [
+    const props = [
       "icon-start",
       "icon-end",
       "active",
@@ -268,9 +268,12 @@ export class CalciteDropdownItem {
     const group = this.el.closest(
       "calcite-dropdown-group"
     ) as HTMLCalciteDropdownGroupElement;
-    return Array.prototype.indexOf.call(
-      group.querySelectorAll("calcite-dropdown-item"),
-      this.el
-    );
+
+    return group
+      ? Array.prototype.indexOf.call(
+          group.querySelectorAll("calcite-dropdown-item"),
+          this.el
+        )
+      : 1;
   }
 }

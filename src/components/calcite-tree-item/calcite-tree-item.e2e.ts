@@ -86,11 +86,13 @@ describe("calcite-tree", () => {
     </calcite-tree>`);
 
     await page.waitForChanges();
-    const item = await page.find("#secondItem");
-    await item.click();
 
-    await page.waitForChanges();
-    expect(page.url()).toContain("#inner");
-    expect(page.url()).not.toContain("#outer");
+    const hash = await page.evaluate(() => {
+      const item = document.getElementById("secondItem");
+      item.click();
+      return window.location.hash;
+    });
+
+    expect(hash).toEqual("#inner");
   });
 });
