@@ -1,25 +1,12 @@
-import {
-  Component,
-  Element,
-  Host,
-  Method,
-  Prop,
-  h,
-  VNode,
-} from "@stencil/core";
-import {
-  CalciteAppearance,
-  CalciteColor,
-  CalciteScale,
-  CalciteTheme,
-} from "../interfaces";
+import { Component, Element, Host, Method, Prop, h, VNode } from "@stencil/core";
+import { CalciteAppearance, CalciteColor, CalciteScale, CalciteTheme } from "../interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement, getElementDir } from "../utils/dom";
 
 @Component({
   tag: "calcite-fab",
   styleUrl: "calcite-fab.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteFab {
   // --------------------------------------------------------------------------
@@ -117,7 +104,7 @@ export class CalciteFab {
       textEnabled,
       icon,
       label,
-      text,
+      text
     } = this;
     const titleText = !textEnabled && text;
     const title = label || titleText;
@@ -134,7 +121,7 @@ export class CalciteFab {
           theme={theme}
           dir={dir}
           scale={scale}
-          icon={icon}
+          iconStart={icon}
           round={true}
           width="auto"
           appearance={appearance}
