@@ -1,12 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Prop,
-  h,
-  VNode,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stencil/core";
 
 import { getElementDir } from "../utils/dom";
 import { CSS_UTILITY } from "../utils/resources";
@@ -20,7 +12,7 @@ import { CalciteBlockSectionToggleDisplay } from "../interfaces";
 @Component({
   tag: "calcite-block-section",
   styleUrl: "calcite-block-section.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteBlockSection {
   // --------------------------------------------------------------------------
@@ -56,8 +48,7 @@ export class CalciteBlockSection {
    *
    * @todo revisit doc
    */
-  @Prop({ reflect: true }) toggleDisplay: CalciteBlockSectionToggleDisplay =
-    "button";
+  @Prop({ reflect: true }) toggleDisplay: CalciteBlockSectionToggleDisplay = "button";
 
   // --------------------------------------------------------------------------
   //
@@ -106,15 +97,7 @@ export class CalciteBlockSection {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const {
-      el,
-      guid: id,
-      intlCollapse,
-      intlExpand,
-      open,
-      text,
-      toggleDisplay,
-    } = this;
+    const { el, guid: id, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
     const dir = getElementDir(el);
     const arrowIcon = open
       ? ICONS.menuOpen
@@ -122,9 +105,7 @@ export class CalciteBlockSection {
       ? ICONS.menuClosedLeft
       : ICONS.menuClosedRight;
 
-    const toggleLabel = open
-      ? intlCollapse || TEXT.collapse
-      : intlExpand || TEXT.expand;
+    const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
     const labelId = `${id}__label`;
 
     const headerNode =
@@ -133,7 +114,7 @@ export class CalciteBlockSection {
           aria-label={toggleLabel}
           class={{
             [CSS.toggle]: true,
-            [CSS.toggleSwitch]: true,
+            [CSS.toggleSwitch]: true
           }}
           id={labelId}
           onKeyDown={this.handleHeaderLabelKeyDown}
@@ -143,7 +124,7 @@ export class CalciteBlockSection {
           <calcite-switch
             aria-labelledby={labelId}
             switched={open}
-            onChange={this.toggleSection}
+            onCalciteSwitchChange={this.toggleSection}
             scale="s"
             tabIndex={-1}
           />
@@ -161,10 +142,7 @@ export class CalciteBlockSection {
       );
 
     return (
-      <section
-        aria-expanded={open.toString()}
-        class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
-      >
+      <section aria-expanded={open.toString()} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
         {headerNode}
         <div class={CSS.content} hidden={!open}>
           <slot />
