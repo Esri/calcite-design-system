@@ -4,9 +4,6 @@
 $spacing: $baseline/2;
 
 :host {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: $spacing;
   background-color: var(--calcite-ui-foreground-1);
   transition: $transition;
   color: var(--calcite-ui-text-3);
@@ -27,6 +24,11 @@ $spacing: $baseline/2;
   #heading {
     font-weight: 500;
   }
+}
+.tile {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: $spacing;
 }
 #heading {
   @include font-size(0);

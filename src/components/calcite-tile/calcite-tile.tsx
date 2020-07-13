@@ -29,19 +29,25 @@ export class CalciteTile {
   // --------------------------------------------------------------------------
 
   renderTile() {
-    return [
-      <div id="icon">
-        {this.icon && <calcite-icon icon={this.icon} scale="l"></calcite-icon>}
-      </div>,
-      <div id="heading">{this.heading}</div>,
-      <div id="description">{this.description}</div>,
-    ];
+    return (
+      <div class="tile">
+        <div id="icon">
+          {this.icon && (
+            <calcite-icon icon={this.icon} scale="l"></calcite-icon>
+          )}
+        </div>
+        <div id="heading">{this.heading}</div>
+        <div id="description">{this.description}</div>
+      </div>
+    );
   }
   render() {
     return (
       <Host>
         {this.href ? (
-          <calcite-link href={this.href}>{this.renderTile()}</calcite-link>
+          <calcite-link href={this.href} theme={this.theme}>
+            {this.renderTile()}
+          </calcite-link>
         ) : (
           this.renderTile()
         )}
