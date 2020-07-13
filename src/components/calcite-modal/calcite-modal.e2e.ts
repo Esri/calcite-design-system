@@ -8,9 +8,9 @@ describe("calcite-modal properties", () => {
     expect(element).toHaveAttribute("calcite-hydrated");
   });
 
-  it("adds closeLabel property to close button", async () => {
+  it("adds localized strings set via intl-* props", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
     const button = await page.find("calcite-modal >>> .modal__close");
     expect(button).toEqualAttribute("aria-label", "test");
   });
