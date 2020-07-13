@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Breaking Changes
 
 - `calcite-modal` - `close-label` prop is now renamed to `intl-close` for consistency (#466)
+- `calcite-date` - `prevMonthLabel` and `nextMonthLabel` updated to `intlPrevMonth` and `intlNextMonth` (#97)
 
 ## [v1.0.0-beta.31]
 
