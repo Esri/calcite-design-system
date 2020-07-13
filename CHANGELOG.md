@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-stepper` - `calciteStepperItemHasChanged` event has been renamed to `calciteStepperItemChanged`
 - `calcite-stepper-item` - `calciteStepperItemSelected` event has been renamed to `calciteStepperItemSelect`
 - `calcite-stepper-item` - `registerCalciteStepperItem` event has been renamed to `calciteStepperItemRegister`
+- `calcite-switch` - `switched` boolean has been added to `calciteSwitchChange` event detail
 
 ## [v1.0.0-beta.31]
 

@@ -79,6 +79,7 @@ describe("calcite-switch", () => {
     await calciteSwitch.click();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveFirstReceivedEventDetail({ switched: true });
   });
 
   // Not sure why this is failing
