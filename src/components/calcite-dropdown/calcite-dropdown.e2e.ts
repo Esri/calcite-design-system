@@ -1,4 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-dropdown", () => {
   /**
@@ -41,7 +42,7 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown>`);
 
     const element = await page.find("calcite-dropdown");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {

@@ -6,8 +6,8 @@ describe("calcite-combobox", () => {
   it("honors hidden attribute", async () => hidden("calcite-combobox"));
   it("is accessible", async () =>
     accessible(`
-      <calcite-combobox label="Trees" value="Trees" text-label="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+      <calcite-combobox aria-label="Trees" label="Trees" value="Trees" text-label="Trees">
+        <calcite-combobox-item aria-label="Pine" value="Pine" text-label="Pine"></calcite-combobox-item>
       </calcite-combobox>
   `));
 
@@ -98,7 +98,7 @@ describe("calcite-combobox", () => {
       const closeBtn = await page.find(
         "calcite-combobox >>> calcite-chip >>> .close"
       );
-        console.log(closeBtn)
+      console.log(closeBtn);
       await closeBtn.click();
       await page.waitForChanges();
 

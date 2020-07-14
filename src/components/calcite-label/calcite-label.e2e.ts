@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-label", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-label></calcite-label>");
     const label = await page.find("calcite-label");
-    expect(label).toHaveAttribute("calcite-hydrated");
+    expect(label).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {

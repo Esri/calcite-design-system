@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-loader", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-loader></calcite-loader>");
     const loader = await page.find("calcite-loader");
-    expect(loader).toHaveAttribute("calcite-hydrated");
+    expect(loader).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("becomes visible when active prop is set", async () => {
