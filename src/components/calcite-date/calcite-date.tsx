@@ -23,6 +23,8 @@ import {
   dateToISO,
 } from "../../utils/date";
 import { getKey } from "../../utils/key";
+import { TEXT } from "./calcite-date-resources";
+
 @Component({
   tag: "calcite-date",
   styleUrl: "calcite-date.scss",
@@ -52,9 +54,9 @@ export class CalciteDate {
   /** Expand or collapse when calendar does not have input */
   @Prop({ reflect: true }) active: boolean = false;
   /** Localized string for "previous month" */
-  @Prop() prevMonthLabel?: string = "previous month";
+  @Prop() intlPrevMonth?: string = TEXT.prevMonth;
   /** Localized string for "next month" */
-  @Prop() nextMonthLabel?: string = "next month";
+  @Prop() intlNextMonth?: string = TEXT.nextMonth;
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = "en-US";
   /** Show only calendar popup */
@@ -151,8 +153,8 @@ export class CalciteDate {
           <calcite-date-month-header
             activeDate={activeDate}
             selectedDate={date || new Date()}
-            prevMonthLabel={this.prevMonthLabel}
-            nextMonthLabel={this.nextMonthLabel}
+            intlPrevMonth={this.intlPrevMonth}
+            intlNextMonth={this.intlNextMonth}
             locale={this.locale}
             min={min}
             max={max}

@@ -161,7 +161,7 @@ export class CalciteSwitch {
     e.preventDefault();
     this.switched = !this.switched;
     this.calciteSwitchChange.emit({
-      switched: this.switched
+      switched: this.switched,
     });
   }
 }

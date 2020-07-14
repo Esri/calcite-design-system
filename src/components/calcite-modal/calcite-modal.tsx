@@ -39,7 +39,7 @@ export class CalciteModal {
   /** Disables the display a close button within the Modal */
   @Prop() disableCloseButton?: boolean;
   /** Aria label for the close button */
-  @Prop() closeLabel: string = "Close";
+  @Prop() intlClose: string = "Close";
   /** Prevent the modal from taking up the entire screen on mobile */
   @Prop({ reflect: true }) docked: boolean;
   /** Specify an element to focus when the modal is first opened */
@@ -66,8 +66,8 @@ export class CalciteModal {
     return !this.disableCloseButton ? (
       <button
         class="modal__close"
-        aria-label={this.closeLabel}
-        title={this.closeLabel}
+        aria-label={this.intlClose}
+        title={this.intlClose}
         ref={(el) => (this.closeButtonEl = el)}
         onClick={() => this.close()}
       >
