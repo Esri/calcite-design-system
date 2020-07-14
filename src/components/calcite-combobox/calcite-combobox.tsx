@@ -345,6 +345,7 @@ export class CalciteCombobox {
         </div>
         <ul
           id={listBoxId}
+          aria-label={this.label}
           role="listbox"
           class={{ list: true }}
           aria-multiselectable="true"

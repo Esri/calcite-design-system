@@ -98,7 +98,7 @@ describe("calcite-combobox", () => {
       const closeBtn = await page.find(
         "calcite-combobox >>> calcite-chip >>> .close"
       );
-        console.log(closeBtn)
+
       await closeBtn.click();
       await page.waitForChanges();
 

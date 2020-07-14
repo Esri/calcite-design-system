@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 // todo test the automatic setting of first item to active
 describe("calcite-stepper", () => {
@@ -20,7 +21,7 @@ describe("calcite-stepper", () => {
       </calcite-stepper-item>
     </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {

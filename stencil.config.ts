@@ -88,7 +88,7 @@ export const create: () => Config = () => ({
   },
   hydratedFlag: {
     selector: "attribute",
-    name: "calcite-hydrated"
+    name: "hydrated",
   },
   extras: {
     appendChildSlotFix: true,

@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-modal properties", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-modal></calcite-modal>");
     const element = await page.find("calcite-modal");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("adds localized strings set via intl-* props", async () => {

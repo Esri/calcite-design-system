@@ -2,6 +2,8 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
+import { config } from "../../stencil.config";
+export const HYDRATED_ATTR = config.hydratedFlag.name;
 
 expect.extend(toHaveNoViolations);
 
@@ -50,7 +52,7 @@ export async function renders(componentTagOrHTML: TagOrHTML, visible = true): Pr
   const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
-  expect(element).toHaveAttribute("calcite-hydrated");
+expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(await element.isVisible()).toBe(visible);
 }
 

@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
   it("renders as a span with default props", async () => {
@@ -15,7 +16,7 @@ describe("calcite-link", () => {
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
 
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "blue");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -36,7 +37,7 @@ describe("calcite-link", () => {
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
 
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "blue");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
@@ -57,7 +58,7 @@ describe("calcite-link", () => {
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
 
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "red");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -80,7 +81,7 @@ describe("calcite-link", () => {
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
 
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "red");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
@@ -103,7 +104,7 @@ describe("calcite-link", () => {
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
 
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
     expect(elementAsLink).toHaveClass("mycustomclass");
@@ -129,7 +130,7 @@ describe("calcite-link", () => {
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
 
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(elementAsSpan).toHaveClass("mycustomclass");
@@ -150,7 +151,7 @@ describe("calcite-link", () => {
     const iconEnd = await page.find(
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "blue");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -172,7 +173,7 @@ describe("calcite-link", () => {
     const iconEnd = await page.find(
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).not.toBeNull();
@@ -192,7 +193,7 @@ describe("calcite-link", () => {
     const iconEnd = await page.find(
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).toBeNull();
@@ -213,7 +214,7 @@ describe("calcite-link", () => {
     const iconEnd = await page.find(
       "calcite-link >>> .calcite-link--icon.icon-end"
     );
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).not.toBeNull();

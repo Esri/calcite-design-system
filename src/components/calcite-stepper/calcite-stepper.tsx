@@ -63,7 +63,7 @@ export class CalciteStepper {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteStepperItemHasChanged: EventEmitter;
+  @Event() calciteStepperItemChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -89,7 +89,7 @@ export class CalciteStepper {
   componentDidLoad() {
     // if no stepper items are set as active, default to the first one
     if (!this.currentPosition) {
-      this.calciteStepperItemHasChanged.emit({
+      this.calciteStepperItemChange.emit({
         position: 0,
       });
     }
@@ -144,7 +144,7 @@ export class CalciteStepper {
     }
   }
 
-  @Listen("registerCalciteStepperItem") registerItem(event: CustomEvent) {
+  @Listen("calciteStepperItemRegister") registerItem(event: CustomEvent) {
     const item = {
       item: event.target as HTMLCalciteStepperItemElement,
       position: event.detail.position,
@@ -156,14 +156,14 @@ export class CalciteStepper {
     this.sortedItems = this.sortItems();
   }
 
-  @Listen("calciteStepperItemSelected") updateItem(event: CustomEvent) {
+  @Listen("calciteStepperItemSelect") updateItem(event: CustomEvent) {
     if (event.detail.content)
       this.requestedContent =
         event.detail.content.length > 0
           ? event.detail.content
           : [event.detail.content];
     this.currentPosition = event.detail.position;
-    this.calciteStepperItemHasChanged.emit({
+    this.calciteStepperItemChange.emit({
       position: this.currentPosition,
     });
   }
@@ -240,7 +240,7 @@ export class CalciteStepper {
   //--------------------------------------------------------------------------
 
   private emitChangedItem() {
-    this.calciteStepperItemHasChanged.emit({
+    this.calciteStepperItemChange.emit({
       position: this.currentPosition,
     });
   }

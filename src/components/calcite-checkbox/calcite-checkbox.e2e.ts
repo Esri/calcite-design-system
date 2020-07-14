@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
   it("renders with correct default attributes", async () => {
@@ -7,7 +8,7 @@ describe("calcite-checkbox", () => {
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
-    expect(calciteCheckbox).toHaveAttribute("calcite-hydrated");
+    expect(calciteCheckbox).toHaveAttribute(HYDRATED_ATTR);
     expect(calciteCheckbox).toEqualAttribute("role", "checkbox");
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
