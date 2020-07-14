@@ -38,6 +38,14 @@ export class CalciteIcon {
   //--------------------------------------------------------------------------
 
   /**
+   * Custom height (overrides the scale property)
+   */
+  @Prop({
+    reflect: true,
+  })
+  height: number | undefined = undefined;
+
+  /**
    * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
    */
   @Prop({
@@ -77,6 +85,14 @@ export class CalciteIcon {
   })
   theme: Theme;
 
+  /**
+   * Custom width (overrides the scale property)
+   */
+  @Prop({
+    reflect: true,
+  })
+  width: number | undefined = undefined;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -105,6 +121,8 @@ export class CalciteIcon {
     const { el, mirrored, pathData, scale, textLabel } = this;
     const dir = getElementDir(el);
     const size = scaleToPx[scale];
+    const height = this.height ? this.height : size;
+    const width = this.width ? this.width : size;
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");
     return (
@@ -119,9 +137,11 @@ export class CalciteIcon {
           }}
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
-          height={size}
-          width={size}
-          viewBox={`0 0 ${size} ${size}`}
+          height={height}
+          width={width}
+          viewBox={`0 0 ${this.width ? width / 2 : width} ${
+            this.height ? height / 2 : height
+          }`}
         >
           {paths.map((path: string | CalciteMultiPathEntry) =>
             typeof path === "string" ? (

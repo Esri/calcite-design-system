@@ -25,16 +25,23 @@ $spacing: $baseline/2;
     font-weight: 500;
   }
 }
-.tile {
+#tile {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: $spacing;
-}
-#heading {
-  @include font-size(0);
-  color: var(--calcite-ui-text-1);
-}
-#description {
-  @include font-size(-1);
-  color: var(--calcite-ui-text-2);
+  #heading {
+    @include font-size(0);
+    color: var(--calcite-ui-text-1);
+  }
+  &.large-visual {
+    justify-items: center;
+    min-height: 200px;
+    #icon {
+      align-self: self-end;
+    }
+  }
+  #description {
+    @include font-size(-1);
+    color: var(--calcite-ui-text-2);
+  }
 }
