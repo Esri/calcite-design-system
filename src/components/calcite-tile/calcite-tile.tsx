@@ -18,7 +18,7 @@ export class CalciteTile {
   @Prop({ reflect: true }) focused: boolean = false;
   @Prop({ reflect: true }) hidden: boolean = false;
   @Prop({ reflect: true }) href?: string;
-  @Prop({ reflect: true }) icon: string = "";
+  @Prop({ reflect: true }) icon: string;
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
   @Prop() heading: string = "";
 
@@ -32,16 +32,16 @@ export class CalciteTile {
     const isLargeVisual = this.heading && this.icon && !this.description;
     return (
       <div id="tile" class={{ "large-visual": isLargeVisual }}>
-        <div id="icon">
-          {this.icon && (
+        {this.icon && (
+          <div id="icon">
             <calcite-icon
               icon={this.icon}
               scale="l"
               height={isLargeVisual && 64}
               width={isLargeVisual && 64}
             ></calcite-icon>
-          )}
-        </div>
+          </div>
+        )}
         {this.heading && <div id="heading">{this.heading}</div>}
         {this.description && <div id="description">{this.description}</div>}
       </div>
@@ -51,7 +51,7 @@ export class CalciteTile {
     return (
       <Host>
         {this.href ? (
-          <calcite-link href={this.href} theme={this.theme}>
+          <calcite-link href={this.href} theme={this.theme} user-select="false">
             {this.renderTile()}
           </calcite-link>
         ) : (

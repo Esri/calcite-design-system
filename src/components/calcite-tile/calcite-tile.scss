@@ -25,6 +25,9 @@ $spacing: $baseline/2;
     font-weight: 500;
   }
 }
+:host([icon][heading]:not([description])) {
+  padding: unset;
+}
 #tile {
   display: grid;
   grid-template-columns: 1fr;
@@ -38,6 +41,9 @@ $spacing: $baseline/2;
     min-height: 200px;
     #icon {
       align-self: self-end;
+    }
+    #heading {
+      align-self: center;
     }
   }
   #description {

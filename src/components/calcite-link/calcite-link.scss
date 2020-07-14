@@ -102,7 +102,6 @@
   color: $color;
   line-height: inherit;
   white-space: initial;
-  user-select: text;
   background-color: transparent;
   position: relative;
   background-image: linear-gradient(currentColor, currentColor),
@@ -123,6 +122,13 @@
   &:active {
     color: $color;
     background-size: 100% 2px, 100% 2px;
+  }
+}
+
+:host([user-select]) {
+  span,
+  a {
+    user-select: text;
   }
 }
 

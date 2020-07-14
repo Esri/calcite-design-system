@@ -50,6 +50,9 @@ export class CalciteLink {
   /** is the link disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
+  /** Allows the text to be selectable */
+  @Prop({ reflect: true }) userSelect: boolean = true;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
