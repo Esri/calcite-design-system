@@ -14,19 +14,10 @@ export const create: () => Config = () => ({
     { components: ["calcite-chip"] },
     { components: ["calcite-combobox"] },
     {
-      components: [
-        "calcite-date",
-        "calcite-date-month",
-        "calcite-date-month-header",
-        "calcite-date-day",
-      ],
+      components: ["calcite-date", "calcite-date-month", "calcite-date-month-header", "calcite-date-day"]
     },
     {
-      components: [
-        "calcite-dropdown",
-        "calcite-dropdown-group",
-        "calcite-dropdown-item",
-      ],
+      components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"]
     },
     { components: ["calcite-icon"] },
     { components: ["calcite-input"] },
@@ -45,35 +36,25 @@ export const create: () => Config = () => ({
     { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     {
-      components: [
-        "calcite-tab",
-        "calcite-tab-title",
-        "calcite-tab-nav",
-        "calcite-tabs",
-      ],
+      components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"]
     },
     { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
     {
-      components: [
-        "calcite-action",
-        "calcite-action-group",
-        "calcite-action-bar",
-        "calcite-action-pad",
-      ],
+      components: ["calcite-action", "calcite-action-group", "calcite-action-bar", "calcite-action-pad"]
     },
     {
-      components: ["calcite-block", "calcite-block-section"],
+      components: ["calcite-block", "calcite-block-section"]
     },
     {
-      components: ["calcite-panel", "calcite-flow", "calcite-flow-item"],
+      components: ["calcite-panel", "calcite-flow", "calcite-flow-item"]
     },
     {
-      components: ["calcite-shell", "calcite-shell-panel"],
+      components: ["calcite-shell", "calcite-shell-panel"]
     },
     {
-      components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"],
-    },
+      components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"]
+    }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
@@ -86,35 +67,33 @@ export const create: () => Config = () => ({
       prerenderConfig: "./prerender.config.js",
       copy: [{ src: "demos", dest: "demos" }],
       serviceWorker: {
-        unregister: true,
-      },
-    },
+        unregister: true
+      }
+    }
   ],
   globalStyle: "src/assets/styles/global.scss",
   plugins: [
     sass({
-      injectGlobalPaths: [
-        "src/assets/styles/includes.scss",
-        "src/scss/injected.scss",
-      ],
+      injectGlobalPaths: ["src/assets/styles/includes.scss", "src/scss/injected.scss"]
     }),
     postcss({
-      plugins: [autoprefixer()],
-    }),
+      plugins: [autoprefixer()]
+    })
   ],
   testing: {
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js",
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
     },
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
   },
   hydratedFlag: {
     selector: "attribute",
-    name: "calcite-hydrated",
+    name: "calcite-hydrated"
   },
   extras: {
     appendChildSlotFix: true,
-    slotChildNodesFix: true,
-  },
+    slotChildNodesFix: true
+  }
 });
 
 export const config = create();

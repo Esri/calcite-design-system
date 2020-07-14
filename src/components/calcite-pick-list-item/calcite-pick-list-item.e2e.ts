@@ -1,14 +1,12 @@
 import { CSS } from "./resources";
-import { setUpPage } from "../../tests/utils";
 import { renders } from "../../tests/commonTests";
+import { newE2EPage } from "@stencil/core/testing";
 
 describe("calcite-pick-list-item", () => {
   it("renders", async () => renders("calcite-pick-list-item"));
 
   it("should toggle selected attribute when clicked", async () => {
-    const page = await setUpPage(
-      `<calcite-pick-list-item text-label="test"></calcite-pick-list-item>`
-    );
+    const page = await newE2EPage({ html: `<calcite-pick-list-item text-label="test"></calcite-pick-list-item>` });
 
     const item = await page.find("calcite-pick-list-item");
     expect(await item.getProperty("selected")).toBe(false);
@@ -21,24 +19,19 @@ describe("calcite-pick-list-item", () => {
   });
 
   it("should fire event calciteListItemChange when item is clicked", async () => {
-    const page = await setUpPage(
-      `<calcite-pick-list-item text-label="test" value="example"></calcite-pick-list-item>`
-    );
+    const page = await newE2EPage({
+      html: `<calcite-pick-list-item text-label="test" value="example"></calcite-pick-list-item>`
+    });
     const item = await page.find("calcite-pick-list-item");
     await page.evaluate(() => {
-      document.addEventListener(
-        "calciteListItemChange",
-        (event: CustomEvent) => {
-          (window as any).eventDetail = event.detail;
-        }
-      );
+      document.addEventListener("calciteListItemChange", (event: CustomEvent) => {
+        (window as any).eventDetail = event.detail;
+      });
     });
 
     await item.click();
 
-    const eventDetail: any = await page.evaluateHandle(
-      () => (window as any).eventDetail
-    );
+    const eventDetail: any = await page.evaluateHandle(() => (window as any).eventDetail);
     const properties = await eventDetail.getProperties();
 
     expect(properties.get("item")).toBeDefined();
@@ -48,9 +41,9 @@ describe("calcite-pick-list-item", () => {
   });
 
   it("prevents deselection when disableDeselect is true", async () => {
-    const page = await setUpPage(
-      `<calcite-pick-list-item text-label="test" value="example" disable-deselect selected></calcite-pick-list-item>`
-    );
+    const page = await newE2EPage({
+      html: `<calcite-pick-list-item text-label="test" value="example" disable-deselect selected></calcite-pick-list-item>`
+    });
     const item = await page.find("calcite-pick-list-item");
 
     await item.click();
@@ -59,13 +52,11 @@ describe("calcite-pick-list-item", () => {
   });
 
   it("allows for easy removal", async () => {
-    const page = await setUpPage(
-      `<calcite-pick-list-item text-label="test" value="example" removable></calcite-pick-list-item>`
-    );
+    const page = await newE2EPage({
+      html: `<calcite-pick-list-item text-label="test" value="example" removable></calcite-pick-list-item>`
+    });
 
-    const removeButton = await page.find(
-      `calcite-pick-list-item >>> .${CSS.remove}`
-    );
+    const removeButton = await page.find(`calcite-pick-list-item >>> .${CSS.remove}`);
 
     expect(removeButton).toBeTruthy();
 

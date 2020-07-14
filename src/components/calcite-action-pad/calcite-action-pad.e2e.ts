@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders } from "../../tests/commonTests";
-import { setUpPage } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-action-pad", () => {
@@ -26,9 +25,7 @@ describe("calcite-action-pad", () => {
 
       await page.waitForChanges();
 
-      const expandAction = await page.find(
-        "calcite-action-pad >>> calcite-action"
-      );
+      const expandAction = await page.find("calcite-action-pad >>> calcite-action");
 
       expect(expandAction).not.toBeNull();
     });
@@ -36,27 +33,21 @@ describe("calcite-action-pad", () => {
     it("should not show expand when false", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(
-        '<calcite-action-pad expand="false"></calcite-action-pad>'
-      );
+      await page.setContent('<calcite-action-pad expand="false"></calcite-action-pad>');
 
       await page.waitForChanges();
 
-      const expandAction = await page.find(
-        "calcite-action-pad >>> calcite-action"
-      );
+      const expandAction = await page.find("calcite-action-pad >>> calcite-action");
 
       expect(expandAction).toBeNull();
     });
 
     it("should toggle expanded", async () => {
-      const page = await setUpPage("<calcite-action-pad></calcite-action-pad>");
+      const page = await newE2EPage({ html: "<calcite-action-pad></calcite-action-pad>" });
 
       const pad = await page.find("calcite-action-pad");
 
-      const buttonGroup = await page.find(
-        `calcite-action-pad >>> .${CSS.actionGroupBottom}`
-      );
+      const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupBottom}`);
 
       const button = await buttonGroup.find(`calcite-action`);
 
@@ -86,13 +77,9 @@ describe("calcite-action-pad", () => {
     it("should have child actions be textEnabled when expanded is set", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(
-        "<calcite-action-pad expanded></calcite-action-pad>"
-      );
+      await page.setContent("<calcite-action-pad expanded></calcite-action-pad>");
 
-      const buttonGroup = await page.find(
-        `calcite-action-pad >>> .${CSS.actionGroupBottom}`
-      );
+      const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupBottom}`);
 
       const button = await buttonGroup.find("calcite-action");
 
@@ -105,13 +92,9 @@ describe("calcite-action-pad", () => {
   it("should not have bottomGroup when expand is false", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-action-bar expand="false"></calcite-action-bar>`
-    );
+    await page.setContent(`<calcite-action-bar expand="false"></calcite-action-bar>`);
 
-    const buttonGroup = await page.find(
-      `calcite-action-bar >>> .${CSS.actionGroupBottom}`
-    );
+    const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
 
     expect(buttonGroup).toBeNull();
   });

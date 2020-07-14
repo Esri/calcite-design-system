@@ -1,13 +1,6 @@
 import { CSS, TEXT } from "./resources";
-import {
-  accessible,
-  defaults,
-  hidden,
-  reflects,
-  renders,
-} from "../../tests/commonTests";
-import { setUpPage } from "../../tests/utils";
-import { E2EPage } from "@stencil/core/testing";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 
 describe("calcite-block-section", () => {
   it("renders", async () => renders("calcite-block-section"));
@@ -18,20 +11,20 @@ describe("calcite-block-section", () => {
     reflects("calcite-block-section", [
       {
         propertyName: "open",
-        value: true,
-      },
+        value: true
+      }
     ]));
 
   it("has property defaults", async () =>
     defaults("calcite-block-section", [
       {
         propertyName: "open",
-        defaultValue: false,
+        defaultValue: false
       },
       {
         propertyName: "toggleDisplay",
-        defaultValue: "button",
-      },
+        defaultValue: "button"
+      }
     ]));
 
   describe("toggle-display = 'switch'", () => {
@@ -48,26 +41,24 @@ describe("calcite-block-section", () => {
     });
 
     it("can display/hide content", async () => {
-      const page = await setUpPage(
-        `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`
-      );
+      const page = await newE2EPage({
+        html: `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`
+      });
       await assertContentIsDisplayedAndHidden(page);
     });
 
     it("can be toggled", async () => {
-      const page = await setUpPage(
-        `<calcite-block-section toggle-display="switch"></calcite-block-section>`
-      );
+      const page = await newE2EPage({
+        html: `<calcite-block-section toggle-display="switch"></calcite-block-section>`
+      });
       await assertToggleBehavior(page);
     });
 
     it("renders section text", async () => {
-      const page = await setUpPage(
-        `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`
-      );
-      const element = await page.find(
-        `calcite-block-section >>> .${CSS.toggle}`
-      );
+      const page = await newE2EPage({
+        html: `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`
+      });
+      const element = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
       expect(element.textContent).toBe("test text");
     });
   });
@@ -75,44 +66,32 @@ describe("calcite-block-section", () => {
   describe("toggle-display = 'button' (default)", () => {
     describe("accessibility", () => {
       it("when open", async () =>
-        accessible(
-          `<calcite-block-section text="text" open><div>some content</div></calcite-block-section>`
-        ));
+        accessible(`<calcite-block-section text="text" open><div>some content</div></calcite-block-section>`));
 
       it("when closed", async () =>
-        accessible(
-          `<calcite-block-section text="text"><div>some content</div></calcite-block-section>`
-        ));
+        accessible(`<calcite-block-section text="text"><div>some content</div></calcite-block-section>`));
     });
 
     it("can display/hide content", async () => {
-      const page = await setUpPage(
-        "<calcite-block-section><div>some content</div></calcite-block-section>"
-      );
+      const page = await newE2EPage({ html: "<calcite-block-section><div>some content</div></calcite-block-section>" });
       await assertContentIsDisplayedAndHidden(page);
     });
 
     it("can be toggled", async () => {
-      const page = await setUpPage(
-        "<calcite-block-section></calcite-block-section>"
-      );
+      const page = await newE2EPage({ html: "<calcite-block-section></calcite-block-section>" });
       await assertToggleBehavior(page);
     });
 
     it("renders section text", async () => {
-      const page = await setUpPage(
-        `<calcite-block-section text="test text" open="true"></calcite-block-section>`
-      );
-      const element = await page.find(
-        `calcite-block-section >>> .${CSS.toggle}`
-      );
+      const page = await newE2EPage({
+        html: `<calcite-block-section text="test text" open="true"></calcite-block-section>`
+      });
+      const element = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
       expect(await element.getProperty("text")).toBe("test text");
     });
   });
 
-  async function assertContentIsDisplayedAndHidden(
-    page: E2EPage
-  ): Promise<void> {
+  async function assertContentIsDisplayedAndHidden(page: E2EPage): Promise<void> {
     let element = await page.find("calcite-block-section");
     let content = await page.find(`calcite-block-section >>> .${CSS.content}`);
 

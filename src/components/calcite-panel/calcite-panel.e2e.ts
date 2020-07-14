@@ -1,7 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
-import { setUpPage } from "../../tests/utils";
 
 describe("calcite-panel", () => {
   it("renders", async () => renders("calcite-panel"));
@@ -28,14 +27,9 @@ describe("calcite-panel", () => {
   });
 
   it("dismissible should fire event when closed", async () => {
-    const page = await setUpPage(
-      "<calcite-panel dismissible>test</calcite-panel>"
-    );
+    const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
 
-    const eventSpy = await page.spyOnEvent(
-      "calcitePanelDismissedChange",
-      "window"
-    );
+    const eventSpy = await page.spyOnEvent("calcitePanelDismissedChange", "window");
 
     const closeButton = await page.find("calcite-panel >>> calcite-action");
 
@@ -56,9 +50,7 @@ describe("calcite-panel", () => {
     `));
 
   it("should focus on close button", async () => {
-    const page = await setUpPage(
-      "<calcite-panel dismissible>test</calcite-panel>"
-    );
+    const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
 
     const tagName = await page.evaluate(async () => {
       const calcitePanel = document.querySelector("calcite-panel");
@@ -71,9 +63,7 @@ describe("calcite-panel", () => {
   });
 
   it("should focus on container", async () => {
-    const page = await setUpPage(
-      "<calcite-panel dismissible>test</calcite-panel>"
-    );
+    const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
 
     const tagName = await page.evaluate(async () => {
       const calcitePanel = document.querySelector("calcite-panel");

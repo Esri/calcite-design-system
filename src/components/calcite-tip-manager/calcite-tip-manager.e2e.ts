@@ -1,7 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, TEXT } from "./resources";
 import { accessible } from "../../tests/commonTests";
-import { setUpPage } from "../../tests/utils";
 
 describe("calcite-tip-manager", () => {
   describe("first render", () => {
@@ -44,26 +43,19 @@ describe("calcite-tip-manager", () => {
   });
   describe("close button", () => {
     it("should be hidden after the close button is clicked", async () => {
-      const page = await setUpPage(
-        `<calcite-tip-manager><calcite-tip><p>Close behavior</p></calcite-tip></calcite-tip-manager>`
-      );
+      const page = await newE2EPage({
+        html: `<calcite-tip-manager><calcite-tip><p>Close behavior</p></calcite-tip></calcite-tip-manager>`
+      });
 
       const tipManager = await page.find("calcite-tip-manager");
 
-      let container = await page.find(
-        `calcite-tip-manager >>> .${CSS.container}`
-      );
+      let container = await page.find(`calcite-tip-manager >>> .${CSS.container}`);
       let isVisible = await container.isVisible();
       expect(isVisible).toBe(true);
 
-      const eventSpy = await page.spyOnEvent(
-        "calciteTipManagerToggle",
-        "window"
-      );
+      const eventSpy = await page.spyOnEvent("calciteTipManagerToggle", "window");
 
-      const closeButton = await page.find(
-        `calcite-tip-manager >>> .${CSS.close}`
-      );
+      const closeButton = await page.find(`calcite-tip-manager >>> .${CSS.close}`);
       await closeButton.click();
       await page.waitForChanges();
 
@@ -81,12 +73,12 @@ describe("calcite-tip-manager", () => {
   });
   describe("pagination", () => {
     it("should select the first tip by default and change the selectedIndex when the previous or next buttons are clicked", async () => {
-      const page = await setUpPage(
-        `<calcite-tip-manager>
+      const page = await newE2EPage({
+        html: `<calcite-tip-manager>
       <calcite-tip id="one"><p>first tip default selected</p></calcite-tip>
       <calcite-tip id="two"><p>next/prev behavior</p></calcite-tip>
     </calcite-tip-manager>`
-      );
+      });
 
       await page.waitForChanges();
 
@@ -95,44 +87,28 @@ describe("calcite-tip-manager", () => {
       let selectedTip = await tipManager.find(`calcite-tip[selected]`);
       expect(selectedTip.id).toEqual("one"); // default selected tip is index 0
 
-      let paginationText = await page.find(
-        `calcite-tip-manager >>> .${CSS.pagePosition}`
-      );
-      expect(paginationText.textContent).toEqual(
-        `${TEXT.defaultPaginationLabel} 1/2`
-      );
+      let paginationText = await page.find(`calcite-tip-manager >>> .${CSS.pagePosition}`);
+      expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 1/2`);
 
-      const nextButton = await page.find(
-        `calcite-tip-manager >>> .${CSS.pageNext}`
-      );
+      const nextButton = await page.find(`calcite-tip-manager >>> .${CSS.pageNext}`);
       await nextButton.click();
       await page.waitForChanges();
 
       selectedTip = await tipManager.find(`calcite-tip[selected]`);
       expect(selectedTip.id).toEqual("two");
 
-      paginationText = await page.find(
-        `calcite-tip-manager >>> .${CSS.pagePosition}`
-      );
-      expect(paginationText.textContent).toEqual(
-        `${TEXT.defaultPaginationLabel} 2/2`
-      );
+      paginationText = await page.find(`calcite-tip-manager >>> .${CSS.pagePosition}`);
+      expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 2/2`);
 
-      const previousButton = await page.find(
-        `calcite-tip-manager >>> .${CSS.pagePrevious}`
-      );
+      const previousButton = await page.find(`calcite-tip-manager >>> .${CSS.pagePrevious}`);
       await previousButton.click();
       await page.waitForChanges();
 
       selectedTip = await tipManager.find(`calcite-tip[selected]`);
       expect(selectedTip.id).toEqual("one");
 
-      paginationText = await page.find(
-        `calcite-tip-manager >>> .${CSS.pagePosition}`
-      );
-      expect(paginationText.textContent).toEqual(
-        `${TEXT.defaultPaginationLabel} 1/2`
-      );
+      paginationText = await page.find(`calcite-tip-manager >>> .${CSS.pagePosition}`);
+      expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 1/2`);
     });
 
     // TODO: split the group-title test into one for first render, and another for pagination
@@ -140,8 +116,8 @@ describe("calcite-tip-manager", () => {
       const sharedTitle = "group1";
       const title2 = "group2";
 
-      const page = await setUpPage(
-        `<calcite-tip-manager>
+      const page = await newE2EPage({
+        html: `<calcite-tip-manager>
       <calcite-tip-group text-group-title=${sharedTitle}>
         <calcite-tip><p>group title behavior</p></calcite-tip>
         <calcite-tip><p>same title as first one</p></calcite-tip>
@@ -151,35 +127,27 @@ describe("calcite-tip-manager", () => {
       </calcite-tip-group>
       <calcite-tip><p>default title</p></calcite-tip>
     </calcite-tip-manager>`
-      );
+      });
 
       await page.waitForChanges();
 
       const title = await page.find(`calcite-tip-manager >>> .${CSS.heading}`);
       expect(title.innerText).toBe(sharedTitle);
 
-      const nextButton = await page.find(
-        `calcite-tip-manager >>> .${CSS.pageNext}`
-      );
+      const nextButton = await page.find(`calcite-tip-manager >>> .${CSS.pageNext}`);
       await nextButton.click();
 
-      const sharedtitleNode = await page.find(
-        `calcite-tip-manager >>> .${CSS.heading}`
-      );
+      const sharedtitleNode = await page.find(`calcite-tip-manager >>> .${CSS.heading}`);
       expect(sharedtitleNode.innerText).toBe(sharedTitle);
 
       await nextButton.click();
 
-      const title2Node = await page.find(
-        `calcite-tip-manager >>> .${CSS.heading}`
-      );
+      const title2Node = await page.find(`calcite-tip-manager >>> .${CSS.heading}`);
       expect(title2Node.innerText).toBe(title2);
 
       await nextButton.click();
 
-      const defaultTitleNode = await page.find(
-        `calcite-tip-manager >>> .${CSS.heading}`
-      );
+      const defaultTitleNode = await page.find(`calcite-tip-manager >>> .${CSS.heading}`);
       expect(defaultTitleNode.innerText).toBe(TEXT.defaultGroupTitle);
     });
     it("pagination should be hidden if there is 1 or fewer tips", async () => {
@@ -188,27 +156,23 @@ describe("calcite-tip-manager", () => {
         `<calcite-tip-manager><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager>`
       );
 
-      const pagination = await page.find(
-        `calcite-tip-manager >>> .${CSS.pagination}`
-      );
+      const pagination = await page.find(`calcite-tip-manager >>> .${CSS.pagination}`);
       expect(pagination).toBeNull();
     });
   });
   describe("handling dom updates after initial render", () => {
     it("should update if tips are added after intial load", async () => {
-      const page = await setUpPage(
-        `<calcite-tip-manager>
+      const page = await newE2EPage({
+        html: `<calcite-tip-manager>
       <calcite-tip><p>dynamically adding/removing tips</p></calcite-tip>
     </calcite-tip-manager>`
-      );
+      });
 
       const tipManager = await page.find("calcite-tip-manager");
       const newTipId = "newTip";
       await page.evaluate((newId) => {
         const mgr = document.querySelector("calcite-tip-manager");
-        const newTip = mgr
-          .querySelector("calcite-tip:last-child")
-          .cloneNode(true);
+        const newTip = mgr.querySelector("calcite-tip:last-child").cloneNode(true);
         (newTip as HTMLElement).id = newId;
         mgr.appendChild(newTip);
       }, newTipId);
@@ -217,9 +181,7 @@ describe("calcite-tip-manager", () => {
       const tips = await page.findAll("calcite-tip-manager calcite-tip");
       expect(tips.length).toBe(2);
 
-      const nextButton = await page.find(
-        `calcite-tip-manager >>> .${CSS.pageNext}`
-      );
+      const nextButton = await page.find(`calcite-tip-manager >>> .${CSS.pageNext}`);
       await nextButton.click();
       await page.waitForChanges();
 

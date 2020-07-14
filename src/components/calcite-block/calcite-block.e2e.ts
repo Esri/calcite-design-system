@@ -1,7 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
-import { setUpPage } from "../../tests/utils";
 
 describe("calcite-block", () => {
   it("renders", async () => renders("calcite-block"));
@@ -12,12 +11,12 @@ describe("calcite-block", () => {
     defaults("calcite-block", [
       {
         propertyName: "collapsible",
-        defaultValue: false,
+        defaultValue: false
       },
       {
         propertyName: "open",
-        defaultValue: false,
-      },
+        defaultValue: false
+      }
     ]));
 
   it("is accessible", async () =>
@@ -30,13 +29,13 @@ describe("calcite-block", () => {
   `));
 
   it("it can be disabled", async () => {
-    const page = await setUpPage(
-      `
+    const page = await newE2EPage({
+      html: `
         <calcite-block heading="heading" summary="summary" open collapsible>
           <div class="content">content</div>
         </calcite-block>
     `
-    );
+    });
 
     const content = await page.find(".content");
     const clickSpy = await content.spyOnEvent("click");
@@ -67,13 +66,15 @@ describe("calcite-block", () => {
   });
 
   it("has a loading state", async () => {
-    const page = await setUpPage(
-      `
+    const page = await newE2EPage({
+      html: `
         <calcite-block heading="heading" summary="summary" open collapsible>
           <div class="content">content</div>
         </calcite-block>
     `
-    );
+    });
+
+    await page.waitForChanges();
 
     expect(await page.find("calcite-block >>> calcite-scrim")).toBeNull();
 
@@ -94,9 +95,7 @@ describe("calcite-block", () => {
 
   it("can display/hide content", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-block><div>some content</div></calcite-block>"
-    );
+    await page.setContent("<calcite-block><div>some content</div></calcite-block>");
     let element = await page.find("calcite-block");
     let content = await page.find(`calcite-block >>> .${CSS.content}`);
 
@@ -120,7 +119,7 @@ describe("calcite-block", () => {
   });
 
   it("allows toggling its content", async () => {
-    const page = await setUpPage("<calcite-block collapsible></calcite-block>");
+    const page = await newE2EPage({ html: "<calcite-block collapsible></calcite-block>" });
 
     const element = await page.find("calcite-block");
     const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
@@ -148,9 +147,7 @@ describe("calcite-block", () => {
     it("renders a heading", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(
-        `<calcite-block heading="test-heading"></calcite-block>`
-      );
+      await page.setContent(`<calcite-block heading="test-heading"></calcite-block>`);
 
       const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
       expect(heading).toBeTruthy();
@@ -163,9 +160,7 @@ describe("calcite-block", () => {
     it("renders a heading with optional summary", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(
-        `<calcite-block heading="test-heading" summary="test-summary"></calcite-block>`
-      );
+      await page.setContent(`<calcite-block heading="test-heading" summary="test-summary"></calcite-block>`);
 
       const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
       expect(heading).toBeTruthy();
@@ -182,14 +177,10 @@ describe("calcite-block", () => {
       const control = await page.find(".nested-control");
       expect(await control.isVisible()).toBe(true);
 
-      const controlSlot = await page.find(
-        `calcite-block >>> slot[name=${SLOTS.control}]`
-      );
+      const controlSlot = await page.find(`calcite-block >>> slot[name=${SLOTS.control}]`);
       expect(await controlSlot.isVisible()).toBe(true);
 
-      const collapsibleIcon = await page.find(
-        `calcite-block >>> .${CSS.toggleIcon}`
-      );
+      const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
       expect(collapsibleIcon).toBeNull();
 
       const block = await page.find("calcite-block");
@@ -214,9 +205,7 @@ describe("calcite-block", () => {
       const icon = await page.find(`.header-icon`);
       expect(await icon.isVisible()).toBe(true);
 
-      const iconSlot = await page.find(
-        `calcite-block >>> slot[name=${SLOTS.icon}]`
-      );
+      const iconSlot = await page.find(`calcite-block >>> slot[name=${SLOTS.icon}]`);
       expect(await iconSlot.isVisible()).toBe(true);
     });
   });
