@@ -45,10 +45,12 @@ $color-mode-selected-border-height: 3px;
   }
 }
 
-.color-palette,
-.hue-slider {
-  display: block;
-  cursor: pointer;
+.color-field-and-slider {
+  margin-bottom: -20px;
+
+  &--interactive {
+    cursor: pointer;
+  }
 }
 
 .control-section {

@@ -1,6 +1,4 @@
 export const CSS = {
-  colorPalette: "color-palette",
-  hueSlider: "hue-slider",
   controlSection: "control-section",
   colorHexOptions: "color-hex-options",
   section: "section",
@@ -22,6 +20,8 @@ export const CSS = {
   removeColor: "remove-color",
   savedColorsButtons: "saved-colors-buttons",
   headerHex: "header--hex",
+  colorFieldAndSlider: "color-field-and-slider",
+  colorFieldAndSliderInteractive: "color-field-and-slider--interactive",
 };
 
 export const DEFAULT_HEX_COLOR = "#007AC2";
