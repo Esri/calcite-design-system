@@ -133,18 +133,6 @@ export class CalciteTileSelect {
     if (this.value) {
       this.input.value = this.value;
     }
-    switch (this.showInput) {
-      case "none":
-        this.input.style.opacity = "0";
-        this.input.style.position = "absolute";
-        break;
-      case "left":
-        this.input.style.order = "0";
-        break;
-      case "right":
-        this.input.style.order = "2";
-        break;
-    }
     this.el.insertAdjacentElement("beforeend", this.input);
   }
 
@@ -153,9 +141,9 @@ export class CalciteTileSelect {
       <Host>
         <calcite-tile
           embed
+          icon={this.icon}
           heading={this.heading}
           description={this.description}
-          icon={this.icon}
         ></calcite-tile>
         <slot></slot>
       </Host>
