@@ -76,8 +76,9 @@ export const config: Config = {
   ],
   testing: {
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js",
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
     },
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
   },
   hydratedFlag: {
     selector: "attribute",

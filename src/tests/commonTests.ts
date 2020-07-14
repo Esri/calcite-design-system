@@ -10,12 +10,6 @@ type AxeOwningWindow = Window & { axe: typeof axe };
 type ComponentHTML = string;
 type TagOrHTML = CalciteComponentTag | ComponentHTML;
 
-async function setUpPage(content: string): Promise<E2EPage> {
-  const page = await newE2EPage();
-  await page.setContent(content);
-  return page;
-}
-
 function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
 }
@@ -37,11 +31,13 @@ async function simplePageSetup(
   componentTagOrHTML: TagOrHTML
 ): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
-  return setUpPage(
-    isHTML(componentTagOrHTML)
+
+  return newE2EPage({
+    html: isHTML(componentTagOrHTML)
       ? componentTagOrHTML
-      : `<${componentTag}><${componentTag}/>`
-  );
+      : `<${componentTag}><${componentTag}/>`,
+    failOnConsoleError: true,
+  });
 }
 
 export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
