@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-split-button", () => {
   it("renders", async () => {
@@ -7,7 +8,7 @@ describe("calcite-split-button", () => {
       <calcite-split-button>
       </calcite-split-button>`);
     const element = await page.find("calcite-split-button");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {

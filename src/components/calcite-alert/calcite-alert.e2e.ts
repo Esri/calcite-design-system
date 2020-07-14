@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
+import { renders, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-alert", () => {
   it("renders", async () => renders("calcite-alert", true));
@@ -70,7 +70,7 @@ describe("calcite-alert", () => {
     const element = await page.find("calcite-alert");
     const close = await page.find("calcite-alert >>> .alert-close");
     const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(close).not.toBeNull();
     expect(icon).not.toBeNull();
   });

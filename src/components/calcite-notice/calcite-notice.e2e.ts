@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-notice", () => {
   it("renders", async () => {
@@ -10,7 +11,7 @@ describe("calcite-notice", () => {
     <calcite-link slot="notice-link" href="">Action</calcite-link>
     </calcite-notice>`);
     const element = await page.find("calcite-notice");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {
@@ -24,7 +25,7 @@ describe("calcite-notice", () => {
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "blue");
     expect(close).toBeNull();
     expect(icon).toBeNull();
@@ -42,7 +43,7 @@ describe("calcite-notice", () => {
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "blue");
     expect(close).toBeNull();
     expect(icon).toBeNull();
@@ -61,7 +62,7 @@ describe("calcite-notice", () => {
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
 
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("theme", "dark");
     expect(close).not.toBeNull();
@@ -80,7 +81,7 @@ describe("calcite-notice", () => {
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(close).not.toBeNull();
     expect(icon).not.toBeNull();
   });

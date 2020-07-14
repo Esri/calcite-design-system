@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
   it("renders with a light theme", async () => {
@@ -20,7 +21,7 @@ describe("calcite-tabs", () => {
       </calcite-tabs>
     `);
     const element = await page.find("calcite-tabs");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
 
     const results = await page.compareScreenshot();
 
@@ -48,7 +49,7 @@ describe("calcite-tabs", () => {
       </div>
     `);
     const element = await page.find("calcite-tabs");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
 
     const results = await page.compareScreenshot();
 
