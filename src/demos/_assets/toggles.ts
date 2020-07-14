@@ -13,8 +13,7 @@
     let components: HTMLElement[] = null;
     const excludedComponents = ["calcite-button"];
     const toggleProperty = (property: string): void => {
-      components =
-        components || Array.from(document.body.querySelectorAll(".hydrated"));
+      components = components || Array.from(document.body.querySelectorAll("[hydrated]"));
 
       components.forEach((component) => {
         if (!excludedComponents.includes(component.tagName.toLowerCase())) {
@@ -24,21 +23,15 @@
     };
 
     const attachHandlers = (): void => {
-      const buttons = document.querySelectorAll<HTMLButtonElement>(
-        ".toggles calcite-button"
-      );
+      const buttons = document.querySelectorAll<HTMLButtonElement>(".toggles calcite-button");
       buttons.forEach((button) =>
-        button.addEventListener("click", (event) =>
-          toggleProperty((event.target as HTMLElement).dataset.jsId)
-        )
+        button.addEventListener("click", (event) => toggleProperty((event.target as HTMLElement).dataset.jsId))
       );
     };
 
     const loadToggles = async (): Promise<void> => {
       const root = window.location.pathname.split(DEMO_ROOT).shift();
-      const response = await window.fetch(
-        `${root}${ASSETS_PATH}/toggles.template`
-      );
+      const response = await window.fetch(`${root}${ASSETS_PATH}/toggles.template`);
       const text = await response.text();
       const template = parseTemplate(text);
       const firstChild = document.body.firstChild;
