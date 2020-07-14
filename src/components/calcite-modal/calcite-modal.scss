@@ -54,7 +54,7 @@
   }
 }
 
-:host(.is-active) {
+:host([is-active]) {
   visibility: visible !important;
   opacity: 1;
   transition-delay: 0ms;
@@ -261,7 +261,7 @@ slot[name="primary"] {
   }
 }
 
-:host(.is-active[size="fullscreen"]) {
+:host([is-active][size="fullscreen"]) {
   .modal {
     transform: translate3D(0, 0, 0) scale(1);
   }

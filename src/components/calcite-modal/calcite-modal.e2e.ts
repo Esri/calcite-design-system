@@ -28,7 +28,7 @@ describe("calcite-modal properties", () => {
   it("focuses the firstFocus element on load", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-modal>
+      <calcite-modal active>
         <h3 slot="header">Title</h3>
         <p slot="content">This is the content <button class="test">test</button></p>
       </calcite-modal>
@@ -39,7 +39,6 @@ describe("calcite-modal properties", () => {
       $button = elm.querySelector(".test");
     });
     modal.setProperty("firstFocus", $button);
-    await modal.callMethod("open");
     await page.waitForChanges();
     expect(document.activeElement).toEqual($button);
   });
@@ -49,16 +48,16 @@ describe("calcite-modal properties", () => {
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
-      <calcite-modal></calcite-modal>
+      <calcite-modal active></calcite-modal>
     `);
     const modal = await page.find("calcite-modal");
     await page.$eval("calcite-modal", (elm: any) => {
       elm.beforeClose = this.beforeClose;
     });
     await page.waitForChanges();
-    await modal.callMethod("open");
+    await modal.setProperty("active", true);
     await page.waitForChanges();
-    await modal.callMethod("close");
+    await modal.setProperty("active", false);
     await page.waitForChanges();
     expect(mockCallBack).toBeCalled();
   });
@@ -71,7 +70,7 @@ describe("calcite-modal events", () => {
     const modal = await page.find("calcite-modal");
     const changeEvent = await modal.spyOnEvent("calciteModalOpen");
     expect(changeEvent).toHaveReceivedEventTimes(0);
-    await modal.callMethod("open");
+    await modal.setProperty("active", true);
     await page.waitForChanges();
     await page.waitFor(400);
     expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -81,10 +80,10 @@ describe("calcite-modal events", () => {
     await page.setContent(`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     const changeEvent = await modal.spyOnEvent("calciteModalClose");
-    await modal.callMethod("open");
+    await modal.setProperty("active", true);
     await page.waitForChanges();
     expect(changeEvent).toHaveReceivedEventTimes(0);
-    await modal.callMethod("close");
+    await modal.setProperty("active", false);
     await page.waitForChanges();
     await page.waitFor(400);
     expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -111,7 +110,7 @@ describe("calcite-modal accessibility checks", () => {
     await page.$eval("calcite-modal", (elm) => {
       $close = elm.shadowRoot.querySelector(".modal__close");
     });
-    await modal.callMethod("open");
+    await modal.setProperty("active", true);
     await page.waitForChanges();
     expect(document.activeElement).toEqual($close);
     await page.keyboard.press("Tab");
@@ -138,9 +137,9 @@ describe("calcite-modal accessibility checks", () => {
       $button = elm;
       $button.focus();
     });
-    await modal.callMethod("open");
+    await modal.setProperty("active", true);
     await page.waitForChanges();
-    await modal.callMethod("close");
+    await modal.setProperty("active", false);
     await page.waitForChanges();
     expect(document.activeElement).toEqual($button);
   });
@@ -157,23 +156,23 @@ describe("calcite-modal accessibility checks", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
-    await modal.callMethod("open");
+    await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveClass("is-active");
+    expect(modal).toHaveAttribute("is-active");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(modal).not.toHaveClass("is-active");
+    expect(modal).not.toHaveAttribute("is-active");
   });
 
   it("does not close when Escape is pressed and disable-escape is set", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal disable-escape></calcite-modal>`);
     const modal = await page.find("calcite-modal");
-    await modal.callMethod("open");
+    await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveClass("is-active");
+    expect(modal).toHaveAttribute("is-active");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(modal).toHaveClass("is-active");
+    expect(modal).toHaveAttribute("is-active");
   });
 });

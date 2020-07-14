@@ -7,11 +7,9 @@ const notes = parseReadme(readme);
 storiesOf('Modal', module)
   .addDecorator(withKnobs)
   .add('Simple', () => {
-    setTimeout(function () {
-      document.querySelector('calcite-modal').open();
-    }, 200);
     return `
       <calcite-modal
+        active="${boolean("active", true)}"
         color="${select("color", {blue: "blue", red: "red", none: null}, null)}"
         size="${select("size", ["small", "medium", "large", "fullscreen"], "small")}"
         docked="${boolean("docked", false)}"
@@ -32,12 +30,10 @@ storiesOf('Modal', module)
     `;
   }, { notes })
   .add('Dark mode', () => {
-    setTimeout(function () {
-      document.querySelector('calcite-modal').open();
-    }, 200);
     return `
       <calcite-modal
         theme="dark"
+        active="${boolean("active", true)}"
         color="${select("color", {blue: "blue", red: "red", none: null}, null)}"
         size="${select("size", ["small", "medium", "large", "fullscreen"], "small")}"
         docked="${boolean("docked", false)}"

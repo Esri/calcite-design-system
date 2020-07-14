@@ -9,6 +9,7 @@ import {
   h,
   Method,
   State,
+  Watch,
 } from "@stencil/core";
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
 import { getElementDir } from "../../utils/dom";
@@ -33,6 +34,8 @@ export class CalciteModal {
   //  Properties
   //
   //--------------------------------------------------------------------------
+  /** Add the active attribute to open the modal */
+  @Prop() active?: boolean;
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () =>
     Promise.resolve();
@@ -50,7 +53,7 @@ export class CalciteModal {
   @Prop({ reflect: true }) size: "small" | "medium" | "large" | "fullscreen" =
     "small";
   /** Adds a color bar at the top for visual impact,
-   * Use color to add importance to desctructive/workflow dialogs. */
+   * Use color to add importance to destructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
@@ -79,12 +82,7 @@ export class CalciteModal {
   render() {
     const dir = getElementDir(this.el);
     return (
-      <Host
-        dir={dir}
-        role="dialog"
-        aria-modal="true"
-        class={{ "is-active": this.isActive }}
-      >
+      <Host dir={dir} role="dialog" aria-modal="true" is-active={this.isActive}>
         <calcite-scrim class="scrim" theme="dark"></calcite-scrim>
         <div class="modal">
           <div
@@ -134,8 +132,10 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent) {
-    if (this.isActive && !this.disableEscape && getKey(e.key) === "Escape") {
-      this.close();
+    if (this.active && !this.disableEscape && getKey(e.key) === "Escape") {
+      this.beforeClose(this.el).then(() => {
+        this.active = false;
+      });
     }
   }
 
@@ -154,35 +154,6 @@ export class CalciteModal {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-  /** Open the modal */
-  @Method() async open(): Promise<HTMLElement> {
-    this.previousActiveElement = document.activeElement as HTMLElement;
-    this.isActive = true;
-
-    // wait for the modal to open, then handle focus.
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        this.focusElement(this.firstFocus);
-        resolve(this.el);
-      }, 300);
-      document.documentElement.classList.add("overflow-hidden");
-      this.calciteModalOpen.emit();
-    });
-  }
-
-  /** Close the modal, first running the `beforeClose` method */
-  @Method() async close(): Promise<HTMLElement> {
-    return this.beforeClose(this.el).then(() => {
-      this.isActive = false;
-      this.previousActiveElement.focus();
-      document.documentElement.classList.remove("overflow-hidden");
-      this.calciteModalClose.emit();
-      return new Promise((resolve) => {
-        setTimeout(() => resolve(this.el), 300);
-      });
-    });
-  }
-
   /** Focus first interactive element */
   @Method() async focusElement(el?: HTMLElement): Promise<void> {
     if (el) {
@@ -210,6 +181,43 @@ export class CalciteModal {
         this.modalContent.scrollLeft = left;
       }
     }
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+  @Watch("active") async toggleModal(value, oldValue): Promise<void> {
+    if (value !== oldValue) {
+      if (value) {
+        this.open();
+      } else if (!value) {
+        this.close();
+      }
+    }
+  }
+
+  /** Open the modal */
+  private open() {
+    this.previousActiveElement = document.activeElement as HTMLElement;
+    this.isActive = true;
+    // wait for the modal to open, then handle focus.
+    setTimeout(() => {
+      this.focusElement(this.firstFocus);
+      this.calciteModalOpen.emit();
+    }, 300);
+    document.documentElement.classList.add("overflow-hidden");
+  }
+
+  /** Close the modal, first running the `beforeClose` method */
+  private close() {
+    return this.beforeClose(this.el).then(() => {
+      this.isActive = false;
+      this.previousActiveElement?.focus();
+      document.documentElement.classList.remove("overflow-hidden");
+      setTimeout(() => this.calciteModalClose.emit(), 300);
+    });
   }
 
   //--------------------------------------------------------------------------
