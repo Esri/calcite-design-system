@@ -53,9 +53,7 @@ export class CalcitePopoverManager {
     const { autoClose, el, selector } = this;
     const popoverSelector = "calcite-popover";
     const isTargetInsidePopover = target.closest(popoverSelector);
-    const popoverTooltipReference = target.closest(selector);
-    const describedByElement =
-      popoverTooltipReference && getDescribedByElement(popoverTooltipReference);
+    const describedByElement = getDescribedByElement(target.closest(selector));
 
     if (autoClose && !isTargetInsidePopover) {
       Array.from(document.body.querySelectorAll(popoverSelector))

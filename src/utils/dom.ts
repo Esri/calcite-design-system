@@ -51,7 +51,7 @@ export function getSlottedElements<T extends Element>(
 export function getDescribedByElement<T extends Element>(
   element: Element
 ): T | HTMLElement | null {
-  const id = element && element.getAttribute("aria-describedby");
+  const id = element?.getAttribute("aria-describedby");
 
   return (id && document.getElementById(id)) || null;
 }
