@@ -21,25 +21,18 @@ function getTag(tagOrHTML: string): CalciteComponentTag {
   if (isHTML(tagOrHTML)) {
     const regex = /[>\s]/;
     const trimmedTag = tagOrHTML.trim();
-    return trimmedTag.substring(
-      1,
-      trimmedTag.search(regex)
-    ) as CalciteComponentTag;
+    return trimmedTag.substring(1, trimmedTag.search(regex)) as CalciteComponentTag;
   }
 
   return tagOrHTML as CalciteComponentTag;
 }
 
-async function simplePageSetup(
-  componentTagOrHTML: TagOrHTML
-): Promise<E2EPage> {
+async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
 
   return newE2EPage({
-    html: isHTML(componentTagOrHTML)
-      ? componentTagOrHTML
-      : `<${componentTag}><${componentTag}/>`,
-    failOnConsoleError: true,
+    html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}><${componentTag}/>`,
+    failOnConsoleError: true
   });
 }
 
@@ -56,10 +49,7 @@ export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
   ).toHaveNoViolations();
 }
 
-export async function renders(
-  componentTagOrHTML: TagOrHTML,
-  invisible?: true
-): Promise<void> {
+export async function renders(componentTagOrHTML: TagOrHTML, invisible?: true): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
@@ -80,9 +70,7 @@ export async function reflects(
 
   for (const propAndValue of propsToTest) {
     const { propertyName, value } = propAndValue;
-    const componentAttributeSelector = `${componentTag}[${propToAttr(
-      propertyName
-    )}]`;
+    const componentAttributeSelector = `${componentTag}[${propToAttr(propertyName)}]`;
 
     element.setProperty(propertyName, value);
     await page.waitForChanges();
@@ -141,7 +129,5 @@ export async function focusable(componentTagOrHTML: TagOrHTML): Promise<void> {
 
   await element.callMethod("setFocus"); // assumes element is CalciteFocusableElement
 
-  expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(
-    tag.toUpperCase()
-  );
+  expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(tag.toUpperCase());
 }

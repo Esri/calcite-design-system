@@ -5,5 +5,5 @@ export const CSS = {
   parent: "combobox-item-parent",
   selected: "selected",
   title: "title",
-  textContainer: "text-container",
+  textContainer: "text-container"
 };

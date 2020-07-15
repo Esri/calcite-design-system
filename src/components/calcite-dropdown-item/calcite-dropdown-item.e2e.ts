@@ -6,14 +6,12 @@ describe("calcite-dropdown-item", () => {
 
   it("can be focused", async () => {
     const page = await newE2EPage({
-      html: "<calcite-dropdown-item></calcite-dropdown-item>",
+      html: "<calcite-dropdown-item></calcite-dropdown-item>"
     });
     const element = await page.find("calcite-dropdown-item");
 
     await element.callMethod("setFocus");
 
-    expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(
-      "CALCITE-DROPDOWN-ITEM"
-    );
+    expect(await page.evaluate(() => document.activeElement.tagName)).toEqual("CALCITE-DROPDOWN-ITEM");
   });
 });

@@ -1,6 +1,6 @@
 export const CSS = {
   container: "container",
-  arrow: "arrow",
+  arrow: "arrow"
 };
 
 export const TOOLTIP_REFERENCE = "data-calcite-tooltip-reference";

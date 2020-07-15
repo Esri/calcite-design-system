@@ -8,7 +8,7 @@ export function getKey(key: string): string {
     Left: "ArrowLeft",
     Right: "ArrowRight",
     Spacebar: " ",
-    Esc: "Escape",
+    Esc: "Escape"
   };
   return lookup[key] || key;
 }

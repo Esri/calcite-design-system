@@ -5,7 +5,7 @@ export const CSS = {
   title: "title",
   subtitle: "subtitle",
   thumbnailWrapper: "thumbnail-wrapper",
-  checkboxWrapper: "checkbox-wrapper",
+  checkboxWrapper: "checkbox-wrapper"
 };
 
 export const enum SLOTS {
@@ -13,5 +13,5 @@ export const enum SLOTS {
   title = "title",
   subtitle = "subtitle",
   footerLeading = "footer-leading",
-  footerTrailing = "footer-trailing",
+  footerTrailing = "footer-trailing"
 }

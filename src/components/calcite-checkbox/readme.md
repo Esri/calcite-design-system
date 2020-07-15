@@ -11,9 +11,7 @@ calcite-checkbox is used to toggle a value on or off. You can optionally pass in
 If you don't pass in an input, calcite-checkbox will act as the source of truth:
 
 ```html
-<label>
-  <calcite-checkbox checked="true"></calcite-checkbox> Switch is on
-</label>
+<label> <calcite-checkbox checked="true"></calcite-checkbox> Switch is on </label>
 ```
 
 <!-- Auto Generated Below -->
