@@ -25,6 +25,19 @@ describe("calcite-modal properties", () => {
     expect(closeButton).toBe(null);
   });
 
+  it("sets custom width correctly", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal size="400"></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    const style = await page.$eval("calcite-modal", (elm) => {
+      const m = elm.shadowRoot.querySelector(".modal");
+      return window.getComputedStyle(m).getPropertyValue("width");
+    });
+    expect(style).toEqual("400px");
+  });
+
   it("focuses the firstFocus element on load", async () => {
     const page = await newE2EPage();
     await page.setContent(`

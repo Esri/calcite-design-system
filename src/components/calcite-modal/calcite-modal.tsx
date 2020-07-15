@@ -49,9 +49,13 @@ export class CalciteModal {
   @Prop() firstFocus?: HTMLElement;
   /** Flag to disable the default close on escape behavior */
   @Prop() disableEscape?: boolean;
-  /** Set the overall size of the modal */
-  @Prop({ reflect: true }) size: "small" | "medium" | "large" | "fullscreen" =
-    "small";
+  /** Set the overall size of the modal. Can use stock sizes or pass a number (pixels) */
+  @Prop({ reflect: true }) size:
+    | "small"
+    | "medium"
+    | "large"
+    | "fullscreen"
+    | number;
   /** Adds a color bar at the top for visual impact,
    * Use color to add importance to destructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
@@ -65,25 +69,12 @@ export class CalciteModal {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  renderCloseButton(): VNode {
-    return !this.disableCloseButton ? (
-      <button
-        class="modal__close"
-        aria-label={this.intlClose}
-        title={this.intlClose}
-        ref={(el) => (this.closeButtonEl = el)}
-        onClick={() => this.close()}
-      >
-        <calcite-icon icon="x" scale="l"></calcite-icon>
-      </button>
-    ) : null;
-  }
-
   render() {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir} role="dialog" aria-modal="true" is-active={this.isActive}>
         <calcite-scrim class="scrim" theme="dark"></calcite-scrim>
+        {this.renderStyle()}
         <div class="modal">
           <div
             data-focus-fence="true"
@@ -124,6 +115,51 @@ export class CalciteModal {
         </div>
       </Host>
     );
+  }
+
+  renderCloseButton(): VNode {
+    return !this.disableCloseButton ? (
+      <button
+        class="modal__close"
+        aria-label={this.intlClose}
+        title={this.intlClose}
+        ref={(el) => (this.closeButtonEl = el)}
+        onClick={() => this.close()}
+      >
+        <calcite-icon icon="x" scale="l"></calcite-icon>
+      </button>
+    ) : null;
+  }
+
+  renderStyle(): VNode {
+    const hasCustomWidth = !isNaN(parseInt(`${this.size}`));
+    return hasCustomWidth ? (
+      <style>
+        {`
+        .modal {
+          max-width: ${this.size}px;
+        }
+        @media screen and (max-width: ${this.size}px) {
+          .modal {
+            height: 100%;
+            max-height: 100%;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            border-radius: 0;
+          }
+          .modal__content {
+            flex: 1 1 auto;
+            max-height: unset;
+          }
+          .modal__header,
+          .modal__footer {
+            flex: inherit;
+          }
+        }
+      `}
+      </style>
+    ) : null;
   }
 
   //--------------------------------------------------------------------------
