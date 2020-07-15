@@ -49,7 +49,7 @@
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: "close-button") => Promise<void>`
+### `setFocus(focusId?: FocusId) => Promise<void>`
 
 #### Returns
 

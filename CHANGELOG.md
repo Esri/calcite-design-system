@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v1.0.0-beta.32]
 
 - `calcite-stepper` - `calciteStepperItemHasChanged` event has been renamed to `calciteStepperItemChange`
 - `calcite-stepper-item` - `calciteStepperItemSelected` event has been renamed to `calciteStepperItemSelect`
@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Breaking Changes
 
 - `calcite-modal` - `close-label` prop is now renamed to `intl-close` for consistency (#466)
+- `calcite-modal` - `open` and `close` methods removed in favor of `active` prop (#466)
+- `calcite-modal` - `size => width`, which can be passed standard (s/m/l) or custom width in px (#239)
+- `calcite-modal` - `fullscreen` made it's own prop (#466)
+- `calcite-modal` - new `scale` prop for setting UI scale of modal (#466);
 - `calcite-date` - `prevMonthLabel` and `nextMonthLabel` updated to `intlPrevMonth` and `intlNextMonth` (#97)
 - `calcite-switch` - `switched` boolean has been added to `calciteSwitchChange` event detail
 
@@ -524,7 +528,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
-[unreleased]: https://github.com/Esri/calcite-components/compare/master...v1.0.0-beta.31 "Unreleased"
+[v1.0.0-beta.32]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.31...v1.0.0-beta.32 "v1.0.0-beta.32"
 [v1.0.0-beta.31]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.30...v1.0.0-beta.31 "v1.0.0-beta.31"
 [v1.0.0-beta.30]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.29...v1.0.0-beta.30 "v1.0.0-beta.30"
 [v1.0.0-beta.29]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.28...v1.0.0-beta.29 "v1.0.0-beta.29"

@@ -4,7 +4,6 @@ individual `calcite-stepper-item` item
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property       | Attribute       | Description                                                          | Type      | Default     |
@@ -16,15 +15,13 @@ individual `calcite-stepper-item` item
 | `itemSubtitle` | `item-subtitle` | pass a title for the stepper item                                    | `string`  | `undefined` |
 | `itemTitle`    | `item-title`    | pass a title for the stepper item                                    | `string`  | `undefined` |
 
-
 ## Events
 
 | Event                        | Description | Type               |
 | ---------------------------- | ----------- | ------------------ |
 | `calciteStepperItemKeyEvent` |             | `CustomEvent<any>` |
-| `calciteStepperItemSelect` |             | `CustomEvent<any>` |
 | `calciteStepperItemRegister` |             | `CustomEvent<any>` |
-
+| `calciteStepperItemSelect`   |             | `CustomEvent<any>` |
 
 ## Dependencies
 
@@ -33,12 +30,13 @@ individual `calcite-stepper-item` item
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-stepper-item --> calcite-icon
   style calcite-stepper-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

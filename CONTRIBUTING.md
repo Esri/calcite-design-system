@@ -50,7 +50,7 @@ Please refer to the [Stencil testing documentation](https://stenciljs.com/docs/t
 
 ### Documenting a component
 
-Calcite Components utlizes [Storybook](https://storybook.js.org/) for documenting components. Adding a new component is very simple:
+Calcite Components utilizes [Storybook](https://storybook.js.org/) for documenting components. Adding a new component is very simple:
 
 1. Create a new file inside your component directory like `calcite-X.stories.js`
 2. Write stories (see below)
@@ -88,17 +88,19 @@ To release a new version of Calcite Components you must:
 1. Be on a Mac or Linux machine (the publish script is a shell script).
 1. Be a member of the [@esri](https://www.npmjs.com/org/esri) organization on npm.
 1. Be a member of the admin team for [Calcite Components](https://github.com/Esri/calcite-components).
-1. Run `npm run release:prepare`. This will:
-   - Run a new build with `npm run build`.
-   - Increment the version in `package.json` with `npm version`
+1. Make sure you have a remote named `origin` pointing to [Esri/calcite-components](https://github.com/Esri/calcite-components).
+1. Make sure you are up to date with `master`.
+1. Run `npm run release:prepare` to increment version in `package.json`.
 1. Make any changes to the `CHANGELOG.md` file, and update the example script tags and stylesheet src in `readme.md`. Make a new entry for the release and summarize any changes.
 1. Run `npm run release:publish`. This will run the [`support/release.sh`](https://github.com/Esri/calcite-components/blob/master/support/release.sh) file which will:
    - Create a new commit on the master branch for the version.
    - Checkout a temporary branch for the release.
+   - Clean the old `dist` folder
+   - Run a new build
    - Force add the built files on the version branch.
    - Tag the version branch.
    - Push both the version tag and the master branch to GitHub. This results in a tag with the built files.
    - Publish to NPM.
    - Create a ZIP file of the built files.
-   - Create a new release on GitHub with the ZIP file and the CHANGELOG.md entry for the release.
+   - Create a new release on GitHub with the ZIP file and the `CHANGELOG.md` entry for the release.
    - Checkout the master branch and reset everything back to the last commit (i.e. the release commit).
