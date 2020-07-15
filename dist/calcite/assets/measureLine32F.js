@@ -1,0 +1,1 @@
+export const measureLine32F = "M31 11v3h-3v-1H3v1H0v-3h3v1h25v-1zm1 4v10H0V15zM3 21H2v3h1zm2-1H4v4h1zm2 1H6v3h1zm2-4H8v7h1zm2 4h-1v3h1zm2-1h-1v4h1zm2 1h-1v3h1zm2-4h-1v7h1zm2 4h-1v3h1zm2-1h-1v4h1zm2 1h-1v3h1zm2-4h-1v7h1zm2 4h-1v3h1zm2-1h-1v4h1zm2 1h-1v3h1z";

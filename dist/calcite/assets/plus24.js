@@ -1,0 +1,1 @@
+export const plus24 = "M6 12h6V6h1v6h6v1h-6v6h-1v-6H6z";

@@ -1,0 +1,36 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: flex;
+  margin-top: 0.25rem;
+}
+
+:host([layout=vertical]) {
+  flex-direction: column;
+  align-items: start;
+  align-self: flex-start;
+}
+
+:host([width=auto]) {
+  width: auto;
+}
+
+:host([width=full]) {
+  width: 100%;
+  display: flex;
+}
+:host([width=full]) ::slotted(calcite-radio-group-item) {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+:host([width=full][layout=vertical]) ::slotted(calcite-radio-group-item) {
+  justify-content: start;
+}
+
+::slotted(calcite-radio-group-item[checked]),
+::slotted(calcite-radio-group-item:focus) {
+  z-index: 0;
+}

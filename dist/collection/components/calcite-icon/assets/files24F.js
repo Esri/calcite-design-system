@@ -1,0 +1,1 @@
+export const files24F = "M16 21v2H3V7h2v14zm-8-3V4H6v16h13v-2zM18 5h4v-.4L18.4 1H18zm-1 1V1H9v16h13V6z";
