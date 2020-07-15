@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-modal` - turn off pointer events on hidden modals to prevent interaction (#549)
 
+### Added
+
+- `calcite-modal` - add `background-color` property for light grey backgrounds (#527)
+
 ## [v1.0.0-beta.32]
 
 - `calcite-stepper` - `calciteStepperItemHasChanged` event has been renamed to `calciteStepperItemChange`

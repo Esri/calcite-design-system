@@ -172,6 +172,7 @@
   overflow-y: auto;
   display: block;
   background-color: var(--calcite-ui-foreground-1);
+  box-sizing: border-box;
   z-index: 1;
 }
 
@@ -182,6 +183,12 @@
 @include slotted("content", "*") {
   font-size: var(--calcite-modal-content-text);
   line-height: 1.5;
+}
+
+:host([background-color="grey"]) {
+  .modal__content {
+    background-color: var(--calcite-ui-background);
+  }
 }
 
 /**
@@ -282,6 +289,7 @@ slot[name="primary"] {
   }
   .modal__content {
     flex: 1 1 auto;
+    max-height: 100%;
   }
   .modal__header,
   .modal__footer {

@@ -12,6 +12,12 @@
       color: white;
       padding: 1rem;
     }
+    .flex {
+      display: flex;
+    }
+    calcite-card + calcite-card {
+      margin-left: 2rem;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
@@ -181,6 +187,49 @@
     <calcite-button scale="l" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
     <calcite-button scale="l" slot="primary" width="full">Save</calcite-button>
   </calcite-modal>
+  <calcite-modal class="js-modal-16" fullscreen background-color="grey">
+    <h3 slot="header">Grey Background</h3>
+    <div slot="content">
+      <p>
+        By using the backgroundColor attribute, you can create a modal with a light grey background rather than white.
+      </p>
+      <p>This allows you to have white components inside the modal with good separation.</p>
+      <h4>Card Example</h4>
+      <div class="flex">
+        <calcite-card selected selectable>
+          <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+
+          <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+            overly verbose.</span>
+          <calcite-link slot="footer-leading">Lead füt</calcite-link>
+          <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+        </calcite-card>
+        <calcite-card selected selectable>
+          <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+
+          <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+            overly verbose.</span>
+          <calcite-link slot="footer-leading">Lead füt</calcite-link>
+          <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+        </calcite-card>
+        <calcite-card selected selectable>
+          <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+
+          <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+            overly verbose.</span>
+          <calcite-link slot="footer-leading">Lead füt</calcite-link>
+          <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+        </calcite-card>
+      </div>
+    </div>
+    <calcite-button scale="m" slot="back" width="full" color="light" appearance="outline"
+      icon="chevron-left" width="full">Back</calcite-button>
+    <calcite-button scale="m" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
+  </calcite-modal>
   <ul>
     <li>
       <calcite-link onClick="openModal('.js-modal-1')">Small Modal</calcite-link>
@@ -231,6 +280,10 @@
     </li>
     <li>
       <calcite-link onClick="openModal('.js-modal-15')">Scale Large
+      </calcite-link>
+    </li>
+    <li>
+      <calcite-link onClick="openModal('.js-modal-16')">Grey Background Color
       </calcite-link>
     </li>
   </ul>
