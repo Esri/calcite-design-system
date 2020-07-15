@@ -20,11 +20,26 @@ import { getKey } from "../../utils/key";
 export class CalciteCheckbox {
   @Element() el: HTMLElement;
 
-  /** True if the checkbox is initially checked */
+  /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
+  @Watch("checked") checkedWatcher(newChecked: boolean) {
+    this.input.checked = newChecked;
+    this.calciteCheckboxChange.emit();
+  }
 
   /** The hovered state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) hovered: boolean = false;
+
+  /** The focused state of the checkbox. */
+  @Prop({ mutable: true, reflect: true }) focused: boolean = false;
+  @Watch("focused") focusedChanged(focused: boolean) {
+    if (focused && !this.el.hasAttribute("hidden")) {
+      this.input.focus();
+    } else {
+      this.input.blur();
+    }
+    this.calciteCheckboxFocusedChange.emit();
+  }
 
   /**
    * True if the checkbox is initially indeterminate,
@@ -51,21 +66,25 @@ export class CalciteCheckbox {
   /** Emitted when the checkbox checked status changes */
   @Event() calciteCheckboxChange: EventEmitter;
 
+  /** Emitted when the checkbox focused state changes */
+  @Event() calciteCheckboxFocusedChange: EventEmitter;
+
   private observer: MutationObserver;
 
   private toggle = () => {
     if (!this.disabled) {
       this.checked = !this.checked;
+      this.focused = true;
       this.indeterminate = false;
     }
   };
 
-  @Listen("click") onClick({ target }: MouseEvent) {
+  @Listen("click") onClick({ currentTarget, target }: MouseEvent) {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
     if (
-      (this.el.closest("label") && target === this.inputProxy) ||
-      (!this.el.closest("label") && target === this.el)
+      (this.el.closest("label") && target === this.input) ||
+      (!this.el.closest("label") && currentTarget === this.el)
     ) {
       this.toggle();
     }
@@ -89,14 +108,7 @@ export class CalciteCheckbox {
     this.hovered = false;
   }
 
-  @Watch("checked") checkedWatcher() {
-    this.calciteCheckboxChange.emit();
-    this.checked
-      ? this.inputProxy.setAttribute("checked", "")
-      : this.inputProxy.removeAttribute("checked");
-  }
-
-  private inputProxy: HTMLInputElement;
+  private input: HTMLInputElement;
 
   connectedCallback() {
     this.setupProxyInput();
@@ -123,13 +135,47 @@ export class CalciteCheckbox {
       ? this.checkedPath
       : "";
 
+  private setupProxyInput() {
+    // check for a proxy input
+    this.input = this.el.querySelector("input");
+
+    // if the user didn't pass a proxy input create one for them
+    if (!this.input) {
+      this.input = document.createElement("input");
+      this.input.disabled = this.disabled;
+      this.input.onblur = () => (this.focused = false);
+      this.input.onfocus = () => (this.focused = true);
+      this.input.type = "checkbox";
+      this.syncProxyInputToThis();
+      this.el.appendChild(this.input);
+    }
+
+    this.syncThisToProxyInput();
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.syncThisToProxyInput);
+      this.observer.observe(this.input, { attributes: true });
+    }
+  }
+
+  private syncThisToProxyInput = () => {
+    this.checked = this.input.hasAttribute("checked");
+    this.name = this.input.name;
+    this.value = this.input.value;
+  };
+
+  private syncProxyInputToThis = () => {
+    this.checked
+      ? this.input.setAttribute("checked", "")
+      : this.input.removeAttribute("checked");
+    this.input.name = this.name;
+    if (this.value) {
+      this.input.value = this.value;
+    }
+  };
+
   render() {
     return (
-      <Host
-        role="checkbox"
-        aria-checked={this.checked.toString()}
-        tabindex={this.disabled ? "-1" : "0"}
-      >
+      <Host role="checkbox" aria-checked={this.checked.toString()}>
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>
@@ -137,39 +183,4 @@ export class CalciteCheckbox {
       </Host>
     );
   }
-
-  private setupProxyInput() {
-    // check for a proxy input
-    this.inputProxy = this.el.querySelector("input");
-
-    // if the user didn't pass a proxy input create one for them
-    if (!this.inputProxy) {
-      this.inputProxy = document.createElement("input");
-      this.inputProxy.type = "checkbox";
-      this.syncProxyInputToThis();
-      this.el.appendChild(this.inputProxy);
-    }
-
-    this.syncThisToProxyInput();
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.syncThisToProxyInput);
-      this.observer.observe(this.inputProxy, { attributes: true });
-    }
-  }
-
-  private syncThisToProxyInput = () => {
-    this.checked = this.inputProxy.hasAttribute("checked");
-    this.name = this.inputProxy.name;
-    this.value = this.inputProxy.value;
-  };
-
-  private syncProxyInputToThis = () => {
-    this.checked
-      ? this.inputProxy.setAttribute("checked", "")
-      : this.inputProxy.removeAttribute("checked");
-    this.inputProxy.name = this.name;
-    if (this.value) {
-      this.inputProxy.value = this.value;
-    }
-  };
 }

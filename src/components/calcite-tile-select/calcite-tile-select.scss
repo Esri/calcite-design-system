@@ -12,6 +12,15 @@ $spacing: $baseline/2;
   padding: $spacing;
   position: relative;
   transition: $transition;
+  display: inline-block;
+  margin-right: -3px;
+  margin-bottom: 1px;
+}
+:host([checked]) {
+  z-index: 1;
+}
+:host([focused]) {
+  z-index: 2;
 }
 :host(:not([show-input="none"])[checked]) {
   box-shadow: 0 0 0 1px var(--calcite-ui-blue-1);
@@ -34,7 +43,7 @@ $spacing: $baseline/2;
     0 0 0 5px var(--calcite-ui-foreground-1), 0 0 0 7px var(--calcite-ui-blue-1);
 }
 :host([show-input="left"]) {
-  display: grid;
+  display: inline-grid;
   grid-gap: $spacing;
   grid-template-columns: max-content 1fr;
   ::slotted(calcite-checkbox),

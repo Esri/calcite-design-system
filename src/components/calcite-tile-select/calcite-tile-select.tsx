@@ -55,6 +55,14 @@ export class CalciteTileSelect {
     }
   }
 
+  @Listen("calciteCheckboxFocusedChange")
+  calciteCheckboxFocusedChangeEvent(event: CustomEvent) {
+    const checkbox = event.target as HTMLCalciteCheckboxElement;
+    if (checkbox === this.input) {
+      this.focused = checkbox.focused;
+    }
+  }
+
   @Listen("calciteRadioButtonChange")
   calciteRadioButtonChangeEvent(event: CustomEvent) {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
