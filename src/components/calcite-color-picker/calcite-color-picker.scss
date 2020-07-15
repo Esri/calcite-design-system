@@ -207,6 +207,12 @@ calcite-color-swatch {
   &:focus {
     @include focus-style-outset();
   }
+
+  &:hover {
+    transition: outline-color 100ms ease-in-out;
+    outline: 2px solid var(--calcite-ui-border-2);
+    outline-offset: 2px;
+  }
 }
 
 calcite-color-swatch:not([is-active]):hover {
