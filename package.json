@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-beta.31",
+  "version": "1.0.0-beta.32",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -25,7 +25,6 @@
     "prettier": "npm-run-all --parallel prettier:**",
     "prettier:ts": "prettier --write \"src/**/*.ts?(x)\"",
     "prettier:styles": "prettier --write \"src/**/*.scss\"",
-    "prerelease:prepare": "npm run build",
     "release:prepare": "npm version prerelease --preid=beta --no-git-tag-version ",
     "release:publish": "./support/release.sh",
     "prestorybook": "npm run build",
