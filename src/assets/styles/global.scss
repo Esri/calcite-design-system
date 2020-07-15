@@ -22,10 +22,10 @@
   overflow: hidden;
 }
 
-[hydrated] {
+[calcite-hydrated] {
   visibility: visible;
 }
-[hydrated][aria-hidden="true"] {
+[calcite-hydrated][aria-hidden="true"] {
   visibility: hidden;
   pointer-events: none;
 }
