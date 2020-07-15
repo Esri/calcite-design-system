@@ -27,7 +27,7 @@ describe("calcite-modal properties", () => {
 
   it("sets custom width correctly", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal size="400"></calcite-modal>`);
+    await page.setContent(`<calcite-modal width="400"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("active", true);
     await page.waitForChanges();

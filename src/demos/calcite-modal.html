@@ -23,7 +23,7 @@
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Modal</h1>
 
-  <calcite-modal class="js-modal-1" size="small">
+  <calcite-modal class="js-modal-1" width="s">
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
       <p>
@@ -35,7 +35,7 @@
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
     <calcite-button slot="primary" width="full">Save</calcite-button>
   </calcite-modal>
-  <calcite-modal class="js-modal-2" size="medium">
+  <calcite-modal class="js-modal-2" width="m">
     <h3 slot="header">Medium Modal</h3>
     <div slot="content">
       <table>
@@ -58,7 +58,7 @@
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
     <calcite-button slot="primary" width="full">Save</calcite-button>
   </calcite-modal>
-  <calcite-modal class="js-modal-3" size="large">
+  <calcite-modal class="js-modal-3" width="l">
     <h3 slot="header">Large modal</h3>
     <div slot="content">
       <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you
@@ -68,7 +68,7 @@
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
     <calcite-button slot="primary" width="full">Save</calcite-button>
   </calcite-modal>
-  <calcite-modal class="js-modal-4" size="fullscreen">
+  <calcite-modal class="js-modal-4" fullscreen>
     <h3 slot="header">Fullscreen modal</h3>
     <div slot="content">
       <p>This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your
@@ -138,12 +138,48 @@
     </div>
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
   </calcite-modal>
-  <calcite-modal class="js-modal-12" size="500">
+  <calcite-modal class="js-modal-12" width="500">
     <h3 slot="header">Modal title</h3>
     <div slot="content">
       <p>This modal will be 500 pixels wide on larger screens and become fullscreen below that.</p>
     </div>
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+  </calcite-modal>
+  <calcite-modal class="js-modal-13" width="s" scale="s">
+    <h3 slot="header">Small Scale</h3>
+    <div slot="content">
+      <p>
+        This is the small scale modal. It is meant to work with other components at the small scale (like buttons, etc).
+      </p>
+    </div>
+    <calcite-button scale="s" slot="back" width="full" color="light" appearance="outline"
+      icon="chevron-left" width="full">Back</calcite-button>
+    <calcite-button scale="s" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button scale="s" slot="primary" width="full">Save</calcite-button>
+  </calcite-modal>
+  <calcite-modal class="js-modal-14" width="s" scale="m">
+    <h3 slot="header">Medium Scale</h3>
+    <div slot="content">
+      <p>
+        This is the medium scale modal. It is the default scale and is meant to work with other components at the medium scale.
+      </p>
+    </div>
+    <calcite-button scale="m" slot="back" width="full" color="light" appearance="outline"
+      icon="chevron-left" width="full">Back</calcite-button>
+    <calcite-button scale="m" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
+  </calcite-modal>
+  <calcite-modal class="js-modal-15" width="s" scale="l">
+    <h3 slot="header">Large Scale</h3>
+    <div slot="content">
+      <p>
+        This is the large scale modal. It is meant to work with other components at the large scale (like buttons, etc).
+      </p>
+    </div>
+    <calcite-button scale="l" slot="back" width="full" color="light" appearance="outline"
+      icon="chevron-left" width="full">Back</calcite-button>
+    <calcite-button scale="l" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button scale="l" slot="primary" width="full">Save</calcite-button>
   </calcite-modal>
   <ul>
     <li>
@@ -185,7 +221,18 @@
       <calcite-link onClick="openModal('.js-modal-12')">Custom Width
       </calcite-link>
     </li>
-
+    <li>
+      <calcite-link onClick="openModal('.js-modal-13')">Scale Small
+      </calcite-link>
+    </li>
+    <li>
+      <calcite-link onClick="openModal('.js-modal-14')">Scale Medium
+      </calcite-link>
+    </li>
+    <li>
+      <calcite-link onClick="openModal('.js-modal-15')">Scale Large
+      </calcite-link>
+    </li>
   </ul>
   <script>
     function openModal(selector) {

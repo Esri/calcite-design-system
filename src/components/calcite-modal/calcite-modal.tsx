@@ -49,13 +49,12 @@ export class CalciteModal {
   @Prop() firstFocus?: HTMLElement;
   /** Flag to disable the default close on escape behavior */
   @Prop() disableEscape?: boolean;
-  /** Set the overall size of the modal. Can use stock sizes or pass a number (pixels) */
-  @Prop({ reflect: true }) size:
-    | "small"
-    | "medium"
-    | "large"
-    | "fullscreen"
-    | number;
+  /** specify the scale of modal, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  /** Set the width of the modal. Can use stock sizes or pass a number (in pixels) */
+  @Prop({ reflect: true }) width: "s" | "m" | "l" | number = "m";
+  /** Set the modal to always be fullscreen (overrides width) */
+  @Prop({ reflect: true }) fullscreen: boolean;
   /** Adds a color bar at the top for visual impact,
    * Use color to add importance to destructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
@@ -69,6 +68,13 @@ export class CalciteModal {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+  componentWillLoad() {
+    // when modal initially renders, if active was set we need to open as watcher doesn't fire
+    if (this.active) {
+      this.open();
+    }
+  }
+
   render() {
     const dir = getElementDir(this.el);
     return (
@@ -132,14 +138,14 @@ export class CalciteModal {
   }
 
   renderStyle(): VNode {
-    const hasCustomWidth = !isNaN(parseInt(`${this.size}`));
+    const hasCustomWidth = !isNaN(parseInt(`${this.width}`));
     return hasCustomWidth ? (
       <style>
         {`
         .modal {
-          max-width: ${this.size}px;
+          max-width: ${this.width}px;
         }
-        @media screen and (max-width: ${this.size}px) {
+        @media screen and (max-width: ${this.width}px) {
           .modal {
             height: 100%;
             max-height: 100%;
