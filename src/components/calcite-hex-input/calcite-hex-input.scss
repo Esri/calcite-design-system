@@ -1,43 +1,79 @@
 $height: 28px;
+$input-side-offset--small: 38px;
+$input-side-offset: 44px;
 
 :host {
   display: block;
 }
 
+:host([scale="s"]) {
+  .input {
+    padding: 0 0 0 $input-side-offset--small;
+  }
+}
+
+:host([scale="s"][dir="rtl"]) {
+  .input {
+    padding: 0 $input-side-offset--small 0 0;
+  }
+}
+
+:host([dir="rtl"]) {
+  .input {
+    padding: 0 $input-side-offset 0 0;
+  }
+}
+
 .container {
-  position: relative;
-  display: flex;
+  width: 100%;
+  display: -ms-inline-grid;
+  display: inline-grid;
+  -ms-grid-columns: auto 1ch 1fr;
+  grid-template-columns: auto 1ch 1fr;
   align-items: center;
   height: $height;
   @include avenir-regular();
 }
 
 .preview {
-  position: absolute;
-  left: 2px;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+  margin: 0 4px;
 }
 
 .hash {
-  position: absolute;
-  font-size: 0.9em;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
   color: var(--calcite-ui-text-3);
-  left: 16px;
-  padding: 2px 0 0 14px;
-  user-select: none;
+}
+
+.preview,
+.hash {
   display: flex;
   align-items: center;
-  height: inherit;
+  pointer-events: none;
+}
+
+.preview,
+.hash,
+.input {
+  -ms-grid-row: 1;
+  grid-row: 1;
 }
 
 .input {
   @include avenir-regular();
   @include focus-style-base();
 
-  margin: 0;
-  padding: 0 0 0 40px;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 3;
+  grid-column: 1 / 4;
+
+  padding: 0 0 0 $input-side-offset;
   text-transform: uppercase;
   height: inherit;
-  width: 100%;
   background-color: var(--calcite-ui-foreground-1);
   border: solid 1px var(--calcite-ui-border-2);
   color: var(--calcite-ui-text-1);

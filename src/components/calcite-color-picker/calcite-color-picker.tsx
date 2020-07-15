@@ -20,6 +20,7 @@ import {
   DEFAULT_HEX_COLOR,
   DEFAULT_STORAGE_KEY_PREFIX,
 } from "./resources";
+import { getElementDir } from "../../utils/dom";
 
 // TODO: extract into ColorMode object w/ more details: parts, limits, labels, render()? etc...
 const RGB_LIMITS = {
@@ -357,7 +358,7 @@ export class CalciteColorPicker {
   }
 
   render(): VNode {
-    const { mode, activeColor, savedColors, scale, theme } = this;
+    const { activeColor, el, mode, savedColors, scale, theme } = this;
     const parts = this.getColorComponents();
     const partLabels =
       this.mode === "rgb"
@@ -366,6 +367,7 @@ export class CalciteColorPicker {
     const selectedColorInHex = activeColor.hex();
     const hexInputScale = scale !== "s" ? "m" : scale;
     const { colorFieldAndSliderInteractive } = this;
+    const elementDir = getElementDir(el);
 
     return (
       <Host>
@@ -397,6 +399,7 @@ export class CalciteColorPicker {
               scale={hexInputScale}
               value={selectedColorInHex}
               theme={theme}
+              dir={elementDir}
             />
           </div>
           <div
@@ -439,7 +442,6 @@ export class CalciteColorPicker {
             </div>
             <div class={{ [CSS.colorModeParts]: true, [CSS.control]: true }}>
               <div class={CSS.colorModePart}>
-                <span class={CSS.colorModePartLabel}>{partLabels[0]}</span>
                 <input
                   class={CSS.colorModePartInput}
                   data-color-part-id={0}
@@ -448,9 +450,9 @@ export class CalciteColorPicker {
                   type="number"
                   value={parts[0]}
                 />
+                <span class={CSS.colorModePartLabel}>{partLabels[0]}</span>
               </div>
               <div class={CSS.colorModePart}>
-                <span class={CSS.colorModePartLabel}>{partLabels[1]}</span>
                 <input
                   class={CSS.colorModePartInput}
                   data-color-part-id={1}
@@ -459,9 +461,9 @@ export class CalciteColorPicker {
                   type="number"
                   value={parts[1]}
                 />
+                <span class={CSS.colorModePartLabel}>{partLabels[1]}</span>
               </div>
               <div class={CSS.colorModePart}>
-                <span class={CSS.colorModePartLabel}>{partLabels[2]}</span>
                 <input
                   class={CSS.colorModePartInput}
                   data-color-part-id={2}
@@ -470,6 +472,7 @@ export class CalciteColorPicker {
                   type="number"
                   value={parts[2]}
                 />
+                <span class={CSS.colorModePartLabel}>{partLabels[2]}</span>
               </div>
             </div>
           </div>
