@@ -11,10 +11,10 @@
 
 ## Events
 
-| Event                           | Description | Type                             |
-| ------------------------------- | ----------- | -------------------------------- |
-| `calciteDropdownItemHasChanged` |             | `CustomEvent<any>`               |
-| `registerCalciteDropdownGroup`  |             | `CustomEvent<GroupRegistration>` |
+| Event                          | Description | Type                             |
+| ------------------------------ | ----------- | -------------------------------- |
+| `calciteDropdownGroupRegister` |             | `CustomEvent<GroupRegistration>` |
+| `calciteDropdownItemChange`    |             | `CustomEvent<any>`               |
 
 ---
 

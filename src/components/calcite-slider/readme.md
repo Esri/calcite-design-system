@@ -27,6 +27,7 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 | Property       | Attribute       | Description                                                        | Type                | Default     |
 | -------------- | --------------- | ------------------------------------------------------------------ | ------------------- | ----------- |
 | `disabled`     | `disabled`      | Disable and gray out the slider                                    | `boolean`           | `false`     |
+| `hasHistogram` | `has-histogram` | Indicates if a histogram is present                                | `boolean`           | `false`     |
 | `histogram`    | --              | Display a histogram above the slider                               | `Point[]`           | `undefined` |
 | `labelHandles` | `label-handles` | Label handles with their numeric value                             | `boolean`           | `undefined` |
 | `labelTicks`   | `label-ticks`   | Label tick marks with their numeric value.                         | `boolean`           | `undefined` |

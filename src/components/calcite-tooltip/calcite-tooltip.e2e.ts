@@ -126,6 +126,26 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.isVisible()).toBe(true);
   });
 
+  it("should honor hover interaction with span inside", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><calcite-tooltip-manager><div id="ref"><span>referenceElement<span></div></calcite-tooltip-manager>`
+    );
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find(`calcite-tooltip`);
+
+    expect(await tooltip.isVisible()).toBe(false);
+
+    const ref = await page.find("#ref span");
+
+    await ref.hover();
+
+    expect(await tooltip.isVisible()).toBe(true);
+  });
+
   it("should honor text", async () => {
     const page = await newE2EPage();
 

@@ -11,6 +11,7 @@ import {
   Build,
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
+import { hasLabel } from "../../utils/dom";
 
 @Component({
   tag: "calcite-checkbox",
@@ -56,6 +57,16 @@ export class CalciteCheckbox {
       this.indeterminate = false;
     }
   };
+
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+    if (
+      !this.el.contains(e.detail.interactedEl) &&
+      hasLabel(e.detail.labelEl, this.el)
+    ) {
+      this.toggle();
+      this.el.focus();
+    }
+  }
 
   @Listen("click") onClick({ target }: MouseEvent) {
     // prevent duplicate click events that occur

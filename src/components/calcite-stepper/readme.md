@@ -45,9 +45,9 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 
 ## Events
 
-| Event                          | Description | Type               |
-| ------------------------------ | ----------- | ------------------ |
-| `calciteStepperItemHasChanged` |             | `CustomEvent<any>` |
+| Event                      | Description | Type               |
+| -------------------------- | ----------- | ------------------ |
+| `calciteStepperItemChange` |             | `CustomEvent<any>` |
 
 ## Methods
 

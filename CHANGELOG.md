@@ -5,28 +5,161 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [v1.0.0-beta.32]
+
+- `calcite-stepper` - `calciteStepperItemHasChanged` event has been renamed to `calciteStepperItemChange`
+- `calcite-stepper-item` - `calciteStepperItemSelected` event has been renamed to `calciteStepperItemSelect`
+- `calcite-stepper-item` - `registerCalciteStepperItem` event has been renamed to `calciteStepperItemRegister`
+
+### Breaking Changes
+
+- `calcite-modal` - `close-label` prop is now renamed to `intl-close` for consistency (#466)
+- `calcite-modal` - `open` and `close` methods removed in favor of `active` prop (#466)
+- `calcite-modal` - `size => width`, which can be passed standard (s/m/l) or custom width in px (#239)
+- `calcite-modal` - `fullscreen` made it's own prop (#466)
+- `calcite-modal` - new `scale` prop for setting UI scale of modal (#466);
+- `calcite-date` - `prevMonthLabel` and `nextMonthLabel` updated to `intlPrevMonth` and `intlNextMonth` (#97)
+- `calcite-switch` - `switched` boolean has been added to `calciteSwitchChange` event detail
+
+## [v1.0.0-beta.31]
+
+### Breaking Changes
+
+- `calcite-label` - `calciteLabelSelectedEvent` event has been renamed to `calciteLabelFocus`
+- `calcite-button` - `icon-position` and `icon` props have been removed - you can now use `icon-start` and `icon-end` props to position up to two icons.
+- `calcite-link` - `icon-position` and `icon` props have been removed - you can now use `icon-start` and `icon-end` props to position up to two icons.
+- `calcite-split-button` - `primary-icon` prop has been removed - you can now use `primary-icon-start` and `primary-icon-end` props to position up to two icons.
+- `calcite-tab` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-tab-title` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-loader` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-popover` `textClose` has been changed to `intlClose`.
+- `calcite-card` - event name change `calciteCardSelected => calciteCardSelect` (#459)
+
+### Added
+
+- Generate new types for using components inside a Preact + TypeScript
+- `calcite-loader` - add `scale` for both standard and inline loaders (#465)
+- `calcite-dropdown` now has a `disable-close-on-select` attribute that allows dropdowns to remain open on selection when `calcite-dropdown-group` `selection-mode` is set to `single` or `multi`
+- `calcite-dropdown` now emits `calciteDropdownClose` when it closes.
+- `calcite-dropdown` now emits `calciteDropdownOpen` when it opens.
+- `calcite-dropdown` now has a `disabled` prop.
+- `calcite-input` - adds `clearable` prop to display a clear button when field has a value - this also enables clearing of value while focused and using `Escape` key.
+- `calcite-input` - adds `disabled` prop
+- `calcite-button` - `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
+- `calcite-link` - `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
+- `calcite-split-button` - `primary-icon-start` and `primary-icon-end` props have been added for explicit positioning of up to two icons.
+- `calcite-split-button` - `dropdown-icon-type` prop now accepts an `overflow` value for an additional icon option.
+- `calcite-notice` now has a `intl-close` attribute that allows the title of the close button to be set. It defaults to the English "Close".
+- `calcite-modal` - added `disable-close-button` prop for hiding X (#669)
+- `calcite-popover` - added `disable-close-button` prop for hiding X (#669)
+
+### Fixed
+
+- `calcite-dropdown` - will now correctly focus the slotted `dropdown-trigger` element when the dropdown is closed
+- `calcite-input` - fixes inconsistencies in height of inputs with various configurations
+- `calcite-label` - fixes inconsistencies in `layout=inline` padding applications
+- `calcite-slider` - fixes positioning of handles and labels, better focus styles (#660)
+- `calcite-split-button` - fixed split button triggering of dropdown
+- `calcite-tab-title` - improve focus state
+
+### Updated
+
+- `calcite-dropdown` - a dropdown will now close if another dropdown is opened
+- `calcite-dropdown` - mouse clicks on `calcite-dropdown-group` titles will no longer close the dropdown
+- `calcite-slider` - improved `disabled` styles (#676)
+
+## [v1.0.0-beta.30] - June 12th 2020
+
+### Fixed
+
+- fix NPM release issue
+
+## [v1.0.0-beta.29] - June 12th 2020
+
+### Fixed
+
+- fix NPM release issue
+
+## [v1.0.0-beta.28] - June 11th 2020
+
+### Breaking Changes
+
+- `calcite-accordion` - `calciteAccordionItemHasChanged` event has been renamed to `calciteAccordionChange`
+- `calcite-accordion-item` - `calciteAccordionItemSelected` event has been renamed to `calciteAccordionItemSelect`
+- `calcite-accordion-item` - `closeCalciteAccordionItem` event has been renamed to `calciteAccordionItemClose`
+- `calcite-accordion-item` - `registerCalciteAccordionItem` event has been renamed to `calciteAccordionItemRegister`
+- `calcite-dropdown-group` - `registerCalciteItemHasChanged` event has been renamed to `calciteDropdownItemChange`
+- `calcite-dropdown-group` - `registerCalciteDropdownGroup` event has been renamed to `calciteDropdownGroupRegister`
+- `calcite-dropdown-item` - `registerCalciteDropdownItem` event has been renamed to `calciteDropdownItemRegister`
+- `calcite-dropdown-item` - `calciteDropdownItemSelected` event has been renamed to `calciteDropdownItemSelect` and is now internal.
+- `calcite-dropdown-item` - `closeCalciteDropdown` event has been renamed to `calciteDropdownClose`
+
+### Added
+
+- `calcite-dropdown` now has a read-only `selectedItems` prop that contains all selected items.
+- `calcite-dropdown` now emits `calciteDropdownSelect` when an item selection changes.
+
+### Fixed
+
+- `calcite-accordion` - Fix for incorrect keyboard navigation behavior when a `calcite-accordion` was nested inside another `calcite-accordion`
+- `calcite-accordion` - Fix for incorrect display of `icon-position` when a `calcite-accordion` was nested inside another `calcite-accordion`
+
+### Updated
+
+- `calcite-popover` - `max-width` has been removed. Content may need width set.
+
+## [v1.0.0-beta.27] - May 26th 2020
+
+### Breaking Changes
+
+- `calcite-input` - `calciteInputChange` event has been renamed to `calciteInputInput`
+
+### Added
+
+- `calcite-radio-group` now has a `width` prop that accepts `auto` (default) or `full` values.
+
+### Fixed
+
+- `calcite-input` - will now properly position a requested `icon` if `prefix-text` is also set
+- `calcite-switch` - will now properly display in RTL
+- `calcite-alert` - will now properly animate the direction of the auto-dismiss progress bar in RTL
+- `calcite-tree` - will now properly wrap long, unbroken strings in `calcite-tree-item` children
+
+### Updated
+
+- `calcite-accordion` - styling of `icon-position=end` icons has been updated for `chevron` and `caret` values - it will now display upward when a `calcite-accordion-item` is collapsed, and downward when expanded
+- `calcite-input` - when `status="valid"`, icon (if present) will appear green
+
+## [v1.0.0-beta.26] - May 18th 2020
 
 ### Breaking Changes
 
 - `calcite-checkbox` - `size` prop is now `scale` to be consistent with other components
 - `calcite-chip` - will not show the dismiss ("x") button unless new `dismissible` prop is `true`
+- `calcite-button` - will no longer accept `xs` or `xl` values for `scale` prop
+- `calcite-chip` - will no longer accept `xs` or `xl` values for `scale`
+- `calcite-combobox` - will no longer accept `xs` or `xl` values for `scale`
 
 ### Added
 
 - `calcite-radio-group-item` can now display an icon by passing a Calcite UI Icon name to the `icon` attribute. The icon can be positioned with the `icon-position` attribute.
 - `calcite-split-button` now accepts `ellipsis` as a value for the `dropdown-icon-type` attribute
 - `calcite-graph` component for simple area graphs from series data sets
+- `calcite-chip` - now has a `color` prop that will accept `grey` (default), `blue`, `red`, `yellow`, and `green` as values
+- `calcite-chip` - now has an `appearance` prop that will accept `solid` (default) and `clear` as values
 
 ### Fixed
 
 - `calcite-dropdown` - will now properly open and close when children of the `dropdown-trigger` slot are acted on.
+- `calcite-button` - now trims whitespace to accurately display "icon only" buttons as squares.
 - `:root` styles now include some text rendering improvements
-
-### Fixes
-
 - `calcite-input` - fixed missing icons in firefox
 - `calcite-date` - fixed small margin/gap above input
+
+### Updated
+
+- `calcite-button` - styling of `appearance=transparent` buttons has been updated
+- `calcite-button` - dimensions and font-size of buttons have been updated
 
 ## [v1.0.0-beta.25] - Apr 28th 2020
 
@@ -395,6 +528,13 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.32]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.31...v1.0.0-beta.32 "v1.0.0-beta.32"
+[v1.0.0-beta.31]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.30...v1.0.0-beta.31 "v1.0.0-beta.31"
+[v1.0.0-beta.30]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.29...v1.0.0-beta.30 "v1.0.0-beta.30"
+[v1.0.0-beta.29]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.28...v1.0.0-beta.29 "v1.0.0-beta.29"
+[v1.0.0-beta.28]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.27...v1.0.0-beta.28 "v1.0.0-beta.28"
+[v1.0.0-beta.27]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.26...v1.0.0-beta.27 "v1.0.0-beta.27"
+[v1.0.0-beta.26]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.25...v1.0.0-beta.26 "v1.0.0-beta.26"
 [v1.0.0-beta.25]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.24...v1.0.0-beta.25 "v1.0.0-beta.25"
 [v1.0.0-beta.24]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.23...v1.0.0-beta.24 "v1.0.0-beta.24"
 [v1.0.0-beta.23]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.22...v1.0.0-beta.23 "v1.0.0-beta.23"

@@ -21,4 +21,56 @@ describe("calcite-chip", () => {
 
     expect(eventSpy).toHaveReceivedEvent();
   });
+
+  it("renders default props when none are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
+
+    const element = await page.find("calcite-chip");
+    expect(element).toEqualAttribute("appearance", "solid");
+    expect(element).toEqualAttribute("color", "grey");
+    expect(element).toEqualAttribute("scale", "m");
+  });
+
+  it("renders default props when invalid props are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip appearance="zip" color="zat" scale="zop">Chip content</calcite-chip>`
+    );
+
+    const element = await page.find("calcite-chip");
+    expect(element).toEqualAttribute("appearance", "solid");
+    expect(element).toEqualAttribute("color", "grey");
+    expect(element).toEqualAttribute("scale", "m");
+  });
+
+  it("renders requested props when valid props are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip appearance="clear" color="blue" scale="l">Chip content</calcite-chip>`
+    );
+
+    const element = await page.find("calcite-chip");
+    expect(element).toEqualAttribute("appearance", "clear");
+    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("scale", "l");
+  });
+
+  it("renders a close button when requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip dismissible>Chip content</calcite-chip>`
+    );
+
+    const close = await page.find("calcite-chip >>> button.close");
+    expect(close).not.toBeNull();
+  });
+
+  it("does not render a close button when not requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
+
+    const close = await page.find("calcite-chip >>> button.close");
+    expect(close).toBeNull();
+  });
 });

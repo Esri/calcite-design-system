@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-input-message", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-message></calcite-input-message>");
     const input = await page.find("calcite-input-message");
-    expect(input).toHaveClass("hydrated");
+    expect(input).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {
@@ -16,34 +17,29 @@ describe("calcite-input-message", () => {
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
-    expect(element).toEqualAttribute("appearance", "default");
     expect(element).toEqualAttribute("type", "default");
   });
 
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message status="zip" theme="zap" appearance="zom" type="zur"></calcite-input-message>
+    <calcite-input-message status="zip" theme="zap" type="zur"></calcite-input-message>
     `);
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
-    expect(element).toEqualAttribute("appearance", "default");
     expect(element).toEqualAttribute("type", "default");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message status="valid" theme="dark" appearance="minimal" type="floating"></calcite-input-message>
+    <calcite-input-message status="valid" theme="dark" type="floating"></calcite-input-message>
     `);
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "valid");
     expect(element).toEqualAttribute("theme", "dark");
-    expect(element).toEqualAttribute("appearance", "minimal");
     expect(element).toEqualAttribute("type", "floating");
   });
 
@@ -58,7 +54,6 @@ describe("calcite-input-message", () => {
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
   });
 
   it("does not render an icon if not requested", async () => {

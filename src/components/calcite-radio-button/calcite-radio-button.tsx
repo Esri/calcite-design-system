@@ -71,7 +71,7 @@ export class CalciteRadioButton {
     this.input.hidden = newHidden;
   }
 
-  /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
+  /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ reflect: true }) name!: string;
   @Watch("name")
   nameChanged(newName: string) {
@@ -85,7 +85,7 @@ export class CalciteRadioButton {
     this.input.required = required;
   }
 
-  /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
+  /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
   @Watch("scale")
   validateScale(newScale: string) {
@@ -93,7 +93,7 @@ export class CalciteRadioButton {
     if (!scales.includes(newScale)) this.scale = "m";
   }
 
-  /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code><calcite-radio-button-group></code>. */
+  /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
   @Watch("theme")
   validateTheme(newTheme: string) {

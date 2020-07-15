@@ -8,7 +8,6 @@ import {
   Listen,
   Prop,
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
 import { GroupRegistration, ItemRegistration } from "../../interfaces/Dropdown";
 
 @Component({
@@ -22,7 +21,7 @@ export class CalciteDropdownGroup {
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDropdownGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -46,8 +45,8 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteDropdownItemHasChanged: EventEmitter;
-  @Event() registerCalciteDropdownGroup: EventEmitter<GroupRegistration>;
+  @Event() calciteDropdownGroupRegister: EventEmitter<GroupRegistration>;
+  @Event() calciteDropdownItemChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -65,10 +64,10 @@ export class CalciteDropdownGroup {
   componentDidLoad() {
     this.groupPosition = this.getGroupPosition();
     this.items = this.sortItems(this.items) as HTMLCalciteDropdownItemElement[];
-    this.registerCalciteDropdownGroup.emit({
+    this.calciteDropdownGroupRegister.emit({
       items: this.items,
       position: this.groupPosition,
-      groupId: this.dropdownGroupId,
+      group: this.el,
       titleEl: this.titleEl,
     });
   }
@@ -94,22 +93,29 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("registerCalciteDropdownItem") registerCalciteDropdownItem(
+  @Listen("calciteDropdownItemRegister") registerCalciteDropdownItem(
     event: CustomEvent<ItemRegistration>
   ) {
-    const item = {
-      item: event.target as HTMLCalciteDropdownItemElement,
+    const item = event.target as HTMLCalciteDropdownItemElement;
+
+    if (this.selectionMode === "none") {
+      item.active = false;
+    }
+
+    this.items.push({
+      item,
       position: event.detail.position,
-    };
-    this.items.push(item);
+    });
+
+    event.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelected") updateActiveItemOnChange(
+  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(
     event: CustomEvent
   ) {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
-    this.calciteDropdownItemHasChanged.emit({
+    this.calciteDropdownItemChange.emit({
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem,
     });
@@ -124,17 +130,14 @@ export class CalciteDropdownGroup {
   /** created list of dropdown items */
   private items = [];
 
-  /** unique id for dropdown group */
-  private dropdownGroupId = `calcite-dropdown-group-${guid()}`;
-
   /** position of group within a dropdown */
   private groupPosition: number;
 
   /** the requested group */
-  private requestedDropdownGroup: string;
+  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
 
   /** the requested item */
-  private requestedDropdownItem: string;
+  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   private titleEl: HTMLSpanElement = null;
 

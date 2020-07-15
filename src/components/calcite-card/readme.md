@@ -13,9 +13,9 @@
 
 ## Events
 
-| Event                 | Description                              | Type               |
-| --------------------- | ---------------------------------------- | ------------------ |
-| `calciteCardSelected` | Fired when a selectable card is selected | `CustomEvent<any>` |
+| Event               | Description                              | Type               |
+| ------------------- | ---------------------------------------- | ------------------ |
+| `calciteCardSelect` | Fired when a selectable card is selected | `CustomEvent<any>` |
 
 ## Dependencies
 

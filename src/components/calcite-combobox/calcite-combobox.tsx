@@ -9,6 +9,7 @@ import {
   EventEmitter,
   Element,
   VNode,
+  Build,
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -42,8 +43,7 @@ export class CalciteCombobox {
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the combobox, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
-    "m";
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   @Prop() label!: string;
 
@@ -67,7 +67,7 @@ export class CalciteCombobox {
 
   data: ItemData[];
 
-  observer = new MutationObserver(this.updateItems);
+  observer: MutationObserver = null;
 
   // --------------------------------------------------------------------------
   //
@@ -77,8 +77,11 @@ export class CalciteCombobox {
 
   connectedCallback() {
     // prop validations
-    let scale = ["xs", "s", "m", "l", "xl"];
+    let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.updateItems);
+    }
   }
 
   componentWillLoad(): void {
@@ -86,11 +89,11 @@ export class CalciteCombobox {
   }
 
   componentDidLoad(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.observer?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidUnload(): void {
-    this.observer.disconnect();
+    this.observer?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -342,6 +345,7 @@ export class CalciteCombobox {
         </div>
         <ul
           id={listBoxId}
+          aria-label={this.label}
           role="listbox"
           class={{ list: true }}
           aria-multiselectable="true"

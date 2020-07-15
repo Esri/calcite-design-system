@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-slider></calcite-slider>");
     const element = await page.find("calcite-slider");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("becomes inactive from disabled prop", async () => {
@@ -48,8 +49,8 @@ describe("calcite-slider", () => {
       >
       </calcite-slider>
     `);
-    const maxButton = await page.find("calcite-slider >>> .thumb--max");
-    const minButton = await page.find("calcite-slider >>> .thumb--min");
+    const maxButton = await page.find("calcite-slider >>> .thumb--value");
+    const minButton = await page.find("calcite-slider >>> .thumb--minValue");
     expect(minButton).toEqualAttribute("role", "slider");
     expect(maxButton).toEqualAttribute("role", "slider");
     expect(minButton).toEqualAttribute("aria-label", "Min Label");
@@ -112,7 +113,7 @@ describe("calcite-slider", () => {
       </calcite-slider>
     `);
     const slider = await page.find("calcite-slider");
-    const handle = await page.find("calcite-slider >>> .thumb--max");
+    const handle = await page.find("calcite-slider >>> .thumb--value");
     await page.waitForChanges();
     let value = await slider.getProperty("value");
     expect(value).toBe(20);

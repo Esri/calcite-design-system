@@ -3,11 +3,7 @@
 }
 
 // todo update to font and spacing value when added to calcite-base
-:host([scale="xs"]) {
-  font-size: 10px;
-  --calcite-combobox-item-spacing-unit-l: 8px;
-  --calcite-combobox-item-spacing-unit-s: 4px;
-}
+
 :host([scale="s"]) {
   font-size: 12px;
   --calcite-combobox-item-spacing-unit-l: 12px;
@@ -24,16 +20,6 @@
   font-size: 16px;
   --calcite-combobox-item-spacing-unit-l: 20px;
   --calcite-combobox-item-spacing-unit-s: 16px;
-}
-
-:host([scale="xl"]) {
-  font-size: 18px;
-  --calcite-combobox-item-spacing-unit-l: 24px;
-  --calcite-combobox-item-spacing-unit-s: 20px;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 :host {

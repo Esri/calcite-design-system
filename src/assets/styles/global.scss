@@ -22,6 +22,10 @@
   overflow: hidden;
 }
 
-.hydrated--invisible {
+[hydrated] {
+  visibility: visible;
+}
+[hydrated][aria-hidden="true"] {
   visibility: hidden;
+  pointer-events: none;
 }

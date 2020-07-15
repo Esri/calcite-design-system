@@ -7,10 +7,10 @@
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: #{$baseline/2};
   --calcite-notice-spacing-token-large: #{$baseline/1.5};
-  @include slotted("notice-title", "div") {
+  @include slotted("notice-title", "*") {
     @include font-size(-2);
   }
-  @include slotted("notice-message", "div") {
+  @include slotted("notice-message", "*") {
     @include font-size(-3);
   }
   ::slotted(calcite-link) {
@@ -21,10 +21,10 @@
 :host([scale="m"]) {
   --calcite-notice-spacing-token-small: #{$baseline/1.5};
   --calcite-notice-spacing-token-large: #{$baseline};
-  @include slotted("notice-title", "div") {
+  @include slotted("notice-title", "*") {
     @include font-size(-1);
   }
-  @include slotted("notice-message", "div") {
+  @include slotted("notice-message", "*") {
     @include font-size(-2);
   }
   ::slotted(calcite-link) {
@@ -35,10 +35,10 @@
 :host([scale="l"]) {
   --calcite-notice-spacing-token-small: #{$baseline/1.25};
   --calcite-notice-spacing-token-large: #{$baseline * 1.25};
-  @include slotted("notice-title", "div") {
+  @include slotted("notice-title", "*") {
     @include font-size(0);
   }
-  @include slotted("notice-message", "div") {
+  @include slotted("notice-message", "*") {
     @include font-size(-1);
   }
   ::slotted(calcite-link) {
@@ -97,19 +97,22 @@
   box-shadow: $shadow-1;
 }
 
-@include slotted("notice-title", "div") {
+@include slotted("notice-title", "*") {
   color: var(--calcite-ui-text-1);
+  margin: 0;
   font-weight: 500;
 }
 
-@include slotted("notice-message", "div") {
+@include slotted("notice-message", "*") {
   display: inline;
+  margin: 0;
+  font-weight: 400;
   margin-right: var(--calcite-notice-spacing-token-small);
   color: var(--calcite-ui-text-2);
 }
 
 :host([dir="rtl"]) {
-  @include slotted("notice-message", "div") {
+  @include slotted("notice-message", "*") {
     margin-right: 0;
     margin-left: var(--calcite-notice-spacing-token-small);
   }

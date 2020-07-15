@@ -160,12 +160,7 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon(scale): VNode {
-    const iconScale =
-      scale === "xs" || scale === "s" || scale === "m"
-        ? "s"
-        : scale === "l"
-        ? "m"
-        : "l";
+    const iconScale = scale !== "l" ? "s" : "m";
     const iconPath = this.disabled ? "circle-disallowed" : "check";
     return <calcite-icon class={CSS.icon} scale={iconScale} icon={iconPath} />;
   }

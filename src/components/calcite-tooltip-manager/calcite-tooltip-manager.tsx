@@ -26,8 +26,9 @@ export class CalciteTooltipManager {
   toggle = (event: Event, value = true): void => {
     const target = event.target as HTMLElement;
 
+    const tooltipReference = target.closest(this.selector);
     const describedByElement =
-      target && target.matches(this.selector) && getDescribedByElement(target);
+      tooltipReference && getDescribedByElement(tooltipReference);
 
     if (describedByElement) {
       (describedByElement as HTMLCalciteTooltipElement).open = value;

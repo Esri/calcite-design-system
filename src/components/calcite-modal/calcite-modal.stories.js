@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/html';
-import { withKnobs, boolean, select, text } from '@storybook/addon-knobs'
+import { withKnobs, boolean, select, text, number } from '@storybook/addon-knobs'
 import { darkBackground, parseReadme } from '../../../.storybook/helpers';
 import readme from './readme.md';
 const notes = parseReadme(readme);
@@ -7,13 +7,13 @@ const notes = parseReadme(readme);
 storiesOf('Modal', module)
   .addDecorator(withKnobs)
   .add('Simple', () => {
-    setTimeout(function () {
-      document.querySelector('calcite-modal').open();
-    }, 200);
     return `
       <calcite-modal
+        active="${boolean("active", true)}"
         color="${select("color", {blue: "blue", red: "red", none: null}, null)}"
-        size="${select("size", ["small", "medium", "large", "fullscreen"], "small")}"
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        width="${select("width", ["s", "m", "l"], "s")}"
+        fullscreen="${boolean("fullscreen", false)}"
         docked="${boolean("docked", false)}"
         disable-escape="${boolean("disable-escape", false)}"
         no-padding="${boolean("no-padding", false)}"
@@ -31,15 +31,34 @@ storiesOf('Modal', module)
       </calcite-modal>
     `;
   }, { notes })
+  .add('Custom Size', () => {
+    return `
+      <calcite-modal
+        active
+        width="${number("width", 500)}"
+      >
+        <h3 slot="header">Custom Size</h3>
+        <div slot="content">
+          <p>
+            By passing a number rather than "small", "medium", "large", or "fullscreen", you can set your own max width for the modal.
+            Below this size, the modal will become fullscreen.
+          </p>
+        </div>
+        <calcite-button slot="back" color="light" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
+        <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+        <calcite-button slot="primary" width="full">Save</calcite-button>
+      </calcite-modal>
+    `;
+  }, { notes })
   .add('Dark mode', () => {
-    setTimeout(function () {
-      document.querySelector('calcite-modal').open();
-    }, 200);
     return `
       <calcite-modal
         theme="dark"
+        active="${boolean("active", true)}"
         color="${select("color", {blue: "blue", red: "red", none: null}, null)}"
-        size="${select("size", ["small", "medium", "large", "fullscreen"], "small")}"
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        width="${select("width", ["s", "m", "l"], "s")}"
+        fullscreen="${boolean("fullscreen", false)}"
         docked="${boolean("docked", false)}"
         disable-escape="${boolean("disable-escape", false)}"
         no-padding="${boolean("no-padding", false)}"

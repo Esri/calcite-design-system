@@ -23,12 +23,14 @@ import {
   dateToISO,
 } from "../../utils/date";
 import { getKey } from "../../utils/key";
+import { TEXT } from "./calcite-date-resources";
+
 @Component({
   tag: "calcite-date",
   styleUrl: "calcite-date.scss",
   shadow: true,
 })
-export class CalciteDatePicker {
+export class CalciteDate {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -52,9 +54,9 @@ export class CalciteDatePicker {
   /** Expand or collapse when calendar does not have input */
   @Prop({ reflect: true }) active: boolean = false;
   /** Localized string for "previous month" */
-  @Prop() prevMonthLabel?: string = "previous month";
+  @Prop() intlPrevMonth?: string = TEXT.prevMonth;
   /** Localized string for "next month" */
-  @Prop() nextMonthLabel?: string = "next month";
+  @Prop() intlNextMonth?: string = TEXT.nextMonth;
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = "en-US";
   /** Show only calendar popup */
@@ -139,7 +141,7 @@ export class CalciteDatePicker {
               placeholder={this.localeData.placeholder}
               icon="calendar"
               onCalciteInputFocus={() => (this.active = true)}
-              onCalciteInputChange={(e) => this.input(e.detail.value)}
+              onCalciteInputInput={(e) => this.input(e.detail.value)}
               onCalciteInputBlur={(e) => this.blur(e.detail)}
               scale={this.scale}
               number-button-type="none"
@@ -151,8 +153,8 @@ export class CalciteDatePicker {
           <calcite-date-month-header
             activeDate={activeDate}
             selectedDate={date || new Date()}
-            prevMonthLabel={this.prevMonthLabel}
-            nextMonthLabel={this.nextMonthLabel}
+            intlPrevMonth={this.intlPrevMonth}
+            intlNextMonth={this.intlNextMonth}
             locale={this.locale}
             min={min}
             max={max}

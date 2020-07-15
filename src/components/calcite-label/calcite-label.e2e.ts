@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-label", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-label></calcite-label>");
     const label = await page.find("calcite-label");
-    expect(label).toHaveClass("hydrated");
+    expect(label).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {
@@ -19,7 +20,6 @@ describe("calcite-label", () => {
 
     const element = await page.find("calcite-label");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("layout", "default");
   });
 
@@ -34,7 +34,6 @@ describe("calcite-label", () => {
 
     const element = await page.find("calcite-label");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("layout", "default");
   });
 

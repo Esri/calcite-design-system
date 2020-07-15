@@ -1,7 +1,6 @@
 :host {
   position: relative;
   display: block;
-  height: 2px;
   width: 100%;
 }
 
@@ -30,11 +29,13 @@
 }
 
 .reversed {
-  right: 0;
+  animation-direction: reverse;
 }
 
 .text {
   padding: $baseline 0 0 0;
+  text-align: center;
+  @include font-size(-2);
 }
 
 @keyframes looping-progress-bar-ani {

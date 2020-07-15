@@ -64,7 +64,7 @@ export class CalciteAccordion {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteAccordionItemHasChanged: EventEmitter;
+  @Event() calciteAccordionChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -116,43 +116,47 @@ export class CalciteAccordion {
     e: CustomEvent
   ) {
     const item = e.detail.item;
-    const key = getKey(item.key);
-    let itemToFocus = e.target;
-    let isFirstItem = this.itemIndex(itemToFocus) === 0;
-    let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (key) {
-      case "ArrowDown":
-        if (isLastItem) this.focusFirstItem();
-        else this.focusNextItem(itemToFocus);
-        break;
-      case "ArrowUp":
-        if (isFirstItem) this.focusLastItem();
-        else this.focusPrevItem(itemToFocus);
-        break;
-      case "Home":
-        this.focusFirstItem();
-        break;
-      case "End":
-        this.focusLastItem();
-        break;
+    const parent = e.detail.parent as HTMLCalciteAccordionElement;
+    if (this.el === parent) {
+      const key = getKey(item.key);
+      let itemToFocus = e.target;
+      let isFirstItem = this.itemIndex(itemToFocus) === 0;
+      let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
+      switch (key) {
+        case "ArrowDown":
+          if (isLastItem) this.focusFirstItem();
+          else this.focusNextItem(itemToFocus);
+          break;
+        case "ArrowUp":
+          if (isFirstItem) this.focusLastItem();
+          else this.focusPrevItem(itemToFocus);
+          break;
+        case "Home":
+          this.focusFirstItem();
+          break;
+        case "End":
+          this.focusLastItem();
+          break;
+      }
     }
   }
 
-  @Listen("registerCalciteAccordionItem") registerCalciteAccordionItem(
+  @Listen("calciteAccordionItemRegister") registerCalciteAccordionItem(
     e: CustomEvent
   ) {
     const item = {
       item: e.target as HTMLCalciteAccordionItemElement,
-      position: e.detail.position,
+      parent: e.detail.parent as HTMLCalciteAccordionElement,
+      position: e.detail.position as Number,
     };
-    this.items.push(item);
+    if (this.el === item.parent) this.items.push(item);
   }
 
-  @Listen("calciteAccordionItemSelected") updateActiveItemOnChange(
+  @Listen("calciteAccordionItemSelect") updateActiveItemOnChange(
     event: CustomEvent
   ) {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
-    this.calciteAccordionItemHasChanged.emit({
+    this.calciteAccordionChange.emit({
       requestedAccordionItem: this.requestedAccordionItem,
     });
   }
@@ -170,7 +174,7 @@ export class CalciteAccordion {
   private sorted = false;
 
   /** keep track of the requested item for multi mode */
-  private requestedAccordionItem: string = "";
+  private requestedAccordionItem: HTMLCalciteAccordionItemElement;
 
   //--------------------------------------------------------------------------
   //

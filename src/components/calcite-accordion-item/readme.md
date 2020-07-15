@@ -17,10 +17,10 @@ individual `calcite-accordion` item
 
 | Event                          | Description | Type               |
 | ------------------------------ | ----------- | ------------------ |
+| `calciteAccordionItemClose`    |             | `CustomEvent<any>` |
 | `calciteAccordionItemKeyEvent` |             | `CustomEvent<any>` |
-| `calciteAccordionItemSelected` |             | `CustomEvent<any>` |
-| `closeCalciteAccordionItem`    |             | `CustomEvent<any>` |
-| `registerCalciteAccordionItem` |             | `CustomEvent<any>` |
+| `calciteAccordionItemRegister` |             | `CustomEvent<any>` |
+| `calciteAccordionItemSelect`   |             | `CustomEvent<any>` |
 
 ## Dependencies
 

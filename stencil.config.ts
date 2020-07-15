@@ -1,5 +1,6 @@
 import { Config } from "@stencil/core";
 import { sass } from "@stencil/sass";
+import { generatePreactTypes } from "./support/preact";
 
 export const config: Config = {
   namespace: "calcite",
@@ -57,6 +58,7 @@ export const config: Config = {
     { type: "dist-hydrate-script" },
     { type: "dist" },
     { type: "docs-readme" },
+    { type: "custom", name: "preact", generator: generatePreactTypes },
     {
       type: "www",
       baseUrl: "https://stenciljs.com/",
@@ -75,8 +77,13 @@ export const config: Config = {
   ],
   testing: {
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js",
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
     },
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+  },
+  hydratedFlag: {
+    selector: "attribute",
+    name: "hydrated",
   },
   extras: {
     appendChildSlotFix: true,

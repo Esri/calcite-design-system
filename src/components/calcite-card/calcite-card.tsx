@@ -64,7 +64,7 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /** Fired when a selectable card is selected */
-  @Event() calciteCardSelected: EventEmitter;
+  @Event() calciteCardSelect: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -79,7 +79,7 @@ export class CalciteCard {
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
-              <calcite-loader is-active></calcite-loader>
+              <calcite-loader active></calcite-loader>
             </div>
           ) : null}
           <section class={{ [CSS.container]: true }} aria-busy={this.loading}>
@@ -123,10 +123,7 @@ export class CalciteCard {
 
   private selectCard() {
     this.selected = !this.selected;
-    this.calciteCardSelected.emit({
-      element: this.el as HTMLCalciteCardElement,
-      selected: this.selected,
-    });
+    this.calciteCardSelect.emit();
   }
 
   private renderThumbnail(): VNode {

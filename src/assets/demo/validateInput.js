@@ -1,7 +1,7 @@
 // example for validating inputs and adding messages
 function detectInputChanges(id) {
   const input = document.querySelector(id);
-  input.addEventListener("calciteInputChange", logChange);
+  input.addEventListener("calciteInputInput", logInput);
   input.addEventListener("calciteInputFocus", logFocus);
   input.addEventListener("calciteInputBlur", logBlur);
 }
@@ -24,7 +24,7 @@ function logBlur(event) {
     targetNotice.innerHTML = `<span slot="notice-message"><b>#${event.detail.element.id}</b> was blurred</span>`;
 }
 
-function logChange(event) {
+function logInput(event) {
   let targetNotice = document.querySelector(
     `#validate-input-example-change-notice`
   );
@@ -35,7 +35,7 @@ function logChange(event) {
 
 function validateInput(id) {
   const input = document.querySelector(id);
-  input.addEventListener("calciteInputChange", validatePasswordExample);
+  input.addEventListener("calciteInputInput", validatePasswordExample);
   input.addEventListener(
     "calciteInputFocus",
     validatePasswordExampleFocusMessage

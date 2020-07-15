@@ -41,8 +41,10 @@ describe("dateFromRange", () => {
 
 describe("dateFromISO", () => {
   it("returns null from bad input", () => {
-    expect(dateFromISO("")).toEqual(null);
-    expect(dateFromISO("asdflkjasdhoui")).toEqual(null);
+    expect(dateFromISO("")).toBeNull();
+    expect(() => {
+      dateFromISO("asdflkjasdhoui");
+    }).toThrow();
   });
   it("correctly parses ISO format", () => {
     const time = new Date(2011, 10, 29).getTime();

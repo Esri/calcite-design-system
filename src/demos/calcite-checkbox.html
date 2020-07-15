@@ -22,6 +22,7 @@
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Checkbox</h1>
+
   <calcite-checkbox>
     <input id="proxyCheckboxCheckbox" type="checkbox" />
   </calcite-checkbox>
@@ -41,89 +42,89 @@
     })
   </script>
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-checkbox indeterminate></calcite-checkbox>
       Initially indeterminate and unchecked
-    </label>
+    </calcite-label>
   </div>
 
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-checkbox indeterminate checked></calcite-checkbox>
       Initially indeterminate and checked
-    </label>
+    </calcite-label>
   </div>
 
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-checkbox scale="l"></calcite-checkbox>
       Large checkbox
-    </label>
+    </calcite-label>
   </div>
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-checkbox scale="s"></calcite-checkbox>
       Small checkbox
-    </label>
+    </calcite-label>
   </div>
   <div style='background-color: #222; color: white; padding: 5px;'>
-    <label>
-      <calcite-checkbox theme='dark' scale="l"></calcite-checkbox>
+    <calcite-label layout="inline" theme='dark'>
+      <calcite-checkbox scale="l"></calcite-checkbox>
       Dark large
-    </label>
+    </calcite-label>
   </div>
 
   <div style='background-color: #222; color: white; padding: 5px;'>
-    <label>
-      <calcite-checkbox theme='dark' disabled></calcite-checkbox>
+    <calcite-label layout="inline" theme='dark'>
+      <calcite-checkbox disabled></calcite-checkbox>
       Dark disabled
-    </label>
+    </calcite-label>
   </div>
 
 
   <div style='background-color: #222; color: white; padding: 5px;'>
-    <label>
-      <calcite-checkbox theme='dark' checked disabled></calcite-checkbox>
+    <calcite-label layout="inline" theme='dark'>
+      <calcite-checkbox checked disabled></calcite-checkbox>
       Dark checked disabled
-    </label>
+    </calcite-label>
   </div>
   <div style='background-color: #222; color: white; padding: 5px; margin-bottom:5px'>
-    <label>
-      <calcite-checkbox theme='dark' indeterminate disabled scale="s"></calcite-checkbox>
+    <calcite-label layout="inline" theme='dark'>
+      <calcite-checkbox indeterminate disabled scale="s"></calcite-checkbox>
       Dark indeterminate disabled small
-    </label>
+    </calcite-label>
   </div>
 
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-checkbox disabled checked></calcite-checkbox>
       Disabled and checked
-    </label>
+    </calcite-label>
   </div>
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-checkbox disabled></calcite-checkbox>
       Disabled and unchecked
-    </label>
+    </calcite-label>
   </div>
 
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-checkbox id="basicCheckbox" checked="true"></calcite-checkbox>
       Without a proxy <code>input</code> element.
-      <script>
-        var basicCheckbox = document.getElementById("basicCheckbox");
+    </calcite-label>
+    <script>
+      var basicCheckbox = document.getElementById("basicCheckbox");
 
-        basicCheckbox.addEventListener("calciteCheckboxChange", function (
-          e
-        ) {
-          console.log(
-            "Basic Checkbox changed by <calcite-checkbox>",
-            e.target.checked
-          );
-        });
-      </script>
-    </label>
+      basicCheckbox.addEventListener("calciteCheckboxChange", function (
+        e
+      ) {
+        console.log(
+          "Basic Checkbox changed by <calcite-checkbox>",
+          e.target.checked
+        );
+      });
+    </script>
   </div>
 
 </body>

@@ -43,7 +43,7 @@ export class CalciteTab {
   /**
    * Show this tab
    */
-  @Prop({ reflect: true, mutable: true }) isActive: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -58,7 +58,7 @@ export class CalciteTab {
       <Host
         id={id}
         aria-labeledby={this.labeledBy}
-        aria-expanded={this.isActive.toString()}
+        aria-expanded={this.active.toString()}
         role="tabpanel"
       >
         <section>
@@ -112,10 +112,10 @@ export class CalciteTab {
     }
 
     if (this.tab) {
-      this.isActive = this.tab === event.detail.tab;
+      this.active = this.tab === event.detail.tab;
     } else {
       this.getTabIndex().then((index) => {
-        this.isActive = index === event.detail.tab;
+        this.active = index === event.detail.tab;
       });
     }
   }

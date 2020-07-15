@@ -48,9 +48,9 @@ export class CalciteDateMonthHeader {
   /** User's language and region as BCP 47 formatted string. */
   @Prop() locale: string;
   /** Localized string for previous month. */
-  @Prop() prevMonthLabel: string;
+  @Prop() intlPrevMonth: string;
   /** Localized string for next month. */
-  @Prop() nextMonthLabel: string;
+  @Prop() intlNextMonth: string;
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
@@ -91,7 +91,7 @@ export class CalciteDateMonthHeader {
         <div class="header" aria-hidden="true">
           <button
             class="chevron"
-            aria-label={this.prevMonthLabel}
+            aria-label={this.intlPrevMonth}
             disabled={prevMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
           >
@@ -123,7 +123,7 @@ export class CalciteDateMonthHeader {
           </div>
           <button
             class="chevron"
-            aria-label={this.nextMonthLabel}
+            aria-label={this.intlNextMonth}
             disabled={nextMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
           >

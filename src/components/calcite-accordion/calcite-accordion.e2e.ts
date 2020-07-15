@@ -1,20 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { renders } from "../../tests/commonTests";
 
 describe("calcite-accordion", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-accordion>
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
-    </calcite-accordion>`);
-    const element = await page.find("calcite-accordion");
-    expect(element).toHaveClass("hydrated");
-  });
+  it("renders", async () => renders("calcite-accordion"));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

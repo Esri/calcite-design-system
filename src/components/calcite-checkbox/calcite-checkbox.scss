@@ -1,15 +1,12 @@
 // scale
 :host([scale="s"]) {
   --calcite-checkbox-size: 12px;
-  top: 0.1em;
 }
 :host([scale="m"]) {
   --calcite-checkbox-size: 16px;
-  top: 0.15em;
 }
 :host([scale="l"]) {
   --calcite-checkbox-size: 20px;
-  top: 0.25em;
 }
 ::slotted(input) {
   display: none;

@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -7,7 +8,7 @@ describe("calcite-switch", () => {
 
     const calciteSwitch = await page.find("calcite-switch");
 
-    expect(calciteSwitch).toHaveClass("hydrated");
+    expect(calciteSwitch).toHaveAttribute(HYDRATED_ATTR);
     expect(calciteSwitch).toEqualAttribute("role", "checkbox");
     expect(calciteSwitch).toHaveAttribute("switched");
   });
@@ -79,6 +80,7 @@ describe("calcite-switch", () => {
     await calciteSwitch.click();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveFirstReceivedEventDetail({ switched: true });
   });
 
   // Not sure why this is failing

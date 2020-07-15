@@ -13,6 +13,30 @@
   visibility: hidden !important;
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
+  --calcite-modal-title-padding: 12px 16px;
+  --calcite-modal-title-text: 20px;
+  --calcite-modal-content-padding: 16px;
+  --calcite-modal-content-text: 16px;
+  --calcite-modal-close-padding: 12px;
+  --calcite-modal-footer-padding: 12px;
+}
+
+:host([scale="s"]) {
+  --calcite-modal-title-padding: 8px 12px;
+  --calcite-modal-title-text: 18px;
+  --calcite-modal-content-padding: 12px;
+  --calcite-modal-content-text: 14px;
+  --calcite-modal-close-padding: 8px;
+  --calcite-modal-footer-padding: 8px;
+}
+
+:host([scale="l"]) {
+  --calcite-modal-title-padding: 16px 20px;
+  --calcite-modal-title-text: 26px;
+  --calcite-modal-content-padding: 20px;
+  --calcite-modal-content-text: 18px;
+  --calcite-modal-close-padding: 16px;
+  --calcite-modal-footer-padding: 16px;
 }
 
 .scrim {
@@ -54,7 +78,7 @@
   }
 }
 
-:host(.is-active) {
+:host([is-active]) {
   visibility: visible !important;
   opacity: 1;
   transition-delay: 0ms;
@@ -88,7 +112,7 @@
 }
 
 .modal__close {
-  padding: 0.75rem;
+  padding: var(--calcite-modal-close-padding);
   margin: 0;
   order: 2;
   flex: 0 0 auto;
@@ -101,8 +125,9 @@
   outline: none;
   cursor: pointer;
   border-radius: 0 var(--calcite-border-radius) 0 0;
-  svg {
+  calcite-icon {
     pointer-events: none;
+    vertical-align: -2px;
   }
   &:hover,
   &:focus {
@@ -120,7 +145,7 @@
 .modal__title {
   display: flex;
   align-items: center;
-  padding: $baseline / 2 $baseline;
+  padding: var(--calcite-modal-title-padding);
   flex: 1 1 auto;
   order: 1;
   min-width: 0;
@@ -129,7 +154,7 @@
 @include slotted("header", "*") {
   margin: 0;
   font-weight: 400;
-  @include font-size(2);
+  font-size: var(--calcite-modal-title-text);
   color: var(--calcite-ui-text-1);
 }
 
@@ -149,11 +174,12 @@
 }
 
 .modal__content--spaced {
-  padding: $baseline;
+  padding: var(--calcite-modal-content-padding);
 }
 
 @include slotted("content", "*") {
-  @include font-size(0);
+  font-size: var(--calcite-modal-content-text);
+  line-height: 1.5;
 }
 
 /**
@@ -163,7 +189,7 @@
   display: flex;
   flex: 0 0 auto;
   justify-content: space-between;
-  padding: $baseline/1.25 $baseline * 0.75;
+  padding: var(--calcite-modal-footer-padding);
   margin-top: auto;
   box-sizing: border-box;
   border-radius: 0 0 var(--calcite-border-radius) var(--calcite-border-radius);
@@ -201,13 +227,13 @@ slot[name="primary"] {
  * Sizes
  */
 @mixin modal-size($size, $width) {
-  :host([size="#{$size}"]) {
+  :host([width="#{$size}"]) {
     .modal {
       max-width: $width;
     }
   }
   @media screen and (max-width: $width + 2 * $baseline) {
-    :host([size="#{$size}"]) {
+    :host([width="#{$size}"]) {
       .modal {
         height: 100%;
         max-height: 100%;
@@ -225,24 +251,24 @@ slot[name="primary"] {
         flex: inherit;
       }
     }
-    :host([size="#{$size}"][docked]) {
+    :host([width="#{$size}"][docked]) {
       align-items: flex-end;
     }
   }
 }
 
-:host([size="small"]) .modal {
+:host([width="small"]) .modal {
   width: auto;
 }
 
-@include modal-size("small", 32rem);
-@include modal-size("medium", 48rem);
-@include modal-size("large", 94rem);
+@include modal-size("s", 32rem);
+@include modal-size("m", 48rem);
+@include modal-size("l", 94rem);
 
 /**
  * Fullscreen
  */
-:host([size="fullscreen"]) {
+:host([fullscreen]) {
   background-color: transparent;
   .modal {
     transform: translate3D(0, 20px, 0) scale(0.95);
@@ -261,7 +287,7 @@ slot[name="primary"] {
   }
 }
 
-:host(.is-active[size="fullscreen"]) {
+:host([is-active][fullscreen]) {
   .modal {
     transform: translate3D(0, 0, 0) scale(1);
   }

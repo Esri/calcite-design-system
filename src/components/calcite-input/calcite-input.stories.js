@@ -32,12 +32,12 @@ storiesOf("Input", module)
           "search",
           "file",
           "time",
-          "date"
+          "date",
         ],
         "text"
       )}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-      appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",
         ["none", "horizontal", "vertical"],
@@ -49,6 +49,8 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -93,27 +95,27 @@ storiesOf("Input", module)
           "search",
           "file",
           "time",
-          "date"
+          "date",
         ],
         "text",
         "Input"
       )}"
-      alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-      appearance="${select(
-        "appearance",
-        ["default", "minimal"],
-        "default",
+      status="${select(
+        "status",
+        ["idle", "invalid", "valid"],
+        "idle",
         "Input"
       )}"
+      alignment="${select("alignment", ["start", "end"], "start", "Input")}"
       number-button-type="${select(
         "number-button-type",
         ["none", "horizontal", "vertical"],
         "horizontal",
         "Input"
       )}"
-      min="${text("min", "")}"
-      max="${text("max", "")}"
-      step="${text("step", "")}"
+      min="${text("min", "", "Input")}"
+      max="${text("max", "", "Input")}"
+      step="${text("step", "", "Input")}"
       prefix-text="${text("prefix-text", "", "Input")}"
       suffix-text="${text("suffix-text", "", "Input")}"
       loading="${boolean("loading", false, "Input")}"
@@ -160,13 +162,13 @@ storiesOf("Input", module)
           "search",
           "file",
           "time",
-          "date"
+          "date",
         ],
         "text"
       )}"
 
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-      appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",
         ["none", "horizontal", "vertical"],
@@ -178,6 +180,8 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -210,12 +214,12 @@ storiesOf("Input", module)
           "search",
           "file",
           "time",
-          "date"
+          "date",
         ],
         "text"
       )}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-      appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",
         ["none", "horizontal", "vertical"],
@@ -227,13 +231,11 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
-      <calcite-button slot="input-action" width=${select(
-        "button width",
-        ["half", "auto"],
-        "auto"
-      )}">${text("action button text", "Go")}</calcite-button>
+      <calcite-button slot="input-action">${text("action button text", "Go")}</calcite-button>
     </calcite-input>
     <calcite-input-message
     active="${boolean("input-message-active", false)}"
@@ -263,8 +265,9 @@ storiesOf("Input", module)
     ${text("label text", "My great label")}
     <calcite-input
       type="textarea"
-      appearance="${select("appearance", ["default", "minimal"], "default")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -307,12 +310,12 @@ storiesOf("Input", module)
           "search",
           "file",
           "time",
-          "date"
+          "date",
         ],
         "text"
       )}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-      appearance="${select("appearance", ["default", "minimal"], "default")}"
       number-button-type="${select(
         "number-button-type",
         ["none", "horizontal", "vertical"],
@@ -324,6 +327,8 @@ storiesOf("Input", module)
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       loading="${boolean("loading", false)}"
+      clearable="${boolean("clearable", false)}"
+      disabled="${boolean("disabled", false)}"
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>

@@ -10,6 +10,7 @@ import {
   Watch,
   Build,
 } from "@stencil/core";
+import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -39,9 +40,18 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   @Event() calciteSwitchChange: EventEmitter;
-  @Event() change: EventEmitter;
 
   private observer: MutationObserver;
+
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+    if (
+      !this.el.contains(e.detail.interactedEl) &&
+      hasLabel(e.detail.labelEl, this.el)
+    ) {
+      this.updateSwitch(event);
+      this.el.focus();
+    } else return;
+  }
 
   @Listen("click") onClick(e) {
     // prevent duplicate click events that occur
@@ -89,8 +99,11 @@ export class CalciteSwitch {
   }
 
   render() {
+    const dir = getElementDir(this.el);
+
     return (
       <Host
+        dir={dir}
         role="checkbox"
         aria-checked={this.switched.toString()}
         tabIndex={this.tabIndex}
@@ -147,7 +160,8 @@ export class CalciteSwitch {
   private updateSwitch(e) {
     e.preventDefault();
     this.switched = !this.switched;
-    this.change.emit();
-    this.calciteSwitchChange.emit();
+    this.calciteSwitchChange.emit({
+      switched: this.switched,
+    });
   }
 }

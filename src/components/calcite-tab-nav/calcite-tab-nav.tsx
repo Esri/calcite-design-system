@@ -107,7 +107,7 @@ export class CalciteTabNav {
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
-      this.tabTitles.every((title) => !title.isActive) &&
+      this.tabTitles.every((title) => !title.active) &&
       !this.selectedTab
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
