@@ -4,16 +4,16 @@
 
 ## Properties
 
-| Property         | Attribute          | Description                                                              | Type                | Default     |
-| ---------------- | ------------------ | ------------------------------------------------------------------------ | ------------------- | ----------- |
-| `activeDate`     | --                 | Focused date with indicator (will become selected date if user proceeds) | `Date`              | `undefined` |
-| `locale`         | `locale`           | User's language and region as BCP 47 formatted string.                   | `string`            | `undefined` |
-| `max`            | --                 | Maximum date of the calendar above which is disabled.                    | `Date`              | `undefined` |
-| `min`            | --                 | Minimum date of the calendar below which is disabled.                    | `Date`              | `undefined` |
-| `nextMonthLabel` | `next-month-label` | Localized string for next month.                                         | `string`            | `undefined` |
-| `prevMonthLabel` | `prev-month-label` | Localized string for previous month.                                     | `string`            | `undefined` |
-| `scale`          | `scale`            | specify the scale of the date picker                                     | `"l" \| "m" \| "s"` | `undefined` |
-| `selectedDate`   | --                 | Already selected date.                                                   | `Date`              | `undefined` |
+| Property        | Attribute         | Description                                                              | Type                | Default     |
+| --------------- | ----------------- | ------------------------------------------------------------------------ | ------------------- | ----------- |
+| `activeDate`    | --                | Focused date with indicator (will become selected date if user proceeds) | `Date`              | `undefined` |
+| `intlNextMonth` | `intl-next-month` | Localized string for next month.                                         | `string`            | `undefined` |
+| `intlPrevMonth` | `intl-prev-month` | Localized string for previous month.                                     | `string`            | `undefined` |
+| `locale`        | `locale`          | User's language and region as BCP 47 formatted string.                   | `string`            | `undefined` |
+| `max`           | --                | Maximum date of the calendar above which is disabled.                    | `Date`              | `undefined` |
+| `min`           | --                | Minimum date of the calendar below which is disabled.                    | `Date`              | `undefined` |
+| `scale`         | `scale`           | specify the scale of the date picker                                     | `"l" \| "m" \| "s"` | `undefined` |
+| `selectedDate`  | --                | Already selected date.                                                   | `Date`              | `undefined` |
 
 ## Events
 

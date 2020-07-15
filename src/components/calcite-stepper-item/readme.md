@@ -20,8 +20,8 @@ individual `calcite-stepper-item` item
 | Event                        | Description | Type               |
 | ---------------------------- | ----------- | ------------------ |
 | `calciteStepperItemKeyEvent` |             | `CustomEvent<any>` |
-| `calciteStepperItemSelect`   |             | `CustomEvent<any>` |
 | `calciteStepperItemRegister` |             | `CustomEvent<any>` |
+| `calciteStepperItemSelect`   |             | `CustomEvent<any>` |
 
 ## Dependencies
 
