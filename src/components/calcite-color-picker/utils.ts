@@ -16,8 +16,8 @@ export interface HSV {
  */
 export function hsvToRGB(hsb: HSV): RGB {
   let saturation = hsb.s,
-      value = hsb.v,
-      hue = hsb.h;
+    value = hsb.v,
+    hue = hsb.h;
 
   if (hue == 360) {
     hue = 0;
@@ -30,8 +30,8 @@ export function hsvToRGB(hsb: HSV): RGB {
     (r = value), (b = value), (g = value);
   } else {
     let hTemp = hue / 60,
-        i = Math.floor(hTemp),
-        f = hTemp - i;
+      i = Math.floor(hTemp),
+      f = hTemp - i;
     let p = value * (1 - saturation);
     let q = value * (1 - saturation * f);
     let t = value * (1 - saturation * (1 - f));
@@ -76,13 +76,13 @@ export function hsvToRGB(hsb: HSV): RGB {
  */
 export function rgbToHSV(rgb: RGB): HSV {
   let r = rgb.r / 255,
-      g = rgb.g / 255,
-      b = rgb.b / 255;
+    g = rgb.g / 255,
+    b = rgb.b / 255;
   let min = Math.min(r, b, g),
-      max = Math.max(r, g, b);
+    max = Math.max(r, g, b);
   let delta = max - min;
   let h = null,
-      s = max == 0 ? 0 : delta / max;
+    s = max == 0 ? 0 : delta / max;
   if (s == 0) {
     h = 0;
   } else {
@@ -157,4 +157,59 @@ export function hexToRGB(hex: string): RGB {
   const b = parseInt(hex.slice(4, 6), 16);
 
   return { r, g, b };
+}
+
+type CSSColorMode = "hex" | "hexa" | "rgb-css" | "rgba-css" | "hsl-css" | "hsla-css";
+type ObjectColorMode = "rgb" | "rgba" | "hsl" | "hsla" | "hsv" | "hsva";
+type SupportedMode = CSSColorMode | ObjectColorMode;
+
+export function parseMode(colorValue: string | object): SupportedMode | null {
+  if (typeof colorValue === "string") {
+    if (colorValue.startsWith("#")) {
+      const { length } = colorValue;
+
+      if (length === 4 || length === 7) {
+        return "hex";
+      }
+      if (length === 5 || length === 9) {
+        return "hexa";
+      }
+    }
+
+    if (colorValue.startsWith("rgba(")) {
+      return "rgba-css";
+    }
+
+    if (colorValue.startsWith("rgb(")) {
+      return "rgb-css";
+    }
+
+    if (colorValue.startsWith("hsl(")) {
+      return "hsl-css";
+    }
+
+    if (colorValue.startsWith("hsla(")) {
+      return "hsla-css";
+    }
+  }
+
+  if (typeof colorValue === "object") {
+    if (hasChannels(colorValue, "r", "g", "b")) {
+      return hasChannels(colorValue, "a") ? "rgba" : "rgb";
+    }
+
+    if (hasChannels(colorValue, "h", "s", "l")) {
+      return hasChannels(colorValue, "a") ? "hsla" : "hsl";
+    }
+
+    if (hasChannels(colorValue, "h", "s", "v")) {
+      return hasChannels(colorValue, "a") ? "hsva" : "hsv";
+    }
+  }
+
+  return null;
+}
+
+function hasChannels(colorObject: object, ...channels: string[]): boolean {
+  return channels.every((channel) => `${channel}` in colorObject);
 }
