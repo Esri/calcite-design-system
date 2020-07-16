@@ -10,16 +10,16 @@ import {
   Method,
   State,
   Watch,
+  VNode
 } from "@stencil/core";
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { VNode } from "@stencil/core/internal/stencil-core";
 
 @Component({
   tag: "calcite-modal",
   styleUrl: "calcite-modal.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteModal {
   //--------------------------------------------------------------------------
@@ -37,8 +37,7 @@ export class CalciteModal {
   /** Add the active attribute to open the modal */
   @Prop() active?: boolean;
   /** Optionally pass a function to run before close */
-  @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () =>
-    Promise.resolve();
+  @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
   /** Disables the display a close button within the Modal */
   @Prop() disableCloseButton?: boolean;
   /** Aria label for the close button */
@@ -84,11 +83,7 @@ export class CalciteModal {
         <calcite-scrim class="scrim" theme="dark"></calcite-scrim>
         {this.renderStyle()}
         <div class="modal">
-          <div
-            data-focus-fence="true"
-            tabindex="0"
-            onFocus={this.focusLastElement.bind(this)}
-          />
+          <div data-focus-fence="true" tabindex="0" onFocus={this.focusLastElement.bind(this)} />
           <div class="modal__header">
             {this.renderCloseButton()}
             <header class="modal__title">
@@ -98,7 +93,7 @@ export class CalciteModal {
           <div
             class={{
               modal__content: true,
-              "modal__content--spaced": !this.noPadding,
+              "modal__content--spaced": !this.noPadding
             }}
             ref={(el) => (this.modalContent = el)}
           >
@@ -115,11 +110,7 @@ export class CalciteModal {
               <slot name="primary" />
             </span>
           </div>
-          <div
-            data-focus-fence="true"
-            tabindex="0"
-            onFocus={this.focusFirstElement.bind(this)}
-          />
+          <div data-focus-fence="true" tabindex="0" onFocus={this.focusFirstElement.bind(this)} />
         </div>
       </Host>
     );
@@ -213,10 +204,7 @@ export class CalciteModal {
   }
 
   /** Set the scroll top of the modal content */
-  @Method() async scrollContent(
-    top: number = 0,
-    left: number = 0
-  ): Promise<void> {
+  @Method() async scrollContent(top: number = 0, left: number = 0): Promise<void> {
     if (this.modalContent) {
       if (this.modalContent.scrollTo) {
         this.modalContent.scrollTo({ top, left, behavior: "smooth" });
@@ -279,11 +267,9 @@ export class CalciteModal {
   }
 
   private focusLastElement() {
-    const focusableElements = queryShadowRoot(
-      this.el,
-      isHidden,
-      isFocusable
-    ).filter((el) => !el.getAttribute("data-focus-fence"));
+    const focusableElements = queryShadowRoot(this.el, isHidden, isFocusable).filter(
+      (el) => !el.getAttribute("data-focus-fence")
+    );
     if (focusableElements.length > 0) {
       focusableElements[focusableElements.length - 1].focus();
     } else {
