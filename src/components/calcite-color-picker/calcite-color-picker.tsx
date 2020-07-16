@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { InternalColor, ColorMode } from "../../interfaces/ColorPicker";
+import { ColorMode, ColorValue, InternalColor } from "../../interfaces/ColorPicker";
 import { Scale, Theme } from "../../interfaces/common";
 import {
   CSS,
@@ -24,6 +24,7 @@ import {
   RGB_LIMITS
 } from "./resources";
 import { getElementDir } from "../../utils/dom";
+import { colorValueEqual, parseMode, SupportedMode } from "./utils";
 
 @Component({
   tag: "calcite-color-picker",
@@ -56,7 +57,6 @@ export class CalciteColorPicker {
   @Watch("color")
   handleColorChange(): void {
     this.drawColorFieldAndSlider();
-    this.calciteColorPickerColorChange.emit();
   }
 
   /** Label used for the blue channel */
@@ -135,12 +135,53 @@ export class CalciteColorPicker {
 
   /**
    * The color value.
+   *
+   * This value can be either a {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color|CSS string}
+   * a RGB, HSL or HSV object.
+   *
+   * The type will be preserved as the color is updated.
    */
-  @Prop() value = DEFAULT_COLOR.hex();
+  @Prop({
+    mutable: true
+  })
+  value: ColorValue = DEFAULT_COLOR.hex();
+  // last valid value?
 
   @Watch("value")
-  handleValueChange(value): void {
-    this.color = Color(value);
+  handleValueChange(value: ColorValue, oldValue: ColorValue): void {
+    // when user-set -> update mode & save as configured
+    const mode = parseMode(value);
+
+    if (!mode) {
+      console.warn(`ignoring invalid color value: ${value}`);
+      return;
+    }
+
+    const modeChanged = this.mode !== mode;
+    this.mode = mode;
+
+    if (modeChanged) {
+      this.color = Color(value);
+      console.log(value, this.normalizeValue(value), mode);
+      this.value = this.normalizeValue(value);
+      this.calciteColorPickerChange.emit();
+      return;
+    }
+
+    if (mode.startsWith("hex") || mode.includes("-css")) {
+      this.color = Color(value);
+      console.log(value, this.normalizeValue(value), mode);
+      this.value = this.normalizeValue(value);
+      this.calciteColorPickerChange.emit();
+      return;
+    }
+
+    if (!colorValueEqual(value, oldValue, mode)) {
+      this.color = Color(value);
+      console.log(value, this.normalizeValue(value), mode);
+      this.value = this.normalizeValue(value);
+      this.calciteColorPickerChange.emit();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -154,6 +195,8 @@ export class CalciteColorPicker {
   private hexInputNode: HTMLCalciteHexInputElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
+
+  private mode: SupportedMode = "hex";
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
@@ -178,7 +221,7 @@ export class CalciteColorPicker {
   //--------------------------------------------------------------------------
 
   @Event()
-  calciteColorPickerColorChange: EventEmitter;
+  calciteColorPickerChange: EventEmitter;
 
   private handleColorModeClick = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -296,7 +339,7 @@ export class CalciteColorPicker {
 
     const valueAttr = this.el.getAttribute("value");
     if (valueAttr) {
-      this.handleValueChange(valueAttr);
+      this.handleValueChange(valueAttr, this.value);
     }
 
     this.updateDimensions(this.scale);
@@ -470,6 +513,69 @@ export class CalciteColorPicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  // TODO: type as ColorValue
+  private normalizeValue(value: any): ColorValue {
+    const { mode } = this;
+
+    const hexMode = "hex";
+    if (mode.includes(hexMode)) {
+      // hexa isn't supported by the color lib, so we preserve alpha ourselves
+      if (mode.endsWith("a")) {
+        const isShorthand = value.length === 5;
+        const rgbHex = isShorthand ? value.substring(0, 4) : value.substring(0, 6);
+        const alphaValue = isShorthand
+          ? `${value[value.length - 1]}${value[value.length - 1]}`
+          : value.substr(-2);
+
+        return `${Color(rgbHex)[hexMode]()}${alphaValue.toUpperCase()}`;
+      }
+
+      return Color(value)[hexMode]();
+    }
+
+    if (mode.includes("-css")) {
+      return Color(value)[mode.replace("-css", "")]().string();
+    }
+
+    if (mode.endsWith("a")) {
+      const colorWithAlpha = Color(value)[mode]().object();
+
+      // normalize alpha prop
+      colorWithAlpha.a = colorWithAlpha.alpha;
+      delete colorWithAlpha.alpha;
+
+      return colorWithAlpha;
+    }
+
+    return Color(value)[mode]().object();
+  }
+
+  private toValue(color: Color): ColorValue {
+    const { mode } = this;
+
+    const hexMode = "hex";
+    if (mode.includes(hexMode)) {
+      // TODO: handle hexa
+      return color[hexMode]();
+    }
+
+    if (mode.includes("-css")) {
+      return color[mode.replace("-css", "")]().string();
+    }
+
+    if (mode.endsWith("a")) {
+      const colorWithAlpha = color[mode]().object();
+
+      // normalize alpha prop
+      colorWithAlpha.a = colorWithAlpha.alpha;
+      delete colorWithAlpha.alpha;
+
+      return colorWithAlpha;
+    }
+
+    return color[mode]().object();
+  }
 
   private getSliderCapSpacing(): number {
     const {

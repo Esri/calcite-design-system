@@ -17,6 +17,6 @@ describe("utils", () => {
     expect(parseMode({ h: 255, s: 255, l: 255, a: 0.5 })).toBe("hsla");
     expect(parseMode({ h: 255, s: 255, v: 255 })).toBe("hsv");
     expect(parseMode({ h: 255, s: 255, v: 255, a: 0.5 })).toBe("hsva");
-    expect(parseMode({})).toBeNull();
+    expect(parseMode(null)).toBeNull();
   });
 });

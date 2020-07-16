@@ -1,14 +1,4 @@
-export interface RGB {
-  r: number;
-  g: number;
-  b: number;
-}
-
-export interface HSV {
-  h: number;
-  s: number;
-  v: number;
-}
+import { ColorValue, RGB, HSV, RGBA, HSVA, HSLA } from "../../interfaces/ColorPicker";
 
 /**
  * taken from https://github.com/dojo/dojox/blob/master/color/_base.js#L92-L125
@@ -161,9 +151,9 @@ export function hexToRGB(hex: string): RGB {
 
 type CSSColorMode = "hex" | "hexa" | "rgb-css" | "rgba-css" | "hsl-css" | "hsla-css";
 type ObjectColorMode = "rgb" | "rgba" | "hsl" | "hsla" | "hsv" | "hsva";
-type SupportedMode = CSSColorMode | ObjectColorMode;
+export type SupportedMode = CSSColorMode | ObjectColorMode;
 
-export function parseMode(colorValue: string | object): SupportedMode | null {
+export function parseMode(colorValue: ColorValue): SupportedMode | null {
   if (typeof colorValue === "string") {
     if (colorValue.startsWith("#")) {
       const { length } = colorValue;
@@ -212,4 +202,38 @@ export function parseMode(colorValue: string | object): SupportedMode | null {
 
 function hasChannels(colorObject: object, ...channels: string[]): boolean {
   return channels.every((channel) => `${channel}` in colorObject);
+}
+
+// TODO: use conditional typing
+export function colorValueEqual(value1: ColorValue, value2: ColorValue, mode: SupportedMode): boolean {
+  if (mode.startsWith("hex") || mode.endsWith("-css")) {
+    value1 = value1 as string;
+    value2 = value2 as string;
+    return value1.toLowerCase() === value2.toLowerCase();
+  }
+
+  if (mode.startsWith("rgb")) {
+    return (
+      (value1 as RGBA).r === (value2 as RGBA).r &&
+      (value1 as RGBA).g === (value2 as RGBA).g &&
+      (value1 as RGBA).b === (value2 as RGBA).b &&
+      (value1 as RGBA).a === (value2 as RGBA).a
+    );
+  }
+
+  if (mode.startsWith("hsv")) {
+    return (
+      (value1 as HSVA).h === (value2 as HSVA).h &&
+      (value1 as HSVA).s === (value2 as HSVA).s &&
+      (value1 as HSVA).v === (value2 as HSVA).v &&
+      (value1 as HSVA).a === (value2 as HSVA).a
+    );
+  }
+
+  return (
+    (value1 as HSLA).h === (value2 as HSLA).h &&
+    (value1 as HSLA).s === (value2 as HSLA).s &&
+    (value1 as HSLA).l === (value2 as HSLA).l &&
+    (value1 as HSLA).a === (value2 as HSLA).a
+  );
 }

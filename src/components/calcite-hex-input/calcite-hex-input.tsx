@@ -8,7 +8,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch,
+  Watch
 } from "@stencil/core";
 import {
   hexChar,
@@ -16,20 +16,20 @@ import {
   isLonghandHex,
   isValidHex,
   normalizeHex,
-  RGB,
-  rgbToHex,
+  rgbToHex
 } from "../calcite-color-picker/utils";
 import Color from "color";
 import { CSS } from "./resources";
 import { Theme } from "../../interfaces/common";
 import { IconScale } from "../../interfaces/Icon";
+import { RGB } from "../../interfaces/ColorPicker";
 
 const DEFAULT_COLOR = Color();
 
 @Component({
   tag: "calcite-hex-input",
   styleUrl: "calcite-hex-input.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteHexInput {
   //--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ export class CalciteHexInput {
    * @todo use Scale once this uses calcite-input
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   scale: IconScale = "m";
 
@@ -75,7 +75,7 @@ export class CalciteHexInput {
    * The component's theme.
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   theme: Theme = "light";
 
@@ -121,9 +121,7 @@ export class CalciteHexInput {
     }
 
     // manipulating DOM directly since rerender doesn't update input value
-    node.value = this.formatForInternalInput(
-      rgbToHex((this.internalColor.object() as any) as RGB)
-    );
+    node.value = this.formatForInternalInput(rgbToHex((this.internalColor.object() as any) as RGB));
   };
 
   private onInputChange = (event): void => {
