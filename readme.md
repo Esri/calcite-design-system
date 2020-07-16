@@ -21,12 +21,9 @@ Calcite components can be loaded via two `<script>` tags in the head of your HTM
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.31/dist/calcite/calcite.esm.js"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.32/dist/calcite/calcite.esm.js"
 ></script>
-<script
-  nomodule=""
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.31/dist/calcite/calcite.js"
-></script>
+<script nomodule="" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.32/dist/calcite/calcite.js"></script>
 ```
 
 Browsers that support modules will load the first, while older browsers will load the second, bundled version.
@@ -41,7 +38,7 @@ You will also need to explicitly load the `calcite.css` file:
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.31/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.32/dist/calcite/calcite.css"
 />
 ```
 
@@ -93,9 +90,7 @@ loader.isActive = true;
 
 // you can also explicitly type an element using the generated types
 // the type name will always be formatted like HTML{CamelCaseComponentName}Element
-const loader = document.querySelector(
-  ".my-loader-element"
-) as HTMLCalciteLoaderElement;
+const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoaderElement;
 loader.isActive = true;
 ```
 

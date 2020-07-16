@@ -3,7 +3,7 @@ import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-tooltip-manager",
+  tag: "calcite-tooltip-manager"
 })
 export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
@@ -25,10 +25,9 @@ export class CalciteTooltipManager {
 
   toggle = (event: Event, value = true): void => {
     const target = event.target as HTMLElement;
+    const { selector } = this;
 
-    const tooltipReference = target.closest(this.selector);
-    const describedByElement =
-      tooltipReference && getDescribedByElement(tooltipReference);
+    const describedByElement = getDescribedByElement(target.closest(selector));
 
     if (describedByElement) {
       (describedByElement as HTMLCalciteTooltipElement).open = value;

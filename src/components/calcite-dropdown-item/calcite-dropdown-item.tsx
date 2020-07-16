@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Method,
-  Prop,
+  Prop
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent, ItemRegistration } from "../../interfaces/Dropdown";
@@ -16,7 +16,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "calcite-dropdown-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
@@ -83,7 +83,7 @@ export class CalciteDropdownItem {
   componentWillLoad() {
     this.itemPosition = this.getItemPosition();
     this.calciteDropdownItemRegister.emit({
-      position: this.itemPosition,
+      position: this.itemPosition
     });
   }
 
@@ -137,11 +137,7 @@ export class CalciteDropdownItem {
         isLink={this.href}
       >
         {this.selectionMode === "multi" ? (
-          <calcite-icon
-            class="dropdown-item-check-icon"
-            scale="s"
-            icon="check"
-          />
+          <calcite-icon class="dropdown-item-check-icon" scale="s" icon="check" />
         ) : null}
         {contentEl}
       </Host>
@@ -235,8 +231,7 @@ export class CalciteDropdownItem {
 
       case "single":
         if (this.el === this.requestedDropdownItem) this.active = true;
-        else if (this.requestedDropdownGroup === this.currentDropdownGroup)
-          this.active = false;
+        else if (this.requestedDropdownGroup === this.currentDropdownGroup) this.active = false;
         break;
 
       case "none":
@@ -248,34 +243,23 @@ export class CalciteDropdownItem {
   private emitRequestedItem() {
     this.calciteDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.currentDropdownGroup,
+      requestedDropdownGroup: this.currentDropdownGroup
     });
   }
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = [
-      "icon-start",
-      "icon-end",
-      "active",
-      "hasText",
-      "isLink",
-      "dir",
-      "id",
-      "theme",
-    ];
+    const props = ["icon-start", "icon-end", "active", "hasText", "isLink", "dir", "id", "theme"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   private getItemPosition() {
-    const group = this.el.closest(
-      "calcite-dropdown-group"
-    ) as HTMLCalciteDropdownGroupElement;
-    return Array.prototype.indexOf.call(
-      group.querySelectorAll("calcite-dropdown-item"),
-      this.el
-    );
+    const group = this.el.closest("calcite-dropdown-group") as HTMLCalciteDropdownGroupElement;
+
+    return group
+      ? Array.prototype.indexOf.call(group.querySelectorAll("calcite-dropdown-item"), this.el)
+      : 1;
   }
 }

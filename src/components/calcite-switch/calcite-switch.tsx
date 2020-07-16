@@ -8,7 +8,7 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build,
+  Build
 } from "@stencil/core";
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -16,7 +16,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteSwitch {
   @Element() el: HTMLElement;
@@ -40,15 +40,11 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
 
   @Event() calciteSwitchChange: EventEmitter;
-  @Event() change: EventEmitter;
 
   private observer: MutationObserver;
 
   @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
-    if (
-      !this.el.contains(e.detail.interactedEl) &&
-      hasLabel(e.detail.labelEl, this.el)
-    ) {
+    if (!this.el.contains(e.detail.interactedEl) && hasLabel(e.detail.labelEl, this.el)) {
       this.updateSwitch(event);
       this.el.focus();
     } else return;
@@ -161,7 +157,8 @@ export class CalciteSwitch {
   private updateSwitch(e) {
     e.preventDefault();
     this.switched = !this.switched;
-    this.change.emit();
-    this.calciteSwitchChange.emit();
+    this.calciteSwitchChange.emit({
+      switched: this.switched
+    });
   }
 }

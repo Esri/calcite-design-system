@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
   it("renders with a light theme", async () => {
@@ -20,7 +21,7 @@ describe("calcite-tabs", () => {
       </calcite-tabs>
     `);
     const element = await page.find("calcite-tabs");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
 
     const results = await page.compareScreenshot();
 
@@ -48,7 +49,7 @@ describe("calcite-tabs", () => {
       </div>
     `);
     const element = await page.find("calcite-tabs");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
 
     const results = await page.compareScreenshot();
 
@@ -114,17 +115,11 @@ describe("calcite-tabs", () => {
     await page.$eval("calcite-tabs", (element: HTMLCalciteTabsElement) => {
       element.ownerDocument
         .getElementById("insert-after-title")
-        .insertAdjacentHTML(
-          "afterend",
-          `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`
-        );
+        .insertAdjacentHTML("afterend", `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`);
 
       element.ownerDocument
         .getElementById("insert-after-tab")
-        .insertAdjacentHTML(
-          "afterend",
-          `<calcite-tab id="inserted-tab">Test</calcite-tab>`
-        );
+        .insertAdjacentHTML("afterend", `<calcite-tab id="inserted-tab">Test</calcite-tab>`);
     });
 
     await page.waitForChanges();

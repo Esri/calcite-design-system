@@ -12,19 +12,10 @@ export const config: Config = {
     { components: ["calcite-chip"] },
     { components: ["calcite-combobox"] },
     {
-      components: [
-        "calcite-date",
-        "calcite-date-month",
-        "calcite-date-month-header",
-        "calcite-date-day",
-      ],
+      components: ["calcite-date", "calcite-date-month", "calcite-date-month-header", "calcite-date-day"]
     },
     {
-      components: [
-        "calcite-dropdown",
-        "calcite-dropdown-group",
-        "calcite-dropdown-item",
-      ],
+      components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"]
     },
     { components: ["calcite-graph"] },
     { components: ["calcite-icon"] },
@@ -46,16 +37,11 @@ export const config: Config = {
     { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     {
-      components: [
-        "calcite-tab",
-        "calcite-tab-title",
-        "calcite-tab-nav",
-        "calcite-tabs",
-      ],
+      components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"]
     },
     { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-video"] },
+    { components: ["calcite-video"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
@@ -68,27 +54,28 @@ export const config: Config = {
       prerenderConfig: "./prerender.config.js",
       copy: [{ src: "demos", dest: "demos" }],
       serviceWorker: {
-        unregister: true,
-      },
-    },
+        unregister: true
+      }
+    }
   ],
   globalStyle: "src/assets/styles/global.scss",
   plugins: [
     sass({
-      injectGlobalPaths: ["src/assets/styles/includes.scss"],
-    }),
+      injectGlobalPaths: ["src/assets/styles/includes.scss"]
+    })
   ],
   testing: {
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.js",
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
     },
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
   },
   hydratedFlag: {
     selector: "attribute",
-    name: "calcite-hydrated",
+    name: "calcite-hydrated"
   },
   extras: {
     appendChildSlotFix: true,
-    slotChildNodesFix: true,
-  },
+    slotChildNodesFix: true
+  }
 };

@@ -9,6 +9,7 @@ import {
   EventEmitter,
   Element,
   VNode,
+  Build
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -25,7 +26,7 @@ interface ItemData {
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteCombobox {
   //--------------------------------------------------------------------------
@@ -66,7 +67,7 @@ export class CalciteCombobox {
 
   data: ItemData[];
 
-  observer = new MutationObserver(this.updateItems);
+  observer: MutationObserver = null;
 
   // --------------------------------------------------------------------------
   //
@@ -78,6 +79,9 @@ export class CalciteCombobox {
     // prop validations
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.updateItems);
+    }
   }
 
   componentWillLoad(): void {
@@ -85,11 +89,11 @@ export class CalciteCombobox {
   }
 
   componentDidLoad(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.observer?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidUnload(): void {
-    this.observer.disconnect();
+    this.observer?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -171,10 +175,7 @@ export class CalciteCombobox {
     this.visibleItems = this.getVisibleItems();
   }, 100);
 
-  toggleSelection(
-    item: HTMLCalciteComboboxItemElement,
-    value = !item.selected
-  ): void {
+  toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     item.selected = value;
     this.selectedItems = this.getSelectedItems();
     this.calciteLookupChange.emit(this.selectedItems);
@@ -198,7 +199,7 @@ export class CalciteCombobox {
   getData(): ItemData[] {
     return this.items.map((item) => ({
       value: item.value,
-      label: item.textLabel,
+      label: item.textLabel
     }));
   }
 
@@ -341,6 +342,7 @@ export class CalciteCombobox {
         </div>
         <ul
           id={listBoxId}
+          aria-label={this.label}
           role="listbox"
           class={{ list: true }}
           aria-multiselectable="true"

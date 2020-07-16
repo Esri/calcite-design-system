@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixes
+
+- `calcite-modal` - turn off pointer events on hidden modals to prevent interaction (#549)
+
 ### Added
 
+- `calcite-modal` - add `background-color` property for light grey backgrounds (#527)
 - new component `calcite-video`
 - `calcite-button` now has an `icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
 - `calcite-split-button` now has a `primary-icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
@@ -17,6 +22,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Updated
 
 - `calcite-icon` - the `mirrored` prop will now be applied in both `dir=rtl` and `dir=ltr` - previously it would only apply when `dir=rtl`
+
+## [v1.0.0-beta.32]
+
+- `calcite-stepper` - `calciteStepperItemHasChanged` event has been renamed to `calciteStepperItemChange`
+- `calcite-stepper-item` - `calciteStepperItemSelected` event has been renamed to `calciteStepperItemSelect`
+- `calcite-stepper-item` - `registerCalciteStepperItem` event has been renamed to `calciteStepperItemRegister`
+
+### Breaking Changes
+
+- `calcite-modal` - `close-label` prop is now renamed to `intl-close` for consistency (#466)
+- `calcite-modal` - `open` and `close` methods removed in favor of `active` prop (#466)
+- `calcite-modal` - `size => width`, which can be passed standard (s/m/l) or custom width in px (#239)
+- `calcite-modal` - `fullscreen` made it's own prop (#466)
+- `calcite-modal` - new `scale` prop for setting UI scale of modal (#466);
+- `calcite-date` - `prevMonthLabel` and `nextMonthLabel` updated to `intlPrevMonth` and `intlNextMonth` (#97)
+- `calcite-switch` - `switched` boolean has been added to `calciteSwitchChange` event detail
 
 ## [v1.0.0-beta.31]
 
@@ -525,6 +546,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.32]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.31...v1.0.0-beta.32 "v1.0.0-beta.32"
 [v1.0.0-beta.31]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.30...v1.0.0-beta.31 "v1.0.0-beta.31"
 [v1.0.0-beta.30]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.29...v1.0.0-beta.30 "v1.0.0-beta.30"
 [v1.0.0-beta.29]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.28...v1.0.0-beta.29 "v1.0.0-beta.29"

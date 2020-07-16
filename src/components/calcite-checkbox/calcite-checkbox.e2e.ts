@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
   it("renders with correct default attributes", async () => {
@@ -7,7 +8,7 @@ describe("calcite-checkbox", () => {
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
-    expect(calciteCheckbox).toHaveAttribute("calcite-hydrated");
+    expect(calciteCheckbox).toHaveAttribute(HYDRATED_ATTR);
     expect(calciteCheckbox).toEqualAttribute("role", "checkbox");
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
@@ -17,9 +18,7 @@ describe("calcite-checkbox", () => {
     const testName = "test-name";
     const testValue = "test-value";
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-checkbox checked name="${testName}" value="${testValue}"></calcite-checkbox>`
-    );
+    await page.setContent(`<calcite-checkbox checked name="${testName}" value="${testValue}"></calcite-checkbox>`);
 
     const input = await page.find("input");
 
@@ -78,9 +77,7 @@ describe("calcite-checkbox", () => {
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
-    const changeEvent = await calciteCheckbox.spyOnEvent(
-      "calciteCheckboxChange"
-    );
+    const changeEvent = await calciteCheckbox.spyOnEvent("calciteCheckboxChange");
 
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
@@ -109,9 +106,7 @@ describe("calcite-checkbox", () => {
 
   it("removes the indeterminate attribute when clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-checkbox indeterminate></calcite-checkbox>"
-    );
+    await page.setContent("<calcite-checkbox indeterminate></calcite-checkbox>");
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 

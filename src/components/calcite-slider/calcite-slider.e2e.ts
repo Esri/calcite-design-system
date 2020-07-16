@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-slider></calcite-slider>");
     const element = await page.find("calcite-slider");
-    expect(element).toHaveAttribute("calcite-hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("becomes inactive from disabled prop", async () => {

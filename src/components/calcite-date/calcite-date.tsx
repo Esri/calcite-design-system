@@ -8,25 +8,18 @@ import {
   State,
   Listen,
   Build,
-  EventEmitter,
+  EventEmitter
 } from "@stencil/core";
-import {
-  parseDateString,
-  getLocaleFormatData,
-  DateFormattingData,
-} from "../../utils/locale";
+import { parseDateString, getLocaleFormatData, DateFormattingData } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
-import {
-  dateFromRange,
-  inRange,
-  dateFromISO,
-  dateToISO,
-} from "../../utils/date";
+import { dateFromRange, inRange, dateFromISO, dateToISO } from "../../utils/date";
 import { getKey } from "../../utils/key";
+import { TEXT } from "./calcite-date-resources";
+
 @Component({
   tag: "calcite-date",
   styleUrl: "calcite-date.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteDate {
   //--------------------------------------------------------------------------
@@ -52,9 +45,9 @@ export class CalciteDate {
   /** Expand or collapse when calendar does not have input */
   @Prop({ reflect: true }) active: boolean = false;
   /** Localized string for "previous month" */
-  @Prop() prevMonthLabel?: string = "previous month";
+  @Prop() intlPrevMonth?: string = TEXT.prevMonth;
   /** Localized string for "next month" */
-  @Prop() nextMonthLabel?: string = "next month";
+  @Prop() intlNextMonth?: string = TEXT.nextMonth;
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = "en-US";
   /** Show only calendar popup */
@@ -151,8 +144,8 @@ export class CalciteDate {
           <calcite-date-month-header
             activeDate={activeDate}
             selectedDate={date || new Date()}
-            prevMonthLabel={this.prevMonthLabel}
-            nextMonthLabel={this.nextMonthLabel}
+            intlPrevMonth={this.intlPrevMonth}
+            intlNextMonth={this.intlNextMonth}
             locale={this.locale}
             min={min}
             max={max}
@@ -302,16 +295,8 @@ export class CalciteDate {
   /**
    * Get an active date using the value, or current date as default
    */
-  private getActiveDate(
-    value: Date | null,
-    min: Date | null,
-    max: Date | null
-  ) {
-    return (
-      dateFromRange(this.activeDate, min, max) ||
-      value ||
-      dateFromRange(new Date(), min, max)
-    );
+  private getActiveDate(value: Date | null, min: Date | null, max: Date | null) {
+    return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
   }
 
   /**

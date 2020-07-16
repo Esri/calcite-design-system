@@ -1,18 +1,5 @@
-import {
-  Component,
-  Element,
-  Prop,
-  Host,
-  Event,
-  h,
-  EventEmitter,
-} from "@stencil/core";
-import {
-  getLocaleFormatData,
-  replaceArabicNumerals,
-  getMonths,
-  getYear,
-} from "../../utils/locale";
+import { Component, Element, Prop, Host, Event, h, EventEmitter } from "@stencil/core";
+import { getLocaleFormatData, replaceArabicNumerals, getMonths, getYear } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
 import { getKey } from "../../utils/key";
@@ -20,7 +7,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-date-month-header",
   styleUrl: "calcite-date-month-header.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteDateMonthHeader {
   //--------------------------------------------------------------------------
@@ -48,9 +35,9 @@ export class CalciteDateMonthHeader {
   /** User's language and region as BCP 47 formatted string. */
   @Prop() locale: string;
   /** Localized string for previous month. */
-  @Prop() prevMonthLabel: string;
+  @Prop() intlPrevMonth: string;
   /** Localized string for next month. */
-  @Prop() nextMonthLabel: string;
+  @Prop() intlNextMonth: string;
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
@@ -76,31 +63,18 @@ export class CalciteDateMonthHeader {
     const localizedYear = getYear(this.activeDate, this.locale);
     const iconScale = this.scale === "l" ? "m" : "s";
     const dir = getElementDir(this.el);
-    const nextMonthDate = dateFromRange(
-      nextMonth(this.activeDate),
-      this.min,
-      this.max
-    );
-    const prevMonthDate = dateFromRange(
-      prevMonth(this.activeDate),
-      this.min,
-      this.max
-    );
+    const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
+    const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
     return (
       <Host dir={dir}>
         <div class="header" aria-hidden="true">
           <button
             class="chevron"
-            aria-label={this.prevMonthLabel}
+            aria-label={this.intlPrevMonth}
             disabled={prevMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
           >
-            <calcite-icon
-              icon="chevron-left"
-              scale={iconScale}
-              mirrored
-              dir={dir}
-            />
+            <calcite-icon icon="chevron-left" scale={iconScale} mirrored dir={dir} />
           </button>
           <div class="text">
             <span class="month" role="heading">
@@ -115,24 +89,17 @@ export class CalciteDateMonthHeader {
               pattern="\d*"
               value={`${localizedYear.slice(-4)}`}
               onKeyDown={(event) => this.onYearKey(event)}
-              onChange={(event) =>
-                this.setYear((event.target as HTMLInputElement).value)
-              }
+              onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
               ref={(el) => (this.yearInput = el)}
             />
           </div>
           <button
             class="chevron"
-            aria-label={this.nextMonthLabel}
+            aria-label={this.intlNextMonth}
             disabled={nextMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
           >
-            <calcite-icon
-              icon="chevron-right"
-              scale={iconScale}
-              mirrored
-              dir={dir}
-            />
+            <calcite-icon icon="chevron-right" scale={iconScale} mirrored dir={dir} />
           </button>
         </div>
       </Host>
@@ -179,9 +146,7 @@ export class CalciteDateMonthHeader {
     const offset = getLocaleFormatData(locale).buddhist ? 543 : 0;
     const year = isNaN(parsedYear) ? false : parsedYear - offset + increment;
     const inRange =
-      year &&
-      (!min || min.getFullYear() <= year) &&
-      (!max || max.getFullYear() >= year);
+      year && (!min || min.getFullYear() <= year) && (!max || max.getFullYear() >= year);
     // if you've supplied a year and it's in range, update active date
     if (year && inRange && length === localizedYear.length && length > 3) {
       const nextDate = new Date(activeDate);
