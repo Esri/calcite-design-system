@@ -8,13 +8,7 @@ calcite modal allows you to show a modal/dialog to your users. The modal handles
   <div slot="content">
     The actual content of the modal
   </div>
-  <calcite-button
-    slot="back"
-    color="light"
-    appearance="outline"
-    icon="chevron-left"
-    width="full"
-  >
+  <calcite-button slot="back" color="light" appearance="outline" icon="chevron-left" width="full">
     Back
   </calcite-button>
   <calcite-button slot="secondary" width="full" appearance="outline">

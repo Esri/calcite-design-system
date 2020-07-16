@@ -30,10 +30,7 @@ You can combine groups in a single dropdown, with varying selection modes:
     <calcite-dropdown-item active>Potato</calcite-dropdown-item>
     <calcite-dropdown-item>Yam</calcite-dropdown-item>
   </calcite-dropdown-group>
-  <calcite-dropdown-group
-    group-title="Select none (useful for actions)"
-    selection-mode="none"
-  >
+  <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
     <calcite-dropdown-item>Plant beans</calcite-dropdown-item>
     <calcite-dropdown-item active>Add peas</calcite-dropdown-item>
   </calcite-dropdown-group>
