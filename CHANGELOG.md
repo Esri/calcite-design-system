@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Breaking Changes
+
+- `calcite-alert` - `open` and `close` methods have been removed. You can use the `active` prop to open or add an alert to the queue.
+- `calcite-alert` - `currentAlert` prop has been removed
+- `calcite-alert` - `alertQueue` prop has been removed (`queue` is emitted as a detail of the `calciteAlertOpen` and `calciteAlertClose` events)
+- `calcite-alert` - `alertQueueLength` prop has been removed
+
+### Added
+
+- `calcite-alert` - `intlClose` prop has been added to optionally provide a translated override of the English "close" text
+
 ## [v1.0.0-beta.32]
 
 ### Breaking Changes
@@ -19,14 +32,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-modal` - new `scale` prop for setting UI scale of modal (#466);
 - `calcite-date` - `prevMonthLabel` and `nextMonthLabel` updated to `intlPrevMonth` and `intlNextMonth` (#97)
 - `calcite-switch` - `switched` boolean has been added to `calciteSwitchChange` event detail
-- `calcite-alert` - `open` and `close` methods have been removed. You can use the `active` prop to open or add an alert to the queue.
-- `calcite-alert` - `currentAlert` prop has been removed
-- `calcite-alert` - `alertQueue` prop has been removed (`queue` is emitted as a detail of the `calciteAlertOpen` and `calciteAlertClose` events)
-- `calcite-alert` - `alertQueueLength` prop has been removed
-
-### Added
-
-- `calcite-alert` - `intlClose` prop has been added to optionally provide a translated override of the English "close" text
 
 ## [v1.0.0-beta.31]
 
