@@ -165,9 +165,9 @@ export class CalciteColorPicker {
 
   @State() channel2: number;
 
-  @State() dimensions = DIMENSIONS.m;
+  @State() channelMode: ColorMode = "rgb";
 
-  @State() mode: ColorMode = "rgb";
+  @State() dimensions = DIMENSIONS.m;
 
   @State() savedColors: string[] = [];
 
@@ -181,7 +181,9 @@ export class CalciteColorPicker {
   calciteColorPickerColorChange: EventEmitter;
 
   private handleColorModeClick = (event: Event): void => {
-    this.mode = (event.currentTarget as HTMLElement).getAttribute("data-color-mode") as ColorMode;
+    this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
+      "data-color-mode"
+    ) as ColorMode;
   };
 
   private handleHexInputChange = (event: Event): void => {
@@ -205,7 +207,7 @@ export class CalciteColorPicker {
     const channelId = Number(input.getAttribute("data-channel-id"));
 
     const limit =
-      this.mode === "rgb"
+      this.channelMode === "rgb"
         ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelId]]
         : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelId]];
 
@@ -301,10 +303,10 @@ export class CalciteColorPicker {
   }
 
   render(): VNode {
-    const { color, el, mode, savedColors, scale, theme } = this;
+    const { color, el, channelMode, savedColors, scale, theme } = this;
     const channels = this.getColorComponents();
     const channelLabels =
-      this.mode === "rgb"
+      this.channelMode === "rgb"
         ? [this.intlR, this.intlG, this.intlB]
         : [this.intlH, this.intlS, this.intlV];
     const selectedColorInHex = color.hex();
@@ -361,7 +363,7 @@ export class CalciteColorPicker {
               <div
                 class={{
                   [CSS.colorMode]: true,
-                  [CSS.colorModeSelected]: mode === "rgb"
+                  [CSS.colorModeSelected]: channelMode === "rgb"
                 }}
                 data-color-mode="rgb"
                 onClick={this.handleColorModeClick}
@@ -373,7 +375,7 @@ export class CalciteColorPicker {
               <div
                 class={{
                   [CSS.colorMode]: true,
-                  [CSS.colorModeSelected]: mode === "hsv"
+                  [CSS.colorModeSelected]: channelMode === "hsv"
                 }}
                 data-color-mode="hsv"
                 onClick={this.handleColorModeClick}
@@ -832,12 +834,12 @@ export class CalciteColorPicker {
   }
 
   private updateColorFromChannels(): void {
-    this.color = Color([this.channel0, this.channel1, this.channel2], this.mode);
+    this.color = Color([this.channel0, this.channel1, this.channel2], this.channelMode);
   }
 
   private getColorComponents(): [number, number, number] {
-    const { color, mode } = this;
-    return color[mode]()
+    const { color, channelMode } = this;
+    return color[channelMode]()
       .array()
       .map((value) => Math.floor(value)) as [number, number, number];
   }
