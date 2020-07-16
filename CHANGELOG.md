@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- new component `calcite-video`
+- `calcite-button` now has an `icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
+- `calcite-split-button` now has a `primary-icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
+- `calcite-dropdown-item` now has an `icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
+
+### Updated
+
+- `calcite-icon` - the `mirrored` prop will now be applied in both `dir=rtl` and `dir=ltr` - previously it would only apply when `dir=rtl`
+
 ## [v1.0.0-beta.33]
 
 ### Breaking Changes
