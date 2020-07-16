@@ -9,16 +9,16 @@ import {
   State,
   Watch,
   h,
+  VNode
 } from "@stencil/core";
 import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE, TEXT } from "./resources";
 import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
-  updatePopper,
+  updatePopper
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
-import { VNode } from "@stencil/core/internal/stencil-core";
 import { guid } from "../../utils/guid";
 
 export type FocusId = "close-button";
@@ -30,7 +30,7 @@ export type FocusId = "close-button";
 @Component({
   tag: "calcite-popover",
   styleUrl: "calcite-popover.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalcitePopover {
   // --------------------------------------------------------------------------
@@ -183,7 +183,7 @@ export class CalcitePopover {
           el,
           modifiers,
           placement,
-          popper,
+          popper
         })
       : this.createPopper();
   }
@@ -254,27 +254,27 @@ export class CalcitePopover {
       disableFlip,
       disablePointer,
       offsetDistance,
-      offsetSkidding,
+      offsetSkidding
     } = this;
     const flipModifier: Partial<StrictModifiers> = {
       name: "flip",
-      enabled: !disableFlip,
+      enabled: !disableFlip
     };
 
     if (flipPlacements) {
       flipModifier.options = {
-        fallbackPlacements: flipPlacements,
+        fallbackPlacements: flipPlacements
       };
     }
 
     const arrowModifier: Partial<StrictModifiers> = {
       name: "arrow",
-      enabled: !disablePointer,
+      enabled: !disablePointer
     };
 
     if (arrowEl) {
       arrowModifier.options = {
-        element: arrowEl,
+        element: arrowEl
       };
     }
 
@@ -282,8 +282,8 @@ export class CalcitePopover {
       name: "offset",
       enabled: true,
       options: {
-        offset: [offsetSkidding, offsetDistance],
-      },
+        offset: [offsetSkidding, offsetDistance]
+      }
     };
 
     return [arrowModifier, flipModifier, offsetModifier];
@@ -299,7 +299,7 @@ export class CalcitePopover {
       modifiers,
       open,
       placement,
-      referenceEl,
+      referenceEl
     });
   }
 
@@ -355,11 +355,7 @@ export class CalcitePopover {
     ) : null;
 
     return (
-      <Host
-        role="dialog"
-        aria-hidden={!displayed ? "true" : "false"}
-        id={this.getId()}
-      >
+      <Host role="dialog" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
         {arrowNode}
         <div class={CSS.container}>
           {this.renderImage()}
