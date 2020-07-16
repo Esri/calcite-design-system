@@ -2,7 +2,7 @@ $font-weight--medium: 500;
 $section-label-bottom-padding: 10px;
 $inline-button-size: 24px;
 $color-mode-selected-border-height: 3px;
-$color-mode-part-input-offset: 18px;
+$channel-input-offset: 18px;
 
 :host {
   border: 1px solid var(--calcite-ui-border-1);
@@ -11,8 +11,8 @@ $color-mode-part-input-offset: 18px;
 }
 
 :host([dir="rtl"]) {
-  .color-mode-part-input {
-    padding: 0 $color-mode-part-input-offset 0 0;
+  .channel-input {
+    padding: 0 $channel-input-offset 0 0;
   }
 }
 
@@ -20,11 +20,11 @@ $color-mode-part-input-offset: 18px;
   width: 170px;
 
   .header,
-  .color-mode-part-label {
+  .channel-label {
     font-size: 12px;
   }
 
-  .color-mode-part {
+  .channel {
     width: 48px;
     margin-right: 3px;
   }
@@ -113,8 +113,7 @@ $color-mode-part-input-offset: 18px;
 }
 
 .header--hex {
-  padding-bottom: $section-label-bottom-padding +
-    $color-mode-selected-border-height - 1px;
+  padding-bottom: $section-label-bottom-padding + $color-mode-selected-border-height - 1px;
 }
 
 .control {
@@ -137,7 +136,7 @@ $color-mode-part-input-offset: 18px;
 }
 
 .color-mode-selection,
-.color-mode-parts {
+.channels {
   display: flex;
 }
 
@@ -145,12 +144,12 @@ $color-mode-part-input-offset: 18px;
   color: var(--calcite-ui-border-1);
 }
 
-.color-mode-parts {
+.channels {
   display: flex;
   justify-content: space-between;
 }
 
-.color-mode-part {
+.channel {
   display: -ms-inline-grid;
   display: inline-grid;
   -ms-grid-columns: auto 1fr;
@@ -171,7 +170,7 @@ $color-mode-part-input-offset: 18px;
   border-bottom-color: var(--calcite-ui-blue-1);
 }
 
-.color-mode-part-input {
+.channel-input {
   -ms-grid-row: 1;
   grid-row: 1;
   -ms-grid-column: 1;
@@ -180,7 +179,7 @@ $color-mode-part-input-offset: 18px;
 
   @include focus-style-base();
 
-  padding: 0 0 0 $color-mode-part-input-offset;
+  padding: 0 0 0 $channel-input-offset;
   height: inherit;
   border: solid 1px var(--calcite-ui-border-2);
   color: var(--calcite-ui-text-1);
@@ -200,7 +199,7 @@ $color-mode-part-input-offset: 18px;
   }
 }
 
-.color-mode-part-label {
+.channel-label {
   @include avenir-demi();
 
   -ms-grid-row: 1;
