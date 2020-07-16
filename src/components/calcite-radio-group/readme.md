@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property       | Attribute    | Description                                                         | Type                               | Default        |
@@ -14,11 +15,13 @@
 | `theme`        | `theme`      | The component's theme.                                              | `"dark" \| "light"`                | `undefined`    |
 | `width`        | `width`      | specify the width of the group, defaults to auto                    | `"auto" \| "full"`                 | `"auto"`       |
 
+
 ## Events
 
 | Event                     | Description | Type               |
 | ------------------------- | ----------- | ------------------ |
 | `calciteRadioGroupChange` |             | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -30,6 +33,9 @@ Focuses the selected item. If there is no selection, it focuses the first item.
 
 Type: `Promise<void>`
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+
+
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

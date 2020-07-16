@@ -1,0 +1,22 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host([active]) section {
+  display: block;
+}
+
+:host {
+  display: none;
+  z-index: 1;
+}
+
+:host([active]) {
+  display: block;
+}
+
+section {
+  height: 100%;
+  width: 100%;
+  display: none;
+}

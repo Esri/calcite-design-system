@@ -10,12 +10,14 @@ calcite-tab wraps the content you would like to appear when that tab is selected
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property | Attribute | Description                                                                                           | Type      | Default     |
 | -------- | --------- | ----------------------------------------------------------------------------------------------------- | --------- | ----------- |
 | `active` | `active`  | Show this tab                                                                                         | `boolean` | `false`     |
 | `tab`    | `tab`     | Optionally include a unique name for this tab, be sure to also set this name on the associated title. | `string`  | `undefined` |
+
 
 ## Methods
 
@@ -27,6 +29,9 @@ Return the index of this tab within the tab array
 
 Type: `Promise<number>`
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+
+
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

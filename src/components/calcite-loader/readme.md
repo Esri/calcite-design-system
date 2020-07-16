@@ -22,6 +22,7 @@ For instances when you don't have room for the full loader, you can use the smal
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property    | Attribute    | Description                                                        | Type                               | Default     |
@@ -34,16 +35,16 @@ For instances when you don't have room for the full loader, you can use the smal
 | `type`      | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |
 | `value`     | `value`      | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`         |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-button](../calcite-button)
-- [calcite-card](../calcite-card)
-- [calcite-scrim](../calcite-scrim)
+ - [calcite-button](../calcite-button)
+ - [calcite-card](../calcite-card)
+ - [calcite-scrim](../calcite-scrim)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-button --> calcite-loader
@@ -52,6 +53,6 @@ graph TD;
   style calcite-loader fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

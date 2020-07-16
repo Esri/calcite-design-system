@@ -1,0 +1,1 @@
+export const followPlay24F = "M15 8.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75zM10 12H8v2h2zm-3 3H5v2h2zm-2 4H3v2h2zm11-9h5V9h-5zM6 10h5V9H6zm7 2v5h1v-5zm0-10v5h1V2zm3 9v13l8-6.5zM2 22v-4H0v6h6v-2zM6 2V0H0v6h2V2zm16 0v4h2V0h-6v2z";

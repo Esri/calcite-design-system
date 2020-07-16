@@ -1,0 +1,1 @@
+export const layoutHorizontal32F = "M10 30h1v1H9v-2h1zm0-6H9v2.889h1zm0-18.89H9V8h1zM10 2h1V1H9v2h1zm8-1h-3v1h3zm5 2h1V1h-2v1h1zm0 23.89h1V24h-1zM23 8h1V5.111h-1zm0 22h-1v1h2v-2h-1zm-8 1h3v-1h-3zm16-21v12H1V10zm-19 2h-1v8h1zm10 0h-1v8h1z";
