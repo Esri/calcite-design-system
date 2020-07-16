@@ -17,44 +17,42 @@
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Alert</h1>
   <calcite-button title="1 Autodismiss, title, link, red" color="red" scale="s"
-    onclick="document.querySelector('#alert-one').open()">1 Autodismiss, title, link, red, small scale
+    onclick="document.querySelector('#alert-one').setAttribute('active', '')">1 Autodismiss, title, link, red, small
+    scale
   </calcite-button>
-  <calcite-button title="2 Icon, link, green" scale="s" onclick="document.querySelector('#alert-two').open()">2
+  <calcite-button title="2 Icon, link, green" scale="s"
+    onclick="document.querySelector('#alert-two').setAttribute('active', '')">2
     Icon, link, green</calcite-button>
-  <calcite-button title="3 Icon, dark theme" scale="s" onclick="document.querySelector('#alert-three').open()">3
+  <calcite-button title="3 Icon, dark theme" scale="s"
+    onclick="document.querySelector('#alert-three').setAttribute('active', '')">3
     Icon, dark theme</calcite-button>
-  <calcite-button title="4 Icon, title, yellow, link" scale="s" onclick="document.querySelector('#alert-four').open()">4
+  <calcite-button title="4 Icon, title, yellow, link" scale="s"
+    onclick="document.querySelector('#alert-four').setAttribute('active', '')">4
     Icon, title, yellow, link, large scale
   </calcite-button>
-  <calcite-button title="5 default" scale="s" onclick="document.querySelector('#alert-five').open()">5
+  <calcite-button title="5 default" scale="s"
+    onclick="document.querySelector('#alert-five').setAttribute('active', '')">5
     default</calcite-button>
-  <calcite-button title="6 Icon, title, link, red" scale="s" onclick="document.querySelector('#alert-six').open()">6
+  <calcite-button title="6 Icon, title, link, red" scale="s"
+    onclick="document.querySelector('#alert-six').setAttribute('active', '')">6
     Icon, title, link, red</calcite-button>
   <calcite-button title="7 title, link, green, dark theme" scale="s"
-    onclick="document.querySelector('#alert-seven').open()">7 title, link, green, dark theme
+    onclick="document.querySelector('#alert-seven').setAttribute('active', '')">7 title, link, green, dark theme
   </calcite-button>
   <calcite-button title="8 Autodismiss, icon, title, red" scale="s"
-    onclick="document.querySelector('#alert-eight').open()">8 Autodismiss, icon, title, red
+    onclick="document.querySelector('#alert-eight').setAttribute('active', '')">8 Autodismiss, icon, title, red
   </calcite-button>
   <calcite-button title="9 Autodismiss (fast),link, dark theme" scale="s"
-    onclick="document.querySelector('#alert-nine').open()">9 Autodismiss (fast),link, dark theme
+    onclick="document.querySelector('#alert-nine').setAttribute('active', '')">9 Autodismiss (fast),link, dark theme
   </calcite-button>
-  <calcite-button title="10 Autodismiss (medium)" scale="s" onclick="document.querySelector('#alert-ten').open()">
+  <calcite-button title="10 Autodismiss (medium)" scale="s"
+    onclick="document.querySelector('#alert-ten').setAttribute('active', '')">
     10 Autodismiss (medium)</calcite-button>
 
-  <calcite-button title="11 Autodismiss (slow),link" scale="s" onclick="document.querySelector('#alert-eleven').open()">
+  <calcite-button title="11 Autodismiss (slow),link" scale="s"
+    onclick="document.querySelector('#alert-eleven').setAttribute('active', '')">
     11 Autodismiss (slow),link
   </calcite-button>
-
-  <calcite-button title="12 Without ID - generate GUID" scale="s"
-    onclick="document.querySelector('[data-custom-id=myalert1]').open()">
-    12 Without ID - generate GUID</calcite-button>
-
-  <calcite-button title="13 Without ID - generate GUID" scale="s"
-    onclick="document.querySelector('[data-custom-id=myalert2]').open()">
-    13 Without ID - generate GUID
-  </calcite-button>
-
 
 
   <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
@@ -63,12 +61,12 @@
   <calcite-button title="created alert 2" onclick="createExampleAlert('created-2')">created alert 2
   </calcite-button>
   <h5>You can close opened alerts, or removed upcoming alerts from the queue</h5>
-  <calcite-button title="Close or remove alert 6" color="red"
-    onclick="document.querySelector('#alert-six').close()">Close or remove alert 6</calcite-button>
-  <calcite-button title="Close or remove alert 4" color="red"
-    onclick="document.querySelector('#alert-four').close()">Close or remove alert 4</calcite-button>
+  <calcite-button title="Close or remove alert 6" color="red" onclick="document.querySelector('#alert-six').removeAttribute('active')">
+    Close or remove alert 6</calcite-button>
+  <calcite-button title="Close or remove alert 4" color="red" onclick="document.querySelector('#alert-four').removeAttribute('active')">
+    Close or remove alert 4</calcite-button>
   <calcite-button title="Close or remove alert created 2" color="red"
-    onclick="document.querySelector('#created-2').close()">Close or remove alert created 2
+    onclick="document.querySelector('#created-2').removeAttribute('active')">Close or remove alert created 2
   </calcite-button>
   <h5>using the setFocus() method (once opened)</h5>
   <calcite-button onclick=document.querySelector('#alert-four').setFocus()>focus first alert 4 item

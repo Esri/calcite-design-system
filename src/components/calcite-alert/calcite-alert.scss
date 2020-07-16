@@ -75,8 +75,7 @@
   pointer-events: none;
   z-index: 101;
   transform: translate3d(0, $baseline, 0);
-  transition: 300ms $easing-function, opacity 300ms $easing-function,
-    all 0.15s ease-in-out;
+  transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
   border-top: 0px solid transparent;
   @media only screen and (max-width: $viewport-medium) {
     width: 100%;
@@ -93,7 +92,7 @@
   }
 }
 
-:host([active]) {
+:host([active]:not([queued])) {
   opacity: 1;
   max-height: 100%;
   transform: translate3d(0, -$baseline, 0);
@@ -129,8 +128,7 @@
 }
 
 @mixin alert-element-base() {
-  padding: var(--calcite-alert-spacing-token-small)
-    var(--calcite-alert-spacing-token-large);
+  padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
 
@@ -144,8 +142,7 @@
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
-  padding: var(--calcite-alert-spacing-token-small)
-    var(--calcite-alert-spacing-token-small)
+  padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-small)
     var(--calcite-alert-spacing-token-small) 0;
 
   &:first-of-type:not(:only-child) {
@@ -156,24 +153,21 @@
   }
 
   @media only screen and (max-width: $viewport-medium) {
-    padding: var(--calcite-alert-spacing-token-large)
-      var(--calcite-alert-spacing-token-small)
+    padding: var(--calcite-alert-spacing-token-large) var(--calcite-alert-spacing-token-small)
       var(--calcite-alert-spacing-token-large) 0;
   }
 }
 
 :host([dir="rtl"]) {
   .alert-content {
-    padding: var(--calcite-alert-spacing-token-small) 0
-      var(--calcite-alert-spacing-token-small)
+    padding: var(--calcite-alert-spacing-token-small) 0 var(--calcite-alert-spacing-token-small)
       var(--calcite-alert-spacing-token-small);
 
     &:first-of-type:not(:only-child) {
       padding-right: var(--calcite-alert-spacing-token-large);
     }
     @media only screen and (max-width: $viewport-medium) {
-      padding: var(--calcite-alert-spacing-token-large) 0
-        var(--calcite-alert-spacing-token-large)
+      padding: var(--calcite-alert-spacing-token-large) 0 var(--calcite-alert-spacing-token-large)
         var(--calcite-alert-spacing-token-small);
     }
   }
@@ -218,7 +212,7 @@
     border-radius: 0 0 0 var(--calcite-border-radius);
   }
 }
-.alert-count {
+.alert-queue-count {
   @include font-size(-2);
   display: flex;
   align-items: center;
@@ -235,6 +229,7 @@
   border-right: 0px solid transparent;
   cursor: default;
   transition: all 0.15s ease-in-out;
+  overflow: hidden;
 
   &.active {
     visibility: visible;
@@ -243,21 +238,19 @@
     width: $baseline * 2;
     border-left: 1px solid var(--calcite-ui-border-3);
     border-right: 1px solid var(--calcite-ui-border-3);
-
-    &:last-child {
-      border-right: 0px solid transparent;
-    }
   }
 
   @media only screen and (max-width: $viewport-medium) {
     border-radius: 0;
   }
 }
-:host([dir="rtl"]) {
-  &.active:last-child {
-    border-left: 1px solid var(--calcite-ui-border-3);
-    border-right: 0px solid transparent;
-  }
+
+:host([auto-dismiss]) > .alert-queue-count {
+  border-right: 0px solid transparent;
+}
+
+:host([auto-dismiss][dir="rtl"]) > .alert-queue-count {
+  border-left: 0px solid transparent;
 }
 
 .alert-dismiss-progress {
@@ -288,8 +281,8 @@
   right: initial;
 }
 
-$alertColors: "blue" var(--calcite-ui-blue-1), "red" var(--calcite-ui-red-1),
-  "yellow" var(--calcite-ui-yellow-1), "green" var(--calcite-ui-green-1);
+$alertColors: "blue" var(--calcite-ui-blue-1), "red" var(--calcite-ui-red-1), "yellow" var(--calcite-ui-yellow-1),
+  "green" var(--calcite-ui-green-1);
 
 @each $alertColor in $alertColors {
   $name: nth($alertColor, 1);

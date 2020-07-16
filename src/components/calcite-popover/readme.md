@@ -7,14 +7,10 @@
 ### Manager
 
 ```html
-<calcite-popover reference-element="popover-button"
-  >Hello! I am some popover content!</calcite-popover
->
+<calcite-popover reference-element="popover-button">Hello! I am some popover content!</calcite-popover>
 
 <calcite-popover-manager
-  ><calcite-button id="popover-button"
-    >Clickable popover</calcite-button
-  ></calcite-popover-manager
+  ><calcite-button id="popover-button">Clickable popover</calcite-button></calcite-popover-manager
 >
 ```
 
@@ -49,7 +45,7 @@
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: FocusId) => Promise<void>`
+### `setFocus(focusId?: "close-button") => Promise<void>`
 
 #### Returns
 
