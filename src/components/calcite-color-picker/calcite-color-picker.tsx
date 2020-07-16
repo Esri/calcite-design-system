@@ -525,6 +525,10 @@ export class CalciteColorPicker {
   };
 
   private drawColorFieldAndSlider(): void {
+    if (!this.fieldAndSliderRenderingContext) {
+      return;
+    }
+
     this.drawColorField();
     this.drawHueSlider();
   }
