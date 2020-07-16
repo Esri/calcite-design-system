@@ -79,7 +79,7 @@ describe("calcite-alert", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <div>
-    <calcite-button id="button-1" onclick="document.querySelector('#alert-1').open()">open alert-1</calcite-button>
+    <calcite-button id="button-1" onclick="document.querySelector('#alert-1').setAttribute('active', '')">open alert-1</calcite-button>
     <calcite-alert id="alert-1">
     <div slot="alert-title">Title Text</div>
     <div slot="alert-message">Message Text</div>
@@ -108,9 +108,9 @@ describe("calcite-alert", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <div>
-    <calcite-button id="button-1" onclick="document.querySelector('#alert-1').open()">open alert-1</calcite-button>
-    <calcite-button id="button-2" onclick="document.querySelector('#alert-2').open()">open alert-2</calcite-button>
-    <calcite-button id="button-3" onclick="document.querySelector('#alert-3').open()">open alert-3</calcite-button>
+    <calcite-button id="button-1" onclick="document.querySelector('#alert-1').setAttribute('active', '')">open alert-1</calcite-button>
+    <calcite-button id="button-2" onclick="document.querySelector('#alert-2').setAttribute('active', '')">open alert-2</calcite-button>
+    <calcite-button id="button-3" onclick="document.querySelector('#alert-3').setAttribute('active', '')">open alert-3</calcite-button>
     <calcite-alert id="alert-1">
     <div slot="alert-title">Title Text</div>
     <div slot="alert-message">Message Text</div>

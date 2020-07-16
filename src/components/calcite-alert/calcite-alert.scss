@@ -93,7 +93,7 @@
   }
 }
 
-:host([active]) {
+:host([active]:not([queued])) {
   opacity: 1;
   max-height: 100%;
   transform: translate3d(0, -$baseline, 0);
@@ -218,7 +218,7 @@
     border-radius: 0 0 0 var(--calcite-border-radius);
   }
 }
-.alert-count {
+.alert-queue-count {
   @include font-size(-2);
   display: flex;
   align-items: center;
@@ -235,6 +235,7 @@
   border-right: 0px solid transparent;
   cursor: default;
   transition: all 0.15s ease-in-out;
+  overflow: hidden;
 
   &.active {
     visibility: visible;
@@ -243,21 +244,19 @@
     width: $baseline * 2;
     border-left: 1px solid var(--calcite-ui-border-3);
     border-right: 1px solid var(--calcite-ui-border-3);
-
-    &:last-child {
-      border-right: 0px solid transparent;
-    }
   }
 
   @media only screen and (max-width: $viewport-medium) {
     border-radius: 0;
   }
 }
-:host([dir="rtl"]) {
-  &.active:last-child {
-    border-left: 1px solid var(--calcite-ui-border-3);
-    border-right: 0px solid transparent;
-  }
+
+:host([auto-dismiss]) > .alert-queue-count {
+  border-right: 0px solid transparent;
+}
+
+:host([auto-dismiss][dir="rtl"]) > .alert-queue-count {
+  border-left: 0px solid transparent;
 }
 
 .alert-dismiss-progress {
