@@ -11,6 +11,7 @@ storiesOf('Modal', module)
       <calcite-modal
         active="${boolean("active", true)}"
         color="${select("color", {blue: "blue", red: "red", none: null}, null)}"
+        background-color="${select("background-color", ["white", "grey"], "white")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         width="${select("width", ["s", "m", "l"], "s")}"
         fullscreen="${boolean("fullscreen", false)}"
@@ -56,6 +57,7 @@ storiesOf('Modal', module)
         theme="dark"
         active="${boolean("active", true)}"
         color="${select("color", {blue: "blue", red: "red", none: null}, null)}"
+        background-color="${select("background-color", ["white", "grey"], "white")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         width="${select("width", ["s", "m", "l"], "s")}"
         fullscreen="${boolean("fullscreen", false)}"

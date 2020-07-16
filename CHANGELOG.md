@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Fixes
+
+- `calcite-modal` - turn off pointer events on hidden modals to prevent interaction (#549)
+
+### Added
+
+- `calcite-modal` - add `background-color` property for light grey backgrounds (#527)
+
 ## [v1.0.0-beta.32]
 
 - `calcite-stepper` - `calciteStepperItemHasChanged` event has been renamed to `calciteStepperItemChange`

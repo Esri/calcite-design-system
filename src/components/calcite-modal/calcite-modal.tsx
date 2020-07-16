@@ -60,6 +60,8 @@ export class CalciteModal {
   @Prop({ reflect: true }) color?: "red" | "blue";
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
+  /** Background color of modal content */
+  @Prop({ reflect: true }) backgroundColor: "white" | "grey" = "white";
   /** Turn off spacing around the content area slot */
   @Prop() noPadding?: boolean;
 
