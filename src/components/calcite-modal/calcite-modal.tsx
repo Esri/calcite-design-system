@@ -9,12 +9,12 @@ import {
   h,
   Method,
   State,
-  Watch
+  Watch,
+  VNode
 } from "@stencil/core";
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { VNode } from "@stencil/core/internal/stencil-core";
 
 @Component({
   tag: "calcite-modal",
