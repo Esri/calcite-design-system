@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode } from "../../interfaces/ColorPicker";
+import { InternalColor, ColorMode } from "../../interfaces/ColorPicker";
 import { Scale, Theme } from "../../interfaces/common";
 import {
   CSS,
@@ -45,6 +45,19 @@ export class CalciteColorPicker {
   //  Public properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * Internal prop for advanced use-cases.
+   *
+   * @internal
+   */
+  @Prop() color: InternalColor = DEFAULT_COLOR;
+
+  @Watch("color")
+  handleColorChange(): void {
+    this.drawColorFieldAndSlider();
+    this.calciteColorPickerColorChange.emit();
+  }
 
   /** Label used for the blue channel */
   @Prop() intlB = "B";
@@ -143,14 +156,6 @@ export class CalciteColorPicker {
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
-
-  @State() color = DEFAULT_COLOR;
-
-  @Watch("color")
-  handleColorChange(): void {
-    this.drawColorFieldAndSlider();
-    this.calciteColorPickerColorChange.emit();
-  }
 
   @State() colorFieldAndSliderInteractive = false;
 
