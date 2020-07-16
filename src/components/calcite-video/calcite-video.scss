@@ -104,7 +104,6 @@ calcite-video[show-controls-on-hover]:hover {
 .calcite-video-scrubber-wrapper {
   position: relative;
   padding: 0 10px;
-  border-top: 1px solid var(--calcite-ui-border-3);
   border-bottom: 1px solid var(--calcite-ui-border-3);
 }
 
@@ -130,8 +129,7 @@ calcite-video[show-controls-on-hover]:hover {
   }
 }
 
-.calcite-video-wrapper.calcite-video-fullscreen
-  .calcite-video-subtitle-container {
+.calcite-video-wrapper.calcite-video-fullscreen .calcite-video-subtitle-container {
   @include font-size(5);
 }
 calcite-slider.calcite-video-scrubber {
@@ -227,15 +225,10 @@ calcite-video[dir="rtl"] .calcite-video-fullscreen-control-item {
   transition: all ease-in-out 0.15s;
 }
 
-.calcite-video-control-item.calcite-video-volume-control-item
-  *:focus-within
-  ~ calcite-slider,
-.calcite-video-control-item.calcite-video-volume-control-item
-  calcite-slider:focus,
-.calcite-video-control-item.calcite-video-volume-control-item
-  calcite-slider:focus-within,
-.calcite-video-control-item.calcite-video-volume-control-item:hover
-  calcite-slider {
+.calcite-video-control-item.calcite-video-volume-control-item *:focus-within ~ calcite-slider,
+.calcite-video-control-item.calcite-video-volume-control-item calcite-slider:focus,
+.calcite-video-control-item.calcite-video-volume-control-item calcite-slider:focus-within,
+.calcite-video-control-item.calcite-video-volume-control-item:hover calcite-slider {
   width: 60px;
   margin-left: 20px;
   margin-right: 20px;

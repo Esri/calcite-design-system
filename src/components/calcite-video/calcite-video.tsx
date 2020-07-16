@@ -7,7 +7,7 @@ import {
   EventEmitter,
   Element,
   Listen,
-  State,
+  State
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -16,7 +16,7 @@ import { TEXT } from "./calcite-video.resources";
 @Component({
   tag: "calcite-video",
   styleUrl: "calcite-video.scss",
-  shadow: false,
+  shadow: false
 })
 export class CalciteVideo {
   //--------------------------------------------------------------------------
@@ -127,22 +127,12 @@ export class CalciteVideo {
           scale="s"
           appearance="transparent"
           color="dark"
-          icon-start={
-            this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"
-          }
+          icon-start={this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"}
           title={
-            this.isComplete
-              ? this.intlRestart
-              : this.isPlaying
-              ? this.intlPause
-              : this.intlPlay
+            this.isComplete ? this.intlRestart : this.isPlaying ? this.intlPause : this.intlPlay
           }
           aria-label={
-            this.isComplete
-              ? this.intlRestart
-              : this.isPlaying
-              ? this.intlPause
-              : this.intlPlay
+            this.isComplete ? this.intlRestart : this.isPlaying ? this.intlPause : this.intlPlay
           }
           onClick={() => this.toggleVideo()}
         />
@@ -180,16 +170,8 @@ export class CalciteVideo {
           appearance="transparent"
           color="dark"
           icon-start={!this.isFullscreen ? "extent" : "full-screen-exit"}
-          title={
-            !this.isFullscreen
-              ? this.intlEnterFullscreen
-              : this.intlExitFullscreen
-          }
-          aria-label={
-            !this.isFullscreen
-              ? this.intlEnterFullscreen
-              : this.intlExitFullscreen
-          }
+          title={!this.isFullscreen ? this.intlEnterFullscreen : this.intlExitFullscreen}
+          aria-label={!this.isFullscreen ? this.intlEnterFullscreen : this.intlExitFullscreen}
           onClick={() => this.toggleFullscreen()}
         />
       </div>
@@ -207,9 +189,7 @@ export class CalciteVideo {
           title={this.intlSubtitles}
           aria-label={this.intlSubtitles}
         >
-          {this.isSubtitleActive
-            ? `${this.currentSubtitleLang?.toUpperCase()}`
-            : null}
+          {this.isSubtitleActive ? `${this.currentSubtitleLang?.toUpperCase()}` : null}
         </calcite-button>
       </div>
     );
@@ -227,16 +207,12 @@ export class CalciteVideo {
             title={this.intlSubtitles}
             aria-label={this.intlSubtitles}
           >
-            {this.isSubtitleActive
-              ? `${this.currentSubtitleLang?.toUpperCase()}`
-              : null}
+            {this.isSubtitleActive ? `${this.currentSubtitleLang?.toUpperCase()}` : null}
           </calcite-button>
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item
               active={!this.isSubtitleActive}
-              onCalciteDropdownItemSelect={(e) =>
-                this.handleSubtitleSelection(e)
-              }
+              onCalciteDropdownItemSelect={(e) => this.handleSubtitleSelection(e)}
             >
               Off
             </calcite-dropdown-item>
@@ -267,11 +243,7 @@ export class CalciteVideo {
       </div>
     ) : (
       // progress should always be ltr so explicitly set dir
-      <calcite-progress
-        dir="ltr"
-        theme={this.theme}
-        ref={(el) => (this.progressEl = el)}
-      />
+      <calcite-progress dir="ltr" theme={this.theme} ref={(el) => (this.progressEl = el)} />
     );
 
     const time = (
@@ -283,14 +255,9 @@ export class CalciteVideo {
 
     return (
       <Host dir={dir} tabIndex={0}>
-        <calcite-loader
-          type="indeterminate"
-          active={this.isLoading}
-        ></calcite-loader>
+        <calcite-loader type="indeterminate" active={this.isLoading}></calcite-loader>
         <div
-          class={`calcite-video-wrapper ${
-            this.isFullscreen ? " calcite-video-fullscreen" : ""
-          }`}
+          class={`calcite-video-wrapper ${this.isFullscreen ? " calcite-video-fullscreen" : ""}`}
         >
           <video
             loop={this.loop}
@@ -352,20 +319,11 @@ export class CalciteVideo {
   }
 
   @Listen("mouseenter") mouseEnterListener() {
-    if (
-      !this.isLoading &&
-      this.playOnHover &&
-      document.activeElement !== this.el
-    )
-      this.playVideo();
+    if (!this.isLoading && this.playOnHover && document.activeElement !== this.el) this.playVideo();
   }
 
   @Listen("mouseleave") mouseLeaveListener() {
-    if (
-      !this.isLoading &&
-      this.playOnHover &&
-      document.activeElement !== this.el
-    )
+    if (!this.isLoading && this.playOnHover && document.activeElement !== this.el)
       this.pauseVideo();
   }
 
@@ -378,11 +336,7 @@ export class CalciteVideo {
   }
 
   @Listen("keydown") keydownListener(e: KeyboardEvent): void {
-    if (
-      !this.isLoading &&
-      !this.playOnHover &&
-      e.composedPath()[0] === this.el
-    ) {
+    if (!this.isLoading && !this.playOnHover && e.composedPath()[0] === this.el) {
       const key = getKey(e.key);
       if (key === " " || key === "Enter") {
         e.preventDefault();
@@ -489,8 +443,7 @@ export class CalciteVideo {
         }
       }
       this.getSubtitleDropdownItems();
-      this.subtitleContainerEl.innerHTML = (this.currentSubtitleTrack
-        ?.cues[0] as any)?.text;
+      this.subtitleContainerEl.innerHTML = (this.currentSubtitleTrack?.cues[0] as any)?.text;
     }
   };
 
@@ -501,10 +454,7 @@ export class CalciteVideo {
       Object.values(this.availableSubtitles).map((item) => {
         let node = (
           <calcite-dropdown-item
-            active={
-              this.isSubtitleActive &&
-              this.currentSubtitleLang === item.language
-            }
+            active={this.isSubtitleActive && this.currentSubtitleLang === item.language}
             onCalciteDropdownItemSelect={(e) => this.handleSubtitleSelection(e)}
             data-language={item.language}
           >
@@ -539,8 +489,7 @@ export class CalciteVideo {
         if (requestedLang) {
           this.currentSubtitleLang = requestedLang;
           this.isSubtitleActive = true;
-          if (this.currentSubtitleLang === item.language)
-            this.currentSubtitleTrack = item;
+          if (this.currentSubtitleLang === item.language) this.currentSubtitleTrack = item;
         } else {
           this.isSubtitleActive = false;
         }
@@ -575,7 +524,7 @@ export class CalciteVideo {
 
   updateVolumeLevel = (e) => {
     this.volumeLevel = e.target.value;
-    this.videoEl?.volume = this.volumeLevel as number;
+    this.videoEl.volume = this.volumeLevel as number;
     this.muted = this.volumeLevel === 0;
   };
 
@@ -637,7 +586,7 @@ export class CalciteVideo {
       return [
         hours,
         minutes > 9 ? minutes : hours ? `0${minutes}` : minutes || `0`,
-        seconds > 9 ? seconds : `0${seconds}`,
+        seconds > 9 ? seconds : `0${seconds}`
       ]
         .filter(Boolean)
         .join(":");
@@ -646,12 +595,8 @@ export class CalciteVideo {
 
   handleVideoUpdate() {
     this.currentSubtitleTrackCue = this.currentSubtitleTrack?.activeCues[0];
-    if (
-      this.isSubtitleActive &&
-      (this.currentSubtitleTrackCue as any)?.text !== undefined
-    ) {
-      this.subtitleContainerEl.innerHTML = (this
-        .currentSubtitleTrackCue as any)?.text;
+    if (this.isSubtitleActive && (this.currentSubtitleTrackCue as any)?.text !== undefined) {
+      this.subtitleContainerEl.innerHTML = (this.currentSubtitleTrackCue as any)?.text;
       this.handleSubtitleUpdate();
     }
 
@@ -659,12 +604,10 @@ export class CalciteVideo {
       this.isComplete = this.currentTime === this.videoDuration;
       this.currentTime = this.videoEl?.currentTime;
       if (!this.disableScrubbing) {
-        let position =
-          ((this.currentTime as number) / (this.videoDuration as number)) * 100;
+        let position = ((this.currentTime as number) / (this.videoDuration as number)) * 100;
         this.scrubberEl?.setAttribute("value", `${position}`);
       } else {
-        let position =
-          (this.currentTime as number) / (this.videoDuration as number);
+        let position = (this.currentTime as number) / (this.videoDuration as number);
         this.progressEl?.setAttribute("value", `${position}`);
       }
       if (this.isComplete) this.calciteVideoComplete.emit();
@@ -674,13 +617,11 @@ export class CalciteVideo {
   handleSubtitleUpdate() {
     // replace current lang with the active cue if change occurs mid-cue
     if ((this.currentSubtitleTrackCue as any)?.text !== undefined)
-      this.subtitleContainerEl.innerHTML = (this
-        .currentSubtitleTrackCue as any)?.text;
+      this.subtitleContainerEl.innerHTML = (this.currentSubtitleTrackCue as any)?.text;
     // and update on any change
     this.currentSubtitleTrack.oncuechange = () => {
       if ((this.currentSubtitleTrackCue as any)?.text !== undefined)
-        this.subtitleContainerEl.innerHTML = (this
-          .currentSubtitleTrackCue as any)?.text;
+        this.subtitleContainerEl.innerHTML = (this.currentSubtitleTrackCue as any)?.text;
     };
   }
 }
