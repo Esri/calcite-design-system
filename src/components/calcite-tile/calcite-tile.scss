@@ -21,6 +21,9 @@ $spacing: $baseline/2;
 }
 :host(:not([embed])[href]:active) {
   box-shadow: 0 0 0 3px var(--calcite-ui-blue-1);
+}
+:host([active]),
+:host(:not([embed])[href]:active) {
   #heading {
     font-weight: 500;
   }

@@ -12,6 +12,7 @@ export class CalciteTile {
   //
   //--------------------------------------------------------------------------
 
+  @Prop({ reflect: true }) active?: boolean;
   @Prop() description: string = "";
   @Prop({ reflect: true }) disabled: boolean = false;
   @Prop({ reflect: true }) embed: boolean = false;

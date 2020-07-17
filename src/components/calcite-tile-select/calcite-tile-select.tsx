@@ -148,10 +148,11 @@ export class CalciteTileSelect {
     return (
       <Host>
         <calcite-tile
-          embed
-          icon={this.icon}
-          heading={this.heading}
+          active={this.checked}
           description={this.description}
+          embed
+          heading={this.heading}
+          icon={this.icon}
         ></calcite-tile>
         <slot></slot>
       </Host>
