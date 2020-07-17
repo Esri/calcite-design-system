@@ -1,4 +1,5 @@
 import { ColorValue, RGB, HSV, RGBA, HSVA, HSLA } from "../../interfaces/ColorPicker";
+import Color from "color";
 
 /**
  * taken from https://github.com/dojo/dojox/blob/master/color/_base.js#L92-L125
@@ -202,6 +203,14 @@ export function parseMode(colorValue: ColorValue): SupportedMode | null {
 
 function hasChannels(colorObject: object, ...channels: string[]): boolean {
   return channels.every((channel) => `${channel}` in colorObject);
+}
+
+export function colorEqual(value1: Color, value2: Color): boolean {
+  return value1.rgbNumber() === value2.rgbNumber();
+}
+
+export function createColor(value: ColorValue): Color {
+  return Color(value).round();
 }
 
 // TODO: use conditional typing
