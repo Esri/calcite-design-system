@@ -13,7 +13,7 @@ describe("calcite-checkbox", () => {
     expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
   });
 
-  it("correctly creates a proxy checkbox if none is provided", async () => {
+  it("correctly creates a hidden checkbox input", async () => {
     const testName = "test-name";
     const testValue = "test-value";
     const page = await newE2EPage();
@@ -136,7 +136,7 @@ describe("calcite-checkbox", () => {
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(input).not.toHaveAttribute("checked");
 
-    await page.$eval("input", element => {
+    await page.$eval("input", (element) => {
       element.setAttribute("checked", "");
     });
 

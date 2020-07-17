@@ -8,7 +8,6 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build,
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
 
@@ -18,7 +17,19 @@ import { getKey } from "../../utils/key";
   shadow: true,
 })
 export class CalciteCheckbox {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
 
   /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
@@ -63,13 +74,29 @@ export class CalciteCheckbox {
   /** Determines what theme to use */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
-  /** Emitted when the checkbox checked status changes */
-  @Event() calciteCheckboxChange: EventEmitter;
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
 
-  /** Emitted when the checkbox focused state changes */
-  @Event() calciteCheckboxFocusedChange: EventEmitter;
+  private readonly checkedPath =
+    "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z";
+  private readonly indeterminatePath = "M4 7h8v2H4z";
+  private input: HTMLInputElement;
 
-  private observer: MutationObserver;
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private getPath = (): string =>
+    this.indeterminate
+      ? this.indeterminatePath
+      : this.checked
+      ? this.checkedPath
+      : "";
 
   private toggle = () => {
     if (!this.disabled) {
@@ -78,6 +105,24 @@ export class CalciteCheckbox {
       this.indeterminate = false;
     }
   };
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /** Emitted when the checkbox checked status changes */
+  @Event() calciteCheckboxChange: EventEmitter;
+
+  /** Emitted when the checkbox focused state changes */
+  @Event() calciteCheckboxFocusedChange: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
 
   @Listen("click") onClick({ currentTarget, target }: MouseEvent) {
     // prevent duplicate click events that occur
@@ -92,7 +137,7 @@ export class CalciteCheckbox {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     const key = getKey(e.key);
-    if (key === " " || key === "Enter") {
+    if (key === " ") {
       e.preventDefault();
       this.toggle();
     }
@@ -108,70 +153,37 @@ export class CalciteCheckbox {
     this.hovered = false;
   }
 
-  private input: HTMLInputElement;
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
 
   connectedCallback() {
-    this.setupProxyInput();
+    this.renderHiddenCheckboxInput();
     let scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
-  disconnectedCallback() {
-    this.observer.disconnect();
-  }
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
 
-  componentWillRender() {
-    this.syncProxyInputToThis();
-  }
-
-  private readonly indeterminatePath = "M4 7h8v2H4z";
-  private readonly checkedPath =
-    "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z";
-
-  private getPath = (): string =>
-    this.indeterminate
-      ? this.indeterminatePath
-      : this.checked
-      ? this.checkedPath
-      : "";
-
-  private setupProxyInput() {
-    // check for a proxy input
-    this.input = this.el.querySelector("input");
-
-    // if the user didn't pass a proxy input create one for them
-    if (!this.input) {
-      this.input = document.createElement("input");
-      this.input.disabled = this.disabled;
-      this.input.onblur = () => (this.focused = false);
-      this.input.onfocus = () => (this.focused = true);
-      this.input.type = "checkbox";
-      this.syncProxyInputToThis();
-      this.el.appendChild(this.input);
-    }
-
-    this.syncThisToProxyInput();
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.syncThisToProxyInput);
-      this.observer.observe(this.input, { attributes: true });
-    }
-  }
-
-  private syncThisToProxyInput = () => {
-    this.checked = this.input.hasAttribute("checked");
-    this.name = this.input.name;
-    this.value = this.input.value;
-  };
-
-  private syncProxyInputToThis = () => {
-    this.checked
-      ? this.input.setAttribute("checked", "")
-      : this.input.removeAttribute("checked");
+  private renderHiddenCheckboxInput() {
+    this.input = document.createElement("input");
+    this.input.checked = this.checked;
+    this.input.disabled = this.disabled;
+    this.input.onblur = () => (this.focused = false);
+    this.input.onfocus = () => (this.focused = true);
     this.input.name = this.name;
+    this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value;
     }
-  };
+    this.el.appendChild(this.input);
+  }
 
   render() {
     return (
