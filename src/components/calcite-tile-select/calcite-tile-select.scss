@@ -9,6 +9,7 @@ $spacing: $baseline/2;
   box-sizing: border-box;
   cursor: pointer;
   max-width: 300px;
+  min-width: 282px;
   padding: $spacing;
   position: relative;
   transition: $transition;
