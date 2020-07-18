@@ -24,7 +24,7 @@ import {
   RGB_LIMITS
 } from "./resources";
 import { getElementDir } from "../../utils/dom";
-import { colorEqual, parseMode, SupportedMode } from "./utils";
+import { colorEqual, CSSColorMode, parseMode, SupportedMode } from "./utils";
 
 @Component({
   tag: "calcite-color-picker",
@@ -191,7 +191,7 @@ export class CalciteColorPicker {
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
-  private mode: SupportedMode = "hex";
+  private mode: SupportedMode = CSSColorMode.HEX;
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 

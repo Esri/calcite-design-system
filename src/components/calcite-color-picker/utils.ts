@@ -59,8 +59,24 @@ export function hexToRGB(hex: string): RGB {
   return { r, g, b };
 }
 
-type CSSColorMode = "hex" | "hexa" | "rgb-css" | "rgba-css" | "hsl-css" | "hsla-css";
-type ObjectColorMode = "rgb" | "rgba" | "hsl" | "hsla" | "hsv" | "hsva";
+export enum CSSColorMode {
+  HEX = "hex",
+  HEXA = "hexa",
+  RGB_CSS = "rgb-css",
+  RGBA_CSS = "rgba-css",
+  HSL_CSS = "hsl-css",
+  HSLA_CSS = "hsla-css"
+}
+
+export enum ObjectColorMode {
+  RGB = "rgb",
+  RGBA = "rgba",
+  HSL = "hsl",
+  HSLA = "hsla",
+  HSV = "hsv",
+  HSVA = "hsva"
+}
+
 export type SupportedMode = CSSColorMode | ObjectColorMode;
 
 export function parseMode(colorValue: ColorValue): SupportedMode | null {
@@ -69,41 +85,41 @@ export function parseMode(colorValue: ColorValue): SupportedMode | null {
       const { length } = colorValue;
 
       if (length === 4 || length === 7) {
-        return "hex";
+        return CSSColorMode.HEX;
       }
       if (length === 5 || length === 9) {
-        return "hexa";
+        return CSSColorMode.HEXA;
       }
     }
 
     if (colorValue.startsWith("rgba(")) {
-      return "rgba-css";
+      return CSSColorMode.RGBA_CSS;
     }
 
     if (colorValue.startsWith("rgb(")) {
-      return "rgb-css";
+      return CSSColorMode.RGB_CSS;
     }
 
     if (colorValue.startsWith("hsl(")) {
-      return "hsl-css";
+      return CSSColorMode.HSL_CSS;
     }
 
     if (colorValue.startsWith("hsla(")) {
-      return "hsla-css";
+      return CSSColorMode.HSLA_CSS;
     }
   }
 
   if (typeof colorValue === "object") {
     if (hasChannels(colorValue, "r", "g", "b")) {
-      return hasChannels(colorValue, "a") ? "rgba" : "rgb";
+      return hasChannels(colorValue, "a") ? ObjectColorMode.RGBA : ObjectColorMode.RGB;
     }
 
     if (hasChannels(colorValue, "h", "s", "l")) {
-      return hasChannels(colorValue, "a") ? "hsla" : "hsl";
+      return hasChannels(colorValue, "a") ? ObjectColorMode.HSLA : ObjectColorMode.HSL;
     }
 
     if (hasChannels(colorValue, "h", "s", "v")) {
-      return hasChannels(colorValue, "a") ? "hsva" : "hsv";
+      return hasChannels(colorValue, "a") ? ObjectColorMode.HSVA : ObjectColorMode.HSV;
     }
   }
 
@@ -118,15 +134,19 @@ export function colorEqual(value1: Color, value2: Color): boolean {
   return value1.rgbNumber() === value2.rgbNumber();
 }
 
-// TODO: use conditional typing
 export function colorValueEqual(value1: ColorValue, value2: ColorValue, mode: SupportedMode): boolean {
-  if (mode.startsWith("hex") || mode.endsWith("-css")) {
-    value1 = value1 as string;
-    value2 = value2 as string;
-    return value1.toLowerCase() === value2.toLowerCase();
+  if (
+    mode === CSSColorMode.HEX ||
+    mode === CSSColorMode.HEXA ||
+    mode === CSSColorMode.RGB_CSS ||
+    mode === CSSColorMode.RGBA_CSS ||
+    mode === CSSColorMode.HSL_CSS ||
+    mode === CSSColorMode.HSLA_CSS
+  ) {
+    return (value1 as string).toLowerCase() === (value2 as string).toLowerCase();
   }
 
-  if (mode.startsWith("rgb")) {
+  if (mode === ObjectColorMode.RGB || mode === ObjectColorMode.RGBA) {
     return (
       (value1 as RGBA).r === (value2 as RGBA).r &&
       (value1 as RGBA).g === (value2 as RGBA).g &&
@@ -135,7 +155,7 @@ export function colorValueEqual(value1: ColorValue, value2: ColorValue, mode: Su
     );
   }
 
-  if (mode.startsWith("hsv")) {
+  if (mode === ObjectColorMode.HSV || mode === ObjectColorMode.HSVA) {
     return (
       (value1 as HSVA).h === (value2 as HSVA).h &&
       (value1 as HSVA).s === (value2 as HSVA).s &&
