@@ -507,8 +507,8 @@ export class CalciteColorPicker {
 
   private toValue(color: Color): ColorValue {
     const { mode } = this;
-
     const hexMode = "hex";
+
     if (mode.includes(hexMode)) {
       // TODO: handle hexa
       return color[hexMode]();
@@ -518,17 +518,15 @@ export class CalciteColorPicker {
       return color[mode.replace("-css", "").replace("a", "")]().string();
     }
 
+    const colorObject = color[mode]().object();
+
     if (mode.endsWith("a")) {
-      const colorWithAlpha = color[mode]().object();
-
       // normalize alpha prop
-      colorWithAlpha.a = colorWithAlpha.alpha;
-      delete colorWithAlpha.alpha;
-
-      return colorWithAlpha;
+      colorObject.a = colorObject.alpha;
+      delete colorObject.alpha;
     }
 
-    return color[mode]().object();
+    return colorObject;
   }
 
   private getSliderCapSpacing(): number {
