@@ -57,7 +57,12 @@ $spacing: $baseline/2;
     0 0 0 9px var(--calcite-ui-blue-1);
 }
 
-:host([show-input="left"]) {
+:host([heading]:not([icon]):not([description])) {
+  align-items: center;
+}
+
+:host([show-input="left"][icon][heading][description]),
+:host([show-input="left"]:not([icon])[heading]:not([description])) {
   display: inline-grid;
   grid-gap: $spacing;
   grid-template-columns: max-content 1fr;
@@ -69,11 +74,28 @@ $spacing: $baseline/2;
     order: 1;
   }
 }
-:host([show-input="right"]) {
+:host([show-input="left"][icon][heading]:not([description])) {
+  ::slotted(calcite-checkbox),
+  ::slotted(calcite-radio-button) {
+    position: absolute;
+    top: $spacing;
+    left: $spacing;
+  }
+}
+:host([show-input="right"][icon][heading]) {
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     position: absolute;
     top: $spacing;
     right: $spacing;
+  }
+}
+:host([show-input="right"][heading]:not([icon]):not([description])) {
+  display: inline-grid;
+  grid-gap: $spacing;
+  grid-template-columns: max-content 1fr;
+  ::slotted(calcite-checkbox),
+  ::slotted(calcite-radio-button) {
+    justify-self: flex-end;
   }
 }

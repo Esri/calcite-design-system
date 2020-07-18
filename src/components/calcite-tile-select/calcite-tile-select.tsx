@@ -21,15 +21,15 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   @Prop({ reflect: true, mutable: true }) checked: boolean = false;
-  @Prop() description: string = "";
+  @Prop({ reflect: true }) description?: string;
   @Prop({ reflect: true }) disabled: boolean = false;
-  @Prop({ reflect: true }) focused: boolean = false;
+  @Prop({ reflect: true, mutable: true }) focused: boolean = false;
+  @Prop({ reflect: true }) heading?: string;
   @Prop({ reflect: true }) hidden: boolean = false;
-  @Prop({ reflect: true }) icon: string = "";
+  @Prop({ reflect: true }) icon?: string;
   @Prop({ reflect: true }) name: string = "";
   @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-  @Prop() heading: string = "";
   @Prop({ reflect: true }) type: "radio" | "checkbox" = "radio";
   @Prop({ reflect: true }) value?: string;
 
