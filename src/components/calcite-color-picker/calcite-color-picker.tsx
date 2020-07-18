@@ -57,13 +57,14 @@ export class CalciteColorPicker {
   @Watch("color")
   handleColorChange(color: Color): void {
     this.drawColorFieldAndSlider();
-    const value1 = this.toValue(color);
+    const value = this.toValue(color);
+    this.updateChannelsFromColor(color);
 
-    if (this.mode === "hex" && value1 === color.hex()) {
+    if (this.mode === "hex" && value === color.hex()) {
       return;
     }
 
-    this.value = value1;
+    this.value = value;
   }
 
   /** Label used for the blue channel */
@@ -196,13 +197,9 @@ export class CalciteColorPicker {
 
   @State() colorFieldAndSliderInteractive = false;
 
-  @State() channel0: number;
-
-  @State() channel1: number;
-
-  @State() channel2: number;
-
   @State() channelMode: ColorMode = "rgb";
+
+  @State() channels: [number, number, number] = this.toChannels(DEFAULT_COLOR);
 
   @State() dimensions = DIMENSIONS.m;
 
@@ -221,6 +218,7 @@ export class CalciteColorPicker {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
       "data-color-mode"
     ) as ColorMode;
+    this.updateChannelsFromColor(this.color);
   };
 
   private handleHexInputChange = (event: Event): void => {
@@ -241,12 +239,12 @@ export class CalciteColorPicker {
 
   private handleChannelInput = (event: KeyboardEvent): void => {
     const input = event.target as HTMLInputElement;
-    const channelId = Number(input.getAttribute("data-channel-id"));
+    const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
       this.channelMode === "rgb"
-        ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelId]]
-        : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelId]];
+        ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
+        : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
 
     const clamped = Math.max(0, Math.min(Number(input.value), limit));
     input.value = `${clamped}`;
@@ -254,8 +252,8 @@ export class CalciteColorPicker {
 
   private handleChannelChange = (event: KeyboardEvent): void => {
     const input = event.target as HTMLInputElement;
-    const channelId = Number(input.getAttribute("data-channel-id"));
-    this[`channel${channelId}`] = Number(input.value);
+    const channelIndex = Number(input.getAttribute("data-channel-index"));
+    this[`channel${channelIndex}`] = Number(input.value);
     this.updateColorFromChannels();
   };
 
@@ -340,8 +338,7 @@ export class CalciteColorPicker {
   }
 
   render(): VNode {
-    const { color, el, channelMode, savedColors, scale, theme } = this;
-    const channels = this.getColorComponents();
+    const { color, el, channelMode, channels, savedColors, scale, theme } = this;
     const channelLabels =
       this.channelMode === "rgb"
         ? [this.intlR, this.intlG, this.intlB]
@@ -426,7 +423,7 @@ export class CalciteColorPicker {
               <div class={CSS.channel}>
                 <input
                   class={CSS.channelInput}
-                  data-channel-id={0}
+                  data-channel-index={0}
                   onInput={this.handleChannelInput}
                   onChange={this.handleChannelChange}
                   type="number"
@@ -437,7 +434,7 @@ export class CalciteColorPicker {
               <div class={CSS.channel}>
                 <input
                   class={CSS.channelInput}
-                  data-channel-id={1}
+                  data-channel-index={1}
                   onInput={this.handleChannelInput}
                   onChange={this.handleChannelChange}
                   type="number"
@@ -448,7 +445,7 @@ export class CalciteColorPicker {
               <div class={CSS.channel}>
                 <input
                   class={CSS.channelInput}
-                  data-channel-id={2}
+                  data-channel-index={2}
                   onInput={this.handleChannelInput}
                   onChange={this.handleChannelChange}
                   type="number"
@@ -904,11 +901,16 @@ export class CalciteColorPicker {
   }
 
   private updateColorFromChannels(): void {
-    this.color = Color([this.channel0, this.channel1, this.channel2], this.channelMode);
+    this.color = Color(this.channels, this.channelMode);
   }
 
-  private getColorComponents(): [number, number, number] {
-    const { color, channelMode } = this;
+  private updateChannelsFromColor(color: Color): void {
+    this.channels = this.toChannels(color);
+  }
+
+  private toChannels(color: Color): [number, number, number] {
+    const { channelMode } = this;
+
     return color[channelMode]()
       .array()
       .map((value) => Math.floor(value)) as [number, number, number];
