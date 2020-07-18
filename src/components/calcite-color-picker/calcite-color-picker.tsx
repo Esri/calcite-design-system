@@ -166,7 +166,7 @@ export class CalciteColorPicker {
     const modeChanged = this.mode !== nextMode;
     this.mode = nextMode;
 
-    const color = Color(value).hsv().round();
+    const color = Color(value).hsv();
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -515,11 +515,11 @@ export class CalciteColorPicker {
     }
 
     if (mode.includes("-css")) {
-      return color[mode.replace("-css", "")]().round().string();
+      return color[mode.replace("-css", "").replace("a", "")]().string();
     }
 
     if (mode.endsWith("a")) {
-      const colorWithAlpha = color[mode]().round().object();
+      const colorWithAlpha = color[mode]().object();
 
       // normalize alpha prop
       colorWithAlpha.a = colorWithAlpha.alpha;
@@ -528,7 +528,7 @@ export class CalciteColorPicker {
       return colorWithAlpha;
     }
 
-    return color[mode]().round().object();
+    return color[mode]().object();
   }
 
   private getSliderCapSpacing(): number {
@@ -602,7 +602,7 @@ export class CalciteColorPicker {
     } = this;
 
     // TODO: .string()?
-    context.fillStyle = this.color.hsv().round().saturationv(100).value(100).toString();
+    context.fillStyle = this.color.hsv().saturationv(100).value(100).toString();
     context.fillRect(0, 0, width, height);
 
     const whiteGradient = context.createLinearGradient(0, 0, width, 0);
@@ -675,7 +675,7 @@ export class CalciteColorPicker {
       const saturation = Math.round((HSV_LIMITS.s / width) * x);
       const value = Math.round((HSV_LIMITS.v / height) * (height - y));
 
-      const color1 = this.color.hsv().round().saturationv(saturation).value(value);
+      const color1 = this.color.hsv().saturationv(saturation).value(value);
 
       this.color = color1;
     };
@@ -711,7 +711,7 @@ export class CalciteColorPicker {
 
       if (region === "color-field") {
         const prevHueThumbState = this.hueThumbState;
-        const color = this.color.hsv().round();
+        const color = this.color.hsv();
 
         const {
           dimensions: {
@@ -753,7 +753,7 @@ export class CalciteColorPicker {
         } = this;
 
         const prevSliderThumbState = this.sliderThumbState;
-        const sliderThumbColor = this.color.hsv().round().saturationv(100).value(100);
+        const sliderThumbColor = this.color.hsv().saturationv(100).value(100);
         const sliderThumbCenterX = Math.round(sliderThumbColor.hue() / (360 / sliderWidth));
         const sliderThumbCenterY = Math.round((sliderHeight + this.getSliderCapSpacing()) / 2);
 
@@ -814,7 +814,7 @@ export class CalciteColorPicker {
   }
 
   private drawActiveColorFieldColor(): void {
-    const color = this.color.hsv().round();
+    const color = this.color.hsv();
 
     const {
       dimensions: {
@@ -851,12 +851,12 @@ export class CalciteColorPicker {
     context.arc(x, y, radius - 3, startAngle, endAngle);
     context.shadowBlur = 0;
     context.shadowColor = "transparent";
-    context.fillStyle = color.rgb().round().toString();
+    context.fillStyle = color.rgb().toString();
     context.fill();
   }
 
   private drawActiveHueSliderColor(): void {
-    const color = this.color.hsv().round().saturationv(100).value(100);
+    const color = this.color.hsv().saturationv(100).value(100);
 
     const {
       dimensions: {

@@ -209,10 +209,6 @@ export function colorEqual(value1: Color, value2: Color): boolean {
   return value1.rgbNumber() === value2.rgbNumber();
 }
 
-export function createColor(value: ColorValue): Color {
-  return Color(value).round();
-}
-
 // TODO: use conditional typing
 export function colorValueEqual(value1: ColorValue, value2: ColorValue, mode: SupportedMode): boolean {
   if (mode.startsWith("hex") || mode.endsWith("-css")) {
