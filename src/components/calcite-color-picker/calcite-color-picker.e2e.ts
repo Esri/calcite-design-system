@@ -27,6 +27,15 @@ describe("calcite-color-picker", () => {
     expect(spy).toHaveReceivedEventTimes(1);
   });
 
+  it("has backdoor color prop for advanced use cases", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-color-picker></calcite-color-picker>"
+    });
+    const picker = await page.find("calcite-color-picker");
+
+    expect(await picker.getProperty("color")).toBeTruthy();
+  });
+
   describe("saving colors", () => {
     const storageId = "test-storage-id";
 
