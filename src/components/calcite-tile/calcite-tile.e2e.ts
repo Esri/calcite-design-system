@@ -14,7 +14,6 @@ describe("calcite-tile", () => {
 
   it("has defaults", async () =>
     defaults("calcite-tile", [
-      { propertyName: "disabled", defaultValue: false },
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
