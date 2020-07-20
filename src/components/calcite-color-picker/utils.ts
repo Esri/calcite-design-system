@@ -4,7 +4,9 @@ import Color from "color";
 export function rgbToHex(color: RGB): string {
   const { r, g, b } = color;
 
-  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b
+    .toString(16)
+    .padStart(2, "0")}`.toLowerCase();
 }
 
 export const hexChar: RegExp = /^[0-9A-F]{1}$/i;
@@ -24,6 +26,8 @@ export function isLonghandHex(hex: string): boolean {
 }
 
 export function normalizeHex(hex: string): string {
+  hex = hex.toLowerCase();
+
   if (!hex.startsWith("#")) {
     hex = `#${hex}`;
   }

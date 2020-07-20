@@ -82,14 +82,18 @@ export class CalciteHexInput {
   /**
    * The hex value.
    */
-  @Prop({ mutable: true, reflect: true }) value: string = DEFAULT_COLOR.hex();
+  @Prop({
+    mutable: true,
+    reflect: true
+  })
+  value: string = normalizeHex(DEFAULT_COLOR.hex());
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
     const normalized = normalizeHex(value);
 
     if (isValidHex(normalized)) {
-      const changed = normalized !== this.internalColor.hex().toLowerCase();
+      const changed = normalized !== normalizeHex(this.internalColor.hex());
       this.internalColor = Color(normalized);
       this.value = normalized;
       if (changed) {

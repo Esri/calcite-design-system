@@ -2,13 +2,14 @@ import { Component, Prop, h, Host, Watch, VNode } from "@stencil/core";
 import Color from "color";
 import { CSS } from "./resources";
 import { Scale, Theme } from "../../interfaces/common";
+import { normalizeHex } from "../calcite-color-picker/utils";
 
 const DEFAULT_COLOR = Color();
 
 @Component({
   tag: "calcite-color-swatch",
   styleUrl: "calcite-color-swatch.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteColorSwatch {
   //--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ export class CalciteColorSwatch {
    * Used to display whether the swatch is active or not.
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   active = false;
 
@@ -31,7 +32,7 @@ export class CalciteColorSwatch {
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
    */
   @Prop()
-  color: string = DEFAULT_COLOR.hex();
+  color: string = normalizeHex(DEFAULT_COLOR.hex());
 
   @Watch("color")
   handleColorChange(color: string): void {
@@ -42,7 +43,7 @@ export class CalciteColorSwatch {
    * The component scale.
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   scale: Exclude<Scale, "xs" | "xl"> = "m";
 
@@ -50,7 +51,7 @@ export class CalciteColorSwatch {
    * The component's theme.
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   theme: Theme = "light";
 
@@ -77,7 +78,7 @@ export class CalciteColorSwatch {
     const hex = internalColor.hex();
 
     const classes = {
-      [CSS.swatch]: true,
+      [CSS.swatch]: true
     };
 
     const contrastToneMethod: Extract<keyof Color, "darken" | "whiten"> =
@@ -91,7 +92,7 @@ export class CalciteColorSwatch {
             icon="circle-f"
             scale={scale}
             style={{
-              color: contrastingColor,
+              color: contrastingColor
             }}
           />
         ) : (
@@ -99,7 +100,7 @@ export class CalciteColorSwatch {
             class={classes}
             style={{
               backgroundColor: hex,
-              borderColor: contrastingColor,
+              borderColor: contrastingColor
             }}
           />
         )}

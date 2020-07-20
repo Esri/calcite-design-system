@@ -24,7 +24,7 @@ import {
   RGB_LIMITS
 } from "./resources";
 import { getElementDir } from "../../utils/dom";
-import { colorEqual, CSSColorMode, parseMode, SupportedMode } from "./utils";
+import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
 
 @Component({
   tag: "calcite-color-picker",
@@ -60,7 +60,7 @@ export class CalciteColorPicker {
     const value = this.toValue(color);
     this.updateChannelsFromColor(color);
 
-    if (this.mode === "hex" && value === color.hex()) {
+    if (this.mode === "hex" && value === normalizeHex(color.hex()) && this.value === value) {
       return;
     }
 
@@ -152,21 +152,22 @@ export class CalciteColorPicker {
   @Prop({
     mutable: true
   })
-  value: ColorValue;
+  value: ColorValue = normalizeHex(DEFAULT_COLOR.hex());
 
   @Watch("value")
-  handleValueChange(value: ColorValue): void {
+  handleValueChange(value: ColorValue, oldValue: ColorValue): void {
     const nextMode = parseMode(value);
 
     if (!nextMode) {
       console.warn(`ignoring invalid color value: ${value}`);
+      this.value = oldValue;
       return;
     }
 
     const modeChanged = this.mode !== nextMode;
     this.mode = nextMode;
 
-    const color = Color(value).hsv();
+    const color = Color(value);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -227,7 +228,7 @@ export class CalciteColorPicker {
     const input = event.target as HTMLCalciteHexInputElement;
     const hex = input.value;
 
-    if (hex !== color.hex()) {
+    if (hex !== normalizeHex(color.hex())) {
       this.color = Color(hex);
     }
   };
@@ -247,14 +248,16 @@ export class CalciteColorPicker {
         : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
 
     const clamped = Math.max(0, Math.min(Number(input.value), limit));
+
     input.value = `${clamped}`;
   };
 
   private handleChannelChange = (event: KeyboardEvent): void => {
     const input = event.target as HTMLInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
-    this[`channel${channelIndex}`] = Number(input.value);
-    this.updateColorFromChannels();
+    const channels = [...this.channels] as this["channels"];
+    channels[channelIndex] = Number(input.value);
+    this.updateColorFromChannels(channels);
   };
 
   private handleColorModeKeyDown = (event: KeyboardEvent): void => {
@@ -331,7 +334,7 @@ export class CalciteColorPicker {
 
     const valueAttr = this.el.getAttribute("value");
     if (valueAttr) {
-      this.handleValueChange(valueAttr);
+      this.handleValueChange(valueAttr, this.value);
     }
 
     this.updateDimensions(this.scale);
@@ -461,7 +464,7 @@ export class CalciteColorPicker {
             <label>{this.intlSavedColors}</label>
             <div class={CSS.savedColorsButtons}>
               <div
-                class={CSS.addColor}
+                class={CSS.removeColor}
                 onClick={this.deleteColor}
                 onKeyDown={this.handleDeleteColorKeyDown}
                 tabIndex={0}
@@ -469,7 +472,7 @@ export class CalciteColorPicker {
                 <calcite-icon icon="minus" />
               </div>
               <div
-                class={CSS.removeColor}
+                class={CSS.addColor}
                 onClick={this.saveColor}
                 onKeyDown={this.handleSaveColorKeyDown}
                 tabIndex={0}
@@ -511,7 +514,7 @@ export class CalciteColorPicker {
 
     if (mode.includes(hexMode)) {
       // TODO: handle hexa
-      return color[hexMode]();
+      return normalizeHex(color[hexMode]());
     }
 
     if (mode.includes("-css")) {
@@ -898,8 +901,8 @@ export class CalciteColorPicker {
     this.drawActiveHueSliderColor();
   }
 
-  private updateColorFromChannels(): void {
-    this.color = Color(this.channels, this.channelMode);
+  private updateColorFromChannels(channels: this["channels"]): void {
+    this.color = Color(channels, this.channelMode);
   }
 
   private updateChannelsFromColor(color: Color): void {
