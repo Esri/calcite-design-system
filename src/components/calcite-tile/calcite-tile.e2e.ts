@@ -1,6 +1,38 @@
 import { newE2EPage } from "@stencil/core/testing";
+import {
+  accessible,
+  defaults,
+  hidden,
+  reflects,
+  renders,
+} from "../../tests/commonTests";
 
 describe("calcite-tile", () => {
+  it("renders", async () => renders("calcite-tile"));
+
+  it("is accessible", async () => accessible(`<calcite-tile></calcite-tile>`));
+
+  it("has defaults", async () =>
+    defaults("calcite-tile", [
+      { propertyName: "disabled", defaultValue: false },
+      { propertyName: "embed", defaultValue: false },
+      { propertyName: "focused", defaultValue: false },
+      { propertyName: "hidden", defaultValue: false },
+      { propertyName: "theme", defaultValue: "light" },
+    ]));
+
+  it("reflects", async () =>
+    reflects("calcite-tile", [
+      { propertyName: "active", value: true },
+      { propertyName: "embed", value: true },
+      { propertyName: "focused", value: true },
+      { propertyName: "href", value: "http://www.esri.com" },
+      { propertyName: "icon", value: "layers" },
+      { propertyName: "theme", value: "light" },
+    ]));
+
+  it("honors hidden attribute", async () => hidden("calcite-tile"));
+
   it("renders without a link by default", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-tile></calcite-tile>");
@@ -11,6 +43,7 @@ describe("calcite-tile", () => {
     const link = await page.find("calcite-tile >>> calcite-link");
     expect(link).toBeNull();
   });
+
   it("renders a link when href attribute is supplied", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -18,9 +51,11 @@ describe("calcite-tile", () => {
     );
 
     const link = await page.find("calcite-tile >>> calcite-link");
-    expect(link).toHaveAttribute("href");
-    expect(link.getAttribute("href")).toEqual("http://www.esri.com");
+    const anchor = await page.find("calcite-tile >>> calcite-link >>> a");
+    expect(link).toEqualAttribute("href", "http://www.esri.com");
+    expect(anchor).toEqualAttribute("href", "http://www.esri.com");
   });
+
   it("renders icon only when supplied", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -34,6 +69,7 @@ describe("calcite-tile", () => {
     expect(heading).toEqualText("My Calcite Tile");
     expect(description).toBeNull;
   });
+
   it("renders heading only when supplied", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-tile icon='layers'></calcite-tile>");
@@ -45,6 +81,7 @@ describe("calcite-tile", () => {
     expect(heading).toBeNull();
     expect(description).toBeNull;
   });
+
   it("renders description only when supplied", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -58,6 +95,7 @@ describe("calcite-tile", () => {
     expect(heading).toBeNull();
     expect(description).toEqualText("My Calcite Tile Description.");
   });
+
   it("renders large icon when only icon and heading are supplied", async () => {
     const page = await newE2EPage();
     await page.setContent(

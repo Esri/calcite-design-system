@@ -13,15 +13,15 @@ export class CalciteTile {
   //--------------------------------------------------------------------------
 
   @Prop({ reflect: true }) active?: boolean;
-  @Prop() description: string = "";
+  @Prop({ reflect: true }) description?: string;
   @Prop({ reflect: true }) disabled: boolean = false;
   @Prop({ reflect: true }) embed: boolean = false;
   @Prop({ reflect: true }) focused: boolean = false;
+  @Prop({ reflect: true }) heading?: string;
   @Prop({ reflect: true }) hidden: boolean = false;
   @Prop({ reflect: true }) href?: string;
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon?: string;
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-  @Prop() heading: string = "";
 
   // --------------------------------------------------------------------------
   //
