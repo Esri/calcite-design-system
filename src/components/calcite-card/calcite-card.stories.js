@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, boolean, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -11,8 +11,8 @@ storiesOf("Card", module)
     () => `
     <div style="width:260px">
     <calcite-card
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
     <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
     <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
@@ -27,8 +27,8 @@ storiesOf("Card", module)
     () => `
     <div style="width:260px">
     <calcite-card
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
     <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
     <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
@@ -45,8 +45,8 @@ storiesOf("Card", module)
     () => `
     <div style="width:260px">
       <calcite-card
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
       <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">Untitled experience</h3>
@@ -61,8 +61,8 @@ storiesOf("Card", module)
     () => `
     <div style="width:260px">
       <calcite-card
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
       <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">My perhaps multiline card title</h3>
@@ -80,8 +80,8 @@ storiesOf("Card", module)
     () => `
     <div style="width:260px">
       <calcite-card
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
       <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">My great project that might wrap two lines</h3>
@@ -107,8 +107,8 @@ storiesOf("Card", module)
     () => `
     <div style="width:260px">
       <calcite-card
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
         <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
         <h3 slot="title">Portland Businesses</h3>
@@ -152,8 +152,8 @@ storiesOf("Card", module)
     <div style="width:260px">
     <calcite-card
       theme="dark"
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
     <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
     <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
@@ -169,8 +169,8 @@ storiesOf("Card", module)
     <div style="width:260px">
     <calcite-card
     theme="dark"
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
     <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
     <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
@@ -188,8 +188,8 @@ storiesOf("Card", module)
     <div style="width:260px">
       <calcite-card
       theme="dark"
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
       <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">Untitled experience</h3>
@@ -205,8 +205,8 @@ storiesOf("Card", module)
     <div style="width:260px">
       <calcite-card
       theme="dark"
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
       <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">My perhaps multiline card title</h3>
@@ -225,8 +225,8 @@ storiesOf("Card", module)
     <div style="width:260px">
       <calcite-card
       theme="dark"
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
       <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">My great project that might wrap two lines</h3>
@@ -253,8 +253,8 @@ storiesOf("Card", module)
     <div style="width:260px">
       <calcite-card
       theme="dark"
-      loading=${boolean("loading", false)}
-      selectable=${boolean("selectable", false)}
+      ${boolean("loading", false)}
+      ${boolean("selectable", false)}
       >
         <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
         <h3 slot="title">Portland Businesses</h3>

@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, boolean, text } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs, select, text } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -48,14 +48,14 @@ storiesOf("Input", module)
       step="${text("step", "")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
-      loading="${boolean("loading", false)}"
-      clearable="${boolean("clearable", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("clearable", false)}
+      ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     <calcite-input-message
-    active="${boolean("input-message-active", false)}"
+    ${boolean("input-message-active", false)}
     type="${select("input message type", ["default", "floating"], "default")}"
     status="${select(
       "input message status",
@@ -118,15 +118,15 @@ storiesOf("Input", module)
       step="${text("step", "", "Input")}"
       prefix-text="${text("prefix-text", "", "Input")}"
       suffix-text="${text("suffix-text", "", "Input")}"
-      loading="${boolean("loading", false, "Input")}"
-      autofocus="${boolean("autofocus", false, "Input")}"
-      required="${boolean("required", false, "Input")}"
+      ${boolean("loading", false, "Input")}
+      ${boolean("autofocus", false, "Input")}
+      ${boolean("required", false, "Input")}
       value="${text("value", "", "Input")}"
       placeholder="${text("placeholder", "Placeholder text", "Input")}">
     </calcite-input>
     <calcite-input-message
-    active="${boolean("active", true, "Input Message")}"
-    icon="${boolean("icon", true, "Input Message")}"
+    ${boolean("active", true, "Input Message")}
+    ${boolean("icon", true, "Input Message")}
     type="${select(
       "type",
       ["default", "floating"],
@@ -179,9 +179,9 @@ storiesOf("Input", module)
       step="${text("step", "")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
-      loading="${boolean("loading", false)}"
-      clearable="${boolean("clearable", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("clearable", false)}
+      ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
@@ -230,15 +230,15 @@ storiesOf("Input", module)
       step="${text("step", "")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
-      loading="${boolean("loading", false)}"
-      clearable="${boolean("clearable", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("clearable", false)}
+      ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
       <calcite-button slot="input-action">${text("action button text", "Go")}</calcite-button>
     </calcite-input>
     <calcite-input-message
-    active="${boolean("input-message-active", false)}"
+    ${boolean("input-message-active", false)}
     type="${select("input message type", ["default", "floating"], "default")}"
     status="${select(
       "input message status",
@@ -265,14 +265,14 @@ storiesOf("Input", module)
     ${text("label text", "My great label")}
     <calcite-input
       type="textarea"
-      loading="${boolean("loading", false)}"
-      clearable="${boolean("clearable", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("clearable", false)}
+      ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     <calcite-input-message
-    active="${boolean("input-message-active", false)}"
+    ${boolean("input-message-active", false)}
     type="${select("input message type", ["default", "floating"], "default")}"
     status="${select(
       "input message status",
@@ -326,14 +326,14 @@ storiesOf("Input", module)
       step="${text("step", "")}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
-      loading="${boolean("loading", false)}"
-      clearable="${boolean("clearable", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("clearable", false)}
+      ${boolean("disabled", false)}
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     <calcite-input-message
-    active="${boolean("calcite-input-message-active", false)}"
+    ${boolean("calcite-input-message-active", false)}
     type="${select("input message type", ["default", "floating"], "default")}"
     status="${select(
       "input message status",

@@ -1,9 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, text, select, boolean } from "@storybook/addon-knobs";
+import { withKnobs, text, select } from "@storybook/addon-knobs";
 import {
   darkBackground,
   iconNames,
   parseReadme,
+  boolean
 } from "../../../.storybook/helpers";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
@@ -18,8 +19,8 @@ storiesOf("Split Button", module)
     <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
-        loading="${boolean("loading", false)}"
-        disabled="${boolean("disabled", false)}"
+        ${boolean("loading", false)}
+        ${boolean("disabled", false)}
         primary-icon-start="${select("primary-icon-start", iconNames, iconNames[0])}"
         primary-text="${text("primary-text", "Primary Option")}"
         primary-label="${text("primary-label", "Primary Option")}"
@@ -44,8 +45,8 @@ storiesOf("Split Button", module)
     <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
-        loading="${boolean("loading", false)}"
-        disabled="${boolean("disabled", false)}"
+        ${boolean("loading", false)}
+        ${boolean("disabled", false)}
         primary-icon-end="${select("primary-icon-end", iconNames, iconNames[0])}"
         primary-text="${text("primary-text", "Primary Option")}"
         primary-label="${text("primary-label", "Primary Option")}"
@@ -70,8 +71,8 @@ storiesOf("Split Button", module)
     <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
-        loading="${boolean("loading", false)}"
-        disabled="${boolean("disabled", false)}"
+        ${boolean("loading", false)}
+        ${boolean("disabled", false)}
         primary-icon-start="${select("primary-icon-end", iconNames, iconNames[0])}"
         primary-icon-end="${select("primary-icon-end", iconNames, iconNames[0])}"
         primary-text="${text("primary-text", "Primary Option")}"
@@ -98,8 +99,8 @@ storiesOf("Split Button", module)
       <calcite-split-button
           color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
           scale="${select("size", ["s", "m", "l"], "m")}"
-          loading="${boolean("loading", false)}"
-          disabled="${boolean("disabled", false)}"
+          ${boolean("loading", false)}
+          ${boolean("disabled", false)}
           primary-icon-start="${select("primary-icon-start", iconNames, iconNames[0])}"
           primary-text="${text("primary-text", "Primary Option")}"
           dropdown-label="${text("dropdown-label", "Additional Options")}"
@@ -124,8 +125,8 @@ storiesOf("Split Button", module)
     <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
-        loading="${boolean("loading", false)}"
-        disabled="${boolean("disabled", false)}"
+        ${boolean("loading", false)}
+        ${boolean("disabled", false)}
         primary-icon-start="${select("primary-icon-start", iconNames, iconNames[0])}"
         primary-text="${text("primary-text", "Primary Option")}"
         dropdown-label="${text("dropdown-label", "Additional Options")}"
