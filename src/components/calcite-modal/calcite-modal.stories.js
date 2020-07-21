@@ -7,6 +7,10 @@ const notes = parseReadme(readme);
 storiesOf('Modal', module)
   .addDecorator(withKnobs)
   .add('Simple', () => {
+    const fullscreen = boolean("fullscreen", null);
+    const docked = boolean("docked", null);
+    const disableEscape = boolean("disable-escape", null);
+    const noPadding = boolean("no-padding", null);
     return `
       <calcite-modal
         active="${boolean("active", true)}"
@@ -14,10 +18,10 @@ storiesOf('Modal', module)
         background-color="${select("background-color", ["white", "grey"], "white")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         width="${select("width", ["s", "m", "l"], "s")}"
-        fullscreen="${boolean("fullscreen", false)}"
-        docked="${boolean("docked", false)}"
-        disable-escape="${boolean("disable-escape", false)}"
-        no-padding="${boolean("no-padding", false)}"
+        ${fullscreen ? "fullscreen" : ""}
+        ${docked ? "docked" : ""}
+        ${disableEscape ? "disable-escape" : ""}
+        ${noPadding ? "no-padding" : ""}
         close-label="${text("close-label", "Close")}"
       >
         <h3 slot="header">Small Modal</h3>
@@ -52,6 +56,10 @@ storiesOf('Modal', module)
     `;
   }, { notes })
   .add('Dark mode', () => {
+    const fullscreen = boolean("fullscreen", null);
+    const docked = boolean("docked", null);
+    const disableEscape = boolean("disable-escape", null);
+    const noPadding = boolean("no-padding", null);
     return `
       <calcite-modal
         theme="dark"
@@ -60,10 +68,10 @@ storiesOf('Modal', module)
         background-color="${select("background-color", ["white", "grey"], "white")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         width="${select("width", ["s", "m", "l"], "s")}"
-        fullscreen="${boolean("fullscreen", false)}"
-        docked="${boolean("docked", false)}"
-        disable-escape="${boolean("disable-escape", false)}"
-        no-padding="${boolean("no-padding", false)}"
+        ${fullscreen ? "fullscreen" : ""}
+        ${docked ? "docked" : ""}
+        ${disableEscape ? "disable-escape" : ""}
+        ${noPadding ? "no-padding" : ""}
         close-label="${text("close-label", "Close")}"
       >
         <h3 slot="header">Small Modal</h3>
