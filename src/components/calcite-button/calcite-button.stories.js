@@ -1,9 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, text, boolean, select } from "@storybook/addon-knobs";
+import { withKnobs, text, select } from "@storybook/addon-knobs";
 import {
   darkBackground,
   iconNames,
   parseReadme,
+  boolean
 } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -21,11 +22,11 @@ storiesOf("Button", module)
       )}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      round="${boolean("round", false)}"
-      floating="${boolean("floating", false)}"
+      ${boolean("round", false)}
+      ${boolean("floating", false)}
       href="${text("href", "")}"
-      loading="${boolean("loading", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("disabled", false)}
     >
    ${text("text", "button text here")}
     </calcite-button>
@@ -43,11 +44,11 @@ storiesOf("Button", module)
       )}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      round="${boolean("round", false)}"
-      floating="${boolean("floating", false)}"
+      ${boolean("round", false)}
+      ${boolean("floating", false)}
       href="${text("href", "")}"
-      loading="${boolean("loading", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("disabled", false)}
       icon-start="${select("icon-start", iconNames, iconNames[0])}">
       ${text("text", "button text here")}
     </calcite-button>
@@ -65,11 +66,11 @@ storiesOf("Button", module)
       )}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      round="${boolean("round", false)}"
-      floating="${boolean("floating", false)}"
+      ${boolean("round", false)}
+      ${boolean("floating", false)}
       href="${text("href", "")}"
-      loading="${boolean("loading", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("disabled", false)}
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
       ${text("text", "button text here")}
     </calcite-button>
@@ -87,11 +88,11 @@ storiesOf("Button", module)
       )}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      round="${boolean("round", false)}"
-      floating="${boolean("floating", false)}"
+      ${boolean("round", false)}
+      ${boolean("floating", false)}
       href="${text("href", "")}"
-      loading="${boolean("loading", false)}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("loading", false)}
+      ${boolean("disabled", false)}
       icon-start="${select("icon-start", iconNames, iconNames[0])}"
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
       ${text("text", "button text here")}
@@ -166,8 +167,8 @@ storiesOf("Button", module)
   <div class="sticky-example" style="position: -webkit-sticky;position: sticky;bottom: 10px;margin: 0 auto;">
   <calcite-button
   id="calcite-fab-tooltip"
-  round="${boolean("round", true)}"
-  floating="${boolean("floating", true)}"
+  ${boolean("round", true)}
+  ${boolean("floating", true)}
   width="${select("width", ["auto", "half", "full"], "auto")}"
   icon-start="${select("icon-start", iconNames, iconNames[0])}"
   appearance="${select("appearance", ["solid", "outline"], "solid")}"
@@ -203,8 +204,8 @@ storiesOf("Button", module)
 
     <div class="sticky-example" style="position: -webkit-sticky;position: sticky;bottom: 10px;margin: 0 auto;">
     <calcite-button
-    round="${boolean("round", true)}"
-    floating="${boolean("floating", true)}"
+    ${boolean("round", true)}
+    ${boolean("floating", true)}
     width="${select("width", ["auto", "half", "full"], "auto")}"
     icon-start="${select("icon-start", iconNames, iconNames[0])}"
     appearance="${select("appearance", ["solid", "outline"], "solid")}"
@@ -229,11 +230,11 @@ storiesOf("Button", module)
     )}"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    round="${boolean("round", false)}"
-    floating="${boolean("floating", false)}"
+    ${boolean("round", false)}
+    ${boolean("floating", false)}
     href="${text("href", "")}"
-    loading="${boolean("loading", false)}"
-    disabled="${boolean("disabled", false)}"
+    ${boolean("loading", false)}
+    ${boolean("disabled", false)}
     icon-start="${select("icon-start", iconNames, iconNames[0])}"
     icon-end="${select("icon-end", iconNames, iconNames[0])}"
     >
@@ -267,8 +268,8 @@ storiesOf("Button", module)
     <calcite-button
     theme="dark"
     id="calcite-fab-tooltip"
-    round="${boolean("round", true)}"
-    floating="${boolean("floating", true)}"
+    ${boolean("round", true)}
+    ${boolean("floating", true)}
     width="${select("width", ["auto", "half", "full"], "auto")}"
     icon-start="${select("icon-start", iconNames, iconNames[0])}"
     appearance="${select("appearance", ["solid", "outline"], "solid")}"
@@ -304,8 +305,8 @@ storiesOf("Button", module)
   <div class="sticky-example" style="position: -webkit-sticky;position: sticky;bottom: 10px;margin: 0 auto;">
   <calcite-button
   theme="dark"
-  round="${boolean("round", true)}"
-  floating="${boolean("floating", true)}"
+  ${boolean("round", true)}
+  ${boolean("floating", true)}
   width="${select("width", ["auto", "half", "full"], "auto")}"
   icon-start="${select("icon-start", iconNames, iconNames[0])}"
   appearance="${select("appearance", ["solid", "outline"], "solid")}"

@@ -23,16 +23,16 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                  | Type                                     | Default                              |
-| --------------------- | ----------------------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------ |
-| `active`              | `active`                | Is the alert currently active or not                                         | `boolean`                                | `false`                              |
-| `autoDismiss`         | `auto-dismiss`          | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`                              |
-| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                       | `"fast" \| "medium" \| "slow"`           | `this.autoDismiss ? "medium" : null` |
-| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`                             |
-| `icon`                | `icon`                  | specify if the alert should display an icon                                  | `boolean`                                | `false`                              |
-| `intlClose`           | `intl-close`            | string to override English close text                                        | `string`                                 | `TEXT.intlClose`                     |
-| `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" \| "m" \| "s"`                      | `"m"`                                |
-| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `undefined`                          |
+| Property              | Attribute               | Description                                                                  | Type                                     | Default                               |
+| --------------------- | ----------------------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------- |
+| `active`              | `active`                | Is the alert currently active or not                                         | `boolean`                                | `false`                               |
+| `autoDismiss`         | `auto-dismiss`          | Close the alert automatically (recommended for passive, non-blocking alerts) | `boolean`                                | `false`                               |
+| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                       | `"fast" \| "medium" \| "slow"`           | `this .autoDismiss ? "medium" : null` |
+| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                      | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`                              |
+| `icon`                | `icon`                  | specify if the alert should display an icon                                  | `boolean`                                | `false`                               |
+| `intlClose`           | `intl-close`            | string to override English close text                                        | `string`                                 | `TEXT.intlClose`                      |
+| `scale`               | `scale`                 | specify the scale of the button, defaults to m                               | `"l" \| "m" \| "s"`                      | `"m"`                                 |
+| `theme`               | `theme`                 | Select theme (light or dark)                                                 | `"dark" \| "light"`                      | `undefined`                           |
 
 ## Events
 

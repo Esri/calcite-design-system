@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, boolean } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -12,7 +12,7 @@ storiesOf("Scrim", module)
     <div
     style="position: relative; width: 400px; height: 400px; overflow: auto;"
   ><calcite-scrim
-      loading="${boolean("loading", false)}"
+      ${boolean("loading", false)}
     >
       <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
       <ul>
@@ -32,7 +32,7 @@ storiesOf("Scrim", module)
     style="position: relative; width: 400px; height: 400px; overflow: auto;"
   ><calcite-scrim
       theme="dark"
-      loading="${boolean("loading", false)}"
+      ${boolean("loading", false)}
     >
       <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
       <ul>

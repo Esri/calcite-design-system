@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, boolean, select, text } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs, select, text } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-stepper-item/readme.md";
 
@@ -17,8 +17,8 @@ storiesOf("Stepper", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    numbered="${boolean("numbered", true)}"
-    icon="${boolean("icon", true)}">
+    ${boolean("numbered", true)}
+    ${boolean("icon", true)}"
     <calcite-stepper-item item-title="${text(
       "item-1-title",
       "Choose method"
@@ -56,8 +56,8 @@ storiesOf("Stepper", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    numbered="${boolean("numbered", true)}"
-    icon="${boolean("icon", true)}">
+    ${boolean("numbered", true)}
+    ${boolean("icon", true)}"
     <calcite-stepper-item item-title="${text(
       "item-1-title",
       "Choose method"
@@ -93,8 +93,8 @@ storiesOf("Stepper", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    numbered="${boolean("numbered", true)}"
-    icon="${boolean("icon", true)}">
+    ${boolean("numbered", true)}
+    ${boolean("icon", true)}"
     <calcite-stepper-item item-title="${text(
       "item-1-title",
       "Choose method"
@@ -131,8 +131,8 @@ storiesOf("Stepper", module)
       <div dir="rtl">
       <calcite-stepper
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-      numbered="${boolean("numbered", true)}"
-      icon="${boolean("icon", true)}">
+      ${boolean("numbered", true)}
+      ${boolean("icon", true)}"
       <calcite-stepper-item item-title="${text(
         "item-1-title",
         "Choose method"

@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, boolean, text } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs, select, text } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 
 const notes = parseReadme(readme);
@@ -11,10 +11,10 @@ storiesOf("Radio Button", module)
     "Light Theme",
     () => `
       <calcite-radio-button
-        checked="${boolean("checked", false)}"
-        disabled="${boolean("disabled", false)}"
-        hidden="${boolean("hidden", false)}"
-        focused="${boolean("focused", false)}"
+        ${boolean("checked", false)}
+        ${boolean("disabled", false)}
+        ${boolean("hidden", false)}
+        ${boolean("focused", false)}
         name="simple"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         value="value"
@@ -28,10 +28,10 @@ storiesOf("Radio Button", module)
     "Dark Theme",
     () => `
     <calcite-radio-button
-      checked="${boolean("checked", false)}"
-      disabled="${boolean("disabled", false)}"
-      hidden="${boolean("hidden", false)}"
-      focused="${boolean("focused", false)}"
+      ${boolean("checked", false)}
+      ${boolean("disabled", false)}
+      ${boolean("hidden", false)}
+      ${boolean("focused", false)}
       name="dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       theme="dark"
