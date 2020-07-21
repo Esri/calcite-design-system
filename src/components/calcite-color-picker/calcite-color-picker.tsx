@@ -25,6 +25,7 @@ import {
 } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-color-picker",
@@ -346,6 +347,10 @@ export class CalciteColorPicker {
       this.channelMode === "rgb"
         ? [this.intlR, this.intlG, this.intlB]
         : [this.intlH, this.intlS, this.intlV];
+    const channelAriaLabels =
+      this.channelMode === "rgb"
+        ? [this.intlRed, this.intlGreen, this.intlBlue]
+        : [this.intlHue, this.intlSaturation, this.intlValue];
     const selectedColorInHex = color.hex();
     const hexInputScale = scale !== "s" ? "m" : scale;
     const { colorFieldAndSliderInteractive } = this;
@@ -425,6 +430,7 @@ export class CalciteColorPicker {
             <div class={{ [CSS.channels]: true, [CSS.control]: true }}>
               <div class={CSS.channel}>
                 <input
+                  aria-label={channelAriaLabels[0]}
                   class={CSS.channelInput}
                   data-channel-index={0}
                   onInput={this.handleChannelInput}
@@ -436,6 +442,7 @@ export class CalciteColorPicker {
               </div>
               <div class={CSS.channel}>
                 <input
+                  aria-label={channelAriaLabels[1]}
                   class={CSS.channelInput}
                   data-channel-index={1}
                   onInput={this.handleChannelInput}
@@ -447,6 +454,7 @@ export class CalciteColorPicker {
               </div>
               <div class={CSS.channel}>
                 <input
+                  aria-label={channelAriaLabels[2]}
                   class={CSS.channelInput}
                   data-channel-index={2}
                   onInput={this.handleChannelInput}

@@ -62,6 +62,12 @@ export class CalciteHexInput {
   //--------------------------------------------------------------------------
 
   /**
+   * Label used for the hex input.
+   */
+  @Prop()
+  hexLabel = "Hex";
+
+  /**
    * The component's scale.
    * @private
    * @todo use Scale once this uses calcite-input
@@ -177,6 +183,7 @@ export class CalciteHexInput {
     return (
       <div class={CSS.container}>
         <input
+          aria-label={this.hexLabel}
           ref={(node) => (this.inputNode = node)}
           class={CSS.input}
           value={hexInputValue}
