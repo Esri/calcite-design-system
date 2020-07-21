@@ -106,7 +106,7 @@ export class CalciteRadioButton {
   }
 
   /** The value of the radio button. */
-  @Prop() value!: string;
+  @Prop({ reflect: true }) value!: string;
 
   //--------------------------------------------------------------------------
   //
