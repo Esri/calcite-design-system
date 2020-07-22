@@ -1,9 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, boolean } from "@storybook/addon-knobs";
+import { withKnobs, select } from "@storybook/addon-knobs";
 import {
   darkBackground,
   iconNames,
   parseReadme,
+  boolean
 } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -22,7 +23,7 @@ storiesOf("Chip", module)
       ["blue", "red", "yellow", "green", "grey"],
       "grey"
     )}"
-    dismissible="${boolean("dismissible", false)}"
+    ${boolean("dismissible", false)}
     >My great chip</calcite-chip>
     </div>
   `,
@@ -41,7 +42,7 @@ storiesOf("Chip", module)
       ["blue", "red", "yellow", "green", "grey"],
       "grey"
     )}"
-    dismissible="${boolean("dismissible", false)}"
+    ${boolean("dismissible", false)}
     >
     My great chip</calcite-chip>
     </div>
@@ -60,7 +61,7 @@ storiesOf("Chip", module)
       ["blue", "red", "yellow", "green", "grey"],
       "grey"
     )}"
-    dismissible="${boolean("dismissible", false)}"
+    ${boolean("dismissible", false)}
     >
     <img slot="chip-image" src="https://placekitten.com/50/50" />
     My great chip</calcite-chip>
@@ -81,7 +82,7 @@ storiesOf("Chip", module)
       ["blue", "red", "yellow", "green", "grey"],
       "grey"
     )}"
-    dismissible="${boolean("dismissible", false)}"
+    ${boolean("dismissible", false)}
     >My great chip</calcite-chip>
     </div>
   `,
@@ -100,7 +101,7 @@ storiesOf("Chip", module)
       ["blue", "red", "yellow", "green", "grey"],
       "grey"
     )}"
-    dismissible="${boolean("dismissible", false)}"
+    ${boolean("dismissible", false)}
     >My great chip</calcite-chip>
     </div>
   `,

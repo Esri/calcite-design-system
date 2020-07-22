@@ -27,6 +27,7 @@
     "prettier:styles": "prettier --write \"src/**/*.scss\"",
     "release:prepare": "npm version prerelease --preid=beta --no-git-tag-version ",
     "release:publish": "./support/release.sh",
+    "postrelease:publish": "npm run deploy-storybook",
     "prestorybook": "npm run build",
     "storybook": "start-storybook -s ./dist",
     "prebuild-storybook": "npm run build",

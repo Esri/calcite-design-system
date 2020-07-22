@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, boolean, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs, select } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -13,7 +13,7 @@ storiesOf("Switch", module)
       <calcite-switch
         name="setting"
         value="enabled"
-        switched="${boolean("switched", true)}"
+        ${boolean("switched", true)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
@@ -31,7 +31,7 @@ storiesOf("Switch", module)
         theme="dark"
         name="setting"
         value="enabled"
-        switched="${boolean("switched", true)}"
+        ${boolean("switched", true)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
@@ -51,7 +51,7 @@ storiesOf("Switch", module)
         dir="rtl"
         name="setting"
         value="enabled"
-        switched="${boolean("switched", true)}"
+        ${boolean("switched", true)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
