@@ -28,7 +28,7 @@ $spacing: $baseline/2;
     font-weight: 500;
   }
 }
-:host([icon][heading]:not([description])) {
+:host([icon][heading]:not([description]):not([embed])) {
   padding: unset;
 }
 #tile {

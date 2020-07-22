@@ -8,13 +8,14 @@ $spacing: $baseline/2;
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
   box-sizing: border-box;
   cursor: pointer;
+  display: inline-block;
+  margin-bottom: 1px;
+  margin-right: -3px;
   max-width: 300px;
   padding: $spacing;
   position: relative;
   transition: $transition;
-  display: inline-block;
-  margin-right: -3px;
-  margin-bottom: 1px;
+  vertical-align: top;
 }
 :host([checked]) {
   box-shadow: 0 0 0 1px var(--calcite-ui-blue-1);
