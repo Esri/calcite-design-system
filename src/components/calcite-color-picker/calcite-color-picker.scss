@@ -2,7 +2,7 @@ $font-weight--medium: 500;
 $section-label-bottom-padding: 10px;
 $inline-button-size: 24px;
 $color-mode-selected-border-height: 3px;
-$channel-input-offset: 18px;
+$channel-input-offset: 30%;
 
 :host {
   border: 1px solid var(--calcite-ui-border-1);
@@ -185,6 +185,7 @@ $channel-input-offset: 18px;
   background-color: var(--calcite-ui-foreground-1);
   color: var(--calcite-ui-text-1);
   font-family: $avenir-family;
+  width: 70%;
 
   &:focus {
     @include focus-style-inset();
