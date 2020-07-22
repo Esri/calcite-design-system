@@ -25,7 +25,6 @@ import {
 } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
-import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-color-picker",
