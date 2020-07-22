@@ -96,13 +96,9 @@ export class CalciteColorSwatch {
             }}
           />
         ) : (
-          <div
-            class={classes}
-            style={{
-              backgroundColor: hex,
-              borderColor: contrastingColor
-            }}
-          />
+          <svg class={classes} xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" fill={hex} stroke={contrastingColor} />
+          </svg>
         )}
       </Host>
     );
