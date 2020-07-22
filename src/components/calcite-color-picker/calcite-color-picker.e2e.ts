@@ -397,7 +397,7 @@ describe("calcite-color-picker", () => {
       });
 
       const picker = await page.find("calcite-color-picker");
-      const saveColor = await page.find(`calcite-color-picker >>> .${CSS.addColor}`);
+      const saveColor = await page.find(`calcite-color-picker >>> .${CSS.saveColor}`);
       await saveColor.click();
 
       const color1 = "#ff00ff";
@@ -438,7 +438,7 @@ describe("calcite-color-picker", () => {
       });
 
       const picker = await page.find("calcite-color-picker");
-      const saveColor = await page.find(`calcite-color-picker >>> .${CSS.addColor}`);
+      const saveColor = await page.find(`calcite-color-picker >>> .${CSS.saveColor}`);
       await saveColor.click();
 
       const color1 = "#ff00ff";
@@ -454,7 +454,7 @@ describe("calcite-color-picker", () => {
 
       expect(await page.findAll(`calcite-color-picker >>> .${CSS.savedColors} calcite-color-swatch`)).toHaveLength(3);
 
-      const removeColor = await page.find(`calcite-color-picker >>> .${CSS.removeColor}`);
+      const removeColor = await page.find(`calcite-color-picker >>> .${CSS.deleteColor}`);
 
       await removeColor.click();
       await removeColor.click();

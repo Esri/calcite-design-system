@@ -240,8 +240,8 @@ calcite-color-swatch:not([is-active]):hover {
   cursor: pointer;
 }
 
-.add-color,
-.remove-color {
+.save-color,
+.delete-color {
   display: inline-flex;
 
   @include focus-style-base();

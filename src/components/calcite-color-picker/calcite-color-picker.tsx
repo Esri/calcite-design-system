@@ -68,6 +68,12 @@ export class CalciteColorPicker {
     this.value = value;
   }
 
+  /**
+   * Label used for the delete color button.
+   */
+  @Prop()
+  deleteColorLabel = "Delete color";
+
   /** Label used for the blue channel */
   @Prop() intlB = "B";
 
@@ -115,6 +121,12 @@ export class CalciteColorPicker {
 
   /** Label used for the  */
   @Prop() intlValue = "Value";
+
+  /**
+   * Label used for the save color button.
+   */
+  @Prop()
+  saveColorLabel = "Save color";
 
   /**
    * The scale of the color picker.
@@ -342,15 +354,35 @@ export class CalciteColorPicker {
   }
 
   render(): VNode {
-    const { color, el, channelMode, channels, savedColors, scale, theme } = this;
-    const channelLabels =
-      this.channelMode === "rgb"
-        ? [this.intlR, this.intlG, this.intlB]
-        : [this.intlH, this.intlS, this.intlV];
-    const channelAriaLabels =
-      this.channelMode === "rgb"
-        ? [this.intlRed, this.intlGreen, this.intlBlue]
-        : [this.intlHue, this.intlSaturation, this.intlValue];
+    const {
+      saveColorLabel,
+      channelMode,
+      channels,
+      color,
+      el,
+      intlB,
+      intlBlue,
+      intlG,
+      intlGreen,
+      intlH,
+      intlHue,
+      intlR,
+      intlRed,
+      intlS,
+      intlSaturation,
+      intlV,
+      intlValue,
+      deleteColorLabel,
+      savedColors,
+      scale,
+      theme
+    } = this;
+    const isRgb = channelMode === "rgb";
+    const isHsv = channelMode === "hsv";
+    const channelLabels = isRgb ? [intlR, intlG, intlB] : [intlH, intlS, intlV];
+    const channelAriaLabels = isRgb
+      ? [intlRed, intlGreen, intlBlue]
+      : [intlHue, intlSaturation, intlValue];
     const selectedColorInHex = color.hex();
     const hexInputScale = scale !== "s" ? "m" : scale;
     const { colorFieldAndSliderInteractive } = this;
@@ -403,25 +435,29 @@ export class CalciteColorPicker {
               }}
             >
               <div
+                aria-pressed={isRgb.toString()}
                 class={{
                   [CSS.colorMode]: true,
-                  [CSS.colorModeSelected]: channelMode === "rgb"
+                  [CSS.colorModeSelected]: isRgb
                 }}
                 data-color-mode="rgb"
                 onClick={this.handleColorModeClick}
                 onKeyDown={this.handleColorModeKeyDown}
+                role="button"
                 tabIndex={0}
               >
                 {this.intlRgb}
               </div>
               <div
+                aria-pressed={isHsv.toString()}
                 class={{
                   [CSS.colorMode]: true,
-                  [CSS.colorModeSelected]: channelMode === "hsv"
+                  [CSS.colorModeSelected]: isHsv
                 }}
                 data-color-mode="hsv"
                 onClick={this.handleColorModeClick}
                 onKeyDown={this.handleColorModeKeyDown}
+                role="button"
                 tabIndex={0}
               >
                 {this.intlHsv}
@@ -472,17 +508,21 @@ export class CalciteColorPicker {
             <label>{this.intlSavedColors}</label>
             <div class={CSS.savedColorsButtons}>
               <div
-                class={CSS.removeColor}
+                aria-label={deleteColorLabel}
+                class={CSS.deleteColor}
                 onClick={this.deleteColor}
                 onKeyDown={this.handleDeleteColorKeyDown}
+                role="button"
                 tabIndex={0}
               >
                 <calcite-icon icon="minus" />
               </div>
               <div
-                class={CSS.addColor}
+                aria-label={saveColorLabel}
+                class={CSS.saveColor}
                 onClick={this.saveColor}
                 onKeyDown={this.handleSaveColorKeyDown}
+                role="button"
                 tabIndex={0}
               >
                 <calcite-icon icon="plus" />
