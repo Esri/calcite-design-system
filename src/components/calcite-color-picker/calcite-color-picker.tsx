@@ -521,7 +521,6 @@ export class CalciteColorPicker {
     const hexMode = "hex";
 
     if (mode.includes(hexMode)) {
-      // TODO: handle hexa
       return normalizeHex(color[hexMode]());
     }
 
@@ -610,8 +609,7 @@ export class CalciteColorPicker {
       }
     } = this;
 
-    // TODO: .string()?
-    context.fillStyle = this.color.hsv().saturationv(100).value(100).toString();
+    context.fillStyle = this.color.hsv().saturationv(100).value(100).string();
     context.fillRect(0, 0, width, height);
 
     const whiteGradient = context.createLinearGradient(0, 0, width, 0);
@@ -860,7 +858,7 @@ export class CalciteColorPicker {
     context.arc(x, y, radius - 3, startAngle, endAngle);
     context.shadowBlur = 0;
     context.shadowColor = "transparent";
-    context.fillStyle = color.rgb().toString();
+    context.fillStyle = color.rgb().string();
     context.fill();
   }
 
@@ -898,7 +896,7 @@ export class CalciteColorPicker {
     let currentOffset = 0;
 
     hueSliderColorStopKeywords.forEach((keyword) => {
-      gradient.addColorStop(currentOffset, Color(keyword).toString());
+      gradient.addColorStop(currentOffset, Color(keyword).string());
       currentOffset += offset;
     });
 

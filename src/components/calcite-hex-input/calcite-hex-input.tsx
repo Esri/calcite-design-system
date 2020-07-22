@@ -20,8 +20,7 @@ import {
 } from "../calcite-color-picker/utils";
 import Color from "color";
 import { CSS } from "./resources";
-import { Theme } from "../../interfaces/common";
-import { IconScale } from "../../interfaces/Icon";
+import { Scale, Theme } from "../../interfaces/common";
 import { RGB } from "../../interfaces/ColorPicker";
 
 const DEFAULT_COLOR = Color();
@@ -69,13 +68,11 @@ export class CalciteHexInput {
 
   /**
    * The component's scale.
-   * @private
-   * @todo use Scale once this uses calcite-input
    */
   @Prop({
     reflect: true
   })
-  scale: IconScale = "m";
+  scale: Exclude<Scale, "xs" | "xl"> = "m";
 
   /**
    * The component's theme.

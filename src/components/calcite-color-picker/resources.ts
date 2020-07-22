@@ -29,7 +29,6 @@ export const CSS = {
 export const DEFAULT_COLOR = Color("#007AC2");
 export const DEFAULT_STORAGE_KEY_PREFIX = "calcite-color-picker-";
 
-// TODO: extract into ColorMode object w/ more details: parts, limits, labels, render()? etc...
 export const RGB_LIMITS = {
   r: 255,
   g: 255,

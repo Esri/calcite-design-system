@@ -84,77 +84,76 @@ describe("calcite-color-picker", () => {
     expect(spy).toHaveReceivedEventTimes(supportedValues.length);
   });
 
-  it("DOES NOT EMIT WHEN GIVEN INITIAL VALUE", async () => {});
-
-  describe("color field/slider UX", () => {
-    it("bla", async () => {
-      const page = await newE2EPage({
-        html: "<calcite-color-picker value='#000' scale='m'></calcite-color-picker>"
-      });
-      const picker = await page.find(`calcite-color-picker`);
-      const mediumScaleDimensions = DIMENSIONS.m;
-
-      // TODO: need to find proper offset, it's inconsistent
-      let borderOffset = 9;
-
-      // clicking color field colors to pick a color
-      await page.mouse.click(0 + borderOffset, 0 + borderOffset);
-      expect(await picker.getProperty("value")).toBe("#ffffff");
-
-      await page.mouse.click(0 + borderOffset, mediumScaleDimensions.colorField.height + borderOffset);
-      expect(await picker.getProperty("value")).toBe("#000000");
-
-      await page.mouse.click(mediumScaleDimensions.colorField.width - 1 + borderOffset, 0 + borderOffset);
-      expect(await picker.getProperty("value")).toBe("#ff0000");
-
-      await page.mouse.click(
-        mediumScaleDimensions.colorField.width - 1 + borderOffset,
-        mediumScaleDimensions.colorField.height + borderOffset
-      );
-      expect(await picker.getProperty("value")).toBe("#000000");
-
-      // set to corner right value that's not red (first value)
-      picker.setProperty("value", "#ff0");
-      await page.waitForChanges();
-
-      // clicking on color slider to set hue
-      const colorsToSample = 7;
-      const offsetX = mediumScaleDimensions.slider.width / colorsToSample;
-      let x = 0;
-
-      const sliderHeight = mediumScaleDimensions.colorField.height + mediumScaleDimensions.slider.height + borderOffset;
-
-      await page.mouse.click(x + borderOffset, sliderHeight);
-      expect(await picker.getProperty("value")).toBe("#ff0000");
-
-      x += offsetX;
-      await page.mouse.click(x + borderOffset, sliderHeight);
-      expect(await picker.getProperty("value")).toBe("#ffd900");
-
-      x += offsetX;
-      await page.mouse.click(x + borderOffset, sliderHeight);
-      expect(await picker.getProperty("value")).toBe("#46ff00");
-
-      x += offsetX;
-      await page.mouse.click(x + borderOffset, sliderHeight);
-      expect(await picker.getProperty("value")).toBe("#00ff93");
-
-      x += offsetX;
-      await page.mouse.click(x + borderOffset, sliderHeight);
-      expect(await picker.getProperty("value")).toBe("#0093ff");
-
-      x += offsetX;
-      await page.mouse.click(x + borderOffset, sliderHeight);
-      expect(await picker.getProperty("value")).toBe("#4600ff");
-
-      x += offsetX;
-      await page.mouse.click(x + borderOffset, sliderHeight);
-      expect(await picker.getProperty("value")).toBe("#ff00d9");
-
-      x += offsetX;
-      await page.mouse.click(mediumScaleDimensions.slider.width + 8.5, sliderHeight);
-      expect(await picker.getProperty("value")).toBe("#ff0000");
+  it("allows selecting colors via color field/slider", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-color-picker value='#000' scale='m'></calcite-color-picker>"
     });
+    const picker = await page.find(`calcite-color-picker`);
+    const mediumScaleDimensions = DIMENSIONS.m;
+
+    const borderOffset = 9;
+    const rightEdgeAdjustment = 0.5;
+
+    // clicking color field colors to pick a color
+    await page.mouse.click(0 + borderOffset, 0 + borderOffset);
+    expect(await picker.getProperty("value")).toBe("#ffffff");
+
+    await page.mouse.click(0 + borderOffset, mediumScaleDimensions.colorField.height + borderOffset);
+    expect(await picker.getProperty("value")).toBe("#000000");
+
+    await page.mouse.click(
+      mediumScaleDimensions.colorField.width - rightEdgeAdjustment + borderOffset,
+      0 + borderOffset
+    );
+    expect(await picker.getProperty("value")).toBe("#ff0000");
+
+    await page.mouse.click(
+      mediumScaleDimensions.colorField.width - rightEdgeAdjustment + borderOffset,
+      mediumScaleDimensions.colorField.height + borderOffset
+    );
+    expect(await picker.getProperty("value")).toBe("#000000");
+
+    // set to corner right value that's not red (first value)
+    picker.setProperty("value", "#ff0");
+    await page.waitForChanges();
+
+    // clicking on color slider to set hue
+    const colorsToSample = 7;
+    const offsetX = mediumScaleDimensions.slider.width / colorsToSample;
+    let x = 0;
+
+    const sliderHeight = mediumScaleDimensions.colorField.height + mediumScaleDimensions.slider.height + borderOffset;
+
+    await page.mouse.click(x + borderOffset, sliderHeight);
+    expect(await picker.getProperty("value")).toBe("#ff0000");
+
+    x += offsetX;
+    await page.mouse.click(x + borderOffset, sliderHeight);
+    expect(await picker.getProperty("value")).toBe("#ffd900");
+
+    x += offsetX;
+    await page.mouse.click(x + borderOffset, sliderHeight);
+    expect(await picker.getProperty("value")).toBe("#46ff00");
+
+    x += offsetX;
+    await page.mouse.click(x + borderOffset, sliderHeight);
+    expect(await picker.getProperty("value")).toBe("#00ff93");
+
+    x += offsetX;
+    await page.mouse.click(x + borderOffset, sliderHeight);
+    expect(await picker.getProperty("value")).toBe("#0093ff");
+
+    x += offsetX;
+    await page.mouse.click(x + borderOffset, sliderHeight);
+    expect(await picker.getProperty("value")).toBe("#4600ff");
+
+    x += offsetX;
+    await page.mouse.click(x + borderOffset, sliderHeight);
+    expect(await picker.getProperty("value")).toBe("#ff00d9");
+
+    x += offsetX;
+    await page.mouse.click(x + borderOffset - rightEdgeAdjustment, sliderHeight);
+    expect(await picker.getProperty("value")).toBe("#ff0000");
   });
 
   it("ignores unsupported value types", async () => {
