@@ -60,8 +60,8 @@
   flex-wrap: row-wrap;
   opacity: 0;
   visibility: hidden;
-  transition: transform 300ms $easing-function, visibility 0ms linear 300ms,
-    opacity 300ms $easing-function;
+  pointer-events: none;
+  transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
   background-color: var(--calcite-ui-foreground-1);
   box-shadow: $shadow-2--press;
@@ -83,13 +83,13 @@
   opacity: 1;
   transition-delay: 0ms;
   .modal {
+    pointer-events: auto;
     visibility: visible;
     opacity: 1;
     transition-delay: 0ms;
     transform: translate3d(0, 0, 0);
-    transition: transform 300ms $easing-function, visibility 0ms linear,
-      opacity 300ms $easing-function, max-width 300ms $easing-function,
-      max-height 300ms $easing-function;
+    transition: transform 300ms $easing-function, visibility 0ms linear, opacity 300ms $easing-function,
+      max-width 300ms $easing-function, max-height 300ms $easing-function;
   }
 }
 
@@ -170,6 +170,7 @@
   overflow-y: auto;
   display: block;
   background-color: var(--calcite-ui-foreground-1);
+  box-sizing: border-box;
   z-index: 1;
 }
 
@@ -180,6 +181,12 @@
 @include slotted("content", "*") {
   font-size: var(--calcite-modal-content-text);
   line-height: 1.5;
+}
+
+:host([background-color="grey"]) {
+  .modal__content {
+    background-color: var(--calcite-ui-background);
+  }
 }
 
 /**
@@ -280,6 +287,7 @@ slot[name="primary"] {
   }
   .modal__content {
     flex: 1 1 auto;
+    max-height: 100%;
   }
   .modal__header,
   .modal__footer {
@@ -312,8 +320,7 @@ slot[name="primary"] {
   }
   @media screen and (max-width: $viewport-medium) {
     .modal {
-      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0
-        0;
+      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
     }
 
     .modal__close {

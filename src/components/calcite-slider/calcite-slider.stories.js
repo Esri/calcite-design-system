@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/html';
-import { withKnobs, text, number, boolean, array } from '@storybook/addon-knobs'
-import { darkBackground, parseReadme } from '../../../.storybook/helpers';
+import { withKnobs, text, number, array } from '@storybook/addon-knobs'
+import { darkBackground, parseReadme, boolean } from '../../../.storybook/helpers';
 import readme from './readme.md';
 const notes = parseReadme(readme);
 
@@ -13,13 +13,13 @@ storiesOf('Slider', module)
       value="${number('value', 50)}"
       step="${number('step', 1)}"
       label="${text('label', 'Temperature')}"
-      disabled="${boolean('disabled', false)}"
-      label-handles="${boolean('label-handles', false)}"
-      label-ticks="${boolean('label-ticks', false)}"
+      ${boolean('disabled', false)}
+      ${boolean('label-handles', false)}
+      ${boolean('label-ticks', false)}
       ticks="${number('ticks', undefined)}
       page-step="${number('page-step', false)}"
-      precise="${boolean('precise', false)}"
-      snap="${boolean('snap', true)}"
+      ${boolean('precise', false)}
+      ${boolean('snap', true)}
     ></calcite-slider>
   `, { notes })
   .add('Range', () => `
@@ -31,11 +31,11 @@ storiesOf('Slider', module)
       max-label="${text('max-label', 'Temperature, upper bound')}"
       max-value="${number('max-value', 75)}"
       step="${number('step', 1)}"
-      label-handles="${boolean('label-handles', false)}"
-      label-ticks="${boolean('label-ticks', false)}"
+      ${boolean('label-handles', false)}
+      ${boolean('label-ticks', false)}
       ticks="${number('ticks', 20)}"
-      precise="${boolean('precise', false)}"
-      snap="${boolean('snap', true)}"
+      ${boolean('precise', false)}
+      ${boolean('snap', true)}
     ></calcite-slider>
   `, { notes })
   .add('Histogram', () => {

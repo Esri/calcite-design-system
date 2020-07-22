@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, boolean, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs, select } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -11,9 +11,9 @@ storiesOf("Checkbox", module)
     () => `
     <label>
       <calcite-checkbox
-        checked=${boolean("checked", true)}
-        disabled=${boolean("disabled", false)}
-        indeterminate=${boolean("indeterminate", false)}
+        ${boolean("checked", true)}
+        ${boolean("disabled", false)}
+        ${boolean("indeterminate", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
       ></calcite-checkbox>
       Text for the checkbox
@@ -27,9 +27,9 @@ storiesOf("Checkbox", module)
     <label>
       <calcite-checkbox
         theme="dark"
-        checked=${boolean("checked", true)}
-        disabled=${boolean("disabled", false)}
-        indeterminate=${boolean("indeterminate", false)}
+        ${boolean("checked", true)}
+        ${boolean("disabled", false)}
+        ${boolean("indeterminate", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
       ></calcite-checkbox>
     </label>

@@ -2,10 +2,9 @@ import { storiesOf } from "@storybook/html";
 import {
   withKnobs,
   text,
-  boolean,
   select
 } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -31,7 +30,7 @@ storiesOf("Link", module)
     Some wrapping text <calcite-link
       href="${text("href", "")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("disabled", false)}
     >
    ${text("text", "link text here")}</calcite-link>
    around the link
@@ -53,7 +52,7 @@ storiesOf("Link", module)
     Some wrapping text <calcite-link
       href="${text("href", "")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("disabled", false)}
       icon-start="${select("icon-start", iconNames, iconNames[0])}">
       ${text("text", "link text here")}</calcite-link>
       around the link
@@ -75,7 +74,7 @@ storiesOf("Link", module)
     Some wrapping text <calcite-link
       href="${text("href", "")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("disabled", false)}
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
       ${text("text", "link text here")}</calcite-link>
       around the link
@@ -97,7 +96,7 @@ storiesOf("Link", module)
     Some wrapping text <calcite-link
       href="${text("href", "")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
-      disabled="${boolean("disabled", false)}"
+      ${boolean("disabled", false)}
       icon-start="${select("icon-start", iconNames, iconNames[0])}"
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
       ${text("text", "link text here")}</calcite-link>
@@ -121,7 +120,7 @@ storiesOf("Link", module)
     theme="dark"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     href="${text("href", "")}"
-    disabled="${boolean("disabled", false)}"
+    ${boolean("disabled", false)}
     icon="${select("icon", iconNames, iconNames[0])}"
     icon-position="${select("icon-position", ["start", "end"], "end")}">
     ${text("text", "link text here")}
