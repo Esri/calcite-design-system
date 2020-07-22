@@ -42,7 +42,12 @@ export class CalciteTile {
             ></calcite-icon>
           </div>
         )}
-        {this.heading && <div id="heading">{this.heading}</div>}
+        {this.heading && (
+          <div id="heading">
+            {this.heading}
+            <div id="active-hidden">{this.heading}</div>
+          </div>
+        )}
         {this.description && <div id="description">{this.description}</div>}
       </div>
     );

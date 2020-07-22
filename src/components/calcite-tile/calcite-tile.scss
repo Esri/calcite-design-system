@@ -38,6 +38,11 @@ $spacing: $baseline/2;
   #heading {
     @include font-size(0);
     color: var(--calcite-ui-text-1);
+    #active-hidden {
+      opacity: 0;
+      font-weight: 500;
+      margin-top: -$baseline-ratio * 1em;
+    }
   }
   &.large-visual {
     justify-items: center;
