@@ -27,6 +27,14 @@
     h3 {
       margin: 0;
     }
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .flex > calcite-tile-select {
+      margin-right: 1px;
+      margin-bottom: 1px;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
@@ -50,10 +58,10 @@
                   <demo-spacer gap="25px">
 
                     <h3>Left Radio</h3>
-                    <div>
+                    <div class="flex">
                       <calcite-tile-select checked icon="layers" name="left-radio" value="one"
                         heading="Tile title lorem ipsum"
-                        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
+                        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
                       </calcite-tile-select>
                       <calcite-tile-select checked icon="layers" name="left-radio" value="two"
                         heading="Tile title lorem ipsum"
@@ -61,7 +69,7 @@
                       </calcite-tile-select>
                       <calcite-tile-select icon="layers" name="left-radio" value="three"
                         heading="Tile title lorem ipsum"
-                        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
+                        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall. Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
                       </calcite-tile-select>
                       <calcite-tile-select icon="layers" name="left-radio" value="four" heading="Tile title lorem ipsum"
                         description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
@@ -83,7 +91,7 @@
                     </div>
 
                     <h3>Left Radio Large Visual</h3>
-                    <div>
+                    <div class="flex">
                       <calcite-tile-select checked icon="layers" name="left-radio-large-visual" value="one"
                         heading="Tile title lorem ipsum">
                       </calcite-tile-select>
