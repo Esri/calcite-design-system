@@ -17,27 +17,27 @@ import {
   isValidHex,
   normalizeHex,
   rgbToHex
-} from "../calcite-color-picker/utils";
+} from "../calcite-color/utils";
 import Color from "color";
 import { CSS } from "./resources";
 import { Scale, Theme } from "../../interfaces/common";
-import { RGB } from "../../interfaces/ColorPicker";
+import { RGB } from "../../interfaces/Color";
 
 const DEFAULT_COLOR = Color();
 
 @Component({
-  tag: "calcite-hex-input",
-  styleUrl: "calcite-hex-input.scss",
+  tag: "calcite-color-hex-input",
+  styleUrl: "calcite-color-hex-input.scss",
   shadow: true
 })
-export class CalciteHexInput {
+export class CalciteColorHexInput {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteHexInputElement;
+  @Element() el: HTMLCalciteColorHexInputElement;
 
   //--------------------------------------------------------------------------
   //

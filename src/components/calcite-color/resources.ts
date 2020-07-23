@@ -27,7 +27,7 @@ export const CSS = {
 };
 
 export const DEFAULT_COLOR = Color("#007AC2");
-export const DEFAULT_STORAGE_KEY_PREFIX = "calcite-color-picker-";
+export const DEFAULT_STORAGE_KEY_PREFIX = "calcite-color-";
 
 export const RGB_LIMITS = {
   r: 255,

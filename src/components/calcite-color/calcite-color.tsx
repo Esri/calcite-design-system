@@ -27,11 +27,11 @@ import { getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
 
 @Component({
-  tag: "calcite-color-picker",
-  styleUrl: "calcite-color-picker.scss",
+  tag: "calcite-color",
+  styleUrl: "calcite-color.scss",
   shadow: true
 })
-export class CalciteColorPicker {
+export class CalciteColor {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -200,7 +200,7 @@ export class CalciteColorPicker {
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
 
-  private hexInputNode: HTMLCalciteHexInputElement;
+  private hexInputNode: HTMLCalciteColorHexInputElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
@@ -237,7 +237,7 @@ export class CalciteColorPicker {
   private handleHexInputChange = (event: Event): void => {
     event.stopPropagation();
     const { color } = this;
-    const input = event.target as HTMLCalciteHexInputElement;
+    const input = event.target as HTMLCalciteColorHexInputElement;
     const hex = input.value;
 
     if (hex !== normalizeHex(color.hex())) {
@@ -410,7 +410,7 @@ export class CalciteColorPicker {
             >
               {this.intlHex}
             </span>
-            <calcite-hex-input
+            <calcite-color-hex-input
               class={CSS.control}
               onCalciteHexInputChange={this.handleHexInputChange}
               ref={(node) => (this.hexInputNode = node)}
