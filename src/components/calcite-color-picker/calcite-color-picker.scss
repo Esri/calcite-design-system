@@ -124,6 +124,12 @@ $channel-input-offset: 30%;
   cursor: pointer;
   margin-bottom: -1px;
   border-bottom: $color-mode-selected-border-height solid transparent;
+  transition: all 0.15s ease-in-out;
+
+  &:hover:not(.color-mode-selected) {
+    color: var(--calcite-ui-text-1);
+    border-bottom-color: var(--calcite-ui-border-2);
+  }
 }
 
 .color-mode-selection {
@@ -165,7 +171,6 @@ $channel-input-offset: 30%;
 }
 
 .color-mode-selected {
-  cursor: none;
   color: var(--calcite-ui-text-1);
   border-bottom-color: var(--calcite-ui-blue-1);
 }
