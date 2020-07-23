@@ -2,7 +2,7 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 
 import { CSS, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS } from "./resources";
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { ColorValue } from "../../interfaces/ColorPicker";
+import { ColorValue } from "../../interfaces/Color";
 
 describe("calcite-color", () => {
   it("is accessible", async () => accessible("calcite-color"));

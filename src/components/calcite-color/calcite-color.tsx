@@ -412,7 +412,7 @@ export class CalciteColor {
             </span>
             <calcite-color-hex-input
               class={CSS.control}
-              oncalciteColorHexInputChange={this.handleHexInputChange}
+              onCalciteColorHexInputChange={this.handleHexInputChange}
               ref={(node) => (this.hexInputNode = node)}
               scale={hexInputScale}
               value={selectedColorInHex}

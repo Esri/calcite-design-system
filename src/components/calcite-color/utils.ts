@@ -1,4 +1,4 @@
-import { ColorValue, RGB, RGBA, HSVA, HSLA } from "../../interfaces/ColorPicker";
+import { ColorValue, RGB, RGBA, HSVA, HSLA } from "../../interfaces/Color";
 import Color from "color";
 
 export function rgbToHex(color: RGB): string {
