@@ -8,20 +8,21 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 
 ## Properties
 
-| Property     | Attribute    | Description                                                                                        | Type                                               | Default     |
-| ------------ | ------------ | -------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- |
-| `appearance` | `appearance` | specify the appearance style of the button, defaults to solid.                                     | `"clear" \| "outline" \| "solid" \| "transparent"` | `"solid"`   |
-| `color`      | `color`      | specify the color of the button, defaults to blue                                                  | `"blue" \| "dark" \| "light" \| "red"`             | `"blue"`    |
-| `disabled`   | `disabled`   | is the button disabled                                                                             | `boolean`                                          | `undefined` |
-| `floating`   | `floating`   | optionally add a floating style to the button - this should be positioned fixed or sticky          | `boolean`                                          | `false`     |
-| `href`       | `href`       | optionally pass a href - used to determine if the component should render as a button or an anchor | `string`                                           | `undefined` |
-| `iconEnd`    | `icon-end`   | optionally pass an icon to display at the end of a button - accepts calcite ui icon names          | `string`                                           | `undefined` |
-| `iconStart`  | `icon-start` | optionally pass an icon to display at the start of a button - accepts calcite ui icon names        | `string`                                           | `undefined` |
-| `loading`    | `loading`    | optionally add a calcite-loader component to the button, disabling interaction.                    | `boolean`                                          | `false`     |
-| `round`      | `round`      | optionally add a round style to the button                                                         | `boolean`                                          | `false`     |
-| `scale`      | `scale`      | specify the scale of the button, defaults to m                                                     | `"l" \| "m" \| "s"`                                | `"m"`       |
-| `theme`      | `theme`      | Select theme (light or dark)                                                                       | `"dark" \| "light"`                                | `undefined` |
-| `width`      | `width`      | specify the width of the button, defaults to auto                                                  | `"auto" \| "full" \| "half"`                       | `"auto"`    |
+| Property     | Attribute     | Description                                                                                        | Type                                               | Default     |
+| ------------ | ------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- |
+| `appearance` | `appearance`  | specify the appearance style of the button, defaults to solid.                                     | `"clear" \| "outline" \| "solid" \| "transparent"` | `"solid"`   |
+| `color`      | `color`       | specify the color of the button, defaults to blue                                                  | `"blue" \| "dark" \| "light" \| "red"`             | `"blue"`    |
+| `disabled`   | `disabled`    | is the button disabled                                                                             | `boolean`                                          | `undefined` |
+| `floating`   | `floating`    | optionally add a floating style to the button - this should be positioned fixed or sticky          | `boolean`                                          | `false`     |
+| `href`       | `href`        | optionally pass a href - used to determine if the component should render as a button or an anchor | `string`                                           | `undefined` |
+| `iconEnd`    | `icon-end`    | optionally pass an icon to display at the end of a button - accepts calcite ui icon names          | `string`                                           | `undefined` |
+| `iconMirror` | `icon-mirror` | mirror the icon                                                                                    | `"both" \| "end" \| "start"`                       | `undefined` |
+| `iconStart`  | `icon-start`  | optionally pass an icon to display at the start of a button - accepts calcite ui icon names        | `string`                                           | `undefined` |
+| `loading`    | `loading`     | optionally add a calcite-loader component to the button, disabling interaction.                    | `boolean`                                          | `false`     |
+| `round`      | `round`       | optionally add a round style to the button                                                         | `boolean`                                          | `false`     |
+| `scale`      | `scale`       | specify the scale of the button, defaults to m                                                     | `"l" \| "m" \| "s"`                                | `"m"`       |
+| `theme`      | `theme`       | Select theme (light or dark)                                                                       | `"dark" \| "light"`                                | `undefined` |
+| `width`      | `width`       | specify the width of the button, defaults to auto                                                  | `"auto" \| "full" \| "half"`                       | `"auto"`    |
 
 ## Methods
 

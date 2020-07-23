@@ -1,15 +1,5 @@
-import {
-  Build,
-  Component,
-  Element,
-  h,
-  Host,
-  Prop,
-  State,
-  Watch,
-} from "@stencil/core";
+import { Build, Component, Element, h, Host, Prop, State, Watch } from "@stencil/core";
 import { CSS } from "./resources";
-import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
 import { IconScale } from "../../interfaces/Icon";
 import { Theme } from "../../interfaces/common";
@@ -19,7 +9,7 @@ import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
   assetsDirs: ["assets"],
   tag: "calcite-icon",
   styleUrl: "calcite-icon.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteIcon {
   //--------------------------------------------------------------------------
@@ -41,7 +31,7 @@ export class CalciteIcon {
    * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   icon: string = null;
 
@@ -49,7 +39,7 @@ export class CalciteIcon {
    * When true, the icon will be mirrored.
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   mirrored: boolean = false;
 
@@ -57,7 +47,7 @@ export class CalciteIcon {
    * Icon scale. Can be "s" | "m" | "l".
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   scale: IconScale = "m";
 
@@ -73,7 +63,7 @@ export class CalciteIcon {
    * Icon theme. Can be "light" or "dark".
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   theme: Theme;
 
@@ -102,20 +92,16 @@ export class CalciteIcon {
   }
 
   render() {
-    const { el, mirrored, pathData, scale, textLabel } = this;
-    const dir = getElementDir(el);
+    const { mirrored, pathData, scale, textLabel } = this;
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");
     return (
-      <Host
-        aria-label={semantic ? textLabel : null}
-        role={semantic ? "img" : null}
-      >
+      <Host aria-label={semantic ? textLabel : null} role={semantic ? "img" : null}>
         <svg
           class={{
             [CSS.mirrored]: mirrored,
-            svg: true,
+            svg: true
           }}
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"

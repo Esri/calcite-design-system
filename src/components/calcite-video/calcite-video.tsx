@@ -181,6 +181,7 @@ export class CalciteVideo {
       <div class="calcite-video-control-item calcite-video-subtitle-control-item">
         <calcite-button
           scale="s"
+          icon-mirror={dir == "rtl" ? "start" : null}
           class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
           appearance="transparent"
           color="dark"
@@ -200,6 +201,7 @@ export class CalciteVideo {
           <calcite-button
             slot="dropdown-trigger"
             scale="s"
+            icon-mirror={dir == "rtl" ? "start" : null}
             class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
             appearance="transparent"
             color="dark"
@@ -279,22 +281,20 @@ export class CalciteVideo {
           </video>
           {subtitleContainer}
         </div>
-        {!this.disableControls && !this.disableProgress ? (
+        {!this.disableControls ? (
           <div class="calcite-video-footer">
             {!this.disableProgress ? progress : null}
-            {!this.disableControls ? (
-              <div class="calcite-video-controls">
-                {playControl}
-                {this.hasAudio ? volumeControl : null}
-                {!this.disableTimestamp ? time : null}
-                {this.hasSubtitle && this.availableSubtitles?.length > 1
-                  ? subtitleControlMultiple
-                  : this.hasSubtitle
-                  ? subtitleControlSingle
-                  : null}
-                {!this.disableFullscreen ? fullscreenControl : null}
-              </div>
-            ) : null}
+            <div class="calcite-video-controls">
+              {playControl}
+              {this.hasAudio ? volumeControl : null}
+              {!this.disableTimestamp ? time : null}
+              {this.hasSubtitle && this.availableSubtitles?.length > 1
+                ? subtitleControlMultiple
+                : this.hasSubtitle
+                ? subtitleControlSingle
+                : null}
+              {!this.disableFullscreen ? fullscreenControl : null}
+            </div>
           </div>
         ) : null}
       </Host>
@@ -389,7 +389,7 @@ export class CalciteVideo {
   @State() hasAudio?: boolean = true;
 
   /** does the video have availble subtitle */
-  @State() hasSubtitle?: boolean = true;
+  @State() hasSubtitle?: boolean = false;
 
   /** is a subtitle currently active */
   @State() isSubtitleActive?: boolean = false;

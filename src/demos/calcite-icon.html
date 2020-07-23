@@ -56,16 +56,21 @@
 
   <h2>Dark theme</h2>
   <div class="demo-background-dark">
-    <calcite-icon class="my-icon-color-class" icon="aZ" theme="dark"></calcite-icon>
     <calcite-icon icon="basemap" theme="dark"></calcite-icon>
     <calcite-icon icon="camera" theme="dark"></calcite-icon>
   </div>
 
-  <h2>Flips icon in RTL when mirrored</h2>
-  <div dir="rtl">
-    <calcite-icon icon="aZ" mirror></calcite-icon>
-    <calcite-icon icon="basemap" mirror></calcite-icon>
-    <calcite-icon icon="camera" mirror></calcite-icon>
+  <h2>Custom color with class</h2>
+  <calcite-icon class="my-icon-color-class" icon="aZ" theme="dark"></calcite-icon>
+  <div class="demo-background-dark">
+    <calcite-icon class="my-icon-color-class" icon="aZ" theme="dark"></calcite-icon>
+  </div>
+
+  <h2>Flips with mirrored prop</h2>
+  <div>
+    <calcite-icon icon="aZ" mirrored></calcite-icon>
+    <calcite-icon icon="basemap" mirrored></calcite-icon>
+    <calcite-icon icon="camera" mirrored></calcite-icon>
   </div>
 
 </body>

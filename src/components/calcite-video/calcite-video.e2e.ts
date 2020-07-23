@@ -1,18 +1,24 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { renders } from "../../tests/commonTests";
 
-describe("calcite-chip", () => {
-  //  it("renders", async () => renders("<calcite-video"));
-  /*
-  it("is accessible", async () =>
-    accessible(`<calcite-video>`));
-    */
+describe("calcite-accordion-item", () => {
+  it("renders", async () => renders("calcite-accordion-item"));
 });
 
-// scrubbing works (check updated time val)
+it("renders requested props", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-video theme="dark"></calcite-video>`);
+
+  const element = await page.find("calcite-video");
+  expect(element).toEqualAttribute("theme", "dark");
+});
+
+// scrubbing works (check updated time val)?
 // pause / play works
 // fullscreen works enter and exit
-// play on mouseenter, pause on mouseleave
-// pause on scrubber pauses video
+// play on hover / focus works
+// space on scrubber pauses video
 // playing another video pauses playing video
-// loading shows until ready state is good
+// loading shows until ready state is good to go
+// volume levels work
+// changing subtitle track work

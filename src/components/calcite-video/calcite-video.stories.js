@@ -1,7 +1,13 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, text, boolean } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs, text } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import videoMp4 from "../../assets/demo/video/sintel-short.mp4";
+import videoWebm from "../../assets/demo/video/sintel-short.webm";
+import subtitlesEn from "!file-loader?modules!./../../assets/demo/subtitles/vtt/sintel-en.vtt";
+import subtitlesDe from "!file-loader?modules!./../../assets/demo/subtitles/vtt/sintel-de.vtt";
+import subtitlesEs from "!file-loader?modules!./../../assets/demo/subtitles/vtt/sintel-es.vtt";
+
 const notes = parseReadme(readme);
 
 storiesOf("Video", module)
@@ -11,18 +17,18 @@ storiesOf("Video", module)
     () => `
     <div style="width:400px">
     <calcite-video
-    disable-scrubbing="${boolean("disable-scrubbing", false)}"
-    disable-fullscreen="${boolean("disable-scrubbing", false)}"
-    disable-timestamp="${boolean("disable-timestamp", false)}"
-    disable-progress="${boolean("disable-progress", false)}"
-    disable-controls="${boolean("disable-controls", false)}"
-    play-on-hover="${boolean("play-on-hover", false)}"
-    show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
-    loop="${boolean("loop", false)}"
-    autoplay="${boolean("autoplay", false)}"
-    muted="${boolean("muted", false)}"
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-timestamp", false)}
+    ${boolean("disable-progress", false)}
+    ${boolean("disable-controls", false)}
+    ${boolean("play-on-hover", false)}
+    ${boolean("show-controls-on-hover", false)}
+    ${boolean("loop", false)}
+    ${boolean("autoplay", false)}
+    ${boolean("muted", false)}
     >
-    <source src="../../assets/demo/video/sintel-short.mp4" type="video/mp4">
+    <source src=${videoMp4}>
     </calcite-video>
     </div>
   `,
@@ -33,19 +39,19 @@ storiesOf("Video", module)
     () => `
     <div style="width:400px">
     <calcite-video
-    disable-scrubbing="${boolean("disable-scrubbing", false)}"
-    disable-fullscreen="${boolean("disable-scrubbing", false)}"
-    disable-timestamp="${boolean("disable-timestamp", false)}"
-    disable-progress="${boolean("disable-progress", false)}"
-    disable-controls="${boolean("disable-controls", false)}"
-    play-on-hover="${boolean("play-on-hover", false)}"
-    show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
-    loop="${boolean("loop", false)}"
-    autoplay="${boolean("autoplay", false)}"
-    muted="${boolean("muted", false)}"
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-timestamp", false)}
+    ${boolean("disable-progress", false)}
+    ${boolean("disable-controls", false)}
+    ${boolean("play-on-hover", false)}
+    ${boolean("show-controls-on-hover", false)}
+    ${boolean("loop", false)}
+    ${boolean("autoplay", false)}
+    ${boolean("muted", false)}
     >
-    <source src="../../assets/demo/video/sintel-short.mp4" type="video/mp4">
-    <track label="English" kind="subtitles" srclang="en" src="../../assets/demo/subtitles/vtt/sintel-en.vtt" default>
+    <source src=${videoMp4}>
+    <track label="English" kind="subtitles" srclang="en" src=${subtitlesEn} default>
     </calcite-video>
     </div>
   `,
@@ -56,22 +62,22 @@ storiesOf("Video", module)
     () => `
     <div style="width:400px">
     <calcite-video
-    disable-scrubbing="${boolean("disable-scrubbing", false)}"
-    disable-fullscreen="${boolean("disable-scrubbing", false)}"
-    disable-timestamp="${boolean("disable-timestamp", false)}"
-    disable-progress="${boolean("disable-progress", false)}"
-    disable-controls="${boolean("disable-controls", false)}"
-    play-on-hover="${boolean("play-on-hover", false)}"
-    show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
-    loop="${boolean("loop", false)}"
-    autoplay="${boolean("autoplay", false)}"
-    muted="${boolean("muted", false)}"
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-timestamp", false)}
+    ${boolean("disable-progress", false)}
+    ${boolean("disable-controls", false)}
+    ${boolean("play-on-hover", false)}
+    ${boolean("show-controls-on-hover", false)}
+    ${boolean("loop", false)}
+    ${boolean("autoplay", false)}
+    ${boolean("muted", false)}
     >
-    <source src="../../assets/demo/video/sintel-short.mp4" type="video/mp4">
-    <source src="../../assets/demo/video/sintel-short.webm" type="video/webm">
-    <track label="English" kind="subtitles" srclang="en" src="../../assets/demo/subtitles/vtt/sintel-en.vtt" default>
-    <track label="Deutsch" kind="subtitles" srclang="de" src="../../assets/demo/subtitles/vtt/sintel-de.vtt">
-    <track label="Español" kind="subtitles" srclang="es" src="../../assets/demo/subtitles/vtt/sintel-es.vtt">
+    <source src=${videoMp4}>
+    <source src=${videoWebm}>
+    <track label="English" kind="subtitles" srclang="en" src=${subtitlesEn} default>
+    <track label="Deutsch" kind="subtitles" srclang="de" src=${subtitlesDe}>
+    <track label="Español" kind="subtitles" srclang="es" src=${subtitlesEs}>
     </calcite-video>
     </div>
   `,
@@ -82,13 +88,6 @@ storiesOf("Video", module)
     () => `
     <div style="width:400px">
     <calcite-video
-    disable-scrubbing="${boolean("disable-scrubbing", false)}"
-    disable-fullscreen="${boolean("disable-scrubbing", false)}"
-    disable-timestamp="${boolean("disable-timestamp", false)}"
-    disable-progress="${boolean("disable-progress", false)}"
-    disable-controls="${boolean("disable-controls", false)}"
-    play-on-hover="${boolean("play-on-hover", false)}"
-    show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
     intl-play="${text("intl-play", "play")}"
     intl-pause="${text("intl-pause", "pause")}"
     intl-restart="${text("intl-restart", "restart")}"
@@ -97,42 +96,76 @@ storiesOf("Video", module)
     intl-mute="${text("intl-mute", "mute")}"
     intl-unmute="${text("intl-unmute", "unmute")}"
     intl-subtitles="${text("intl-subtitles", "subtitles")}"
-    loop="${boolean("loop", false)}"
-    autoplay="${boolean("autoplay", false)}"
-    muted="${boolean("muted", false)}"
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-timestamp", false)}
+    ${boolean("disable-progress", false)}
+    ${boolean("disable-controls", false)}
+    ${boolean("play-on-hover", false)}
+    ${boolean("show-controls-on-hover", false)}
+    ${boolean("loop", false)}
+    ${boolean("autoplay", false)}
+    ${boolean("muted", false)}
     >
-    <source src="../../assets/demo/video/sintel-short.mp4" type="video/mp4">
-    <source src="../../assets/demo/video/sintel-short.webm" type="video/webm">
-    <track label="English" kind="subtitles" srclang="en" src="../../assets/demo/subtitles/vtt/sintel-en.vtt" default>
-    <track label="Deutsch" kind="subtitles" srclang="de" src="../../assets/demo/subtitles/vtt/sintel-de.vtt">
-    <track label="Español" kind="subtitles" srclang="es" src="../../assets/demo/subtitles/vtt/sintel-es.vtt">
+    <source src=${videoMp4}>
+    <source src=${videoWebm}>
+    <track label="English" kind="subtitles" srclang="en" src=${subtitlesEn} default>
+    <track label="Deutsch" kind="subtitles" srclang="de" src=${subtitlesDe}>
+    <track label="Español" kind="subtitles" srclang="es" src=${subtitlesEs}>
     </calcite-video>
     </div>
   `,
     { notes }
   )
-
+  .add(
+    "Streaming (video from URL)",
+    () => `
+    <div style="width:400px">
+    <calcite-video
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-timestamp", false)}
+    ${boolean("disable-progress", false)}
+    ${boolean("disable-controls", false)}
+    ${boolean("play-on-hover", false)}
+    ${boolean("show-controls-on-hover", false)}
+    ${boolean("loop", false)}
+    ${boolean("autoplay", false)}
+    ${boolean("muted", false)}
+    >
+    <source src="${text(
+      "source src",
+      "https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
+    )}"
+    />
+    </calcite-video>
+    </div>
+  `,
+    { notes }
+  )
   .add(
     "Dark theme",
     () => `
     <div style="width:400px">
     <calcite-video
     theme="dark"
-    disable-scrubbing="${boolean("disable-scrubbing", false)}"
-    disable-fullscreen="${boolean("disable-scrubbing", false)}"
-    disable-timestamp="${boolean("disable-timestamp", false)}"
-    disable-progress="${boolean("disable-progress", false)}"
-    disable-controls="${boolean("disable-controls", false)}"
-    play-on-hover="${boolean("play-on-hover", false)}"
-    show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
-    loop="${boolean("loop", false)}"
-    autoplay="${boolean("autoplay", false)}"
-    muted="${boolean("muted", false)}"
-    src="${text(
-      "src",
-      "https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
-    )}"
-    ></calcite-video>
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-timestamp", false)}
+    ${boolean("disable-progress", false)}
+    ${boolean("disable-controls", false)}
+    ${boolean("play-on-hover", false)}
+    ${boolean("show-controls-on-hover", false)}
+    ${boolean("loop", false)}
+    ${boolean("autoplay", false)}
+    ${boolean("muted", false)}
+    >
+    <source src=${videoMp4}>
+    <source src=${videoWebm}>
+    <track label="English" kind="subtitles" srclang="en" src=${subtitlesEn} default>
+    <track label="Deutsch" kind="subtitles" srclang="de" src=${subtitlesDe}>
+    <track label="Español" kind="subtitles" srclang="es" src=${subtitlesEs}>
+    </calcite-video>
     </div>
   `,
     { notes, backgrounds: darkBackground }
@@ -142,21 +175,23 @@ storiesOf("Video", module)
     () => `
     <div style="width:400px" dir="rtl">
     <calcite-video
-    disable-scrubbing="${boolean("disable-scrubbing", false)}"
-    disable-fullscreen="${boolean("disable-scrubbing", false)}"
-    disable-timestamp="${boolean("disable-timestamp", false)}"
-    disable-progress="${boolean("disable-progress", false)}"
-    disable-controls="${boolean("disable-controls", false)}"
-    play-on-hover="${boolean("play-on-hover", false)}"
-    show-controls-on-hover="${boolean("show-controls-on-hover", false)}"
-    loop="${boolean("loop", false)}"
-    autoplay="${boolean("autoplay", false)}"
-    muted="${boolean("muted", false)}"
-    src="${text(
-      "src",
-      "https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
-    )}"
-    ></calcite-video>
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-scrubbing", false)}
+    ${boolean("disable-timestamp", false)}
+    ${boolean("disable-progress", false)}
+    ${boolean("disable-controls", false)}
+    ${boolean("play-on-hover", false)}
+    ${boolean("show-controls-on-hover", false)}
+    ${boolean("loop", false)}
+    ${boolean("autoplay", false)}
+    ${boolean("muted", false)}
+    >
+    <source src=${videoMp4}>
+    <source src=${videoWebm}>
+    <track label="English" kind="subtitles" srclang="en" src=${subtitlesEn} default>
+    <track label="Deutsch" kind="subtitles" srclang="de" src=${subtitlesDe}>
+    <track label="Español" kind="subtitles" srclang="es" src=${subtitlesEs}>
+    </calcite-video>
     </div>
   `,
     { notes }
