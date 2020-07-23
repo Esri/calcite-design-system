@@ -514,7 +514,7 @@ export class CalciteColorPicker {
                 role="button"
                 tabIndex={0}
               >
-                <calcite-icon icon="minus" />
+                <calcite-icon icon="minus" scale="s" />
               </div>
               <div
                 aria-label={saveColorLabel}
@@ -524,7 +524,7 @@ export class CalciteColorPicker {
                 role="button"
                 tabIndex={0}
               >
-                <calcite-icon icon="plus" />
+                <calcite-icon icon="plus" scale="s" />
               </div>
             </div>
           </div>

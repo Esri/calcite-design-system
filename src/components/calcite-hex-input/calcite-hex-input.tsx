@@ -189,11 +189,11 @@ export class CalciteHexInput {
           onBlur={this.onInputBlur}
           onKeyDown={this.onInputKeyDown}
         />
-        <calcite-icon
+        <calcite-color-swatch
+          active
           class={CSS.preview}
           scale={this.scale}
-          icon="circle-f"
-          style={{ color: `#${hexInputValue}` }}
+          color={`#${hexInputValue}`}
         />
         <span class={CSS.hash}>#</span>
       </div>

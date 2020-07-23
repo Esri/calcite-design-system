@@ -1,4 +1,3 @@
 export const CSS = {
-  swatch: "swatch",
-  swatchActive: "swatch--active"
+  swatch: "swatch"
 };

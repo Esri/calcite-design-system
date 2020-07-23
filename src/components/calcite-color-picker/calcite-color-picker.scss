@@ -1,5 +1,5 @@
 $font-weight--medium: 500;
-$section-label-bottom-padding: 10px;
+$section-label-bottom-padding: 2px;
 $inline-button-size: 24px;
 $color-mode-selected-border-height: 3px;
 $channel-input-offset: 30%;
@@ -154,7 +154,7 @@ $channel-input-offset: 30%;
   display: inline-grid;
   -ms-grid-columns: auto 1fr;
   grid-template-columns: auto 1fr;
-  align-items: center;
+  align-items: baseline;
   width: 65px;
   height: 28px;
   margin-right: 8px;
@@ -210,7 +210,7 @@ $channel-input-offset: 30%;
   grid-column: 1;
 
   display: flex;
-  align-items: center;
+
   margin: 0 4px;
   font-size: 14px;
   color: var(--calcite-ui-text-3);
@@ -242,9 +242,15 @@ calcite-color-swatch:not([is-active]):hover {
   cursor: pointer;
 }
 
+.delete-color {
+  margin: 0 8px;
+}
+
 .save-color,
 .delete-color {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
   @include focus-style-base();
 

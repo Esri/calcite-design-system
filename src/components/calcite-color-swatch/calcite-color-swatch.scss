@@ -24,4 +24,9 @@ $size-l: 32px;
 .swatch {
   height: inherit;
   width: inherit;
+  overflow: visible;
+
+  rect {
+    transition: all 150ms ease-in-out;
+  }
 }

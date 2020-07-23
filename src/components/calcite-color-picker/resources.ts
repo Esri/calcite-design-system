@@ -57,7 +57,7 @@ export const DIMENSIONS = {
   },
   m: {
     slider: {
-      height: 12,
+      height: 10,
       width: 240
     },
     colorField: {
@@ -70,7 +70,7 @@ export const DIMENSIONS = {
   },
   l: {
     slider: {
-      height: 12,
+      height: 14,
       width: 370
     },
     colorField: {
@@ -78,7 +78,7 @@ export const DIMENSIONS = {
       width: 370
     },
     thumb: {
-      radius: 10
+      radius: 12
     }
   }
 };
