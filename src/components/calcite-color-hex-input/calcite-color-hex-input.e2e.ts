@@ -84,7 +84,7 @@ describe("calcite-color-hex-input", () => {
     await page.setContent("<calcite-color-hex-input value='#b33f33'></calcite-color-hex-input>");
 
     const input = await page.find("calcite-color-hex-input");
-    const spy = await input.spyOnEvent("calciteHexInputChange");
+    const spy = await input.spyOnEvent("calciteColorHexInputChange");
 
     await input.setProperty("value", "#abcdef");
     await page.waitForChanges();

@@ -100,7 +100,7 @@ export class CalciteColorHexInput {
       this.internalColor = Color(normalized);
       this.value = normalized;
       if (changed) {
-        this.calciteHexInputChange.emit();
+        this.calciteColorHexInputChange.emit();
       }
       return;
     }
@@ -117,7 +117,7 @@ export class CalciteColorHexInput {
   /**
    * Emitted when the hex value changes.
    */
-  @Event() calciteHexInputChange: EventEmitter;
+  @Event() calciteColorHexInputChange: EventEmitter;
 
   private onInputBlur = (event: FocusEvent): void => {
     const node = event.currentTarget as HTMLInputElement;
@@ -142,7 +142,7 @@ export class CalciteColorHexInput {
     }
 
     this.value = normalizeHex(hex);
-    this.calciteHexInputChange.emit();
+    this.calciteColorHexInputChange.emit();
   };
 
   private onInputKeyDown(event: KeyboardEvent): void {

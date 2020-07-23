@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor } from "../../interfaces/ColorPicker";
+import { ColorMode, ColorValue, InternalColor } from "../../interfaces/Color";
 import { Scale, Theme } from "../../interfaces/common";
 import {
   CSS,
@@ -188,7 +188,7 @@ export class CalciteColor {
       }
 
       this.color = color;
-      this.calciteColorPickerChange.emit();
+      this.calciteColorChange.emit();
     }
   }
 
@@ -225,7 +225,7 @@ export class CalciteColor {
   //--------------------------------------------------------------------------
 
   @Event()
-  calciteColorPickerChange: EventEmitter;
+  calciteColorChange: EventEmitter;
 
   private handleColorModeClick = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -412,7 +412,7 @@ export class CalciteColor {
             </span>
             <calcite-color-hex-input
               class={CSS.control}
-              onCalciteHexInputChange={this.handleHexInputChange}
+              oncalciteColorHexInputChange={this.handleHexInputChange}
               ref={(node) => (this.hexInputNode = node)}
               scale={hexInputScale}
               value={selectedColorInHex}

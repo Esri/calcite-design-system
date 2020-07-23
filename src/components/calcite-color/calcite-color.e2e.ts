@@ -44,7 +44,7 @@ describe("calcite-color", () => {
     await page.setContent("<calcite-color></calcite-color>");
     const picker = await page.find("calcite-color");
 
-    const spy = await picker.spyOnEvent("calciteColorPickerChange");
+    const spy = await picker.spyOnEvent("calciteColorChange");
 
     picker.setProperty("value", "#FF00FF");
     await page.waitForChanges();
@@ -57,7 +57,7 @@ describe("calcite-color", () => {
       html: "<calcite-color></calcite-color>"
     });
     const picker = await page.find("calcite-color");
-    const spy = await picker.spyOnEvent("calciteColorPickerChange");
+    const spy = await picker.spyOnEvent("calciteColorChange");
 
     const supportedValues = [
       "#beefee",
@@ -161,7 +161,7 @@ describe("calcite-color", () => {
       html: "<calcite-color></calcite-color>"
     });
     const picker = await page.find("calcite-color");
-    const spy = await picker.spyOnEvent("calciteColorPickerChange");
+    const spy = await picker.spyOnEvent("calciteColorChange");
     const currentValue = await picker.getProperty("value");
 
     picker.setProperty("value", "unsupported-color-format");
