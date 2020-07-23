@@ -1,0 +1,8 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  ::slotted(calcite-tile-select) {
+    margin-right: 1px;
+    margin-bottom: 1px;
+  }
+}
