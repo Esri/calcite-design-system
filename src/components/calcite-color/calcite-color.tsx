@@ -113,7 +113,7 @@ export class CalciteColor {
   @Prop() intlSaveColor = "Save color";
 
   /** Label used for the  */
-  @Prop() intlSavedColors = "Saved Colors";
+  @Prop() intlSavedColors = "Saved colors";
 
   /** Label used for the value channel */
   @Prop() intlV = "V";
