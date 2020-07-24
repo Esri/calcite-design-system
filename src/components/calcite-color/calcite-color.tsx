@@ -23,7 +23,7 @@ import {
   HSV_LIMITS,
   RGB_LIMITS
 } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
 
 @Component({
@@ -321,7 +321,7 @@ export class CalciteColor {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    return this.hexInputNode?.setFocus();
+    focusElement(this.hexInputNode);
   }
 
   //--------------------------------------------------------------------------

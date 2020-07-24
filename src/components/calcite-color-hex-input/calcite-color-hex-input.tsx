@@ -22,7 +22,7 @@ import Color from "color";
 import { CSS } from "./resources";
 import { Scale, Theme } from "../../interfaces/common";
 import { RGB } from "../../interfaces/Color";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 
 const DEFAULT_COLOR = Color();
 
@@ -213,10 +213,10 @@ export class CalciteColorHexInput {
   //
   //--------------------------------------------------------------------------
 
-  /** Focuses the input. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.inputNode?.focus();
+    focusElement(this.inputNode);
   }
 
   //--------------------------------------------------------------------------
