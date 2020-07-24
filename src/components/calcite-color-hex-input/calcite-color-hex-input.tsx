@@ -119,8 +119,8 @@ export class CalciteColorHexInput {
    */
   @Event() calciteColorHexInputChange: EventEmitter;
 
-  private onInputBlur = (event: FocusEvent): void => {
-    const node = event.currentTarget as HTMLInputElement;
+  private onCalciteInputBlur = (event: Event): void => {
+    const node = event.currentTarget as HTMLCalciteInputElement;
     const hex = `#${node.value}`;
 
     if (isValidHex(hex) && isLonghandHex(hex)) {
@@ -131,8 +131,8 @@ export class CalciteColorHexInput {
     node.value = this.formatForInternalInput(rgbToHex((this.internalColor.object() as any) as RGB));
   };
 
-  private onInputChange = (event): void => {
-    const node = event.currentTarget as HTMLInputElement;
+  private onInputChange = (event: Event): void => {
+    const node = event.currentTarget as HTMLCalciteInputElement;
     const hex = node.value;
 
     const color = hexToRGB(`#${hex}`);
@@ -145,15 +145,23 @@ export class CalciteColorHexInput {
     this.calciteColorHexInputChange.emit();
   };
 
-  private onInputKeyDown(event: KeyboardEvent): void {
+  private onInputKeyDown = (event: KeyboardEvent): void => {
+    const { inputNode } = this;
     const { key, altKey, ctrlKey, metaKey } = event;
 
     const withModifiers = altKey || ctrlKey || metaKey;
+    const exceededHexLength = inputNode.value.length >= 6;
+    const hasTextSelection = getSelection().type === "Range";
 
-    if (key.length === 1 && !withModifiers && !hexChar.test(key)) {
+    if (
+      key.length === 1 &&
+      !withModifiers &&
+      !hasTextSelection &&
+      (!hexChar.test(key) || exceededHexLength)
+    ) {
       event.preventDefault();
     }
-  }
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -161,7 +169,7 @@ export class CalciteColorHexInput {
   //
   //--------------------------------------------------------------------------
 
-  private inputNode: HTMLInputElement;
+  private inputNode: HTMLCalciteInputElement;
 
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
@@ -181,16 +189,16 @@ export class CalciteColorHexInput {
     return (
       <div class={CSS.container}>
         <calcite-input
+          prefixText="#"
           aria-label={hexLabel}
           ref={(node) => (this.inputNode = node)}
           class={CSS.input}
           value={hexInputValue}
-          maxLength={6}
           onChange={this.onInputChange}
-          onBlur={this.onInputBlur}
+          onCalciteInputBlur={this.onCalciteInputBlur}
           onKeyDown={this.onInputKeyDown}
+          scale="s"
         />
-        <span class={CSS.hash}>#</span>
         <calcite-color-swatch active class={CSS.preview} scale="s" color={`#${hexInputValue}`} />
       </div>
     );

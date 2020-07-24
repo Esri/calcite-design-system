@@ -464,40 +464,46 @@ export class CalciteColor {
             </div>
             <div class={{ [CSS.channels]: true, [CSS.control]: true }}>
               <div class={CSS.channel}>
-                <input
+                <calcite-input
                   aria-label={channelAriaLabels[0]}
                   class={CSS.channelInput}
                   data-channel-index={0}
+                  numberButtonType="none"
                   onInput={this.handleChannelInput}
                   onChange={this.handleChannelChange}
+                  prefixText={channelLabels[0]}
+                  scale="s"
                   type="number"
-                  value={channels[0]}
+                  value={channels[0].toString()}
                 />
-                <span class={CSS.channelLabel}>{channelLabels[0]}</span>
               </div>
               <div class={CSS.channel}>
-                <input
+                <calcite-input
                   aria-label={channelAriaLabels[1]}
                   class={CSS.channelInput}
                   data-channel-index={1}
+                  numberButtonType="none"
                   onInput={this.handleChannelInput}
                   onChange={this.handleChannelChange}
+                  prefixText={channelLabels[1]}
+                  scale="s"
                   type="number"
-                  value={channels[1]}
+                  value={channels[1].toString()}
                 />
-                <span class={CSS.channelLabel}>{channelLabels[1]}</span>
               </div>
               <div class={CSS.channel}>
-                <input
+                <calcite-input
                   aria-label={channelAriaLabels[2]}
                   class={CSS.channelInput}
                   data-channel-index={2}
+                  numberButtonType="none"
                   onInput={this.handleChannelInput}
                   onChange={this.handleChannelChange}
+                  prefixText={channelLabels[2]}
+                  scale="s"
                   type="number"
-                  value={channels[2]}
+                  value={channels[2].toString()}
                 />
-                <span class={CSS.channelLabel}>{channelLabels[2]}</span>
               </div>
             </div>
           </div>
