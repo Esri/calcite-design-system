@@ -441,10 +441,10 @@ export class CalciteColor {
             </calcite-tab-nav>
 
             <calcite-tab active={isRgb} class={CSS.control}>
-              <div class={CSS.channel}>
+              <div class={CSS.channels}>
                 <calcite-input
                   aria-label={channelAriaLabels[0]}
-                  class={CSS.channelInput}
+                  class={CSS.channel}
                   data-channel-index={0}
                   dir={elementDir}
                   numberButtonType="none"
@@ -457,7 +457,7 @@ export class CalciteColor {
                 />
                 <calcite-input
                   aria-label={channelAriaLabels[1]}
-                  class={CSS.channelInput}
+                  class={CSS.channel}
                   data-channel-index={1}
                   dir={elementDir}
                   numberButtonType="none"
@@ -470,7 +470,7 @@ export class CalciteColor {
                 />
                 <calcite-input
                   aria-label={channelAriaLabels[2]}
-                  class={CSS.channelInput}
+                  class={CSS.channel}
                   data-channel-index={2}
                   dir={elementDir}
                   numberButtonType="none"
@@ -484,45 +484,47 @@ export class CalciteColor {
               </div>
             </calcite-tab>
             <calcite-tab active={isHsv} class={CSS.control}>
-              <calcite-input
-                aria-label={channelAriaLabels[0]}
-                class={CSS.channelInput}
-                data-channel-index={0}
-                dir={elementDir}
-                numberButtonType="none"
-                onInput={this.handleChannelInput}
-                onChange={this.handleChannelChange}
-                prefixText={channelLabels[0]}
-                scale="s"
-                type="number"
-                value={channels[0].toString()}
-              />
-              <calcite-input
-                aria-label={channelAriaLabels[1]}
-                class={CSS.channelInput}
-                data-channel-index={1}
-                dir={elementDir}
-                numberButtonType="none"
-                onInput={this.handleChannelInput}
-                onChange={this.handleChannelChange}
-                prefixText={channelLabels[1]}
-                scale="s"
-                type="number"
-                value={channels[1].toString()}
-              />
-              <calcite-input
-                aria-label={channelAriaLabels[2]}
-                class={CSS.channelInput}
-                data-channel-index={2}
-                dir={elementDir}
-                numberButtonType="none"
-                onInput={this.handleChannelInput}
-                onChange={this.handleChannelChange}
-                prefixText={channelLabels[2]}
-                scale="s"
-                type="number"
-                value={channels[2].toString()}
-              />
+              <div class={CSS.channels}>
+                <calcite-input
+                  aria-label={channelAriaLabels[0]}
+                  class={CSS.channel}
+                  data-channel-index={0}
+                  dir={elementDir}
+                  numberButtonType="none"
+                  onInput={this.handleChannelInput}
+                  onChange={this.handleChannelChange}
+                  prefixText={channelLabels[0]}
+                  scale="s"
+                  type="number"
+                  value={channels[0].toString()}
+                />
+                <calcite-input
+                  aria-label={channelAriaLabels[1]}
+                  class={CSS.channel}
+                  data-channel-index={1}
+                  dir={elementDir}
+                  numberButtonType="none"
+                  onInput={this.handleChannelInput}
+                  onChange={this.handleChannelChange}
+                  prefixText={channelLabels[1]}
+                  scale="s"
+                  type="number"
+                  value={channels[1].toString()}
+                />
+                <calcite-input
+                  aria-label={channelAriaLabels[2]}
+                  class={CSS.channel}
+                  data-channel-index={2}
+                  dir={elementDir}
+                  numberButtonType="none"
+                  onInput={this.handleChannelInput}
+                  onChange={this.handleChannelChange}
+                  prefixText={channelLabels[2]}
+                  scale="s"
+                  type="number"
+                  value={channels[2].toString()}
+                />
+              </div>
             </calcite-tab>
           </calcite-tabs>
         </div>

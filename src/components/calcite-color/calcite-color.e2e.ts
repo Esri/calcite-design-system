@@ -194,13 +194,7 @@ describe("calcite-color", () => {
 
   describe("color inputs", () => {
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string) => {
-      const inputTag = (await inputOrHexInput.getProperty("tagName")).toLowerCase();
-
-      if (inputTag === "calcite-color-hex-input") {
-        await inputOrHexInput.callMethod("setFocus");
-      } else {
-        await inputOrHexInput.focus();
-      }
+      await inputOrHexInput.callMethod("setFocus");
 
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");
@@ -231,7 +225,7 @@ describe("calcite-color", () => {
         const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
 
         await rgbModeButton.click();
-        const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> .${CSS.channelInput}`);
+        const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
         await clearAndEnterValue(page, rInput, "128");
         await clearAndEnterValue(page, gInput, "64");
@@ -240,7 +234,7 @@ describe("calcite-color", () => {
         assertColorUpdate(await picker.getProperty("value"));
 
         await hsvModeButton.click();
-        const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> .${CSS.channelInput}`);
+        const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
         await clearAndEnterValue(page, hInput, "180");
         await clearAndEnterValue(page, sInput, "90");
@@ -328,14 +322,14 @@ describe("calcite-color", () => {
       const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
 
       await rgbModeButton.click();
-      const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> .${CSS.channelInput}`);
+      const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
       expect(await rInput.getProperty("value")).toBe("255");
       expect(await gInput.getProperty("value")).toBe("240");
       expect(await bInput.getProperty("value")).toBe("0");
 
       await hsvModeButton.click();
-      const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> .${CSS.channelInput}`);
+      const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
       expect(await hInput.getProperty("value")).toBe("56");
       expect(await sInput.getProperty("value")).toBe("100");
@@ -357,7 +351,9 @@ describe("calcite-color", () => {
 
       await rgbModeButton.click();
 
-      const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> .${CSS.channelInput}`);
+      const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
+        `calcite-color >>> calcite-input.${CSS.channel}`
+      );
 
       await clearAndEnterValue(page, rInput, "128");
       await clearAndEnterValue(page, gInput, "64");
@@ -366,8 +362,6 @@ describe("calcite-color", () => {
       expect(await picker.getProperty("value")).toBe("#804020");
 
       await hsvModeButton.click();
-
-      const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> .${CSS.channelInput}`);
 
       await clearAndEnterValue(page, hInput, "180");
       await clearAndEnterValue(page, sInput, "90");

@@ -99,24 +99,12 @@ $channel-input-offset: 30%;
 
 .channels {
   display: flex;
-}
-
-// not used
-.channels {
-  display: flex;
-  width: 100%;
-  flex-wrap: nowrap;
   justify-content: space-between;
-}
-
-.channel-input {
-  width: 30%;
-  display: inline-block;
 }
 
 .channel {
-  display: flex;
-  justify-content: space-between;
+  width: 30%;
+  display: inline-block;
 }
 
 .saved-colors {

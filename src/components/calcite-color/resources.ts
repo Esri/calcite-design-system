@@ -12,7 +12,6 @@ export const CSS = {
   colorMode: "color-mode",
   channels: "channels",
   channel: "channel",
-  channelInput: "channel-input",
   savedColors: "saved-colors",
   savedColorsSection: "saved-colors-section",
   saveColor: "save-color",
