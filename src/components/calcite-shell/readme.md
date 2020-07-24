@@ -6,6 +6,7 @@ _note: calcite-shell supports tablet as the smallest screen size_
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Advanced
@@ -82,6 +83,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 </calcite-shell>
 ```
 
+
 ### Basic
 
 #### Basic
@@ -143,11 +145,14 @@ Renders a single panel with actions in an action bar.
 </calcite-shell>
 ```
 
+
+
 ## Properties
 
 | Property | Attribute | Description                               | Type                | Default     |
 | -------- | --------- | ----------------------------------------- | ------------------- | ----------- |
 | `theme`  | `theme`   | Used to set the component's color scheme. | `"dark" \| "light"` | `undefined` |
+
 
 ## Slots
 
@@ -160,6 +165,7 @@ Renders a single panel with actions in an action bar.
 | `"shell-footer"`     | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
 | `"shell-header"`     | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*
