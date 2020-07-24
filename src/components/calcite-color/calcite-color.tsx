@@ -273,22 +273,6 @@ export class CalciteColor {
     this.updateColorFromChannels(channels);
   };
 
-  private handleSaveColorKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
-      event.preventDefault();
-      event.stopPropagation();
-      this.saveColor();
-    }
-  };
-
-  private handleDeleteColorKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
-      event.preventDefault();
-      event.stopPropagation();
-      this.deleteColor();
-    }
-  };
-
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " " || event.key === "Enter") {
       event.preventDefault();
@@ -420,26 +404,24 @@ export class CalciteColor {
           <div class={CSS.header}>
             <label>{intlSavedColors}</label>
             <div class={CSS.savedColorsButtons}>
-              <div
+              <calcite-button
+                appearance="transparent"
                 aria-label={deleteColorLabel}
                 class={CSS.deleteColor}
+                color="dark"
+                iconStart="minus"
                 onClick={this.deleteColor}
-                onKeyDown={this.handleDeleteColorKeyDown}
-                role="button"
-                tabIndex={0}
-              >
-                <calcite-icon icon="minus" scale="s" />
-              </div>
-              <div
+                scale="s"
+              />
+              <calcite-button
+                appearance="transparent"
                 aria-label={saveColorLabel}
                 class={CSS.saveColor}
+                color="dark"
+                iconStart="plus"
                 onClick={this.saveColor}
-                onKeyDown={this.handleSaveColorKeyDown}
-                role="button"
-                tabIndex={0}
-              >
-                <calcite-icon icon="plus" scale="s" />
-              </div>
+                scale="s"
+              />
             </div>
           </div>
           <div class={CSS.savedColors}>

@@ -132,29 +132,3 @@ calcite-color-swatch {
 .delete-color {
   margin: 0 8px;
 }
-
-.save-color,
-.delete-color {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  @include focus-style-base();
-
-  height: $inline-button-size;
-  width: $inline-button-size;
-
-  &:active,
-  &:focus,
-  &:hover {
-    background-color: #ddd;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &:focus {
-    @include focus-style-outset();
-  }
-}
