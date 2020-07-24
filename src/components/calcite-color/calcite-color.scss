@@ -1,3 +1,9 @@
+$section-padding: 12px;
+$section-padding--large: 16px;
+$gap: 8px;
+$gap--small: 4px;
+$gap--large: 12px;
+
 :host {
   border: 1px solid var(--calcite-ui-border-1);
   display: inline-block;
@@ -5,18 +11,47 @@
 }
 
 :host([scale="s"]) {
-  width: 170px;
+  width: 156px;
+
+  .channels {
+    flex-direction: column;
+    gap: $gap--small;
+  }
+
+  .channel {
+    width: 100%;
+  }
 }
 
 :host([scale="m"]) {
-  width: 240px;
+  width: 272px;
 }
 
 :host([scale="l"]) {
-  width: 370px;
+  width: 420px;
+
+  .color-field-and-slider {
+    margin-bottom: -20px;
+  }
+
+  .section {
+    padding: 0 $section-padding--large;
+  }
+
+  .saved-colors-section {
+    padding-top: $section-padding--large;
+    padding-bottom: $section-padding--large;
+  }
+
+  .saved-colors {
+    padding-top: $section-padding--large;
+    gap: $gap--large;
+  }
 
   .control-section {
     flex-wrap: nowrap;
+    // gap should match padding
+    gap: $section-padding--large;
   }
 
   .color-hex-options {
@@ -34,7 +69,7 @@
 }
 
 .color-field-and-slider {
-  margin-bottom: -40px;
+  margin-bottom: -16px;
 
   &--interactive {
     cursor: pointer;
@@ -48,16 +83,17 @@
 }
 
 .section {
-  padding: 16px 10px 0;
+  padding: 0 $section-padding;
+}
+
+.saved-colors-section {
+  padding-top: $section-padding;
+  padding-bottom: $section-padding;
 }
 
 .control-section {
   display: flex;
   justify-content: space-between;
-}
-
-.saved-colors-section {
-  padding-bottom: 16px;
 }
 
 .color-hex-options,
@@ -80,8 +116,8 @@
 
 .header--hex {
   line-height: 1.5;
-  font-size: 0.875rem;
-  padding: 0.75rem 0 15px;
+  @include font-size(-2);
+  padding: $section-padding 0 15px;
 }
 
 .control {
@@ -90,17 +126,19 @@
 
 .channels {
   display: flex;
-  justify-content: space-between;
+  gap: $gap;
 }
 
 .channel {
-  width: 30%;
-  display: inline-block;
+  width: 33%;
+  display: flex;
 }
 
 .saved-colors {
+  padding-top: $section-padding;
   display: flex;
   flex-wrap: wrap;
+  gap: $gap;
 }
 
 .saved-colors-buttons {
@@ -111,7 +149,6 @@ calcite-color-swatch {
   @include focus-style-base();
 
   cursor: pointer;
-  margin: 4px 8px 0 0;
 
   &:focus {
     @include focus-style-outset();

@@ -343,6 +343,7 @@ export class CalciteColor {
     } = this;
     const selectedColorInHex = color.hex();
     const hexInputScale = scale !== "s" ? "m" : scale;
+    const swatchButtonScale = scale === "l" ? "m" : "s";
     const { colorFieldAndSliderInteractive } = this;
     const elementDir = getElementDir(el);
 
@@ -405,7 +406,7 @@ export class CalciteColor {
                 color="dark"
                 iconStart="minus"
                 onClick={this.deleteColor}
-                scale="s"
+                scale={swatchButtonScale}
               />
               <calcite-button
                 appearance="transparent"
@@ -414,7 +415,7 @@ export class CalciteColor {
                 color="dark"
                 iconStart="plus"
                 onClick={this.saveColor}
-                scale="s"
+                scale={swatchButtonScale}
               />
             </div>
           </div>

@@ -40,12 +40,12 @@ export const HSV_LIMITS = {
 export const DIMENSIONS = {
   s: {
     slider: {
-      height: 8,
-      width: 170
+      height: 10,
+      width: 156
     },
     colorField: {
       height: 80,
-      width: 170
+      width: 156
     },
     thumb: {
       radius: 8
@@ -53,12 +53,12 @@ export const DIMENSIONS = {
   },
   m: {
     slider: {
-      height: 10,
-      width: 240
+      height: 14,
+      width: 272
     },
     colorField: {
-      height: 130,
-      width: 240
+      height: 150,
+      width: 272
     },
     thumb: {
       radius: 10
@@ -66,12 +66,12 @@ export const DIMENSIONS = {
   },
   l: {
     slider: {
-      height: 14,
-      width: 370
+      height: 16,
+      width: 420
     },
     colorField: {
       height: 200,
-      width: 370
+      width: 420
     },
     thumb: {
       radius: 12
