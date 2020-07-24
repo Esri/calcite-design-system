@@ -345,38 +345,24 @@ export class CalciteColor {
     this.updateDimensions(this.scale);
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  //--------------------------------------------------------------------------
+
   render(): VNode {
     const {
-      saveColorLabel,
-      channelMode,
-      channels,
       color,
-      el,
-      intlB,
-      intlBlue,
-      intlG,
-      intlGreen,
-      intlH,
-      intlHsv,
-      intlHue,
-      intlR,
-      intlRed,
-      intlRgb,
-      intlS,
-      intlSaturation,
-      intlV,
-      intlValue,
       deleteColorLabel,
+      el,
+      intlHex,
+      intlSavedColors,
+      saveColorLabel,
       savedColors,
       scale,
       theme
     } = this;
-    const isRgb = channelMode === "rgb";
-    const isHsv = channelMode === "hsv";
-    const channelLabels = isRgb ? [intlR, intlG, intlB] : [intlH, intlS, intlV];
-    const channelAriaLabels = isRgb
-      ? [intlRed, intlGreen, intlBlue]
-      : [intlHue, intlSaturation, intlValue];
     const selectedColorInHex = color.hex();
     const hexInputScale = scale !== "s" ? "m" : scale;
     const { colorFieldAndSliderInteractive } = this;
@@ -403,7 +389,7 @@ export class CalciteColor {
                 [CSS.underlinedHeader]: true
               }}
             >
-              {this.intlHex}
+              {intlHex}
             </span>
             <calcite-color-hex-input
               class={CSS.control}
@@ -420,117 +406,19 @@ export class CalciteColor {
               [CSS.colorModeContainer]: true,
               [CSS.splitSection]: true
             }}
+            dir={elementDir}
           >
             <calcite-tab-nav slot="tab-nav">
-              <calcite-tab-title
-                active={isRgb}
-                class={CSS.colorMode}
-                data-color-mode="rgb"
-                onCalciteTabsActivate={this.handleTabActivate}
-              >
-                {intlRgb}
-              </calcite-tab-title>
-              <calcite-tab-title
-                active={isHsv}
-                class={CSS.colorMode}
-                data-color-mode="hsv"
-                onCalciteTabsActivate={this.handleTabActivate}
-              >
-                {intlHsv}
-              </calcite-tab-title>
+              {this.renderChannelsTabTitle("rgb")}
+              {this.renderChannelsTabTitle("hsv")}
             </calcite-tab-nav>
-
-            <calcite-tab active={isRgb} class={CSS.control}>
-              <div class={CSS.channels}>
-                <calcite-input
-                  aria-label={channelAriaLabels[0]}
-                  class={CSS.channel}
-                  data-channel-index={0}
-                  dir={elementDir}
-                  numberButtonType="none"
-                  onInput={this.handleChannelInput}
-                  onChange={this.handleChannelChange}
-                  prefixText={channelLabels[0]}
-                  scale="s"
-                  type="number"
-                  value={channels[0].toString()}
-                />
-                <calcite-input
-                  aria-label={channelAriaLabels[1]}
-                  class={CSS.channel}
-                  data-channel-index={1}
-                  dir={elementDir}
-                  numberButtonType="none"
-                  onInput={this.handleChannelInput}
-                  onChange={this.handleChannelChange}
-                  prefixText={channelLabels[1]}
-                  scale="s"
-                  type="number"
-                  value={channels[1].toString()}
-                />
-                <calcite-input
-                  aria-label={channelAriaLabels[2]}
-                  class={CSS.channel}
-                  data-channel-index={2}
-                  dir={elementDir}
-                  numberButtonType="none"
-                  onInput={this.handleChannelInput}
-                  onChange={this.handleChannelChange}
-                  prefixText={channelLabels[2]}
-                  scale="s"
-                  type="number"
-                  value={channels[2].toString()}
-                />
-              </div>
-            </calcite-tab>
-            <calcite-tab active={isHsv} class={CSS.control}>
-              <div class={CSS.channels}>
-                <calcite-input
-                  aria-label={channelAriaLabels[0]}
-                  class={CSS.channel}
-                  data-channel-index={0}
-                  dir={elementDir}
-                  numberButtonType="none"
-                  onInput={this.handleChannelInput}
-                  onChange={this.handleChannelChange}
-                  prefixText={channelLabels[0]}
-                  scale="s"
-                  type="number"
-                  value={channels[0].toString()}
-                />
-                <calcite-input
-                  aria-label={channelAriaLabels[1]}
-                  class={CSS.channel}
-                  data-channel-index={1}
-                  dir={elementDir}
-                  numberButtonType="none"
-                  onInput={this.handleChannelInput}
-                  onChange={this.handleChannelChange}
-                  prefixText={channelLabels[1]}
-                  scale="s"
-                  type="number"
-                  value={channels[1].toString()}
-                />
-                <calcite-input
-                  aria-label={channelAriaLabels[2]}
-                  class={CSS.channel}
-                  data-channel-index={2}
-                  dir={elementDir}
-                  numberButtonType="none"
-                  onInput={this.handleChannelInput}
-                  onChange={this.handleChannelChange}
-                  prefixText={channelLabels[2]}
-                  scale="s"
-                  type="number"
-                  value={channels[2].toString()}
-                />
-              </div>
-            </calcite-tab>
+            {this.renderChannelsTab("rgb")}
+            {this.renderChannelsTab("hsv")}
           </calcite-tabs>
         </div>
         <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
           <div class={CSS.header}>
-            <label>{this.intlSavedColors}</label>
+            <label>{intlSavedColors}</label>
             <div class={CSS.savedColorsButtons}>
               <div
                 aria-label={deleteColorLabel}
@@ -575,7 +463,80 @@ export class CalciteColor {
     );
   }
 
-  //--------------------------------------------------------------------------
+  private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
+    const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
+    const active = channelMode === activeChannelMode;
+    const label = channelMode === "rgb" ? intlRgb : intlHsv;
+
+    return (
+      <calcite-tab-title
+        active={active}
+        class={CSS.colorMode}
+        data-color-mode={channelMode}
+        onCalciteTabsActivate={this.handleTabActivate}
+      >
+        {label}
+      </calcite-tab-title>
+    );
+  };
+
+  private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
+    const {
+      channelMode: activeChannelMode,
+      channels,
+      intlB,
+      intlBlue,
+      intlG,
+      intlGreen,
+      intlH,
+      intlHue,
+      intlR,
+      intlRed,
+      intlS,
+      intlSaturation,
+      intlV,
+      intlValue
+    } = this;
+
+    const active = channelMode === activeChannelMode;
+    const isRgb = channelMode === "rgb";
+    const channelLabels = isRgb ? [intlR, intlG, intlB] : [intlH, intlS, intlV];
+    const channelAriaLabels = isRgb
+      ? [intlRed, intlGreen, intlBlue]
+      : [intlHue, intlSaturation, intlValue];
+
+    return (
+      <calcite-tab active={active} class={CSS.control}>
+        <div class={CSS.channels}>
+          {channels.map((channel, index) =>
+            this.renderChannel(channel, index, channelLabels[index], channelAriaLabels[index])
+          )}
+        </div>
+      </calcite-tab>
+    );
+  };
+
+  private renderChannel = (
+    value: number,
+    index: number,
+    label: string,
+    ariaLabel: string
+  ): VNode => (
+    <calcite-input
+      aria-label={ariaLabel}
+      class={CSS.channel}
+      data-channel-index={index}
+      numberButtonType="none"
+      onInput={this.handleChannelInput}
+      onChange={this.handleChannelChange}
+      prefixText={label}
+      scale="s"
+      type="number"
+      value={value.toString()}
+    />
+  );
+
+  // --------------------------------------------------------------------------
   //
   //  Private Methods
   //
