@@ -24,21 +24,21 @@ $spacing: $baseline/2;
 }
 :host([active]),
 :host(:not([embed])[href]:active) {
-  #heading {
+  .heading {
     font-weight: 500;
   }
 }
 :host([icon][heading]:not([description]):not([embed])) {
   padding: unset;
 }
-#tile {
+.tile {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: $spacing;
-  #heading {
+  .heading {
     @include font-size(0);
     color: var(--calcite-ui-text-1);
-    #active-hidden {
+    .active-hidden {
       opacity: 0;
       font-weight: 500;
       margin-top: -$baseline-ratio * 1em;
@@ -47,14 +47,14 @@ $spacing: $baseline/2;
   &.large-visual {
     justify-items: center;
     min-height: 200px;
-    #icon {
+    .icon {
       align-self: self-end;
     }
-    #heading {
+    .heading {
       align-self: center;
     }
   }
-  #description {
+  .description {
     @include font-size(-1);
     color: var(--calcite-ui-text-2);
   }

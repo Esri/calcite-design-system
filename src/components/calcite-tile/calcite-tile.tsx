@@ -3,7 +3,7 @@ import { Component, Host, h, Prop } from "@stencil/core";
 @Component({
   tag: "calcite-tile",
   styleUrl: "calcite-tile.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteTile {
   //--------------------------------------------------------------------------
@@ -31,9 +31,9 @@ export class CalciteTile {
   renderTile() {
     const isLargeVisual = this.heading && this.icon && !this.description;
     return (
-      <div id="tile" class={{ "large-visual": isLargeVisual }}>
+      <div class={{ "large-visual": isLargeVisual, tile: true }}>
         {this.icon && (
-          <div id="icon">
+          <div class="icon">
             <calcite-icon
               icon={this.icon}
               scale="l"
@@ -43,12 +43,12 @@ export class CalciteTile {
           </div>
         )}
         {this.heading && (
-          <div id="heading">
+          <div class="heading">
             {this.heading}
-            <div id="active-hidden">{this.heading}</div>
+            <div class="active-hidden">{this.heading}</div>
           </div>
         )}
-        {this.description && <div id="description">{this.description}</div>}
+        {this.description && <div class="description">{this.description}</div>}
       </div>
     );
   }
