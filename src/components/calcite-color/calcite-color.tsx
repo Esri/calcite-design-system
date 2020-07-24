@@ -21,7 +21,8 @@ import {
   DEFAULT_STORAGE_KEY_PREFIX,
   DIMENSIONS,
   HSV_LIMITS,
-  RGB_LIMITS
+  RGB_LIMITS,
+  TEXT
 } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
@@ -68,58 +69,58 @@ export class CalciteColor {
   }
 
   /** Label used for the blue channel */
-  @Prop() intlB = "B";
+  @Prop() intlB = TEXT.b;
 
   /** Label used for the blue channel description */
-  @Prop() intlBlue = "Blue";
+  @Prop() intlBlue = TEXT.blue;
 
   /** Label used for the delete color button. */
-  @Prop() intlDeleteColor = "Delete color";
+  @Prop() intlDeleteColor = TEXT.deleteColor;
 
   /** Label used for the green channel */
-  @Prop() intlG = "G";
+  @Prop() intlG = TEXT.g;
 
   /** Label used for the green channel description */
-  @Prop() intlGreen = "Green";
+  @Prop() intlGreen = TEXT.green;
 
   /** Label used for the hue channel */
-  @Prop() intlH = "H";
+  @Prop() intlH = TEXT.h;
 
   /** Label used for the HSV mode */
-  @Prop() intlHsv = "HSV";
+  @Prop() intlHsv = TEXT.hsv;
 
   /** Label used for the hex input */
-  @Prop() intlHex = "Hex";
+  @Prop() intlHex = TEXT.hex;
 
   /** Label used for the hue channel description */
-  @Prop() intlHue = "Hue";
+  @Prop() intlHue = TEXT.hue;
 
   /** Label used for the red channel */
-  @Prop() intlR = "R";
+  @Prop() intlR = TEXT.r;
 
   /** Label used for the red channel description */
-  @Prop() intlRed = "Red";
+  @Prop() intlRed = TEXT.red;
 
   /** Label used for the RGB mode */
-  @Prop() intlRgb = "RGB";
+  @Prop() intlRgb = TEXT.rgb;
 
   /** Label used for the saturation channel */
-  @Prop() intlS = "S";
+  @Prop() intlS = TEXT.s;
 
   /** Label used for the saturation channel description */
-  @Prop() intlSaturation = "Saturation";
+  @Prop() intlSaturation = TEXT.saturation;
 
   /** Label used for the save color button. */
-  @Prop() intlSaveColor = "Save color";
+  @Prop() intlSaveColor = TEXT.saveColor;
 
   /** Label used for the  */
-  @Prop() intlSavedColors = "Saved colors";
+  @Prop() intlSavedColors = TEXT.savedColors;
 
   /** Label used for the value channel */
-  @Prop() intlV = "V";
+  @Prop() intlV = TEXT.v;
 
   /** Label used for the  */
-  @Prop() intlValue = "Value";
+  @Prop() intlValue = TEXT.value;
 
   /**
    * The scale of the color picker.

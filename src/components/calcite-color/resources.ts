@@ -37,6 +37,27 @@ export const HSV_LIMITS = {
   v: 100
 };
 
+export const TEXT = {
+  b: "B",
+  blue: "Blue",
+  deleteColor: "Delete color",
+  g: "G",
+  green: "Green",
+  h: "H",
+  hsv: "HSV",
+  hex: "Hex",
+  hue: "Hue",
+  r: "R",
+  red: "Red",
+  rgb: "RGB",
+  s: "S",
+  saturation: "Saturation",
+  saveColor: "Save color",
+  savedColors: "Saved colors",
+  v: "V",
+  value: "Value"
+};
+
 export const DIMENSIONS = {
   s: {
     slider: {

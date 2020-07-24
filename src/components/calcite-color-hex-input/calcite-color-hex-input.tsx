@@ -23,6 +23,7 @@ import { CSS } from "./resources";
 import { Scale, Theme } from "../../interfaces/common";
 import { RGB } from "../../interfaces/Color";
 import { focusElement, getElementDir } from "../../utils/dom";
+import { TEXT } from "../calcite-color/resources";
 
 const DEFAULT_COLOR = Color();
 
@@ -64,7 +65,7 @@ export class CalciteColorHexInput {
   /**
    * Label used for the hex input.
    */
-  @Prop() intlHex = "Hex";
+  @Prop() intlHex = TEXT.hex;
 
   /**
    * The component's scale.
