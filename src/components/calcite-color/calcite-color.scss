@@ -10,22 +10,11 @@ $channel-input-offset: 30%;
   background-color: var(--calcite-ui-foreground-1);
 }
 
-:host([dir="rtl"]) {
-  .channel-input {
-    padding: 0 $channel-input-offset 0 0;
-  }
-}
-
 :host([scale="s"]) {
   width: 170px;
 
   .header {
     font-size: 12px;
-  }
-
-  .channel {
-    width: 48px;
-    margin-right: 3px;
   }
 }
 
@@ -48,11 +37,13 @@ $channel-input-offset: 30%;
   .color-mode-container {
     margin-top: 0;
     flex-grow: 0.5;
+    // TODO: revisit
+    width: 60%;
   }
 }
 
 .color-field-and-slider {
-  margin-bottom: -20px;
+  margin-bottom: -40px;
 
   &--interactive {
     cursor: pointer;
@@ -83,7 +74,6 @@ $channel-input-offset: 30%;
 }
 
 .section--split {
-  margin-top: 16px;
   flex-grow: 1;
 }
 
@@ -96,23 +86,21 @@ $channel-input-offset: 30%;
   font-size: 14px;
 
   &.header--underlined {
-    border-bottom: 1px solid var(--calcite-ui-border-3);
+    border-bottom: 1px solid var(--calcite-ui-border-1);
   }
 }
 
 .color-mode,
 .header--hex {
-  @include focus-style-base();
-
   padding-bottom: $section-label-bottom-padding;
-
-  &:focus {
-    @include focus-style-outset();
-  }
 }
 
 .header--hex {
-  padding-bottom: $section-label-bottom-padding + $color-mode-selected-border-height - 1px;
+  line-height: 1.5;
+  font-size: 0.875rem;
+  padding: 0.75rem 0;
+  padding-bottom: 15px;
+  //padding-bottom: $section-label-bottom-padding + $color-mode-selected-border-height - 1px;
 }
 
 .control {
@@ -149,18 +137,22 @@ $channel-input-offset: 30%;
   color: var(--calcite-ui-text-3);
 }
 
+// not used
 .channels {
   display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
   justify-content: space-between;
 }
 
-.channel {
-  width: 65px;
-  margin-right: 8px;
+.channel-input {
+  width: 30%;
+  display: inline-block;
+}
 
-  &:last-child {
-    margin-right: unset;
-  }
+.channel {
+  display: flex;
+  justify-content: space-between;
 }
 
 .color-mode-selected {
