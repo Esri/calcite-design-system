@@ -12,10 +12,6 @@ $channel-input-offset: 30%;
 
 :host([scale="s"]) {
   width: 170px;
-
-  .header {
-    font-size: 12px;
-  }
 }
 
 :host([scale="m"]) {
@@ -37,7 +33,6 @@ $channel-input-offset: 30%;
   .color-mode-container {
     margin-top: 0;
     flex-grow: 0.5;
-    // TODO: revisit
     width: 60%;
   }
 }
@@ -83,16 +78,11 @@ $channel-input-offset: 30%;
   justify-content: space-between;
   color: var(--calcite-ui-text-3);
   font-weight: $font-weight--medium;
-  font-size: 14px;
+  @include font-size(-2);
 
   &.header--underlined {
     border-bottom: 1px solid var(--calcite-ui-border-1);
   }
-}
-
-.color-mode,
-.header--hex {
-  padding-bottom: $section-label-bottom-padding;
 }
 
 .header--hex {
@@ -107,34 +97,8 @@ $channel-input-offset: 30%;
   margin-top: 8px;
 }
 
-.color-mode {
-  cursor: pointer;
-  margin-bottom: -1px;
-  border-bottom: $color-mode-selected-border-height solid transparent;
-  transition: all 0.15s ease-in-out;
-
-  &:hover:not(.color-mode-selected) {
-    color: var(--calcite-ui-text-1);
-    border-bottom-color: var(--calcite-ui-border-2);
-  }
-}
-
-.color-mode-selection {
-  justify-content: space-between;
-
-  &::after {
-    content: "";
-    flex-grow: 0.5;
-  }
-}
-
-.color-mode-selection,
 .channels {
   display: flex;
-}
-
-.color-mode {
-  color: var(--calcite-ui-text-3);
 }
 
 // not used
@@ -153,11 +117,6 @@ $channel-input-offset: 30%;
 .channel {
   display: flex;
   justify-content: space-between;
-}
-
-.color-mode-selected {
-  color: var(--calcite-ui-text-1);
-  border-bottom-color: var(--calcite-ui-blue-1);
 }
 
 .saved-colors {

@@ -424,6 +424,7 @@ export class CalciteColor {
             <calcite-tab-nav slot="tab-nav">
               <calcite-tab-title
                 active={isRgb}
+                class={CSS.colorMode}
                 data-color-mode="rgb"
                 onCalciteTabsActivate={this.handleTabActivate}
               >
@@ -431,6 +432,7 @@ export class CalciteColor {
               </calcite-tab-title>
               <calcite-tab-title
                 active={isHsv}
+                class={CSS.colorMode}
                 data-color-mode="hsv"
                 onCalciteTabsActivate={this.handleTabActivate}
               >
