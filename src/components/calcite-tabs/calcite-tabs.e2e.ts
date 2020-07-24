@@ -89,7 +89,7 @@ describe("calcite-tabs", () => {
       const tab = tabs[index];
       const title = titles[index];
       expect(title).toEqualAttribute("aria-controls", tab.id);
-      expect(tab).toEqualAttribute("aria-labeledby", title.id);
+      expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
   });
 
@@ -115,17 +115,11 @@ describe("calcite-tabs", () => {
     await page.$eval("calcite-tabs", (element: HTMLCalciteTabsElement) => {
       element.ownerDocument
         .getElementById("insert-after-title")
-        .insertAdjacentHTML(
-          "afterend",
-          `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`
-        );
+        .insertAdjacentHTML("afterend", `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`);
 
       element.ownerDocument
         .getElementById("insert-after-tab")
-        .insertAdjacentHTML(
-          "afterend",
-          `<calcite-tab id="inserted-tab">Test</calcite-tab>`
-        );
+        .insertAdjacentHTML("afterend", `<calcite-tab id="inserted-tab">Test</calcite-tab>`);
     });
 
     await page.waitForChanges();
@@ -137,7 +131,7 @@ describe("calcite-tabs", () => {
       const tab = tabs[index];
       const title = titles[index];
       expect(title).toEqualAttribute("aria-controls", tab.id);
-      expect(tab).toEqualAttribute("aria-labeledby", title.id);
+      expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
 
     const results = await page.compareScreenshot();

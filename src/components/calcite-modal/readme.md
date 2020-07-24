@@ -8,13 +8,7 @@ calcite modal allows you to show a modal/dialog to your users. The modal handles
   <div slot="content">
     The actual content of the modal
   </div>
-  <calcite-button
-    slot="back"
-    color="light"
-    appearance="outline"
-    icon="chevron-left"
-    width="full"
-  >
+  <calcite-button slot="back" color="light" appearance="outline" icon="chevron-left" width="full">
     Back
   </calcite-button>
   <calcite-button slot="secondary" width="full" appearance="outline">
@@ -59,6 +53,7 @@ modal.beforeClose = beforeClose;
 | Property             | Attribute              | Description                                                                                                 | Type                                 | Default                   |
 | -------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
 | `active`             | `active`               | Add the active attribute to open the modal                                                                  | `boolean`                            | `undefined`               |
+| `backgroundColor`    | `background-color`     | Background color of modal content                                                                           | `"grey" \| "white"`                  | `"white"`                 |
 | `beforeClose`        | --                     | Optionally pass a function to run before close                                                              | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
 | `color`              | `color`                | Adds a color bar at the top for visual impact, Use color to add importance to destructive/workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
 | `disableCloseButton` | `disable-close-button` | Disables the display a close button within the Modal                                                        | `boolean`                            | `undefined`               |

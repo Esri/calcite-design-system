@@ -2,11 +2,10 @@ import { storiesOf } from "@storybook/html";
 import {
   withKnobs,
   number,
-  boolean,
   color,
   select,
 } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -23,7 +22,7 @@ storiesOf('components|Loader', module)
         "indeterminate"
       )}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      no-padding="${boolean("no-padding", false)}"
+      ${boolean("no-padding", false)}
       value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
     />
   `,
@@ -52,7 +51,7 @@ storiesOf('components|Loader', module)
         "indeterminate"
       )}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      no-padding="${boolean("no-padding", false)}"
+      ${boolean("no-padding", false)}
       value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
       active
       theme="dark" />
@@ -65,7 +64,7 @@ storiesOf('components|Loader', module)
     <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    no-padding="${boolean("no-padding", false)}"
+    ${boolean("no-padding", false)}
     value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
       style="
         --calcite-loader-spot-light: ${color("spot-light", "#50ba5f")};

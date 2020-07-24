@@ -60,6 +60,7 @@
   flex-wrap: row-wrap;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: transform 300ms $easing-function, visibility 0ms linear 300ms,
     opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
@@ -83,6 +84,7 @@
   opacity: 1;
   transition-delay: 0ms;
   .modal {
+    pointer-events: auto;
     visibility: visible;
     opacity: 1;
     transition-delay: 0ms;
@@ -170,6 +172,7 @@
   overflow-y: auto;
   display: block;
   background-color: var(--calcite-ui-foreground-1);
+  box-sizing: border-box;
   z-index: 1;
 }
 
@@ -180,6 +183,12 @@
 @include slotted("content", "*") {
   font-size: var(--calcite-modal-content-text);
   line-height: 1.5;
+}
+
+:host([background-color="grey"]) {
+  .modal__content {
+    background-color: var(--calcite-ui-background);
+  }
 }
 
 /**
@@ -280,6 +289,7 @@ slot[name="primary"] {
   }
   .modal__content {
     flex: 1 1 auto;
+    max-height: 100%;
   }
   .modal__header,
   .modal__footer {
