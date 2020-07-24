@@ -1,20 +1,11 @@
-import {
-  Component,
-  Element,
-  h,
-  Host,
-  Method,
-  Prop,
-  Build,
-  State,
-} from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, Build, State } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
   styleUrl: "calcite-button.scss",
-  shadow: true,
+  shadow: true
 })
 
 /** @slot default text slot for button text */
@@ -38,11 +29,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   /** specify the color of the button, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color:
-    | "blue"
-    | "dark"
-    | "light"
-    | "red" = "blue";
+  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
   /** specify the appearance style of the button, defaults to solid. */
   @Prop({ mutable: true, reflect: true }) appearance:
@@ -58,8 +45,7 @@ export class CalciteButton {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the width of the button, defaults to auto */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
-    "auto";
+  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
@@ -73,12 +59,11 @@ export class CalciteButton {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
-  @Prop({ reflect: true }) icon?: string;
+  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
 
-  /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
-    "start";
+  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
@@ -104,10 +89,6 @@ export class CalciteButton {
     let width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
 
-    let iconPosition = ["start", "end"];
-    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
-      this.iconPosition = "start";
-
     this.childElType = this.href ? "a" : "button";
     this.setupTextContentObserver();
   }
@@ -131,18 +112,22 @@ export class CalciteButton {
 
     const loader = (
       <div class="calcite-button--loader">
-        <calcite-loader is-active inline></calcite-loader>
+        <calcite-loader active inline></calcite-loader>
       </div>
     );
 
     const iconScale = this.scale === "l" ? "m" : "s";
 
-    const iconEl = (
+    const iconStartEl = (
       <calcite-icon
-        class="calcite-button--icon"
-        icon={this.icon}
+        class="calcite-button--icon icon-start"
+        icon={this.iconStart}
         scale={iconScale}
       />
+    );
+
+    const iconEndEl = (
+      <calcite-icon class="calcite-button--icon icon-end" icon={this.iconEnd} scale={iconScale} />
     );
 
     return (
@@ -155,9 +140,9 @@ export class CalciteButton {
           ref={(el) => (this.childEl = el)}
         >
           {this.loading ? loader : null}
-          {this.icon && this.iconPosition === "start" ? iconEl : null}
+          {this.iconStart ? iconStartEl : null}
           <slot />
-          {this.icon && this.iconPosition === "end" ? iconEl : null}
+          {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>
     );
@@ -215,14 +200,14 @@ export class CalciteButton {
       "color",
       "dir",
       "hasText",
-      "icon",
-      "iconPosition",
+      "icon-start",
+      "icon-end",
       "id",
       "loading",
       "scale",
       "slot",
       "width",
-      "theme",
+      "theme"
     ];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))

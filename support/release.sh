@@ -11,6 +11,12 @@ git commit -am "v$VERSION" --no-verify
 # Checkout a temp branch for release
 git checkout -b publish_v$VERSION
 
+# clean the dist folder
+rm -rf dist/
+
+# ensure a new build is run
+npm run build
+
 # force add built files so they appear in git only on this tag
 git add dist --force
 git add hydrate --force

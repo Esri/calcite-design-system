@@ -14,11 +14,7 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select(
-      "auto-dismiss-duration",
-      ["fast", "medium", "slow"],
-      "medium"
-    )}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
@@ -38,11 +34,7 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select(
-      "auto-dismiss-duration",
-      ["fast", "medium", "slow"],
-      "medium"
-    )}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}">
@@ -61,11 +53,7 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select(
-      "auto-dismiss-duration",
-      ["fast", "medium", "slow"],
-      "medium"
-    )}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
@@ -84,11 +72,7 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select(
-      "auto-dismiss-duration",
-      ["fast", "medium", "slow"],
-      "medium"
-    )}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "yellow")}">
@@ -104,25 +88,19 @@ storiesOf("Alert", module)
     () => `
    <div>
     <h5>Open or add to queue</h5>
-    <calcite-button onclick=document.querySelector("#one").open()>Open Alert 1</calcite-button>
-    <calcite-button onclick=document.querySelector("#two").open()>Open Alert 2</calcite-button>
-    <calcite-button onclick=document.querySelector("[data-custom-id=my-id]").open()>Open Alert 3</calcite-button>
+    <calcite-button onclick='document.querySelector("#one").setAttribute("active", "")'>Open Alert 1</calcite-button>
+    <calcite-button onclick='document.querySelector("#two").setAttribute("active", "")'>Open Alert 2</calcite-button>
+    <calcite-button onclick='document.querySelector("[data-custom-id=my-id]").setAttribute("active", "")'>Open Alert 3</calcite-button>
     <br/>
     <br/>
     <h5>Close or remove from queue</h5>
-    <calcite-button color="red" onclick=document.querySelector("#one").close()>Close Alert 1</calcite-button>
-    <calcite-button color="red" onclick=document.querySelector("#two").close()>Close Alert 2</calcite-button>
-    <calcite-button color="red" onclick=document.querySelector("[data-custom-id=my-id]").close()>Close Alert 3</calcite-button>
+    <calcite-button color="red" onclick='document.querySelector("#one").removeAttribute("active")'>Close Alert 1</calcite-button>
+    <calcite-button color="red" onclick='document.querySelector("#two").removeAttribute("active")'>Close Alert 2</calcite-button>
+    <calcite-button color="red" onclick='document.querySelector("[data-custom-id=my-id]").removeAttribute("active")'>Close Alert 3</calcite-button>
       <calcite-alert
       id="one"
       theme="light"
       icon="${boolean("icon", true)}"
-      auto-dismiss="${boolean("auto-dismiss", false)}"
-      auto-dismiss-duration="${select(
-        "auto-dismiss-duration",
-        ["fast", "medium", "slow"],
-        "medium"
-      )}"
       color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
       <div slot="alert-title">Your great thing happened</div>
       <div slot="alert-message">
@@ -134,12 +112,6 @@ storiesOf("Alert", module)
     id="two"
     theme="light"
     icon="${boolean("icon-2", true)}"
-    auto-dismiss="${boolean("auto-dismiss-2", false)}"
-    auto-dismiss-duration="${select(
-      "auto-dismiss-duration-2",
-      ["fast", "medium", "slow"],
-      "medium"
-    )}"
     color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}">
     <div slot="alert-title">Your great thing happened</div>
     <div slot="alert-message">
@@ -151,12 +123,6 @@ storiesOf("Alert", module)
       data-custom-id="my-id"
       theme="light"
       icon="${boolean("icon-3", true)}"
-      auto-dismiss="${boolean("auto-dismiss-3", true)}"
-      auto-dismiss-duration="${select(
-        "auto-dismiss-duration-3",
-        ["fast", "medium", "slow"],
-        "medium"
-      )}"
       color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}">
       <div slot="alert-title">That didn't work out</div>
       <div slot="alert-message">
@@ -175,11 +141,7 @@ storiesOf("Alert", module)
     theme="dark"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-  auto-dismiss-duration="${select(
-    "auto-dismiss-duration",
-    ["fast", "medium", "slow"],
-    "medium"
-  )}"
+  auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}">
@@ -187,7 +149,7 @@ storiesOf("Alert", module)
     <div slot="alert-message">
       That thing you wanted to do didn't work as expected
     </div>
-    <calcite-button theme="dark" slot="alert-link" title="my action">Retry</calcite-button>
+    <calcite-link theme="dark" slot="alert-link" title="my action">My action</calcite-link>
   </calcite-alert>
   `,
     { notes, backgrounds: darkBackground }
@@ -197,59 +159,41 @@ storiesOf("Alert", module)
     () => `
    <div>
     <h5 style="color:white">Open or add to queue</h5>
-    <calcite-button theme="dark" onclick=document.querySelector("#one").open()>Open Alert 1</calcite-button>
-    <calcite-button theme="dark" onclick=document.querySelector("#two").open()>Open Alert 2</calcite-button>
-    <calcite-button theme="dark" onclick=document.querySelector("[data-custom-id=my-id]").open()>Open Alert 3</calcite-button>
+    <calcite-button theme="dark" onclick='document.querySelector("#one").setAttribute("active", "")'>Open Alert 1</calcite-button>
+    <calcite-button theme="dark" onclick='document.querySelector("#two").setAttribute("active", "")'>Open Alert 2</calcite-button>
+    <calcite-button theme="dark" onclick='document.querySelector("[data-custom-id=my-id]").setAttribute("active", "")'>Open Alert 3</calcite-button>
     <br/>
     <br/>
     <h5 style="color:white">Close or remove from queue</h5>
-    <calcite-button theme="dark" color="red" onclick=document.querySelector("#one").close()>Close Alert 1</calcite-button>
-    <calcite-button theme="dark" color="red" onclick=document.querySelector("#two").close()>Close Alert 2</calcite-button>
-    <calcite-button theme="dark" color="red" onclick=document.querySelector("[data-custom-id=my-id]").close()>Close Alert 3</calcite-button>
+    <calcite-button theme="dark" color="red" onclick='document.querySelector("#one").removeAttribute("active")'>Close Alert 1</calcite-button>
+    <calcite-button theme="dark" color="red" onclick='document.querySelector("#two").removeAttribute("active")'>Close Alert 2</calcite-button>
+    <calcite-button theme="dark" color="red" onclick='document.querySelector("[data-custom-id=my-id]").removeAttribute("active")'>Close Alert 3</calcite-button>
       <calcite-alert
       id="one"
       theme="dark"
       icon="${boolean("icon", true)}"
-      auto-dismiss="${boolean("auto-dismiss", false)}"
-      auto-dismiss-duration="${select(
-        "auto-dismiss-duration",
-        ["fast", "medium", "slow"],
-        "medium"
-      )}"
       color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
       <div slot="alert-title">Your great thing happened</div>
       <div slot="alert-message">
         Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
       </div>
-      <calcite-button theme="dark" slot="alert-link" title="my action">View layer</calcite-link>
+      <calcite-link theme="dark" slot="alert-link" title="my action">My action</calcite-link>
     </calcite-alert>
     <calcite-alert
     id="two"
     theme="dark"
     icon="${boolean("icon-2", true)}"
-    auto-dismiss="${boolean("auto-dismiss-2", false)}"
-    auto-dismiss-duration="${select(
-      "auto-dismiss-duration-2",
-      ["fast", "medium", "slow"],
-      "medium"
-    )}"
     color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}">
     <div slot="alert-title">Your great thing happened</div>
     <div slot="alert-message">
     Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
     </div>
-    <calcite-button theme="dark" slot="alert-link" title="my action">View layer</calcite-link>
+    <calcite-link theme="dark" slot="alert-link" title="my action">My action</calcite-link>
     </calcite-alert>
     <calcite-alert
       data-custom-id="my-id"
       theme="dark"
       icon="${boolean("icon-3", true)}"
-      auto-dismiss="${boolean("auto-dismiss-3", true)}"
-      auto-dismiss-duration="${select(
-        "auto-dismiss-duration-3",
-        ["fast", "medium", "slow"],
-        "medium"
-      )}"
       color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}">
       <div slot="alert-message">
         That thing you wanted to do didn't work out so well.
@@ -267,11 +211,7 @@ storiesOf("Alert", module)
     theme="light"
     icon="${boolean("icon", true)}"
     auto-dismiss="${boolean("auto-dismiss", false)}"
-    auto-dismiss-duration="${select(
-      "auto-dismiss-duration",
-      ["fast", "medium", "slow"],
-      "medium"
-    )}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">

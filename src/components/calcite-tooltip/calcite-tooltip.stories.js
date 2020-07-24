@@ -1,11 +1,10 @@
 import { storiesOf } from "@storybook/html";
 import {
   withKnobs,
-  boolean,
   select,
   number
 } from "@storybook/addon-knobs";
-import { parseReadme } from "../../../.storybook/helpers";
+import { parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -50,7 +49,7 @@ storiesOf("Tooltip", module)
           placement="${select("placement", calcite_placements, "auto")}"
           offset-distance="${number("offset-distance", 6)}"
           offset-skidding="${number("offset-skidding", 0)}"
-          open="${boolean("open", true)}"
+          ${boolean("open", true)}
         >
           ${contentHTML}
         </calcite-tooltip>
@@ -71,7 +70,7 @@ storiesOf("Tooltip", module)
           placement="${select("placement", calcite_placements, "auto")}"
           offset-distance="${number("offset-distance", 6)}"
           offset-skidding="${number("offset-skidding", 0)}"
-          open="${boolean("open", true)}"
+          ${boolean("open", true)}
         >
           ${contentHTML}
         </calcite-tooltip>

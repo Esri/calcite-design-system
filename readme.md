@@ -21,12 +21,9 @@ Calcite components can be loaded via two `<script>` tags in the head of your HTM
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.29/dist/calcite/calcite.esm.js"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.33/dist/calcite/calcite.esm.js"
 ></script>
-<script
-  nomodule=""
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.29/dist/calcite/calcite.js"
-></script>
+<script nomodule="" src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.33/dist/calcite/calcite.js"></script>
 ```
 
 Browsers that support modules will load the first, while older browsers will load the second, bundled version.
@@ -41,7 +38,7 @@ You will also need to explicitly load the `calcite.css` file:
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.29/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.33/dist/calcite/calcite.css"
 />
 ```
 
@@ -93,11 +90,21 @@ loader.isActive = true;
 
 // you can also explicitly type an element using the generated types
 // the type name will always be formatted like HTML{CamelCaseComponentName}Element
-const loader = document.querySelector(
-  ".my-loader-element"
-) as HTMLCalciteLoaderElement;
+const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoaderElement;
 loader.isActive = true;
 ```
+
+### TypeScript with Preact
+
+For preact applications using TypeScript, you must add an additional file to your `tsconfig.json`:
+
+```
+"files": [
+  "node_modules/@esri/calcite-components/dist/types/preact.d.ts"
+],
+```
+
+This allows you to use custom tags and provides auto-complete for calcite-components. See the [Preact + TypeScript example](https://github.com/ArcGIS/calcite-components-examples/tree/master/preact-typescript) for more details.
 
 ## Browser Support
 

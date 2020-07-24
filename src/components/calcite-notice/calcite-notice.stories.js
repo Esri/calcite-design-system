@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, boolean } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { withKnobs, select } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -12,9 +12,9 @@ storiesOf("Notice", module)
     <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
     theme="light"
-    icon="${boolean("icon", true)}"
-    active="${boolean("active", true)}"
-    dismissible="${boolean("dismissible", true)}"
+    ${boolean("icon", true)}
+    ${boolean("active", true)}
+    ${boolean("dismissible", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "half", "full"], "auto")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
@@ -34,9 +34,9 @@ storiesOf("Notice", module)
     <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
     theme="dark"
-    icon="${boolean("icon", true)}"
-    active="${boolean("active", true)}"
-    dismissible="${boolean("dismissible", false)}"
+    ${boolean("icon", true)}
+    ${boolean("active", true)}
+    ${boolean("dismissible", false)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "half", "full"], "auto")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}">
@@ -55,9 +55,9 @@ storiesOf("Notice", module)
       <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
       <calcite-notice
       theme="light"
-      icon="${boolean("icon", true)}"
-      active="${boolean("active", true)}"
-      dismissible="${boolean("dismissible", true)}"
+      ${boolean("icon", true)}
+      ${boolean("active", true)}
+      ${boolean("dismissible", true)}
       width="${select("width", ["auto", "half", "full"], "auto")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       color="${select(

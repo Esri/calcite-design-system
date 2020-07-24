@@ -10,18 +10,19 @@ import {
   h,
   State,
   VNode,
-  Watch,
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { DataSeries } from "../../interfaces/Graph";
+import { hasLabel } from "../../utils/dom";
 
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
 @Component({
   tag: "calcite-slider",
   styleUrl: "calcite-slider.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteSlider {
   //--------------------------------------------------------------------------
@@ -133,8 +134,7 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active":
-            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
       >
         <div class="handle"></div>
@@ -159,23 +159,16 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active":
-            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
       >
         <span class="handle__label handle__label--value" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
-        <span
-          class="handle__label handle__label--value static"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value static" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
-        <span
-          class="handle__label handle__label--value transformed"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value transformed" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
         <div class="handle"></div>
@@ -200,24 +193,17 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active":
-            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
       >
         <div class="handle"></div>
         <span class="handle__label handle__label--value" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
-        <span
-          class="handle__label handle__label--value static"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value static" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
-        <span
-          class="handle__label handle__label--value transformed"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value transformed" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
       </button>
@@ -241,9 +227,8 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active":
-            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true,
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--precise": true
         }}
       >
         <div class="handle"></div>
@@ -269,9 +254,8 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active":
-            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true,
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--precise": true
         }}
       >
         <div class="handle-extension"></div>
@@ -297,24 +281,17 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active":
-            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true,
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--precise": true
         }}
       >
         <span class="handle__label handle__label--value" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
-        <span
-          class="handle__label handle__label--value static"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value static" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
-        <span
-          class="handle__label handle__label--value transformed"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value transformed" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
         <div class="handle"></div>
@@ -340,9 +317,8 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--value": true,
-          "thumb--active":
-            this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true,
+          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
+          "thumb--precise": true
         }}
       >
         <div class="handle-extension"></div>
@@ -350,16 +326,10 @@ export class CalciteSlider {
         <span class="handle__label handle__label--value" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
-        <span
-          class="handle__label handle__label--value static"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value static" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
-        <span
-          class="handle__label handle__label--value transformed"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--value transformed" aria-hidden="true">
           {value ? value.toLocaleString() : value}
         </span>
       </button>
@@ -383,7 +353,7 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
+          "thumb--active": this.dragProp === "minValue"
         }}
       >
         <div class="handle"></div>
@@ -408,22 +378,16 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
+          "thumb--active": this.dragProp === "minValue"
         }}
       >
         <span class="handle__label handle__label--minValue" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span
-          class="handle__label handle__label--minValue static"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--minValue static" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span
-          class="handle__label handle__label--minValue transformed"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--minValue transformed" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
         <div class="handle"></div>
@@ -448,23 +412,17 @@ export class CalciteSlider {
         class={{
           thumb: true,
           "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
+          "thumb--active": this.dragProp === "minValue"
         }}
       >
         <div class="handle"></div>
         <span class="handle__label handle__label--minValue" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span
-          class="handle__label handle__label--minValue static"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--minValue static" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span
-          class="handle__label handle__label--minValue transformed"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--minValue transformed" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
       </button>
@@ -489,7 +447,7 @@ export class CalciteSlider {
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
-          "thumb--precise": true,
+          "thumb--precise": true
         }}
       >
         <div class="handle-extension"></div>
@@ -516,7 +474,7 @@ export class CalciteSlider {
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
-          "thumb--precise": true,
+          "thumb--precise": true
         }}
       >
         <div class="handle-extension"></div>
@@ -524,16 +482,10 @@ export class CalciteSlider {
         <span class="handle__label handle__label--minValue" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span
-          class="handle__label handle__label--minValue static"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--minValue static" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span
-          class="handle__label handle__label--minValue transformed"
-          aria-hidden="true"
-        >
+        <span class="handle__label handle__label--minValue transformed" aria-hidden="true">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
       </button>
@@ -554,10 +506,10 @@ export class CalciteSlider {
               <span
                 class={{
                   tick: true,
-                  "tick--active": tick >= min && tick <= max,
+                  "tick--active": tick >= min && tick <= max
                 }}
                 style={{
-                  left: `${this.getUnitInterval(tick) * 100}%`,
+                  left: `${this.getUnitInterval(tick) * 100}%`
                 }}
               >
                 {this.renderTickLabel(tick)}
@@ -572,10 +524,7 @@ export class CalciteSlider {
           this.isRange &&
           minLabeledHandle}
         {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
-        {this.precise &&
-          this.labelHandles &&
-          this.isRange &&
-          minLabeledPreciseHandle}
+        {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
         {this.hasHistogram &&
           !this.precise &&
           this.labelHandles &&
@@ -583,30 +532,12 @@ export class CalciteSlider {
           minHistogramLabeledHandle}
 
         {!this.precise && !this.labelHandles && handle}
-        {!this.hasHistogram &&
-          !this.precise &&
-          this.labelHandles &&
-          labeledHandle}
-        {!this.hasHistogram &&
-          this.precise &&
-          !this.labelHandles &&
-          preciseHandle}
-        {this.hasHistogram &&
-          this.precise &&
-          !this.labelHandles &&
-          histogramPreciseHandle}
-        {!this.hasHistogram &&
-          this.precise &&
-          this.labelHandles &&
-          labeledPreciseHandle}
-        {this.hasHistogram &&
-          !this.precise &&
-          this.labelHandles &&
-          histogramLabeledHandle}
-        {this.hasHistogram &&
-          this.precise &&
-          this.labelHandles &&
-          histogramLabeledPreciseHandle}
+        {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
+        {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
+        {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
+        {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
+        {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
+        {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
       </Host>
     );
   }
@@ -633,7 +564,7 @@ export class CalciteSlider {
         class={{
           tick__label: true,
           "tick__label--min": isMinTickLabel,
-          "tick__label--max": isMaxTickLabel,
+          "tick__label--max": isMaxTickLabel
         }}
       >
         {tick.toLocaleString()}
@@ -669,12 +600,7 @@ export class CalciteSlider {
     ) {
       return tickLabel;
     }
-    if (
-      this.labelTicks &&
-      this.hasHistogram &&
-      !this.precise &&
-      !this.labelHandles
-    ) {
+    if (this.labelTicks && this.hasHistogram && !this.precise && !this.labelHandles) {
       return tickLabel;
     }
     if (
@@ -712,6 +638,13 @@ export class CalciteSlider {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+    if (e.detail.interactedEl !== this.el && hasLabel(e.detail.labelEl, this.el)) {
+      this.setFocus();
+    }
+  }
+
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     const value = this[this.activeProp];
     switch (getKey(e.key)) {
@@ -730,20 +663,14 @@ export class CalciteSlider {
       case "PageUp":
         if (this.pageStep) {
           e.preventDefault();
-          this[this.activeProp] = this.bound(
-            value + this.pageStep,
-            this.activeProp
-          );
+          this[this.activeProp] = this.bound(value + this.pageStep, this.activeProp);
           this.calciteSliderUpdate.emit();
         }
         break;
       case "PageDown":
         if (this.pageStep) {
           e.preventDefault();
-          this[this.activeProp] = this.bound(
-            value - this.pageStep,
-            this.activeProp
-          );
+          this[this.activeProp] = this.bound(value - this.pageStep, this.activeProp);
           this.calciteSliderUpdate.emit();
         }
         break;
@@ -767,8 +694,7 @@ export class CalciteSlider {
       if (this.lastDragProp === "minMaxValue") {
         prop = "minMaxValue";
       } else {
-        const closerToMax =
-          Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
+        const closerToMax = Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
         prop = closerToMax ? "maxValue" : "minValue";
       }
     }
@@ -868,7 +794,7 @@ export class CalciteSlider {
     this.dragListener = this.dragListener || this.dragUpdate.bind(this);
     document.addEventListener("mousemove", this.dragListener);
     document.addEventListener("touchmove", this.dragListener, {
-      capture: false,
+      capture: false
     });
     document.addEventListener("mouseup", this.dragEnd.bind(this));
     document.addEventListener("touchend", this.dragEnd.bind(this), false);
@@ -881,11 +807,7 @@ export class CalciteSlider {
     if (this.dragProp) {
       const value = this.translate(e.clientX || e.pageX);
       if (this.isRange && this.dragProp === "minMaxValue") {
-        if (
-          this.minValueDragRange &&
-          this.maxValueDragRange &&
-          this.minMaxValueRange
-        ) {
+        if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
           const newMaxValue = value + this.maxValueDragRange;
           if (
@@ -959,12 +881,7 @@ export class CalciteSlider {
     return num;
   }
   private getFontSizeForElement(element: HTMLElement) {
-    return Number(
-      window
-        .getComputedStyle(element)
-        .getPropertyValue("font-size")
-        .match(/\d+/)[0]
-    );
+    return Number(window.getComputedStyle(element).getPropertyValue("font-size").match(/\d+/)[0]);
   }
   /**
    * Get position of value along range as fractional value
@@ -977,9 +894,7 @@ export class CalciteSlider {
     return (num - this.min) / range;
   }
   private adjustHostObscuredHandleLabel(name: "value" | "minValue") {
-    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}`
-    );
+    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.static`
     );
@@ -1008,9 +923,7 @@ export class CalciteSlider {
       minValueLabelStatic.getBoundingClientRect().right
     );
 
-    const valueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--value`
-    );
+    const valueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--value`);
     const valueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--value.static`
     );
@@ -1030,13 +943,9 @@ export class CalciteSlider {
 
     if (labelTransformedOverlap > 0) {
       minValueLabel.classList.add("hyphen");
-      if (
-        valueLabelStaticHostOffset === 0 &&
-        minValueLabelStaticHostOffset === 0
-      ) {
+      if (valueLabelStaticHostOffset === 0 && minValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
-        let minValueLabelTranslate =
-          labelTransformedOverlap / 2 - labelFontSize / 2;
+        let minValueLabelTranslate = labelTransformedOverlap / 2 - labelFontSize / 2;
         if (Math.sign(minValueLabelTranslate) === -1) {
           minValueLabelTranslate = Math.abs(minValueLabelTranslate);
         } else {
@@ -1054,24 +963,18 @@ export class CalciteSlider {
 
         let valueLabelTranslate = labelTransformedOverlap / 2;
         const valueLabelTransformedHostOffset = this.getHostOffset(
-          valueLabelTransformed.getBoundingClientRect().left +
-            valueLabelTranslate,
-          valueLabelTransformed.getBoundingClientRect().right +
-            valueLabelTranslate
+          valueLabelTransformed.getBoundingClientRect().left + valueLabelTranslate,
+          valueLabelTransformed.getBoundingClientRect().right + valueLabelTranslate
         );
 
         if (minValueLabelTransformedHostOffset !== 0) {
-          minValueLabelTranslate =
-            minValueLabelTranslate + minValueLabelTransformedHostOffset;
-          valueLabelTranslate =
-            valueLabelTranslate + minValueLabelTransformedHostOffset;
+          minValueLabelTranslate = minValueLabelTranslate + minValueLabelTransformedHostOffset;
+          valueLabelTranslate = valueLabelTranslate + minValueLabelTransformedHostOffset;
         }
 
         if (valueLabelTransformedHostOffset !== 0) {
-          minValueLabelTranslate =
-            minValueLabelTranslate + valueLabelTransformedHostOffset;
-          valueLabelTranslate =
-            valueLabelTranslate + valueLabelTransformedHostOffset;
+          minValueLabelTranslate = minValueLabelTranslate + valueLabelTransformedHostOffset;
+          valueLabelTranslate = valueLabelTranslate + valueLabelTransformedHostOffset;
         }
 
         minValueLabel.style.transform = `translateX(${minValueLabelTranslate}px)`;
@@ -1082,8 +985,7 @@ export class CalciteSlider {
         valueLabelTransformed.style.transform = `translateX(${valueLabelTranslate}px)`;
       } else if (
         minValueLabelStaticHostOffset !== 0 &&
-        (Math.sign(valueLabelStaticHostOffset) === 0 ||
-          Math.sign(valueLabelStaticHostOffset) === 1)
+        (Math.sign(valueLabelStaticHostOffset) === 0 || Math.sign(valueLabelStaticHostOffset) === 1)
       ) {
         // minValueLabel overlaps host boundary on the left side
         minValueLabel.style.transform = `translateX(${
@@ -1098,9 +1000,7 @@ export class CalciteSlider {
       } else if (valueLabelStaticHostOffset !== 0) {
         // valueLabel overlaps host boundary on the right side
         let minValueLabelTranslate =
-          Math.abs(minValueLabelStaticHostOffset) +
-          labelTransformedOverlap -
-          labelFontSize / 2;
+          Math.abs(minValueLabelStaticHostOffset) + labelTransformedOverlap - labelFontSize / 2;
         if (Math.sign(minValueLabelTranslate) === -1) {
           minValueLabelTranslate = Math.abs(minValueLabelTranslate);
         } else {
@@ -1123,36 +1023,16 @@ export class CalciteSlider {
    * Hides bounding tick labels that are obscured by either handle.
    */
   private hideObscuredBoundingTickLabels() {
-    if (
-      !this.hasHistogram &&
-      !this.isRange &&
-      !this.labelHandles &&
-      !this.precise
-    ) {
+    if (!this.hasHistogram && !this.isRange && !this.labelHandles && !this.precise) {
       return;
     }
-    if (
-      !this.hasHistogram &&
-      !this.isRange &&
-      this.labelHandles &&
-      !this.precise
-    ) {
+    if (!this.hasHistogram && !this.isRange && this.labelHandles && !this.precise) {
       return;
     }
-    if (
-      !this.hasHistogram &&
-      !this.isRange &&
-      !this.labelHandles &&
-      this.precise
-    ) {
+    if (!this.hasHistogram && !this.isRange && !this.labelHandles && this.precise) {
       return;
     }
-    if (
-      !this.hasHistogram &&
-      !this.isRange &&
-      this.labelHandles &&
-      this.precise
-    ) {
+    if (!this.hasHistogram && !this.isRange && this.labelHandles && this.precise) {
       return;
     }
     if (!this.hasHistogram && this.isRange && !this.precise) {
@@ -1165,9 +1045,7 @@ export class CalciteSlider {
     const minHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
       ".thumb--minValue"
     );
-    const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
-      ".thumb--value"
-    );
+    const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(".thumb--value");
 
     const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
       ".tick__label--min"
@@ -1200,8 +1078,7 @@ export class CalciteSlider {
       }
       if (
         this.isMaxTickLabelObscured(maxTickLabel, minHandle) ||
-        (this.isMaxTickLabelObscured(maxTickLabel, maxHandle) &&
-          this.hasHistogram)
+        (this.isMaxTickLabelObscured(maxTickLabel, maxHandle) && this.hasHistogram)
       ) {
         maxTickLabel.style.opacity = "0";
       } else {
@@ -1247,10 +1124,7 @@ export class CalciteSlider {
    * @param minLabel
    * @param handle
    */
-  private isMinTickLabelObscured(
-    minLabel: HTMLSpanElement,
-    handle: HTMLButtonElement
-  ): boolean {
+  private isMinTickLabelObscured(minLabel: HTMLSpanElement, handle: HTMLButtonElement): boolean {
     const minLabelBounds = minLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
     if (handleBounds.left < minLabelBounds.right) {
@@ -1263,10 +1137,7 @@ export class CalciteSlider {
    * @param maxLabel
    * @param handle
    */
-  private isMaxTickLabelObscured(
-    maxLabel: HTMLSpanElement,
-    handle: HTMLButtonElement
-  ): boolean {
+  private isMaxTickLabelObscured(maxLabel: HTMLSpanElement, handle: HTMLButtonElement): boolean {
     const maxLabelBounds = maxLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
     if (handleBounds.right > maxLabelBounds.left) {

@@ -1,29 +1,16 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Prop,
-  Watch,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, Watch } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-split-button",
   styleUrl: "calcite-split-button.scss",
-  shadow: true,
+  shadow: true
 })
-export class CalciteButtonWithDropdown {
+export class CalciteSplitButton {
   @Element() el: HTMLElement;
 
   /** specify the color of the control, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color:
-    | "blue"
-    | "dark"
-    | "light"
-    | "red" = "blue";
+  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
   /** select theme (light or dark), defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
@@ -35,13 +22,17 @@ export class CalciteButtonWithDropdown {
   @Prop({ mutable: true, reflect: true }) dropdownIconType:
     | "chevron"
     | "caret"
-    | "ellipsis" = "chevron";
+    | "ellipsis"
+    | "overflow" = "chevron";
 
   /** text for primary action button  */
   @Prop({ reflect: true }) primaryText: string;
 
-  /** optionally pass an icon to display on the primary button - accepts Calcite UI icon names  */
-  @Prop({ reflect: true }) primaryIcon?: string;
+  /** optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) primaryIconStart?: string;
+
+  /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) primaryIconEnd?: string;
 
   /** optionally pass an aria-label for the primary button */
   @Prop({ reflect: true }) primaryLabel?: string;
@@ -79,9 +70,8 @@ export class CalciteButtonWithDropdown {
 
   @Watch("dropdownIconType")
   validateDropdownIconType() {
-    let dropdownIconType = ["chevron", "caret", "ellipsis"];
-    if (!dropdownIconType.includes(this.dropdownIconType))
-      this.dropdownIconType = "chevron";
+    let dropdownIconType = ["chevron", "caret", "ellipsis", "overflow"];
+    if (!dropdownIconType.includes(this.dropdownIconType)) this.dropdownIconType = "chevron";
   }
 
   connectedCallback() {
@@ -102,8 +92,8 @@ export class CalciteButtonWithDropdown {
             color={this.color}
             scale={this.scale}
             loading={this.loading}
-            icon={this.primaryIcon}
-            iconPosition="start"
+            icon-start={this.primaryIconStart ? this.primaryIconStart : null}
+            icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
             disabled={this.disabled}
             theme={this.theme}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
@@ -128,7 +118,7 @@ export class CalciteButtonWithDropdown {
               color={this.color}
               disabled={this.disabled}
               theme={this.theme}
-              icon={this.dropdownIcon}
+              icon-start={this.dropdownIcon}
             />
             <slot />
           </calcite-dropdown>
@@ -145,6 +135,8 @@ export class CalciteButtonWithDropdown {
       ? "chevronDown"
       : this.dropdownIconType === "caret"
       ? "caretDown"
-      : "ellipsis";
+      : this.dropdownIconType === "ellipsis"
+      ? "ellipsis"
+      : "handle-vertical";
   }
 }

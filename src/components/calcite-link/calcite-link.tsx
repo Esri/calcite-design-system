@@ -4,7 +4,7 @@ import { getElementDir } from "../../utils/dom";
 @Component({
   tag: "calcite-link",
   styleUrl: "calcite-link.scss",
-  shadow: true,
+  shadow: true
 })
 
 /** @slot default text slot for link text */
@@ -28,11 +28,7 @@ export class CalciteLink {
   //--------------------------------------------------------------------------
 
   /** specify the color of the link, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color:
-    | "blue"
-    | "dark"
-    | "light"
-    | "red" = "blue";
+  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
   /** Select theme (light or dark) */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
@@ -40,12 +36,11 @@ export class CalciteLink {
   /** optionally pass a href - used to determine if the component should render as a link or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
-  @Prop({ reflect: true }) icon?: string;
+  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
 
-  /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
-    "start";
+  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   /** is the link disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
@@ -65,10 +60,6 @@ export class CalciteLink {
     let color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
 
-    let iconPosition = ["start", "end"];
-    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
-      this.iconPosition = "start";
-
     this.childElType = this.href ? "a" : "span";
   }
 
@@ -77,10 +68,14 @@ export class CalciteLink {
     const attributes = this.getAttributes();
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
-    const tabIndex = this.childElType === "span" ? 0 : null;
+    const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
 
-    const iconEl = (
-      <calcite-icon class="calcite-link--icon" icon={this.icon} scale="s" />
+    const iconStartEl = (
+      <calcite-icon class="calcite-link--icon icon-start" icon={this.iconStart} scale="s" />
+    );
+
+    const iconEndEl = (
+      <calcite-icon class="calcite-link--icon icon-end" icon={this.iconEnd} scale="s" />
     );
 
     return (
@@ -89,12 +84,12 @@ export class CalciteLink {
           {...attributes}
           href={Tag === "a" && this.href}
           role={role}
-          tabindex={tabIndex}
+          tabIndex={tabIndex}
           ref={(el) => (this.childEl = el)}
         >
-          {this.icon && this.iconPosition === "start" ? iconEl : null}
+          {this.iconStart ? iconStartEl : null}
           <slot />
-          {this.icon && this.iconPosition === "end" ? iconEl : null}
+          {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>
     );

@@ -5,22 +5,86 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v1.0.0-beta.33]
+
+### Breaking Changes
+
+- `calcite-alert` - `open` and `close` methods have been removed. You can use the `active` prop to open or add an alert to the queue.
+- `calcite-alert` - `currentAlert` prop has been removed
+- `calcite-alert` - `alertQueue` prop has been removed (`queue` is emitted as a detail of the `calciteAlertOpen` and `calciteAlertClose` events)
+- `calcite-alert` - `alertQueueLength` prop has been removed
+
+### Fixes
+
+- `calcite-modal` - turn off pointer events on hidden modals to prevent interaction (#549)
 
 ### Added
 
+- `calcite-modal` - add `background-color` property for light grey backgrounds (#527)
+- `calcite-alert` - `intlClose` prop has been added to optionally provide a translated override of the English "close" text
+
+## [v1.0.0-beta.32]
+
+- `calcite-stepper` - `calciteStepperItemHasChanged` event has been renamed to `calciteStepperItemChange`
+- `calcite-stepper-item` - `calciteStepperItemSelected` event has been renamed to `calciteStepperItemSelect`
+- `calcite-stepper-item` - `registerCalciteStepperItem` event has been renamed to `calciteStepperItemRegister`
+
+### Breaking Changes
+
+- `calcite-modal` - `close-label` prop is now renamed to `intl-close` for consistency (#466)
+- `calcite-modal` - `open` and `close` methods removed in favor of `active` prop (#466)
+- `calcite-modal` - `size => width`, which can be passed standard (s/m/l) or custom width in px (#239)
+- `calcite-modal` - `fullscreen` made it's own prop (#466)
+- `calcite-modal` - new `scale` prop for setting UI scale of modal (#466);
+- `calcite-date` - `prevMonthLabel` and `nextMonthLabel` updated to `intlPrevMonth` and `intlNextMonth` (#97)
+- `calcite-switch` - `switched` boolean has been added to `calciteSwitchChange` event detail
+
+## [v1.0.0-beta.31]
+
+### Breaking Changes
+
+- `calcite-label` - `calciteLabelSelectedEvent` event has been renamed to `calciteLabelFocus`
+- `calcite-button` - `icon-position` and `icon` props have been removed - you can now use `icon-start` and `icon-end` props to position up to two icons.
+- `calcite-link` - `icon-position` and `icon` props have been removed - you can now use `icon-start` and `icon-end` props to position up to two icons.
+- `calcite-split-button` - `primary-icon` prop has been removed - you can now use `primary-icon-start` and `primary-icon-end` props to position up to two icons.
+- `calcite-tab` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-tab-title` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-loader` - `isActive` prop is now `active` to be consistent with other components
+- `calcite-popover` `textClose` has been changed to `intlClose`.
+- `calcite-card` - event name change `calciteCardSelected => calciteCardSelect` (#459)
+
+### Added
+
+- Generate new types for using components inside a Preact + TypeScript
+- `calcite-loader` - add `scale` for both standard and inline loaders (#465)
 - `calcite-dropdown` now has a `disable-close-on-select` attribute that allows dropdowns to remain open on selection when `calcite-dropdown-group` `selection-mode` is set to `single` or `multi`
 - `calcite-dropdown` now emits `calciteDropdownClose` when it closes.
 - `calcite-dropdown` now emits `calciteDropdownOpen` when it opens.
+- `calcite-dropdown` now has a `disabled` prop.
+- `calcite-input` - adds `clearable` prop to display a clear button when field has a value - this also enables clearing of value while focused and using `Escape` key.
+- `calcite-input` - adds `disabled` prop
+- `calcite-button` - `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
+- `calcite-link` - `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
+- `calcite-split-button` - `primary-icon-start` and `primary-icon-end` props have been added for explicit positioning of up to two icons.
+- `calcite-split-button` - `dropdown-icon-type` prop now accepts an `overflow` value for an additional icon option.
+- `calcite-notice` now has a `intl-close` attribute that allows the title of the close button to be set. It defaults to the English "Close".
+- `calcite-modal` - added `disable-close-button` prop for hiding X (#669)
+- `calcite-popover` - added `disable-close-button` prop for hiding X (#669)
 
 ### Fixed
 
 - `calcite-dropdown` - will now correctly focus the slotted `dropdown-trigger` element when the dropdown is closed
+- `calcite-input` - fixes inconsistencies in height of inputs with various configurations
+- `calcite-label` - fixes inconsistencies in `layout=inline` padding applications
+- `calcite-slider` - fixes positioning of handles and labels, better focus styles (#660)
+- `calcite-split-button` - fixed split button triggering of dropdown
+- `calcite-tab-title` - improve focus state
 
 ### Updated
 
 - `calcite-dropdown` - a dropdown will now close if another dropdown is opened
 - `calcite-dropdown` - mouse clicks on `calcite-dropdown-group` titles will no longer close the dropdown
+- `calcite-slider` - improved `disabled` styles (#676)
 
 ## [v1.0.0-beta.30] - June 12th 2020
 
@@ -482,6 +546,10 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.33]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.32...v1.0.0-beta.33 "v1.0.0-beta.33"
+[v1.0.0-beta.32]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.31...v1.0.0-beta.32 "v1.0.0-beta.32"
+[v1.0.0-beta.31]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.30...v1.0.0-beta.31 "v1.0.0-beta.31"
+[v1.0.0-beta.30]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.29...v1.0.0-beta.30 "v1.0.0-beta.30"
 [v1.0.0-beta.29]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.28...v1.0.0-beta.29 "v1.0.0-beta.29"
 [v1.0.0-beta.28]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.27...v1.0.0-beta.28 "v1.0.0-beta.28"
 [v1.0.0-beta.27]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.26...v1.0.0-beta.27 "v1.0.0-beta.27"

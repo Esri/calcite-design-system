@@ -52,6 +52,7 @@
 
 // disabled styles
 :host([disabled]) {
+  pointer-events: none;
   span,
   a {
     pointer-events: none;
@@ -59,39 +60,22 @@
   }
 }
 // icon positioning and styles
-:host([icon-position="start"]) .calcite-link--icon {
+:host .calcite-link--icon.icon-start {
   margin-right: $baseline/3;
 }
 
-:host([icon-position="start"][dir="rtl"]) .calcite-link--icon {
+:host([dir="rtl"]) .calcite-link--icon.icon-start {
   margin-right: 0;
   margin-left: $baseline/3;
 }
 
-:host([icon-position="end"]) .calcite-link--icon {
+:host .calcite-link--icon.icon-end {
   margin-left: $baseline/3;
 }
 
-:host([icon-position="end"][dir="rtl"]) .calcite-link--icon {
+:host([dir="rtl"]) .calcite-link--icon.icon-end {
   margin-left: 0;
   margin-right: $baseline/3;
-}
-
-:host([icon-position="start"]) .calcite-link--icon {
-  margin-right: $baseline/4;
-}
-
-:host([icon-position="start"][dir="rtl"]) .calcite-link--icon {
-  margin-left: $baseline/4;
-  margin-right: 0;
-}
-
-:host([icon-position="end"]) .calcite-link--icon {
-  margin-left: $baseline/4;
-}
-:host([icon-position="end"][dir="rtl"]) .calcite-link--icon {
-  margin-left: 0;
-  margin-right: $baseline/4;
 }
 
 // inline
@@ -104,8 +88,7 @@
   white-space: initial;
   background-color: transparent;
   position: relative;
-  background-image: linear-gradient(currentColor, currentColor),
-    linear-gradient($border-color, $border-color);
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient($border-color, $border-color);
   background-position: 0% 100%, 100% 100%;
   background-repeat: no-repeat, no-repeat;
   background-size: 0% 1px, 100% 1px;
@@ -135,22 +118,14 @@
 :host([color="blue"]) {
   span,
   a {
-    @include link-style(
-      var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-1),
-      var(--calcite-link-blue-underline)
-    );
+    @include link-style(var(--calcite-blue-accessible), var(--calcite-ui-blue-1), var(--calcite-link-blue-underline));
   }
 }
 
 :host([color="red"]) {
   span,
   a {
-    @include link-style(
-      var(--calcite-red-accessible),
-      var(--calcite-ui-red-1),
-      var(--calcite-link-red-underline)
-    );
+    @include link-style(var(--calcite-red-accessible), var(--calcite-ui-red-1), var(--calcite-link-red-underline));
   }
 }
 :host([color="light"]) {

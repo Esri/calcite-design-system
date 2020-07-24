@@ -7,14 +7,15 @@ import {
   Host,
   EventEmitter,
   Listen,
-  Watch,
+  Watch
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
+import { hasLabel } from "../../utils/dom";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "calcite-checkbox.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteCheckbox {
   //--------------------------------------------------------------------------
@@ -80,8 +81,7 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  private readonly checkedPath =
-    "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z";
+  private readonly checkedPath = "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z";
   private readonly indeterminatePath = "M4 7h8v2H4z";
   private input: HTMLInputElement;
 
@@ -92,11 +92,7 @@ export class CalciteCheckbox {
   //--------------------------------------------------------------------------
 
   private getPath = (): string =>
-    this.indeterminate
-      ? this.indeterminatePath
-      : this.checked
-      ? this.checkedPath
-      : "";
+    this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
 
   private toggle = () => {
     if (!this.disabled) {
@@ -123,6 +119,13 @@ export class CalciteCheckbox {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+    if (!this.el.contains(e.detail.interactedEl) && hasLabel(e.detail.labelEl, this.el)) {
+      this.toggle();
+      this.el.focus();
+    }
+  }
 
   @Listen("click") onClick({ currentTarget, target }: MouseEvent) {
     // prevent duplicate click events that occur

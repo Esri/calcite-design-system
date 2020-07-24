@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-input", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input></calcite-input>");
     const input = await page.find("calcite-input");
-    expect(input).toHaveClass("hydrated");
+    expect(input).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {
@@ -111,9 +112,7 @@ describe("calcite-input", () => {
     <calcite-input type="number"></calcite-input>
     `);
 
-    const numberVerticalWrapper = await page.find(
-      "calcite-input .calcite-input-number-button-wrapper"
-    );
+    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
       "calcite-input .number-button-item-horizontal[data-adjustment='down']"
     );
@@ -132,9 +131,7 @@ describe("calcite-input", () => {
     <calcite-input type="number" number-button-type="horizontal"></calcite-input>
     `);
 
-    const numberVerticalWrapper = await page.find(
-      "calcite-input .calcite-input-number-button-wrapper"
-    );
+    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
       "calcite-input .number-button-item-horizontal[data-adjustment='down']"
     );
@@ -153,9 +150,7 @@ describe("calcite-input", () => {
     <calcite-input type="number" number-button-type="none"></calcite-input>
     `);
 
-    const numberVerticalWrapper = await page.find(
-      "calcite-input .calcite-input-number-button-wrapper"
-    );
+    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
       "calcite-input .number-button-item-horizontal[data-adjustment='down']"
     );
@@ -318,5 +313,62 @@ describe("calcite-input", () => {
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("0");
+  });
+
+  it("renders clear button when clearable is requested and value is populated at load", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input clearable value="John Doe"></calcite-input>
+    `);
+    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
+    expect(clearButton).not.toBe(null);
+  });
+
+  it("does not render clear button when clearable is requested and value is not populated", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input clearable></calcite-input>
+    `);
+
+    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
+    expect(clearButton).toBe(null);
+  });
+
+  it("does not render clear button when clearable is not requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input></calcite-input>
+    `);
+
+    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
+    expect(clearButton).toBe(null);
+  });
+
+  it("when clearable is requested, value is cleared on escape key press", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input clearable value="John Doe"></calcite-input>
+    `);
+
+    const element = await page.find("calcite-input");
+    expect(element.getAttribute("value")).toBe("John Doe");
+    await element.callMethod("setFocus");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("");
+  });
+
+  it("when clearable is requested, value is cleared on clear button click", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input clearable value="John Doe"></calcite-input>
+    `);
+
+    const element = await page.find("calcite-input");
+    const clearButton = await page.find(".calcite-input-clear-button");
+    expect(element.getAttribute("value")).toBe("John Doe");
+    clearButton.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("");
   });
 });

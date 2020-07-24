@@ -22,32 +22,33 @@
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Switch</h1>
-  <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
-      Without a proxy <code>input</code> element and listening for "change"
-      <script>
-        var basicSwitch = document.getElementById("basicSwitch");
 
-        basicSwitch.addEventListener("change", function (
-          e
-        ) {
-          console.log(
-            "Basic switch changed by <calcite-switch>",
-            e.target.switched
-          );
-        });
-      </script>
-    </label>
-  </div>
+      Without a proxy <code>input</code> element and listening for "change"
+    </calcite-label>
+    <script>
+      var basicSwitch = document.getElementById("basicSwitch");
+
+      basicSwitch.addEventListener("change", function (
+        e
+      ) {
+        console.log(
+          "Basic switch changed by <calcite-switch>",
+          e.target.switched
+        );
+      });
+    </script>
   <br />
   <div>
-    <calcite-switch>
-      <input id="proxySwitchCheckbox" type="checkbox" />
-    </calcite-switch>
-    <span id='proxySwitchSpan'>
-      With a proxy <code>input</code> element and changes on click.
-    </span>
+    <calcite-label layout="inline">
+      <calcite-switch>
+        <input id="proxySwitchCheckbox" type="checkbox" />
+      </calcite-switch>
+      <span id='proxySwitchSpan'>
+        With a proxy <code>input</code> element and changes on click.
+      </span>
+    </calcite-label>
     <script>
       var proxySwitchSpan = document.getElementById(
         "proxySwitchSpan"
@@ -63,34 +64,30 @@
   </div>
   <br />
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-switch scale="s" switched="true" color="red"> </calcite-switch>
       Red switch scale small
-    </label>
+    </calcite-label>
   </div>
   <br />
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-switch scale="m" switched="true" color="red"> </calcite-switch>
       Red switch scale medium
-    </label>
+    </calcite-label>
   </div>
   <br />
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-switch scale="l" switched="true" color="red"> </calcite-switch>
       Red switch scale large
-    </label>
+    </calcite-label>
   </div>
   <br />
-  <div>
-    <calcite-switch></calcite-switch>
-    Switch with no wrapping <code>label</code>.
-  </div>
   <br />
   <div class="demo-background-dark">
     <div>
-      <label>
+      <calcite-label layout="inline">
         <calcite-switch theme="dark" id="basicSwitch2" switched="true"></calcite-switch>
         Without a proxy <code>input</code> element and listening for "calciteSwitchChange".
         <script>
@@ -105,7 +102,7 @@
             );
           });
         </script>
-      </label>
+      </calcite-label>
     </div>
     <br />
     <div>
@@ -130,10 +127,10 @@
     </div>
     <br />
     <div>
-      <label>
+      <calcite-label layout="inline">
         <calcite-switch theme="dark" switched="true" color="red"> </calcite-switch>
         Red switch
-      </label>
+      </calcite-label>
     </div>
     <br />
     <div>
@@ -143,17 +140,17 @@
   </div>
   <h3>RTL Set Directly on Switch</h3>
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-switch dir="rtl"> </calcite-switch>
       Example
-    </label>
+    </calcite-label>
   </div>
   <br />
   <div>
-    <label>
+    <calcite-label layout="inline">
       <calcite-switch switched="true" dir="rtl"> </calcite-switch>
       Example
-    </label>
+    </calcite-label>
   </div>
   <div dir="rtl">
     <h3>RTL Inherited from Container</h3>
@@ -179,24 +176,24 @@
     </div>
     <br />
     <div>
-      <label>
+      <calcite-label layout="inline">
         <calcite-switch scale="s" switched="true" color="red"> </calcite-switch>
         Red switch scale small
-      </label>
+      </calcite-label>
     </div>
     <br />
     <div>
-      <label>
+      <calcite-label layout="inline">
         <calcite-switch scale="m" switched="true" color="red"> </calcite-switch>
         Red switch scale medium
-      </label>
+      </calcite-label>
     </div>
     <br />
     <div>
-      <label>
+      <calcite-label layout="inline">
         <calcite-switch scale="l" switched="true" color="red"> </calcite-switch>
         Red switch scale large
-      </label>
+      </calcite-label>
     </div>
     <br />
     <div>
@@ -206,7 +203,7 @@
     <br />
     <div class="demo-background-dark">
       <div>
-        <label>
+        <calcite-label layout="inline">
           <calcite-switch theme="dark" id="basicSwitch2" switched="true"></calcite-switch>
           Without a proxy <code>input</code> element and listening for "calciteSwitchChange".
           <script>
@@ -221,7 +218,7 @@
               );
             });
           </script>
-        </label>
+        </calcite-label>
       </div>
       <br />
       <div>
@@ -246,10 +243,10 @@
       </div>
       <br />
       <div>
-        <label>
+        <calcite-label layout="inline">
           <calcite-switch theme="dark" switched="true" color="red"> </calcite-switch>
           Red switch
-        </label>
+        </calcite-label>
       </div>
       <br />
       <div>

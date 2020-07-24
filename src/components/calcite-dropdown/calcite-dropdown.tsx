@@ -1,24 +1,12 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-} from "@stencil/core";
-import {
-  GroupRegistration,
-  ItemKeyboardEvent,
-} from "../../interfaces/Dropdown";
+import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop } from "@stencil/core";
+import { GroupRegistration, ItemKeyboardEvent } from "../../interfaces/Dropdown";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-dropdown",
   styleUrl: "calcite-dropdown.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteDropdown {
   //--------------------------------------------------------------------------
@@ -38,10 +26,7 @@ export class CalciteDropdown {
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** specify the alignment of dropdown, defaults to start */
-  @Prop({ mutable: true, reflect: true }) alignment:
-    | "start"
-    | "center"
-    | "end" = "start";
+  @Prop({ mutable: true, reflect: true }) alignment: "start" | "center" | "end" = "start";
 
   /** specify the max items to display before showing the scroller, must be greater than 0 **/
   @Prop() maxItems: number = 0;
@@ -72,6 +57,8 @@ export class CalciteDropdown {
 
   @Prop({ mutable: true, reflect: true }) disableCloseOnSelect: boolean = false;
 
+  /** is the dropdown disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -94,21 +81,14 @@ export class CalciteDropdown {
   }
 
   componentDidLoad() {
-    this.trigger = this.el.querySelector(
-      "[slot=dropdown-trigger]"
-    ) as HTMLSlotElement;
+    this.trigger = this.el.querySelector("[slot=dropdown-trigger]") as HTMLSlotElement;
 
     if (!this.sorted) {
-      const groups = this.items.sort(
-        (a, b) => a.position - b.position
-      ) as GroupRegistration[];
+      const groups = this.items.sort((a, b) => a.position - b.position) as GroupRegistration[];
 
       this.maxScrollerHeight = this.getMaxScrollerHeight(groups);
 
-      this.items = groups.reduce(
-        (items, group) => [...items, ...group.items],
-        []
-      );
+      this.items = groups.reduce((items, group) => [...items, ...group.items], []);
 
       this.sorted = true;
     }
@@ -118,17 +98,13 @@ export class CalciteDropdown {
     const { maxScrollerHeight } = this;
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
-        <slot
-          name="dropdown-trigger"
-          aria-haspopup="true"
-          aria-expanded={this.active.toString()}
-        />
+      <Host dir={dir} tabIndex={this.disabled ? -1 : null}>
+        <slot name="dropdown-trigger" aria-haspopup="true" aria-expanded={this.active.toString()} />
         <div
           class="calcite-dropdown-wrapper"
           role="menu"
           style={{
-            maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "",
+            maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
           }}
         >
           <slot />
@@ -182,10 +158,7 @@ export class CalciteDropdown {
   @Listen("keydown") keyDownHandler(e) {
     const key = getKey(e.key);
     if (e.target === this.trigger || this.trigger.contains(e.target)) {
-      if (
-        e.target.nodeName !== "BUTTON" &&
-        e.target.nodeName !== "CALCITE-BUTTON"
-      ) {
+      if (e.target.nodeName !== "BUTTON" && e.target.nodeName !== "CALCITE-BUTTON") {
         switch (key) {
           case " ":
           case "Enter":
@@ -225,8 +198,7 @@ export class CalciteDropdown {
     switch (getKey(keyboardEvent.key)) {
       case "Tab":
         if (isLastItem && !keyboardEvent.shiftKey) this.closeCalciteDropdown();
-        else if (isFirstItem && keyboardEvent.shiftKey)
-          this.closeCalciteDropdown();
+        else if (isFirstItem && keyboardEvent.shiftKey) this.closeCalciteDropdown();
         else if (keyboardEvent.shiftKey) this.focusPrevItem(itemToFocus);
         else this.focusNextItem(itemToFocus);
         break;
@@ -247,16 +219,11 @@ export class CalciteDropdown {
     e.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelect") handleItemSelect(
-    event: CustomEvent
-  ): void {
+  @Listen("calciteDropdownItemSelect") handleItemSelect(event: CustomEvent): void {
     this.updateSelectedItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
-    if (
-      !this.disableCloseOnSelect ||
-      event.detail.requestedDropdownGroup.selectionMode === "none"
-    )
+    if (!this.disableCloseOnSelect || event.detail.requestedDropdownGroup.selectionMode === "none")
       this.closeCalciteDropdown();
   }
 
@@ -264,13 +231,13 @@ export class CalciteDropdown {
     e: CustomEvent<GroupRegistration>
   ) {
     const {
-      detail: { items, position, titleEl },
+      detail: { items, position, titleEl }
     } = e;
 
     this.items.push({
       items,
       position,
-      titleEl,
+      titleEl
     });
 
     e.stopPropagation();
@@ -304,9 +271,7 @@ export class CalciteDropdown {
 
   private updateSelectedItems(): void {
     const items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>(
-        "calcite-dropdown-item"
-      )
+      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
     );
     this.selectedItems = items.filter((item) => item.active);
   }
@@ -339,9 +304,7 @@ export class CalciteDropdown {
   }
 
   private focusOnFirstActiveOrFirstItem(): void {
-    this.getFocusableElement(
-      this.items.find((item) => item.active) || this.items[0]
-    );
+    this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
   }
 
   private focusFirstItem() {
@@ -388,10 +351,7 @@ export class CalciteDropdown {
     const animationDelayInMs = 50;
 
     if (this.active) {
-      setTimeout(
-        () => this.focusOnFirstActiveOrFirstItem(),
-        animationDelayInMs
-      );
+      setTimeout(() => this.focusOnFirstActiveOrFirstItem(), animationDelayInMs);
     }
   }
 }

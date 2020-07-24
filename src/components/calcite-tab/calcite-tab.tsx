@@ -43,7 +43,7 @@ export class CalciteTab {
   /**
    * Show this tab
    */
-  @Prop({ reflect: true, mutable: true }) isActive: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -57,8 +57,8 @@ export class CalciteTab {
     return (
       <Host
         id={id}
-        aria-labeledby={this.labeledBy}
-        aria-expanded={this.isActive.toString()}
+        aria-labelledby={this.labeledBy}
+        aria-expanded={this.active.toString()}
         role="tabpanel"
       >
         <section>
@@ -104,18 +104,15 @@ export class CalciteTab {
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a title that is a
     // child of the `<calcite-tabs>` that is the a parent of this tab.
-    if (
-      (event.target as HTMLElement).closest("calcite-tabs") !==
-      this.el.closest("calcite-tabs")
-    ) {
+    if ((event.target as HTMLElement).closest("calcite-tabs") !== this.el.closest("calcite-tabs")) {
       return;
     }
 
     if (this.tab) {
-      this.isActive = this.tab === event.detail.tab;
+      this.active = this.tab === event.detail.tab;
     } else {
-      this.getTabIndex().then(index => {
-        this.isActive = index === event.detail.tab;
+      this.getTabIndex().then((index) => {
+        this.active = index === event.detail.tab;
       });
     }
   }
@@ -133,9 +130,7 @@ export class CalciteTab {
   async getTabIndex(): Promise<number> {
     return Promise.resolve(
       Array.prototype.indexOf.call(
-        nodeListToArray(this.el.parentElement.children).filter(e =>
-          e.matches("calcite-tab")
-        ),
+        nodeListToArray(this.el.parentElement.children).filter((e) => e.matches("calcite-tab")),
         this.el
       )
     );

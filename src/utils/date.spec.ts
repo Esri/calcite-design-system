@@ -1,11 +1,4 @@
-import {
-  inRange,
-  dateFromRange,
-  dateFromISO,
-  sameDate,
-  prevMonth,
-  nextMonth
-} from "./date";
+import { inRange, dateFromRange, dateFromISO, sameDate, prevMonth, nextMonth } from "./date";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -41,23 +34,25 @@ describe("dateFromRange", () => {
 
 describe("dateFromISO", () => {
   it("returns null from bad input", () => {
-    expect(dateFromISO("")).toEqual(null);
-    expect(dateFromISO("asdflkjasdhoui")).toEqual(null);
+    expect(dateFromISO("")).toBeNull();
+    expect(() => {
+      dateFromISO("asdflkjasdhoui");
+    }).toThrow();
   });
   it("correctly parses ISO format", () => {
     const time = new Date(2011, 10, 29).getTime();
-    expect(dateFromISO('2011-11-29').getTime()).toEqual(time)
+    expect(dateFromISO("2011-11-29").getTime()).toEqual(time);
     // note: if we expand dateFromISO to handle time,
     // these will need to be updated
-    expect(dateFromISO('2011-11-29T15:52:30.5').getTime()).toEqual(time)
-    expect(dateFromISO('2011-11-29T15:52:30.52').getTime()).toEqual(time)
-    expect(dateFromISO('2011-11-29T15:52:18.867').getTime()).toEqual(time)
-    expect(dateFromISO('2011-11-29T15:52:18.867Z').getTime()).toEqual(time)
-    expect(dateFromISO('2011-11-29T15:52:18.867-03:30').getTime()).toEqual(time)
+    expect(dateFromISO("2011-11-29T15:52:30.5").getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:30.52").getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:18.867").getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:18.867Z").getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:18.867-03:30").getTime()).toEqual(time);
   });
   it("defaults to first of any missing units", () => {
-    expect(dateFromISO('2011-11').getTime()).toEqual(new Date(2011, 10, 1).getTime());
-    expect(dateFromISO('2011').getTime()).toEqual(new Date(2011, 0, 1).getTime())
+    expect(dateFromISO("2011-11").getTime()).toEqual(new Date(2011, 10, 1).getTime());
+    expect(dateFromISO("2011").getTime()).toEqual(new Date(2011, 0, 1).getTime());
   });
 });
 
@@ -112,4 +107,3 @@ describe("nextMonth", () => {
     expect(d1.getDate()).toEqual(30);
   });
 });
-

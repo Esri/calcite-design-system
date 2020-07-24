@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Prop,
-  Watch,
+  Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -15,7 +15,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-stepper-item",
   styleUrl: "calcite-stepper-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteStepperItem {
   //--------------------------------------------------------------------------
@@ -79,8 +79,8 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteStepperItemKeyEvent: EventEmitter;
-  @Event() calciteStepperItemSelected: EventEmitter;
-  @Event() registerCalciteStepperItem: EventEmitter;
+  @Event() calciteStepperItemSelect: EventEmitter;
+  @Event() calciteStepperItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -159,7 +159,7 @@ export class CalciteStepperItem {
     }
   }
 
-  @Listen("calciteStepperItemHasChanged", { target: "parent" })
+  @Listen("calciteStepperItemChange", { target: "parent" })
   updateActiveItemOnChange(event: CustomEvent) {
     this.activePosition = event.detail.position;
     this.determineActiveItem();
@@ -202,27 +202,25 @@ export class CalciteStepperItem {
   }
 
   private registerStepperItem() {
-    this.registerCalciteStepperItem.emit({
+    this.calciteStepperItemRegister.emit({
       position: this.itemPosition,
-      content: this.itemContent,
+      content: this.itemContent
     });
   }
 
   private emitRequestedItem() {
     if (!this.disabled) {
-      this.calciteStepperItemSelected.emit({
+      this.calciteStepperItemSelect.emit({
         position: this.itemPosition,
-        content: this.itemContent,
+        content: this.itemContent
       });
     }
   }
 
   private getItemContent() {
     // handle ie and edge
-    return this.el.shadowRoot.querySelector("slot")
-      ? (this.el.shadowRoot
-          .querySelector("slot")
-          .assignedNodes({ flatten: true }) as HTMLElement[])
+    return this.el.shadowRoot?.querySelector("slot")
+      ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
       : this.el.querySelector(".stepper-item-content")
       ? (this.el.querySelector(".stepper-item-content") as HTMLElement)
       : null;
@@ -230,9 +228,6 @@ export class CalciteStepperItem {
 
   private getItemPosition() {
     const parent = this.el.parentElement as HTMLCalciteStepperElement;
-    return Array.prototype.indexOf.call(
-      parent.querySelectorAll("calcite-stepper-item"),
-      this.el
-    );
+    return Array.prototype.indexOf.call(parent.querySelectorAll("calcite-stepper-item"), this.el);
   }
 }

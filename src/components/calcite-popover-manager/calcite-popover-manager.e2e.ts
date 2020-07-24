@@ -3,8 +3,7 @@ import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-popover-manager", () => {
-  it("renders", async () =>
-    renders(`<calcite-popover-manager></calcite-popover-manager>`));
+  it("renders", async () => renders(`<calcite-popover-manager></calcite-popover-manager>`));
 
   it("honors hidden attribute", async () => hidden("calcite-popover-manager"));
 
@@ -12,12 +11,12 @@ describe("calcite-popover-manager", () => {
     defaults("calcite-popover-manager", [
       {
         propertyName: "selector",
-        defaultValue: `[${POPOVER_REFERENCE}]`,
+        defaultValue: `[${POPOVER_REFERENCE}]`
       },
       {
         propertyName: "autoClose",
-        defaultValue: undefined,
-      },
+        defaultValue: undefined
+      }
     ]));
 
   it("should open popovers", async () => {
@@ -39,6 +38,33 @@ describe("calcite-popover-manager", () => {
     expect(await popover.getProperty("open")).toBe(false);
 
     const referenceElement = await page.find("#ref");
+
+    await referenceElement.click();
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(true);
+  });
+
+  it("should open popovers 2", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `
+      <calcite-popover-manager>
+        <calcite-popover reference-element="ref">Content</calcite-popover>
+        <div id="ref"><span>Button</span></div>
+      <calcite-popover-manager>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.getProperty("open")).toBe(false);
+
+    const referenceElement = await page.find("#ref span");
 
     await referenceElement.click();
 

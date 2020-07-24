@@ -1,11 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-label", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-label></calcite-label>");
     const label = await page.find("calcite-label");
-    expect(label).toHaveClass("hydrated");
+    expect(label).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {
@@ -212,8 +213,7 @@ describe("calcite-label", () => {
   `);
     const label = await page.find("calcite-label");
     const radioGroupItem = await page.find("calcite-radio-group-item[checked]");
-    const radioGroupItemClass =
-      radioGroupItem["_elmHandle"]["_remoteObject"].description;
+    const radioGroupItemClass = radioGroupItem["_elmHandle"]["_remoteObject"].description;
     await label.click();
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
@@ -233,8 +233,7 @@ describe("calcite-label", () => {
     </calcite-label>
   `);
     const radioGroupItem = await page.find("calcite-radio-group-item[checked]");
-    const radioGroupItemClass =
-      radioGroupItem["_elmHandle"]["_remoteObject"].description;
+    const radioGroupItemClass = radioGroupItem["_elmHandle"]["_remoteObject"].description;
     await page.keyboard.press("Tab");
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;

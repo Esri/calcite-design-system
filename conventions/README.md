@@ -266,6 +266,7 @@ Event names should be treated like global variables since they can collide with 
 - For example:
   - Bad: `change`
   - Good: `calciteTabChange`
+- If an existing event can be listened to, don't create a new custom event. For example, there is no need to create a `calciteButtonClick` event because a standard `click` event will still be fired from the element.
 
 **Discussed In:**
 
@@ -426,7 +427,7 @@ import { guid } from "../../utils/guid";
 @Component({
   tag: "calcite-example",
   styleUrl: "calcite-example.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteExample {
   // ...
@@ -465,9 +466,7 @@ if (Build.isBrowser) {
 Checking if the necessary APIs are present is also acceptable:
 
 ```ts
-const elements = this.el.shadowRoot
-  ? this.el.shadowRoot.querySelector("slot").assignedElements()
-  : [];
+const elements = this.el.shadowRoot ? this.el.shadowRoot.querySelector("slot").assignedElements() : [];
 ```
 
 To ensure that all components are compatible for prerendering a prerender build is done as part of `npm test`.

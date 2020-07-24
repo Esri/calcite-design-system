@@ -8,13 +8,13 @@ import {
   Host,
   Watch,
   Build,
-  State,
+  State
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 @Component({
   tag: "calcite-radio-group-item",
   styleUrl: "calcite-radio-group-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
@@ -39,8 +39,7 @@ export class CalciteRadioGroupItem {
   @Prop({ reflect: true }) icon?: string;
 
   /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" =
-    "start";
+  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" = "start";
 
   @Watch("checked")
   protected handleCheckedChange(): void {
@@ -61,9 +60,7 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    let inputProxy: HTMLInputElement = this.el.querySelector(
-      `input[slot="input"]`
-    );
+    let inputProxy: HTMLInputElement = this.el.querySelector(`input[slot="input"]`);
 
     if (inputProxy) {
       this.value = inputProxy.value;
@@ -85,7 +82,7 @@ export class CalciteRadioGroupItem {
     this.mutationObserver.disconnect();
   }
 
-  componentDidLoad() {
+  componentWillLoad() {
     // only use default slot content in browsers that support shadow dom
     // or if ie11 has no label provided (#374)
     const label = this.el.querySelector("label");
@@ -98,9 +95,7 @@ export class CalciteRadioGroupItem {
     const appearance = getElementProp(this.el, "appearance", "m");
     const layout = getElementProp(this.el, "layout", "m");
 
-    const iconEl = (
-      <calcite-icon class="radio-group-item-icon" icon={this.icon} scale="s" />
-    );
+    const iconEl = <calcite-icon class="radio-group-item-icon" icon={this.icon} scale="s" />;
 
     return (
       <Host
@@ -147,10 +142,7 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   private getMutationObserver(): MutationObserver | null {
-    return (
-      Build.isBrowser &&
-      new MutationObserver(() => this.syncFromExternalInput())
-    );
+    return Build.isBrowser && new MutationObserver(() => this.syncFromExternalInput());
   }
 
   private syncFromExternalInput(): void {
