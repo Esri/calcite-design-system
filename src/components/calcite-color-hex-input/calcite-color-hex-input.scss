@@ -5,24 +5,6 @@ $input-side-offset: 18px;
   display: block;
 }
 
-:host([scale="s"]) {
-  .input {
-    padding: 0 0 0 $input-side-offset--small;
-  }
-}
-
-:host([scale="s"][dir="rtl"]) {
-  .input {
-    padding: 0 $input-side-offset--small 0 0;
-  }
-}
-
-:host([dir="rtl"]) {
-  .input {
-    padding: 0 $input-side-offset 0 0;
-  }
-}
-
 .container {
   width: 100%;
   display: -ms-inline-grid;
