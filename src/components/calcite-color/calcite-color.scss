@@ -168,6 +168,7 @@ $channel-input-offset: 30%;
 calcite-color-swatch {
   @include focus-style-base();
 
+  cursor: pointer;
   margin: 4px 8px 0 0;
 
   &:focus {
