@@ -64,7 +64,7 @@ export const create: () => Config = () => ({
     {
       type: "www",
       baseUrl: "https://stenciljs.com/",
-      prerenderConfig: "./prerender.config.js",
+      prerenderConfig: "./prerender.config.ts",
       copy: [
         { src: "demos", dest: "demos" },
         {
@@ -94,7 +94,7 @@ export const create: () => Config = () => ({
   },
   hydratedFlag: {
     selector: "attribute",
-    name: "calcite-hydrated",
+    name: "calcite-hydrated"
   },
   extras: {
     appendChildSlotFix: true,

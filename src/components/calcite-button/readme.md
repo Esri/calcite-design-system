@@ -35,6 +35,7 @@ Type: `Promise<void>`
 
 ### Used by
 
+- [calcite-fab](../calcite-fab)
 - [calcite-split-button](../calcite-split-button)
 
 ### Depends on

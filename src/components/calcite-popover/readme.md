@@ -67,7 +67,7 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [calcite-flow-item](../calcite-flow-item)
+- [calcite-flow-item](../calcite-flow-item)
 
 ### Depends on
 
