@@ -175,12 +175,13 @@ export class CalciteColorHexInput {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const hexInputValue = this.formatForInternalInput(this.value);
+    const { hexLabel, value } = this;
+    const hexInputValue = this.formatForInternalInput(value);
 
     return (
       <div class={CSS.container}>
-        <input
-          aria-label={this.hexLabel}
+        <calcite-input
+          aria-label={hexLabel}
           ref={(node) => (this.inputNode = node)}
           class={CSS.input}
           value={hexInputValue}
@@ -189,13 +190,8 @@ export class CalciteColorHexInput {
           onBlur={this.onInputBlur}
           onKeyDown={this.onInputKeyDown}
         />
-        <calcite-color-swatch
-          active
-          class={CSS.preview}
-          scale={this.scale}
-          color={`#${hexInputValue}`}
-        />
         <span class={CSS.hash}>#</span>
+        <calcite-color-swatch active class={CSS.preview} scale="s" color={`#${hexInputValue}`} />
       </div>
     );
   }

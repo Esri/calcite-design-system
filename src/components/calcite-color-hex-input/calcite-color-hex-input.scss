@@ -1,6 +1,6 @@
 $height: 28px;
-$input-side-offset--small: 38px;
-$input-side-offset: 44px;
+$input-side-offset--small: 16px;
+$input-side-offset: 18px;
 
 :host {
   display: block;
@@ -28,24 +28,23 @@ $input-side-offset: 44px;
   width: 100%;
   display: -ms-inline-grid;
   display: inline-grid;
-  -ms-grid-columns: auto 1ch 1fr;
-  grid-template-columns: auto 1ch 1fr;
+  -ms-grid-columns: 1ch 1fr auto;
+  grid-template-columns: 1ch 1fr auto;
   align-items: center;
   height: $height;
   @include avenir-regular();
 }
 
 .preview {
-  -ms-grid-column: 1;
+  -ms-grid-column: 3;
   -ms-grid-column-span: 1;
-  grid-column: 1 / 2;
-  margin: 0 4px;
+  grid-column: 3 / 4;
 }
 
 .hash {
-  -ms-grid-column: 2;
+  -ms-grid-column: 1;
   -ms-grid-column-span: 1;
-  grid-column: 2 / 3;
+  grid-column: 1 / 2;
   color: var(--calcite-ui-text-3);
 }
 
@@ -54,6 +53,7 @@ $input-side-offset: 44px;
   display: flex;
   align-items: center;
   pointer-events: none;
+  margin: 0 6px;
 }
 
 .preview,
