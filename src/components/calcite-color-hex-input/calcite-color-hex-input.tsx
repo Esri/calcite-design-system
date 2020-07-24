@@ -22,6 +22,7 @@ import Color from "color";
 import { CSS } from "./resources";
 import { Scale, Theme } from "../../interfaces/common";
 import { RGB } from "../../interfaces/Color";
+import { getElementDir } from "../../utils/dom";
 
 const DEFAULT_COLOR = Color();
 
@@ -183,21 +184,23 @@ export class CalciteColorHexInput {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { hexLabel, value } = this;
+    const { el, hexLabel, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
+    const elementDir = getElementDir(el);
 
     return (
       <div class={CSS.container}>
         <calcite-input
-          prefixText="#"
           aria-label={hexLabel}
-          ref={(node) => (this.inputNode = node)}
           class={CSS.input}
-          value={hexInputValue}
+          dir={elementDir}
           onChange={this.onInputChange}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onKeyDown={this.onInputKeyDown}
+          prefixText="#"
+          ref={(node) => (this.inputNode = node)}
           scale="s"
+          value={hexInputValue}
         />
         <calcite-color-swatch active class={CSS.preview} scale="s" color={`#${hexInputValue}`} />
       </div>
