@@ -1,6 +1,18 @@
 :host {
   display: inline-flex;
 }
+:host([scale="s"]) {
+  height: 16px;
+  width: 16px;
+}
+:host([scale="m"]) {
+  height: 24px;
+  width: 24px;
+}
+:host([scale="l"]) {
+  height: 32px;
+  width: 32px;
+}
 
 .mirrored {
   transform: scaleX(-1);

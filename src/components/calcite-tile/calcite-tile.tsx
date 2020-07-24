@@ -30,16 +30,17 @@ export class CalciteTile {
 
   renderTile() {
     const isLargeVisual = this.heading && this.icon && !this.description;
+    const iconStyle = isLargeVisual
+      ? {
+          height: "64px",
+          width: "64px"
+        }
+      : undefined;
     return (
       <div class={{ "large-visual": isLargeVisual, tile: true }}>
         {this.icon && (
           <div class="icon">
-            <calcite-icon
-              icon={this.icon}
-              scale="l"
-              height={isLargeVisual && 64}
-              width={isLargeVisual && 64}
-            ></calcite-icon>
+            <calcite-icon icon={this.icon} scale="l" style={iconStyle}></calcite-icon>
           </div>
         )}
         {this.heading && (

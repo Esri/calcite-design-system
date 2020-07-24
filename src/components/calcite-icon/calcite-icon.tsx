@@ -1,13 +1,4 @@
-import {
-  Build,
-  Component,
-  Element,
-  h,
-  Host,
-  Prop,
-  State,
-  Watch,
-} from "@stencil/core";
+import { Build, Component, Element, h, Host, Prop, State, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
@@ -19,7 +10,7 @@ import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
   assetsDirs: ["assets"],
   tag: "calcite-icon",
   styleUrl: "calcite-icon.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteIcon {
   //--------------------------------------------------------------------------
@@ -38,18 +29,10 @@ export class CalciteIcon {
   //--------------------------------------------------------------------------
 
   /**
-   * Custom height (overrides the scale property)
-   */
-  @Prop({
-    reflect: true,
-  })
-  height: number | undefined = undefined;
-
-  /**
    * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   icon: string = null;
 
@@ -57,7 +40,7 @@ export class CalciteIcon {
    * When true, the icon will be mirrored when the element direction is 'rtl'.
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   mirrored: boolean = false;
 
@@ -65,7 +48,7 @@ export class CalciteIcon {
    * Icon scale. Can be "s" | "m" | "l".
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   scale: IconScale = "m";
 
@@ -81,17 +64,9 @@ export class CalciteIcon {
    * Icon theme. Can be "light" or "dark".
    */
   @Prop({
-    reflect: true,
+    reflect: true
   })
   theme: Theme;
-
-  /**
-   * Custom width (overrides the scale property)
-   */
-  @Prop({
-    reflect: true,
-  })
-  width: number | undefined = undefined;
 
   //--------------------------------------------------------------------------
   //
@@ -121,27 +96,20 @@ export class CalciteIcon {
     const { el, mirrored, pathData, scale, textLabel } = this;
     const dir = getElementDir(el);
     const size = scaleToPx[scale];
-    const height = this.height ? this.height : size;
-    const width = this.width ? this.width : size;
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");
     return (
-      <Host
-        aria-label={semantic ? textLabel : null}
-        role={semantic ? "img" : null}
-      >
+      <Host aria-label={semantic ? textLabel : null} role={semantic ? "img" : null}>
         <svg
           class={{
             [CSS.mirrored]: dir === "rtl" && mirrored,
-            svg: true,
+            svg: true
           }}
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
-          height={height}
-          width={width}
-          viewBox={`0 0 ${this.width ? width / 2 : width} ${
-            this.height ? height / 2 : height
-          }`}
+          height="100%"
+          width="100%"
+          viewBox={`0 0 ${size} ${size}`}
         >
           {paths.map((path: string | CalciteMultiPathEntry) =>
             typeof path === "string" ? (
