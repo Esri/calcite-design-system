@@ -64,8 +64,7 @@ export class CalciteColorHexInput {
   /**
    * Label used for the hex input.
    */
-  @Prop()
-  hexLabel = "Hex";
+  @Prop() intlHex = "Hex";
 
   /**
    * The component's scale.
@@ -184,14 +183,14 @@ export class CalciteColorHexInput {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, hexLabel, value } = this;
+    const { el, intlHex, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
     const elementDir = getElementDir(el);
 
     return (
       <div class={CSS.container}>
         <calcite-input
-          aria-label={hexLabel}
+          aria-label={intlHex}
           class={CSS.input}
           dir={elementDir}
           onChange={this.onInputChange}

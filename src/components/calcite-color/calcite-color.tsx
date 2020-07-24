@@ -67,17 +67,14 @@ export class CalciteColor {
     this.value = value;
   }
 
-  /**
-   * Label used for the delete color button.
-   */
-  @Prop()
-  deleteColorLabel = "Delete color";
-
   /** Label used for the blue channel */
   @Prop() intlB = "B";
 
   /** Label used for the blue channel description */
   @Prop() intlBlue = "Blue";
+
+  /** Label used for the delete color button. */
+  @Prop() intlDeleteColor = "Delete color";
 
   /** Label used for the green channel */
   @Prop() intlG = "G";
@@ -112,6 +109,9 @@ export class CalciteColor {
   /** Label used for the saturation channel description */
   @Prop() intlSaturation = "Saturation";
 
+  /** Label used for the save color button. */
+  @Prop() intlSaveColor = "Save color";
+
   /** Label used for the  */
   @Prop() intlSavedColors = "Saved Colors";
 
@@ -120,12 +120,6 @@ export class CalciteColor {
 
   /** Label used for the  */
   @Prop() intlValue = "Value";
-
-  /**
-   * Label used for the save color button.
-   */
-  @Prop()
-  saveColorLabel = "Save color";
 
   /**
    * The scale of the color picker.
@@ -338,11 +332,11 @@ export class CalciteColor {
   render(): VNode {
     const {
       color,
-      deleteColorLabel,
+      intlDeleteColor,
       el,
       intlHex,
       intlSavedColors,
-      saveColorLabel,
+      intlSaveColor,
       savedColors,
       scale,
       theme
@@ -406,7 +400,7 @@ export class CalciteColor {
             <div class={CSS.savedColorsButtons}>
               <calcite-button
                 appearance="transparent"
-                aria-label={deleteColorLabel}
+                aria-label={intlDeleteColor}
                 class={CSS.deleteColor}
                 color="dark"
                 iconStart="minus"
@@ -415,7 +409,7 @@ export class CalciteColor {
               />
               <calcite-button
                 appearance="transparent"
-                aria-label={saveColorLabel}
+                aria-label={intlSaveColor}
                 class={CSS.saveColor}
                 color="dark"
                 iconStart="plus"
