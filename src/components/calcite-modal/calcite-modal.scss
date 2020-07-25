@@ -61,8 +61,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: transform 300ms $easing-function, visibility 0ms linear 300ms,
-    opacity 300ms $easing-function;
+  transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
   background-color: var(--calcite-ui-foreground-1);
   box-shadow: $shadow-2--press;
@@ -89,9 +88,8 @@
     opacity: 1;
     transition-delay: 0ms;
     transform: translate3d(0, 0, 0);
-    transition: transform 300ms $easing-function, visibility 0ms linear,
-      opacity 300ms $easing-function, max-width 300ms $easing-function,
-      max-height 300ms $easing-function;
+    transition: transform 300ms $easing-function, visibility 0ms linear, opacity 300ms $easing-function,
+      max-width 300ms $easing-function, max-height 300ms $easing-function;
   }
 }
 
@@ -322,8 +320,7 @@ slot[name="primary"] {
   }
   @media screen and (max-width: $viewport-medium) {
     .modal {
-      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0
-        0;
+      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
     }
 
     .modal__close {
