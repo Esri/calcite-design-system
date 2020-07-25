@@ -424,6 +424,7 @@ export class CalciteColor {
             {[
               ...savedColors.map((color) => (
                 <calcite-color-swatch
+                  class={CSS.savedColor}
                   color={color}
                   active={selectedColorInHex === color}
                   key={color}

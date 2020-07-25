@@ -19,7 +19,8 @@ export const CSS = {
   savedColorsButtons: "saved-colors-buttons",
   headerHex: "header--hex",
   colorFieldAndSlider: "color-field-and-slider",
-  colorFieldAndSliderInteractive: "color-field-and-slider--interactive"
+  colorFieldAndSliderInteractive: "color-field-and-slider--interactive",
+  savedColor: "saved-color"
 };
 
 export const DEFAULT_COLOR = Color("#007AC2");

@@ -13,13 +13,21 @@ $gap--large: 12px;
 :host([scale="s"]) {
   width: 156px;
 
+  .saved-colors {
+    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  }
+
   .channels {
     flex-direction: column;
-    gap: $gap--small;
   }
 
   .channel {
     width: 100%;
+    margin-bottom: $gap--small;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -44,14 +52,13 @@ $gap--large: 12px;
   }
 
   .saved-colors {
+    grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+    grid-gap: $gap--large;
     padding-top: $section-padding--large;
-    gap: $gap--large;
   }
 
   .control-section {
     flex-wrap: nowrap;
-    // gap should match padding
-    gap: $section-padding--large;
   }
 
   .color-hex-options {
@@ -126,26 +133,27 @@ $gap--large: 12px;
 
 .channels {
   display: flex;
-  gap: $gap;
+  justify-content: space-between;
 }
 
 .channel {
-  width: 33%;
-  display: flex;
+  width: 31%;
 }
 
 .saved-colors {
   padding-top: $section-padding;
-  display: flex;
-  flex-wrap: wrap;
-  gap: $gap;
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
+  grid-gap: $gap;
+  width: 100%;
 }
 
 .saved-colors-buttons {
   display: flex;
 }
 
-calcite-color-swatch {
+.saved-color {
   @include focus-style-base();
 
   cursor: pointer;
