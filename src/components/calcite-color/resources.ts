@@ -54,7 +54,7 @@ export const TEXT = {
   s: "S",
   saturation: "Saturation",
   saveColor: "Save color",
-  savedColors: "Saved colors",
+  saved: "Saved",
   v: "V",
   value: "Value"
 };

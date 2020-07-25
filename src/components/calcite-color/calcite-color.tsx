@@ -113,8 +113,8 @@ export class CalciteColor {
   /** Label used for the save color button. */
   @Prop() intlSaveColor = TEXT.saveColor;
 
-  /** Label used for the  */
-  @Prop() intlSavedColors = TEXT.savedColors;
+  /** Label used for the saved colors section */
+  @Prop() intlSaved = TEXT.saved;
 
   /** Label used for the value channel */
   @Prop() intlV = TEXT.v;
@@ -336,7 +336,7 @@ export class CalciteColor {
       intlDeleteColor,
       el,
       intlHex,
-      intlSavedColors,
+      intlSaved,
       intlSaveColor,
       savedColors,
       scale,
@@ -398,7 +398,7 @@ export class CalciteColor {
         </div>
         <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
           <div class={CSS.header}>
-            <label>{intlSavedColors}</label>
+            <label>{intlSaved}</label>
             <div class={CSS.savedColorsButtons}>
               <calcite-button
                 appearance="transparent"
