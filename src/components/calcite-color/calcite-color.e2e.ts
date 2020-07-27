@@ -84,7 +84,7 @@ describe("calcite-color", () => {
     expect(spy).toHaveReceivedEventTimes(supportedValues.length);
   });
 
-  it("allows selecting colors via color field/slider", async () => {
+  it.skip("allows selecting colors via color field/slider", async () => {
     const page = await newE2EPage({
       html: "<calcite-color value='#000' scale='m'></calcite-color>"
     });
@@ -413,7 +413,7 @@ describe("calcite-color", () => {
       await page.waitForChanges();
       await saveColor.click();
 
-      let savedColors = await page.findAll(`calcite-color >>> .${CSS.savedColors} calcite-color-swatch`);
+      const savedColors = await page.findAll(`calcite-color >>> .${CSS.savedColors} calcite-color-swatch`);
       expect(savedColors).toHaveLength(3);
     });
 
