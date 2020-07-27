@@ -90,26 +90,28 @@ describe("calcite-color", () => {
     });
     const picker = await page.find(`calcite-color`);
     const mediumScaleDimensions = DIMENSIONS.m;
+    const widthOffset = 0.5;
+    const [fieldAndSliderX, fieldAndSliderY] = await page.evaluate(() => {
+      const color = document.querySelector("calcite-color");
+      const fieldAndSliderArea = color.shadowRoot.querySelector("canvas");
+      const { x, y } = fieldAndSliderArea.getBoundingClientRect();
 
-    const borderOffset = 9;
-    const rightEdgeAdjustment = 0.5;
+      return [x, y];
+    });
 
     // clicking color field colors to pick a color
-    await page.mouse.click(0 + borderOffset, 0 + borderOffset);
+    await page.mouse.click(fieldAndSliderX, fieldAndSliderY);
     expect(await picker.getProperty("value")).toBe("#ffffff");
 
-    await page.mouse.click(0 + borderOffset, mediumScaleDimensions.colorField.height + borderOffset);
+    await page.mouse.click(fieldAndSliderX, fieldAndSliderY + mediumScaleDimensions.colorField.height);
     expect(await picker.getProperty("value")).toBe("#000000");
 
-    await page.mouse.click(
-      mediumScaleDimensions.colorField.width - rightEdgeAdjustment + borderOffset,
-      0 + borderOffset
-    );
+    await page.mouse.click(fieldAndSliderX + mediumScaleDimensions.colorField.width - widthOffset, fieldAndSliderY);
     expect(await picker.getProperty("value")).toBe("#ff0000");
 
     await page.mouse.click(
-      mediumScaleDimensions.colorField.width - rightEdgeAdjustment + borderOffset,
-      mediumScaleDimensions.colorField.height + borderOffset
+      fieldAndSliderX + mediumScaleDimensions.colorField.width - widthOffset,
+      fieldAndSliderY + mediumScaleDimensions.colorField.height
     );
     expect(await picker.getProperty("value")).toBe("#000000");
 
@@ -119,41 +121,31 @@ describe("calcite-color", () => {
 
     // clicking on color slider to set hue
     const colorsToSample = 7;
-    const offsetX = mediumScaleDimensions.slider.width / colorsToSample;
-    let x = 0;
+    const offsetX = (mediumScaleDimensions.slider.width - widthOffset) / colorsToSample;
+    let x = fieldAndSliderX;
 
-    const sliderHeight = mediumScaleDimensions.colorField.height + mediumScaleDimensions.slider.height + borderOffset;
+    const sliderHeight =
+      fieldAndSliderY + mediumScaleDimensions.colorField.height + mediumScaleDimensions.slider.height;
 
-    await page.mouse.click(x + borderOffset, sliderHeight);
-    expect(await picker.getProperty("value")).toBe("#ff0000");
+    const expectedColorSamples = [
+      "#ff0000",
+      "#ffdb00",
+      "#47ff00",
+      "#00ff8e",
+      "#0094ff",
+      "#4700ff",
+      "#ff00db",
+      "#ff0000"
+    ];
 
-    x += offsetX;
-    await page.mouse.click(x + borderOffset, sliderHeight);
-    expect(await picker.getProperty("value")).toBe("#ffd900");
+    for (let i = 0; i < expectedColorSamples.length; i++) {
+      const expectedColor = expectedColorSamples[i];
 
-    x += offsetX;
-    await page.mouse.click(x + borderOffset, sliderHeight);
-    expect(await picker.getProperty("value")).toBe("#46ff00");
+      await page.mouse.click(x, sliderHeight);
+      expect(await picker.getProperty("value")).toBe(expectedColor);
 
-    x += offsetX;
-    await page.mouse.click(x + borderOffset, sliderHeight);
-    expect(await picker.getProperty("value")).toBe("#00ff93");
-
-    x += offsetX;
-    await page.mouse.click(x + borderOffset, sliderHeight);
-    expect(await picker.getProperty("value")).toBe("#0093ff");
-
-    x += offsetX;
-    await page.mouse.click(x + borderOffset, sliderHeight);
-    expect(await picker.getProperty("value")).toBe("#4600ff");
-
-    x += offsetX;
-    await page.mouse.click(x + borderOffset, sliderHeight);
-    expect(await picker.getProperty("value")).toBe("#ff00d9");
-
-    x += offsetX;
-    await page.mouse.click(x + borderOffset - rightEdgeAdjustment, sliderHeight);
-    expect(await picker.getProperty("value")).toBe("#ff0000");
+      x += offsetX;
+    }
   });
 
   it("ignores unsupported value types", async () => {
