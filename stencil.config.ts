@@ -10,6 +10,7 @@ export const config: Config = {
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
     { components: ["calcite-chip"] },
+    { components: ["calcite-color", "calcite-color-hex-input", "calcite-color-swatch"] },
     { components: ["calcite-combobox"] },
     {
       components: ["calcite-date", "calcite-date-month", "calcite-date-month-header", "calcite-date-day"]

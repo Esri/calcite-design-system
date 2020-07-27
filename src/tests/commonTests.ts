@@ -70,7 +70,7 @@ export async function reflects(
 
   for (const propAndValue of propsToTest) {
     const { propertyName, value } = propAndValue;
-    const componentAttributeSelector = `${componentTag}[${propertyName}]`;
+    const componentAttributeSelector = `${componentTag}[${propToAttr(propertyName)}]`;
 
     element.setProperty(propertyName, value);
     await page.waitForChanges();
@@ -89,6 +89,10 @@ export async function reflects(
       expect(await page.find(componentAttributeSelector)).toBeTruthy();
     }
   }
+}
+
+function propToAttr(name: string): string {
+  return name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 }
 
 export async function defaults(
@@ -116,4 +120,14 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
   await page.waitForChanges();
 
   expect(await element.isVisible()).toBe(false);
+}
+
+export async function focusable(componentTagOrHTML: TagOrHTML): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHTML);
+  const tag = getTag(componentTagOrHTML);
+  const element = await page.find(tag);
+
+  await element.callMethod("setFocus"); // assumes element is CalciteFocusableElement
+
+  expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(tag.toUpperCase());
 }

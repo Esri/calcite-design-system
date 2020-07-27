@@ -11,9 +11,7 @@ calcite-checkbox is used to toggle a value on or off. You can optionally pass in
 If you don't pass in an input, calcite-checkbox will act as the source of truth:
 
 ```html
-<label>
-  <calcite-checkbox checked="true"></calcite-checkbox> Switch is on
-</label>
+<label> <calcite-checkbox checked="true"></calcite-checkbox> Switch is on </label>
 ```
 
 <!-- Auto Generated Below -->
@@ -30,14 +28,13 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 | `name`          | `name`          | The name of the checkbox input                                                                                                                | `string`            | `""`        |
 | `scale`         | `scale`         | specify the scale of the checkbox, defaults to m                                                                                              | `"l" \| "m" \| "s"` | `"m"`       |
 | `theme`         | `theme`         | Determines what theme to use                                                                                                                  | `"dark" \| "light"` | `undefined` |
-| `value`         | `value`         | The value of the checkbox input                                                                                                               | `string`            | `undefined` |
+| `value`         | `value`         | The value of the checkbox input                                                                                                               | `string`            | `""`        |
 
 ## Events
 
-| Event                          | Description                                      | Type               |
-| ------------------------------ | ------------------------------------------------ | ------------------ |
-| `calciteCheckboxChange`        | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
-| `calciteCheckboxFocusedChange` | Emitted when the checkbox focused state changes  | `CustomEvent<any>` |
+| Event                   | Description                                      | Type               |
+| ----------------------- | ------------------------------------------------ | ------------------ |
+| `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
 
 ## Dependencies
 

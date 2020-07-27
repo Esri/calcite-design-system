@@ -13,7 +13,5 @@
     "jsx": "react",
     "jsxFactory": "h"
   },
-  "include": ["src", "types/jsx.d.ts"],
-  "typeRoots": ["node_modules/@types"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

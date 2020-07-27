@@ -1,7 +1,7 @@
 export const CSS = {
-  close: 'close'
+  close: "close"
 };
 
 export const TEXT = {
-  close: 'close'
-}
+  close: "close"
+};

@@ -24,7 +24,6 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 | `scale`     | `scale`      | Icon scale. Can be "s" \| "m" \| "l".                                                                                               | `"l" \| "m" \| "s"` | `"m"`       |
 | `textLabel` | `text-label` | The icon label. It is recommended to set this value if your icon is semantic.                                                       | `string`            | `undefined` |
 | `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `undefined` |
-| `width`     | `width`      | Custom width (overrides the scale property)                                                                                         | `number`            | `undefined` |
 
 ## Dependencies
 
@@ -46,7 +45,9 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-popover](../calcite-popover)
 - [calcite-radio-group-item](../calcite-radio-group-item)
 - [calcite-stepper-item](../calcite-stepper-item)
-- [calcite-tile](../calcite-tile)
+  <<<<<<< HEAD
+- # [calcite-tile](../calcite-tile)
+  > > > > > > > 89f62ea9b1467d71b531b034c19677f3f0eb5021
 - [calcite-tree-item](../calcite-tree-item)
 
 ### Graph
