@@ -35,7 +35,7 @@ export class CalciteCheckbox {
   /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
   @Watch("checked") checkedWatcher(newChecked: boolean) {
-    this.input.checked = newChecked;
+    newChecked ? this.input.setAttribute("checked", "") : this.input.removeAttribute("checked");
     this.calciteCheckboxChange.emit();
   }
 
@@ -176,7 +176,7 @@ export class CalciteCheckbox {
 
   private renderHiddenCheckboxInput() {
     this.input = document.createElement("input");
-    this.input.checked = this.checked;
+    this.checked && this.input.setAttribute("checked", "");
     this.input.disabled = this.disabled;
     this.input.onblur = () => (this.focused = false);
     this.input.onfocus = () => (this.focused = true);
