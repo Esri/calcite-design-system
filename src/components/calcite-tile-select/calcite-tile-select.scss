@@ -21,14 +21,13 @@ $spacing: $baseline/2;
   box-shadow: 0 0 0 1px var(--calcite-ui-blue-1);
   z-index: 1;
 }
-:host(:focus),
-:host([focused]) {
+:host([checked]:focus),
+:host([checked][focused]) {
   z-index: 2;
 }
 
 :host([show-input="none"]) {
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1),
-    0 0 0 3px var(--calcite-ui-border-2);
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 3px var(--calcite-ui-border-2);
   margin-right: 1px;
   margin-bottom: 5px;
   ::slotted(calcite-checkbox),
@@ -38,23 +37,19 @@ $spacing: $baseline/2;
   }
 }
 :host([show-input="none"]:hover) {
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1),
-    0 0 0 4px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
   z-index: 2;
 }
 :host([show-input="none"][checked]) {
-  box-shadow: 0 0 0 1px var(--calcite-ui-foreground-1),
-    0 0 0 4px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 1px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
 }
 :host([show-input="none"][focused]) {
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1),
-    0 0 0 4px var(--calcite-ui-blue-1), 0 0 0 6px var(--calcite-ui-foreground-1),
-    0 0 0 9px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1),
+    0 0 0 6px var(--calcite-ui-foreground-1), 0 0 0 9px var(--calcite-ui-blue-1);
 }
 :host([show-input="none"][checked][focused]) {
-  box-shadow: 0 0 0 1px var(--calcite-ui-foreground-1),
-    0 0 0 4px var(--calcite-ui-blue-1), 0 0 0 6px var(--calcite-ui-foreground-1),
-    0 0 0 9px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 1px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1),
+    0 0 0 6px var(--calcite-ui-foreground-1), 0 0 0 9px var(--calcite-ui-blue-1);
 }
 
 :host([heading]:not([icon]):not([description])) {
