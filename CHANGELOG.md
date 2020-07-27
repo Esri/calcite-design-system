@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - New component `calcite-color`
 - New component `calcite-color-hex-input`
 - New component `calcite-color-swatch`
+- `calcite-dropdown` - restore support for multiple triggers
 
 ## [v1.0.0-beta.33]
 
