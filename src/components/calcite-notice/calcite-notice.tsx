@@ -1,13 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Method, Prop } from "@stencil/core";
 
 import { TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
@@ -27,7 +18,7 @@ import { getElementDir } from "../../utils/dom";
 @Component({
   tag: "calcite-notice",
   styleUrl: "calcite-notice.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteNotice {
   //--------------------------------------------------------------------------
@@ -48,12 +39,7 @@ export class CalciteNotice {
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** Color for the notice (will apply to top border and icon) */
-  @Prop({ reflect: true, mutable: true }) color:
-    | "blue"
-    | "green"
-    | "red"
-    | "yellow" = "blue";
-
+  @Prop({ reflect: true, mutable: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
 
   /** String for the close button. */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
@@ -65,8 +51,7 @@ export class CalciteNotice {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the width of the notice, defaults to m */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
-    "auto";
+  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
 
   /** Optionally show a button the user can click to dismiss the notice */
   @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
@@ -93,9 +78,7 @@ export class CalciteNotice {
   }
 
   componentDidLoad() {
-    this.noticeLinkEl = this.el.querySelectorAll(
-      "calcite-link"
-    )[0] as HTMLCalciteLinkElement;
+    this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
   render() {
@@ -105,7 +88,7 @@ export class CalciteNotice {
         class="notice-close"
         aria-label={this.intlClose}
         onClick={() => this.close()}
-        ref={() => (this.closeButton)}
+        ref={() => this.closeButton}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -182,7 +165,7 @@ export class CalciteNotice {
     green: "checkCircle",
     yellow: "exclamationMarkTriangle",
     red: "exclamationMarkTriangle",
-    blue: "lightbulb",
+    blue: "lightbulb"
   };
 
   private setIcon() {

@@ -1,10 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import {
-  accessible,
-  defaults,
-  reflects,
-  renders
-} from "../../tests/commonTests";
+import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
@@ -21,10 +16,7 @@ describe("calcite-icon", () => {
       { propertyName: "scale", value: "m" }
     ]));
 
-  it("is accessible", async () =>
-    accessible(
-      `<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`
-    ));
+  it("is accessible", async () => accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`));
 
   it("mirrors icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
@@ -69,9 +61,7 @@ describe("calcite-icon", () => {
 
     it("loads icon when it's close to viewport", async () => {
       const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`
-      );
+      await page.setContent(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
       await page.waitForChanges();
 
       const icon = await page.find(`calcite-icon`);
@@ -88,20 +78,16 @@ describe("calcite-icon", () => {
     describe("scales", () => {
       const scales = ["s", "m", "l"];
 
-      scales.forEach(scale =>
+      scales.forEach((scale) =>
         it(`${scale} scale`, async () => {
           const page = await newE2EPage();
-          await page.setContent(
-            `<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`
-          );
+          await page.setContent(`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
           const svg = await page.find(`calcite-icon >>> svg`);
           const sizeInPx = scaleToPx[scale];
 
           expect(await svg.getAttribute("width")).toBe(`${sizeInPx}`);
           expect(await svg.getAttribute("height")).toBe(`${sizeInPx}`);
-          expect(await svg.getAttribute("viewBox")).toBe(
-            `0 0 ${sizeInPx} ${sizeInPx}`
-          );
+          expect(await svg.getAttribute("viewBox")).toBe(`0 0 ${sizeInPx} ${sizeInPx}`);
         })
       );
     });

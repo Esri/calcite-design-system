@@ -12,8 +12,6 @@ describe("calcite-dropdown-item", () => {
 
     await element.callMethod("setFocus");
 
-    expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(
-      "CALCITE-DROPDOWN-ITEM"
-    );
+    expect(await page.evaluate(() => document.activeElement.tagName)).toEqual("CALCITE-DROPDOWN-ITEM");
   });
 });
