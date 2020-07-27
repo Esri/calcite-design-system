@@ -1,11 +1,6 @@
 import { storiesOf } from "@storybook/html";
 import { withKnobs, select } from "@storybook/addon-knobs";
-import {
-  darkBackground,
-  iconNames,
-  parseReadme,
-  boolean
-} from "../../../.storybook/helpers";
+import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -18,11 +13,7 @@ storiesOf("Chip", module)
     <calcite-chip
     scale="${select("scale", ["s", "m", "l"], "m")}"
     appearance="${select("appearance", ["solid", "clear"], "solid")}"
-    color="${select(
-      "color",
-      ["blue", "red", "yellow", "green", "grey"],
-      "grey"
-    )}"
+    color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
     ${boolean("dismissible", false)}
     >My great chip</calcite-chip>
     </div>
@@ -37,11 +28,7 @@ storiesOf("Chip", module)
     icon="${select("icon", iconNames, iconNames[0])}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     appearance="${select("appearance", ["solid", "clear"], "solid")}"
-    color="${select(
-      "color",
-      ["blue", "red", "yellow", "green", "grey"],
-      "grey"
-    )}"
+    color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
     ${boolean("dismissible", false)}
     >
     My great chip</calcite-chip>
@@ -56,11 +43,7 @@ storiesOf("Chip", module)
     <calcite-chip
     scale="${select("scale", ["s", "m", "l"], "m")}"
     appearance="${select("appearance", ["solid", "clear"], "solid")}"
-    color="${select(
-      "color",
-      ["blue", "red", "yellow", "green", "grey"],
-      "grey"
-    )}"
+    color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
     ${boolean("dismissible", false)}
     >
     <img slot="chip-image" src="https://placekitten.com/50/50" />
@@ -77,11 +60,7 @@ storiesOf("Chip", module)
     theme="dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     appearance="${select("appearance", ["solid", "clear"], "solid")}"
-    color="${select(
-      "color",
-      ["blue", "red", "yellow", "green", "grey"],
-      "grey"
-    )}"
+    color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
     ${boolean("dismissible", false)}
     >My great chip</calcite-chip>
     </div>
@@ -96,11 +75,7 @@ storiesOf("Chip", module)
     icon="${select("icon", iconNames, iconNames[0])}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     appearance="${select("appearance", ["solid", "clear"], "solid")}"
-    color="${select(
-      "color",
-      ["blue", "red", "yellow", "green", "grey"],
-      "grey"
-    )}"
+    color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
     ${boolean("dismissible", false)}
     >My great chip</calcite-chip>
     </div>

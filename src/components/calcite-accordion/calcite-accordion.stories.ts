@@ -19,11 +19,7 @@ storiesOf("Accordion", module)
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
       icon-position="${select("icon-position", ["start", "end"], "end")}"
-      selection-mode="${select(
-        "selection-mode",
-        ["multi", "single", "single-persist"],
-        "multi"
-      )}"
+      selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
       icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
     >
     <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
@@ -52,11 +48,7 @@ storiesOf("Accordion", module)
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
       icon-position="${select("icon-position", ["start", "end"], "end")}"
-      selection-mode="${select(
-        "selection-mode",
-        ["multi", "single", "single-persist"],
-        "multi"
-      )}"
+      selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
       icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
     >
     <calcite-accordion-item icon="banana" item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
@@ -85,11 +77,7 @@ storiesOf("Accordion", module)
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
       icon-position="${select("icon-position", ["start", "end"], "end")}"
-      selection-mode="${select(
-        "selection-mode",
-        ["multi", "single", "single-persist"],
-        "multi"
-      )}"
+      selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
       icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
     >
     <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
@@ -118,11 +106,7 @@ storiesOf("Accordion", module)
         scale="${select("scale", ["s", "m", "l"], "m")}"
         appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
         icon-position="${select("icon-position", ["start", "end"], "end")}"
-        selection-mode="${select(
-          "selection-mode",
-          ["multi", "single", "single-persist"],
-          "multi"
-        )}"
+        selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
         icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
       >
       <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
@@ -141,7 +125,8 @@ storiesOf("Accordion", module)
       </div>
       `,
     { notes }
-  ).add(
+  )
+  .add(
     "RTL With Icons",
     () => `
     <div style="width:300px;max-width:100%" dir="rtl">
@@ -150,11 +135,7 @@ storiesOf("Accordion", module)
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
       icon-position="${select("icon-position", ["start", "end"], "end")}"
-      selection-mode="${select(
-        "selection-mode",
-        ["multi", "single", "single-persist"],
-        "multi"
-      )}"
+      selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
       icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
     >
     <calcite-accordion-item icon="banana" item-title="Accordion Item"><img src="http://placekitten.com/100/200" />

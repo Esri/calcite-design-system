@@ -19,10 +19,7 @@ storiesOf("Stepper", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
     ${boolean("icon", true)}"
-    <calcite-stepper-item item-title="${text(
-      "item-1-title",
-      "Choose method"
-    )}" item-subtitle="${text(
+    <calcite-stepper-item item-title="${text("item-1-title", "Choose method")}" item-subtitle="${text(
       "item-1-subtitle",
       "Add members without sending invitations"
     )}" complete>
@@ -58,10 +55,7 @@ storiesOf("Stepper", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
     ${boolean("icon", true)}"
-    <calcite-stepper-item item-title="${text(
-      "item-1-title",
-      "Choose method"
-    )}" item-subtitle="${text(
+    <calcite-stepper-item item-title="${text("item-1-title", "Choose method")}" item-subtitle="${text(
       "item-1-subtitle",
       "Add members without sending invitations"
     )}" complete>
@@ -95,10 +89,7 @@ storiesOf("Stepper", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
     ${boolean("icon", true)}"
-    <calcite-stepper-item item-title="${text(
-      "item-1-title",
-      "Choose method"
-    )}" item-subtitle="${text(
+    <calcite-stepper-item item-title="${text("item-1-title", "Choose method")}" item-subtitle="${text(
       "item-1-subtitle",
       "Add members without sending invitations"
     )}" complete>
@@ -133,10 +124,7 @@ storiesOf("Stepper", module)
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       ${boolean("numbered", true)}
       ${boolean("icon", true)}"
-      <calcite-stepper-item item-title="${text(
-        "item-1-title",
-        "Choose method"
-      )}" item-subtitle="${text(
+      <calcite-stepper-item item-title="${text("item-1-title", "Choose method")}" item-subtitle="${text(
       "item-1-subtitle",
       "Add members without sending invitations"
     )}" complete>

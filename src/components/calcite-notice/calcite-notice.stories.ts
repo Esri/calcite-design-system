@@ -60,11 +60,7 @@ storiesOf("Notice", module)
       ${boolean("dismissible", true)}
       width="${select("width", ["auto", "half", "full"], "auto")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      color="${select(
-        "color",
-        ["green", "red", "yellow", "blue"],
-        "blue"
-      )}" active>
+      color="${select("color", ["green", "red", "yellow", "blue"], "blue")}" active>
       <div slot="notice-title">Your settings area has changed</div>
       <div slot="notice-message">
         Look around and let us know what you think

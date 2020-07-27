@@ -11,38 +11,19 @@ storiesOf("Input", module)
     "With Label",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select(
-      "status",
-      ["idle", "valid", "invalid"],
-      "idle"
-    )}"
+    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     >
     ${text("label text", "My great label")}
     <calcite-input
       type="${select(
         "type",
-        [
-          "text",
-          "textarea",
-          "email",
-          "password",
-          "tel",
-          "number",
-          "search",
-          "file",
-          "time",
-          "date",
-        ],
+        ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
         "text"
       )}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-      number-button-type="${select(
-        "number-button-type",
-        ["none", "horizontal", "vertical"],
-        "horizontal"
-      )}"
+      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
       min="${text("min", "")}"
       max="${text("max", "")}"
       step="${text("step", "")}"
@@ -57,11 +38,7 @@ storiesOf("Input", module)
     <calcite-input-message
     ${boolean("input-message-active", false)}
     type="${select("input message type", ["default", "floating"], "default")}"
-    status="${select(
-      "input message status",
-      ["idle", "valid", "invalid"],
-      "idle"
-    )}">${text(
+    status="${select("input message status", ["idle", "valid", "invalid"], "idle")}">${text(
       "input message text",
       "My great input message"
     )}</calcite-input-message>
@@ -74,45 +51,19 @@ storiesOf("Input", module)
     "With Label and Input Message",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select(
-      "status",
-      ["idle", "valid", "invalid"],
-      "idle",
-      "Label"
-    )}"
+    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
     scale="${select("scale", ["s", "m", "l"], "m", "Label")}">
     ${text("label text", "My great label", "Label")}
     <calcite-input
       type="${select(
         "type",
-        [
-          "text",
-          "textarea",
-          "email",
-          "password",
-          "tel",
-          "number",
-          "search",
-          "file",
-          "time",
-          "date",
-        ],
+        ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
         "text",
         "Input"
       )}"
-      status="${select(
-        "status",
-        ["idle", "invalid", "valid"],
-        "idle",
-        "Input"
-      )}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
       alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-      number-button-type="${select(
-        "number-button-type",
-        ["none", "horizontal", "vertical"],
-        "horizontal",
-        "Input"
-      )}"
+      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal", "Input")}"
       min="${text("min", "", "Input")}"
       max="${text("max", "", "Input")}"
       step="${text("step", "", "Input")}"
@@ -127,17 +78,8 @@ storiesOf("Input", module)
     <calcite-input-message
     ${boolean("active", true, "Input Message")}
     ${boolean("icon", true, "Input Message")}
-    type="${select(
-      "type",
-      ["default", "floating"],
-      "default",
-      "Input Message"
-    )}"
-   >${text(
-     "input message text",
-     "My great input message",
-     "Input Message"
-   )}</calcite-input-message>
+    type="${select("type", ["default", "floating"], "default", "Input Message")}"
+   >${text("input message text", "My great input message", "Input Message")}</calcite-input-message>
     </calcite-label>
     </div>
   `,
@@ -152,28 +94,13 @@ storiesOf("Input", module)
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
       type="${select(
         "type",
-        [
-          "text",
-          "textarea",
-          "email",
-          "password",
-          "tel",
-          "number",
-          "search",
-          "file",
-          "time",
-          "date",
-        ],
+        ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
         "text"
       )}"
 
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-      number-button-type="${select(
-        "number-button-type",
-        ["none", "horizontal", "vertical"],
-        "horizontal"
-      )}"
+      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
       min="${text("min", "")}"
       max="${text("max", "")}"
       step="${text("step", "")}"
@@ -193,38 +120,19 @@ storiesOf("Input", module)
     "With Slotted Action",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select(
-      "status",
-      ["idle", "valid", "invalid"],
-      "idle"
-    )}"
+    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     >
     ${text("label text", "My great label")}
     <calcite-input
       type="${select(
         "type",
-        [
-          "text",
-          "textarea",
-          "email",
-          "password",
-          "tel",
-          "number",
-          "search",
-          "file",
-          "time",
-          "date",
-        ],
+        ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
         "text"
       )}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-      number-button-type="${select(
-        "number-button-type",
-        ["none", "horizontal", "vertical"],
-        "horizontal"
-      )}"
+      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
       min="${text("min", "")}"
       max="${text("max", "")}"
       step="${text("step", "")}"
@@ -240,11 +148,7 @@ storiesOf("Input", module)
     <calcite-input-message
     ${boolean("input-message-active", false)}
     type="${select("input message type", ["default", "floating"], "default")}"
-    status="${select(
-      "input message status",
-      ["idle", "valid", "invalid"],
-      "idle"
-    )}">${text(
+    status="${select("input message status", ["idle", "valid", "invalid"], "idle")}">${text(
       "input message text",
       "My great input message"
     )}</calcite-input-message>
@@ -257,11 +161,7 @@ storiesOf("Input", module)
     "Textarea",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select(
-      "status",
-      ["idle", "valid", "invalid"],
-      "idle"
-    )}">
+    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}">
     ${text("label text", "My great label")}
     <calcite-input
       type="textarea"
@@ -274,11 +174,7 @@ storiesOf("Input", module)
     <calcite-input-message
     ${boolean("input-message-active", false)}
     type="${select("input message type", ["default", "floating"], "default")}"
-    status="${select(
-      "input message status",
-      ["idle", "valid", "invalid"],
-      "idle"
-    )}">${text(
+    status="${select("input message status", ["idle", "valid", "invalid"], "idle")}">${text(
       "input message text",
       "My great input message"
     )}</calcite-input-message>
@@ -291,36 +187,17 @@ storiesOf("Input", module)
     "Simple - Dark mode",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label theme="dark" status="${select(
-      "status",
-      ["idle", "valid", "invalid"],
-      "idle"
-    )}">
+    <calcite-label theme="dark" status="${select("status", ["idle", "valid", "invalid"], "idle")}">
     ${text("label text", "My great label")}
     <calcite-input
       type="${select(
         "type",
-        [
-          "text",
-          "textarea",
-          "email",
-          "password",
-          "tel",
-          "number",
-          "search",
-          "file",
-          "time",
-          "date",
-        ],
+        ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
         "text"
       )}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
-      number-button-type="${select(
-        "number-button-type",
-        ["none", "horizontal", "vertical"],
-        "horizontal"
-      )}"
+      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
       min="${text("min", "")}"
       max="${text("max", "")}"
       step="${text("step", "")}"
@@ -335,11 +212,7 @@ storiesOf("Input", module)
     <calcite-input-message
     ${boolean("calcite-input-message-active", false)}
     type="${select("input message type", ["default", "floating"], "default")}"
-    status="${select(
-      "input message status",
-      ["idle", "valid", "invalid"],
-      "idle"
-    )}">${text(
+    status="${select("input message status", ["idle", "valid", "invalid"], "idle")}">${text(
       "input message text",
       "My great input message"
     )}</calcite-input-message>

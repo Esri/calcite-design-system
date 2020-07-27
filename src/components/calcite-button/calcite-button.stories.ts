@@ -1,11 +1,6 @@
 import { storiesOf } from "@storybook/html";
 import { withKnobs, text, select } from "@storybook/addon-knobs";
-import {
-  darkBackground,
-  iconNames,
-  parseReadme,
-  boolean
-} from "../../../.storybook/helpers";
+import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -15,11 +10,7 @@ storiesOf("Button", module)
     "Simple",
     () => `
     <calcite-button
-      appearance="${select(
-        "appearance",
-        ["solid", "clear", "outline", "transparent"],
-        "solid"
-      )}"
+      appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("round", false)}
@@ -37,11 +28,7 @@ storiesOf("Button", module)
     "With icon-start",
     () => `
     <calcite-button
-      appearance="${select(
-        "appearance",
-        ["solid", "clear", "outline", "transparent"],
-        "solid"
-      )}"
+      appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("round", false)}
@@ -59,11 +46,7 @@ storiesOf("Button", module)
     "With icon-end",
     () => `
     <calcite-button
-      appearance="${select(
-        "appearance",
-        ["solid", "clear", "outline", "transparent"],
-        "solid"
-      )}"
+      appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("round", false)}
@@ -81,11 +64,7 @@ storiesOf("Button", module)
     "With icon-start and icon-end",
     () => `
     <calcite-button
-      appearance="${select(
-        "appearance",
-        ["solid", "clear", "outline", "transparent"],
-        "solid"
-      )}"
+      appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("round", false)}
@@ -119,21 +98,13 @@ storiesOf("Button", module)
     <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
     <calcite-button
     width="half"
-    appearance="${select(
-      "appearance",
-      ["solid", "clear", "outline", "transparent"],
-      "outline"
-    )}"
+    appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "outline")}"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}">
     ${text("text", "Back")}
     </calcite-button>
     <calcite-button
     width="half"
-    appearance="${select(
-      "appearance-2",
-      ["solid", "clear", "outline", "transparent"],
-      "solid"
-    )}"
+    appearance="${select("appearance-2", ["solid", "clear", "outline", "transparent"], "solid")}"
     color="${select("color-2", ["blue", "red", "dark", "light"], "blue")}"
     icon-start="${select("icon-start", iconNames, iconNames[0])}"
     >
@@ -223,11 +194,7 @@ storiesOf("Button", module)
     () => `
     <calcite-button
     theme="dark"
-    appearance="${select(
-      "appearance",
-      ["solid", "clear", "outline", "transparent"],
-      "solid"
-    )}"
+    appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}

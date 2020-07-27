@@ -1,10 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import {
-  withKnobs,
-  number,
-  color,
-  select,
-} from "@storybook/addon-knobs";
+import { withKnobs, number, color, select } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -16,11 +11,7 @@ storiesOf("Loader", module)
     () => `
     <calcite-loader
       active
-      type="${select(
-        "type",
-        ["determinate", "indeterminate"],
-        "indeterminate"
-      )}"
+      type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("no-padding", false)}
       value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
@@ -45,11 +36,7 @@ storiesOf("Loader", module)
     "Dark mode",
     () => `
     <calcite-loader
-      type="${select(
-        "type",
-        ["determinate", "indeterminate"],
-        "indeterminate"
-      )}"
+      type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("no-padding", false)}
       value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
