@@ -5,6 +5,6 @@
 <!--
 If this is component-related, please verify that:
 
-- [ ] code adheres to the conventions set in `calcite-example` - https://github.com/Esri/calcite-components/tree/master/src/components/calcite-example
+- [ ] feature or fix has a corresponding test
 - [ ] changes have been tested with demo page in Edge
 -->
