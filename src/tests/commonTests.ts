@@ -3,7 +3,6 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-export const HYDRATED_ATTR = config.hydratedFlag.name;
 
 expect.extend(toHaveNoViolations);
 
@@ -11,6 +10,8 @@ type CalciteComponentTag = keyof JSX.IntrinsicElements;
 type AxeOwningWindow = Window & { axe: typeof axe };
 type ComponentHTML = string;
 type TagOrHTML = CalciteComponentTag | ComponentHTML;
+
+export const HYDRATED_ATTR = config.hydratedFlag.name;
 
 function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
