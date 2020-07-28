@@ -51,7 +51,7 @@ describe("calcite-tile", () => {
     const heading = await page.find("calcite-tile >>> .heading");
     const description = await page.find("calcite-tile >>> .description");
     expect(icon).toBeNull;
-    expect(heading).toEqualText("My Calcite TileMy Calcite Tile");
+    expect(heading).toEqualText("My Calcite Tile");
     expect(description).toBeNull;
   });
 
@@ -88,7 +88,7 @@ describe("calcite-tile", () => {
     const description = await page.find("calcite-tile >>> .description");
     expect(icon).toEqualAttribute("icon", "layers");
     expect(icon).toEqualAttribute("scale", "l");
-    expect(heading).toEqualText("My Large Visual Calcite TileMy Large Visual Calcite Tile");
+    expect(heading).toEqualText("My Large Visual Calcite Tile");
     expect(description).toBeNull();
   });
 });

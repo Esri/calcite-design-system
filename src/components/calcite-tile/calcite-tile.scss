@@ -22,12 +22,6 @@ $spacing: $baseline/2;
 :host(:not([embed])[href]:active) {
   box-shadow: 0 0 0 3px var(--calcite-ui-blue-1);
 }
-:host([active]),
-:host(:not([embed])[href]:active) {
-  .heading {
-    font-weight: 500;
-  }
-}
 :host([icon][heading]:not([description]):not([embed])) {
   padding: unset;
 }
@@ -38,11 +32,7 @@ $spacing: $baseline/2;
   .heading {
     @include font-size(0);
     color: var(--calcite-ui-text-1);
-    .active-hidden {
-      opacity: 0;
-      font-weight: 500;
-      margin-top: -$baseline-ratio * 1em;
-    }
+    font-weight: 500;
   }
   &.large-visual {
     justify-items: center;
