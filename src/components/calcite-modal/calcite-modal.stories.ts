@@ -1,16 +1,18 @@
-import { storiesOf } from '@storybook/html';
-import { withKnobs, select, text, number } from '@storybook/addon-knobs'
-import { darkBackground, parseReadme, boolean } from '../../../.storybook/helpers';
-import readme from './readme.md';
+import { storiesOf } from "@storybook/html";
+import { withKnobs, select, text, number } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf('Modal', module)
+storiesOf("Modal", module)
   .addDecorator(withKnobs)
-  .add('Simple', () => {
-    return `
+  .add(
+    "Simple",
+    () => {
+      return `
       <calcite-modal
         ${boolean("active", true)}
-        color="${select("color", {blue: "blue", red: "red", none: null}, null)}"
+        color="${select("color", { blue: "blue", red: "red", none: null }, null)}"
         background-color="${select("background-color", ["white", "grey"], "white")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         width="${select("width", ["s", "m", "l"], "s")}"
@@ -31,9 +33,13 @@ storiesOf('Modal', module)
         <calcite-button slot="primary" width="full">Save</calcite-button>
       </calcite-modal>
     `;
-  }, { notes })
-  .add('Custom Size', () => {
-    return `
+    },
+    { notes }
+  )
+  .add(
+    "Custom Size",
+    () => {
+      return `
       <calcite-modal
         active
         width="${number("width", 500)}"
@@ -50,13 +56,17 @@ storiesOf('Modal', module)
         <calcite-button slot="primary" width="full">Save</calcite-button>
       </calcite-modal>
     `;
-  }, { notes })
-  .add('Dark mode', () => {
-    return `
+    },
+    { notes }
+  )
+  .add(
+    "Dark mode",
+    () => {
+      return `
       <calcite-modal
         theme="dark"
         ${boolean("active", true)}
-        color="${select("color", {blue: "blue", red: "red", none: null}, null)}"
+        color="${select("color", { blue: "blue", red: "red", none: null }, null)}"
         background-color="${select("background-color", ["white", "grey"], "white")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         width="${select("width", ["s", "m", "l"], "s")}"
@@ -77,4 +87,6 @@ storiesOf('Modal', module)
         <calcite-button theme="dark" slot="primary" width="full">Save</calcite-button>
       </calcite-modal>
     `;
-  }, { notes, backgrounds: darkBackground });
+    },
+    { notes, backgrounds: darkBackground }
+  );

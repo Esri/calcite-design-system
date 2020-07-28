@@ -1,7 +1,7 @@
-import { storiesOf } from '@storybook/html';
-import { withKnobs, select } from '@storybook/addon-knobs'
-import { darkBackground, parseReadme, boolean } from '../../../.storybook/helpers';
-import readme from './readme.md';
+import { storiesOf } from "@storybook/html";
+import { withKnobs, select } from "@storybook/addon-knobs";
+import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import readme from "./readme.md";
 const notes = parseReadme(readme);
 const treeItems = `
   <calcite-tree-item>
@@ -37,11 +37,13 @@ const treeItems = `
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
-`
+`;
 
-storiesOf('Tree', module)
+storiesOf("Tree", module)
   .addDecorator(withKnobs)
-  .add('Simple', () => `
+  .add(
+    "Simple",
+    () => `
     <calcite-tree
       ${boolean("lines", false)}
       selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
@@ -49,8 +51,12 @@ storiesOf('Tree', module)
     >
       ${treeItems}
     </calcite-tree>
-  `, { notes })
-  .add('Dark mode', () => `
+  `,
+    { notes }
+  )
+  .add(
+    "Dark mode",
+    () => `
     <calcite-tree
       theme="dark"
       ${boolean("lines", false)}
@@ -59,4 +65,6 @@ storiesOf('Tree', module)
     >
       ${treeItems}
     </calcite-tree>
-  `, { notes, backgrounds: darkBackground });
+  `,
+    { notes, backgrounds: darkBackground }
+  );
