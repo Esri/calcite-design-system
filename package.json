@@ -41,7 +41,8 @@
   },
   "dependencies": {
     "@a11y/focus-trap": "git+https://github.com/patrickarlt/focus-trap.git#conditional-define-build",
-    "@popperjs/core": "^2.4.4"
+    "@popperjs/core": "^2.4.4",
+    "@types/color": "3.0.1"
   },
   "devDependencies": {
     "@esri/calcite-base": "^1.2.0",
@@ -59,7 +60,6 @@
     "@storybook/cli": "5.3.19",
     "@storybook/html": "5.3.19",
     "@storybook/storybook-deployer": "2.8.6",
-    "@types/color": "3.0.1",
     "@types/jest": "25.2.3",
     "@types/jest-axe": "^3.2.2",
     "@types/puppeteer": "1.20.2",
