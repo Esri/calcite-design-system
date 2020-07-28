@@ -47,7 +47,7 @@ export class CalciteDropdown {
   /** specify the width of dropdown, defaults to m */
   @Prop({ mutable: true, reflect: true }) width: "s" | "m" | "l" = "m";
 
-  /** specify whether the dropdown is opened by hover or click of the trigger element */
+  /** specify whether the dropdown is opened by hover or click of a trigger element */
   @Prop({ mutable: true, reflect: true }) type: "hover" | "click" = "click";
 
   /**
