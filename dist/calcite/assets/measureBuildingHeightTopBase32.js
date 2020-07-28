@@ -1,0 +1,1 @@
+export const measureBuildingHeightTopBase32 = "M4 4h3v3H4zm5 3h3V4H9zm-5 7h3v-3H4zm5 0h3v-3H9zm-5 7h3v-3H4zm5 0h3v-3H9zm-5 7h3v-3H4zm5 0h3v-3H9zm23 3v1H0v-1h1V0h14v31zm-18 0V1H2v30zm2-3l1.5 2 1.5-2h-1V2h1l-1.5-2L16 2h1v26z";

@@ -1,0 +1,1 @@
+export const fileText24 = "M18 11H6v-1h12zm0 3H6v1h12zm-3 4H6v1h9zm6-11.291V23H3V1h12.29zM20 8h-6V2H4v20h16zm0-1.2L15.2 2H15v5h5z";

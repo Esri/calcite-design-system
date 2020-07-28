@@ -1,0 +1,1 @@
+export const follow32F = "M1 8V1h7v2H3v5zm30 0V1h-7v2h5v5zM8 29H3v-5H1v7h7zm21-5v5h-5v2h7v-7zm-14-9h-2v2h2zm-4 4H9v2h2zm-2 6H7v2h2zm12-13h6v-1h-6zm-11 0h6v-1h-6zm8 2v6h1v-6zm0-11v6h1V3zm2 8.07v.86A1.07 1.07 0 0 1 18.93 13h-.86A1.07 1.07 0 0 1 17 11.93v-.86A1.07 1.07 0 0 1 18.07 10h.86A1.07 1.07 0 0 1 20 11.07z";

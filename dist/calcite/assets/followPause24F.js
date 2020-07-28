@@ -1,0 +1,1 @@
+export const followPause24F = "M16 8.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75zM11 12H9v2h2zm-3 3H6v2h2zm-2 4H4v2h2zm11-9h5V9h-5zM7 10h5V9H7zm7 2v5h1v-5zm0-10v5h1V2zm7 11v11h3V13zm-4 0v11h3V13zM2 22v-4H0v6h6v-2zM6 2V0H0v6h2V2zm16 0v4h2V0h-6v2z";
