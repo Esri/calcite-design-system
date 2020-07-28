@@ -5,10 +5,10 @@ module.exports = async ({ config }) => {
       {
         loader: require.resolve("awesome-typescript-loader"),
         options: {
-          configFileName: "tsconfig-storybook.json",
-        },
-      },
-    ],
+          configFileName: "tsconfig-storybook.json"
+        }
+      }
+    ]
   });
   config.resolve.extensions.push(".ts");
   return config;

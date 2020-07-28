@@ -6,5 +6,5 @@ module.exports = {
     "@storybook/addon-a11y/register"
   ],
   presets: ["@storybook/addon-docs/preset"],
-  stories: ["../src/**/*.stories.(mdx|ts|js)"]
+  stories: ["../src/**/*.stories.(mdx|ts)"]
 };

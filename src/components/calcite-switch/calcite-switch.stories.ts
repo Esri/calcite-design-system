@@ -40,7 +40,7 @@ storiesOf("components|Switch", module)
     </div>`,
     {
       notes,
-      backgrounds: darkBackground,
+      backgrounds: darkBackground
     }
   )
   .add(

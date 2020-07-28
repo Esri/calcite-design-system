@@ -81,6 +81,7 @@
     "@storybook/storybook-deployer": "^2.8.6",
     "@types/autoprefixer": "9.7.2",
     "@types/dedent": "0.7.0",
+    "@types/color": "3.0.1",
     "@types/jest": "25.2.3",
     "@types/jest-axe": "3.5.0",
     "@types/lodash-es": "4.17.3",

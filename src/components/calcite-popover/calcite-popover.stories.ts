@@ -1,10 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import {
-  withKnobs,
-  select,
-  number,
-  text
-} from "@storybook/addon-knobs";
+import { withKnobs, select, number, text } from "@storybook/addon-knobs";
 import { parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);

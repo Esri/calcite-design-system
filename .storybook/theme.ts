@@ -12,12 +12,12 @@ export default create({
   brandImage: logo,
   addonNotesTheme: {
     code: {
-      whiteSpace: "normal !important",
+      whiteSpace: "normal !important"
     },
     pre: {
       code: {
-        whiteSpace: "pre !important",
-      },
-    },
-  },
+        whiteSpace: "pre !important"
+      }
+    }
+  }
 } as ThemeVars & ExtendedThemeVars);

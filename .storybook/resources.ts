@@ -1,9 +1,4 @@
-import {
-  CalciteAppearance,
-  CalcitePosition,
-  CalciteScale,
-  CalciteTheme,
-} from "../src/components/interfaces";
+import { CalciteAppearance, CalcitePosition, CalciteScale, CalciteTheme } from "../src/components/interfaces";
 
 type Direction = "ltr" | "rtl";
 
@@ -29,22 +24,22 @@ const appearanceOptions: CalciteAppearance[] = ["solid", "clear", "outline"];
 export const ATTRIBUTES: CommonAttributes = {
   dir: {
     values: dirOptions,
-    defaultValue: dirOptions[0],
+    defaultValue: dirOptions[0]
   },
   theme: {
     values: themeOptions,
-    defaultValue: themeOptions[0],
+    defaultValue: themeOptions[0]
   },
   scale: {
     values: scaleOptions,
-    defaultValue: scaleOptions[1],
+    defaultValue: scaleOptions[1]
   },
   position: {
     values: positionOptions,
-    defaultValue: positionOptions[0],
+    defaultValue: positionOptions[0]
   },
   appearance: {
     values: appearanceOptions,
-    defaultValue: appearanceOptions[0],
-  },
+    defaultValue: appearanceOptions[0]
+  }
 };

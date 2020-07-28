@@ -7,7 +7,7 @@ import hexInputReadme from "../calcite-color-hex-input/readme.md";
 
 const notes = [colorReadme, colorSwatchReadme, hexInputReadme].join("\n");
 
-storiesOf("Color", module)
+storiesOf("components|Color", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",
