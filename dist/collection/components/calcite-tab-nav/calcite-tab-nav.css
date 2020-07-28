@@ -1,0 +1,20 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  z-index: 2;
+}
+
+.tab-nav {
+  display: flex;
+  overflow: auto;
+  justify-content: flex-start;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px;
+  margin: -4px;
+}
+
+:host([layout=center]) .tab-nav {
+  justify-content: center;
+}

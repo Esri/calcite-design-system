@@ -1,0 +1,1 @@
+export const vertexPlus16 = "M15 11v1h-3v3h-1v-3H8v-1h3V8h1v3zM5 3H3.444L.807 11 0 10.731 2.548 3H2V0h3v1h7v1H5zM4 2V1H3v1z";

@@ -1,0 +1,1 @@
+export const extent24F = "M22 2v6h-1.94V3.94H16V2zM3.94 3.94H8V2H2v6h1.94zm0 16.12V16H2v6h6v-1.94zm16.12 0H16V22h6v-6h-1.94z";

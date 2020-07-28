@@ -1,0 +1,1 @@
+export const measureArea24F = "M1 10v8h23v-8zm2 7H2v-3h1zm2 0H4v-4h1zm2 0H6v-3h1zm2 0H8v-6h1zm2 0h-1v-3h1zm2 0h-1v-4h1zm2 0h-1v-3h1zm2 0h-1v-6h1zm2 0h-1v-3h1zm2 0h-1v-4h1zm2 0h-1v-3h1zM4 3H3V0h3v1.46l13 3.546V4h3v3h-1v2h-1V7h-1v-.957L6 2.498V3H5v6H4zm17 18h1v3h-3v-1H6v1H3v-3h1v-2h1v2h1v1h13v-1h1v-2h1z";

@@ -1,0 +1,1 @@
+export const legendRight16 = "M13.5 4A1.5 1.5 0 1 0 15 5.5 1.502 1.502 0 0 0 13.5 4zm0 2a.5.5 0 1 1 .5-.5.5.5 0 0 1-.5.5zm.011 5.7L11.71 15h3.583zm-.007 1.479l.538 1H12.96zM12 0v3h3V0zm2 2h-1V1h1zm-2 6v3h3V8zm2 2h-1V9h1zm-4 4H7v-1h3zm0-4H5V9h5zm0-4H3V5h7zm0-5v1H1V1z";

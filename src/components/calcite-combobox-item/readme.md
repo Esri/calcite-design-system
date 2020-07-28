@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property                 | Attribute    | Description | Type                             | Default     |
@@ -12,12 +13,14 @@
 | `textLabel` _(required)_ | `text-label` |             | `string`                         | `undefined` |
 | `value` _(required)_     | `value`      |             | `string`                         | `undefined` |
 
+
 ## Events
 
 | Event                         | Description                                          | Type               |
 | ----------------------------- | ---------------------------------------------------- | ------------------ |
 | `calciteComboboxItemChange`   | Emitted whenever the item is selected or unselected. | `CustomEvent<any>` |
 | `calciteComboboxItemKeyEvent` |                                                      | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -30,6 +33,9 @@ The first argument allows the value to be coerced, rather than swapping values.
 
 Type: `Promise<void>`
 
+
+
+
 ## Dependencies
 
 ### Depends on
@@ -37,13 +43,12 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-combobox-item --> calcite-icon
   style calcite-combobox-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
