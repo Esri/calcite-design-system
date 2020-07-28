@@ -8,7 +8,9 @@ addParameters({
   backgrounds: [{ name: "Light", value: "#f8f8f8", default: true }],
   options: {
     theme,
-    storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }))
+    storySort: {
+      method: "alphabetical"
+    }
   },
   docs: {
     page: titlelessDocsPage,
