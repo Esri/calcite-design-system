@@ -56,7 +56,6 @@
     "@storybook/addon-docs": "5.3.19",
     "@storybook/addon-knobs": "5.3.19",
     "@storybook/addon-notes": "5.3.19",
-    "@storybook/cli": "5.3.19",
     "@storybook/html": "5.3.19",
     "@storybook/storybook-deployer": "2.8.6",
     "@types/color": "3.0.1",
