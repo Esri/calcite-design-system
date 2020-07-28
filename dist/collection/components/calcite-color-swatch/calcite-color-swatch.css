@@ -1,0 +1,31 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: inline-flex;
+}
+
+:host([scale=s]) {
+  height: 20px;
+  width: 20px;
+}
+
+:host([scale=m]) {
+  height: 24px;
+  width: 24px;
+}
+
+:host([scale=l]) {
+  height: 28px;
+  width: 28px;
+}
+
+.swatch {
+  height: inherit;
+  width: inherit;
+  overflow: visible;
+}
+.swatch rect {
+  transition: all 150ms ease-in-out;
+}

@@ -1,0 +1,1 @@
+export const paste32F = "M7 2h4.05a2.5 2.5 0 0 1 4.9 0H20v4H7zm4 8a1 1 0 0 1 1-1h12V4h-3v3H6V4H3v24h8zm13 6h6v-.291L24.29 10H24zm-1 1v-7H12v22h18V17zm1 11h-9v-1h9zm3-4H15v-1h12zm0-4H15v-1h12z";

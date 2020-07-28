@@ -1,0 +1,1 @@
+export const video24F = "M12.414 7l-3-3H3v2h5.586l1 1H2L1 8v10l1 1h13l1-1V8l-1-1zM7 16H4v-1h3zm6-5h-1v-1h1zm8.25-3H23v10h-1.75L17 15.356v-4.712z";

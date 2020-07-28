@@ -1,0 +1,16 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  max-width: 100vw;
+}
+
+:host([layout=horizontal]) {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+:host([hidden]) {
+  display: none;
+}
