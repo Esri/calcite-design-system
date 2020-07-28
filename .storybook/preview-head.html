@@ -1,9 +1,19 @@
-<link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+<link
+  rel="stylesheet"
+  href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css"
+/>
 <link rel="stylesheet" href="./calcite/calcite.css" />
 <script type="module" src="./calcite/calcite.esm.js"></script>
 <script nomodule="" src="./calcite/calcite.js"></script>
 <!-- docs fixes for displaying components -->
 <style>
+  /* centered decorator zoom fix - https://github.com/storybookjs/storybook/issues/7167#issuecomment-510876389 */
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
   body {
     font-family: "Avenir Next";
   }

@@ -99,21 +99,27 @@ export class CalciteModal {
           >
             <slot name="content" />
           </div>
-          <div class="modal__footer">
-            <span class="modal__back">
-              <slot name="back" />
-            </span>
-            <span class="modal__secondary">
-              <slot name="secondary" />
-            </span>
-            <span class="modal__primary">
-              <slot name="primary" />
-            </span>
-          </div>
+          {this.renderFooter()}
           <div data-focus-fence="true" tabindex="0" onFocus={this.focusFirstElement.bind(this)} />
         </div>
       </Host>
     );
+  }
+
+  renderFooter(): VNode {
+    return this.el.querySelector("[slot=back], [slot=secondary], [slot=primary]") ? (
+      <div class="modal__footer">
+        <span class="modal__back">
+          <slot name="back" />
+        </span>
+        <span class="modal__secondary">
+          <slot name="secondary" />
+        </span>
+        <span class="modal__primary">
+          <slot name="primary" />
+        </span>
+      </div>
+    ) : null;
   }
 
   renderCloseButton(): VNode {
