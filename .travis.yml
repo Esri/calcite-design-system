@@ -1,0 +1,11 @@
+branches:
+  only:
+    - master
+language: node_js
+node_js:
+  - lts/*
+notifications:
+  webhooks:
+    secure: "LlGE6j4iubCQcmdlGvOCufgZotW4srgSYR1zzDpbl1PtmSxS/DHZ4t58+aHZ+5A34wtyhX5KMZj/MefVkFrPONszQ2AMP4E8zxK+i+Wrffxd6yZZSCmQNszV22+evR6t045A0OCYF3c3S0Uo/MMIDJTToJ7CmiSqv2/593cE9uG3DfFQJgbwQhM68lnFud6jwLFC6kcrSh+po5cQ2uknMrx6Ertqn5aVeAYs8rSe9kXo39t6gNdOuOQGjyJQttfwoGwt/7gCrh59AjSxKK3yH9p9cUbthzm90dxr1CeDlRp9UUXV5b6WGF35ZxpoUusD9VsaTda6+/vk8/gjp1Vr1EaBpzXVPCoVviIWB+QuSQDtnNWLucCcpysku3jiBd7HQ33T5B5benZNZd+m2RMbbkxqe0KCqhjMrUNcr+RZHU3Lqb1tDi42Lhh3w8igKi8Dq2GJLxrzJhuwIAsjSEpdRb7nZv/v6pLkZw1+Q26DaV8cdMv0N5bjtqkwGlmcZYM19AI23jgYBAxqJkP3itXp5eZAU+UDEw4M5QMNK7WpkbXb+SaGroH5Ui0JSCj3KnhdmZuvVxrGXamoIB8NCPOaDiHKICm5e/nmG5U561eIn8DGAAGWAZaLqIOWrwoX3oaieaumkMsxCNHRZx91RQnUbdKhMHLl3GIReuS9B3eCK4M="
+script:
+  - npm test
