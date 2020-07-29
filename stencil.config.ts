@@ -77,7 +77,33 @@ export const create: () => Config = () => ({
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
     },
-    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    testPathIgnorePatterns: [
+      "src/components/calcite-action/",
+      "src/components/calcite-action-bar/",
+      "src/components/calcite-action-group/",
+      "src/components/calcite-action-pad/",
+      "src/components/calcite-block/",
+      "src/components/calcite-block-section/",
+      "src/components/calcite-fab/",
+      "src/components/calcite-filter/",
+      "src/components/calcite-flow/",
+      "src/components/calcite-flow-item/",
+      "src/components/calcite-handle/",
+      "src/components/calcite-panel/",
+      "src/components/calcite-pick-list/",
+      "src/components/calcite-pick-list-group/",
+      "src/components/calcite-pick-list-item/",
+      "src/components/calcite-shell/",
+      "src/components/calcite-shell-center-row/",
+      "src/components/calcite-shell-panel/",
+      "src/components/calcite-sortable-list/",
+      "src/components/calcite-tip/",
+      "src/components/calcite-tip-group/",
+      "src/components/calcite-tip-manager/",
+      "src/components/calcite-value-list/",
+      "src/components/calcite-value-list-item/"
+    ]
   },
   hydratedFlag: {
     selector: "attribute",
