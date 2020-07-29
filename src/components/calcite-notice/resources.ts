@@ -1,3 +1,3 @@
 export const TEXT = {
-    close: "Close"
-}
+  close: "Close"
+};

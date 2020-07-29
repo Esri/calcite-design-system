@@ -11,6 +11,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-radio-group` styling has been updated
 
+## [v1.0.0-beta.34]
+
+### Added
+
+- New component `calcite-color`
+- New component `calcite-color-hex-input`
+- New component `calcite-color-swatch`
+
+### Fixes
+
+- `calcite-modal` - fix styling for modal when there are no footer buttons
+- `calcite-popover` - prevent tooltip-manager selector conflicting with popover-manager selector
+- `calcite-tabs` - uses proper `aria-labelledby` attribute
+
 ## [v1.0.0-beta.33]
 
 ### Breaking Changes

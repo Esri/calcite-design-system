@@ -4,7 +4,7 @@ import { guid } from "../../utils/guid";
 @Component({
   tag: "calcite-loader",
   styleUrl: "calcite-loader.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteLoader {
   //--------------------------------------------------------------------------
@@ -67,16 +67,12 @@ export class CalciteLoader {
       "aria-valuenow": valueNow,
       "aria-valuemin": 0,
       "aria-valuemax": 100,
-      complete: valueNow === 100,
+      complete: valueNow === 100
     };
     const svgAttributes = { r: radius, cx: size / 2, cy: size / 2 };
     const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
     return (
-      <Host
-        id={id}
-        role="progressbar"
-        {...(isDeterminate ? hostAttributes : {})}
-      >
+      <Host id={id} role="progressbar" {...(isDeterminate ? hostAttributes : {})}>
         <div class="loader__svgs">
           <svg viewBox={viewbox} class="loader__svg loader__svg--1">
             <circle {...svgAttributes} />
@@ -108,17 +104,17 @@ export class CalciteLoader {
    */
   private getSize(scale: string) {
     return {
-      "s": 32,
-      "m": 56,
-      "l": 80
+      s: 32,
+      m: 56,
+      l: 80
     }[scale];
   }
 
   private getInlineSize(scale: string) {
     return {
-      "s": 12,
-      "m": 16,
-      "l": 20
+      s: 12,
+      m: 16,
+      l: 20
     }[scale];
   }
 }

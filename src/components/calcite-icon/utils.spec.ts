@@ -1,11 +1,4 @@
-import {
-  fetchIcon,
-  FetchIconProps,
-  iconCache,
-  normalizeIconName,
-  requestCache,
-  scaleToPx
-} from "./utils";
+import { fetchIcon, FetchIconProps, iconCache, normalizeIconName, requestCache, scaleToPx } from "./utils";
 
 describe("utils", () => {
   describe("scaleToPx", () => {
