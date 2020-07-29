@@ -196,12 +196,11 @@ describe("calcite-color", () => {
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string) => {
       await inputOrHexInput.callMethod("setFocus");
 
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
+      const currentValue = await inputOrHexInput.getProperty("value");
+
+      for (let i = 0; i < currentValue.length; i++) {
+        await page.keyboard.press("Backspace");
+      }
 
       await inputOrHexInput.type(value);
       await page.keyboard.press("Enter");
