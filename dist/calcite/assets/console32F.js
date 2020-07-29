@@ -1,1 +1,0 @@
-export const console32F = "M30 27H2V5h28zM6 15l2.574-2.5L6 10zm20-3H11v1h15zM6 22l2.574-2.5L6 17zm17-3H11v1h12z";

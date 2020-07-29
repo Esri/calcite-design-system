@@ -1,1 +1,0 @@
-export const measureLine24F = "M23 4v3h-3V6H3v1H0V4h3v1h17V4zm1 5v9H0V9zM2 14H1v3h1zm2-1H3v4h1zm2 1H5v3h1zm2-4H7v7h1zm2 4H9v3h1zm2-1h-1v4h1zm2 1h-1v3h1zm2-4h-1v7h1zm2 4h-1v3h1zm2-1h-1v4h1zm2 1h-1v3h1z";

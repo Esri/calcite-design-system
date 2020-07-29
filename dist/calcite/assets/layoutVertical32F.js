@@ -1,1 +1,0 @@
-export const layoutVertical32F = "M30 22v-1h1v2h-2v-1zm-6 0v1h2.889v-1zM5.11 22v1H8v-1zM2 22v-1H1v2h2v-1zm-1-8v3h1v-3zm2-5V8H1v2h1V9zm23.89 0V8H24v1zM8 9V8H5.111v1zm22 0v1h1V8h-2v1zm1 8v-3h-1v3zM10 1h12v30H10zm2 19v1h8v-1zm0-10v1h8v-1z";

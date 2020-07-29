@@ -1,1 +1,0 @@
-export const stairs32 = "M24 5v4h-4v4h-4v4h-4v4H8v4H4v4h24V5zM5 26h4v-4h4v-4h4v-4h4v-4h4V6h2v5.293L10.293 28H5zm6.707 2L27 12.707V28z";

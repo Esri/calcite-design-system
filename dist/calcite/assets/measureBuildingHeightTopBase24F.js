@@ -1,1 +1,0 @@
-export const measureBuildingHeightTopBase24F = "M11 23V0H1v23H0v1h24v-1zM3 3h2v2H3zm4 0h2v2H7zM3 8h2v2H3zm4 0h2v2H7zm-4 5h2v2H3zm4 0h2v2H7zm-4 5h2v2H3zm4 0h2v2H7zm6 2V2h-1l1.5-2L15 2h-1v18h1l-1.5 2-1.5-2z";

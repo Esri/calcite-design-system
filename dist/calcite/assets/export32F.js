@@ -1,1 +1,0 @@
-export const export32F = "M27 20v9H4v-9h7v2H6v5h19v-5h-5v-2zM14 5.398V24h3V5.398l4 3.841V6.33L15.5 1 10 6.331V9.24z";

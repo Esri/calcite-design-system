@@ -1,1 +1,0 @@
-export const legendLeft24F = "M5 9a2 2 0 1 1-2-2 2.003 2.003 0 0 1 2 2zm.063 14L3 19.209.937 23zM1 5h4V1H1zm0 12h4v-4H1zm7 4h5v-1H8zm0-6h8v-1H8zM8 2v1h14V2zm0 7h11V8H8z";

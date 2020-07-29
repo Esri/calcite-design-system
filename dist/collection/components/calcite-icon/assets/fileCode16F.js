@@ -1,1 +1,0 @@
-export const fileCode16F = "M10 5V0H2v16h13V5h-5zM6 9.2l-1.2 1.194L6 11.8V13l-2.2-2.592L6 8zM8 14H7l2-8h1zm3-1v-1.2l1.2-1.406L11 9.2V8l2.2 2.408zm4-9.4V4h-4V0h.4z";

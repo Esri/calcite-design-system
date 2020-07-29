@@ -1,1 +1,0 @@
-export const qrCode16F = "M14 11h1v4h-3v-1h2zm-2-2h-1v2h1zm-4 2H7v1h1zm-4 1H3v1h1zm4 2h1v1H1v-5h2V9h1v1h2v4h1v-1h1zm-3-3H2v3h3zM2 7H1v2h1zm4 2V7H5v1H4v1zm2-5h1V3H8zm6 5h-1v1h2V7h-1zM9 7h1V6H9zm4-4h-1v1h1zm2-2v5h-5V1zm-1 1h-3v3h3zM4 3H3v1h1zm2 3H1V1h7v1H6zM5 2H2v3h3zm8 10v-1h-1v1zm0-4V7h-2v1zm-2 5v1h1v-1zm0-2h-1v2h1zm-2-1h1V9H9zm1-2v1h1V8zM7 5v1h2V5zm0 2v2h1V8h1V7zm2 7h1v-1H9z";

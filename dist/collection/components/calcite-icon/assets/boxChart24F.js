@@ -1,1 +1,0 @@
-export const boxChart24F = "M23 22v1H1V1h1v21zM4 12h2v3H5v1h3v-1H7v-3h2v-2H4zm3-6V3h1V2H5v1h1v3H4v3h5V6zm7 5V5h1V4h-3v1h1v6h-2v2h5v-2zm-3 6h2v2h-1v1h3v-1h-1v-2h2v-3h-5zm7-5h2v5h-1v1h3v-1h-1v-5h2v-2h-5zm3-5V2h1V1h-3v1h1v5h-2v2h5V7z";

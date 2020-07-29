@@ -1,1 +1,0 @@
-export const measureBuildingHeightShadow24F = "M11 2.242L20.17 19H21a.987.987 0 0 1 .093-.398L11 .159V0H1v23H0v1h24v-1H11zM5 5H3V3h2zm4 0H7V3h2zm-4 5H3V8h2zm4 0H7V8h2zm-4 5H3v-2h2zm4 0H7v-2h2zm-4 5H3v-2h2zm4 0H7v-2h2zm6 0h7v-1l2 1.5-2 1.5v-1h-7v1l-2-1.5 2-1.5z";

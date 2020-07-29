@@ -1,1 +1,0 @@
-System.register([],(function(r){"use strict";return{execute:function(){r("g",t);function t(r){var t={Up:"ArrowUp",Down:"ArrowDown",Left:"ArrowLeft",Right:"ArrowRight",Spacebar:" ",Esc:"Escape"};return t[r]||r}}}}));

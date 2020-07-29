@@ -1,1 +1,0 @@
-export const elevator24 = "M1 23h7V2H1zM2 3h5v19H2zm7 20h7V2H9zm1-20h5v19h-5zm10.5 5L18 12h5zm0 1.887L21.196 11h-1.392zm0 7.113l2.5-4h-5zm0-1.887L19.804 14h1.392z";

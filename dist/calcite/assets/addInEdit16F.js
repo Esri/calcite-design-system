@@ -1,1 +1,0 @@
-export const addInEdit16F = "M11.94 2L13 3l-3 3-2 1 1-2zM13.31.67l-.64.65 1 1 .65-.64zM0 15h6V9H0zm7 0h6V9H7zM0 8h6V2H0z";
