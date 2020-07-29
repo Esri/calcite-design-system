@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Method,
   Prop,
   State,
@@ -47,6 +46,9 @@ export class CalciteColor {
   //  Public properties
   //
   //--------------------------------------------------------------------------
+
+  /** specify the appearance - default (containing border), or minimal (no containing border) */
+  @Prop({ reflect: true }) appearance: "default" | "minimal" = "default";
 
   /**
    * Internal prop for advanced use-cases.
@@ -348,7 +350,7 @@ export class CalciteColor {
     const elementDir = getElementDir(el);
 
     return (
-      <Host>
+      <div class={CSS.container}>
         <canvas
           class={{
             [CSS.colorFieldAndSlider]: true,
@@ -437,7 +439,7 @@ export class CalciteColor {
             ]}
           </div>
         </div>
-      </Host>
+      </div>
     );
   }
 
@@ -686,9 +688,7 @@ export class CalciteColor {
       const saturation = Math.round((HSV_LIMITS.s / width) * x);
       const value = Math.round((HSV_LIMITS.v / height) * (height - y));
 
-      const color1 = this.color.hsv().saturationv(saturation).value(value);
-
-      this.color = color1;
+      this.color = this.color.hsv().saturationv(saturation).value(value);
     };
 
     canvas.addEventListener("mousedown", ({ offsetX, offsetY }) => {

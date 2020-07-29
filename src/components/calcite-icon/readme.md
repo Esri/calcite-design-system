@@ -45,9 +45,6 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-popover](../calcite-popover)
 - [calcite-radio-group-item](../calcite-radio-group-item)
 - [calcite-stepper-item](../calcite-stepper-item)
-  <<<<<<< HEAD
-- # [calcite-tile](../calcite-tile)
-  > > > > > > > 89f62ea9b1467d71b531b034c19677f3f0eb5021
 - [calcite-tree-item](../calcite-tree-item)
 
 ### Graph

@@ -27,6 +27,20 @@ Return the index of this title within the nav
 
 Type: `Promise<number>`
 
+## Dependencies
+
+### Used by
+
+- [calcite-color](../calcite-color)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-color --> calcite-tab-title
+  style calcite-tab-title fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

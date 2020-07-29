@@ -1,0 +1,6 @@
+{
+  "name": "@esri/calcite-components/hydrate",
+  "description": "calcite component hydration app.",
+  "main": "index.js",
+  "types": "index.d.ts"
+}
