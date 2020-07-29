@@ -25,6 +25,19 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 | `theme`  | `theme`   | Select theme (light or dark)                                                     | `"dark" \| "light"`    | `undefined` |
 
 
+## Dependencies
+
+### Used by
+
+ - [calcite-color](../calcite-color)
+
+### Graph
+```mermaid
+graph TD;
+  calcite-color --> calcite-tabs
+  style calcite-tabs fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

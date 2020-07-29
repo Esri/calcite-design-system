@@ -171,6 +171,8 @@ Type: `Promise<void>`
 
 ### Used by
 
+ - [calcite-color](../calcite-color)
+ - [calcite-color-hex-input](../calcite-color-hex-input)
  - [calcite-date](../calcite-date)
 
 ### Depends on
@@ -183,6 +185,8 @@ Type: `Promise<void>`
 graph TD;
   calcite-input --> calcite-icon
   calcite-input --> calcite-progress
+  calcite-color --> calcite-input
+  calcite-color-hex-input --> calcite-input
   calcite-date --> calcite-input
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
 ```

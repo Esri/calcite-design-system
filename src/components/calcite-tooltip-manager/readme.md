@@ -2,12 +2,14 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
-| Property   | Attribute  | Description                                            | Type     | Default                  |
-| ---------- | ---------- | ------------------------------------------------------ | -------- | ------------------------ |
-| `selector` | `selector` | CSS Selector to match reference elements for tooltips. | `string` | `[${TOOLTIP_REFERENCE}]` |
+| Property   | Attribute  | Description                                            | Type     | Default                    |
+| ---------- | ---------- | ------------------------------------------------------ | -------- | -------------------------- |
+| `selector` | `selector` | CSS Selector to match reference elements for tooltips. | `string` | ``[${TOOLTIP_REFERENCE}]`` |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

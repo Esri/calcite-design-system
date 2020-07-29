@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-beta.33",
+  "version": "1.0.0-beta.35",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -64,7 +64,6 @@
     "@storybook/html": "^5.3.19",
     "@storybook/storybook-deployer": "2.8.6",
     "@types/autoprefixer": "9.7.2",
-    "@types/color": "3.0.1",
     "@types/dedent": "0.7.0",
     "@types/git-semver-tags": "3.0.0",
     "@types/jest": "25.2.3",

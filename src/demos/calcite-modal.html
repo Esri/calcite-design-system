@@ -230,6 +230,12 @@
     <calcite-button scale="m" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
     <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
   </calcite-modal>
+  <calcite-modal class="js-modal-17" width="s">
+    <h3 slot="header">Small Modal</h3>
+    <div slot="content">
+      <calcite-loader active/>
+    </div>
+  </calcite-modal>
   <ul>
     <li>
       <calcite-link onClick="openModal('.js-modal-1')">Small Modal</calcite-link>
@@ -284,6 +290,10 @@
     </li>
     <li>
       <calcite-link onClick="openModal('.js-modal-16')">Grey Background Color
+      </calcite-link>
+    </li>
+    <li>
+      <calcite-link onClick="openModal('.js-modal-17')">No footer
       </calcite-link>
     </li>
   </ul>
