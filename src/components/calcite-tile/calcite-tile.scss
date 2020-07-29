@@ -5,9 +5,10 @@ $spacing: $baseline/2;
 
 :host {
   background-color: var(--calcite-ui-foreground-1);
-  transition: $transition;
-  color: var(--calcite-ui-text-3);
   box-sizing: border-box;
+  color: var(--calcite-ui-text-3);
+  display: inline-block;
+  transition: $transition;
   user-select: none;
 }
 :host(:not([embed])) {

@@ -18,7 +18,6 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 
 | Property    | Attribute    | Description                                                                                                                         | Type                | Default     |
 | ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `height`    | `height`     | Custom height (overrides the scale property)                                                                                        | `number`            | `undefined` |
 | `icon`      | `icon`       | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`            | `null`      |
 | `mirrored`  | `mirrored`   | When true, the icon will be mirrored when the element direction is 'rtl'.                                                           | `boolean`           | `false`     |
 | `scale`     | `scale`      | Icon scale. Can be "s" \| "m" \| "l".                                                                                               | `"l" \| "m" \| "s"` | `"m"`       |
@@ -45,6 +44,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-popover](../calcite-popover)
 - [calcite-radio-group-item](../calcite-radio-group-item)
 - [calcite-stepper-item](../calcite-stepper-item)
+- [calcite-tile](../calcite-tile)
 - [calcite-tree-item](../calcite-tree-item)
 
 ### Graph

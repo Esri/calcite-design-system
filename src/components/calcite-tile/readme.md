@@ -4,17 +4,17 @@
 
 ## Properties
 
-| Property      | Attribute     | Description | Type                | Default     |
-| ------------- | ------------- | ----------- | ------------------- | ----------- |
-| `active`      | `active`      |             | `boolean`           | `undefined` |
-| `description` | `description` |             | `string`            | `undefined` |
-| `embed`       | `embed`       |             | `boolean`           | `false`     |
-| `focused`     | `focused`     |             | `boolean`           | `false`     |
-| `heading`     | `heading`     |             | `string`            | `undefined` |
-| `hidden`      | `hidden`      |             | `boolean`           | `false`     |
-| `href`        | `href`        |             | `string`            | `undefined` |
-| `icon`        | `icon`        |             | `string`            | `undefined` |
-| `theme`       | `theme`       |             | `"dark" \| "light"` | `"light"`   |
+| Property      | Attribute     | Description                                                                                              | Type                | Default     |
+| ------------- | ------------- | -------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `active`      | `active`      | The active state of the tile.                                                                            | `boolean`           | `undefined` |
+| `description` | `description` | The description text that appears beneath the heading of the tile.                                       | `string`            | `undefined` |
+| `embed`       | `embed`       | The embed mode of the tile. When true, renders without a border and padding for use by other components. | `boolean`           | `false`     |
+| `focused`     | `focused`     | The focused state of the tile.                                                                           | `boolean`           | `false`     |
+| `heading`     | `heading`     | The heading text that appears between the icon and description of the tile.                              | `string`            | `undefined` |
+| `hidden`      | `hidden`      | The hidden state of the tile.                                                                            | `boolean`           | `false`     |
+| `href`        | `href`        | The (optional) url for the tile. (Only applies when embed is set to false)                               | `string`            | `undefined` |
+| `icon`        | `icon`        | The icon that appears at the top of the tile.                                                            | `string`            | `undefined` |
+| `theme`       | `theme`       | The theme of the tile.                                                                                   | `"dark" \| "light"` | `"light"`   |
 
 ## Dependencies
 
