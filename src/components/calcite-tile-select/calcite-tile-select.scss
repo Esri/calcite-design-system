@@ -38,15 +38,18 @@ $spacing: $baseline/2;
 }
 :host([show-input="none"]:hover) {
   box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
-  z-index: 2;
+  z-index: 3;
 }
 :host([show-input="none"][checked]) {
   box-shadow: 0 0 0 1px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
 }
+:host([show-input="none"]:focus),
 :host([show-input="none"][focused]) {
   box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1),
     0 0 0 6px var(--calcite-ui-foreground-1), 0 0 0 9px var(--calcite-ui-blue-1);
+  z-index: 2;
 }
+:host([show-input="none"][checked]:focus),
 :host([show-input="none"][checked][focused]) {
   box-shadow: 0 0 0 1px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1),
     0 0 0 6px var(--calcite-ui-foreground-1), 0 0 0 9px var(--calcite-ui-blue-1);
