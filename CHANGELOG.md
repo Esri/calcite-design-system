@@ -5,11 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [v1.0.0-beta.36]
+
+### Added
+
+- Added custom element bundle for tree-shaking bundlers like rollup
+- `calcite-color` - new `appearance` prop to support embedded use case (#750)
+
+### Fixes
+- `calcite-dropdown` - fix regression where multiple triggers didn't work (#774)
+
 ## [v1.0.0-beta.35]
 
 ### Fixes
 
-- Added `@types/color` as a dependency, so public types resolve properly 
+- Added `@types/color` as a dependency, so public types resolve properly
 
 ## [v1.0.0-beta.34]
 
@@ -567,6 +577,9 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.36]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.35...v1.0.0-beta.36 "v1.0.0-beta.36"
+[v1.0.0-beta.35]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.34...v1.0.0-beta.35 "v1.0.0-beta.35"
+[v1.0.0-beta.34]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.33...v1.0.0-beta.34 "v1.0.0-beta.34"
 [v1.0.0-beta.33]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.32...v1.0.0-beta.33 "v1.0.0-beta.33"
 [v1.0.0-beta.32]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.31...v1.0.0-beta.32 "v1.0.0-beta.32"
 [v1.0.0-beta.31]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.30...v1.0.0-beta.31 "v1.0.0-beta.31"
