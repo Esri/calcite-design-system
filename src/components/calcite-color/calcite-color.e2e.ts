@@ -12,6 +12,10 @@ describe("calcite-color", () => {
   it("reflects", async () =>
     reflects("calcite-color", [
       {
+        propertyName: "appearance",
+        value: "minimal"
+      },
+      {
         propertyName: "scale",
         value: "m"
       },
@@ -25,6 +29,10 @@ describe("calcite-color", () => {
 
   it("has defaults", async () =>
     defaults("calcite-color", [
+      {
+        propertyName: "appearance",
+        defaultValue: "default"
+      },
       {
         propertyName: "scale",
         defaultValue: "m"

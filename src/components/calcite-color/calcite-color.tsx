@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Method,
   Prop,
   State,
@@ -47,6 +46,9 @@ export class CalciteColor {
   //  Public properties
   //
   //--------------------------------------------------------------------------
+
+  /** specify the appearance - default (containing border), or minimal (no containing border) */
+  @Prop({ reflect: true }) appearance: "default" | "minimal" = "default";
 
   /**
    * Internal prop for advanced use-cases.
@@ -348,7 +350,7 @@ export class CalciteColor {
     const elementDir = getElementDir(el);
 
     return (
-      <Host>
+      <div class={CSS.container}>
         <canvas
           class={{
             [CSS.colorFieldAndSlider]: true,
@@ -437,7 +439,7 @@ export class CalciteColor {
             ]}
           </div>
         </div>
-      </Host>
+      </div>
     );
   }
 
