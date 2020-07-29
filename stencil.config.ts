@@ -44,6 +44,7 @@ export const create: () => Config = () => ({
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
+    { type: "dist-custom-elements-bundle" },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "custom", name: "preact", generator: generatePreactTypes },

@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "npm run copy-icons && stencil build",
+    "postbuild": "cpy dist/custom-elements/index.js dist/custom-elements/ --rename index.mjs",
     "copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.json ./src/components/calcite-icon/assets",
     "deps:update": "updtr --ex @types/jest @types/puppeteer jest jest-cli puppeteer && git add package*.json && git commit -q -m \"build(deps): bump versions\"",
     "start": "npm run copy-icons && stencil build --dev --watch --serve",
