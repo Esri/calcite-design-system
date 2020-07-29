@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-radio-group` styling has been updated
 
+## [v1.0.0-beta.35]
+
+### Fixes
+
+- Added `@types/color` as a dependency, so public types resolve properly
+
 ## [v1.0.0-beta.34]
 
 ### Added
@@ -566,6 +572,8 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.35]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.34...v1.0.0-beta.35 "v1.0.0-beta.35"
+[v1.0.0-beta.34]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.33...v1.0.0-beta.34 "v1.0.0-beta.34"
 [v1.0.0-beta.33]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.32...v1.0.0-beta.33 "v1.0.0-beta.33"
 [v1.0.0-beta.32]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.31...v1.0.0-beta.32 "v1.0.0-beta.32"
 [v1.0.0-beta.31]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.30...v1.0.0-beta.31 "v1.0.0-beta.31"
