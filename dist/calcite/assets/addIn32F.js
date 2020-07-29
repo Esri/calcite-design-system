@@ -1,1 +1,0 @@
-export const addIn32F = "M2 18h12v12H2zm14 12h12V18H16zM2 16h12V4H2zM18 2v12h12V2z";

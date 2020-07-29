@@ -1,1 +1,0 @@
-export const grid32F = "M14 14H2V2h12zM29 2H17v12h12zM14 17H2v12h12zm15 0H17v12h12z";

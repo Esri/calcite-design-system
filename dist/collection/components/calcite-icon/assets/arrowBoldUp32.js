@@ -1,1 +1,0 @@
-export const arrowBoldUp32 = "M5.25 15H12v13h8V15h6.75L16 4.25zM19 14v13h-6V14H7.664L16 5.664 24.336 14z";

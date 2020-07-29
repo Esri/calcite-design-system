@@ -1,1 +1,0 @@
-export const video16F = "M0 5v7l1 1h9l1-1V5l-1-1H8.712l-2-2H2.005v1h4.293l1 1H1zm8 1h1v1H8zM2 9h2v1H2zm14 2.906l-4-2.068V6.162l4-2.068z";

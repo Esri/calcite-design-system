@@ -1,1 +1,0 @@
-export const popup32F = "M29 0H2a2 2 0 0 0-2 2v21a2 2 0 0 0 2 2h9.257l4.276 6.33L19.81 25H29a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM4 4h13v1H4zm23 17H4V7h23zm0-16h-1V4h1z";

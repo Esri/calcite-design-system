@@ -1,1 +1,0 @@
-export const timer24F = "M15 2H9V1h6zm5.62 5.947a10.003 10.003 0 1 1-2.876-3.125l1.906-1.906 3 3zM4 13H3v1h1zm8 8h-1v1h1zm4-8h-4V7h-1v7h5z";

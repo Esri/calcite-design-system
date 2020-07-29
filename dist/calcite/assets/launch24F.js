@@ -1,1 +1,0 @@
-export const launch24F = "M20 11h2v11H2V2h11v2H4v16h16zm-5-9v1.5h4.44l-7.93 7.93 1.062 1.06L20.5 4.56V9H22V2z";

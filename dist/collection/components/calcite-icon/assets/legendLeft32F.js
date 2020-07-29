@@ -1,1 +1,0 @@
-export const legendLeft32F = "M8 12.5A2.5 2.5 0 1 1 5.499 10 2.503 2.503 0 0 1 8 12.5zM5.462 23.932l-2.398 4.864h4.888zM3 8h5V3H3zm0 14h5v-5H3zm8-2h11v-1H11zm0 7h7v-1h-7zm0-22v1h19V5zm0 8h15v-1H11z";

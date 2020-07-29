@@ -1,1 +1,0 @@
-export const fileExcel24F = "M14 8V1H3v22h18V8h-7zm3 2l-4.4 5 4.4 5h-1.2L12 15.682 8.2 20H7l4.4-5L7 10h1.2l3.8 4.318L15.8 10zm4-3.291V7h-6V1h.29z";

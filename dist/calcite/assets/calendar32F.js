@@ -1,1 +1,0 @@
-export const calendar32F = "M3 14v16h26V14zm5 15H4v-4h4zm0-5H4v-4h4zm0-5H4v-4h4zm5 10H9v-4h4zm0-5H9v-4h4zm0-5H9v-4h4zm5 10h-4v-4h4zm0-5h-4v-4h4zm0-5h-4v-4h4zm5 10h-4v-4h4zm0-5h-4v-4h4zm0-5h-4v-4h4zm5 10h-4v-4h4zm0-5h-4v-4h4zm0-5h-4v-4h4zm1-15v9H3V4h5v2a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V4h10v2a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V4zm-6-2h-1v4h1zM10 2H9v4h1z";

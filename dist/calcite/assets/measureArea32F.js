@@ -1,1 +1,0 @@
-export const measureArea32F = "M1 15v10h31V15zm2 9H2v-3h1zm2 0H4v-4h1zm2 0H6v-3h1zm2 0H8v-7h1zm2 0h-1v-3h1zm2 0h-1v-4h1zm2 0h-1v-3h1zm2 0h-1v-7h1zm2 0h-1v-3h1zm2 0h-1v-4h1zm2 0h-1v-3h1zm2 0h-1v-7h1zm2 0h-1v-3h1zm2 0h-1v-4h1zm2 0h-1v-3h1zM5 4H4V1h3v1.522l19 4.956V7h3v3h-1v4h-1v-4h-1V8.512L7 3.555V4H6v10H5zm23 24h1v3h-3v-1H7v1H4v-3h1v-2h1v2h1v1h19v-1h1v-2h1z";

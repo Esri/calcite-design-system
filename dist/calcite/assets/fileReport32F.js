@@ -1,1 +1,0 @@
-export const fileReport32F = "M23 23h-4v-2h4zm0 1h-4v2h4zm-5-9h-5v2h5zm5 3h-4v2h4zm-5 0h-5v2h5zm1-8h9v21H4V1h15zM8 5h9V4H8zm0 3h9V7H8zm0 6v13h16V14zm15 1h-4v2h4zM20 1v8h8zm-8 17H9v2h3zm6 3h-5v2h5zm-6 3H9v2h3zm0-3H9v2h3zm0-6H9v2h3zm6 9h-5v2h5z";

@@ -1,1 +1,0 @@
-export const arrowUpRight32F = "M25 17V9.12L7.293 26.829l-2.121-2.121L22.879 7H15V4h13v13z";

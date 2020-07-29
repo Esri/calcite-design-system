@@ -1,1 +1,0 @@
-export const workflowDiagram16F = "M15 10v5h-5v-5h2V9H9.847L7.48 11.365 5.115 9H3v1h2v5H0v-5h2V8h3.248L7 6.249V5.016a2.5 2.5 0 1 1 1 0v1.268L9.715 8H13v2z";

@@ -1,1 +1,0 @@
-export const hillshadeEffect16F = "M0 0v16h16V0zm14.293 1l-5.34 5.34L1.833 1zM1 1.625l7.239 5.429L1 14.293zM1.707 15l7.24-7.239L14.374 15z";

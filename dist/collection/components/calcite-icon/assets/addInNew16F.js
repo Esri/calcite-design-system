@@ -1,1 +1,0 @@
-export const addInNew16F = "M15 3v1h-3v3h-1V4H8V3h3V0h1v3zM0 15h6V9H0zm7 0h6V9H7zM0 8h6V2H0z";

@@ -1,1 +1,0 @@
-export const selectRange32F = "M6 17H4v-1h2zm-6 0h2v-1H0zm26 0h2v-1h-2zm4-1v1h2v-1zm-7 0H9v-1H8v4h1v-1h14v1h1v-4h-1zm4-10.5a3.5 3.5 0 1 0-4 3.45V13h1V8.95a3.495 3.495 0 0 0 3-3.45zM9 24.05V21H8v3.05a3.5 3.5 0 1 0 1 0z";
