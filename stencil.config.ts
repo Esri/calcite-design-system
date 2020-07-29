@@ -40,22 +40,7 @@ export const create: () => Config = () => ({
       components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"]
     },
     { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
-    { components: ["calcite-tree", "calcite-tree-item"] },
-    {
-      components: ["calcite-action", "calcite-action-group", "calcite-action-bar", "calcite-action-pad"]
-    },
-    {
-      components: ["calcite-block", "calcite-block-section"]
-    },
-    {
-      components: ["calcite-panel", "calcite-flow", "calcite-flow-item"]
-    },
-    {
-      components: ["calcite-shell", "calcite-shell-panel"]
-    },
-    {
-      components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"]
-    }
+    { components: ["calcite-tree", "calcite-tree-item"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },

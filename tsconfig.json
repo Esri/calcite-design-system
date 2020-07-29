@@ -1,5 +1,34 @@
 {
   "extends": "./tsconfig-base",
   "include": ["src", ".storybook/declarations.d.ts"],
-  "exclude": ["node_modules", "**/*.stories.ts", "**/tests/**"]
+  "exclude": [
+    "node_modules",
+    "**/*.stories.ts",
+    "**/tests/**",
+    "src/components/calcite-action.tsx",
+    "src/components/calcite-action-bar.tsx",
+    "src/components/calcite-action-group.tsx",
+    "src/components/calcite-action-pad.tsx",
+    "src/components/calcite-block.tsx",
+    "src/components/calcite-block-section.tsx",
+    "src/components/calcite-fab.tsx",
+    "src/components/calcite-filter.tsx",
+    "src/components/calcite-flow.tsx",
+    "src/components/calcite-flow-item.tsx",
+    "src/components/calcite-handle.tsx",
+    "src/components/calcite-panel.tsx",
+    "src/components/calcite-pick-list.tsx",
+    "src/components/calcite-pick-list-group.tsx",
+    "src/components/calcite-pick-list-item.tsx",
+    "src/components/calcite-shell.tsx",
+    "src/components/calcite-shell-center-row.tsx",
+    "src/components/calcite-shell-panel.tsx",
+    "src/components/calcite-sortable-list.tsx",
+    "src/components/calcite-tip.tsx",
+    "src/components/calcite-tip-group.tsx",
+    "src/components/calcite-tip-manager.tsx",
+    "src/components/calcite-value-list.tsx",
+    "src/components/calcite-value-list-item.tsx",
+    "src/components/utils/CalciteExpandToggle.tsx"
+  ]
 }
