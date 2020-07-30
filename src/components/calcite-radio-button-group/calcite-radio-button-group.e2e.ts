@@ -1,11 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import {
-  accessible,
-  defaults,
-  hidden,
-  reflects,
-  renders,
-} from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button-group", () => {
   it("renders", async () => renders("calcite-radio-button-group"));
@@ -19,7 +13,7 @@ describe("calcite-radio-button-group", () => {
     defaults("calcite-radio-button-group", [
       { propertyName: "layout", defaultValue: "horizontal" },
       { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "theme", defaultValue: "light" },
+      { propertyName: "theme", defaultValue: "light" }
     ]));
 
   it("honors hidden attribute", async () => {
@@ -49,9 +43,9 @@ describe("calcite-radio-button-group", () => {
     await firstElement.press("Tab");
     await page.waitForChanges();
 
-    let selected = await page.find("calcite-radio-button[focused]");
-    let name = await selected.getProperty("name");
-    let value = await selected.getProperty("value");
+    const selected = await page.find("calcite-radio-button[focused]");
+    const name = await selected.getProperty("name");
+    const value = await selected.getProperty("value");
     expect(name).toBe("third");
     expect(value).toBe("first");
   });
@@ -64,7 +58,7 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" },
-      { propertyName: "theme", value: "light" },
+      { propertyName: "theme", value: "light" }
     ]));
 
   it("has a radio input for form compatibility", async () => {
@@ -212,9 +206,7 @@ describe("calcite-radio-button-group", () => {
 
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-button-group scale='none' layout='none'></calcite-radio-button-group>"
-    );
+    await page.setContent("<calcite-radio-button-group scale='none' layout='none'></calcite-radio-button-group>");
     const element = await page.find("calcite-radio-button-group");
     expect(element).toEqualAttribute("layout", "horizontal");
     expect(element).toEqualAttribute("scale", "m");
@@ -355,9 +347,7 @@ describe("calcite-radio-button-group", () => {
 
   it(`has a role of 'radiogroup'`, async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-button-group></calcite-radio-button-group>"
-    );
+    await page.setContent("<calcite-radio-button-group></calcite-radio-button-group>");
     const element = await page.find("calcite-radio-button-group");
 
     const role = await element.getAttribute("role");

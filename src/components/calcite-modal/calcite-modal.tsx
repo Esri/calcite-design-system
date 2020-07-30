@@ -27,7 +27,7 @@ export class CalciteModal {
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteModalElement;
 
   //--------------------------------------------------------------------------
   //
@@ -36,31 +36,44 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   /** Add the active attribute to open the modal */
   @Prop() active?: boolean;
+
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+
   /** Disables the display a close button within the Modal */
   @Prop() disableCloseButton?: boolean;
+
   /** Aria label for the close button */
-  @Prop() intlClose: string = "Close";
+  @Prop() intlClose = "Close";
+
   /** Prevent the modal from taking up the entire screen on mobile */
   @Prop({ reflect: true }) docked: boolean;
+
   /** Specify an element to focus when the modal is first opened */
   @Prop() firstFocus?: HTMLElement;
+
   /** Flag to disable the default close on escape behavior */
   @Prop() disableEscape?: boolean;
+
   /** specify the scale of modal, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
   /** Set the width of the modal. Can use stock sizes or pass a number (in pixels) */
   @Prop({ reflect: true }) width: "s" | "m" | "l" | number = "m";
+
   /** Set the modal to always be fullscreen (overrides width) */
   @Prop({ reflect: true }) fullscreen: boolean;
+
   /** Adds a color bar at the top for visual impact,
    * Use color to add importance to destructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
+
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
+
   /** Background color of modal content */
   @Prop({ reflect: true }) backgroundColor: "white" | "grey" = "white";
+
   /** Turn off spacing around the content area slot */
   @Prop() noPadding?: boolean;
 
@@ -187,6 +200,7 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   /** Fired when the modal begins the open animation */
   @Event() calciteModalOpen: EventEmitter;
+
   /** Fired when the modal begins the close animation */
   @Event() calciteModalClose: EventEmitter;
 
@@ -210,7 +224,7 @@ export class CalciteModal {
   }
 
   /** Set the scroll top of the modal content */
-  @Method() async scrollContent(top: number = 0, left: number = 0): Promise<void> {
+  @Method() async scrollContent(top = 0, left = 0): Promise<void> {
     if (this.modalContent) {
       if (this.modalContent.scrollTo) {
         this.modalContent.scrollTo({ top, left, behavior: "smooth" });
@@ -264,8 +278,11 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   @State() isActive: boolean;
+
   private previousActiveElement: HTMLElement;
+
   private closeButtonEl: HTMLButtonElement;
+
   private modalContent: HTMLDivElement;
 
   private focusFirstElement() {

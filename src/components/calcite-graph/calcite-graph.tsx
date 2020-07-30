@@ -5,7 +5,7 @@ import { area, range, translate } from "./util";
 
 @Component({
   tag: "calcite-graph",
-  styleUrl: "calcite-graph.scss",
+  styleUrl: "calcite-graph.scss"
 })
 export class CalciteGraph {
   //--------------------------------------------------------------------------
@@ -14,7 +14,7 @@ export class CalciteGraph {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteGraphElement;
 
   //--------------------------------------------------------------------------
   //
@@ -29,10 +29,10 @@ export class CalciteGraph {
   @Prop() data: DataSeries = [];
 
   /** Width of graph in pixels*/
-  @Prop() width: number = 300;
+  @Prop() width = 300;
 
   /** Width of graph in pixels*/
-  @Prop() height: number = 100;
+  @Prop() height = 100;
 
   /** Start of highlight color if highlighting range */
   @Prop() highlightMin: number;
@@ -45,8 +45,6 @@ export class CalciteGraph {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  componentWillUpdate(): void {}
 
   render() {
     const { data, width, height, highlightMax, highlightMin } = this;
@@ -126,11 +124,7 @@ export class CalciteGraph {
             </mask>
 
             <path d={areaPath} class="graph-path" mask={`url(#${id}1)`} />
-            <path
-              d={areaPath}
-              class="graph-path--highlight"
-              mask={`url(#${id}2)`}
-            />
+            <path d={areaPath} class="graph-path--highlight" mask={`url(#${id}2)`} />
             <path d={areaPath} class="graph-path" mask={`url(#${id}3)`} />
           </svg>
         ) : (

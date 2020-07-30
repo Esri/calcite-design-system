@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Prop,
-  Watch,
+  Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -15,7 +15,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-stepper-item",
   styleUrl: "calcite-stepper-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteStepperItem {
   //--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteStepperItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -32,16 +32,16 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
   /** is the step active */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** has the step been completed */
-  @Prop({ reflect: true, mutable: true }) complete: boolean = false;
+  @Prop({ reflect: true, mutable: true }) complete = false;
 
   /** does the step contain an error that needs to be resolved by the user */
-  @Prop({ mutable: true }) error: boolean = false;
+  @Prop({ mutable: true }) error = false;
 
   /** is the step disabled and not navigable to by a user */
-  @Prop({ mutable: true }) disabled: boolean = false;
+  @Prop({ mutable: true }) disabled = false;
 
   /** pass a title for the stepper item */
   @Prop() itemTitle?: string;
@@ -57,11 +57,11 @@ export class CalciteStepperItem {
 
   /** should the items display an icon based on status */
   /** @internal */
-  @Prop({ mutable: true }) icon: boolean = false;
+  @Prop({ mutable: true }) icon = false;
 
   /** optionally display the step number next to the title and subtitle */
   /** @internal */
-  @Prop({ mutable: true }) numbered: boolean = false;
+  @Prop({ mutable: true }) numbered = false;
 
   /** the scale of the item */
   /** @internal */
@@ -79,7 +79,9 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteStepperItemKeyEvent: EventEmitter;
+
   @Event() calciteStepperItemSelect: EventEmitter;
+
   @Event() calciteStepperItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -186,7 +188,7 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   private setIcon() {
-    var path = this.active
+    const path = this.active
       ? "circleF"
       : this.error
       ? "exclamationMarkCircleF"
@@ -204,7 +206,7 @@ export class CalciteStepperItem {
   private registerStepperItem() {
     this.calciteStepperItemRegister.emit({
       position: this.itemPosition,
-      content: this.itemContent,
+      content: this.itemContent
     });
   }
 
@@ -212,7 +214,7 @@ export class CalciteStepperItem {
     if (!this.disabled) {
       this.calciteStepperItemSelect.emit({
         position: this.itemPosition,
-        content: this.itemContent,
+        content: this.itemContent
       });
     }
   }
@@ -220,9 +222,7 @@ export class CalciteStepperItem {
   private getItemContent() {
     // handle ie and edge
     return this.el.shadowRoot?.querySelector("slot")
-      ? (this.el.shadowRoot
-          .querySelector("slot")
-          .assignedNodes({ flatten: true }) as HTMLElement[])
+      ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
       : this.el.querySelector(".stepper-item-content")
       ? (this.el.querySelector(".stepper-item-content") as HTMLElement)
       : null;
@@ -230,9 +230,6 @@ export class CalciteStepperItem {
 
   private getItemPosition() {
     const parent = this.el.parentElement as HTMLCalciteStepperElement;
-    return Array.prototype.indexOf.call(
-      parent.querySelectorAll("calcite-stepper-item"),
-      this.el
-    );
+    return Array.prototype.indexOf.call(parent.querySelectorAll("calcite-stepper-item"), this.el);
   }
 }

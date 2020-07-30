@@ -1,20 +1,11 @@
-import {
-  Component,
-  Element,
-  h,
-  Host,
-  Method,
-  Prop,
-  Build,
-  State,
-} from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, Build, State } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-button",
   styleUrl: "calcite-button.scss",
-  shadow: true,
+  shadow: true
 })
 
 /** @slot default text slot for button text */
@@ -29,7 +20,7 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteButtonElement;
 
   //--------------------------------------------------------------------------
   //
@@ -38,11 +29,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   /** specify the color of the button, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color:
-    | "blue"
-    | "dark"
-    | "light"
-    | "red" = "blue";
+  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
   /** specify the appearance style of the button, defaults to solid. */
   @Prop({ mutable: true, reflect: true }) appearance:
@@ -58,8 +45,7 @@ export class CalciteButton {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the width of the button, defaults to auto */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
-    "auto";
+  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
@@ -91,16 +77,16 @@ export class CalciteButton {
   connectedCallback() {
     // prop validations
 
-    let appearance = ["solid", "outline", "clear", "transparent"];
+    const appearance = ["solid", "outline", "clear", "transparent"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
 
-    let color = ["blue", "red", "dark", "light"];
+    const color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
-    let width = ["auto", "half", "full"];
+    const width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
 
     this.childElType = this.href ? "a" : "button";
@@ -141,11 +127,7 @@ export class CalciteButton {
     );
 
     const iconEndEl = (
-      <calcite-icon
-        class="calcite-button--icon icon-end"
-        icon={this.iconEnd}
-        scale={iconScale}
-      />
+      <calcite-icon class="calcite-button--icon icon-end" icon={this.iconEnd} scale={iconScale} />
     );
 
     return (
@@ -213,7 +195,7 @@ export class CalciteButton {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = [
+    const props = [
       "appearance",
       "color",
       "dir",
@@ -225,7 +207,7 @@ export class CalciteButton {
       "scale",
       "slot",
       "width",
-      "theme",
+      "theme"
     ];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))

@@ -7,16 +7,16 @@ describe("calcite-graph", () => {
     defaults("calcite-graph", [
       {
         propertyName: "width",
-        defaultValue: 300,
+        defaultValue: 300
       },
       {
         propertyName: "height",
-        defaultValue: 100,
+        defaultValue: 100
       },
       {
         propertyName: "data",
-        defaultValue: [],
-      },
+        defaultValue: []
+      }
     ]));
 
   it("draws an area graph", async () => {
@@ -27,12 +27,12 @@ describe("calcite-graph", () => {
         [0, 4],
         [1, 7],
         [4, 6],
-        [6, 2],
+        [6, 2]
       ];
     });
     await page.waitForChanges();
     const path = await page.find("calcite-graph path");
-    let d = await path.getAttribute("d");
+    const d = await path.getAttribute("d");
     expect(d).toBe(
       "M 0,60 L 0,20 L 0,20 C 16.666666666666664,-10.000000000000014 33.333333333333336,-40 50,-40 C 100,-40 150,-33.33333333333334 200,-20 C 233.33333333333334,-11.111111111111114 266.66666666666663,24.444444444444443 300,60 L 300,60 Z"
     );

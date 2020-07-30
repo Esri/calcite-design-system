@@ -4,7 +4,7 @@ import { getElementDir, getElementProp } from "../../utils/dom";
 @Component({
   tag: "calcite-input-message",
   styleUrl: "calcite-input-message.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteInputMessage {
   //--------------------------------------------------------------------------
@@ -13,7 +13,7 @@ export class CalciteInputMessage {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteInputMessageElement;
 
   //--------------------------------------------------------------------------
   //
@@ -21,7 +21,7 @@ export class CalciteInputMessage {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** optionally display an icon based on status */
   @Prop({ reflect: true }) icon: boolean;
@@ -36,8 +36,7 @@ export class CalciteInputMessage {
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
-  @Prop({ mutable: true, reflect: true }) type: "default" | "floating" =
-    "default";
+  @Prop({ mutable: true, reflect: true }) type: "default" | "floating" = "default";
 
   //--------------------------------------------------------------------------
   //
@@ -46,15 +45,15 @@ export class CalciteInputMessage {
   //--------------------------------------------------------------------------
   connectedCallback() {
     // validate props
-    let statusOptions = ["invalid", "valid", "idle"];
+    const statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
       this.status = getElementProp(this.el.parentElement, "status", "idle");
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale))
       this.scale = getElementProp(this.el.parentElement, "scale", "m");
 
-    let type = ["default", "floating"];
+    const type = ["default", "floating"];
     if (!type.includes(this.type)) this.type = "default";
   }
 
@@ -83,7 +82,7 @@ export class CalciteInputMessage {
   private iconDefaults = {
     valid: "check-circle",
     invalid: "exclamation-mark-triangle",
-    idle: "information",
+    idle: "information"
   };
 
   // the icon to be rendered if icon is requested
@@ -97,11 +96,7 @@ export class CalciteInputMessage {
 
   private setIcon(iconName) {
     return (
-      <calcite-icon
-        class="calcite-input-message-icon"
-        scale="s"
-        icon={iconName}
-      ></calcite-icon>
+      <calcite-icon class="calcite-input-message-icon" scale="s" icon={iconName}></calcite-icon>
     );
   }
 }

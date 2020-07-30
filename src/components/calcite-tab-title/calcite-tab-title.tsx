@@ -8,7 +8,7 @@ import {
   Method,
   h,
   Host,
-  State,
+  State
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -18,7 +18,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-tab-title",
   styleUrl: "calcite-tab-title.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteTabTitle {
   //--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTabTitleElement;
 
   //--------------------------------------------------------------------------
   //
@@ -42,7 +42,7 @@ export class CalciteTabTitle {
   @Prop({ reflect: true, mutable: true }) tab?: string;
 
   /** Show this tab title as selected */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
@@ -55,7 +55,7 @@ export class CalciteTabTitle {
   componentWillLoad() {
     if (this.tab && this.active) {
       this.calciteTabsActivate.emit({
-        tab: this.tab,
+        tab: this.tab
       });
     }
   }
@@ -110,7 +110,7 @@ export class CalciteTabTitle {
 
   @Listen("click") onClick() {
     this.calciteTabsActivate.emit({
-      tab: this.tab,
+      tab: this.tab
     });
   }
 
@@ -119,7 +119,7 @@ export class CalciteTabTitle {
       case " ":
       case "Enter":
         this.calciteTabsActivate.emit({
-          tab: this.tab,
+          tab: this.tab
         });
         e.preventDefault();
         break;
@@ -201,10 +201,7 @@ export class CalciteTabTitle {
   /**
    * @internal
    */
-  @Method() async updateAriaInfo(
-    tabIds: string[] = [],
-    titleIds: string[] = []
-  ) {
+  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []) {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
     return Promise.resolve();
   }
