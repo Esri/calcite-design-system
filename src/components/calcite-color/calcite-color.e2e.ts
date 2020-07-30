@@ -193,17 +193,19 @@ describe("calcite-color", () => {
   });
 
   describe("color inputs", () => {
-    const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string) => {
+    const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");
+      await page.waitForChanges();
 
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
+      const currentValue = await inputOrHexInput.getProperty("value");
+
+      for (let i = 0; i < currentValue.length; i++) {
+        await page.keyboard.press("Backspace");
+        await page.waitForChanges();
+      }
 
       await inputOrHexInput.type(value);
+      await page.waitForChanges();
       await page.keyboard.press("Enter");
 
       await page.waitForChanges();
@@ -215,7 +217,7 @@ describe("calcite-color", () => {
       });
       const picker = await page.find("calcite-color");
 
-      const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void) => {
+      const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void): Promise<void> => {
         const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
 
         await clearAndEnterValue(page, hexInput, "abc");
