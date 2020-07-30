@@ -1,6 +1,6 @@
 # Boilerplate Example Component
 
-Get started building a new Calcite Component using this boilerplate example. Thee following files are common for building a new component.
+Get started building a new Calcite Component using this boilerplate example. Thee following files are common for building a new component. test
 
 ## Component
 
