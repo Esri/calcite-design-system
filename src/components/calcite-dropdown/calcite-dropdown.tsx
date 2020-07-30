@@ -23,13 +23,13 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** specify the alignment of dropdown, defaults to start */
   @Prop({ mutable: true, reflect: true }) alignment: "start" | "center" | "end" = "start";
 
   /** specify the max items to display before showing the scroller, must be greater than 0 **/
-  @Prop() maxItems: number = 0;
+  @Prop() maxItems = 0;
 
   /** specify the theme of the dropdown, defaults to light */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
@@ -55,7 +55,7 @@ export class CalciteDropdown {
   if the selection-mode of the selected item's containing group is "none", the dropdown will always close
   */
 
-  @Prop({ mutable: true, reflect: true }) disableCloseOnSelect: boolean = false;
+  @Prop({ mutable: true, reflect: true }) disableCloseOnSelect = false;
 
   /** is the dropdown disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
@@ -67,16 +67,16 @@ export class CalciteDropdown {
 
   connectedCallback() {
     // validate props
-    let alignment = ["start", "center", "end"];
+    const alignment = ["start", "center", "end"];
     if (!alignment.includes(this.alignment)) this.alignment = "start";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
-    let width = ["s", "m", "l"];
+    const width = ["s", "m", "l"];
     if (!width.includes(this.width)) this.width = "m";
 
-    let type = ["hover", "click"];
+    const type = ["hover", "click"];
     if (!type.includes(this.type)) this.type = "hover";
   }
 
@@ -197,12 +197,12 @@ export class CalciteDropdown {
   @Listen("calciteDropdownItemKeyEvent") calciteDropdownItemKeyEvent(
     e: CustomEvent<ItemKeyboardEvent>
   ) {
-    let { keyboardEvent } = e.detail;
+    const { keyboardEvent } = e.detail;
     // handle edge
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
-    let itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
-    let isFirstItem = this.itemIndex(itemToFocus) === 0;
-    let isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
+    const itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
+    const isFirstItem = this.itemIndex(itemToFocus) === 0;
+    const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
     switch (getKey(keyboardEvent.key)) {
       case "Tab":
         if (isLastItem && !keyboardEvent.shiftKey) this.closeCalciteDropdown();

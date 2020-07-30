@@ -1,13 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Prop,
-  Method,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, Method } from "@stencil/core";
 
 import { CSS, TEXT } from "./resources";
 
@@ -21,7 +12,7 @@ export interface CalcitePaginationDetail {
 @Component({
   tag: "calcite-pagination",
   styleUrl: "calcite-pagination.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalcitePagination {
   //--------------------------------------------------------------------------
@@ -55,7 +46,7 @@ export class CalcitePagination {
   //  Private Properties
   //
   // --------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalcitePaginationElement;
 
   //--------------------------------------------------------------------------
   //
@@ -65,7 +56,7 @@ export class CalcitePagination {
 
   connectedCallback() {
     // prop validations
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
@@ -104,8 +95,7 @@ export class CalcitePagination {
 
   private getLastStart(): number {
     const { total, num } = this;
-    const lastStart =
-      total % num === 0 ? total - num : Math.floor(total / num) * num;
+    const lastStart = total % num === 0 ? total - num : Math.floor(total / num) * num;
     return lastStart + 1;
   }
 
@@ -131,7 +121,7 @@ export class CalcitePagination {
     this.calcitePaginationUpdate.emit({
       start: this.start,
       total: this.total,
-      num: this.num,
+      num: this.num
     });
   }
 
@@ -142,7 +132,7 @@ export class CalcitePagination {
   //--------------------------------------------------------------------------
 
   renderPages() {
-    let lastStart = this.getLastStart();
+    const lastStart = this.getLastStart();
     let end;
     let nextStart;
 
@@ -182,7 +172,7 @@ export class CalcitePagination {
       <button
         class={{
           [CSS.page]: true,
-          [CSS.selected]: start === this.start,
+          [CSS.selected]: start === this.start
         }}
         onClick={() => {
           this.start = start;
@@ -222,7 +212,7 @@ export class CalcitePagination {
         <button
           class={{
             [CSS.previous]: true,
-            [CSS.disabled]: start < num,
+            [CSS.disabled]: start < num
           }}
           aria-label={this.textLabelPrevious}
           onClick={this.previousClicked}
@@ -238,7 +228,7 @@ export class CalcitePagination {
         <button
           class={{
             [CSS.next]: true,
-            [CSS.disabled]: start + num >= total,
+            [CSS.disabled]: start + num >= total
           }}
           aria-label={this.textLabelNext}
           onClick={this.nextClicked}

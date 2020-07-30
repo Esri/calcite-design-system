@@ -9,9 +9,9 @@ export function rgbToHex(color: RGB): string {
     .padStart(2, "0")}`.toLowerCase();
 }
 
-export const hexChar: RegExp = /^[0-9A-F]{1}$/i;
-const shortHandHex: RegExp = /^#[0-9A-F]{3}$/i;
-const longhandHex: RegExp = /^#[0-9A-F]{6}$/i;
+export const hexChar = /^[0-9A-F]{1}$/i;
+const shortHandHex = /^#[0-9A-F]{3}$/i;
+const longhandHex = /^#[0-9A-F]{6}$/i;
 
 export function isValidHex(hex: string): boolean {
   return isShorthandHex(hex) || isLonghandHex(hex);

@@ -9,7 +9,7 @@ import {
   EventEmitter,
   Element,
   VNode,
-  Build,
+  Build
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -26,7 +26,7 @@ interface ItemData {
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteCombobox {
   //--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteComboboxElement;
 
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
@@ -77,7 +77,7 @@ export class CalciteCombobox {
 
   connectedCallback() {
     // prop validations
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
     if (Build.isBrowser) {
       this.observer = new MutationObserver(this.updateItems);
@@ -103,6 +103,7 @@ export class CalciteCombobox {
   // --------------------------------------------------------------------------
 
   @Event() calciteLookupChange: EventEmitter;
+
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   @Listen("calciteComboboxItemChange") calciteComboboxItemChangeHandler(
@@ -175,10 +176,7 @@ export class CalciteCombobox {
     this.visibleItems = this.getVisibleItems();
   }, 100);
 
-  toggleSelection(
-    item: HTMLCalciteComboboxItemElement,
-    value = !item.selected
-  ): void {
+  toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     item.selected = value;
     this.selectedItems = this.getSelectedItems();
     this.calciteLookupChange.emit(this.selectedItems);
@@ -202,7 +200,7 @@ export class CalciteCombobox {
   getData(): ItemData[] {
     return this.items.map((item) => ({
       value: item.value,
-      label: item.textLabel,
+      label: item.textLabel
     }));
   }
 
@@ -229,8 +227,8 @@ export class CalciteCombobox {
     }>
   ): void {
     const { item, event: keyboardEvent } = event.detail;
-    let isFirstItem = this.itemIndex(item) === 0;
-    let isLastItem = this.itemIndex(item) === this.items.length - 1;
+    const isFirstItem = this.itemIndex(item) === 0;
+    const isLastItem = this.itemIndex(item) === this.items.length - 1;
     const shiftKey = keyboardEvent.shiftKey;
     const keyCode = getKey(keyboardEvent.key);
     switch (keyCode) {

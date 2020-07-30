@@ -3,7 +3,7 @@ import { Component, Host, h, Element, Prop, Watch } from "@stencil/core";
 @Component({
   tag: "calcite-radio-button-group",
   styleUrl: "calcite-radio-button-group.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteRadioButtonGroup {
   //--------------------------------------------------------------------------
@@ -12,7 +12,7 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el!: HTMLElement;
+  @Element() el!: HTMLCalciteRadioButtonGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -21,22 +21,24 @@ export class CalciteRadioButtonGroup {
   //--------------------------------------------------------------------------
 
   /** The disabled state of the radio button group. */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
+
   @Watch("disabled")
   onDisabledChange() {
     this.passPropsToRadioButtons();
   }
 
   /** The radio button group's hidden status.  When a radio button group is hidden none of its options are focusable or checkable. */
-  @Prop({ reflect: true }) hidden: boolean = false;
+  @Prop({ reflect: true }) hidden = false;
+
   @Watch("hidden")
   onHiddenChange() {
     this.passPropsToRadioButtons();
   }
 
   /** The layout direction of the radio buttons in a group. */
-  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" =
-    "horizontal";
+  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
   @Watch("layout")
   validateLayout(newLayout: string) {
     const layouts = ["horizontal", "vertical"];
@@ -50,10 +52,11 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) name!: string;
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
-  @Prop({ reflect: true }) required: boolean = false;
+  @Prop({ reflect: true }) required = false;
 
   /** The scale (size) of the radio button group. */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+
   @Watch("scale")
   validateScale(newScale: string) {
     const scales = ["s", "m", "l"];
@@ -65,6 +68,7 @@ export class CalciteRadioButtonGroup {
 
   /** The color theme of the radio button group. */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+
   @Watch("theme")
   validateTheme(newTheme: string) {
     const themes = ["light", "dark"];

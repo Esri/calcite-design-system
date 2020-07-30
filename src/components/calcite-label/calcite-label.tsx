@@ -1,18 +1,10 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  h,
-  Prop,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Host, h, Prop } from "@stencil/core";
 import { getElementDir, focusElement } from "../../utils/dom";
 
 @Component({
   tag: "calcite-label",
   styleUrl: "calcite-label.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteLabel {
   //--------------------------------------------------------------------------
@@ -30,8 +22,7 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   /** specify the status of the label and any child input / input messages */
-  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" =
-    "idle";
+  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -40,10 +31,8 @@ export class CalciteLabel {
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** is the wrapped element positioned inline with the label slotted text */
-  @Prop({ mutable: true, reflect: true }) layout:
-    | "inline"
-    | "inline-space-between"
-    | "default" = "default";
+  @Prop({ mutable: true, reflect: true }) layout: "inline" | "inline-space-between" | "default" =
+    "default";
 
   //--------------------------------------------------------------------------
   //
@@ -52,13 +41,13 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    let status = ["invalid", "valid", "idle"];
+    const status = ["invalid", "valid", "idle"];
     if (!status.includes(this.status)) this.status = "idle";
 
-    let layout = ["inline", "inline-space-between", "default"];
+    const layout = ["inline", "inline-space-between", "default"];
     if (!layout.includes(this.layout)) this.layout = "default";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
@@ -126,8 +115,8 @@ export class CalciteLabel {
 
   // wrap slotted text nodes in span to handle spacing of inline and inline space between layouts
   private handleSlottedContent() {
-    let nodeList = [];
-    let requestedSlottedContent = this.el.childNodes;
+    const nodeList = [];
+    const requestedSlottedContent = this.el.childNodes;
     // iterate over slotted nodes and wrap text nodes in span
     if (requestedSlottedContent) {
       requestedSlottedContent.forEach(function (item) {
@@ -148,13 +137,13 @@ export class CalciteLabel {
     this.calciteLabelFocus.emit({
       labelEl: this.el,
       interactedEl: target,
-      requestedInput: this.requestedFor,
+      requestedInput: this.requestedFor
     });
   }
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = ["layout", "theme", "scale", "status"];
+    const props = ["layout", "theme", "scale", "status"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});

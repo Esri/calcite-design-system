@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Method,
-  Prop,
+  Prop
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent, ItemRegistration } from "../../interfaces/Dropdown";
@@ -16,7 +16,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "calcite-dropdown-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteDropdownItem {
   //--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
@@ -80,7 +80,7 @@ export class CalciteDropdownItem {
   componentWillLoad() {
     this.itemPosition = this.getItemPosition();
     this.calciteDropdownItemRegister.emit({
-      position: this.itemPosition,
+      position: this.itemPosition
     });
   }
 
@@ -90,18 +90,10 @@ export class CalciteDropdownItem {
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "s" || scale === "m" ? "s" : "m";
     const iconStartEl = (
-      <calcite-icon
-        class="dropdown-item-icon-start"
-        icon={this.iconStart}
-        scale={iconScale}
-      />
+      <calcite-icon class="dropdown-item-icon-start" icon={this.iconStart} scale={iconScale} />
     );
     const iconEndEl = (
-      <calcite-icon
-        class="dropdown-item-icon-end"
-        icon={this.iconEnd}
-        scale={iconScale}
-      />
+      <calcite-icon class="dropdown-item-icon-end" icon={this.iconEnd} scale={iconScale} />
     );
 
     const slottedContent =
@@ -132,11 +124,7 @@ export class CalciteDropdownItem {
         isLink={this.href}
       >
         {this.selectionMode === "multi" ? (
-          <calcite-icon
-            class="dropdown-item-check-icon"
-            scale="s"
-            icon="check"
-          />
+          <calcite-icon class="dropdown-item-check-icon" scale="s" icon="check" />
         ) : null}
         {contentEl}
       </Host>
@@ -230,8 +218,7 @@ export class CalciteDropdownItem {
 
       case "single":
         if (this.el === this.requestedDropdownItem) this.active = true;
-        else if (this.requestedDropdownGroup === this.currentDropdownGroup)
-          this.active = false;
+        else if (this.requestedDropdownGroup === this.currentDropdownGroup) this.active = false;
         break;
 
       case "none":
@@ -243,37 +230,23 @@ export class CalciteDropdownItem {
   private emitRequestedItem() {
     this.calciteDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.currentDropdownGroup,
+      requestedDropdownGroup: this.currentDropdownGroup
     });
   }
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    const props = [
-      "icon-start",
-      "icon-end",
-      "active",
-      "hasText",
-      "isLink",
-      "dir",
-      "id",
-      "theme",
-    ];
+    const props = ["icon-start", "icon-end", "active", "hasText", "isLink", "dir", "id", "theme"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   private getItemPosition() {
-    const group = this.el.closest(
-      "calcite-dropdown-group"
-    ) as HTMLCalciteDropdownGroupElement;
+    const group = this.el.closest("calcite-dropdown-group") as HTMLCalciteDropdownGroupElement;
 
     return group
-      ? Array.prototype.indexOf.call(
-          group.querySelectorAll("calcite-dropdown-item"),
-          this.el
-        )
+      ? Array.prototype.indexOf.call(group.querySelectorAll("calcite-dropdown-item"), this.el)
       : 1;
   }
 }

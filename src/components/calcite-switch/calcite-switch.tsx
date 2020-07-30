@@ -8,7 +8,7 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build,
+  Build
 } from "@stencil/core";
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -16,10 +16,10 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteSwitch {
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteSwitchElement;
 
   /** True if the switch is initially on */
   @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
@@ -44,10 +44,7 @@ export class CalciteSwitch {
   private observer: MutationObserver;
 
   @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
-    if (
-      !this.el.contains(e.detail.interactedEl) &&
-      hasLabel(e.detail.labelEl, this.el)
-    ) {
+    if (!this.el.contains(e.detail.interactedEl) && hasLabel(e.detail.labelEl, this.el)) {
       this.updateSwitch(event);
       this.el.focus();
     } else return;
@@ -82,10 +79,10 @@ export class CalciteSwitch {
   connectedCallback() {
     // prop validations
 
-    let color = ["blue", "red"];
+    const color = ["blue", "red"];
     if (!color.includes(this.color)) this.color = "blue";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
     this.setupProxyInput();
   }
@@ -157,11 +154,12 @@ export class CalciteSwitch {
     this.inputProxy.setAttribute("name", this.name);
     this.inputProxy.setAttribute("value", this.value);
   };
+
   private updateSwitch(e) {
     e.preventDefault();
     this.switched = !this.switched;
     this.calciteSwitchChange.emit({
-      switched: this.switched,
+      switched: this.switched
     });
   }
 }

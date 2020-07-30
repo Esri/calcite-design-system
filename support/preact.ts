@@ -1,17 +1,13 @@
 import { join } from "path";
 
-export const generatePreactTypes = async (
-  config,
-  compilerCtx,
-  buildCtx
-): Promise<void> => {
+export const generatePreactTypes = async (config, compilerCtx, buildCtx): Promise<void> => {
   const { typesDir } = config.outputTargets.find((o) => o.typesDir);
   const outputPath = join(typesDir, "preact.d.ts");
   const types = buildCtx.components.map(getType).join("\n");
   await compilerCtx.fs.writeFile(outputPath, getTemplate(types));
 };
 
-function getTemplate(types: string): String {
+function getTemplate(types: string): string {
   return `
 import { JSXInternal } from "preact/src/jsx";
 import { JSX } from "./components";
@@ -31,9 +27,7 @@ function getType({ events, tagName, componentClassName }) {
     return `
       "${tagName}": JSX.${componentClassName} & JSXInternal.HTMLAttributes<HTML${componentClassName}Element>`;
   } else {
-    const stencilEvents = events
-      .map(({ name }) => `"on${capitalize(name)}"`)
-      .join(" | ");
+    const stencilEvents = events.map(({ name }) => `"on${capitalize(name)}"`).join(" | ");
     const preactEvents = events
       .map(({ name }) => `"on${name}"?: (event: CustomEvent<any>) => void;`)
       .join("\n        ");

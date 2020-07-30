@@ -1,18 +1,5 @@
-import {
-  Component,
-  Element,
-  Prop,
-  Host,
-  Event,
-  h,
-  EventEmitter,
-} from "@stencil/core";
-import {
-  getLocaleFormatData,
-  replaceArabicNumerals,
-  getMonths,
-  getYear,
-} from "../../utils/locale";
+import { Component, Element, Prop, Host, Event, h, EventEmitter } from "@stencil/core";
+import { getLocaleFormatData, replaceArabicNumerals, getMonths, getYear } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
 import { getKey } from "../../utils/key";
@@ -20,7 +7,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-date-month-header",
   styleUrl: "calcite-date-month-header.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteDateMonthHeader {
   //--------------------------------------------------------------------------
@@ -29,7 +16,7 @@ export class CalciteDateMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDateMonthHeaderElement;
 
   //--------------------------------------------------------------------------
   //
@@ -39,18 +26,25 @@ export class CalciteDateMonthHeader {
 
   /** Already selected date. */
   @Prop() selectedDate: Date;
+
   /** Focused date with indicator (will become selected date if user proceeds) */
   @Prop() activeDate: Date;
+
   /** Minimum date of the calendar below which is disabled. */
   @Prop() min: Date;
+
   /** Maximum date of the calendar above which is disabled. */
   @Prop() max: Date;
+
   /** User's language and region as BCP 47 formatted string. */
   @Prop() locale: string;
+
   /** Localized string for previous month. */
   @Prop() intlPrevMonth: string;
+
   /** Localized string for next month. */
   @Prop() intlNextMonth: string;
+
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
@@ -76,16 +70,8 @@ export class CalciteDateMonthHeader {
     const localizedYear = getYear(this.activeDate, this.locale);
     const iconScale = this.scale === "l" ? "m" : "s";
     const dir = getElementDir(this.el);
-    const nextMonthDate = dateFromRange(
-      nextMonth(this.activeDate),
-      this.min,
-      this.max
-    );
-    const prevMonthDate = dateFromRange(
-      prevMonth(this.activeDate),
-      this.min,
-      this.max
-    );
+    const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
+    const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
     return (
       <Host dir={dir}>
         <div class="header" aria-hidden="true">
@@ -95,12 +81,7 @@ export class CalciteDateMonthHeader {
             disabled={prevMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
           >
-            <calcite-icon
-              icon="chevron-left"
-              scale={iconScale}
-              mirrored
-              dir={dir}
-            />
+            <calcite-icon icon="chevron-left" scale={iconScale} mirrored dir={dir} />
           </button>
           <div class="text">
             <span class="month" role="heading">
@@ -115,9 +96,7 @@ export class CalciteDateMonthHeader {
               pattern="\d*"
               value={`${localizedYear.slice(-4)}`}
               onKeyDown={(event) => this.onYearKey(event)}
-              onChange={(event) =>
-                this.setYear((event.target as HTMLInputElement).value)
-              }
+              onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
               ref={(el) => (this.yearInput = el)}
             />
           </div>
@@ -127,12 +106,7 @@ export class CalciteDateMonthHeader {
             disabled={nextMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
           >
-            <calcite-icon
-              icon="chevron-right"
-              scale={iconScale}
-              mirrored
-              dir={dir}
-            />
+            <calcite-icon icon="chevron-right" scale={iconScale} mirrored dir={dir} />
           </button>
         </div>
       </Host>
@@ -172,16 +146,14 @@ export class CalciteDateMonthHeader {
    * Parse localized year string from input,
    * set to active if in range
    */
-  private setYear(localizedYear: string, increment: number = 0) {
+  private setYear(localizedYear: string, increment = 0) {
     const { min, max, activeDate, locale, yearInput } = this;
     const parsedYear = parseInt(replaceArabicNumerals(localizedYear));
     const length = parsedYear.toString().length;
     const offset = getLocaleFormatData(locale).buddhist ? 543 : 0;
     const year = isNaN(parsedYear) ? false : parsedYear - offset + increment;
     const inRange =
-      year &&
-      (!min || min.getFullYear() <= year) &&
-      (!max || max.getFullYear() >= year);
+      year && (!min || min.getFullYear() <= year) && (!max || max.getFullYear() >= year);
     // if you've supplied a year and it's in range, update active date
     if (year && inRange && length === localizedYear.length && length > 3) {
       const nextDate = new Date(activeDate);
