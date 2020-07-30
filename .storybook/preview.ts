@@ -8,8 +8,11 @@ addParameters({
   backgrounds: [{ name: "Light", value: "#f8f8f8", default: true }],
   options: {
     theme,
-    storySort: {
-      method: "alphabetical"
+    storySort: (a, b) => {
+      const sectionA = a[1].id.split("-")[0];
+      const sectionB = b[1].id.split("-")[0];
+
+      return sectionB.localeCompare(sectionA);
     }
   },
   docs: {

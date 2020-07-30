@@ -4,7 +4,7 @@ import { darkBackground, parseReadme, boolean } from "../../../.storybook/helper
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("Slider", module)
+storiesOf("components|Slider", module)
   .addDecorator(withKnobs)
   .add(
     "Single value",

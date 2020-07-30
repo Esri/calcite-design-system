@@ -39,7 +39,7 @@ const treeItems = `
   </calcite-tree-item>
 `;
 
-storiesOf("Tree", module)
+storiesOf("components|Tree", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

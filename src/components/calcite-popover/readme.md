@@ -88,6 +88,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+ - [calcite-flow-item](../calcite-flow-item)
+
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
@@ -96,6 +100,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-popover --> calcite-icon
+  calcite-flow-item --> calcite-popover
   style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

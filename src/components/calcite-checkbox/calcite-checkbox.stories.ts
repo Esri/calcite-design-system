@@ -4,7 +4,7 @@ import { darkBackground, parseReadme, boolean } from "../../../.storybook/helper
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("Checkbox", module)
+storiesOf("components|Checkbox", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

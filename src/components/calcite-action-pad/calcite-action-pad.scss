@@ -1,0 +1,55 @@
+:host {
+  @extend %component-host;
+  animation: calcite-app-fade-in var(--calcite-app-animation-time-fast)
+    var(--calcite-app-easing-function);
+}
+
+@import "../../scss/includes/_component";
+
+:host([expanded]) {
+  max-width: 20vw;
+}
+
+::slotted(calcite-action-group) {
+  border-bottom: 1px solid var(--calcite-app-border);
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.container {
+  display: inline-flex;
+  flex-direction: column;
+  box-shadow: var(--calcite-app-shadow-2);
+  max-width: 15vw;
+  overflow-y: auto;
+}
+
+.action-group--bottom {
+  padding-bottom: 0;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+:host([layout="horizontal"]) {
+  .container {
+    flex-direction: row;
+    max-width: unset;
+    .action-group--bottom {
+      padding: 0;
+    }
+    ::slotted(calcite-action-group) {
+      border-right: 1px solid var(--calcite-app-border);
+      border-bottom: none;
+      flex-direction: row;
+      padding: 0;
+    }
+  }
+  .container.calcite--rtl ::slotted(calcite-action-group) {
+    border-right: none;
+    border-left: 1px solid var(--calcite-app-border);
+  }
+}
+
+::slotted(calcite-action-group:last-child) {
+  border-bottom: none;
+}

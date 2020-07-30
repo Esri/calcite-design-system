@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `calcite-color` - new `appearance` prop to support embedded use case (#750)
 
 ### Fixes
+
 - `calcite-dropdown` - fix regression where multiple triggers didn't work (#774)
 
 ## [v1.0.0-beta.35]

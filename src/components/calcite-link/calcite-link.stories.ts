@@ -10,7 +10,7 @@ const iconNames = Object.keys(icons)
   .filter((iconName) => iconName.endsWith("16"))
   .map((iconName) => iconName.replace("16", ""));
 
-storiesOf("Link", module)
+storiesOf("components|Link", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

@@ -1,0 +1,101 @@
+/* Variables, mixins, @keyframes*/
+$tip-manager-height: 18vh;
+$tip-max-width: 540px;
+
+@keyframes tip-advance {
+  0% {
+    opacity: 0;
+    transform: translate3d(50px, 0, 0) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes tip-retreat {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50px, 0, 0) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* Component Styles */
+:host {
+  @extend %component-host;
+  display: block;
+}
+
+@import "../../scss/includes/_component";
+@import "../../scss/includes/_header";
+
+:host([closed]) {
+  display: none;
+}
+
+.header .heading {
+  padding-left: var(--calcite-app-side-spacing-half);
+  padding-right: var(--calcite-app-side-spacing-half);
+}
+
+.container {
+  overflow: hidden;
+  position: relative;
+  padding: var(--calcite-app-cap-spacing-half)
+    var(--calcite-app-side-spacing-half) 0;
+  min-height: 150px;
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-outset();
+  }
+}
+
+.tip-container {
+  animation-name: none;
+  animation-duration: var(--calcite-app-animation-time);
+  animation-timing-function: var(--calcite-app-easing-function);
+  height: $tip-manager-height;
+  margin-top: var(--calcite-app-cap-spacing-quarter);
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-outset();
+  }
+}
+
+::slotted(calcite-tip-group) {
+  max-width: $tip-max-width;
+  padding: 0 var(--calcite-app-side-spacing-half);
+}
+
+::slotted(calcite-tip) {
+  max-width: $tip-max-width;
+  padding: 0 var(--calcite-app-side-spacing-half);
+}
+
+.tip-container--advancing {
+  animation-name: tip-advance;
+}
+
+.tip-container--retreating {
+  animation-name: tip-retreat;
+}
+
+/* Pagination Styles*/
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--calcite-app-cap-spacing-quarter) 0;
+}
+
+.page-position {
+  font-size: var(--calcite-app-font-size--1);
+  margin: 0 var(--calcite-app-side-spacing-half);
+}

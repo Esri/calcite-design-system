@@ -1,0 +1,27 @@
+:host {
+  @extend %component-host;
+  background-color: var(--calcite-app-background-clear);
+  display: block;
+  margin-bottom: var(--calcite-app-cap-spacing-quarter);
+}
+
+@import "../../scss/includes/_component";
+@import "../../scss/includes/_header";
+
+:host(:last-child) {
+  margin-bottom: 0;
+}
+
+h3.heading {
+  font-size: var(--calcite-app-font-size-0);
+  margin: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing);
+}
+
+.container--indented {
+  margin-left: var(--calcite-app-side-spacing-plus-half);
+}
+
+.calcite--rtl.container--indented {
+  margin-left: 0;
+  margin-right: var(--calcite-app-side-spacing-plus-half);
+}

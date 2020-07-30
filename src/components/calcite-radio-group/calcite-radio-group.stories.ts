@@ -8,7 +8,7 @@ const notes1 = parseReadme(readme1);
 const notes2 = parseReadme(readme2);
 const notes = notes1.concat(`\n${notes2}`);
 
-storiesOf("Radio Group", module)
+storiesOf("components|Radio Group", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",
@@ -97,7 +97,7 @@ storiesOf("Radio Group", module)
         <calcite-radio-group-item value="long-text-2">Longer text wraps.</calcite-radio-group-item>
       </calcite-radio-group>
     </div>
-    
+
   `,
     { notes }
   );
