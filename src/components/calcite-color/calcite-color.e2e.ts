@@ -208,11 +208,12 @@ describe("calcite-color", () => {
       await page.waitForChanges();
     };
 
-    it.skip("keeps value in same format when applying updates", async () => {
+    it("keeps value in same format when applying updates", async () => {
       const page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
       });
       const picker = await page.find("calcite-color");
+      await page.waitFor(3000);
 
       const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void) => {
         const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
