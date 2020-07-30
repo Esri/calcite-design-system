@@ -26,7 +26,7 @@ export interface DateFormattingData {
  * Parse date formatting data for a given locale
  */
 export function getLocaleFormatData(locale: string): DateFormattingData {
-  let data = [
+  const data = [
     { unit: units.month, num: "11", placeholder: "mm" },
     { unit: units.day, num: "22", placeholder: "dd" },
     { unit: units.year, num: "3333", placeholder: "yyyy" }
@@ -69,7 +69,7 @@ export function parseDateString(str: string, locale: string): { [U in units]: nu
 /**
  * Convert eastern arbic numerals and remove right-to-left control marks
  */
-export function replaceArabicNumerals(str: string = ""): string {
+export function replaceArabicNumerals(str = ""): string {
   return str
     .replace(/[\u0660-\u0669]/g, (c) => (c.charCodeAt(0) - 0x0660) as any)
     .replace(/[\u06f0-\u06f9]/g, (c) => (c.charCodeAt(0) - 0x06f0) as any)
@@ -99,13 +99,13 @@ export function getYear(date: Date, locale: string): string {
 /**
  * Generate an array of localized week day names in the correct order
  */
-export function getLocalizedWeekdays(locale: string, format: string = "short"): string[] {
+export function getLocalizedWeekdays(locale: string, format = "short"): string[] {
   const startWeek = [];
   const endWeek = [];
   const date = new Date();
   for (let w = 1; w < 8; w++) {
     date.setDate(w);
-    let day = new Intl.DateTimeFormat(locale, {
+    const day = new Intl.DateTimeFormat(locale, {
       weekday: format
     }).format(date);
     date.getDay() === getFirstDayOfWeek(locale) || startWeek.length > 0 ? startWeek.push(day) : endWeek.push(day);

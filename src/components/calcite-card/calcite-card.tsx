@@ -1,13 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Prop,
-  VNode,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -28,7 +19,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-card",
   styleUrl: "calcite-card.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteCard {
   //--------------------------------------------------------------------------
@@ -46,13 +37,13 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
-  @Prop({ reflect: true }) loading: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** Indicates whether the card is selected. */
-  @Prop({ reflect: true, mutable: true }) selected: boolean = false;
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** Indicates whether the card is selectable. */
-  @Prop({ reflect: true, mutable: true }) selectable: boolean = false;
+  @Prop({ reflect: true, mutable: true }) selectable = false;
 
   /**  The theme of the card.*/
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
@@ -142,10 +133,7 @@ export class CalciteCard {
         onClick={() => this.cardSelectClick()}
         onKeyDown={(e) => this.cardSelectKeyDown(e)}
       >
-        <calcite-checkbox
-          theme={this.theme}
-          checked={this.selected}
-        ></calcite-checkbox>
+        <calcite-checkbox theme={this.theme} checked={this.selected}></calcite-checkbox>
       </div>
     );
   }
@@ -164,12 +152,8 @@ export class CalciteCard {
   }
 
   private renderFooter(): VNode {
-    const leadingFooter = this.el.querySelector(
-      `[slot=${SLOTS.footerLeading}]`
-    );
-    const trailingFooter = this.el.querySelector(
-      `[slot=${SLOTS.footerTrailing}]`
-    );
+    const leadingFooter = this.el.querySelector(`[slot=${SLOTS.footerLeading}]`);
+    const trailingFooter = this.el.querySelector(`[slot=${SLOTS.footerTrailing}]`);
 
     const hasFooter = leadingFooter || trailingFooter;
     return hasFooter ? (

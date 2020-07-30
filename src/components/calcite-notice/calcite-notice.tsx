@@ -36,7 +36,7 @@ export class CalciteNotice {
   //---------------------------------------------------------------------------
 
   /** Is the notice currently active or not */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Color for the notice (will apply to top border and icon) */
   @Prop({ reflect: true, mutable: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
@@ -57,7 +57,7 @@ export class CalciteNotice {
   @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
 
   /** If false, no icon will be shown in the notice */
-  @Prop() icon: boolean = false;
+  @Prop() icon = false;
 
   //--------------------------------------------------------------------------
   //
@@ -67,13 +67,13 @@ export class CalciteNotice {
 
   connectedCallback() {
     // prop validations
-    let colors = ["blue", "red", "green", "yellow"];
+    const colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-    let scales = ["s", "m", "l"];
+    const scales = ["s", "m", "l"];
     if (!scales.includes(this.scale)) this.scale = "m";
 
-    let widths = ["auto", "half", "full"];
+    const widths = ["auto", "half", "full"];
     if (!widths.includes(this.width)) this.width = "auto";
   }
 
@@ -169,7 +169,7 @@ export class CalciteNotice {
   };
 
   private setIcon() {
-    var path = this.iconDefaults[this.color];
+    const path = this.iconDefaults[this.color];
     return (
       <div class="notice-icon">
         <calcite-icon icon={path} scale="m"></calcite-icon>

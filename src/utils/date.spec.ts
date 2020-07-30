@@ -1,11 +1,4 @@
-import {
-  inRange,
-  dateFromRange,
-  dateFromISO,
-  sameDate,
-  prevMonth,
-  nextMonth,
-} from "./date";
+import { inRange, dateFromRange, dateFromISO, sameDate, prevMonth, nextMonth } from "./date";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -55,17 +48,11 @@ describe("dateFromISO", () => {
     expect(dateFromISO("2011-11-29T15:52:30.52").getTime()).toEqual(time);
     expect(dateFromISO("2011-11-29T15:52:18.867").getTime()).toEqual(time);
     expect(dateFromISO("2011-11-29T15:52:18.867Z").getTime()).toEqual(time);
-    expect(dateFromISO("2011-11-29T15:52:18.867-03:30").getTime()).toEqual(
-      time
-    );
+    expect(dateFromISO("2011-11-29T15:52:18.867-03:30").getTime()).toEqual(time);
   });
   it("defaults to first of any missing units", () => {
-    expect(dateFromISO("2011-11").getTime()).toEqual(
-      new Date(2011, 10, 1).getTime()
-    );
-    expect(dateFromISO("2011").getTime()).toEqual(
-      new Date(2011, 0, 1).getTime()
-    );
+    expect(dateFromISO("2011-11").getTime()).toEqual(new Date(2011, 10, 1).getTime());
+    expect(dateFromISO("2011").getTime()).toEqual(new Date(2011, 0, 1).getTime());
   });
 });
 
@@ -105,16 +92,16 @@ describe("prevMonth", () => {
 
 describe("nextMonth", () => {
   it("returns a date 1 month in the future", () => {
-    var d1 = nextMonth(new Date(2020, 2, 23));
+    const d1 = nextMonth(new Date(2020, 2, 23));
     expect(d1.getDate()).toEqual(23);
     expect(d1.getMonth()).toEqual(3);
     expect(d1.getFullYear()).toEqual(2020);
-    var d2 = nextMonth(new Date(2020, 11, 23));
+    const d2 = nextMonth(new Date(2020, 11, 23));
     expect(d2.getMonth()).toEqual(0);
     expect(d2.getFullYear()).toEqual(2021);
   });
   it("if date doesn't exist, uses last day of month", () => {
-    var d1 = nextMonth(new Date(2020, 2, 31)); // March 31
+    const d1 = nextMonth(new Date(2020, 2, 31)); // March 31
     expect(d1.getFullYear()).toEqual(2020);
     expect(d1.getMonth()).toEqual(3);
     expect(d1.getDate()).toEqual(30);
