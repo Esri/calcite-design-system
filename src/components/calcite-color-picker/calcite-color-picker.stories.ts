@@ -107,3 +107,11 @@ export const AllowingEmpty = (): string =>
     { name: "allow-empty", value: true },
     { name: "value", value: text("value", "") }
   ]);
+
+export const AlphaSupport = (): string =>
+  create("calcite-color-picker", [
+    ...createColorAttributes(),
+    { name: "alpha-support", value: true },
+    { name: "hide-opacity", value: boolean("hide-hex", false) },
+    { name: "value", value: text("value", "#b33f3333") }
+  ]);

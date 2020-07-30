@@ -12,10 +12,13 @@ import {
   Watch
 } from "@stencil/core";
 import {
+  createColor,
   hexChar,
+  hexify,
   hexToRGB,
   isLonghandHex,
   isValidHex,
+  normalizeAlpha,
   normalizeHex,
   rgbToHex
 } from "../calcite-color-picker/utils";
@@ -27,7 +30,7 @@ import { focusElement, getElementDir } from "../../utils/dom";
 import { TEXT } from "../calcite-color-picker/resources";
 import { getKey } from "../../utils/key";
 
-const DEFAULT_COLOR = Color();
+const DEFAULT_COLOR = createColor();
 
 @Component({
   tag: "calcite-color-picker-hex-input",
@@ -50,13 +53,13 @@ export class CalciteColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const { allowEmpty, value } = this;
+    const { allowEmpty, alphaSupport, value } = this;
 
     if (value) {
       const normalized = normalizeHex(value);
 
-      if (isValidHex(normalized)) {
-        this.internalColor = Color(normalized);
+      if (isValidHex(normalized, alphaSupport)) {
+        this.internalColor = createColor(normalized);
         this.value = normalized;
       }
 
@@ -74,6 +77,11 @@ export class CalciteColorPickerHexInput {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When true, the input will process and display hex characters for the alpha channel.
+   */
+  @Prop() alphaSupport = false;
 
   /**
    * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
@@ -102,17 +110,21 @@ export class CalciteColorPickerHexInput {
   /**
    * The hex value.
    */
-  @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
+  @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(
+    hexify(DEFAULT_COLOR, this.alphaSupport)
+  );
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
     if (value) {
       const normalized = normalizeHex(value);
+      const { alphaSupport } = this;
 
-      if (isValidHex(normalized)) {
+      if (isValidHex(normalized, alphaSupport)) {
         const { internalColor } = this;
-        const changed = !internalColor || normalized !== normalizeHex(internalColor.hex());
-        this.internalColor = Color(normalized);
+        const changed =
+          !internalColor || normalized !== normalizeHex(hexify(internalColor, alphaSupport));
+        this.internalColor = createColor(normalized);
         this.previousNonNullValue = normalized;
         this.value = normalized;
 
@@ -148,27 +160,34 @@ export class CalciteColorPickerHexInput {
     const node = event.currentTarget as HTMLCalciteInputElement;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
-    const willClearValue = this.allowEmpty && !inputValue;
+    const { allowEmpty, alphaSupport, internalColor } = this;
+    const willClearValue = allowEmpty && !inputValue;
 
-    if (willClearValue || (isValidHex(hex) && isLonghandHex(hex))) {
+    if (willClearValue || (isValidHex(hex, alphaSupport) && isLonghandHex(hex))) {
       return;
     }
 
     // manipulating DOM directly since rerender doesn't update input value
     node.value =
-      this.allowEmpty && !this.internalColor
+      allowEmpty && !internalColor
         ? ""
-        : this.formatForInternalInput(rgbToHex(this.internalColor.object() as any as RGB));
+        : this.formatForInternalInput(
+            rgbToHex(
+              alphaSupport
+                ? normalizeAlpha(internalColor.object())
+                : (internalColor.object() as any as RGB)
+            )
+          );
   };
 
-  private onInputChange = (event: Event): void => {
+  private onCalciteInputChange = (event: CustomEvent): void => {
     const node = event.currentTarget as HTMLCalciteInputElement;
     const inputValue = node.value;
     let value: this["value"];
 
     if (inputValue) {
       const hex = inputValue;
-      const color = hexToRGB(`#${hex}`);
+      const color = hexToRGB(`#${hex}`, this.alphaSupport);
 
       if (!color) {
         return;
@@ -187,7 +206,7 @@ export class CalciteColorPickerHexInput {
   @Listen("keydown", { capture: true })
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
-    const { el, inputNode, internalColor, value } = this;
+    const { alphaSupport, el, inputNode, internalColor, value } = this;
     const key = getKey(event.key);
     const isNudgeKey = key === "ArrowDown" || key === "ArrowUp";
 
@@ -201,14 +220,16 @@ export class CalciteColorPickerHexInput {
       const direction = key === "ArrowUp" ? 1 : -1;
       const bump = shiftKey ? 10 : 1;
 
-      this.value = normalizeHex(this.nudgeRGBChannels(internalColor, bump * direction).hex());
+      this.value = normalizeHex(
+        hexify(this.nudgeRGBChannels(internalColor, bump * direction), alphaSupport)
+      );
 
       event.preventDefault();
       return;
     }
 
     const withModifiers = altKey || ctrlKey || metaKey;
-    const exceededHexLength = inputNode.value.length >= 6;
+    const exceededHexLength = inputNode.value.length >= (alphaSupport ? 8 : 6);
     const focusedElement = el.shadowRoot.activeElement as HTMLInputElement;
     const hasTextSelection =
       // can't use window.getSelection() because of FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=85686
@@ -258,7 +279,7 @@ export class CalciteColorPickerHexInput {
           dir={elementDir}
           label={intlHex}
           onCalciteInputBlur={this.onCalciteInputBlur}
-          onChange={this.onInputChange}
+          onChange={this.onCalciteInputChange}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}
@@ -303,6 +324,15 @@ export class CalciteColorPickerHexInput {
   }
 
   private nudgeRGBChannels(color: Color, amount: number): Color {
-    return Color.rgb(color.array().map((channel) => channel + amount));
+    const channels = color.array().map((channel) => channel + amount);
+
+    return Color.rgb(
+      this.alphaSupport
+        ? [
+            ...channels,
+            color.alpha() // only RGB channels are nudged
+          ]
+        : channels
+    );
   }
 }

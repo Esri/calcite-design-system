@@ -25,15 +25,25 @@ import {
   TEXT
 } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
+import {
+  alphaToOpacity,
+  colorEqual,
+  createColor,
+  CSSColorMode,
+  Format,
+  hexify,
+  normalizeAlpha,
+  normalizeHex,
+  opacityToAlpha,
+  parseMode,
+  SupportedMode
+} from "./utils";
 import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 import { clamp } from "../../utils/math";
 import { CSS_UTILITY } from "../../utils/resources";
 
 const throttleFor60FpsInMs = 16;
-const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
-const defaultFormat = "auto";
 
 @Component({
   tag: "calcite-color-picker",
@@ -54,6 +64,11 @@ export class CalciteColorPicker {
   //  Public properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When true, the color picker will process and display alpha characters.
+   */
+  @Prop() alphaSupport = false;
 
   /**
    * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
@@ -92,7 +107,7 @@ export class CalciteColorPicker {
    * When "auto", the format will be inferred from `value` when set.
    * @default "auto"
    */
-  @Prop() format: Format = defaultFormat;
+  @Prop() format: Format = "auto";
 
   @Watch("format")
   handleFormatChange(format: CalciteColorPicker["format"]): void {
@@ -105,6 +120,9 @@ export class CalciteColorPicker {
 
   /** When true, hides the RGB/HSV channel inputs */
   @Prop() hideChannels = false;
+
+  /** When true and alpha is enabled, hides the opacity controls */
+  @Prop() hideOpacity = false;
 
   /** When true, hides the saved colors section */
   @Prop() hideSaved = false;
@@ -159,6 +177,12 @@ export class CalciteColorPicker {
    * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
+
+  /**
+   * Label used for the opacity description.
+   * @default "Opacity"
+   */
+  @Prop() intlOpacity = TEXT.opacity;
 
   /** Label used for the red channel
    * @default "R"
@@ -223,14 +247,16 @@ export class CalciteColorPicker {
   /**
    * The color value.
    *
-   * This value can be either a {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color|CSS string}
+   * This value can be either a [CSS string](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
    * @default "#007ac2"
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-color-picker/interfaces.ts#L10)
    */
-  @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
+  @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
+    hexify(DEFAULT_COLOR, this.alphaSupport)
+  );
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
@@ -261,7 +287,7 @@ export class CalciteColorPicker {
       return;
     }
 
-    const color = allowEmpty && !value ? null : Color(value);
+    const color = allowEmpty && !value ? null : createColor(value);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -398,16 +424,16 @@ export class CalciteColorPicker {
       return;
     }
 
-    const normalizedHex = color && normalizeHex(color.hex());
+    const normalizedHex = color && normalizeHex(hexify(color, this.alphaSupport));
 
     if (hex !== normalizedHex) {
-      this.internalColorSet(Color(hex));
+      this.internalColorSet(createColor(hex));
     }
   };
 
   private handleSavedColorSelect = (event: Event): void => {
     const swatch = event.currentTarget as HTMLCalciteColorPickerSwatchElement;
-    this.internalColorSet(Color(swatch.color));
+    this.internalColorSet(createColor(swatch.color));
   };
 
   private handleChannelInput = (event: CustomEvent): void => {
@@ -444,7 +470,14 @@ export class CalciteColorPicker {
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||
-      !event.composedPath().some((node: HTMLElement) => node.classList?.contains(CSS.channel))
+      !event
+        .composedPath()
+        .some(
+          (node: HTMLElement) =>
+            node.classList?.contains(CSS.channel) ||
+            node.classList?.contains(CSS.opacityInput) ||
+            node.classList?.contains(CSS.opacitySlider)
+        )
     ) {
       return;
     }
@@ -484,6 +517,62 @@ export class CalciteColorPicker {
 
     channels[channelIndex] = Number(input.value);
     this.updateColorFromChannels(channels);
+  };
+
+  private handleOpacityInputChange = (event: CustomEvent): void => {
+    const input = event.currentTarget as HTMLCalciteInputElement;
+    const shouldClearInput = this.allowEmpty && !input.value;
+
+    if (shouldClearInput) {
+      this.value = "";
+      this.internalColorSet(null);
+      return;
+    }
+
+    const alpha = Number(input.value);
+
+    if (!this.color) {
+      this.internalColorSet(this.previousColor.alpha(opacityToAlpha(alpha)));
+      event.stopPropagation();
+      return;
+    }
+
+    this.color = this.color.alpha(opacityToAlpha(alpha));
+  };
+
+  private handleOpacityInputInput = (event: CustomEvent): void => {
+    const input = event.currentTarget as HTMLCalciteInputElement;
+    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
+    const limit = 100;
+
+    let inputValue: string;
+
+    if (this.allowEmpty && !input.value) {
+      inputValue = "";
+    } else {
+      const value = Number(input.value) + this.shiftKeyChannelAdjustment;
+      const clamped = clamp(value, 0, limit);
+
+      inputValue = clamped.toString();
+    }
+
+    input.value = inputValue;
+    internalInput.value = inputValue;
+  };
+
+  private handleOpacitySliderChange = (event: CustomEvent): void => {
+    const alpha =
+      Number((event.currentTarget as HTMLCalciteInputElement).value) +
+      this.shiftKeyChannelAdjustment;
+    const clamped = clamp(alpha, 0, 100);
+
+    if (!this.color) {
+      this.internalColorSet(this.previousColor.alpha(opacityToAlpha(clamped)));
+      event.stopPropagation();
+      return;
+    }
+
+    this.color = this.color.alpha(opacityToAlpha(clamped));
   };
 
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
@@ -691,8 +780,9 @@ export class CalciteColorPicker {
   }
 
   connectedCallback(): void {
-    const { color, format, value } = this;
+    const { alphaSupport, color, format, value } = this;
 
+    const defaultValue = normalizeHex(hexify(DEFAULT_COLOR, alphaSupport));
     const initialValueDefault = format !== "auto" ? this.toValue(color, format) : defaultValue;
     const initialValue = format !== "auto" && value === defaultValue ? initialValueDefault : value;
 
@@ -714,12 +804,14 @@ export class CalciteColorPicker {
 
   render(): VNode {
     const {
+      alphaSupport,
       allowEmpty,
       color,
       intlDeleteColor,
       el,
       hideHex,
       hideChannels,
+      hideOpacity,
       hideSaved,
       intlHex,
       intlSaved,
@@ -727,7 +819,7 @@ export class CalciteColorPicker {
       savedColors,
       scale
     } = this;
-    const selectedColorInHex = color ? color.hex() : null;
+    const selectedColorInHex = color ? hexify(color, alphaSupport) : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
       colorFieldAndSliderInteractive,
@@ -792,43 +884,47 @@ export class CalciteColorPicker {
               [CSS_UTILITY.rtl]: elementDir === "rtl"
             }}
           >
-            {hideHex ? null : (
-              <div class={CSS.hexOptions}>
-                <span
+            <div class={CSS.hexAndChannelsGroup}>
+              {hideHex ? null : (
+                <div class={CSS.hexOptions}>
+                  <span
+                    class={{
+                      [CSS.header]: true,
+                      [CSS.headerSpaced]: true
+                    }}
+                  >
+                    {intlHex}
+                  </span>
+                  <calcite-color-picker-hex-input
+                    allowEmpty={allowEmpty}
+                    alphaSupport={alphaSupport}
+                    class={CSS.control}
+                    dir={elementDir}
+                    onCalciteColorPickerHexInputChange={this.handleHexInputChange}
+                    scale={hexInputScale}
+                    value={selectedColorInHex}
+                  />
+                </div>
+              )}
+              {hideChannels ? null : (
+                <calcite-tabs
                   class={{
-                    [CSS.header]: true,
-                    [CSS.headerHex]: true
+                    [CSS.colorModeContainer]: true,
+                    [CSS.splitSection]: true
                   }}
-                >
-                  {intlHex}
-                </span>
-                <calcite-color-picker-hex-input
-                  allowEmpty={allowEmpty}
-                  class={CSS.control}
                   dir={elementDir}
-                  onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}
-                  value={selectedColorInHex}
-                />
-              </div>
-            )}
-            {hideChannels ? null : (
-              <calcite-tabs
-                class={{
-                  [CSS.colorModeContainer]: true,
-                  [CSS.splitSection]: true
-                }}
-                dir={elementDir}
-                scale={hexInputScale}
-              >
-                <calcite-tab-nav slot="tab-nav">
-                  {this.renderChannelsTabTitle("rgb")}
-                  {this.renderChannelsTabTitle("hsv")}
-                </calcite-tab-nav>
-                {this.renderChannelsTab("rgb")}
-                {this.renderChannelsTab("hsv")}
-              </calcite-tabs>
-            )}
+                >
+                  <calcite-tab-nav slot="tab-nav">
+                    {this.renderChannelsTabTitle("rgb")}
+                    {this.renderChannelsTabTitle("hsv")}
+                  </calcite-tab-nav>
+                  {this.renderChannelsTab("rgb")}
+                  {this.renderChannelsTab("hsv")}
+                </calcite-tabs>
+              )}
+            </div>
+            {!alphaSupport || hideOpacity ? null : this.renderOpacitySection()}
           </div>
         )}
         {hideSaved ? null : (
@@ -878,6 +974,50 @@ export class CalciteColorPicker {
             ) : null}
           </div>
         )}
+      </div>
+    );
+  }
+
+  private renderOpacitySection(): VNode {
+    const { color, intlOpacity, previousColor } = this;
+    const sliderOpacity = alphaToOpacity((color ? color : previousColor).alpha()); // slider keeps previous alpha when null
+    const inputOpacity = color ? alphaToOpacity(color.alpha()).toString() : undefined;
+
+    return (
+      <div class={CSS.hexOptions} key="opacity">
+        <span
+          class={{
+            [CSS.header]: true,
+            [CSS.headerSpaced]: true
+          }}
+        >
+          {intlOpacity}
+        </span>
+        <div class={CSS.opacityControlGroup}>
+          <calcite-slider
+            aria-label={intlOpacity}
+            class={CSS.opacitySlider}
+            max={100}
+            min={0}
+            onCalciteSliderChange={this.handleOpacitySliderChange}
+            step={1}
+            value={sliderOpacity}
+          />
+          <calcite-input
+            aria-label={intlOpacity}
+            class={CSS.opacityInput}
+            max={100}
+            min={0}
+            numberButtonType="none"
+            onCalciteInputChange={this.handleOpacityInputChange}
+            onCalciteInputInput={this.handleOpacityInputInput}
+            scale={this.scale === "l" ? "m" : "s"}
+            step={1}
+            suffixText="%"
+            type="number"
+            value={inputOpacity}
+          />
+        </div>
       </div>
     );
   }
@@ -1015,7 +1155,7 @@ export class CalciteColorPicker {
     const hexMode = "hex";
 
     if (format.includes(hexMode)) {
-      return normalizeHex(color.round()[hexMode]());
+      return normalizeHex(hexify(color.round(), this.alphaSupport));
     }
 
     if (format.includes("-css")) {
@@ -1025,9 +1165,7 @@ export class CalciteColorPicker {
     const colorObject = color[format]().round().object();
 
     if (format.endsWith("a")) {
-      // normalize alpha prop
-      colorObject.a = colorObject.alpha;
-      delete colorObject.alpha;
+      return normalizeAlpha(colorObject);
     }
 
     return colorObject;
@@ -1049,7 +1187,7 @@ export class CalciteColorPicker {
   }
 
   private deleteColor = (): void => {
-    const colorToDelete = this.color.hex();
+    const colorToDelete = hexify(this.color, this.alphaSupport);
     const inStorage = this.savedColors.indexOf(colorToDelete) > -1;
 
     if (!inStorage) {
@@ -1068,7 +1206,7 @@ export class CalciteColorPicker {
   };
 
   private saveColor = (): void => {
-    const colorToSave = this.color.hex();
+    const colorToSave = hexify(this.color, this.alphaSupport);
     const alreadySaved = this.savedColors.indexOf(colorToSave) > -1;
 
     if (alreadySaved) {
@@ -1103,7 +1241,12 @@ export class CalciteColorPicker {
       }
     } = this;
 
-    context.fillStyle = this.baseColorFieldColor.hsv().saturationv(100).value(100).string();
+    context.fillStyle = this.baseColorFieldColor
+      .hsv()
+      .saturationv(100)
+      .value(100)
+      .alpha(1)
+      .string();
     context.fillRect(0, 0, width, height);
 
     const whiteGradient = context.createLinearGradient(0, 0, width, 0);
@@ -1226,7 +1369,7 @@ export class CalciteColorPicker {
     context.arc(x, y, radius - 3, startAngle, endAngle);
     context.shadowBlur = 0;
     context.shadowColor = "transparent";
-    context.fillStyle = color.rgb().string();
+    context.fillStyle = color.rgb().alpha(1).string();
     context.fill();
   }
 
@@ -1282,7 +1425,7 @@ export class CalciteColorPicker {
     let currentOffset = 0;
 
     hueSliderColorStopKeywords.forEach((keyword) => {
-      gradient.addColorStop(currentOffset, Color(keyword).string());
+      gradient.addColorStop(currentOffset, createColor(keyword).string());
       currentOffset += offset;
     });
 
@@ -1294,7 +1437,12 @@ export class CalciteColorPicker {
   }
 
   private updateColorFromChannels(channels: this["channels"]): void {
-    this.internalColorSet(Color(channels, this.channelMode));
+    this.internalColorSet(
+      createColor(
+        this.alphaSupport && this.color ? [...channels, this.color.alpha()] : channels,
+        this.channelMode
+      )
+    );
   }
 
   private updateChannelsFromColor(color: Color | null): void {
@@ -1306,6 +1454,7 @@ export class CalciteColorPicker {
 
     return color[channelMode]()
       .array()
+      .slice(0, 3) // drop any alpha channel value since we have a slider for that
       .map((value) => Math.floor(value)) as [number, number, number];
   }
 }

@@ -3,6 +3,7 @@ $section-padding--large: 16px;
 $gap: 8px;
 $gap--small: 4px;
 $gap--large: 12px;
+$inline-input-width: 31%;
 
 :host {
   @apply inline-block text--2h;
@@ -29,11 +30,19 @@ $gap--large: 12px;
       margin-bottom: 0;
     }
   }
+
+  .opacity-input {
+    width: $inline-input-width + 20%;
+  }
 }
 
 :host([scale="m"]) {
   .container {
     width: 272px;
+  }
+
+  .opacity-input {
+    width: $inline-input-width;
   }
 }
 
@@ -71,7 +80,7 @@ $gap--large: 12px;
     padding-top: $section-padding--large;
   }
 
-  .control-section {
+  .hex-and-channels-group {
     @apply flex-no-wrap items-baseline;
 
     > :nth-child(2) {
@@ -79,9 +88,16 @@ $gap--large: 12px;
     }
   }
 
+  .control-section {
+    @apply flex-wrap;
+  }
+
+  .opacity-input {
+    width: 25%;
+  }
+
   .color-hex-options {
-    @apply flex-shrink
-      flex
+    @apply flex
       flex-col
       justify-around;
     min-height: 98px;
@@ -138,10 +154,14 @@ $gap--large: 12px;
   }
 }
 
+.opacity-control-group,
+.hex-and-channels-group {
+  @apply w-full;
+}
+
+.hex-and-channels-group,
 .control-section {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  @apply flex flex-row flex-wrap;
 }
 
 .section {
@@ -157,6 +177,16 @@ $gap--large: 12px;
   flex-grow: 1;
 }
 
+.opacity-control-group {
+  @apply flex
+  items-center
+  gap-4;
+}
+
+.opacity-slider {
+  @apply flex-grow;
+}
+
 .header {
   @apply flex
     items-center
@@ -164,7 +194,7 @@ $gap--large: 12px;
     text-color-1;
 }
 
-.header--hex,
+.header--spaced,
 .color-mode-container {
   padding-top: $section-padding;
 }
@@ -175,7 +205,7 @@ $gap--large: 12px;
 }
 
 .channel {
-  width: 31%;
+  width: $inline-input-width;
 }
 
 .saved-colors {

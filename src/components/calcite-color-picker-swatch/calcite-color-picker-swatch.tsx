@@ -3,6 +3,10 @@ import Color from "color";
 import { COLORS, CSS } from "./resources";
 import { Scale } from "../interfaces";
 import { getThemeName } from "../../utils/dom";
+import { createColor, hexify } from "../calcite-color-picker/utils";
+
+const CHECKER_SQUARE_SIZE_IN_PX = 4;
+const CHECKER_SIZE_IN_PX = CHECKER_SQUARE_SIZE_IN_PX * 2;
 
 @Component({
   tag: "calcite-color-picker-swatch",
@@ -34,7 +38,7 @@ export class CalciteColorPickerSwatch {
 
   @Watch("color")
   handleColorChange(color: string): void {
-    this.internalColor = Color(color);
+    this.internalColor = createColor(color);
   }
 
   /**
@@ -69,17 +73,45 @@ export class CalciteColorPickerSwatch {
   render(): VNode {
     const { active, el, internalColor } = this;
     const borderRadius = active ? "100%" : "0";
-    const hex = internalColor.hex();
+    const alpha = internalColor.alpha();
+    const hex = hexify(internalColor, alpha < 1);
     const theme = getThemeName(el);
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
 
     return (
       <svg class={CSS.swatch} xmlns="http://www.w3.org/2000/svg">
         <title>{hex}</title>
+        <defs>
+          <pattern
+            height={CHECKER_SIZE_IN_PX}
+            id="checker"
+            patternUnits="userSpaceOnUse"
+            width={CHECKER_SIZE_IN_PX}
+            x="0"
+            y="0"
+          >
+            <rect
+              class={CSS.checker}
+              height={CHECKER_SQUARE_SIZE_IN_PX}
+              width={CHECKER_SQUARE_SIZE_IN_PX}
+              x="0"
+              y="0"
+            />
+            <rect
+              class={CSS.checker}
+              height={CHECKER_SQUARE_SIZE_IN_PX}
+              width={CHECKER_SQUARE_SIZE_IN_PX}
+              x={CHECKER_SQUARE_SIZE_IN_PX}
+              y={CHECKER_SQUARE_SIZE_IN_PX}
+            />
+          </pattern>
+        </defs>
+        <rect fill="url(#checker)" height="100%" rx={borderRadius} width="100%" />
         <rect
           fill={hex}
           height="100%"
           id="swatch"
+          opacity={alpha}
           rx={borderRadius}
           stroke={borderColor}
           // stroke-width and clip-path are needed to hide overflowing portion of stroke

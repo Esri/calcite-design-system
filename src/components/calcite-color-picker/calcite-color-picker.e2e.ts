@@ -70,6 +70,10 @@ describe("calcite-color-picker", () => {
         defaultValue: false
       },
       {
+        propertyName: "alphaSupport",
+        defaultValue: false
+      },
+      {
         propertyName: "appearance",
         defaultValue: "default"
       },
@@ -248,11 +252,17 @@ describe("calcite-color-picker", () => {
 
   const supportedFormatToSampleValue = {
     hex: "#ffffff",
+    hexa: "#ffffffff",
     "rgb-css": "rgb(255, 255, 255)",
+    "rgba-css": "rgba(255, 255, 255, 1)",
     "hsl-css": "hsl(0, 0%, 100%)",
+    "hsla-css": "hsla(0, 0%, 100%, 1)",
     rgb: { r: 255, g: 255, b: 255 },
+    rgba: { r: 255, g: 255, b: 255, a: 1 },
     hsl: { h: 0, s: 0, l: 100 },
-    hsv: { h: 0, s: 0, v: 100 }
+    hsla: { h: 0, s: 0, l: 100, a: 1 },
+    hsv: { h: 0, s: 0, v: 100 },
+    hsva: { h: 0, s: 0, v: 100, a: 1 }
   };
 
   describe("color format", () => {
@@ -347,8 +357,11 @@ describe("calcite-color-picker", () => {
 
     const supportedStringFormats = [
       supportedFormatToSampleValue.hex,
+      supportedFormatToSampleValue.hexa,
       supportedFormatToSampleValue["rgb-css"],
-      supportedFormatToSampleValue["hsl-css"]
+      supportedFormatToSampleValue["rgba-css"],
+      supportedFormatToSampleValue["hsl-css"],
+      supportedFormatToSampleValue["hsla-css"]
     ];
 
     for (const value of supportedStringFormats) {
@@ -360,8 +373,11 @@ describe("calcite-color-picker", () => {
 
     const supportedObjectFormats = [
       supportedFormatToSampleValue.rgb,
+      supportedFormatToSampleValue.rgba,
       supportedFormatToSampleValue.hsl,
-      supportedFormatToSampleValue.hsv
+      supportedFormatToSampleValue.hsla,
+      supportedFormatToSampleValue.hsv,
+      supportedFormatToSampleValue.hsva
     ];
 
     for (const value of supportedObjectFormats) {
@@ -558,6 +574,7 @@ describe("calcite-color-picker", () => {
   });
 
   it("normalizes shorthand CSS hex", async () => {
+    // TODO: needs alpha test
     const page = await newE2EPage({
       html: "<calcite-color-picker></calcite-color-picker>"
     });
@@ -633,6 +650,8 @@ describe("calcite-color-picker", () => {
     describe("keeps value in same format when applying updates", () => {
       let page: E2EPage;
       let picker: E2EElement;
+
+      // TODO: needs alpha
 
       beforeEach(async () => {
         page = await newE2EPage({
@@ -763,6 +782,7 @@ describe("calcite-color-picker", () => {
     });
 
     describe("color gets propagated to support inputs", () => {
+      // TODO: needs alpha
       describe("valid color", () => {
         it("color gets propagated to hex, RGB & HSV inputs", async () => {
           const page = await newE2EPage({
@@ -898,6 +918,7 @@ describe("calcite-color-picker", () => {
         });
 
         describe("clearing color via supporting inputs", () => {
+          // TODO: add alpha
           it("clears color via hex input", async () => {
             const page = await newE2EPage({
               html: "<calcite-color-picker allow-empty value='#c0ff33'></calcite-color-picker>"
@@ -957,6 +978,7 @@ describe("calcite-color-picker", () => {
         });
 
         it("restores previous color value when a nudge key is pressed", async () => {
+          // TODO: add alpha
           const consistentRgbHsvChannelValue = "0";
           const initialValue = "#".padEnd(7, consistentRgbHsvChannelValue);
 
@@ -1019,6 +1041,7 @@ describe("calcite-color-picker", () => {
   });
 
   describe("color storage", () => {
+    // TODO: add alpha
     const storageId = "test-storage-id";
     const color1 = "#ff00ff";
     const color2 = "#beefee";
@@ -1141,6 +1164,7 @@ describe("calcite-color-picker", () => {
   });
 
   it("allows hiding sections", async () => {
+    // TODO: add alpha hidden w/ channels
     const page = await newE2EPage({
       html: `<calcite-color-picker></calcite-color-picker>`
     });
