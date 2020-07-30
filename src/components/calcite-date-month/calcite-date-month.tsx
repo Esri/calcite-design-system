@@ -1,13 +1,4 @@
-import {
-  Component,
-  Element,
-  Prop,
-  Host,
-  Event,
-  EventEmitter,
-  h,
-  Listen,
-} from "@stencil/core";
+import { Component, Element, Prop, Host, Event, EventEmitter, h, Listen } from "@stencil/core";
 import { getFirstDayOfWeek, getLocalizedWeekdays } from "../../utils/locale";
 import { inRange, sameDate, dateFromRange } from "../../utils/date";
 import { getKey } from "../../utils/key";
@@ -15,7 +6,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-date-month",
   styleUrl: "calcite-date-month.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteDateMonth {
   //--------------------------------------------------------------------------
@@ -24,7 +15,7 @@ export class CalciteDateMonth {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDateMonthElement;
 
   //--------------------------------------------------------------------------
   //
@@ -34,14 +25,19 @@ export class CalciteDateMonth {
 
   /** Already selected date.*/
   @Prop() selectedDate: Date;
+
   /** Date currently active.*/
   @Prop() activeDate: Date = new Date();
+
   /** Minimum date of the calendar below which is disabled.*/
   @Prop() min: Date;
+
   /** Maximum date of the calendar above which is disabled.*/
   @Prop() max: Date;
+
   /** User's language and region as BCP 47 formatted string. */
-  @Prop() locale: string = "en-US";
+  @Prop() locale = "en-US";
+
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
@@ -55,6 +51,7 @@ export class CalciteDateMonth {
    * Event emitted when user selects the date.
    */
   @Event() calciteDateSelect: EventEmitter;
+
   /**
    * Active date for the user keyboard access.
    */
@@ -101,11 +98,7 @@ export class CalciteDateMonth {
       case "End":
         e.preventDefault();
         this.activeDate.setDate(
-          new Date(
-            this.activeDate.getFullYear(),
-            this.activeDate.getMonth() + 1,
-            0
-          ).getDate()
+          new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate()
         );
         this.addDays();
         break;
@@ -136,10 +129,7 @@ export class CalciteDateMonth {
     const month = this.activeDate.getMonth();
     const year = this.activeDate.getFullYear();
     const startOfWeek = getFirstDayOfWeek(this.locale);
-    const weekDays = getLocalizedWeekdays(
-      this.locale,
-      this.scale === "s" ? "narrow" : "short"
-    );
+    const weekDays = getLocalizedWeekdays(this.locale, this.scale === "s" ? "narrow" : "short");
     const curMonDays = this.getCurrentMonthDays(month, year);
     const prevMonDays = this.getPrevMonthdays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
@@ -191,7 +181,7 @@ export class CalciteDateMonth {
             locale={this.locale}
           />
         );
-      }),
+      })
     ];
 
     const weeks = [];
@@ -237,32 +227,24 @@ export class CalciteDateMonth {
   private addMonths(step: number) {
     const nextDate = new Date(this.activeDate);
     nextDate.setMonth(this.activeDate.getMonth() + step);
-    this.calciteActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
-    );
+    this.calciteActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
     this.activeFocus = true;
   }
 
   /**
    * Add n days to the current date
    */
-  private addDays(step: number = 0) {
+  private addDays(step = 0) {
     const nextDate = new Date(this.activeDate);
     nextDate.setDate(this.activeDate.getDate() + step);
-    this.calciteActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
-    );
+    this.calciteActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
     this.activeFocus = true;
   }
 
   /**
    * Get dates for last days of the previous month
    */
-  private getPrevMonthdays(
-    month: number,
-    year: number,
-    startOfWeek: number
-  ): number[] {
+  private getPrevMonthdays(month: number, year: number, startOfWeek: number): number[] {
     const lastDate = new Date(year, month, 0);
     const date = lastDate.getDate();
     const day = lastDate.getDay();
@@ -291,11 +273,7 @@ export class CalciteDateMonth {
   /**
    * Get dates for first days of the next month
    */
-  private getNextMonthDays(
-    month: number,
-    year: number,
-    startOfWeek: number
-  ): number[] {
+  private getNextMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const endDay = new Date(year, month + 1, 0).getDay();
     const days = [];
     if (endDay === (startOfWeek + 6) % 7) {

@@ -8,22 +8,18 @@ import {
   State,
   Listen,
   Watch,
-  h,
+  h
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 
-import {
-  nodeListToArray,
-  getSlottedElements,
-  getElementDir,
-} from "../../utils/dom";
+import { nodeListToArray, getSlottedElements, getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tree-item",
   styleUrl: "calcite-tree-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteTreeItem {
   //--------------------------------------------------------------------------
@@ -32,7 +28,7 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTreeItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -41,17 +37,15 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   /** Is the item currently selected */
-  @Prop({ mutable: true, reflect: true }) selected: boolean = false;
+  @Prop({ mutable: true, reflect: true }) selected = false;
+
   /** True if the item is in an expanded state */
-  @Prop({ mutable: true, reflect: true }) expanded: boolean = false;
+  @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
   expandedHandler(newValue: boolean) {
     if (this.childrenSlotWrapper) {
-      const [childTree] = getSlottedElements(
-        this.childrenSlotWrapper,
-        "calcite-tree"
-      );
+      const [childTree] = getSlottedElements(this.childrenSlotWrapper, "calcite-tree");
       if (childTree) {
         const items = getSlottedElements<HTMLCalciteTreeItemElement>(
           childTree,
@@ -106,9 +100,7 @@ export class CalciteTreeItem {
       <Host
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
         aria-role="treeitem"
-        aria-hidden={
-          this.parentExpanded || this.depth === 1 ? undefined : "true"
-        }
+        aria-hidden={this.parentExpanded || this.depth === 1 ? undefined : "true"}
         aria-selected={
           this.selected
             ? "true"
@@ -119,10 +111,7 @@ export class CalciteTreeItem {
         }
         aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
       >
-        <div
-          class="calcite-tree-node"
-          ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
-        >
+        <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>
           {icon}
           <slot></slot>
         </div>
@@ -148,10 +137,7 @@ export class CalciteTreeItem {
   @Listen("click") onClick(e: Event) {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
-    const [link] = getSlottedElements(
-      this.defaultSlotWrapper,
-      "a"
-    ) as HTMLAnchorElement[];
+    const [link] = getSlottedElements(this.defaultSlotWrapper, "a") as HTMLAnchorElement[];
     if (link && (e.composedPath()[0] as any).tagName.toLowerCase() !== "a") {
       const target = link.target === "" ? "_self" : link.target;
       window.open(link.href, target);
@@ -159,7 +145,7 @@ export class CalciteTreeItem {
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection: (e as any).shiftKey,
-      forceToggle: false,
+      forceToggle: false
     });
   }
 
@@ -168,9 +154,10 @@ export class CalciteTreeItem {
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection: (event as any).shiftKey,
-      forceToggle: true,
+      forceToggle: true
     });
   };
+
   childrenClickHandler = (event) => event.stopPropagation();
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
@@ -240,8 +227,7 @@ export class CalciteTreeItem {
         // When focus is on an end node, does nothing.
         break;
       case "ArrowUp":
-        const previous = this.el
-          .previousElementSibling as HTMLCalciteTreeItemElement;
+        const previous = this.el.previousElementSibling as HTMLCalciteTreeItemElement;
         if (previous && previous.matches("calcite-tree-item")) {
           previous.focus();
         }
@@ -299,19 +285,24 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   /** @internal Is the parent of this item expanded? */
-  @Prop({ mutable: true }) parentExpanded: boolean = false;
+  @Prop({ mutable: true }) parentExpanded = false;
+
   /** @internal What level of depth is this item at? */
-  @Prop({ mutable: true, reflect: true }) depth: number = -1;
+  @Prop({ mutable: true, reflect: true }) depth = -1;
+
   /** @internal Does this tree item have a tree inside it? */
   @Prop({ mutable: true, reflect: true }) hasChildren: boolean = null;
+
   /** @internal Draw lines (set on parent) */
   @Prop({ mutable: true, reflect: true }) lines: boolean;
+
   /** @internal Scale of the parent tree, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m";
 
   @State() private selectionMode: TreeSelectionMode;
 
   childrenSlotWrapper!: HTMLElement;
+
   defaultSlotWrapper!: HTMLElement;
 
   //--------------------------------------------------------------------------

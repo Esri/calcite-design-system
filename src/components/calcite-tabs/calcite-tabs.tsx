@@ -12,7 +12,7 @@ export class CalciteTabs {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTabsElement;
 
   //--------------------------------------------------------------------------
   //
@@ -136,8 +136,8 @@ export class CalciteTabs {
    * `<calcite-tab-title>` components.
    */
   private async registryHandler() {
-    var tabIds;
-    var titleIds;
+    let tabIds;
+    let titleIds;
 
     // determine if we are using `tab` based or `index` based tab identifiers.
     if (this.tabs.some((e) => e.tab) || this.titles.some((e) => e.tab)) {

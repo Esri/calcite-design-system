@@ -2,18 +2,23 @@ import { Component, Element, h, Host, Prop } from "@stencil/core";
 @Component({
   tag: "calcite-progress",
   styleUrl: "calcite-progress.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteProgress {
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteProgressElement;
+
   /** Use indeterminate if finding actual progress value is impossible */
   @Prop() type: "indeterminate" | "determinate" = "determinate";
+
   /** Fraction completed, in the range of 0 - 1.0 */
   @Prop() value = 0;
+
   /** Text label for the progress indicator */
   @Prop() text: string = null;
+
   /** For indeterminate progress bars, reverse the animation direction */
   @Prop() reversed = false;
+
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
@@ -27,7 +32,7 @@ export class CalciteProgress {
             class={{
               bar: true,
               indeterminate: this.type === "indeterminate",
-              reversed: this.reversed,
+              reversed: this.reversed
             }}
             style={barStyles}
           />
