@@ -11,6 +11,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-radio-group` styling has been updated
 
+## [v1.0.0-beta.36]
+
+### Added
+
+- Added custom element bundle for tree-shaking bundlers like rollup
+- `calcite-color` - new `appearance` prop to support embedded use case (#750)
+
+### Fixes
+
+- `calcite-dropdown` - fix regression where multiple triggers didn't work (#774)
+
 ## [v1.0.0-beta.35]
 
 ### Fixes
@@ -24,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - New component `calcite-color`
 - New component `calcite-color-hex-input`
 - New component `calcite-color-swatch`
+- `calcite-dropdown` - restore support for multiple triggers
 
 ### Fixes
 
@@ -572,6 +584,7 @@ Fix issue with previous release.
 
 First initial beta release.
 
+[v1.0.0-beta.36]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.35...v1.0.0-beta.36 "v1.0.0-beta.36"
 [v1.0.0-beta.35]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.34...v1.0.0-beta.35 "v1.0.0-beta.35"
 [v1.0.0-beta.34]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.33...v1.0.0-beta.34 "v1.0.0-beta.34"
 [v1.0.0-beta.33]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.32...v1.0.0-beta.33 "v1.0.0-beta.33"

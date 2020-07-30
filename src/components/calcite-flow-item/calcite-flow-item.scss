@@ -1,0 +1,69 @@
+:host {
+  @extend %component-host;
+  background-color: var(--calcite-app-background-content);
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+@import "../../scss/includes/_component";
+
+calcite-panel {
+  width: 100%;
+  height: 100%;
+}
+
+.leading-actions {
+  display: flex;
+}
+
+.header-content {
+  display: block;
+  .heading,
+  .summary {
+    padding: 0;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+  .heading {
+    font-size: var(--calcite-app-font-size-1);
+    font-weight: var(--calcite-app-font-weight-demi);
+    margin: 0 0 var(--calcite-app-cap-spacing-quarter);
+    &:only-child {
+      margin-bottom: 0;
+    }
+  }
+  .summary {
+    color: var(--calcite-app-foreground-subtle);
+    font-size: var(--calcite-app-font-size--1);
+  }
+}
+
+.menu-button {
+  align-self: stretch;
+  flex: 0 1 auto;
+  height: 100%;
+  position: relative;
+}
+
+.header-actions,
+.single-action-container {
+  display: flex;
+}
+
+.menu {
+  min-width: var(--calcite-app-menu-min-width);
+  flex-flow: column nowrap;
+}
+
+.footer-actions {
+  display: flex;
+  width: 100%;
+}
+
+.fab-container {
+  display: inline-block;
+}

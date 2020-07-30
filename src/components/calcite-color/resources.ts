@@ -1,6 +1,7 @@
 import Color from "color";
 
 export const CSS = {
+  container: "container",
   controlSection: "control-section",
   hexOptions: "color-hex-options",
   section: "section",

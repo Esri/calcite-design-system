@@ -1,10 +1,8 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSX } from "../components";
-import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
+import axe from "axe-core";
 import { config } from "../../stencil.config";
-
-export const HYDRATED_ATTR = config.hydratedFlag.name;
 
 expect.extend(toHaveNoViolations);
 
@@ -12,6 +10,8 @@ type CalciteComponentTag = keyof JSX.IntrinsicElements;
 type AxeOwningWindow = Window & { axe: typeof axe };
 type ComponentHTML = string;
 type TagOrHTML = CalciteComponentTag | ComponentHTML;
+
+export const HYDRATED_ATTR = config.hydratedFlag.name;
 
 function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
@@ -49,12 +49,12 @@ export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
   ).toHaveNoViolations();
 }
 
-export async function renders(componentTagOrHTML: TagOrHTML, invisible?: true): Promise<void> {
+export async function renders(componentTagOrHTML: TagOrHTML, visible = true): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
   expect(element).toHaveAttribute(HYDRATED_ATTR);
-  expect(await element.isVisible()).toBe(!invisible);
+  expect(await element.isVisible()).toBe(visible);
 }
 
 export async function reflects(

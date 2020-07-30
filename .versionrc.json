@@ -1,0 +1,10 @@
+{
+  "header": "# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n",
+  "releaseCommitMessageFormat": "{{currentTag}}",
+  "skip": {
+    "bump": true,
+    "changelog": false,
+    "commit": true,
+    "tag": true
+  }
+}

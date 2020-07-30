@@ -6,7 +6,7 @@
 
 | Property  | Attribute  | Description                   | Type                | Default                             |
 | --------- | ---------- | ----------------------------- | ------------------- | ----------------------------------- |
-| `intlHex` | `intl-hex` | Label used for the hex input. | `string`            | `"Hex"`                             |
+| `intlHex` | `intl-hex` | Label used for the hex input. | `string`            | `TEXT.hex`                          |
 | `scale`   | `scale`    | The component's scale.        | `"l" \| "m" \| "s"` | `"m"`                               |
 | `theme`   | `theme`    | The component's theme.        | `"dark" \| "light"` | `"light"`                           |
 | `value`   | `value`    | The hex value.                | `string`            | `normalizeHex(DEFAULT_COLOR.hex())` |

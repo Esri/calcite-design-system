@@ -1,24 +1,12 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-} from "@stencil/core";
-import {
-  GroupRegistration,
-  ItemKeyboardEvent,
-} from "../../interfaces/Dropdown";
+import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop } from "@stencil/core";
+import { GroupRegistration, ItemKeyboardEvent } from "../../interfaces/Dropdown";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-dropdown",
   styleUrl: "calcite-dropdown.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteDropdown {
   //--------------------------------------------------------------------------
@@ -38,10 +26,7 @@ export class CalciteDropdown {
   @Prop({ reflect: true, mutable: true }) active: boolean = false;
 
   /** specify the alignment of dropdown, defaults to start */
-  @Prop({ mutable: true, reflect: true }) alignment:
-    | "start"
-    | "center"
-    | "end" = "start";
+  @Prop({ mutable: true, reflect: true }) alignment: "start" | "center" | "end" = "start";
 
   /** specify the max items to display before showing the scroller, must be greater than 0 **/
   @Prop() maxItems: number = 0;
@@ -62,7 +47,7 @@ export class CalciteDropdown {
   /** specify the width of dropdown, defaults to m */
   @Prop({ mutable: true, reflect: true }) width: "s" | "m" | "l" = "m";
 
-  /** specify whether the dropdown is opened by hover or click of the trigger element */
+  /** specify whether the dropdown is opened by hover or click of a trigger element */
   @Prop({ mutable: true, reflect: true }) type: "hover" | "click" = "click";
 
   /**
@@ -96,21 +81,16 @@ export class CalciteDropdown {
   }
 
   componentDidLoad() {
-    this.trigger = this.el.querySelector(
-      "[slot=dropdown-trigger]"
-    ) as HTMLSlotElement;
+    this.triggers = Array.from(
+      this.el.querySelectorAll("[slot=dropdown-trigger]")
+    ) as HTMLSlotElement[];
 
     if (!this.sorted) {
-      const groups = this.items.sort(
-        (a, b) => a.position - b.position
-      ) as GroupRegistration[];
+      const groups = this.items.sort((a, b) => a.position - b.position) as GroupRegistration[];
 
       this.maxScrollerHeight = this.getMaxScrollerHeight(groups);
 
-      this.items = groups.reduce(
-        (items, group) => [...items, ...group.items],
-        []
-      );
+      this.items = groups.reduce((items, group) => [...items, ...group.items], []);
 
       this.sorted = true;
     }
@@ -121,16 +101,12 @@ export class CalciteDropdown {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir} tabIndex={this.disabled ? -1 : null}>
-        <slot
-          name="dropdown-trigger"
-          aria-haspopup="true"
-          aria-expanded={this.active.toString()}
-        />
+        <slot name="dropdown-trigger" aria-haspopup="true" aria-expanded={this.active.toString()} />
         <div
           class="calcite-dropdown-wrapper"
           role="menu"
           style={{
-            maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "",
+            maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
           }}
         >
           <slot />
@@ -155,7 +131,10 @@ export class CalciteDropdown {
   @Event() calciteDropdownClose: EventEmitter<void>;
 
   @Listen("click") openDropdown(e) {
-    if (e.target === this.trigger || this.trigger.contains(e.target)) {
+    if (
+      this.triggers.includes(e.target) ||
+      this.triggers.some((trigger) => trigger.contains(e.target))
+    ) {
       e.preventDefault();
       e.stopPropagation();
       this.openCalciteDropdown();
@@ -183,11 +162,11 @@ export class CalciteDropdown {
 
   @Listen("keydown") keyDownHandler(e) {
     const key = getKey(e.key);
-    if (e.target === this.trigger || this.trigger.contains(e.target)) {
-      if (
-        e.target.nodeName !== "BUTTON" &&
-        e.target.nodeName !== "CALCITE-BUTTON"
-      ) {
+    if (
+      this.triggers.includes(e.target) ||
+      this.triggers.some((trigger) => trigger.contains(e.target))
+    ) {
+      if (e.target.nodeName !== "BUTTON" && e.target.nodeName !== "CALCITE-BUTTON") {
         switch (key) {
           case " ":
           case "Enter":
@@ -227,8 +206,7 @@ export class CalciteDropdown {
     switch (getKey(keyboardEvent.key)) {
       case "Tab":
         if (isLastItem && !keyboardEvent.shiftKey) this.closeCalciteDropdown();
-        else if (isFirstItem && keyboardEvent.shiftKey)
-          this.closeCalciteDropdown();
+        else if (isFirstItem && keyboardEvent.shiftKey) this.closeCalciteDropdown();
         else if (keyboardEvent.shiftKey) this.focusPrevItem(itemToFocus);
         else this.focusNextItem(itemToFocus);
         break;
@@ -249,16 +227,11 @@ export class CalciteDropdown {
     e.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelect") handleItemSelect(
-    event: CustomEvent
-  ): void {
+  @Listen("calciteDropdownItemSelect") handleItemSelect(event: CustomEvent): void {
     this.updateSelectedItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
-    if (
-      !this.disableCloseOnSelect ||
-      event.detail.requestedDropdownGroup.selectionMode === "none"
-    )
+    if (!this.disableCloseOnSelect || event.detail.requestedDropdownGroup.selectionMode === "none")
       this.closeCalciteDropdown();
   }
 
@@ -266,13 +239,13 @@ export class CalciteDropdown {
     e: CustomEvent<GroupRegistration>
   ) {
     const {
-      detail: { items, position, titleEl },
+      detail: { items, position, titleEl }
     } = e;
 
     this.items.push({
       items,
       position,
-      titleEl,
+      titleEl
     });
 
     e.stopPropagation();
@@ -295,8 +268,8 @@ export class CalciteDropdown {
   /** keep track of whether the groups have been sorted so we don't re-sort */
   private sorted = false;
 
-  /** trigger element */
-  private trigger: HTMLSlotElement;
+  /** trigger elements */
+  private triggers: HTMLSlotElement[];
 
   //--------------------------------------------------------------------------
   //
@@ -306,9 +279,7 @@ export class CalciteDropdown {
 
   private updateSelectedItems(): void {
     const items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>(
-        "calcite-dropdown-item"
-      )
+      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
     );
     this.selectedItems = items.filter((item) => item.active);
   }
@@ -337,13 +308,11 @@ export class CalciteDropdown {
   private closeCalciteDropdown() {
     this.calciteDropdownClose.emit();
     this.active = false;
-    focusElement(this.trigger);
+    focusElement(this.triggers[0]);
   }
 
   private focusOnFirstActiveOrFirstItem(): void {
-    this.getFocusableElement(
-      this.items.find((item) => item.active) || this.items[0]
-    );
+    this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
   }
 
   private focusFirstItem() {
@@ -390,10 +359,7 @@ export class CalciteDropdown {
     const animationDelayInMs = 50;
 
     if (this.active) {
-      setTimeout(
-        () => this.focusOnFirstActiveOrFirstItem(),
-        animationDelayInMs
-      );
+      setTimeout(() => this.focusOnFirstActiveOrFirstItem(), animationDelayInMs);
     }
   }
 }

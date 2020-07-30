@@ -5,22 +5,15 @@ describe("calcite-dropdown", () => {
   /**
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
    */
-  async function assertSelectedItems(
-    page: E2EPage,
-    expectedItemIds: string[]
-  ): Promise<void> {
+  async function assertSelectedItems(page: E2EPage, expectedItemIds: string[]): Promise<void> {
     const selectedItemIds = await page.evaluate(() => {
-      const dropdown = document.querySelector<HTMLCalciteDropdownElement>(
-        "calcite-dropdown"
-      );
+      const dropdown = document.querySelector<HTMLCalciteDropdownElement>("calcite-dropdown");
       return dropdown.selectedItems.map((item) => item.id);
     });
 
     expect(selectedItemIds).toHaveLength(expectedItemIds.length);
 
-    expectedItemIds.forEach((itemId, index) =>
-      expect(selectedItemIds[index]).toEqual(itemId)
-    );
+    expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
   }
 
   it("renders", async () => {
@@ -145,30 +138,14 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown-group>
     </calcite-dropdown>`);
 
-    const item1IconStart = await page.find(
-      "calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-start"
-    );
-    const item1IconEnd = await page.find(
-      "calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-end"
-    );
-    const item2IconStart = await page.find(
-      "calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon-start"
-    );
-    const item2IconEnd = await page.find(
-      "calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon-end"
-    );
-    const item3IconStart = await page.find(
-      "calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon-start"
-    );
-    const item3IconEnd = await page.find(
-      "calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon-end"
-    );
-    const item4IconStart = await page.find(
-      "calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon-start"
-    );
-    const item4IconEnd = await page.find(
-      "calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon-end"
-    );
+    const item1IconStart = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-start");
+    const item1IconEnd = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-end");
+    const item2IconStart = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon-start");
+    const item2IconEnd = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon-end");
+    const item3IconStart = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon-start");
+    const item3IconEnd = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon-end");
+    const item4IconStart = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon-start");
+    const item4IconEnd = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon-end");
     expect(item1IconStart).not.toBeNull();
     expect(item1IconEnd).toBeNull();
     expect(item2IconStart).toBeNull();
@@ -201,12 +178,8 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown-group>
     </calcite-dropdown>`);
 
-    const group1Title = await page.find(
-      "calcite-dropdown-group[id='group-1'] >>> .dropdown-title"
-    );
-    const group2Title = await page.find(
-      "calcite-dropdown-group[id='group-2'] >>> .dropdown-title"
-    );
+    const group1Title = await page.find("calcite-dropdown-group[id='group-1'] >>> .dropdown-title");
+    const group2Title = await page.find("calcite-dropdown-group[id='group-2'] >>> .dropdown-title");
     expect(group1Title).not.toBeNull();
     expect(group2Title).toBeNull();
   });
@@ -502,9 +475,7 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown-group>
       </calcite-dropdown>`
     );
-    const elementAsLink = await page.find(
-      "calcite-dropdown-item[id='item-2'] >>> a"
-    );
+    const elementAsLink = await page.find("calcite-dropdown-item[id='item-2'] >>> a");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsLink).toEqualAttribute("href", "google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
@@ -521,7 +492,7 @@ describe("calcite-dropdown", () => {
       <calcite-dropdown-item id="3">3</calcite-dropdown-item>
       <calcite-dropdown-item id="4">4</calcite-dropdown-item>
       </calcite-dropdown-group>
-      </calcite-dropdown>`,
+      </calcite-dropdown>`
     });
 
     const element = await page.find("calcite-dropdown");
@@ -541,16 +512,14 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-3" active>3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`,
+      </calcite-dropdown>`
     });
 
     const element = await page.find("calcite-dropdown");
     await element.click();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(
-      "item-3"
-    );
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
   });
 
   it("should focus the first active item on open", async () => {
@@ -563,16 +532,14 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4" active>4</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`,
+      </calcite-dropdown>`
     });
 
     const element = await page.find("calcite-dropdown");
     await element.click();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(
-      "item-2"
-    );
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
   });
 
   describe("scrolling", () => {
@@ -630,9 +597,7 @@ describe("calcite-dropdown", () => {
       await element.click();
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(
-        "item-50"
-      );
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-50");
 
       const item = await page.find("#item-50");
 
@@ -696,9 +661,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const dropdownWrapper = await page.find(
-      "calcite-dropdown >>> .calcite-dropdown-wrapper"
-    );
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
@@ -730,9 +693,7 @@ describe("calcite-dropdown", () => {
     const trigger = await element.find("#trigger");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
-    const dropdownWrapper = await page.find(
-      "calcite-dropdown >>> .calcite-dropdown-wrapper"
-    );
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
@@ -766,9 +727,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const dropdownWrapper = await page.find(
-      "calcite-dropdown >>> .calcite-dropdown-wrapper"
-    );
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
@@ -814,12 +773,8 @@ describe("calcite-dropdown", () => {
     const element2 = await page.find("calcite-dropdown[id='dropdown-2']");
     const trigger1 = await element1.find("#trigger");
     const trigger2 = await element2.find("#trigger");
-    const dropdownWrapper1 = await page.find(
-      "calcite-dropdown[id='dropdown-1'] >>> .calcite-dropdown-wrapper"
-    );
-    const dropdownWrapper2 = await page.find(
-      "calcite-dropdown[id='dropdown-2'] >>> .calcite-dropdown-wrapper"
-    );
+    const dropdownWrapper1 = await page.find("calcite-dropdown[id='dropdown-1'] >>> .calcite-dropdown-wrapper");
+    const dropdownWrapper2 = await page.find("calcite-dropdown[id='dropdown-2'] >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper1.isVisible()).toBe(false);
     expect(await dropdownWrapper2.isVisible()).toBe(false);
     await trigger1.click();
@@ -854,9 +809,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const dropdownWrapper = await page.find(
-      "calcite-dropdown >>> .calcite-dropdown-wrapper"
-    );
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
@@ -864,9 +817,7 @@ describe("calcite-dropdown", () => {
     await item1.click();
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(false);
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(
-      "trigger"
-    );
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("trigger");
   });
 
   it("when disabled, clicks on slotted dropdown trigger do not open dropdown", async () => {
@@ -890,11 +841,45 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
-    const dropdownWrapper = await page.find(
-      "calcite-dropdown >>> .calcite-dropdown-wrapper"
-    );
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(false);
+  });
+
+  it("accepts multiple triggers", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-dropdown>
+    <calcite-button class="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
+    <calcite-icon class="trigger" icon="caretDown" scale="s" slot="dropdown-trigger"></calcite-icon>
+    <calcite-dropdown-group id="group-1" selection-mode="single">
+    <calcite-dropdown-item id="item-1">
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-2" active>
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-3">
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    </calcite-dropdown-group>
+    </calcite-dropdown>
+   `);
+
+    const element = await page.find("calcite-dropdown");
+    const trigger = await element.findAll(".trigger");
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+    await trigger[0].click();
+    expect(await dropdownWrapper.isVisible()).toBe(true);
+    await trigger[0].click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(false);
+    await page.waitForChanges();
+    await trigger[1].click();
+    expect(await dropdownWrapper.isVisible()).toBe(true);
+    await trigger[1].click();
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });

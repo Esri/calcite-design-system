@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Demos - PickList</title>
+    <script src="../_assets/head.js"></script>
+    <script src="../_assets/toggles.js"></script>
+    <style>
+      calcite-pick-list {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="example-container">
+        <h1>calcite-pick-list</h1>
+
+        <h2>default selection - removable items</h2>
+        <calcite-pick-list id="one">
+          <calcite-pick-list-item
+            text-label="T. Rex"
+            text-description="arm strength impaired"
+            value="trex"
+            removable
+          ></calcite-pick-list-item>
+          <calcite-pick-list-item
+            text-label="Triceratops"
+            text-description="3 horn"
+            value="triceratops"
+            removable
+            selected
+          ></calcite-pick-list-item>
+          <calcite-pick-list-item
+            text-label="hi"
+            text-description="there"
+            value="helloWorld"
+            removable
+          ></calcite-pick-list-item>
+        </calcite-pick-list>
+        <script>
+          const pickList1 = document.querySelector("#one");
+
+          pickList1.addEventListener("calciteListChange", (event) => console.log(event.detail));
+
+          pickList1.addEventListener("calciteListItemRemove", (event) => event.target.remove());
+        </script>
+
+        <h2>multi-select filter-enabled</h2>
+        <calcite-pick-list id="two" multiple filter-enabled>
+          <calcite-action scale="s" text="filters" text-enabled="false" slot="menu-actions" icon="sliders">
+          </calcite-action>
+          <calcite-pick-list-item text-label="Chocolate" text-description="Dark is the best." value="chocolate">
+            <calcite-action
+              appearance="clear"
+              slot="secondary-action"
+              text="click-me"
+              onClick="console.log('clicked');"
+              icon="x"
+            >
+            </calcite-action>
+          </calcite-pick-list-item>
+          <script>
+            document.currentScript.previousElementSibling.metadata = {
+              category: "flavors",
+              tags: ["icecream", "ice cream"]
+            };
+          </script>
+          <calcite-pick-list-item text-label="Vanilla" text-description="Oldie but goodie" value="vanilla">
+            <calcite-action
+              appearance="clear"
+              slot="secondary-action"
+              text="click-me"
+              onClick="console.log('clicked');"
+              icon="x"
+            >
+            </calcite-action>
+          </calcite-pick-list-item>
+          <script>
+            document.currentScript.previousElementSibling.metadata = {
+              category: "flavors",
+              tags: ["icecream", "ice cream"]
+            };
+            document.currentScript.previousElementSibling.selected = true;
+          </script>
+          <calcite-pick-list-item text-label="Strawberry" text-description="no metadata on this one" value="strawberry">
+            <calcite-action
+              appearance="clear"
+              slot="secondary-action"
+              text="click-me"
+              onClick="console.log('clicked');"
+              icon="x"
+            >
+            </calcite-action>
+          </calcite-pick-list-item>
+          <calcite-pick-list-item
+            text-label="Winner of best category by the ice cream committee of hoth - Hulka Hulka of Burning Fudge"
+            text-description="Sooo good"
+            value="hulk"
+          >
+            <calcite-action
+              appearance="clear"
+              slot="secondary-action"
+              text="click-me"
+              onClick="console.log('clicked');"
+              icon="x"
+            >
+            </calcite-action>
+          </calcite-pick-list-item>
+          <script>
+            document.currentScript.previousElementSibling.metadata = {
+              category: "flavors",
+              tags: ["icecream", "ice cream", "best"]
+            };
+          </script>
+        </calcite-pick-list>
+        <script>
+          const pickList2 = document.querySelector("#two");
+          pickList2.addEventListener("calciteListChange", (event) => {
+            console.log(event.detail);
+          });
+        </script>
+
+        <h2>sub-groups filter-enabled multi-select</h2>
+        <calcite-pick-list id="three" filter-enabled multiple>
+          <calcite-pick-list-group>
+            <calcite-pick-list-item
+              text-label="You can count on numbers."
+              text-description="Are real"
+              value="numbers"
+              slot="parent-item"
+            >
+              <calcite-action
+                appearance="clear"
+                slot="secondary-action"
+                text="click-me"
+                onClick="console.log('clicked');"
+                icon="information"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item
+              text-label="One item label"
+              text-description="One description of the item."
+              value="one"
+              icon="grip"
+              selected
+            >
+              <calcite-action
+                appearance="clear"
+                slot="secondary-action"
+                text="click-me"
+                onClick="console.log('clicked');"
+                icon="information"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item
+              text-label="Another item label"
+              text-description="Another description of the item."
+              value="two"
+              icon="grip"
+            >
+              <calcite-action
+                appearance="clear"
+                slot="secondary-action"
+                text="click-me"
+                onClick="console.log('clicked');"
+                icon="information"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+          </calcite-pick-list-group>
+          <calcite-pick-list-group>
+            <calcite-pick-list-item
+              text-label="Colors go outside the lines"
+              text-description="Description of colors."
+              value="red"
+              icon="grip"
+              slot="parent-item"
+            >
+              <calcite-action
+                appearance="clear"
+                slot="secondary-action"
+                text="click-me"
+                onClick="console.log('clicked');"
+                icon="information"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item
+              text-label="Magenta the color"
+              text-description="It's not the other one."
+              value="blue"
+              icon="grip"
+            >
+              <calcite-action
+                appearance="clear"
+                slot="secondary-action"
+                text="click-me"
+                onClick="console.log('clicked');"
+                icon="information"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+            <calcite-pick-list-item text-label="Green" text-description="It's not easy." value="blue" icon="grip">
+              <calcite-action
+                appearance="clear"
+                slot="secondary-action"
+                text="click-me"
+                onClick="console.log('clicked');"
+                icon="information"
+              >
+              </calcite-action>
+            </calcite-pick-list-item>
+          </calcite-pick-list-group>
+        </calcite-pick-list>
+        <script>
+          const pickList3 = document.querySelector("#three");
+          pickList3.addEventListener("calciteListChange", (event) => {
+            console.log(event.detail);
+          });
+        </script>
+
+        <h2>grouped filter-enabled multi-select</h2>
+        <calcite-pick-list id="four" filter-enabled multiple>
+          <calcite-pick-list-group text-group-title="Cool group">
+            <calcite-pick-list-item text-label="You can count on numbers." value="numbers"></calcite-pick-list-item>
+            <calcite-pick-list-item
+              text-label="One item label"
+              value="one"
+              icon="grip"
+              selected
+            ></calcite-pick-list-item>
+            <calcite-pick-list-item text-label="Another item label" value="two" icon="grip"></calcite-pick-list-item>
+          </calcite-pick-list-group>
+          <calcite-pick-list-group text-group-title="Neat group">
+            <calcite-pick-list-item
+              text-label="Colors go outside the lines"
+              value="red"
+              icon="grip"
+            ></calcite-pick-list-item>
+            <calcite-pick-list-item text-label="Magenta the color" value="blue" icon="grip"></calcite-pick-list-item>
+            <calcite-pick-list-item text-label="Green" value="blue" icon="grip"></calcite-pick-list-item>
+          </calcite-pick-list-group>
+        </calcite-pick-list>
+        <script>
+          const pickList4 = document.querySelector("#four");
+          pickList4.addEventListener("calciteListChange", (event) => {
+            console.log(event.detail);
+          });
+        </script>
+      </section>
+    </main>
+  </body>
+</html>

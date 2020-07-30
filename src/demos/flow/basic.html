@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Calcite Components: calcite-flow</title>
+
+    <script src="../_assets/head.js"></script>
+    <script src="../_assets/toggles.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <section class="example-container">
+        <h1>calcite-flow</h1>
+
+        <h2>Basic</h2>
+        <calcite-flow>
+          <calcite-flow-item heading="Item One">
+            <calcite-action icon="caret-down" slot="leading-actions"></calcite-action>
+            <button slot="menu-actions">Reset</button>
+            <button slot="menu-actions">Rename</button>
+            <img src="https://via.placeholder.com/300x200" alt="placeholder" />
+          </calcite-flow-item>
+          <calcite-flow-item heading="Item Two">
+            <img src="http://www.fillmurray.com/100/100" height="40" slot="leading-actions" />
+            <button slot="menu-actions">Reset</button>
+            <button slot="menu-actions">Rename</button>
+            <img src="https://via.placeholder.com/400x300" alt="placeholder" />
+            <calcite-fab slot="fab"></calcite-fab>
+          </calcite-flow-item>
+          <calcite-flow-item heading="Item Three">
+            <button slot="menu-actions">Reset</button>
+            <button slot="menu-actions">Rename</button>
+            <img src="https://via.placeholder.com/400x300" alt="placeholder" />
+            <calcite-fab slot="fab"></calcite-fab>
+          </calcite-flow-item>
+        </calcite-flow>
+
+        <h2>Menu-actions and Footer-actions</h2>
+        <calcite-flow>
+          <calcite-flow-item heading="What are the most popular commute alternatives?">
+            <button slot="menu-actions">Reset</button>
+            <button slot="menu-actions">Rename</button>
+            <button slot="footer-actions" class="btn">Save</button>
+            <button slot="footer-actions" class="btn btn-secondary">Cancel</button>
+            <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
+            <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
+          </calcite-flow-item>
+        </calcite-flow>
+
+        <div dir="rtl">
+          <h2>Flow RTL</h2>
+          <h3>Basic</h3>
+          <calcite-flow>
+            <calcite-flow-item heading="Item One">
+              <calcite-action icon="caret-down" slot="leading-actions"></calcite-action>
+              <button slot="menu-actions">Reset</button>
+              <button slot="menu-actions">Rename</button>
+              <img src="https://via.placeholder.com/300x200" alt="placeholder" />
+            </calcite-flow-item>
+            <calcite-flow-item heading="Item Two">
+              <img src="http://www.fillmurray.com/100/100" height="40" slot="leading-actions" />
+              <button slot="menu-actions">Reset</button>
+              <button slot="menu-actions">Rename</button>
+              <img src="https://via.placeholder.com/400x300" alt="placeholder" />
+              <calcite-fab slot="fab"></calcite-fab>
+            </calcite-flow-item>
+            <calcite-flow-item heading="Item Three">
+              <button slot="menu-actions">Reset</button>
+              <button slot="menu-actions">Rename</button>
+              <img src="https://via.placeholder.com/400x300" alt="placeholder" />
+              <calcite-fab slot="fab"></calcite-fab>
+            </calcite-flow-item>
+          </calcite-flow>
+
+          <h3>Menu-actions and Footer-actions</h3>
+          <calcite-flow>
+            <calcite-flow-item heading="What are the most popular commute alternatives?">
+              <button slot="menu-actions">Reset</button>
+              <button slot="menu-actions">Rename</button>
+              <button slot="footer-actions" class="btn">Save</button>
+              <button slot="footer-actions" class="btn btn-secondary">Cancel</button>
+              <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
+              <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
+            </calcite-flow-item>
+          </calcite-flow>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

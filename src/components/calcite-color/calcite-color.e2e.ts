@@ -12,6 +12,10 @@ describe("calcite-color", () => {
   it("reflects", async () =>
     reflects("calcite-color", [
       {
+        propertyName: "appearance",
+        value: "minimal"
+      },
+      {
         propertyName: "scale",
         value: "m"
       },
@@ -25,6 +29,10 @@ describe("calcite-color", () => {
 
   it("has defaults", async () =>
     defaults("calcite-color", [
+      {
+        propertyName: "appearance",
+        defaultValue: "default"
+      },
       {
         propertyName: "scale",
         defaultValue: "m"
@@ -185,29 +193,31 @@ describe("calcite-color", () => {
   });
 
   describe("color inputs", () => {
-    const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string) => {
+    const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");
+      await page.waitForChanges();
 
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
+      const currentValue = await inputOrHexInput.getProperty("value");
+
+      for (let i = 0; i < currentValue.length; i++) {
+        await page.keyboard.press("Backspace");
+        await page.waitForChanges();
+      }
 
       await inputOrHexInput.type(value);
+      await page.waitForChanges();
       await page.keyboard.press("Enter");
 
       await page.waitForChanges();
     };
 
-    it("keeps value in same format when applying updates", async () => {
+    it.skip("keeps value in same format when applying updates", async () => {
       const page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
       });
       const picker = await page.find("calcite-color");
 
-      const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void) => {
+      const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void): Promise<void> => {
         const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
 
         await clearAndEnterValue(page, hexInput, "abc");
