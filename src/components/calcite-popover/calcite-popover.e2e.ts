@@ -6,9 +6,7 @@ import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
   it("renders", async () =>
-    renders(
-      `<calcite-popover open reference-element="ref"></calcite-popover><div id="ref">😄</div>`
-    ));
+    renders(`<calcite-popover open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
 
@@ -51,9 +49,7 @@ describe("calcite-popover", () => {
   it("popover positions when referenceElement is set", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-popover open placement="auto"></calcite-popover><div>referenceElement</div>`
-    );
+    await page.setContent(`<calcite-popover open placement="auto"></calcite-popover><div>referenceElement</div>`);
 
     const element = await page.find("calcite-popover");
 
@@ -73,9 +69,7 @@ describe("calcite-popover", () => {
   it("open popover should be visible", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`
-    );
+    await page.setContent(`<calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`);
 
     const element = await page.find("calcite-popover");
 
@@ -129,9 +123,7 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    let closeButton = await page.find(
-      `calcite-popover >>> .${CSS.closeButton}`
-    );
+    let closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
 
     expect(closeButton).toBe(null);
 
@@ -153,9 +145,7 @@ describe("calcite-popover", () => {
       `<calcite-popover placement="auto" reference-element="ref" open><img slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
     );
 
-    const imageContainer = await page.find(
-      `calcite-popover >>> .${CSS.imageContainer}`
-    );
+    const imageContainer = await page.find(`calcite-popover >>> .${CSS.imageContainer}`);
 
     expect(await imageContainer.isVisible()).toBe(true);
   });
@@ -227,9 +217,7 @@ describe("calcite-popover", () => {
   it("guid id should match referenceElement's aria-describedby", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-popover open></calcite-popover>`
-    );
+    await page.setContent(`<calcite-popover open></calcite-popover>`);
 
     await page.waitForChanges();
 
@@ -256,9 +244,7 @@ describe("calcite-popover", () => {
 
     const userDefinedId = "user-defined-id";
 
-    await page.setContent(
-      `<calcite-popover id="${userDefinedId}" open></calcite-popover>`
-    );
+    await page.setContent(`<calcite-popover id="${userDefinedId}" open></calcite-popover>`);
 
     await page.waitForChanges();
 

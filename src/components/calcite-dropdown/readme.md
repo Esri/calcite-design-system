@@ -53,7 +53,7 @@ You can choose to leave the dropdown open when an item is selected with the `dis
 | `scale`                | `scale`                   | specify the scale of dropdown, defaults to m                                                                                                                        | `"l" \| "m" \| "s"`                | `"m"`       |
 | `selectedItems`        | --                        | **read-only** The currently selected items                                                                                                                          | `HTMLCalciteDropdownItemElement[]` | `[]`        |
 | `theme`                | `theme`                   | specify the theme of the dropdown, defaults to light                                                                                                                | `"dark" \| "light"`                | `undefined` |
-| `type`                 | `type`                    | specify whether the dropdown is opened by hover or click of the trigger element                                                                                     | `"click" \| "hover"`               | `"click"`   |
+| `type`                 | `type`                    | specify whether the dropdown is opened by hover or click of a trigger element                                                                                       | `"click" \| "hover"`               | `"click"`   |
 | `width`                | `width`                   | specify the width of dropdown, defaults to m                                                                                                                        | `"l" \| "m" \| "s"`                | `"m"`       |
 
 ## Events

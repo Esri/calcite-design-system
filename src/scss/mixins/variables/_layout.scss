@@ -1,0 +1,41 @@
+@mixin componentLayoutVars() {
+  /* Component layout variables */
+  --calcite-app-side-spacing: 1rem;
+  --calcite-app-cap-spacing: 1rem;
+
+  --calcite-app-side-spacing-three-quarters: calc(var(--calcite-app-side-spacing) * 3 / 4);
+  --calcite-app-cap-spacing-three-quarters: calc(var(--calcite-app-cap-spacing) * 3 / 4);
+
+  --calcite-app-side-spacing-half: calc(var(--calcite-app-side-spacing) / 2);
+  --calcite-app-cap-spacing-half: calc(var(--calcite-app-cap-spacing) / 2);
+
+  --calcite-app-side-spacing-third: calc(var(--calcite-app-side-spacing) / 3);
+  --calcite-app-cap-spacing-third: calc(var(--calcite-app-cap-spacing) / 3);
+
+  --calcite-app-side-spacing-quarter: calc(var(--calcite-app-side-spacing) / 4);
+  --calcite-app-cap-spacing-quarter: calc(var(--calcite-app-cap-spacing) / 4);
+
+  --calcite-app-side-spacing-eighth: calc(var(--calcite-app-side-spacing) / 8);
+  --calcite-app-cap-spacing-eighth: calc(var(--calcite-app-cap-spacing) / 8);
+
+  --calcite-app-cap-spacing-minimum: 1px;
+  --calcite-app-side-spacing-minimum: 1px;
+
+  --calcite-app-side-spacing-plus-half: calc(var(--calcite-app-side-spacing) * 1.5);
+  --calcite-app-cap-spacing-plus-half: calc(var(--calcite-app-cap-spacing) * 1.5);
+
+  --calcite-app-side-spacing-double: calc(var(--calcite-app-side-spacing) * 2);
+  --calcite-app-cap-spacing-double: calc(var(--calcite-app-cap-spacing) * 2);
+
+  --calcite-app-menu-min-width: 10rem;
+  --calcite-app-menu-offset: 0px;
+
+  --calcite-app-icon-size: 1rem;
+
+  --calcite-app-border-radius: 3px;
+
+  --calcite-app-header-min-height: calc(var(--calcite-app-cap-spacing) * 3);
+  --calcite-app-footer-min-height: calc(var(--calcite-app-cap-spacing) * 3);
+
+  --calcite-app-outline-inset: -6px;
+}

@@ -92,8 +92,8 @@ export class CalciteRadioGroupItem {
   render() {
     const { checked, useFallback, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
-    const appearance = getElementProp(this.el, "appearance", "m");
-    const layout = getElementProp(this.el, "layout", "m");
+    const appearance = getElementProp(this.el, "appearance", "solid");
+    const layout = getElementProp(this.el, "layout", "horizontal");
 
     const iconEl = <calcite-icon class="radio-group-item-icon" icon={this.icon} scale="s" />;
 

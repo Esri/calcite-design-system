@@ -89,7 +89,7 @@ describe("calcite-tabs", () => {
       const tab = tabs[index];
       const title = titles[index];
       expect(title).toEqualAttribute("aria-controls", tab.id);
-      expect(tab).toEqualAttribute("aria-labeledby", title.id);
+      expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
   });
 
@@ -131,7 +131,7 @@ describe("calcite-tabs", () => {
       const tab = tabs[index];
       const title = titles[index];
       expect(title).toEqualAttribute("aria-controls", tab.id);
-      expect(tab).toEqualAttribute("aria-labeledby", title.id);
+      expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
 
     const results = await page.compareScreenshot();

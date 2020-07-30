@@ -1,6 +1,9 @@
 :host {
   display: flex;
+  width: fit-content;
   margin-top: 0.25rem;
+  border: 1px solid var(--calcite-ui-border-1);
+  background-color: var(--calcite-ui-foreground-1);
 }
 
 :host([layout="vertical"]) {
@@ -9,17 +12,12 @@
   align-self: flex-start;
 }
 
-// radio group widths
-:host([width="auto"]) {
-  width: auto;
-}
+// radio group width for full
 
 :host([width="full"]) {
   width: 100%;
-  display: flex;
   ::slotted(calcite-radio-group-item) {
     flex: 1 1 auto;
-    justify-content: center;
   }
 }
 

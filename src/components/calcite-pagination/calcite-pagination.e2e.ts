@@ -6,9 +6,9 @@ describe("calcite-pagination", () => {
   it("renders", async () => renders("calcite-pagination"));
   it("honors hidden attribute", async () => hidden("calcite-pagination"));
 
-  it("is accessible", async () => accessible( `<calcite-pagination></calcite-pagination>` ));
+  it("is accessible", async () => accessible(`<calcite-pagination></calcite-pagination>`));
 
-  describe('ellipsis rendering', () => {
+  describe("ellipsis rendering", () => {
     it("should not render either ellipsis when total pages is less than or equal to 5", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination total="80"></calcite-pagination>`);
@@ -32,10 +32,10 @@ describe("calcite-pagination", () => {
       expect(endEllipsis).not.toBeNull();
     });
   });
-  describe('next and previous buttons', () => {
+  describe("next and previous buttons", () => {
     let page: E2EPage;
     let pagination: E2EElement;
-    beforeEach( async () => {
+    beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent(`<calcite-pagination start="1" total="124" num="20"></calcite-pagination>`);
       pagination = await page.find("calcite-pagination");
@@ -50,7 +50,7 @@ describe("calcite-pagination", () => {
       expect(selectedPage.innerText).toBe("2");
       expect(toggleSpy).toHaveReceivedEventTimes(1);
     });
-    it('previous button should be disabled when selected page equals the starting page', async () => {
+    it("previous button should be disabled when selected page equals the starting page", async () => {
       const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
       const previousButton = await page.find(`calcite-pagination >>> .${CSS.previous}`);
       await previousButton.click();
@@ -71,7 +71,7 @@ describe("calcite-pagination", () => {
       expect(selectedPage.innerText).toBe("1");
       expect(toggleSpy).toHaveReceivedEventTimes(1);
     });
-    it('next button should be disabled on last page', async () => {
+    it("next button should be disabled on last page", async () => {
       await pagination.setAttribute("start", "121");
       await page.waitForChanges();
 

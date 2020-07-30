@@ -8,7 +8,7 @@ import {
   EventEmitter,
   h,
   State,
-  Host,
+  Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -17,7 +17,7 @@ import { nodeListToArray } from "../../utils/dom";
 @Component({
   tag: "calcite-tab",
   styleUrl: "calcite-tab.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteTab {
   //--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ export class CalciteTab {
     return (
       <Host
         id={id}
-        aria-labeledby={this.labeledBy}
+        aria-labelledby={this.labeledBy}
         aria-expanded={this.active.toString()}
         role="tabpanel"
       >
@@ -104,10 +104,7 @@ export class CalciteTab {
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a title that is a
     // child of the `<calcite-tabs>` that is the a parent of this tab.
-    if (
-      (event.target as HTMLElement).closest("calcite-tabs") !==
-      this.el.closest("calcite-tabs")
-    ) {
+    if ((event.target as HTMLElement).closest("calcite-tabs") !== this.el.closest("calcite-tabs")) {
       return;
     }
 
@@ -133,9 +130,7 @@ export class CalciteTab {
   async getTabIndex(): Promise<number> {
     return Promise.resolve(
       Array.prototype.indexOf.call(
-        nodeListToArray(this.el.parentElement.children).filter((e) =>
-          e.matches("calcite-tab")
-        ),
+        nodeListToArray(this.el.parentElement.children).filter((e) => e.matches("calcite-tab")),
         this.el
       )
     );

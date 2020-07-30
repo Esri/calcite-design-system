@@ -1,0 +1,22 @@
+<template>
+  <style>
+    .toggles {
+      display: flex;
+      justify-content: flex-end;
+      padding: var(--calcite-app-cap-spacing) var(--calcite-app-side-spacing-double);
+      width: 70vw;
+      max-width: 1024px;
+      min-width: 480px;
+      margin: 52px auto 0;
+      border-radius: var(--calcite-app-border-radius) var(--calcite-app-border-radius) 0 0;
+      
+    }
+    .toggles calcite-button {
+      margin: 0 0.2rem;
+    }
+  </style>
+  <div class="toggles">
+    <calcite-button appearance="clear" data-js-id="loading">Toggle loading</calcite-button>
+    <calcite-button appearance="clear" data-js-id="disabled">Toggle disabled</calcite-button>
+  </div>
+</template>

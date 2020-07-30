@@ -3,13 +3,13 @@ export const CSS = {
   arrow: "arrow",
   imageContainer: "image-container",
   closeButton: "close-button",
-  content: "content",
+  content: "content"
 };
 
 export const TEXT = {
-  close: "Close",
+  close: "Close"
 };
 
-export const POPOVER_REFERENCE = "data-calcite-tooltip-reference";
+export const POPOVER_REFERENCE = "data-calcite-popover-reference";
 
 export const ARIA_DESCRIBED_BY = "aria-describedby";

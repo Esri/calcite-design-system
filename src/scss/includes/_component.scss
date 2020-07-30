@@ -1,0 +1,13 @@
+:host([hidden]) {
+  display: none;
+}
+
+// keep above :host([theme="light"])
+:host([theme="dark"]) {
+  @include componentDarkThemeVars();
+}
+
+// keep below :host([theme="dark"])
+:host([theme="light"]) {
+  @include componentLightThemeVars();
+}
