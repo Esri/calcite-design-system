@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/html";
 import { withKnobs } from "@storybook/addon-knobs";
 
-storiesOf("Tile Select", module)
+storiesOf("Tile Select Group", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",
