@@ -4,7 +4,7 @@ import { darkBackground, iconNames, parseReadme, boolean } from "../../../.story
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("Button", module)
+storiesOf("components|Button", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

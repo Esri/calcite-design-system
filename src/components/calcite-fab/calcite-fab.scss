@@ -1,0 +1,10 @@
+:host {
+  @extend %component-host;
+  background-color: var(--calcite-app-background-transparent);
+}
+
+calcite-button {
+  box-shadow: var(--calcite-app-shadow-1);
+}
+
+@import "../../scss/includes/_component";

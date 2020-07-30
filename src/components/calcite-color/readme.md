@@ -1,4 +1,4 @@
-# my-component
+# calcite-color
 
 <!-- Auto Generated Below -->
 
@@ -6,6 +6,7 @@
 
 | Property          | Attribute           | Description                                                                                                                                                                                          | Type                                                                                                     | Default                             |
 | ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `appearance`      | `appearance`        | specify the appearance - default (containing border), or minimal (no containing border)                                                                                                              | `"default" \| "minimal"`                                                                                 | `"default"`                         |
 | `intlB`           | `intl-b`            | Label used for the blue channel                                                                                                                                                                      | `string`                                                                                                 | `TEXT.b`                            |
 | `intlBlue`        | `intl-blue`         | Label used for the blue channel description                                                                                                                                                          | `string`                                                                                                 | `TEXT.blue`                         |
 | `intlDeleteColor` | `intl-delete-color` | Label used for the delete color button.                                                                                                                                                              | `string`                                                                                                 | `TEXT.deleteColor`                  |

@@ -10,7 +10,7 @@ const notes2 = parseReadme(readme2);
 const notes3 = parseReadme(readme3);
 const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`);
 
-storiesOf("Dropdown", module)
+storiesOf("components|Dropdown", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

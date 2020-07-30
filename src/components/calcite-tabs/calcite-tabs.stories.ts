@@ -13,7 +13,7 @@ const notes4 = parseReadme(readme4);
 
 const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`).concat(`\n${notes4}`);
 
-storiesOf("Tabs", module)
+storiesOf("components|Tabs", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",

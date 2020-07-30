@@ -37,7 +37,7 @@ const contentHTML = `
 
 const referenceElementHTML = `<calcite-popover-manager>Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.</calcite-popover-manager>`;
 
-storiesOf("Popover", module)
+storiesOf("components|Popover", module)
   .addDecorator(withKnobs)
   .add(
     "Simple",
