@@ -30,7 +30,7 @@ export class CalciteSlider {
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteSliderElement;
 
   //--------------------------------------------------------------------------
   //
@@ -39,43 +39,62 @@ export class CalciteSlider {
   //--------------------------------------------------------------------------
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
+
   /** Disable and gray out the slider */
-  @Prop({ reflect: true, mutable: true }) disabled: boolean = false;
+  @Prop({ reflect: true, mutable: true }) disabled = false;
+
   /** Minimum selectable value */
-  @Prop({ reflect: true, mutable: true }) min: number = 0;
+  @Prop({ reflect: true, mutable: true }) min = 0;
+
   /** Maximum selectable value */
-  @Prop({ reflect: true, mutable: true }) max: number = 100;
+  @Prop({ reflect: true, mutable: true }) max = 100;
+
   /** Currently selected number (if single select) */
   @Prop({ reflect: true, mutable: true }) value: null | number = null;
+
   /** Currently selected lower number (if multi-select) */
   @Prop() minValue?: number;
+
   /** Currently selected upper number (if multi-select) */
   @Prop() maxValue?: number;
+
   /** Label for first (or only) handle (ex. "Temperature, lower bound") */
   @Prop() minLabel: string;
+
   /** Label for second handle if needed (ex. "Temperature, upper bound") */
   @Prop() maxLabel?: string;
+
   /** Snap selection along the step interval */
   @Prop() snap?: boolean = true;
+
   /** Interval to move on up/down keys */
   @Prop() step?: number = 1;
+
   /** Interval to move on page up/page down keys */
   @Prop() pageStep?: number;
+
   /** Show tick marks on the number line at provided interval */
   @Prop() ticks?: number;
+
   /** Label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks?: boolean;
+
   /** Label handles with their numeric value */
   @Prop({ reflect: true }) labelHandles?: boolean;
+
   /** Use finer point for handles */
   @Prop() precise?: boolean;
+
   /** Display a histogram above the slider */
   @Prop() histogram?: DataSeries;
+
   @Watch("histogram") histogramWatcher(newHistogram) {
     this.hasHistogram = newHistogram ? true : false;
   }
+
   /** Indicates if a histogram is present */
-  @Prop({ reflect: true, mutable: true }) hasHistogram: boolean = false;
+  @Prop({ reflect: true, mutable: true }) hasHistogram = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -686,6 +705,7 @@ export class CalciteSlider {
         break;
     }
   }
+
   @Listen("click") clickHandler(e: MouseEvent) {
     const x = e.clientX || e.pageX;
     const num = this.translate(x);
@@ -712,6 +732,7 @@ export class CalciteSlider {
         break;
     }
   }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -743,26 +764,37 @@ export class CalciteSlider {
   //--------------------------------------------------------------------------
   /** @internal */
   private guid = `calcite-slider-${guid()}`;
+
   /** @internal */
-  private isRange: boolean = false;
+  private isRange = false;
+
   /** @internal */
   private dragProp: activeSliderProperty;
+
   /** @internal */
   private lastDragProp: activeSliderProperty;
+
   /** @internal */
   private minHandle: HTMLButtonElement;
+
   /** @internal */
   private maxHandle: HTMLButtonElement;
+
   /** @internal */
   private dragListener: (e: MouseEvent) => void;
+
   /** @internal */
   @State() private tickValues: number[] = [];
+
   /** @internal */
   @State() private activeProp: activeSliderProperty = "value";
+
   /** @internal */
   @State() private minMaxValueRange: number = null;
+
   /** @internal */
   @State() private minValueDragRange: number = null;
+
   /** @internal */
   @State() private maxValueDragRange: number = null;
 
@@ -838,6 +870,7 @@ export class CalciteSlider {
     this.maxValueDragRange = null;
     this.minMaxValueRange = null;
   }
+
   /**
    * If number is outside range, constrain to min or max
    * @internal
@@ -854,6 +887,7 @@ export class CalciteSlider {
     }
     return num;
   }
+
   /**
    * Translate a pixel position to value along the range
    * @internal
@@ -868,6 +902,7 @@ export class CalciteSlider {
     }
     return value;
   }
+
   /**
    * Get closest allowed value along stepped values
    * @internal
@@ -880,9 +915,11 @@ export class CalciteSlider {
     }
     return num;
   }
+
   private getFontSizeForElement(element: HTMLElement) {
     return Number(window.getComputedStyle(element).getPropertyValue("font-size").match(/\d+/)[0]);
   }
+
   /**
    * Get position of value along range as fractional value
    * @return {number} number in the unit interval [0,1]
@@ -893,6 +930,7 @@ export class CalciteSlider {
     const range = this.max - this.min;
     return (num - this.min) / range;
   }
+
   private adjustHostObscuredHandleLabel(name: "value" | "minValue") {
     const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
@@ -908,6 +946,7 @@ export class CalciteSlider {
     label.style.transform = `translateX(${labelStaticOffset}px)`;
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
+
   private hyphenateCollidingRangeHandleLabels() {
     const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue`
@@ -1019,6 +1058,7 @@ export class CalciteSlider {
       valueLabelTransformed.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
     }
   }
+
   /**
    * Hides bounding tick labels that are obscured by either handle.
    */
@@ -1086,6 +1126,7 @@ export class CalciteSlider {
       }
     }
   }
+
   /**
    * Returns an integer representing the number of pixels to offset on the left or right side based on desired position behavior.
    * @internal
@@ -1102,6 +1143,7 @@ export class CalciteSlider {
     }
     return 0;
   }
+
   /**
    * Returns an integer representing the number of pixels that the two given span elements are overlapping, taking into account
    * a space in between the two spans equal to the font-size set on them to account for the space needed to render a hyphen.
@@ -1119,6 +1161,7 @@ export class CalciteSlider {
       minValueLabelBounds.right + minValueLabelFontSize - valueLabelBounds.left;
     return rangeLabelOverlap > 0 ? rangeLabelOverlap : 0;
   }
+
   /**
    * Returns a boolean value representing if the minLabel span element is obscured (being overlapped) by the given handle button element.
    * @param minLabel
@@ -1132,6 +1175,7 @@ export class CalciteSlider {
     }
     return false;
   }
+
   /**
    * Returns a boolean value representing if the maxLabel span element is obscured (being overlapped) by the given handle button element.
    * @param maxLabel

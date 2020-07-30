@@ -37,7 +37,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
 
   /** specify if the input is in loading state */
-  @Prop({ mutable: true, reflect: true }) loading: boolean = false;
+  @Prop({ mutable: true, reflect: true }) loading = false;
 
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l";
@@ -98,10 +98,10 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
 
   /** is the input required */
-  @Prop() required: boolean = false;
+  @Prop() required = false;
 
   /** should the input autofocus */
-  @Prop() autofocus: boolean = false;
+  @Prop() autofocus = false;
 
   /** explicitly whitelist placeholder attribute */
   @Prop() placeholder: string;
@@ -130,21 +130,21 @@ export class CalciteInput {
 
   connectedCallback() {
     // validate props
-    let status = ["invalid", "valid", "idle"];
-    let foundStatus = getElementProp(this.el, "status", "idle");
+    const status = ["invalid", "valid", "idle"];
+    const foundStatus = getElementProp(this.el, "status", "idle");
     if (!status.includes(this.status))
       this.status = !status.includes(foundStatus) ? "idle" : foundStatus;
 
-    let scale = ["s", "m", "l"];
-    let foundScale = getElementProp(this.el, "scale", "m");
+    const scale = ["s", "m", "l"];
+    const foundScale = getElementProp(this.el, "scale", "m");
     if (!scale.includes(this.scale)) {
       this.scale = !scale.includes(foundScale) ? "m" : foundScale;
     }
 
-    let alignment = ["start", "end"];
+    const alignment = ["start", "end"];
     if (!alignment.includes(this.alignment)) this.alignment = "start";
 
-    let type = [
+    const type = [
       "color",
       "date",
       "datetime-local",
@@ -164,12 +164,12 @@ export class CalciteInput {
     ];
     if (!type.includes(this.type)) this.type = "text";
 
-    let numberButtonType = ["vertical", "horizontal", "none"];
+    const numberButtonType = ["vertical", "horizontal", "none"];
     if (!numberButtonType.includes(this.numberButtonType)) this.numberButtonType = "vertical";
 
     // if an icon string is not provided, but icon is true and a default icon is present
     // for the requested type, set that as the icon
-    let typesWithIcons = ["date", "email", "password", "search", "tel", "time"];
+    const typesWithIcons = ["date", "email", "password", "search", "tel", "time"];
     this.icon = this.icon
       ? (this.icon as string)
       : this.icon !== false && typesWithIcons.includes(this.type)
@@ -363,7 +363,9 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   @Event() calciteInputFocus: EventEmitter;
+
   @Event() calciteInputBlur: EventEmitter;
+
   @Event({
     eventName: "calciteInputInput",
     cancelable: true
@@ -394,16 +396,18 @@ export class CalciteInput {
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
 
   /** determine if there is a slotted action for styling purposes */
-  private hasAction: boolean = false;
+  private hasAction = false;
 
   /** determine if there is a slotted action for styling purposes */
   private slottedActionEl?: HTMLSlotElement;
 
   /** track if the input is clearable */
-  private isClearable: boolean = false;
+  private isClearable = false;
 
   private minString?: string;
+
   private maxString?: string;
+
   private stepString?: string;
 
   //--------------------------------------------------------------------------
@@ -454,7 +458,7 @@ export class CalciteInput {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = [
+    const props = [
       "alignment",
       "dir",
       "clearable",
@@ -485,9 +489,9 @@ export class CalciteInput {
     // prevent blur and re-focus of input on mousedown
     e.preventDefault();
     if (this.childElType === "input" && this.type === "number") {
-      let inputMax = this.maxString ? parseFloat(this.maxString) : null;
-      let inputMin = this.minString ? parseFloat(this.minString) : null;
-      let inputStep = this.stepString ? parseFloat(this.stepString) : 1;
+      const inputMax = this.maxString ? parseFloat(this.maxString) : null;
+      const inputMin = this.minString ? parseFloat(this.minString) : null;
+      const inputStep = this.stepString ? parseFloat(this.stepString) : 1;
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
 
       switch (e.target.dataset.adjustment) {

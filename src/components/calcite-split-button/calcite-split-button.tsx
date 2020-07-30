@@ -7,7 +7,7 @@ import { getElementDir } from "../../utils/dom";
   shadow: true
 })
 export class CalciteSplitButton {
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteSplitButtonElement;
 
   /** specify the color of the control, defaults to blue */
   @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
@@ -52,25 +52,25 @@ export class CalciteSplitButton {
 
   @Watch("color")
   validateColor() {
-    let color = ["blue", "red", "dark", "light"];
+    const color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
   }
 
   @Watch("scale")
   validateScale() {
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
   @Watch("theme")
   validateTheme() {
-    let theme = ["dark", "light"];
+    const theme = ["dark", "light"];
     if (!theme.includes(this.theme)) this.theme = "light";
   }
 
   @Watch("dropdownIconType")
   validateDropdownIconType() {
-    let dropdownIconType = ["chevron", "caret", "ellipsis", "overflow"];
+    const dropdownIconType = ["chevron", "caret", "ellipsis", "overflow"];
     if (!dropdownIconType.includes(this.dropdownIconType)) this.dropdownIconType = "chevron";
   }
 

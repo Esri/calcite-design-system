@@ -20,7 +20,7 @@ export class CalciteIcon {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLElement;
+  el: HTMLCalciteIconElement;
 
   //--------------------------------------------------------------------------
   //
@@ -42,7 +42,7 @@ export class CalciteIcon {
   @Prop({
     reflect: true
   })
-  mirrored: boolean = false;
+  mirrored = false;
 
   /**
    * Icon scale. Can be "s" | "m" | "l".

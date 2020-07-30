@@ -36,7 +36,7 @@ export class CalciteAlert {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteAlertElement;
 
   //--------------------------------------------------------------------------
   //
@@ -45,10 +45,10 @@ export class CalciteAlert {
   //---------------------------------------------------------------------------
 
   /** Is the alert currently active or not */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Close the alert automatically (recommended for passive, non-blocking alerts) */
-  @Prop() autoDismiss: boolean = false;
+  @Prop() autoDismiss = false;
 
   /** Duration of autoDismiss (only used with `autoDismiss`) */
   @Prop({ reflect: true, mutable: true }) autoDismissDuration: "fast" | "medium" | "slow" = this
@@ -66,7 +66,7 @@ export class CalciteAlert {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify if the alert should display an icon */
-  @Prop() icon: boolean = false;
+  @Prop() icon = false;
 
   /** string to override English close text */
   @Prop() intlClose: string = TEXT.intlClose;
@@ -79,13 +79,13 @@ export class CalciteAlert {
 
   connectedCallback() {
     // prop validations
-    let colors = ["blue", "red", "green", "yellow"];
+    const colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
-    let durations = ["slow", "medium", "fast"];
+    const durations = ["slow", "medium", "fast"];
     if (this.autoDismissDuration !== null && !durations.includes(this.autoDismissDuration)) {
       this.autoDismissDuration = "medium";
     }
@@ -184,10 +184,10 @@ export class CalciteAlert {
   @State() queue: HTMLCalciteAlertElement[] = [];
 
   /** the count of queued alerts */
-  @State() queueLength: number = 0;
+  @State() queueLength = 0;
 
   /** is the alert queued */
-  @State() queued: boolean = false;
+  @State() queued = false;
 
   /** the close button element */
   private closeButton?: HTMLButtonElement;
@@ -264,7 +264,7 @@ export class CalciteAlert {
   }
 
   private setIcon() {
-    var path = this.iconDefaults[this.color];
+    const path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
         <calcite-icon icon={path} scale="m"></calcite-icon>

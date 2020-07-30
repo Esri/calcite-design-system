@@ -7,7 +7,7 @@ export const generatePreactTypes = async (config, compilerCtx, buildCtx): Promis
   await compilerCtx.fs.writeFile(outputPath, getTemplate(types));
 };
 
-function getTemplate(types: string): String {
+function getTemplate(types: string): string {
   return `
 import { JSXInternal } from "preact/src/jsx";
 import { JSX } from "./components";

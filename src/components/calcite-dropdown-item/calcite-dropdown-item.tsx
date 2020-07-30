@@ -33,7 +33,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;

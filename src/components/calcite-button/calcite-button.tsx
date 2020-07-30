@@ -20,7 +20,7 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteButtonElement;
 
   //--------------------------------------------------------------------------
   //
@@ -77,16 +77,16 @@ export class CalciteButton {
   connectedCallback() {
     // prop validations
 
-    let appearance = ["solid", "outline", "clear", "transparent"];
+    const appearance = ["solid", "outline", "clear", "transparent"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
 
-    let color = ["blue", "red", "dark", "light"];
+    const color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
-    let width = ["auto", "half", "full"];
+    const width = ["auto", "half", "full"];
     if (!width.includes(this.width)) this.width = "auto";
 
     this.childElType = this.href ? "a" : "button";
@@ -195,7 +195,7 @@ export class CalciteButton {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = [
+    const props = [
       "appearance",
       "color",
       "dir",

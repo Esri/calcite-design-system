@@ -28,7 +28,7 @@ export class CalciteRadioGroup {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLElement;
+  el: HTMLCalciteRadioGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -96,21 +96,21 @@ export class CalciteRadioGroup {
 
   connectedCallback() {
     // prop validations
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale))
       this.scale = getElementProp(this.el.parentElement, "scale", "m");
 
-    let appearance = ["solid", "outline"];
+    const appearance = ["solid", "outline"];
     if (!appearance.includes(this.appearance)) this.appearance = "solid";
 
-    let layout = ["horizontal", "vertical"];
+    const layout = ["horizontal", "vertical"];
     if (!layout.includes(this.layout)) this.layout = "horizontal";
 
-    let width = ["auto", "full"];
+    const width = ["auto", "full"];
     if (!width.includes(this.width)) this.width = "auto";
 
     const items = this.getItems();
-    let lastChecked = Array.from(items)
+    const lastChecked = Array.from(items)
       .filter((item) => item.checked)
       .pop();
 

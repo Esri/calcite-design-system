@@ -27,7 +27,7 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTabTitleElement;
 
   //--------------------------------------------------------------------------
   //
@@ -42,7 +42,7 @@ export class CalciteTabTitle {
   @Prop({ reflect: true, mutable: true }) tab?: string;
 
   /** Show this tab title as selected */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";

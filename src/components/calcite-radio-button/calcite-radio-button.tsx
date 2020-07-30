@@ -7,14 +7,14 @@ import {
   Element,
   Watch,
   Event,
-  EventEmitter,
+  EventEmitter
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-radio-button",
   styleUrl: "calcite-radio-button.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteRadioButton {
   //--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteRadioButtonElement;
 
   //--------------------------------------------------------------------------
   //
@@ -32,7 +32,8 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   /** The checked state of the radio button. */
-  @Prop({ mutable: true, reflect: true }) checked: boolean = false;
+  @Prop({ mutable: true, reflect: true }) checked = false;
+
   @Watch("checked")
   checkedChanged(newChecked: boolean, oldChecked: boolean) {
     if (newChecked === true && oldChecked === false) {
@@ -44,13 +45,15 @@ export class CalciteRadioButton {
 
   /** The disabled state of the radio button. */
   @Prop({ reflect: true }) disabled?: boolean = false;
+
   @Watch("disabled")
   disabledChanged(disabled: boolean) {
     this.input.disabled = disabled;
   }
 
   /** The focused state of the radio button. */
-  @Prop({ mutable: true, reflect: true }) focused: boolean = false;
+  @Prop({ mutable: true, reflect: true }) focused = false;
+
   @Watch("focused")
   focusedChanged(focused: boolean) {
     if (focused && !this.el.hasAttribute("hidden")) {
@@ -66,24 +69,27 @@ export class CalciteRadioButton {
     this.el.id || `calcite-radio-button-${guid()}`;
 
   /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
-  @Prop({ reflect: true }) hidden: boolean = false;
+  @Prop({ reflect: true }) hidden = false;
+
   @Watch("hidden")
   hiddenChanged(newHidden: boolean) {
     this.input.hidden = newHidden;
   }
 
   /** The hovered state of the radio button. */
-  @Prop({ reflect: true, mutable: true }) hovered: boolean = false;
+  @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ reflect: true }) name!: string;
+
   @Watch("name")
   nameChanged(newName: string) {
     this.input.name = newName;
   }
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
-  @Prop({ reflect: true }) required: boolean = false;
+  @Prop({ reflect: true }) required = false;
+
   @Watch("required")
   requiredChanged(required: boolean) {
     this.input.required = required;
@@ -91,6 +97,7 @@ export class CalciteRadioButton {
 
   /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+
   @Watch("scale")
   validateScale(newScale: string) {
     const scales = ["s", "m", "l"];
@@ -99,6 +106,7 @@ export class CalciteRadioButton {
 
   /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+
   @Watch("theme")
   validateTheme(newTheme: string) {
     const themes = ["light", "dark"];
@@ -115,6 +123,7 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   private input: HTMLInputElement;
+
   private titleAttributeObserver: MutationObserver;
 
   //--------------------------------------------------------------------------
@@ -124,9 +133,7 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   private checkFirstRadioButton() {
-    let radioButtons = document.querySelectorAll(
-      `calcite-radio-button[name=${this.name}]`
-    );
+    const radioButtons = document.querySelectorAll(`calcite-radio-button[name=${this.name}]`);
     let firstCheckedRadioButton: HTMLCalciteRadioButtonElement;
     if (radioButtons && radioButtons.length > 0) {
       radioButtons.forEach((radioButton: HTMLCalciteRadioButtonElement) => {
@@ -146,7 +153,7 @@ export class CalciteRadioButton {
     });
     this.titleAttributeObserver.observe(this.el, {
       attributes: true,
-      attributeFilter: ["title"],
+      attributeFilter: ["title"]
     });
   }
 
@@ -154,13 +161,11 @@ export class CalciteRadioButton {
     const otherRadioButtons = document.querySelectorAll(
       `calcite-radio-button[name=${this.name}]:not([guid="${this.guid}"])`
     );
-    otherRadioButtons.forEach(
-      (otherRadioButton: HTMLCalciteRadioButtonElement) => {
-        if (otherRadioButton.checked) {
-          otherRadioButton.checked = false;
-        }
+    otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
+      if (otherRadioButton.checked) {
+        otherRadioButton.checked = false;
       }
-    );
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -171,6 +176,7 @@ export class CalciteRadioButton {
 
   @Event()
   calciteRadioButtonChange: EventEmitter;
+
   @Event()
   calciteRadioButtonFocusedChange: EventEmitter;
 
@@ -289,10 +295,7 @@ export class CalciteRadioButton {
       >
         <div class="radio"></div>
         {hasLabel ? (
-          <calcite-label
-            dir={document.documentElement.getAttribute("dir")}
-            scale={this.scale}
-          >
+          <calcite-label dir={document.documentElement.getAttribute("dir")} scale={this.scale}>
             <slot />
           </calcite-label>
         ) : (

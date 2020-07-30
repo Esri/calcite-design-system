@@ -19,7 +19,7 @@ export class CalciteLink {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteLinkElement;
 
   //--------------------------------------------------------------------------
   //
@@ -46,7 +46,7 @@ export class CalciteLink {
   @Prop({ reflect: true }) disabled?: boolean;
 
   /** Allows the text to be selectable */
-  @Prop({ reflect: true }) userSelect: boolean = true;
+  @Prop({ reflect: true }) userSelect = true;
 
   //--------------------------------------------------------------------------
   //
@@ -57,7 +57,7 @@ export class CalciteLink {
   connectedCallback() {
     // prop validations
 
-    let color = ["blue", "red", "dark", "light"];
+    const color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
 
     this.childElType = this.href ? "a" : "span";
@@ -120,7 +120,7 @@ export class CalciteLink {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = ["color", "dir", "icon", "icon-position", "id", "theme"];
+    const props = ["color", "dir", "icon", "icon-position", "id", "theme"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});

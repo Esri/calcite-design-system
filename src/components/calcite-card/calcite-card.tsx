@@ -37,13 +37,13 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
-  @Prop({ reflect: true }) loading: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** Indicates whether the card is selected. */
-  @Prop({ reflect: true, mutable: true }) selected: boolean = false;
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** Indicates whether the card is selectable. */
-  @Prop({ reflect: true, mutable: true }) selectable: boolean = false;
+  @Prop({ reflect: true, mutable: true }) selectable = false;
 
   /**  The theme of the card.*/
   @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";

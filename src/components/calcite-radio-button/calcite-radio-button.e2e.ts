@@ -27,8 +27,8 @@ describe("calcite-radio-button", () => {
     await firstElement.press("ArrowDown");
     await page.waitForChanges();
 
-    let selected = await page.find("calcite-radio-button[focused]");
-    let value = await selected.getProperty("value");
+    const selected = await page.find("calcite-radio-button[focused]");
+    const value = await selected.getProperty("value");
     expect(value).toBe("third");
   });
 

@@ -65,7 +65,7 @@ describe("calcite-icon", () => {
       await page.waitForChanges();
 
       const icon = await page.find(`calcite-icon`);
-      let path = await page.find(`calcite-icon >>> path`);
+      const path = await page.find(`calcite-icon >>> path`);
 
       expect(await path.getAttribute("d")).toBeFalsy();
 

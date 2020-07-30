@@ -12,7 +12,7 @@ export class CalciteLoader {
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteLoaderElement;
 
   //--------------------------------------------------------------------------
   //
@@ -20,17 +20,23 @@ export class CalciteLoader {
   //
   //--------------------------------------------------------------------------
   /** Show the loader */
-  @Prop({ reflect: true }) active: boolean = false;
+  @Prop({ reflect: true }) active = false;
+
   /** Inline loaders are smaller and will appear to the left of the text */
-  @Prop({ reflect: true }) inline: boolean = false;
+  @Prop({ reflect: true }) inline = false;
+
   /** Speficy the scale of the loader. Defaults to "m" */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
   /** Use indeterminate if finding actual progress value is impossible */
   @Prop({ reflect: true }) type: "indeterminate" | "determinate";
+
   /** Percent complete of 100, only valid for determinate indicators */
   @Prop() value = 0;
+
   /** Text which should appear under the loading indicator (optional) */
-  @Prop() text: string = "";
+  @Prop() text = "";
+
   /** Turn off spacing around the loader */
   @Prop() noPadding?: boolean;
 
@@ -43,10 +49,10 @@ export class CalciteLoader {
   connectedCallback() {
     // prop validations
 
-    let scales = ["s", "m", "l"];
+    const scales = ["s", "m", "l"];
     if (!scales.includes(this.scale)) this.scale = "m";
 
-    let types = ["indeterminate", "determinate"];
+    const types = ["indeterminate", "determinate"];
     if (!types.includes(this.type)) this.type = "indeterminate";
   }
 

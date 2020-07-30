@@ -19,7 +19,7 @@ import { getKey } from "../../utils/key";
   shadow: true
 })
 export class CalciteSwitch {
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteSwitchElement;
 
   /** True if the switch is initially on */
   @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
@@ -79,10 +79,10 @@ export class CalciteSwitch {
   connectedCallback() {
     // prop validations
 
-    let color = ["blue", "red"];
+    const color = ["blue", "red"];
     if (!color.includes(this.color)) this.color = "blue";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
     this.setupProxyInput();
   }
@@ -154,6 +154,7 @@ export class CalciteSwitch {
     this.inputProxy.setAttribute("name", this.name);
     this.inputProxy.setAttribute("value", this.value);
   };
+
   private updateSwitch(e) {
     e.preventDefault();
     this.switched = !this.switched;

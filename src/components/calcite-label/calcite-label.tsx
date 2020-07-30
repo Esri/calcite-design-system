@@ -41,13 +41,13 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    let status = ["invalid", "valid", "idle"];
+    const status = ["invalid", "valid", "idle"];
     if (!status.includes(this.status)) this.status = "idle";
 
-    let layout = ["inline", "inline-space-between", "default"];
+    const layout = ["inline", "inline-space-between", "default"];
     if (!layout.includes(this.layout)) this.layout = "default";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
@@ -115,8 +115,8 @@ export class CalciteLabel {
 
   // wrap slotted text nodes in span to handle spacing of inline and inline space between layouts
   private handleSlottedContent() {
-    let nodeList = [];
-    let requestedSlottedContent = this.el.childNodes;
+    const nodeList = [];
+    const requestedSlottedContent = this.el.childNodes;
     // iterate over slotted nodes and wrap text nodes in span
     if (requestedSlottedContent) {
       requestedSlottedContent.forEach(function (item) {
@@ -143,7 +143,7 @@ export class CalciteLabel {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    let props = ["layout", "theme", "scale", "status"];
+    const props = ["layout", "theme", "scale", "status"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});

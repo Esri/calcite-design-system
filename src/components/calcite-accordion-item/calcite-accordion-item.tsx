@@ -1,20 +1,11 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-accordion-item",
   styleUrl: "calcite-accordion-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteAccordionItem {
   //--------------------------------------------------------------------------
@@ -23,7 +14,7 @@ export class CalciteAccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteAccordionItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -31,7 +22,7 @@ export class CalciteAccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** pass a title for the accordion item */
   @Prop() itemTitle?: string;
@@ -49,8 +40,11 @@ export class CalciteAccordionItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteAccordionItemKeyEvent: EventEmitter;
+
   @Event() calciteAccordionItemSelect: EventEmitter;
+
   @Event() calciteAccordionItemClose: EventEmitter;
+
   @Event() calciteAccordionItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -63,7 +57,7 @@ export class CalciteAccordionItem {
     this.itemPosition = this.getItemPosition();
     this.calciteAccordionItemRegister.emit({
       parent: this.parent,
-      position: this.itemPosition,
+      position: this.itemPosition
     });
   }
 
@@ -71,13 +65,7 @@ export class CalciteAccordionItem {
     const dir = getElementDir(this.el);
     const iconScale = this.scale !== "l" ? "s" : "m";
 
-    const iconEl = (
-      <calcite-icon
-        class="accordion-item-icon"
-        icon={this.icon}
-        scale={iconScale}
-      />
-    );
+    const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale={iconScale} />;
 
     return (
       <Host
@@ -86,10 +74,7 @@ export class CalciteAccordionItem {
         dir={dir}
         icon-position={this.iconPosition}
       >
-        <div
-          class="accordion-item-header"
-          onClick={this.itemHeaderClickHandler}
-        >
+        <div class="accordion-item-header" onClick={this.itemHeaderClickHandler}>
           {this.icon ? iconEl : null}
           <div class="accordion-item-header-text">
             <span class="accordion-item-title">{this.itemTitle}</span>
@@ -136,7 +121,7 @@ export class CalciteAccordionItem {
         case "End":
           this.calciteAccordionItemKeyEvent.emit({
             parent: this.parent,
-            item: e,
+            item: e
           });
           e.preventDefault();
           break;
@@ -161,7 +146,7 @@ export class CalciteAccordionItem {
   private parent = this.el.parentElement as HTMLCalciteAccordionElement;
 
   /** position within parent */
-  private itemPosition: Number;
+  private itemPosition: number;
 
   /** the latest requested item */
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
@@ -205,7 +190,7 @@ export class CalciteAccordionItem {
 
   private emitRequestedItem() {
     this.calciteAccordionItemSelect.emit({
-      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement,
+      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
     });
   }
 

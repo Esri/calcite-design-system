@@ -24,7 +24,7 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLElement;
+  el: HTMLCalciteRadioGroupItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -60,7 +60,7 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    let inputProxy: HTMLInputElement = this.el.querySelector(`input[slot="input"]`);
+    const inputProxy: HTMLInputElement = this.el.querySelector(`input[slot="input"]`);
 
     if (inputProxy) {
       this.value = inputProxy.value;
@@ -73,7 +73,7 @@ export class CalciteRadioGroupItem {
     this.inputProxy = inputProxy;
 
     // prop validations
-    let iconPosition = ["start", "end"];
+    const iconPosition = ["start", "end"];
     if (this.icon !== null && !iconPosition.includes(this.iconPosition))
       this.iconPosition = "start";
   }
