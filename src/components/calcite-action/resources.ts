@@ -6,5 +6,5 @@ export const CSS = {
   slotContainer: "slot-container",
   slotContainerHidden: "slot-container--hidden",
   textContainer: "text-container",
-  textContainerVisible: "text-container--visible",
+  textContainerVisible: "text-container--visible"
 };

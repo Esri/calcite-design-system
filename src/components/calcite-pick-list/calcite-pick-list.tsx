@@ -8,7 +8,7 @@ import {
   Prop,
   State,
   h,
-  VNode,
+  VNode
 } from "@stencil/core";
 import { ICON_TYPES, TEXT } from "./resources";
 import {
@@ -25,7 +25,7 @@ import {
   setUpItems,
   keyDownHandler,
   setFocus,
-  ItemData,
+  ItemData
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 
@@ -36,7 +36,7 @@ import List from "./shared-list-render";
 @Component({
   tag: "calcite-pick-list",
   styleUrl: "./calcite-pick-list.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalcitePickList<
   ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement
@@ -73,8 +73,7 @@ export class CalcitePickList<
   /**
    * Placeholder text for the filter input field.
    */
-  @Prop({ reflect: true }) textFilterPlaceholder: string =
-    TEXT.filterPlaceholder;
+  @Prop({ reflect: true }) textFilterPlaceholder: string = TEXT.filterPlaceholder;
 
   // --------------------------------------------------------------------------
   //
@@ -172,9 +171,7 @@ export class CalcitePickList<
   // --------------------------------------------------------------------------
 
   @Method()
-  async getSelectedItems(): Promise<
-    Map<string, HTMLCalcitePickListItemElement>
-  > {
+  async getSelectedItems(): Promise<Map<string, HTMLCalcitePickListItemElement>> {
     return this.selectedValues;
   }
 

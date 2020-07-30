@@ -14,7 +14,7 @@ import { getSlotted } from "../utils/dom";
 @Component({
   tag: "calcite-shell",
   styleUrl: "calcite-shell.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteShell {
   // --------------------------------------------------------------------------
@@ -67,14 +67,11 @@ export class CalciteShell {
   }
 
   renderMain(): VNode {
-    const primaryPanel = getSlotted<HTMLCalciteShellPanelElement>(
-      this.el,
-      SLOTS.primaryPanel
-    );
+    const primaryPanel = getSlotted<HTMLCalciteShellPanelElement>(this.el, SLOTS.primaryPanel);
 
     const mainClasses = {
       [CSS.main]: true,
-      [CSS.mainReversed]: primaryPanel?.position === "end",
+      [CSS.mainReversed]: primaryPanel?.position === "end"
     };
 
     return (

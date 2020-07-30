@@ -9,9 +9,7 @@ describe("calcite-fab", () => {
 
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-fab text="hello world" text-enabled></calcite-fab>`
-    );
+    await page.setContent(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
 
     const button = await page.find(`calcite-fab >>> .${CSS.button}`);
     const text = button.textContent;
@@ -31,9 +29,7 @@ describe("calcite-fab", () => {
 
   it("should have label", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-fab text="hello world" label="hi"></calcite-fab>`
-    );
+    await page.setContent(`<calcite-fab text="hello world" label="hi"></calcite-fab>`);
 
     const button = await page.find(`calcite-fab >>> .${CSS.button}`);
     expect(button.getAttribute("title")).toBe("hi");
@@ -58,8 +54,6 @@ describe("calcite-fab", () => {
 
   it("should be accessible", async () => {
     await accessible(`<calcite-fab text="hello world"></calcite-fab>`);
-    await accessible(
-      `<calcite-fab text="hello world" disabled text-enabled></calcite-fab>`
-    );
+    await accessible(`<calcite-fab text="hello world" disabled text-enabled></calcite-fab>`);
   });
 });

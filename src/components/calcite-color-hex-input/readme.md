@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property  | Attribute  | Description                   | Type                | Default                             |
@@ -12,13 +11,11 @@
 | `theme`   | `theme`    | The component's theme.        | `"dark" \| "light"` | `"light"`                           |
 | `value`   | `value`    | The hex value.                | `string`            | `normalizeHex(DEFAULT_COLOR.hex())` |
 
-
 ## Events
 
 | Event                        | Description                         | Type               |
 | ---------------------------- | ----------------------------------- | ------------------ |
 | `calciteColorHexInputChange` | Emitted when the hex value changes. | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -30,14 +27,11 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-color](../calcite-color)
+- [calcite-color](../calcite-color)
 
 ### Depends on
 
@@ -45,6 +39,7 @@ Type: `Promise<void>`
 - [calcite-color-swatch](../calcite-color-swatch)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-color-hex-input --> calcite-input
@@ -55,6 +50,6 @@ graph TD;
   style calcite-color-hex-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

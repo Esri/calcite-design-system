@@ -7,13 +7,10 @@ import {
   Prop,
   Watch,
   h,
-  VNode,
+  VNode
 } from "@stencil/core";
 import { CalcitePosition, CalciteTheme } from "../interfaces";
-import {
-  CalciteExpandToggle,
-  toggleChildActionText,
-} from "../utils/CalciteExpandToggle";
+import { CalciteExpandToggle, toggleChildActionText } from "../utils/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted } from "../utils/dom";
 
@@ -24,7 +21,7 @@ import { getSlotted } from "../utils/dom";
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "calcite-action-bar.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteActionBar {
   // --------------------------------------------------------------------------
@@ -152,7 +149,7 @@ export class CalciteActionBar {
       el,
       position,
       toggleExpand,
-      tooltipExpand,
+      tooltipExpand
     } = this;
 
     const expandLabel = intlExpand || TEXT.expand;

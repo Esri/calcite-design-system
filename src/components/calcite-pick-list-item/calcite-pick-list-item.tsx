@@ -8,7 +8,7 @@ import {
   Prop,
   Watch,
   h,
-  VNode,
+  VNode
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
@@ -21,7 +21,7 @@ import { getSlotted } from "../utils/dom";
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "./calcite-pick-list-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalcitePickListItem {
   // --------------------------------------------------------------------------
@@ -71,7 +71,7 @@ export class CalcitePickListItem {
       item: this.el,
       value: this.value,
       selected: this.selected,
-      shiftPressed: this.shiftPressed,
+      shiftPressed: this.shiftPressed
     });
 
     this.shiftPressed = false;

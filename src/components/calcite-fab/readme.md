@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -20,11 +19,7 @@ Renders a `calcite-fab` that displays only an icon and a tooltip label.
 Renders a `calcite-fab` that displays text along side an icon and a tooltip label.
 
 ```html
-<calcite-fab
-  label="Performs my custom action"
-  text="Perform Action!"
-  text-enabled
-></calcite-fab>
+<calcite-fab label="Performs my custom action" text="Perform Action!" text-enabled></calcite-fab>
 ```
 
 #### Loading and disabled
@@ -34,8 +29,6 @@ Renders a `calcite-fab` that is loading and disabled.
 ```html
 <calcite-fab loading disabled></calcite-fab>
 ```
-
-
 
 ## Properties
 
@@ -52,19 +45,13 @@ Renders a `calcite-fab` that is loading and disabled.
 | `textEnabled` | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                              | `false`      |
 | `theme`       | `theme`        | Used to set the component's color scheme.                                                                                           | `"dark" \| "light"`                    | `undefined`  |
 
-
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
-
 
 ## Dependencies
 
@@ -73,6 +60,7 @@ Type: `Promise<void>`
 - [calcite-button](../calcite-button)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-fab --> calcite-button
@@ -81,6 +69,6 @@ graph TD;
   style calcite-fab fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

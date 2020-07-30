@@ -9,7 +9,7 @@ import {
   Method,
   Prop,
   State,
-  VNode,
+  VNode
 } from "@stencil/core";
 import { CSS, ICON_TYPES, TEXT } from "./resources";
 import {
@@ -26,7 +26,7 @@ import {
   mutationObserverCallback,
   selectSiblings,
   setFocus,
-  setUpItems,
+  setUpItems
 } from "../calcite-pick-list/shared-list-logic";
 import List from "../calcite-pick-list/shared-list-render";
 import { getRoundRobinIndex } from "../utils/array";
@@ -38,7 +38,7 @@ import { getRoundRobinIndex } from "../utils/array";
 @Component({
   tag: "calcite-value-list",
   styleUrl: "./calcite-value-list.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
@@ -80,8 +80,7 @@ export class CalciteValueList<
   /**
    * Placeholder text for the filter input field.
    */
-  @Prop({ reflect: true }) textFilterPlaceholder: string =
-    TEXT.filterPlaceholder;
+  @Prop({ reflect: true }) textFilterPlaceholder: string = TEXT.filterPlaceholder;
 
   // --------------------------------------------------------------------------
   //
@@ -184,12 +183,10 @@ export class CalciteValueList<
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
       onUpdate: () => {
-        this.items = Array.from(
-          this.el.querySelectorAll<ItemElement>("calcite-value-list-item")
-        );
+        this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
         const values = this.items.map((item) => item.value);
         this.calciteListOrderChange.emit(values);
-      },
+      }
     });
   }
 
@@ -211,15 +208,12 @@ export class CalciteValueList<
   keyDownHandler = (event: KeyboardEvent): void => {
     const handleElement = event
       .composedPath()
-      .find(
-        (item: HTMLElement) => item.dataset?.jsHandle
-      ) as HTMLCalciteHandleElement;
+      .find((item: HTMLElement) => item.dataset?.jsHandle) as HTMLCalciteHandleElement;
 
     const item = event
       .composedPath()
       .find(
-        (item: HTMLElement) =>
-          item.tagName?.toLowerCase() === "calcite-value-list-item"
+        (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
       ) as ItemElement;
 
     // Only trigger keyboard sorting when the internal drag handle is focused and activated
@@ -237,10 +231,7 @@ export class CalciteValueList<
     const { el, items } = this;
     const moveOffset = event.key === "ArrowDown" ? 1 : -1;
     const currentIndex = items.indexOf(item);
-    const nextIndex = getRoundRobinIndex(
-      currentIndex + moveOffset,
-      items.length
-    );
+    const nextIndex = getRoundRobinIndex(currentIndex + moveOffset, items.length);
 
     if (nextIndex === items.length - 1) {
       el.appendChild(item);
@@ -264,9 +255,7 @@ export class CalciteValueList<
   // --------------------------------------------------------------------------
 
   @Method()
-  async getSelectedItems(): Promise<
-    Map<string, HTMLCalciteValueListItemElement>
-  > {
+  async getSelectedItems(): Promise<Map<string, HTMLCalciteValueListItemElement>> {
     return this.selectedValues;
   }
 

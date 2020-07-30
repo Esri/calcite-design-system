@@ -11,24 +11,24 @@ export const CSS = {
   menuButton: "menu-button",
   menu: "menu",
   menuOpen: "menu--open",
-  fabContainer: "fab-container",
+  fabContainer: "fab-container"
 };
 
 export const SLOTS = {
   leadingActions: "leading-actions",
   menuActions: "menu-actions",
   fab: "fab",
-  footerActions: "footer-actions",
+  footerActions: "footer-actions"
 };
 
 export const ICONS = {
   menu: "ellipsis",
   backLeft: "chevron-left",
-  backRight: "chevron-right",
+  backRight: "chevron-right"
 };
 
 export const TEXT = {
   back: "Back",
   open: "Open",
-  close: "Close",
+  close: "Close"
 };

@@ -1,12 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { ICON_TYPES } from "./resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
-import {
-  selectionAndDeselection,
-  filterBehavior,
-  disabledStates,
-  keyboardNavigation,
-} from "./shared-list-tests";
+import { selectionAndDeselection, filterBehavior, disabledStates, keyboardNavigation } from "./shared-list-tests";
 
 describe("calcite-pick-list", () => {
   it("renders", async () => renders("calcite-pick-list"));
@@ -60,9 +55,7 @@ describe("calcite-pick-list", () => {
       item1: E2EElement,
       item2: E2EElement
     ): Promise<void> {
-      const item1ValueLowercased = (
-        await item1.getProperty("textLabel")
-      ).toLowerCase();
+      const item1ValueLowercased = (await item1.getProperty("textLabel")).toLowerCase();
 
       await page.evaluate(
         (filterText) => {
@@ -88,7 +81,7 @@ describe("calcite-pick-list", () => {
             <calcite-pick-list-item value="1" text-label="One" text-description="uno"></calcite-pick-list-item>
             <calcite-pick-list-item value="2" text-label="Two" text-description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
-        </calcite-pick-list>`,
+        </calcite-pick-list>`
         });
 
         groupOrParentItem = await page.find(`calcite-pick-list-group`);
@@ -105,19 +98,12 @@ describe("calcite-pick-list", () => {
             .shadowRoot.querySelector("calcite-filter");
 
           const filter = (window as any).filter;
-          (window as any).filterInput = filter.shadowRoot.querySelector(
-            "input"
-          );
+          (window as any).filterInput = filter.shadowRoot.querySelector("input");
         });
       });
 
       it("should show the group parent if a match is found in a child", async () =>
-        await assertGroupIsVisibleWhenChildMatches(
-          page,
-          groupOrParentItem,
-          item1,
-          item2
-        ));
+        await assertGroupIsVisibleWhenChildMatches(page, groupOrParentItem, item1, item2));
     });
 
     describe("filtering with groups (nested)", () => {
@@ -129,12 +115,10 @@ describe("calcite-pick-list", () => {
             <calcite-pick-list-item value="1" text-label="One" text-description="uno"></calcite-pick-list-item>
             <calcite-pick-list-item value="2" text-label="Two" text-description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
-        </calcite-pick-list>`,
+        </calcite-pick-list>`
         });
 
-        groupOrParentItem = await page.find(
-          `calcite-pick-list-item[slot="parent-item"]`
-        );
+        groupOrParentItem = await page.find(`calcite-pick-list-item[slot="parent-item"]`);
         item1 = await page.find(`calcite-pick-list-item[value="1"]`);
         item2 = await page.find(`calcite-pick-list-item[value="2"]`);
 
@@ -148,19 +132,12 @@ describe("calcite-pick-list", () => {
             .shadowRoot.querySelector("calcite-filter");
 
           const filter = (window as any).filter;
-          (window as any).filterInput = filter.shadowRoot.querySelector(
-            "input"
-          );
+          (window as any).filterInput = filter.shadowRoot.querySelector("input");
         });
       });
 
       it("should show the group parent if a match is found in a child", async () =>
-        await assertGroupIsVisibleWhenChildMatches(
-          page,
-          groupOrParentItem,
-          item1,
-          item2
-        ));
+        await assertGroupIsVisibleWhenChildMatches(page, groupOrParentItem, item1, item2));
 
       it("should show the children of a group if the parent matches", async () => {
         await page.evaluate(() => {

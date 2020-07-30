@@ -11,13 +11,10 @@ Renders a tip manager using a group of tips as well as a single tip.
       text-thumbnail="This is an image of a horse with wings."
     >
       <p slot="info">
-        Usually depicted as pure white, Pegasus is the offspring of the Olympian
-        god Poseidon. He was foaled by the Gorgon Medusa upon her death, when
-        the hero Perseus decapitated her.
+        Usually depicted as pure white, Pegasus is the offspring of the Olympian god Poseidon. He was foaled by the
+        Gorgon Medusa upon her death, when the hero Perseus decapitated her.
       </p>
-      <a slot="link" href="http://www.wingeddivinehorse.com"
-        >Magical flying horsey</a
-      >
+      <a slot="link" href="http://www.wingeddivinehorse.com">Magical flying horsey</a>
     </calcite-tip>
     <calcite-tip
       heading="Minotaur"
@@ -25,9 +22,8 @@ Renders a tip manager using a group of tips as well as a single tip.
       text-thumbnail="This is an image of a man with a bull head and tail."
     >
       <p slot="info">
-        The creature resided in the twisting maze of the labyrinth where it was
-        offfered a regular sacrifice of youths and maidens to satisfy its
-        cannibalistic hunger.
+        The creature resided in the twisting maze of the labyrinth where it was offfered a regular sacrifice of youths
+        and maidens to satisfy its cannibalistic hunger.
       </p>
       <a slot="link" href="http://www.cannibull.com">Bull headed man</a>
     </calcite-tip>
@@ -38,8 +34,8 @@ Renders a tip manager using a group of tips as well as a single tip.
     text-thumbnail="This is an image of a half woman half bird."
   >
     <p slot="info">
-      Dangerous creatures who lured nearby sailors with their enchanting music
-      and singing voices to shipwreck on the rocky coast of their island.
+      Dangerous creatures who lured nearby sailors with their enchanting music and singing voices to shipwreck on the
+      rocky coast of their island.
     </p>
     <a slot="link" href="http://www.beautifulmurderer.com">Sexy bird lady</a>
   </calcite-tip>

@@ -119,7 +119,6 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property           | Attribute            | Description                                                         | Type                                                                                                                                                                                   | Default      |
@@ -134,16 +133,15 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `min`              | `min`                | input min                                                           | `number`                                                                                                                                                                               | `undefined`  |
 | `numberButtonType` | `number-button-type` | specify the placement of the number buttons                         | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"` |
 | `placeholder`      | `placeholder`        | explicitly whitelist placeholder attribute                          | `string`                                                                                                                                                                               | `undefined`  |
-| `prefixText`       | `prefix-text`        | optionally add prefix  *                                            | `string`                                                                                                                                                                               | `undefined`  |
+| `prefixText`       | `prefix-text`        | optionally add prefix \*                                            | `string`                                                                                                                                                                               | `undefined`  |
 | `required`         | `required`           | is the input required                                               | `boolean`                                                                                                                                                                              | `false`      |
 | `scale`            | `scale`              | specify the scale of the input, defaults to m                       | `"l" \| "m" \| "s"`                                                                                                                                                                    | `undefined`  |
 | `status`           | `status`             | specify the status of the input field, determines message and icons | `"idle" \| "invalid" \| "valid"`                                                                                                                                                       | `undefined`  |
 | `step`             | `step`               | input step                                                          | `number`                                                                                                                                                                               | `undefined`  |
-| `suffixText`       | `suffix-text`        | optionally add suffix  *                                            | `string`                                                                                                                                                                               | `undefined`  |
+| `suffixText`       | `suffix-text`        | optionally add suffix \*                                            | `string`                                                                                                                                                                               | `undefined`  |
 | `theme`            | `theme`              | specify the alignment of dropdown, defaults to left                 | `"dark" \| "light"`                                                                                                                                                                    | `undefined`  |
 | `type`             | `type`               | specify the input type                                              | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`     |
 | `value`            | `value`              | input value                                                         | `string`                                                                                                                                                                               | `""`         |
-
 
 ## Events
 
@@ -152,7 +150,6 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `calciteInputBlur`  |             | `CustomEvent<any>` |
 | `calciteInputFocus` |             | `CustomEvent<any>` |
 | `calciteInputInput` |             | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -164,16 +161,13 @@ focus the rendered child element
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-color](../calcite-color)
- - [calcite-color-hex-input](../calcite-color-hex-input)
- - [calcite-date](../calcite-date)
+- [calcite-color](../calcite-color)
+- [calcite-color-hex-input](../calcite-color-hex-input)
+- [calcite-date](../calcite-date)
 
 ### Depends on
 
@@ -181,6 +175,7 @@ Type: `Promise<void>`
 - [calcite-progress](../calcite-progress)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-input --> calcite-icon
@@ -191,6 +186,6 @@ graph TD;
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

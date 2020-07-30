@@ -1,7 +1,6 @@
 :host {
   @extend %component-host;
-  animation: calcite-app-fade-in var(--calcite-app-animation-time-fast)
-    var(--calcite-app-easing-function);
+  animation: calcite-app-fade-in var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
 }
 
 @import "../../scss/includes/_component";

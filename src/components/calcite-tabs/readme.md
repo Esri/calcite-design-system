@@ -16,7 +16,6 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property | Attribute | Description                                                                      | Type                   | Default     |
@@ -24,20 +23,20 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 | `layout` | `layout`  | Align tab titles to the edge or fully justify them across the tab nav ("center") | `"center" \| "inline"` | `"inline"`  |
 | `theme`  | `theme`   | Select theme (light or dark)                                                     | `"dark" \| "light"`    | `undefined` |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-color](../calcite-color)
+- [calcite-color](../calcite-color)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-color --> calcite-tabs
   style calcite-tabs fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

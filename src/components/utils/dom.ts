@@ -22,9 +22,7 @@ export function focusElement(el: CalciteFocusableElement): void {
     return;
   }
 
-  "setFocus" in el && typeof el.setFocus === "function"
-    ? el.setFocus()
-    : el.focus();
+  "setFocus" in el && typeof el.setFocus === "function" ? el.setFocus() : el.focus();
 }
 
 interface GetSlottedOptions {
@@ -63,17 +61,10 @@ function queryMultiple<T extends Element = Element>(
   options?: GetSlottedOptions
 ): T[] {
   let matches = Array.from(element.querySelectorAll<T>(slotSelector));
-  matches =
-    options && options.direct === false
-      ? matches
-      : matches.filter((el) => el.parentElement === element);
+  matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
 
   const selector = options?.selector;
-  return selector
-    ? matches
-        .map((item) => item.querySelector<T>(selector))
-        .filter((match) => !!match)
-    : matches;
+  return selector ? matches.map((item) => item.querySelector<T>(selector)).filter((match) => !!match) : matches;
 }
 
 function querySingle<T extends Element = Element>(
@@ -82,12 +73,7 @@ function querySingle<T extends Element = Element>(
   options?: GetSlottedOptions
 ): T | null {
   let match = element.querySelector<T>(slotSelector);
-  match =
-    options && options.direct === false
-      ? match
-      : match?.parentElement === element
-      ? match
-      : null;
+  match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
 
   const selector = options?.selector;
   return selector ? match.querySelector<T>(selector) : match;

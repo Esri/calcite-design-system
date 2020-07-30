@@ -6,71 +6,70 @@
 :host {
   display: flex;
   align-self: stretch;
-  background-color: var(--calcite-ui-foreground-1);
-  color: var(--calcite-ui-text-3);
   cursor: pointer;
-  line-height: 1.25;
-  margin: 0 -1px 0 0;
-  border: 1px solid var(--calcite-ui-border-1);
-  box-shadow: inset 0 0 0 1px transparent;
-  box-sizing: border-box;
-  font-weight: 400;
   transition: background 0.1s ease-in-out, border-color 0.1s ease-in-out;
-  cursor: pointer;
 }
 
-:host([layout="vertical"]) {
-  margin: 0 0 -1px 0;
+:host label {
+  display: flex;
+  flex: 1;
+  color: var(--calcite-ui-text-3);
+  border: 1px solid transparent;
+  margin: 4px;
+  box-sizing: border-box;
+  transition: background 0.1s ease-in-out, border-color 0.1s ease-in-out;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
 }
+
+:host([layout="horizontal"]) label {
+  justify-content: center;
+}
+
 // focus styles
 :host {
   @include focus-style-base();
 }
 :host(:focus) {
-  @include focus-style-outset();
+  @include focus-style-inset();
 }
 
-:host([scale="s"]) {
+:host([scale="s"]) label {
   @include font-size(-3);
   padding: 0.25rem 0.75rem;
 }
 
-:host([scale="m"]) {
+:host([scale="m"]) label {
   @include font-size(-1);
   padding: 0.4rem 1rem;
 }
 
-:host([scale="l"]) {
+:host([scale="l"]) label {
   @include font-size(0);
   padding: 0.5rem 1.5rem;
 }
 
-:host(:hover) {
+:host(:hover) label {
   background-color: var(--calcite-ui-foreground-2);
 }
 
-:host(:active) {
+:host(:active) label {
   background-color: var(--calcite-ui-foreground-3);
 }
 
-:host([checked]) {
+:host([checked]) label {
   background-color: var(--calcite-ui-blue-1);
   border-color: var(--calcite-ui-blue-1);
   color: var(--calcite-ui-background);
   cursor: default;
 }
 
-:host([appearance="outline"][checked]) {
+:host([appearance="outline"][checked]) label {
   background-color: var(--calcite-ui-foreground-1);
   border-color: var(--calcite-ui-blue-1);
   box-shadow: inset 0 0 0 1px var(--calcite-ui-blue-1);
   color: var(--calcite-ui-blue-1);
-}
-
-label {
-  pointer-events: none;
-  display: flex;
-  align-items: center;
 }
 
 ::slotted(input) {

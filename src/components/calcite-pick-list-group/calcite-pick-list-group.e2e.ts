@@ -6,9 +6,7 @@ describe("calcite-pick-list-group", () => {
   it("should render", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-pick-list-group></calcite-pick-list-group>`
-    );
+    await page.setContent(`<calcite-pick-list-group></calcite-pick-list-group>`);
     const pickList = await page.find("calcite-pick-list-group");
     expect(pickList).not.toBeNull();
     const isVisible = await pickList.isVisible();
@@ -24,12 +22,8 @@ describe("calcite-pick-list-group", () => {
     const page = await newE2EPage();
     const headingText = "testing";
 
-    await page.setContent(
-      `<calcite-pick-list-group text-group-title=${headingText}></calcite-pick-list-group>`
-    );
-    const heading = await page.find(
-      `calcite-pick-list-group >>> .${CSS.heading}`
-    );
+    await page.setContent(`<calcite-pick-list-group text-group-title=${headingText}></calcite-pick-list-group>`);
+    const heading = await page.find(`calcite-pick-list-group >>> .${CSS.heading}`);
     const isVisible = await heading.isVisible();
     expect(isVisible).toBe(true);
     expect(heading.innerText).toBe(headingText);
@@ -43,9 +37,7 @@ describe("calcite-pick-list-group", () => {
         <calcite-pick-list-item value="1" text-label="One" text-description="uno"></calcite-pick-list-item>
       </calcite-pick-list-group>
     </calcite-pick-list>`);
-    const indentedContainer = await page.find(
-      `calcite-pick-list-group >>> ${CSS.indented}`
-    );
+    const indentedContainer = await page.find(`calcite-pick-list-group >>> ${CSS.indented}`);
     expect(indentedContainer).toBeDefined();
   });
 });

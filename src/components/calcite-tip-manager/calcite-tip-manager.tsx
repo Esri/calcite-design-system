@@ -9,7 +9,7 @@ import {
   State,
   Watch,
   h,
-  VNode,
+  VNode
 } from "@stencil/core";
 import { CSS, ICONS, TEXT } from "./resources";
 import { getElementDir } from "../utils/dom";
@@ -21,7 +21,7 @@ import { CalciteTheme } from "../interfaces";
 @Component({
   tag: "calcite-tip-manager",
   styleUrl: "./calcite-tip-manager.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteTipManager {
   // --------------------------------------------------------------------------
@@ -156,9 +156,7 @@ export class CalciteTipManager {
     if (this.total === 0) {
       return;
     }
-    const selectedTip = this.el.querySelector<HTMLCalciteTipElement>(
-      "calcite-tip[selected]"
-    );
+    const selectedTip = this.el.querySelector<HTMLCalciteTipElement>("calcite-tip[selected]");
 
     this.tips = tips;
     this.selectedIndex = selectedTip ? tips.indexOf(selectedTip) : 0;
@@ -186,10 +184,7 @@ export class CalciteTipManager {
   updateGroupTitle(): void {
     const selectedTip = this.tips[this.selectedIndex];
     const tipParent = selectedTip.closest("calcite-tip-group");
-    this.groupTitle =
-      tipParent?.textGroupTitle ||
-      this.intlDefaultTitle ||
-      TEXT.defaultGroupTitle;
+    this.groupTitle = tipParent?.textGroupTitle || this.intlDefaultTitle || TEXT.defaultGroupTitle;
   }
 
   previousClicked = (): void => {
@@ -237,14 +232,7 @@ export class CalciteTipManager {
 
   renderPagination(): VNode {
     const dir = getElementDir(this.el);
-    const {
-      selectedIndex,
-      tips,
-      total,
-      intlNext,
-      intlPrevious,
-      intlPaginationLabel,
-    } = this;
+    const { selectedIndex, tips, total, intlNext, intlPrevious, intlPaginationLabel } = this;
 
     const nextLabel = intlNext || TEXT.next;
     const previousLabel = intlPrevious || TEXT.previous;
@@ -258,9 +246,7 @@ export class CalciteTipManager {
           class={CSS.pagePrevious}
           icon={dir === "ltr" ? ICONS.chevronLeft : ICONS.chevronRight}
         />
-        <span class={CSS.pagePosition}>{`${paginationLabel} ${
-          selectedIndex + 1
-        }/${total}`}</span>
+        <span class={CSS.pagePosition}>{`${paginationLabel} ${selectedIndex + 1}/${total}`}</span>
         <calcite-action
           text={nextLabel}
           onClick={this.nextClicked}
@@ -272,14 +258,7 @@ export class CalciteTipManager {
   }
 
   render(): VNode {
-    const {
-      closed,
-      direction,
-      groupTitle,
-      selectedIndex,
-      intlClose,
-      total,
-    } = this;
+    const { closed, direction, groupTitle, selectedIndex, intlClose, total } = this;
 
     const closeLabel = intlClose || TEXT.close;
 
@@ -312,8 +291,7 @@ export class CalciteTipManager {
             class={{
               [CSS.tipContainer]: true,
               [CSS.tipContainerAdvancing]: !closed && direction === "advancing",
-              [CSS.tipContainerRetreating]:
-                !closed && direction === "retreating",
+              [CSS.tipContainerRetreating]: !closed && direction === "retreating"
             }}
             key={selectedIndex}
           >

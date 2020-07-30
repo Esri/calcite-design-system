@@ -14,26 +14,21 @@ interface CalciteExpandToggleProps {
 
 const ICONS = {
   chevronsLeft: "chevrons-left",
-  chevronsRight: "chevrons-right",
+  chevronsRight: "chevrons-right"
 };
 
-function getCalcitePosition(
-  position: CalcitePosition,
-  el: HTMLElement
-): CalcitePosition {
+function getCalcitePosition(position: CalcitePosition, el: HTMLElement): CalcitePosition {
   return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 
 export function toggleChildActionText({
   parent,
-  expanded,
+  expanded
 }: {
   parent: HTMLElement;
   expanded: boolean;
 }): void {
-  parent
-    .querySelectorAll("calcite-action")
-    .forEach((action) => (action.textEnabled = expanded));
+  parent.querySelectorAll("calcite-action").forEach((action) => (action.textEnabled = expanded));
 }
 
 const setTooltipReference = (
@@ -55,7 +50,7 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
   toggleExpand,
   el,
   position,
-  tooltipExpand,
+  tooltipExpand
 }) => {
   const rtl = getElementDir(el) === "rtl";
 

@@ -1,13 +1,4 @@
-import {
-  Component,
-  Element,
-  Host,
-  Method,
-  Prop,
-  h,
-  VNode,
-  Listen,
-} from "@stencil/core";
+import { Component, Element, Host, Method, Prop, h, VNode, Listen } from "@stencil/core";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
 import guid from "../utils/guid";
 import { CSS } from "../calcite-pick-list-item/resources";
@@ -19,7 +10,7 @@ import { ICONS } from "./resources";
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "./calcite-value-list-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteValueListItem {
   // --------------------------------------------------------------------------
@@ -124,8 +115,7 @@ export class CalciteValueListItem {
   //
   // --------------------------------------------------------------------------
 
-  getPickListRef = (el): HTMLCalcitePickListItemElement =>
-    (this.pickListItem = el);
+  getPickListRef = (el): HTMLCalcitePickListItemElement => (this.pickListItem = el);
 
   handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " ") {
@@ -155,7 +145,7 @@ export class CalciteValueListItem {
           role="button"
           class={{
             [CSS.handle]: true,
-            [CSS.handleActivated]: this.handleActivated,
+            [CSS.handleActivated]: this.handleActivated
           }}
           tabindex="0"
           data-js-handle="true"

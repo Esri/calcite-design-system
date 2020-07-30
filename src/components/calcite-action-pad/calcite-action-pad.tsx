@@ -7,13 +7,10 @@ import {
   Prop,
   Watch,
   h,
-  VNode,
+  VNode
 } from "@stencil/core";
 import { CalciteLayout, CalcitePosition, CalciteTheme } from "../interfaces";
-import {
-  CalciteExpandToggle,
-  toggleChildActionText,
-} from "../utils/CalciteExpandToggle";
+import { CalciteExpandToggle, toggleChildActionText } from "../utils/CalciteExpandToggle";
 import { getElementDir } from "../utils/dom";
 import { CSS_UTILITY } from "../utils/resources";
 import { CSS, TEXT } from "./resources";
@@ -24,7 +21,7 @@ import { CSS, TEXT } from "./resources";
 @Component({
   tag: "calcite-action-pad",
   styleUrl: "calcite-action-pad.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteActionPad {
   // --------------------------------------------------------------------------
@@ -146,7 +143,7 @@ export class CalciteActionPad {
       el,
       position,
       toggleExpand,
-      tooltipExpand,
+      tooltipExpand
     } = this;
 
     const expandLabel = intlExpand || TEXT.expand;
@@ -165,9 +162,7 @@ export class CalciteActionPad {
     ) : null;
 
     return expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom}>
-        {expandToggleNode}
-      </calcite-action-group>
+      <calcite-action-group class={CSS.actionGroupBottom}>{expandToggleNode}</calcite-action-group>
     ) : null;
   }
 
@@ -175,7 +170,7 @@ export class CalciteActionPad {
     const rtl = getElementDir(this.el) === "rtl";
     const containerClasses = {
       [CSS.container]: true,
-      [CSS_UTILITY.rtl]: rtl,
+      [CSS_UTILITY.rtl]: rtl
     };
 
     return (

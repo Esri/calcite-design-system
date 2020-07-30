@@ -4,7 +4,6 @@ The `calcite-action-pad` component is made up of `calcite-action`s in the form o
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -35,7 +34,6 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 </calcite-action-pad>
 ```
 
-
 ### Tooltip
 
 ### Tooltip on the expand action
@@ -52,8 +50,6 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 </script>
 ```
 
-
-
 ## Properties
 
 | Property        | Attribute       | Description                                                              | Type                         | Default      |
@@ -67,20 +63,17 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 | `theme`         | `theme`         | Used to set the component's color scheme.                                | `"dark" \| "light"`          | `undefined`  |
 | `tooltipExpand` | --              | Used to set the tooltip for the expand toggle.                           | `HTMLCalciteTooltipElement`  | `undefined`  |
 
-
 ## Events
 
 | Event                    | Description                             | Type               |
 | ------------------------ | --------------------------------------- | ------------------ |
 | `calciteActionPadToggle` | Emitted when expanded has been toggled. | `CustomEvent<any>` |
 
-
 ## Slots
 
 | Slot | Description                                            |
 | ---- | ------------------------------------------------------ |
 |      | A slot for adding `calcite-action`s to the action pad. |
-
 
 ## Dependencies
 
@@ -91,6 +84,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 - [calcite-tooltip-manager](../calcite-tooltip-manager)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-action-pad --> calcite-action-group
@@ -101,6 +95,6 @@ graph TD;
   style calcite-action-pad fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

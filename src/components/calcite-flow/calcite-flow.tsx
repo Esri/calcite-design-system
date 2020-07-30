@@ -1,14 +1,4 @@
-import {
-  Component,
-  Element,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  h,
-  VNode,
-} from "@stencil/core";
+import { Component, Element, Host, Listen, Method, Prop, State, h, VNode } from "@stencil/core";
 
 import { CSS } from "./resources";
 
@@ -20,7 +10,7 @@ import { CalciteTheme, FlowDirection } from "../interfaces";
 @Component({
   tag: "calcite-flow",
   styleUrl: "calcite-flow.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteFlow {
   // --------------------------------------------------------------------------
@@ -104,10 +94,7 @@ export class CalciteFlow {
     this.back();
   }
 
-  getFlowDirection = (
-    oldFlowCount: number,
-    newFlowCount: number
-  ): FlowDirection | null => {
+  getFlowDirection = (oldFlowCount: number, newFlowCount: number): FlowDirection | null => {
     const allowRetreatingDirection = oldFlowCount > 1;
     const allowAdvancingDirection = oldFlowCount && newFlowCount > 1;
 
@@ -165,7 +152,7 @@ export class CalciteFlow {
     const frameDirectionClasses = {
       [CSS.frame]: true,
       [CSS.frameAdvancing]: flowDirection === "advancing",
-      [CSS.frameRetreating]: flowDirection === "retreating",
+      [CSS.frameRetreating]: flowDirection === "retreating"
     };
 
     return (

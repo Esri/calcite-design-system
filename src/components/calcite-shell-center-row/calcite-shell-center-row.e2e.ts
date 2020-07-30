@@ -12,28 +12,24 @@ describe("calcite-shell-center-row", () => {
     defaults("calcite-shell-center-row", [
       {
         propertyName: "detached",
-        defaultValue: false,
+        defaultValue: false
       },
       {
         propertyName: "heightScale",
-        defaultValue: "s",
+        defaultValue: "s"
       },
       {
         propertyName: "position",
-        defaultValue: "end",
-      },
+        defaultValue: "end"
+      }
     ]));
 
   it("should not render action bar container when there is no action-bar", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      "<calcite-shell-center-row></calcite-shell-center-row>"
-    );
+    await page.setContent("<calcite-shell-center-row></calcite-shell-center-row>");
 
-    const actionBarContainer = await page.find(
-      `calcite-shell-center-row >>> .${CSS.actionBarContainer}`
-    );
+    const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
 
     expect(actionBarContainer).toBeNull();
   });
@@ -50,9 +46,7 @@ describe("calcite-shell-center-row", () => {
     `;
     await page.setContent(pageContent);
 
-    const actionBarContainer = await page.find(
-      `calcite-shell-center-row >>> .${CSS.actionBarContainer}`
-    );
+    const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
 
     expect(actionBarContainer).not.toBeNull();
   });
@@ -74,9 +68,7 @@ describe("calcite-shell-center-row", () => {
 
     await page.waitForChanges();
 
-    expect(element.shadowRoot.firstElementChild).toHaveClass(
-      CSS.actionBarContainer
-    );
+    expect(element.shadowRoot.firstElementChild).toHaveClass(CSS.actionBarContainer);
   });
 
   it("should render action bar container last when action bar has end position", async () => {
@@ -96,9 +88,7 @@ describe("calcite-shell-center-row", () => {
 
     await page.waitForChanges();
 
-    expect(element.shadowRoot.lastElementChild).toHaveClass(
-      CSS.actionBarContainer
-    );
+    expect(element.shadowRoot.lastElementChild).toHaveClass(CSS.actionBarContainer);
   });
 
   it("should be accessible", async () =>

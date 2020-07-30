@@ -16,8 +16,7 @@ $tip-image-max-width: 100% !default;
 
 .container {
   background-color: var(--calcite-app-background);
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing)
-    var(--calcite-app-cap-spacing);
+  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing) var(--calcite-app-cap-spacing);
   margin: var(--calcite-app-cap-spacing) var(--calcite-app-side-spacing);
   box-shadow: var(--calcite-app-shadow-2);
   border-radius: var(--calcite-app-border-radius);

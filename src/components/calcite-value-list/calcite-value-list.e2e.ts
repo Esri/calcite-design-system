@@ -5,7 +5,7 @@ import {
   selectionAndDeselection,
   filterBehavior,
   disabledStates,
-  keyboardNavigation,
+  keyboardNavigation
 } from "../calcite-pick-list/shared-list-tests";
 
 describe("calcite-value-list", () => {
@@ -97,21 +97,14 @@ describe("calcite-value-list", () => {
       await page.keyboard.press("Space");
       await page.waitForChanges();
 
-      async function assertKeyboardMove(
-        direction: "down" | "up",
-        expectedValueOrder: string[]
-      ): Promise<void> {
-        const arrowKey = `Arrow${
-          direction.charAt(0).toUpperCase() + direction.slice(1)
-        }`;
+      async function assertKeyboardMove(direction: "down" | "up", expectedValueOrder: string[]): Promise<void> {
+        const arrowKey = `Arrow${direction.charAt(0).toUpperCase() + direction.slice(1)}`;
         await page.keyboard.press(arrowKey);
         await page.waitForChanges();
         const itemsAfter = await page.findAll("calcite-value-list-item");
 
         for (let i = 0; i < itemsAfter.length; i++) {
-          expect(await itemsAfter[i].getProperty("value")).toBe(
-            expectedValueOrder[i]
-          );
+          expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
         }
       }
 

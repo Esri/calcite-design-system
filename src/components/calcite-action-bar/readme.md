@@ -6,7 +6,6 @@ The `calcite-action-bar` component is made up of multiple `calcite-action`s in t
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -47,14 +46,9 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 ```html
 <calcite-action-bar>
   <calcite-action text="Information" icon="information"></calcite-action>
-  <calcite-action
-    text="Feedback"
-    slot="bottom-actions"
-    icon="mega-phone"
-  ></calcite-action>
+  <calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
 </calcite-action-bar>
 ```
-
 
 ### Tooltip
 
@@ -72,8 +66,6 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 </script>
 ```
 
-
-
 ## Properties
 
 | Property        | Attribute       | Description                                                              | Type                        | Default     |
@@ -86,13 +78,11 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 | `theme`         | `theme`         | Used to set the component's color scheme.                                | `"dark" \| "light"`         | `undefined` |
 | `tooltipExpand` | --              | Used to set the tooltip for the expand toggle.                           | `HTMLCalciteTooltipElement` | `undefined` |
 
-
 ## Events
 
 | Event                    | Description                             | Type               |
 | ------------------------ | --------------------------------------- | ------------------ |
 | `calciteActionBarToggle` | Emitted when expanded has been toggled. | `CustomEvent<any>` |
-
 
 ## Slots
 
@@ -100,7 +90,6 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
 |                    | A slot for adding `calcite-action`s that will appear at the top of the action bar.                                      |
 | `"bottom-actions"` | A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button. |
-
 
 ## Dependencies
 
@@ -111,6 +100,7 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 - [calcite-tooltip-manager](../calcite-tooltip-manager)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-action-bar --> calcite-action-group
@@ -121,6 +111,6 @@ graph TD;
   style calcite-action-bar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

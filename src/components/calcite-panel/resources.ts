@@ -7,11 +7,11 @@ export const CSS = {
   contentContainer: "content-container",
   fabContainer: "fab-container",
   slotContainer: "slot-container",
-  footer: "footer",
+  footer: "footer"
 };
 
 export const ICONS = {
-  close: "x",
+  close: "x"
 };
 
 export const SLOTS = {
@@ -19,9 +19,9 @@ export const SLOTS = {
   headerLeadingContent: "header-leading-content",
   headerTrailingContent: "header-trailing-content",
   fab: "fab",
-  footer: "footer",
+  footer: "footer"
 };
 
 export const TEXT = {
-  close: "Close",
+  close: "Close"
 };

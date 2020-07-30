@@ -28,12 +28,7 @@ Renders a panel with leading and trailing `calcite-action`s.
 ```html
 <calcite-panel>
   <div slot="header-leading-content">
-    <calcite-action
-      label="Performs my custom action"
-      text="Perform Action!"
-      text-enabled
-      icon="home"
-    ></calcite-action>
+    <calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="home"></calcite-action>
   </div>
   <div slot="header-content">Header!</div>
   <div slot="header-trailing-content">

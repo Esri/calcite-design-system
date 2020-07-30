@@ -4,7 +4,6 @@ The `calcite-action` component lives in either a `calcite-action-bar` or `calcit
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -22,12 +21,7 @@ Renders a `calcite-action` that displays only an icon and a tooltip label.
 Renders a `calcite-action` that displays text along side an icon and a tooltip label.
 
 ```html
-<calcite-action
-  label="Performs my custom action"
-  text="Perform Action!"
-  text-enabled
-  icon="save"
-></calcite-action>
+<calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="save"></calcite-action>
 ```
 
 #### Clear appearance
@@ -37,8 +31,6 @@ Renders a `calcite-action` that has a clear background.
 ```html
 <calcite-action appearance="clear" icon="layers"></calcite-action>
 ```
-
-
 
 ## Properties
 
@@ -57,19 +49,13 @@ Renders a `calcite-action` that has a clear background.
 | `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                         | `false`     |
 | `theme`             | `theme`        | Used to set the component's color scheme.                                                                                           | `"dark" \| "light"`               | `undefined` |
 
-
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
-
 
 ## Slots
 
@@ -77,19 +63,18 @@ Type: `Promise<void>`
 | ---- | ----------------------------------- |
 |      | A slot for adding a `calcite-icon`. |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-action-bar](../calcite-action-bar)
- - [calcite-action-pad](../calcite-action-pad)
- - [calcite-block-section](../calcite-block-section)
- - [calcite-flow-item](../calcite-flow-item)
- - [calcite-panel](../calcite-panel)
- - [calcite-pick-list-item](../calcite-pick-list-item)
- - [calcite-tip](../calcite-tip)
- - [calcite-tip-manager](../calcite-tip-manager)
+- [calcite-action-bar](../calcite-action-bar)
+- [calcite-action-pad](../calcite-action-pad)
+- [calcite-block-section](../calcite-block-section)
+- [calcite-flow-item](../calcite-flow-item)
+- [calcite-panel](../calcite-panel)
+- [calcite-pick-list-item](../calcite-pick-list-item)
+- [calcite-tip](../calcite-tip)
+- [calcite-tip-manager](../calcite-tip-manager)
 
 ### Depends on
 
@@ -97,6 +82,7 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-action --> calcite-loader
@@ -112,6 +98,6 @@ graph TD;
   style calcite-action fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -48,7 +48,6 @@ modal.beforeClose = beforeClose;
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property             | Attribute              | Description                                                                                                 | Type                                 | Default                   |
@@ -68,14 +67,12 @@ modal.beforeClose = beforeClose;
 | `theme`              | `theme`                | Select theme (light or dark)                                                                                | `"dark" \| "light"`                  | `undefined`               |
 | `width`              | `width`                | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
-
 ## Events
 
 | Event               | Description                                     | Type               |
 | ------------------- | ----------------------------------------------- | ------------------ |
 | `calciteModalClose` | Fired when the modal begins the close animation | `CustomEvent<any>` |
 | `calciteModalOpen`  | Fired when the modal begins the open animation  | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -87,8 +84,6 @@ Focus first interactive element
 
 Type: `Promise<void>`
 
-
-
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
 Set the scroll top of the modal content
@@ -96,9 +91,6 @@ Set the scroll top of the modal content
 #### Returns
 
 Type: `Promise<void>`
-
-
-
 
 ## Dependencies
 
@@ -108,6 +100,7 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-modal --> calcite-scrim
@@ -116,6 +109,6 @@ graph TD;
   style calcite-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

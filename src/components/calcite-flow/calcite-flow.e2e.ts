@@ -23,9 +23,7 @@ describe("calcite-flow", () => {
   it("back() method should remove item", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      "<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>"
-    );
+    await page.setContent("<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>");
 
     const flow = await page.find("calcite-flow");
 
@@ -44,9 +42,7 @@ describe("calcite-flow", () => {
     const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
     await page.exposeFunction("beforeBack", mockCallBack);
 
-    await page.setContent(
-      "<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>"
-    );
+    await page.setContent("<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>");
 
     await page.$eval("calcite-flow-item", (elm: HTMLCalciteFlowItemElement) => {
       elm.beforeBack = this.beforeBack;
@@ -63,9 +59,7 @@ describe("calcite-flow", () => {
   it("frame advancing should add animation class", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      "<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>"
-    );
+    await page.setContent("<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>");
 
     const items = await page.findAll("calcite-flow-item");
 
@@ -73,8 +67,7 @@ describe("calcite-flow", () => {
 
     const element = await page.find("calcite-flow");
 
-    element.innerHTML =
-      "<calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item>";
+    element.innerHTML = "<calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item>";
 
     await page.waitForChanges();
 
@@ -90,9 +83,7 @@ describe("calcite-flow", () => {
   it("frame advancing should add animation class when subtree is modified", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      "<calcite-flow><calcite-flow-item>flow1</calcite-flow-item></calcite-flow>"
-    );
+    await page.setContent("<calcite-flow><calcite-flow-item>flow1</calcite-flow-item></calcite-flow>");
 
     const element = await page.find("calcite-flow");
 
@@ -135,9 +126,7 @@ describe("calcite-flow", () => {
     expect(frame).not.toHaveClass(CSS.frameRetreating);
     expect(frame).not.toHaveClass(CSS.frameAdvancing);
 
-    await page.$eval("calcite-flow", (elm: HTMLCalciteFlowElement) =>
-      elm.back()
-    );
+    await page.$eval("calcite-flow", (elm: HTMLCalciteFlowElement) => elm.back());
 
     await page.waitForChanges();
 
@@ -165,8 +154,7 @@ describe("calcite-flow", () => {
 
     const element = await page.find("calcite-flow");
 
-    element.innerHTML =
-      "<calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item>";
+    element.innerHTML = "<calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item>";
 
     await page.waitForChanges();
 

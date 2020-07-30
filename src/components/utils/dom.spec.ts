@@ -42,19 +42,16 @@ describe("dom", () => {
       it("returns elements with matching slot name", () =>
         expect(getSlotted(getTestComponent(), testSlotName)).toBeTruthy());
 
-      it("returns null when no results", () =>
-        expect(getSlotted(getTestComponent(), "non-existent-slot")).toBeNull());
+      it("returns null when no results", () => expect(getSlotted(getTestComponent(), "non-existent-slot")).toBeNull());
 
       describe("scoped selector", () => {
         it("returns element with matching nested selector", () =>
-          expect(
-            getSlotted(getTestComponent(), testSlotName, { selector: "span" })
-          ).toBeTruthy());
+          expect(getSlotted(getTestComponent(), testSlotName, { selector: "span" })).toBeTruthy());
 
         it("returns nothing with non-matching child selector", () =>
           expect(
             getSlotted(getTestComponent(), testSlotName, {
-              selector: "non-existent-slot",
+              selector: "non-existent-slot"
             })
           ).toBeNull());
       });
@@ -72,7 +69,7 @@ describe("dom", () => {
 
           expect(
             getSlotted(getTestComponent(), testSlotName, {
-              direct: true,
+              direct: true
             })
           ).toBeTruthy();
         });
@@ -89,7 +86,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              direct: true,
+              direct: true
             })
           ).toBeTruthy();
         });
@@ -98,21 +95,17 @@ describe("dom", () => {
 
     describe("multiple slotted", () => {
       it("returns elements with matching slot name", () =>
-        expect(
-          getSlotted(getTestComponent(), testSlotName, { all: true })
-        ).toHaveLength(2));
+        expect(getSlotted(getTestComponent(), testSlotName, { all: true })).toHaveLength(2));
 
       it("returns empty list when no results", () =>
-        expect(
-          getSlotted(getTestComponent(), "non-existent-slot", { all: true })
-        ).toHaveLength(0));
+        expect(getSlotted(getTestComponent(), "non-existent-slot", { all: true })).toHaveLength(0));
 
       describe("scoped selector", () => {
         it("returns child elements matching selector", () =>
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              selector: "span",
+              selector: "span"
             })
           ).toHaveLength(2));
 
@@ -120,7 +113,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              selector: "non-existent",
+              selector: "non-existent"
             })
           ).toHaveLength(0));
       });
@@ -139,7 +132,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              direct: true,
+              direct: true
             })
           ).toHaveLength(1);
         });
@@ -157,7 +150,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              direct: true,
+              direct: true
             })
           ).toHaveLength(0);
         });

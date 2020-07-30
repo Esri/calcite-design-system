@@ -21,7 +21,6 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property   | Attribute  | Description                                             | Type                         | Default        |
@@ -32,13 +31,11 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 | `scale`    | `scale`    | specify the scale of stepper, defaults to m             | `"l" \| "m" \| "s"`          | `"m"`          |
 | `theme`    | `theme`    | specify the theme of stepper, defaults to light         | `"dark" \| "light"`          | `undefined`    |
 
-
 ## Events
 
 | Event                      | Description | Type               |
 | -------------------------- | ----------- | ------------------ |
 | `calciteStepperItemChange` |             | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -50,8 +47,6 @@ set the last step as active
 
 Type: `Promise<void>`
 
-
-
 ### `goToStep(num: number) => Promise<void>`
 
 set the requested step as active
@@ -59,8 +54,6 @@ set the requested step as active
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `nextStep() => Promise<void>`
 
@@ -70,8 +63,6 @@ set the next step as active
 
 Type: `Promise<void>`
 
-
-
 ### `prevStep() => Promise<void>`
 
 set the previous step as active
@@ -79,8 +70,6 @@ set the previous step as active
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `startStep() => Promise<void>`
 
@@ -90,9 +79,6 @@ set the first step as active
 
 Type: `Promise<void>`
 
+---
 
-
-
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

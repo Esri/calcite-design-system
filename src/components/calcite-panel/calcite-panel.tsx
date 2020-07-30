@@ -7,7 +7,7 @@ import {
   Method,
   Prop,
   Watch,
-  h,
+  h
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted, getElementTheme } from "../utils/dom";
@@ -26,7 +26,7 @@ import { CalciteScale, CalciteTheme } from "../interfaces";
 @Component({
   tag: "calcite-panel",
   styleUrl: "calcite-panel.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalcitePanel {
   // --------------------------------------------------------------------------
@@ -196,9 +196,7 @@ export class CalcitePanel {
     const headerTrailingContentNode = this.renderHeaderTrailingContent();
 
     const canDisplayHeader =
-      headerContentNode ||
-      headerLeadingContentNode ||
-      headerTrailingContentNode;
+      headerContentNode || headerLeadingContentNode || headerTrailingContentNode;
 
     return canDisplayHeader ? (
       <header class={CSS.header}>
@@ -223,11 +221,7 @@ export class CalcitePanel {
 
   renderContent(): VNode {
     return (
-      <section
-        tabIndex={0}
-        class={CSS.contentContainer}
-        onScroll={this.panelScrollHandler}
-      >
+      <section tabIndex={0} class={CSS.contentContainer} onScroll={this.panelScrollHandler}>
         <div class={CSS.slotContainer}>
           <slot />
         </div>
@@ -247,14 +241,7 @@ export class CalcitePanel {
   }
 
   render(): VNode {
-    const {
-      dismissed,
-      disabled,
-      dismissible,
-      el,
-      loading,
-      panelKeyUpHandler,
-    } = this;
+    const { dismissed, disabled, dismissible, el, loading, panelKeyUpHandler } = this;
 
     const rtl = getElementDir(el) === "rtl";
 
@@ -267,7 +254,7 @@ export class CalcitePanel {
         ref={(containerEl): HTMLElement => (this.containerEl = containerEl)}
         class={{
           [CSS.container]: true,
-          [CSS_UTILITY.rtl]: rtl,
+          [CSS_UTILITY.rtl]: rtl
         }}
       >
         {this.renderHeader()}

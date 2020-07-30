@@ -5,17 +5,17 @@ export const CSS = {
   close: "close",
   imageFrame: "image-frame",
   content: "content",
-  info: "info",
+  info: "info"
 };
 
 export const ICONS = {
-  close: "x",
+  close: "x"
 };
 
 export const SLOTS = {
-  thumbnail: "thumbnail",
+  thumbnail: "thumbnail"
 };
 
 export const TEXT = {
-  close: "Close",
+  close: "Close"
 };

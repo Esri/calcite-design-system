@@ -1,12 +1,4 @@
-import {
-  Component,
-  Element,
-  Host,
-  Method,
-  Prop,
-  h,
-  forceUpdate,
-} from "@stencil/core";
+import { Component, Element, Host, Method, Prop, h, forceUpdate } from "@stencil/core";
 
 import { CalciteAppearance, CalciteScale, CalciteTheme } from "../interfaces";
 
@@ -23,7 +15,7 @@ import { VNode } from "@stencil/core/internal";
 @Component({
   tag: "calcite-action",
   styleUrl: "calcite-action.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteAction {
   // --------------------------------------------------------------------------
@@ -137,7 +129,7 @@ export class CalciteAction {
 
     const textContainerClasses = {
       [CSS.textContainer]: true,
-      [CSS.textContainerVisible]: textEnabled,
+      [CSS.textContainerVisible]: textEnabled
     };
 
     return text ? (
@@ -150,12 +142,8 @@ export class CalciteAction {
   renderIconContainer(): VNode {
     const { loading, icon, scale, el } = this;
     const iconScale = scale === "l" ? "m" : "s";
-    const calciteLoaderNode = loading ? (
-      <calcite-loader is-active inline />
-    ) : null;
-    const calciteIconNode = icon ? (
-      <calcite-icon icon={icon} scale={iconScale} />
-    ) : null;
+    const calciteLoaderNode = loading ? <calcite-loader is-active inline /> : null;
+    const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;
 
@@ -163,7 +151,7 @@ export class CalciteAction {
       <div
         class={{
           [CSS.slotContainer]: true,
-          [CSS.slotContainerHidden]: loading,
+          [CSS.slotContainerHidden]: loading
         }}
       >
         <slot />
@@ -188,7 +176,7 @@ export class CalciteAction {
       [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
       [CSS.buttonCompact]: compact,
-      [CSS_UTILITY.rtl]: rtl,
+      [CSS_UTILITY.rtl]: rtl
     };
 
     return (

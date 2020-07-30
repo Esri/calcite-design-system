@@ -4,7 +4,6 @@ The `calcite-tip-manager` component contains multiple `calcite-tip`s that a user
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -22,13 +21,10 @@ Renders a tip manager using a group of tips as well as a single tip.
       text-thumbnail="This is an image of a horse with wings."
     >
       <p slot="info">
-        Usually depicted as pure white, Pegasus is the offspring of the Olympian
-        god Poseidon. He was foaled by the Gorgon Medusa upon her death, when
-        the hero Perseus decapitated her.
+        Usually depicted as pure white, Pegasus is the offspring of the Olympian god Poseidon. He was foaled by the
+        Gorgon Medusa upon her death, when the hero Perseus decapitated her.
       </p>
-      <a slot="link" href="http://www.wingeddivinehorse.com"
-        >Magical flying horsey</a
-      >
+      <a slot="link" href="http://www.wingeddivinehorse.com">Magical flying horsey</a>
     </calcite-tip>
     <calcite-tip
       heading="Minotaur"
@@ -36,9 +32,8 @@ Renders a tip manager using a group of tips as well as a single tip.
       text-thumbnail="This is an image of a man with a bull head and tail."
     >
       <p slot="info">
-        The creature resided in the twisting maze of the labyrinth where it was
-        offfered a regular sacrifice of youths and maidens to satisfy its
-        cannibalistic hunger.
+        The creature resided in the twisting maze of the labyrinth where it was offfered a regular sacrifice of youths
+        and maidens to satisfy its cannibalistic hunger.
       </p>
       <a slot="link" href="http://www.cannibull.com">Bull headed man</a>
     </calcite-tip>
@@ -49,15 +44,13 @@ Renders a tip manager using a group of tips as well as a single tip.
     text-thumbnail="This is an image of a half woman half bird."
   >
     <p slot="info">
-      Dangerous creatures who lured nearby sailors with their enchanting music
-      and singing voices to shipwreck on the rocky coast of their island.
+      Dangerous creatures who lured nearby sailors with their enchanting music and singing voices to shipwreck on the
+      rocky coast of their island.
     </p>
     <a slot="link" href="http://www.beautifulmurderer.com">Sexy bird lady</a>
   </calcite-tip>
 </calcite-tip-manager>
 ```
-
-
 
 ## Properties
 
@@ -71,43 +64,31 @@ Renders a tip manager using a group of tips as well as a single tip.
 | `intlPrevious`        | `intl-previous`         | Alternate text for navigating to the previous tip.     | `string`            | `undefined` |
 | `theme`               | `theme`                 | Used to set the component's color scheme.              | `"dark" \| "light"` | `undefined` |
 
-
 ## Events
 
 | Event                     | Description                                                             | Type               |
 | ------------------------- | ----------------------------------------------------------------------- | ------------------ |
 | `calciteTipManagerToggle` | Emitted when the `calcite-tip-manager` has been toggled open or closed. | `CustomEvent<any>` |
 
-
 ## Methods
 
 ### `nextTip() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `previousTip() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
-
 
 ## Slots
 
 | Slot | Description                       |
 | ---- | --------------------------------- |
 |      | A slot for adding `calcite-tip`s. |
-
 
 ## Dependencies
 
@@ -116,6 +97,7 @@ Type: `Promise<void>`
 - [calcite-action](../calcite-action)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-tip-manager --> calcite-action
@@ -124,6 +106,6 @@ graph TD;
   style calcite-tip-manager fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -3,9 +3,7 @@
   const getSocketUrl = ({ hostname, port, protocol }: Location): string =>
     protocol === "https:" ? "wss:" : "ws:" + "//" + hostname + ":" + port + "/";
 
-  const clientWebSocket = new window.WebSocket(getSocketUrl(window.location), [
-    "xmpp",
-  ]);
+  const clientWebSocket = new window.WebSocket(getSocketUrl(window.location), ["xmpp"]);
 
   clientWebSocket.addEventListener("message", (message): void => {
     if (message.data.indexOf("rebuild finished") > -1) {

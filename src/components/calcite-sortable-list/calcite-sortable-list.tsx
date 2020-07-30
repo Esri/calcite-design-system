@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   h,
-  VNode,
+  VNode
 } from "@stencil/core";
 
 /**
@@ -18,7 +18,7 @@ import {
 @Component({
   tag: "calcite-sortable-list",
   styleUrl: "./calcite-sortable-list.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteSortableList {
   // --------------------------------------------------------------------------
@@ -94,10 +94,7 @@ export class CalciteSortableList {
   @Listen("calciteHandleNudge")
   calciteHandleNudgeHandler(event: CustomEvent): void {
     const sortItem = this.items.find((item) => {
-      return (
-        item.contains(event.detail.handle) ||
-        event.composedPath().includes(item)
-      );
+      return item.contains(event.detail.handle) || event.composedPath().includes(item);
     });
 
     const lastIndex = this.items.length - 1;
@@ -162,7 +159,7 @@ export class CalciteSortableList {
       // Element dragging ended
       onEnd: () => {
         this.beginObserving();
-      },
+      }
     });
   }
 

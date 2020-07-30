@@ -3,12 +3,8 @@
   --calcite-app-side-spacing: 1rem;
   --calcite-app-cap-spacing: 1rem;
 
-  --calcite-app-side-spacing-three-quarters: calc(
-    var(--calcite-app-side-spacing) * 3 / 4
-  );
-  --calcite-app-cap-spacing-three-quarters: calc(
-    var(--calcite-app-cap-spacing) * 3 / 4
-  );
+  --calcite-app-side-spacing-three-quarters: calc(var(--calcite-app-side-spacing) * 3 / 4);
+  --calcite-app-cap-spacing-three-quarters: calc(var(--calcite-app-cap-spacing) * 3 / 4);
 
   --calcite-app-side-spacing-half: calc(var(--calcite-app-side-spacing) / 2);
   --calcite-app-cap-spacing-half: calc(var(--calcite-app-cap-spacing) / 2);
@@ -25,12 +21,8 @@
   --calcite-app-cap-spacing-minimum: 1px;
   --calcite-app-side-spacing-minimum: 1px;
 
-  --calcite-app-side-spacing-plus-half: calc(
-    var(--calcite-app-side-spacing) * 1.5
-  );
-  --calcite-app-cap-spacing-plus-half: calc(
-    var(--calcite-app-cap-spacing) * 1.5
-  );
+  --calcite-app-side-spacing-plus-half: calc(var(--calcite-app-side-spacing) * 1.5);
+  --calcite-app-cap-spacing-plus-half: calc(var(--calcite-app-cap-spacing) * 1.5);
 
   --calcite-app-side-spacing-double: calc(var(--calcite-app-side-spacing) * 2);
   --calcite-app-cap-spacing-double: calc(var(--calcite-app-cap-spacing) * 2);

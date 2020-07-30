@@ -1,9 +1,9 @@
 export const CSS = {
   actionGroupBottom: "action-group--bottom",
-  container: "container",
+  container: "container"
 };
 
 export const TEXT = {
   expand: "Expand",
-  collapse: "Collapse",
+  collapse: "Collapse"
 };

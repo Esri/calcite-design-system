@@ -8,19 +8,19 @@ export const CSS = {
   label: "label",
   remove: "remove",
   title: "title",
-  textContainer: "text-container",
+  textContainer: "text-container"
 };
 
 export const ICONS = {
   checked: "check",
   circle: "circleF",
-  remove: "x",
+  remove: "x"
 };
 
 export const SLOTS = {
-  secondaryAction: "secondary-action",
+  secondaryAction: "secondary-action"
 };
 
 export const TEXT = {
-  remove: "remove",
+  remove: "remove"
 };

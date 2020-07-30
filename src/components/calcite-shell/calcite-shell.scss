@@ -55,8 +55,7 @@
 }
 
 ::slotted(calcite-tip-manager) {
-  animation: calcite-app-fade-in-up var(--calcite-app-animation-time)
-    var(--calcite-app-easing-function);
+  animation: calcite-app-fade-in-up var(--calcite-app-animation-time) var(--calcite-app-easing-function);
   border-radius: var(--calcite-app-border-radius);
   bottom: var(--calcite-app-cap-spacing-plus-half);
   box-shadow: var(--calcite-app-shadow-2);

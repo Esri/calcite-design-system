@@ -9,15 +9,15 @@ export const CSS = {
   header: "header",
   button: "button",
   summary: "summary",
-  controlContainer: "control-container",
+  controlContainer: "control-container"
 };
 
 export const TEXT = {
   collapse: "Collapse",
-  expand: "Expand",
+  expand: "Expand"
 };
 
 export const SLOTS = {
   icon: "icon",
-  control: "control",
+  control: "control"
 };

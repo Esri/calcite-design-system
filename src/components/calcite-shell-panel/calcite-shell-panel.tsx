@@ -1,13 +1,4 @@
-import {
-  Component,
-  Event,
-  EventEmitter,
-  Host,
-  Prop,
-  Watch,
-  h,
-  VNode,
-} from "@stencil/core";
+import { Component, Event, EventEmitter, Host, Prop, Watch, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { CalcitePosition, CalciteScale } from "../interfaces";
 
@@ -18,7 +9,7 @@ import { CalcitePosition, CalciteScale } from "../interfaces";
 @Component({
   tag: "calcite-shell-panel",
   styleUrl: "calcite-shell-panel.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteShellPanel {
   // --------------------------------------------------------------------------
@@ -73,10 +64,7 @@ export class CalciteShellPanel {
     const { collapsed, detached, position } = this;
 
     const contentNode = (
-      <div
-        class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
-        hidden={collapsed}
-      >
+      <div class={{ [CSS.content]: true, [CSS.contentDetached]: detached }} hidden={collapsed}>
         <slot />
       </div>
     );

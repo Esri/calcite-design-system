@@ -9,7 +9,7 @@ import { getElementDir, getSlotted } from "../utils/dom";
 @Component({
   tag: "calcite-pick-list-group",
   styleUrl: "./calcite-pick-list-group.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalcitePickListGroup {
   // --------------------------------------------------------------------------
@@ -44,7 +44,7 @@ export class CalcitePickListGroup {
     const sectionClasses = {
       [CSS.container]: true,
       [CSS.indented]: hasParentItem,
-      [CSS_UTILITY.rtl]: rtl,
+      [CSS_UTILITY.rtl]: rtl
     };
 
     return (

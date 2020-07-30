@@ -6,10 +6,8 @@
   display: flex;
   margin: 0;
   color: var(--calcite-app-foreground);
-  transition: background-color var(--calcite-app-animation-time-fast)
-    var(--calcite-app-easing-function);
-  animation: calcite-app-fade-in var(--calcite-app-animation-time)
-    var(--calcite-app-easing-function);
+  transition: background-color var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  animation: calcite-app-fade-in var(--calcite-app-animation-time) var(--calcite-app-easing-function);
 }
 
 @import "../../scss/includes/_component";
@@ -29,16 +27,14 @@
 }
 
 :host([selected]) .icon {
-  transition: opacity var(--calcite-app-animation-time-fast)
-    var(--calcite-app-easing-function);
+  transition: opacity var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
   opacity: 1;
 }
 
 .label {
   display: flex;
   flex: 1 1 auto;
-  padding: var(--calcite-app-cap-spacing-half)
-    var(--calcite-app-side-spacing-quarter);
+  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-quarter);
   align-items: center;
   cursor: pointer;
   @include focus-style-base();
@@ -75,6 +71,5 @@
   display: flex;
   flex: 0 0 auto;
   justify-self: flex-end;
-  margin: var(--calcite-app-cap-spacing-quarter)
-    var(--calcite-app-side-spacing-half);
+  margin: var(--calcite-app-cap-spacing-quarter) var(--calcite-app-side-spacing-half);
 }

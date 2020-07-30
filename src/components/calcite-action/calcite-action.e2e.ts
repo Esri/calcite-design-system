@@ -9,13 +9,9 @@ describe("calcite-action", () => {
 
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-action text="hello world" text-enabled></calcite-action>`
-    );
+    await page.setContent(`<calcite-action text="hello world" text-enabled></calcite-action>`);
 
-    const textContainer = await page.find(
-      `calcite-action >>> .${CSS.textContainer}`
-    );
+    const textContainer = await page.find(`calcite-action >>> .${CSS.textContainer}`);
     const isVisible = await textContainer.isVisible();
 
     expect(isVisible).toBe(true);
@@ -23,13 +19,9 @@ describe("calcite-action", () => {
 
   it("should not have visible text when text is not enabled", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-action text="hello world"></calcite-action>`
-    );
+    await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
 
-    const textContainer = await page.find(
-      `calcite-action >>> .${CSS.textContainer}`
-    );
+    const textContainer = await page.find(`calcite-action >>> .${CSS.textContainer}`);
     const isVisible = await textContainer.isVisible();
 
     expect(isVisible).toBe(false);
@@ -39,21 +31,15 @@ describe("calcite-action", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action icon="hamburger"></calcite-action>`);
 
-    const iconContainer = await page.find(
-      `calcite-action >>> .${CSS.iconContainer}`
-    );
+    const iconContainer = await page.find(`calcite-action >>> .${CSS.iconContainer}`);
     expect(iconContainer).not.toBeNull();
   });
 
   it("should have icon container with calcite-icon", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-action><calcite-icon icon="hamburger" scale="s"></calcite-icon></calcite-action>`
-    );
+    await page.setContent(`<calcite-action><calcite-icon icon="hamburger" scale="s"></calcite-icon></calcite-action>`);
 
-    const iconContainer = await page.find(
-      `calcite-action >>> .${CSS.iconContainer}`
-    );
+    const iconContainer = await page.find(`calcite-action >>> .${CSS.iconContainer}`);
     expect(iconContainer).not.toBeNull();
   });
 
@@ -70,9 +56,7 @@ describe("calcite-action", () => {
 
     await page.waitForChanges();
 
-    const iconContainer = await page.find(
-      `calcite-action >>> .${CSS.iconContainer}`
-    );
+    const iconContainer = await page.find(`calcite-action >>> .${CSS.iconContainer}`);
     expect(iconContainer).not.toBeNull();
   });
 
@@ -80,9 +64,7 @@ describe("calcite-action", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action><svg></svg></calcite-action>`);
 
-    const iconContainer = await page.find(
-      `calcite-action >>> .${CSS.iconContainer}`
-    );
+    const iconContainer = await page.find(`calcite-action >>> .${CSS.iconContainer}`);
     expect(iconContainer).not.toBeNull();
   });
 
@@ -90,9 +72,7 @@ describe("calcite-action", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action></calcite-action>`);
 
-    const iconContainer = await page.find(
-      `calcite-action >>> .${CSS.iconContainer}`
-    );
+    const iconContainer = await page.find(`calcite-action >>> .${CSS.iconContainer}`);
     expect(iconContainer).toBeNull();
   });
 
@@ -100,17 +80,13 @@ describe("calcite-action", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action loading></calcite-action>`);
 
-    const iconContainer = await page.find(
-      `calcite-action >>> .${CSS.iconContainer}`
-    );
+    const iconContainer = await page.find(`calcite-action >>> .${CSS.iconContainer}`);
     expect(iconContainer).not.toBeNull();
   });
 
   it("should use text prop for a11y attributes when text is not enabled", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-action text="hello world"></calcite-action>`
-    );
+    await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
 
     const button = await page.find(`calcite-action >>> .${CSS.button}`);
     expect(button.getAttribute("aria-label")).toBe("hello world");
@@ -118,9 +94,7 @@ describe("calcite-action", () => {
 
   it("should have label", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-action text="hello world" label="hi"></calcite-action>`
-    );
+    await page.setContent(`<calcite-action text="hello world" label="hi"></calcite-action>`);
 
     const button = await page.find(`calcite-action >>> .${CSS.button}`);
     expect(button.getAttribute("aria-label")).toBe("hi");
@@ -136,9 +110,7 @@ describe("calcite-action", () => {
 
   it("should have appearance=solid", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-action text="hello world"></calcite-action>`
-    );
+    await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
 
     const action = await page.find("calcite-action");
     expect(action.getAttribute("appearance")).toBe("solid");
@@ -146,17 +118,13 @@ describe("calcite-action", () => {
 
   it("should be accessible", async () => {
     await accessible(`<calcite-action text="hello world"></calcite-action>`);
-    await accessible(
-      `<calcite-action text="hello world" disabled text-enabled></calcite-action>`
-    );
+    await accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
   });
 
   it("should not emit click event when disabled", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-action text="hello world" disabled></calcite-action>`
-    );
+    await page.setContent(`<calcite-action text="hello world" disabled></calcite-action>`);
 
     const action = await page.find("calcite-action");
 

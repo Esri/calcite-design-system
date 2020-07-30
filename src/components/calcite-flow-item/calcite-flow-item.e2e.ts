@@ -13,13 +13,9 @@ describe("calcite-flow-item", () => {
 
     await page.setContent("<calcite-flow-item></calcite-flow-item>");
 
-    const menuContainer = await page.find(
-      `calcite-flow-item >>> .${CSS.menuContainer}`
-    );
+    const menuContainer = await page.find(`calcite-flow-item >>> .${CSS.menuContainer}`);
 
-    const singleActionContainer = await page.find(
-      `calcite-flow-item >>> .${CSS.singleActionContainer}`
-    );
+    const singleActionContainer = await page.find(`calcite-flow-item >>> .${CSS.singleActionContainer}`);
 
     expect(menuContainer).toBeNull();
     expect(singleActionContainer).toBeNull();
@@ -30,9 +26,7 @@ describe("calcite-flow-item", () => {
 
     await page.setContent("<calcite-flow-item></calcite-flow-item>");
 
-    const actionsContainer = await page.find(
-      `calcite-flow-item >>> .${CSS.leadingActions}`
-    );
+    const actionsContainer = await page.find(`calcite-flow-item >>> .${CSS.leadingActions}`);
 
     expect(actionsContainer).toBeNull();
   });
@@ -47,9 +41,7 @@ describe("calcite-flow-item", () => {
 
     await page.setContent(pageContent);
 
-    const actionsContainer = await page.find(
-      `calcite-flow-item >>> .${CSS.leadingActions}`
-    );
+    const actionsContainer = await page.find(`calcite-flow-item >>> .${CSS.leadingActions}`);
 
     expect(actionsContainer).not.toBeNull();
   });
@@ -70,9 +62,7 @@ describe("calcite-flow-item", () => {
 
     await page.waitForChanges();
 
-    const menuButtonNode = await page.find(
-      `calcite-flow-item >>> .${CSS.menuButton}`
-    );
+    const menuButtonNode = await page.find(`calcite-flow-item >>> .${CSS.menuButton}`);
 
     expect(menuButtonNode).toBeNull();
   });
@@ -92,9 +82,7 @@ describe("calcite-flow-item", () => {
 
     await page.waitForChanges();
 
-    const singleActionContainerNode = await page.find(
-      `calcite-flow-item >>> .${CSS.singleActionContainer}`
-    );
+    const singleActionContainerNode = await page.find(`calcite-flow-item >>> .${CSS.singleActionContainer}`);
 
     expect(singleActionContainerNode).toBeNull();
   });
@@ -108,9 +96,7 @@ describe("calcite-flow-item", () => {
       </calcite-flow-item>`
     );
 
-    const singleActionContainer = await page.find(
-      `calcite-flow-item >>> .${CSS.singleActionContainer}`
-    );
+    const singleActionContainer = await page.find(`calcite-flow-item >>> .${CSS.singleActionContainer}`);
 
     expect(singleActionContainer).not.toBeNull();
   });
@@ -129,9 +115,7 @@ describe("calcite-flow-item", () => {
 
     await page.waitForChanges();
 
-    const menuButtonNode = await page.find(
-      `calcite-flow-item >>> .${CSS.menuButton}`
-    );
+    const menuButtonNode = await page.find(`calcite-flow-item >>> .${CSS.menuButton}`);
 
     expect(menuButtonNode).toBeDefined();
   });
@@ -139,9 +123,7 @@ describe("calcite-flow-item", () => {
   it("should have default heading", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      '<calcite-flow-item heading="test"></calcite-flow-item>'
-    );
+    await page.setContent('<calcite-flow-item heading="test"></calcite-flow-item>');
 
     const element = await page.find(`calcite-flow-item >>> .${CSS.heading}`);
 
@@ -151,9 +133,7 @@ describe("calcite-flow-item", () => {
   it("should have default summary", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      '<calcite-flow-item summary="test"></calcite-flow-item>'
-    );
+    await page.setContent('<calcite-flow-item summary="test"></calcite-flow-item>');
 
     const element = await page.find(`calcite-flow-item >>> .${CSS.summary}`);
 
@@ -188,9 +168,7 @@ describe("calcite-flow-item", () => {
 
     expect(menuVisible).toBe(true);
 
-    const menuButton = await page.find(
-      `calcite-flow-item >>> .${CSS.menuButton}`
-    );
+    const menuButton = await page.find(`calcite-flow-item >>> .${CSS.menuButton}`);
 
     expect(menuButton).not.toBeNull();
 
@@ -230,10 +208,7 @@ describe("calcite-flow-item", () => {
 
     expect(await backButtonNew.isVisible()).toBe(true);
 
-    const eventSpy = await page.spyOnEvent(
-      "calciteFlowItemBackClick",
-      "window"
-    );
+    const eventSpy = await page.spyOnEvent("calciteFlowItemBackClick", "window");
 
     await page.$eval("calcite-flow-item", (elm: HTMLElement) => {
       const nativeBackButton = elm.shadowRoot.querySelector(`calcite-action`);

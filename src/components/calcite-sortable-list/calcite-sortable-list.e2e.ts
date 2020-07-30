@@ -6,8 +6,7 @@ describe("calcite-sortable-list", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-sortable-list"));
 
-  it("is accessible", async () =>
-    accessible(`<calcite-sortable-list></calcite-sortable-list>`));
+  it("is accessible", async () => accessible(`<calcite-sortable-list></calcite-sortable-list>`));
 
   describe("drag and drop", () => {
     let page: E2EPage;
@@ -22,9 +21,7 @@ describe("calcite-sortable-list", () => {
     it.skip("works using a mouse", async () => {
       // TODO: remove skip once https://github.com/GoogleChrome/puppeteer/issues/1376 addressed
       const itemBoundingBox = await page.evaluate(() => {
-        const { left, top, width, height } = document
-          .querySelector(`#one`)
-          .getBoundingClientRect();
+        const { left, top, width, height } = document.querySelector(`#one`).getBoundingClientRect();
         return { left, top, width, height };
       });
       const handleBoundingBox = await page.evaluate(() => {

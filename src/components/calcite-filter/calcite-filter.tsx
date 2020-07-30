@@ -7,7 +7,7 @@ import {
   Prop,
   State,
   h,
-  VNode,
+  VNode
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
@@ -19,7 +19,7 @@ const filterDebounceInMs = 250;
 @Component({
   tag: "calcite-filter",
   styleUrl: "calcite-filter.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteFilter {
   // --------------------------------------------------------------------------

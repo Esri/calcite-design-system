@@ -5,9 +5,7 @@ import { focusElement, getSlotted } from "../utils/dom";
 import { getRoundRobinIndex } from "../utils/array";
 
 type Lists = CalcitePickList | CalciteValueList;
-type ListItemElement<T> = T extends CalcitePickList
-  ? HTMLCalcitePickListItemElement
-  : HTMLCalciteValueListItemElement;
+type ListItemElement<T> = T extends CalcitePickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
 type List<T> = T extends CalcitePickList ? CalcitePickList : CalciteValueList;
 
 export function mutationObserverCallback<T extends Lists>(this: List<T>): void {
@@ -26,10 +24,7 @@ const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
 export function initialize<T extends Lists>(this: List<T>): void {
   this.setUpItems();
   this.setUpFilter();
-  this.emitCalciteListChange = debounce(
-    internalCalciteListChangeEvent.bind(this),
-    0
-  );
+  this.emitCalciteListChange = debounce(internalCalciteListChangeEvent.bind(this), 0);
 }
 
 export function initializeObserver<T extends Lists>(this: List<T>): void {
@@ -46,10 +41,7 @@ export function cleanUpObserver<T extends Lists>(this: List<T>): void {
 //
 // --------------------------------------------------------------------------
 
-export function calciteListItemChangeHandler<T extends Lists>(
-  this: List<T>,
-  event: CustomEvent
-): void {
+export function calciteListItemChangeHandler<T extends Lists>(this: List<T>, event: CustomEvent): void {
   const { selectedValues } = this;
   const { item, value, selected, shiftPressed } = event.detail;
 
@@ -79,10 +71,7 @@ export function calciteListItemChangeHandler<T extends Lists>(
   this.emitCalciteListChange();
 }
 
-export function calciteListItemValueChangeHandler<T extends Lists>(
-  this: List<T>,
-  event: CustomEvent
-): void {
+export function calciteListItemValueChangeHandler<T extends Lists>(this: List<T>, event: CustomEvent): void {
   event.stopPropagation();
   const oldValue = event.detail.oldValue;
   const selectedValues = this.selectedValues as Map<string, ListItemElement<T>>;
@@ -104,10 +93,7 @@ function isValidNavigationKey(key: string): boolean {
   return !!SUPPORTED_ARROW_KEYS.find((k) => k === key);
 }
 
-export function keyDownHandler<T extends Lists>(
-  this: List<T>,
-  event: KeyboardEvent
-): void {
+export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEvent): void {
   const { key, target } = event;
 
   if (!isValidNavigationKey(key)) {
@@ -116,9 +102,7 @@ export function keyDownHandler<T extends Lists>(
 
   const { items, multiple } = this;
   const { length: totalItems } = items;
-  const currentIndex = (items as ListItemElement<T>[]).indexOf(
-    target as ListItemElement<T>
-  );
+  const currentIndex = (items as ListItemElement<T>[]).indexOf(target as ListItemElement<T>);
 
   if (!totalItems || currentIndex === -1) {
     return;
@@ -126,10 +110,7 @@ export function keyDownHandler<T extends Lists>(
 
   event.preventDefault();
 
-  const index = getRoundRobinIndex(
-    currentIndex + (key === "ArrowUp" ? -1 : 1),
-    totalItems
-  );
+  const index = getRoundRobinIndex(currentIndex + (key === "ArrowUp" ? -1 : 1), totalItems);
   const item = items[index];
 
   toggleSingleSelectItemTabbing(item, true);
@@ -140,16 +121,11 @@ export function keyDownHandler<T extends Lists>(
   }
 }
 
-export function internalCalciteListChangeEvent<T extends Lists>(
-  this: List<T>
-): void {
+export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): void {
   this.calciteListChange.emit(this.selectedValues);
 }
 
-function toggleSingleSelectItemTabbing<T extends Lists>(
-  item: ListItemElement<T>,
-  selectable: boolean
-): void {
+function toggleSingleSelectItemTabbing<T extends Lists>(item: ListItemElement<T>, selectable: boolean): void {
   // using attribute intentionally
   if (selectable) {
     item.removeAttribute("tabindex");
@@ -169,22 +145,16 @@ export function setFocus<T extends Lists>(this: List<T>): Promise<void> {
     return items[0].setFocus();
   }
 
-  const selected = (items as ListItemElement<T>[]).find(
-    (item) => item.selected
-  );
+  const selected = (items as ListItemElement<T>[]).find((item) => item.selected);
 
   return (selected ? selected : items[0]).setFocus();
 }
 
 export function setUpItems<T extends Lists>(
   this: List<T>,
-  tagName: T extends CalcitePickList
-    ? "calcite-pick-list-item"
-    : "calcite-value-list-item"
+  tagName: T extends CalcitePickList ? "calcite-pick-list-item" : "calcite-value-list-item"
 ): void {
-  (this.items as ListItemElement<T>[]) = Array.from(
-    this.el.querySelectorAll<ListItemElement<T>>(tagName)
-  );
+  (this.items as ListItemElement<T>[]) = Array.from(this.el.querySelectorAll<ListItemElement<T>>(tagName));
   let hasSelected = false;
 
   const { items } = this;
@@ -215,10 +185,7 @@ export function setUpFilter<T extends Lists>(this: List<T>): void {
   }
 }
 
-export function deselectSiblingItems<T extends Lists>(
-  this: List<T>,
-  item: ListItemElement<T>
-): void {
+export function deselectSiblingItems<T extends Lists>(this: List<T>, item: ListItemElement<T>): void {
   this.items.forEach((currentItem) => {
     if (currentItem.value !== item.value) {
       currentItem.toggleSelected(false);
@@ -229,11 +196,7 @@ export function deselectSiblingItems<T extends Lists>(
   });
 }
 
-export function selectSiblings<T extends Lists>(
-  this: List<T>,
-  item: ListItemElement<T>,
-  deselect = false
-): void {
+export function selectSiblings<T extends Lists>(this: List<T>, item: ListItemElement<T>, deselect = false): void {
   if (!this.lastSelectedItem) {
     return;
   }
@@ -244,24 +207,19 @@ export function selectSiblings<T extends Lists>(
   const end = items.findIndex((currentItem) => {
     return currentItem.value === item.value;
   });
-  items
-    .slice(Math.min(start, end), Math.max(start, end))
-    .forEach((currentItem) => {
-      currentItem.toggleSelected(!deselect);
-      if (!deselect) {
-        this.selectedValues.set(currentItem.value, currentItem);
-      } else {
-        this.selectedValues.delete(currentItem.value);
-      }
-    });
+  items.slice(Math.min(start, end), Math.max(start, end)).forEach((currentItem) => {
+    currentItem.toggleSelected(!deselect);
+    if (!deselect) {
+      this.selectedValues.set(currentItem.value, currentItem);
+    } else {
+      this.selectedValues.delete(currentItem.value);
+    }
+  });
 }
 
 let groups: Set<HTMLCalcitePickListGroupElement>;
 
-export function handleFilter<T extends Lists>(
-  this: List<T>,
-  event: CustomEvent
-): void {
+export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
   const filteredData = event.detail;
   const values = filteredData.map((item) => item.value);
 
@@ -285,9 +243,7 @@ export function handleFilter<T extends Lists>(
   });
 
   groups.forEach((group) => {
-    const hasAtLeastOneMatch = matchedItems.some((item) =>
-      group.contains(item)
-    );
+    const hasAtLeastOneMatch = matchedItems.some((item) => group.contains(item));
     group.hidden = !hasAtLeastOneMatch;
 
     if (!hasAtLeastOneMatch) {
@@ -300,9 +256,9 @@ export function handleFilter<T extends Lists>(
       parentItem.hidden = false;
 
       if (matchedItems.includes(parentItem)) {
-        Array.from(
-          group.children as HTMLCollectionOf<HTMLCalcitePickListElement>
-        ).forEach((child) => (child.hidden = false));
+        Array.from(group.children as HTMLCollectionOf<HTMLCalcitePickListElement>).forEach(
+          (child) => (child.hidden = false)
+        );
       }
     }
   });
@@ -322,6 +278,6 @@ export function getItemData<T extends Lists>(this: List<T>): ItemData {
     label: item.textLabel,
     description: item.textDescription,
     metadata: item.metadata,
-    value: item.value,
+    value: item.value
   }));
 }

@@ -4,7 +4,6 @@ The `calcite-flow` component is a series of panels that provides a user with a w
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -39,14 +38,11 @@ Renders a flow with menu-actions and footer-actions in the form of buttons.
 </calcite-flow>
 ```
 
-
-
 ## Properties
 
 | Property | Attribute | Description                               | Type                | Default     |
 | -------- | --------- | ----------------------------------------- | ------------------- | ----------- |
 | `theme`  | `theme`   | Used to set the component's color scheme. | `"dark" \| "light"` | `undefined` |
-
 
 ## Methods
 
@@ -58,16 +54,12 @@ Removes the currently active `calcite-flow-item`.
 
 Type: `Promise<HTMLCalciteFlowItemElement>`
 
-
-
-
 ## Slots
 
 | Slot | Description                                         |
 | ---- | --------------------------------------------------- |
 |      | A slot for adding `calcite-flow-item`s to the flow. |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

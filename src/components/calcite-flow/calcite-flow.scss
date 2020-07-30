@@ -20,13 +20,11 @@ $start-alpha: 0.5;
   }
 
   .frame--advancing {
-    animation: calcite-flow-item-advance var(--calcite-app-animation-time)
-      var(--calcite-app-easing-function);
+    animation: calcite-flow-item-advance var(--calcite-app-animation-time) var(--calcite-app-easing-function);
   }
 
   .frame--retreating {
-    animation: calcite-flow-item-retreat var(--calcite-app-animation-time)
-      var(--calcite-app-easing-function);
+    animation: calcite-flow-item-retreat var(--calcite-app-animation-time) var(--calcite-app-easing-function);
   }
 
   @keyframes calcite-flow-item-advance {

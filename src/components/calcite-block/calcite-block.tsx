@@ -1,13 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  Prop,
-  h,
-  VNode,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../utils/resources";
 import { CalciteTheme } from "../interfaces";
@@ -21,7 +12,7 @@ import { getElementDir, getSlotted, getElementTheme } from "../utils/dom";
 @Component({
   tag: "calcite-block",
   styleUrl: "calcite-block.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteBlock {
   // --------------------------------------------------------------------------
@@ -140,12 +131,10 @@ export class CalciteBlock {
       intlExpand,
       loading,
       open,
-      summary,
+      summary
     } = this;
 
-    const toggleLabel = open
-      ? intlCollapse || TEXT.collapse
-      : intlExpand || TEXT.expand;
+    const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
     const hasIcon = getSlotted(el, SLOTS.icon);
     const headerContent = (

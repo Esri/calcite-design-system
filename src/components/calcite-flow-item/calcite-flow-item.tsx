@@ -1,20 +1,6 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  Listen,
-  Prop,
-  h,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Host, Listen, Prop, h } from "@stencil/core";
 import { VNode } from "@stencil/core/internal";
-import {
-  focusElement,
-  getElementDir,
-  getSlotted,
-  getElementTheme,
-} from "../utils/dom";
+import { focusElement, getElementDir, getSlotted, getElementTheme } from "../utils/dom";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../calcite-panel/resources";
 import { getRoundRobinIndex } from "../utils/array";
@@ -31,7 +17,7 @@ const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
 @Component({
   tag: "calcite-flow-item",
   styleUrl: "calcite-flow-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteFlowItem {
   // --------------------------------------------------------------------------
@@ -142,7 +128,7 @@ export class CalciteFlowItem {
 
   queryActions(): HTMLCalciteActionElement[] {
     return getSlotted<HTMLCalciteActionElement>(this.el, SLOTS.menuActions, {
-      all: true,
+      all: true
     });
   }
 
@@ -264,9 +250,7 @@ export class CalciteFlowItem {
         class={CSS.menuButton}
         aria-label={menuLabel}
         text={menuLabel}
-        ref={(menuButtonEl): HTMLCalciteActionElement =>
-          (this.menuButtonEl = menuButtonEl)
-        }
+        ref={(menuButtonEl): HTMLCalciteActionElement => (this.menuButtonEl = menuButtonEl)}
         onClick={this.toggleMenuOpen}
         onKeyDown={this.menuButtonKeyDown}
         icon={ICONS.menu}
@@ -315,10 +299,7 @@ export class CalciteFlowItem {
 
   renderMenuActionsContainer(): VNode {
     return (
-      <div
-        class={CSS.menuContainer}
-        onKeyDown={this.menuActionsContainerKeyDown}
-      >
+      <div class={CSS.menuContainer} onKeyDown={this.menuActionsContainerKeyDown}>
         {this.renderMenuButton()}
         {this.renderMenuActions()}
       </div>

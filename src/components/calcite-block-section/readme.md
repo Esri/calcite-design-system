@@ -4,7 +4,6 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property        | Attribute        | Description                                                                                                                                                                      | Type                   | Default     |
@@ -15,20 +14,17 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 | `text`          | `text`           | Text displayed in the button.                                                                                                                                                    | `string`               | `undefined` |
 | `toggleDisplay` | `toggle-display` | This property determines the look of the section toggle. If the value is "switch", a toggle-switch will be displayed. If the value is "button", a clickable header is displayed. | `"button" \| "switch"` | `"button"`  |
 
-
 ## Events
 
 | Event                       | Description                               | Type               |
 | --------------------------- | ----------------------------------------- | ------------------ |
 | `calciteBlockSectionToggle` | Emitted when the header has been clicked. | `CustomEvent<any>` |
 
-
 ## Slots
 
 | Slot | Description                                     |
 | ---- | ----------------------------------------------- |
 |      | A slot for adding content to the block section. |
-
 
 ## Dependencies
 
@@ -38,6 +34,7 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 - [calcite-action](../calcite-action)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-block-section --> calcite-switch
@@ -47,6 +44,6 @@ graph TD;
   style calcite-block-section fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

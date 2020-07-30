@@ -2,10 +2,8 @@
   @extend %component-host;
   @include borderShadow();
   display: flex;
-  transition: background-color var(--calcite-app-animation-time-fast)
-      var(--calcite-app-easing-function),
-    box-shadow var(--calcite-app-animation-time-fast)
-      var(--calcite-app-easing-function);
+  transition: background-color var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function),
+    box-shadow var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
 }
 
 @import "../../scss/includes/_component";
@@ -34,8 +32,7 @@ calcite-pick-list-item {
   align-self: stretch;
   justify-content: center;
   margin-bottom: var(--calcite-app-cap-spacing-minimum);
-  padding: var(--calcite-app-cap-spacing-three-quarters)
-    var(--calcite-app-side-spacing-quarter);
+  padding: var(--calcite-app-cap-spacing-three-quarters) var(--calcite-app-side-spacing-quarter);
   background-color: var(--calcite-app-background-clear);
   border: none;
   color: var(--calcite-app-border);

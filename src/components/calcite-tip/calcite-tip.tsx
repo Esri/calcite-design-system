@@ -1,12 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  Prop,
-  h,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Host, Prop, h } from "@stencil/core";
 import { CalciteTheme } from "../interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { VNode } from "@stencil/core/internal";
@@ -18,7 +10,7 @@ import { getSlotted } from "../utils/dom";
 @Component({
   tag: "calcite-tip",
   styleUrl: "./calcite-tip.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteTip {
   // --------------------------------------------------------------------------
@@ -98,12 +90,7 @@ export class CalciteTip {
     const text = intlClose || TEXT.close;
 
     const dismissButtonNode = !nonDismissible ? (
-      <calcite-action
-        text={text}
-        onClick={hideTip}
-        class={CSS.close}
-        icon={ICONS.close}
-      />
+      <calcite-action text={text} onClick={hideTip} class={CSS.close} icon={ICONS.close} />
     ) : null;
 
     const headingNode = heading ? <h3 class={CSS.heading}>{heading}</h3> : null;

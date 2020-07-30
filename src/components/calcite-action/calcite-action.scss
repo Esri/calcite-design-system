@@ -25,8 +25,7 @@
   cursor: pointer;
   font-size: var(--calcite-app-font-size--1);
   line-height: normal;
-  transition: color 125ms ease-in-out, fill 125ms ease-in-out,
-    background-color 125ms ease-in-out;
+  transition: color 125ms ease-in-out, fill 125ms ease-in-out, background-color 125ms ease-in-out;
   text-align: unset;
   position: relative;
   @include focus-style-base();
@@ -59,12 +58,9 @@
     margin: 0;
     opacity: 0;
     width: 0;
-    transition: opacity var(--calcite-app-animation-time)
-        var(--calcite-app-easing-function),
-      margin var(--calcite-app-animation-time-fast)
-        var(--calcite-app-easing-function),
-      width var(--calcite-app-animation-time-fast)
-        var(--calcite-app-easing-function);
+    transition: opacity var(--calcite-app-animation-time) var(--calcite-app-easing-function),
+      margin var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function),
+      width var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
   }
 
   .text-container--visible {
@@ -75,8 +71,7 @@
 }
 
 :host([scale="s"]) .button {
-  padding: var(--calcite-app-cap-spacing-half)
-    var(--calcite-app-side-spacing-half);
+  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half);
 }
 
 :host([scale="m"]) .button {
@@ -84,8 +79,7 @@
 }
 
 :host([scale="l"]) .button {
-  padding: var(--calcite-app-cap-spacing-plus-half)
-    var(--calcite-app-side-spacing-plus-half);
+  padding: var(--calcite-app-cap-spacing-plus-half) var(--calcite-app-side-spacing-plus-half);
 }
 
 // Compact
@@ -135,8 +129,7 @@
 
 :host([appearance="clear"]) .button {
   background-color: var(--calcite-app-background-clear);
-  transition: box-shadow var(--calcite-app-animation-time-fast)
-    var(--calcite-app-easing-function);
+  transition: box-shadow var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
 }
 
 :host([appearance="clear"]) .button:hover,
@@ -196,8 +189,7 @@
   border-radius: 50%;
   width: var(--calcite-app-side-spacing-half);
   height: var(--calcite-app-side-spacing-half);
-  border: var(--calcite-app-side-spacing-eighth) solid
-    var(--calcite-app-background);
+  border: var(--calcite-app-side-spacing-eighth) solid var(--calcite-app-background);
   background-color: var(--calcite-app-foreground-active);
   position: absolute;
   bottom: var(--calcite-app-cap-spacing-half);

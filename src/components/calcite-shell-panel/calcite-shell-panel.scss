@@ -33,8 +33,7 @@
 .content--detached {
   border-radius: var(--calcite-app-border-radius);
   box-shadow: var(--calcite-app-shadow-0);
-  margin: var(--calcite-app-cap-spacing-half)
-    var(--calcite-app-side-spacing-half) auto;
+  margin: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half) auto;
   max-height: var(--calcite-app-shell-panel-max-height-medium);
   overflow: auto;
 }

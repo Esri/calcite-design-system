@@ -12,8 +12,8 @@ describe("calcite-shell-panel", () => {
     defaults("calcite-shell-panel", [
       {
         propertyName: "collapsed",
-        defaultValue: false,
-      },
+        defaultValue: false
+      }
     ]));
 
   it("has a slot", async () => {
@@ -119,13 +119,9 @@ describe("calcite-shell-panel", () => {
   it("should have detached class when detached", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      "<calcite-shell-panel><div>content</div></calcite-shell-panel>"
-    );
+    await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
 
-    let detachedElement = await page.find(
-      `calcite-shell-panel >>> .${CSS.contentDetached}`
-    );
+    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentDetached}`);
 
     expect(detachedElement).toBeNull();
 
@@ -135,9 +131,7 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
-    detachedElement = await page.find(
-      `calcite-shell-panel >>> .${CSS.contentDetached}`
-    );
+    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentDetached}`);
 
     expect(detachedElement).not.toBeNull();
   });

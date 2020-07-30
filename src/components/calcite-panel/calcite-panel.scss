@@ -14,8 +14,7 @@
 
 .container {
   align-items: stretch;
-  transition: max-height var(--calcite-app-animation-time)
-    var(--calcite-app-easing-function);
+  transition: max-height var(--calcite-app-animation-time) var(--calcite-app-easing-function);
   width: 100%;
   height: 100%;
   padding: 0;
@@ -102,8 +101,7 @@ calcite-scrim {
   flex: 0 0 auto;
   justify-content: space-evenly;
   min-height: var(--calcite-app-footer-min-height);
-  padding: var(--calcite-app-cap-spacing-half)
-    var(--calcite-app-side-spacing-half);
+  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half);
 }
 
 .calcite--rtl {
@@ -122,8 +120,7 @@ calcite-scrim {
   bottom: 0;
   display: inline-block;
   margin: 0 auto;
-  padding: var(--calcite-app-cap-spacing-half)
-    var(--calcite-app-side-spacing-half);
+  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half);
   left: 0;
   right: 0;
 }

@@ -44,8 +44,7 @@ $tip-max-width: 540px;
 .container {
   overflow: hidden;
   position: relative;
-  padding: var(--calcite-app-cap-spacing-half)
-    var(--calcite-app-side-spacing-half) 0;
+  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half) 0;
   min-height: 150px;
   @include focus-style-base();
   &:focus {

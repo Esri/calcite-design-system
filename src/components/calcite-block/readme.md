@@ -4,7 +4,6 @@ The `calcite-block` component is intended for displaying a heading and content. 
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -40,10 +39,7 @@ Renders a header and icon with the icon.
 Renders a header and content that remains open - no collapsible option.
 
 ```html
-<calcite-block
-  heading="When your son becomes a priest, do you call him..."
-  open
->
+<calcite-block heading="When your son becomes a priest, do you call him..." open>
   <div>Father or Son?</div>
 </calcite-block>
 ```
@@ -54,12 +50,9 @@ Renders a header with a clickable icon to toggle the block open and closed.
 
 ```html
 <calcite-block heading="Domestic pets" open collapsible>
-  <calcite-block-section text="puppers rool, kittehs drule">
-  </calcite-block-section>
+  <calcite-block-section text="puppers rool, kittehs drule"> </calcite-block-section>
 </calcite-block>
 ```
-
-
 
 ## Properties
 
@@ -76,13 +69,11 @@ Renders a header with a clickable icon to toggle the block open and closed.
 | `summary`      | `summary`       | Block summary.                                                                              | `string`            | `undefined` |
 | `theme`        | `theme`         | Used to set the component's color scheme.                                                   | `"dark" \| "light"` | `undefined` |
 
-
 ## Events
 
 | Event                | Description                               | Type               |
 | -------------------- | ----------------------------------------- | ------------------ |
 | `calciteBlockToggle` | Emitted when the header has been clicked. | `CustomEvent<any>` |
-
 
 ## Slots
 
@@ -91,7 +82,6 @@ Renders a header with a clickable icon to toggle the block open and closed.
 |             | A slot for adding content to the block.                    |
 | `"control"` | A slot for adding a single HTML input element in a header. |
 | `"icon"`    | A slot for adding a trailing header icon.                  |
-
 
 ## Dependencies
 
@@ -102,6 +92,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 - [calcite-loader](../calcite-loader)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-block --> calcite-scrim
@@ -112,6 +103,6 @@ graph TD;
   style calcite-block fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

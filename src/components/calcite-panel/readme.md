@@ -4,7 +4,6 @@ The `calcite-panel` component is a container for a header, content and optional 
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -39,12 +38,7 @@ Renders a panel with leading and trailing `calcite-action`s.
 ```html
 <calcite-panel>
   <div slot="header-leading-content">
-    <calcite-action
-      label="Performs my custom action"
-      text="Perform Action!"
-      text-enabled
-      icon="home"
-    ></calcite-action>
+    <calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="home"></calcite-action>
   </div>
   <div slot="header-content">Header!</div>
   <div slot="header-trailing-content">
@@ -70,8 +64,6 @@ Renders a panel that is dismissible with a click of the "x".
 </calcite-panel>
 ```
 
-
-
 ## Properties
 
 | Property      | Attribute      | Description                                                                                               | Type                | Default     |
@@ -84,7 +76,6 @@ Renders a panel that is dismissible with a click of the "x".
 | `loading`     | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                            | `boolean`           | `false`     |
 | `theme`       | `theme`        | Used to set the component's color scheme.                                                                 | `"dark" \| "light"` | `undefined` |
 
-
 ## Events
 
 | Event                         | Description                                     | Type               |
@@ -92,19 +83,13 @@ Renders a panel that is dismissible with a click of the "x".
 | `calcitePanelDismissedChange` | Emitted when the close button has been clicked. | `CustomEvent<any>` |
 | `calcitePanelScroll`          | Emitted when the content has been scrolled.     | `CustomEvent<any>` |
 
-
 ## Methods
 
 ### `setFocus(focusId?: "dismiss-button") => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
-
 
 ## Slots
 
@@ -117,12 +102,11 @@ Type: `Promise<void>`
 | `"header-leading-content"`  | A slot for adding a `calcite-action` on the leading side of the header.          |
 | `"header-trailing-content"` | A slot for adding a `calcite-action` on the trailing side of the header.         |
 
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-flow-item](../calcite-flow-item)
+- [calcite-flow-item](../calcite-flow-item)
 
 ### Depends on
 
@@ -130,6 +114,7 @@ Type: `Promise<void>`
 - [calcite-scrim](../calcite-scrim)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-panel --> calcite-action
@@ -141,6 +126,6 @@ graph TD;
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

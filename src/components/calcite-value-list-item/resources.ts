@@ -1,3 +1,3 @@
 export const ICONS = {
-  drag: "drag",
+  drag: "drag"
 };

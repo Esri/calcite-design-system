@@ -11,17 +11,12 @@ export const List = ({ props, ...rest }): VNode => {
     dataForFilter,
     handleFilter,
     textFilterPlaceholder,
-    el,
+    el
   } = props;
   const defaultSlot = <slot />;
 
   return (
-    <Host
-      role="menu"
-      aria-disabled={disabled.toString()}
-      aria-busy={loading.toString()}
-      {...rest}
-    >
+    <Host role="menu" aria-disabled={disabled.toString()} aria-busy={loading.toString()} {...rest}>
       <section>
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
