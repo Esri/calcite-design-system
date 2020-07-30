@@ -209,7 +209,7 @@ describe("calcite-color", () => {
       await page.waitForChanges();
     };
 
-    it("keeps value in same format when applying updates", async () => {
+    it.skip("keeps value in same format when applying updates", async () => {
       const page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
       });
