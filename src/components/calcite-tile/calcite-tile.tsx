@@ -19,16 +19,16 @@ export class CalciteTile {
   @Prop({ reflect: true }) description?: string;
 
   /** The embed mode of the tile.  When true, renders without a border and padding for use by other components. */
-  @Prop({ reflect: true }) embed: boolean = false;
+  @Prop({ reflect: true }) embed = false;
 
   /** The focused state of the tile. */
-  @Prop({ reflect: true }) focused: boolean = false;
+  @Prop({ reflect: true }) focused = false;
 
   /** The heading text that appears between the icon and description of the tile. */
   @Prop({ reflect: true }) heading?: string;
 
   /** The hidden state of the tile. */
-  @Prop({ reflect: true }) hidden: boolean = false;
+  @Prop({ reflect: true }) hidden = false;
 
   /** The (optional) url for the tile. (Only applies when embed is set to false) */
   @Prop({ reflect: true }) href?: string;
@@ -65,6 +65,7 @@ export class CalciteTile {
       </div>
     );
   }
+
   render() {
     return (
       <Host>
