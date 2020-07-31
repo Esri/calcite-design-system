@@ -12,7 +12,7 @@ export class CalciteTileSelect {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTileSelectElement;
 
   //--------------------------------------------------------------------------
   //
@@ -21,28 +21,28 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   /** The checked state of the tile select. */
-  @Prop({ reflect: true, mutable: true }) checked: boolean = false;
+  @Prop({ reflect: true, mutable: true }) checked = false;
 
   /** The description text that appears beneath the heading of the tile. */
   @Prop({ reflect: true }) description?: string;
 
   /** The disabled state of the tile select. */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /** The focused state of the tile select. */
-  @Prop({ reflect: true, mutable: true }) focused: boolean = false;
+  @Prop({ reflect: true, mutable: true }) focused = false;
 
   /** The heading text that appears between the icon and description of the tile. */
   @Prop({ reflect: true }) heading?: string;
 
   /** The hidden state of the tile select. */
-  @Prop({ reflect: true }) hidden: boolean = false;
+  @Prop({ reflect: true }) hidden = false;
 
   /** The icon that appears at the top of the tile. */
   @Prop({ reflect: true }) icon?: string;
 
   /** The name of the tile select.  This name will appear in form submissions as either a radio or checkbox identifier based on the `type` property. */
-  @Prop({ reflect: true }) name: string = "";
+  @Prop({ reflect: true }) name = "";
 
   /** The side of the tile that the radio or checkbox appears. */
   @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";

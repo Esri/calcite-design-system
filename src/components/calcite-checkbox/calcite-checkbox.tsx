@@ -24,7 +24,7 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteCheckboxElement;
 
   //--------------------------------------------------------------------------
   //
@@ -34,16 +34,18 @@ export class CalciteCheckbox {
 
   /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
+
   @Watch("checked") checkedWatcher(newChecked: boolean) {
     newChecked ? this.input.setAttribute("checked", "") : this.input.removeAttribute("checked");
     this.calciteCheckboxChange.emit();
   }
 
   /** The hovered state of the checkbox. */
-  @Prop({ reflect: true, mutable: true }) hovered: boolean = false;
+  @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /** The focused state of the checkbox. */
-  @Prop({ mutable: true, reflect: true }) focused: boolean = false;
+  @Prop({ mutable: true, reflect: true }) focused = false;
+
   @Watch("focused") focusedChanged(focused: boolean) {
     if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
@@ -61,10 +63,10 @@ export class CalciteCheckbox {
   @Prop({ reflect: true, mutable: true }) indeterminate?: boolean = false;
 
   /** The name of the checkbox input */
-  @Prop({ reflect: true, mutable: true }) name?: string = "";
+  @Prop({ reflect: true }) name?: string = "";
 
   /** The value of the checkbox input */
-  @Prop({ reflect: true, mutable: true }) value?: string;
+  @Prop({ reflect: true }) value?: string;
 
   /** specify the scale of the checkbox, defaults to m */
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
@@ -82,7 +84,9 @@ export class CalciteCheckbox {
   //--------------------------------------------------------------------------
 
   private readonly checkedPath = "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z";
+
   private readonly indeterminatePath = "M4 7h8v2H4z";
+
   private input: HTMLInputElement;
 
   //--------------------------------------------------------------------------
@@ -164,7 +168,7 @@ export class CalciteCheckbox {
 
   connectedCallback() {
     this.renderHiddenCheckboxInput();
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
