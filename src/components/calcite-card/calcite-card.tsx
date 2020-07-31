@@ -43,10 +43,10 @@ export class CalciteCard {
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** Indicates whether the card is selectable. */
-  @Prop({ reflect: true, mutable: true }) selectable = false;
+  @Prop({ reflect: true }) selectable = false;
 
   /**  The theme of the card.*/
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   //--------------------------------------------------------------------------
   //

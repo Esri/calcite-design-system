@@ -35,13 +35,13 @@ export class CalciteStepperItem {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** has the step been completed */
-  @Prop({ reflect: true, mutable: true }) complete = false;
+  @Prop({ reflect: true }) complete = false;
 
   /** does the step contain an error that needs to be resolved by the user */
-  @Prop({ mutable: true }) error = false;
+  @Prop() error = false;
 
   /** is the step disabled and not navigable to by a user */
-  @Prop({ mutable: true }) disabled = false;
+  @Prop() disabled = false;
 
   /** pass a title for the stepper item */
   @Prop() itemTitle?: string;

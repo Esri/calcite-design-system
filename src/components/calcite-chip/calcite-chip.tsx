@@ -32,7 +32,7 @@ export class CalciteChip {
   @Prop({ reflect: true }) icon?: string;
 
   /** Optionally show a button the user can click to dismiss the chip */
-  @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
+  @Prop({ reflect: true }) dismissible?: boolean = false;
 
   // --------------------------------------------------------------------------
   //

@@ -34,7 +34,7 @@ export class CalciteStepper {
   //--------------------------------------------------------------------------
 
   /** specify the theme of stepper, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of stepper, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";

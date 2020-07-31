@@ -41,13 +41,13 @@ export class CalciteSlider {
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** Disable and gray out the slider */
-  @Prop({ reflect: true, mutable: true }) disabled = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /** Minimum selectable value */
-  @Prop({ reflect: true, mutable: true }) min = 0;
+  @Prop({ reflect: true }) min = 0;
 
   /** Maximum selectable value */
-  @Prop({ reflect: true, mutable: true }) max = 100;
+  @Prop({ reflect: true }) max = 100;
 
   /** Currently selected number (if single select) */
   @Prop({ reflect: true, mutable: true }) value: null | number = null;

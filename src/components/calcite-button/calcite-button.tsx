@@ -39,7 +39,7 @@ export class CalciteButton {
     | "transparent" = "solid";
 
   /** Select theme (light or dark) */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the button, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";

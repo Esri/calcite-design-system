@@ -45,7 +45,7 @@ export class CalciteNotice {
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the notice, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -54,7 +54,7 @@ export class CalciteNotice {
   @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
 
   /** Optionally show a button the user can click to dismiss the notice */
-  @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
+  @Prop({ reflect: true }) dismissible?: boolean = false;
 
   /** If false, no icon will be shown in the notice */
   @Prop() icon = false;

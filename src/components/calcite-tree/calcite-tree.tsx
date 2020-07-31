@@ -28,7 +28,7 @@ export class CalciteTree {
   @Prop({ mutable: true, reflect: true }) lines = false;
 
   /** Select theme (light or dark) */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** Specify the scale of the tree, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" = "m";
@@ -198,7 +198,7 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
   /** @internal If this tree is nested within another tree, set to false */
-  @Prop({ mutable: true, reflect: true }) root = true;
+  @Prop({ reflect: true }) root = true;
 
   //--------------------------------------------------------------------------
   //

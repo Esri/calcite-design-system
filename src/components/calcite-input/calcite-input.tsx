@@ -37,7 +37,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
 
   /** specify if the input is in loading state */
-  @Prop({ mutable: true, reflect: true }) loading = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l";
@@ -63,13 +63,13 @@ export class CalciteInput {
   @Prop({ reflect: true }) max?: number;
 
   /** optionally add prefix  **/
-  @Prop({ mutable: true }) prefixText?: string;
+  @Prop() prefixText?: string;
 
   /** optionally add suffix  **/
-  @Prop({ mutable: true }) suffixText?: string;
+  @Prop() suffixText?: string;
 
   /** for recognized input types, show an icon if applicable */
-  @Prop({ mutable: true, reflect: true }) icon: string | boolean = false;
+  @Prop({ reflect: true }) icon: string | boolean = false;
 
   /** specify the input type */
   @Prop({ mutable: true, reflect: true }) type:
@@ -95,7 +95,7 @@ export class CalciteInput {
     "vertical";
 
   /** specify the alignment of dropdown, defaults to left */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** is the input required */
   @Prop() required = false;
