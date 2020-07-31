@@ -6,7 +6,6 @@ export const CSS = {
   headerTrailingContent: "header-trailing-content",
   contentContainer: "content-container",
   fabContainer: "fab-container",
-  slotContainer: "slot-container",
   footer: "footer"
 };
 
