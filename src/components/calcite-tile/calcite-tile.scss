@@ -30,23 +30,23 @@ $spacing: $baseline/2;
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: $spacing;
+}
+.heading {
+  @include font-size(0);
+  color: var(--calcite-ui-text-1);
+  font-weight: 500;
+}
+.large-visual {
+  justify-items: center;
+  min-height: 200px;
+  .icon {
+    align-self: self-end;
+  }
   .heading {
-    @include font-size(0);
-    color: var(--calcite-ui-text-1);
-    font-weight: 500;
+    align-self: center;
   }
-  &.large-visual {
-    justify-items: center;
-    min-height: 200px;
-    .icon {
-      align-self: self-end;
-    }
-    .heading {
-      align-self: center;
-    }
-  }
-  .description {
-    @include font-size(-1);
-    color: var(--calcite-ui-text-2);
-  }
+}
+.description {
+  @include font-size(-1);
+  color: var(--calcite-ui-text-2);
 }
