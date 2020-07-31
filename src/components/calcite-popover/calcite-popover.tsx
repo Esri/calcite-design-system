@@ -165,6 +165,7 @@ export class CalcitePopover {
   //--------------------------------------------------------------------------
   /** Fired when the popover is closed */
   @Event() calcitePopoverClose: EventEmitter;
+
   /** Fired when the popover is opened */
   @Event() calcitePopoverOpen: EventEmitter;
 

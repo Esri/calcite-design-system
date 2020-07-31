@@ -406,8 +406,7 @@ calcite-input[dir="rtl"] {
   }
 }
 
-calcite-input[number-button-type="vertical"]
-  .calcite-input-number-button-item[data-adjustment="down"] {
+calcite-input[number-button-type="vertical"] .calcite-input-number-button-item[data-adjustment="down"] {
   border-top: 0;
 }
 
@@ -518,8 +517,8 @@ calcite-input[type="file"] textarea {
 }
 
 // status
-$inputStatusColors: "invalid" var(--calcite-ui-red-1),
-  "valid" var(--calcite-ui-green-1), "idle" var(--calcite-ui-text-2);
+$inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-green-1),
+  "idle" var(--calcite-ui-text-2);
 
 @each $statusColor in $inputStatusColors {
   $name: nth($statusColor, 1);

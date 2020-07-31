@@ -80,7 +80,7 @@ describe("calcite-slider", () => {
     const slider = await page.find("calcite-slider");
     const handle = await page.find("calcite-slider >>> .thumb");
     await page.waitForChanges();
-    let value = await slider.getProperty("value");
+    const value = await slider.getProperty("value");
     expect(value).toBe(30);
     await handle.press("ArrowRight");
     expect(await slider.getProperty("value")).toBe(31);

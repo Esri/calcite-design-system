@@ -75,9 +75,8 @@
   text-align: center;
   box-sizing: border-box;
   // include transition from focus
-  transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out, outline-offset 100ms ease-in-out,
-    outline-color 100ms ease-in-out;
+  transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
   &:hover {
     text-decoration: none;
   }
@@ -258,14 +257,7 @@
 }
 
 // outline and clear
-@mixin btn-outline-clear(
-  $bg-color,
-  $border-color,
-  $border-color-hover,
-  $border-color-press,
-  $color,
-  $color-press
-) {
+@mixin btn-outline-clear($bg-color, $border-color, $border-color-hover, $border-color-press, $color, $color-press) {
   color: $color;
   background-color: $bg-color;
   border: 1px solid $border-color;
@@ -418,14 +410,7 @@
 :host([appearance="clear"][color="dark"]:not([floating])) {
   button,
   a {
-    @include btn-outline-clear(
-      transparent,
-      $blk-180,
-      $blk-190,
-      $blk-170,
-      $blk-220,
-      $blk-220
-    );
+    @include btn-outline-clear(transparent, $blk-180, $blk-190, $blk-170, $blk-220, $blk-220);
   }
 }
 // floating variants
@@ -523,14 +508,7 @@
 :host([appearance="clear"][color="dark"]) {
   button,
   a {
-    @include btn-outline-clear-floating(
-      transparent,
-      $blk-180,
-      $blk-190,
-      $blk-170,
-      $blk-220,
-      $blk-220
-    );
+    @include btn-outline-clear-floating(transparent, $blk-180, $blk-190, $blk-170, $blk-220, $blk-220);
   }
 }
 
@@ -574,8 +552,7 @@
 }
 
 // generate button scales
-$btnScales: "s" 12px 16px 7px 12px, "m" 16px 16px 13px 20px,
-  "l" 20px 24px 15px 24px;
+$btnScales: "s" 12px 16px 7px 12px, "m" 16px 16px 13px 20px, "l" 20px 24px 15px 24px;
 @each $btnScale in $btnScales {
   $name: nth($btnScale, 1);
   $font-size: nth($btnScale, 2);
@@ -591,12 +568,7 @@ $btnScales: "s" 12px 16px 7px 12px, "m" 16px 16px 13px 20px,
   :host([scale="#{$name}"][hastext][appearance="transparent"]) button,
   :host([scale="#{$name}"][hastext][appearance="transparent"]) a {
     $compensated-padding-y: $padding-y + 1px;
-    @include btn-scale(
-      $font-size,
-      $line-height,
-      $compensated-padding-y,
-      $padding-x
-    );
+    @include btn-scale($font-size, $line-height, $compensated-padding-y, $padding-x);
   }
 }
 

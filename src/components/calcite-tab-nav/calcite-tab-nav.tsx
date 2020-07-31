@@ -8,7 +8,7 @@ import {
   Element,
   State,
   h,
-  Host,
+  Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { getSlottedElements } from "../../utils/dom";
@@ -16,7 +16,7 @@ import { getSlottedElements } from "../../utils/dom";
 @Component({
   tag: "calcite-tab-nav",
   styleUrl: "calcite-tab-nav.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteTabNav {
   //--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el;
+  @Element() el: HTMLCalciteTabNavElement;
 
   //--------------------------------------------------------------------------
   //
@@ -60,14 +60,11 @@ export class CalciteTabNav {
       this.selectedTab !== undefined &&
       this.selectedTab !== null
     ) {
-      localStorage.setItem(
-        `calcite-tab-nav-${this.storageId}`,
-        JSON.stringify(this.selectedTab)
-      );
+      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTab));
     }
 
     this.calciteTabChange.emit({
-      tab: this.selectedTab,
+      tab: this.selectedTab
     });
   }
 
@@ -84,7 +81,7 @@ export class CalciteTabNav {
       this.selectedTab = JSON.parse(localStorage.getItem(storageKey));
 
       this.calciteTabChange.emit({
-        tab: this.selectedTab,
+        tab: this.selectedTab
       });
     }
   }
@@ -112,7 +109,7 @@ export class CalciteTabNav {
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
         this.calciteTabChange.emit({
-          tab,
+          tab
         });
       });
     }
@@ -128,13 +125,10 @@ export class CalciteTabNav {
    * @internal
    */
   @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent) {
-    const currentIndex = this.getIndexOfTabTitle(
-      e.target as HTMLCalciteTabTitleElement
-    );
+    const currentIndex = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
 
     const previousTab =
-      this.tabTitles[currentIndex - 1] ||
-      this.tabTitles[this.tabTitles.length - 1];
+      this.tabTitles[currentIndex - 1] || this.tabTitles[this.tabTitles.length - 1];
 
     previousTab.focus();
 
@@ -146,9 +140,7 @@ export class CalciteTabNav {
    * @internal
    */
   @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent) {
-    const currentIndex = this.getIndexOfTabTitle(
-      e.target as HTMLCalciteTabTitleElement
-    );
+    const currentIndex = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
 
     const nextTab = this.tabTitles[currentIndex + 1] || this.tabTitles[0];
 
@@ -161,15 +153,11 @@ export class CalciteTabNav {
   /**
    * @internal
    */
-  @Listen("calciteTabsActivate") activateTabHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ) {
+  @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>) {
     if (e.detail.tab) {
       this.selectedTab = e.detail.tab;
     } else {
-      this.selectedTab = this.getIndexOfTabTitle(
-        e.target as HTMLCalciteTabTitleElement
-      );
+      this.selectedTab = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
     }
 
     e.stopPropagation();
@@ -229,10 +217,7 @@ export class CalciteTabNav {
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {
     if (this.tabNavEl) {
-      return getSlottedElements<HTMLCalciteTabTitleElement>(
-        this.tabNavEl,
-        "calcite-tab-title"
-      );
+      return getSlottedElements<HTMLCalciteTabTitleElement>(this.tabNavEl, "calcite-tab-title");
     }
     return [];
   }

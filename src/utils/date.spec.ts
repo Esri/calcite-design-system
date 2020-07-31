@@ -92,16 +92,16 @@ describe("prevMonth", () => {
 
 describe("nextMonth", () => {
   it("returns a date 1 month in the future", () => {
-    var d1 = nextMonth(new Date(2020, 2, 23));
+    const d1 = nextMonth(new Date(2020, 2, 23));
     expect(d1.getDate()).toEqual(23);
     expect(d1.getMonth()).toEqual(3);
     expect(d1.getFullYear()).toEqual(2020);
-    var d2 = nextMonth(new Date(2020, 11, 23));
+    const d2 = nextMonth(new Date(2020, 11, 23));
     expect(d2.getMonth()).toEqual(0);
     expect(d2.getFullYear()).toEqual(2021);
   });
   it("if date doesn't exist, uses last day of month", () => {
-    var d1 = nextMonth(new Date(2020, 2, 31)); // March 31
+    const d1 = nextMonth(new Date(2020, 2, 31)); // March 31
     expect(d1.getFullYear()).toEqual(2020);
     expect(d1.getMonth()).toEqual(3);
     expect(d1.getDate()).toEqual(30);

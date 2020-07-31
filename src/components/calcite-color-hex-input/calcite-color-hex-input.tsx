@@ -70,27 +70,17 @@ export class CalciteColorHexInput {
   /**
    * The component's scale.
    */
-  @Prop({
-    reflect: true
-  })
-  scale: Exclude<Scale, "xs" | "xl"> = "m";
+  @Prop({ reflect: true }) scale: Exclude<Scale, "xs" | "xl"> = "m";
 
   /**
    * The component's theme.
    */
-  @Prop({
-    reflect: true
-  })
-  theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme = "light";
 
   /**
    * The hex value.
    */
-  @Prop({
-    mutable: true,
-    reflect: true
-  })
-  value: string = normalizeHex(DEFAULT_COLOR.hex());
+  @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {

@@ -415,7 +415,7 @@ describe("calcite-color", () => {
       await page.waitForChanges();
       await saveColor.click();
 
-      let savedColors = await page.findAll(`calcite-color >>> .${CSS.savedColors} calcite-color-swatch`);
+      const savedColors = await page.findAll(`calcite-color >>> .${CSS.savedColors} calcite-color-swatch`);
       expect(savedColors).toHaveLength(3);
     });
 

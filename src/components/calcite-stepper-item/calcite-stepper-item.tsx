@@ -24,7 +24,7 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteStepperItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -32,16 +32,16 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
   /** is the step active */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** has the step been completed */
-  @Prop({ reflect: true, mutable: true }) complete: boolean = false;
+  @Prop({ reflect: true }) complete = false;
 
   /** does the step contain an error that needs to be resolved by the user */
-  @Prop({ mutable: true }) error: boolean = false;
+  @Prop() error = false;
 
   /** is the step disabled and not navigable to by a user */
-  @Prop({ mutable: true }) disabled: boolean = false;
+  @Prop() disabled = false;
 
   /** pass a title for the stepper item */
   @Prop() itemTitle?: string;
@@ -57,11 +57,11 @@ export class CalciteStepperItem {
 
   /** should the items display an icon based on status */
   /** @internal */
-  @Prop({ mutable: true }) icon: boolean = false;
+  @Prop({ mutable: true }) icon = false;
 
   /** optionally display the step number next to the title and subtitle */
   /** @internal */
-  @Prop({ mutable: true }) numbered: boolean = false;
+  @Prop({ mutable: true }) numbered = false;
 
   /** the scale of the item */
   /** @internal */
@@ -79,7 +79,9 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteStepperItemKeyEvent: EventEmitter;
+
   @Event() calciteStepperItemSelect: EventEmitter;
+
   @Event() calciteStepperItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -186,7 +188,7 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   private setIcon() {
-    var path = this.active
+    const path = this.active
       ? "circleF"
       : this.error
       ? "exclamationMarkCircleF"

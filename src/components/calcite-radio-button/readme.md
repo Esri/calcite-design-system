@@ -11,6 +11,7 @@
 | `focused`            | `focused`  | The focused state of the radio button.                                                                                                       | `boolean`           | `false`                                            |
 | `guid`               | `guid`     | The id attribute of the radio button. When omitted, a globally unique identifier is used.                                                    | `string`            | `this.el.id \|\|`calcite-radio-button-\${guid()}`` |
 | `hidden`             | `hidden`   | The radio button's hidden status. When a radio button is hidden it is not focusable or checkable.                                            | `boolean`           | `false`                                            |
+| `hovered`            | `hovered`  | The hovered state of the radio button.                                                                                                       | `boolean`           | `false`                                            |
 | `name` _(required)_  | `name`     | The name of the radio button. <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>.          | `string`            | `undefined`                                        |
 | `required`           | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                                             | `boolean`           | `false`                                            |
 | `scale`              | `scale`    | The scale (size) of the radio button. <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. | `"l" \| "m" \| "s"` | `"m"`                                              |
@@ -19,9 +20,10 @@
 
 ## Events
 
-| Event                      | Description | Type               |
-| -------------------------- | ----------- | ------------------ |
-| `calciteRadioButtonChange` |             | `CustomEvent<any>` |
+| Event                             | Description | Type               |
+| --------------------------------- | ----------- | ------------------ |
+| `calciteRadioButtonChange`        |             | `CustomEvent<any>` |
+| `calciteRadioButtonFocusedChange` |             | `CustomEvent<any>` |
 
 ## Dependencies
 

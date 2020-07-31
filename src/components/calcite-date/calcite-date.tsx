@@ -27,7 +27,7 @@ export class CalciteDate {
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDateElement;
 
   //--------------------------------------------------------------------------
   //
@@ -36,22 +36,31 @@ export class CalciteDate {
   //--------------------------------------------------------------------------
   /** Selected date */
   @Prop({ reflect: true, mutable: true }) value?: string;
+
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date;
+
   /** Earliest allowed date ("yyyy-mm-dd") */
   @Prop() min?: string;
+
   /** Latest allowed date ("yyyy-mm-dd") */
   @Prop() max?: string;
+
   /** Expand or collapse when calendar does not have input */
-  @Prop({ reflect: true }) active: boolean = false;
+  @Prop({ reflect: true }) active = false;
+
   /** Localized string for "previous month" */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
+
   /** Localized string for "next month" */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
+
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = "en-US";
+
   /** Show only calendar popup */
   @Prop() noCalendarInput?: boolean = false;
+
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
@@ -184,8 +193,11 @@ export class CalciteDate {
   //
   //--------------------------------------------------------------------------
   private localeData: DateFormattingData = getLocaleFormatData(this.locale);
+
   private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
+
   private inputProxy: HTMLInputElement;
+
   private observer: MutationObserver;
 
   //--------------------------------------------------------------------------

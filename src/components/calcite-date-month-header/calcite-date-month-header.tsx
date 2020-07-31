@@ -16,7 +16,7 @@ export class CalciteDateMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDateMonthHeaderElement;
 
   //--------------------------------------------------------------------------
   //
@@ -26,18 +26,25 @@ export class CalciteDateMonthHeader {
 
   /** Already selected date. */
   @Prop() selectedDate: Date;
+
   /** Focused date with indicator (will become selected date if user proceeds) */
   @Prop() activeDate: Date;
+
   /** Minimum date of the calendar below which is disabled. */
   @Prop() min: Date;
+
   /** Maximum date of the calendar above which is disabled. */
   @Prop() max: Date;
+
   /** User's language and region as BCP 47 formatted string. */
   @Prop() locale: string;
+
   /** Localized string for previous month. */
   @Prop() intlPrevMonth: string;
+
   /** Localized string for next month. */
   @Prop() intlNextMonth: string;
+
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
@@ -139,7 +146,7 @@ export class CalciteDateMonthHeader {
    * Parse localized year string from input,
    * set to active if in range
    */
-  private setYear(localizedYear: string, increment: number = 0) {
+  private setYear(localizedYear: string, increment = 0) {
     const { min, max, activeDate, locale, yearInput } = this;
     const parsedYear = parseInt(replaceArabicNumerals(localizedYear));
     const length = parsedYear.toString().length;

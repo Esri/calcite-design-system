@@ -19,7 +19,7 @@ export class CalciteIcon {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLElement;
+  el: HTMLCalciteIconElement;
 
   //--------------------------------------------------------------------------
   //
@@ -41,7 +41,7 @@ export class CalciteIcon {
   @Prop({
     reflect: true
   })
-  mirrored: boolean = false;
+  mirrored = false;
 
   /**
    * Icon scale. Can be "s" | "m" | "l".
@@ -105,8 +105,8 @@ export class CalciteIcon {
           }}
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
-          height={size}
-          width={size}
+          height="100%"
+          width="100%"
           viewBox={`0 0 ${size} ${size}`}
         >
           {paths.map((path: string | CalciteMultiPathEntry) =>

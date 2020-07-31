@@ -25,7 +25,7 @@ export class CalciteStepper {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteStepperElement;
 
   //--------------------------------------------------------------------------
   //
@@ -34,16 +34,16 @@ export class CalciteStepper {
   //--------------------------------------------------------------------------
 
   /** specify the theme of stepper, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of stepper, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** optionally display the number next to the step title */
-  @Prop({ mutable: true, reflect: true }) numbered: boolean = false;
+  @Prop({ mutable: true, reflect: true }) numbered = false;
 
   /** optionally display a status icon next to the step title */
-  @Prop({ mutable: true, reflect: true }) icon: boolean = false;
+  @Prop({ mutable: true, reflect: true }) icon = false;
 
   /** specify the layout of stepper, defaults to horizontal */
   @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -72,16 +72,16 @@ export class CalciteStepper {
 
   connectedCallback() {
     // validate props
-    let layout = ["horizontal", "vertical"];
+    const layout = ["horizontal", "vertical"];
     if (!layout.includes(this.layout)) this.layout = "horizontal";
 
-    let scale = ["s", "m", "l"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
 
-    let numbered = [true, false];
+    const numbered = [true, false];
     if (!numbered.includes(this.numbered)) this.numbered = false;
 
-    let icon = [true, false];
+    const icon = [true, false];
     if (!icon.includes(this.icon)) this.icon = false;
   }
 
@@ -116,10 +116,10 @@ export class CalciteStepper {
   //--------------------------------------------------------------------------
 
   @Listen("calciteStepperItemKeyEvent") calciteStepperItemKeyEvent(e: CustomEvent) {
-    let item = e.detail.item;
-    let itemToFocus = e.target;
-    let isFirstItem = this.itemIndex(itemToFocus) === 0;
-    let isLastItem = this.itemIndex(itemToFocus) === this.sortedItems.length - 1;
+    const item = e.detail.item;
+    const itemToFocus = e.target;
+    const isFirstItem = this.itemIndex(itemToFocus) === 0;
+    const isLastItem = this.itemIndex(itemToFocus) === this.sortedItems.length - 1;
     switch (getKey(item.key)) {
       case "ArrowDown":
       case "ArrowRight":
@@ -268,7 +268,7 @@ export class CalciteStepper {
   }
 
   private sortItems() {
-    let items = Array.from(this.items)
+    const items = Array.from(this.items)
       .filter((a) => !a.item.disabled)
       .sort((a, b) => a.position - b.position)
       .map((a) => a.item);

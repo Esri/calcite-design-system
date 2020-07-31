@@ -20,8 +20,10 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 
 | Property        | Attribute       | Description                                                                                                                                   | Type                | Default     |
 | --------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `checked`       | `checked`       | True if the checkbox is initially checked                                                                                                     | `boolean`           | `false`     |
+| `checked`       | `checked`       | The checked state of the checkbox.                                                                                                            | `boolean`           | `false`     |
 | `disabled`      | `disabled`      | True if the checkbox is disabled                                                                                                              | `boolean`           | `false`     |
+| `focused`       | `focused`       | The focused state of the checkbox.                                                                                                            | `boolean`           | `false`     |
+| `hovered`       | `hovered`       | The hovered state of the checkbox.                                                                                                            | `boolean`           | `false`     |
 | `indeterminate` | `indeterminate` | True if the checkbox is initially indeterminate, which is independent from its checked state https://css-tricks.com/indeterminate-checkboxes/ | `boolean`           | `false`     |
 | `name`          | `name`          | The name of the checkbox input                                                                                                                | `string`            | `""`        |
 | `scale`         | `scale`         | specify the scale of the checkbox, defaults to m                                                                                              | `"l" \| "m" \| "s"` | `"m"`       |

@@ -26,7 +26,7 @@ export class CalciteTab {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTabElement;
 
   //--------------------------------------------------------------------------
   //
@@ -38,12 +38,12 @@ export class CalciteTab {
    * Optionally include a unique name for this tab,
    * be sure to also set this name on the associated title.
    */
-  @Prop({ reflect: true, mutable: true }) tab: string;
+  @Prop({ reflect: true }) tab: string;
 
   /**
    * Show this tab
    */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   //--------------------------------------------------------------------------
   //

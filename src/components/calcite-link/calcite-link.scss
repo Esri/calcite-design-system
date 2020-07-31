@@ -31,7 +31,6 @@
   font-family: inherit;
   -webkit-appearance: none;
   cursor: pointer;
-  text-align: center;
   transition: $transition;
   &:hover {
     text-decoration: none;
@@ -87,11 +86,9 @@
   color: $color;
   line-height: inherit;
   white-space: initial;
-  user-select: text;
   background-color: transparent;
   position: relative;
-  background-image: linear-gradient(currentColor, currentColor),
-    linear-gradient($border-color, $border-color);
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient($border-color, $border-color);
   background-position: 0% 100%, 100% 100%;
   background-repeat: no-repeat, no-repeat;
   background-size: 0% 1px, 100% 1px;
@@ -111,25 +108,24 @@
   }
 }
 
+:host([user-select]) {
+  span,
+  a {
+    user-select: text;
+  }
+}
+
 :host([color="blue"]) {
   span,
   a {
-    @include link-style(
-      var(--calcite-blue-accessible),
-      var(--calcite-ui-blue-1),
-      var(--calcite-link-blue-underline)
-    );
+    @include link-style(var(--calcite-blue-accessible), var(--calcite-ui-blue-1), var(--calcite-link-blue-underline));
   }
 }
 
 :host([color="red"]) {
   span,
   a {
-    @include link-style(
-      var(--calcite-red-accessible),
-      var(--calcite-ui-red-1),
-      var(--calcite-link-red-underline)
-    );
+    @include link-style(var(--calcite-red-accessible), var(--calcite-ui-red-1), var(--calcite-link-red-underline));
   }
 }
 :host([color="light"]) {
