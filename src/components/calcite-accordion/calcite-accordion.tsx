@@ -22,7 +22,7 @@ export class CalciteAccordion {
   //--------------------------------------------------------------------------
 
   /** specify the theme of accordion, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of accordion, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";

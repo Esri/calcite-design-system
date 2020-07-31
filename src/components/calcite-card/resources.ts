@@ -8,10 +8,10 @@ export const CSS = {
   checkboxWrapper: "checkbox-wrapper"
 };
 
-export const enum SLOTS {
-  thumbnail = "thumbnail",
-  title = "title",
-  subtitle = "subtitle",
-  footerLeading = "footer-leading",
-  footerTrailing = "footer-trailing"
-}
+export const SLOTS = {
+  thumbnail: "thumbnail",
+  title: "title",
+  subtitle: "subtitle",
+  footerLeading: "footer-leading",
+  footerTrailing: "footer-trailing"
+};

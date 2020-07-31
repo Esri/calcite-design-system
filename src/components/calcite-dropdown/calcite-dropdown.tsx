@@ -32,7 +32,7 @@ export class CalciteDropdown {
   @Prop() maxItems = 0;
 
   /** specify the theme of the dropdown, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /**
    * **read-only** The currently selected items
@@ -55,7 +55,7 @@ export class CalciteDropdown {
   if the selection-mode of the selected item's containing group is "none", the dropdown will always close
   */
 
-  @Prop({ mutable: true, reflect: true }) disableCloseOnSelect = false;
+  @Prop({ reflect: true }) disableCloseOnSelect = false;
 
   /** is the dropdown disabled  */
   @Prop({ reflect: true }) disabled?: boolean;

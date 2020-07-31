@@ -39,7 +39,7 @@ export class CalciteTabTitle {
    * Optionally include a unique name for the tab title,
    * be sure to also set this name on the associated tab.
    */
-  @Prop({ reflect: true, mutable: true }) tab?: string;
+  @Prop({ reflect: true }) tab?: string;
 
   /** Show this tab title as selected */
   @Prop({ reflect: true, mutable: true }) active = false;

@@ -21,7 +21,7 @@ export class CalciteInputMessage {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ reflect: true, mutable: true }) active = false;
+  @Prop({ reflect: true }) active = false;
 
   /** optionally display an icon based on status */
   @Prop({ reflect: true }) icon: boolean;
@@ -33,7 +33,7 @@ export class CalciteInputMessage {
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
 
   /** specify the theme, defaults to light */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
   @Prop({ mutable: true, reflect: true }) type: "default" | "floating" = "default";

@@ -285,19 +285,19 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   /** @internal Is the parent of this item expanded? */
-  @Prop({ mutable: true }) parentExpanded = false;
+  @Prop() parentExpanded = false;
 
   /** @internal What level of depth is this item at? */
-  @Prop({ mutable: true, reflect: true }) depth = -1;
+  @Prop({ reflect: true }) depth = -1;
 
   /** @internal Does this tree item have a tree inside it? */
-  @Prop({ mutable: true, reflect: true }) hasChildren: boolean = null;
+  @Prop({ reflect: true }) hasChildren: boolean = null;
 
   /** @internal Draw lines (set on parent) */
-  @Prop({ mutable: true, reflect: true }) lines: boolean;
+  @Prop({ reflect: true }) lines: boolean;
 
   /** @internal Scale of the parent tree, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m";
+  @Prop({ reflect: true }) scale: "s" | "m";
 
   @State() private selectionMode: TreeSelectionMode;
 

@@ -28,7 +28,7 @@ export class CalciteLabel {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify theme of the label and its any child input / input messages */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** is the wrapped element positioned inline with the label slotted text */
   @Prop({ mutable: true, reflect: true }) layout: "inline" | "inline-space-between" | "default" =
