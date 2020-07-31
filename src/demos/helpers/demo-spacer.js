@@ -7,7 +7,7 @@ class DemoSpacer extends HTMLElement {
             :host {
               display: grid;
               grid-template-columns: 1fr;
-              grid-gap: 12px;
+              grid-gap: ${this.getAttribute("gap") || "12px"};
             }
           </style>
           <slot></slot>

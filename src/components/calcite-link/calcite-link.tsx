@@ -45,6 +45,9 @@ export class CalciteLink {
   /** is the link disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
+  /** Allows the text to be selectable */
+  @Prop({ reflect: true }) userSelect = true;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -77,7 +80,13 @@ export class CalciteLink {
 
     return (
       <Host dir={dir}>
-        <Tag {...attributes} role={role} tabIndex={tabIndex} ref={(el) => (this.childEl = el)}>
+        <Tag
+          {...attributes}
+          href={Tag === "a" && this.href}
+          role={role}
+          tabIndex={tabIndex}
+          ref={(el) => (this.childEl = el)}
+        >
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}
@@ -111,7 +120,7 @@ export class CalciteLink {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    const props = ["color", "dir", "icon", "iconPosition", "id", "theme"];
+    const props = ["color", "dir", "icon", "icon-position", "id", "theme"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});

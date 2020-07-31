@@ -61,6 +61,7 @@ export class CalciteRadioButton {
     } else {
       this.input.blur();
     }
+    this.calciteRadioButtonFocusedChange.emit();
   }
 
   /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
@@ -74,6 +75,9 @@ export class CalciteRadioButton {
   hiddenChanged(newHidden: boolean) {
     this.input.hidden = newHidden;
   }
+
+  /** The hovered state of the radio button. */
+  @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ reflect: true }) name!: string;
@@ -110,7 +114,7 @@ export class CalciteRadioButton {
   }
 
   /** The value of the radio button. */
-  @Prop() value!: string;
+  @Prop({ reflect: true }) value!: string;
 
   //--------------------------------------------------------------------------
   //
@@ -173,6 +177,9 @@ export class CalciteRadioButton {
   @Event()
   calciteRadioButtonChange: EventEmitter;
 
+  @Event()
+  calciteRadioButtonFocusedChange: EventEmitter;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -186,6 +193,16 @@ export class CalciteRadioButton {
       this.focused = true;
       this.checked = true;
     }
+  }
+
+  @Listen("mouseenter")
+  mouseenter() {
+    this.hovered = true;
+  }
+
+  @Listen("mouseleave")
+  mouseleave() {
+    this.hovered = false;
   }
 
   onInputBlur() {
@@ -206,6 +223,12 @@ export class CalciteRadioButton {
   componentWillLoad() {
     this.validateScale(this.scale);
     this.validateTheme(this.theme);
+    if (this.name) {
+      this.checkFirstRadioButton();
+    }
+  }
+
+  componentDidLoad() {
     if (this.name) {
       this.checkFirstRadioButton();
     }
@@ -259,20 +282,25 @@ export class CalciteRadioButton {
     }
 
     this.input.type = "radio";
-
-    // This renders the input as a sibling of calcite-radio-button because as it turns out
-    // doing appendChild as hjorthhansen suggests doesn't really keep it out of the
-    // shadow DOM as far as slot behavior goes.  This is required to render {this.value} as fallback slot content.
-    this.el.insertAdjacentElement("afterend", this.input);
+    this.el.insertAdjacentElement("beforeend", this.input);
   }
 
   render() {
+    const hasLabel = this.el.textContent ? true : false;
     return (
-      <Host aria-checked={this.checked.toString()} aria-disabled={this.disabled}>
+      <Host
+        aria-checked={this.checked.toString()}
+        aria-disabled={this.disabled}
+        class={{ hasLabel }}
+      >
         <div class="radio"></div>
-        <calcite-label dir={document.documentElement.getAttribute("dir")} scale={this.scale}>
-          <slot>{this.value}</slot>
-        </calcite-label>
+        {hasLabel ? (
+          <calcite-label dir={document.documentElement.getAttribute("dir")} scale={this.scale}>
+            <slot />
+          </calcite-label>
+        ) : (
+          <slot />
+        )}
       </Host>
     );
   }

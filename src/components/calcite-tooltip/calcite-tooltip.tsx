@@ -1,13 +1,4 @@
-import {
-  Component,
-  Element,
-  Host,
-  Method,
-  Prop,
-  State,
-  Watch,
-  h,
-} from "@stencil/core";
+import { Component, Element, Host, Method, Prop, State, Watch, h } from "@stencil/core";
 import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -15,13 +6,13 @@ import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
-  updatePopper,
+  updatePopper
 } from "../../utils/popper";
 
 @Component({
   tag: "calcite-tooltip",
   styleUrl: "calcite-tooltip.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteTooltip {
   // --------------------------------------------------------------------------
@@ -137,7 +128,7 @@ export class CalciteTooltip {
           el,
           modifiers,
           placement,
-          popper,
+          popper
         })
       : this.createPopper();
   }
@@ -202,16 +193,16 @@ export class CalciteTooltip {
       name: "arrow",
       enabled: true,
       options: {
-        element: arrowEl,
-      },
+        element: arrowEl
+      }
     };
 
     const offsetModifier: Partial<StrictModifiers> = {
       name: "offset",
       enabled: true,
       options: {
-        offset: [offsetSkidding, offsetDistance],
-      },
+        offset: [offsetSkidding, offsetDistance]
+      }
     };
 
     return [arrowModifier, offsetModifier];
@@ -228,7 +219,7 @@ export class CalciteTooltip {
       modifiers,
       open,
       placement,
-      referenceEl,
+      referenceEl
     });
   }
 
@@ -253,15 +244,8 @@ export class CalciteTooltip {
     const displayed = _referenceElement && open;
 
     return (
-      <Host
-        role="tooltip"
-        aria-hidden={!displayed ? "true" : "false"}
-        id={this.getId()}
-      >
-        <div
-          class={CSS.arrow}
-          ref={(arrowEl) => (this.arrowEl = arrowEl)}
-        ></div>
+      <Host role="tooltip" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
+        <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
         <div class={CSS.container}>
           <slot />
         </div>

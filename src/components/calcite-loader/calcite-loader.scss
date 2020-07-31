@@ -234,24 +234,9 @@ $segment-3-duration: 1.16s;
   }
 }
 
-@include generateSegment(
-  1,
-  $segment-1-size,
-  $segment-1-growth,
-  $segment-1-duration
-);
-@include generateSegment(
-  2,
-  $segment-2-size,
-  $segment-2-growth,
-  $segment-2-duration
-);
-@include generateSegment(
-  3,
-  $segment-3-size,
-  $segment-3-growth,
-  $segment-3-duration
-);
+@include generateSegment(1, $segment-1-size, $segment-1-growth, $segment-1-duration);
+@include generateSegment(2, $segment-2-size, $segment-2-growth, $segment-2-duration);
+@include generateSegment(3, $segment-3-size, $segment-3-growth, $segment-3-duration);
 
 @keyframes loader-color-shift {
   0% {

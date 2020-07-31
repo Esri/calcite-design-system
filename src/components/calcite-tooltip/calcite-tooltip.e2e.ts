@@ -4,9 +4,7 @@ import { defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
   it("renders", async () =>
-    renders(
-      `<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`
-    ));
+    renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
 
   it("honors hidden attribute", async () => hidden("calcite-tooltip"));
 
@@ -14,32 +12,30 @@ describe("calcite-tooltip", () => {
     defaults("calcite-tooltip", [
       {
         propertyName: "open",
-        defaultValue: false,
+        defaultValue: false
       },
       {
         propertyName: "placement",
-        defaultValue: "auto",
+        defaultValue: "auto"
       },
       {
         propertyName: "offsetDistance",
-        defaultValue: 6,
+        defaultValue: 6
       },
       {
         propertyName: "offsetSkidding",
-        defaultValue: 0,
+        defaultValue: 0
       },
       {
         propertyName: "referenceElement",
-        defaultValue: undefined,
-      },
+        defaultValue: undefined
+      }
     ]));
 
   it("tooltip positions when referenceElement is set", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-tooltip open></calcite-tooltip><div>referenceElement</div>`
-    );
+    await page.setContent(`<calcite-tooltip open></calcite-tooltip><div>referenceElement</div>`);
 
     const element = await page.find("calcite-tooltip");
 
@@ -59,9 +55,7 @@ describe("calcite-tooltip", () => {
   it("open tooltip should be visible", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      `<calcite-tooltip></calcite-tooltip><div>referenceElement</div>`
-    );
+    await page.setContent(`<calcite-tooltip></calcite-tooltip><div>referenceElement</div>`);
 
     const element = await page.find("calcite-tooltip");
 
@@ -192,9 +186,7 @@ describe("calcite-tooltip", () => {
 
     const userDefinedId = "user-defined-id";
 
-    await page.setContent(
-      `<calcite-tooltip id="${userDefinedId}" open></calcite-tooltip>`
-    );
+    await page.setContent(`<calcite-tooltip id="${userDefinedId}" open></calcite-tooltip>`);
 
     await page.waitForChanges();
 

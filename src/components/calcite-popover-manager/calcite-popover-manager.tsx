@@ -3,7 +3,7 @@ import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-popover-manager",
+  tag: "calcite-popover-manager"
 })
 export class CalcitePopoverManager {
   // --------------------------------------------------------------------------
@@ -46,9 +46,7 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click", { target: "window", capture: true }) closeOpenPopovers(
-    event: Event
-  ) {
+  @Listen("click", { target: "window", capture: true }) closeOpenPopovers(event: Event) {
     const target = event.target as HTMLElement;
     const { autoClose, el, selector } = this;
     const popoverSelector = "calcite-popover";

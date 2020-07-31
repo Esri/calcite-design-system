@@ -27,6 +27,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+- [calcite-tile](../calcite-tile)
+
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
@@ -36,6 +40,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-link --> calcite-icon
+  calcite-tile --> calcite-link
   style calcite-link fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

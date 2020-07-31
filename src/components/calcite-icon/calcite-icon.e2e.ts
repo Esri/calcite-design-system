@@ -82,11 +82,15 @@ describe("calcite-icon", () => {
         it(`${scale} scale`, async () => {
           const page = await newE2EPage();
           await page.setContent(`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
+          const calciteIcon = await page.find(`calcite-icon`);
+          const calciteIconComputedStyle = await calciteIcon.getComputedStyle();
           const svg = await page.find(`calcite-icon >>> svg`);
           const sizeInPx = scaleToPx[scale];
 
-          expect(await svg.getAttribute("width")).toBe(`${sizeInPx}`);
-          expect(await svg.getAttribute("height")).toBe(`${sizeInPx}`);
+          expect(calciteIconComputedStyle.height).toBe(`${sizeInPx}px`);
+          expect(calciteIconComputedStyle.width).toBe(`${sizeInPx}px`);
+          expect(await svg.getAttribute("width")).toBe("100%");
+          expect(await svg.getAttribute("height")).toBe("100%");
           expect(await svg.getAttribute("viewBox")).toBe(`0 0 ${sizeInPx} ${sizeInPx}`);
         })
       );

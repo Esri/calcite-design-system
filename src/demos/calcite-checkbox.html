@@ -22,25 +22,6 @@
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Checkbox</h1>
-
-  <calcite-checkbox>
-    <input id="proxyCheckboxCheckbox" type="checkbox" />
-  </calcite-checkbox>
-  <span id='proxyCheckboxSpan'>
-    With a proxy <code>input</code> element and changes on click.
-  </span>
-  <script>
-    var proxyCheckboxSpan = document.getElementById(
-      "proxyCheckboxSpan"
-    );
-    var proxyCheckboxCheckbox = document.getElementById('proxyCheckboxCheckbox');
-
-    proxyCheckboxSpan.addEventListener('click', function () {
-      proxyCheckboxCheckbox.hasAttribute('checked') ?
-        proxyCheckboxCheckbox.removeAttribute('checked') :
-        proxyCheckboxCheckbox.setAttribute('checked', '')
-    })
-  </script>
   <div>
     <calcite-label layout="inline">
       <calcite-checkbox indeterminate></calcite-checkbox>
@@ -106,25 +87,6 @@
       <calcite-checkbox disabled></calcite-checkbox>
       Disabled and unchecked
     </calcite-label>
-  </div>
-
-  <div>
-    <calcite-label layout="inline">
-      <calcite-checkbox id="basicCheckbox" checked="true"></calcite-checkbox>
-      Without a proxy <code>input</code> element.
-    </calcite-label>
-    <script>
-      var basicCheckbox = document.getElementById("basicCheckbox");
-
-      basicCheckbox.addEventListener("calciteCheckboxChange", function (
-        e
-      ) {
-        console.log(
-          "Basic Checkbox changed by <calcite-checkbox>",
-          e.target.checked
-        );
-      });
-    </script>
   </div>
 
 </body>

@@ -62,9 +62,7 @@ describe("calcite-input-message", () => {
     <calcite-input-message></calcite-input-message>
     `);
 
-    const icon = await page.find(
-      "calcite-input-message >>> .calcite-input-message-icon"
-    );
+    const icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
     expect(icon).toBeNull();
   });
 
@@ -74,9 +72,7 @@ describe("calcite-input-message", () => {
     <calcite-input-message icon></calcite-input-message>
     `);
 
-    const icon = await page.find(
-      "calcite-input-message >>> .calcite-input-message-icon"
-    );
+    const icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
     expect(icon).not.toBeNull();
   });
 });

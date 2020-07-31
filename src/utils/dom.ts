@@ -37,20 +37,13 @@ export function hasSlottedContent(el: HTMLSlotElement) {
   return assignedNodes && assignedNodes.length > 0;
 }
 
-export function getSlottedElements<T extends Element>(
-  wrapperEl: Element,
-  selector: string
-) {
+export function getSlottedElements<T extends Element>(wrapperEl: Element, selector: string) {
   const slot: HTMLSlotElement = wrapperEl.querySelector("slot");
   const elements = slot ? slot.assignedElements() : wrapperEl.children;
-  return nodeListToArray(elements).filter((el) =>
-    el.matches(selector)
-  ) as Array<T>;
+  return nodeListToArray(elements).filter((el) => el.matches(selector)) as Array<T>;
 }
 
-export function getDescribedByElement<T extends Element>(
-  element: Element
-): T | HTMLElement | null {
+export function getDescribedByElement<T extends Element>(element: Element): T | HTMLElement | null {
   const id = element?.getAttribute("aria-describedby");
 
   return (id && document.getElementById(id)) || null;

@@ -12,9 +12,9 @@ describe("calcite-radio-button", () => {
       { propertyName: "theme", defaultValue: "light" }
     ]));
 
-  it("honors hidden attribute", async () => {
-    hidden("calcite-radio-button");
+  it("honors hidden attribute", async () => hidden("calcite-radio-button"));
 
+  it("focusing skips over hidden radio-buttons", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button name="hidden" value="first"></calcite-radio-button>
@@ -332,14 +332,6 @@ describe("calcite-radio-button", () => {
 
     const value = await element.getProperty("value");
     expect(value).toBe("test-value");
-  });
-
-  it("uses value as fallback label", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-button value='test-value' checked></calcite-radio-button>");
-
-    const label = await page.find("calcite-radio-button >>> calcite-label");
-    expect(label).toEqualText("test-value");
   });
 
   it("updates 'aria-checked' based on 'checked' property", async () => {

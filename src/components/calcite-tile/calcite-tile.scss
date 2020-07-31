@@ -1,0 +1,52 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+$spacing: $baseline/2;
+
+:host {
+  background-color: var(--calcite-ui-foreground-1);
+  box-sizing: border-box;
+  color: var(--calcite-ui-text-3);
+  display: inline-block;
+  transition: $transition;
+  user-select: none;
+}
+:host(:not([embed])) {
+  box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
+  max-width: 300px;
+  padding: $spacing;
+}
+:host(:not([embed])[href]:hover) {
+  box-shadow: 0 0 0 2px var(--calcite-ui-blue-1);
+  cursor: pointer;
+}
+:host(:not([embed])[href]:active) {
+  box-shadow: 0 0 0 3px var(--calcite-ui-blue-1);
+}
+:host([icon][heading]:not([description]):not([embed])) {
+  padding: unset;
+}
+.tile {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: $spacing;
+}
+.heading {
+  @include font-size(0);
+  color: var(--calcite-ui-text-1);
+  font-weight: 500;
+}
+.large-visual {
+  justify-items: center;
+  min-height: 200px;
+  .icon {
+    align-self: self-end;
+  }
+  .heading {
+    align-self: center;
+  }
+}
+.description {
+  @include font-size(-1);
+  color: var(--calcite-ui-text-2);
+}

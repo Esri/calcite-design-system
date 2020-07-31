@@ -1,4 +1,4 @@
 export const TEXT = {
   nextMonth: "next month",
-  prevMonth: "previous month",
+  prevMonth: "previous month"
 };

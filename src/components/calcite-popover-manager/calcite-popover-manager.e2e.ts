@@ -3,8 +3,7 @@ import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-popover-manager", () => {
-  it("renders", async () =>
-    renders(`<calcite-popover-manager></calcite-popover-manager>`));
+  it("renders", async () => renders(`<calcite-popover-manager></calcite-popover-manager>`));
 
   it("honors hidden attribute", async () => hidden("calcite-popover-manager"));
 
@@ -12,12 +11,12 @@ describe("calcite-popover-manager", () => {
     defaults("calcite-popover-manager", [
       {
         propertyName: "selector",
-        defaultValue: `[${POPOVER_REFERENCE}]`,
+        defaultValue: `[${POPOVER_REFERENCE}]`
       },
       {
         propertyName: "autoClose",
-        defaultValue: undefined,
-      },
+        defaultValue: undefined
+      }
     ]));
 
   it("should open popovers", async () => {

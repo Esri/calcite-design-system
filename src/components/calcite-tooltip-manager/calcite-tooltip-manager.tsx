@@ -3,7 +3,7 @@ import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-tooltip-manager",
+  tag: "calcite-tooltip-manager"
 })
 export class CalciteTooltipManager {
   // --------------------------------------------------------------------------

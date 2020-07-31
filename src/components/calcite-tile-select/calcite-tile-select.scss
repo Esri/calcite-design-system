@@ -1,0 +1,103 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+$spacing: $baseline/2;
+
+:host {
+  background-color: var(--calcite-ui-foreground-1);
+  box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 1px;
+  margin-right: -3px;
+  max-width: 300px;
+  padding: $spacing;
+  position: relative;
+  transition: $transition;
+  vertical-align: top;
+}
+:host([checked]) {
+  box-shadow: 0 0 0 1px var(--calcite-ui-blue-1);
+  z-index: 1;
+}
+:host([checked]:focus),
+:host([checked][focused]) {
+  z-index: 2;
+}
+
+:host([show-input="none"]) {
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 3px var(--calcite-ui-border-2);
+  margin-right: 1px;
+  margin-bottom: 5px;
+  ::slotted(calcite-checkbox),
+  ::slotted(calcite-radio-button) {
+    opacity: 0;
+    position: absolute;
+  }
+}
+:host([show-input="none"]:hover) {
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
+  z-index: 3;
+}
+:host([show-input="none"][checked]) {
+  box-shadow: 0 0 0 1px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
+}
+:host([show-input="none"]:focus),
+:host([show-input="none"][focused]) {
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1),
+    0 0 0 6px var(--calcite-ui-foreground-1), 0 0 0 9px var(--calcite-ui-blue-1);
+  z-index: 2;
+}
+:host([show-input="none"][checked]:focus),
+:host([show-input="none"][checked][focused]) {
+  box-shadow: 0 0 0 1px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1),
+    0 0 0 6px var(--calcite-ui-foreground-1), 0 0 0 9px var(--calcite-ui-blue-1);
+}
+
+:host([heading]:not([icon]):not([description])) {
+  align-items: center;
+}
+
+:host([show-input="left"][icon][heading][description]),
+:host([show-input="left"]:not([icon])[heading]:not([description])) {
+  display: inline-grid;
+  grid-gap: $spacing;
+  grid-template-columns: max-content 1fr;
+  ::slotted(calcite-checkbox),
+  ::slotted(calcite-radio-button) {
+    order: 0;
+  }
+  calcite-tile {
+    order: 1;
+  }
+}
+:host([show-input="left"][icon][heading]:not([description])) {
+  ::slotted(calcite-checkbox),
+  ::slotted(calcite-radio-button) {
+    position: absolute;
+    top: $spacing;
+    left: $spacing;
+  }
+}
+:host([show-input="right"][icon][heading]) {
+  ::slotted(calcite-checkbox),
+  ::slotted(calcite-radio-button) {
+    position: absolute;
+    top: $spacing;
+    right: $spacing;
+  }
+}
+:host([show-input="right"][heading]:not([icon]):not([description])) {
+  display: inline-grid;
+  grid-gap: $spacing;
+  grid-template-columns: max-content 1fr;
+  ::slotted(calcite-checkbox),
+  ::slotted(calcite-radio-button) {
+    justify-self: flex-end;
+  }
+}
+
+:host([hidden]) {
+  display: none;
+}

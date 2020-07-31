@@ -1,11 +1,7 @@
 /**
  * Check if date is within a min and max
  */
-export function inRange(
-  date: Date,
-  min?: Date | string,
-  max?: Date | string
-): boolean {
+export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
   const time = date.getTime();
   const afterMin = !(min instanceof Date) || time >= min.getTime();
   const beforeMax = !(max instanceof Date) || time <= max.getTime();
@@ -16,11 +12,7 @@ export function inRange(
  * Ensures date is within range,
  * returns min or max if out of bounds
  */
-export function dateFromRange(
-  date?: any,
-  min?: Date | string,
-  max?: Date | string
-): Date | null {
+export function dateFromRange(date?: any, min?: Date | string, max?: Date | string): Date | null {
   if (!(date instanceof Date)) {
     return null;
   }

@@ -142,9 +142,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("restores focus to previously focused element when closed", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<button>Focus</button><calcite-modal></calcite-modal>`
-    );
+    await page.setContent(`<button>Focus</button><calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     let $button;
     await page.$eval("button", (elm: any) => {

@@ -17,9 +17,7 @@ describe("calcite-switch", () => {
     const testName = "test-name";
     const testValue = "test-value";
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-switch switched name="${testName}" value="${testValue}"></calcite-switch>`
-    );
+    await page.setContent(`<calcite-switch switched name="${testName}" value="${testValue}"></calcite-switch>`);
 
     const input = await page.find("input");
 
@@ -143,9 +141,7 @@ describe("calcite-switch", () => {
 
   it("renders requested props", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-switch theme="dark" scale="l" color="red"></calcite-switch>`
-    );
+    await page.setContent(`<calcite-switch theme="dark" scale="l" color="red"></calcite-switch>`);
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("theme", "dark");
@@ -155,9 +151,7 @@ describe("calcite-switch", () => {
 
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-switch scale="zop" color="zim"></calcite-switch>`
-    );
+    await page.setContent(`<calcite-switch scale="zop" color="zim"></calcite-switch>`);
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("scale", "m");

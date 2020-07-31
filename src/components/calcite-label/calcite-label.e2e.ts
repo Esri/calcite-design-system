@@ -105,7 +105,7 @@ describe("calcite-label", () => {
     </calcite-label>
   `);
     const label = await page.find("calcite-label");
-    const checkbox = await page.find("calcite-checkbox");
+    const checkbox = await page.find("input");
     const checkboxClass = checkbox["_elmHandle"]["_remoteObject"].description;
     await label.click();
     const activeEl = await page.evaluateHandle(() => document.activeElement);
@@ -122,7 +122,7 @@ describe("calcite-label", () => {
     <calcite-checkbox></calcite-checkbox>
     </calcite-label>
   `);
-    const checkbox = await page.find("calcite-checkbox");
+    const checkbox = await page.find("input");
     const checkboxClass = checkbox["_elmHandle"]["_remoteObject"].description;
     await page.keyboard.press("Tab");
     const activeEl = await page.evaluateHandle(() => document.activeElement);
@@ -213,8 +213,7 @@ describe("calcite-label", () => {
   `);
     const label = await page.find("calcite-label");
     const radioGroupItem = await page.find("calcite-radio-group-item[checked]");
-    const radioGroupItemClass =
-      radioGroupItem["_elmHandle"]["_remoteObject"].description;
+    const radioGroupItemClass = radioGroupItem["_elmHandle"]["_remoteObject"].description;
     await label.click();
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
@@ -234,8 +233,7 @@ describe("calcite-label", () => {
     </calcite-label>
   `);
     const radioGroupItem = await page.find("calcite-radio-group-item[checked]");
-    const radioGroupItemClass =
-      radioGroupItem["_elmHandle"]["_remoteObject"].description;
+    const radioGroupItemClass = radioGroupItem["_elmHandle"]["_remoteObject"].description;
     await page.keyboard.press("Tab");
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;

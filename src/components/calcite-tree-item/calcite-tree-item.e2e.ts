@@ -29,9 +29,7 @@ describe("calcite-tree", () => {
     const icon = await page.find('#firstItem >>> [data-test-id="icon"]');
     await icon.click();
 
-    const childContainer = await page.find(
-      '#firstItem >>> [data-test-id="calcite-tree-children"]'
-    );
+    const childContainer = await page.find('#firstItem >>> [data-test-id="calcite-tree-children"]');
     const isVisible = await childContainer.isVisible();
     expect(isVisible).toBe(true);
   });

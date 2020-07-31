@@ -9,7 +9,9 @@
   --calcite-checkbox-size: 20px;
 }
 ::slotted(input) {
-  display: none;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
 }
 :host {
   display: inline-flex;
@@ -19,27 +21,19 @@
   -webkit-tap-highlight-color: transparent;
   width: var(--calcite-checkbox-size);
   height: var(--calcite-checkbox-size);
-}
-
-//focus
-:host .check-svg {
-  @include focus-style-base();
-}
-:host(:focus) .check-svg {
-  @include focus-style-outset();
-}
-
-:host .check-svg {
-  width: var(--calcite-checkbox-size);
-  height: var(--calcite-checkbox-size);
-  overflow: hidden;
-  display: inline-block;
-  background-color: var(--calcite-ui-background);
-  border: 1px solid var(--calcite-ui-border-1);
-  fill: var(--calcite-ui-background);
-  pointer-events: none;
-  transition: $transition;
-  box-sizing: border-box;
+  .check-svg {
+    @include focus-style-base();
+    width: var(--calcite-checkbox-size);
+    height: var(--calcite-checkbox-size);
+    overflow: hidden;
+    display: inline-block;
+    background-color: var(--calcite-ui-background);
+    border: 1px solid var(--calcite-ui-border-1);
+    fill: var(--calcite-ui-background);
+    pointer-events: none;
+    transition: $transition;
+    box-sizing: border-box;
+  }
 }
 
 :host([disabled]) {
@@ -66,8 +60,17 @@
   }
 }
 
+:host(:focus),
+:host([focused]) {
+  .check-svg {
+    @include focus-style-outset();
+  }
+}
+
 :host(:hover),
-:host(:focus) {
+:host([hovered]),
+:host(:focus),
+:host([focused]) {
   outline: none;
   .check-svg {
     border-color: var(--calcite-ui-blue-1);

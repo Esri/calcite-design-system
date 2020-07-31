@@ -21,9 +21,7 @@ describe("calcite-loader", () => {
 
   it("displays label from text prop", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-loader active text="testing"></calcite-loader>`
-    );
+    await page.setContent(`<calcite-loader active text="testing"></calcite-loader>`);
     const elm = await page.find("calcite-loader >>> .loader__text");
     expect(elm).toEqualText("testing");
   });
@@ -40,9 +38,7 @@ describe("calcite-loader", () => {
 
   it("sets aria attributes properly for determinate loader", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-loader type="determinate"></calcite-loader>`
-    );
+    await page.setContent(`<calcite-loader type="determinate"></calcite-loader>`);
     const loader = await page.find("calcite-loader");
     expect(loader).toHaveAttribute("aria-valuenow");
     expect(loader).toEqualAttribute("aria-valuenow", 0);
@@ -62,9 +58,7 @@ describe("calcite-loader", () => {
 
   it("validates scale and type properties", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-loader scale="bleep" type="bloop"></calcite-loader>`
-    );
+    await page.setContent(`<calcite-loader scale="bleep" type="bloop"></calcite-loader>`);
     const loader = await page.find("calcite-loader");
     expect(loader).toEqualAttribute("scale", "m");
     expect(loader).toEqualAttribute("type", "indeterminate");
