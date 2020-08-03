@@ -19,7 +19,8 @@ storiesOf("components|Tabs", module)
     "Simple",
     () => `
     <calcite-tabs
-      layout="${select("layout", ["inline", "center"])}"
+      layout="${select("layout", ["inline", "center"], "inline")}"
+      position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav slot="tab-nav">
         <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
@@ -40,7 +41,8 @@ storiesOf("components|Tabs", module)
     "With icons",
     () => `
     <calcite-tabs
-      layout="${select("layout", ["inline", "center"])}"
+      layout="${select("layout", ["inline", "center"], "inline")}"
+      position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav
       slot="tab-nav">
@@ -70,7 +72,8 @@ storiesOf("components|Tabs", module)
     "Dark mode",
     () => `
     <calcite-tabs theme="dark"
-    layout="${select("layout", ["inline", "center"])}"
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav slot="tab-nav">
         <calcite-tab-title active>Icon 1</calcite-tab-title>
