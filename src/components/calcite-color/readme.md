@@ -71,6 +71,7 @@ graph TD;
   calcite-color --> calcite-tab-nav
   calcite-color --> calcite-button
   calcite-color --> calcite-color-swatch
+  calcite-tab-title --> calcite-icon
   calcite-input --> calcite-icon
   calcite-input --> calcite-progress
   calcite-color-hex-input --> calcite-input

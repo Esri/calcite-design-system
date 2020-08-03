@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- `calcite-tab-title` - now supports icons: `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
 - new component `calcite-video`
 - `calcite-button` now has an `icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
 - `calcite-split-button` now has a `primary-icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
