@@ -28,13 +28,14 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 | `name`          | `name`          | The name of the checkbox input                                                                                                                | `string`            | `""`        |
 | `scale`         | `scale`         | specify the scale of the checkbox, defaults to m                                                                                              | `"l" \| "m" \| "s"` | `"m"`       |
 | `theme`         | `theme`         | Determines what theme to use                                                                                                                  | `"dark" \| "light"` | `undefined` |
-| `value`         | `value`         | The value of the checkbox input                                                                                                               | `string`            | `""`        |
+| `value`         | `value`         | The value of the checkbox input                                                                                                               | `string`            | `undefined` |
 
 ## Events
 
-| Event                   | Description                                      | Type               |
-| ----------------------- | ------------------------------------------------ | ------------------ |
-| `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
+| Event                          | Description                                      | Type               |
+| ------------------------------ | ------------------------------------------------ | ------------------ |
+| `calciteCheckboxChange`        | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
+| `calciteCheckboxFocusedChange` | Emitted when the checkbox focused state changes  | `CustomEvent<any>` |
 
 ## Dependencies
 

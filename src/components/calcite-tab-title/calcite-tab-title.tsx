@@ -8,7 +8,8 @@ import {
   Method,
   h,
   Host,
-  State
+  State,
+  Build
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -44,6 +45,12 @@ export class CalciteTabTitle {
   /** Show this tab title as selected */
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /** optionally pass an icon to display at the end of a tab title - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconEnd?: string;
+
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
   //--------------------------------------------------------------------------
@@ -52,7 +59,18 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback() {
+    this.setupTextContentObserver();
+  }
+
+  disconnectedCallback() {
+    this.observer.disconnect();
+  }
+
   componentWillLoad() {
+    if (Build.isBrowser) {
+      this.updateHasText();
+    }
     if (this.tab && this.active) {
       this.calciteTabsActivate.emit({
         tab: this.tab
@@ -67,6 +85,14 @@ export class CalciteTabTitle {
   render() {
     const id = this.el.id || this.guid;
 
+    const iconStartEl = (
+      <calcite-icon class="calcite-tab-title--icon icon-start" icon={this.iconStart} scale="s" />
+    );
+
+    const iconEndEl = (
+      <calcite-icon class="calcite-tab-title--icon icon-end" icon={this.iconEnd} scale="s" />
+    );
+
     return (
       <Host
         id={id}
@@ -74,9 +100,12 @@ export class CalciteTabTitle {
         aria-expanded={this.active.toString()}
         role="tab"
         tabindex="0"
+        hasText={this.hasText}
       >
         <a>
+          {this.iconStart ? iconStartEl : null}
           <slot />
+          {this.iconEnd ? iconEndEl : null}
         </a>
       </Host>
     );
@@ -212,7 +241,26 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
+  /** watches for changing text content **/
+  private observer: MutationObserver;
+
   @State() private controls: string;
+
+  /** determine if there is slotted text for styling purposes */
+  @State() private hasText?: boolean = false;
+
+  private updateHasText() {
+    this.hasText = this.el.textContent.trim().length > 0;
+  }
+
+  private setupTextContentObserver() {
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(() => {
+        this.updateHasText();
+      });
+      this.observer.observe(this.el, { childList: true, subtree: true });
+    }
+  }
 
   /**
    * @internal
