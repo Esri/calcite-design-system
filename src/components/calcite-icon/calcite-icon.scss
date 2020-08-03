@@ -3,15 +3,21 @@
 }
 :host([scale="s"]) {
   height: 16px;
+  min-height: 16px;
   width: 16px;
+  min-width: 16px;
 }
 :host([scale="m"]) {
   height: 24px;
+  min-height: 24px;
   width: 24px;
+  min-width: 24px;
 }
 :host([scale="l"]) {
   height: 32px;
+  min-height: 32px;
   width: 32px;
+  min-width: 32px;
 }
 
 .mirrored {
