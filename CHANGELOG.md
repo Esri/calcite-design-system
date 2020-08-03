@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+
+- `calcite-tab-title` - now supports icons: `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
+
 ### Updated
 
 - `calcite-radio-group` styling has been updated
