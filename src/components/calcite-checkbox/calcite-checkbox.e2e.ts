@@ -112,4 +112,44 @@ describe("calcite-checkbox", () => {
     expect(calciteCheckbox).toHaveAttribute("checked");
     expect(input).toHaveAttribute("checked");
   });
+
+  it("removing a checkbox also removes the hidden <input type=checkbox> element", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-checkbox name="checky" id="first" value="one"></calcite-checkbox>
+    `);
+
+    let input = await page.find("input");
+    expect(input).toBeTruthy();
+
+    await page.evaluate(() => {
+      const checkbox = document.querySelector("calcite-checkbox");
+      checkbox.parentNode.removeChild(checkbox);
+    });
+    await page.waitForChanges();
+
+    input = await page.find("input");
+
+    expect(input).toBeFalsy();
+  });
+
+  it("behaves as expected when wrapped in a calcite-label with inline layout mode", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
+    `);
+
+    const inputs = await page.findAll("calcite-label >>> input");
+    expect(inputs.length).toEqual(1);
+  });
+
+  it("behaves as expected when wrapped in a calcite-label with inline-space-between layout mode", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
+    `);
+
+    const inputs = await page.findAll("calcite-label >>> input");
+    expect(inputs.length).toEqual(1);
+  });
 });
