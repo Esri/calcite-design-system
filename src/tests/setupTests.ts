@@ -4,3 +4,7 @@ console.error = function (message: any, ...args: any[]) {
   error.call(console, message, ...args); // keep default behaviour
   throw message instanceof Error ? message : new Error(message);
 };
+
+console.warn = () => {
+  // ignore console warnings
+};
