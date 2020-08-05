@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Calcite Rating</title>
+  <style>
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Rating</h1>
+  <div style="display:flex;flex-direction:row">
+    <div style="display:flex;width:50%;flex-direction:column;">
+      <h2>Default with value</h2>
+      <calcite-rating value=3></calcite-rating>
+      <h2>read-only</h2>
+      <calcite-rating read-only value=3></calcite-rating>
+      <h2>disabled</h2>
+      <calcite-rating disabled value=3></calcite-rating>
+      <h2>disabled and read only</h2>
+      <calcite-rating disabled read-only value=3></calcite-rating>
+      <h2>Icon types</h2>
+      <h3>star (Default)</h3>
+      <calcite-rating icon-type="star">
+      </calcite-rating>
+      <h3>circle</h3>
+      <calcite-rating display-value icon-type="circle">
+      </calcite-rating>
+      <h2>Count</h2>
+      <h3>5 (default)</h3>
+      <calcite-rating></calcite-rating>
+      <h3>10</h3>
+      <calcite-rating display-value count=10>
+      </calcite-rating>
+      <h3>4</h3>
+      <calcite-rating count=4>
+      </calcite-rating>
+      <h2>Scales</h2>
+      <h3>s</h3>
+      <calcite-rating display-value scale="s"></calcite-rating>
+      <h3>m (default)</h3>
+      <calcite-rating></calcite-rating>
+      <h3>l</h3>
+      <calcite-rating scale="l"></calcite-rating>
+    </div>
+    <div style="display:flex;width:50%;flex-direction:column;">
+      <div class="demo-background-dark">
+        <h2>Default with value</h2>
+        <calcite-rating theme="dark" value=3></calcite-rating>
+        <h2>read-only</h2>
+        <calcite-rating theme="dark" read-only value=3></calcite-rating>
+        <h2>disabled</h2>
+        <calcite-rating disabled value=3></calcite-rating>
+        <h2>disabled and read only</h2>
+        <calcite-rating theme="dark" disabled read-only value=3></calcite-rating>
+        <h2>Icon types</h2>
+        <h3>star (Default)</h3>
+        <calcite-rating theme="dark" icon-type="star">
+        </calcite-rating>
+        <h3>circle</h3>
+        <calcite-rating theme="dark" icon-type="circle">
+        </calcite-rating>
+        <h2>Count</h2>
+        <h3>5 (default)</h3>
+        <calcite-rating theme="dark"></calcite-rating>
+        <h3>10</h3>
+        <calcite-rating theme="dark" display-value count=10></calcite-rating>
+        </calcite-rating>
+        <h3>4</h3>
+        <calcite-rating theme="dark" count=4></calcite-rating>
+        <h2>Scales</h2>
+        <h3>s</h3>
+        <calcite-rating theme="dark" display-value scale="s"></calcite-rating>
+        <h3>m (default)</h3>
+        <calcite-rating theme="dark"></calcite-rating>
+        <h3>l</h3>
+        <calcite-rating theme="dark" scale="l"></calcite-rating>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+:host {
+  display: flex;
+  width: fit-content;
+  position: relative;
+}
+:host([disabled]) {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+:host([read-only]) {
+  pointer-events: none;
+}
+
+// focus styles
+:host {
+  @include focus-style-base();
+}
+
+:host:focus {
+  @include focus-style-outset();
+}
+
+:host(:not([read-only])) calcite-icon {
+  transition: $transition;
+  &:active {
+    transform: scale(1.1);
+  }
+}
+// focus styles
+:host calcite-icon {
+  @include focus-style-base();
+  pointer-events: default;
+
+  &:not(:first-of-type),
+  &:not(:last-child) {
+    margin-right: 4px;
+  }
+}
+:host([scale="m"]) calcite-icon {
+  &:not(:first-of-type),
+  &:not(:last-child) {
+    margin-right: 8px;
+  }
+}
+:host([scale="l"]) calcite-icon {
+  &:not(:first-of-type),
+  &:not(:last-child) {
+    margin-right: 12px;
+  }
+}
+:host calcite-icon[data-selected="true"],
+:host calcite-icon[data-hovered="true"] {
+  color: var(--calcite-ui-blue-1);
+}
+:host calcite-icon[data-hovered="true"]:not([data-selected="true"]) {
+  transform: scale(0.9);
+}
+
+:host calcite-icon:focus {
+  @include focus-style-outset();
+}
