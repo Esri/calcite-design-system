@@ -42,21 +42,26 @@
   min-height: var(--calcite-app-shell-panel-min-height);
   padding: 0;
   pointer-events: auto;
+  transition: max-height var(--calcite-app-animation-time) var(--calcite-app-easing-function),
+    max-width var(--calcite-app-animation-time) var(--calcite-app-easing-function);
 }
 
 .content--detached {
   border-radius: var(--calcite-app-border-radius);
   box-shadow: var(--calcite-app-shadow-0);
   margin: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half) auto;
-  max-height: var(--calcite-app-shell-panel-max-height-medium);
   overflow: auto;
 }
 
-:host([detached-scale="s"]) .content--detached {
+:host([height-scale="s"]) .content--detached {
   max-height: var(--calcite-app-shell-panel-max-height-small);
 }
 
-:host([detached-scale="l"]) .content--detached {
+:host([height-scale="m"]) .content--detached {
+  max-height: var(--calcite-app-shell-panel-max-height-medium);
+}
+
+:host([height-scale="l"]) .content--detached {
   max-height: var(--calcite-app-shell-panel-max-height-large);
 }
 

@@ -36,7 +36,7 @@ export class CalciteShellPanel {
   /**
    * This sets limits the height of the content area. It only applies when detached is true.
    */
-  @Prop({ reflect: true }) detachedScale: CalciteScale = "m";
+  @Prop({ reflect: true }) heightScale: CalciteScale = "m";
 
   /**
    * This sets width and max-width of the content area.

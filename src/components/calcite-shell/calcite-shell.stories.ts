@@ -47,8 +47,12 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") =>
       value: boolean("detached", false, group)
     },
     {
-      name: "detached-scale",
-      value: select("detachedScale", scale.values, scale.defaultValue, group)
+      name: "height-scale",
+      value: select("heightScale", scale.values, scale.defaultValue, group)
+    },
+    {
+      name: "width-scale",
+      value: select("widthScale", scale.values, scale.defaultValue, group)
     },
     {
       name: "position",
