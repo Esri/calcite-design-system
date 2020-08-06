@@ -30,7 +30,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
     </calcite-block>
   </calcite-shell-panel>
 
-   <calcite-shell-panel slot="contextual-panel" position="end" detached detached-scale="l">
+   <calcite-shell-panel slot="contextual-panel" position="end" detached height-scale="l">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" active icon="plus"></calcite-action>

@@ -74,4 +74,24 @@ describe("calcite-panel", () => {
 
     expect(tagName).toBe("ARTICLE");
   });
+
+  it("honors calcitePanelScroll event", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-panel>test</calcite-panel>"
+    });
+
+    const scrollSpy = await page.spyOnEvent("calcitePanelScroll");
+
+    await page.evaluate((contentContainerSelector) => {
+      const contentContainer = document
+        .querySelector("calcite-panel")
+        .shadowRoot.querySelector(contentContainerSelector);
+
+      contentContainer.dispatchEvent(new CustomEvent("scroll"));
+    }, `.${CSS.contentContainer}`);
+
+    await page.waitForChanges();
+
+    expect(scrollSpy).toHaveReceivedEventTimes(1);
+  });
 });
