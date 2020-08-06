@@ -5,7 +5,7 @@
   box-shadow: 0 0 0 2px var(--calcite-app-border-hover) inset;
 }
 @mixin borderShadowActive() {
-  box-shadow: 0 0 0 1px var(--calcite-app-border-active) inset;
+  box-shadow: 0 0 0 1px var(--calcite-app-border-active);
 }
 
 // place on the element that receives focus style, not in focus
