@@ -1,10 +1,9 @@
 :host {
   @extend %component-host;
-  @include borderShadow();
-  align-items: center;
+  align-items: stretch;
   background-color: var(--calcite-app-background-clear);
   display: flex;
-  margin: 0;
+  margin: 0 0 1px 0;
   color: var(--calcite-app-foreground);
   transition: background-color var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
   animation: calcite-app-fade-in var(--calcite-app-animation-time) var(--calcite-app-easing-function);
@@ -12,10 +11,6 @@
 
 @import "../../scss/includes/_component";
 
-:host(:hover),
-:host(:focus) {
-  background-color: var(--calcite-app-background-hover);
-}
 
 .icon {
   color: var(--calcite-app-foreground-link);
@@ -32,13 +27,18 @@
 }
 
 .label {
+  height: 100%;
   display: flex;
   flex: 1 1 auto;
   padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-quarter);
   align-items: center;
   cursor: pointer;
   @include focus-style-base();
+  &:hover {
+    background-color: var(--calcite-app-background-hover);
+  }
   &:focus {
+    background-color: var(--calcite-app-background-hover);
     @include focus-style-inset();
   }
 }
@@ -67,9 +67,13 @@
 }
 
 .action {
-  align-items: center;
+  align-items: stretch;
   display: flex;
   flex: 0 0 auto;
   justify-self: flex-end;
-  margin: var(--calcite-app-cap-spacing-quarter) var(--calcite-app-side-spacing-half);
+  margin: 0;
+}
+
+.action slot[name="secondary-action"]::slotted(calcite-action) {
+  height: 100%;
 }

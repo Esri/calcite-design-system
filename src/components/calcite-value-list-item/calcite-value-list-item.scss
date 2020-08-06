@@ -1,16 +1,13 @@
 :host {
   @extend %component-host;
-  @include borderShadow();
+  box-shadow: 0 1px 0 var(--calcite-app-border);
+  margin-bottom: 1px;
   display: flex;
   transition: background-color var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function),
     box-shadow var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
 }
 
 @import "../../scss/includes/_component";
-
-:host(:hover) {
-  background-color: var(--calcite-app-background-hover);
-}
 
 calcite-pick-list-item {
   box-shadow: none;
@@ -21,9 +18,6 @@ calcite-pick-list-item {
 
 :host([selected]) {
   @include borderShadowActive();
-}
-:host([selected]) calcite-pick-list-item:hover {
-  background-color: var(--calcite-app-background-clear);
 }
 
 .handle {
