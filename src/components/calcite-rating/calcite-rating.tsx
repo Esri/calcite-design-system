@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Prop } from "@stencil/core";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -47,6 +47,14 @@ export class CalciteRating {
 
   /** display rating value */
   @Prop({ reflect: true }) displayValue = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Event() calciteRatingChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -148,6 +156,7 @@ export class CalciteRating {
   private determineRatingPosition(e) {
     if (!this.readOnly) {
       this.value = e.target.dataset.value;
+      this.emitRatingChange();
       this.determineActiveRatingItems();
     }
   }
@@ -169,6 +178,12 @@ export class CalciteRating {
           parseInt(item.dataset.value) <= e.target.dataset.value ? "true" : "false";
       });
     }
+  }
+
+  private emitRatingChange() {
+    this.calciteRatingChange.emit({
+      value: this.value
+    });
   }
 
   // focus helpers
