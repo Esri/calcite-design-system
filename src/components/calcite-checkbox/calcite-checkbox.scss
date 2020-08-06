@@ -5,13 +5,13 @@
   @include calcite-theme-dark();
 }
 :host([scale="s"]) {
-  --calcite-checkbox-size: 14px;
+  --calcite-checkbox-size: 12px;
 }
 :host([scale="m"]) {
   --calcite-checkbox-size: 16px;
 }
 :host([scale="l"]) {
-  --calcite-checkbox-size: 18px;
+  --calcite-checkbox-size: 20px;
 }
 ::slotted(input) {
   opacity: 0;
