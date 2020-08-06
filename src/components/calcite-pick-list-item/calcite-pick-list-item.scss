@@ -30,7 +30,7 @@
   height: 100%;
   display: flex;
   flex: 1 1 auto;
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-quarter);
+  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half);
   align-items: center;
   cursor: pointer;
   @include focus-style-base();
