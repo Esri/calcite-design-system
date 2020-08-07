@@ -31,8 +31,8 @@ export class CalciteRating {
   /** specify the scale of the component, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the length of rating scale, defaults to 5 */
-  @Prop({ reflect: true }) length = 5;
+  /** specify the total number of items in of rating scale, defaults to 5 */
+  @Prop({ reflect: true }) total = 5;
 
   /** the value of the rating component */
   @Prop({ reflect: true }) value = 0;
@@ -102,7 +102,7 @@ export class CalciteRating {
         onMouseLeave={() => this.resetHoverState()}
         onTouchEnd={() => this.resetHoverState()}
       >
-        {[...Array(this.length).keys()].map((e) => {
+        {[...Array(this.total).keys()].map((e) => {
           return (
             <calcite-icon
               data-value={e + 1}
