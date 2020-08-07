@@ -59,6 +59,9 @@
 :host calcite-icon {
   color: var(--calcite-ui-text-3);
 }
+:host([read-only]) calcite-icon:not([data-selected="true"]) {
+  color: var(--calcite-ui-border-1);
+}
 
 :host calcite-icon[data-average="true"],
 :host calcite-icon[data-average="true"][date-selected="false"] {

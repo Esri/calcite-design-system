@@ -79,7 +79,7 @@ export class CalciteRating {
 
   componentDidLoad() {
     this.ratingItems = this.el.shadowRoot.querySelectorAll("calcite-icon");
-    if (this.average || this.value) this.determineInitialRating();
+    this.determineInitialRating();
   }
 
   // --------------------------------------------------------------------------
@@ -192,7 +192,9 @@ export class CalciteRating {
           ? "true"
           : "false";
       item.icon =
-        parseInt(item.dataset.value) <= valueToUse ? this.selectedIconType : this.iconType;
+        parseInt(item.dataset.value) <= valueToUse || this.readOnly
+          ? this.selectedIconType
+          : this.iconType;
     });
   }
 
@@ -209,8 +211,7 @@ export class CalciteRating {
       item.dataset.average = "false";
       item.dataset.selected = parseInt(item.dataset.value) <= valueToUse ? "true" : "false";
       item.icon =
-        (this.average && !this.value && item.dataset.average === "true") ||
-        parseInt(item.dataset.value) <= this.value
+        parseInt(item.dataset.value) <= this.value || this.readOnly
           ? this.selectedIconType
           : this.iconType;
     });
