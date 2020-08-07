@@ -1,8 +1,23 @@
+:host([scale="s"]) {
+  --calcite-rating-spacing-unit: 4px;
+}
+
+:host,
+:host([scale="m"]) {
+  --calcite-rating-spacing-unit: 8px;
+}
+
+:host([scale="l"]) {
+  --calcite-rating-spacing-unit: 12px;
+}
+
 :host {
   display: flex;
+  align-items: center;
   width: fit-content;
   position: relative;
 }
+
 :host([disabled]) {
   opacity: 0.4;
   pointer-events: none;
@@ -12,51 +27,78 @@
   pointer-events: none;
 }
 
-// focus styles
-:host {
-  @include focus-style-base();
-}
-
-:host:focus {
-  @include focus-style-outset();
-}
-
 :host(:not([read-only])) calcite-icon {
   transition: $transition;
+  cursor: pointer;
   &:active {
     transform: scale(1.1);
   }
 }
+
 // focus styles
 :host calcite-icon {
   @include focus-style-base();
+
+  &:focus {
+    @include focus-style-outset();
+  }
+}
+
+:host calcite-icon {
   pointer-events: default;
 
-  &:not(:first-of-type),
-  &:not(:last-child) {
-    margin-right: 4px;
+  &:not(:last-of-type) {
+    margin-right: var(--calcite-rating-spacing-unit);
   }
 }
-:host([scale="m"]) calcite-icon {
-  &:not(:first-of-type),
-  &:not(:last-child) {
-    margin-right: 8px;
-  }
+:host([dir="rtl"]) calcite-icon:not(:last-of-type) {
+  margin-right: 0;
+  margin-left: var(--calcite-rating-spacing-unit);
 }
-:host([scale="l"]) calcite-icon {
-  &:not(:first-of-type),
-  &:not(:last-child) {
-    margin-right: 12px;
-  }
+
+:host calcite-icon {
+  color: var(--calcite-ui-text-3);
 }
+
+:host calcite-icon[data-average="true"],
+:host calcite-icon[data-average="true"][date-selected="false"] {
+  color: var(--calcite-ui-yellow-1);
+}
+
+:host([read-only]) calcite-icon[data-average="true"],
+:host([disabled]) calcite-icon[data-average="true"],
 :host calcite-icon[data-selected="true"],
 :host calcite-icon[data-hovered="true"] {
   color: var(--calcite-ui-blue-1);
 }
+
 :host calcite-icon[data-hovered="true"]:not([data-selected="true"]) {
   transform: scale(0.9);
 }
 
-:host calcite-icon:focus {
-  @include focus-style-outset();
+// rating count
+:host calcite-chip {
+  margin-left: var(--calcite-rating-spacing-unit);
+}
+
+:host([dir="rtl"]) calcite-chip {
+  margin-right: var(--calcite-rating-spacing-unit);
+  margin-left: 0;
+}
+
+:host .calcite-rating-average {
+  font-weight: 700;
+}
+
+:host .calcite-rating-count {
+  font-style: italic;
+  color: var(--calcite-ui-text-2);
+  &:not(:first-child) {
+    margin-left: var(--calcite-rating-spacing-unit);
+  }
+}
+
+:host([dir="rtl"]) .calcite-rating-count:not(:first-child) {
+  margin-right: var(--calcite-rating-spacing-unit);
+  margin-left: 0;
 }

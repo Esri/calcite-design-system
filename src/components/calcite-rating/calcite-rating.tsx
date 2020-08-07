@@ -1,5 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop } from "@stencil/core";
 import { getKey } from "../../utils/key";
+import { getElementDir } from "../utils/dom";
 
 @Component({
   tag: "calcite-rating",
@@ -30,8 +31,8 @@ export class CalciteRating {
   /** specify the scale of the component, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the count of rating items, defaults to 5 */
-  @Prop({ reflect: true }) count = 5;
+  /** specify the length of rating scale, defaults to 5 */
+  @Prop({ reflect: true }) length = 5;
 
   /** the value of the rating component */
   @Prop({ reflect: true }) value = 0;
@@ -47,6 +48,12 @@ export class CalciteRating {
 
   /** display rating value */
   @Prop({ reflect: true }) displayValue = false;
+
+  /** optionally pass a number of previous ratings to display */
+  @Prop({ reflect: true }) count?: number;
+
+  /** optionally pass a cumulative average rating to display */
+  @Prop({ reflect: true }) average?: number;
 
   //--------------------------------------------------------------------------
   //
@@ -67,13 +74,12 @@ export class CalciteRating {
     // ensure only allowed icons are used
     const icon = ["star", "circle"];
     if (!icon.includes(this.iconType)) this.iconType = "star";
-
     this.selectedIconType = this.iconType === "star" ? "star-f" : "circle-f";
   }
 
   componentDidLoad() {
     this.ratingItems = this.el.shadowRoot.querySelectorAll("calcite-icon");
-    this.determineActiveRatingItems();
+    if (this.average || this.value) this.determineInitialRating();
   }
 
   // --------------------------------------------------------------------------
@@ -87,12 +93,16 @@ export class CalciteRating {
   // whole / half precision
 
   render() {
+    const dir = getElementDir(this.el);
+
     return (
       <Host
-        onMouseLeave={() => this.determineActiveRatingItems()}
-        onBlur={() => this.determineActiveRatingItems()}
+        dir={dir}
+        onBlur={() => this.resetHoverState()}
+        onMouseLeave={() => this.resetHoverState()}
+        onTouchEnd={() => this.resetHoverState()}
       >
-        {[...Array(this.count).keys()].map((e) => {
+        {[...Array(this.length).keys()].map((e) => {
           return (
             <calcite-icon
               data-value={e + 1}
@@ -101,16 +111,25 @@ export class CalciteRating {
               onMouseEnter={(e) => this.showSelectedIconOnHover(e)}
               onTouchStart={(e) => this.showSelectedIconOnHover(e)}
               onFocus={(e) => this.showSelectedIconOnHover(e)}
-              onTouchEnd={() => this.determineActiveRatingItems()}
               tabindex={!this.readOnly && !this.disabled ? 0 : null}
               icon={this.iconType}
               scale={this.scale}
             />
           );
         })}
-        {this.displayValue ? (
-          <calcite-chip theme={this.theme} scale={this.scale} value={this.value.toString()}>
-            {this.value.toString()}
+        {this.count || this.average ? (
+          <calcite-chip
+            dir={dir}
+            theme={this.theme}
+            scale={this.scale}
+            value={this.count?.toString()}
+          >
+            {this.average ? (
+              <span class="calcite-rating-average">{this.average.toString()}</span>
+            ) : null}
+            {this.count ? (
+              <span class="calcite-rating-count">({this.count?.toString()})</span>
+            ) : null}
           </calcite-chip>
         ) : null}
       </Host>
@@ -157,21 +176,47 @@ export class CalciteRating {
     if (!this.readOnly) {
       this.value = e.target.dataset.value;
       this.emitRatingChange();
-      this.determineActiveRatingItems();
+      this.determineActiveItems();
     }
   }
 
-  private determineActiveRatingItems() {
+  private determineInitialRating() {
+    const valueToUse = this.value ? this.value : this.average;
+    this.ratingItems?.forEach((item) => {
+      item.dataset.average =
+        this.average && !this.value && parseInt(item.dataset.value) <= this.average
+          ? "true"
+          : "false";
+      item.dataset.selected =
+        item.dataset.average === "false" && parseInt(item.dataset.value) <= valueToUse
+          ? "true"
+          : "false";
+      item.icon =
+        parseInt(item.dataset.value) <= valueToUse ? this.selectedIconType : this.iconType;
+    });
+  }
+
+  private resetHoverState() {
     this.ratingItems?.forEach((item) => {
       item.dataset.hovered = "false";
-      item.dataset.selected = parseInt(item.dataset.value) <= this.value ? "true" : "false";
+    });
+  }
+
+  private determineActiveItems() {
+    const valueToUse = this.value ? this.value : this.average;
+    this.ratingItems?.forEach((item) => {
+      item.dataset.hovered = "false";
+      item.dataset.average = "false";
+      item.dataset.selected = parseInt(item.dataset.value) <= valueToUse ? "true" : "false";
       item.icon =
-        parseInt(item.dataset.value) <= this.value ? this.selectedIconType : this.iconType;
+        (this.average && !this.value && item.dataset.average === "true") ||
+        parseInt(item.dataset.value) <= this.value
+          ? this.selectedIconType
+          : this.iconType;
     });
   }
 
   private showSelectedIconOnHover(e) {
-    // if previous icon is of selected type, allow change
     if (!this.readOnly) {
       this.ratingItems?.forEach((item) => {
         item.dataset.hovered =

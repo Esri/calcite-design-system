@@ -13,9 +13,10 @@ storiesOf("components|Rating", module)
     scale="${select("scale", ["s", "m", "l"], "m")}"
     icon-type="${select("icon type", ["star", "circle"], "star")}"
     precision="${select("precision", ["half", "whole"], "whole")}"
-    count="${number("count", 5)}"
+    length="${number("length", 5)}"
     value="${number("value", 0)}"
-    ${boolean("display-value", false)}
+    average="${number("average", 0)}"
+    count="${number("count", 0)}"
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
    ></calcite-rating>
@@ -30,13 +31,33 @@ storiesOf("components|Rating", module)
       scale="${select("scale", ["s", "m", "l"], "m")}"
       icon-type="${select("icon type", ["star", "circle"], "star")}"
       precision="${select("precision", ["half", "whole"], "whole")}"
-      count="${number("count", 5)}"
+      length="${number("length", 5)}"
       value="${number("value", 0)}"
-      ${boolean("display-value", false)}
+      average="${number("average", 0)}"
+      count="${number("count", 0)}"
       ${boolean("read-only", false)}
       ${boolean("disabled", false)}
     ></calcite-rating>
 
   `,
     { notes, backgrounds: darkBackground }
+  )
+  .add(
+    "RTL",
+    () => `
+    <div dir="rtl">
+   <calcite-rating
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    icon-type="${select("icon type", ["star", "circle"], "star")}"
+    precision="${select("precision", ["half", "whole"], "whole")}"
+    length="${number("length", 5)}"
+    value="${number("value", 0)}"
+    average="${number("average", 0)}"
+    count="${number("count", 0)}"
+    ${boolean("read-only", false)}
+    ${boolean("disabled", false)}
+   ></calcite-rating>
+   </div>
+  `,
+    { notes }
   );

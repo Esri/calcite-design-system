@@ -24,72 +24,147 @@
   <h1>Calcite Rating</h1>
   <div style="display:flex;flex-direction:row">
     <div style="display:flex;width:50%;flex-direction:column;">
-      <h2>Default with value</h2>
-      <calcite-rating value=3></calcite-rating>
-      <h2>read-only</h2>
+
+      <h2>Default</h2>
+      <h5>Default with average</h5>
+      <calcite-rating average=3.14></calcite-rating>
+      <h5>Default with value</h5>
+      <calcite-rating value=2></calcite-rating>
+      <h5>Default with average and value</h5>
+      <calcite-rating average=3.14 value=2></calcite-rating>
+      <h5>Default without average or value</h5>
+      <calcite-rating></calcite-rating>
+
+
+      <h2>Read only</h2>
+      <h5>Read only with average</h5>
+      <calcite-rating read-only average=3.14></calcite-rating>
+      <h5>Read only with value</h5>
       <calcite-rating read-only value=3></calcite-rating>
-      <h2>disabled</h2>
+      <h5>Read only with average and value</h5>
+      <calcite-rating read-only average=3.14 value=2></calcite-rating>
+      <h5>Read only without average or value</h5>
+      <calcite-rating read-only></calcite-rating>
+
+      <h2>Disabled</h2>
+      <h5>Disabled with average</h5>
+      <calcite-rating disabled average=3.14></calcite-rating>
+      <h5>Disabled with value</h5>
       <calcite-rating disabled value=3></calcite-rating>
-      <h2>disabled and read only</h2>
-      <calcite-rating disabled read-only value=3></calcite-rating>
-      <h2>Icon types</h2>
-      <h3>star (Default)</h3>
-      <calcite-rating icon-type="star">
+      <h5>Disabled with average and value</h5>
+      <calcite-rating disabled average=3.14 value=2></calcite-rating>
+      <h5>Disabled without average or value</h5>
+      <calcite-rating disabled></calcite-rating>
+
+      <h2>Icon Types</h2>
+      <h5>Star (Default)</h5>
+      <calcite-rating>
       </calcite-rating>
-      <h3>circle</h3>
-      <calcite-rating display-value icon-type="circle">
+      <h5>Circle</h5>
+      <calcite-rating icon-type="circle">
       </calcite-rating>
-      <h2>Count</h2>
-      <h3>5 (default)</h3>
+
+      <h2>Counts</h2>
+      <h5>5 (default)</h5>
       <calcite-rating></calcite-rating>
-      <h3>10</h3>
-      <calcite-rating display-value count=10>
+      <h5>10</h5>
+      <calcite-rating length=10>
       </calcite-rating>
-      <h3>4</h3>
-      <calcite-rating count=4>
+      <h5>4</h5>
+      <calcite-rating length=4 count=214>
       </calcite-rating>
+
       <h2>Scales</h2>
-      <h3>s</h3>
-      <calcite-rating display-value scale="s"></calcite-rating>
-      <h3>m (default)</h3>
+      <h5>S</h5>
+      <calcite-rating average=4.24 count=214 scale="s"></calcite-rating>
+      <h5>M (Default)</h5>
       <calcite-rating></calcite-rating>
-      <h3>l</h3>
+      <h5>L</h5>
       <calcite-rating scale="l"></calcite-rating>
+
+      <h2>Chip combinations</h2>
+      <calcite-rating average=2.35 count=14></calcite-rating><br />
+      <calcite-rating average=2.35 value=4></calcite-rating><br />
+      <calcite-rating count=14></calcite-rating>
+      <div dir="rtl">
+        <h2>RTL</h2>
+        <calcite-rating average=2.35 count=14></calcite-rating><br />
+        <calcite-rating average=2.35 value=4></calcite-rating><br />
+        <calcite-rating count=14></calcite-rating>
+      </div>
     </div>
     <div style="display:flex;width:50%;flex-direction:column;">
       <div class="demo-background-dark">
-        <h2>Default with value</h2>
+        <h2>Default</h2>
+        <h5>Default with average</h5>
+        <calcite-rating theme="dark" average=3.14></calcite-rating>
+        <h5>Default with value</h5>
         <calcite-rating theme="dark" value=3></calcite-rating>
-        <h2>read-only</h2>
+        <h5>Default with average and value</h5>
+        <calcite-rating theme="dark" average=3.14 value=2></calcite-rating>
+        <h5>Default without average or value</h5>
+        <calcite-rating theme="dark"></calcite-rating>
+
+
+        <h2>Read only</h2>
+        <h5>Read only with average</h5>
+        <calcite-rating theme="dark" read-only average=3.14></calcite-rating>
+        <h5>Read only with value</h5>
         <calcite-rating theme="dark" read-only value=3></calcite-rating>
-        <h2>disabled</h2>
-        <calcite-rating disabled value=3></calcite-rating>
-        <h2>disabled and read only</h2>
-        <calcite-rating theme="dark" disabled read-only value=3></calcite-rating>
-        <h2>Icon types</h2>
-        <h3>star (Default)</h3>
-        <calcite-rating theme="dark" icon-type="star">
+        <h5>Read only with average and value</h5>
+        <calcite-rating theme="dark" read-only average=3.14 value=2></calcite-rating>
+        <h5>Read only without average or value</h5>
+        <calcite-rating theme="dark" read-only></calcite-rating>
+
+        <h2>Disabled</h2>
+        <h5>Disabled with average</h5>
+        <calcite-rating theme="dark" disabled average=3.14></calcite-rating>
+        <h5>Disabled with value</h5>
+        <calcite-rating theme="dark" disabled value=3></calcite-rating>
+        <h5>Disabled with average and value</h5>
+        <calcite-rating theme="dark" disabled average=3.14 value=2></calcite-rating>
+        <h5>Disabled without average or value</h5>
+        <calcite-rating theme="dark" disabled></calcite-rating>
+
+        <h2>Icon Types</h2>
+        <h5>Star (Default)</h5>
+        <calcite-rating theme="dark">
         </calcite-rating>
-        <h3>circle</h3>
+        <h5>Circle</h5>
         <calcite-rating theme="dark" icon-type="circle">
         </calcite-rating>
-        <h2>Count</h2>
-        <h3>5 (default)</h3>
+
+        <h2>Counts</h2>
+        <h5>5 (default)</h5>
         <calcite-rating theme="dark"></calcite-rating>
-        <h3>10</h3>
-        <calcite-rating theme="dark" display-value count=10></calcite-rating>
+        <h5>10</h5>
+        <calcite-rating theme="dark" length=10>
         </calcite-rating>
-        <h3>4</h3>
-        <calcite-rating theme="dark" count=4></calcite-rating>
+        <h5>4</h5>
+        <calcite-rating theme="dark" length=4 count=214>
+        </calcite-rating>
+
         <h2>Scales</h2>
-        <h3>s</h3>
-        <calcite-rating theme="dark" display-value scale="s"></calcite-rating>
-        <h3>m (default)</h3>
-        <calcite-rating theme="dark"></calcite-rating>
-        <h3>l</h3>
+        <h5>S</h5>
+        <calcite-rating theme="dark" average=4.24 count=214 scale="s"></calcite-rating>
+        <h5>M (Default)</h5>
+        <calcite-rating></calcite-rating>
+        <h5>L</h5>
         <calcite-rating theme="dark" scale="l"></calcite-rating>
+
+        <h2>Chip combinations</h2>
+        <calcite-rating theme="dark" average=2.35 count=14></calcite-rating><br />
+        <calcite-rating theme="dark" average=2.35 value=4></calcite-rating><br />
+        <calcite-rating theme="dark" count=14></calcite-rating>
+        <div dir="rtl">
+          <h2>RTL</h2>
+          <calcite-rating theme="dark" average=2.35 count=14></calcite-rating><br />
+          <calcite-rating theme="dark" average=2.35 value=4></calcite-rating><br />
+          <calcite-rating theme="dark" count=14></calcite-rating>
+        </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 
