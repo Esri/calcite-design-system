@@ -27,7 +27,7 @@
   border: none;
   width: auto;
   cursor: pointer;
-  @include font-size(-3);
+  @include font-size(-4);
   line-height: normal;
   // transition: color var(--calcite-app-animation-time), fill var(--calcite-app-animation-time),
     // background-color var(--calcite-app-animation-time);
@@ -83,7 +83,8 @@
 }
 
 :host([scale="l"]) .button {
-  padding: var(--calcite-spacing-plus-half) var(--calcite-spacing-plus-half);
+  padding: var(--calcite-spacing-plus-quarter) var(--calcite-spacing-plus-quarter);
+  @include font-size(-1);
 }
 
 // Compact
@@ -132,13 +133,13 @@
 }
 
 :host([appearance="clear"]) .button {
-  background-color: var(--calcite-app-background-clear);
-  transition: box-shadow var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  background-color: transparent;
+  transition: box-shadow $transition;
 }
 
 :host([appearance="clear"]) .button:hover,
 :host([appearance="clear"]) .button:focus {
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
   @include borderShadowHover();
 }
 
@@ -153,13 +154,13 @@
 
 :host([appearance="clear"][loading]) .button,
 :host([appearance="clear"][disabled]) .button {
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
 }
 
 :host([loading]) .button,
 :host([loading]) .button:hover,
 :host([loading]) .button:focus {
-  background-color: var(--calcite-app-background);
+  background-color: var(--calcite-ui-foreground-2);
 }
 
 :host([loading]) calcite-loader[inline] {
@@ -193,8 +194,8 @@
   border-radius: 50%;
   width: var(--calcite-spacing-half);
   height: var(--calcite-spacing-half);
-  border: var(--calcite-spacing-eighth) solid var(--calcite-app-background);
-  background-color: var(--calcite-app-foreground-active);
+  border: var(--calcite-spacing-eighth) solid var(--calcite-ui-foreground-1);
+  background-color: var(--calcite-action-text-active);
   position: absolute;
   bottom: var(--calcite-spacing-half);
   right: var(--calcite-spacing-half);
@@ -223,11 +224,11 @@
 
 :host([indicator]) .button:hover::after,
 :host([indicator]) .button:focus::after {
-  border-color: var(--calcite-ui-foreground-2);
+  border-color: var(--calcite-ui-foreground-1);
 }
 
 :host([indicator][active]) .button::after {
-  border-color: var(--calcite-app-background-active);
+  border-color: var(--calcite-action-foreground-active);
 }
 
 :host([indicator]) .button--text-visible::after,

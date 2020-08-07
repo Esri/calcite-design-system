@@ -22,6 +22,8 @@
   // --calcite-app-cap-spacing-minimum: 1px;
   --calcite-spacing-minimum: 1px;
 
+  --calcite-spacing-plus-quarter: calc(var(--calcite-spacing) * 1.25);
+
   --calcite-spacing-plus-half: calc(var(--calcite-spacing) * 1.5);
   // --calcite-app-cap-spacing-plus-half: calc(var(--calcite-app-cap-spacing) * 1.5);
 
