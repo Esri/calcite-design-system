@@ -5,8 +5,8 @@
     box-sizing: border-box;
   }
   color: var(--calcite-app-foreground);
-  font-family: var(--calcite-app-font-family);
+  font-family: $avenir-family;
   font-size: var(--calcite-app-font-size-0);
   line-height: var(--calcite-app-line-height);
-  background-color: var(--calcite-app-background);
+  background-color: var(--calcite-ui-foreground-1);
 }
