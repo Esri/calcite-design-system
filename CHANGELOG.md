@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - `calcite-pagination` - fixed bug with single page result sets
+- `calcite-loader` - fix fallback id value
 
 ### Added
 
