@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Fixed
+
+- `calcite-pagination` - fixed bug with single page result sets
+
 ### Added
 
 - `calcite-tab-title` - now supports icons: `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.

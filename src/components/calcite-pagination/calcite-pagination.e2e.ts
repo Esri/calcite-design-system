@@ -8,6 +8,15 @@ describe("calcite-pagination", () => {
 
   it("is accessible", async () => accessible(`<calcite-pagination></calcite-pagination>`));
 
+  describe("page links", () => {
+    it("should render only one page when total is less than num", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination total="10" num="11"></calcite-pagination>`);
+      const links = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
+      expect(links.length).toBe(1);
+    });
+  });
+
   describe("ellipsis rendering", () => {
     it("should not render either ellipsis when total pages is less than or equal to 5", async () => {
       const page = await newE2EPage();
