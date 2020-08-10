@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { withKnobs, boolean, select } from "@storybook/addon-knobs";
 import { darkBackground } from "../../../.storybook/helpers";
 import colorReadme from "./readme.md";
 import colorSwatchReadme from "../calcite-color-swatch/readme.md";
@@ -13,6 +13,9 @@ storiesOf("components|Color", module)
     "Simple",
     () => `
     <calcite-color
+      ${boolean("hide hex", false) ? "hide-hex" : ""}
+      ${boolean("hide channels", false) ? "hide-channels" : ""}
+      ${boolean("hide saved", false) ? "hide-saved" : ""}
       theme="light"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="#beefee"
@@ -24,6 +27,9 @@ storiesOf("components|Color", module)
     "Dark Mode",
     () => `
       <calcite-color
+      hide-channels=${boolean("hide channels", false) || ""}
+      hide-hex=${boolean("hide hex", false) || ""}
+      hide-saved=${boolean("hide saved", false) || ""}
       theme="dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="#beefee"
