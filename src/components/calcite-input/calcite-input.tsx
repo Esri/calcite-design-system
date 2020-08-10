@@ -192,11 +192,6 @@ export class CalciteInput {
   }
 
   componentWillUpdate() {
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
-
     this.determineClearable();
   }
 

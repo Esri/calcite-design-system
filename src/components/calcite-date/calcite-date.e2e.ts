@@ -13,9 +13,7 @@ describe("calcite-date", () => {
     await input.callMethod("setFocus");
     // have to wait for transition
     await new Promise((res) => setTimeout(() => res(true), 200));
-    const wrapper = await page.find(
-      "calcite-date >>> .calendar-picker-wrapper"
-    );
+    const wrapper = await page.find("calcite-date >>> .calendar-picker-wrapper");
     const visible = await wrapper.isVisible();
     expect(visible).toBe(true);
     await input.press("3");
@@ -27,6 +25,6 @@ describe("calcite-date", () => {
     await input.press("2");
     await input.press("0");
     await page.waitForChanges();
-    expect(changedEvent).toHaveReceivedEventTimes(2);
+    expect(changedEvent).toHaveReceivedEventTimes(1);
   });
 });
