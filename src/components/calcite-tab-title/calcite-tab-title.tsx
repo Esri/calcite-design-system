@@ -65,6 +65,7 @@ export class CalciteTabTitle {
 
   disconnectedCallback() {
     this.observer.disconnect();
+    this.calciteTabTitleUnregister.emit();
   }
 
   componentWillLoad() {
@@ -111,12 +112,8 @@ export class CalciteTabTitle {
     );
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.calciteTabTitleRegister.emit();
-  }
-
-  componentDidUnload() {
-    this.calciteTabTitleUnregister.emit();
   }
 
   //--------------------------------------------------------------------------
