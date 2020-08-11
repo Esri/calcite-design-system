@@ -13,7 +13,7 @@ export default {
 export const simple = () => `
   <calcite-icon
     icon="${select("icon", iconNames, iconNames[0])}"
-    scale="${select("size", ["s", "m", "l"], "m")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("filled", false)}
   ></calcite-icon>
 `;
