@@ -59,6 +59,27 @@ describe("calcite-split-button", () => {
     expect(dropdownButton).toEqualAttribute("aria-label", "more actions");
   });
 
+  it("can separately disable the primary secondary buttons", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-split-button
+        primary-disabled=true
+        primary-text="primary action"
+        primary-icon-start="save"
+        dropdown-icon-type="caret">
+      </calcite-split-button>`);
+    const element = await page.find("calcite-split-button");
+    const primaryButton = await page.find("calcite-split-button >>> calcite-button");
+    const dropdownButton = await page.find("calcite-split-button >>> calcite-dropdown calcite-button");
+    expect(primaryButton).toHaveAttribute("disabled");
+    expect(dropdownButton).not.toHaveAttribute("disabled");
+    element.removeAttribute("primary-disabled");
+    element.setAttribute("secondary-disabled", true);
+    await page.waitForChanges();
+    expect(primaryButton).not.toHaveAttribute("disabled");
+    expect(dropdownButton).toHaveAttribute("disabled");
+  });
+
   it("renders primaryText without icons as inner content of primary button", async () => {
     const page = await newE2EPage();
     await page.setContent(`

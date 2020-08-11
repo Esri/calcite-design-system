@@ -98,7 +98,30 @@
     </div>
 
     <h3>Disabled</h3>
-    <calcite-split-button disabled=true primary-text="Primary Option"></calcite-split-button>
+    <div style='display:flex;flex-direction:row;justify-content:space-between'>
+      <calcite-split-button disabled=true primary-text="Primary Option">
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-split-button>
+      <calcite-split-button primary-disabled=true secondary-disabled=false primary-text="Primary Option">
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-split-button>
+      <calcite-split-button primary-disabled=false secondary-disabled=true primary-text="Primary Option">
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-split-button>
+
+    </div>
 
     <h3>Loading</h3>
     <calcite-split-button loading=true primary-text="Primary Option"></calcite-split-button>

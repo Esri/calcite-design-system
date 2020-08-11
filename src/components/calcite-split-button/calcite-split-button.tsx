@@ -44,8 +44,14 @@ export class CalciteSplitButton {
     disabling interaction. with the primary button */
   @Prop({ reflect: true }) loading?: boolean = false;
 
-  /** is the control disabled  */
+  /** is the entire control disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
+
+  /** is the primary control disabled  */
+  @Prop({ reflect: true }) primaryDisabled?: boolean;
+
+  /** is the secondar dropdown control disabled  */
+  @Prop({ reflect: true }) secondaryDisabled?: boolean;
 
   /** fired when the primary button is clicked */
   @Event() calciteSplitButtonPrimaryClick: EventEmitter;
@@ -94,7 +100,7 @@ export class CalciteSplitButton {
             loading={this.loading}
             icon-start={this.primaryIconStart ? this.primaryIconStart : null}
             icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
-            disabled={this.disabled}
+            disabled={this.disabled || this.primaryDisabled}
             theme={this.theme}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
           >
@@ -116,7 +122,7 @@ export class CalciteSplitButton {
               slot="dropdown-trigger"
               scale={this.scale}
               color={this.color}
-              disabled={this.disabled}
+              disabled={this.disabled || this.secondaryDisabled}
               theme={this.theme}
               icon-start={this.dropdownIcon}
             />

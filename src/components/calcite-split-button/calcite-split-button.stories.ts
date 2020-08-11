@@ -16,6 +16,8 @@ storiesOf("components|Split Button", module)
         scale="${select("size", ["s", "m", "l"], "m")}"
         ${boolean("loading", false)}
         ${boolean("disabled", false)}
+        ${boolean("primary-disabled", false)}
+        ${boolean("secondary-disabled", false)}
         primary-icon-start="${select("primary-icon-start", iconNames, iconNames[0])}"
         primary-text="${text("primary-text", "Primary Option")}"
         primary-label="${text("primary-label", "Primary Option")}"
