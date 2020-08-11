@@ -202,7 +202,6 @@ export class CalciteRating {
 
   private determineInitialRating() {
     const valueToUse = this.value ? this.value : this.average;
-
     this.ratingItems?.forEach((item) => {
       item.dataset.average =
         this.average && !this.value && parseInt(item.dataset.value) <= this.average
@@ -265,7 +264,7 @@ export class CalciteRating {
   }
 
   private resetHoverState() {
-    this.partialStar.dataset.partialhidden = "false";
+    if (this.partialStar) this.partialStar.dataset.partialhidden = "false";
     this.ratingItems?.forEach((item) => {
       item.dataset.hovered = "false";
     });
@@ -282,12 +281,15 @@ export class CalciteRating {
           ? this.selectedIconType
           : this.iconType;
     });
+    // remove the partial average star when a value has been set by user
+    if (this.partialStar) this.partialStar.remove();
   }
 
   private showSelectedIconOnHover(e) {
     if (!this.readOnly) {
-      this.partialStar.dataset.partialhidden =
-        parseInt(this.partialStar.dataset.value) <= e.target.dataset.value ? "true" : "false";
+      if (this.partialStar)
+        this.partialStar.dataset.partialhidden =
+          parseInt(this.partialStar.dataset.value) <= e.target.dataset.value ? "true" : "false";
       this.ratingItems?.forEach((item) => {
         item.dataset.hovered =
           parseInt(item.dataset.value) <= e.target.dataset.value ? "true" : "false";
