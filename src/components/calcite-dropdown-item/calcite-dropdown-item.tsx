@@ -41,6 +41,9 @@ export class CalciteDropdownItem {
   /** optionally pass an icon to display at the end of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** mirror the icon  */
+  @Prop({ reflect: true }) iconMirrored?: "both" | "start" | "end";
+
   /** optionally pass a href - used to determine if the component should render as anchor */
   @Prop({ reflect: true }) href?: string;
   //--------------------------------------------------------------------------
@@ -90,10 +93,20 @@ export class CalciteDropdownItem {
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "s" || scale === "m" ? "s" : "m";
     const iconStartEl = (
-      <calcite-icon class="dropdown-item-icon-start" icon={this.iconStart} scale={iconScale} />
+      <calcite-icon
+        class="dropdown-item-icon-start"
+        icon={this.iconStart}
+        scale={iconScale}
+        mirrored={this.iconMirrored === "start" || this.iconMirrored === "both"}
+      />
     );
     const iconEndEl = (
-      <calcite-icon class="dropdown-item-icon-end" icon={this.iconEnd} scale={iconScale} />
+      <calcite-icon
+        class="dropdown-item-icon-end"
+        icon={this.iconEnd}
+        scale={iconScale}
+        mirrored={this.iconMirrored === "end" || this.iconMirrored === "both"}
+      />
     );
 
     const slottedContent =

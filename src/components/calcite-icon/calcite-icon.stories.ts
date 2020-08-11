@@ -1,41 +1,32 @@
+import { storiesOf } from "@storybook/html";
 import { withKnobs, select } from "@storybook/addon-knobs";
 import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
-export default {
-  title: "components|Icon",
-  decorators: [withKnobs],
-  parameters: { notes }
-};
-
-export const simple = () => `
-  <calcite-icon
+storiesOf("components|Icon", module)
+  .addDecorator(withKnobs)
+  .add(
+    "Simple",
+    () => `
+    <calcite-icon
     icon="${select("icon", iconNames, iconNames[0])}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("filled", false)}
-  ></calcite-icon>
-`;
-
-export const RTL = () => `
-  <calcite-icon
-    dir="rtl"
-    icon="arrowBoldLeft"
-    ${boolean("mirror", false)}
-  ></calcite-icon>
-`;
-
-export const darkMode = () => `
-  <calcite-icon
-    dir="rtl"
-    icon="${select("icon", iconNames, iconNames[0])}"
+    ${boolean("mirrored", false)}
+    />
+  `,
+    { notes }
+  )
+  .add(
+    "Dark theme",
+    () => `
+    <calcite-icon
     theme="dark"
-  ></calcite-icon>
-`;
-
-darkMode.story = {
-  parameters: {
-    backgrounds: darkBackground
-  }
-};
+    icon="${select("icon", iconNames, iconNames[0])}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("mirrored", false)}
+    />
+  `,
+    { notes, backgrounds: darkBackground }
+  );

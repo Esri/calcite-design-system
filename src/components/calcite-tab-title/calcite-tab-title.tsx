@@ -51,6 +51,9 @@ export class CalciteTabTitle {
   /** optionally pass an icon to display at the end of a tab title - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** mirror the icon  */
+  @Prop({ reflect: true }) iconMirrored?: "both" | "start" | "end";
+
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
   //--------------------------------------------------------------------------
@@ -86,11 +89,19 @@ export class CalciteTabTitle {
     const id = this.el.id || this.guid;
 
     const iconStartEl = (
-      <calcite-icon class="calcite-tab-title--icon icon-start" icon={this.iconStart} scale="s" />
+      <calcite-icon
+        class="calcite-tab-title--icon icon-start"
+        icon={this.iconStart}
+        mirrored={this.iconMirrored === "start" || this.iconMirrored === "both"}
+      />
     );
 
     const iconEndEl = (
-      <calcite-icon class="calcite-tab-title--icon icon-end" icon={this.iconEnd} scale="s" />
+      <calcite-icon
+        class="calcite-tab-title--icon icon-end"
+        icon={this.iconEnd}
+        mirrored={this.iconMirrored === "end" || this.iconMirrored === "both"}
+      />
     );
 
     return (

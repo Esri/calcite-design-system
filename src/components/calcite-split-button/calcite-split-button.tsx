@@ -34,6 +34,9 @@ export class CalciteSplitButton {
   /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
+  /** mirror the icon for the primary button  */
+  @Prop({ reflect: true }) primaryiconMirrored?: "both" | "start" | "end";
+
   /** optionally pass an aria-label for the primary button */
   @Prop({ reflect: true }) primaryLabel?: string;
 
@@ -94,6 +97,7 @@ export class CalciteSplitButton {
             loading={this.loading}
             icon-start={this.primaryIconStart ? this.primaryIconStart : null}
             icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
+            icon-mirrored={this.primaryiconMirrored ? this.primaryiconMirrored : null}
             disabled={this.disabled}
             theme={this.theme}
             onClick={this.calciteSplitButtonPrimaryClickHandler}

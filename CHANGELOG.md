@@ -15,9 +15,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `calcite-tab-title` - now supports icons: `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
 
+- `calcite-button` now has an `icon-mirrored` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
+- `calcite-split-button` now has a `primary-icon-mirrored` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
+- `calcite-dropdown-item` now has an `icon-mirrored` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
+- `calcite-tab-title` now has an `icon-mirrored` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
+
 ### Updated
 
 - `calcite-radio-group` styling has been updated
+- `calcite-icon` - the `mirrored` prop will now be applied in both `dir=rtl` and `dir=ltr` - previously it would only apply if `dir=rtl`
 
 ## [v1.0.0-beta.36]
 

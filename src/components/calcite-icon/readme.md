@@ -19,7 +19,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 | Property    | Attribute    | Description                                                                                                                         | Type                | Default     |
 | ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
 | `icon`      | `icon`       | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`            | `null`      |
-| `mirrored`  | `mirrored`   | When true, the icon will be mirrored when the element direction is 'rtl'.                                                           | `boolean`           | `false`     |
+| `mirrored`  | `mirrored`   | When true, the icon will be mirrored.                                                                                               | `boolean`           | `false`     |
 | `scale`     | `scale`      | Icon scale. Can be "s" \| "m" \| "l".                                                                                               | `"l" \| "m" \| "s"` | `"m"`       |
 | `textLabel` | `text-label` | The icon label. It is recommended to set this value if your icon is semantic.                                                       | `string`            | `undefined` |
 | `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `undefined` |

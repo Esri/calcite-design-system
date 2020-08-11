@@ -1,6 +1,5 @@
 import { Build, Component, Element, h, Host, Prop, State, Watch } from "@stencil/core";
 import { CSS } from "./resources";
-import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
 import { IconScale } from "../../interfaces/Icon";
 import { Theme } from "../../interfaces/common";
@@ -37,7 +36,7 @@ export class CalciteIcon {
   icon: string = null;
 
   /**
-   * When true, the icon will be mirrored when the element direction is 'rtl'.
+   * When true, the icon will be mirrored.
    */
   @Prop({
     reflect: true
@@ -93,8 +92,7 @@ export class CalciteIcon {
   }
 
   render() {
-    const { el, mirrored, pathData, scale, textLabel } = this;
-    const dir = getElementDir(el);
+    const { mirrored, pathData, scale, textLabel } = this;
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");
@@ -102,7 +100,7 @@ export class CalciteIcon {
       <Host aria-label={semantic ? textLabel : null} role={semantic ? "img" : null}>
         <svg
           class={{
-            [CSS.mirrored]: dir === "rtl" && mirrored,
+            [CSS.mirrored]: mirrored,
             svg: true
           }}
           xmlns="http://www.w3.org/2000/svg"
