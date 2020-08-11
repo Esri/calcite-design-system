@@ -186,9 +186,9 @@ export class CalciteCheckbox {
     this.input = document.createElement("input");
     this.checked && this.input.setAttribute("checked", "");
     this.input.disabled = this.disabled;
+    this.input.name = this.name;
     this.input.onblur = () => (this.focused = false);
     this.input.onfocus = () => (this.focused = true);
-    this.input.name = this.name;
     this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value;
@@ -197,12 +197,19 @@ export class CalciteCheckbox {
   }
 
   render() {
+    const hasLabel = this.el.textContent ? true : false;
     return (
-      <Host role="checkbox" aria-checked={this.checked.toString()}>
+      <Host role="checkbox" aria-checked={this.checked.toString()} class={{ hasLabel }}>
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>
-        <slot />
+        {hasLabel ? (
+          <calcite-label dir={document.documentElement.getAttribute("dir")} scale={this.scale}>
+            <slot />
+          </calcite-label>
+        ) : (
+          <slot />
+        )}
       </Host>
     );
   }
