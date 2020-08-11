@@ -31,8 +31,17 @@
   transition: $transition;
   cursor: pointer;
   &:active {
-    transform: scale(1.1);
+    & >>> svg {
+      transform: scale(1.1);
+    }
   }
+}
+
+// container for icon items
+:host .calcite-rating-item-container {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 // focus styles
@@ -46,7 +55,6 @@
 
 :host calcite-icon {
   pointer-events: default;
-
   &:not(:last-of-type) {
     margin-right: var(--calcite-rating-spacing-unit);
   }
@@ -58,25 +66,51 @@
 
 :host calcite-icon {
   color: var(--calcite-ui-text-3);
+  box-sizing: border-box;
 }
 :host([read-only]) calcite-icon:not([data-selected="true"]) {
   color: var(--calcite-ui-border-1);
 }
 
 :host calcite-icon[data-average="true"],
+:host calcite-icon[data-partial="true"],
 :host calcite-icon[data-average="true"][date-selected="false"] {
   color: var(--calcite-ui-yellow-1);
 }
 
+:host calcite-icon[data-partial="true"] {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9;
+}
+
+// handle hiding of our partial star
+:host
+  calcite-icon[data-partialparent="true"]:hover
+  ~ calcite-icon[data-partial="true"]
+  :host
+  calcite-icon[data-partialparent="true"]:focus
+  ~ calcite-icon[data-partial="true"] {
+  opacity: 0;
+}
+
+:host calcite-icon[data-partial="true"][data-partialhidden="true"] {
+  opacity: 0;
+}
+
 :host([read-only]) calcite-icon[data-average="true"],
 :host([disabled]) calcite-icon[data-average="true"],
+:host([read-only]) calcite-icon[data-partial="true"],
+:host([disabled]) calcite-icon[data-partial="true"],
 :host calcite-icon[data-selected="true"],
 :host calcite-icon[data-hovered="true"] {
   color: var(--calcite-ui-blue-1);
 }
 
 :host calcite-icon[data-hovered="true"]:not([data-selected="true"]) {
-  transform: scale(0.9);
+  & >>> svg {
+    transform: scale(0.9);
+  }
 }
 
 // rating count

@@ -11,7 +11,6 @@
 | `disabled`     | `disabled`      | is the rating component in a selectable mode               | `boolean`            | `false`     |
 | `displayValue` | `display-value` | display rating value                                       | `boolean`            | `false`     |
 | `iconType`     | `icon-type`     | specify the icon used for the rating, defaults to star     | `"circle" \| "star"` | `"star"`    |
-| `length`       | `length`        | specify the length of rating scale, defaults to 5          | `number`             | `5`         |
 | `precision`    | `precision`     | the precision of the rating component - half or whole step | `"half" \| "whole"`  | `"whole"`   |
 | `readOnly`     | `read-only`     | is the rating component in a selectable mode               | `boolean`            | `false`     |
 | `scale`        | `scale`         | specify the scale of the component, defaults to m          | `"l" \| "m" \| "s"`  | `"m"`       |
@@ -23,6 +22,14 @@
 | Event                 | Description | Type               |
 | --------------------- | ----------- | ------------------ |
 | `calciteRatingChange` |             | `CustomEvent<any>` |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Dependencies
 

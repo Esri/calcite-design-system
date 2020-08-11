@@ -27,32 +27,48 @@
 
       <h2>Default</h2>
       <h5>Default with average</h5>
-      <calcite-rating average=3.14></calcite-rating>
+      <calcite-rating average=3.65></calcite-rating>
       <h5>Default with value</h5>
       <calcite-rating value=2></calcite-rating>
       <h5>Default with average and value</h5>
-      <calcite-rating average=3.14 value=2></calcite-rating>
+      <calcite-rating average=3.65 value=2></calcite-rating>
       <h5>Default without average or value</h5>
       <calcite-rating></calcite-rating>
 
-
+      <h2>Wrapped in calcite-label</h2>
+      <calcite-label>
+        Rate this item
+        <calcite-rating average=2.35 count=14></calcite-rating>
+      </calcite-label>
+      <calcite-label layout="inline">
+        Rate this item
+        <calcite-rating average=2.35 count=14></calcite-rating>
+      </calcite-label>
+      <calcite-label layout="inline-space-between">
+        Rate this item
+        <calcite-rating average=2.35 count=14></calcite-rating>
+      </calcite-label>
       <h2>Read only</h2>
       <h5>Read only with average</h5>
-      <calcite-rating read-only average=3.14></calcite-rating>
+      <calcite-rating read-only average=3.65></calcite-rating>
       <h5>Read only with value</h5>
       <calcite-rating read-only value=3></calcite-rating>
       <h5>Read only with average and value</h5>
-      <calcite-rating read-only average=3.14 value=2></calcite-rating>
+      <calcite-rating read-only average=3.65 value=2 count=31></calcite-rating>
       <h5>Read only without average or value</h5>
       <calcite-rating read-only></calcite-rating>
+      <h5>Read only with circle</h5>
+      <calcite-rating read-only icon-type="circle" value=2></calcite-rating>
+      <h5>Read only with circle with average</h5>
+      <calcite-rating read-only icon-type="circle" average=2.53></calcite-rating>
 
       <h2>Disabled</h2>
       <h5>Disabled with average</h5>
-      <calcite-rating disabled average=3.14></calcite-rating>
+      <calcite-rating disabled average=3.65></calcite-rating>
       <h5>Disabled with value</h5>
       <calcite-rating disabled value=3></calcite-rating>
       <h5>Disabled with average and value</h5>
-      <calcite-rating disabled average=3.14 value=2></calcite-rating>
+      <calcite-rating disabled average=3.65 value=2></calcite-rating>
       <h5>Disabled without average or value</h5>
       <calcite-rating disabled></calcite-rating>
 
@@ -62,16 +78,6 @@
       </calcite-rating>
       <h5>Circle</h5>
       <calcite-rating icon-type="circle">
-      </calcite-rating>
-
-      <h2>Total</h2>
-      <h5>5 (default)</h5>
-      <calcite-rating></calcite-rating>
-      <h5>10</h5>
-      <calcite-rating total=10>
-      </calcite-rating>
-      <h5>4</h5>
-      <calcite-rating total=4 count=214>
       </calcite-rating>
 
       <h2>Scales</h2>
@@ -97,32 +103,51 @@
       <div class="demo-background-dark">
         <h2>Default</h2>
         <h5>Default with average</h5>
-        <calcite-rating theme="dark" average=3.14></calcite-rating>
+        <calcite-rating theme="dark" average=3.65></calcite-rating>
+        <calcite-rating theme="dark" average=3.6></calcite-rating>
+        <calcite-rating theme="dark" average=3.655></calcite-rating>
+
         <h5>Default with value</h5>
         <calcite-rating theme="dark" value=3></calcite-rating>
         <h5>Default with average and value</h5>
-        <calcite-rating theme="dark" average=3.14 value=2></calcite-rating>
+        <calcite-rating theme="dark" average=3.65 value=2></calcite-rating>
         <h5>Default without average or value</h5>
         <calcite-rating theme="dark"></calcite-rating>
-
+        <h2>Wrapped in calcite-label</h2>
+        <calcite-label theme="dark">
+          Rate this item
+          <calcite-rating theme="dark" average=2.35 count=14></calcite-rating>
+        </calcite-label>
+        <calcite-label theme="dark" layout="inline">
+          Rate this item
+          <calcite-rating average=2.35 count=14></calcite-rating>
+        </calcite-label>
+        <calcite-label theme="dark" layout="inline-space-between">
+          Rate this item
+          <calcite-rating theme="dark" average=2.35 count=14></calcite-rating>
+        </calcite-label>
 
         <h2>Read only</h2>
         <h5>Read only with average</h5>
-        <calcite-rating theme="dark" read-only average=3.14></calcite-rating>
+        <calcite-rating theme="dark" read-only average=3.65></calcite-rating>
         <h5>Read only with value</h5>
         <calcite-rating theme="dark" read-only value=3></calcite-rating>
         <h5>Read only with average and value</h5>
-        <calcite-rating theme="dark" read-only average=3.14 value=2></calcite-rating>
+        <calcite-rating theme="dark" read-only average=3.65 value=2 count=31></calcite-rating>
         <h5>Read only without average or value</h5>
         <calcite-rating theme="dark" read-only></calcite-rating>
+        <h5>Read only with circle</h5>
+        <calcite-rating theme="dark" read-only icon-type="circle" value=2></calcite-rating>
+        <h5>Read only with circle with average</h5>
+        <calcite-rating theme="dark" read-only icon-type="circle" average=2.53></calcite-rating>
 
         <h2>Disabled</h2>
         <h5>Disabled with average</h5>
-        <calcite-rating theme="dark" disabled average=3.14></calcite-rating>
+        <calcite-rating theme="dark" disabled average=3.65></calcite-rating>
         <h5>Disabled with value</h5>
         <calcite-rating theme="dark" disabled value=3></calcite-rating>
         <h5>Disabled with average and value</h5>
-        <calcite-rating theme="dark" disabled average=3.14 value=2></calcite-rating>
+        <calcite-rating theme="dark" disabled average=3.65 value=2></calcite-rating>
         <h5>Disabled without average or value</h5>
         <calcite-rating theme="dark" disabled></calcite-rating>
 
@@ -132,16 +157,6 @@
         </calcite-rating>
         <h5>Circle</h5>
         <calcite-rating theme="dark" icon-type="circle">
-        </calcite-rating>
-
-        <h2>Total</h2>
-        <h5>5 (default)</h5>
-        <calcite-rating theme="dark"></calcite-rating>
-        <h5>10</h5>
-        <calcite-rating theme="dark" total=10>
-        </calcite-rating>
-        <h5>4</h5>
-        <calcite-rating theme="dark" total=4 count=214>
         </calcite-rating>
 
         <h2>Scales</h2>

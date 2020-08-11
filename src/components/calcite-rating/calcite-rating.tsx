@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Method,
+  Prop
+} from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../utils/dom";
 
@@ -31,9 +41,6 @@ export class CalciteRating {
   /** specify the scale of the component, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the total number of items in of rating scale, defaults to 5 */
-  @Prop({ reflect: true }) total = 5;
-
   /** the value of the rating component */
   @Prop({ reflect: true }) value = 0;
 
@@ -65,6 +72,17 @@ export class CalciteRating {
 
   //--------------------------------------------------------------------------
   //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+    if (e.detail.labelEl.contains(this.el) || e.detail.labelEl.shadowRoot.contains(this.el)) {
+      this.setFocus();
+    }
+  }
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -93,33 +111,35 @@ export class CalciteRating {
   // whole / half precision
 
   render() {
-    const dir = getElementDir(this.el);
+    this.dir = getElementDir(this.el);
 
     return (
-      <Host
-        dir={dir}
-        onBlur={() => this.resetHoverState()}
-        onMouseLeave={() => this.resetHoverState()}
-        onTouchEnd={() => this.resetHoverState()}
-      >
-        {[...Array(this.total).keys()].map((e) => {
-          return (
-            <calcite-icon
-              data-value={e + 1}
-              onClick={(e) => this.determineRatingPosition(e)}
-              onKeyDown={(e) => this.handleKeyDown(e)}
-              onMouseEnter={(e) => this.showSelectedIconOnHover(e)}
-              onTouchStart={(e) => this.showSelectedIconOnHover(e)}
-              onFocus={(e) => this.showSelectedIconOnHover(e)}
-              tabindex={!this.readOnly && !this.disabled ? 0 : null}
-              icon={this.iconType}
-              scale={this.scale}
-            />
-          );
-        })}
+      <Host dir={this.dir}>
+        <div
+          class="calcite-rating-item-container"
+          onBlur={() => this.resetHoverState()}
+          onMouseLeave={() => this.resetHoverState()}
+          onTouchEnd={() => this.resetHoverState()}
+        >
+          {[...Array(5).keys()].map((e) => {
+            return (
+              <calcite-icon
+                data-value={e + 1}
+                onClick={(e) => this.determineRatingPosition(e)}
+                onKeyDown={(e) => this.handleKeyDown(e)}
+                onMouseEnter={(e) => this.showSelectedIconOnHover(e)}
+                onTouchStart={(e) => this.showSelectedIconOnHover(e)}
+                onFocus={(e) => this.showSelectedIconOnHover(e)}
+                tabindex={!this.readOnly && !this.disabled ? 0 : null}
+                icon={this.iconType}
+                scale={this.scale}
+              />
+            );
+          })}
+        </div>
         {this.count || this.average ? (
           <calcite-chip
-            dir={dir}
+            dir={this.dir}
             theme={this.theme}
             scale={this.scale}
             value={this.count?.toString()}
@@ -182,6 +202,7 @@ export class CalciteRating {
 
   private determineInitialRating() {
     const valueToUse = this.value ? this.value : this.average;
+
     this.ratingItems?.forEach((item) => {
       item.dataset.average =
         this.average && !this.value && parseInt(item.dataset.value) <= this.average
@@ -196,9 +217,55 @@ export class CalciteRating {
           ? this.selectedIconType
           : this.iconType;
     });
+
+    if (this.average) {
+      this.determinePartialStar();
+    }
+  }
+
+  private determinePartialStar() {
+    // position an extra icon and fill to width of percentage
+    const rootVal = Math.floor(this.average);
+    const decimalVal = parseInt((this.average % 1).toFixed(2).split(".")[1]);
+
+    // track the closest full star to position the partial icon
+    this.ratingItems?.forEach((item) => {
+      if (this.average && !this.value && parseInt(item.dataset.value) === rootVal + 1) {
+        this.rootStar = item;
+        this.rootStar.dataset.partialparent = "true";
+      }
+    });
+
+    // only generate partial star if there is a root with a partial
+    if (this.rootStar) {
+      this.partialStar = document.createElement("CALCITE-ICON") as HTMLCalciteIconElement;
+      this.partialStar.dataset.partial = "true";
+      this.partialStar.dataset.value = (rootVal + 1).toString();
+      this.partialStar.scale = this.scale;
+      this.partialStar.theme = this.theme;
+      this.partialStar.icon = this.selectedIconType;
+
+      // clip the icon to the partial percentage
+      this.partialStar.style.clipPath =
+        this.dir !== "rtl"
+          ? `polygon(0 0, ${decimalVal}% 0, ${decimalVal}% 100%, 0% 100%)`
+          : `polygon(${100 - decimalVal}% 0, 100% 0%, 100% 100%, ${100 - decimalVal}% 100%)`;
+
+      // compensate for margin based on scale
+      const margin =
+        this.scale === "s" ? rootVal * 4 : this.scale === "m" ? rootVal * 8 : rootVal * 12;
+
+      this.partialStar.style.margin =
+        this.dir !== "rtl"
+          ? `0 0 0 ${this.rootStar.offsetWidth * rootVal + margin}px`
+          : `0 ${this.rootStar.offsetWidth * rootVal + margin}px 0 0`;
+
+      this.rootStar.insertAdjacentElement("afterend", this.partialStar);
+    }
   }
 
   private resetHoverState() {
+    this.partialStar.dataset.partialhidden = "false";
     this.ratingItems?.forEach((item) => {
       item.dataset.hovered = "false";
     });
@@ -219,6 +286,8 @@ export class CalciteRating {
 
   private showSelectedIconOnHover(e) {
     if (!this.readOnly) {
+      this.partialStar.dataset.partialhidden =
+        parseInt(this.partialStar.dataset.value) <= e.target.dataset.value ? "true" : "false";
       this.ratingItems?.forEach((item) => {
         item.dataset.hovered =
           parseInt(item.dataset.value) <= e.target.dataset.value ? "true" : "false";
@@ -265,6 +334,17 @@ export class CalciteRating {
     target.focus();
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus() {
+    this.ratingItems[0].focus();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -274,4 +354,12 @@ export class CalciteRating {
   private ratingItems: NodeListOf<HTMLCalciteIconElement>;
 
   private selectedIconType: "star-f" | "circle-f" = "star-f";
+
+  private dir;
+
+  // the absolutely positioned star when an average rating has decimal
+  private partialStar: HTMLCalciteIconElement;
+
+  // track the last full value star to position the partial star
+  private rootStar: HTMLCalciteIconElement;
 }
