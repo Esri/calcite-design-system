@@ -188,6 +188,9 @@ export class CalciteRating {
           this.focusLastItem();
           e.preventDefault();
           break;
+        case "Tab":
+          if (isLastItem || (isFirstItem && e.shiftKey)) this.resetHoverState();
+          break;
       }
     }
   }
