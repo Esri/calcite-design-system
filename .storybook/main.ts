@@ -40,6 +40,5 @@ module.exports = {
     "@storybook/addon-knobs/register",
     "@storybook/addon-a11y"
   ],
-  presets: ["@storybook/addon-docs/preset"],
   stories
 };
