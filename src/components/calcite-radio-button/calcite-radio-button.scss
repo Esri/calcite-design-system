@@ -3,18 +3,18 @@
 }
 :host {
   cursor: pointer;
+  .hasLabel {
+    display: grid;
+    grid-gap: 8px;
+    align-items: center;
+    --calcite-label-margin-bottom: 0;
+  }
   .radio {
     border-radius: 100%;
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
     cursor: pointer;
     transition: all 0.15s ease-in-out;
   }
-}
-:host(.hasLabel) {
-  display: grid;
-  grid-gap: 8px;
-  align-items: center;
-  --calcite-label-margin-bottom: 0;
 }
 :host([hovered]) {
   .radio {
@@ -36,15 +36,15 @@
 }
 
 :host([scale="s"]) {
+  .hasLabel {
+    grid-template-columns: 12px 1fr 4px;
+    grid-template-rows: 16px 1fr;
+  }
   .radio {
     height: 12px;
     min-width: 12px;
     max-width: 12px;
   }
-}
-:host([scale="s"].hasLabel) {
-  grid-template-columns: 12px 1fr 4px;
-  grid-template-rows: 16px 1fr;
 }
 :host([scale="s"][checked]),
 :host([hovered][scale="s"][checked][disabled]) {
@@ -60,15 +60,15 @@
 }
 
 :host([scale="m"]) {
+  .hasLabel {
+    grid-template-columns: 16px 1fr 4px;
+    grid-template-rows: 20px 1fr;
+  }
   .radio {
     height: 16px;
     min-width: 16px;
     max-width: 16px;
   }
-}
-:host([scale="m"].hasLabel) {
-  grid-template-columns: 16px 1fr 4px;
-  grid-template-rows: 20px 1fr;
 }
 :host([scale="m"][checked]),
 :host([hovered][scale="m"][checked][disabled]) {
@@ -84,16 +84,16 @@
 }
 
 :host([scale="l"]) {
+  .hasLabel {
+    grid-gap: 12px;
+    grid-template-columns: 20px 1fr 4px;
+    grid-template-rows: 24px 1fr;
+  }
   .radio {
     height: 20px;
     min-width: 20px;
     max-width: 20px;
   }
-}
-:host([scale="l"].hasLabel) {
-  grid-gap: 12px;
-  grid-template-columns: 20px 1fr 4px;
-  grid-template-rows: 24px 1fr;
 }
 :host([scale="l"][checked]),
 :host([hovered][scale="l"][checked][disabled]) {
