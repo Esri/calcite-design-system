@@ -43,12 +43,11 @@ $gap--large: 12px;
   }
 
   .section {
-    padding: 0 $section-padding--large;
-  }
+    padding: 0 $section-padding--large $section-padding--large;
 
-  .saved-colors-section {
-    padding-top: $section-padding--large;
-    padding-bottom: $section-padding--large;
+    &:first-of-type {
+      padding-top: $section-padding--large;
+    }
   }
 
   .saved-colors {
@@ -59,25 +58,33 @@ $gap--large: 12px;
 
   .control-section {
     flex-wrap: nowrap;
+
+    > :nth-child(2) {
+      margin-left: $gap--large;
+    }
   }
 
   .color-hex-options {
-    flex-basis: 33%;
+    flex-shrink: 1;
   }
 
   .color-mode-container {
-    flex-basis: 63%;
-  }
-
-  .color-hex-options,
-  .color-mode-container {
-    flex-grow: 0;
+    flex-shrink: 3;
   }
 }
 
 :host([appearance="minimal"]) {
   .container {
     border: none;
+  }
+}
+
+:host([dir="rtl"]) {
+  .control-section {
+    > :nth-child(2) {
+      margin-left: 0;
+      margin-right: $gap--large;
+    }
   }
 }
 
@@ -102,17 +109,11 @@ $gap--large: 12px;
 }
 
 .section {
-  padding: 0 $section-padding;
-}
+  padding: 0 $section-padding $section-padding;
 
-.saved-colors-section {
-  padding-top: $section-padding;
-  padding-bottom: $section-padding;
-}
-
-.control-section {
-  display: flex;
-  justify-content: space-between;
+  &:first-of-type {
+    padding-top: $section-padding;
+  }
 }
 
 .color-hex-options,

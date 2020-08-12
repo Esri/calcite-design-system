@@ -373,46 +373,48 @@ export class CalciteColor {
           onMouseMove={this.handleColorFieldAndSliderMouseEnterOrMove}
           ref={this.initColorFieldAndSlider}
         />
-        <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
-          {hideHex ? null : (
-            <div class={CSS.hexOptions}>
-              <span
+        {hideHex && hideChannels ? null : (
+          <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
+            {hideHex ? null : (
+              <div class={CSS.hexOptions}>
+                <span
+                  class={{
+                    [CSS.header]: true,
+                    [CSS.headerHex]: true,
+                    [CSS.underlinedHeader]: true
+                  }}
+                >
+                  {intlHex}
+                </span>
+                <calcite-color-hex-input
+                  class={CSS.control}
+                  onCalciteColorHexInputChange={this.handleHexInputChange}
+                  ref={(node) => (this.hexInputNode = node)}
+                  scale={hexInputScale}
+                  value={selectedColorInHex}
+                  theme={theme}
+                  dir={elementDir}
+                />
+              </div>
+            )}
+            {hideChannels ? null : (
+              <calcite-tabs
                 class={{
-                  [CSS.header]: true,
-                  [CSS.headerHex]: true,
-                  [CSS.underlinedHeader]: true
+                  [CSS.colorModeContainer]: true,
+                  [CSS.splitSection]: true
                 }}
-              >
-                {intlHex}
-              </span>
-              <calcite-color-hex-input
-                class={CSS.control}
-                onCalciteColorHexInputChange={this.handleHexInputChange}
-                ref={(node) => (this.hexInputNode = node)}
-                scale={hexInputScale}
-                value={selectedColorInHex}
-                theme={theme}
                 dir={elementDir}
-              />
-            </div>
-          )}
-          {hideChannels ? null : (
-            <calcite-tabs
-              class={{
-                [CSS.colorModeContainer]: true,
-                [CSS.splitSection]: true
-              }}
-              dir={elementDir}
-            >
-              <calcite-tab-nav slot="tab-nav">
-                {this.renderChannelsTabTitle("rgb")}
-                {this.renderChannelsTabTitle("hsv")}
-              </calcite-tab-nav>
-              {this.renderChannelsTab("rgb")}
-              {this.renderChannelsTab("hsv")}
-            </calcite-tabs>
-          )}
-        </div>
+              >
+                <calcite-tab-nav slot="tab-nav">
+                  {this.renderChannelsTabTitle("rgb")}
+                  {this.renderChannelsTabTitle("hsv")}
+                </calcite-tab-nav>
+                {this.renderChannelsTab("rgb")}
+                {this.renderChannelsTab("hsv")}
+              </calcite-tabs>
+            )}
+          </div>
+        )}
         {hideSaved ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
