@@ -52,6 +52,7 @@
 
 :host(:hover) label {
   background-color: var(--calcite-ui-foreground-2);
+  color: var(--calcite-ui-text-1);
 }
 
 :host(:active) label {
