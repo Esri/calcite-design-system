@@ -1,5 +1,4 @@
-import { boolean, select, text, withKnobs } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
+import { boolean, select, text } from "@storybook/addon-knobs";
 import {
   Attribute,
   Attributes,
@@ -14,7 +13,6 @@ import dedent from "dedent";
 
 export default {
   title: "app components|calcite-block",
-  decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     notes: {

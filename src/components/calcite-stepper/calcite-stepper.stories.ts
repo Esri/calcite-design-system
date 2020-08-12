@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, text } from "@storybook/addon-knobs";
+import { select, text } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-stepper-item/readme.md";
@@ -9,7 +9,6 @@ const notes2 = parseReadme(readme2);
 const notes = notes1.concat(`\n${notes2}`);
 
 storiesOf("components|Stepper", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `

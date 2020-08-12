@@ -1,5 +1,4 @@
-import { boolean, select, text, withKnobs } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
+import { boolean, select, text } from "@storybook/addon-knobs";
 import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -9,7 +8,6 @@ import { TEXT } from "./resources";
 
 export default {
   title: "app components|calcite-action-pad",
-  decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     notes: parseReadme(readme)

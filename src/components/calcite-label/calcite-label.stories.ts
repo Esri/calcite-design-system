@@ -5,7 +5,6 @@ import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 storiesOf("components|Label", module)
-  .addDecorator(withKnobs)
   .add(
     "Wrapping components other than input",
     () => `

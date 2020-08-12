@@ -1,4 +1,4 @@
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 
@@ -6,7 +6,6 @@ const notes = parseReadme(readme);
 
 export default {
   title: "components|Icon",
-  decorators: [withKnobs],
   parameters: { notes }
 };
 

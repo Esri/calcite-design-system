@@ -1,11 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, number, select } from "@storybook/addon-knobs";
+import { number, select } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 storiesOf("components|Pagination", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `

@@ -1,11 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, text, number, array } from "@storybook/addon-knobs";
+import { text, number, array } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 storiesOf("components|Slider", module)
-  .addDecorator(withKnobs)
   .add(
     "Single value",
     () => `
