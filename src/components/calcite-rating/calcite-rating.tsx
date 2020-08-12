@@ -44,9 +44,6 @@ export class CalciteRating {
   /** the value of the rating component */
   @Prop({ reflect: true }) value = 0;
 
-  /** the precision of the rating component - half or whole step */
-  @Prop({ reflect: true }) precision: "half" | "whole" = "whole";
-
   /** is the rating component in a selectable mode */
   @Prop({ reflect: true }) readOnly = false;
 
@@ -96,7 +93,9 @@ export class CalciteRating {
   }
 
   componentDidLoad() {
-    this.ratingItems = this.el.shadowRoot.querySelectorAll("calcite-icon");
+    this.ratingItems = this.el.shadowRoot.querySelectorAll(
+      "calcite-icon:not([data-partial='true'])"
+    );
     this.determineInitialRating();
   }
 
@@ -105,10 +104,6 @@ export class CalciteRating {
   //  Render Method
   //
   // --------------------------------------------------------------------------
-  //todo
-  // arrow key nav
-  // tests
-  // whole / half precision
 
   render() {
     this.dir = getElementDir(this.el);
@@ -206,6 +201,7 @@ export class CalciteRating {
   private determineInitialRating() {
     const valueToUse = this.value ? this.value : this.average;
     this.ratingItems?.forEach((item) => {
+      item.dataset.hovered = "false";
       item.dataset.average =
         this.average && !this.value && parseInt(item.dataset.value) <= this.average
           ? "true"
@@ -242,16 +238,11 @@ export class CalciteRating {
     if (this.rootStar) {
       this.partialStar = document.createElement("CALCITE-ICON") as HTMLCalciteIconElement;
       this.partialStar.dataset.partial = "true";
-      this.partialStar.dataset.value = (rootVal + 1).toString();
+      this.partialStar.dataset.partialhidden = "false";
+      this.partialStar.dataset.rootvalue = (rootVal + 1).toString();
       this.partialStar.scale = this.scale;
       this.partialStar.theme = this.theme;
       this.partialStar.icon = this.selectedIconType;
-
-      // clip the icon to the partial percentage
-      this.partialStar.style.clipPath =
-        this.dir !== "rtl"
-          ? `polygon(0 0, ${decimalVal}% 0, ${decimalVal}% 100%, 0% 100%)`
-          : `polygon(${100 - decimalVal}% 0, 100% 0%, 100% 100%, ${100 - decimalVal}% 100%)`;
 
       // compensate for margin based on scale
       const margin =
@@ -261,6 +252,12 @@ export class CalciteRating {
         this.dir !== "rtl"
           ? `0 0 0 ${this.rootStar.offsetWidth * rootVal + margin}px`
           : `0 ${this.rootStar.offsetWidth * rootVal + margin}px 0 0`;
+
+      // clip the icon to the partial percentage
+      this.partialStar.style.clipPath =
+        this.dir !== "rtl"
+          ? `polygon(0 0, ${decimalVal}% 0, ${decimalVal}% 100%, 0% 100%)`
+          : `polygon(${100 - decimalVal}% 0, 100% 0%, 100% 100%, ${100 - decimalVal}% 100%)`;
 
       this.rootStar.insertAdjacentElement("afterend", this.partialStar);
     }
@@ -292,7 +289,7 @@ export class CalciteRating {
     if (!this.readOnly) {
       if (this.partialStar)
         this.partialStar.dataset.partialhidden =
-          parseInt(this.partialStar.dataset.value) <= e.target.dataset.value ? "true" : "false";
+          parseInt(this.partialStar.dataset.rootvalue) <= e.target.dataset.value ? "true" : "false";
       this.ratingItems?.forEach((item) => {
         item.dataset.hovered =
           parseInt(item.dataset.value) <= e.target.dataset.value ? "true" : "false";
