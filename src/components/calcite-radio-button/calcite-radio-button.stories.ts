@@ -1,12 +1,11 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, text } from "@storybook/addon-knobs";
+import { select, text } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
 storiesOf("components|Radio Button", module)
-  .addDecorator(withKnobs)
   .add(
     "Light Theme",
     () => `

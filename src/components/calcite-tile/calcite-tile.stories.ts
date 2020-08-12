@@ -1,12 +1,11 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, text } from "@storybook/addon-knobs";
+import { select, text } from "@storybook/addon-knobs";
 import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
 storiesOf("components|Tile", module)
-  .addDecorator(withKnobs)
   .add(
     "Light",
     () => `

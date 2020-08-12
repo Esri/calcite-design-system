@@ -1,5 +1,4 @@
-import { boolean, select, text, withKnobs } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
+import { boolean, select, text } from "@storybook/addon-knobs";
 import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, theme } = ATTRIBUTES;
@@ -10,7 +9,6 @@ import dedent from "dedent";
 
 export default {
   title: "app components|calcite-flow",
-  decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     notes: {

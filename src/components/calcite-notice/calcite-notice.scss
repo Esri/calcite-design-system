@@ -120,8 +120,7 @@
 
 @mixin notice-element-base() {
   box-sizing: border-box;
-  padding: var(--calcite-notice-spacing-token-small)
-    var(--calcite-notice-spacing-token-large);
+  padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
 }
@@ -133,30 +132,26 @@
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
-  padding: var(--calcite-notice-spacing-token-small)
-    var(--calcite-notice-spacing-token-small)
+  padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-small)
     var(--calcite-notice-spacing-token-small) 0;
 
   &:first-of-type:not(:only-child) {
     padding-left: var(--calcite-notice-spacing-token-large);
   }
   &:only-of-type {
-    padding: var(--calcite-notice-spacing-token-small)
-      var(--calcite-notice-spacing-token-large);
+    padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
   }
 }
 
 :host([dir="rtl"]) .notice-content {
-  padding: var(--calcite-notice-spacing-token-small) 0
-    var(--calcite-notice-spacing-token-small)
+  padding: var(--calcite-notice-spacing-token-small) 0 var(--calcite-notice-spacing-token-small)
     var(--calcite-notice-spacing-token-small);
 
   &:first-of-type:not(:only-child) {
     padding-right: var(--calcite-notice-spacing-token-large);
   }
   &:only-of-type {
-    padding: var(--calcite-notice-spacing-token-small)
-      var(--calcite-notice-spacing-token-large);
+    padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
   }
 }
 .notice-icon {
@@ -185,8 +180,8 @@
   }
 }
 
-$noticeColors: "blue" var(--calcite-ui-blue-1), "red" var(--calcite-ui-red-1),
-  "yellow" var(--calcite-ui-yellow-1), "green" var(--calcite-ui-green-1);
+$noticeColors: "blue" var(--calcite-ui-blue-1), "red" var(--calcite-ui-red-1), "yellow" var(--calcite-ui-yellow-1),
+  "green" var(--calcite-ui-green-1);
 
 @each $noticeColor in $noticeColors {
   $name: nth($noticeColor, 1);

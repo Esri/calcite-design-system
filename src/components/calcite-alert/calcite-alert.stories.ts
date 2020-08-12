@@ -1,12 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, boolean, select } from "@storybook/addon-knobs";
+import { boolean, select } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 storiesOf("components|Alert", module)
-  .addDecorator(withKnobs)
-
   .add(
     "Alert - title, message, link",
     () => `

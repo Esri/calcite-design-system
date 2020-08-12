@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, text, boolean } from "@storybook/addon-knobs";
+import { select, text, boolean } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -45,7 +45,6 @@ const locales = [
 ];
 
 storiesOf("components|Date", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `

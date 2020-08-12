@@ -5,7 +5,6 @@ import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 storiesOf("components|Card", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `

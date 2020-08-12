@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import { darkBackground, iconNames, parseReadme } from "../../../.storybook/helpers";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-tab/readme.md";
@@ -14,7 +14,6 @@ const notes4 = parseReadme(readme4);
 const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`).concat(`\n${notes4}`);
 
 storiesOf("components|Tabs", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `

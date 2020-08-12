@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, text, select } from "@storybook/addon-knobs";
+import { text, select } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
@@ -11,7 +11,6 @@ const iconNames = Object.keys(icons)
   .map((iconName) => iconName.replace("16", ""));
 
 storiesOf("components|Link", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `

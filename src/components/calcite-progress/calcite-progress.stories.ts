@@ -1,11 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, number, text, boolean } from "@storybook/addon-knobs";
+import { select, number, text, boolean } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 storiesOf("components|Progress", module)
-  .addDecorator(withKnobs)
   .add(
     "Determinate",
     () => `
