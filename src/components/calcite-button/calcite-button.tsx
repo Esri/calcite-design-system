@@ -1,8 +1,6 @@
 import { Component, Element, h, Host, Method, Prop, Build, State } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { Components } from "../../components";
-import { CalciteIcon } from "../calcite-icon/calcite-icon";
 
 @Component({
   tag: "calcite-button",
@@ -62,7 +60,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) href?: string;
 
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconStart?: string | CalciteIcon;
+  @Prop({ reflect: true }) iconStart?: string;
 
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
