@@ -24,13 +24,10 @@ export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 export const scaleToPx: Record<IconScale, number> = {
   s: 16,
   m: 24,
-  l: 32,
+  l: 32
 };
 
-export async function fetchIcon({
-  icon,
-  scale,
-}: FetchIconProps): Promise<CalciteIconPath> {
+export async function fetchIcon({ icon, scale }: FetchIconProps): Promise<CalciteIconPath> {
   const size = scaleToPx[scale];
   const name = normalizeIconName(icon);
   const filled = name.charAt(name.length - 1) === "F";
