@@ -148,12 +148,12 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.createPopper();
     this.addReferences();
   }
 
-  componentDidUnload() {
+  disconnectedCallback(): void {
     this.removeReferences();
     this.destroyPopper();
   }

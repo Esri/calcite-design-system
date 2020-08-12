@@ -93,9 +93,9 @@ export class CalciteTabNav {
   render() {
     return (
       <Host role="tablist">
-        <nav class="tab-nav" ref={(el) => (this.tabNavEl = el as HTMLElement)}>
+        <div class="tab-nav" ref={(el) => (this.tabNavEl = el as HTMLElement)}>
           <slot />
-        </nav>
+        </div>
       </Host>
     );
   }

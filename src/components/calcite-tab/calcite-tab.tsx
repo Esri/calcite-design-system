@@ -68,11 +68,11 @@ export class CalciteTab {
     );
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.calciteTabRegister.emit();
   }
 
-  componentDidUnload() {
+  disconnectedCallback(): void {
     this.calciteTabUnregister.emit();
   }
 

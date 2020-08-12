@@ -120,7 +120,7 @@ export class CalciteActionBar {
     this.observer.observe(el, { childList: true });
   }
 
-  componentDidUnload(): void {
+  disconnectedCallback(): void {
     this.observer.disconnect();
   }
 

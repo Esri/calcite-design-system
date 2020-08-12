@@ -156,19 +156,32 @@ describe("calcite-color", () => {
     }
   });
 
-  it("ignores unsupported value types", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color></calcite-color>"
+  describe("unsupported value handling", () => {
+    let consoleSpy: jasmine.Spy;
+
+    beforeAll(() => (consoleSpy = spyOn(console, "warn")));
+
+    afterAll(() => jest.clearAllMocks());
+
+    it("ignores unsupported value types", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color></calcite-color>"
+      });
+      const picker = await page.find("calcite-color");
+      const spy = await picker.spyOnEvent("calciteColorChange");
+      const currentValue = await picker.getProperty("value");
+
+      picker.setProperty("value", "unsupported-color-format");
+      await page.waitForChanges();
+
+      expect(await picker.getProperty("value")).toBe(currentValue);
+      expect(spy).toHaveReceivedEventTimes(0);
+
+      expect(consoleSpy).toBeCalledTimes(1);
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringMatching("ignoring invalid color value: unsupported-color-format")
+      );
     });
-    const picker = await page.find("calcite-color");
-    const spy = await picker.spyOnEvent("calciteColorChange");
-    const currentValue = await picker.getProperty("value");
-
-    picker.setProperty("value", "unsupported-color-format");
-    await page.waitForChanges();
-
-    expect(await picker.getProperty("value")).toBe(currentValue);
-    expect(spy).toHaveReceivedEventTimes(0);
   });
 
   it("normalizes shorthand CSS hex", async () => {
