@@ -22,23 +22,23 @@
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Switch</h1>
-    <calcite-label layout="inline">
-      <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
+  <calcite-label layout="inline">
+    <calcite-switch id="basicSwitch" switched="true"></calcite-switch>
 
-      Without a proxy <code>input</code> element and listening for "change"
-    </calcite-label>
-    <script>
-      var basicSwitch = document.getElementById("basicSwitch");
+    Without a proxy <code>input</code> element and listening for "change"
+  </calcite-label>
+  <script>
+    var basicSwitch = document.getElementById("basicSwitch");
 
-      basicSwitch.addEventListener("change", function (
-        e
-      ) {
-        console.log(
-          "Basic switch changed by <calcite-switch>",
-          e.target.switched
-        );
-      });
-    </script>
+    basicSwitch.addEventListener("change", function (
+      e
+    ) {
+      console.log(
+        "Basic switch changed by <calcite-switch>",
+        e.target.switched
+      );
+    });
+  </script>
   <br />
   <div>
     <calcite-label layout="inline">
@@ -49,18 +49,38 @@
         With a proxy <code>input</code> element and changes on click.
       </span>
     </calcite-label>
-    <script>
-      var proxySwitchSpan = document.getElementById(
-        "proxySwitchSpan"
-      );
-      var proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
+    <div>
 
-      proxySwitchSpan.addEventListener('click', function () {
-        proxySwitchCheckbox.hasAttribute('checked') ?
-          proxySwitchCheckbox.removeAttribute('checked') :
-          proxySwitchCheckbox.setAttribute('checked', '')
-      })
-    </script>
+      <script>
+        var proxySwitchSpan = document.getElementById(
+          "proxySwitchSpan"
+        );
+        var proxySwitchCheckbox = document.getElementById('proxySwitchCheckbox');
+
+        proxySwitchSpan.addEventListener('click', function () {
+          proxySwitchCheckbox.hasAttribute('checked') ?
+            proxySwitchCheckbox.removeAttribute('checked') :
+            proxySwitchCheckbox.setAttribute('checked', '')
+        })
+      </script>
+    </div>
+    <h4>Disabled with proxy input</h4>
+      <calcite-switch disabled>
+        <input id="proxySwitchCheckbox" type="checkbox" />
+      </calcite-switch>
+  </div>
+  <div>
+    <calcite-label layout="inline">
+      <calcite-switch color="red" disabled> </calcite-switch>
+      Disabled red switch
+    </calcite-label>
+  </div>
+  <br />
+  <div>
+    <calcite-label layout="inline">
+      <calcite-switch switched="true" disabled> </calcite-switch>
+      Disabled switch
+    </calcite-label>
   </div>
   <br />
   <div>
@@ -107,9 +127,9 @@
     <br />
     <div>
       <calcite-switch theme="dark">
-        <input id="proxySwitchCheckbox" type="checkbox" />
+        <input type="checkbox" />
       </calcite-switch>
-      <span id='proxySwitchSpan'>
+      <span>
         With a proxy <code>input</code> element and changes on click.
       </span>
       <script>
@@ -132,6 +152,7 @@
         Red switch
       </calcite-label>
     </div>
+
     <br />
     <div>
       <calcite-switch theme="dark"></calcite-switch>

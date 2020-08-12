@@ -81,6 +81,17 @@ describe("calcite-switch", () => {
     expect(changeEvent).toHaveFirstReceivedEventDetail({ switched: true });
   });
 
+  it("does not toggle when disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-switch disabled></calcite-switch>`);
+    const calciteSwitch = await page.find("calcite-switch");
+    const changeEvent = await calciteSwitch.spyOnEvent("calciteSwitchChange");
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+    await calciteSwitch.click();
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+    expect(calciteSwitch).not.toHaveAttribute("switched");
+  });
+
   // Not sure why this is failing
   it("toggles the switched and checked attributes when the checkbox is toggled", async () => {
     const page = await newE2EPage();

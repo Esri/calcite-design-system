@@ -13,6 +13,7 @@ storiesOf("components|Switch", module)
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
+        ${boolean("disabled", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
@@ -31,6 +32,7 @@ storiesOf("components|Switch", module)
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
+        ${boolean("disabled", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
@@ -51,6 +53,7 @@ storiesOf("components|Switch", module)
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
+        ${boolean("disabled", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
