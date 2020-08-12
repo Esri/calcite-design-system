@@ -1,8 +1,6 @@
 :host {
   @extend %component-host;
   display: flex;
-  // background-color: var(--calcite-app-background-clear);
-  // background-color: var(--calcite-ui-foreground-1);
   background-color: transparent;
   --calcite-action-foreground-active: #{$h-bb-010};
   --calcite-action-text-active: #{$ui-blue-3};
@@ -20,7 +18,6 @@
   color: var(--calcite-ui-text-2);
   fill: var(--calcite-ui-text-2);
   background-color: var(--calcite-ui-foreground-1);
-  // outline-offset: var(--calcite-app-outline-inset);
   margin: 0;
   justify-content: flex-start;
   align-items: center;
@@ -28,9 +25,6 @@
   width: auto;
   cursor: pointer;
   @include font-size(-4);
-  line-height: normal;
-  // transition: color var(--calcite-app-animation-time), fill var(--calcite-app-animation-time),
-    // background-color var(--calcite-app-animation-time);
   text-align: unset;
   position: relative;
   @include focus-style-base();
@@ -160,11 +154,14 @@
 :host([loading]) .button,
 :host([loading]) .button:hover,
 :host([loading]) .button:focus {
-  background-color: var(--calcite-ui-foreground-2);
+  background-color: var(--calcite-ui-foreground-1);
+  .text-container {
+    opacity: var(--calcite-ui-opacity-disabled);
+  }
 }
 
 :host([loading]) calcite-loader[inline] {
-  color: var(--calcite-app-foreground-subtle);
+  color: var(--calcite-ui-border-5);
   margin-right: 0;
 }
 
@@ -172,15 +169,15 @@
 :host([disabled]) .button:hover,
 :host([disabled]) .button:focus {
   cursor: default;
-  opacity: var(--calcite-app-disabled-opacity);
-  background-color: var(--calcite-app-background);
+  opacity: var(--calcite-ui-opacity-disabled);
+  background-color: var(--calcite-ui-foreground-1);
 }
 
 :host([disabled][active]) .button,
 :host([disabled][active]) .button:hover,
 :host([disabled][active]) .button:focus {
-  opacity: var(--calcite-app-disabled-opacity);
-  background-color: var(--calcite-app-background-active);
+  opacity: var(--calcite-ui-opacity-disabled);
+  background-color: var(--calcite-action-foreground-active);
 }
 
 :host([indicator]) .button--text-visible,
