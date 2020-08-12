@@ -6,7 +6,7 @@ import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
-storiesOf("components/Radio Button", module)
+storiesOf("Components/Radio Button", module)
   .add(
     "Light Theme",
     () => `

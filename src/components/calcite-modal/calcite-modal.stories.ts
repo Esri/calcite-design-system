@@ -5,7 +5,7 @@ import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("components/Modal", module)
+storiesOf("Components/Modal", module)
   .add(
     "Simple",
     () => {

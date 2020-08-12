@@ -45,7 +45,7 @@ const locales = [
   "zh-tw"
 ];
 
-storiesOf("components/Date", module)
+storiesOf("Components/Date", module)
   .add(
     "Simple",
     () => `

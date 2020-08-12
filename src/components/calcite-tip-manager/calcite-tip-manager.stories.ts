@@ -7,7 +7,7 @@ import dedent from "dedent";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "app components/calcite-tip-manager",
+  title: "App Components/calcite-tip-manager",
   parameters: {
     backgrounds: darkBackground,
     notes: parseReadme(readme)

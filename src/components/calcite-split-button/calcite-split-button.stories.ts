@@ -6,7 +6,7 @@ import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
-storiesOf("components/Split Button", module)
+storiesOf("Components/Split Button", module)
   .add(
     "Simple",
     () => `

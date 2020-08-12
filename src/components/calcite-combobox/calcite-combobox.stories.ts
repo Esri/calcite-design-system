@@ -9,7 +9,7 @@ const notes1 = parseReadme(readme1);
 const notes2 = parseReadme(readme2);
 const notes = notes1.concat(`\n${notes2}`);
 
-storiesOf("components/Combobox", module)
+storiesOf("Components/Combobox", module)
   .add(
     "Simple",
     () => `

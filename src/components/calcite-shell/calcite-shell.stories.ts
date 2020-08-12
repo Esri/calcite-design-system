@@ -7,7 +7,7 @@ import panelReadme from "../calcite-shell-panel/readme.md";
 import dedent from "dedent";
 
 export default {
-  title: "app components/calcite-shell",
+  title: "App Components/calcite-shell",
   parameters: {
     backgrounds: darkBackground,
     notes: {

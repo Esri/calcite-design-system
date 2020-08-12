@@ -40,7 +40,7 @@ const treeItems = `
   </calcite-tree-item>
 `;
 
-storiesOf("components/Tree", module)
+storiesOf("Components/Tree", module)
   .add(
     "Simple",
     () => `

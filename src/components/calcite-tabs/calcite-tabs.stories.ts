@@ -14,7 +14,7 @@ const notes4 = parseReadme(readme4);
 
 const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`).concat(`\n${notes4}`);
 
-storiesOf("components/Tabs", module)
+storiesOf("Components/Tabs", module)
   .add(
     "Simple",
     () => `

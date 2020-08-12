@@ -6,7 +6,7 @@ import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 export default {
-  title: "components/Icon",
+  title: "Components/Icon",
   parameters: { notes }
 };
 

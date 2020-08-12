@@ -9,7 +9,7 @@ const notes1 = parseReadme(readme1);
 const notes2 = parseReadme(readme2);
 const notes = notes1.concat(`\n${notes2}`);
 
-storiesOf("components/Radio Group", module)
+storiesOf("Components/Radio Group", module)
   .add(
     "Simple",
     () => `

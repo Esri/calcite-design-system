@@ -5,7 +5,7 @@ import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("components/Alert", module)
+storiesOf("Components/Alert", module)
   .add(
     "Alert - title, message, link",
     () => `

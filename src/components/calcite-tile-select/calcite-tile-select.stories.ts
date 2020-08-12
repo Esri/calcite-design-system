@@ -6,7 +6,7 @@ import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
-storiesOf("components/Tile Select", module)
+storiesOf("Components/Tile Select", module)
   .add(
     "Light",
     () => `

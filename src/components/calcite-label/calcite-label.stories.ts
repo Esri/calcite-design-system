@@ -4,7 +4,7 @@ import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("components/Label", module)
+storiesOf("Components/Label", module)
   .add(
     "Wrapping components other than input",
     () => `

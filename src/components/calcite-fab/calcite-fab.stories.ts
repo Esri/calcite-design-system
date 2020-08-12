@@ -6,7 +6,7 @@ import { ICONS } from "./resources";
 const { appearance, dir, scale, theme } = ATTRIBUTES;
 
 export default {
-  title: "app components/calcite-fab",
+  title: "App Components/calcite-fab",
   parameters: {
     backgrounds: darkBackground,
     notes: parseReadme(readme)

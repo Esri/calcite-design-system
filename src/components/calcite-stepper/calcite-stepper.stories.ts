@@ -9,7 +9,7 @@ const notes1 = parseReadme(readme1);
 const notes2 = parseReadme(readme2);
 const notes = notes1.concat(`\n${notes2}`);
 
-storiesOf("components/Stepper", module)
+storiesOf("Components/Stepper", module)
   .add(
     "Simple",
     () => `
