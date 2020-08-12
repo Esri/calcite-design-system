@@ -29,8 +29,8 @@ $tip-max-width: 540px;
   display: block;
 }
 
-@import "../../scss/includes/_component";
-@import "../../scss/includes/_header";
+// @import "../../scss/includes/_component";
+@import "../../assets/styles/header";
 
 :host([closed]) {
   display: none;

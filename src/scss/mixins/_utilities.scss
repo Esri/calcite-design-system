@@ -1,12 +1,12 @@
-@mixin borderShadow() {
-  box-shadow: 0 -1px 0 var(--calcite-app-border) inset;
-}
-@mixin borderShadowHover() {
-  box-shadow: 0 0 0 2px var(--calcite-app-border-hover) inset;
-}
-@mixin borderShadowActive() {
-  box-shadow: 0 0 0 1px var(--calcite-app-border-active) inset;
-}
+// @mixin borderShadow() {
+//   box-shadow: 0 -1px 0 var(--calcite-app-border) inset;
+// }
+// @mixin borderShadowHover() {
+//   box-shadow: 0 0 0 2px var(--calcite-app-border-hover) inset;
+// }
+// @mixin borderShadowActive() {
+//   box-shadow: 0 0 0 1px var(--calcite-app-border-active) inset;
+// }
 
 // place on the element that receives focus style, not in focus
 // @mixin focus-style-base() {

@@ -1,7 +1,7 @@
 /* calcite-components global variables */
 :root {
   @include componentAnimationVars();
-  @include componentLayoutVars();
+  // @include componentLayoutVars();
   @include componentTypographyVars();
   @include componentShadowVars();
   @include componentLightThemeVars();

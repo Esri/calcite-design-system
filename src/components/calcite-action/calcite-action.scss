@@ -2,15 +2,14 @@
   @extend %component-host;
   display: flex;
   background-color: transparent;
-  --calcite-action-foreground-active: #{$h-bb-010};
-  --calcite-action-text-active: #{$ui-blue-3};
+
 }
 
 :host([disabled]) {
   pointer-events: none;
 }
 
-@import "../../scss/includes/_component";
+// @import "../../scss/includes/_component";
 
 .button {
   font-family: $avenir-family;
@@ -121,9 +120,9 @@
 :host([active]) .button:hover,
 :host([active]) .button:focus,
 :host([active][loading]) .button {
-  color: var(--calcite-action-text-active);
-  fill: var(--calcite-action-text-active);
-  background-color: var(--calcite-action-foreground-active);
+  color: var(--calcite-ui-text-current);
+  fill: var(--calcite-ui-text-current);
+  background-color: var(--calcite-ui-foreground-current);
 }
 
 :host([appearance="clear"]) .button {
@@ -140,9 +139,9 @@
 :host([active][appearance="clear"]) .button,
 :host([active][appearance="clear"]) .button:hover,
 :host([active][appearance="clear"]) .button:focus {
-  color: var(--calcite-action-text-active);
-  fill: var(--calcite-action-text-active);
-  background-color: var(--calcite-action-foreground-active);
+  color: var(--calcite-ui-text-current);
+  fill: var(--calcite-ui-text-current);
+  background-color: var(--calcite-ui-foreground-current);
   box-shadow: none;
 }
 
@@ -177,7 +176,7 @@
 :host([disabled][active]) .button:hover,
 :host([disabled][active]) .button:focus {
   opacity: var(--calcite-ui-opacity-disabled);
-  background-color: var(--calcite-action-foreground-active);
+  background-color: var(--calcite-ui-foreground-current);
 }
 
 :host([indicator]) .button--text-visible,
@@ -192,7 +191,7 @@
   width: var(--calcite-spacing-half);
   height: var(--calcite-spacing-half);
   border: var(--calcite-spacing-eighth) solid var(--calcite-ui-foreground-1);
-  background-color: var(--calcite-action-text-active);
+  background-color: var(--calcite-ui-text-current);
   position: absolute;
   bottom: var(--calcite-spacing-half);
   right: var(--calcite-spacing-half);
@@ -225,7 +224,7 @@
 }
 
 :host([indicator][active]) .button::after {
-  border-color: var(--calcite-action-foreground-active);
+  border-color: var(--calcite-ui-foreground-current);
 }
 
 :host([indicator]) .button--text-visible::after,

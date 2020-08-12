@@ -9,8 +9,8 @@
   --calcite-app-panel-min-header-height: calc(var(--calcite-app-icon-size) * 3);
 }
 
-@import "../../scss/includes/_component";
-@import "../../scss/includes/_header";
+// @import "../../scss/includes/_component";
+@import "../../assets/styles/header";
 
 .container {
   align-items: stretch;

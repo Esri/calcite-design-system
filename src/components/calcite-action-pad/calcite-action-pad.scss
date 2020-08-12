@@ -1,6 +1,6 @@
 :host {
   @extend %component-host;
-  animation: calcite-app-fade-in var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  animation: calcite-app-fade-in $transition;
 }
 
 @import "../../scss/includes/_component";
@@ -10,7 +10,7 @@
 }
 
 ::slotted(calcite-action-group) {
-  border-bottom: 1px solid var(--calcite-app-border);
+  border-bottom: 1px solid var(--calcite-ui-border-2);
   padding-bottom: 0;
   padding-top: 0;
 }

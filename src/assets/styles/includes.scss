@@ -1,5 +1,7 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
+@import "layout";
+@import "host";
 @import "_popper";
 
 @mixin slotted($selector, $tag, $scope: "") {
@@ -39,4 +41,15 @@
     box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
     transition: $transition;
   }
+}
+
+@mixin borderShadow() {
+  box-shadow: 0 -1px 0 var(--calcite-app-border) inset;
+}
+
+@mixin borderShadowHover() {
+  box-shadow: 0 0 0 2px var(--calcite-app-border-hover) inset;
+}
+@mixin borderShadowActive() {
+  box-shadow: 0 0 0 1px var(--calcite-app-border-active) inset;
 }
