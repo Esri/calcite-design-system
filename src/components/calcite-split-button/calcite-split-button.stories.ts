@@ -1,12 +1,12 @@
 import { storiesOf } from "@storybook/html";
 import { text, select } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
-import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
+import { iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
 const notes = parseReadme(readme);
 
-storiesOf("components|Split Button", module)
+storiesOf("components/Split Button", module)
   .add(
     "Simple",
     () => `

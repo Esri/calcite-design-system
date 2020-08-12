@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/html";
 import { number, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-dropdown-group/readme.md";
 import readme3 from "../calcite-dropdown-item/readme.md";
@@ -10,7 +11,7 @@ const notes2 = parseReadme(readme2);
 const notes3 = parseReadme(readme3);
 const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`);
 
-storiesOf("components|Dropdown", module)
+storiesOf("components/Dropdown", module)
   .add(
     "Simple",
     () => `

@@ -7,7 +7,7 @@ const { dir, position, theme } = ATTRIBUTES;
 import { TEXT } from "./resources";
 
 export default {
-  title: "app components|calcite-action-pad",
+  title: "app components/calcite-action-pad",
   parameters: {
     backgrounds: darkBackground,
     notes: parseReadme(readme)

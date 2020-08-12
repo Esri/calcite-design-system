@@ -1,10 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { number, color, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("components|Loader", module)
+storiesOf("components/Loader", module)
   .add(
     "Simple",
     () => `

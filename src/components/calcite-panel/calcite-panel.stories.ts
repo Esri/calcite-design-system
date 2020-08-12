@@ -7,7 +7,7 @@ import { SLOTS, TEXT } from "./resources";
 import dedent from "dedent";
 
 export default {
-  title: "app components|calcite-panel",
+  title: "app components/calcite-panel",
   parameters: {
     backgrounds: darkBackground,
     notes: parseReadme(readme)

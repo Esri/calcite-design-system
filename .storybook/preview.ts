@@ -1,17 +1,24 @@
 import { addDecorator, addParameters } from "@storybook/html";
-import { withA11y } from "@storybook/addon-a11y";
-import { withKnobs } from "@storybook/addon-knobs";
 import centered from "@storybook/addon-centered/html";
 import theme from "./theme";
-import { titlelessDocsPage } from "./utils";
+import { lightBackground } from "./utils";
+import { addons } from "@storybook/addons";
 
-addDecorator(withKnobs);
-addDecorator(withA11y);
+addons.setConfig({
+  panelPosition: "bottom",
+  theme
+});
+
 addDecorator(centered);
 addParameters({
-  backgrounds: [{ name: "Light", value: "#f8f8f8", default: true }],
+  a11y: {
+    element: "#root",
+    config: {},
+    options: {},
+    manual: true
+  },
+  backgrounds: lightBackground,
   options: {
-    theme,
     storySort: (a, b) => {
       const sectionA = a[1].id.split("-")[0];
       const sectionB = b[1].id.split("-")[0];
@@ -20,7 +27,6 @@ addParameters({
     }
   },
   docs: {
-    page: titlelessDocsPage,
     extractComponentDescription: (_component, { notes }) => {
       if (notes) {
         if (typeof notes === "string") {
@@ -36,3 +42,5 @@ addParameters({
     }
   }
 });
+
+// todo: https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/docspage.md#replacing-docspage

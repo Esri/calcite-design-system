@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 const treeItems = `
@@ -39,7 +40,7 @@ const treeItems = `
   </calcite-tree-item>
 `;
 
-storiesOf("components|Tree", module)
+storiesOf("components/Tree", module)
   .add(
     "Simple",
     () => `

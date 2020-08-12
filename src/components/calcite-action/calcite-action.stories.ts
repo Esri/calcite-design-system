@@ -5,7 +5,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 const { appearance, dir, scale, theme } = ATTRIBUTES;
 
 export default {
-  title: "app components|calcite-action",
+  title: "app components/calcite-action",
   parameters: {
     backgrounds: darkBackground,
     notes: parseReadme(readme)

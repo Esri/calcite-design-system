@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/html";
 import { text, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -10,7 +11,7 @@ const iconNames = Object.keys(icons)
   .filter((iconName) => iconName.endsWith("16"))
   .map((iconName) => iconName.replace("16", ""));
 
-storiesOf("components|Link", module)
+storiesOf("components/Link", module)
   .add(
     "Simple",
     () => `

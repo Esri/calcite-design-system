@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme } from "../../../.storybook/helpers";
+import { iconNames, parseReadme } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-tab/readme.md";
 import readme3 from "../calcite-tab-nav/readme.md";
@@ -13,7 +14,7 @@ const notes4 = parseReadme(readme4);
 
 const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`).concat(`\n${notes4}`);
 
-storiesOf("components|Tabs", module)
+storiesOf("components/Tabs", module)
   .add(
     "Simple",
     () => `

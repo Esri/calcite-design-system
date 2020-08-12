@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/html";
-import { select, text, boolean } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { select, text } from "@storybook/addon-knobs";
+import { parseReadme } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
@@ -44,7 +45,7 @@ const locales = [
   "zh-tw"
 ];
 
-storiesOf("components|Date", module)
+storiesOf("components/Date", module)
   .add(
     "Simple",
     () => `

@@ -14,15 +14,26 @@ import {
 } from "@storybook/addon-knobs";
 
 import colors from "../node_modules/@esri/calcite-colors/colors.json";
-import { DocsPage } from "@storybook/addon-docs/blocks";
 
-export const darkBackground = [
-  {
-    name: "Dark",
-    value: colors["blk-210"],
-    default: true
-  }
-];
+export const lightBackground = {
+  default: "Light",
+  values: [
+    {
+      name: "Light",
+      value: "#f8f8f8"
+    }
+  ]
+};
+
+export const darkBackground = {
+  default: "Dark",
+  values: [
+    {
+      name: "Dark",
+      value: colors["blk-210"]
+    }
+  ]
+};
 
 /**
  * This transforms a component markdown to properly render in Storybook notes.
@@ -71,9 +82,3 @@ export const createComponentHTML = (tagName: string, attributes: Attributes, con
       return `${name}="${value}"`;
     })
     .join(" ")}>${contentHTML}</${tagName}>`;
-
-export const titlelessDocsPage: typeof DocsPage = () =>
-  DocsPage({
-    // no title since README already has one
-    titleSlot: () => ""
-  });

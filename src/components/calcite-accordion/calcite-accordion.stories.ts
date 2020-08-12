@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { parseReadme } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-accordion-item/readme.md";
 
@@ -8,7 +9,7 @@ const notes1 = parseReadme(readme1);
 const notes2 = parseReadme(readme2);
 const notes = notes1.concat(`\n${notes2}`);
 
-storiesOf("components|Accordion", module)
+storiesOf("components/Accordion", module)
   .add(
     "Simple",
     () => `

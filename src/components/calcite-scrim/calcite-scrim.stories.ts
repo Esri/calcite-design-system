@@ -1,10 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
-storiesOf("components|Scrim", module)
+storiesOf("components/Scrim", module)
   .add(
     "Simple",
     () => `
