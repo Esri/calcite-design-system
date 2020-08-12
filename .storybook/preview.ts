@@ -1,4 +1,6 @@
 import { addDecorator, addParameters } from "@storybook/html";
+import { withA11y } from "@storybook/addon-a11y";
+import { withKnobs } from "@storybook/addon-knobs";
 import centered from "@storybook/addon-centered/html";
 import theme from "./theme";
 import { lightBackground } from "./utils";
@@ -9,6 +11,8 @@ addons.setConfig({
   theme
 });
 
+addDecorator(withKnobs);
+addDecorator(withA11y);
 addDecorator(centered);
 addParameters({
   a11y: {
