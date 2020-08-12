@@ -10,7 +10,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
-import { hasLabel } from "../../utils/dom";
+import { hasLabel, getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-checkbox",
@@ -204,7 +204,7 @@ export class CalciteCheckbox {
           <path d={this.getPath()} />
         </svg>
         {hasLabel ? (
-          <calcite-label dir={document.documentElement.getAttribute("dir")} scale={this.scale}>
+          <calcite-label dir={getElementDir(this.el)} scale={this.scale}>
             <slot />
           </calcite-label>
         ) : (
