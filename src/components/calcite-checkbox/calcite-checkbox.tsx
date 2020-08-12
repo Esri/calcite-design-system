@@ -10,7 +10,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
-import { hasLabel } from "../../utils/dom";
+import { hasLabel, getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-checkbox",
@@ -186,9 +186,9 @@ export class CalciteCheckbox {
     this.input = document.createElement("input");
     this.checked && this.input.setAttribute("checked", "");
     this.input.disabled = this.disabled;
+    this.input.name = this.name;
     this.input.onblur = () => (this.focused = false);
     this.input.onfocus = () => (this.focused = true);
-    this.input.name = this.name;
     this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value;
@@ -197,6 +197,20 @@ export class CalciteCheckbox {
   }
 
   render() {
+    if (this.el.textContent) {
+      return (
+        <Host role="checkbox" aria-checked={this.checked.toString()}>
+          <div class="hasLabel">
+            <svg class="check-svg" viewBox="0 0 16 16">
+              <path d={this.getPath()} />
+            </svg>
+            <calcite-label dir={getElementDir(this.el)} scale={this.scale}>
+              <slot />
+            </calcite-label>
+          </div>
+        </Host>
+      );
+    }
     return (
       <Host role="checkbox" aria-checked={this.checked.toString()}>
         <svg class="check-svg" viewBox="0 0 16 16">
