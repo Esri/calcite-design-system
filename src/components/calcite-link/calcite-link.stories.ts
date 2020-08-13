@@ -1,10 +1,9 @@
 import { storiesOf } from "@storybook/html";
 import { text, select } from "@storybook/addon-knobs";
-import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 // we can get all unique icon names from all size 16 non-filled icons.
 const iconNames = Object.keys(icons)
@@ -12,6 +11,7 @@ const iconNames = Object.keys(icons)
   .map((iconName) => iconName.replace("16", ""));
 
 storiesOf("Components/Link", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -28,8 +28,7 @@ storiesOf("Components/Link", module)
    ${text("text", "link text here")}</calcite-link>
    around the link
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icon-start",
@@ -47,8 +46,7 @@ storiesOf("Components/Link", module)
       ${text("text", "link text here")}</calcite-link>
       around the link
       </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icon-end",
@@ -66,8 +64,7 @@ storiesOf("Components/Link", module)
       ${text("text", "link text here")}</calcite-link>
       around the link
       </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icon-start and icon-end",
@@ -86,8 +83,7 @@ storiesOf("Components/Link", module)
       ${text("text", "link text here")}</calcite-link>
       around the link
       </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -109,5 +105,5 @@ storiesOf("Components/Link", module)
   around the link
   </div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

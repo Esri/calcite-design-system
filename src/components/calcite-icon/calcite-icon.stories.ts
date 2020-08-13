@@ -1,13 +1,11 @@
 import { select } from "@storybook/addon-knobs";
-import { iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
+import { iconNames, boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
-const notes = parseReadme(readme);
-
 export default {
   title: "Components/Icon",
-  parameters: { notes }
+  parameters: { notes: readme }
 };
 
 export const simple = () => `

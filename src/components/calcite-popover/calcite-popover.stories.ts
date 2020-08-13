@@ -1,8 +1,7 @@
 import { storiesOf } from "@storybook/html";
 import { select, number, text } from "@storybook/addon-knobs";
-import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 const placements = [
   "auto",
@@ -38,10 +37,9 @@ const contentHTML = `
 const referenceElementHTML = `<calcite-popover-manager>Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.</calcite-popover-manager>`;
 
 storiesOf("Components/Popover", module)
-  .add(
-    "Simple",
-    () => {
-      return `
+  .addParameters({ notes: readme })
+  .add("Simple", () => {
+    return `
       <div>
         ${referenceElementHTML}
         <calcite-popover
@@ -60,13 +58,9 @@ storiesOf("Components/Popover", module)
         </calcite-popover>
       </div>
     `;
-    },
-    { notes }
-  )
-  .add(
-    "Dark Mode",
-    () => {
-      return `
+  })
+  .add("Dark Mode", () => {
+    return `
       <div>
         ${referenceElementHTML}
         <calcite-popover
@@ -85,6 +79,4 @@ storiesOf("Components/Popover", module)
         </calcite-popover>
       </div>
     `;
-    },
-    { notes }
-  );
+  });

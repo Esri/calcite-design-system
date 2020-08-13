@@ -1,15 +1,12 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { parseReadme } from "../../../.storybook/helpers";
+
 import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-radio-group-item/readme.md";
 
-const notes1 = parseReadme(readme1);
-const notes2 = parseReadme(readme2);
-const notes = notes1.concat(`\n${notes2}`);
-
 storiesOf("Components/Radio Group", module)
+  .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
     () => `
@@ -24,8 +21,7 @@ storiesOf("Components/Radio Group", module)
       <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
       <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
     </calcite-radio-group>
-  `,
-    { notes }
+  `
   )
   .add(
     "Wrapping Calcite Label",
@@ -43,8 +39,7 @@ storiesOf("Components/Radio Group", module)
       <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-label>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icons",
@@ -61,8 +56,7 @@ storiesOf("Components/Radio Group", module)
       <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-label>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -80,7 +74,7 @@ storiesOf("Components/Radio Group", module)
       <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
     </calcite-radio-group>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Full width",
@@ -98,6 +92,5 @@ storiesOf("Components/Radio Group", module)
       </calcite-radio-group>
     </div>
 
-  `,
-    { notes }
+  `
   );

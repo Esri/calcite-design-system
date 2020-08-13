@@ -1,7 +1,7 @@
 import { addDecorator, addParameters } from "@storybook/html";
 import centered from "@storybook/addon-centered/html";
 import theme from "./theme";
-import { backgrounds, globalDocsPage } from "./utils";
+import { backgrounds, globalDocsPage, parseReadme } from "./utils";
 import { addons } from "@storybook/addons";
 
 addons.setConfig({
@@ -30,12 +30,12 @@ addParameters({
     extractComponentDescription: (_component, { notes }) => {
       if (notes) {
         if (typeof notes === "string") {
-          return notes;
+          return parseReadme(notes);
         }
 
-        return Object.keys(notes)
-          .map((section) => notes[section])
-          .join("\n");
+        const multipleNotes = Array.isArray(notes) ? notes : Object.keys(notes).map((section) => notes[section]);
+
+        return parseReadme(multipleNotes.join("\n"));
       }
 
       return null;

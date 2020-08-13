@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { select, number, text, boolean } from "@storybook/addon-knobs";
-import { parseReadme } from "../../../.storybook/helpers";
+
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 storiesOf("Components/Progress", module)
+  .addParameters({ notes: readme })
   .add(
     "Determinate",
     () => `
@@ -14,8 +14,7 @@ storiesOf("Components/Progress", module)
       value="${number("value", 0, { range: true, min: 0, max: 1, step: 0.01 })}"
       text="${text("text", "")}"
     ></calcite-progress>
-  `,
-    { notes }
+  `
   )
   .add(
     "Indeterminate",
@@ -25,8 +24,7 @@ storiesOf("Components/Progress", module)
       type="indeterminate"
       text="${text("text", "")}"
     ></calcite-progress>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -38,5 +36,5 @@ storiesOf("Components/Progress", module)
       text="${text("text", "")}"
     ></calcite-progress>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

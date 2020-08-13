@@ -57,13 +57,13 @@ export const darkBackground = {
 /**
  * This transforms a component markdown to properly render in Storybook notes.
  */
-export const parseReadme = (content: string): string => {
-  return (
-    content
-      // markdown uses relative paths for component links
-      .replace(/\.\.\//g, "https://github.com/Esri/calcite-components/tree/master/src/components/")
-  );
-};
+export const parseReadme = (content) =>
+  content
+    // the generated readme includes escape characters which actually get rendered, remove them
+    .replace(/ \\\| /g, " | ")
+
+    // markdown uses relative paths for component links
+    .replace(/\.\.\//g, "https://github.com/Esri/calcite-components/tree/master/src/components/");
 
 export interface KnobbedAttribute {
   name: string;

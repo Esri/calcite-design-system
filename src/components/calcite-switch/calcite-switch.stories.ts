@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 storiesOf("Components/Switch", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -19,8 +19,7 @@ storiesOf("Components/Switch", module)
       ></calcite-switch>
       Enable setting
     </label>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -39,7 +38,6 @@ storiesOf("Components/Switch", module)
     </label>
     </div>`,
     {
-      notes,
       backgrounds: darkBackground
     }
   )
@@ -56,6 +54,5 @@ storiesOf("Components/Switch", module)
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
       Enable setting
-    </label>`,
-    { notes }
+    </label>`
   );

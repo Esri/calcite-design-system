@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 storiesOf("Components/Checkbox", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -18,8 +18,7 @@ storiesOf("Components/Checkbox", module)
       ></calcite-checkbox>
       Text for the checkbox
     </label>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -34,5 +33,5 @@ storiesOf("Components/Checkbox", module)
       ></calcite-checkbox>
     </label>
 `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

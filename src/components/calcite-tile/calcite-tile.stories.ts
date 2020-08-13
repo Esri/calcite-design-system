@@ -1,12 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { select, text } from "@storybook/addon-knobs";
-import { iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
+import { iconNames, boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
-const notes = parseReadme(readme);
-
 storiesOf("Components/Tile", module)
+  .addParameters({ notes: readme })
   .add(
     "Light",
     () => `
@@ -23,8 +22,7 @@ storiesOf("Components/Tile", module)
         icon="${select("icon", iconNames, iconNames[296])}"
       >
       </calcite-tile>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark",
@@ -44,5 +42,5 @@ storiesOf("Components/Tile", module)
       >
       </calcite-tile>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

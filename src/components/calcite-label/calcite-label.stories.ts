@@ -1,10 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { parseReadme } from "../../../.storybook/helpers";
+
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 storiesOf("Components/Label", module)
+  .addParameters({ notes: readme })
   .add(
     "Wrapping components other than input",
     () => `
@@ -67,8 +67,7 @@ storiesOf("Components/Label", module)
       Text trailing inline-space-between
       </calcite-label>
     </div>
-  `,
-    { notes }
+  `
   )
 
   .add(
@@ -134,5 +133,5 @@ storiesOf("Components/Label", module)
       </calcite-label>
     </div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

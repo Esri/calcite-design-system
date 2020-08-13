@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { number, color, select } from "@storybook/addon-knobs";
-import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 storiesOf("Components/Loader", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -16,8 +16,7 @@ storiesOf("Components/Loader", module)
       ${boolean("no-padding", false)}
       value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
     />
-  `,
-    { notes }
+  `
   )
   .add(
     "Inline",
@@ -29,8 +28,7 @@ storiesOf("Components/Loader", module)
       active
     /></calcite-loader><span style="margin:0 10px">Next to some text</span>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -43,7 +41,7 @@ storiesOf("Components/Loader", module)
       active
       theme="dark" />
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Custom theme",
@@ -59,6 +57,5 @@ storiesOf("Components/Loader", module)
         --calcite-loader-spot: ${color("loader-spot", "#338033")};"
       active
     />
-  `,
-    { notes }
+  `
   );

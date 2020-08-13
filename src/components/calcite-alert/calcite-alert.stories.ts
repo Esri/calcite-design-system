@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { boolean, select } from "@storybook/addon-knobs";
-import { parseReadme } from "../../../.storybook/helpers";
+
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 storiesOf("Components/Alert", module)
+  .addParameters({ notes: readme })
   .add(
     "Alert - title, message, link",
     () => `
@@ -23,8 +23,7 @@ storiesOf("Components/Alert", module)
     </div>
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
-  `,
-    { notes }
+  `
   )
   .add(
     "Alert - title, message",
@@ -42,8 +41,7 @@ storiesOf("Components/Alert", module)
       That thing you wanted to do didn't work as expected
     </div>
   </calcite-alert>
-  `,
-    { notes }
+  `
   )
   .add(
     "Alert - message, link",
@@ -61,8 +59,7 @@ storiesOf("Components/Alert", module)
     </div>
     <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
   </calcite-alert>
-  `,
-    { notes }
+  `
   )
   .add(
     "Alert - message",
@@ -79,8 +76,7 @@ storiesOf("Components/Alert", module)
       Network connection interruption detected
     </div>
   </calcite-alert>
-  `,
-    { notes }
+  `
   )
   .add(
     "Alert - Queue",
@@ -130,8 +126,7 @@ storiesOf("Components/Alert", module)
       <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
     </calcite-alert>
    </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Alert - Dark Theme",
@@ -151,7 +146,7 @@ storiesOf("Components/Alert", module)
     <calcite-link theme="dark" slot="alert-link" title="my action">My action</calcite-link>
   </calcite-alert>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Alert - Dark Theme Queue",
@@ -200,7 +195,7 @@ storiesOf("Components/Alert", module)
     </calcite-alert>
    </div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Alert - RTL",
@@ -221,6 +216,5 @@ storiesOf("Components/Alert", module)
     <calcite-link slot="alert-link" title="my action">Retry</calcite-button>
   </calcite-alert>
   </div>
-  `,
-    { notes }
+  `
   );

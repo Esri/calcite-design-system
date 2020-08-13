@@ -1,5 +1,5 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
+import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, position, scale, theme } = ATTRIBUTES;
 import readme from "./readme.md";
@@ -11,8 +11,8 @@ export default {
   parameters: {
     backgrounds: darkBackground,
     notes: {
-      shell: parseReadme(readme),
-      panel: parseReadme(panelReadme)
+      shell: readme,
+      panel: panelReadme
     }
   }
 };

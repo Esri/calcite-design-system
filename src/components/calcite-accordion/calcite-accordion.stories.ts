@@ -1,15 +1,12 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { parseReadme } from "../../../.storybook/helpers";
+
 import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-accordion-item/readme.md";
 
-const notes1 = parseReadme(readme1);
-const notes2 = parseReadme(readme2);
-const notes = notes1.concat(`\n${notes2}`);
-
 storiesOf("Components/Accordion", module)
+  .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
     () => `
@@ -36,8 +33,7 @@ storiesOf("Components/Accordion", module)
     </calcite-accordion-item>
     </calcite-accordion>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "With Icons",
@@ -65,8 +61,7 @@ storiesOf("Components/Accordion", module)
     </calcite-accordion-item>
     </calcite-accordion>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark Mode",
@@ -95,7 +90,7 @@ storiesOf("Components/Accordion", module)
     </calcite-accordion>
     </div>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "RTL",
@@ -123,8 +118,7 @@ storiesOf("Components/Accordion", module)
       </calcite-accordion-item>
       </calcite-accordion>
       </div>
-      `,
-    { notes }
+      `
   )
   .add(
     "RTL With Icons",
@@ -152,6 +146,5 @@ storiesOf("Components/Accordion", module)
     </calcite-accordion-item>
     </calcite-accordion>
     </div>
-  `,
-    { notes }
+  `
   );

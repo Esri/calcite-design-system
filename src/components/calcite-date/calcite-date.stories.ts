@@ -1,9 +1,8 @@
 import { storiesOf } from "@storybook/html";
 import { select, text } from "@storybook/addon-knobs";
-import { parseReadme } from "../../../.storybook/helpers";
+
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 const locales = [
   "ar",
@@ -46,6 +45,7 @@ const locales = [
 ];
 
 storiesOf("Components/Date", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -60,8 +60,7 @@ storiesOf("Components/Date", module)
       prev-month-label="${text("prev-month-label", "Previous month")}"
     ></calcite-date>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "No input",
@@ -79,8 +78,7 @@ storiesOf("Components/Date", module)
       prev-month-label="${text("prev-month-label", "Previous month")}"
     ></calcite-date>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -98,5 +96,5 @@ storiesOf("Components/Date", module)
     ></calcite-date>
     </div>
 `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

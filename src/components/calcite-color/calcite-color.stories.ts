@@ -5,9 +5,8 @@ import colorReadme from "./readme.md";
 import colorSwatchReadme from "../calcite-color-swatch/readme.md";
 import hexInputReadme from "../calcite-color-hex-input/readme.md";
 
-const notes = [colorReadme, colorSwatchReadme, hexInputReadme].join("\n");
-
 storiesOf("Components/Color", module)
+  .addParameters({ notes: [colorReadme, colorSwatchReadme, hexInputReadme] })
   .add(
     "Simple",
     () => `
@@ -16,8 +15,7 @@ storiesOf("Components/Color", module)
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="#beefee"
     ></calcite-color>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark Mode",
@@ -28,5 +26,5 @@ storiesOf("Components/Color", module)
       value="#beefee"
     ></calcite-color>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

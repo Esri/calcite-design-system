@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { number, select } from "@storybook/addon-knobs";
-import { parseReadme } from "../../../.storybook/helpers";
+
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 storiesOf("Components/Pagination", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -18,8 +18,7 @@ storiesOf("Components/Pagination", module)
       theme="light"
     >
     </calcite-pagination>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark Mode",
@@ -34,5 +33,5 @@ storiesOf("Components/Pagination", module)
     >
     </calcite-pagination>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );
