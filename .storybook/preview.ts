@@ -1,15 +1,6 @@
-import { addDecorator, addParameters } from "@storybook/html";
-import centered from "@storybook/addon-centered/html";
-import theme from "./theme";
+import { addParameters } from "@storybook/html";
 import { backgrounds, globalDocsPage, parseReadme } from "./utils";
-import { addons } from "@storybook/addons";
 
-addons.setConfig({
-  panelPosition: "bottom",
-  theme
-});
-
-addDecorator(centered);
 addParameters({
   a11y: {
     element: "#root",
@@ -18,14 +9,6 @@ addParameters({
     manual: true
   },
   backgrounds,
-  options: {
-    storySort: (a, b) => {
-      const sectionA = a[1].id.split("-")[0];
-      const sectionB = b[1].id.split("-")[0];
-
-      return sectionB.localeCompare(sectionA);
-    }
-  },
   docs: {
     extractComponentDescription: (_component, { notes }) => {
       if (notes) {
@@ -41,5 +24,14 @@ addParameters({
       return null;
     },
     page: globalDocsPage
+  },
+  layout: "centered",
+  options: {
+    storySort: (a, b) => {
+      const sectionA = a[1].id.split("-")[0];
+      const sectionB = b[1].id.split("-")[0];
+
+      return sectionB.localeCompare(sectionA);
+    }
   }
 });

@@ -63,7 +63,6 @@
     "@stencil/state-tunnel": "^1.0.1",
     "@storybook/addon-a11y": "6.0.5",
     "@storybook/addon-backgrounds": "6.0.5",
-    "@storybook/addon-centered": "^5.3.19",
     "@storybook/addon-docs": "6.0.5",
     "@storybook/addon-knobs": "6.0.5",
     "@storybook/cli": "6.0.5",
