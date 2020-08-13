@@ -1,6 +1,6 @@
 module.exports = async ({ config }) => {
   config.module.rules.push({
-    test: /\.ts$/,
+    test: /\.tsx?$/,
     use: [
       {
         loader: require.resolve("awesome-typescript-loader"),
@@ -10,6 +10,6 @@ module.exports = async ({ config }) => {
       }
     ]
   });
-  config.resolve.extensions.push(".ts");
+  config.resolve.extensions.push(".ts", ".tsx");
   return config;
 };

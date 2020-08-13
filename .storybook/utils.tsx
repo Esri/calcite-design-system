@@ -1,3 +1,5 @@
+/* @jsx React.createElement */
+
 import {
   array,
   boolean,
@@ -14,6 +16,8 @@ import {
 } from "@storybook/addon-knobs";
 
 import colors from "../node_modules/@esri/calcite-colors/colors.json";
+import { Description, DocsPage } from "@storybook/addon-docs/blocks";
+import React from "react";
 
 const lightValue = {
   name: "Light",
@@ -87,7 +91,11 @@ export interface SimpleAttribute {
 export type Attribute = KnobbedAttribute | SimpleAttribute;
 export type Attributes = Attribute[];
 
-export const createComponentHTML = (tagName: string, attributes: Attributes, contentHTML: string = ""): string =>
+export const createComponentHTML = (
+  tagName: string,
+  attributes: Attributes,
+  contentHTML: string = ""
+): string =>
   `<${tagName} ${attributes
     .map(({ name, value }) => {
       const booleanAttr = typeof value === "boolean";
@@ -97,3 +105,10 @@ export const createComponentHTML = (tagName: string, attributes: Attributes, con
       return `${name}="${value}"`;
     })
     .join(" ")}>${contentHTML}</${tagName}>`;
+
+export const globalDocsPage: typeof DocsPage = () => (
+  <React.Fragment>
+    {/* omit <Title /> as Description includes it (from component READMEs) */}
+    <Description />
+  </React.Fragment>
+);

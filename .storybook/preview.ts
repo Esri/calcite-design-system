@@ -1,7 +1,7 @@
 import { addDecorator, addParameters } from "@storybook/html";
 import centered from "@storybook/addon-centered/html";
 import theme from "./theme";
-import { backgrounds } from "./utils";
+import { backgrounds, globalDocsPage } from "./utils";
 import { addons } from "@storybook/addons";
 
 addons.setConfig({
@@ -39,6 +39,7 @@ addParameters({
       }
 
       return null;
-    }
+    },
+    page: globalDocsPage
   }
 });
