@@ -9,7 +9,6 @@
   --calcite-app-panel-min-header-height: calc(var(--calcite-app-icon-size) * 3);
 }
 
-// @import "../../scss/includes/_component";
 @import "../../assets/styles/header";
 
 .container {
@@ -91,7 +90,7 @@ calcite-scrim {
   display: flex;
   flex-flow: column nowrap;
   flex: 1 1 auto;
-  background-color: var(--calcite-app-background-content);
+  background-color: var(--calcite-ui-background);
   overflow: auto;
 }
 

@@ -4,9 +4,7 @@
   * {
     box-sizing: border-box;
   }
-  color: var(--calcite-ui-text-1);
-  // font-family: $avenir-family;
-  font-size: var(--calcite-app-font-size-0);
-  // line-height: var(--calcite-app-line-height);
   background-color: var(--calcite-ui-foreground-1);
+  color: var(--calcite-ui-text-2);
+  @include font-size(-3);
 }

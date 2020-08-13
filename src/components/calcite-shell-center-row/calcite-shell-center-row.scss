@@ -14,8 +14,6 @@ $center-row-border: 1px solid var(--calcite-app-border);
   --calcite-app-shell-center-row-height-large: 100%;
 }
 
-@import "../../scss/includes/_component";
-
 .content {
   display: flex;
   flex: 1 0 0;

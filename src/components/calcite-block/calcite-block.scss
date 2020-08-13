@@ -4,13 +4,11 @@
   flex: 0 0 auto;
   flex-direction: column;
   padding: 0;
-  border-top: 1px solid var(--calcite-ui-border-3);
-  transition: margin $transition;
-
-  // --calcite-app-block-header-min-height: 2.5rem;
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+  border-left: 1px solid transparent;
+  transition: margin $transition, border-left-color $transition;
 }
 
-// @import "../../scss/includes/_component";
 @import "../../assets/styles/header";
 
 .header {
@@ -37,7 +35,6 @@
 }
 
 .toggle {
-  // line-height: var(--calcite-app-line-height);
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
@@ -47,9 +44,7 @@
   border: none;
   cursor: pointer;
   font-family: $avenir-family;
-  @include font-size(-4);
   text-align: unset;
-  color: var(--calcite-ui-text-1);
   @include focus-style-base();
   &:focus {
     @include focus-style-inset();
@@ -57,7 +52,6 @@
 }
 
 calcite-loader[inline] {
-  // color: var(--calcite-app-foreground-subtle);
   grid-area: control;
   align-self: center;
 }
@@ -79,10 +73,8 @@ calcite-handle {
 
 .summary {
   color: var(--calcite-ui-text-2);
-  // font-size: var(--calcite-app-font-size--1);
   @include font-size(-5);
   padding: 0;
-  // line-height: var(--calcite-app-line-height);
   word-break: break-all;
 }
 
@@ -92,7 +84,7 @@ calcite-handle {
 
 .toggle-icon {
   fill: currentColor;
-  flex: 0 0 var(--calcite-app-icon-size);
+  flex: 0 0 var(--calcite-icon-size);
   margin: 0 var(--calcite-spacing) 0 0;
 }
 
@@ -119,11 +111,16 @@ calcite-scrim {
 }
 
 :host([open]) {
-  margin-top: var(--calcite-spacing-quarter);
-  margin-bottom: var(--calcite-spacing-quarter);
-  .header-container {
-    border-bottom: 1px solid var(--calcite-ui-border-3);
-  }
+  margin-top: var(--calcite-spacing-half);
+  margin-bottom: var(--calcite-spacing-half);
+  // border-bottom: 1px solid var(--calcite-ui-border-3);
+  // border-left-width: 2px;
+  // border-right-width: 2px;
+  border-left-color: var(--calcite-ui-border-1);
+  // border-right-color: var(--calcite-ui-border-1);
+  // .header-container {
+  //   border-bottom: 1px solid var(--calcite-ui-border-3);
+  // }
 }
 
 :host([disabled]) {

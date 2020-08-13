@@ -3,8 +3,6 @@
   animation: calcite-app-fade-in $transition;
 }
 
-@import "../../scss/includes/_component";
-
 :host([expanded]) {
   max-width: 20vw;
 }

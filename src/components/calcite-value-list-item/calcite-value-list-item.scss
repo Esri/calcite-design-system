@@ -6,8 +6,6 @@
     box-shadow var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
 }
 
-@import "../../scss/includes/_component";
-
 :host(:hover) {
   background-color: var(--calcite-app-background-hover);
 }

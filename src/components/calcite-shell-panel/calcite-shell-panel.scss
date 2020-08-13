@@ -12,7 +12,7 @@
   --calcite-app-shell-panel-max-height-large: 80vh;
 }
 
-@import "../../scss/includes/_component";
+// @import "../../scss/includes/_component";
 
 :host([width-scale="s"]) {
   --calcite-app-shell-panel-width: 12vw;

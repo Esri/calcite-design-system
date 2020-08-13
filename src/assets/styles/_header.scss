@@ -3,14 +3,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--calcite-app-foreground);
-  fill: var(--calcite-app-foreground);
+  color: var(--calcite-ui-text-2);
+  fill: var(--calcite-ui-text-2);
 }
 
 .heading {
   padding: 0;
   margin: 0;
-  font-weight: var(--calcite-app-font-weight);
+  font-weight: var(--calcite-ui-text-weight-demi);
 }
 
 .header .heading {

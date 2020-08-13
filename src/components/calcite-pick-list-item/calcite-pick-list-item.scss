@@ -10,8 +10,6 @@
   animation: calcite-app-fade-in var(--calcite-app-animation-time) var(--calcite-app-easing-function);
 }
 
-@import "../../scss/includes/_component";
-
 :host(:hover),
 :host(:focus) {
   background-color: var(--calcite-app-background-hover);

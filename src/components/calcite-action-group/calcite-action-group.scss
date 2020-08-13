@@ -5,8 +5,6 @@
   padding: var(--calcite-spacing-half) 0;
 }
 
-@import "../../scss/includes/_component";
-
 :host(:first-child) {
   padding-top: 0;
 }
