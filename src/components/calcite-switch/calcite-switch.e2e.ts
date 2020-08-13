@@ -92,7 +92,6 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).not.toHaveAttribute("switched");
   });
 
-  // Not sure why this is failing
   it("toggles the switched and checked attributes when the checkbox is toggled", async () => {
     const page = await newE2EPage();
     await page.setContent(`

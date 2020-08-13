@@ -36,7 +36,7 @@ export class CalciteSwitch {
   /** The scale of the switch */
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
-  /** True if the checkbox is disabled */
+  /** True if the switch is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
 
   /** The component's theme. */
