@@ -57,6 +57,11 @@
   tap-highlight-color: transparent;
 }
 
+:host([disabled]) {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: default;
+}
 // focus styles
 :host {
   @include focus-style-base();
