@@ -414,7 +414,7 @@ export class CalciteInput {
   private iconTypeDefaults = {
     tel: "phone",
     password: "lock",
-    email: "send",
+    email: "email-address",
     date: "calendar",
     time: "clock",
     search: "search"
