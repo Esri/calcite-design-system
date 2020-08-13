@@ -34,11 +34,7 @@ const stories = glob
   .map((file) => `.${file}`);
 
 module.exports = {
-  addons: [
-    "@storybook/addon-docs",
-    "@storybook/addon-backgrounds",
-    "@storybook/addon-knobs/register",
-    "@storybook/addon-a11y"
-  ],
+  addons: ["@storybook/addon-docs", "@storybook/addon-backgrounds", "@storybook/addon-knobs", "@storybook/addon-a11y"],
+  presets: ["@storybook/addon-knobs/preset"],
   stories
 };
