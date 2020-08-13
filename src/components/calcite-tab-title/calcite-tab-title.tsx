@@ -53,6 +53,10 @@ export class CalciteTabTitle {
 
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+
+  /** @internal Parent tabs component position value */
+  @Prop({ reflect: true, mutable: true }) position: "above" | "below";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -81,6 +85,7 @@ export class CalciteTabTitle {
 
   componentWillRender() {
     this.layout = this.el.closest("calcite-tabs")?.layout;
+    this.position = this.el.closest("calcite-tabs")?.position;
   }
 
   render() {

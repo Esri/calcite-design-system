@@ -42,9 +42,15 @@ $tab-margin: 1.25rem;
   }
 }
 
+// positioning
+:host([position="below"]) a {
+  border-bottom: 0;
+  border-top: 3px solid transparent;
+}
+
 :host([active]) a {
   color: var(--calcite-ui-text-1);
-  border-bottom-color: var(--calcite-ui-blue-1);
+  border-color: var(--calcite-ui-blue-1);
   font-weight: 500;
 }
 
