@@ -1,8 +1,12 @@
 import { addDecorator, addParameters } from "@storybook/html";
+import { withA11y } from "@storybook/addon-a11y";
+import { withKnobs } from "@storybook/addon-knobs";
 import centered from "@storybook/addon-centered/html";
 import theme from "./theme";
 import { titlelessDocsPage } from "./utils";
 
+addDecorator(withKnobs);
+addDecorator(withA11y);
 addDecorator(centered);
 addParameters({
   backgrounds: [{ name: "Light", value: "#f8f8f8", default: true }],

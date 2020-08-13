@@ -79,7 +79,7 @@ export class CalciteFlow {
     this.updateFlowProps();
   }
 
-  componentDidUnload(): void {
+  disconnectedCallback(): void {
     this.flowItemObserver.disconnect();
   }
 

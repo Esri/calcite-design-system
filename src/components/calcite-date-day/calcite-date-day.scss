@@ -76,8 +76,7 @@
 }
 
 :host(:focus) .day {
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1),
-    0 0 0 4px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
 }
 
 :host([selected]) .day {

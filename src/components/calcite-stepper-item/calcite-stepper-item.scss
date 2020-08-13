@@ -61,8 +61,7 @@
 
 :host .stepper-item-content,
 :host .stepper-item-header {
-  padding: var(--calcite-stepper-item-spacing-unit-l)
-    var(--calcite-stepper-item-spacing-unit-m);
+  padding: var(--calcite-stepper-item-spacing-unit-l) var(--calcite-stepper-item-spacing-unit-m);
   padding-left: 0;
   transition: $transition;
   text-align: left;

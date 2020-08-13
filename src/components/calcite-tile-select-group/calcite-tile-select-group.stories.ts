@@ -1,9 +1,8 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import { darkBackground } from "../../../.storybook/helpers";
 
 storiesOf("components|Tile Select Group", module)
-  .addDecorator(withKnobs)
   .add(
     "Light",
     () => `

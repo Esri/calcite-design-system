@@ -1,5 +1,4 @@
-import { boolean, select, withKnobs } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
+import { boolean, select } from "@storybook/addon-knobs";
 import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -8,7 +7,6 @@ const { dir, theme } = ATTRIBUTES;
 
 export default {
   title: "app components|calcite-value-list",
-  decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     notes: parseReadme(readme)

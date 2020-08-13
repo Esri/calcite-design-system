@@ -220,7 +220,7 @@ export class CalcitePagination {
         >
           <calcite-icon scale={iconScale} icon="chevronLeft" />
         </button>
-        {this.renderPage(1)}
+        {total > num ? this.renderPage(1) : null}
         {this.renderLeftEllipsis(iconScale)}
         {this.renderPages()}
         {this.renderRightEllipsis(iconScale)}

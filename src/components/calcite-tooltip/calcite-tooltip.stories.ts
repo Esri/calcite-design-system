@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, number } from "@storybook/addon-knobs";
+import { select, number } from "@storybook/addon-knobs";
 import { parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
@@ -32,7 +32,6 @@ const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 const referenceElementHTML = `<calcite-tooltip-manager>Ut enim ad minim veniam, quis <calcite-button appearance="inline" title="Reference element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.</calcite-tooltip-manager>`;
 
 storiesOf("components|Tooltip", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => {

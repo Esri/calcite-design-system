@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import { darkBackground, iconNames, parseReadme } from "../../../.storybook/helpers";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-tab/readme.md";
@@ -14,12 +14,12 @@ const notes4 = parseReadme(readme4);
 const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`).concat(`\n${notes4}`);
 
 storiesOf("components|Tabs", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `
     <calcite-tabs
-      layout="${select("layout", ["inline", "center"])}"
+      layout="${select("layout", ["inline", "center"], "inline")}"
+      position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav slot="tab-nav">
         <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
@@ -40,7 +40,8 @@ storiesOf("components|Tabs", module)
     "With icons",
     () => `
     <calcite-tabs
-      layout="${select("layout", ["inline", "center"])}"
+      layout="${select("layout", ["inline", "center"], "inline")}"
+      position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav
       slot="tab-nav">
@@ -70,7 +71,8 @@ storiesOf("components|Tabs", module)
     "Dark mode",
     () => `
     <calcite-tabs theme="dark"
-    layout="${select("layout", ["inline", "center"])}"
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav slot="tab-nav">
         <calcite-tab-title active>Icon 1</calcite-tab-title>

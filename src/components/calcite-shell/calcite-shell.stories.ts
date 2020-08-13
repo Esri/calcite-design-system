@@ -1,5 +1,4 @@
-import { boolean, select, withKnobs } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
+import { boolean, select } from "@storybook/addon-knobs";
 import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, position, scale, theme } = ATTRIBUTES;
@@ -9,7 +8,6 @@ import dedent from "dedent";
 
 export default {
   title: "app components|calcite-shell",
-  decorators: [withKnobs, withA11y],
   parameters: {
     backgrounds: darkBackground,
     notes: {
@@ -47,8 +45,12 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") =>
       value: boolean("detached", false, group)
     },
     {
-      name: "detached-scale",
-      value: select("detachedScale", scale.values, scale.defaultValue, group)
+      name: "height-scale",
+      value: select("heightScale", scale.values, scale.defaultValue, group)
+    },
+    {
+      name: "width-scale",
+      value: select("widthScale", scale.values, scale.defaultValue, group)
     },
     {
       name: "position",

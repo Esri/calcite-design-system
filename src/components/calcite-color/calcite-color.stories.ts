@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import { darkBackground } from "../../../.storybook/helpers";
 import colorReadme from "./readme.md";
 import colorSwatchReadme from "../calcite-color-swatch/readme.md";
@@ -8,7 +8,6 @@ import hexInputReadme from "../calcite-color-hex-input/readme.md";
 const notes = [colorReadme, colorSwatchReadme, hexInputReadme].join("\n");
 
 storiesOf("components|Color", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `

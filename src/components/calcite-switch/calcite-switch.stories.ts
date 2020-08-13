@@ -1,11 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 const notes = parseReadme(readme);
 
 storiesOf("components|Switch", module)
-  .addDecorator(withKnobs)
   .add(
     "Simple",
     () => `
@@ -14,6 +13,7 @@ storiesOf("components|Switch", module)
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
+        ${boolean("disabled", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
@@ -32,6 +32,7 @@ storiesOf("components|Switch", module)
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
+        ${boolean("disabled", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
@@ -52,6 +53,7 @@ storiesOf("components|Switch", module)
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
+        ${boolean("disabled", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
         color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>

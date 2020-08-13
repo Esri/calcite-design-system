@@ -36,6 +36,9 @@ export class CalciteSwitch {
   /** The scale of the switch */
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
+  /** True if the switch is disabled */
+  @Prop({ reflect: true }) disabled?: boolean = false;
+
   /** The component's theme. */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
@@ -44,7 +47,11 @@ export class CalciteSwitch {
   private observer: MutationObserver;
 
   @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
-    if (!this.el.contains(e.detail.interactedEl) && hasLabel(e.detail.labelEl, this.el)) {
+    if (
+      !this.disabled &&
+      !this.el.contains(e.detail.interactedEl) &&
+      hasLabel(e.detail.labelEl, this.el)
+    ) {
       this.updateSwitch(event);
       this.el.focus();
     } else return;
@@ -54,7 +61,7 @@ export class CalciteSwitch {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
     if (
-      (this.el.closest("label") && e.target === this.inputProxy) ||
+      (!this.disabled && this.el.closest("label") && e.target === this.inputProxy) ||
       (!this.el.closest("label") && e.target === this.el)
     ) {
       this.updateSwitch(e);
@@ -63,7 +70,7 @@ export class CalciteSwitch {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     const key = getKey(e.key);
-    if (key === " " || key === "Enter") {
+    if (!this.disabled && (key === " " || key === "Enter")) {
       this.updateSwitch(e);
     }
   }
@@ -78,7 +85,6 @@ export class CalciteSwitch {
 
   connectedCallback() {
     // prop validations
-
     const color = ["blue", "red"];
     if (!color.includes(this.color)) this.color = "blue";
 
@@ -103,7 +109,7 @@ export class CalciteSwitch {
         dir={dir}
         role="checkbox"
         aria-checked={this.switched.toString()}
-        tabIndex={this.tabIndex}
+        tabIndex={this.disabled ? -1 : this.tabIndex}
       >
         <div class="track">
           <div class="handle" />
@@ -130,6 +136,7 @@ export class CalciteSwitch {
     if (!this.inputProxy) {
       this.inputProxy = document.createElement("input");
       this.inputProxy.type = "checkbox";
+      this.inputProxy.disabled = this.disabled;
       this.syncProxyInputToThis();
       this.el.appendChild(this.inputProxy);
     }

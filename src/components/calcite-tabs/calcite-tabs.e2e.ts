@@ -1,7 +1,24 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
+  it("is accessible", async () =>
+    accessible(
+      `<calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab active>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+      </calcite-tabs>`
+    ));
+
   it("renders with a light theme", async () => {
     const page = await newE2EPage();
 
