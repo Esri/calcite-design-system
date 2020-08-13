@@ -17,7 +17,7 @@ addParameters({
     options: {},
     manual: true
   },
-  backgrounds: backgrounds,
+  backgrounds,
   options: {
     storySort: (a, b) => {
       const sectionA = a[1].id.split("-")[0];
