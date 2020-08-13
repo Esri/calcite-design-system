@@ -15,24 +15,39 @@ import {
 
 import colors from "../node_modules/@esri/calcite-colors/colors.json";
 
+const lightValue = {
+  name: "Light",
+  value: colors["blk-005"]
+};
+
+const foregroundValue = {
+  name: "Foreground",
+  value: colors["blk-000"]
+};
+
+const darkValue = {
+  name: "Dark",
+  value: colors["blk-210"]
+};
+
+const foregroundDarkValue = {
+  name: "Foreground Dark",
+  value: colors["blk-200"]
+};
+
+export const backgrounds = {
+  default: lightValue.name,
+  values: [lightValue, foregroundValue, darkValue, foregroundDarkValue]
+};
+
 export const lightBackground = {
-  default: "Light",
-  values: [
-    {
-      name: "Light",
-      value: "#f8f8f8"
-    }
-  ]
+  default: lightValue.name,
+  values: [lightValue]
 };
 
 export const darkBackground = {
-  default: "Dark",
-  values: [
-    {
-      name: "Dark",
-      value: colors["blk-210"]
-    }
-  ]
+  default: darkValue.name,
+  values: [darkValue]
 };
 
 /**

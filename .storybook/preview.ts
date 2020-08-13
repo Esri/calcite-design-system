@@ -1,7 +1,7 @@
 import { addDecorator, addParameters } from "@storybook/html";
 import centered from "@storybook/addon-centered/html";
 import theme from "./theme";
-import { lightBackground } from "./utils";
+import { backgrounds } from "./utils";
 import { addons } from "@storybook/addons";
 
 addons.setConfig({
@@ -17,7 +17,7 @@ addParameters({
     options: {},
     manual: true
   },
-  backgrounds: lightBackground,
+  backgrounds: backgrounds,
   options: {
     storySort: (a, b) => {
       const sectionA = a[1].id.split("-")[0];
