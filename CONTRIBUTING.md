@@ -64,11 +64,10 @@ Each component should use a `storiesOf` with at least one story. It's a great id
 
 ```
 import { storiesOf } from '@storybook/html';
-import { withKnobs, boolean } from '@storybook/addon-knobs'
+import { boolean } from '@storybook/addon-knobs'
 import notes from './readme.md';
 
 storiesOf('My component', module)
-  .addDecorator(withKnobs)
   .add('Simple', () => `
     <my-component demo-prop="${boolean("demo-prop", true)}"></my-component>
   , { notes })`

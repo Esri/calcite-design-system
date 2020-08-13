@@ -1,8 +1,7 @@
 import { storiesOf } from "@storybook/html";
 import { select, number } from "@storybook/addon-knobs";
-import { parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
 const placements = [
   "auto",
@@ -31,11 +30,10 @@ const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 
 const referenceElementHTML = `<calcite-tooltip-manager>Ut enim ad minim veniam, quis <calcite-button appearance="inline" title="Reference element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.</calcite-tooltip-manager>`;
 
-storiesOf("components|Tooltip", module)
-  .add(
-    "Simple",
-    () => {
-      return `
+storiesOf("Components/Tooltip", module)
+  .addParameters({ notes: readme })
+  .add("Simple", () => {
+    return `
       <div>
         ${referenceElementHTML}
         <calcite-tooltip
@@ -50,13 +48,9 @@ storiesOf("components|Tooltip", module)
         </calcite-tooltip>
       </div>
     `;
-    },
-    { notes }
-  )
-  .add(
-    "Dark Mode",
-    () => {
-      return `
+  })
+  .add("Dark Mode", () => {
+    return `
       <div>
         ${referenceElementHTML}
         <calcite-tooltip
@@ -71,6 +65,4 @@ storiesOf("components|Tooltip", module)
         </calcite-tooltip>
       </div>
     `;
-    },
-    { notes }
-  );
+  });

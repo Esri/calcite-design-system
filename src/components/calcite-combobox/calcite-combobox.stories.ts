@@ -1,14 +1,12 @@
 import { storiesOf } from "@storybook/html";
-import { boolean, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { select } from "@storybook/addon-knobs";
+
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-combobox-item/readme.md";
 
-const notes1 = parseReadme(readme1);
-const notes2 = parseReadme(readme2);
-const notes = notes1.concat(`\n${notes2}`);
-
-storiesOf("components|Combobox", module)
+storiesOf("Components/Combobox", module)
+  .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
     () => `
@@ -36,8 +34,7 @@ storiesOf("components|Combobox", module)
       <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
     </calcite-combobox>
     </div>
-  `,
-    { notes }
+  `
   )
 
   .add(
@@ -69,7 +66,7 @@ storiesOf("components|Combobox", module)
   </calcite-combobox>
   </div>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "RTL",
@@ -99,6 +96,5 @@ storiesOf("components|Combobox", module)
     <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
   </calcite-combobox>
   </div>
-  `,
-    { notes }
+  `
   );

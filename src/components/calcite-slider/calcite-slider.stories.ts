@@ -1,10 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { text, number, array } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Slider", module)
+storiesOf("Components/Slider", module)
+  .addParameters({ notes: readme })
   .add(
     "Single value",
     () => `
@@ -22,8 +23,7 @@ storiesOf("components|Slider", module)
       ${boolean("precise", false)}
       ${boolean("snap", true)}
     ></calcite-slider>
-  `,
-    { notes }
+  `
   )
   .add(
     "Range",
@@ -42,33 +42,28 @@ storiesOf("components|Slider", module)
       ${boolean("precise", false)}
       ${boolean("snap", true)}
     ></calcite-slider>
-  `,
-    { notes }
+  `
   )
-  .add(
-    "Histogram",
-    () => {
-      const slider = document.createElement("calcite-slider");
-      slider.min = number("min", 0);
-      slider.minValue = number("min-value", 25);
-      slider.max = number("max", 100);
-      slider.maxValue = number("max-value", 75);
-      slider.histogram = array(
-        "histogram",
-        [
-          [0, 0],
-          [20, 12],
-          [40, 25],
-          [60, 55],
-          [80, 10],
-          [100, 0]
-        ],
-        "  "
-      );
-      return slider;
-    },
-    { notes }
-  )
+  .add("Histogram", () => {
+    const slider = document.createElement("calcite-slider");
+    slider.min = number("min", 0);
+    slider.minValue = number("min-value", 25);
+    slider.max = number("max", 100);
+    slider.maxValue = number("max-value", 75);
+    slider.histogram = array(
+      "histogram",
+      [
+        [0, 0],
+        [20, 12],
+        [40, 25],
+        [60, 55],
+        [80, 10],
+        [100, 0]
+      ],
+      "  "
+    );
+    return slider;
+  })
   .add(
     "Dark mode",
     () => `
@@ -81,5 +76,5 @@ storiesOf("components|Slider", module)
       theme="dark"
     ></calcite-slider>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

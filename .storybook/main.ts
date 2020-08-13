@@ -35,11 +35,10 @@ const stories = glob
 
 module.exports = {
   addons: [
-    "@storybook/addon-backgrounds/register",
+    "@storybook/addon-docs",
+    "@storybook/addon-backgrounds",
     "@storybook/addon-knobs/register",
-    "@storybook/addon-notes/register-panel",
-    "@storybook/addon-a11y/register"
+    "@storybook/addon-a11y"
   ],
-  presets: ["@storybook/addon-docs/preset"],
   stories
 };

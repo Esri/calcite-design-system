@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { select, text } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
-const notes = parseReadme(readme);
-
-storiesOf("components|Radio Button", module)
+storiesOf("Components/Radio Button", module)
+  .addParameters({ notes: readme })
   .add(
     "Light Theme",
     () => `
@@ -20,8 +20,7 @@ storiesOf("components|Radio Button", module)
       >
         ${text("label", "Radio Button")}
       </calcite-radio-button>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark Theme",
@@ -39,5 +38,5 @@ storiesOf("components|Radio Button", module)
       ${text("label", "Radio Button")}
     </calcite-radio-button>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

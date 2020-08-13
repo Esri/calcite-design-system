@@ -1,10 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Card", module)
+storiesOf("Components/Card", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -18,8 +18,7 @@ storiesOf("components|Card", module)
       overly verbose.</span>
       </calcite-card>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Simple with Links",
@@ -36,8 +35,7 @@ storiesOf("components|Card", module)
       <calcite-link theme="dark" slot="footer-trailing">Trail footer</calcite-link>
       </calcite-card>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Footer Button",
@@ -52,8 +50,7 @@ storiesOf("components|Card", module)
       <span slot="subtitle">Subtext</span>
       <calcite-button slot="footer-leading" width="full">Go</calcite-button>
     </calcite-card>
-    `,
-    { notes }
+    `
   )
   .add(
     "Footer Links",
@@ -71,8 +68,7 @@ storiesOf("components|Card", module)
       <calcite-link theme="dark" slot="footer-trailing">Trail footer</calcite-link>
     </calcite-card>
   </div>
-    `,
-    { notes }
+    `
   )
   .add(
     "Footer Text, Buttons, Tooltips",
@@ -98,8 +94,7 @@ storiesOf("components|Card", module)
   </calcite-tooltip>
   <calcite-tooltip placement="bottom" theme="dark" reference-element="card-icon-test-7">Delete
   </calcite-tooltip>
-    `,
-    { notes }
+    `
   )
   .add(
     "Footer Buttons, Tooltips, Dropdown",
@@ -142,8 +137,7 @@ storiesOf("components|Card", module)
     </calcite-tooltip>
     <calcite-tooltip placement="top" reference-element="card-icon-test-5">More options
     </calcite-tooltip>
-    `,
-    { notes }
+    `
   )
   .add(
     "Dark Theme - Simple",
@@ -160,7 +154,7 @@ storiesOf("components|Card", module)
       </calcite-card>
     </div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Dark Theme - Simple with Links",
@@ -179,7 +173,7 @@ storiesOf("components|Card", module)
       </calcite-card>
     </div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Dark Theme - Footer Button",
@@ -196,7 +190,7 @@ storiesOf("components|Card", module)
       <calcite-button theme="dark" slot="footer-leading" width="full">Go</calcite-button>
     </calcite-card>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Dark Theme - Footer Links",
@@ -216,7 +210,7 @@ storiesOf("components|Card", module)
     </calcite-card>
   </div>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Dark Theme - Footer Text, Buttons, Tooltips",
@@ -244,7 +238,7 @@ storiesOf("components|Card", module)
   <calcite-tooltip placement="bottom" theme="dark" reference-element="card-icon-test-7">Delete
   </calcite-tooltip>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Dark Theme - Footer Buttons, Tooltips, Dropdown",
@@ -289,5 +283,5 @@ storiesOf("components|Card", module)
     <calcite-tooltip placement="top" reference-element="card-icon-test-5">More options
     </calcite-tooltip>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

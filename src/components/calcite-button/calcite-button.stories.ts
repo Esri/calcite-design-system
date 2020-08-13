@@ -1,10 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { text, select } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
+import { iconNames, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Button", module)
+storiesOf("Components/Button", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -20,8 +21,7 @@ storiesOf("components|Button", module)
     >
    ${text("text", "button text here")}
     </calcite-button>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icon-start",
@@ -38,8 +38,7 @@ storiesOf("components|Button", module)
       icon-start="${select("icon-start", iconNames, iconNames[0])}">
       ${text("text", "button text here")}
     </calcite-button>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icon-end",
@@ -56,8 +55,7 @@ storiesOf("components|Button", module)
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
       ${text("text", "button text here")}
     </calcite-button>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icon-start and icon-end",
@@ -75,8 +73,7 @@ storiesOf("components|Button", module)
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
       ${text("text", "button text here")}
     </calcite-button>
-  `,
-    { notes }
+  `
   )
   .add(
     "Set width container",
@@ -88,8 +85,7 @@ storiesOf("components|Button", module)
         ${text("text", "button text here")}
       </calcite-button>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Side by side",
@@ -110,8 +106,7 @@ storiesOf("components|Button", module)
     ${text("text-2", "Some long string")}
     </calcite-button>
   </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "FAB",
@@ -148,8 +143,7 @@ storiesOf("components|Button", module)
 </div>
 <calcite-tooltip reference-element="calcite-fab-tooltip">Add new</calcite-tooltip>
 
-`,
-    { notes }
+`
   )
   .add(
     "FAB with text",
@@ -185,8 +179,7 @@ storiesOf("components|Button", module)
   </calcite-button>
   </div>
 </div>
-`,
-    { notes }
+`
   )
   .add(
     "Dark mode",
@@ -207,7 +200,7 @@ storiesOf("components|Button", module)
     ${text("text", "button text here")}
   </calcite-button>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "FAB - dark mode",
@@ -245,7 +238,7 @@ storiesOf("components|Button", module)
 </div>
 <calcite-tooltip theme="dark" reference-element="calcite-fab-tooltip">Add new</calcite-tooltip>
 `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "FAB with text - dark mode",
@@ -282,5 +275,5 @@ storiesOf("components|Button", module)
   </div>
 </div>
 `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

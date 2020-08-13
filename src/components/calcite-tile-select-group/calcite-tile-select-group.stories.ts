@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { darkBackground } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 
-storiesOf("components|Tile Select Group", module)
+storiesOf("Components/Tile Select Group", module)
   .add(
     "Light",
     () => `

@@ -1,13 +1,12 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { darkBackground } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
 import colorSwatchReadme from "../calcite-color-swatch/readme.md";
 import hexInputReadme from "../calcite-color-hex-input/readme.md";
 
-const notes = [colorReadme, colorSwatchReadme, hexInputReadme].join("\n");
-
-storiesOf("components|Color", module)
+storiesOf("Components/Color", module)
+  .addParameters({ notes: [colorReadme, colorSwatchReadme, hexInputReadme] })
   .add(
     "Simple",
     () => `
@@ -16,8 +15,7 @@ storiesOf("components|Color", module)
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="#beefee"
     ></calcite-color>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark Mode",
@@ -28,5 +26,5 @@ storiesOf("components|Color", module)
       value="#beefee"
     ></calcite-color>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

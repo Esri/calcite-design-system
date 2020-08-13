@@ -1,10 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
+import { iconNames, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Chip", module)
+storiesOf("Components/Chip", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -16,8 +17,7 @@ storiesOf("components|Chip", module)
     ${boolean("dismissible", false)}
     >My great chip</calcite-chip>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "With Icon",
@@ -32,8 +32,7 @@ storiesOf("components|Chip", module)
     >
     My great chip</calcite-chip>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "With Image",
@@ -48,8 +47,7 @@ storiesOf("components|Chip", module)
     <img slot="chip-image" src="https://placekitten.com/50/50" />
     My great chip</calcite-chip>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark theme",
@@ -64,7 +62,7 @@ storiesOf("components|Chip", module)
     >My great chip</calcite-chip>
     </div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "RTL",
@@ -78,6 +76,5 @@ storiesOf("components|Chip", module)
     ${boolean("dismissible", false)}
     >My great chip</calcite-chip>
     </div>
-  `,
-    { notes }
+  `
   );

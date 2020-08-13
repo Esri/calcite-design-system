@@ -1,14 +1,13 @@
 import { storiesOf } from "@storybook/html";
 import { select, text, number } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Modal", module)
-  .add(
-    "Simple",
-    () => {
-      return `
+storiesOf("Components/Modal", module)
+  .addParameters({ notes: readme })
+  .add("Simple", () => {
+    return `
       <calcite-modal
         ${boolean("active", true)}
         color="${select("color", { blue: "blue", red: "red", none: null }, null)}"
@@ -32,13 +31,9 @@ storiesOf("components|Modal", module)
         <calcite-button slot="primary" width="full">Save</calcite-button>
       </calcite-modal>
     `;
-    },
-    { notes }
-  )
-  .add(
-    "Custom Size",
-    () => {
-      return `
+  })
+  .add("Custom Size", () => {
+    return `
       <calcite-modal
         active
         width="${number("width", 500)}"
@@ -55,9 +50,7 @@ storiesOf("components|Modal", module)
         <calcite-button slot="primary" width="full">Save</calcite-button>
       </calcite-modal>
     `;
-    },
-    { notes }
-  )
+  })
   .add(
     "Dark mode",
     () => {
@@ -87,5 +80,5 @@ storiesOf("components|Modal", module)
       </calcite-modal>
     `;
     },
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

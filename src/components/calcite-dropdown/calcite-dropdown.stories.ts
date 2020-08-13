@@ -1,16 +1,13 @@
 import { storiesOf } from "@storybook/html";
 import { number, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-dropdown-group/readme.md";
 import readme3 from "../calcite-dropdown-item/readme.md";
 
-const notes1 = parseReadme(readme1);
-const notes2 = parseReadme(readme2);
-const notes3 = parseReadme(readme3);
-const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`);
-
-storiesOf("components|Dropdown", module)
+storiesOf("Components/Dropdown", module)
+  .addParameters({ notes: [readme1, readme2, readme3] })
   .add(
     "Simple",
     () => `
@@ -33,8 +30,7 @@ storiesOf("components|Dropdown", module)
         <calcite-dropdown-item>Title</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
-  `,
-    { notes }
+  `
   )
   .add(
     "With Icons",
@@ -76,8 +72,7 @@ storiesOf("components|Dropdown", module)
       <calcite-dropdown-item icon-start="table" icon-end="data-check" >Table</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
-  `,
-    { notes }
+  `
   )
   .add(
     "Groups and selection modes",
@@ -106,8 +101,7 @@ storiesOf("components|Dropdown", module)
       <calcite-dropdown-item>Add peas</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
-`,
-    { notes }
+`
   )
   .add(
     "Items as Links",
@@ -129,8 +123,7 @@ storiesOf("components|Dropdown", module)
       <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title" icon-end="camera-flash-on">Add peas</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
-`,
-    { notes }
+`
   )
   .add(
     "A mix of links and non-links",
@@ -152,8 +145,7 @@ storiesOf("components|Dropdown", module)
       <calcite-dropdown-item onclick='alert("not a link")'>Not a link</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
-`,
-    { notes }
+`
   )
   .add(
     "Dark theme",
@@ -179,7 +171,7 @@ storiesOf("components|Dropdown", module)
       </calcite-dropdown-group>
     </calcite-dropdown>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "With Icons - Dark theme",
@@ -223,7 +215,7 @@ storiesOf("components|Dropdown", module)
       </calcite-dropdown-group>
     </calcite-dropdown>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Groups and selection modes dark theme",
@@ -253,7 +245,7 @@ storiesOf("components|Dropdown", module)
     </calcite-dropdown-group>
   </calcite-dropdown>
 `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Items as Links - dark theme",
@@ -277,7 +269,7 @@ storiesOf("components|Dropdown", module)
     </calcite-dropdown-group>
   </calcite-dropdown>
 `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Simple - RTL",
@@ -302,8 +294,7 @@ storiesOf("components|Dropdown", module)
         <calcite-dropdown-item>Title</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
-  `,
-    { notes }
+  `
   )
   .add(
     "Scrolling after certain items",
@@ -333,6 +324,5 @@ storiesOf("components|Dropdown", module)
         <calcite-dropdown-item>10</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
-  `,
-    { notes }
+  `
   );

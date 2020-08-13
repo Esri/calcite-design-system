@@ -1,10 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
-import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Label", module)
+import { darkBackground } from "../../../.storybook/utils";
+import readme from "./readme.md";
+
+storiesOf("Components/Label", module)
+  .addParameters({ notes: readme })
   .add(
     "Wrapping components other than input",
     () => `
@@ -67,12 +67,11 @@ storiesOf("components|Label", module)
       Text trailing inline-space-between
       </calcite-label>
     </div>
-  `,
-    { notes }
+  `
   )
 
   .add(
-    "Wrapping components other than input",
+    "Dark Theme",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
       <calcite-label theme="dark">
@@ -134,5 +133,5 @@ storiesOf("components|Label", module)
       </calcite-label>
     </div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );
