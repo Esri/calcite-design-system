@@ -56,6 +56,14 @@ describe("calcite-loader", () => {
     expect(rect).toEqualAttribute("r", "7.2");
   });
 
+  it("sets a default id when none is provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-loader active></calcite-loader>`);
+    const loader = await page.find("calcite-loader");
+    expect(loader).toHaveAttribute("id");
+    expect(loader.getAttribute("id").length).toEqual(36);
+  });
+
   it("validates scale and type properties", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-loader scale="bleep" type="bloop"></calcite-loader>`);
