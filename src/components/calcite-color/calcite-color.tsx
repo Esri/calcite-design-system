@@ -70,6 +70,15 @@ export class CalciteColor {
     this.value = value;
   }
 
+  /** When true, hides the hex input */
+  @Prop() hideHex = false;
+
+  /** When true, hides the RGB/HSV channel inputs */
+  @Prop() hideChannels = false;
+
+  /** When true, hides the saved colors section */
+  @Prop() hideSaved = false;
+
   /** Label used for the blue channel */
   @Prop() intlB = TEXT.b;
 
@@ -337,6 +346,9 @@ export class CalciteColor {
       color,
       intlDeleteColor,
       el,
+      hideHex,
+      hideChannels,
+      hideSaved,
       intlHex,
       intlSaved,
       intlSaveColor,
@@ -361,84 +373,96 @@ export class CalciteColor {
           onMouseMove={this.handleColorFieldAndSliderMouseEnterOrMove}
           ref={this.initColorFieldAndSlider}
         />
-        <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
-          <div class={CSS.hexOptions}>
-            <span
-              class={{
-                [CSS.header]: true,
-                [CSS.headerHex]: true,
-                [CSS.underlinedHeader]: true
-              }}
-            >
-              {intlHex}
-            </span>
-            <calcite-color-hex-input
-              class={CSS.control}
-              onCalciteColorHexInputChange={this.handleHexInputChange}
-              ref={(node) => (this.hexInputNode = node)}
-              scale={hexInputScale}
-              value={selectedColorInHex}
-              theme={theme}
-              dir={elementDir}
-            />
+        {hideHex && hideChannels ? null : (
+          <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
+            {hideHex ? null : (
+              <div class={CSS.hexOptions}>
+                <span
+                  class={{
+                    [CSS.header]: true,
+                    [CSS.headerHex]: true,
+                    [CSS.underlinedHeader]: true
+                  }}
+                >
+                  {intlHex}
+                </span>
+                <calcite-color-hex-input
+                  class={CSS.control}
+                  onCalciteColorHexInputChange={this.handleHexInputChange}
+                  ref={(node) => (this.hexInputNode = node)}
+                  scale={hexInputScale}
+                  value={selectedColorInHex}
+                  theme={theme}
+                  dir={elementDir}
+                />
+              </div>
+            )}
+            {hideChannels ? null : (
+              <calcite-tabs
+                class={{
+                  [CSS.colorModeContainer]: true,
+                  [CSS.splitSection]: true
+                }}
+                dir={elementDir}
+              >
+                <calcite-tab-nav slot="tab-nav">
+                  {this.renderChannelsTabTitle("rgb")}
+                  {this.renderChannelsTabTitle("hsv")}
+                </calcite-tab-nav>
+                {this.renderChannelsTab("rgb")}
+                {this.renderChannelsTab("hsv")}
+              </calcite-tabs>
+            )}
           </div>
-          <calcite-tabs
-            class={{
-              [CSS.colorModeContainer]: true,
-              [CSS.splitSection]: true
-            }}
-            dir={elementDir}
-          >
-            <calcite-tab-nav slot="tab-nav">
-              {this.renderChannelsTabTitle("rgb")}
-              {this.renderChannelsTabTitle("hsv")}
-            </calcite-tab-nav>
-            {this.renderChannelsTab("rgb")}
-            {this.renderChannelsTab("hsv")}
-          </calcite-tabs>
-        </div>
-        <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
-          <div class={CSS.header}>
-            <label>{intlSaved}</label>
-            <div class={CSS.savedColorsButtons}>
-              <calcite-button
-                appearance="transparent"
-                aria-label={intlDeleteColor}
-                class={CSS.deleteColor}
-                color="dark"
-                iconStart="minus"
-                onClick={this.deleteColor}
-                scale={scale}
-              />
-              <calcite-button
-                appearance="transparent"
-                aria-label={intlSaveColor}
-                class={CSS.saveColor}
-                color="dark"
-                iconStart="plus"
-                onClick={this.saveColor}
-                scale={scale}
-              />
-            </div>
-          </div>
-          <div class={CSS.savedColors}>
-            {[
-              ...savedColors.map((color) => (
-                <calcite-color-swatch
-                  class={CSS.savedColor}
-                  color={color}
-                  active={selectedColorInHex === color}
-                  key={color}
-                  onClick={this.handleSavedColorSelect}
-                  onKeyDown={this.handleSavedColorKeyDown}
+        )}
+        {hideSaved ? null : (
+          <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
+            <div class={CSS.header}>
+              <label>{intlSaved}</label>
+              <div class={CSS.savedColorsButtons}>
+                <calcite-button
+                  appearance="transparent"
+                  aria-label={intlDeleteColor}
+                  class={CSS.deleteColor}
+                  color="dark"
+                  iconStart="minus"
+                  onClick={this.deleteColor}
                   scale={scale}
-                  tabIndex={0}
                   theme={theme}
                 />
-              ))
-            ]}
+                <calcite-button
+                  appearance="transparent"
+                  aria-label={intlSaveColor}
+                  class={CSS.saveColor}
+                  color="dark"
+                  iconStart="plus"
+                  onClick={this.saveColor}
+                  scale={scale}
+                  theme={theme}
+                />
+              </div>
+            </div>
+            {savedColors.length > 0 ? (
+              <div class={CSS.savedColors}>
+                {[
+                  ...savedColors.map((color) => (
+                    <calcite-color-swatch
+                      class={CSS.savedColor}
+                      color={color}
+                      active={selectedColorInHex === color}
+                      key={color}
+                      onClick={this.handleSavedColorSelect}
+                      onKeyDown={this.handleSavedColorKeyDown}
+                      scale={scale}
+                      tabIndex={0}
+                      theme={theme}
+                    />
+                  ))
+                ]}
+              </div>
+            ) : null}
           </div>
-        </div>
+        )}
       </div>
     );
   }

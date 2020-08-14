@@ -171,15 +171,15 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [calcite-icon](../calcite-icon)
 - [calcite-progress](../calcite-progress)
+- [calcite-icon](../calcite-icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-input --> calcite-icon
   calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   calcite-color --> calcite-input
   calcite-color-hex-input --> calcite-input
   calcite-date --> calcite-input

@@ -472,4 +472,61 @@ describe("calcite-color", () => {
       expect(await page.findAll(`calcite-color >>> .${CSS.savedColors} calcite-color-swatchs`)).toHaveLength(0);
     });
   });
+
+  it("allows hiding sections", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-color></calcite-color>`
+    });
+
+    type HiddenSection = "hex" | "channels" | "saved";
+
+    async function assertHiddenSection(hiddenSections: HiddenSection[]): Promise<void> {
+      const sectionVisibility: Record<HiddenSection, boolean> = {
+        hex: true,
+        channels: true,
+        saved: true
+      };
+
+      hiddenSections.forEach((section) => (sectionVisibility[section] = false));
+
+      const color = await page.find("calcite-color");
+      const sections = Object.keys(sectionVisibility);
+
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        const hideSectionProp = `hide${section.charAt(0).toUpperCase() + section.slice(1)}`;
+
+        color.setProperty(hideSectionProp, !sectionVisibility[section]);
+        await page.waitForChanges();
+      }
+
+      const [hex, channels, saved] = await Promise.all([
+        page.find(`calcite-color >>> .${CSS.hexOptions}`),
+        page.find(`calcite-color >>> .${CSS.colorModeContainer}`),
+        page.find(`calcite-color >>> .${CSS.savedColors}`)
+      ]);
+
+      const sectionNodes: Record<HiddenSection, E2EElement> = {
+        hex,
+        channels,
+        saved
+      };
+
+      sections.forEach((section) => {
+        const node = sectionNodes[section];
+        const visible = sectionVisibility[section];
+
+        expect(node)[visible ? "toBeDefined" : "toBeNull"]();
+      });
+    }
+
+    await assertHiddenSection(["hex", "channels", "saved"]);
+    await assertHiddenSection(["hex", "channels"]);
+    await assertHiddenSection(["hex", "saved"]);
+    await assertHiddenSection(["hex"]);
+    await assertHiddenSection(["channels", "saved"]);
+    await assertHiddenSection(["saved"]);
+    await assertHiddenSection(["channels"]);
+    await assertHiddenSection([]);
+  });
 });
