@@ -19,10 +19,7 @@
 }
 
 :host([theme="dark"]) {
-  --calcite-input-message-floating-background: #{rgba(
-      $ui-foreground-1-dark,
-      0.96
-    )};
+  --calcite-input-message-floating-background: #{rgba($ui-foreground-1-dark, 0.96)};
 }
 
 :host {
@@ -83,10 +80,8 @@
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-red-1) var(--calcite-ui-red-1)
     var(--calcite-input-status-invalid-focus-shadow-color),
-  "valid" var(--calcite-ui-green-1) var(--calcite-ui-green-1)
-    var(--calcite-input-status-valid-focus-shadow-color),
-  "idle" var(--calcite-ui-blue-1) var(--calcite-ui-blue-1)
-    var(--calcite-input-status-valid-focus-shadow-color);
+  "valid" var(--calcite-ui-green-1) var(--calcite-ui-green-1) var(--calcite-input-status-valid-focus-shadow-color),
+  "idle" var(--calcite-ui-blue-1) var(--calcite-ui-blue-1) var(--calcite-input-status-valid-focus-shadow-color);
 
 @each $statusColor in $inputStatusColors {
   $name: nth($statusColor, 1);

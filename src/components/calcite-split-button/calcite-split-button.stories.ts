@@ -1,13 +1,11 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, text, select } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
-import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
+import { text, select } from "@storybook/addon-knobs";
+import { iconNames, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
-const notes = parseReadme(readme);
-
-storiesOf("components|Split Button", module)
-  .addDecorator(withKnobs)
+storiesOf("Components/Split Button", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -27,8 +25,7 @@ storiesOf("components|Split Button", module)
         <calcite-dropdown-item>Option 4</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-split-button>
-  `,
-    { notes }
+  `
   )
   .add(
     "Simple primary-icon-end",
@@ -49,8 +46,7 @@ storiesOf("components|Split Button", module)
         <calcite-dropdown-item>Option 4</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-split-button>
-  `,
-    { notes }
+  `
   )
   .add(
     "Simple primary-icon-start and primary-icon-end",
@@ -72,8 +68,7 @@ storiesOf("components|Split Button", module)
         <calcite-dropdown-item>Option 4</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-split-button>
-  `,
-    { notes }
+  `
   )
   .add(
     "RTL",
@@ -95,8 +90,7 @@ storiesOf("components|Split Button", module)
         </calcite-dropdown-group>
       </calcite-split-button>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -118,5 +112,5 @@ storiesOf("components|Split Button", module)
       </calcite-dropdown-group>
     </calcite-split-button>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

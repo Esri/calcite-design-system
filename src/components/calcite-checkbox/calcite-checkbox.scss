@@ -24,8 +24,6 @@
   position: relative;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  width: var(--calcite-checkbox-size);
-  height: var(--calcite-checkbox-size);
   .check-svg {
     width: var(--calcite-checkbox-size);
     height: var(--calcite-checkbox-size);
@@ -37,6 +35,12 @@
     pointer-events: none;
     box-sizing: border-box;
     transition: all 0.15s ease-in-out;
+  }
+  .hasLabel {
+    display: grid;
+    grid-gap: 12px;
+    align-items: center;
+    --calcite-label-margin-bottom: 0;
   }
 }
 :host(:hover),
@@ -62,4 +66,22 @@
   cursor: default;
   opacity: 0.4;
   pointer-events: none;
+}
+:host([scale="s"]) {
+  .hasLabel {
+    grid-template-columns: 12px 1fr 4px;
+    grid-template-rows: 16px 1fr;
+  }
+}
+:host([scale="m"]) {
+  .hasLabel {
+    grid-template-columns: 16px 1fr 4px;
+    grid-template-rows: 20px 1fr;
+  }
+}
+:host([scale="l"]) {
+  .hasLabel {
+    grid-template-columns: 20px 1fr 4px;
+    grid-template-rows: 24px 1fr;
+  }
 }

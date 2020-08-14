@@ -1,17 +1,15 @@
-import { boolean, select, withKnobs } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
-import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
+import { boolean, select } from "@storybook/addon-knobs";
+import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import dedent from "dedent";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "app components|calcite-value-list",
-  decorators: [withKnobs, withA11y],
+  title: "App Components/calcite-value-list",
   parameters: {
     backgrounds: darkBackground,
-    notes: parseReadme(readme)
+    notes: readme
   }
 };
 

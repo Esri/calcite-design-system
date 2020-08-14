@@ -1,26 +1,15 @@
-import { boolean, select, text, withKnobs } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
-import {
-  Attributes,
-  createComponentHTML as create,
-  darkBackground,
-  parseReadme,
-  titlelessDocsPage
-} from "../../../.storybook/utils";
+import { boolean, select, text } from "@storybook/addon-knobs";
+import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
 const { appearance, dir, scale, theme } = ATTRIBUTES;
 
 export default {
-  title: "app components|calcite-fab",
-  decorators: [withKnobs, withA11y],
+  title: "App Components/calcite-fab",
   parameters: {
     backgrounds: darkBackground,
-    docs: {
-      page: titlelessDocsPage
-    },
-    notes: parseReadme(readme)
+    notes: readme
   }
 };
 

@@ -10,6 +10,7 @@ import {
   EventEmitter
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-radio-button",
@@ -285,21 +286,22 @@ export class CalciteRadioButton {
   }
 
   render() {
-    const hasLabel = this.el.textContent ? true : false;
+    if (this.el.textContent) {
+      return (
+        <Host aria-checked={this.checked.toString()} aria-disabled={this.disabled}>
+          <div class="hasLabel">
+            <div class="radio"></div>
+            <calcite-label dir={getElementDir(this.el)} scale={this.scale}>
+              <slot />
+            </calcite-label>
+          </div>
+        </Host>
+      );
+    }
     return (
-      <Host
-        aria-checked={this.checked.toString()}
-        aria-disabled={this.disabled}
-        class={{ hasLabel }}
-      >
+      <Host aria-checked={this.checked.toString()} aria-disabled={this.disabled}>
         <div class="radio"></div>
-        {hasLabel ? (
-          <calcite-label dir={document.documentElement.getAttribute("dir")} scale={this.scale}>
-            <slot />
-          </calcite-label>
-        ) : (
-          <slot />
-        )}
+        <slot />
       </Host>
     );
   }

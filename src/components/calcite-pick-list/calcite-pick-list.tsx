@@ -106,7 +106,7 @@ export class CalcitePickList<
     initializeObserver.call(this);
   }
 
-  componentDidUnload(): void {
+  disconnectedCallback(): void {
     cleanUpObserver.call(this);
   }
 

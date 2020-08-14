@@ -36,6 +36,14 @@ export class CalciteTabs {
   })
   layout: "center" | "inline" = "inline";
 
+  /**
+   * Display the tabs above (default) or below the tab content
+   */
+  @Prop({
+    reflect: true
+  })
+  position: "above" | "below" = "above";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle

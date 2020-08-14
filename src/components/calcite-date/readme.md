@@ -54,8 +54,8 @@ graph TD;
   calcite-date --> calcite-input
   calcite-date --> calcite-date-month-header
   calcite-date --> calcite-date-month
-  calcite-input --> calcite-icon
   calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   calcite-date-month-header --> calcite-icon
   calcite-date-month --> calcite-date-day
   style calcite-date fill:#f9f,stroke:#333,stroke-width:4px

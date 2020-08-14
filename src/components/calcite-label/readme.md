@@ -39,12 +39,14 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 
 ### Used by
 
+- [calcite-checkbox](../calcite-checkbox)
 - [calcite-radio-button](../calcite-radio-button)
 
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-checkbox --> calcite-label
   calcite-radio-button --> calcite-label
   style calcite-label fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -38,9 +38,7 @@ describe("calcite-radio-group", () => {
     const selected = await element.getProperty("selectedItem");
     expect(selected).toBeDefined();
 
-    const selectedItems = await element.findAll(
-      "calcite-radio-group-item[checked]"
-    );
+    const selectedItems = await element.findAll("calcite-radio-group-item[checked]");
     expect(selectedItems).toHaveLength(1);
 
     const selectedValue = await selectedItems[0].getProperty("value");
@@ -60,9 +58,7 @@ describe("calcite-radio-group", () => {
       const element = await page.find("calcite-radio-group");
       const spy = await element.spyOnEvent("calciteRadioGroupChange");
 
-      const firstElement = await element.find(
-        "calcite-radio-group-item[checked]"
-      );
+      const firstElement = await element.find("calcite-radio-group-item[checked]");
       await firstElement.click();
       await element.press("ArrowRight");
       await page.waitForChanges();
@@ -109,9 +105,7 @@ describe("calcite-radio-group", () => {
         </calcite-radio-group>`
       );
 
-      const hiddenInput = await page.find(
-        `calcite-radio-group input[type="hidden"]`
-      );
+      const hiddenInput = await page.find(`calcite-radio-group input[type="hidden"]`);
       expect(hiddenInput).toBeDefined();
 
       const hiddenInputValue = await hiddenInput.getAttribute("value");
@@ -133,9 +127,7 @@ describe("calcite-radio-group", () => {
       const element = await page.find("calcite-radio-group");
       const spy = await element.spyOnEvent("calciteRadioGroupChange");
 
-      const firstElement = await element.find(
-        "calcite-radio-group-item[checked]"
-      );
+      const firstElement = await element.find("calcite-radio-group-item[checked]");
       await firstElement.click();
       await element.press("ArrowDown");
       let selected = await element.find("calcite-radio-group-item[checked]");
@@ -284,15 +276,13 @@ describe("calcite-radio-group", () => {
           <calcite-radio-group-item id="child-1" value="1">one</calcite-radio-group-item>
           <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
           <calcite-radio-group-item id="child-3" value="3">three</calcite-radio-group-item>
-        </calcite-radio-group>`,
+        </calcite-radio-group>`
       });
 
       const element = await page.find("calcite-radio-group");
       await element.callMethod("setFocus");
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(
-        "child-1"
-      );
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child-1");
     });
 
     it("focuses the selected item", async () => {
@@ -301,15 +291,13 @@ describe("calcite-radio-group", () => {
           <calcite-radio-group-item id="child-1" value="1">one</calcite-radio-group-item>
           <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
           <calcite-radio-group-item id="child-3" value="3" checked>three</calcite-radio-group-item>
-        </calcite-radio-group>`,
+        </calcite-radio-group>`
       });
 
       const element = await page.find("calcite-radio-group");
       await element.callMethod("setFocus");
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(
-        "child-3"
-      );
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child-3");
     });
   });
 });

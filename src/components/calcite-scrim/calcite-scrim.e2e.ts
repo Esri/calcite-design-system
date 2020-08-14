@@ -10,8 +10,8 @@ describe("calcite-scrim", () => {
     defaults("calcite-scrim", [
       {
         propertyName: "loading",
-        defaultValue: false,
-      },
+        defaultValue: false
+      }
     ]));
 
   it("shows loading component", async () => {

@@ -1,12 +1,11 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, text } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
+import { select, text } from "@storybook/addon-knobs";
+import { iconNames, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
-const notes = parseReadme(readme);
-
-storiesOf("components|Tile Select", module)
-  .addDecorator(withKnobs)
+storiesOf("Components/Tile Select", module)
+  .addParameters({ notes: readme })
   .add(
     "Light",
     () => `
@@ -27,8 +26,7 @@ storiesOf("components|Tile Select", module)
         value="${text("value", "one")}"
       >
       </calcite-tile-select>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark",
@@ -52,5 +50,5 @@ storiesOf("components|Tile Select", module)
       >
       </calcite-tile-select>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );
