@@ -1,8 +1,8 @@
 :host {
   @extend %component-host;
-  background-color: var(--calcite-app-background-transparent);
+  background-color: transparent;
 }
 
 calcite-button {
-  box-shadow: var(--calcite-app-shadow-1);
+  box-shadow: var(--calcite-shadow-1);
 }

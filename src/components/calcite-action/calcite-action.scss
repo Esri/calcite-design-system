@@ -12,7 +12,7 @@
 // @import "../../scss/includes/_component";
 
 .button {
-  font-family: $avenir-family;
+  font-family: var(--calcite-font-family);
   display: flex;
   color: var(--calcite-ui-text-2);
   fill: var(--calcite-ui-text-2);
