@@ -15,21 +15,21 @@
 
 .header .heading {
   flex: 1 0 auto;
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half);
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
 }
 
 h1.heading {
-  font-size: var(--calcite-app-font-size-3);
+  @include font-size(0);
 }
 
 h2.heading {
-  font-size: var(--calcite-app-font-size-2);
+  @include font-size(-1);
 }
 
 h3.heading {
-  font-size: var(--calcite-app-font-size-1);
+  @include font-size(-2);
 }
 h4.heading,
 h5.heading {
-  font-size: var(--calcite-app-font-size-0);
+  @include font-size(-4);
 }

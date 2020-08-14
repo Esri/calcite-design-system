@@ -67,12 +67,13 @@ calcite-handle {
 
 .header .title .heading {
   padding: 0;
+  color: var(--calcite-ui-text-3);
   @include font-size(-4);
   word-break: break-all;
 }
 
 .summary {
-  color: var(--calcite-ui-text-2);
+  color: var(--calcite-ui-text-3);
   @include font-size(-5);
   padding: 0;
   word-break: break-all;
