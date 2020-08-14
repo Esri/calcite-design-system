@@ -428,6 +428,7 @@ export class CalciteColor {
                   iconStart="minus"
                   onClick={this.deleteColor}
                   scale={scale}
+                  theme={theme}
                 />
                 <calcite-button
                   appearance="transparent"
@@ -437,26 +438,29 @@ export class CalciteColor {
                   iconStart="plus"
                   onClick={this.saveColor}
                   scale={scale}
+                  theme={theme}
                 />
               </div>
             </div>
-            <div class={CSS.savedColors}>
-              {[
-                ...savedColors.map((color) => (
-                  <calcite-color-swatch
-                    class={CSS.savedColor}
-                    color={color}
-                    active={selectedColorInHex === color}
-                    key={color}
-                    onClick={this.handleSavedColorSelect}
-                    onKeyDown={this.handleSavedColorKeyDown}
-                    scale={scale}
-                    tabIndex={0}
-                    theme={theme}
-                  />
-                ))
-              ]}
-            </div>
+            {savedColors.length > 0 ? (
+              <div class={CSS.savedColors}>
+                {[
+                  ...savedColors.map((color) => (
+                    <calcite-color-swatch
+                      class={CSS.savedColor}
+                      color={color}
+                      active={selectedColorInHex === color}
+                      key={color}
+                      onClick={this.handleSavedColorSelect}
+                      onKeyDown={this.handleSavedColorKeyDown}
+                      scale={scale}
+                      tabIndex={0}
+                      theme={theme}
+                    />
+                  ))
+                ]}
+              </div>
+            ) : null}
           </div>
         )}
       </div>
