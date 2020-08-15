@@ -2,37 +2,37 @@
   @extend %component-host;
   @include borderShadow();
   align-items: center;
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
   display: flex;
   margin: 0;
-  color: var(--calcite-app-foreground);
+  color: var(--calcite-ui-text-1);
   transition: background-color var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
   animation: calcite-app-fade-in var(--calcite-app-animation-time) var(--calcite-app-easing-function);
 }
 
 :host(:hover),
 :host(:focus) {
-  background-color: var(--calcite-app-background-hover);
+  background-color: var(--calcite-ui-foreground-2);
 }
 
 .icon {
-  color: var(--calcite-app-foreground-link);
+  color: var(--calcite-ui-blue-1);
   flex: 0 0 0%;
   line-height: 0;
-  width: var(--calcite-app-icon-size);
-  margin: 0 var(--calcite-app-side-spacing-quarter);
+  width: var(--calcite-icon-size);
+  margin: 0 var(--calcite-spacing-quarter);
   opacity: 0;
 }
 
 :host([selected]) .icon {
-  transition: opacity var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  transition: opacity $transition;
   opacity: 1;
 }
 
 .label {
   display: flex;
   flex: 1 1 auto;
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-quarter);
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-quarter);
   align-items: center;
   cursor: pointer;
   @include focus-style-base();
@@ -46,20 +46,20 @@
   flex-flow: column nowrap;
   overflow: hidden;
   pointer-events: none;
-  padding: 0 var(--calcite-app-side-spacing-quarter);
+  padding: 0 var(--calcite-spacing-quarter);
 }
 
 .title {
-  font-size: var(--calcite-app-font-size--1);
+  @include font-size(-4);
   word-wrap: break-word;
   word-break: break-word;
 }
 
 .description {
-  color: var(--calcite-app-foreground-subtle);
-  font-family: var(--calcite-app-font-family-monospace);
-  font-size: var(--calcite-app-font-size--2);
-  margin-top: var(--calcite-app-cap-spacing-quarter);
+  color: var(--calcite-ui-text-3);
+  font-family: var(--calcite-code-family);
+  @include font-size(-4);
+  margin-top: var(--calcite-spacing-quarter);
   word-wrap: break-word;
   word-break: break-word;
 }
@@ -69,5 +69,5 @@
   display: flex;
   flex: 0 0 auto;
   justify-self: flex-end;
-  margin: var(--calcite-app-cap-spacing-quarter) var(--calcite-app-side-spacing-half);
+  margin: var(--calcite-spacing-quarter) var(--calcite-spacing-half);
 }
