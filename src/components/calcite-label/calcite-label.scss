@@ -40,7 +40,9 @@
 }
 
 :host([layout="inline"]) label {
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-gap: $baseline/2;
   align-items: center;
 }
 
@@ -48,23 +50,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
-
-:host([layout="default"]) label {
-  & .calcite-label-text {
-    margin-bottom: 8px;
-  }
-}
-
-:host([layout="inline"]),
-:host([layout="inline-space-between"]) {
-  & .calcite-label-text:first-child {
-    margin-right: $baseline/2;
-  }
-
-  & .calcite-label-text:last-child {
-    margin-left: $baseline/2;
-  }
 }
 
 // status
