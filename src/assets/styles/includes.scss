@@ -1,9 +1,10 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
-@import "_layout.scss";
-@import "shadow";
+@import "animation";
 @import "host";
+@import "layout";
 @import "popper";
+@import "shadow";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
