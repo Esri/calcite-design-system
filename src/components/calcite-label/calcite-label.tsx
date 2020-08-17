@@ -1,4 +1,4 @@
-import { Component, Element, Listen, Host, h, Prop } from "@stencil/core";
+import { Component, Element, Event, Listen, Host, h, Prop, EventEmitter } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -36,12 +36,25 @@ export class CalciteLabel {
 
   //--------------------------------------------------------------------------
   //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Event() calciteLabelFocus: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick() {
+  @Listen("click") onClick(event: MouseEvent) {
     const forAttr = this.el.getAttribute("for");
+    this.calciteLabelFocus.emit({
+      labelEl: this.el,
+      interactedEl: event.target,
+      requestedInput: forAttr
+    });
     if (forAttr) {
       document.getElementById(forAttr).click();
     }
