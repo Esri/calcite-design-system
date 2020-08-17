@@ -35,9 +35,6 @@ export class CalciteRating {
   /** specify the theme of scrim, defaults to light */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
-  /** specify the icon used for the rating, defaults to star */
-  @Prop({ reflect: true }) iconType: "star" | "circle" = "star";
-
   /** specify the scale of the component, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
@@ -78,19 +75,12 @@ export class CalciteRating {
       this.setFocus();
     }
   }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // prop validations
-    // ensure only allowed icons are used
-    const icon = ["star", "circle"];
-    if (!icon.includes(this.iconType)) this.iconType = "star";
-    this.selectedIconType = this.iconType === "star" ? "star-f" : "circle-f";
-  }
 
   componentDidLoad() {
     this.ratingItems = this.el.shadowRoot.querySelectorAll(
@@ -156,6 +146,7 @@ export class CalciteRating {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
   private handleKeyDown(e) {
     if (!this.readOnly) {
       const itemToFocus = e.target;
@@ -224,7 +215,7 @@ export class CalciteRating {
   private determinePartialStar() {
     // position an extra icon and fill to width of percentage
     const rootVal = Math.floor(this.average);
-    const decimalVal = parseInt((this.average % 1).toFixed(2).split(".")[1]);
+    const decimal = parseInt((this.average % 1).toFixed(2).split(".")[1]);
 
     // track the closest full star to position the partial icon
     this.ratingItems?.forEach((item) => {
@@ -236,30 +227,26 @@ export class CalciteRating {
 
     // only generate partial star if there is a root with a partial
     if (this.rootStar) {
-      this.partialStar = document.createElement("CALCITE-ICON") as HTMLCalciteIconElement;
+      this.partialStar = document.createElement("calcite-icon") as HTMLCalciteIconElement;
       this.partialStar.dataset.partial = "true";
       this.partialStar.dataset.partialhidden = "false";
       this.partialStar.dataset.rootvalue = (rootVal + 1).toString();
       this.partialStar.scale = this.scale;
       this.partialStar.theme = this.theme;
       this.partialStar.icon = this.selectedIconType;
+      // edge legacy
+      this.partialStar.classList.add("calcite-rating-partial-star");
 
-      // compensate for margin based on scale
-      const margin =
-        this.scale === "s" ? rootVal * 4 : this.scale === "m" ? rootVal * 8 : rootVal * 12;
+      const ltrClip = `polygon(0 0, ${decimal}% 0, ${decimal}% 100%, 0% 100%)`;
+      const rtlClip = `polygon(${100 - decimal}% 0, 100% 0%, 100% 100%, ${100 - decimal}% 100%)`;
 
-      this.partialStar.style.margin =
-        this.dir !== "rtl"
-          ? `0 0 0 ${this.rootStar.offsetWidth * rootVal + margin}px`
-          : `0 ${this.rootStar.offsetWidth * rootVal + margin}px 0 0`;
+      /*
+      // @ts-ignore-error
+      // this.partialStar.style.webkitClipPath = this.dir !== "rtl" ? ltrClip : rtlClip;
+      */
+      this.partialStar.style.clipPath = this.dir !== "rtl" ? ltrClip : rtlClip;
 
-      // clip the icon to the partial percentage
-      this.partialStar.style.clipPath =
-        this.dir !== "rtl"
-          ? `polygon(0 0, ${decimalVal}% 0, ${decimalVal}% 100%, 0% 100%)`
-          : `polygon(${100 - decimalVal}% 0, 100% 0%, 100% 100%, ${100 - decimalVal}% 100%)`;
-
-      this.rootStar.insertAdjacentElement("afterend", this.partialStar);
+      this.rootStar.insertAdjacentElement("beforebegin", this.partialStar);
     }
   }
 
@@ -355,7 +342,9 @@ export class CalciteRating {
 
   private ratingItems: NodeListOf<HTMLCalciteIconElement>;
 
-  private selectedIconType: "star-f" | "circle-f" = "star-f";
+  private iconType = "star";
+
+  private selectedIconType = "star-f";
 
   private dir;
 

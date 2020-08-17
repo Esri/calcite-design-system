@@ -37,8 +37,6 @@
 
 // container for icon items
 :host .calcite-rating-item-container {
-  display: flex;
-  align-items: center;
   position: relative;
 }
 
@@ -77,6 +75,13 @@
 }
 
 :host calcite-icon[data-partial="true"] {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9;
+}
+
+// edge
+:host.calcite-rating-partial-star {
   position: absolute;
   pointer-events: none;
   z-index: 9;

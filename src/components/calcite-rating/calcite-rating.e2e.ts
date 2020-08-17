@@ -35,23 +35,6 @@ describe("calcite-rating", () => {
     expect(ratingItem5).toEqualAttribute("data-hovered", "false");
   });
 
-  it("renders correct icons when non-default type is requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating icon-type='circle'></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).toBeNull;
-    expect(ratingItem1).toEqualAttribute("icon", "circle");
-    expect(ratingItem2).toEqualAttribute("icon", "circle");
-    expect(ratingItem3).toEqualAttribute("icon", "circle");
-    expect(ratingItem4).toEqualAttribute("icon", "circle");
-    expect(ratingItem5).toEqualAttribute("icon", "circle");
-  });
-
   it("displays the value when no average is present and assigns correct data attributes and icon", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating value=3></calcite-rating>");
