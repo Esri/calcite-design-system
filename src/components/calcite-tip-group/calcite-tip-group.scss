@@ -6,5 +6,5 @@ $tip-max-width: 540px;
 
 ::slotted(calcite-tip) {
   max-width: $tip-max-width;
-  padding: 0 var(--calcite-app-side-spacing-half);
+  padding: 0 var(--calcite-spacing-half);
 }

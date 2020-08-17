@@ -29,7 +29,6 @@ $tip-max-width: 540px;
   display: block;
 }
 
-// @import "../../scss/includes/_component";
 @import "../../assets/styles/header";
 
 :host([closed]) {
@@ -37,14 +36,14 @@ $tip-max-width: 540px;
 }
 
 .header .heading {
-  padding-left: var(--calcite-app-side-spacing-half);
-  padding-right: var(--calcite-app-side-spacing-half);
+  padding-left: var(--calcite-spacing-half);
+  padding-right: var(--calcite-spacing-half);
 }
 
 .container {
   overflow: hidden;
   position: relative;
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half) 0;
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-half) 0;
   min-height: 150px;
   @include focus-style-base();
   &:focus {
@@ -54,10 +53,10 @@ $tip-max-width: 540px;
 
 .tip-container {
   animation-name: none;
-  animation-duration: var(--calcite-app-animation-time);
-  animation-timing-function: var(--calcite-app-easing-function);
+  animation-duration: 150ms;
+  animation-timing-function: $easing-function;
   height: $tip-manager-height;
-  margin-top: var(--calcite-app-cap-spacing-quarter);
+  margin-top: var(--calcite-spacing-quarter);
   overflow: auto;
   display: flex;
   justify-content: center;
@@ -70,12 +69,12 @@ $tip-max-width: 540px;
 
 ::slotted(calcite-tip-group) {
   max-width: $tip-max-width;
-  padding: 0 var(--calcite-app-side-spacing-half);
+  padding: 0 var(--calcite-spacing-half);
 }
 
 ::slotted(calcite-tip) {
   max-width: $tip-max-width;
-  padding: 0 var(--calcite-app-side-spacing-half);
+  padding: 0 var(--calcite-spacing-half);
 }
 
 .tip-container--advancing {
@@ -91,10 +90,10 @@ $tip-max-width: 540px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--calcite-app-cap-spacing-quarter) 0;
+  padding: var(--calcite-spacing-quarter) 0;
 }
 
 .page-position {
-  font-size: var(--calcite-app-font-size--1);
-  margin: 0 var(--calcite-app-side-spacing-half);
+  @include font-size(-4);
+  margin: 0 var(--calcite-spacing-half);
 }
