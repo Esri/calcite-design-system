@@ -1,30 +1,5 @@
-//ie11 fixes
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
-}
-
-// temporary hardcoded values until new font scale and padding is added to calcite-base
-:host([scale="s"]) label {
-  font-size: var(--calcite-label-font-size, 12px);
-  --calcite-label-spacing-value: 8px;
-}
-
-:host([scale="m"]) label {
-  font-size: var(--calcite-label-font-size, 16px);
-  --calcite-label-spacing-value: 12px;
-}
-
-:host([scale="l"]) label {
-  font-size: var(--calcite-label-font-size, 20px);
-  --calcite-label-spacing-value: 16px;
-}
-
-// padding for children variable
-:host {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  text-align: left;
 }
 
 :host([dir="rtl"]) {
@@ -50,6 +25,21 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+:host([scale="s"]) label {
+  font-size: var(--calcite-label-font-size, 12px);
+  --calcite-label-spacing-value: 8px;
+}
+
+:host([scale="m"]) label {
+  font-size: var(--calcite-label-font-size, 16px);
+  --calcite-label-spacing-value: 12px;
+}
+
+:host([scale="l"]) label {
+  font-size: var(--calcite-label-font-size, 20px);
+  --calcite-label-spacing-value: 16px;
 }
 
 // status
