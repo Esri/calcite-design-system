@@ -55,7 +55,6 @@ calcite-scrim {
 
 .header {
   align-items: stretch;
-  display: flex;
   flex: 0 0 auto;
   justify-content: flex-start;
   min-height: var(--calcite-header-min-height);
@@ -87,10 +86,10 @@ calcite-scrim {
 
 .content-container {
   align-items: stretch;
+  background-color: var(--calcite-ui-background);
   display: flex;
   flex-flow: column nowrap;
   flex: 1 1 auto;
-  background-color: var(--calcite-ui-foreground-1);
   overflow: auto;
 }
 

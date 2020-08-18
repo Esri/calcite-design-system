@@ -121,8 +121,8 @@ calcite-scrim {
 }
 
 :host([open]) {
-  margin-top: var(--calcite-spacing-half);
-  margin-bottom: var(--calcite-spacing-half);
+  margin-top: var(--calcite-spacing);
+  margin-bottom: var(--calcite-spacing);
   .article {
     border-left-color: var(--calcite-ui-border-1);
     &.calcite--rtl {
