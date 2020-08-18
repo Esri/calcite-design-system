@@ -1,4 +1,5 @@
 export const CSS = {
+  article: "article",
   content: "content",
   headerContainer: "header-container",
   icon: "icon",
