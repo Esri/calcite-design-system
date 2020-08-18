@@ -35,11 +35,11 @@ calcite-pick-list-item {
   color: var(--calcite-ui-border-3);
   line-height: 0;
   cursor: move;
-  @include focus-style-base();
   &:hover {
     background-color: var(--calcite-ui-foreground-2);
     color: var(--calcite-ui-text-1);
   }
+  @include focus-style-base();
   &:focus {
     background-color: var(--calcite-ui-foreground-2);
     color: var(--calcite-ui-text-1);

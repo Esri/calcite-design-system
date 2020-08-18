@@ -12,8 +12,6 @@
   --calcite-shell-panel-max-height-large: 80vh;
 }
 
-// @import "../../scss/includes/_component";
-
 :host([width-scale="s"]) {
   --calcite-shell-panel-width: 12vw;
   --calcite-shell-panel-min-width: 150px;

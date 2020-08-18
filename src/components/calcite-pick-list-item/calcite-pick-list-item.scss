@@ -1,6 +1,5 @@
 :host {
   @extend %component-host;
-  @include borderShadow();
   align-items: center;
   background-color: transparent;
   display: flex;
@@ -8,6 +7,7 @@
   color: var(--calcite-ui-text-1);
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
+  @include borderShadow();
 
   --calcite-icon-dot-size: 16px;
 }
@@ -60,17 +60,15 @@
 
 .title {
   @include font-size(-4);
-  word-wrap: break-word;
-  word-break: break-word;
+  @include word-break();
 }
 
 .description {
   color: var(--calcite-ui-text-3);
   font-family: var(--calcite-code-family);
-  @include font-size(-4);
   margin-top: var(--calcite-spacing-quarter);
-  word-wrap: break-word;
-  word-break: break-word;
+  @include font-size(-4);
+  @include word-break();
 }
 
 .action {

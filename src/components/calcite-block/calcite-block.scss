@@ -78,16 +78,14 @@ calcite-handle {
   padding: 0;
   color: var(--calcite-ui-text-3);
   @include font-size(-4);
-  word-wrap: break-word;
-  word-break: break-word;
+  @include word-break();
 }
 
 .summary {
   color: var(--calcite-ui-text-3);
   padding: 0;
   @include font-size(-5);
-  word-wrap: break-word;
-  word-break: break-word;
+  @include word-break();
 }
 
 .icon {

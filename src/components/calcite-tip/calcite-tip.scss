@@ -1,18 +1,15 @@
-$tip-content-only-width: 100% !default;
-$tip-content-width: 70% !default;
-$tip-image-frame-width: 25% !default;
-$tip-image-max-width: 100% !default;
-
 :host {
   @extend %component-host;
   position: relative;
   display: flex;
   flex-flow: column;
   background-color: transparent;
-}
 
-// @import "../../scss/includes/_component";
-@import "../../assets/styles/header";
+  --tip-content-only-width: 100%;
+  --tip-content-width: 70%;
+  --tip-image-frame-width: 25%;
+  --tip-image-max-width: 100%;
+}
 
 .container {
   background-color: var(--calcite-ui-foreground-1);
@@ -27,6 +24,8 @@ $tip-image-max-width: 100% !default;
   margin: 0;
   padding: 0;
 }
+
+@import "../../assets/styles/header";
 
 .header {
   justify-content: flex-end;
@@ -48,9 +47,9 @@ $tip-image-max-width: 100% !default;
 
 .info {
   padding: 0 var(--calcite-spacing);
-  width: $tip-content-width;
+  width: var(--tip-content-width);
   &:only-child {
-    width: $tip-content-only-width;
+    width: var(--tip-content-only-width);
     padding-left: 0;
     padding-right: 0;
   }
@@ -70,12 +69,12 @@ $tip-image-max-width: 100% !default;
 }
 
 .image-frame {
-  width: $tip-image-frame-width;
+  width: var(--tip-image-frame-width);
   img {
-    max-width: $tip-image-max-width;
+    max-width: var(--tip-image-max-width);
   }
 }
 
 ::slotted(img) {
-  max-width: $tip-image-max-width;
+  max-width: var(--tip-image-max-width);
 }

@@ -1,5 +1,3 @@
-$center-row-border: 1px solid var(--calcite-ui-border-3);
-
 :host {
   @extend %component-host;
   display: flex;
@@ -12,6 +10,8 @@ $center-row-border: 1px solid var(--calcite-ui-border-3);
   --calcite-shell-center-row-height-small: 33%;
   --calcite-shell-center-row-height-medium: 70%;
   --calcite-shell-center-row-height-large: 100%;
+
+  --calcite-shell-center-row-border: 1px solid var(--calcite-ui-border-3);
 }
 
 .content {
@@ -65,20 +65,20 @@ $center-row-border: 1px solid var(--calcite-ui-border-3);
 }
 
 ::slotted(calcite-action-bar) {
-  border-right: $center-row-border;
+  border-right: var(--calcite-shell-center-row-border);
 }
 ::slotted(calcite-action-bar[position="end"]) {
   border-right: none;
-  border-left: $center-row-border;
+  border-left: var(--calcite-shell-center-row-border);
 }
 
 .calcite--rtl {
   ::slotted(calcite-action-bar) {
     border-right: none;
-    border-left: $center-row-border;
+    border-left: var(--calcite-shell-center-row-border);
   }
   ::slotted(calcite-action-bar[position="end"]) {
     border-left: none;
-    border-right: $center-row-border;
+    border-right: var(--calcite-shell-center-row-border);
   }
 }

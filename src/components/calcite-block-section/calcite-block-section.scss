@@ -1,6 +1,5 @@
 :host {
   @extend %component-host;
-  // border-bottom: 1px solid var(--calcite-ui-border-3);
   display: block;
 }
 
@@ -21,6 +20,10 @@
   padding: var(--calcite-spacing-half) 0;
   user-select: none;
   @include font-size(-4);
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-outset();
+  }
   calcite-switch {
     pointer-events: none;
     margin: 0 0 0 var(--calcite-spacing-half);

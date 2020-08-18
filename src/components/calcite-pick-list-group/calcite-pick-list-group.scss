@@ -5,12 +5,11 @@
   margin-bottom: var(--calcite-spacing-quarter);
 }
 
-// @import "../../scss/includes/_component";
-@import "../../assets/styles/header";
-
 :host(:last-child) {
   margin-bottom: 0;
 }
+
+@import "../../assets/styles/header";
 
 h3.heading {
   @include font-size(-2);

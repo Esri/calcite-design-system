@@ -28,9 +28,9 @@ calcite-panel {
   }
   .heading {
     color: var(--calcite-ui-text-3);
-    @include font-size(-2);
     font-weight: var(--calcite-ui-text-weight-demi);
     margin: 0 0 var(--calcite-spacing-quarter);
+    @include font-size(-2);
     &:only-child {
       margin-bottom: 0;
     }

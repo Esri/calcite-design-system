@@ -9,8 +9,6 @@
   pointer-events: none;
 }
 
-// @import "../../scss/includes/_component";
-
 .button {
   font-family: var(--calcite-font-family);
   display: flex;
@@ -23,9 +21,9 @@
   border: none;
   width: auto;
   cursor: pointer;
-  @include font-size(-4);
   text-align: unset;
   position: relative;
+  @include font-size(-4);
   @include focus-style-base();
   &:hover,
   &:focus {
@@ -35,6 +33,9 @@
   }
 
   &:focus {
+    background-color: var(--calcite-ui-foreground-2);
+    color: var(--calcite-ui-text-1);
+    fill: var(--calcite-ui-text-1);
     @include focus-style-inset();
   }
 
