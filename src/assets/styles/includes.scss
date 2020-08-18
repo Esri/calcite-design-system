@@ -55,3 +55,8 @@
 @mixin borderShadowActive() {
   box-shadow: 0 0 0 1px var(--calcite-ui-blue-3) inset;
 }
+
+@mixin word-break() {
+  word-wrap: break-word;
+  word-break: break-word;
+}
