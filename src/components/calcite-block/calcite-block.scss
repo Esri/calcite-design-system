@@ -52,7 +52,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  font-family: var(--calcite-font-family);
+  font-family: inherit;
   text-align: unset;
   @include focus-style-base();
   &:focus {

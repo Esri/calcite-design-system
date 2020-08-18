@@ -16,12 +16,7 @@ When building any component in calcite-components or [calcite-components](https:
 
 #### Font family
 
-Use the main font family CSS variable for most text.
-
-```
-font-family: --calcite-font-family;
-```
-
+Avenir Next is the main font family in use.
 For text indicating or related to code, use this CSS variable:
 
 ```
