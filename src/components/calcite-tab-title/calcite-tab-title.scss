@@ -54,6 +54,16 @@ $tab-margin: 1.25rem;
   font-weight: 500;
 }
 
+// disabled styles
+:host([disabled]) {
+  pointer-events: none;
+  span,
+  a {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+}
+
 a,
 span {
   box-sizing: border-box;
