@@ -25,6 +25,9 @@ import {
 } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
+import { throttle } from "lodash-es";
+
+const throttleFor60FpsInMs = 16;
 
 @Component({
   tag: "calcite-color",
@@ -622,14 +625,14 @@ export class CalciteColor {
     }
   };
 
-  private drawColorFieldAndSlider(): void {
+  private drawColorFieldAndSlider = throttle((): void => {
     if (!this.fieldAndSliderRenderingContext) {
       return;
     }
 
     this.drawColorField();
     this.drawHueSlider();
-  }
+  }, throttleFor60FpsInMs);
 
   private drawColorField(): void {
     const context = this.fieldAndSliderRenderingContext;
