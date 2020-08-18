@@ -5,6 +5,7 @@ export const CSS = {
   handleActivated: "handle--activated",
   highlight: "highlight",
   icon: "icon",
+  iconDot: "icon-dot",
   label: "label",
   remove: "remove",
   title: "title",
@@ -13,7 +14,6 @@ export const CSS = {
 
 export const ICONS = {
   checked: "check",
-  circle: "circleF",
   remove: "x"
 };
 

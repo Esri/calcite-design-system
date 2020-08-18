@@ -6,8 +6,10 @@
   display: flex;
   margin: 0;
   color: var(--calcite-ui-text-1);
-  transition: background-color var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
-  animation: calcite-app-fade-in var(--calcite-app-animation-time) var(--calcite-app-easing-function);
+  transition: background-color $transition;
+  animation: calcite-fade-in $transition;
+
+  --calcite-icon-dot-size: 16px;
 }
 
 :host(:hover),
@@ -16,12 +18,19 @@
 }
 
 .icon {
-  color: var(--calcite-ui-blue-1);
-  flex: 0 0 0%;
+  color: var(--calcite-ui-blue-3);
+  flex: 0 0 auto;
   line-height: 0;
-  width: var(--calcite-icon-size);
   margin: 0 var(--calcite-spacing-quarter);
   opacity: 0;
+}
+
+.icon-dot {
+  width: calc(var(--calcite-icon-dot-size) / 2);
+  height: calc(var(--calcite-icon-dot-size) / 2);
+  margin: calc(var(--calcite-icon-dot-size) / 2);
+  background-color: var(--calcite-ui-blue-3);
+  border-radius: 100%;
 }
 
 :host([selected]) .icon {

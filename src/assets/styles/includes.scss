@@ -46,12 +46,12 @@
 }
 
 @mixin borderShadow() {
-  box-shadow: 0 -1px 0 var(--calcite-app-border) inset;
+  box-shadow: 0 -1px 0 var(--calcite-ui-border-3) inset;
 }
 
 @mixin borderShadowHover() {
-  box-shadow: 0 0 0 2px var(--calcite-app-border-hover) inset;
+  box-shadow: 0 0 0 2px var(--calcite-ui-border-1) inset;
 }
 @mixin borderShadowActive() {
-  box-shadow: 0 0 0 1px var(--calcite-app-border-active) inset;
+  box-shadow: 0 0 0 1px var(--calcite-ui-blue-3) inset;
 }
