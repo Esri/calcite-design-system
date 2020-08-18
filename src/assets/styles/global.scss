@@ -10,17 +10,15 @@
   @include componentLayoutVars();
   @include componentShadowVars();
   --calcite-border-radius: 3px;
-
-  // --calcite-animation-time: 250ms;
-  // --calcite-animation-time-fast: calc(var(--calcite-animation-time) / 3);
-  // --calcite-animation-time-slow: calc(var(--calcite-animation-time) * 2);
   --calcite-ui-opacity-disabled: 0.3;
-  --calcite-ui-foreground-current: #{$h-bb-010};
-  --calcite-ui-text-current: #{$h-bb-070};
+  
   --calcite-ui-text-weight: 400;
   --calcite-ui-text-weight-demi: 700;
   --calcite-font-family: #{$avenir-family};
   --calcite-code-family: #{$code-family};
+  
+  --calcite-ui-foreground-current: #{$h-bb-010};
+  --calcite-ui-text-current: #{$h-bb-070};
 }
 
 [theme="dark"] {
