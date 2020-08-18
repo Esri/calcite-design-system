@@ -1,14 +1,20 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
+/* CSS vars (@include in global) */
+@import "layout";
+@import "shadow";
+
 :root {
   font-family: $avenir-family;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   @include calcite-theme-light();
   @include componentLayoutVars();
   @include componentShadowVars();
+
   --calcite-border-radius: 3px;
   --calcite-ui-opacity-disabled: 0.3;
 

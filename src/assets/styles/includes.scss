@@ -1,11 +1,15 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
+
+/* mixins & extensions */
 @import "animation";
 @import "focus";
 @import "host";
-@import "layout";
 @import "shadowBorder";
 @import "popper";
+
+/* CSS vars (@include in global) */
+@import "layout";
 @import "shadow";
 
 @mixin slotted($selector, $tag, $scope: "") {
