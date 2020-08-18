@@ -2,7 +2,6 @@
   @extend %component-host;
   display: flex;
   background-color: transparent;
-
 }
 
 :host([disabled]) {
@@ -134,7 +133,7 @@
 :host([appearance="clear"]) .button:hover,
 :host([appearance="clear"]) .button:focus {
   background-color: transparent;
-  @include borderShadowHover();
+  box-shadow: 0 0 0 2px var(--calcite-ui-border-1) inset;
 }
 
 :host([active][appearance="clear"]) .button,
