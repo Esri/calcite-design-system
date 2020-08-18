@@ -572,7 +572,7 @@ export class CalciteColor {
       return color[mode.replace("-css", "").replace("a", "")]().string();
     }
 
-    const colorObject = color[mode]().round().object();
+    const colorObject = color[mode]().object();
 
     if (mode.endsWith("a")) {
       // normalize alpha prop
