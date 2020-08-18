@@ -11,12 +11,12 @@
   @include componentShadowVars();
   --calcite-border-radius: 3px;
   --calcite-ui-opacity-disabled: 0.3;
-  
+
   --calcite-ui-text-weight: 400;
-  --calcite-ui-text-weight-demi: 700;
+  --calcite-ui-text-weight-demi: 600;
   --calcite-font-family: #{$avenir-family};
   --calcite-code-family: #{$code-family};
-  
+
   --calcite-ui-foreground-current: #{$h-bb-010};
   --calcite-ui-text-current: #{$h-bb-070};
 }

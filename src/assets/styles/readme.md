@@ -14,7 +14,21 @@ When building any component in calcite-components or [calcite-components](https:
 
 [typography mixins from calcite-base](https://github.com/Esri/calcite-base/blob/master/dist/_type.scss)
 
-#### Font-size
+#### Font family
+
+Use the main font family CSS variable for most text.
+
+```
+font-family: --calcite-font-family;
+```
+
+For text indicating or related to code, use this CSS variable:
+
+```
+font-family: --calcite-code-family;
+```
+
+#### Font size
 
 Here are the most common use cases font-size (Sass):
 
@@ -41,17 +55,20 @@ CSS ouput:
 }
 ```
 
-#### Font-weight
+#### Font weight
 
-| Weight  | Value |
-| ------- | ----- |
-| Light   | 300   |
-| Regular | 400   |
-| Medium  | 500   |
-| Demi    | 700   |
+Two font weights are available using CSS vars.
+
+| Weight                        | Value |
+| ----------------------------- | ----- |
+| --calcite-ui-text-weight      | 400   |
+| --calcite-ui-text-weight-demi | 600   |
 
 Example:
-`font-weight: 500`
+
+```
+font-weight: var(--calcite-ui-text-weight);
+```
 
 ### Shadows
 
