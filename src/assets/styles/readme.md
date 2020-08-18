@@ -59,10 +59,12 @@ CSS ouput:
 
 Two font weights are available using CSS vars.
 
-| Weight                        | Value |
-| ----------------------------- | ----- |
-| --calcite-ui-text-weight      | 400   |
-| --calcite-ui-text-weight-demi | 600   |
+| Weight                          | Value |
+| ------------------------------- | ----- |
+| --calcite-ui-text-weight-light  | 300   |
+| --calcite-ui-text-weight        | 400   |
+| --calcite-ui-text-weight-medium | 500   |
+| --calcite-ui-text-weight-demi   | 600   |
 
 Example:
 
