@@ -216,7 +216,7 @@ describe("calcite-color", () => {
 
   describe("color inputs", () => {
     // tests for all individual inputs takes longer than the default
-    const timeoutOverrideInMs = 90000;
+    const timeoutOverrideInMs = 120000;
 
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");
