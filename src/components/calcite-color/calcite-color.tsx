@@ -63,12 +63,13 @@ export class CalciteColor {
   @Watch("color")
   handleColorChange(color: Color): void {
     this.drawColorFieldAndSlider();
-    const value = this.toValue(color);
     this.updateChannelsFromColor(color);
 
-    if (this.mode === "hex" && value === normalizeHex(color.hex()) && this.value === value) {
+    if (this.colorUpdateLocked) {
       return;
     }
+
+    const value = this.toValue(color);
 
     this.value = value;
   }
@@ -188,24 +189,26 @@ export class CalciteColor {
     const modeChanged = this.mode !== nextMode;
     this.mode = nextMode;
 
+    if (this.colorUpdateLocked) {
+      this.calciteColorChange.emit();
+      return;
+    }
+
     const color = Color(value);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
-      if (nextMode === "hex" && color.hex() === this.color.hex()) {
-        return;
-      }
-
       this.color = color;
       this.calciteColorChange.emit();
     }
   }
-
   //--------------------------------------------------------------------------
   //
   //  Internal State/Props
   //
   //--------------------------------------------------------------------------
+
+  private colorUpdateLocked = false;
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -251,13 +254,13 @@ export class CalciteColor {
     const hex = input.value;
 
     if (hex !== normalizeHex(color.hex())) {
-      this.color = Color(hex);
+      this.internalColorSet(Color(hex));
     }
   };
 
   private handleSavedColorSelect = (event: Event): void => {
     const swatch = event.currentTarget as HTMLCalciteColorSwatchElement;
-    this.color = Color(swatch.color);
+    this.internalColorSet(Color(swatch.color));
   };
 
   private handleChannelInput = (event: KeyboardEvent): void => {
@@ -549,6 +552,17 @@ export class CalciteColor {
   //
   //--------------------------------------------------------------------------
 
+  private internalColorSet(color: Color): void {
+    if (colorEqual(color, this.color)) {
+      return;
+    }
+
+    this.colorUpdateLocked = true;
+    this.color = color;
+    this.value = this.toValue(color);
+    this.colorUpdateLocked = false;
+  }
+
   private toValue(color: Color): ColorValue {
     const { mode } = this;
     const hexMode = "hex";
@@ -715,7 +729,7 @@ export class CalciteColor {
       const saturation = Math.round((HSV_LIMITS.s / width) * x);
       const value = Math.round((HSV_LIMITS.v / height) * (height - y));
 
-      this.color = this.color.hsv().saturationv(saturation).value(value);
+      this.internalColorSet(this.color.hsv().saturationv(saturation).value(value));
     };
 
     canvas.addEventListener("mousedown", ({ offsetX, offsetY }) => {
@@ -834,7 +848,7 @@ export class CalciteColor {
       } = this;
       const hue = (360 / width) * x;
 
-      this.color = this.color.hue(hue);
+      this.internalColorSet(this.color.hue(hue));
     };
   };
 
@@ -939,7 +953,7 @@ export class CalciteColor {
   }
 
   private updateColorFromChannels(channels: this["channels"]): void {
-    this.color = Color(channels, this.channelMode);
+    this.internalColorSet(Color(channels, this.channelMode));
   }
 
   private updateChannelsFromColor(color: Color): void {
