@@ -14,17 +14,31 @@
   margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
 }
 
-:host([layout="inline"]) label {
-  display: grid;
-  grid-template-columns: max-content max-content;
-  grid-gap: $baseline/2;
-  align-items: center;
+:host([layout="inline"]) {
+  label {
+    align-items: center;
+    flex-direction: row;
+  }
+  ::slotted(*) {
+    margin-right: $baseline/2;
+  }
+  ::slotted(*:last-child) {
+    margin-right: 0;
+  }
 }
 
-:host([layout="inline-space-between"]) label {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+:host([layout="inline-space-between"]) {
+  label {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  ::slotted(*) {
+    margin-right: $baseline/2;
+  }
+  ::slotted(*:last-child) {
+    margin-right: 0;
+  }
 }
 
 :host([scale="s"]) label {
