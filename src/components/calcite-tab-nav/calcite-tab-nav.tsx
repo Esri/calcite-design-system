@@ -217,7 +217,10 @@ export class CalciteTabNav {
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {
     if (this.tabNavEl) {
-      return getSlottedElements<HTMLCalciteTabTitleElement>(this.tabNavEl, "calcite-tab-title");
+      return getSlottedElements<HTMLCalciteTabTitleElement>(
+        this.tabNavEl,
+        "calcite-tab-title:not([disabled])"
+      );
     }
     return [];
   }
