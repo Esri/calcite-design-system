@@ -48,7 +48,7 @@ CSS ouput:
 | Light   | 300   |
 | Regular | 400   |
 | Medium  | 500   |
-| Demi    | 600   |
+| Demi    | 700   |
 
 Example:
 `font-weight: 500`
@@ -56,6 +56,8 @@ Example:
 ### Shadows
 
 The shadow of an element usually corresponds to the priority or importance of the message or workflow. Consistently using shadow for elements like alerts, modals, page takeovers, and sheets provides users clear and familiar indications of importance.
+
+#### CSS variables for shadows
 
 ```
 --shadow-1
@@ -77,3 +79,34 @@ Current usage:
 |          | Popovers    |
 |          | FAB         |
 |          | Date-picker |
+
+### Focus states
+
+All focuses-able elements should use the custom focus. Use a combination of two mixins to achieve this.
+
+Include the base focus mixin to the elements style block.
+
+```
+.my-element-class {
+  @include focus-style-base();
+}
+
+```
+
+And also add the focus style mixin to the `:focus` block. There is an inset style and an outset style.
+
+Inset focus style
+
+```
+.my-element-class:focus {
+  @include focus-style-inset();
+}
+```
+
+Outset focus style
+
+```
+.my-element-class:focus {
+  @include focus-style-outset();
+}
+```
