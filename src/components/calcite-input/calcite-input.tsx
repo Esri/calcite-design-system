@@ -499,6 +499,10 @@ export class CalciteInput {
           break;
       }
       this.value = this.childEl.value.toString();
+      this.calciteInputInput.emit({
+        element: this.childEl,
+        value: this.value
+      });
     }
   };
 }
