@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
-import { CalciteInput } from "./calcite-input";
 
 describe("calcite-input", () => {
   it("renders", async () => {
