@@ -4,39 +4,67 @@
 
 :host {
   display: flex;
+  justify-content: center;
   outline: none;
   color: var(--calcite-ui-text-3);
-  padding: 0.3rem 0.4rem;
   cursor: pointer;
   width: calc(100% / 7);
   min-width: 0;
 }
 
-:host .day {
+.day {
   display: flex;
-  width: 100%;
   border-radius: 100%;
   @include font-size(-2);
   justify-content: center;
   align-items: center;
-  height: 2rem;
-  width: 2rem;
+  line-height: 1;
   color: var(--calcite-ui-text-3);
   transition: all $transition;
   background: none;
   box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
+  opacity: 0.4;
+}
+
+.text {
+  margin: 1px 0 0 1px;
+}
+
+:host([scale="s"]) {
+  padding: 2px 0px;
+  .day {
+    height: 27px;
+    width: 27px;
+    font-size: 12px;
+  }
+}
+
+:host([scale="m"]) {
+  padding: 4px 4px;
+  .day {
+    height: 33px;
+    width: 33px;
+    font-size: 14px;
+  }
+}
+
+:host([scale="l"]) {
+  padding: 4px 4px;
+  .day {
+    height: 43px;
+    width: 43px;
+    font-size: 16px;
+  }
 }
 
 :host([current-month]) .day {
-  color: var(--calcite-ui-text-1);
+  opacity: 1;
 }
 
 :host([disabled]) {
   cursor: default;
   pointer-events: none;
-  .day {
-    color: var(--calcite-ui-border-1);
-  }
+  opacity: 0.2;
 }
 
 :host(:hover),
@@ -48,8 +76,7 @@
 }
 
 :host(:focus) .day {
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1),
-    0 0 0 4px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
 }
 
 :host([selected]) .day {

@@ -1,3 +1,3 @@
 export interface TreeSelectDetail {
-  selected: HTMLCalciteTreeItemElement[]
+  selected: HTMLCalciteTreeItemElement[];
 }

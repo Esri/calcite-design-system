@@ -9,17 +9,8 @@ import {
   Prop,
   Watch
 } from "@stencil/core";
-import {
-  UP,
-  DOWN,
-  ENTER,
-  HOME,
-  END,
-  SPACE,
-  LEFT,
-  RIGHT
-} from "../../utils/keys";
 import { getElementDir, getElementProp } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-stepper-item",
@@ -33,7 +24,7 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteStepperItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -41,16 +32,16 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
   /** is the step active */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** has the step been completed */
-  @Prop({ reflect: true, mutable: true }) complete: boolean = false;
+  @Prop({ reflect: true }) complete = false;
 
   /** does the step contain an error that needs to be resolved by the user */
-  @Prop({ mutable: true }) error: boolean = false;
+  @Prop() error = false;
 
   /** is the step disabled and not navigable to by a user */
-  @Prop({ mutable: true }) disabled: boolean = false;
+  @Prop() disabled = false;
 
   /** pass a title for the stepper item */
   @Prop() itemTitle?: string;
@@ -66,11 +57,11 @@ export class CalciteStepperItem {
 
   /** should the items display an icon based on status */
   /** @internal */
-  @Prop({ mutable: true }) icon: boolean = false;
+  @Prop({ mutable: true }) icon = false;
 
   /** optionally display the step number next to the title and subtitle */
   /** @internal */
-  @Prop({ mutable: true }) numbered: boolean = false;
+  @Prop({ mutable: true }) numbered = false;
 
   /** the scale of the item */
   /** @internal */
@@ -88,8 +79,10 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   @Event() calciteStepperItemKeyEvent: EventEmitter;
-  @Event() calciteStepperItemSelected: EventEmitter;
-  @Event() registerCalciteStepperItem: EventEmitter;
+
+  @Event() calciteStepperItemSelect: EventEmitter;
+
+  @Event() calciteStepperItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -149,18 +142,18 @@ export class CalciteStepperItem {
 
   @Listen("keydown") keyDownHandler(e) {
     if (!this.disabled && e.target === this.el) {
-      switch (e.keyCode) {
-        case SPACE:
-        case ENTER:
+      switch (getKey(e.key)) {
+        case " ":
+        case "Enter":
           this.emitRequestedItem();
           e.preventDefault();
           break;
-        case UP:
-        case DOWN:
-        case LEFT:
-        case RIGHT:
-        case HOME:
-        case END:
+        case "ArrowUp":
+        case "ArrowDown":
+        case "ArrowLeft":
+        case "ArrowRight":
+        case "Home":
+        case "End":
           this.calciteStepperItemKeyEvent.emit({ item: e });
           e.preventDefault();
           break;
@@ -168,7 +161,7 @@ export class CalciteStepperItem {
     }
   }
 
-  @Listen("calciteStepperItemHasChanged", { target: "parent" })
+  @Listen("calciteStepperItemChange", { target: "parent" })
   updateActiveItemOnChange(event: CustomEvent) {
     this.activePosition = event.detail.position;
     this.determineActiveItem();
@@ -186,7 +179,7 @@ export class CalciteStepperItem {
   private activePosition: number;
 
   /** the slotted item content */
-  private itemContent: HTMLElement[];
+  private itemContent: HTMLElement[] | HTMLElement;
 
   //--------------------------------------------------------------------------
   //
@@ -195,26 +188,15 @@ export class CalciteStepperItem {
   //--------------------------------------------------------------------------
 
   private setIcon() {
-    var path = this.active
-      ? "circle"
+    const path = this.active
+      ? "circleF"
       : this.error
-      ? "exclamationMarkCircle"
+      ? "exclamationMarkCircleF"
       : this.complete
-      ? "checkCircle"
+      ? "checkCircleF"
       : "circle";
 
-    // todo when calcite-icon is updated
-    // remove this and use circle-filled icon name
-    var filled = this.error || this.complete || this.active;
-
-    return (
-      <calcite-icon
-        icon={path}
-        filled={filled}
-        scale="s"
-        class="stepper-item-icon"
-      />
-    );
+    return <calcite-icon icon={path} scale="s" class="stepper-item-icon" />;
   }
 
   private determineActiveItem() {
@@ -222,7 +204,7 @@ export class CalciteStepperItem {
   }
 
   private registerStepperItem() {
-    this.registerCalciteStepperItem.emit({
+    this.calciteStepperItemRegister.emit({
       position: this.itemPosition,
       content: this.itemContent
     });
@@ -230,7 +212,7 @@ export class CalciteStepperItem {
 
   private emitRequestedItem() {
     if (!this.disabled) {
-      this.calciteStepperItemSelected.emit({
+      this.calciteStepperItemSelect.emit({
         position: this.itemPosition,
         content: this.itemContent
       });
@@ -238,18 +220,16 @@ export class CalciteStepperItem {
   }
 
   private getItemContent() {
-    return this.el.shadowRoot.querySelector("slot")
-      ? (this.el.shadowRoot
-          .querySelector("slot")
-          .assignedNodes({ flatten: true }) as HTMLElement[])
+    // handle ie and edge
+    return this.el.shadowRoot?.querySelector("slot")
+      ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
+      : this.el.querySelector(".stepper-item-content")
+      ? (this.el.querySelector(".stepper-item-content") as HTMLElement)
       : null;
   }
 
   private getItemPosition() {
     const parent = this.el.parentElement as HTMLCalciteStepperElement;
-    return Array.prototype.indexOf.call(
-      parent.querySelectorAll("calcite-stepper-item"),
-      this.el
-    );
+    return Array.prototype.indexOf.call(parent.querySelectorAll("calcite-stepper-item"), this.el);
   }
 }

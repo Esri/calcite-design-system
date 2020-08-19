@@ -1,13 +1,6 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Method,
-  Prop,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Method, Prop } from "@stencil/core";
+
+import { TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -25,7 +18,7 @@ import { getElementDir } from "../../utils/dom";
 @Component({
   tag: "calcite-notice",
   styleUrl: "calcite-notice.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteNotice {
   //--------------------------------------------------------------------------
@@ -34,7 +27,7 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteNoticeElement;
 
   //--------------------------------------------------------------------------
   //
@@ -43,30 +36,28 @@ export class CalciteNotice {
   //---------------------------------------------------------------------------
 
   /** Is the notice currently active or not */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Color for the notice (will apply to top border and icon) */
-  @Prop({ reflect: true, mutable: true }) color:
-    | "blue"
-    | "green"
-    | "red"
-    | "yellow" = "blue";
+  @Prop({ reflect: true, mutable: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
+
+  /** String for the close button. */
+  @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the notice, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** specify the scale of the button, defaults to m */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
-    "auto";
+  /** specify the width of the notice, defaults to m */
+  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
+  /** Optionally show a button the user can click to dismiss the notice */
+  @Prop({ reflect: true }) dismissible?: boolean = false;
 
   /** If false, no icon will be shown in the notice */
-  @Prop() icon: boolean = false;
+  @Prop() icon = false;
 
   //--------------------------------------------------------------------------
   //
@@ -76,20 +67,18 @@ export class CalciteNotice {
 
   connectedCallback() {
     // prop validations
-    let colors = ["blue", "red", "green", "yellow"];
+    const colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
 
-    let scales = ["s", "m", "l"];
+    const scales = ["s", "m", "l"];
     if (!scales.includes(this.scale)) this.scale = "m";
 
-    let widths = ["auto", "half", "full"];
+    const widths = ["auto", "half", "full"];
     if (!widths.includes(this.width)) this.width = "auto";
   }
 
   componentDidLoad() {
-    this.noticeLinkEl = this.el.querySelectorAll(
-      "calcite-button"
-    )[0] as HTMLCalciteButtonElement;
+    this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
   render() {
@@ -97,9 +86,9 @@ export class CalciteNotice {
     const closeButton = (
       <button
         class="notice-close"
-        aria-label="close"
+        aria-label={this.intlClose}
         onClick={() => this.close()}
-        ref={(el) => (this.closeButton = el)}
+        ref={() => this.closeButton}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -139,13 +128,13 @@ export class CalciteNotice {
   /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
   @Method() async close() {
     this.active = false;
-    this.calciteNoticeClose.emit({ requestedNotice: this.noticeId });
+    this.calciteNoticeClose.emit();
   }
 
   /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
   @Method() async open() {
     this.active = true;
-    this.calciteNoticeOpen.emit({ requestedNotice: this.noticeId });
+    this.calciteNoticeOpen.emit();
   }
 
   /** focus the close button, if present and requested */
@@ -166,24 +155,21 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  /** Unique ID for this notice */
-  private noticeId: string = this.el.id;
-
   /** the close button element */
   private closeButton?: HTMLElement;
 
   /** the notice link child element  */
-  private noticeLinkEl?: HTMLCalciteButtonElement;
+  private noticeLinkEl?: HTMLCalciteLinkElement;
 
   private iconDefaults = {
     green: "checkCircle",
     yellow: "exclamationMarkTriangle",
     red: "exclamationMarkTriangle",
-    blue: "lightbulb",
+    blue: "lightbulb"
   };
 
   private setIcon() {
-    var path = this.iconDefaults[this.color];
+    const path = this.iconDefaults[this.color];
     return (
       <div class="notice-icon">
         <calcite-icon icon={path} scale="m"></calcite-icon>

@@ -1,7 +1,8 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSX } from "../components";
-import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
+import axe from "axe-core";
+import { config } from "../../stencil.config";
 
 expect.extend(toHaveNoViolations);
 
@@ -10,11 +11,7 @@ type AxeOwningWindow = Window & { axe: typeof axe };
 type ComponentHTML = string;
 type TagOrHTML = CalciteComponentTag | ComponentHTML;
 
-async function setUpPage(content: string): Promise<E2EPage> {
-  const page = await newE2EPage();
-  await page.setContent(content);
-  return page;
-}
+export const HYDRATED_ATTR = config.hydratedFlag.name;
 
 function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
@@ -32,7 +29,11 @@ function getTag(tagOrHTML: string): CalciteComponentTag {
 
 async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
-  return setUpPage(isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}><${componentTag}/>`);
+
+  return newE2EPage({
+    html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}><${componentTag}/>`,
+    failOnConsoleError: true
+  });
 }
 
 export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
@@ -48,12 +49,12 @@ export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
   ).toHaveNoViolations();
 }
 
-export async function renders(componentTagOrHTML: TagOrHTML): Promise<void> {
+export async function renders(componentTagOrHTML: TagOrHTML, visible = true): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
-  expect(element).toHaveClass("hydrated");
-  expect(await element.isVisible()).toBe(true);
+  expect(element).toHaveAttribute(HYDRATED_ATTR);
+  expect(await element.isVisible()).toBe(visible);
 }
 
 export async function reflects(
@@ -69,7 +70,7 @@ export async function reflects(
 
   for (const propAndValue of propsToTest) {
     const { propertyName, value } = propAndValue;
-    const componentAttributeSelector = `${componentTag}[${propertyName}]`;
+    const componentAttributeSelector = `${componentTag}[${propToAttr(propertyName)}]`;
 
     element.setProperty(propertyName, value);
     await page.waitForChanges();
@@ -90,6 +91,10 @@ export async function reflects(
   }
 }
 
+function propToAttr(name: string): string {
+  return name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+}
+
 export async function defaults(
   componentTagOrHTML: TagOrHTML,
   propsToTest: {
@@ -103,7 +108,7 @@ export async function defaults(
   for (const propAndValue of propsToTest) {
     const { propertyName, defaultValue } = propAndValue;
     const prop = await element.getProperty(propertyName);
-    expect(prop).toBe(defaultValue);
+    expect(prop).toEqual(defaultValue);
   }
 }
 
@@ -115,4 +120,14 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
   await page.waitForChanges();
 
   expect(await element.isVisible()).toBe(false);
+}
+
+export async function focusable(componentTagOrHTML: TagOrHTML): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHTML);
+  const tag = getTag(componentTagOrHTML);
+  const element = await page.find(tag);
+
+  await element.callMethod("setFocus"); // assumes element is CalciteFocusableElement
+
+  expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(tag.toUpperCase());
 }

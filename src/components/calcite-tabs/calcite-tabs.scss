@@ -1,6 +1,14 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 :host {
   display: flex;
   flex-direction: column;
+}
+
+:host([position="below"]) {
+  flex-direction: column-reverse;
 }
 
 section {
@@ -8,4 +16,10 @@ section {
   flex-grow: 1;
   overflow: hidden;
   border-top: 1px solid var(--calcite-ui-border-1);
+}
+
+:host([position="below"]) section {
+  flex-direction: column-reverse;
+  border-top: 0;
+  border-bottom: 1px solid var(--calcite-ui-border-1);
 }

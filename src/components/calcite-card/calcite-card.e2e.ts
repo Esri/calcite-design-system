@@ -41,9 +41,7 @@ describe("calcite-card", () => {
       </calcite-card>
     `);
 
-    const thumbContainer = await page.find(
-      `calcite-card >>> .${CSS.thumbnailWrapper}`
-    );
+    const thumbContainer = await page.find(`calcite-card >>> .${CSS.thumbnailWrapper}`);
 
     expect(thumbContainer).not.toBeNull();
   });
@@ -56,9 +54,7 @@ describe("calcite-card", () => {
       </calcite-card>
     `);
 
-    const thumbContainer = await page.find(
-      `calcite-card >>> .${CSS.checkboxWrapper}`
-    );
+    const thumbContainer = await page.find(`calcite-card >>> .${CSS.checkboxWrapper}`);
 
     expect(thumbContainer).not.toBeNull();
   });

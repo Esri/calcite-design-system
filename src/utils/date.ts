@@ -1,11 +1,7 @@
 /**
  * Check if date is within a min and max
  */
-export function inRange(
-  date: Date,
-  min?: Date | string,
-  max?: Date | string
-): boolean {
+export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
   const time = date.getTime();
   const afterMin = !(min instanceof Date) || time >= min.getTime();
   const beforeMax = !(max instanceof Date) || time <= max.getTime();
@@ -16,11 +12,7 @@ export function inRange(
  * Ensures date is within range,
  * returns min or max if out of bounds
  */
-export function dateFromRange(
-  date?: any,
-  min?: Date | string,
-  max?: Date | string
-): Date | null {
+export function dateFromRange(date?: any, min?: Date | string, max?: Date | string): Date | null {
   if (!(date instanceof Date)) {
     return null;
   }
@@ -47,8 +39,7 @@ export function dateFromISO(iso8601: string): Date | null {
   const d = iso8601.split(/[: T-]/).map(parseFloat);
   const date = new Date(d[0], (d[1] || 1) - 1, d[2] || 1);
   if (isNaN(date.getTime())) {
-    console.error(`Invalid ISO 8601 date: "${iso8601}"`);
-    return null;
+    throw new Error(`Invalid ISO 8601 date: "${iso8601}"`);
   }
   return date;
 }

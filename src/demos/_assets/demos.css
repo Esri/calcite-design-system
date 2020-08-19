@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  background-color: var(--calcite-app-background-content);
+}
+
+main {
+  margin: 0;
+  padding: 0;
+  font-size: var(--calcite-font-size-0);
+}
+
+.example-container {
+  color: var(--calcite-app-foreground-subtle);
+  max-width: 1024px;
+  min-width: 280px;
+  width: 70vw;
+  padding: 0 var(--calcite-app-side-spacing-double);
+  margin: 0 auto var(--calcite-app-cap-spacing-double);
+  background-color: var(--calcite-app-background-clear);
+}
+
+.example-container h1,
+.example-container h2,
+.example-container h3,
+.example-container h4,
+.example-container h5 {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: var(--calcite-app-font-weight-demi);
+  /* margin: var(--calcite-app-cap-spacing) 0 0; */
+}
+.example-container h1 {
+  font-size: var(--calcite-app-font-size-2);
+}
+.example-container h2 {
+  font-size: var(--calcite-app-font-size-1);
+}
+.example-container h3 {
+  font-weight: var(--calcite-app-font-weight);
+  font-size: var(--calcite-app-font-size-1);
+}
+
+/* Custom container for shell since it's rather large */
+.shell-container {
+  /* ipad size with browser */
+  min-width: 1024px;
+  min-height: 671px;
+  margin: 0 auto;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+}

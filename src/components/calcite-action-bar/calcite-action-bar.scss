@@ -1,0 +1,29 @@
+:host {
+  @extend %component-host;
+  align-self: stretch;
+  display: inline-flex;
+  flex-direction: column;
+  max-width: 15vw;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+@import "../../scss/includes/_component";
+
+:host([expanded]) {
+  max-width: 20vw;
+}
+
+::slotted(calcite-action-group) {
+  border-bottom: 1px solid var(--calcite-app-border);
+}
+
+::slotted(calcite-action-group:last-child) {
+  border-bottom: none;
+}
+
+.action-group--bottom {
+  padding-bottom: 0;
+  flex-grow: 1;
+  justify-content: flex-end;
+}

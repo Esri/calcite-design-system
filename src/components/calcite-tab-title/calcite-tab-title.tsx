@@ -8,12 +8,13 @@ import {
   Method,
   h,
   Host,
-  State
+  State,
+  Build
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
-import { SPACE, ENTER, LEFT, RIGHT } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tab-title",
@@ -27,7 +28,7 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTabTitleElement;
 
   //--------------------------------------------------------------------------
   //
@@ -39,21 +40,43 @@ export class CalciteTabTitle {
    * Optionally include a unique name for the tab title,
    * be sure to also set this name on the associated tab.
    */
-  @Prop({ reflect: true, mutable: true }) tab?: string;
+  @Prop({ reflect: true }) tab?: string;
 
   /** Show this tab title as selected */
-  @Prop({ reflect: true, mutable: true }) isActive: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
+
+  /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /** optionally pass an icon to display at the end of a tab title - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+
+  /** @internal Parent tabs component position value */
+  @Prop({ reflect: true, mutable: true }) position: "above" | "below";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback() {
+    this.setupTextContentObserver();
+  }
+
+  disconnectedCallback() {
+    this.observer.disconnect();
+    this.calciteTabTitleUnregister.emit();
+  }
+
   componentWillLoad() {
-    if (this.tab && this.isActive) {
+    if (Build.isBrowser) {
+      this.updateHasText();
+    }
+    if (this.tab && this.active) {
       this.calciteTabsActivate.emit({
         tab: this.tab
       });
@@ -62,32 +85,40 @@ export class CalciteTabTitle {
 
   componentWillRender() {
     this.layout = this.el.closest("calcite-tabs")?.layout;
+    this.position = this.el.closest("calcite-tabs")?.position;
   }
 
   render() {
     const id = this.el.id || this.guid;
 
+    const iconStartEl = (
+      <calcite-icon class="calcite-tab-title--icon icon-start" icon={this.iconStart} scale="s" />
+    );
+
+    const iconEndEl = (
+      <calcite-icon class="calcite-tab-title--icon icon-end" icon={this.iconEnd} scale="s" />
+    );
+
     return (
       <Host
         id={id}
         aria-controls={this.controls}
-        aria-expanded={this.isActive.toString()}
+        aria-expanded={this.active.toString()}
         role="tab"
         tabindex="0"
+        hasText={this.hasText}
       >
         <a>
+          {this.iconStart ? iconStartEl : null}
           <slot />
+          {this.iconEnd ? iconEndEl : null}
         </a>
       </Host>
     );
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.calciteTabTitleRegister.emit();
-  }
-
-  componentDidUnload() {
-    this.calciteTabTitleUnregister.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -100,10 +131,10 @@ export class CalciteTabTitle {
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (this.tab) {
-      this.isActive = this.tab === event.detail.tab;
+      this.active = this.tab === event.detail.tab;
     } else {
-      this.getTabIndex().then(index => {
-        this.isActive = index === event.detail.tab;
+      this.getTabIndex().then((index) => {
+        this.active = index === event.detail.tab;
       });
     }
   }
@@ -115,22 +146,22 @@ export class CalciteTabTitle {
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    switch (e.keyCode) {
-      case SPACE:
-      case ENTER:
+    switch (getKey(e.key)) {
+      case " ":
+      case "Enter":
         this.calciteTabsActivate.emit({
           tab: this.tab
         });
         e.preventDefault();
         break;
-      case RIGHT:
+      case "ArrowRight":
         if (getElementDir(this.el) === "ltr") {
           this.calciteTabsFocusNext.emit();
         } else {
           this.calciteTabsFocusPrevious.emit();
         }
         break;
-      case LEFT:
+      case "ArrowLeft":
         if (getElementDir(this.el) === "ltr") {
           this.calciteTabsFocusPrevious.emit();
         } else {
@@ -201,10 +232,7 @@ export class CalciteTabTitle {
   /**
    * @internal
    */
-  @Method() async updateAriaInfo(
-    tabIds: string[] = [],
-    titleIds: string[] = []
-  ) {
+  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []) {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
     return Promise.resolve();
   }
@@ -215,7 +243,26 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
+  /** watches for changing text content **/
+  private observer: MutationObserver;
+
   @State() private controls: string;
+
+  /** determine if there is slotted text for styling purposes */
+  @State() private hasText?: boolean = false;
+
+  private updateHasText() {
+    this.hasText = this.el.textContent.trim().length > 0;
+  }
+
+  private setupTextContentObserver() {
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(() => {
+        this.updateHasText();
+      });
+      this.observer.observe(this.el, { childList: true, subtree: true });
+    }
+  }
 
   /**
    * @internal

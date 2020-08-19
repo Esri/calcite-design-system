@@ -1,98 +1,87 @@
-::slotted(input) {
-  display: none;
+:host-context([theme="light"]) {
+  --calcite-ui-border-4: $blk-100;
 }
-
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+:host([scale="s"]) {
+  --calcite-checkbox-size: 12px;
+}
+:host([scale="m"]) {
+  --calcite-checkbox-size: 16px;
+}
+:host([scale="l"]) {
+  --calcite-checkbox-size: 20px;
+}
+::slotted(input) {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
 :host {
-  display: inline-block;
+  display: inline-flex;
   cursor: pointer;
+  position: relative;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-}
-
-//focus
-:host .check-svg {
-  @include focus-style-base();
-}
-:host(:focus) .check-svg {
-  @include focus-style-outset();
-}
-
-.check-svg {
-  width: 20px;
-  height: 20px;
-  overflow: hidden;
-  display: inline-block;
-  background-color: white;
-  border: 1px solid $blk-130;
-  vertical-align: -0.25em;
-  margin-right: 0.25em;
-  pointer-events: none;
-  transition: all 150ms linear;
-  box-sizing: border-box;
-}
-
-:host([theme="dark"]) {
   .check-svg {
-    background-color: transparent;
-    border-color: $blk-020;
+    width: var(--calcite-checkbox-size);
+    height: var(--calcite-checkbox-size);
+    overflow: hidden;
+    display: inline-block;
+    background-color: var(--calcite-ui-foreground-1);
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-4);
+    fill: var(--calcite-ui-background);
+    pointer-events: none;
+    box-sizing: border-box;
+    transition: all 0.15s ease-in-out;
+  }
+  .hasLabel {
+    display: grid;
+    grid-gap: 12px;
+    align-items: center;
+    --calcite-label-margin-bottom: 0;
   }
 }
-
-:host([theme="dark"][disabled]) {
+:host(:hover),
+:host([hovered]) {
   .check-svg {
-    border-color: $blk-130;
-    background-color: $blk-200;
+    box-shadow: inset 0 0 0 2px var(--calcite-ui-blue-1);
   }
 }
-
-:host([theme="dark"][checked]),
-:host([theme="dark"][indeterminate]) {
-  .check-svg {
-    background-color: $v-bb-140;
-  }
-}
-
-:host([size="large"]) {
-  .check-svg {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-:host([size="small"]) {
-  .check-svg {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-:host([disabled]) {
-  pointer-events: none;
-  cursor: default;
-
-  .check-svg {
-    background-color: $blk-010;
-    border-color: $blk-020;
-  }
-}
-
-:host([disabled][checked]),
-:host([disabled][indeterminate]) {
-  .check-svg {
-    background-color: $m-bb-050;
-    border-color: $m-bb-050;
-  }
-}
-
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    background-color: $ui-blue-1;
-    border: 1px solid $ui-blue-1;
+    background-color: var(--calcite-ui-blue-1);
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-blue-1);
   }
 }
-
-:host(:hover),
-:host(:focus) {
-  outline: none;
+:host(:focus),
+:host([focused]) {
+  .check-svg {
+    @include focus-box-shadow(inset 0 0 0 1px var(--calcite-ui-blue-1));
+  }
+}
+:host([disabled]) {
+  cursor: default;
+  opacity: 0.4;
+  pointer-events: none;
+}
+:host([scale="s"]) {
+  .hasLabel {
+    grid-template-columns: 12px 1fr 4px;
+    grid-template-rows: 16px 1fr;
+  }
+}
+:host([scale="m"]) {
+  .hasLabel {
+    grid-template-columns: 16px 1fr 4px;
+    grid-template-rows: 20px 1fr;
+  }
+}
+:host([scale="l"]) {
+  .hasLabel {
+    grid-template-columns: 20px 1fr 4px;
+    grid-template-rows: 24px 1fr;
+  }
 }

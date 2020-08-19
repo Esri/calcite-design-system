@@ -4,7 +4,7 @@
 enum units {
   day = "day",
   month = "month",
-  year = "year",
+  year = "year"
 }
 
 /**
@@ -26,10 +26,10 @@ export interface DateFormattingData {
  * Parse date formatting data for a given locale
  */
 export function getLocaleFormatData(locale: string): DateFormattingData {
-  let data = [
+  const data = [
     { unit: units.month, num: "11", placeholder: "mm" },
     { unit: units.day, num: "22", placeholder: "dd" },
-    { unit: units.year, num: "3333", placeholder: "yyyy" },
+    { unit: units.year, num: "3333", placeholder: "yyyy" }
   ];
 
   // create a new localized string from a known date
@@ -37,22 +37,15 @@ export function getLocaleFormatData(locale: string): DateFormattingData {
   const buddhist = test.indexOf("3876") > -1;
   // replace arabic numerals and adjust for buddhist era
   test = replaceArabicNumerals(test).replace("3876", "3333");
-  const placeholder = data.reduce(
-    (str, d) => str.replace(d.num, d.placeholder),
-    test
-  );
+  const placeholder = data.reduce((str, d) => str.replace(d.num, d.placeholder), test);
   // given the localized test string, determine the order of day, month, year
-  const order = data
-    .sort((a, b) => (test.indexOf(a.num) < test.indexOf(b.num) ? -1 : 1))
-    .map((d) => d.unit);
-  const separator = [". ", ".", "-", "/", "/"].find(
-    (char) => test.indexOf(char) > -1
-  );
+  const order = data.sort((a, b) => (test.indexOf(a.num) < test.indexOf(b.num) ? -1 : 1)).map((d) => d.unit);
+  const separator = [". ", ".", "-", "/", "/"].find((char) => test.indexOf(char) > -1);
   return {
     order,
     separator,
     buddhist,
-    placeholder,
+    placeholder
   };
 }
 
@@ -60,10 +53,7 @@ export function getLocaleFormatData(locale: string): DateFormattingData {
  * Parse numeric units for day, month, and year from a localized string
  * month starts at 0 (can pass to date constructor)
  */
-export function parseDateString(
-  str: string,
-  locale: string
-): { [U in units]: number } {
+export function parseDateString(str: string, locale: string): { [U in units]: number } {
   const { separator, order, buddhist } = getLocaleFormatData(locale);
   const values = replaceArabicNumerals(str)
     .split(separator)
@@ -71,15 +61,15 @@ export function parseDateString(
     .map((part) => part.replace(".", ""));
   return {
     day: parseInt(values[order.indexOf(units.day)]),
-    month: Math.max(parseInt(values[order.indexOf(units.month)]) - 1, 0),
-    year: parseInt(values[order.indexOf(units.year)]) - (buddhist ? 543 : 0),
+    month: parseInt(values[order.indexOf(units.month)]) - 1,
+    year: parseInt(values[order.indexOf(units.year)]) - (buddhist ? 543 : 0)
   };
 }
 
 /**
  * Convert eastern arbic numerals and remove right-to-left control marks
  */
-export function replaceArabicNumerals(str: string = ""): string {
+export function replaceArabicNumerals(str = ""): string {
   return str
     .replace(/[\u0660-\u0669]/g, (c) => (c.charCodeAt(0) - 0x0660) as any)
     .replace(/[\u06f0-\u06f9]/g, (c) => (c.charCodeAt(0) - 0x06f0) as any)
@@ -94,7 +84,7 @@ export function getMonths(locale: string): string[] {
   return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
     date.setMonth(i);
     return new Intl.DateTimeFormat(locale, {
-      month: "long",
+      month: "long"
     }).format(date);
   });
 }
@@ -109,18 +99,16 @@ export function getYear(date: Date, locale: string): string {
 /**
  * Generate an array of localized week day names in the correct order
  */
-export function getLocalizedWeekdays(locale: string): string[] {
+export function getLocalizedWeekdays(locale: string, format = "short"): string[] {
   const startWeek = [];
   const endWeek = [];
   const date = new Date();
   for (let w = 1; w < 8; w++) {
     date.setDate(w);
-    let day = new Intl.DateTimeFormat(locale, {
-      weekday: "short",
+    const day = new Intl.DateTimeFormat(locale, {
+      weekday: format
     }).format(date);
-    date.getDay() === getFirstDayOfWeek(locale) || startWeek.length > 0
-      ? startWeek.push(day)
-      : endWeek.push(day);
+    date.getDay() === getFirstDayOfWeek(locale) || startWeek.length > 0 ? startWeek.push(day) : endWeek.push(day);
   }
   return [...startWeek, ...endWeek];
 }
@@ -229,5 +217,5 @@ export const firstDayOfWeek: { [key: string]: number } = {
   UZ: 1,
   VA: 1,
   VN: 1,
-  XK: 1,
+  XK: 1
 };

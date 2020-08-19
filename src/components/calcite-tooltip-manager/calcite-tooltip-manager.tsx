@@ -1,6 +1,7 @@
-import { Component, Element, Host, h, Prop } from "@stencil/core";
+import { Component, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
 import { getDescribedByElement } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tooltip-manager"
@@ -19,59 +20,25 @@ export class CalciteTooltipManager {
 
   // --------------------------------------------------------------------------
   //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteTooltipManagerElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  componentDidLoad() {
-    const { el } = this;
-
-    el.addEventListener("mouseenter", this.show, true);
-    el.addEventListener("mouseleave", this.hide, true);
-    el.addEventListener("focus", this.show, true);
-    el.addEventListener("blur", this.hide, true);
-  }
-
-  componentDidUnload() {
-    const { el } = this;
-
-    el.removeEventListener("mouseenter", this.show, true);
-    el.removeEventListener("mouseleave", this.hide, true);
-    el.removeEventListener("focus", this.show, true);
-    el.removeEventListener("blur", this.hide, true);
-  }
-
-  // --------------------------------------------------------------------------
-  //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
 
   toggle = (event: Event, value = true): void => {
     const target = event.target as HTMLElement;
+    const { selector } = this;
 
-    const describedByElement =
-      target && target.matches(this.selector) && getDescribedByElement(target);
+    const describedByElement = getDescribedByElement(target.closest(selector));
 
     if (describedByElement) {
       (describedByElement as HTMLCalciteTooltipElement).open = value;
     }
   };
 
-  show = (event: Event): void => {
-    this.toggle(event, true);
-  };
-
-  hide = (event: Event): void => {
-    this.toggle(event, false);
+  keyUpHandler = (event: KeyboardEvent): void => {
+    if (getKey(event.key) === "Escape") {
+      this.toggle(event, false);
+    }
   };
 
   // --------------------------------------------------------------------------
@@ -80,7 +47,33 @@ export class CalciteTooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  render() {
-    return <Host />;
+  render(): VNode {
+    return <Host onkeyup={this.keyUpHandler} />;
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("mouseenter", { capture: true })
+  mouseEnterShow(event: Event): void {
+    this.toggle(event, true);
+  }
+
+  @Listen("mouseleave", { capture: true })
+  mouseLeaveHide(event: Event): void {
+    this.toggle(event, false);
+  }
+
+  @Listen("focus", { capture: true })
+  focusShow(event: Event): void {
+    this.toggle(event, true);
+  }
+
+  @Listen("blur", { capture: true })
+  blurHide(event: Event): void {
+    this.toggle(event, false);
   }
 }

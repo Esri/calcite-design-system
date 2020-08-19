@@ -11,30 +11,31 @@ calcite-checkbox is used to toggle a value on or off. You can optionally pass in
 If you don't pass in an input, calcite-checkbox will act as the source of truth:
 
 ```html
-<label>
-  <calcite-checkbox checked="true"></calcite-checkbox> Switch is on
-</label>
+<label> <calcite-checkbox checked="true"></calcite-checkbox> Switch is on </label>
 ```
 
 <!-- Auto Generated Below -->
 
 ## Properties
 
-| Property        | Attribute       | Description                                                                                                                                   | Type                 | Default     |
-| --------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----------- |
-| `checked`       | `checked`       | True if the checkbox is initially checked                                                                                                     | `boolean`            | `false`     |
-| `disabled`      | `disabled`      | True if the checkbox is disabled                                                                                                              | `boolean`            | `false`     |
-| `indeterminate` | `indeterminate` | True if the checkbox is initially indeterminate, which is independent from its checked state https://css-tricks.com/indeterminate-checkboxes/ | `boolean`            | `false`     |
-| `name`          | `name`          | The name of the checkbox input                                                                                                                | `string`             | `""`        |
-| `size`          | `size`          | Size of the checkbox                                                                                                                          | `"large" or "small"` | `null`      |
-| `theme`         | `theme`         | Determines what theme to use                                                                                                                  | `"dark" or "light"`  | `undefined` |
-| `value`         | `value`         | The value of the checkbox input                                                                                                               | `string`             | `""`        |
+| Property        | Attribute       | Description                                                                                                                                   | Type                | Default     |
+| --------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `checked`       | `checked`       | The checked state of the checkbox.                                                                                                            | `boolean`           | `false`     |
+| `disabled`      | `disabled`      | True if the checkbox is disabled                                                                                                              | `boolean`           | `false`     |
+| `focused`       | `focused`       | The focused state of the checkbox.                                                                                                            | `boolean`           | `false`     |
+| `hovered`       | `hovered`       | The hovered state of the checkbox.                                                                                                            | `boolean`           | `false`     |
+| `indeterminate` | `indeterminate` | True if the checkbox is initially indeterminate, which is independent from its checked state https://css-tricks.com/indeterminate-checkboxes/ | `boolean`           | `false`     |
+| `name`          | `name`          | The name of the checkbox input                                                                                                                | `string`            | `""`        |
+| `scale`         | `scale`         | specify the scale of the checkbox, defaults to m                                                                                              | `"l" \| "m" \| "s"` | `"m"`       |
+| `theme`         | `theme`         | Determines what theme to use                                                                                                                  | `"dark" \| "light"` | `undefined` |
+| `value`         | `value`         | The value of the checkbox input                                                                                                               | `string`            | `undefined` |
 
 ## Events
 
-| Event                   | Description                                      | Type               |
-| ----------------------- | ------------------------------------------------ | ------------------ |
-| `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
+| Event                          | Description                                      | Type               |
+| ------------------------------ | ------------------------------------------------ | ------------------ |
+| `calciteCheckboxChange`        | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
+| `calciteCheckboxFocusedChange` | Emitted when the checkbox focused state changes  | `CustomEvent<any>` |
 
 ## Dependencies
 
@@ -42,10 +43,15 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 
 - [calcite-card](../calcite-card)
 
+### Depends on
+
+- [calcite-label](../calcite-label)
+
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-checkbox --> calcite-label
   calcite-card --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```

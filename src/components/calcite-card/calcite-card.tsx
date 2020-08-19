@@ -1,16 +1,7 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Prop,
-  VNode,
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { ENTER, SPACE } from "../../utils/keys";
 import { getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 /**
  * @slot thumbnail - A slot for adding a thumnail to the card.
@@ -28,7 +19,7 @@ import { getElementDir } from "../../utils/dom";
 @Component({
   tag: "calcite-card",
   styleUrl: "calcite-card.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteCard {
   //--------------------------------------------------------------------------
@@ -46,16 +37,16 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
-  @Prop({ reflect: true }) loading: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** Indicates whether the card is selected. */
-  @Prop({ reflect: true, mutable: true }) selected: boolean = false;
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** Indicates whether the card is selectable. */
-  @Prop({ reflect: true, mutable: true }) selectable: boolean = false;
+  @Prop({ reflect: true }) selectable = false;
 
   /**  The theme of the card.*/
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   //--------------------------------------------------------------------------
   //
@@ -64,7 +55,7 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /** Fired when a selectable card is selected */
-  @Event() calciteCardSelected: EventEmitter;
+  @Event() calciteCardSelect: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -79,7 +70,7 @@ export class CalciteCard {
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
-              <calcite-loader is-active></calcite-loader>
+              <calcite-loader active></calcite-loader>
             </div>
           ) : null}
           <section class={{ [CSS.container]: true }} aria-busy={this.loading}>
@@ -112,9 +103,9 @@ export class CalciteCard {
   }
 
   private cardSelectKeyDown(e) {
-    switch (e.keyCode) {
-      case SPACE:
-      case ENTER:
+    switch (getKey(e.key)) {
+      case " ":
+      case "Enter":
         this.selectCard();
         e.preventDefault();
         break;
@@ -123,10 +114,7 @@ export class CalciteCard {
 
   private selectCard() {
     this.selected = !this.selected;
-    this.calciteCardSelected.emit({
-      element: this.el as HTMLCalciteCardElement,
-      selected: this.selected,
-    });
+    this.calciteCardSelect.emit();
   }
 
   private renderThumbnail(): VNode {
@@ -145,7 +133,7 @@ export class CalciteCard {
         onClick={() => this.cardSelectClick()}
         onKeyDown={(e) => this.cardSelectKeyDown(e)}
       >
-        <calcite-checkbox checked={this.selected}></calcite-checkbox>
+        <calcite-checkbox theme={this.theme} checked={this.selected}></calcite-checkbox>
       </div>
     );
   }
@@ -164,12 +152,8 @@ export class CalciteCard {
   }
 
   private renderFooter(): VNode {
-    const leadingFooter = this.el.querySelector(
-      `[slot=${SLOTS.footerLeading}]`
-    );
-    const trailingFooter = this.el.querySelector(
-      `[slot=${SLOTS.footerTrailing}]`
-    );
+    const leadingFooter = this.el.querySelector(`[slot=${SLOTS.footerLeading}]`);
+    const trailingFooter = this.el.querySelector(`[slot=${SLOTS.footerTrailing}]`);
 
     const hasFooter = leadingFooter || trailingFooter;
     return hasFooter ? (

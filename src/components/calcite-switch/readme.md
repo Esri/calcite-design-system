@@ -18,21 +18,21 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 
 ## Properties
 
-| Property   | Attribute  | Description                        | Type                | Default   |
-| ---------- | ---------- | ---------------------------------- | ------------------- | --------- |
-| `color`    | `color`    | What color the switch should be    | `"blue" or "red"`   | `"blue"`  |
-| `name`     | `name`     | The name of the checkbox input     | `string`            | `""`      |
-| `scale`    | `scale`    | The scale of the button            | `"l" or "m" or "s"` | `"m"`     |
-| `switched` | `switched` | True if the switch is initially on | `boolean`           | `false`   |
-| `theme`    | `theme`    | The component's theme.             | `"dark" or "light"` | `"light"` |
-| `value`    | `value`    | The value of the checkbox input    | `string`            | `""`      |
+| Property   | Attribute  | Description                        | Type                | Default     |
+| ---------- | ---------- | ---------------------------------- | ------------------- | ----------- |
+| `color`    | `color`    | What color the switch should be    | `"blue" \| "red"`   | `"blue"`    |
+| `disabled` | `disabled` | True if the switch is disabled     | `boolean`           | `false`     |
+| `name`     | `name`     | The name of the checkbox input     | `string`            | `""`        |
+| `scale`    | `scale`    | The scale of the switch            | `"l" \| "m" \| "s"` | `"m"`       |
+| `switched` | `switched` | True if the switch is initially on | `boolean`           | `false`     |
+| `theme`    | `theme`    | The component's theme.             | `"dark" \| "light"` | `undefined` |
+| `value`    | `value`    | The value of the checkbox input    | `string`            | `""`        |
 
 ## Events
 
 | Event                 | Description | Type               |
 | --------------------- | ----------- | ------------------ |
 | `calciteSwitchChange` |             | `CustomEvent<any>` |
-| `change`              |             | `CustomEvent<any>` |
 
 ---
 

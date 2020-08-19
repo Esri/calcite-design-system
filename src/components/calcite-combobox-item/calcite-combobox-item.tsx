@@ -10,26 +10,16 @@ import {
   h,
   State,
   Watch,
-  VNode,
+  VNode
 } from "@stencil/core";
-import {
-  UP,
-  DOWN,
-  TAB,
-  ENTER,
-  ESCAPE,
-  HOME,
-  END,
-  SPACE,
-} from "../../utils/keys";
-
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-combobox-item",
   styleUrl: "./calcite-combobox-item.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
@@ -63,7 +53,7 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteComboboxItemElement;
 
   @State() isSelected = this.selected;
 
@@ -95,6 +85,7 @@ export class CalciteComboboxItem {
    * @event calciteComboboxItemChange
    */
   @Event() calciteComboboxItemChange: EventEmitter;
+
   @Event() calciteComboboxItemKeyEvent: EventEmitter;
 
   // --------------------------------------------------------------------------
@@ -105,22 +96,22 @@ export class CalciteComboboxItem {
 
   @Listen("keydown") keyDownHandler(event): void {
     event.stopPropagation();
-    switch (event.keyCode) {
-      case SPACE:
-      case ENTER:
+    switch (getKey(event.key)) {
+      case " ":
+      case "Enter":
         this.isSelected = !this.isSelected;
         this.calciteComboboxItemChange.emit(this.el);
         event.preventDefault();
         break;
-      case UP:
-      case DOWN:
-      case HOME:
-      case END:
-      case TAB:
-      case ESCAPE:
+      case "ArrowUp":
+      case "ArrowDown":
+      case "Home":
+      case "End":
+      case "Tab":
+      case "Escape":
         this.calciteComboboxItemKeyEvent.emit({
           event: event,
-          item: this.el,
+          item: this.el
         });
         event.preventDefault();
         break;
@@ -170,12 +161,7 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon(scale): VNode {
-    const iconScale =
-      scale === "xs" || scale === "s" || scale === "m"
-        ? "s"
-        : scale === "l"
-        ? "m"
-        : "l";
+    const iconScale = scale !== "l" ? "s" : "m";
     const iconPath = this.disabled ? "circle-disallowed" : "check";
     return <calcite-icon class={CSS.icon} scale={iconScale} icon={iconPath} />;
   }
@@ -196,7 +182,7 @@ export class CalciteComboboxItem {
       [CSS.label]: true,
       [CSS.selected]: this.isSelected,
       [CSS.nested]: this.isNested,
-      [CSS.parent]: !this.isNested,
+      [CSS.parent]: !this.isNested
     };
     const scale = getElementProp(this.el, "scale", "m");
     const dir = getElementDir(this.el);

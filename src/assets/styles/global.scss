@@ -1,8 +1,12 @@
 @import "./node_modules/@esri/calcite-colors/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
+@import "../../scss/global";
 
 :root {
   font-family: $avenir-family;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   --calcite-border-radius: 3px;
   @include calcite-theme-light();
 }
@@ -19,6 +23,10 @@
   overflow: hidden;
 }
 
-.hydrated--invisible {
+[calcite-hydrated] {
+  visibility: visible;
+}
+[calcite-hydrated][aria-hidden="true"] {
   visibility: hidden;
+  pointer-events: none;
 }

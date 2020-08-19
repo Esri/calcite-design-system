@@ -1,18 +1,10 @@
-import {
-  Build,
-  Component,
-  Element,
-  h,
-  Host,
-  Prop,
-  State,
-  Watch
-} from "@stencil/core";
+import { Build, Component, Element, h, Host, Prop, State, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
-import { Scale } from "../../interfaces/Icon";
+import { IconScale } from "../../interfaces/Icon";
 import { Theme } from "../../interfaces/common";
+import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 
 @Component({
   assetsDirs: ["assets"],
@@ -28,21 +20,13 @@ export class CalciteIcon {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLElement;
+  el: HTMLCalciteIconElement;
 
   //--------------------------------------------------------------------------
   //
   //  Properties
   //
   //--------------------------------------------------------------------------
-
-  /**
-   * When true, the icon will be filled.
-   */
-  @Prop({
-    reflect: true
-  })
-  filled: boolean = false;
 
   /**
    * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
@@ -58,7 +42,7 @@ export class CalciteIcon {
   @Prop({
     reflect: true
   })
-  mirrored: boolean = false;
+  mirrored = false;
 
   /**
    * Icon scale. Can be "s" | "m" | "l".
@@ -66,7 +50,7 @@ export class CalciteIcon {
   @Prop({
     reflect: true
   })
-  scale: Scale = "m";
+  scale: IconScale = "m";
 
   /**
    * The icon label.
@@ -113,27 +97,28 @@ export class CalciteIcon {
     const dir = getElementDir(el);
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
-
+    const paths = [].concat(pathData || "");
     return (
-      <Host
-        aria-label={semantic ? textLabel : null}
-        role={semantic ? "img" : null}
-      >
-        {pathData ? (
-          <svg
-            class={{
-              [CSS.mirrored]: dir === "rtl" && mirrored,
-              svg: true
-            }}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            height={size}
-            width={size}
-            viewBox={`0 0 ${size} ${size}`}
-          >
-            <path d={pathData} />
-          </svg>
-        ) : null}
+      <Host aria-label={semantic ? textLabel : null} role={semantic ? "img" : null}>
+        <svg
+          class={{
+            [CSS.mirrored]: dir === "rtl" && mirrored,
+            svg: true
+          }}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          height="100%"
+          width="100%"
+          viewBox={`0 0 ${size} ${size}`}
+        >
+          {paths.map((path: string | CalciteMultiPathEntry) =>
+            typeof path === "string" ? (
+              <path d={path} />
+            ) : (
+              <path d={path.d} opacity={"opacity" in path ? path.opacity : 1} />
+            )
+          )}
+        </svg>
       </Host>
     );
   }
@@ -147,7 +132,7 @@ export class CalciteIcon {
   private intersectionObserver: IntersectionObserver;
 
   @State()
-  private pathData: string;
+  private pathData: CalciteIconPath;
 
   @State()
   private visible = false;
@@ -159,16 +144,15 @@ export class CalciteIcon {
   //--------------------------------------------------------------------------
 
   @Watch("icon")
-  @Watch("filled")
   @Watch("scale")
   private async loadIconPathData(): Promise<void> {
-    const { filled, icon, scale, visible } = this;
+    const { icon, scale, visible } = this;
 
     if (!Build.isBrowser || !icon || !visible) {
       return;
     }
 
-    this.pathData = await fetchIcon({ icon, scale, filled });
+    this.pathData = await fetchIcon({ icon, scale });
   }
 
   private waitUntilVisible(callback: () => void): void {
@@ -182,8 +166,8 @@ export class CalciteIcon {
     }
 
     this.intersectionObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             this.intersectionObserver.disconnect();
             this.intersectionObserver = null;

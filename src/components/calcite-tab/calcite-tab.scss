@@ -1,12 +1,13 @@
-:host([is-active]) section {
+:host([active]) section {
   display: block;
 }
 
 :host {
   display: none;
+  z-index: 1;
 }
 
-:host([is-active]) {
+:host([active]) {
   display: block;
 }
 

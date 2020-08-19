@@ -38,9 +38,7 @@ describe("calcite-radio-group", () => {
     const selected = await element.getProperty("selectedItem");
     expect(selected).toBeDefined();
 
-    const selectedItems = await element.findAll(
-      "calcite-radio-group-item[checked]"
-    );
+    const selectedItems = await element.findAll("calcite-radio-group-item[checked]");
     expect(selectedItems).toHaveLength(1);
 
     const selectedValue = await selectedItems[0].getProperty("value");
@@ -60,9 +58,7 @@ describe("calcite-radio-group", () => {
       const element = await page.find("calcite-radio-group");
       const spy = await element.spyOnEvent("calciteRadioGroupChange");
 
-      const firstElement = await element.find(
-        "calcite-radio-group-item[checked]"
-      );
+      const firstElement = await element.find("calcite-radio-group-item[checked]");
       await firstElement.click();
       await element.press("ArrowRight");
       await page.waitForChanges();
@@ -109,9 +105,7 @@ describe("calcite-radio-group", () => {
         </calcite-radio-group>`
       );
 
-      const hiddenInput = await page.find(
-        `calcite-radio-group input[type="hidden"]`
-      );
+      const hiddenInput = await page.find(`calcite-radio-group input[type="hidden"]`);
       expect(hiddenInput).toBeDefined();
 
       const hiddenInputValue = await hiddenInput.getAttribute("value");
@@ -133,9 +127,7 @@ describe("calcite-radio-group", () => {
       const element = await page.find("calcite-radio-group");
       const spy = await element.spyOnEvent("calciteRadioGroupChange");
 
-      const firstElement = await element.find(
-        "calcite-radio-group-item[checked]"
-      );
+      const firstElement = await element.find("calcite-radio-group-item[checked]");
       await firstElement.click();
       await element.press("ArrowDown");
       let selected = await element.find("calcite-radio-group-item[checked]");
@@ -185,21 +177,27 @@ describe("calcite-radio-group", () => {
   it("renders requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-radio-group theme='dark' scale='l'></calcite-radio-group>"
+      "<calcite-radio-group theme='dark' scale='l' layout='vertical' appearance='outline' width='full'></calcite-radio-group>"
     );
     const element = await page.find("calcite-radio-group");
     expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("scale", "l");
+    expect(element).toEqualAttribute("layout", "vertical");
+    expect(element).toEqualAttribute("appearance", "outline");
+    expect(element).toEqualAttribute("width", "full");
   });
 
   it("validates incorrect props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-radio-group scale='zap'></calcite-radio-group>"
+      "<calcite-radio-group scale='zap' layout='zop' apperance='zat' width='zut'></calcite-radio-group>"
     );
 
     const element = await page.find("calcite-radio-group");
     expect(element).toEqualAttribute("scale", "m");
+    expect(element).toEqualAttribute("layout", "horizontal");
+    expect(element).toEqualAttribute("appearance", "solid");
+    expect(element).toEqualAttribute("width", "auto");
   });
 
   it("renders default props", async () => {
@@ -207,6 +205,9 @@ describe("calcite-radio-group", () => {
     await page.setContent("<calcite-radio-group></calcite-radio-group>");
     const element = await page.find("calcite-radio-group");
     expect(element).toEqualAttribute("scale", "m");
+    expect(element).toEqualAttribute("layout", "horizontal");
+    expect(element).toEqualAttribute("appearance", "solid");
+    expect(element).toEqualAttribute("width", "auto");
   });
 
   it("passes requested scale prop to child components", async () => {

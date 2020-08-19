@@ -1,26 +1,44 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
+  it("is accessible", async () =>
+    accessible(
+      `<calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab active>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+      </calcite-tabs>`
+    ));
+
   it("renders with a light theme", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`
       <calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           <calcite-tab-title>Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab is-active>Tab 1 Content</calcite-tab>
+        <calcite-tab active>Tab 1 Content</calcite-tab>
         <calcite-tab>Tab 2 Content</calcite-tab>
         <calcite-tab>Tab 3 Content</calcite-tab>
         <calcite-tab>Tab 4 Content</calcite-tab>
       </calcite-tabs>
     `);
     const element = await page.find("calcite-tabs");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
 
     const results = await page.compareScreenshot();
 
@@ -34,13 +52,13 @@ describe("calcite-tabs", () => {
       <div style="background: black">
         <calcite-tabs theme="dark">
           <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
           </calcite-tab-nav>
 
-          <calcite-tab is-active>Tab 1 Content</calcite-tab>
+          <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
           <calcite-tab>Tab 3 Content</calcite-tab>
           <calcite-tab>Tab 4 Content</calcite-tab>
@@ -48,7 +66,7 @@ describe("calcite-tabs", () => {
       </div>
     `);
     const element = await page.find("calcite-tabs");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
 
     const results = await page.compareScreenshot();
 
@@ -61,13 +79,13 @@ describe("calcite-tabs", () => {
     await page.setContent(`
       <calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title id="title-1" is-active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title id="title-1" active>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="title-2" >Tab 2 Title</calcite-tab-title>
           <calcite-tab-title id="title-3" >Tab 3 Title</calcite-tab-title>
           <calcite-tab-title id="title-4" >Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab id="tab-1" is-active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="tab-1" active>Tab 1 Content</calcite-tab>
         <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
         <calcite-tab id="tab-3">Tab 3 Content</calcite-tab>
         <calcite-tab id="tab-4">Tab 4 Content</calcite-tab>
@@ -88,7 +106,7 @@ describe("calcite-tabs", () => {
       const tab = tabs[index];
       const title = titles[index];
       expect(title).toEqualAttribute("aria-controls", tab.id);
-      expect(tab).toEqualAttribute("aria-labeledby", title.id);
+      expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
   });
 
@@ -98,13 +116,13 @@ describe("calcite-tabs", () => {
     await page.setContent(`
       <calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title is-active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="insert-after-title">Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           <calcite-tab-title>Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab is-active>Tab 1 Content</calcite-tab>
+        <calcite-tab active>Tab 1 Content</calcite-tab>
         <calcite-tab id="insert-after-tab">Tab 2 Content</calcite-tab>
         <calcite-tab>Tab 3 Content</calcite-tab>
         <calcite-tab>Tab 4 Content</calcite-tab>
@@ -114,17 +132,11 @@ describe("calcite-tabs", () => {
     await page.$eval("calcite-tabs", (element: HTMLCalciteTabsElement) => {
       element.ownerDocument
         .getElementById("insert-after-title")
-        .insertAdjacentHTML(
-          "afterend",
-          `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`
-        );
+        .insertAdjacentHTML("afterend", `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`);
 
       element.ownerDocument
         .getElementById("insert-after-tab")
-        .insertAdjacentHTML(
-          "afterend",
-          `<calcite-tab id="inserted-tab">Test</calcite-tab>`
-        );
+        .insertAdjacentHTML("afterend", `<calcite-tab id="inserted-tab">Test</calcite-tab>`);
     });
 
     await page.waitForChanges();
@@ -136,7 +148,7 @@ describe("calcite-tabs", () => {
       const tab = tabs[index];
       const title = titles[index];
       expect(title).toEqualAttribute("aria-controls", tab.id);
-      expect(tab).toEqualAttribute("aria-labeledby", title.id);
+      expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
 
     const results = await page.compareScreenshot();

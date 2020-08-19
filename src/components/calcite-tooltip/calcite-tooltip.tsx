@@ -1,15 +1,6 @@
-import {
-  Component,
-  Element,
-  Host,
-  Method,
-  Prop,
-  State,
-  Watch,
-  h
-} from "@stencil/core";
+import { Component, Element, Host, Method, Prop, State, Watch, h } from "@stencil/core";
 import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
-import { Modifier, Instance as Popper } from "@popperjs/core";
+import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
   CalcitePlacement,
@@ -17,7 +8,6 @@ import {
   createPopper,
   updatePopper
 } from "../../utils/popper";
-import { HOST_CSS } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -105,18 +95,20 @@ export class CalciteTooltip {
 
   popper: Popper;
 
+  guid = `calcite-tooltip-${guid()}`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.addReferences();
     this.createPopper();
   }
 
-  componentDidUnload() {
+  disconnectedCallback(): void {
     this.removeReferences();
     this.destroyPopper();
   }
@@ -148,7 +140,7 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   getId = (): string => {
-    return this.el.id || `calcite-tooltip-${guid()}`;
+    return this.el.id || this.guid;
   };
 
   addReferences = (): void => {
@@ -194,10 +186,10 @@ export class CalciteTooltip {
     );
   }
 
-  getModifiers(): Partial<Modifier<any>>[] {
+  getModifiers(): Partial<StrictModifiers>[] {
     const { arrowEl, offsetDistance, offsetSkidding } = this;
 
-    const arrowModifier: Partial<Modifier<any>> = {
+    const arrowModifier: Partial<StrictModifiers> = {
       name: "arrow",
       enabled: true,
       options: {
@@ -205,7 +197,7 @@ export class CalciteTooltip {
       }
     };
 
-    const offsetModifier: Partial<Modifier<any>> = {
+    const offsetModifier: Partial<StrictModifiers> = {
       name: "offset",
       enabled: true,
       options: {
@@ -252,15 +244,8 @@ export class CalciteTooltip {
     const displayed = _referenceElement && open;
 
     return (
-      <Host
-        role="tooltip"
-        class={{
-          [HOST_CSS.hydratedInvisible]: !displayed
-        }}
-        aria-hidden={!displayed ? "true" : "false"}
-        id={this.getId()}
-      >
-        <div class={CSS.arrow} ref={arrowEl => (this.arrowEl = arrowEl)}></div>
+      <Host role="tooltip" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
+        <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
         <div class={CSS.container}>
           <slot />
         </div>

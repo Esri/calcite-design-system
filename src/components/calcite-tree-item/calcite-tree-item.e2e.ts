@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-tree", () => {
   it("renders", async () => {
@@ -6,7 +7,7 @@ describe("calcite-tree", () => {
 
     await page.setContent("<calcite-tree></calcite-tree>");
     const element = await page.find("calcite-tree");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   // click on icon
@@ -43,7 +44,7 @@ describe("calcite-tree", () => {
       </calcite-tree-item>
     </calcite-tree>`);
 
-    const anchor = await page.find('#firstItem a');
+    const anchor = await page.find("#firstItem a");
     await anchor.click();
 
     await page.waitForChanges();
@@ -60,7 +61,7 @@ describe("calcite-tree", () => {
       </calcite-tree-item>
     </calcite-tree>`);
 
-    const item = await page.find('#firstItem');
+    const item = await page.find("#firstItem");
     await item.click();
 
     await page.waitForChanges();
@@ -84,11 +85,13 @@ describe("calcite-tree", () => {
     </calcite-tree>`);
 
     await page.waitForChanges();
-    const item = await page.find('#secondItem');
-    await item.click();
 
-    await page.waitForChanges();
-    expect(page.url()).toContain("#inner");
-    expect(page.url()).not.toContain("#outer");
+    const hash = await page.evaluate(() => {
+      const item = document.getElementById("secondItem");
+      item.click();
+      return window.location.hash;
+    });
+
+    expect(hash).toEqual("#inner");
   });
 });

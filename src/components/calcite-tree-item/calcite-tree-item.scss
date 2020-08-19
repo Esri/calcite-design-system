@@ -85,8 +85,10 @@
   color: inherit;
   @include font-size(-2);
   text-decoration: none !important;
-  max-width: 100%;
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+  max-width: 100%;
 
   &:hover {
     text-decoration: none !important;
@@ -94,6 +96,7 @@
 }
 
 ::slotted(a) {
+  width: 100%;
   text-decoration: none;
 }
 // focus styles
@@ -111,12 +114,10 @@
   padding-left: var(--calcite-tree-children-padding-start);
   padding-right: var(--calcite-tree-children-padding-end);
   position: relative;
-
   transform: scaleY(0);
   opacity: 0;
   overflow: hidden;
-  transition: 0.15s $easing-function, opacity 0.15s $easing-function,
-    all 0.15s ease-in-out; // note that we're transitioning transform, not height!
+  transition: 0.15s $easing-function, opacity 0.15s $easing-function, all 0.15s ease-in-out; // note that we're transitioning transform, not height!
   height: 0;
   transform-origin: top; // keep the top of the element in the same place. this is optional.
 

@@ -13,17 +13,8 @@ import {
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 
-import {
-  SPACE,
-  ENTER,
-  LEFT,
-  RIGHT,
-  UP,
-  DOWN,
-  HOME,
-  END
-} from "../../utils/keys";
 import { nodeListToArray, getSlottedElements, getElementDir } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tree-item",
@@ -37,7 +28,7 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTreeItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -46,23 +37,21 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   /** Is the item currently selected */
-  @Prop({ mutable: true, reflect: true }) selected: boolean = false;
+  @Prop({ mutable: true, reflect: true }) selected = false;
+
   /** True if the item is in an expanded state */
-  @Prop({ mutable: true, reflect: true }) expanded: boolean = false;
+  @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
   expandedHandler(newValue: boolean) {
     if (this.childrenSlotWrapper) {
-      const [childTree] = getSlottedElements(
-        this.childrenSlotWrapper,
-        "calcite-tree"
-      );
+      const [childTree] = getSlottedElements(this.childrenSlotWrapper, "calcite-tree");
       if (childTree) {
         const items = getSlottedElements<HTMLCalciteTreeItemElement>(
           childTree,
           "calcite-tree-item"
         );
-        items.forEach(item => (item.parentExpanded = newValue));
+        items.forEach((item) => (item.parentExpanded = newValue));
       }
     }
   }
@@ -80,7 +69,7 @@ export class CalciteTreeItem {
 
     this.selectionMode = parentTree.selectionMode;
     this.depth = 0;
-    this.scale = parentTree && parentTree.scale || "m";
+    this.scale = (parentTree && parentTree.scale) || "m";
     this.lines = parentTree && parentTree.lines;
     this.el.dir = getElementDir(this.el);
 
@@ -110,11 +99,8 @@ export class CalciteTreeItem {
     return (
       <Host
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
-
         aria-role="treeitem"
-        aria-hidden={
-          this.parentExpanded || this.depth === 1 ? undefined : "true"
-        }
+        aria-hidden={this.parentExpanded || this.depth === 1 ? undefined : "true"}
         aria-selected={
           this.selected
             ? "true"
@@ -125,10 +111,7 @@ export class CalciteTreeItem {
         }
         aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
       >
-        <div
-          class="calcite-tree-node"
-          ref={el => (this.defaultSlotWrapper = el as HTMLElement)}
-        >
+        <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>
           {icon}
           <slot></slot>
         </div>
@@ -136,7 +119,7 @@ export class CalciteTreeItem {
           class="calcite-tree-children"
           data-test-id="calcite-tree-children"
           role={this.hasChildren ? "group" : undefined}
-          ref={el => (this.childrenSlotWrapper = el as HTMLElement)}
+          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
           onClick={this.childrenClickHandler}
         >
           <slot name="children"></slot>
@@ -174,21 +157,22 @@ export class CalciteTreeItem {
       forceToggle: true
     });
   };
-  childrenClickHandler = event => event.stopPropagation();
+
+  childrenClickHandler = (event) => event.stopPropagation();
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     let root;
 
-    switch (e.keyCode) {
-      case SPACE:
+    switch (getKey(e.key)) {
+      case " ":
         this.selected = !this.selected;
 
         e.preventDefault();
         e.stopPropagation();
         break;
-      case ENTER:
+      case "Enter":
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
-        const link = nodeListToArray(this.el.children).find(e =>
+        const link = nodeListToArray(this.el.children).find((e) =>
           e.matches("a")
         ) as HTMLAnchorElement;
 
@@ -202,7 +186,7 @@ export class CalciteTreeItem {
         e.preventDefault();
         e.stopPropagation();
         break;
-      case LEFT:
+      case "ArrowLeft":
         // When focus is on an open node, closes the node.
         if (this.hasChildren && this.expanded) {
           this.expanded = false;
@@ -225,7 +209,7 @@ export class CalciteTreeItem {
 
         // When focus is on a root node that is also either an end node or a closed node, does nothing.
         break;
-      case RIGHT:
+      case "ArrowRight":
         // When focus is on a closed node, opens the node; focus does not move.
         if (this.hasChildren && this.expanded === false) {
           this.expanded = true;
@@ -242,20 +226,19 @@ export class CalciteTreeItem {
 
         // When focus is on an end node, does nothing.
         break;
-      case UP:
-        const previous = this.el
-          .previousElementSibling as HTMLCalciteTreeItemElement;
+      case "ArrowUp":
+        const previous = this.el.previousElementSibling as HTMLCalciteTreeItemElement;
         if (previous && previous.matches("calcite-tree-item")) {
           previous.focus();
         }
         break;
-      case DOWN:
+      case "ArrowDown":
         const next = this.el.nextElementSibling as HTMLCalciteTreeItemElement;
         if (next && next.matches("calcite-tree-item")) {
           next.focus();
         }
         break;
-      case HOME:
+      case "Home":
         root = this.el.closest("calcite-tree[root]") as HTMLCalciteTreeElement;
 
         const firstNode = root.querySelector("calcite-tree-item");
@@ -263,16 +246,16 @@ export class CalciteTreeItem {
         firstNode.focus();
 
         break;
-      case END:
+      case "End":
         root = this.el.closest("calcite-tree[root]");
 
         let currentNode = root.children[root.children.length - 1]; // last child
-        let currentTree = nodeListToArray(currentNode.children).find(e =>
+        let currentTree = nodeListToArray(currentNode.children).find((e) =>
           e.matches("calcite-tree")
         );
         while (currentTree) {
           currentNode = currentTree.children[root.children.length - 1];
-          currentTree = nodeListToArray(currentNode.children).find(e =>
+          currentTree = nodeListToArray(currentNode.children).find((e) =>
             e.matches("calcite-tree")
           );
         }
@@ -302,19 +285,24 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   /** @internal Is the parent of this item expanded? */
-  @Prop({ mutable: true }) parentExpanded: boolean = false;
+  @Prop() parentExpanded = false;
+
   /** @internal What level of depth is this item at? */
-  @Prop({ mutable: true, reflect: true }) depth: number = -1;
+  @Prop({ reflect: true }) depth = -1;
+
   /** @internal Does this tree item have a tree inside it? */
-  @Prop({ mutable: true, reflect: true }) hasChildren: boolean = null;
+  @Prop({ reflect: true }) hasChildren: boolean = null;
+
   /** @internal Draw lines (set on parent) */
-  @Prop({ mutable: true, reflect: true }) lines: boolean;
+  @Prop({ reflect: true }) lines: boolean;
+
   /** @internal Scale of the parent tree, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m";
+  @Prop({ reflect: true }) scale: "s" | "m";
 
   @State() private selectionMode: TreeSelectionMode;
 
   childrenSlotWrapper!: HTMLElement;
+
   defaultSlotWrapper!: HTMLElement;
 
   //--------------------------------------------------------------------------

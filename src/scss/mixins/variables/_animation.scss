@@ -1,0 +1,10 @@
+$animation-time: 250ms !default;
+
+@mixin componentAnimationVars() {
+  /* Component animation variables */
+  --calcite-app-animation-time: #{$animation-time};
+  --calcite-app-animation-time-fast: calc(var(--calcite-app-animation-time) / 3);
+  --calcite-app-animation-time-slow: calc(var(--calcite-app-animation-time) * 2);
+
+  --calcite-app-easing-function: ease-in-out;
+}

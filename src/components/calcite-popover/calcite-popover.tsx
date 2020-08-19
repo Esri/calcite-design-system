@@ -8,21 +8,20 @@ import {
   Prop,
   State,
   Watch,
-  h
+  h,
+  VNode
 } from "@stencil/core";
-import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE } from "./resources";
+import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE, TEXT } from "./resources";
 import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
   updatePopper
 } from "../../utils/popper";
-import { Modifier, Placement, Instance as Popper } from "@popperjs/core";
-import { VNode } from "@stencil/core/internal/stencil-core";
+import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { HOST_CSS } from "../../utils/dom";
 
-type FocusId = "close-button";
+export type FocusId = "close-button";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -120,7 +119,7 @@ export class CalcitePopover {
   }
 
   /** Text for close button. */
-  @Prop() textClose = "Close";
+  @Prop() intlClose = TEXT.close;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
@@ -141,18 +140,20 @@ export class CalcitePopover {
 
   closeButtonEl: HTMLButtonElement;
 
+  guid = `calcite-popover-${guid()}`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.createPopper();
     this.addReferences();
   }
 
-  componentDidUnload() {
+  disconnectedCallback(): void {
     this.removeReferences();
     this.destroyPopper();
   }
@@ -164,6 +165,7 @@ export class CalcitePopover {
   //--------------------------------------------------------------------------
   /** Fired when the popover is closed */
   @Event() calcitePopoverClose: EventEmitter;
+
   /** Fired when the popover is opened */
   @Event() calcitePopoverOpen: EventEmitter;
 
@@ -197,8 +199,8 @@ export class CalcitePopover {
     this.el?.focus();
   }
 
-  @Method() async toggle(): Promise<void> {
-    this.open = !this.open;
+  @Method() async toggle(value = !this.open): Promise<void> {
+    this.open = value;
   }
 
   // --------------------------------------------------------------------------
@@ -208,7 +210,7 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   getId = (): string => {
-    return this.el.id || `calcite-popover-${guid()}`;
+    return this.el.id || this.guid;
   };
 
   addReferences = (): void => {
@@ -246,7 +248,7 @@ export class CalcitePopover {
     );
   }
 
-  getModifiers(): Partial<Modifier<any>>[] {
+  getModifiers(): Partial<StrictModifiers>[] {
     const {
       arrowEl,
       flipPlacements,
@@ -255,7 +257,7 @@ export class CalcitePopover {
       offsetDistance,
       offsetSkidding
     } = this;
-    const flipModifier: Partial<Modifier<any>> = {
+    const flipModifier: Partial<StrictModifiers> = {
       name: "flip",
       enabled: !disableFlip
     };
@@ -266,7 +268,7 @@ export class CalcitePopover {
       };
     }
 
-    const arrowModifier: Partial<Modifier<any>> = {
+    const arrowModifier: Partial<StrictModifiers> = {
       name: "arrow",
       enabled: !disablePointer
     };
@@ -277,7 +279,7 @@ export class CalcitePopover {
       };
     }
 
-    const offsetModifier: Partial<Modifier<any>> = {
+    const offsetModifier: Partial<StrictModifiers> = {
       name: "offset",
       enabled: true,
       options: {
@@ -331,13 +333,13 @@ export class CalcitePopover {
   }
 
   renderCloseButton(): VNode {
-    const { closeButton, textClose } = this;
+    const { closeButton, intlClose } = this;
 
     return closeButton ? (
       <button
-        ref={closeButtonEl => (this.closeButtonEl = closeButtonEl)}
-        aria-label={textClose}
-        title={textClose}
+        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+        aria-label={intlClose}
+        title={intlClose}
         class={{ [CSS.closeButton]: true }}
         onClick={this.hide}
       >
@@ -350,18 +352,11 @@ export class CalcitePopover {
     const { _referenceElement, open, disablePointer } = this;
     const displayed = _referenceElement && open;
     const arrowNode = !disablePointer ? (
-      <div class={CSS.arrow} ref={arrowEl => (this.arrowEl = arrowEl)}></div>
+      <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
     ) : null;
 
     return (
-      <Host
-        role="dialog"
-        class={{
-          [HOST_CSS.hydratedInvisible]: !displayed
-        }}
-        aria-hidden={!displayed ? "true" : "false"}
-        id={this.getId()}
-      >
+      <Host role="dialog" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
         {arrowNode}
         <div class={CSS.container}>
           {this.renderImage()}

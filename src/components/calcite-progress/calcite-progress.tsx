@@ -5,15 +5,20 @@ import { Component, Element, h, Host, Prop } from "@stencil/core";
   shadow: true
 })
 export class CalciteProgress {
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteProgressElement;
+
   /** Use indeterminate if finding actual progress value is impossible */
   @Prop() type: "indeterminate" | "determinate" = "determinate";
-  /** Percent complete of 100 */
+
+  /** Fraction completed, in the range of 0 - 1.0 */
   @Prop() value = 0;
+
   /** Text label for the progress indicator */
   @Prop() text: string = null;
-  /** Fill bar in the opposite direction */
+
+  /** For indeterminate progress bars, reverse the animation direction */
   @Prop() reversed = false;
+
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
@@ -21,16 +26,17 @@ export class CalciteProgress {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
     return (
-      <Host class="calcite-progress">
-        <div class="track" />
-        <div
-          class={{
-            bar: true,
-            indeterminate: this.type === "indeterminate",
-            reversed: this.reversed
-          }}
-          style={ barStyles }
-        />
+      <Host>
+        <div class="track">
+          <div
+            class={{
+              bar: true,
+              indeterminate: this.type === "indeterminate",
+              reversed: this.reversed
+            }}
+            style={barStyles}
+          />
+        </div>
         {this.text ? <div class="text">{this.text}</div> : null}
       </Host>
     );

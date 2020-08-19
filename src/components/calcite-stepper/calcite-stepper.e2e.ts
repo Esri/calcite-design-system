@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 // todo test the automatic setting of first item to active
 describe("calcite-stepper", () => {
@@ -20,7 +21,7 @@ describe("calcite-stepper", () => {
       </calcite-stepper-item>
     </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
   it("renders default props when none are provided", async () => {
@@ -43,7 +44,6 @@ describe("calcite-stepper", () => {
     const element = await page.find("calcite-stepper");
     expect(element).toEqualAttribute("layout", "horizontal");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).not.toHaveAttribute("numbered");
     expect(element).not.toHaveAttribute("icon");
   });
@@ -51,7 +51,7 @@ describe("calcite-stepper", () => {
   it("renders default props when invalid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-stepper layout="zot" scale="zip" theme="zat" numbered="zom" icon="zar">
+    <calcite-stepper layout="zot" scale="zip" numbered="zom" icon="zar">
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -68,7 +68,6 @@ describe("calcite-stepper", () => {
     const element = await page.find("calcite-stepper");
     expect(element).toEqualAttribute("layout", "horizontal");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("theme", "light");
     expect(element).toEqualAttribute("numbered", "");
     expect(element).toEqualAttribute("icon", "");
   });

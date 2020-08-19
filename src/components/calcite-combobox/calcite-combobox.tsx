@@ -9,11 +9,12 @@ import {
   EventEmitter,
   Element,
   VNode,
+  Build
 } from "@stencil/core";
-import { UP, DOWN, TAB, HOME, END, ESCAPE } from "../../utils/keys";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
+import { getKey } from "../../utils/key";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
 
@@ -25,7 +26,7 @@ interface ItemData {
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
-  shadow: true,
+  shadow: true
 })
 export class CalciteCombobox {
   //--------------------------------------------------------------------------
@@ -42,8 +43,7 @@ export class CalciteCombobox {
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the scale of the combobox, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "xs" | "s" | "m" | "l" | "xl" =
-    "m";
+  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   @Prop() label!: string;
 
@@ -55,7 +55,7 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteComboboxElement;
 
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
@@ -67,7 +67,7 @@ export class CalciteCombobox {
 
   data: ItemData[];
 
-  observer = new MutationObserver(this.updateItems);
+  observer: MutationObserver = null;
 
   // --------------------------------------------------------------------------
   //
@@ -75,10 +75,13 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     // prop validations
-    let scale = ["xs", "s", "m", "l", "xl"];
+    const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.updateItems);
+    }
   }
 
   componentWillLoad(): void {
@@ -86,11 +89,11 @@ export class CalciteCombobox {
   }
 
   componentDidLoad(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.observer?.observe(this.el, { childList: true, subtree: true });
   }
 
-  componentDidUnload(): void {
-    this.observer.disconnect();
+  disconnectedCallback(): void {
+    this.observer?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -100,6 +103,7 @@ export class CalciteCombobox {
   // --------------------------------------------------------------------------
 
   @Event() calciteLookupChange: EventEmitter;
+
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   @Listen("calciteComboboxItemChange") calciteComboboxItemChangeHandler(
@@ -134,13 +138,14 @@ export class CalciteCombobox {
 
   handleInputKeyDown(event: KeyboardEvent): void {
     if (event.target === this.textInput) {
-      if (event.shiftKey && event.key === "TAB") {
+      const key = getKey(event.key);
+      if (event.shiftKey && key === "Tab") {
         return;
-      } else if (event.keyCode === ESCAPE) {
+      } else if (key === "Escape") {
         this.active = false;
-      } else if (event.keyCode === DOWN) {
+      } else if (key === "ArrowDown") {
         this.focusFirstItem();
-      } else if (event.keyCode === UP) {
+      } else if (key === "ArrowUp") {
         this.focusLastItem();
       } else {
         this.active = true;
@@ -171,10 +176,7 @@ export class CalciteCombobox {
     this.visibleItems = this.getVisibleItems();
   }, 100);
 
-  toggleSelection(
-    item: HTMLCalciteComboboxItemElement,
-    value = !item.selected
-  ): void {
+  toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     item.selected = value;
     this.selectedItems = this.getSelectedItems();
     this.calciteLookupChange.emit(this.selectedItems);
@@ -198,7 +200,7 @@ export class CalciteCombobox {
   getData(): ItemData[] {
     return this.items.map((item) => ({
       value: item.value,
-      label: item.textLabel,
+      label: item.textLabel
     }));
   }
 
@@ -225,31 +227,31 @@ export class CalciteCombobox {
     }>
   ): void {
     const { item, event: keyboardEvent } = event.detail;
-    let isFirstItem = this.itemIndex(item) === 0;
-    let isLastItem = this.itemIndex(item) === this.items.length - 1;
+    const isFirstItem = this.itemIndex(item) === 0;
+    const isLastItem = this.itemIndex(item) === this.items.length - 1;
     const shiftKey = keyboardEvent.shiftKey;
-    const keyCode = keyboardEvent.keyCode;
+    const keyCode = getKey(keyboardEvent.key);
     switch (keyCode) {
-      case TAB:
+      case "Tab":
         if (isFirstItem && shiftKey) this.closeCalciteCombobox();
         if (isLastItem && !shiftKey) this.closeCalciteCombobox();
         else if (isFirstItem && shiftKey) this.textInput.focus();
         else if (shiftKey) this.focusPrevItem(item);
         else this.focusNextItem(item);
         break;
-      case DOWN:
+      case "ArrowDown":
         this.focusNextItem(item);
         break;
-      case UP:
+      case "ArrowUp":
         this.focusPrevItem(item);
         break;
-      case HOME:
+      case "Home":
         this.focusFirstItem();
         break;
-      case END:
+      case "End":
         this.focusLastItem();
         break;
-      case ESCAPE:
+      case "Escape":
         this.closeCalciteCombobox();
         break;
     }
@@ -314,6 +316,7 @@ export class CalciteCombobox {
                 scale={this.scale}
                 value={item.value}
                 dir={dir}
+                dismissible
               >
                 {item.textLabel}
               </calcite-chip>
@@ -340,6 +343,7 @@ export class CalciteCombobox {
         </div>
         <ul
           id={listBoxId}
+          aria-label={this.label}
           role="listbox"
           class={{ list: true }}
           aria-multiselectable="true"
