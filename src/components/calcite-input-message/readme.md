@@ -26,6 +26,7 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property | Attribute | Description                                                                                                                      | Type                             | Default     |
@@ -37,6 +38,7 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 | `theme`  | `theme`   | specify the theme, defaults to light                                                                                             | `"dark" \| "light"`              | `undefined` |
 | `type`   | `type`    | specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) | `"default" \| "floating"`        | `"default"` |
 
+
 ## Dependencies
 
 ### Depends on
@@ -44,13 +46,12 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 - [calcite-icon](../calcite-icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-input-message --> calcite-icon
   style calcite-input-message fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

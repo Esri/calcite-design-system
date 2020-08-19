@@ -1,0 +1,1 @@
+import{r as t,h as s,H as l}from"./p-268dca3f.js";const e=class{constructor(s){t(this,s)}render(){return s(l,null,s("slot",null))}};e.style=":host([hidden]){display:none}:host{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap}:host ::slotted(calcite-tile-select){margin-right:1px;margin-bottom:1px}";export{e as calcite_tile_select_group}

@@ -16,6 +16,7 @@ Basic Usage:
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property           | Attribute            | Description                                                                                              | Type                                               | Default     |
@@ -32,11 +33,13 @@ Basic Usage:
 | `scale`            | `scale`              | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s"`                                | `"m"`       |
 | `theme`            | `theme`              | select theme (light or dark), defaults to light                                                          | `"dark" \| "light"`                                | `undefined` |
 
+
 ## Events
 
 | Event                            | Description                              | Type               |
 | -------------------------------- | ---------------------------------------- | ------------------ |
 | `calciteSplitButtonPrimaryClick` | fired when the primary button is clicked | `CustomEvent<any>` |
+
 
 ## Dependencies
 
@@ -46,7 +49,6 @@ Basic Usage:
 - [calcite-dropdown](../calcite-dropdown)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-split-button --> calcite-button
@@ -56,6 +58,6 @@ graph TD;
   style calcite-split-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

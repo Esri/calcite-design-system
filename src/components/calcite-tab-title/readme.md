@@ -4,6 +4,7 @@ The tab-title is the link that switches between panes in [calcite-tabs](../calci
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property    | Attribute    | Description                                                                                              | Type      | Default     |
@@ -13,11 +14,13 @@ The tab-title is the link that switches between panes in [calcite-tabs](../calci
 | `iconStart` | `icon-start` | optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names           | `string`  | `undefined` |
 | `tab`       | `tab`        | Optionally include a unique name for the tab title, be sure to also set this name on the associated tab. | `string`  | `undefined` |
 
+
 ## Events
 
 | Event                 | Description                                                                                                    | Type                                |
 | --------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | `calciteTabsActivate` | Fires when a specific tab is activated. `event.details`: [TabChangeEventDetail](../../interfaces/TabChange.ts) | `CustomEvent<TabChangeEventDetail>` |
+
 
 ## Methods
 
@@ -29,18 +32,20 @@ Return the index of this title within the nav
 
 Type: `Promise<number>`
 
+
+
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+ - [calcite-color](../calcite-color)
 
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-tab-title --> calcite-icon
@@ -48,6 +53,6 @@ graph TD;
   style calcite-tab-title fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

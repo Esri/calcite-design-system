@@ -1,0 +1,12 @@
+:host([hidden]) {
+  display: none;
+}
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+}
+:host ::slotted(calcite-tile-select) {
+  margin-right: 1px;
+  margin-bottom: 1px;
+}
