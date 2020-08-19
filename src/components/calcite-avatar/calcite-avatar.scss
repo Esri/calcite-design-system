@@ -1,12 +1,19 @@
-// theme variables
-// light theme
-:host {
-  --calcite-blue-accessible: #{$h-bb-070};
+//ie11 fixes
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
 }
 
-// dark theme
-:host([theme="dark"]) {
-  --calcite-blue-accessible: #{$h-bb-070};
+// scale variants for child
+:host-context([scale="s"]) {
+  @include font-size(-3);
+}
+
+:host-context([scale="m"]) {
+  @include font-size(-1);
+}
+
+:host-context([scale="l"]) {
+  @include font-size(1);
 }
 
 :host {
@@ -18,14 +25,16 @@
   border-radius: 50%;
 }
 
-:host .avatar-icon {
+:host .calcite-avatar-icon {
   display: flex;
 }
 
+:host .calcite-avatar-initials {
+  font-weight: bold;
+  color: var(--calcite-ui-text-3);
+}
 // generate button scales
-$avatarScales: "xs" calc(#{$baseline}* 1), "s" calc(#{$baseline}* 1.5),
-  "m" calc(#{$baseline}* 2), "l" calc(#{$baseline}* 3),
-  "xl" calc(#{$baseline}* 5);
+$avatarScales: "s" calc(#{$baseline}* 1.25), "m" calc(#{$baseline}* 1.75), "l" calc(#{$baseline}* 2.25);
 
 @each $avatarScale in $avatarScales {
   $name: nth($avatarScale, 1);
