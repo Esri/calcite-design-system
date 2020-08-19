@@ -27,10 +27,10 @@
 
 .icon-dot {
   width: calc(var(--calcite-icon-dot-size) / 2);
-  height: calc(var(--calcite-icon-dot-size) / 2);
   margin: calc(var(--calcite-icon-dot-size) / 2);
-  background-color: var(--calcite-ui-blue-3);
-  border-radius: 100%;
+  &:before {
+    content: "\2022";
+  }
 }
 
 :host([selected]) .icon {
