@@ -48,8 +48,9 @@ describe("calcite-color", () => {
     ]));
 
   it("emits color selection change", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-color></calcite-color>");
+    const page = await newE2EPage({
+      html: "<calcite-color></calcite-color>"
+    });
     const picker = await page.find("calcite-color");
 
     const spy = await picker.spyOnEvent("calciteColorChange");
@@ -97,6 +98,8 @@ describe("calcite-color", () => {
       html: "<calcite-color value='#000' scale='m'></calcite-color>"
     });
     const picker = await page.find(`calcite-color`);
+    const spy = await picker.spyOnEvent("calciteColorChange");
+    let changes = 0;
     const mediumScaleDimensions = DIMENSIONS.m;
     const widthOffset = 0.5;
     const [fieldAndSliderX, fieldAndSliderY] = await page.evaluate(() => {
@@ -110,22 +113,27 @@ describe("calcite-color", () => {
     // clicking color field colors to pick a color
     await page.mouse.click(fieldAndSliderX, fieldAndSliderY);
     expect(await picker.getProperty("value")).toBe("#ffffff");
+    expect(spy).toHaveReceivedEventTimes(++changes);
 
     await page.mouse.click(fieldAndSliderX, fieldAndSliderY + mediumScaleDimensions.colorField.height);
     expect(await picker.getProperty("value")).toBe("#000000");
+    expect(spy).toHaveReceivedEventTimes(++changes);
 
     await page.mouse.click(fieldAndSliderX + mediumScaleDimensions.colorField.width - widthOffset, fieldAndSliderY);
     expect(await picker.getProperty("value")).toBe("#ff0000");
+    expect(spy).toHaveReceivedEventTimes(++changes);
 
     await page.mouse.click(
       fieldAndSliderX + mediumScaleDimensions.colorField.width - widthOffset,
       fieldAndSliderY + mediumScaleDimensions.colorField.height
     );
     expect(await picker.getProperty("value")).toBe("#000000");
+    expect(spy).toHaveReceivedEventTimes(++changes);
 
     // set to corner right value that's not red (first value)
     picker.setProperty("value", "#ff0");
     await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(++changes);
 
     // clicking on color slider to set hue
     const colorsToSample = 7;
@@ -151,6 +159,7 @@ describe("calcite-color", () => {
 
       await page.mouse.click(x, sliderHeight);
       expect(await picker.getProperty("value")).toBe(expectedColor);
+      expect(spy).toHaveReceivedEventTimes(++changes);
 
       x += offsetX;
     }
@@ -206,6 +215,9 @@ describe("calcite-color", () => {
   });
 
   describe("color inputs", () => {
+    // tests for all individual inputs takes longer than the default
+    const timeoutOverrideInMs = 120000;
+
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");
       await page.waitForChanges();
@@ -219,137 +231,147 @@ describe("calcite-color", () => {
 
       await inputOrHexInput.type(value);
       await page.waitForChanges();
-      await page.keyboard.press("Enter");
 
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
     };
 
-    it.skip("keeps value in same format when applying updates", async () => {
-      const page = await newE2EPage({
-        html: "<calcite-color></calcite-color>"
-      });
-      const picker = await page.find("calcite-color");
+    it(
+      "keeps value in same format when applying updates",
+      async () => {
+        const page = await newE2EPage({
+          html: "<calcite-color></calcite-color>"
+        });
+        const picker = await page.find("calcite-color");
 
-      const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void): Promise<void> => {
+        const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void): Promise<void> => {
+          const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
+
+          await clearAndEnterValue(page, hexInput, "abc");
+
+          assertColorUpdate(await picker.getProperty("value"));
+
+          const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
+
+          await rgbModeButton.click();
+          await page.waitForChanges();
+          const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
+
+          await clearAndEnterValue(page, rInput, "128");
+          await clearAndEnterValue(page, gInput, "64");
+          await clearAndEnterValue(page, bInput, "32");
+
+          assertColorUpdate(await picker.getProperty("value"));
+
+          await hsvModeButton.click();
+          await page.waitForChanges();
+          const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
+
+          await clearAndEnterValue(page, hInput, "180");
+          await clearAndEnterValue(page, sInput, "90");
+          await clearAndEnterValue(page, vInput, "45");
+
+          assertColorUpdate(await picker.getProperty("value"));
+        };
+
+        const hex = "#ff00ff";
+        picker.setProperty("value", hex);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toBe(hex);
+          expect(value).toMatch(/^#[a-f0-9]{6}$/);
+        });
+
+        const rgbCss = "rgb(255, 0, 255)";
+        picker.setProperty("value", rgbCss);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toBe(rgbCss);
+          expect(value).toMatch(/^rgb\(\d+, \d+, \d+\)/);
+        });
+
+        const hslCss = "hsl(30, 100%, 50%)";
+        picker.setProperty("value", hslCss);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toBe(hslCss);
+          expect(value).toMatch(/^hsl\([0-9.]+, [0-9.]+%, [0-9.]+%\)/);
+        });
+
+        const rgbObject = { r: 255, g: 255, b: 0 };
+        picker.setProperty("value", rgbObject);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toMatchObject(rgbObject);
+          expect(value).toMatchObject({
+            r: expect.any(Number),
+            g: expect.any(Number),
+            b: expect.any(Number)
+          });
+        });
+
+        const hslObject = { h: 270, s: 60, l: 70 };
+        picker.setProperty("value", hslObject);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toMatchObject(hslObject);
+          expect(value).toMatchObject({
+            h: expect.any(Number),
+            s: expect.any(Number),
+            l: expect.any(Number)
+          });
+        });
+
+        const hsvObject = { h: 202, s: 0, v: 100 };
+        picker.setProperty("value", hsvObject);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toMatchObject(hsvObject);
+          expect(value).toMatchObject({
+            h: expect.any(Number),
+            s: expect.any(Number),
+            v: expect.any(Number)
+          });
+        });
+      },
+      timeoutOverrideInMs
+    );
+
+    it(
+      "color gets propagated to hex, RGB & HSV inputs",
+      async () => {
+        const page = await newE2EPage({
+          html: "<calcite-color value='#fff000'></calcite-color>"
+        });
+
         const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
 
-        await clearAndEnterValue(page, hexInput, "abc");
-
-        assertColorUpdate(await picker.getProperty("value"));
+        expect(await hexInput.getProperty("value")).toBe("#fff000");
 
         const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
 
         await rgbModeButton.click();
         const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
-        await clearAndEnterValue(page, rInput, "128");
-        await clearAndEnterValue(page, gInput, "64");
-        await clearAndEnterValue(page, bInput, "32");
-
-        assertColorUpdate(await picker.getProperty("value"));
+        expect(await rInput.getProperty("value")).toBe("255");
+        expect(await gInput.getProperty("value")).toBe("240");
+        expect(await bInput.getProperty("value")).toBe("0");
 
         await hsvModeButton.click();
         const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
-        await clearAndEnterValue(page, hInput, "180");
-        await clearAndEnterValue(page, sInput, "90");
-        await clearAndEnterValue(page, vInput, "45");
-
-        assertColorUpdate(await picker.getProperty("value"));
-      };
-
-      const hex = "#ff00ff";
-      picker.setProperty("value", hex);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toBe(hex);
-        expect(value).toMatch(/^#[a-f0-9]{6}$/);
-      });
-
-      const rgbCss = "rgb(255, 0, 255)";
-      picker.setProperty("value", rgbCss);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toBe(rgbCss);
-        expect(value).toMatch(/^rgb\(\d+, \d+, \d+\)/);
-      });
-
-      const hslCss = "hsl(30, 100%, 50%)";
-      picker.setProperty("value", hslCss);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toBe(hslCss);
-        expect(value).toMatch(/^hsl\([0-9.]+, [0-9.]+%, [0-9.]+%\)/);
-      });
-
-      const rgbObject = { r: 255, g: 255, b: 0 };
-      picker.setProperty("value", rgbObject);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toMatchObject(rgbObject);
-        expect(value).toMatchObject({
-          r: expect.any(Number),
-          g: expect.any(Number),
-          b: expect.any(Number)
-        });
-      });
-
-      const hslObject = { h: 270, s: 60, l: 70 };
-      picker.setProperty("value", hslObject);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toMatchObject(hslObject);
-        expect(value).toMatchObject({
-          h: expect.any(Number),
-          s: expect.any(Number),
-          l: expect.any(Number)
-        });
-      });
-
-      const hsvObject = { h: 202, s: 0, v: 100 };
-      picker.setProperty("value", hsvObject);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toMatchObject(hsvObject);
-        expect(value).toMatchObject({
-          h: expect.any(Number),
-          s: expect.any(Number),
-          v: expect.any(Number)
-        });
-      });
-    });
-
-    it("color gets propagated to hex, RGB & HSV inputs", async () => {
-      const page = await newE2EPage({
-        html: "<calcite-color value='#fff000'></calcite-color>"
-      });
-
-      const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
-
-      expect(await hexInput.getProperty("value")).toBe("#fff000");
-
-      const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
-
-      await rgbModeButton.click();
-      const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
-
-      expect(await rInput.getProperty("value")).toBe("255");
-      expect(await gInput.getProperty("value")).toBe("240");
-      expect(await bInput.getProperty("value")).toBe("0");
-
-      await hsvModeButton.click();
-      const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
-
-      expect(await hInput.getProperty("value")).toBe("56");
-      expect(await sInput.getProperty("value")).toBe("100");
-      expect(await vInput.getProperty("value")).toBe("100");
-    });
+        expect(await hInput.getProperty("value")).toBe("56");
+        expect(await sInput.getProperty("value")).toBe("100");
+        expect(await vInput.getProperty("value")).toBe("100");
+      },
+      timeoutOverrideInMs
+    );
 
     it("allows modifying color via hex, RGB, HSV inputs", async () => {
       const page = await newE2EPage({
