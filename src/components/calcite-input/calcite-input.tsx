@@ -334,16 +334,6 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus") handleLabelFocus(e) {
-    if (
-      e.detail.labelEl.contains(this.el) ||
-      e.detail.labelEl.shadowRoot.contains(this.el) ||
-      e.detail.requestedInput === this.el.id
-    ) {
-      this.childEl.focus();
-    }
-  }
-
   @Listen("keydown") keyDownHandler(e) {
     if (this.isClearable && getKey(e.key) === "Escape") {
       this.clearInputValue();
