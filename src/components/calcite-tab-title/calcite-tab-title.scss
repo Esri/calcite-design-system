@@ -23,6 +23,11 @@ $tab-margin: 1.25rem;
   text-align: center;
   margin: 0 $tab-margin;
 }
+// positioning
+:host([position="below"]) a {
+  border-bottom: 0;
+  border-top: 3px solid transparent;
+}
 
 // focus styles
 :host {
@@ -38,20 +43,13 @@ $tab-margin: 1.25rem;
     outline: none;
     text-decoration: none;
     color: var(--calcite-ui-text-1);
-    border-bottom-color: var(--calcite-ui-border-2);
+    border-color: var(--calcite-ui-border-2);
   }
-}
-
-// positioning
-:host([position="below"]) a {
-  border-bottom: 0;
-  border-top: 3px solid transparent;
 }
 
 :host([active]) a {
   color: var(--calcite-ui-text-1);
-  border-color: var(--calcite-ui-blue-1);
-  font-weight: 500;
+  border-color: transparent;
 }
 
 a {

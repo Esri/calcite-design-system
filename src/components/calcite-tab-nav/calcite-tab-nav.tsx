@@ -11,7 +11,7 @@ import {
   Host
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
-import { getSlottedElements } from "../../utils/dom";
+import { getElementDir, getSlottedElements } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -44,13 +44,30 @@ export class CalciteTabNav {
   @Prop() syncId: string;
 
   /** @internal Parent tabs component layout value */
-  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline" = "inline";
+
+  /** @internal Parent tabs component position value */
+  @Prop({ reflect: true, mutable: true }) position: "above" | "below" = "below";
 
   /**
    * @internal
    */
-  @State()
-  selectedTab: number | string;
+  @State() selectedTab: number | string;
+
+  /**
+   * @internal
+   */
+  @State() selectedTabEl: HTMLCalciteTabTitleElement;
+
+  /**
+   * @internal
+   */
+  @State() indicatorOffset: number;
+
+  /**
+   * @internal
+   */
+  @State() indicatorWidth: number;
 
   @Watch("selectedTab")
   selectedTabChanged() {
@@ -78,8 +95,9 @@ export class CalciteTabNav {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
 
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
-      this.selectedTab = JSON.parse(localStorage.getItem(storageKey));
-
+      const storedTab = JSON.parse(localStorage.getItem(storageKey));
+      this.selectedTab = storedTab;
+      this.selectedTabEl = storedTab;
       this.calciteTabChange.emit({
         tab: this.selectedTab
       });
@@ -88,16 +106,7 @@ export class CalciteTabNav {
 
   componentWillRender() {
     this.layout = this.el.closest("calcite-tabs")?.layout;
-  }
-
-  render() {
-    return (
-      <Host role="tablist">
-        <div class="tab-nav" ref={(el) => (this.tabNavEl = el as HTMLElement)}>
-          <slot />
-        </div>
-      </Host>
-    );
+    this.position = this.el.closest("calcite-tabs")?.position;
   }
 
   componentDidRender() {
@@ -113,6 +122,39 @@ export class CalciteTabNav {
         });
       });
     }
+    this.getOffsetPosition();
+    this.getActiveWidth();
+  }
+
+  componentDidUpdate() {
+    this.selectedTabEl = this.tabTitles.filter((el) => el.active)[0];
+  }
+
+  render() {
+    const dir = getElementDir(this.el);
+
+    const style =
+      dir !== "rtl"
+        ? {
+            width: `${this.indicatorWidth}px`,
+            left: `${this.indicatorOffset}px`
+          }
+        : {
+            width: `${this.indicatorWidth}px`,
+            left: `${this.indicatorOffset}px`
+          };
+    return (
+      <Host role="tablist">
+        <div
+          class="tab-nav"
+          ref={(el) => (this.tabNavEl = el as HTMLElement)}
+          onScroll={() => this.getOffsetPosition()}
+        >
+          <div class="tab-nav-active-indicator" style={style}></div>
+          <slot />
+        </div>
+      </Host>
+    );
   }
 
   //--------------------------------------------------------------------------
@@ -120,6 +162,15 @@ export class CalciteTabNav {
   //  Events Listeners
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Listen("resize", { target: "window" }) resizeHandler() {
+    // adjust the width of the active indicator on resize for centered items
+    this.getActiveWidth();
+    this.getOffsetPosition();
+  }
 
   /**
    * @internal
@@ -159,7 +210,7 @@ export class CalciteTabNav {
     } else {
       this.selectedTab = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
     }
-
+    this.selectedTabEl = e.target as HTMLCalciteTabTitleElement;
     e.stopPropagation();
     e.preventDefault();
   }
@@ -210,6 +261,14 @@ export class CalciteTabNav {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private getOffsetPosition() {
+    this.indicatorOffset = this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft;
+  }
+
+  private getActiveWidth() {
+    this.indicatorWidth = this.selectedTabEl?.offsetWidth;
+  }
 
   private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
     return this.tabTitles.indexOf(el);
