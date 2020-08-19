@@ -91,6 +91,18 @@ export class CalciteLabel {
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
+  componentDidLoad() {
+    const labelNode = this.el.querySelector("label");
+    labelNode.childNodes.forEach((childNode) => {
+      if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
+        const newChildNode = document.createElement("span");
+        const newChildNodeText = document.createTextNode(childNode.textContent.trim());
+        newChildNode.appendChild(newChildNodeText);
+        childNode.parentNode.replaceChild(newChildNode, childNode);
+      }
+    });
+  }
+
   render() {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
