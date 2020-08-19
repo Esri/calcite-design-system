@@ -80,7 +80,7 @@ export class CalciteAvatar {
     ) : this.initials ? (
       <span class="calcite-avatar-initials">{this.initials}</span>
     ) : (
-      <calcite-icon icon="user" class="calcite-avatar-icon"></calcite-icon>
+      <calcite-icon icon="user" class="calcite-avatar-icon" theme={this.theme}></calcite-icon>
     );
     return content;
   }
