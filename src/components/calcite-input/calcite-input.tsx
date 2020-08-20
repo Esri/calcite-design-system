@@ -446,7 +446,7 @@ export class CalciteInput {
   private determineClearable() {
     this.isClearable =
       this.type !== "textarea" &&
-      (this.clearable || this.type === "search" || this.type === "time" || this.type === "date") &&
+      (this.clearable || this.type === "search") &&
       this.value.length > 0;
   }
 
