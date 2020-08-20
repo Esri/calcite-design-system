@@ -5,13 +5,13 @@
   @include calcite-theme-dark();
 }
 :host([scale="s"]) {
-  --calcite-checkbox-size: 12px;
+  --calcite-checkbox-size: theme("spacing.3");
 }
 :host([scale="m"]) {
-  --calcite-checkbox-size: 16px;
+  --calcite-checkbox-size: theme("spacing.4");
 }
 :host([scale="l"]) {
-  --calcite-checkbox-size: 20px;
+  --calcite-checkbox-size: theme("spacing.5");
 }
 ::slotted(input) {
   opacity: 0;
@@ -19,10 +19,10 @@
   z-index: -1;
 }
 :host {
-  display: inline-flex;
-  cursor: pointer;
-  position: relative;
-  user-select: none;
+  @apply inline-flex
+    cursor-pointer
+    relative
+    select-none;
   -webkit-tap-highlight-color: transparent;
   .check-svg {
     width: var(--calcite-checkbox-size);
