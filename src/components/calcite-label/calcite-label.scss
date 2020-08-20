@@ -14,33 +14,6 @@
   margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
 }
 
-:host([layout="inline"]) {
-  label {
-    align-items: center;
-    flex-direction: row;
-  }
-  ::slotted(*) {
-    margin-right: $baseline/2;
-  }
-  ::slotted(*:last-child) {
-    margin-right: 0;
-  }
-}
-
-:host([layout="inline-space-between"]) {
-  label {
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  ::slotted(*) {
-    margin-right: $baseline/2;
-  }
-  ::slotted(*:last-child) {
-    margin-right: 0;
-  }
-}
-
 :host([scale="s"]) label {
   font-size: var(--calcite-label-font-size, 12px);
   --calcite-label-spacing-value: 8px;
@@ -54,6 +27,43 @@
 :host([scale="l"]) label {
   font-size: var(--calcite-label-font-size, 20px);
   --calcite-label-spacing-value: 16px;
+}
+
+:host([layout="default"]) {
+  ::slotted(.calcite-label-text) {
+    margin-bottom: 8px;
+  }
+}
+
+:host([layout="inline"]) {
+  label {
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+:host([layout="inline-space-between"]) {
+  label {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+:host([layout="inline"]),
+:host([layout="inline-space-between"]) {
+  ::slotted(.calcite-label-text) {
+    margin-left: $baseline/2;
+    margin-right: $baseline/2;
+  }
+  ::slotted(.calcite-label-text:first-child) {
+    margin-left: 0;
+    margin-right: $baseline/2;
+  }
+  ::slotted(.calcite-label-text:last-child) {
+    margin-left: $baseline/2;
+    margin-right: 0;
+  }
 }
 
 // status

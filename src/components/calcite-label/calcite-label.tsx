@@ -96,6 +96,7 @@ export class CalciteLabel {
     labelNode.childNodes.forEach((childNode) => {
       if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
         const newChildNode = document.createElement("span");
+        newChildNode.classList.add("calcite-label-text");
         const newChildNodeText = document.createTextNode(childNode.textContent.trim());
         newChildNode.appendChild(newChildNodeText);
         childNode.parentNode.replaceChild(newChildNode, childNode);
