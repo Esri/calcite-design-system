@@ -1,8 +1,8 @@
 :host {
   @extend %component-host;
   display: block;
-  --tip-manager-height: 18vh;
-  --tip-max-width: 540px;
+  --calcite-tip-manager-height: 18vh;
+  --calcite-tip-max-width: 540px;
 }
 
 :host([closed]) {
@@ -31,7 +31,7 @@
   animation-name: none;
   animation-duration: 150ms;
   animation-timing-function: $easing-function;
-  height: var(--tip-manager-height);
+  height: var(--calcite-tip-manager-height);
   margin-top: var(--calcite-spacing-quarter);
   overflow: auto;
   display: flex;
@@ -44,12 +44,12 @@
 }
 
 ::slotted(calcite-tip-group) {
-  max-width: var(--tip-max-width);
+  max-width: var(--calcite-tip-max-width);
   padding: 0 var(--calcite-spacing-half);
 }
 
 ::slotted(calcite-tip) {
-  max-width: var(--tip-max-width);
+  max-width: var(--calcite-tip-max-width);
   padding: 0 var(--calcite-spacing-half);
 }
 

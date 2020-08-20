@@ -1,10 +1,9 @@
-
 :host {
   @extend %component-host;
-  --tip-max-width: 540px;
+  --calcite-tip-max-width: 540px;
 }
 
 ::slotted(calcite-tip) {
-  max-width: var(--tip-max-width);
+  max-width: var(--calcite-tip-max-width);
   padding: 0 var(--calcite-spacing-half);
 }
