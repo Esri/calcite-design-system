@@ -9,13 +9,7 @@
 }
 
 .article {
-  border-left: 1px solid transparent;
-  transition: border-left-color $transition;
-  &.calcite--rtl {
-    border-left: none;
-    border-right: 1px solid transparent;
-    transition: border-right-color $transition;
-  }
+  transition: box-shadow $transition;
 }
 
 @import "../../assets/styles/header";
@@ -99,7 +93,7 @@ calcite-handle {
 }
 
 .content {
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-three-quarters);
   position: relative;
 }
 
@@ -124,9 +118,9 @@ calcite-scrim {
   margin-top: var(--calcite-spacing);
   margin-bottom: var(--calcite-spacing);
   .article {
-    border-left-color: var(--calcite-ui-border-1);
+    box-shadow: 1px 0 0 var(--calcite-ui-border-1) inset;
     &.calcite--rtl {
-      border-right-color: var(--calcite-ui-border-1);
+      box-shadow: -1px 0 0 var(--calcite-ui-border-1) inset;
     }
   }
 }
