@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { select } from "@storybook/addon-knobs";
+import { select, optionsKnob } from "@storybook/addon-knobs";
 import { iconNames } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
@@ -76,4 +76,32 @@ storiesOf("Components/Tabs", module)
     </calcite-tabs>
   `,
     { backgrounds: darkBackground }
+  ).add(
+    "Disabled tabs",
+    () => {
+      const disabledLabel = "Disabled Tabs";
+      const disabledValuesObj = {
+        Tab1: "tab1",
+        Tab2: "tab2",
+        Tab3: "tab3",
+      };
+      const defaultValue = "tab2";
+      const optionsKnobSelections = optionsKnob(disabledLabel, disabledValuesObj, defaultValue, { display: "multi-select" }, "DISABLED-TABS");
+      const tab1disabled = optionsKnobSelections.includes(disabledValuesObj.Tab1);
+      const tab2disabled = optionsKnobSelections.includes(disabledValuesObj.Tab2);
+      const tab3disabled = optionsKnobSelections.includes(disabledValuesObj.Tab3);
+
+      return `
+      <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title active ${tab1disabled ? "disabled" : ""}>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title ${tab2disabled ? "disabled" : ""}>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title ${tab3disabled ? "disabled" : ""}>Tab 3 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+        <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+        <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+      </calcite-tabs>
+    `}
   );
