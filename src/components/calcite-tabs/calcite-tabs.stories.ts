@@ -1,19 +1,14 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-tab/readme.md";
 import readme3 from "../calcite-tab-nav/readme.md";
 import readme4 from "../calcite-tab-title/readme.md";
 
-const notes1 = parseReadme(readme1);
-const notes2 = parseReadme(readme2);
-const notes3 = parseReadme(readme3);
-const notes4 = parseReadme(readme4);
-
-const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`).concat(`\n${notes4}`);
-
-storiesOf("components|Tabs", module)
+storiesOf("Components/Tabs", module)
+  .addParameters({ notes: [readme1, readme2, readme3, readme4] })
   .add(
     "Simple",
     () => `
@@ -33,8 +28,7 @@ storiesOf("components|Tabs", module)
       <calcite-tab><p>Tab 3 Content</p></calcite-tab>
       <calcite-tab><p>Tab 4 Content</p></calcite-tab>
     </calcite-tabs>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icons",
@@ -64,8 +58,7 @@ storiesOf("components|Tabs", module)
       <calcite-tab><p>Tab 3 Content</p></calcite-tab>
       <calcite-tab><p>Tab 4 Content</p></calcite-tab>
     </calcite-tabs>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -82,5 +75,5 @@ storiesOf("components|Tabs", module)
       </calcite-tab-nav>
     </calcite-tabs>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

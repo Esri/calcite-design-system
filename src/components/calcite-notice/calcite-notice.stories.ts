@@ -1,10 +1,11 @@
 import { storiesOf } from "@storybook/html";
 import { select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Notice", module)
+storiesOf("Components/Notice", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -24,8 +25,7 @@ storiesOf("components|Notice", module)
       <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
     </calcite-notice>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark Mode",
@@ -46,7 +46,7 @@ storiesOf("components|Notice", module)
     </calcite-notice>
     </div>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "RTL",
@@ -67,6 +67,5 @@ storiesOf("components|Notice", module)
         <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
       </calcite-notice>
       </div>
-      `,
-    { notes }
+      `
   );

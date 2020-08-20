@@ -1,10 +1,10 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Scrim", module)
+storiesOf("Components/Scrim", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -21,8 +21,7 @@ storiesOf("components|Scrim", module)
         <li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li>
       </ul>
     </calcite-scrim></div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -42,5 +41,5 @@ storiesOf("components|Scrim", module)
       </ul>
     </calcite-scrim></div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

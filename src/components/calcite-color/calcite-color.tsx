@@ -25,6 +25,9 @@ import {
 } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
+import { throttle } from "lodash-es";
+
+const throttleFor60FpsInMs = 16;
 
 @Component({
   tag: "calcite-color",
@@ -60,15 +63,25 @@ export class CalciteColor {
   @Watch("color")
   handleColorChange(color: Color): void {
     this.drawColorFieldAndSlider();
-    const value = this.toValue(color);
     this.updateChannelsFromColor(color);
 
-    if (this.mode === "hex" && value === normalizeHex(color.hex()) && this.value === value) {
+    if (this.colorUpdateLocked) {
       return;
     }
 
+    const value = this.toValue(color);
+
     this.value = value;
   }
+
+  /** When true, hides the hex input */
+  @Prop() hideHex = false;
+
+  /** When true, hides the RGB/HSV channel inputs */
+  @Prop() hideChannels = false;
+
+  /** When true, hides the saved colors section */
+  @Prop() hideSaved = false;
 
   /** Label used for the blue channel */
   @Prop() intlB = TEXT.b;
@@ -176,24 +189,26 @@ export class CalciteColor {
     const modeChanged = this.mode !== nextMode;
     this.mode = nextMode;
 
+    if (this.colorUpdateLocked) {
+      this.calciteColorChange.emit();
+      return;
+    }
+
     const color = Color(value);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
-      if (nextMode === "hex" && color.hex() === this.color.hex()) {
-        return;
-      }
-
       this.color = color;
       this.calciteColorChange.emit();
     }
   }
-
   //--------------------------------------------------------------------------
   //
   //  Internal State/Props
   //
   //--------------------------------------------------------------------------
+
+  private colorUpdateLocked = false;
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -239,13 +254,13 @@ export class CalciteColor {
     const hex = input.value;
 
     if (hex !== normalizeHex(color.hex())) {
-      this.color = Color(hex);
+      this.internalColorSet(Color(hex));
     }
   };
 
   private handleSavedColorSelect = (event: Event): void => {
     const swatch = event.currentTarget as HTMLCalciteColorSwatchElement;
-    this.color = Color(swatch.color);
+    this.internalColorSet(Color(swatch.color));
   };
 
   private handleChannelInput = (event: KeyboardEvent): void => {
@@ -337,6 +352,9 @@ export class CalciteColor {
       color,
       intlDeleteColor,
       el,
+      hideHex,
+      hideChannels,
+      hideSaved,
       intlHex,
       intlSaved,
       intlSaveColor,
@@ -361,84 +379,96 @@ export class CalciteColor {
           onMouseMove={this.handleColorFieldAndSliderMouseEnterOrMove}
           ref={this.initColorFieldAndSlider}
         />
-        <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
-          <div class={CSS.hexOptions}>
-            <span
-              class={{
-                [CSS.header]: true,
-                [CSS.headerHex]: true,
-                [CSS.underlinedHeader]: true
-              }}
-            >
-              {intlHex}
-            </span>
-            <calcite-color-hex-input
-              class={CSS.control}
-              onCalciteColorHexInputChange={this.handleHexInputChange}
-              ref={(node) => (this.hexInputNode = node)}
-              scale={hexInputScale}
-              value={selectedColorInHex}
-              theme={theme}
-              dir={elementDir}
-            />
+        {hideHex && hideChannels ? null : (
+          <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
+            {hideHex ? null : (
+              <div class={CSS.hexOptions}>
+                <span
+                  class={{
+                    [CSS.header]: true,
+                    [CSS.headerHex]: true,
+                    [CSS.underlinedHeader]: true
+                  }}
+                >
+                  {intlHex}
+                </span>
+                <calcite-color-hex-input
+                  class={CSS.control}
+                  onCalciteColorHexInputChange={this.handleHexInputChange}
+                  ref={(node) => (this.hexInputNode = node)}
+                  scale={hexInputScale}
+                  value={selectedColorInHex}
+                  theme={theme}
+                  dir={elementDir}
+                />
+              </div>
+            )}
+            {hideChannels ? null : (
+              <calcite-tabs
+                class={{
+                  [CSS.colorModeContainer]: true,
+                  [CSS.splitSection]: true
+                }}
+                dir={elementDir}
+              >
+                <calcite-tab-nav slot="tab-nav">
+                  {this.renderChannelsTabTitle("rgb")}
+                  {this.renderChannelsTabTitle("hsv")}
+                </calcite-tab-nav>
+                {this.renderChannelsTab("rgb")}
+                {this.renderChannelsTab("hsv")}
+              </calcite-tabs>
+            )}
           </div>
-          <calcite-tabs
-            class={{
-              [CSS.colorModeContainer]: true,
-              [CSS.splitSection]: true
-            }}
-            dir={elementDir}
-          >
-            <calcite-tab-nav slot="tab-nav">
-              {this.renderChannelsTabTitle("rgb")}
-              {this.renderChannelsTabTitle("hsv")}
-            </calcite-tab-nav>
-            {this.renderChannelsTab("rgb")}
-            {this.renderChannelsTab("hsv")}
-          </calcite-tabs>
-        </div>
-        <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
-          <div class={CSS.header}>
-            <label>{intlSaved}</label>
-            <div class={CSS.savedColorsButtons}>
-              <calcite-button
-                appearance="transparent"
-                aria-label={intlDeleteColor}
-                class={CSS.deleteColor}
-                color="dark"
-                iconStart="minus"
-                onClick={this.deleteColor}
-                scale={scale}
-              />
-              <calcite-button
-                appearance="transparent"
-                aria-label={intlSaveColor}
-                class={CSS.saveColor}
-                color="dark"
-                iconStart="plus"
-                onClick={this.saveColor}
-                scale={scale}
-              />
-            </div>
-          </div>
-          <div class={CSS.savedColors}>
-            {[
-              ...savedColors.map((color) => (
-                <calcite-color-swatch
-                  class={CSS.savedColor}
-                  color={color}
-                  active={selectedColorInHex === color}
-                  key={color}
-                  onClick={this.handleSavedColorSelect}
-                  onKeyDown={this.handleSavedColorKeyDown}
+        )}
+        {hideSaved ? null : (
+          <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
+            <div class={CSS.header}>
+              <label>{intlSaved}</label>
+              <div class={CSS.savedColorsButtons}>
+                <calcite-button
+                  appearance="transparent"
+                  aria-label={intlDeleteColor}
+                  class={CSS.deleteColor}
+                  color="dark"
+                  iconStart="minus"
+                  onClick={this.deleteColor}
                   scale={scale}
-                  tabIndex={0}
                   theme={theme}
                 />
-              ))
-            ]}
+                <calcite-button
+                  appearance="transparent"
+                  aria-label={intlSaveColor}
+                  class={CSS.saveColor}
+                  color="dark"
+                  iconStart="plus"
+                  onClick={this.saveColor}
+                  scale={scale}
+                  theme={theme}
+                />
+              </div>
+            </div>
+            {savedColors.length > 0 ? (
+              <div class={CSS.savedColors}>
+                {[
+                  ...savedColors.map((color) => (
+                    <calcite-color-swatch
+                      class={CSS.savedColor}
+                      color={color}
+                      active={selectedColorInHex === color}
+                      key={color}
+                      onClick={this.handleSavedColorSelect}
+                      onKeyDown={this.handleSavedColorKeyDown}
+                      scale={scale}
+                      tabIndex={0}
+                      theme={theme}
+                    />
+                  ))
+                ]}
+              </div>
+            ) : null}
           </div>
-        </div>
+        )}
       </div>
     );
   }
@@ -522,6 +552,17 @@ export class CalciteColor {
   //
   //--------------------------------------------------------------------------
 
+  private internalColorSet(color: Color): void {
+    if (colorEqual(color, this.color)) {
+      return;
+    }
+
+    this.colorUpdateLocked = true;
+    this.color = color;
+    this.value = this.toValue(color);
+    this.colorUpdateLocked = false;
+  }
+
   private toValue(color: Color): ColorValue {
     const { mode } = this;
     const hexMode = "hex";
@@ -598,14 +639,14 @@ export class CalciteColor {
     }
   };
 
-  private drawColorFieldAndSlider(): void {
+  private drawColorFieldAndSlider = throttle((): void => {
     if (!this.fieldAndSliderRenderingContext) {
       return;
     }
 
     this.drawColorField();
     this.drawHueSlider();
-  }
+  }, throttleFor60FpsInMs);
 
   private drawColorField(): void {
     const context = this.fieldAndSliderRenderingContext;
@@ -688,7 +729,7 @@ export class CalciteColor {
       const saturation = Math.round((HSV_LIMITS.s / width) * x);
       const value = Math.round((HSV_LIMITS.v / height) * (height - y));
 
-      this.color = this.color.hsv().saturationv(saturation).value(value);
+      this.internalColorSet(this.color.hsv().saturationv(saturation).value(value));
     };
 
     canvas.addEventListener("mousedown", ({ offsetX, offsetY }) => {
@@ -807,7 +848,7 @@ export class CalciteColor {
       } = this;
       const hue = (360 / width) * x;
 
-      this.color = this.color.hue(hue);
+      this.internalColorSet(this.color.hue(hue));
     };
   };
 
@@ -912,7 +953,7 @@ export class CalciteColor {
   }
 
   private updateColorFromChannels(channels: this["channels"]): void {
-    this.color = Color(channels, this.channelMode);
+    this.internalColorSet(Color(channels, this.channelMode));
   }
 
   private updateChannelsFromColor(color: Color): void {

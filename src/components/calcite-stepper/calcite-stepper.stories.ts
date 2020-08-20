@@ -1,14 +1,12 @@
 import { storiesOf } from "@storybook/html";
 import { select, text } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-stepper-item/readme.md";
 
-const notes1 = parseReadme(readme1);
-const notes2 = parseReadme(readme2);
-const notes = notes1.concat(`\n${notes2}`);
-
-storiesOf("components|Stepper", module)
+storiesOf("Components/Stepper", module)
+  .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
     () => `
@@ -42,8 +40,7 @@ storiesOf("components|Stepper", module)
     <calcite-notice active width="full"><div slot="notice-message">Step 4 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
   </calcite-stepper>
-  `,
-    { notes }
+  `
   )
   .add(
     "No content",
@@ -75,8 +72,7 @@ storiesOf("components|Stepper", module)
     item-subtitle="${text("item-4-subtitle", "Disabled example")}" disabled>
     </calcite-stepper-item>
   </calcite-stepper>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark Mode",
@@ -113,7 +109,7 @@ storiesOf("components|Stepper", module)
     </calcite-stepper-item>
   </calcite-stepper>
     `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "RTL",
@@ -148,6 +144,5 @@ storiesOf("components|Stepper", module)
       </calcite-stepper-item>
     </calcite-stepper>
     </div>
-      `,
-    { notes }
+      `
   );

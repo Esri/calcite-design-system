@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground, parseReadme } from "../../../.storybook/utils";
+import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, theme, scale } = ATTRIBUTES;
 import readme from "./readme.md";
@@ -7,10 +7,10 @@ import { SLOTS, TEXT } from "./resources";
 import dedent from "dedent";
 
 export default {
-  title: "app components|calcite-panel",
+  title: "App Components/calcite-panel",
   parameters: {
     backgrounds: darkBackground,
-    notes: parseReadme(readme)
+    notes: readme
   }
 };
 
