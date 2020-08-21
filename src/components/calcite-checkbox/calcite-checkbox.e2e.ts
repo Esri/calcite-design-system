@@ -139,7 +139,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const inputs = await page.findAll("calcite-label >>> input");
+    const inputs = await page.findAll("input");
     expect(inputs.length).toEqual(1);
   });
 
@@ -149,7 +149,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const inputs = await page.findAll("calcite-label >>> input");
+    const inputs = await page.findAll("input");
     expect(inputs.length).toEqual(1);
   });
 

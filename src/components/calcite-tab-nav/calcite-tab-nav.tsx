@@ -125,10 +125,14 @@ export class CalciteTabNav {
    * @internal
    */
   @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent) {
-    const currentIndex = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
+    const currentIndex = this.getIndexOfTabTitle(
+      e.target as HTMLCalciteTabTitleElement,
+      this.enabledTabTitles
+    );
 
     const previousTab =
-      this.tabTitles[currentIndex - 1] || this.tabTitles[this.tabTitles.length - 1];
+      this.enabledTabTitles[currentIndex - 1] ||
+      this.enabledTabTitles[this.enabledTabTitles.length - 1];
 
     previousTab.focus();
 
@@ -140,9 +144,12 @@ export class CalciteTabNav {
    * @internal
    */
   @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent) {
-    const currentIndex = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
+    const currentIndex = this.getIndexOfTabTitle(
+      e.target as HTMLCalciteTabTitleElement,
+      this.enabledTabTitles
+    );
 
-    const nextTab = this.tabTitles[currentIndex + 1] || this.tabTitles[0];
+    const nextTab = this.enabledTabTitles[currentIndex + 1] || this.enabledTabTitles[0];
 
     nextTab.focus();
 
@@ -211,13 +218,25 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
-  private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
-    return this.tabTitles.indexOf(el);
+  private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles) {
+    // In most cases, since these indexes correlate with tab contents, we want to consider all tab titles.
+    // However, when doing relative index operations, it makes sense to pass in this.enabledTabTitles as the 2nd arg.
+    return tabTitles.indexOf(el);
   }
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {
     if (this.tabNavEl) {
       return getSlottedElements<HTMLCalciteTabTitleElement>(this.tabNavEl, "calcite-tab-title");
+    }
+    return [];
+  }
+
+  private get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
+    if (this.tabNavEl) {
+      return getSlottedElements<HTMLCalciteTabTitleElement>(
+        this.tabNavEl,
+        "calcite-tab-title:not([disabled])"
+      );
     }
     return [];
   }

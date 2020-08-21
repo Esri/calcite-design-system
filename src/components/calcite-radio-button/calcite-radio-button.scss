@@ -3,6 +3,7 @@
 }
 :host {
   cursor: pointer;
+  display: inline-block;
   .hasLabel {
     display: grid;
     grid-gap: 8px;
@@ -106,7 +107,4 @@
     box-shadow: inset 0 0 0 6px var(--calcite-ui-blue-1), 0 0 0 2px var(--calcite-ui-foreground-1),
       0 0 0 4px var(--calcite-ui-blue-1);
   }
-}
-:host([hidden]) {
-  display: none;
 }
