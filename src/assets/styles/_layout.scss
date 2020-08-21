@@ -12,8 +12,6 @@
 
   --calcite-spacing-eighth: calc(var(--calcite-spacing) / 8);
 
-  --calcite-spacing-minimum: 1px;
-
   --calcite-spacing-plus-quarter: calc(var(--calcite-spacing) * 1.25);
 
   --calcite-spacing-plus-half: calc(var(--calcite-spacing) * 1.5);
@@ -21,10 +19,7 @@
   --calcite-spacing-double: calc(var(--calcite-spacing) * 2);
 
   --calcite-menu-min-width: 10rem;
-  --calcite-menu-offset: 0px;
 
   --calcite-header-min-height: calc(var(--calcite-spacing) * 3);
   --calcite-footer-min-height: calc(var(--calcite-spacing) * 3);
-
-  --calcite-outline-inset: -6px;
 }
