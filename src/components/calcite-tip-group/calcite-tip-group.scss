@@ -1,12 +1,9 @@
-$tip-max-width: 540px;
-
 :host {
   @extend %component-host;
+  --calcite-tip-max-width: 540px;
 }
 
-@import "../../scss/includes/_component";
-
 ::slotted(calcite-tip) {
-  max-width: $tip-max-width;
-  padding: 0 var(--calcite-app-side-spacing-half);
+  max-width: var(--calcite-tip-max-width);
+  padding: 0 var(--calcite-spacing-half);
 }

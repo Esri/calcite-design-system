@@ -1,12 +1,10 @@
 :host {
   @extend %component-host;
-  background-color: var(--calcite-app-background-content);
+  background-color: var(--calcite-ui-background);
   display: flex;
   height: 100%;
   width: 100%;
 }
-
-@import "../../scss/includes/_component";
 
 calcite-panel {
   width: 100%;
@@ -29,16 +27,17 @@ calcite-panel {
     width: 100%;
   }
   .heading {
-    font-size: var(--calcite-app-font-size-1);
-    font-weight: var(--calcite-app-font-weight-demi);
-    margin: 0 0 var(--calcite-app-cap-spacing-quarter);
+    color: var(--calcite-ui-text-3);
+    font-weight: var(--calcite-ui-text-weight-demi);
+    margin: 0 0 var(--calcite-spacing-quarter);
+    @include font-size(-2);
     &:only-child {
       margin-bottom: 0;
     }
   }
   .summary {
-    color: var(--calcite-app-foreground-subtle);
-    font-size: var(--calcite-app-font-size--1);
+    color: var(--calcite-ui-text-3);
+    @include font-size(-4);
   }
 }
 
@@ -55,7 +54,7 @@ calcite-panel {
 }
 
 .menu {
-  min-width: var(--calcite-app-menu-min-width);
+  min-width: var(--calcite-menu-min-width);
   flex-flow: column nowrap;
 }
 

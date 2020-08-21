@@ -1,40 +1,47 @@
 :host {
   @extend %component-host;
-  @include borderShadow();
   align-items: center;
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
   display: flex;
   margin: 0;
-  color: var(--calcite-app-foreground);
-  transition: background-color var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
-  animation: calcite-app-fade-in var(--calcite-app-animation-time) var(--calcite-app-easing-function);
-}
+  color: var(--calcite-ui-text-1);
+  transition: background-color $transition;
+  animation: calcite-fade-in $transition;
+  @include borderShadow();
 
-@import "../../scss/includes/_component";
+  --calcite-icon-dot-size: 16px;
+}
 
 :host(:hover),
 :host(:focus) {
-  background-color: var(--calcite-app-background-hover);
+  background-color: var(--calcite-ui-foreground-2);
 }
 
 .icon {
-  color: var(--calcite-app-foreground-link);
-  flex: 0 0 0%;
+  color: var(--calcite-ui-blue-3);
+  flex: 0 0 auto;
   line-height: 0;
-  width: var(--calcite-app-icon-size);
-  margin: 0 var(--calcite-app-side-spacing-quarter);
+  margin: 0 var(--calcite-spacing-quarter);
   opacity: 0;
 }
 
+.icon-dot {
+  width: calc(var(--calcite-icon-dot-size) / 2);
+  margin: calc(var(--calcite-icon-dot-size) / 2);
+  &:before {
+    content: "\2022";
+  }
+}
+
 :host([selected]) .icon {
-  transition: opacity var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  transition: opacity $transition;
   opacity: 1;
 }
 
 .label {
   display: flex;
   flex: 1 1 auto;
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-quarter);
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-quarter);
   align-items: center;
   cursor: pointer;
   @include focus-style-base();
@@ -48,22 +55,20 @@
   flex-flow: column nowrap;
   overflow: hidden;
   pointer-events: none;
-  padding: 0 var(--calcite-app-side-spacing-quarter);
+  padding: 0 var(--calcite-spacing-quarter);
 }
 
 .title {
-  font-size: var(--calcite-app-font-size--1);
-  word-wrap: break-word;
-  word-break: break-word;
+  @include font-size(-4);
+  @include word-break();
 }
 
 .description {
-  color: var(--calcite-app-foreground-subtle);
-  font-family: var(--calcite-app-font-family-monospace);
-  font-size: var(--calcite-app-font-size--2);
-  margin-top: var(--calcite-app-cap-spacing-quarter);
-  word-wrap: break-word;
-  word-break: break-word;
+  color: var(--calcite-ui-text-3);
+  font-family: var(--calcite-code-family);
+  margin-top: var(--calcite-spacing-quarter);
+  @include font-size(-4);
+  @include word-break();
 }
 
 .action {
@@ -71,5 +76,5 @@
   display: flex;
   flex: 0 0 auto;
   justify-self: flex-end;
-  margin: var(--calcite-app-cap-spacing-quarter) var(--calcite-app-side-spacing-half);
+  margin: var(--calcite-spacing-quarter) var(--calcite-spacing-half);
 }
