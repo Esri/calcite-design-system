@@ -15,13 +15,13 @@ then
     { echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> .npmrc 2> /dev/null ; } && \
     { \
       echo " - prepping package..." && \
-      npm run util:prepNextFromExistingBuild >/dev/null 2>&1 && \
+      npm run util:prep-next-from-existing-build >/dev/null 2>&1 && \
 
       echo " - pushing tags..." && \
-      npm run util:pushTags -- --quiet https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master >/dev/null 2>&1 && \
+      npm run util:push-tags -- --quiet https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master >/dev/null 2>&1 && \
 
       echo " - publishing @next..." && \
-      npm run util:publishNext >/dev/null 2>&1  \
+      npm run util:publish-next >/dev/null 2>&1  \
     ; }
   then
     echo "@next deployed! 🚀"
