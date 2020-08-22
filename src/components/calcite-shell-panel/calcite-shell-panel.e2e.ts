@@ -15,11 +15,11 @@ describe("calcite-shell-panel", () => {
         defaultValue: false
       },
       {
-        propertyName: "height-scale",
+        propertyName: "heightScale",
         defaultValue: "m"
       },
       {
-        propertyName: "width-scale",
+        propertyName: "widthScale",
         defaultValue: "m"
       }
     ]));
