@@ -214,11 +214,11 @@ describe("calcite-radio-button", () => {
       </calcite-radio-button>
     `);
 
-    let firstInput = await page.find("input#first");
+    let firstInput = await page.find("input#first-input");
     expect(firstInput).toBeTruthy();
 
     await page.evaluate(() => {
-      const first = document.querySelector("input#first");
+      const first = document.querySelector("input#first-input");
       first.parentNode.removeChild(first);
     });
     await page.waitForChanges();

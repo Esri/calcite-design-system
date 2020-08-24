@@ -1,48 +1,46 @@
 :host {
   @extend %component-host;
   display: flex;
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
 }
 
 :host([disabled]) {
   pointer-events: none;
 }
 
-@import "../../scss/includes/_component";
-
 .button {
-  font-family: var(--calcite-app-font-family);
+  font-family: inherit;
   display: flex;
-  color: var(--calcite-app-foreground);
-  fill: var(--calcite-app-foreground);
-  background-color: var(--calcite-app-background);
-  outline-offset: var(--calcite-app-outline-inset);
+  color: var(--calcite-ui-text-2);
+  fill: var(--calcite-ui-text-2);
+  background-color: var(--calcite-ui-foreground-1);
   margin: 0;
   justify-content: flex-start;
   align-items: center;
   border: none;
   width: auto;
   cursor: pointer;
-  font-size: var(--calcite-app-font-size--1);
-  line-height: normal;
-  transition: color 125ms ease-in-out, fill 125ms ease-in-out, background-color 125ms ease-in-out;
   text-align: unset;
   position: relative;
+  @include font-size(-4);
   @include focus-style-base();
   &:hover,
   &:focus {
-    background-color: var(--calcite-app-background-hover);
-    color: var(--calcite-app-foreground-hover);
-    fill: var(--calcite-app-foreground-hover);
+    background-color: var(--calcite-ui-foreground-2);
+    color: var(--calcite-ui-text-1);
+    fill: var(--calcite-ui-text-1);
   }
 
   &:focus {
+    background-color: var(--calcite-ui-foreground-2);
+    color: var(--calcite-ui-text-1);
+    fill: var(--calcite-ui-text-1);
     @include focus-style-inset();
   }
 
   .icon-container {
-    min-width: var(--calcite-app-icon-size);
-    min-height: var(--calcite-app-icon-size);
+    min-width: 1rem;
+    min-height: 1rem;
     margin: 0;
     justify-content: center;
     align-items: center;
@@ -51,6 +49,7 @@
   }
 
   .text-container {
+    color: inherit;
     line-height: 1rem;
     white-space: nowrap;
     overflow: hidden;
@@ -58,9 +57,7 @@
     margin: 0;
     opacity: 0;
     width: 0;
-    transition: opacity var(--calcite-app-animation-time) var(--calcite-app-easing-function),
-      margin var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function),
-      width var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+    transition: opacity $transition, margin $transition, width $transition;
   }
 
   .text-container--visible {
@@ -71,15 +68,16 @@
 }
 
 :host([scale="s"]) .button {
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half);
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
 }
 
 :host([scale="m"]) .button {
-  padding: var(--calcite-app-cap-spacing) var(--calcite-app-side-spacing);
+  padding: var(--calcite-spacing) var(--calcite-spacing);
 }
 
 :host([scale="l"]) .button {
-  padding: var(--calcite-app-cap-spacing-plus-half) var(--calcite-app-side-spacing-plus-half);
+  padding: var(--calcite-spacing-plus-quarter) var(--calcite-spacing-plus-quarter);
+  @include font-size(-1);
 }
 
 // Compact
@@ -102,19 +100,19 @@
   width: 100%;
 
   .icon-container {
-    margin: 0 var(--calcite-app-side-spacing-half) 0 0;
+    margin: 0 var(--calcite-spacing-half) 0 0;
   }
   .text-container--visible {
-    margin: 0 var(--calcite-app-side-spacing-half) 0 0;
+    margin: 0 var(--calcite-spacing-half) 0 0;
   }
 }
 
 .button--text-visible.calcite--rtl {
   .icon-container {
-    margin: 0 0 0 var(--calcite-app-side-spacing-half);
+    margin: 0 0 0 var(--calcite-spacing-half);
   }
   .text-container--visible {
-    margin: 0 0 0 var(--calcite-app-side-spacing-half);
+    margin: 0 0 0 var(--calcite-spacing-half);
   }
 }
 
@@ -122,44 +120,47 @@
 :host([active]) .button:hover,
 :host([active]) .button:focus,
 :host([active][loading]) .button {
-  color: var(--calcite-app-foreground-active);
-  fill: var(--calcite-app-foreground-active);
-  background-color: var(--calcite-app-background-active);
+  color: var(--calcite-ui-text-current);
+  fill: var(--calcite-ui-text-current);
+  background-color: var(--calcite-ui-foreground-current);
 }
 
 :host([appearance="clear"]) .button {
-  background-color: var(--calcite-app-background-clear);
-  transition: box-shadow var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  background-color: transparent;
+  transition: box-shadow $transition;
 }
 
 :host([appearance="clear"]) .button:hover,
 :host([appearance="clear"]) .button:focus {
-  background-color: var(--calcite-app-background-clear);
-  @include borderShadowHover();
+  background-color: transparent;
+  box-shadow: 0 0 0 2px var(--calcite-ui-border-1) inset;
 }
 
 :host([active][appearance="clear"]) .button,
 :host([active][appearance="clear"]) .button:hover,
 :host([active][appearance="clear"]) .button:focus {
-  color: var(--calcite-app-foreground-active);
-  fill: var(--calcite-app-foreground-active);
-  background-color: var(--calcite-app-background-active);
+  color: var(--calcite-ui-text-current);
+  fill: var(--calcite-ui-text-current);
+  background-color: var(--calcite-ui-foreground-current);
   box-shadow: none;
 }
 
 :host([appearance="clear"][loading]) .button,
 :host([appearance="clear"][disabled]) .button {
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
 }
 
 :host([loading]) .button,
 :host([loading]) .button:hover,
 :host([loading]) .button:focus {
-  background-color: var(--calcite-app-background);
+  background-color: var(--calcite-ui-foreground-1);
+  .text-container {
+    opacity: var(--calcite-ui-opacity-disabled);
+  }
 }
 
 :host([loading]) calcite-loader[inline] {
-  color: var(--calcite-app-foreground-subtle);
+  color: var(--calcite-ui-border-5);
   margin-right: 0;
 }
 
@@ -167,75 +168,75 @@
 :host([disabled]) .button:hover,
 :host([disabled]) .button:focus {
   cursor: default;
-  opacity: var(--calcite-app-disabled-opacity);
-  background-color: var(--calcite-app-background);
+  opacity: var(--calcite-ui-opacity-disabled);
+  background-color: var(--calcite-ui-foreground-1);
 }
 
 :host([disabled][active]) .button,
 :host([disabled][active]) .button:hover,
 :host([disabled][active]) .button:focus {
-  opacity: var(--calcite-app-disabled-opacity);
-  background-color: var(--calcite-app-background-active);
+  opacity: var(--calcite-ui-opacity-disabled);
+  background-color: var(--calcite-ui-foreground-current);
 }
 
 :host([indicator]) .button--text-visible,
 :host([indicator][scale="s"]) .button--text-visible,
 :host([indicator][scale="l"]) .button--text-visible {
-  padding-right: var(--calcite-app-side-spacing);
+  padding-right: var(--calcite-spacing);
 }
 
 :host([indicator]) .button::after {
   content: "";
   border-radius: 50%;
-  width: var(--calcite-app-side-spacing-half);
-  height: var(--calcite-app-side-spacing-half);
-  border: var(--calcite-app-side-spacing-eighth) solid var(--calcite-app-background);
-  background-color: var(--calcite-app-foreground-active);
+  width: var(--calcite-spacing-half);
+  height: var(--calcite-spacing-half);
+  border: var(--calcite-spacing-eighth) solid var(--calcite-ui-foreground-1);
+  background-color: var(--calcite-ui-text-current);
   position: absolute;
-  bottom: var(--calcite-app-cap-spacing-half);
-  right: var(--calcite-app-side-spacing-half);
+  bottom: var(--calcite-spacing-half);
+  right: var(--calcite-spacing-half);
   z-index: 1;
 }
 
 :host([indicator][scale="s"]) .button::after {
-  bottom: var(--calcite-app-cap-spacing-quarter);
-  right: var(--calcite-app-side-spacing-quarter);
+  bottom: var(--calcite-spacing-quarter);
+  right: var(--calcite-spacing-quarter);
 }
 
 :host([indicator][scale="l"]) .button::after {
-  bottom: var(--calcite-app-cap-spacing-half);
-  right: var(--calcite-app-side-spacing-half);
+  bottom: var(--calcite-spacing-half);
+  right: var(--calcite-spacing-half);
 }
 
 :host([indicator]) .calcite--rtl::after {
   right: unset;
-  left: var(--calcite-app-side-spacing-quarter);
+  left: var(--calcite-spacing-quarter);
 }
 
 :host([indicator]) .button--text-visible.calcite--rtl {
-  padding-right: var(--calcite-app-side-spacing-three-quarters);
-  padding-left: var(--calcite-app-side-spacing);
+  padding-right: var(--calcite-spacing-three-quarters);
+  padding-left: var(--calcite-spacing);
 }
 
 :host([indicator]) .button:hover::after,
 :host([indicator]) .button:focus::after {
-  border-color: var(--calcite-app-background-hover);
+  border-color: var(--calcite-ui-foreground-1);
 }
 
 :host([indicator][active]) .button::after {
-  border-color: var(--calcite-app-background-active);
+  border-color: var(--calcite-ui-foreground-current);
 }
 
 :host([indicator]) .button--text-visible::after,
 :host([indicator][scale="s"]) .button--text-visible::after,
 :host([indicator][scale="l"]) .button--text-visible::after {
   bottom: unset;
-  right: var(--calcite-app-side-spacing-half);
+  right: var(--calcite-spacing-half);
 }
 
 :host([indicator]) .button--text-visible.calcite--rtl::after,
 :host([indicator][scale="s"]) .button--text-visible.calcite--rtl::after,
 :host([indicator][scale="l"]) .button--text-visible.calcite--rtl::after {
   right: unset;
-  left: var(--calcite-app-side-spacing-half);
+  left: var(--calcite-spacing-half);
 }

@@ -1,4 +1,4 @@
 export const CSS = {
   scrim: "scrim",
-  content: "content",
+  content: "content"
 };

@@ -84,24 +84,19 @@ We deploy the docs with [storybook deployer](https://github.com/storybookjs/stor
 
 To release a new version of Calcite Components you must:
 
-1. Be on a Mac or Linux machine (the publish script is a shell script).
 1. Be a member of the [@esri](https://www.npmjs.com/org/esri) organization on npm.
 1. Be a member of the admin team for [Calcite Components](https://github.com/Esri/calcite-components).
 1. Make sure you have a remote named `origin` pointing to [Esri/calcite-components](https://github.com/Esri/calcite-components).
-1. Make sure you are up to date with `master`.
-1. Run `npm run release:prepare` to increment version in `package.json`.
-1. Run `npm run previewChangelog:latest` to generate a draft for the latest changelog update.
-1. Use the content from the previous step to update `CHANGELOG.md`.
-   ⚠️ **Note**: double check the commit compare URL and entries to make sure they belong to the current release. Manually fix if this is not the case.
-1. Run `npm run release:publish`. This will run the [`support/release.sh`](https://github.com/Esri/calcite-components/blob/master/support/release.sh) file which will:
-   - Create a new commit on the master branch for the version.
-   - Checkout a temporary branch for the release.
-   - Clean the old `dist` folder
-   - Run a new build
-   - Force add the built files on the version branch.
-   - Tag the version branch.
-   - Push both the version tag and the master branch to GitHub. This results in a tag with the built files.
-   - Publish to NPM.
-   - Create a ZIP file of the built files.
-   - Create a new release on GitHub with the ZIP file and the `CHANGELOG.md` entry for the release.
-   - Checkout the master branch and reset everything back to the last commit (i.e. the release commit).
+1. Run `npm run release:prepare`. This script will:
+
+- Create a build
+- Run all the tests
+- Update the package version
+- Create a changelog entry for the current release
+- Create a commit and tag it - ⚠️ **Note** if you need to make changes after this step, make sure to amend the commit (`git commit --amend`) and recreate the tag (`git tag --force <version>`)
+
+1. Run `npm run release:publish`. This script will:
+
+- Push the release tag to the repo
+- Publish to NPM
+- Publish to GitHub (including source and package)
