@@ -1,32 +1,31 @@
-$tip-content-only-width: 100% !default;
-$tip-content-width: 70% !default;
-$tip-image-frame-width: 25% !default;
-$tip-image-max-width: 100% !default;
-
 :host {
   @extend %component-host;
   position: relative;
   display: flex;
   flex-flow: column;
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
+
+  --tip-content-only-width: 100%;
+  --tip-content-width: 70%;
+  --tip-image-frame-width: 25%;
+  --tip-image-max-width: 100%;
 }
 
-@import "../../scss/includes/_component";
-@import "../../scss/includes/_header";
-
 .container {
-  background-color: var(--calcite-app-background);
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing) var(--calcite-app-cap-spacing);
-  margin: var(--calcite-app-cap-spacing) var(--calcite-app-side-spacing);
-  box-shadow: var(--calcite-app-shadow-2);
-  border-radius: var(--calcite-app-border-radius);
+  background-color: var(--calcite-ui-foreground-1);
+  padding: var(--calcite-spacing-half) var(--calcite-spacing) var(--calcite-spacing);
+  margin: var(--calcite-spacing) var(--calcite-spacing);
+  border: solid 1px var(--calcite-ui-border-2);
+  border-radius: var(--calcite-border-radius);
 }
 
 :host([selected]) .container {
-  box-shadow: none;
+  border: none;
   margin: 0;
   padding: 0;
 }
+
+@import "../../assets/styles/header";
 
 .header {
   justify-content: flex-end;
@@ -43,14 +42,14 @@ $tip-image-max-width: 100% !default;
 
 .content {
   display: flex;
-  padding-top: var(--calcite-app-cap-spacing-half);
+  padding-top: var(--calcite-spacing-half);
 }
 
 .info {
-  padding: 0 var(--calcite-app-side-spacing);
-  width: $tip-content-width;
+  padding: 0 var(--calcite-spacing);
+  width: var(--tip-content-width);
   &:only-child {
-    width: $tip-content-only-width;
+    width: var(--tip-content-only-width);
     padding-left: 0;
     padding-right: 0;
   }
@@ -61,7 +60,7 @@ $tip-image-max-width: 100% !default;
 }
 
 ::slotted(a) {
-  color: var(--calcite-app-foreground-link);
+  color: var(--calcite-ui-blue-1);
   @include focus-style-base();
 }
 
@@ -70,12 +69,12 @@ $tip-image-max-width: 100% !default;
 }
 
 .image-frame {
-  width: $tip-image-frame-width;
+  width: var(--tip-image-frame-width);
   img {
-    max-width: $tip-image-max-width;
+    max-width: var(--tip-image-max-width);
   }
 }
 
 ::slotted(img) {
-  max-width: $tip-image-max-width;
+  max-width: var(--tip-image-max-width);
 }

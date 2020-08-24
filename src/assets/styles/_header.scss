@@ -1,0 +1,36 @@
+/* Shared styles for header elements */
+.header {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--calcite-ui-text-2);
+  fill: var(--calcite-ui-text-2);
+}
+
+.heading {
+  padding: 0;
+  margin: 0;
+  font-weight: var(--calcite-ui-text-weight-demi);
+}
+
+.header .heading {
+  flex: 1 0 auto;
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+}
+
+h1.heading {
+  @include font-size(0);
+}
+
+h2.heading {
+  @include font-size(-1);
+}
+
+h3.heading {
+  @include font-size(-2);
+}
+h4.heading,
+h5.heading {
+  @include font-size(-4);
+}

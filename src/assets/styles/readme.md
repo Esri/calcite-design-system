@@ -14,7 +14,16 @@ When building any component in calcite-components or [calcite-components](https:
 
 [typography mixins from calcite-base](https://github.com/Esri/calcite-base/blob/master/dist/_type.scss)
 
-#### Font-size
+#### Font family
+
+Avenir Next is the main font family in use.
+For text indicating or related to code, use this CSS variable:
+
+```
+font-family: --calcite-code-family;
+```
+
+#### Font size
 
 Here are the most common use cases font-size (Sass):
 
@@ -41,21 +50,28 @@ CSS ouput:
 }
 ```
 
-#### Font-weight
+#### Font weight
 
-| Weight  | Value |
-| ------- | ----- |
-| Light   | 300   |
-| Regular | 400   |
-| Medium  | 500   |
-| Demi    | 600   |
+Two font weights are available using CSS vars.
+
+| Weight                          | Value |
+| ------------------------------- | ----- |
+| --calcite-ui-text-weight-light  | 300   |
+| --calcite-ui-text-weight        | 400   |
+| --calcite-ui-text-weight-medium | 500   |
+| --calcite-ui-text-weight-demi   | 700   |
 
 Example:
-`font-weight: 500`
+
+```
+font-weight: var(--calcite-ui-text-weight);
+```
 
 ### Shadows
 
 The shadow of an element usually corresponds to the priority or importance of the message or workflow. Consistently using shadow for elements like alerts, modals, page takeovers, and sheets provides users clear and familiar indications of importance.
+
+#### CSS variables for shadows
 
 ```
 --shadow-1
@@ -77,3 +93,34 @@ Current usage:
 |          | Popovers    |
 |          | FAB         |
 |          | Date-picker |
+
+### Focus states
+
+All focuses-able elements should use the custom focus. Use a combination of two mixins to achieve this.
+
+Include the base focus mixin to the elements style block.
+
+```
+.my-element-class {
+  @include focus-style-base();
+}
+
+```
+
+And also add the focus style mixin to the `:focus` block. There is an inset style and an outset style.
+
+Inset focus style
+
+```
+.my-element-class:focus {
+  @include focus-style-inset();
+}
+```
+
+Outset focus style
+
+```
+.my-element-class:focus {
+  @include focus-style-outset();
+}
+```

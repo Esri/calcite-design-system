@@ -1,4 +1,4 @@
-@keyframes calcite-app-fade-in {
+@keyframes calcite-fade-in {
   0% {
     opacity: 0;
   }
@@ -7,7 +7,7 @@
   }
 }
 
-@keyframes calcite-app-fade-in-down {
+@keyframes calcite-fade-in-down {
   0% {
     opacity: 0;
     transform: translate3D(0, -5px, 0);
@@ -18,7 +18,7 @@
   }
 }
 
-@keyframes calcite-app-fade-in-up {
+@keyframes calcite-fade-in-up {
   0% {
     opacity: 0;
     transform: translate3D(0, 5px, 0);
@@ -29,7 +29,7 @@
   }
 }
 
-@keyframes calcite-app-fade-in-scale {
+@keyframes calcite-fade-in-scale {
   0% {
     opacity: 0;
     transform: scale3D(0.95, 0.95, 1);
