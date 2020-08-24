@@ -75,29 +75,30 @@
 }
 
 :host calcite-icon[data-partial="true"] {
-  position: absolute;
-  pointer-events: none;
-  z-index: 9;
 }
 
-// edge
-:host.calcite-rating-partial-star {
+:host .partial-rating-star-container {
   position: absolute;
+  overflow: hidden;
   pointer-events: none;
-  z-index: 9;
+  top: 0;
+  transition: $transition;
+  &:hover {
+    transform: scale(0.9);
+  }
 }
 
 // handle hiding of our partial star
 :host
   calcite-icon[data-partialparent="true"]:hover
-  ~ calcite-icon[data-partial="true"]
+  ~ .partial-rating-star-container
   :host
   calcite-icon[data-partialparent="true"]:focus
-  ~ calcite-icon[data-partial="true"] {
+  ~ .partial-rating-star-container {
   opacity: 0;
 }
 
-:host calcite-icon[data-partial="true"][data-partialhidden="true"] {
+:host .partial-rating-star-container[data-partialhidden="true"] {
   opacity: 0;
 }
 

@@ -10,7 +10,7 @@ import {
   Prop
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
-import { getElementDir } from "../utils/dom";
+import { getElementDir, hasLabel } from "../../utils/dom";
 
 @Component({
   tag: "calcite-rating",
@@ -71,7 +71,11 @@ export class CalciteRating {
   //--------------------------------------------------------------------------
 
   @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
-    if (e.detail.labelEl.contains(this.el) || e.detail.labelEl.shadowRoot.contains(this.el)) {
+    if (
+      hasLabel(e.detail.labelEl, this.el) &&
+      e.detail.interactedEl !== this.el &&
+      !this.el.contains(e.detail.interactedEl)
+    ) {
       this.setFocus();
     }
   }
@@ -98,6 +102,22 @@ export class CalciteRating {
   render() {
     this.dir = getElementDir(this.el);
 
+    const partialRatingStarContainer = (
+      <div
+        class="partial-rating-star-container"
+        data-partialhidden="false"
+        ref={(el) => (this.partialStarContainer = el)}
+      >
+        <calcite-icon
+          icon={this.selectedIconType}
+          scale={this.scale}
+          theme={this.theme}
+          data-partial="true"
+          ref={(el) => (this.partialStar = el)}
+        ></calcite-icon>
+      </div>
+    );
+
     return (
       <Host dir={this.dir}>
         <div
@@ -121,6 +141,7 @@ export class CalciteRating {
               />
             );
           })}
+          {this.average && !this.value ? partialRatingStarContainer : null}
         </div>
         {this.count || this.average ? (
           <calcite-chip
@@ -183,7 +204,13 @@ export class CalciteRating {
 
   private determineRatingPosition(e) {
     if (!this.readOnly) {
-      this.value = e.target.dataset.value;
+      // handle edge not interpreting mapped stars
+      const isEdge = window.navigator.userAgent.indexOf("Edge") > -1;
+      const value = !isEdge
+        ? e.target.dataset.value
+        : e.target.closest("CALCITE-ICON").dataset.value;
+      console.log(e.target);
+      this.value = value;
       this.emitRatingChange();
       this.determineActiveItems();
     }
@@ -225,33 +252,25 @@ export class CalciteRating {
       }
     });
 
-    // only generate partial star if there is a root with a partial
     if (this.rootStar) {
-      this.partialStar = document.createElement("calcite-icon") as HTMLCalciteIconElement;
-      this.partialStar.dataset.partial = "true";
-      this.partialStar.dataset.partialhidden = "false";
       this.partialStar.dataset.rootvalue = (rootVal + 1).toString();
-      this.partialStar.scale = this.scale;
-      this.partialStar.theme = this.theme;
-      this.partialStar.icon = this.selectedIconType;
-      // edge legacy
-      this.partialStar.classList.add("calcite-rating-partial-star");
 
-      const ltrClip = `polygon(0 0, ${decimal}% 0, ${decimal}% 100%, 0% 100%)`;
-      const rtlClip = `polygon(${100 - decimal}% 0, 100% 0%, 100% 100%, ${100 - decimal}% 100%)`;
+      // get margin from first star item in case partial is last and has none
+      const marginProp = this.dir === "rtl" ? "margin-left" : "margin-right";
+      const margin = window.getComputedStyle(this.ratingItems[0]).getPropertyValue(marginProp);
+      const offset = `calc((${this.rootStar.offsetWidth}px + ${margin}) * ${rootVal})`;
 
-      /*
-      // @ts-ignore-error
-      // this.partialStar.style.webkitClipPath = this.dir !== "rtl" ? ltrClip : rtlClip;
-      */
-      this.partialStar.style.clipPath = this.dir !== "rtl" ? ltrClip : rtlClip;
+      this.partialStarContainer.style.width = `${(decimal / 100) * this.rootStar.offsetWidth}px`;
+      this.partialStarContainer.style.height = `${this.rootStar.offsetHeight}px`;
 
-      this.rootStar.insertAdjacentElement("beforebegin", this.partialStar);
+      this.dir === "rtl"
+        ? (this.partialStarContainer.style.right = offset)
+        : (this.partialStarContainer.style.left = offset);
     }
   }
 
   private resetHoverState() {
-    if (this.partialStar) this.partialStar.dataset.partialhidden = "false";
+    if (this.partialStarContainer) this.partialStarContainer.dataset.partialhidden = "false";
     this.ratingItems?.forEach((item) => {
       item.dataset.hovered = "false";
     });
@@ -264,22 +283,21 @@ export class CalciteRating {
       item.dataset.average = "false";
       item.dataset.selected = parseInt(item.dataset.value) <= valueToUse ? "true" : "false";
       item.icon =
-        parseInt(item.dataset.value) <= this.value || this.readOnly
+        this.readOnly || parseInt(item.dataset.value) <= this.value
           ? this.selectedIconType
           : this.iconType;
     });
-    // remove the partial average star when a value has been set by user
-    if (this.partialStar) this.partialStar.remove();
   }
 
   private showSelectedIconOnHover(e) {
     if (!this.readOnly) {
-      if (this.partialStar)
-        this.partialStar.dataset.partialhidden =
-          parseInt(this.partialStar.dataset.rootvalue) <= e.target.dataset.value ? "true" : "false";
+      const isEdge = window.navigator.userAgent.indexOf("Edge") > -1;
+      const value = !isEdge ? e.target.dataset.value : e.target.parentNode.dataset.value;
+      if (this.partialStarContainer)
+        this.partialStarContainer.dataset.partialhidden =
+          parseInt(this.partialStar.dataset.rootvalue) <= value ? "true" : "false";
       this.ratingItems?.forEach((item) => {
-        item.dataset.hovered =
-          parseInt(item.dataset.value) <= e.target.dataset.value ? "true" : "false";
+        item.dataset.hovered = parseInt(item.dataset.value) <= value ? "true" : "false";
       });
     }
   }
@@ -291,7 +309,6 @@ export class CalciteRating {
   }
 
   // focus helpers
-
   private focusFirstItem() {
     const firstItem = this.ratingItems[0];
     this.focusElement(firstItem);
@@ -350,6 +367,8 @@ export class CalciteRating {
 
   // the absolutely positioned star when an average rating has decimal
   private partialStar: HTMLCalciteIconElement;
+
+  private partialStarContainer: HTMLDivElement;
 
   // track the last full value star to position the partial star
   private rootStar: HTMLCalciteIconElement;
