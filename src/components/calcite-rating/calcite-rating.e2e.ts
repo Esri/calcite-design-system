@@ -16,8 +16,9 @@ describe("calcite-rating", () => {
     const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
     const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
     const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).toBeNull;
+    const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
+
+    expect(partialStarContainer).toBeNull;
     expect(ratingItem1).toEqualAttribute("icon", "star");
     expect(ratingItem2).toEqualAttribute("icon", "star");
     expect(ratingItem3).toEqualAttribute("icon", "star");
@@ -43,8 +44,9 @@ describe("calcite-rating", () => {
     const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
     const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
     const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).toBeNull;
+    const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
+
+    expect(partialStarContainer).toBeNull;
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star-f");
     expect(ratingItem3).toEqualAttribute("icon", "star-f");
@@ -65,8 +67,9 @@ describe("calcite-rating", () => {
     const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
     const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
     const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).toBeNull;
+    const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
+
+    expect(partialStarContainer).toBeNull;
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star-f");
     expect(ratingItem3).toEqualAttribute("icon", "star");
@@ -91,8 +94,9 @@ describe("calcite-rating", () => {
     const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
     const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
     const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).toBeNull;
+    const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
+
+    expect(partialStarContainer).toBeNull;
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star");
     expect(ratingItem3).toEqualAttribute("icon", "star");
@@ -118,8 +122,9 @@ describe("calcite-rating", () => {
     const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
     const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
     const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).not.toBeNull();
+    const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
+
+    expect(partialStarContainer).not.toBeNull();
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star-f");
     expect(ratingItem3).toEqualAttribute("icon", "star-f");
@@ -147,8 +152,9 @@ describe("calcite-rating", () => {
     const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
     const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
     const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).toBeNull;
+    const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
+
+    expect(partialStarContainer).toBeNull;
     expect(ratingItem1).toEqualAttribute("icon", "star");
     expect(ratingItem2).toEqualAttribute("icon", "star");
     expect(ratingItem3).toEqualAttribute("icon", "star");
@@ -184,8 +190,8 @@ describe("calcite-rating", () => {
     const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
     const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
     const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).not.toBeNull();
+    const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
+    expect(partialStarContainer).not.toBeNull();
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star-f");
     expect(ratingItem3).toEqualAttribute("icon", "star-f");
@@ -196,7 +202,7 @@ describe("calcite-rating", () => {
     expect(ratingItem3).toEqualAttribute("data-selected", "false");
     expect(ratingItem4).toEqualAttribute("data-selected", "false");
     expect(ratingItem5).toEqualAttribute("data-selected", "false");
-    expect(partialStar).toEqualAttribute("data-partialhidden", "false");
+    expect(partialStarContainer).toEqualAttribute("data-partialhidden", "false");
     expect(ratingItem1).toEqualAttribute("data-average", "true");
     expect(ratingItem2).toEqualAttribute("data-average", "true");
     expect(ratingItem3).toEqualAttribute("data-average", "true");
@@ -206,7 +212,7 @@ describe("calcite-rating", () => {
     expect(ratingItem4).toEqualAttribute("data-partialparent", "true");
     await ratingItem4.click();
     await page.waitForChanges();
-    expect(partialStar).toBeNull;
+    expect(partialStarContainer).toBeNull;
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star-f");
     expect(ratingItem3).toEqualAttribute("icon", "star-f");
@@ -300,8 +306,8 @@ describe("calcite-rating", () => {
     const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
     const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
     const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
-    const partialStar = await page.find("calcite-rating >>> calcite-icon[data-partial='true']");
-    expect(partialStar).not.toBeNull();
+    const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
+    expect(partialStarContainer).not.toBeNull();
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star-f");
     expect(ratingItem3).toEqualAttribute("icon", "star-f");
@@ -317,11 +323,10 @@ describe("calcite-rating", () => {
     expect(ratingItem3).toEqualAttribute("data-hovered", "false");
     expect(ratingItem4).toEqualAttribute("data-hovered", "false");
     expect(ratingItem5).toEqualAttribute("data-hovered", "false");
-    expect(partialStar).toEqualAttribute("data-partialhidden", "false");
+    expect(partialStarContainer).toEqualAttribute("data-partialhidden", "false");
     await ratingItem5.hover();
     await page.waitForChanges();
-    expect(partialStar).toBeNull;
-    expect(partialStar).toEqualAttribute("data-partialhidden", "true");
+    expect(partialStarContainer).toBeNull;
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star-f");
     expect(ratingItem3).toEqualAttribute("icon", "star-f");

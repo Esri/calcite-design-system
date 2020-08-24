@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/html";
-import { number, select, withKnobs } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { number, select } from "@storybook/addon-knobs";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Rating", module)
-  .addDecorator(withKnobs)
+storiesOf("Components/Rating", module)
+  .addParameters({ notes: readme })
   .add(
     "Simple",
     () => `
@@ -17,8 +17,7 @@ storiesOf("components|Rating", module)
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
    ></calcite-rating>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -32,9 +31,8 @@ storiesOf("components|Rating", module)
       ${boolean("read-only", false)}
       ${boolean("disabled", false)}
     ></calcite-rating>
-
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Wrapped in calcite-label",
@@ -50,8 +48,7 @@ storiesOf("components|Rating", module)
       ${boolean("disabled", false)}
     ></calcite-rating>
    </calcite-label>
-  `,
-    { notes }
+  `
   )
   .add(
     "RTL",
@@ -66,6 +63,5 @@ storiesOf("components|Rating", module)
       ${boolean("disabled", false)}
     ></calcite-rating>
    </div>
-  `,
-    { notes }
+  `
   );

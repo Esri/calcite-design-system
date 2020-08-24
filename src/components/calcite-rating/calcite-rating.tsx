@@ -90,6 +90,7 @@ export class CalciteRating {
     this.ratingItems = this.el.shadowRoot.querySelectorAll(
       "calcite-icon:not([data-partial='true'])"
     );
+
     this.determineInitialRating();
   }
 

@@ -118,6 +118,8 @@
 // rating count
 :host calcite-chip {
   margin-left: var(--calcite-rating-spacing-unit);
+  cursor: default;
+  pointer-events: none;
 }
 
 :host([dir="rtl"]) calcite-chip {
