@@ -209,7 +209,6 @@ export class CalciteRating {
       const value = !isEdge
         ? e.target.dataset.value
         : e.target.closest("CALCITE-ICON").dataset.value;
-      console.log(e.target);
       this.value = value;
       this.emitRatingChange();
       this.determineActiveItems();
@@ -291,8 +290,11 @@ export class CalciteRating {
 
   private showSelectedIconOnHover(e) {
     if (!this.readOnly) {
+      // handle edge not interpreting mapped stars
       const isEdge = window.navigator.userAgent.indexOf("Edge") > -1;
-      const value = !isEdge ? e.target.dataset.value : e.target.parentNode.dataset.value;
+      const value = !isEdge
+        ? e.target.dataset.value
+        : e.target.closest("CALCITE-ICON").dataset.value;
       if (this.partialStarContainer)
         this.partialStarContainer.dataset.partialhidden =
           parseInt(this.partialStar.dataset.rootvalue) <= value ? "true" : "false";
