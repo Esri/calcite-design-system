@@ -119,6 +119,23 @@ export class CalciteRating {
       </div>
     );
 
+    // ie11 safe version of array / spread / keys
+    const iconsToRender = [];
+    for (let i = 0; i < 5; i++) {
+      iconsToRender.push(
+        <calcite-icon
+          data-value={i + 1}
+          onClick={(e) => this.determineRatingPosition(e)}
+          onKeyDown={(e) => this.handleKeyDown(e)}
+          onMouseEnter={(e) => this.showSelectedIconOnHover(e)}
+          onTouchStart={(e) => this.showSelectedIconOnHover(e)}
+          onFocus={(e) => this.showSelectedIconOnHover(e)}
+          tabindex={!this.readOnly && !this.disabled ? 0 : null}
+          icon={this.iconType}
+          scale={this.scale}
+        />
+      );
+    }
     return (
       <Host dir={this.dir}>
         <div
@@ -127,21 +144,7 @@ export class CalciteRating {
           onMouseLeave={() => this.resetHoverState()}
           onTouchEnd={() => this.resetHoverState()}
         >
-          {[...Array(5).keys()].map((e) => {
-            return (
-              <calcite-icon
-                data-value={e + 1}
-                onClick={(e) => this.determineRatingPosition(e)}
-                onKeyDown={(e) => this.handleKeyDown(e)}
-                onMouseEnter={(e) => this.showSelectedIconOnHover(e)}
-                onTouchStart={(e) => this.showSelectedIconOnHover(e)}
-                onFocus={(e) => this.showSelectedIconOnHover(e)}
-                tabindex={!this.readOnly && !this.disabled ? 0 : null}
-                icon={this.iconType}
-                scale={this.scale}
-              />
-            );
-          })}
+          {iconsToRender}
           {this.average && !this.value ? partialRatingStarContainer : null}
         </div>
         {this.count || this.average ? (
@@ -205,9 +208,11 @@ export class CalciteRating {
 
   private determineRatingPosition(e) {
     if (!this.readOnly) {
-      // handle edge not interpreting mapped stars
-      const isEdge = window.navigator.userAgent.indexOf("Edge") > -1;
-      const value = !isEdge
+      // handle edge and ie not interpreting mapped stars
+      const isEdgeOrIE =
+        window.navigator.userAgent.indexOf("Edge") > -1 ||
+        !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
+      const value = !isEdgeOrIE
         ? e.target.dataset.value
         : e.target.closest("CALCITE-ICON").dataset.value;
       this.value = value;
@@ -291,9 +296,11 @@ export class CalciteRating {
 
   private showSelectedIconOnHover(e) {
     if (!this.readOnly) {
-      // handle edge not interpreting mapped stars
-      const isEdge = window.navigator.userAgent.indexOf("Edge") > -1;
-      const value = !isEdge
+      // handle edge and ie not interpreting mapped stars
+      const isEdgeOrIE =
+        window.navigator.userAgent.indexOf("Edge") > -1 ||
+        !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
+      const value = !isEdgeOrIE
         ? e.target.dataset.value
         : e.target.closest("CALCITE-ICON").dataset.value;
       if (this.partialStarContainer)

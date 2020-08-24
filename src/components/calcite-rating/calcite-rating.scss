@@ -37,6 +37,8 @@
 
 // container for icon items
 :host .calcite-rating-item-container {
+  display: flex;
+  flex-wrap: nowrap;
   position: relative;
 }
 
