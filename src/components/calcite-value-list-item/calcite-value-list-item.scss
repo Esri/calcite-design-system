@@ -6,10 +6,6 @@
   transition: background-color $transition, box-shadow $transition;
 }
 
-:host(:hover) {
-  background-color: var(--calcite-ui-foreground-2);
-}
-
 calcite-pick-list-item {
   box-shadow: none;
   flex-grow: 1;
@@ -20,20 +16,15 @@ calcite-pick-list-item {
 :host([selected]) {
   @include borderShadowActive();
 }
-:host([selected]) calcite-pick-list-item:hover {
-  background-color: transparent;
-}
 
 .handle {
   display: flex;
   align-items: center;
-  align-self: stretch;
   justify-content: center;
-  margin-bottom: 1px;
   padding: var(--calcite-spacing-three-quarters) var(--calcite-spacing-quarter);
   background-color: transparent;
   border: none;
-  color: var(--calcite-ui-border-3);
+  color: var(--calcite-ui-border-1);
   line-height: 0;
   cursor: move;
   &:hover {
@@ -42,8 +33,6 @@ calcite-pick-list-item {
   }
   @include focus-style-base();
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-ui-text-1);
     @include focus-style-inset();
   }
   &--activated {

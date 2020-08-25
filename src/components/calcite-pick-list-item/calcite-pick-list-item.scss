@@ -1,20 +1,14 @@
 :host {
   @extend %component-host;
-  align-items: center;
-  background-color: transparent;
+  align-items: stretch;
   display: flex;
-  margin: 0;
+  margin: 0 0 1px 0;
   color: var(--calcite-ui-text-1);
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
   @include borderShadow();
 
   --calcite-icon-dot-size: 16px;
-}
-
-:host(:hover),
-:host(:focus) {
-  background-color: var(--calcite-ui-foreground-2);
 }
 
 .icon {
@@ -39,18 +33,16 @@
 }
 
 .label {
-  height: 100%;
   display: flex;
   flex: 1 1 auto;
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-quarter);
+  padding: var(--calcite-spacing-half);
   align-items: center;
   cursor: pointer;
   @include focus-style-base();
   &:hover {
-    background-color: var(--calcite-app-background-hover);
+    background-color: var(--calcite-ui-foreground-2);
   }
   &:focus {
-    background-color: var(--calcite-app-background-hover);
     @include focus-style-inset();
   }
 }
@@ -81,7 +73,7 @@
   display: flex;
   flex: 0 0 auto;
   justify-self: flex-end;
-  margin: var(--calcite-spacing-quarter) var(--calcite-spacing-half);
+  margin: 0;
 }
 
 .action slot[name="secondary-action"]::slotted(calcite-action) {
