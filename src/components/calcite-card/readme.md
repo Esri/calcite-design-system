@@ -30,6 +30,7 @@
 graph TD;
   calcite-card --> calcite-loader
   calcite-card --> calcite-checkbox
+  calcite-checkbox --> calcite-label
   style calcite-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

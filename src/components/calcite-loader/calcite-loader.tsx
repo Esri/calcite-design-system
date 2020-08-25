@@ -59,7 +59,7 @@ export class CalciteLoader {
   render() {
     const { el, inline, scale, text, type, value } = this;
 
-    const id = el.id || guid;
+    const id = el.id || guid();
     const radiusRatio = 0.45;
     const size = inline ? this.getInlineSize(scale) : this.getSize(scale);
     const radius = size * radiusRatio;

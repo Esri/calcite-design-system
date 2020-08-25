@@ -139,7 +139,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const inputs = await page.findAll("calcite-label >>> input");
+    const inputs = await page.findAll("input");
     expect(inputs.length).toEqual(1);
   });
 
@@ -149,7 +149,17 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const inputs = await page.findAll("calcite-label >>> input");
+    const inputs = await page.findAll("input");
     expect(inputs.length).toEqual(1);
+  });
+
+  it("supports labeling", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-checkbox value='test-value' checked>test-label</calcite-checkbox>");
+    const element = await page.find("calcite-checkbox");
+    const defaultSlot = await page.find("calcite-checkbox >>> label slot");
+
+    expect(element).toEqualText("test-label");
+    expect(defaultSlot).toBeDefined();
   });
 });

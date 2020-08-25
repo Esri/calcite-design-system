@@ -192,11 +192,6 @@ export class CalciteInput {
   }
 
   componentWillUpdate() {
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
-
     this.determineClearable();
   }
 
@@ -204,50 +199,19 @@ export class CalciteInput {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
 
-    const inputClearButton = (
-      <div class="calcite-input-clear-button" onClick={() => this.clearInputValue()}>
-        <calcite-icon theme={this.theme} icon="x" scale="s"></calcite-icon>
-      </div>
-    );
-
     const loader = (
       <div class="calcite-input-loading">
         <calcite-progress type="indeterminate"></calcite-progress>
       </div>
     );
 
-    const numberButtonClassModifier =
-      this.numberButtonType === "horizontal" ? "number-button-item-horizontal" : null;
-
-    const numberButtonsHorizontalUp = (
-      <div
-        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onMouseDown={this.updateNumberValue}
-        data-adjustment="up"
-      >
-        <calcite-icon theme={this.theme} icon="chevron-up"></calcite-icon>
-      </div>
-    );
-
-    const numberButtonsHorizontalDown = (
-      <div
-        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onMouseDown={this.updateNumberValue}
-        data-adjustment="down"
-      >
-        <calcite-icon theme={this.theme} icon="chevron-down"></calcite-icon>
-      </div>
-    );
-
-    const numberButtonsVertical = (
-      <div class={`calcite-input-number-button-wrapper`}>
-        {numberButtonsHorizontalUp}
-        {numberButtonsHorizontalDown}
-      </div>
-    );
-
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
 
+    const inputClearButton = (
+      <div class="calcite-input-clear-button" onClick={() => this.clearInputValue()}>
+        <calcite-icon theme={this.theme} icon="x" scale={iconScale}></calcite-icon>
+      </div>
+    );
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
@@ -260,6 +224,36 @@ export class CalciteInput {
     const inputAction = (
       <div class="calcite-input-action-wrapper">
         <slot name="input-action"></slot>
+      </div>
+    );
+
+    const numberButtonClassModifier =
+      this.numberButtonType === "horizontal" ? "number-button-item-horizontal" : null;
+
+    const numberButtonsHorizontalUp = (
+      <div
+        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
+        onMouseDown={this.updateNumberValue}
+        data-adjustment="up"
+      >
+        <calcite-icon theme={this.theme} scale={iconScale} icon="chevron-up"></calcite-icon>
+      </div>
+    );
+
+    const numberButtonsHorizontalDown = (
+      <div
+        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
+        onMouseDown={this.updateNumberValue}
+        data-adjustment="down"
+      >
+        <calcite-icon theme={this.theme} scale={iconScale} icon="chevron-down"></calcite-icon>
+      </div>
+    );
+
+    const numberButtonsVertical = (
+      <div class={`calcite-input-number-button-wrapper`}>
+        {numberButtonsHorizontalUp}
+        {numberButtonsHorizontalDown}
       </div>
     );
 
@@ -340,16 +334,6 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus") handleLabelFocus(e) {
-    if (
-      e.detail.labelEl.contains(this.el) ||
-      e.detail.labelEl.shadowRoot.contains(this.el) ||
-      e.detail.requestedInput === this.el.id
-    ) {
-      this.childEl.focus();
-    }
-  }
-
   @Listen("keydown") keyDownHandler(e) {
     if (this.isClearable && getKey(e.key) === "Escape") {
       this.clearInputValue();
@@ -420,7 +404,7 @@ export class CalciteInput {
   private iconTypeDefaults = {
     tel: "phone",
     password: "lock",
-    email: "send",
+    email: "email-address",
     date: "calendar",
     time: "clock",
     search: "search"
@@ -452,7 +436,7 @@ export class CalciteInput {
   private determineClearable() {
     this.isClearable =
       this.type !== "textarea" &&
-      (this.clearable || this.type === "search" || this.type === "time" || this.type === "date") &&
+      (this.clearable || this.type === "search") &&
       this.value.length > 0;
   }
 
@@ -505,6 +489,10 @@ export class CalciteInput {
           break;
       }
       this.value = this.childEl.value.toString();
+      this.calciteInputInput.emit({
+        element: this.childEl,
+        value: this.value
+      });
     }
   };
 }

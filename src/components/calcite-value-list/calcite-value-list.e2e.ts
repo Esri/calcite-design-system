@@ -7,6 +7,7 @@ import {
   disabledStates,
   keyboardNavigation
 } from "../calcite-pick-list/shared-list-tests";
+import { dragAndDrop } from "../../tests/utils";
 
 describe("calcite-value-list", () => {
   it("renders", async () => renders("calcite-value-list"));
@@ -24,20 +25,22 @@ describe("calcite-value-list", () => {
 
   describe("icon logic", () => {
     it("should be 'grip' when in `configuration` mode drag and drop is enabled ", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-value-list drag-enabled>
+      const page = await newE2EPage({
+        html: `<calcite-value-list drag-enabled>
         <calcite-value-list-item value="one"></calcite-value-list-item>
-      </calcite-value-list>`);
+      </calcite-value-list>`
+      });
 
       const item = await page.find("calcite-value-list-item");
       const icon = await item.getProperty("icon");
       expect(icon).toBe(ICON_TYPES.grip);
     });
     it("should be null when drag and drop is disabled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-value-list>
+      const page = await newE2EPage({
+        html: `<calcite-value-list>
         <calcite-value-list-item value="one"></calcite-value-list-item>
-      </calcite-value-list>`);
+      </calcite-value-list>`
+      });
 
       const item = await page.find("calcite-value-list-item");
       const icon = await item.getProperty("icon");
@@ -54,45 +57,39 @@ describe("calcite-value-list", () => {
   });
 
   describe("drag and drop", () => {
-    let page: E2EPage;
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(`<calcite-value-list multiple drag-enabled>
+    async function createSimpleValueList(): Promise<E2EPage> {
+      return newE2EPage({
+        html: `<calcite-value-list drag-enabled>
         <calcite-value-list-item value="one" text-label="One"></calcite-value-list-item>
         <calcite-value-list-item value="two" text-label="Two"></calcite-value-list-item>
         <calcite-value-list-item value="three" text-label="Three"></calcite-value-list-item>
-      </calcite-value-list>`);
-    });
-    it.skip("works using a mouse", async () => {
-      // TODO: remove skip once https://github.com/GoogleChrome/puppeteer/issues/1376 addressed
-      const itemBoundingBox = await page.evaluate(() => {
-        const { left, top, width, height } = document
-          .querySelector(`calcite-value-list-item[value="one"]`)
-          .getBoundingClientRect();
-        return { left, top, width, height };
+      </calcite-value-list>`
       });
-      const handleBoundingBoxes = await page.evaluate((CSS) => {
-        const { left, top, width, height } = document
-          .querySelector(`calcite-value-list-item[value="one"]`)
-          .shadowRoot.querySelector(`calcite-pick-list-item`)
-          .shadowRoot.querySelector(`.${CSS.handle}`)
-          .getBoundingClientRect();
-        return { left, top, width, height };
-      }, CSS);
-      const xCenter = handleBoundingBoxes.left + handleBoundingBoxes.width / 2;
-      const yCenter = handleBoundingBoxes.top + handleBoundingBoxes.height / 2;
-      await page.mouse.move(xCenter, yCenter);
-      await page.mouse.down();
-      await page.mouse.move(xCenter, yCenter + itemBoundingBox.height + 2);
-      await page.mouse.up();
+    }
 
-      // position in DOM of first and second item should be flipped
-      const itemsAfter = await page.findAll("calcite-value-list-item");
-      expect(await itemsAfter[0].getProperty("value")).toBe("two");
-      expect(await itemsAfter[1].getProperty("value")).toBe("one");
+    it("works using a mouse", async () => {
+      const page = await createSimpleValueList();
+
+      await dragAndDrop(
+        page,
+        {
+          host: `calcite-value-list-item[value="one"]`,
+          shadow: `.${CSS.handle}`
+        },
+        {
+          host: `calcite-value-list-item[value="two"]`,
+          shadow: `.${CSS.handle}`
+        }
+      );
+
+      const [first, second] = await page.findAll("calcite-value-list-item");
+      expect(await first.getProperty("value")).toBe("two");
+      expect(await second.getProperty("value")).toBe("one");
     });
 
     it("works using a keyboard", async () => {
+      const page = await createSimpleValueList();
+
       await page.keyboard.press("Tab");
       await page.keyboard.press("Space");
       await page.waitForChanges();
@@ -115,6 +112,73 @@ describe("calcite-value-list", () => {
       await assertKeyboardMove("up", ["two", "three", "one"]);
       await assertKeyboardMove("up", ["two", "one", "three"]);
       await assertKeyboardMove("up", ["one", "two", "three"]);
+    });
+
+    it("supports dragging items between lists", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-value-list id="first-letters" drag-enabled group="letters">
+          <calcite-value-list-item value="a" text-label="A"></calcite-value-list-item>
+          <calcite-value-list-item value="b" text-label="B"></calcite-value-list-item>
+        </calcite-value-list>
+
+        <calcite-value-list id="numbers" drag-enabled group="numbers">
+          <calcite-value-list-item value="1" text-label="One"></calcite-value-list-item>
+          <calcite-value-list-item value="2" text-label="Two"></calcite-value-list-item>
+        </calcite-value-list>
+
+        <calcite-value-list id="no-group" drag-enabled>
+          <calcite-value-list-item value="no-group" text-label="No group"></calcite-value-list-item>
+        </calcite-value-list>
+
+        <calcite-value-list id="second-letters" drag-enabled group="letters">
+          <calcite-value-list-item value="c" text-label="C"></calcite-value-list-item>
+          <calcite-value-list-item value="d" text-label="D"></calcite-value-list-item>
+          <calcite-value-list-item value="e" text-label="E"></calcite-value-list-item>
+          <calcite-value-list-item value="f" text-label="F"></calcite-value-list-item>
+        </calcite-value-list>
+        `
+      });
+
+      await dragAndDrop(
+        page,
+        {
+          host: `calcite-value-list-item[value="d"]`,
+          shadow: `.${CSS.handle}`
+        },
+        `#first-letters`
+      );
+
+      await dragAndDrop(
+        page,
+        {
+          host: `calcite-value-list-item[value="e"]`,
+          shadow: `.${CSS.handle}`
+        },
+        `#numbers`
+      );
+
+      await dragAndDrop(
+        page,
+        {
+          host: `calcite-value-list-item[value="e"]`,
+          shadow: `.${CSS.handle}`
+        },
+        `#no-group`
+      );
+
+      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await page.findAll(
+        "calcite-value-list-item"
+      );
+      expect(await first.getProperty("value")).toBe("a");
+      expect(await second.getProperty("value")).toBe("b");
+      expect(await third.getProperty("value")).toBe("d");
+      expect(await fourth.getProperty("value")).toBe("1");
+      expect(await fifth.getProperty("value")).toBe("2");
+      expect(await sixth.getProperty("value")).toBe("no-group");
+      expect(await seventh.getProperty("value")).toBe("c");
+      expect(await eight.getProperty("value")).toBe("e");
+      expect(await ninth.getProperty("value")).toBe("f");
     });
   });
 });

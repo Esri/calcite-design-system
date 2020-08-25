@@ -48,11 +48,11 @@
           padding: { left: 49, right: 385 }
         });
         view.when(function () {
-          var layerList = new LayerList({
-            view: view,
-            selectionEnabled: true,
-            container: "layerlist-container"
-          });
+          // var layerList = new LayerList({
+          //   view: view,
+          //   selectionEnabled: true,
+          //   container: "layerlist-container"
+          // });
 
           view.ui.move("zoom", "bottom-right");
         });
@@ -86,10 +86,16 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-              <calcite-flow-item heading="Layers">
-                <div id="layerlist-container"></div>
-                <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
-                <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip>
+              <calcite-flow-item heading="Layers" style="padding: 10px;">
+                <calcite-label>
+                  It's a label.
+                  <calcite-input type="text" placeholder="This is stuff." scale="s">
+                    <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                  </calcite-input>
+                </calcite-label>
+                <!-- <div id="layerlist-container"></div> -->
+                <!-- <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab> -->
+                <!-- <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip> -->
               </calcite-flow-item>
             </calcite-flow>
           </calcite-shell-panel>
@@ -124,114 +130,234 @@
                 heading="Configure popup"
                 summary="Popular Demographics in the United States (Beta) - County"
               >
-                <calcite-block heading="Basic" summary="Collapsible" collapsible>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                <calcite-block heading="Basic" summary="Collapsible with section" collapsible>
+                  
+                  <!-- Using Button -->
+                  <calcite-label scale="s">
+                    It's a label (btn).
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-button slot="input-action" appearance="transparent" color="dark" icon-start="brackets-curly" scale="s"></calcite-button>
+                    </calcite-input>
+                  </calcite-label>
+                  <!-- Using Action -->
+                  <calcite-label scale="s">
+                    It's a label (action).
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+
+
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-block-section text="Section is cool">
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block-section>
+                  <calcite-block-section text="Switch section" toggle-display="switch">
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block-section>
                 </calcite-block>
-                <calcite-block heading="Basic" summary="Not collapsible">
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
-                </calcite-block>
+                
                 <calcite-block heading="With control" summary="Collapsible" collapsible>
                   <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                </calcite-block>
+                <calcite-block heading="Basic" summary="Not collapsible">
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block heading="With control" summary="Not collapsible">
                   <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block heading="With icon" summary="Collapsible" collapsible>
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block heading="With icon" summary="Not collapsible">
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block heading="With icon and control and long stuff" summary="Collapsible" collapsible>
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
                   <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block heading="With icon and control" summary="Not collapsible">
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
                   <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
 
                 <calcite-block drag-handle heading="Drag + Basic" summary="Collapsible" collapsible>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block drag-handle heading="Drag + Basic" summary="Not collapsible">
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block
                   drag-handle
@@ -240,72 +366,132 @@
                   collapsible
                 >
                   <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block drag-handle heading="Drag + Basicwithcontrolandsomeextratext" summary="Not collapsible">
                   <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block drag-handle heading="Drag + Basic with icon" summary="Collapsible" collapsible>
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block drag-handle heading="Drag + Basic with icon" summary="Not collapsible">
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
 
                 <calcite-block drag-handle heading="Basic with icon and control" summary="Collapsible" collapsible>
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
                   <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
                 <calcite-block drag-handle heading="Basic with icon and control" summary="Not collapsible">
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
                   <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <div class="combo-control">
-                    <div class="combo-button">
-                      <button class="combo-button__main">
-                        County: {NAME}
-                      </button>
-                      <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
-                    </div>
-                  </div>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
+                    It's a label.
+                    <calcite-input type="text" placeholder="This is stuff." scale="s">
+                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                    </calcite-input>
+                  </calcite-label>
                 </calcite-block>
 
                 <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>

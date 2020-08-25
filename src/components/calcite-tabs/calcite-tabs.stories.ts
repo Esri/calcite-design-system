@@ -1,25 +1,20 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme } from "../../../.storybook/helpers";
+import { select, optionsKnob } from "@storybook/addon-knobs";
+import { iconNames } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-tab/readme.md";
 import readme3 from "../calcite-tab-nav/readme.md";
 import readme4 from "../calcite-tab-title/readme.md";
 
-const notes1 = parseReadme(readme1);
-const notes2 = parseReadme(readme2);
-const notes3 = parseReadme(readme3);
-const notes4 = parseReadme(readme4);
-
-const notes = notes1.concat(`\n${notes2}`).concat(`\n${notes3}`).concat(`\n${notes4}`);
-
-storiesOf("components|Tabs", module)
-  .addDecorator(withKnobs)
+storiesOf("Components/Tabs", module)
+  .addParameters({ notes: [readme1, readme2, readme3, readme4] })
   .add(
     "Simple",
     () => `
     <calcite-tabs
-      layout="${select("layout", ["inline", "center"])}"
+      layout="${select("layout", ["inline", "center"], "inline")}"
+      position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav slot="tab-nav">
         <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
@@ -33,14 +28,14 @@ storiesOf("components|Tabs", module)
       <calcite-tab><p>Tab 3 Content</p></calcite-tab>
       <calcite-tab><p>Tab 4 Content</p></calcite-tab>
     </calcite-tabs>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icons",
     () => `
     <calcite-tabs
-      layout="${select("layout", ["inline", "center"])}"
+      layout="${select("layout", ["inline", "center"], "inline")}"
+      position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav
       slot="tab-nav">
@@ -63,14 +58,14 @@ storiesOf("components|Tabs", module)
       <calcite-tab><p>Tab 3 Content</p></calcite-tab>
       <calcite-tab><p>Tab 4 Content</p></calcite-tab>
     </calcite-tabs>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
     () => `
     <calcite-tabs theme="dark"
-    layout="${select("layout", ["inline", "center"])}"
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["above", "below"], "above")}"
     >
       <calcite-tab-nav slot="tab-nav">
         <calcite-tab-title active>Icon 1</calcite-tab-title>
@@ -80,5 +75,38 @@ storiesOf("components|Tabs", module)
       </calcite-tab-nav>
     </calcite-tabs>
   `,
-    { notes, backgrounds: darkBackground }
-  );
+    { backgrounds: darkBackground }
+  )
+  .add("Disabled tabs", () => {
+    const disabledLabel = "Disabled Tabs";
+    const disabledValuesObj = {
+      Tab1: "tab1",
+      Tab2: "tab2",
+      Tab3: "tab3"
+    };
+    const defaultValue = "tab2";
+    const optionsKnobSelections = optionsKnob(
+      disabledLabel,
+      disabledValuesObj,
+      defaultValue,
+      { display: "multi-select" },
+      "DISABLED-TABS"
+    );
+    const tab1disabled = optionsKnobSelections.includes(disabledValuesObj.Tab1);
+    const tab2disabled = optionsKnobSelections.includes(disabledValuesObj.Tab2);
+    const tab3disabled = optionsKnobSelections.includes(disabledValuesObj.Tab3);
+
+    return `
+      <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title active ${tab1disabled ? "disabled" : ""}>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title ${tab2disabled ? "disabled" : ""}>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title ${tab3disabled ? "disabled" : ""}>Tab 3 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+        <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+        <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+      </calcite-tabs>
+    `;
+  });

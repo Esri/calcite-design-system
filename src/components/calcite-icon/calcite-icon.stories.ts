@@ -1,19 +1,17 @@
-import { withKnobs, select } from "@storybook/addon-knobs";
-import { darkBackground, iconNames, parseReadme, boolean } from "../../../.storybook/helpers";
+import { select } from "@storybook/addon-knobs";
+import { iconNames, boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
-const notes = parseReadme(readme);
-
 export default {
-  title: "components|Icon",
-  decorators: [withKnobs],
-  parameters: { notes }
+  title: "Components/Icon",
+  parameters: { notes: readme }
 };
 
 export const simple = () => `
   <calcite-icon
     icon="${select("icon", iconNames, iconNames[0])}"
-    scale="${select("size", ["s", "m", "l"], "m")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("filled", false)}
   ></calcite-icon>
 `;
@@ -34,8 +32,4 @@ export const darkMode = () => `
   ></calcite-icon>
 `;
 
-darkMode.story = {
-  parameters: {
-    backgrounds: darkBackground
-  }
-};
+darkMode.parameters = { backgrounds: darkBackground };

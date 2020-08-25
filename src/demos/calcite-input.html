@@ -74,6 +74,7 @@
               <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
             </calcite-radio-group>
           </calcite-label>
+
           <calcite-label layout="inline">
             Inline label wrapping a radio group
             <calcite-radio-group>
@@ -313,15 +314,6 @@
             </calcite-input>
           </calcite-label>
 
-
-
-
-
-
-
-
-
-
           <calcite-label>
             Readonly with prefix
             <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
@@ -340,7 +332,6 @@
             </calcite-input>
           </calcite-label>
 
-
           <calcite-label>
             File input
             <calcite-input type="file" placeholder="Drag 'em' here"></calcite-input>
@@ -350,6 +341,16 @@
             Loading input
             <calcite-input placeholder="john@doe.com" value="john@do" loading></calcite-input>
           </calcite-label>
+          <calcite-label>
+            Date input with clearable
+            <calcite-input icon="calendar" type="date" clearable></calcite-input>
+          </calcite-label>
+
+          <calcite-label>
+            Time input with clearable
+            <calcite-input icon type="time" clearable></calcite-input>
+          </calcite-label>
+
           <calcite-label>
             Date input with default icon
             <calcite-input icon="calendar" type="date"></calcite-input>
@@ -371,6 +372,11 @@
           <calcite-label>
             Email input with default icon
             <calcite-input icon type="email" placeholder="john@doe.com"></calcite-input>
+          </calcite-label>
+
+          <calcite-label>
+            Email input with custom icon
+            <calcite-input icon="envelope" type="email" placeholder="john@doe.com"></calcite-input>
           </calcite-label>
 
           <calcite-label>

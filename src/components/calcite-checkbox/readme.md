@@ -43,10 +43,15 @@ If you don't pass in an input, calcite-checkbox will act as the source of truth:
 
 - [calcite-card](../calcite-card)
 
+### Depends on
+
+- [calcite-label](../calcite-label)
+
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-checkbox --> calcite-label
   calcite-card --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -1,17 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import {
-  accessible,
-  defaults,
-  hidden,
-  reflects,
-  renders,
-} from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-tile-select", () => {
   it("renders", async () => renders("calcite-tile-select"));
 
-  it("is accessible", async () =>
-    accessible(`<calcite-tile-select></calcite-tile-select>`));
+  it("is accessible", async () => accessible(`<calcite-tile-select></calcite-tile-select>`));
 
   it("has defaults", async () =>
     defaults("calcite-tile-select", [
@@ -19,7 +12,7 @@ describe("calcite-tile-select", () => {
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
-      { propertyName: "theme", defaultValue: "light" },
+      { propertyName: "theme", defaultValue: "light" }
     ]));
 
   it("reflects", async () =>
@@ -39,7 +32,7 @@ describe("calcite-tile-select", () => {
       { propertyName: "theme", value: "dark" },
       { propertyName: "type", value: "radio" },
       { propertyName: "type", value: "checkbox" },
-      { propertyName: "value", value: "option one" },
+      { propertyName: "value", value: "option one" }
     ]));
 
   it("honors hidden attribute", async () => hidden("calcite-tile-select"));
@@ -54,9 +47,7 @@ describe("calcite-tile-select", () => {
 
   it("renders a calcite-radio-button when in radio mode", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-tile-select name='radio' value='one'></calcite-tile-select>"
-    );
+    await page.setContent("<calcite-tile-select name='radio' value='one'></calcite-tile-select>");
 
     const calciteRadio = await page.find("calcite-radio-button");
     const calciteCheckbox = await page.find("calcite-checkbox");

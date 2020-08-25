@@ -1,25 +1,17 @@
-import { boolean, select, text, withKnobs } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  darkBackground,
-  parseReadme
-} from "../../../.storybook/utils";
+import { boolean, select, text } from "@storybook/addon-knobs";
+import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import blockReadme from "./readme.md";
 import sectionReadme from "../calcite-block-section/readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import dedent from "dedent";
 
 export default {
-  title: "app components|calcite-block",
-  decorators: [withKnobs, withA11y],
+  title: "App Components/calcite-block",
   parameters: {
     backgrounds: darkBackground,
     notes: {
-      block: parseReadme(blockReadme),
-      section: parseReadme(sectionReadme)
+      block: blockReadme,
+      section: sectionReadme
     }
   }
 };

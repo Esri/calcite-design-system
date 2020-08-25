@@ -4,18 +4,16 @@
   display: flex;
   flex: 1 0 auto;
   flex-flow: column;
-  padding-bottom: var(--calcite-app-cap-spacing);
+  padding-bottom: var(--calcite-cap-spacing);
   position: relative;
 }
 
-@import "../../scss/includes/_component";
-
 header {
-  background-color: var(--calcite-app-background);
+  background-color: var(--calcite-ui-foreground-1);
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: var(--calcite-app-cap-spacing-half);
+  margin-bottom: var(--calcite-spacing-half);
   &.sticky {
     position: sticky;
     top: 0;
@@ -36,7 +34,7 @@ calcite-scrim {
 }
 
 slot[name="menu-actions"]::slotted(calcite-action) {
-  padding: 0 var(--calcite-app-side-spacing-half);
+  padding: 0 var(--calcite-spacing-half);
 }
 
 :host([loading][disabled]) {

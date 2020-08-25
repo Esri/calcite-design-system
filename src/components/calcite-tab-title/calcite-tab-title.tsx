@@ -45,6 +45,9 @@ export class CalciteTabTitle {
   /** Show this tab title as selected */
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  /** Disable this tab title  */
+  @Prop({ reflect: true }) disabled = false;
+
   /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
@@ -53,6 +56,10 @@ export class CalciteTabTitle {
 
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+
+  /** @internal Parent tabs component position value */
+  @Prop({ reflect: true, mutable: true }) position: "above" | "below";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -65,6 +72,7 @@ export class CalciteTabTitle {
 
   disconnectedCallback() {
     this.observer.disconnect();
+    this.calciteTabTitleUnregister.emit();
   }
 
   componentWillLoad() {
@@ -72,18 +80,18 @@ export class CalciteTabTitle {
       this.updateHasText();
     }
     if (this.tab && this.active) {
-      this.calciteTabsActivate.emit({
-        tab: this.tab
-      });
+      this.emitActiveTab();
     }
   }
 
   componentWillRender() {
     this.layout = this.el.closest("calcite-tabs")?.layout;
+    this.position = this.el.closest("calcite-tabs")?.position;
   }
 
   render() {
     const id = this.el.id || this.guid;
+    const Tag = this.disabled ? "span" : "a";
 
     const iconStartEl = (
       <calcite-icon class="calcite-tab-title--icon icon-start" icon={this.iconStart} scale="s" />
@@ -99,24 +107,20 @@ export class CalciteTabTitle {
         aria-controls={this.controls}
         aria-expanded={this.active.toString()}
         role="tab"
-        tabindex="0"
+        tabindex={this.disabled ? "-1" : "0"}
         hasText={this.hasText}
       >
-        <a>
+        <Tag>
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}
-        </a>
+        </Tag>
       </Host>
     );
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.calciteTabTitleRegister.emit();
-  }
-
-  componentDidUnload() {
-    this.calciteTabTitleUnregister.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -138,18 +142,14 @@ export class CalciteTabTitle {
   }
 
   @Listen("click") onClick() {
-    this.calciteTabsActivate.emit({
-      tab: this.tab
-    });
+    this.emitActiveTab();
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
     switch (getKey(e.key)) {
       case " ":
       case "Enter":
-        this.calciteTabsActivate.emit({
-          tab: this.tab
-        });
+        this.emitActiveTab();
         e.preventDefault();
         break;
       case "ArrowRight":
@@ -259,6 +259,14 @@ export class CalciteTabTitle {
         this.updateHasText();
       });
       this.observer.observe(this.el, { childList: true, subtree: true });
+    }
+  }
+
+  private emitActiveTab() {
+    if (!this.disabled) {
+      this.calciteTabsActivate.emit({
+        tab: this.tab
+      });
     }
   }
 

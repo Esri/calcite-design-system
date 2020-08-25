@@ -103,12 +103,12 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.addReferences();
     this.createPopper();
   }
 
-  componentDidUnload() {
+  disconnectedCallback(): void {
     this.removeReferences();
     this.destroyPopper();
   }

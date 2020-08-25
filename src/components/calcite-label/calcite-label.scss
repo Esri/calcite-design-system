@@ -1,9 +1,19 @@
-//ie11 fixes
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
 
-// temporary hardcoded values until new font scale and padding is added to calcite-base
+:host([dir="rtl"]) {
+  text-align: right;
+}
+
+:host label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
+}
+
 :host([scale="s"]) label {
   font-size: var(--calcite-label-font-size, 12px);
   --calcite-label-spacing-value: 8px;
@@ -19,51 +29,40 @@
   --calcite-label-spacing-value: 16px;
 }
 
-// padding for children variable
-:host {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  text-align: left;
-}
-
-:host([dir="rtl"]) {
-  text-align: right;
-}
-
-:host label {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
-}
-
-:host([layout="inline"]) label {
-  flex-direction: row;
-  align-items: center;
-}
-
-:host([layout="inline-space-between"]) label {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-:host([layout="default"]) label {
-  & .calcite-label-text {
+:host([layout="default"]) {
+  ::slotted(.calcite-label-text) {
     margin-bottom: 8px;
+  }
+}
+
+:host([layout="inline"]) {
+  label {
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+:host([layout="inline-space-between"]) {
+  label {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
-  & .calcite-label-text:first-child {
+  ::slotted(.calcite-label-text) {
+    margin-left: $baseline/2;
     margin-right: $baseline/2;
   }
-
-  & .calcite-label-text:last-child {
+  ::slotted(.calcite-label-text:first-child) {
+    margin-left: 0;
+    margin-right: $baseline/2;
+  }
+  ::slotted(.calcite-label-text:last-child) {
     margin-left: $baseline/2;
+    margin-right: 0;
   }
 }
 

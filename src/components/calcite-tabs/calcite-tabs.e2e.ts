@@ -1,7 +1,24 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
+  it("is accessible", async () =>
+    accessible(
+      `<calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab active>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+      </calcite-tabs>`
+    ));
+
   it("renders with a light theme", async () => {
     const page = await newE2EPage();
 
@@ -137,5 +154,29 @@ describe("calcite-tabs", () => {
     const results = await page.compareScreenshot();
 
     expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
+  });
+
+  it("disallows selection of a disabled tab", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`
+      <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title id="title-1" active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title disabled id="title-2" >Tab 2 Title</calcite-tab-title>
+        </calcite-tab-nav>
+
+        <calcite-tab id="tab-1" active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
+      </calcite-tabs>
+    `);
+
+    await page.waitForChanges();
+
+    const [, tab2] = await page.findAll("calcite-tab");
+    const [, tabTitle2] = await page.findAll("calcite-tab-title");
+
+    await tabTitle2.click();
+    expect(tab2).not.toHaveAttribute("active");
   });
 });

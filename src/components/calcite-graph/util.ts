@@ -1,11 +1,4 @@
-import {
-  Point,
-  DataSeries,
-  Graph,
-  TranslateOptions,
-  Translator,
-  Extent,
-} from "../../interfaces/Graph";
+import { Point, DataSeries, Graph, TranslateOptions, Translator, Extent } from "../../interfaces/Graph";
 
 /**
  * Math.sign not supported in IE
@@ -27,10 +20,7 @@ function slope(p0: Point, p1: Point, p2: Point): number {
   const m = dy / (dx || (dx1 < 0 && 0));
   const m1 = dy1 / (dx1 || (dx < 0 && 0));
   const p = (m * dx1 + m1 * dx) / (dx + dx1);
-  return (
-    (sign(m) + sign(m1)) *
-      Math.min(Math.abs(m), Math.abs(m1), 0.5 * Math.abs(p)) || 0
-  );
+  return (sign(m) + sign(m1)) * Math.min(Math.abs(m), Math.abs(m1), 0.5 * Math.abs(p)) || 0;
 }
 
 /**
@@ -49,13 +39,7 @@ function slopeSingle(p0: Point, p1: Point, m: number): number {
  * Translates Hermite Spline to Beziér curve:
  * stackoverflow.com/questions/42574940/
  */
-function bezier(
-  p0: Point,
-  p1: Point,
-  m0: number,
-  m1: number,
-  t: Translator
-): string {
+function bezier(p0: Point, p1: Point, m0: number, m1: number, t: Translator): string {
   const [x0, y0] = p0;
   const [x1, y1] = p1;
   const dx = (x1 - x0) / 3;
@@ -69,12 +53,7 @@ function bezier(
  * Generate a function which will translate a point
  * from the data coordinate space to svg viewbox oriented pixels
  */
-export function translate({
-  width,
-  height,
-  min,
-  max,
-}: TranslateOptions): Translator {
+export function translate({ width, height, min, max }: TranslateOptions): Translator {
   const rangeX = max[0] - min[0];
   const rangeY = max[1] - min[1];
   return (point) => {
@@ -94,7 +73,7 @@ export function range(data: DataSeries): Extent {
   return data.reduce(
     ({ min, max }, [x, y]) => ({
       min: [Math.min(min[0], x), Math.min(min[1], y)],
-      max: [Math.max(max[0], x), Math.max(max[1], y)],
+      max: [Math.max(max[0], x), Math.max(max[1], y)]
     }),
     { min, max }
   );

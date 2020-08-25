@@ -1,16 +1,14 @@
 :host {
   @extend %component-host;
   display: flex;
-  padding: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half);
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
   width: 100%;
 }
-
-@import "../../scss/includes/_component";
 
 label {
   align-items: center;
   display: flex;
-  margin: 0 var(--calcite-app-side-spacing-quarter);
+  margin: 0 var(--calcite-spacing-quarter);
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -19,13 +17,12 @@ label {
 input[type="text"] {
   background-color: transparent;
   border: 0;
-  font-family: var(--calcite-app-font-family);
-  font-size: var(--calcite-app-font-size-0);
-  margin-bottom: calc(var(--calcite-app-cap-spacing-minimum) * 2);
-  padding: var(--calcite-app-cap-spacing-quarter) var(--calcite-app-side-spacing-quarter)
-    var(--calcite-app-cap-spacing-quarter) var(--calcite-app-side-spacing-plus-half);
-  transition: padding var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function),
-    box-shadow var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  font-family: inherit;
+  @include font-size(-2);
+  margin-bottom: 2px;
+  padding: var(--calcite-spacing-quarter) var(--calcite-spacing-quarter) var(--calcite-spacing-quarter)
+    var(--calcite-spacing-plus-half);
+  transition: padding $transition, box-shadow $transition;
   width: 100%;
   &::-ms-clear {
     display: none;
@@ -33,13 +30,11 @@ input[type="text"] {
 }
 
 .search-icon {
-  color: var(--calcite-app-foreground-subtle);
+  color: var(--calcite-ui-text-2);
   display: flex;
   left: 0;
   position: absolute;
-  transition: left var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function),
-    right var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function),
-    opacity var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  transition: left $transition, right $transition, opacity $transition;
 }
 
 .calcite--rtl .search-icon {
@@ -48,37 +43,37 @@ input[type="text"] {
 }
 
 input[type="text"]:focus {
-  border-color: var(--calcite-app-foreground-active);
-  box-shadow: 0 calc(var(--calcite-app-cap-spacing-minimum) * 2) 0 var(--calcite-app-foreground-active);
+  border-color: var(--calcite-ui-blue-1);
+  box-shadow: 0 2px 0 var(--calcite-ui-blue-1);
   outline: none;
-  padding-left: var(--calcite-app-side-spacing-quarter);
-  padding-right: var(--calcite-app-side-spacing-quarter);
+  padding-left: var(--calcite-spacing-quarter);
+  padding-right: var(--calcite-spacing-quarter);
   & ~ .search-icon {
-    left: calc(var(--calcite-app-icon-size) * -1);
+    left: calc(var(--calcite-icon-size) * -1);
     opacity: 0;
   }
 }
 
 .calcite--rtl {
   input[type="text"] {
-    padding-left: var(--calcite-app-side-spacing-quarter);
-    padding-right: var(--calcite-app-side-spacing-plus-half);
+    padding-left: var(--calcite-spacing-quarter);
+    padding-right: var(--calcite-spacing-plus-half);
     &:focus {
-      padding-right: var(--calcite-app-side-spacing-plus-quarter);
+      padding-right: var(--calcite-spacing-plus-quarter);
       & ~ .search-icon {
-        right: calc(var(--calcite-app-icon-size) * -1);
+        right: calc(var(--calcite-icon-size) * -1);
       }
     }
   }
 }
 
 .clear-button {
-  color: var(--calcite-app-foreground);
+  color: var(--calcite-ui-text-2);
   background: none;
   border: 0;
   cursor: pointer;
   &:hover,
   &:focus {
-    color: var(--calcite-app-foreground-hover);
+    color: var(--calcite-ui-text-1);
   }
 }
