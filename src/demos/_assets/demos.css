@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: var(--calcite-app-background-content);
+  background-color: var(--calcite-ui-background);
 }
 
 main {
@@ -10,13 +10,13 @@ main {
 }
 
 .example-container {
-  color: var(--calcite-app-foreground-subtle);
+  color: var(--calcite-ui-text-1);
   max-width: 1024px;
   min-width: 280px;
   width: 70vw;
-  padding: 0 var(--calcite-app-side-spacing-double);
-  margin: 0 auto var(--calcite-app-cap-spacing-double);
-  background-color: var(--calcite-app-background-clear);
+  padding: 0 var(--calcite-spacing-double);
+  margin: 0 auto var(--calcite-spacing-double);
+  background-color: transparent;
 }
 
 .example-container h1,

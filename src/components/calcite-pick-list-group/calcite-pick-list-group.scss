@@ -1,27 +1,27 @@
 :host {
   @extend %component-host;
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
   display: block;
-  margin-bottom: var(--calcite-app-cap-spacing-quarter);
+  margin-bottom: var(--calcite-spacing-quarter);
 }
-
-@import "../../scss/includes/_component";
-@import "../../scss/includes/_header";
 
 :host(:last-child) {
   margin-bottom: 0;
 }
 
+@import "../../assets/styles/header";
+
 h3.heading {
-  font-size: var(--calcite-app-font-size-0);
-  margin: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing);
+  @include font-size(-2);
+  color: var(--calcite-ui-text-3);
+  margin: var(--calcite-spacing-half) var(--calcite-spacing);
 }
 
 .container--indented {
-  margin-left: var(--calcite-app-side-spacing-plus-half);
+  margin-left: var(--calcite-spacing-plus-half);
 }
 
 .calcite--rtl.container--indented {
   margin-left: 0;
-  margin-right: var(--calcite-app-side-spacing-plus-half);
+  margin-right: var(--calcite-spacing-plus-half);
 }

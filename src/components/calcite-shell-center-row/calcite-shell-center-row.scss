@@ -1,20 +1,18 @@
-$center-row-border: 1px solid var(--calcite-app-border);
-
 :host {
   @extend %component-host;
   display: flex;
   overflow: hidden;
-  transition: height var(--calcite-app-animation-time) ease-in-out;
-  background-color: var(--calcite-app-background-clear);
-  border-left: 1px solid var(--calcite-app-border);
-  border-right: 1px solid var(--calcite-app-border);
+  transition: height $transition;
+  background-color: transparent;
+  border-left: 1px solid var(--calcite-ui-border-3);
+  border-right: 1px solid var(--calcite-ui-border-3);
 
-  --calcite-app-shell-center-row-height-small: 33%;
-  --calcite-app-shell-center-row-height-medium: 70%;
-  --calcite-app-shell-center-row-height-large: 100%;
+  --calcite-shell-center-row-height-small: 33%;
+  --calcite-shell-center-row-height-medium: 70%;
+  --calcite-shell-center-row-height-large: 100%;
+
+  --calcite-shell-center-row-border: 1px solid var(--calcite-ui-border-3);
 }
-
-@import "../../scss/includes/_component";
 
 .content {
   display: flex;
@@ -30,12 +28,11 @@ $center-row-border: 1px solid var(--calcite-app-border);
 }
 
 :host([detached]) {
-  animation: calcite-app-fade-in-up var(--calcite-app-animation-time) var(--calcite-app-easing-function);
+  animation: calcite-fade-in-up $transition;
   border: none;
-  border-radius: var(--calcite-app-border-radius);
-  box-shadow: var(--calcite-app-shadow-0);
-  margin: var(--calcite-app-cap-spacing-half) var(--calcite-app-side-spacing-half)
-    var(--calcite-app-cap-spacing-plus-half);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: var(--calcite-shadow-0);
+  margin: var(--calcite-spacing-half) var(--calcite-spacing-half) var(--calcite-spacing-plus-half);
 }
 
 :host([position="end"]) {
@@ -47,19 +44,19 @@ $center-row-border: 1px solid var(--calcite-app-border);
 }
 
 :host([height-scale="s"]) {
-  height: var(--calcite-app-shell-center-row-height-small);
+  height: var(--calcite-shell-center-row-height-small);
 }
 
 :host([height-scale="m"]) {
-  height: var(--calcite-app-shell-center-row-height-medium);
+  height: var(--calcite-shell-center-row-height-medium);
 }
 
 :host([height-scale="l"]) {
-  height: var(--calcite-app-shell-center-row-height-large);
+  height: var(--calcite-shell-center-row-height-large);
 }
 
 :host([height-scale="l"][detached]) {
-  height: calc(var(--calcite-app-shell-center-row-height-large) - var(--calcite-app-cap-spacing-double));
+  height: calc(var(--calcite-shell-center-row-height-large) - var(--calcite-spacing-double));
 }
 
 ::slotted(calcite-panel) {
@@ -68,20 +65,20 @@ $center-row-border: 1px solid var(--calcite-app-border);
 }
 
 ::slotted(calcite-action-bar) {
-  border-right: $center-row-border;
+  border-right: var(--calcite-shell-center-row-border);
 }
 ::slotted(calcite-action-bar[position="end"]) {
   border-right: none;
-  border-left: $center-row-border;
+  border-left: var(--calcite-shell-center-row-border);
 }
 
 .calcite--rtl {
   ::slotted(calcite-action-bar) {
     border-right: none;
-    border-left: $center-row-border;
+    border-left: var(--calcite-shell-center-row-border);
   }
   ::slotted(calcite-action-bar[position="end"]) {
     border-left: none;
-    border-right: $center-row-border;
+    border-right: var(--calcite-shell-center-row-border);
   }
 }

@@ -253,7 +253,7 @@ export class CalciteRadioButton {
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
     this.input.hidden = this.hidden;
-    this.input.id = this.guid;
+    this.input.id = `${this.guid}-input`;
     if (this.name) {
       this.input.name = this.name;
     }

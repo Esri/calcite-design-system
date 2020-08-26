@@ -1,25 +1,23 @@
 :host {
   @extend %component-host;
   align-items: stretch;
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
   display: flex;
   flex: 0 0 auto;
   flex-flow: column;
   position: relative;
 }
 
-@import "../../scss/includes/_component";
-
 calcite-value-list-item:last-of-type {
   box-shadow: none;
 }
 
 header {
-  background-color: var(--calcite-app-background);
+  background-color: var(--calcite-ui-foreground-1);
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: var(--calcite-app-cap-spacing-quarter);
+  margin-bottom: var(--calcite-spacing-quarter);
   &.sticky {
     position: sticky;
     top: 0;
@@ -40,5 +38,5 @@ calcite-scrim {
 }
 
 slot[name="menu-actions"]::slotted(calcite-action) {
-  padding: 0 var(--calcite-app-side-spacing-half);
+  padding: 0 var(--calcite-spacing-half);
 }
