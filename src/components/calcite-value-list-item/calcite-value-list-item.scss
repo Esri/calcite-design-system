@@ -2,14 +2,11 @@
   @extend %component-host;
   @include borderShadow();
   display: flex;
-  transition: background-color var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function),
-    box-shadow var(--calcite-app-animation-time-fast) var(--calcite-app-easing-function);
+  transition: background-color $transition, box-shadow $transition;
 }
 
-@import "../../scss/includes/_component";
-
 :host(:hover) {
-  background-color: var(--calcite-app-background-hover);
+  background-color: var(--calcite-ui-foreground-2);
 }
 
 calcite-pick-list-item {
@@ -23,7 +20,7 @@ calcite-pick-list-item {
   @include borderShadowActive();
 }
 :host([selected]) calcite-pick-list-item:hover {
-  background-color: var(--calcite-app-background-clear);
+  background-color: transparent;
 }
 
 .handle {
@@ -31,26 +28,26 @@ calcite-pick-list-item {
   align-items: center;
   align-self: stretch;
   justify-content: center;
-  margin-bottom: var(--calcite-app-cap-spacing-minimum);
-  padding: var(--calcite-app-cap-spacing-three-quarters) var(--calcite-app-side-spacing-quarter);
-  background-color: var(--calcite-app-background-clear);
+  margin-bottom: 1px;
+  padding: var(--calcite-spacing-three-quarters) var(--calcite-spacing-quarter);
+  background-color: transparent;
   border: none;
-  color: var(--calcite-app-border);
+  color: var(--calcite-ui-border-3);
   line-height: 0;
   cursor: move;
-  @include focus-style-base();
-  &:hover,
-  &:focus {
-    background-color: var(--calcite-app-background-hover);
-    outline-offset: var(--calcite-app-outline-inset);
-    color: var(--calcite-app-foreground);
+  &:hover {
+    background-color: var(--calcite-ui-foreground-2);
+    color: var(--calcite-ui-text-1);
   }
+  @include focus-style-base();
   &:focus {
+    background-color: var(--calcite-ui-foreground-2);
+    color: var(--calcite-ui-text-1);
     @include focus-style-inset();
   }
   &--activated {
-    background-color: var(--calcite-app-background-active);
-    color: var(--calcite-app-foreground-active);
+    background-color: var(--calcite-ui-foreground-current);
+    color: var(--calcite-ui-text-current);
   }
 }
 

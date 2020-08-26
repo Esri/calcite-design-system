@@ -50,5 +50,5 @@ export function getDescribedByElement<T extends Element>(element: Element): T | 
 }
 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement) {
-  return labelEl.shadowRoot.contains(el) || labelEl.contains(el);
+  return labelEl.contains(el);
 }

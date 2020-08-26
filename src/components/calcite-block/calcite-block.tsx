@@ -185,7 +185,10 @@ export class CalciteBlock {
         <article
           aria-expanded={collapsible ? open.toString() : null}
           aria-busy={loading.toString()}
-          class={rtl ? CSS_UTILITY.rtl : null}
+          class={{
+            [CSS.article]: true,
+            [CSS_UTILITY.rtl]: rtl
+          }}
         >
           {headerNode}
           <div class={CSS.content} hidden={!open}>

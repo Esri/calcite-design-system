@@ -65,6 +65,11 @@ export class CalciteValueList<
   @Prop({ reflect: true }) filterEnabled = false;
 
   /**
+   * If this is set and drag is enabled, items can be dropped between lists of the same group.
+   */
+  @Prop() group: string;
+
+  /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
   @Prop({ reflect: true }) loading = false;
@@ -182,7 +187,8 @@ export class CalciteValueList<
     this.sortable = Sortable.create(this.el, {
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
-      onUpdate: () => {
+      group: this.group,
+      onSort: () => {
         this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
         const values = this.items.map((item) => item.value);
         this.calciteListOrderChange.emit(values);

@@ -52,7 +52,6 @@ export class CalciteSwitch {
       !this.el.contains(e.detail.interactedEl) &&
       hasLabel(e.detail.labelEl, this.el)
     ) {
-      this.updateSwitch(event);
       this.el.focus();
     } else return;
   }

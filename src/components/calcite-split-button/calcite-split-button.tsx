@@ -50,6 +50,9 @@ export class CalciteSplitButton {
   /** fired when the primary button is clicked */
   @Event() calciteSplitButtonPrimaryClick: EventEmitter;
 
+  /** fired when the secondary button is clicked */
+  @Event() calciteSplitButtonSecondaryClick: EventEmitter;
+
   @Watch("color")
   validateColor() {
     const color = ["blue", "red", "dark", "light"];
@@ -109,6 +112,7 @@ export class CalciteSplitButton {
             theme={this.theme}
             scale={this.scale}
             width={this.scale}
+            onClick={this.calciteSplitButtonSecondaryClickHandler}
           >
             <calcite-button
               dir={dir}
@@ -129,6 +133,9 @@ export class CalciteSplitButton {
 
   private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent) =>
     this.calciteSplitButtonPrimaryClick.emit(e);
+
+  private calciteSplitButtonSecondaryClickHandler = (e: MouseEvent) =>
+    this.calciteSplitButtonSecondaryClick.emit(e);
 
   private get dropdownIcon() {
     return this.dropdownIconType === "chevron"
