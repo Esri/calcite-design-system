@@ -15,9 +15,6 @@ module.exports = {
     borderRadius: {
       none: '0',
       1: "var(--calcite-border-radius)",
-      2: "30px",
-      3: "50px",
-      half: '50%',
       full: '100%',
     },
     boxShadow: {
