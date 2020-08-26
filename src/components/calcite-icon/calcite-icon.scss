@@ -3,15 +3,21 @@
 }
 
 :host([scale="s"]) {
-  @apply w-4 h-4 min-w-4 min-h-4;
+  @apply w-4 h-4;
+  min-width: theme("spacing.4");
+  min-height: theme("spacing.4");
 }
 
 :host([scale="m"]) {
-  @apply w-6 h-6 min-w-6 min-h-6;
+  @apply w-6 h-6;
+  min-width: theme("spacing.6");
+  min-height: theme("spacing.6");
 }
 
 :host([scale="l"]) {
-  @apply w-8 h-8 min-w-8 min-h-8;
+  @apply w-8 h-8;
+  min-width: theme("spacing.8");
+  min-height: theme("spacing.8");
 }
 
 .mirrored {
