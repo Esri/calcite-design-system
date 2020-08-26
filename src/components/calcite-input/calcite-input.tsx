@@ -184,6 +184,7 @@ export class CalciteInput {
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
+    this.el.removeAttribute("id");
   }
 
   componentWillLoad() {
@@ -265,6 +266,7 @@ export class CalciteInput {
       this.childElType !== "textarea" ? (
         <input
           {...attributes}
+          id={this.el.id}
           onBlur={() => this.inputBlurHandler()}
           onFocus={(e) => this.inputFocusHandler(e)}
           onInput={(e) => this.inputInputHandler(e)}
@@ -284,6 +286,7 @@ export class CalciteInput {
         [
           <textarea
             {...attributes}
+            id={this.el.id}
             onBlur={() => this.inputBlurHandler()}
             onFocus={(e) => this.inputFocusHandler(e)}
             onInput={(e) => this.inputInputHandler(e)}
