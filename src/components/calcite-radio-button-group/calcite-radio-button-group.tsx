@@ -84,7 +84,7 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad() {
+  connectedCallback() {
     this.validateLayout(this.layout);
     this.validateScale(this.scale);
     this.validateTheme(this.theme);

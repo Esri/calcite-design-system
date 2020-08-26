@@ -132,21 +132,6 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  private checkFirstRadioButton() {
-    const radioButtons = document.querySelectorAll(`calcite-radio-button[name=${this.name}]`);
-    let firstCheckedRadioButton: HTMLCalciteRadioButtonElement;
-    if (radioButtons && radioButtons.length > 0) {
-      radioButtons.forEach((radioButton: HTMLCalciteRadioButtonElement) => {
-        if (firstCheckedRadioButton) {
-          radioButton.checked = false;
-        } else if (radioButton.checked) {
-          firstCheckedRadioButton = radioButton;
-        }
-        return radioButton;
-      });
-    }
-  }
-
   private setupTitleAttributeObserver() {
     this.titleAttributeObserver = new MutationObserver(() => {
       this.input.title = this.el.getAttribute("title");
@@ -222,23 +207,14 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.validateScale(this.scale);
+    this.validateTheme(this.theme);
     this.renderInput();
     this.renderLabel();
     this.setupTitleAttributeObserver();
   }
 
-  componentWillLoad(): void {
-    this.validateScale(this.scale);
-    this.validateTheme(this.theme);
-    if (this.name) {
-      this.checkFirstRadioButton();
-    }
-  }
-
-  componentDidLoad(): void {
-    if (this.name) {
-      this.checkFirstRadioButton();
-    }
+  componentDidLoad() {
     if (this.focused) {
       this.input.focus();
     }
@@ -302,6 +278,7 @@ export class CalciteRadioButton {
         this.label = this.el.ownerDocument.createElement("calcite-label");
         this.label.setAttribute("dir", getElementDir(this.el));
         this.label.setAttribute("for", `${this.guid}-input`);
+        this.label.setAttribute("layout", "embed");
         this.label.setAttribute("scale", this.scale);
         this.label.appendChild(this.el.ownerDocument.createTextNode(childNode.textContent.trim()));
         childNode.parentNode.replaceChild(this.label, childNode);

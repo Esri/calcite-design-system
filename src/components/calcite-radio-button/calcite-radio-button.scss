@@ -14,7 +14,6 @@
 :host([labeled]) {
   display: inline-grid;
   grid-gap: 8px;
-  align-items: center;
   --calcite-label-margin-bottom: 0;
 }
 :host([hovered]),
@@ -46,7 +45,10 @@
 }
 :host([scale="s"][labeled]) {
   grid-template-columns: 12px 1fr 4px;
-  grid-template-rows: 16px 1fr;
+  grid-template-rows: 12px 1fr;
+  ::slotted(calcite-label) {
+    line-height: 12px;
+  }
 }
 :host([scale="s"][checked]),
 :host([hovered][scale="s"][checked][disabled]) {
@@ -70,7 +72,10 @@
 }
 :host([scale="m"][labeled]) {
   grid-template-columns: 16px 1fr 4px;
-  grid-template-rows: 20px 1fr;
+  grid-template-rows: 16px 1fr;
+  ::slotted(calcite-label) {
+    line-height: 16px;
+  }
 }
 :host([scale="m"][checked]),
 :host([hovered][scale="m"][checked][disabled]) {
@@ -95,7 +100,10 @@
 :host([scale="l"][labeled]) {
   grid-gap: 12px;
   grid-template-columns: 20px 1fr 4px;
-  grid-template-rows: 24px 1fr;
+  grid-template-rows: 20px 1fr;
+  ::slotted(calcite-label) {
+    line-height: 20px;
+  }
 }
 :host([scale="l"][checked]),
 :host([hovered][scale="l"][checked][disabled]) {
