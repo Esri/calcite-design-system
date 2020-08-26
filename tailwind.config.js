@@ -154,7 +154,7 @@ module.exports = {
         2: theme("colors.blue.2"),
         3: theme("colors.blue.3"),
       },
-      white: theme("colors.backgroun")
+      white: theme("colors.background")
     }),
     transitionDuration: {
       1: "150ms",
