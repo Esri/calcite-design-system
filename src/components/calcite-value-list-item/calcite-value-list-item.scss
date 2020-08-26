@@ -1,9 +1,9 @@
 :host {
   @extend %component-host;
-  box-shadow: 0 1px 0 var(--calcite-app-border);
   margin-bottom: 1px;
   display: flex;
   transition: background-color $transition, box-shadow $transition;
+  @include borderShadow();
 }
 
 calcite-pick-list-item {
@@ -21,7 +21,7 @@ calcite-pick-list-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--calcite-spacing-three-quarters) var(--calcite-spacing-quarter);
+  padding: var(--calcite-spacing-three-quarters) var(--calcite-spacing-three-quarter);
   background-color: transparent;
   border: none;
   color: var(--calcite-ui-border-1);
@@ -39,8 +39,4 @@ calcite-pick-list-item {
     background-color: var(--calcite-ui-foreground-current);
     color: var(--calcite-ui-text-current);
   }
-}
-
-:host(:last-child) .handle {
-  margin-bottom: 0;
 }

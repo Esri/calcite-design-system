@@ -35,7 +35,7 @@
 .label {
   display: flex;
   flex: 1 1 auto;
-  padding: var(--calcite-spacing-half);
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-three-quarters);
   align-items: center;
   cursor: pointer;
   @include focus-style-base();
@@ -74,8 +74,4 @@
   flex: 0 0 auto;
   justify-self: flex-end;
   margin: 0;
-}
-
-.action slot[name="secondary-action"]::slotted(calcite-action) {
-  height: 100%;
 }
