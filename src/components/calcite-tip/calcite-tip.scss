@@ -25,6 +25,9 @@
 
 @import "../../assets/styles/header";
 
+.header {
+  margin-bottom: var(--calcite-spacing-half);
+}
 .header .heading {
   color: var(--calcite-ui-text-2);
   padding: 0;
@@ -36,7 +39,6 @@
 
 .content {
   display: flex;
-  padding-top: var(--calcite-spacing);
 }
 
 .info {
