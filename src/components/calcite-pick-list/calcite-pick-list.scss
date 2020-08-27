@@ -1,6 +1,7 @@
 :host {
   @extend %component-host;
   align-items: stretch;
+  background-color: transparent;
   display: flex;
   flex: 1 0 auto;
   flex-flow: column;
@@ -12,8 +13,8 @@ header {
   background-color: var(--calcite-ui-foreground-1);
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  margin-bottom: var(--calcite-spacing-half);
+  align-items: stretch;
+  margin-bottom: var(--calcite-spacing-quarter);
   &.sticky {
     position: sticky;
     top: 0;
@@ -31,10 +32,6 @@ calcite-scrim {
   flex: 0 0 auto;
   flex-flow: column;
   pointer-events: none;
-}
-
-slot[name="menu-actions"]::slotted(calcite-action) {
-  padding: 0 var(--calcite-spacing-half);
 }
 
 :host([loading][disabled]) {
