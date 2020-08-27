@@ -62,12 +62,12 @@ export class CalciteTabNav {
   /**
    * @internal
    */
-  @State() indicatorOffset: number;
+  @Prop({ mutable: true }) indicatorOffset: number;
 
   /**
    * @internal
    */
-  @State() indicatorWidth: number;
+  @Prop({ mutable: true }) indicatorWidth: number;
 
   @Watch("selectedTab")
   selectedTabChanged() {
@@ -85,6 +85,13 @@ export class CalciteTabNav {
     });
   }
 
+  @Watch("selectedTabEl") selectedTabElChanged() {
+    this.getOffsetPosition();
+    this.getActiveWidth();
+    // reset the animation time on tab selection
+    this.activeIndicatorEl.style.transitionDuration = this.animationActiveDuration;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -97,7 +104,6 @@ export class CalciteTabNav {
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTab = storedTab;
-      this.selectedTabEl = storedTab;
       this.calciteTabChange.emit({
         tab: this.selectedTab
       });
@@ -122,19 +128,18 @@ export class CalciteTabNav {
         });
       });
     }
-    this.getOffsetPosition();
-    this.getActiveWidth();
+    this.selectedTabEl = this.tabTitles.filter((el) => el.active)[0];
   }
 
-  componentDidUpdate() {
+  componentWillUpdate() {
     this.selectedTabEl = this.tabTitles.filter((el) => el.active)[0];
   }
 
   render() {
-    const dir = getElementDir(this.el);
+    this.dir = getElementDir(this.el);
 
-    const style =
-      dir !== "rtl"
+    const indicatorStyle =
+      this.dir !== "rtl"
         ? {
             width: `${this.indicatorWidth}px`,
             left: `${this.indicatorOffset}px`
@@ -148,9 +153,15 @@ export class CalciteTabNav {
         <div
           class="tab-nav"
           ref={(el) => (this.tabNavEl = el as HTMLElement)}
-          onScroll={() => this.getOffsetPosition()}
+          onScroll={() => this.handleContainerScroll()}
         >
-          <div class="tab-nav-active-indicator" style={style}></div>
+          <div class="tab-nav-active-indicator-container">
+            <div
+              class="tab-nav-active-indicator"
+              style={indicatorStyle}
+              ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
+            ></div>
+          </div>
           <slot />
         </div>
       </Host>
@@ -167,7 +178,8 @@ export class CalciteTabNav {
    * @internal
    */
   @Listen("resize", { target: "window" }) resizeHandler() {
-    // adjust the width of the active indicator on resize for centered items
+    // remove active indicator transition duration during resize to prevent wobble
+    this.activeIndicatorEl.style.transitionDuration = "0s";
     this.getActiveWidth();
     this.getOffsetPosition();
   }
@@ -217,7 +229,6 @@ export class CalciteTabNav {
     } else {
       this.selectedTab = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
     }
-    this.selectedTabEl = e.target as HTMLCalciteTabTitleElement;
     e.stopPropagation();
     e.preventDefault();
   }
@@ -263,11 +274,26 @@ export class CalciteTabNav {
 
   private tabNavEl: HTMLElement;
 
+  private activeIndicatorEl: HTMLElement;
+
+  // the duration of active indicator animation
+  private animationActiveDuration = "0.3s";
+
+  // component dir
+  private dir: "ltr" | "rtl";
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private handleContainerScroll() {
+    // remove active indicator transition duration while container is scrolling to prevent wobble
+    this.activeIndicatorEl.style.transitionDuration = "0s";
+    this.getOffsetPosition();
+  }
+
   private getOffsetPosition() {
     this.indicatorOffset = this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft;
   }

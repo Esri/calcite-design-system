@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -85,8 +85,9 @@ export class CalciteTabTitle {
   }
 
   componentWillRender() {
-    this.layout = this.el.closest("calcite-tabs")?.layout;
-    this.position = this.el.closest("calcite-tabs")?.position;
+    // look for props from both calcite-tab-nav or calcite-tabs
+    this.layout = getElementProp(this.el, "layout", "inline");
+    this.position = getElementProp(this.el, "position", "above");
   }
 
   render() {
