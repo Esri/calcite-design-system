@@ -145,7 +145,7 @@ export class CalciteBlock {
           </div>
         ) : null}
         <div class={CSS.title}>
-          <h3 class={CSS.heading}>{heading}</h3>
+          <h4 class={CSS.heading}>{heading}</h4>
           {summary ? <div class={CSS.summary}>{summary}</div> : null}
         </div>
       </header>
