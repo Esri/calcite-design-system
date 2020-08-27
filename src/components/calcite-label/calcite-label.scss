@@ -11,6 +11,13 @@
   width: 100%;
 }
 
+:host([disabled]) {
+  label {
+    cursor: default;
+    opacity: 0.4;
+  }
+}
+
 :host([scale="s"]) label {
   font-size: var(--calcite-label-font-size, 12px);
   --calcite-label-spacing-value: 8px;
@@ -32,7 +39,7 @@
     flex-direction: column;
     margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
   }
-  ::slotted(.calcite-label-text) {
+  & > ::slotted(.calcite-label-text) {
     margin-bottom: 8px;
   }
 }
@@ -56,15 +63,15 @@
 
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
-  ::slotted(.calcite-label-text) {
+  & > ::slotted(.calcite-label-text) {
     margin-left: $baseline/2;
     margin-right: $baseline/2;
   }
-  ::slotted(.calcite-label-text:first-child) {
+  & > ::slotted(.calcite-label-text:first-child) {
     margin-left: 0;
     margin-right: $baseline/2;
   }
-  ::slotted(.calcite-label-text:last-child) {
+  & > ::slotted(.calcite-label-text:last-child) {
     margin-left: $baseline/2;
     margin-right: 0;
   }

@@ -295,6 +295,7 @@ export class CalciteRadioButton {
       if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
         this.label = this.el.ownerDocument.createElement("calcite-label");
         this.label.setAttribute("dir", getElementDir(this.el));
+        this.disabled && this.label.setAttribute("disabled", "");
         this.label.setAttribute("for", `${this.guid}-input`);
         this.label.setAttribute("layout", "embed");
         this.label.setAttribute("scale", this.scale);

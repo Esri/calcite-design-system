@@ -12,9 +12,10 @@
   }
 }
 :host([labeled]) {
-  display: inline-grid;
-  grid-gap: 8px;
   --calcite-label-margin-bottom: 0;
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
 }
 :host([hovered]),
 :host(:not([checked])[focused]) {
@@ -24,9 +25,11 @@
 }
 :host([disabled]) {
   cursor: default;
-  opacity: 0.4;
-  .radio,
-  label {
+  .radio {
+    cursor: default;
+    opacity: 0.4;
+  }
+  & > ::slotted(calcite-label) {
     cursor: default;
   }
 }
@@ -44,10 +47,13 @@
   }
 }
 :host([scale="s"][labeled]) {
-  grid-template-columns: 12px 1fr 4px;
-  grid-template-rows: 12px 1fr;
-  ::slotted(calcite-label) {
-    line-height: 12px;
+  line-height: 12px;
+  margin-bottom: 8px;
+  margin-right: 12px;
+  @supports not (display: grid) {
+    .radio {
+      margin-right: 8px;
+    }
   }
 }
 :host([scale="s"][checked]),
@@ -71,10 +77,13 @@
   }
 }
 :host([scale="m"][labeled]) {
-  grid-template-columns: 16px 1fr 4px;
-  grid-template-rows: 16px 1fr;
-  ::slotted(calcite-label) {
-    line-height: 16px;
+  line-height: 16px;
+  margin-bottom: 10px;
+  margin-right: 16px;
+  @supports not (display: grid) {
+    .radio {
+      margin-right: 8px;
+    }
   }
 }
 :host([scale="m"][checked]),
@@ -98,11 +107,14 @@
   }
 }
 :host([scale="l"][labeled]) {
-  grid-gap: 12px;
-  grid-template-columns: 20px 1fr 4px;
-  grid-template-rows: 20px 1fr;
-  ::slotted(calcite-label) {
-    line-height: 20px;
+  gap: 12px;
+  line-height: 20px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  @supports not (display: grid) {
+    .radio {
+      margin-right: 12px;
+    }
   }
 }
 :host([scale="l"][checked]),
