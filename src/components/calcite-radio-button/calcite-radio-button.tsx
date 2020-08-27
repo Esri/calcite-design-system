@@ -132,6 +132,21 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  private checkFirstRadioButton() {
+    const radioButtons = document.querySelectorAll(`calcite-radio-button[name=${this.name}]`);
+    let firstCheckedRadioButton: HTMLCalciteRadioButtonElement;
+    if (radioButtons && radioButtons.length > 0) {
+      radioButtons.forEach((radioButton: HTMLCalciteRadioButtonElement) => {
+        if (firstCheckedRadioButton) {
+          radioButton.checked = false;
+        } else if (radioButton.checked) {
+          firstCheckedRadioButton = radioButton;
+        }
+        return radioButton;
+      });
+    }
+  }
+
   private setupTitleAttributeObserver() {
     this.titleAttributeObserver = new MutationObserver(() => {
       this.input.title = this.el.getAttribute("title");
@@ -212,6 +227,9 @@ export class CalciteRadioButton {
     this.renderInput();
     this.renderLabel();
     this.setupTitleAttributeObserver();
+    if (this.name) {
+      this.checkFirstRadioButton();
+    }
   }
 
   componentDidLoad() {
