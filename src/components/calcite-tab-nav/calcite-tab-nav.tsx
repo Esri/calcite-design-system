@@ -100,7 +100,6 @@ export class CalciteTabNav {
 
   componentWillLoad() {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
-
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTab = storedTab;
@@ -128,10 +127,9 @@ export class CalciteTabNav {
         });
       });
     }
-    this.selectedTabEl = this.tabTitles.filter((el) => el.active)[0];
   }
 
-  componentWillUpdate() {
+  componentDidUpdate() {
     this.selectedTabEl = this.tabTitles.filter((el) => el.active)[0];
   }
 
@@ -146,7 +144,7 @@ export class CalciteTabNav {
           }
         : {
             width: `${this.indicatorWidth}px`,
-            left: `${this.indicatorOffset}px`
+            right: `${this.indicatorOffset}px`
           };
     return (
       <Host role="tablist">
@@ -295,7 +293,14 @@ export class CalciteTabNav {
   }
 
   private getOffsetPosition() {
-    this.indicatorOffset = this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft;
+    this.indicatorOffset =
+      this.dir !== "rtl"
+        ? this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft
+        : this.tabNavEl?.offsetWidth - this.selectedTabEl.getBoundingClientRect().right;
+
+    console.log(this.selectedTabEl.getBoundingClientRect().right);
+
+    console.log(this.indicatorOffset);
   }
 
   private getActiveWidth() {
