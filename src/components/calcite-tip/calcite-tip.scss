@@ -2,8 +2,9 @@
   @extend %component-host;
   position: relative;
   display: flex;
-  flex-flow: column;
-  background-color: transparent;
+  flex-flow: row;
+  margin: var(--calcite-spacing) var(--calcite-spacing);
+  border: solid 1px var(--calcite-ui-border-2);
 
   --tip-content-only-width: 100%;
   --tip-content-width: 70%;
@@ -12,11 +13,7 @@
 }
 
 .container {
-  background-color: var(--calcite-ui-foreground-1);
-  padding: var(--calcite-spacing-half) var(--calcite-spacing) var(--calcite-spacing);
-  margin: var(--calcite-spacing) var(--calcite-spacing);
-  border: solid 1px var(--calcite-ui-border-2);
-  border-radius: var(--calcite-border-radius);
+  padding: var(--calcite-spacing);
 }
 
 :host([selected]) .container {
@@ -28,12 +25,11 @@
 @import "../../assets/styles/header";
 
 .header {
-  justify-content: flex-end;
+  margin-bottom: var(--calcite-spacing-half);
 }
-
 .header .heading {
-  padding-left: 0;
-  padding-right: 0;
+  color: var(--calcite-ui-text-2);
+  padding: 0;
 }
 
 .container[hidden] {
@@ -42,7 +38,6 @@
 
 .content {
   display: flex;
-  padding-top: var(--calcite-spacing-half);
 }
 
 .info {
