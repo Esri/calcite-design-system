@@ -129,3 +129,6 @@
       0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
+:host([hidden]) {
+  display: none;
+}

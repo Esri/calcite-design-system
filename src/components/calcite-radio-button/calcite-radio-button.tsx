@@ -37,7 +37,10 @@ export class CalciteRadioButton {
   @Prop({ mutable: true, reflect: true }) checked = false;
 
   @Watch("checked")
-  checkedChanged(newChecked: boolean): void {
+  checkedChanged(newChecked: boolean, oldChecked: boolean): void {
+    if (newChecked === true && oldChecked === false) {
+      this.uncheckOtherRadioButtonsInGroup();
+    }
     this.input.checked = newChecked;
     this.calciteRadioButtonChange.emit();
   }
