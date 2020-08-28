@@ -103,7 +103,7 @@ export class CalciteRadioButtonGroup {
 
     if (radioButtons.length > 0) {
       radioButtons.forEach((radioButton) => {
-        radioButton.disabled = this.disabled;
+        radioButton.disabled = this.disabled || radioButton.disabled;
         radioButton.hidden = this.hidden;
         radioButton.name = this.name;
         radioButton.required = this.required;
