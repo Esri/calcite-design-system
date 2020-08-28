@@ -6,32 +6,42 @@
   text-align: right;
 }
 
+:host([scale="s"]) {
+  --calcite-label-margin-bottom: 12px;
+}
+:host([scale="m"]) {
+  --calcite-label-margin-bottom: 16px;
+}
+:host([scale="l"]) {
+  --calcite-label-margin-bottom: 20px;
+}
+
 :host label {
   width: 100%;
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
+  margin: 0 0 var(--calcite-label-margin-bottom) 0;
 }
 
 :host([scale="s"]) label {
   font-size: var(--calcite-label-font-size, 12px);
-  --calcite-label-spacing-value: 8px;
+  line-height: 1.3;
 }
 
 :host([scale="m"]) label {
   font-size: var(--calcite-label-font-size, 16px);
-  --calcite-label-spacing-value: 12px;
+  line-height: 1.3;
 }
 
 :host([scale="l"]) label {
   font-size: var(--calcite-label-font-size, 20px);
-  --calcite-label-spacing-value: 16px;
+  line-height: 1.3;
 }
 
 :host([layout="default"]) {
-  ::slotted(.calcite-label-text) {
-    margin-bottom: 8px;
+  ::slotted(.calcite-label-text:first-child) {
+    margin-bottom: 4px;
   }
 }
 
@@ -63,6 +73,18 @@
   ::slotted(.calcite-label-text:last-child) {
     margin-left: $baseline/2;
     margin-right: 0;
+  }
+}
+
+:host([dir="rtl"][layout="inline"]),
+:host([dir="rtl"][layout="inline-space-between"]) {
+  ::slotted(.calcite-label-text:first-child) {
+    margin-left: $baseline/2;
+    margin-right: 0;
+  }
+  ::slotted(.calcite-label-text:last-child) {
+    margin-left: 0;
+    margin-right: $baseline/2;
   }
 }
 
