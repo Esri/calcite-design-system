@@ -22,26 +22,34 @@
   flex-direction: column;
   cursor: pointer;
   margin: 0 0 var(--calcite-label-margin-bottom) 0;
+  line-height: 1.3;
+}
+
+:host([disable-spacing]) label {
+  margin: 0;
 }
 
 :host([scale="s"]) label {
   font-size: var(--calcite-label-font-size, 12px);
-  line-height: 1.3;
+  --calcite-label-spacing-value: 8px;
+  --calcite-label-text-spacing-value: 4px;
 }
 
 :host([scale="m"]) label {
   font-size: var(--calcite-label-font-size, 16px);
-  line-height: 1.3;
+  --calcite-label-spacing-value: 12px;
+  --calcite-label-text-spacing-value: 6px;
 }
 
 :host([scale="l"]) label {
   font-size: var(--calcite-label-font-size, 20px);
-  line-height: 1.3;
+  --calcite-label-spacing-value: 16px;
+  --calcite-label-text-spacing-value: 8px;
 }
 
 :host([layout="default"]) {
-  ::slotted(.calcite-label-text:first-child) {
-    margin-bottom: 4px;
+  ::slotted(.calcite-label-text) {
+    margin-bottom: var(--calcite-label-text-spacing-value);
   }
 }
 
