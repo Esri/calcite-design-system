@@ -14,7 +14,7 @@
   margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
 }
 
-:host([no-margin]) label {
+:host([disable-spacing]) label {
   margin: 0;
 }
 
