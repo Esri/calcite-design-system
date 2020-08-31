@@ -70,10 +70,15 @@
 
 // disabled styles
 :host([disabled]) {
+  pointer-events: none;
+
+  & .calcite-input-wrapper {
+    opacity: 0.4;
+    pointer-events: none;
+  }
   & textarea,
   & input {
     pointer-events: none;
-    opacity: 0.4;
   }
 }
 
@@ -96,6 +101,7 @@
   color: var(--calcite-ui-text-1);
   font-weight: 400;
   border-radius: 0;
+  -webkit-border-radius: 0;
 }
 
 :host input[type="search"]::-webkit-search-decoration {
