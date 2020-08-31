@@ -28,3 +28,9 @@
 ::slotted(calcite-radio-group-item:focus) {
   z-index: 0;
 }
+
+// disabled styles
+:host([disabled]) {
+  opacity: 0.4;
+  pointer-events: none;
+}

@@ -88,6 +88,22 @@
   }
 }
 
+// disabled styles
+:host([disabled]) {
+  & > label {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  ::slotted(*) {
+    pointer-events: none;
+  }
+  // prevent opacity stacking with already disabled child elements
+  ::slotted(*[disabled]),
+  ::slotted(*[disabled] *) {
+    opacity: 1;
+  }
+}
+
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-text-2), "idle" var(--calcite-ui-text-2);
 
