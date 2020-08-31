@@ -49,8 +49,11 @@ storiesOf("Components/Input", module)
     "With Label and Input Message",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
-    scale="${select("scale", ["s", "m", "l"], "m", "Label")}">
+    <calcite-label
+    status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
+    scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
+    layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
+    >
     ${text("label text", "My great label", "Label")}
     <calcite-input
       type="${select(

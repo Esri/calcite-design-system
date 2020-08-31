@@ -1,0 +1,8 @@
+// Border made with box-shadow
+@mixin borderShadow() {
+  box-shadow: 0 1px 0 var(--calcite-ui-border-3);
+}
+
+@mixin borderShadowActive() {
+  box-shadow: 0 0 0 1px var(--calcite-ui-blue-3);
+}

@@ -16,7 +16,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
-  shadow: false
+  scoped: true
 })
 export class CalciteInput {
   //--------------------------------------------------------------------------

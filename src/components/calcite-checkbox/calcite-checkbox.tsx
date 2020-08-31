@@ -68,6 +68,7 @@ export class CalciteCheckbox {
 
   /** The name of the checkbox input */
   @Prop({ reflect: true }) name?: string = "";
+
   @Watch("name")
   nameChanged(newName: string) {
     this.input.name = newName;
@@ -81,6 +82,7 @@ export class CalciteCheckbox {
 
   /** True if the checkbox is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
+
   @Watch("disabled")
   disabledChanged(disabled: boolean) {
     this.input.disabled = disabled;

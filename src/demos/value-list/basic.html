@@ -32,12 +32,6 @@
             </calcite-action>
           </calcite-value-list-item>
         </calcite-value-list>
-        <script>
-          const valueList = document.querySelector("#one");
-          valueList.addEventListener("calciteListChange", (event) => {
-            console.log(event.detail);
-          });
-        </script>
 
         <h2>ValueList - Multi-select w/ Filter</h2>
         <h3>Pick many</h3>
@@ -55,12 +49,6 @@
             </calcite-action>
           </calcite-value-list-item>
         </calcite-value-list>
-        <script>
-          const valueList2 = document.querySelector("#two");
-          valueList2.addEventListener("calciteListChange", (event) => {
-            console.log(event.detail);
-          });
-        </script>
 
         <h2>ValueList - drag and drop enabled</h2>
         <h3>Re-order by dragging the handle</h3>
@@ -73,17 +61,32 @@
           <calcite-value-list-item text-label="Entertainment" text-description="Toys and leisure" value="entertainment">
           </calcite-value-list-item>
         </calcite-value-list>
-        <script>
-          const valueList4 = document.querySelector("#four");
-          valueList4.addEventListener("calciteListChange", (event) => {
-            console.log(event.detail);
-          });
-          valueList4.addEventListener("calciteValueListOrderChange", (event) => {
-            console.log("sort order changed");
-            console.log(event.detail);
-          });
-        </script>
+
+        <h3>Drag and drop between different lists</h3>
+        <h4>List 1</h4>
+        <calcite-value-list id="five" drag-enabled group="draggable">
+          <calcite-value-list-item text-label="One" value="1"></calcite-value-list-item>
+          <calcite-value-list-item text-label="Two" value="2"></calcite-value-list-item>
+        </calcite-value-list>
+
+        <h4>List 2</h4>
+        <calcite-value-list id="six" drag-enabled group="draggable">
+          <calcite-value-list-item text-label="Three" value="3"></calcite-value-list-item>
+          <calcite-value-list-item text-label="Four" value="4"></calcite-value-list-item>
+        </calcite-value-list>
       </section>
+
+      <script>
+        function setUpValueListEventListeners(valueList) {
+          valueList.addEventListener("calciteListChange", (event) => console.log(event.detail));
+
+          if (valueList.hasAttribute("drag-enabled")) {
+            valueList.addEventListener("calciteListOrderChange", (event) => console.log("sort order changed", event.detail));
+          }
+        }
+
+        Array.from(document.getElementsByTagName("calcite-value-list")).forEach(valueList => setUpValueListEventListeners(valueList));
+      </script>
     </main>
   </body>
 </html>

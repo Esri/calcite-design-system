@@ -89,6 +89,28 @@
           </calcite-label>
 
           <calcite-label layout="inline">
+            <calcite-input placeholder="Enter something">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+            Text trailing inline
+          </calcite-label>
+
+          <calcite-label layout="inline-space-between">
+            <calcite-input placeholder="Enter something">
+            </calcite-input>
+            trailing between
+          </calcite-label>
+
+          <calcite-label layout="inline">
+            Text leading inline
+            <calcite-input placeholder="Enter something"></calcite-input>
+          </calcite-label>
+
+          <calcite-label layout="inline-space-between">
+            Text leading inline space between
+            <calcite-input placeholder="Enter something"></calcite-input>
+          </calcite-label>
+          <calcite-label layout="inline">
             Off
             <calcite-switch></calcite-switch>
             On
@@ -484,6 +506,132 @@
             <input />
           </calcite-label>
 
+        </calcite-accordion-item>
+      </calcite-accordion>
+      <h4>RTL</h4>
+      <calcite-accordion dir="rtl">
+        <calcite-accordion-item active item-title="With other components" item-subtitle="Handle wrapped components">
+          <calcite-label>
+            <calcite-input type="number"  number-button-type="horizontal"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            <calcite-input type="textarea"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Default label wrapping a switch
+            <calcite-switch></calcite-switch>
+          </calcite-label>
+
+          <calcite-label>
+            Default label wrapping a checkbox
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+
+          <calcite-label>
+            Default label wrapping a radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="react">React</calcite-radio-group-item>
+              <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+          </calcite-label>
+
+          <calcite-label layout="inline">
+            Inline label wrapping a radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+          </calcite-label>
+
+          <calcite-label layout="inline">
+            Text leading inline
+            <calcite-switch></calcite-switch>
+          </calcite-label>
+
+          <calcite-label layout="inline">
+            <calcite-input placeholder="Enter something">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+            Text trailing inline
+          </calcite-label>
+
+          <calcite-label layout="inline-space-between">
+            <calcite-input placeholder="Enter something">
+            </calcite-input>
+            trailing between
+          </calcite-label>
+
+          <calcite-label layout="inline">
+            Text leading inline
+            <calcite-input placeholder="Enter something"></calcite-input>
+          </calcite-label>
+
+          <calcite-label layout="inline-space-between">
+            Text leading inline space between
+            <calcite-input placeholder="Enter something"></calcite-input>
+          </calcite-label>
+          <calcite-label layout="inline">
+            Off
+            <calcite-switch></calcite-switch>
+            On
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Off
+            <calcite-switch></calcite-switch>
+            On
+          </calcite-label>
+
+          <calcite-label layout="inline">
+            <calcite-switch></calcite-switch>
+            Text trailing inline
+          </calcite-label>
+          <calcite-label layout="inline">
+            Text leading inline
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+          <calcite-label layout="inline">
+            Focus slider test
+            <calcite-slider style="width:100%"></calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Focus slider test
+            <calcite-slider min-value="10" max-value="80" style="width:50%"></calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Value
+            <calcite-slider style="width:100%"></calcite-slider>
+            Value
+          </calcite-label>
+          <calcite-label>
+            Focus slider test
+            <calcite-slider></calcite-slider>
+          </calcite-label>
+          <calcite-label>
+            Focus slider test
+            <calcite-slider min-value="10" max-value="80"></calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline">
+            <calcite-checkbox></calcite-checkbox>
+            Text trailing inline
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Text leading inline-space-between
+            <calcite-switch></calcite-switch>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            <calcite-switch></calcite-switch>
+            Text trailing inline-space-between
+          </calcite-label>
+
+          <calcite-label layout="inline-space-between">
+            Text leading inline-space-between
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            <calcite-checkbox></calcite-checkbox>
+            Text trailing inline-space-between
+          </calcite-label>
         </calcite-accordion-item>
       </calcite-accordion>
     </div>
