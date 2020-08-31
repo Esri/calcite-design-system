@@ -129,7 +129,7 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
+  @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
     if (this.tab) {

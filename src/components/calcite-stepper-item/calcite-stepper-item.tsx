@@ -161,7 +161,7 @@ export class CalciteStepperItem {
     }
   }
 
-  @Listen("calciteStepperItemChange", { target: "parent" })
+  @Listen("calciteStepperItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent) {
     this.activePosition = event.detail.position;
     this.determineActiveItem();

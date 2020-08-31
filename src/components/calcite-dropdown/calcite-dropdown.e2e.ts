@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
 
-describe("calcite-dropdown", () => {
+describe.skip("calcite-dropdown", () => {
   /**
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
    */

@@ -77,6 +77,10 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.selectionMode = getElementProp(this.el, "selection-mode", "single");
+  }
+
   componentWillLoad() {
     this.itemPosition = this.getItemPosition();
     this.calciteDropdownItemRegister.emit({
@@ -168,12 +172,12 @@ export class CalciteDropdownItem {
     e.preventDefault();
   }
 
-  @Listen("calciteDropdownGroupRegister", { target: "parent" })
+  @Listen("calciteDropdownGroupRegister", { target: "body" })
   registerCalciteDropdownGroup(event: CustomEvent) {
     this.currentDropdownGroup = event.detail.group;
   }
 
-  @Listen("calciteDropdownItemChange", { target: "parent" })
+  @Listen("calciteDropdownItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent) {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
@@ -199,7 +203,7 @@ export class CalciteDropdownItem {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   /** what selection mode is the parent dropdown group in */
-  private selectionMode = getElementProp(this.el, "selection-mode", "single");
+  private selectionMode: string;
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
