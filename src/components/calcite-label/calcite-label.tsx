@@ -1,4 +1,14 @@
-import { Component, Element, Event, Listen, Host, h, Prop, EventEmitter } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  Listen,
+  Host,
+  h,
+  Prop,
+  EventEmitter,
+  Watch
+} from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -34,6 +44,12 @@ export class CalciteLabel {
   @Prop({ mutable: true, reflect: true }) layout: "inline" | "inline-space-between" | "default" =
     "default";
 
+  /** is the label disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
+
+  @Watch("disabled") disabledWatcher() {
+    if (this.disabled) this.setDisabledControls();
+  }
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -68,7 +84,7 @@ export class CalciteLabel {
 
   private getAttributes() {
     // spread attributes from the component to rendered child, filtering out props
-    const props = ["layout", "theme", "scale", "status"];
+    const props = ["layout", "theme", "scale", "status", "disabled"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
@@ -102,6 +118,7 @@ export class CalciteLabel {
         childNode.parentNode.replaceChild(newChildNode, childNode);
       }
     });
+    if (this.disabled) this.setDisabledControls();
   }
 
   render() {
@@ -109,10 +126,32 @@ export class CalciteLabel {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
-        <label {...attributes}>
+        <label {...attributes} ref={(el) => (this.childLabelEl = el)}>
           <slot />
         </label>
       </Host>
     );
+  }
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  // the rendered wrapping label element
+  private childLabelEl: HTMLLabelElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private setDisabledControls() {
+    this.childLabelEl?.childNodes.forEach((item) => {
+      if (item.nodeName.includes("CALCITE")) {
+        (item as HTMLElement).setAttribute("disabled", "");
+      }
+    });
   }
 }

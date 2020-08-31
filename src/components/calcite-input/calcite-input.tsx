@@ -109,6 +109,10 @@ export class CalciteInput {
   /** is the input disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
+  @Watch("disabled") disabledWatcher() {
+    if (this.disabled) this.setDisabledAction();
+  }
+
   /** watcher to update number-to-string for min max */
   @Watch("min") minWatcher() {
     this.minString = this.min.toString() || null;
@@ -184,6 +188,7 @@ export class CalciteInput {
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
+    this.setDisabledAction();
   }
 
   componentWillLoad() {
@@ -438,6 +443,10 @@ export class CalciteInput {
       this.type !== "textarea" &&
       (this.clearable || this.type === "search") &&
       this.value.length > 0;
+  }
+
+  private setDisabledAction() {
+    if (this.slottedActionEl) (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
   }
 
   private getAttributes() {
