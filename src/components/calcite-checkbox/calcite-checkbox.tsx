@@ -57,7 +57,7 @@ export class CalciteCheckbox {
   }
 
   /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid: string = this.el.id || `calcite-checkbox-${guid()}`;
+  @Prop({ reflect: true }) guid: string;
 
   /**
    * True if the checkbox is initially indeterminate,
@@ -174,6 +174,7 @@ export class CalciteCheckbox {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+    this.guid = this.el.id || `calcite-checkbox-${guid()}`;
     this.renderHiddenCheckboxInput();
     const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";

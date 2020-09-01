@@ -98,7 +98,7 @@ export class CalciteTab {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
+  @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
     // to allow `<calcite-tabs>` to be nested we need to make sure this

@@ -87,13 +87,17 @@ export class CalciteDropdown {
 
     if (!this.sorted) {
       const groups = this.items.sort((a, b) => a.position - b.position) as GroupRegistration[];
-
       this.maxScrollerHeight = this.getMaxScrollerHeight(groups);
 
       this.items = groups.reduce((items, group) => [...items, ...group.items], []);
 
       this.sorted = true;
     }
+  }
+
+  componentWillLoad() {
+    // get initially selected items
+    this.updateSelectedItems();
   }
 
   render() {
@@ -252,7 +256,6 @@ export class CalciteDropdown {
 
     this.updateSelectedItems();
   }
-
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
