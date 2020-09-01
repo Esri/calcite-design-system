@@ -5,11 +5,7 @@
   flex-direction: column;
   padding: 0;
   border-bottom: 1px solid var(--calcite-ui-border-3);
-  transition: margin $transition;
-}
-
-.article {
-  transition: box-shadow $transition;
+  transition: margin $transition, box-shadow $transition;
 }
 
 @import "../../assets/styles/header";
@@ -49,6 +45,9 @@
   font-family: inherit;
   text-align: unset;
   @include focus-style-base();
+  &:hover {
+    background-color: var(--calcite-ui-foreground-2);
+  }
   &:focus {
     @include focus-style-inset();
   }
@@ -71,7 +70,7 @@ calcite-handle {
 .header .title .heading {
   padding: 0;
   color: var(--calcite-ui-text-3);
-  @include font-size(-4);
+  transition: color $transition;
   @include word-break();
 }
 
@@ -117,11 +116,12 @@ calcite-scrim {
 :host([open]) {
   margin-top: var(--calcite-spacing);
   margin-bottom: var(--calcite-spacing);
-  .article {
-    box-shadow: 1px 0 0 var(--calcite-ui-border-1) inset;
-    &.calcite--rtl {
-      box-shadow: -1px 0 0 var(--calcite-ui-border-1) inset;
-    }
+  box-shadow: 1px 0 0 var(--calcite-ui-border-1) inset;
+  &.calcite--rtl {
+    box-shadow: -1px 0 0 var(--calcite-ui-border-1) inset;
+  }
+  .header .title .heading {
+    color: var(--calcite-ui-text-1);
   }
 }
 
@@ -132,10 +132,6 @@ calcite-scrim {
   .header-container {
     opacity: var(--calcite-ui-opacity-disabled);
   }
-}
-
-:host([collapsible]) .header-container:hover {
-  background-color: var(--calcite-ui-foreground-2);
 }
 
 :host([drag-handle]) {

@@ -88,6 +88,9 @@ export class CalciteRadioGroup {
 
   /** specify the width of the group, defaults to auto */
   @Prop({ mutable: true, reflect: true }) width: "auto" | "full" = "auto";
+
+  /** is the radio group disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -137,7 +140,7 @@ export class CalciteRadioGroup {
 
   render() {
     return (
-      <Host role="radiogroup">
+      <Host role="radiogroup" tabIndex={this.disabled ? -1 : null}>
         <slot />
       </Host>
     );

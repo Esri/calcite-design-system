@@ -229,7 +229,7 @@ export class CalcitePickListItem {
     if (!icon) {
       return null;
     }
-    
+
     return (
       <span
         class={{
