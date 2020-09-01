@@ -53,6 +53,14 @@ export class CalciteAccordionItem {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
+    this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
+    this.iconType = getElementProp(this.el, "icon-type", "chevron");
+    this.iconPosition = getElementProp(this.el, "icon-position", "end");
+    this.scale = getElementProp(this.el, "scale", "m");
+  }
+
   componentDidLoad() {
     this.itemPosition = this.getItemPosition();
     this.calciteAccordionItemRegister.emit({
@@ -129,7 +137,7 @@ export class CalciteAccordionItem {
     }
   }
 
-  @Listen("calciteAccordionChange", { target: "parent" })
+  @Listen("calciteAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent) {
     this.requestedAccordionItem = event.detail
       .requestedAccordionItem as HTMLCalciteAccordionItemElement;
@@ -143,7 +151,7 @@ export class CalciteAccordionItem {
   //--------------------------------------------------------------------------
 
   /** the containing accordion element */
-  private parent = this.el.parentElement as HTMLCalciteAccordionElement;
+  private parent: HTMLCalciteAccordionElement;
 
   /** position within parent */
   private itemPosition: number;
@@ -152,16 +160,16 @@ export class CalciteAccordionItem {
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
 
   /** what selection mode is the parent accordion in */
-  private selectionMode = getElementProp(this.el, "selection-mode", "multi");
+  private selectionMode: string;
 
   /** what icon type does the parent accordion specify */
-  private iconType = getElementProp(this.el, "icon-type", "chevron");
+  private iconType: string;
 
   /** what icon position does the parent accordion specify */
-  private iconPosition = getElementProp(this.el, "icon-position", "end");
+  private iconPosition: string;
 
   /** the scale of the parent accordion */
-  private scale = getElementProp(this.el, "scale", "m");
+  private scale: string;
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = () => this.emitRequestedItem();
