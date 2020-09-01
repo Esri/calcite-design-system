@@ -51,6 +51,9 @@ export class CalciteLabel {
     | "default"
     | "embed" = "default";
 
+  /** Turn off spacing around the label */
+  @Prop() disableSpacing?: boolean;
+
   /** is the label disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
