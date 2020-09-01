@@ -80,6 +80,9 @@ export class CalciteLabel {
       interactedEl: event.target,
       requestedInput: forAttr
     });
+    if (forAttr) {
+      document.getElementById(forAttr).click();
+    }
   }
 
   //--------------------------------------------------------------------------
