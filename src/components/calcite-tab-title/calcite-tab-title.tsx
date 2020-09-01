@@ -68,6 +68,7 @@ export class CalciteTabTitle {
 
   connectedCallback() {
     this.setupTextContentObserver();
+    this.parentTabNavEl = this.el.closest("calcite-tab-nav");
   }
 
   disconnectedCallback() {
@@ -129,15 +130,17 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
+  @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
   ) {
-    if (this.tab) {
-      this.active = this.tab === event.detail.tab;
-    } else {
-      this.getTabIndex().then((index) => {
-        this.active = index === event.detail.tab;
-      });
+    if (this.parentTabNavEl === event.target) {
+      if (this.tab) {
+        this.active = this.tab === event.detail.tab;
+      } else {
+        this.getTabIndex().then((index) => {
+          this.active = index === event.detail.tab;
+        });
+      }
     }
   }
 
@@ -248,6 +251,11 @@ export class CalciteTabTitle {
 
   /** determine if there is slotted text for styling purposes */
   @State() private hasText?: boolean = false;
+
+  /**
+   * @internal
+   */
+  private parentTabNavEl: HTMLCalciteTabNavElement;
 
   private updateHasText() {
     this.hasText = this.el.textContent.trim().length > 0;

@@ -95,6 +95,7 @@ export class CalciteStepperItem {
     this.numbered = getElementProp(this.el, "numbered", false);
     this.layout = getElementProp(this.el, "layout", false);
     this.scale = getElementProp(this.el, "scale", "m");
+    this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
   }
 
   componentDidLoad() {
@@ -161,10 +162,12 @@ export class CalciteStepperItem {
     }
   }
 
-  @Listen("calciteStepperItemChange", { target: "parent" })
+  @Listen("calciteStepperItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent) {
-    this.activePosition = event.detail.position;
-    this.determineActiveItem();
+    if (event.target === this.parentStepperEl) {
+      this.activePosition = event.detail.position;
+      this.determineActiveItem();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -180,6 +183,9 @@ export class CalciteStepperItem {
 
   /** the slotted item content */
   private itemContent: HTMLElement[] | HTMLElement;
+
+  /** the parent stepper component */
+  private parentStepperEl: HTMLCalciteStepperElement;
 
   //--------------------------------------------------------------------------
   //
@@ -229,7 +235,9 @@ export class CalciteStepperItem {
   }
 
   private getItemPosition() {
-    const parent = this.el.parentElement as HTMLCalciteStepperElement;
-    return Array.prototype.indexOf.call(parent.querySelectorAll("calcite-stepper-item"), this.el);
+    return Array.prototype.indexOf.call(
+      this.parentStepperEl.querySelectorAll("calcite-stepper-item"),
+      this.el
+    );
   }
 }

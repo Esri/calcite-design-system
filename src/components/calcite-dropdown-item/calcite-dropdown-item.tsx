@@ -77,6 +77,12 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.selectionMode = getElementProp(this.el, "selection-mode", "single");
+    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
+    if (this.selectionMode === "none") this.active = false;
+  }
+
   componentWillLoad() {
     this.itemPosition = this.getItemPosition();
     this.calciteDropdownItemRegister.emit({
@@ -168,16 +174,13 @@ export class CalciteDropdownItem {
     e.preventDefault();
   }
 
-  @Listen("calciteDropdownGroupRegister", { target: "parent" })
-  registerCalciteDropdownGroup(event: CustomEvent) {
-    this.currentDropdownGroup = event.detail.group;
-  }
-
-  @Listen("calciteDropdownItemChange", { target: "parent" })
+  @Listen("calciteDropdownItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent) {
-    this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
-    this.requestedDropdownItem = event.detail.requestedDropdownItem;
-    this.determineActiveItem();
+    if (event.target === this.parentDropdownGroupEl) {
+      this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
+      this.requestedDropdownItem = event.detail.requestedDropdownItem;
+      this.determineActiveItem();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -190,7 +193,7 @@ export class CalciteDropdownItem {
   private itemPosition: number;
 
   /** id of containing group */
-  private currentDropdownGroup: HTMLCalciteDropdownGroupElement;
+  private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
 
   /** requested group */
   private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
@@ -199,7 +202,7 @@ export class CalciteDropdownItem {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   /** what selection mode is the parent dropdown group in */
-  private selectionMode = getElementProp(this.el, "selection-mode", "single");
+  private selectionMode: string;
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
@@ -218,7 +221,7 @@ export class CalciteDropdownItem {
 
       case "single":
         if (this.el === this.requestedDropdownItem) this.active = true;
-        else if (this.requestedDropdownGroup === this.currentDropdownGroup) this.active = false;
+        else if (this.requestedDropdownGroup === this.parentDropdownGroupEl) this.active = false;
         break;
 
       case "none":
@@ -230,7 +233,7 @@ export class CalciteDropdownItem {
   private emitRequestedItem() {
     this.calciteDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.currentDropdownGroup
+      requestedDropdownGroup: this.parentDropdownGroupEl
     });
   }
 
