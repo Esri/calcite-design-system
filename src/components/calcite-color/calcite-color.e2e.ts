@@ -214,7 +214,8 @@ describe("calcite-color", () => {
     expect(await picker.getProperty("color")).toBeTruthy();
   });
 
-  describe("color inputs", () => {
+  // skipping until https://github.com/Esri/calcite-components/issues/928 is addressed
+  describe.skip("color inputs", () => {
     // tests for all individual inputs takes longer than the default
     const timeoutOverrideInMs = 240000;
 
