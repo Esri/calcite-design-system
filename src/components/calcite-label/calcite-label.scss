@@ -23,10 +23,6 @@
   line-height: 1.3;
 }
 
-:host([disable-spacing]) label {
-  margin: 0;
-}
-
 :host([scale="s"]) label {
   font-size: var(--calcite-label-font-size, 12px);
   --calcite-label-spacing-value: 8px;
@@ -128,5 +124,12 @@ $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-
 
   :host([status="#{$name}"]) label {
     color: $color;
+  }
+}
+
+:host([disable-spacing]) {
+  label,
+  ::slotted(.calcite-label-text) {
+    margin: 0;
   }
 }

@@ -45,11 +45,8 @@ export class CalciteLabel {
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** is the wrapped element positioned inline with the label slotted text */
-  @Prop({ mutable: true, reflect: true }) layout:
-    | "inline"
-    | "inline-space-between"
-    | "default"
-    | "embed" = "default";
+  @Prop({ mutable: true, reflect: true }) layout: "inline" | "inline-space-between" | "default" =
+    "default";
 
   /** Turn off spacing around the label */
   @Prop() disableSpacing?: boolean;
@@ -109,7 +106,7 @@ export class CalciteLabel {
     const status = ["invalid", "valid", "idle"];
     if (!status.includes(this.status)) this.status = "idle";
 
-    const layout = ["inline", "inline-space-between", "default", "embed"];
+    const layout = ["inline", "inline-space-between", "default"];
     if (!layout.includes(this.layout)) this.layout = "default";
 
     const scale = ["s", "m", "l"];
