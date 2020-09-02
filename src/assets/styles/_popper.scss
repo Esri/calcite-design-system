@@ -8,7 +8,7 @@
   }
 
   :host([aria-hidden="false"]) {
-    box-shadow: $shadow-2;
+    @apply shadow-borderless-md;
   }
 }
 
@@ -26,7 +26,7 @@ $pointer_offset: -$pointer_size/2;
 
   .arrow::before {
     content: "";
-    box-shadow: $shadow-2;
+    @apply shadow;
     transform: rotate(45deg);
     background: var(--calcite-ui-foreground-1);
   }

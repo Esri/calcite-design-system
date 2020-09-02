@@ -1,10 +1,13 @@
 @mixin componentShadowVars() {
   /* Component shadow variables */
-  --calcite-shadow-0: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --calcite-shadow-1: #{$shadow-1};
-  --calcite-shadow-1-hover: #{$shadow-1--hover};
-  --calcite-shadow-1-press: #{$shadow-1--press};
-  --calcite-shadow-2: #{$shadow-2};
-  --calcite-shadow-2-hover: #{$shadow-2--hover};
-  --calcite-shadow-2-press: #{$shadow-2--press};
+  --calcite-shadow-0: theme("boxShadow.default");
+  --calcite-shadow-1: theme("boxShadow.default");
+  --calcite-shadow-1-hover: theme("boxShadow.md");
+  --calcite-shadow-1-press: theme("boxShadow.default");
+  --calcite-shadow-2: theme("boxShadow.md");
+  --calcite-shadow-2-hover: theme("boxShadow.lg");
+  --calcite-shadow-2-press: theme("boxShadow.default");
+  --calcite-shadow-3: theme("boxShadow.lg");
+  --calcite-shadow-3-hover: theme("boxShadow.xl");
+  --calcite-shadow-3-press: theme("boxShadow.md");
 }

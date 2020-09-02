@@ -73,6 +73,9 @@ The shadow of an element usually corresponds to the priority or importance of th
 
 #### CSS variables for shadows
 
+A shadows exists at one of three elevations. A hovered shadow raises to the next elevation while a pressed shadow
+lowers.
+
 ```
 --shadow-1
 --shadow-1-hover
@@ -80,19 +83,20 @@ The shadow of an element usually corresponds to the priority or importance of th
 --shadow-2
 --shadow-2-hover
 --shadow-2-press
+--shadow-3
+--shadow-3-hover
+--shadow-3-press
 ```
 
 Current usage:
 
-| Shadow 1 | Shadow 2    |
-| -------- | ----------- |
-| notice   | Modals      |
-|          | Alerts      |
-|          | Tooltips    |
-|          | Dropdowns   |
-|          | Popovers    |
-|          | FAB         |
-|          | Date-picker |
+| Shadow 1 | Shadow 2 | Shadow 3    |
+| -------- | -------- | ----------- |
+| Notice   | Tooltips | Alerts      |
+|          | Popovers | Modals      |
+|          |          | Dropdowns   |
+|          |          | Date-picker |
+|          |          | FAB         |
 
 ### Focus states
 

@@ -64,6 +64,7 @@
 }
 
 :host .calcite-dropdown-wrapper {
+  @apply shadow-borderless-lg;
   transform: translate3d(0, -$baseline, 0);
   transition: all 0.15s ease-in-out, max-height 0.15s;
   visibility: hidden;
@@ -78,7 +79,6 @@
   width: var(--calcite-dropdown-width);
   background: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
-  box-shadow: $shadow-2;
   pointer-events: none;
 }
 
