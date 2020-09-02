@@ -79,7 +79,7 @@ export class CalcitePanel {
    * Heading text.
    */
 
-  @Prop() heading: string;
+  @Prop() heading?: string;
   /**
    * Summary text. A description displayed underneath the heading.
    */
@@ -157,34 +157,23 @@ export class CalcitePanel {
   //
   // --------------------------------------------------------------------------
 
-  renderHeaderLeadingContent(): VNode {
-    const hasLeadingContent = getSlotted(this.el, SLOTS.headerLeadingContent);
-    return hasLeadingContent ? (
-      <div key="header-leading-content" class={CSS.headerLeadingContent}>
-        <slot name={SLOTS.headerLeadingContent} />
-      </div>
-    ) : null;
-  }
-
-
-  renderSummary(): VNode {
-    const { summary } = this;
-
-    return summary ? <span class={CSS.summary}>{summary}</span> : null;
-  }
-
-  renderHeader(): VNode {
-    const { heading } = this;
+  renderHeaderContent(): VNode {
+    const { heading, summary } = this;
+    const headingNode = heading ? <h4 class={CSS.heading}>{heading}</h4> : null;
+    const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
 
     return (
       <div key="header-content" class={CSS.headerContent}>
-        <h3 class={CSS.heading}>{heading}</h3>
-        {this.renderSummary()}
+        {headingNode}
+        {summaryNode}
       </div>
     );
   }
 
-  renderHeaderContent(): VNode {
+  /**
+   * Allows user to override the entire header-content node.
+   */
+  renderHeaderSlottedContent(): VNode {
     return (
       <div key="header-content" class={CSS.headerContent}>
         <slot name={SLOTS.headerContent} />
@@ -219,17 +208,16 @@ export class CalcitePanel {
   }
 
   renderHeaderNode(): VNode {
-    const hasHeaderSlot = getSlotted(this.el, SLOTS.headerContent);
-    const headerLeadingContentNode = this.renderHeaderLeadingContent();
-    const headerContentNode = hasHeaderSlot ? this.renderHeaderContent() : this.renderHeader();
+    const hasHeaderContent = getSlotted(this.el, SLOTS.headerContent);
+    const headerContentNode = hasHeaderContent ? this.renderHeaderSlottedContent() : this.renderHeaderContent();
     const headerTrailingContentNode = this.renderHeaderTrailingContent();
 
     const canDisplayHeader =
-      headerContentNode || headerLeadingContentNode || headerTrailingContentNode;
+      headerContentNode || headerTrailingContentNode;
 
     return canDisplayHeader ? (
       <header class={CSS.header}>
-        {headerLeadingContentNode}
+        <slot name={SLOTS.leadingActions} />
         {headerContentNode}
         {headerTrailingContentNode}
       </header>

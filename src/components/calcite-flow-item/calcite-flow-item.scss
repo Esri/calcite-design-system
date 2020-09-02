@@ -15,32 +15,6 @@ calcite-panel {
   display: flex;
 }
 
-.header-content { // moving to Panel
-  display: block;
-  .heading,
-  .summary {
-    padding: 0;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-  }
-  .heading {
-    color: var(--calcite-ui-text-3);
-    font-weight: var(--calcite-ui-text-weight-demi);
-    margin: 0 0 var(--calcite-spacing-quarter);
-    @include font-size(-2);
-    &:only-child {
-      margin-bottom: 0;
-    }
-  }
-  .summary {
-    color: var(--calcite-ui-text-3);
-    @include font-size(-4);
-  }
-}
-
 .menu-button {
   align-self: stretch;
   flex: 0 1 auto;

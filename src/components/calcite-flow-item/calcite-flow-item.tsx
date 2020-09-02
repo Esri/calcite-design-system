@@ -47,6 +47,11 @@ export class CalciteFlowItem {
   @Prop() heading: string;
 
   /**
+   * Displays a close button in the trailing side of the header.
+   */
+  @Prop({ reflect: true }) dismissible = false;
+
+  /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
   @Prop({ reflect: true }) loading = false;
@@ -227,7 +232,7 @@ export class CalciteFlowItem {
 
     return showBackButton ? (
       <calcite-action
-        slot={PANEL_SLOTS.headerLeadingContent}
+        slot={SLOTS.leadingActions}
         key="back-button"
         aria-label={label}
         text={label}
@@ -306,15 +311,6 @@ export class CalciteFlowItem {
     );
   }
 
-  renderHeaderLeadingContent(): VNode {
-    const hasLeadingActions = getSlotted(this.el, SLOTS.leadingActions);
-    return hasLeadingActions ? (
-      <div slot={PANEL_SLOTS.headerLeadingContent} class={CSS.leadingActions}>
-        <slot name={SLOTS.leadingActions}></slot>
-      </div>
-    ) : null;
-  }
-
   renderHeaderActions(): VNode {
     const menuActions = getSlotted(this.el, SLOTS.menuActions, { all: true });
     const actionCount = menuActions.length;
@@ -333,34 +329,6 @@ export class CalciteFlowItem {
     ) : null;
   }
 
-  renderHeading(): VNode {
-    const { heading } = this;
-
-    return heading ? (
-      <h2 class={CSS.heading} slot={PANEL_SLOTS.headerContent}>
-        {heading}
-      </h2>
-    ) : null;
-  }
-
-  renderSummary(): VNode {
-    const { summary } = this;
-
-    return summary ? <span class={CSS.summary}>{summary}</span> : null;
-  }
-
-  renderHeader(): VNode {
-    const headingNode = this.renderHeading();
-    const summaryNode = this.renderSummary();
-
-    return headingNode || summaryNode ? (
-      <div class={CSS.header} slot={PANEL_SLOTS.headerContent}>
-        {headingNode}
-        {summaryNode}
-      </div>
-    ) : null;
-  }
-
   renderFab(): VNode {
     const hasFab = getSlotted(this.el, SLOTS.fab);
     return hasFab ? (
@@ -371,21 +339,23 @@ export class CalciteFlowItem {
   }
 
   render(): VNode {
-    const { el } = this;
+    const { disabled, dismissible, el, heading, heightScale, loading, summary } = this;
     const dir = getElementDir(el);
 
     return (
       <Host>
         <calcite-panel
-          loading={this.loading}
-          disabled={this.disabled}
+          dismissible={dismissible}
+          heading={heading}
+          summary={summary}
+          loading={loading}
+          disabled={disabled}
           theme={getElementTheme(el)}
-          height-scale={this.heightScale}
+          height-scale={heightScale}
           dir={dir}
         >
           {this.renderBackButton(dir === "rtl")}
-          {this.renderHeaderLeadingContent()}
-          {this.renderHeader()}
+          <slot slot={SLOTS.leadingActions} name={SLOTS.leadingActions}></slot>
           {this.renderHeaderActions()}
           <slot />
           {this.renderFooterActions()}
