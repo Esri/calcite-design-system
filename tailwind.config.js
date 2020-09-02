@@ -18,16 +18,15 @@ module.exports = {
       full: '100%',
     },
     boxShadow: {
-      1: {
-        default: "0 0 8px 0 rgba(0, 0, 0, 0.08)",
-        hover: "0 0 16px 0 rgba(0, 0, 0, 0.08)",
-        press: "0 0 8px 0 rgba(0, 0, 0, 0.16)"
-      },
-      2: {
-        default: "0 0 16px 0 rgba(0, 0, 0, 0.16)",
-        hover: "0 0 32px 0 rgba(0, 0, 0, 0.16)",
-        press: "0 0 16px 0 rgba(0, 0, 0, 0.32)",
-      }
+      default: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+      md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+      xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+      none: 'none',
+      // Same as their counterparts above, but adds a subtle border. Useful for white fg over white bg.
+      'borderless-md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 2px 0 rgba(0, 0, 0, 0.1)',
+      'borderless-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 2px 0 rgba(0, 0, 0, 0.1)',
+      'borderless-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 2px 0 rgba(0, 0, 0, 0.1)',
     },
     colors: {
       blue: {
@@ -121,4 +120,7 @@ module.exports = {
   future: {
     removeDeprecatedGapUtilities: true,
   },
+  variants: {
+    boxShadow: ['responsive', 'hover', 'focus', 'active']
+  }
 }
