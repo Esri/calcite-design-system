@@ -111,9 +111,10 @@ module.exports = {
       white: theme("colors.background")
     }),
     transitionDuration: {
-      1: "150ms",
-      2: "300ms",
-      3: "500ms"
+      75: "75ms",
+      150: "150ms",
+      300: "300ms",
+      500: "500ms"
     },
     transitionTimingFunction: "cubic-bezier(0.215, 0.440, 0.420, 0.880)"
   },
