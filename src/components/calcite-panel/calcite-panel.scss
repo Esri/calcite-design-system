@@ -64,9 +64,35 @@ calcite-scrim {
   width: 100%;
 }
 
+// .header-content {
+// }
+
 .header-content {
+  display: block;
   overflow: hidden;
   padding: var(--calcite-spacing) var(--calcite-spacing);
+  .heading,
+  .summary {
+    padding: 0;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+  .heading {
+    color: var(--calcite-ui-text-3);
+    font-weight: var(--calcite-ui-text-weight-demi);
+    margin: 0 0 var(--calcite-spacing-quarter);
+    @include font-size(-2);
+    &:only-child {
+      margin-bottom: 0;
+    }
+  }
+  .summary {
+    color: var(--calcite-ui-text-3);
+    @include font-size(-4);
+  }
 }
 
 .header-leading-content,

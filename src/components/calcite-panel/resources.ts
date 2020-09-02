@@ -1,6 +1,8 @@
 export const CSS = {
   container: "container",
   header: "header",
+  heading: "heading",
+  summary: "summary",
   headerLeadingContent: "header-leading-content",
   headerContent: "header-content",
   headerTrailingContent: "header-trailing-content",
@@ -14,6 +16,8 @@ export const ICONS = {
 };
 
 export const SLOTS = {
+  leadingActions: "leading-actions",
+  menuActions: "menu-actions",
   headerContent: "header-content",
   headerLeadingContent: "header-leading-content",
   headerTrailingContent: "header-trailing-content",

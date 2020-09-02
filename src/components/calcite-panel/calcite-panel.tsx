@@ -73,7 +73,17 @@ export class CalcitePanel {
   /**
    * Used to set the component's color scheme.
    */
+
   @Prop({ reflect: true }) theme: CalciteTheme;
+  /**
+   * Heading text.
+   */
+
+  @Prop() heading: string;
+  /**
+   * Summary text. A description displayed underneath the heading.
+   */
+  @Prop() summary?: string;
 
   // --------------------------------------------------------------------------
   //
@@ -156,6 +166,24 @@ export class CalcitePanel {
     ) : null;
   }
 
+
+  renderSummary(): VNode {
+    const { summary } = this;
+
+    return summary ? <span class={CSS.summary}>{summary}</span> : null;
+  }
+
+  renderHeader(): VNode {
+    const { heading } = this;
+
+    return (
+      <div key="header-content" class={CSS.headerContent}>
+        <h3 class={CSS.heading}>{heading}</h3>
+        {this.renderSummary()}
+      </div>
+    );
+  }
+
   renderHeaderContent(): VNode {
     return (
       <div key="header-content" class={CSS.headerContent}>
@@ -190,9 +218,10 @@ export class CalcitePanel {
     );
   }
 
-  renderHeader(): VNode {
+  renderHeaderNode(): VNode {
+    const hasHeaderSlot = getSlotted(this.el, SLOTS.headerContent);
     const headerLeadingContentNode = this.renderHeaderLeadingContent();
-    const headerContentNode = this.renderHeaderContent();
+    const headerContentNode = hasHeaderSlot ? this.renderHeaderContent() : this.renderHeader();
     const headerTrailingContentNode = this.renderHeaderTrailingContent();
 
     const canDisplayHeader =
@@ -255,7 +284,7 @@ export class CalcitePanel {
           [CSS_UTILITY.rtl]: rtl
         }}
       >
-        {this.renderHeader()}
+        {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderFooter()}
       </article>
