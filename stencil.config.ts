@@ -115,6 +115,7 @@ export const create: () => Config = () => ({
     cssVarsShim: true,
     dynamicImportShim: true,
     safari10: true,
+    scriptDataOpts: true,
     shadowDomShim: true,
     slotChildNodesFix: true
   }
