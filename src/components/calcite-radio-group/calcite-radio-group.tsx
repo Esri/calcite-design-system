@@ -9,7 +9,8 @@ import {
   Watch,
   Host,
   Build,
-  Method
+  Method,
+  VNode
 } from "@stencil/core";
 
 import { getElementDir, getElementProp, hasLabel } from "../../utils/dom";
@@ -27,8 +28,7 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Element()
-  el: HTMLCalciteRadioGroupElement;
+  @Element() el: HTMLCalciteRadioGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -39,25 +39,23 @@ export class CalciteRadioGroup {
   /**
    * The group's name. Gets submitted with the form.
    */
-  @Prop()
-  name: string;
+  @Prop() name: string;
 
   @Watch("name")
-  protected handleNameChange(value): void {
+  protected handleNameChange(value: string): void {
     this.hiddenInput.name = value;
   }
 
   /**
    * The group's selected item.
    */
-  @Prop()
-  selectedItem: HTMLCalciteRadioGroupItemElement;
+  @Prop() selectedItem: HTMLCalciteRadioGroupItemElement;
 
   @Watch("selectedItem")
   protected handleSelectedItemChange<T extends HTMLCalciteRadioGroupItemElement>(
     newItem: T,
     oldItem: T
-  ) {
+  ): void {
     if (newItem === oldItem) {
       return;
     }
@@ -97,7 +95,7 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     // prop validations
     const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale))
@@ -134,11 +132,11 @@ export class CalciteRadioGroup {
     }
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.hasLoaded = true;
   }
 
-  render() {
+  render(): VNode {
     return (
       <Host role="radiogroup" tabIndex={this.disabled ? -1 : null}>
         <slot />
@@ -152,14 +150,15 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(
+    e: Record<string, any>
+  ): void {
     if (hasLabel(e.detail.labelEl, this.el)) {
       this.setFocus();
     }
   }
 
-  @Listen("click")
-  protected handleClick(event: MouseEvent): void {
+  @Listen("click") protected handleClick(event: MouseEvent): void {
     if ((event.target as HTMLElement).localName === "calcite-radio-group-item") {
       this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
     }
@@ -235,8 +234,7 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Event()
-  calciteRadioGroupChange: EventEmitter;
+  @Event() calciteRadioGroupChange: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -246,7 +244,7 @@ export class CalciteRadioGroup {
 
   /** Focuses the selected item. If there is no selection, it focuses the first item. */
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     (this.selectedItem || this.getItems()[0])?.focus();
   }
 
