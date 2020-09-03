@@ -93,18 +93,25 @@ calcite-scrim {
 }
 
 .header-leading-content,
-.header-trailing-content {
+.header-trailing-actions {
   align-items: stretch;
   display: flex;
   flex-flow: row nowrap;
 }
 
-.header-trailing-content {
+.header-trailing-actions {
   margin-left: auto;
 }
 
-.header-leading-content + .header-content {
-  padding-left: var(--calcite-spacing-half);
+.menu-button {
+  align-self: stretch;
+  flex: 0 1 auto;
+  height: 100%;
+  position: relative;
+}
+.menu {
+  min-width: var(--calcite-menu-min-width);
+  flex-flow: column nowrap;
 }
 
 .content-container {
@@ -129,7 +136,7 @@ calcite-scrim {
   .header-leading-content + .header-content {
     padding-right: var(--calcite-spacing-half);
   }
-  .header-trailing-content {
+  .header-trailing-actions {
     margin-left: 0;
     margin-right: auto;
   }

@@ -1,12 +1,10 @@
 export const CSS = {
   header: "header-content",
-  heading: "heading",
-  summary: "summary",
   backButton: "back-button",
   footerActions: "footer-actions",
-  headerActions: "header-actions",
-  leadingActions: "leading-actions",
-  singleActionContainer: "single-action-container",
+  headerTrailingActions: "header-trailing-actions",
+  headerLeadingActions: "header-leading-actions",
+  headerSingleActionContainer: "header-single-action-container",
   menuContainer: "menu-container",
   menuButton: "menu-button",
   menu: "menu",
@@ -15,8 +13,8 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  leadingActions: "leading-actions",
-  menuActions: "menu-actions",
+  headerLeadingActions: "header-leading-actions",
+  headerTrailingActions: "header-trailing-actions",
   fab: "fab",
   footerActions: "footer-actions"
 };

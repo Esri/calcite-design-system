@@ -3,28 +3,27 @@ export const CSS = {
   header: "header",
   heading: "heading",
   summary: "summary",
-  headerLeadingContent: "header-leading-content",
   headerContent: "header-content",
-  headerTrailingContent: "header-trailing-content",
+  headerTrailingActions: "header-trailing-actions",
   contentContainer: "content-container",
   fabContainer: "fab-container",
   footer: "footer"
 };
 
 export const ICONS = {
-  close: "x"
+  close: "x",
+  menu: "ellipsis"
 };
 
 export const SLOTS = {
-  leadingActions: "leading-actions",
-  menuActions: "menu-actions",
+  headerLeadingActions: "header-leading-actions",
+  headerTrailingActions: "header-trailing-actions",
   headerContent: "header-content",
-  headerLeadingContent: "header-leading-content",
-  headerTrailingContent: "header-trailing-content",
   fab: "fab",
   footer: "footer"
 };
 
 export const TEXT = {
-  close: "Close"
+  close: "Close",
+  open: "Open"
 };

@@ -197,10 +197,10 @@ export class CalcitePanel {
       />
     ) : null;
 
-    const slotNode = <slot name={SLOTS.headerTrailingContent} />;
+    const slotNode = <slot name={SLOTS.headerTrailingActions} />;
 
     return (
-      <div key="header-trailing-content" class={CSS.headerTrailingContent}>
+      <div key="header-trailing-content" class={CSS.headerTrailingActions}>
         {slotNode}
         {dismissibleNode}
       </div>
@@ -210,16 +210,16 @@ export class CalcitePanel {
   renderHeaderNode(): VNode {
     const hasHeaderContent = getSlotted(this.el, SLOTS.headerContent);
     const headerContentNode = hasHeaderContent ? this.renderHeaderSlottedContent() : this.renderHeaderContent();
-    const headerTrailingContentNode = this.renderHeaderTrailingContent();
+    const headerTrailingActionsNode = this.renderHeaderTrailingContent();
 
     const canDisplayHeader =
-      headerContentNode || headerTrailingContentNode;
+      headerContentNode || headerTrailingActionsNode;
 
     return canDisplayHeader ? (
       <header class={CSS.header}>
-        <slot name={SLOTS.leadingActions} />
+        <slot name={SLOTS.headerLeadingActions} />
         {headerContentNode}
-        {headerTrailingContentNode}
+        {headerTrailingActionsNode}
       </header>
     ) : null;
   }

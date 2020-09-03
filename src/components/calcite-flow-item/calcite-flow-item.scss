@@ -11,7 +11,7 @@ calcite-panel {
   height: 100%;
 }
 
-.leading-actions {
+.header-leading-actions {
   display: flex;
 }
 
@@ -22,8 +22,8 @@ calcite-panel {
   position: relative;
 }
 
-.header-actions,
-.single-action-container {
+.header-trailing-actions,
+.header-single-action-container {
   display: flex;
 }
 

@@ -132,7 +132,7 @@ export class CalciteFlowItem {
   }
 
   queryActions(): HTMLCalciteActionElement[] {
-    return getSlotted<HTMLCalciteActionElement>(this.el, SLOTS.menuActions, {
+    return getSlotted<HTMLCalciteActionElement>(this.el, SLOTS.headerTrailingActions, {
       all: true
     });
   }
@@ -232,7 +232,7 @@ export class CalciteFlowItem {
 
     return showBackButton ? (
       <calcite-action
-        slot={SLOTS.leadingActions}
+        slot={PANEL_SLOTS.headerLeadingActions}
         key="back-button"
         aria-label={label}
         text={label}
@@ -278,7 +278,7 @@ export class CalciteFlowItem {
         onKeyDown={this.menuActionsKeydown}
       >
         <div class={CSS.menu}>
-          <slot name={SLOTS.menuActions} />
+          <slot name={SLOTS.headerTrailingActions} />
         </div>
       </calcite-popover>
     );
@@ -296,8 +296,8 @@ export class CalciteFlowItem {
 
   renderSingleActionContainer(): VNode {
     return (
-      <div class={CSS.singleActionContainer}>
-        <slot name={SLOTS.menuActions} />
+      <div class={CSS.headerSingleActionContainer}>
+        <slot name={SLOTS.headerTrailingActions} />
       </div>
     );
   }
@@ -312,7 +312,7 @@ export class CalciteFlowItem {
   }
 
   renderHeaderActions(): VNode {
-    const menuActions = getSlotted(this.el, SLOTS.menuActions, { all: true });
+    const menuActions = getSlotted(this.el, SLOTS.headerTrailingActions, { all: true });
     const actionCount = menuActions.length;
 
     const menuActionsNodes =
@@ -323,17 +323,8 @@ export class CalciteFlowItem {
         : null;
 
     return menuActionsNodes ? (
-      <div slot={PANEL_SLOTS.headerTrailingContent} class={CSS.headerActions}>
+      <div slot={PANEL_SLOTS.headerTrailingActions} class={CSS.headerLeadingActions}>
         {menuActionsNodes}
-      </div>
-    ) : null;
-  }
-
-  renderFab(): VNode {
-    const hasFab = getSlotted(this.el, SLOTS.fab);
-    return hasFab ? (
-      <div class={CSS.fabContainer} slot={PANEL_SLOTS.fab}>
-        <slot name={SLOTS.fab} />
       </div>
     ) : null;
   }
@@ -355,11 +346,11 @@ export class CalciteFlowItem {
           dir={dir}
         >
           {this.renderBackButton(dir === "rtl")}
-          <slot slot={SLOTS.leadingActions} name={SLOTS.leadingActions}></slot>
+          <slot slot={SLOTS.headerLeadingActions} name={PANEL_SLOTS.headerLeadingActions}></slot>
           {this.renderHeaderActions()}
           <slot />
           {this.renderFooterActions()}
-          {this.renderFab()}
+          <slot slot={SLOTS.fab} name={PANEL_SLOTS.fab}></slot>
         </calcite-panel>
       </Host>
     );
