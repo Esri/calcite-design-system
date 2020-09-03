@@ -208,14 +208,14 @@ export class CalcitePanel {
   }
 
   renderHeaderNode(): VNode {
-    const hasHeaderContent = getSlotted(this.el, SLOTS.headerContent);
-    const headerContentNode = hasHeaderContent ? this.renderHeaderSlottedContent() : this.renderHeaderContent();
+    const hasHeaderSlotContent = getSlotted(this.el, SLOTS.headerContent);
+    const hasHeaderLeadingActoins = getSlotted(this.el, SLOTS.headerLeadingActions);
+    const headerContentNode = hasHeaderSlotContent
+      ? this.renderHeaderSlottedContent()
+      : this.renderHeaderContent();
     const headerTrailingActionsNode = this.renderHeaderTrailingContent();
 
-    const canDisplayHeader =
-      headerContentNode || headerTrailingActionsNode;
-
-    return canDisplayHeader ? (
+    return hasHeaderLeadingActoins || headerContentNode || headerTrailingActionsNode ? (
       <header class={CSS.header}>
         <slot name={SLOTS.headerLeadingActions} />
         {headerContentNode}
