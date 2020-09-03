@@ -5,6 +5,7 @@ import autoprefixer from "autoprefixer";
 import { generatePreactTypes } from "./support/preact";
 
 export const create: () => Config = () => ({
+  buildEs5: "prod",
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
