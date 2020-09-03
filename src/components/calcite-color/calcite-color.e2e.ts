@@ -215,9 +215,9 @@ describe("calcite-color", () => {
   });
 
   // skipping until https://github.com/Esri/calcite-components/issues/928 is addressed
-  describe.skip("color inputs", () => {
+  describe("color inputs", () => {
     // tests for all individual inputs takes longer than the default
-    const timeoutOverrideInMs = 240000;
+    const timeoutOverrideInMs = 120000;
 
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");

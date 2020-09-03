@@ -34,7 +34,7 @@
     "release:prepare": "npm version prerelease --preid=beta",
     "release:publish": "npm run util:push-tags && npm publish && ts-node ./support/releaseToGitHub.ts",
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm:build --dev --watch --serve\"",
-    "test": "npm run util:run-tests && npm run test:prerender",
+    "test": "npm run util:run-tests -- --ci && npm run test:prerender",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:watch": "npm run util:run-tests -- --watchAll",
     "util:add-custom-elements-index-mjs": "cpy dist/custom-elements/index.js dist/custom-elements/ --rename index.mjs",
