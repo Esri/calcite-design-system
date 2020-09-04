@@ -135,26 +135,22 @@ export class CalciteDropdown {
   }
 
   render(): VNode {
-    const { maxScrollerHeight } = this;
+    const { active, maxScrollerHeight } = this;
     const dir = getElementDir(this.el);
+
     return (
-      <Host dir={dir}>
+      <Host dir={dir} tabIndex={this.disabled ? -1 : null}>
         <div
           class="calcite-dropdown-trigger-container"
-          ref={(el) => (this.referenceEl = el)}
-          tabIndex={this.disabled ? -1 : null}
+          ref={this.setReferenceEl}
           onClick={this.openDropdown}
           onKeyDown={this.keyDownHandler}
         >
-          <slot
-            name="dropdown-trigger"
-            aria-haspopup="true"
-            aria-expanded={this.active.toString()}
-          />
+          <slot name="dropdown-trigger" aria-haspopup="true" aria-expanded={active.toString()} />
         </div>
         <div
-          aria-hidden={!this.active.toString()}
-          ref={(el) => (this.menuEl = el)}
+          aria-hidden={(!active).toString()}
+          ref={this.setMenuEl}
           class="calcite-dropdown-wrapper"
           role="menu"
           style={{
@@ -227,14 +223,14 @@ export class CalciteDropdown {
   }
 
   @Listen("mouseenter")
-  mouseoverHandler(): void {
+  mouseEnterHandler(): void {
     if (this.type === "hover") {
       this.openCalciteDropdown();
     }
   }
 
   @Listen("mouseleave")
-  mouseoffHandler(): void {
+  mouseLeaveHandler(): void {
     if (this.type === "hover") {
       this.closeCalciteDropdown();
     }
@@ -315,13 +311,10 @@ export class CalciteDropdown {
   /** trigger elements */
   private triggers: HTMLSlotElement[];
 
-  /** positions menu */
   private popper: Popper;
 
-  /** menu element */
   private menuEl: HTMLDivElement;
 
-  /** trigger reference element */
   private referenceEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
@@ -329,6 +322,14 @@ export class CalciteDropdown {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setReferenceEl = (el: HTMLDivElement): void => {
+    this.referenceEl = el;
+  };
+
+  setMenuEl = (el: HTMLDivElement): void => {
+    this.menuEl = el;
+  };
 
   getModifiers(): Partial<StrictModifiers>[] {
     const flipModifier: Partial<StrictModifiers> = {
