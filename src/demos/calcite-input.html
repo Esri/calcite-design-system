@@ -150,7 +150,7 @@
             Text trailing inline-space-between
           </calcite-label>
         </calcite-accordion-item>
-        <calcite-accordion-item item-title="Input types">
+        <calcite-accordion-item active item-title="Input types">
           <calcite-label>
             Textarea empty input
             <calcite-input type="textarea" placeholder="How was your day?"></calcite-input>
@@ -287,7 +287,7 @@
 
           <h4>Disabled - set on input with wrapping label</h4>
 
-          <calcite-label>
+          <calcite-label disabled>
             Disabled
             <calcite-input disabled value="Readonly value">
             </calcite-input>
@@ -405,7 +405,7 @@
 
         </calcite-accordion-item>
 
-        <calcite-accordion-item item-title="Input messages and statuses">
+        <calcite-accordion-item active item-title="Input messages and statuses">
           <calcite-notice icon scale="s" active width="full" style="margin-bottom:20px;">
             <span slot="notice-message">
               You can set status on an input, message, or label individually - or just set it once on your
@@ -450,7 +450,7 @@
           </calcite-label>
         </calcite-accordion-item>
 
-        <calcite-accordion-item item-title="Interactions with native elements">
+        <calcite-accordion-item active item-title="Interactions with native elements">
           <calcite-notice icon scale="s" active width="full" style="margin-bottom:20px;">
             <span slot="notice-message">
               It's recommended to use the `calcite-label` with `calcite-input` components together - but if there
@@ -868,7 +868,7 @@
     <div
       style="width:400px;display:inline-flex;max-width:100%;flex-direction:column;margin:0 auto;text-align:center;padding:2em">
       <h3>In use - using custom emitted events and dark mode</h3>
-      <calcite-accordion icon-position="start" selection-mode="multi" theme="dark">
+      <calcite-accordion active icon-position="start" selection-mode="multi" theme="dark">
         <calcite-accordion-item item-title="Register Event-listener example" active>
 
           <form name="form-input-example-2" id="form-input-example-2">
