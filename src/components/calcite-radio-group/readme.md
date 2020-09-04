@@ -7,6 +7,7 @@
 | Property       | Attribute    | Description                                                         | Type                               | Default        |
 | -------------- | ------------ | ------------------------------------------------------------------- | ---------------------------------- | -------------- |
 | `appearance`   | `appearance` | specify the appearance style of the radio group, defaults to solid. | `"outline" \| "solid"`             | `"solid"`      |
+| `disabled`     | `disabled`   | is the radio group disabled                                         | `boolean`                          | `undefined`    |
 | `layout`       | `layout`     | specify the layout of the radio group, defaults to horizontal       | `"horizontal" \| "vertical"`       | `"horizontal"` |
 | `name`         | `name`       | The group's name. Gets submitted with the form.                     | `string`                           | `undefined`    |
 | `scale`        | `scale`      | The scale of the radio group                                        | `"l" \| "m" \| "s"`                | `undefined`    |
