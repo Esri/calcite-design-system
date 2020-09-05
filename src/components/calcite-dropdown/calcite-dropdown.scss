@@ -27,6 +27,20 @@
   pointer-events: none;
 }
 
+.dropdown-animation-wrapper {
+  transition: $transition;
+  transform-origin: top center;
+  transform: scaleY(0);
+}
+
+:host [data-popper-placement^="top"] .dropdown-animation-wrapper {
+  transform-origin: bottom center;
+}
+
+:host([active]) .dropdown-animation-wrapper {
+  transform: scaleY(1);
+}
+
 // width
 :host([width="s"]) {
   --calcite-dropdown-width: 12.5em;

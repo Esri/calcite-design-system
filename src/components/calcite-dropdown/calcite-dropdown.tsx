@@ -157,7 +157,9 @@ export class CalciteDropdown {
             maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
           }}
         >
-          <slot />
+          <div class="dropdown-animation-wrapper">
+            <slot />
+          </div>
         </div>
       </Host>
     );
