@@ -1,29 +1,39 @@
 export const CSS = {
+  backButton: "back-button",
   container: "container",
   header: "header",
   heading: "heading",
   summary: "summary",
   headerContent: "header-content",
-  headerTrailingActions: "header-trailing-actions",
+  headerActionsEnd: "header-actions-end",
+  headerActionsStart: "header-actions-start",
   contentContainer: "content-container",
   fabContainer: "fab-container",
-  footer: "footer"
+  footer: "footer",
+  menuContainer: "menu-container",
+  menuButton: "menu-button",
+  menu: "menu",
+  menuOpen: "menu--open"
 };
 
 export const ICONS = {
   close: "x",
-  menu: "ellipsis"
+  menu: "ellipsis",
+  backLeft: "chevron-left",
+  backRight: "chevron-right"
 };
 
 export const SLOTS = {
-  headerLeadingActions: "header-leading-actions",
-  headerTrailingActions: "header-trailing-actions",
+  headerActionsStart: "header-actions-start",
+  headerActionsEnd: "header-actions-end",
+  headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
   fab: "fab",
   footer: "footer"
 };
 
 export const TEXT = {
+  back: "Back",
   close: "Close",
   open: "Open"
 };

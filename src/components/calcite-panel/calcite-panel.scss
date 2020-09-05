@@ -67,6 +67,7 @@ calcite-scrim {
 .header-content {
   display: block;
   overflow: hidden;
+  margin-right: auto;
   padding: var(--calcite-spacing) var(--calcite-spacing);
   .heading,
   .summary {
@@ -92,15 +93,11 @@ calcite-scrim {
   }
 }
 
-.header-leading-content,
-.header-trailing-actions {
+.header-actions-start,
+.header-actions-end {
   align-items: stretch;
   display: flex;
   flex-flow: row nowrap;
-}
-
-.header-trailing-actions {
-  margin-left: auto;
 }
 
 .menu-button {
@@ -133,12 +130,9 @@ calcite-scrim {
 }
 
 .calcite--rtl {
-  .header-leading-content + .header-content {
-    padding-right: var(--calcite-spacing-half);
-  }
-  .header-trailing-actions {
-    margin-left: 0;
-    margin-right: auto;
+  .header-content {
+    margin-left: auto;
+    margin-right: 0;
   }
 }
 
