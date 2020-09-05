@@ -10,10 +10,13 @@ import {
   h
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementDir, getSlotted, getElementTheme } from "../utils/dom";
+import { focusElement, getElementDir, getSlotted, getElementTheme } from "../utils/dom";
 import { CSS_UTILITY } from "../utils/resources";
 import { VNode } from "@stencil/core/internal";
 import { CalciteScale, CalciteTheme } from "../interfaces";
+import { getRoundRobinIndex } from "../utils/array";
+
+const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
 
 /**
  * @slot header-content - A slot for adding content in the center of the header.
@@ -46,6 +49,11 @@ export class CalcitePanel {
   }
 
   /**
+   * When provided, this method will be called before it is removed from the parent flow.
+   */
+  @Prop() beforeBack?: () => Promise<void>;
+
+  /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
    */
   @Prop({ reflect: true }) disabled = false;
@@ -54,6 +62,21 @@ export class CalcitePanel {
    * Displays a close button in the trailing side of the header.
    */
   @Prop({ reflect: true }) dismissible = false;
+
+  /**
+   * Shows a back button in the header.
+   */
+  @Prop() showBackButton = false;
+
+  /**
+   * 'Back' text string.
+   */
+  @Prop() intlBack?: string;
+
+  /**
+   * 'Open' text string for the menu.
+   */
+  @Prop() intlOpen?: string;
 
   /**
    * Specifies the maxiumum height of the panel.
@@ -85,6 +108,11 @@ export class CalcitePanel {
    */
   @Prop() summary?: string;
 
+  /**
+   * Opens the action menu.
+   */
+  @Prop({ reflect: true }) menuOpen = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -94,6 +122,8 @@ export class CalcitePanel {
   @Element() el: HTMLCalcitePanelElement;
 
   dismissButtonEl: HTMLCalciteActionElement;
+
+  menuButtonEl: HTMLCalciteActionElement;
 
   containerEl: HTMLElement;
 
@@ -115,6 +145,12 @@ export class CalcitePanel {
 
   @Event() calcitePanelScroll: EventEmitter;
 
+  /**
+   * Emitted when the back button has been clicked.
+   */
+
+  @Event() calcitePanelBackClick: EventEmitter;
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -133,6 +169,94 @@ export class CalcitePanel {
 
   panelScrollHandler = (): void => {
     this.calcitePanelScroll.emit();
+  };
+
+  backButtonClick = (): void => {
+    this.calcitePanelBackClick.emit();
+  };
+
+  queryActions(): HTMLCalciteActionElement[] {
+    return getSlotted<HTMLCalciteActionElement>(this.el, SLOTS.headerActionsEnd, {
+      all: true
+    });
+  }
+
+  isValidKey(key: string, supportedKeys: string[]): boolean {
+    return !!supportedKeys.find((k) => k === key);
+  }
+
+  toggleMenuOpen = (): void => {
+    this.menuOpen = !this.menuOpen;
+  };
+
+  menuButtonKeyDown = (event: KeyboardEvent): void => {
+    const { key } = event;
+    const { menuOpen } = this;
+
+    if (!this.isValidKey(key, SUPPORTED_ARROW_KEYS)) {
+      return;
+    }
+
+    const actions = this.queryActions();
+    const { length } = actions;
+
+    if (!length) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (!menuOpen) {
+      this.menuOpen = true;
+    }
+
+    if (key === "ArrowUp") {
+      const lastAction = actions[length - 1];
+      focusElement(lastAction);
+    }
+
+    if (key === "ArrowDown") {
+      const firstAction = actions[0];
+      focusElement(firstAction);
+    }
+  };
+
+  menuActionsKeydown = (event: KeyboardEvent): void => {
+    const { key, target } = event;
+
+    if (!this.isValidKey(key, SUPPORTED_ARROW_KEYS)) {
+      return;
+    }
+
+    const actions = this.queryActions();
+    const { length } = actions;
+    const currentIndex = actions.indexOf(target as HTMLCalciteActionElement);
+
+    if (!length || currentIndex === -1) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (key === "ArrowUp") {
+      const value = getRoundRobinIndex(currentIndex - 1, length);
+      const previousAction = actions[value];
+      focusElement(previousAction);
+    }
+
+    if (key === "ArrowDown") {
+      const value = getRoundRobinIndex(currentIndex + 1, length);
+      const nextAction = actions[value];
+      focusElement(nextAction);
+    }
+  };
+
+  menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
+    const { key } = event;
+
+    if (key === "Escape") {
+      this.menuOpen = false;
+    }
   };
 
   // --------------------------------------------------------------------------
@@ -156,6 +280,25 @@ export class CalcitePanel {
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+
+  renderBackButton(): VNode {
+    const rtl = getElementDir(this.el) === "rtl";
+    const { showBackButton, intlBack, backButtonClick } = this;
+    const label = intlBack || TEXT.back;
+    const icon = rtl ? ICONS.backRight : ICONS.backLeft;
+
+    return showBackButton ? (
+      <calcite-action
+        slot={SLOTS.headerActionsStart}
+        key="back-button"
+        aria-label={label}
+        text={label}
+        class={CSS.backButton}
+        onClick={backButtonClick}
+        icon={icon}
+      />
+    ) : null;
+  }
 
   renderHeaderContent(): VNode {
     const { heading, summary } = this;
@@ -181,8 +324,8 @@ export class CalcitePanel {
     );
   }
 
-  renderHeaderTrailingContent(): VNode {
-    const { dismiss, dismissible, intlClose } = this;
+  renderHeaderEndContent(): VNode {
+    const { dismiss, dismissible, el, intlClose } = this;
     const text = intlClose || TEXT.close;
 
     const dismissibleNode = dismissible ? (
@@ -197,29 +340,86 @@ export class CalcitePanel {
       />
     ) : null;
 
-    const slotNode = <slot name={SLOTS.headerTrailingActions} />;
+    const slotNode = <slot name={SLOTS.headerActionsEnd} />;
+    const hasEndActions = getSlotted(el, SLOTS.headerActionsEnd);
 
-    return (
-      <div key="header-trailing-content" class={CSS.headerTrailingActions}>
+    return hasEndActions || dismissibleNode ? (
+      <div key="header-trailing-content" class={CSS.headerActionsEnd}>
         {slotNode}
         {dismissibleNode}
       </div>
+    ) : null;
+  }
+
+  renderMenuItems(): VNode {
+    const { el, menuOpen, menuButtonEl } = this;
+
+    return (
+      <calcite-popover
+        referenceElement={menuButtonEl}
+        theme={getElementTheme(el)}
+        open={menuOpen}
+        offsetDistance={0}
+        disablePointer={true}
+        placement="bottom-end"
+        flipPlacements={["bottom-end", "top-end"]}
+        onKeyDown={this.menuActionsKeydown}
+      >
+        <div class={CSS.menu}>
+          <slot name={SLOTS.headerMenuActions} />
+        </div>
+      </calcite-popover>
     );
+  }
+
+  renderMenuButton(): VNode {
+    const { menuOpen, intlOpen, intlClose } = this;
+    const closeLabel = intlClose || TEXT.close;
+    const openLabel = intlOpen || TEXT.open;
+
+    const menuLabel = menuOpen ? closeLabel : openLabel;
+
+    return (
+      <calcite-action
+        class={CSS.menuButton}
+        aria-label={menuLabel}
+        text={menuLabel}
+        ref={(menuButtonEl): HTMLCalciteActionElement => (this.menuButtonEl = menuButtonEl)}
+        onClick={this.toggleMenuOpen}
+        onKeyDown={this.menuButtonKeyDown}
+        icon={ICONS.menu}
+      />
+    );
+  }
+
+  renderMenu(): VNode {
+    const hasMenuItems = getSlotted(this.el, SLOTS.headerMenuActions);
+
+    return hasMenuItems ? (
+      <div class={CSS.menuContainer} onKeyDown={this.menuActionsContainerKeyDown}>
+        {this.renderMenuButton()}
+        {this.renderMenuItems()}
+      </div>
+    ) : null;
   }
 
   renderHeaderNode(): VNode {
     const hasHeaderSlotContent = getSlotted(this.el, SLOTS.headerContent);
-    const hasHeaderLeadingActoins = getSlotted(this.el, SLOTS.headerLeadingActions);
+    const backButtonNode = this.renderBackButton();
+    const hasStartActions = getSlotted(this.el, SLOTS.headerActionsStart);
     const headerContentNode = hasHeaderSlotContent
       ? this.renderHeaderSlottedContent()
       : this.renderHeaderContent();
-    const headerTrailingActionsNode = this.renderHeaderTrailingContent();
+    const endActionsNode = this.renderHeaderEndContent();
+    const headerMenuNode = this.renderMenu();
 
-    return hasHeaderLeadingActoins || headerContentNode || headerTrailingActionsNode ? (
+    return hasStartActions || headerContentNode || endActionsNode ? (
       <header class={CSS.header}>
-        <slot name={SLOTS.headerLeadingActions} />
+        {backButtonNode}
+        <slot name={SLOTS.headerActionsStart} />
         {headerContentNode}
-        {headerTrailingActionsNode}
+        {endActionsNode}
+        {headerMenuNode}
       </header>
     ) : null;
   }

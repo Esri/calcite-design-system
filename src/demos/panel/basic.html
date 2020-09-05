@@ -23,28 +23,29 @@
 
         <h2>Header properties</h2>
         <calcite-panel heading="I'm using heading" summary="I'm using summary">
-          <!-- <div slot="menu-actions" style="display: flex;"> -->
-          <calcite-action icon="banana" slot="header-trailing-actions"></calcite-action>
-          <calcite-action icon="banana" slot="header-trailing-actions"></calcite-action>
-          <calcite-action icon="banana" slot="header-leading-actions"></calcite-action>
-        <!-- </div> -->
+          <calcite-action icon="banana" slot="header-actions-end"></calcite-action>
+          <calcite-action icon="banana" slot="header-actions-end"></calcite-action>
+          <calcite-action icon="banana" slot="header-actions-start"></calcite-action>
+          <calcite-action icon="banana" slot="header-actions-start"></calcite-action>
+          <calcite-action icon="banana" text="cool banana" text-enabled slot="header-menu-actions"></calcite-action>
+            <calcite-action icon="banana" text="cool banana" text-enabled slot="header-menu-actions"></calcite-action>
           <p>I'm using the properties.</p>
           <img src="https://via.placeholder.com/300x400" alt="placeholder" />
           <calcite-fab slot="fab"></calcite-fab>
         </calcite-panel>
 
-        <!-- <h2>With Footer</h2>
+        <h2>With Footer</h2>
         <calcite-panel>
           <div slot="header-content">header-content slot</div>
           <p>I have a footer.</p>
           <div slot="footer">panel Footer</div>
-        </calcite-panel> -->
+        </calcite-panel>
 
-        <!-- <h2>With Header Actions</h2>
+        <h2>With Header Actions</h2>
         <calcite-panel>
-          <div slot="header-leading-actions"><button onclick="console.log('left clicked');">L</button></div>
+          <calcite-action icon="left" onclick="console.log('left clicked');" slot="header-actions-start"></calcite-action>
           <div slot="header-content">panel 3 header</div>
-          <div slot="header-trailing-actions"><button onclick="console.log('right clicked');">R</button></div>
+          <calcite-action icon="right" onclick="console.log('right clicked');" slot="header-actions-end"></calcite-action>
           <p>Buttons in the top left and right. Mainly for calcite-actions and not plain buttons.</p>
         </calcite-panel>
 
@@ -52,9 +53,9 @@
         <calcite-panel dismissible id="dismissible-panel">
           <div slot="header-content">Dismissible panel header</div>
           <p>Click the X and I go away</p>
-        </calcite-panel> -->
+        </calcite-panel>
 
-        <!-- <script>
+        <script>
           const dismissiblePanel = document.getElementById("dismissible-panel");
           dismissiblePanel.addEventListener("calcitePanelDismissedChange", function () {
             console.log("calcitePanelDismiss event");
@@ -62,9 +63,9 @@
           setTimeout(function () {
             dismissiblePanel.setFocus("dismiss-button");
           }, 3000);
-        </script> -->
+        </script>
 
-        <!-- <h2>Scrolling Panel</h2>
+        <h2>Scrolling Panel</h2>
         <calcite-panel style="height: 500px;" id="panel">
           <div slot="header-content">panel header</div>
           <p>Slotted content</p>
@@ -144,13 +145,13 @@
           <p>Slotted content</p>
           <p>Slotted content</p>
           <calcite-fab slot="fab" text-enabled text="Add" label="Add"></calcite-fab>
-        </calcite-panel> -->
-        <!-- <script>
+        </calcite-panel>
+        <script>
           const panel = document.getElementById("panel");
           panel.addEventListener("calcitePanelScroll", function (event) {
             console.log("scrolled", event);
           });
-        </script> -->
+        </script>
 
         <div class="panel-container" dir="rtl">
           <h2>RTL</h2>
@@ -166,18 +167,18 @@
             <p>I'm using the properties.</p>
           </calcite-panel>
           
-          <!-- <calcite-panel>
-            <div slot="header-leading-actions"><button onclick="console.log('left clicked');">L</button></div>
+          <calcite-panel>
+            <calcite-action onclick="console.log('left clicked');" icon="left" slot="header-actions-start"></calcite-action>
             <div slot="header-content">panel 3 header</div>
-            <div slot="header-trailing-content"><button onclick="console.log('right clicked');">R</button></div>
+            <calcite-action onclick="console.log('right clicked');" icon="right" slot="header-actions-end"></calcite-action>
             <p>Button positions are reversed!</p>
-          </calcite-panel> -->
+          </calcite-panel>
 
-          <!-- <h3>Dismissible Panel</h3>
+          <h3>Dismissible Panel</h3>
           <calcite-panel dismissible>
             <div slot="header-content">I'm using header-content slot.</div>
             <p>I'm the content.</p>
-          </calcite-panel> -->
+          </calcite-panel>
         </div>
       </section>
     </main>
