@@ -1,6 +1,7 @@
 :host {
   position: relative;
   display: inline-block;
+  --calcite-popper-transition: #{$transition};
 }
 
 // disabled styles
@@ -33,7 +34,7 @@
 }
 
 :host .dropdown-animation-wrapper {
-  transition: $transition;
+  transition: var(--calcite-popper-transition);
   transform-origin: top center;
   transform: scale(0);
 }
