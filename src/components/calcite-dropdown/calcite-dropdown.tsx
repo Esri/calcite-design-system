@@ -40,12 +40,8 @@ export class CalciteDropdown {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
-  activeHandler(active: boolean): void {
-    if (active) {
-      this.createPopper();
-    } else {
-      this.destroyPopper();
-    }
+  activeHandler(): void {
+    this.reposition();
   }
 
   /** specify the alignment of dropdown, defaults to start */
@@ -362,14 +358,13 @@ export class CalciteDropdown {
 
   createPopper(): void {
     this.destroyPopper();
-    const { active, menuEl, referenceEl } = this;
+    const { menuEl, referenceEl } = this;
     const modifiers = this.getModifiers();
     const placement = this.getPlacement();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
-      open: active,
       placement,
       referenceEl
     });

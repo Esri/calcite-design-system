@@ -292,13 +292,12 @@ export class CalcitePopover {
 
   createPopper(): void {
     this.destroyPopper();
-    const { el, open, placement, _referenceElement: referenceEl } = this;
+    const { el, placement, _referenceElement: referenceEl } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
-      open,
       placement,
       referenceEl
     });
