@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Time</title>
+  <style>
+    body {
+      margin: 20px;
+    }
+
+    .demo-background-light {
+      border: 1px solid #202020;
+      padding: 1rem;
+    }
+
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+  <script type="module" src="./helpers/demo-form.js"></script>
+  <script type="module" src="./helpers/demo-spacer.js"></script>
+
+</head>
+
+<body>
+  <demo-spacer>
+    <calcite-button href="/">
+      < Home</calcite-button>
+        <h1>Calcite Time</h1>
+        <demo-form>
+          <form name="calcite-time-demo-form">
+            <demo-spacer>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, 400px); grid-gap: 8px;">
+                <div class="demo-background-light">
+                  <calcite-time name="s"></calcite-time>
+                </div>
+                <div class="demo-background-dark" theme="dark">
+                </div>
+              </div>
+              <calcite-button form="calcite-time-demo-form" type="submit">Submit</calcite-button>
+              <button type="submit" style="display: none">Submit</button>
+            </demo-spacer>
+          </form>
+        </demo-form>
+  </demo-spacer>
+</body>
+
+</html>

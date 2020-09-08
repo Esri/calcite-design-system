@@ -72,6 +72,9 @@ export class CalciteInput {
   /** for recognized input types, show an icon if applicable */
   @Prop({ reflect: true }) icon: string | boolean = false;
 
+  /** The name of the input */
+  @Prop() name?: string = "";
+
   /** specify the input type */
   @Prop({ mutable: true, reflect: true }) type:
     | "color"
@@ -275,6 +278,7 @@ export class CalciteInput {
       this.childElType !== "textarea" ? (
         <input
           {...attributes}
+          name={this.name}
           onBlur={this.inputBlurHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputInputHandler}
@@ -294,6 +298,7 @@ export class CalciteInput {
         [
           <textarea
             {...attributes}
+            name={this.name}
             onBlur={this.inputBlurHandler}
             onFocus={this.inputFocusHandler}
             onInput={this.inputInputHandler}
@@ -344,8 +349,7 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     if (this.isClearable && getKey(e.key) === "Escape") {
       this.clearInputValue();
     }

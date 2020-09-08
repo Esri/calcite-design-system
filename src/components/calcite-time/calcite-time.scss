@@ -1,0 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+:host {
+  display: inline-block;
+}
