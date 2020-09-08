@@ -47,12 +47,8 @@ export class CalciteTooltip {
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean) {
-    if (open) {
-      this.createPopper();
-    } else {
-      this.destroyPopper();
-    }
+  openHandler() {
+    this.reposition();
   }
 
   /**

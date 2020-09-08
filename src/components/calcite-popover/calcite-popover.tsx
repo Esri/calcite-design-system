@@ -86,11 +86,10 @@ export class CalcitePopover {
 
   @Watch("open")
   openHandler(open: boolean) {
+    this.reposition();
     if (open) {
-      this.createPopper();
       this.calcitePopoverOpen.emit();
     } else {
-      this.destroyPopper();
       this.calcitePopoverClose.emit();
     }
   }
