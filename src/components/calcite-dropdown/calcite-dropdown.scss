@@ -17,11 +17,6 @@
 :host .calcite-dropdown-wrapper {
   @include popperContainer();
   visibility: hidden;
-  overflow: hidden;
-  max-height: 90vh;
-  overflow-y: auto;
-  width: auto;
-  width: var(--calcite-dropdown-width);
   background: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
   box-shadow: $shadow-2;
@@ -34,17 +29,40 @@
 }
 
 :host .dropdown-animation-wrapper {
+  position: relative;
+  z-index: 1;
+  background: var(--calcite-ui-foreground-1);
   transition: var(--calcite-popper-transition);
-  transform-origin: top center;
-  transform: scale(0);
+  visibility: hidden;
+  transition-property: transform, visibility, opacity;
+  opacity: 0;
+  max-height: 90vh;
+  overflow: hidden;
+  overflow-y: auto;
+  width: auto;
+  width: var(--calcite-dropdown-width);
+}
+
+:host [data-popper-placement^="bottom"] .dropdown-animation-wrapper {
+  transform: translateY(-5px);
 }
 
 :host [data-popper-placement^="top"] .dropdown-animation-wrapper {
-  transform-origin: bottom center;
+  transform: translateY(5px);
+}
+
+:host [data-popper-placement^="left"] .dropdown-animation-wrapper {
+  transform: translateX(5px);
+}
+
+:host [data-popper-placement^="right"] .dropdown-animation-wrapper {
+  transform: translateX(-5px);
 }
 
 :host([active]) .dropdown-animation-wrapper {
-  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0);
 }
 
 .calcite-dropdown-trigger-container {
