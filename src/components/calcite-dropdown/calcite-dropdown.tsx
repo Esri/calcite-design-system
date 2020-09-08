@@ -149,11 +149,13 @@ export class CalciteDropdown {
           ref={this.setMenuEl}
           class="calcite-dropdown-wrapper"
           role="menu"
-          style={{
-            maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
-          }}
         >
-          <div class="dropdown-animation-wrapper">
+          <div
+            class="dropdown-animation-wrapper"
+            style={{
+              maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
+            }}
+          >
             <slot />
           </div>
         </div>
