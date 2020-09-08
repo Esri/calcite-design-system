@@ -1,5 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
+const CSS_TRANSITION_DELAY = 400;
 
 describe("calcite-dropdown", () => {
   /**
@@ -498,6 +499,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     await element.click();
     await page.waitForChanges();
+    await page.waitFor(CSS_TRANSITION_DELAY);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
   });
 
@@ -517,7 +519,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     await element.click();
     await page.waitForChanges();
-
+    await page.waitFor(CSS_TRANSITION_DELAY);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
   });
 
@@ -537,7 +539,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     await element.click();
     await page.waitForChanges();
-
+    await page.waitFor(CSS_TRANSITION_DELAY);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
   });
 
@@ -595,7 +597,7 @@ describe("calcite-dropdown", () => {
       const element = await page.find("calcite-dropdown");
       await element.click();
       await page.waitForChanges();
-
+      await page.waitFor(CSS_TRANSITION_DELAY);
       expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-50");
 
       const item = await page.find("#item-50");
