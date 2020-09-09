@@ -28,6 +28,11 @@
   --calcite-shell-panel-max-width: 680px;
 }
 
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  height: 100%;
+}
+
 .content {
   align-items: stretch;
   align-self: stretch;

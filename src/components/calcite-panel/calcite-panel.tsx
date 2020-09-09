@@ -449,7 +449,7 @@ export class CalcitePanel {
     const hasFooterActions = getSlotted(el, SLOTS.footerActions);
     
     return hasFooterActions ? (
-      <footer>
+      <footer class={CSS.footer}>
         <slot name={SLOTS.footerActions}></slot>
       </footer>
     ) : null;
