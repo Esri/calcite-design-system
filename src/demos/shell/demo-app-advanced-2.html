@@ -129,7 +129,7 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
-              <calcite-flow-item
+              <calcite-panel
                 heading="Label features"
                 summary="Popular Demographics in the United States (Beta) - County"
               >
@@ -143,15 +143,15 @@
                   <calcite-icon icon="label" scale="m" slot="icon"></calcite-icon>
                   <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
-                    <label for="">
+                    <calcite-label scale="s" for="">
                       Label attribute
-                      <input type="text" value="2018 Total Population (Esri)" />
-                    </label>
+                      <calcite-input type="text" value="2018 Total Population (Esri)" />
+                    </calcite-label>
                   </section>
                   <section class="form-section">
-                    <button class="combo-button__main">
-                      Edit label style
-                    </button>
+                    <calcite-button width="full" scale="s" appearance="clear" color="dark" class="combo-button__main" text="Edit label style" icon-end="pencil">
+                      Edit label
+                    </calcite-button>
                   </section>
                 </calcite-block>
                 <calcite-block heading="NAME" summary="Continent - State province" open collapsible>
@@ -159,15 +159,15 @@
                   <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
                     <section class="form-section">
-                      <label for="">
+                      <calcite-label scale="s" for="">
                         Label attribute
-                        <input type="text" value="NAME" />
-                      </label>
+                        <calcite-input type="text" value="NAME" />
+                      </calcite-label>
                     </section>
                     <section class="form-section">
-                      <button class="combo-button__main">
-                        Edit label style
-                      </button>
+                      <calcite-button width="full" scale="s" appearance="clear" color="dark" class="combo-button__main" text="Edit label style" icon-end="pencil">
+                        Edit label
+                      </calcite-button>
                     </section>
                   </section>
                 </calcite-block>
@@ -181,15 +181,15 @@
                   <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
                     <section class="form-section">
-                      <label for="">
+                      <calcite-label scale="s" for="">
                         Label attribute
-                        <input type="text" value="2018 Total Households (Esri)" />
-                      </label>
+                        <calcite-input type="text" value="2018 Total Households (Esri)" />
+                      </calcite-label>
                     </section>
                     <section class="form-section">
-                      <button class="combo-button__main">
-                        Edit label style
-                      </button>
+                      <calcite-button width="full" scale="s" appearance="clear" color="dark" class="combo-button__main" text="Edit label style" icon-end="pencil">
+                        Edit label
+                      </calcite-button>
                     </section>
                   </section>
                 </calcite-block>
@@ -202,7 +202,7 @@
                   <!-- <img src="https://placekitten.com/200/200" /> -->
                   Add label class
                 </calcite-tooltip>
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
           <div slot="shell-header">
