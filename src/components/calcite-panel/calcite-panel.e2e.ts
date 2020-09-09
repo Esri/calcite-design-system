@@ -41,9 +41,9 @@ describe("calcite-panel", () => {
   it("should be accessible", async () =>
     accessible(`
     <calcite-panel>
-      <div slot="${SLOTS.headerLeadingActions}">test L</div>
+      <div slot="${SLOTS.headerActionsStart}">test L</div>
       <div slot="${SLOTS.headerContent}">test center</div>
-      <div slot="${SLOTS.headerTrailingActions}">test T</div>
+      <div slot="${SLOTS.headerActionsEnd}">test T</div>
       <p>Content</p>
       <div slot="${SLOTS.footer}">test Footer</div>
     </calcite-panel>
