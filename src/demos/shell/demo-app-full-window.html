@@ -160,10 +160,10 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
-              <calcite-flow-item heading="Layer settings">
-                <calcite-action slot="menu-actions" text="Do a cool thing" text-enabled></calcite-action>
-                <calcite-action slot="menu-actions" text="Do a cool thing" text-enabled></calcite-action>
-                <calcite-action slot="menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+              <calcite-panel heading="Layer settings">
+                <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+                <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+                <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
                 <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
                   <calcite-block-content>
                     <calcite-value-list id="one" multiple filter-enabled>
@@ -227,9 +227,9 @@
                 </calcite-block>
                 <button slot="footer-actions">Save</button>
                 <button slot="footer-actions">Cancel</button>
-              </calcite-flow-item>
-              <calcite-flow-item heading="Deeper flow item">
-                <calcite-action slot="menu-actions" icon="banana" label="this is bananas" text-enabled></calcite-action>
+              </calcite-panel>
+              <calcite-panel heading="Deeper flow item">
+                <calcite-action slot="header-actions-end" icon="banana" label="this is bananas" text-enabled></calcite-action>
                 <calcite-value-list id="one" multiple filter-enabled>
                   <calcite-value-list-item
                     text-label="2018PopulationDensityEsriAndEvenLonger"
@@ -357,7 +357,7 @@
                 <calcite-button slot="footer-actions" width="half">Save</calcite-button>
                 <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
                 <calcite-fab slot="fab" label="Add Item" text="Add"></calcite-fab>
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
           <div slot="shell-header">

@@ -86,7 +86,7 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-              <calcite-flow-item heading="Layers" style="padding: 10px;">
+              <calcite-panel heading="Layers">
                 <calcite-label>
                   It's a label.
                   <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -96,7 +96,7 @@
                 <!-- <div id="layerlist-container"></div> -->
                 <!-- <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab> -->
                 <!-- <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip> -->
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
 
@@ -126,11 +126,30 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
-              <calcite-flow-item
+              <calcite-panel
                 heading="Configure popup"
                 summary="Popular Demographics in the United States (Beta) - County"
               >
                 <calcite-block heading="Basic" summary="Collapsible with section" collapsible>
+                  <calcite-value-list id="one" multiple filter-enabled>
+                    <calcite-action slot="menu-actions" indicator text="Cool" scale="s" icon="hamburger"> </calcite-action>
+                    <calcite-value-list-item text-label="Dogs" text-description="Man's best friend" value="dogs">
+                      <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="x">
+                      </calcite-action>
+                    </calcite-value-list-item>
+                    <calcite-value-list-item text-label="Cats" text-description="Independent and fluffy" value="cats">
+                      <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="x">
+                      </calcite-action>
+                    </calcite-value-list-item>
+                    <calcite-value-list-item
+                      text-label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
+                      text-description="Easy to care for."
+                      value="fish"
+                    >
+                      <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="x">
+                      </calcite-action>
+                    </calcite-value-list-item>
+                  </calcite-value-list>
                   
                   <!-- Using Button -->
                   <calcite-label scale="s">
@@ -498,7 +517,7 @@
                 <calcite-tooltip reference-element="label-fab" disable-pointer>
                   Add label class
                 </calcite-tooltip>
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
           <div class="gnav" slot="shell-header">

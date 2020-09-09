@@ -20,14 +20,14 @@ $start-alpha: 0.5;
   }
 
   .frame--advancing {
-    animation: calcite-flow-item-advance $transition;
+    animation: calcite-panel-advance $transition;
   }
 
   .frame--retreating {
-    animation: calcite-flow-item-retreat $transition;
+    animation: calcite-panel-retreat $transition;
   }
 
-  @keyframes calcite-flow-item-advance {
+  @keyframes calcite-panel-advance {
     0% {
       opacity: $start-alpha;
       transform: translate3d(50px, 0, 0);
@@ -38,7 +38,7 @@ $start-alpha: 0.5;
     }
   }
 
-  @keyframes calcite-flow-item-retreat {
+  @keyframes calcite-panel-retreat {
     0% {
       opacity: $start-alpha;
       transform: translate3d(-50px, 0, 0);

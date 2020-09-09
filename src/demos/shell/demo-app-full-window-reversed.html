@@ -160,10 +160,10 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
-              <calcite-flow-item heading="Layer settings">
-                <calcite-action slot="menu-actions" text="Do a cool thing" text-enabled></calcite-action>
-                <calcite-action slot="menu-actions" text="Do a cool thing" text-enabled></calcite-action>
-                <calcite-action slot="menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+              <calcite-panel heading="Layer settings">
+                <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+                <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
+                <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
                 <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
                   <calcite-block-content>
                     <calcite-value-list id="one" multiple filter-enabled>
@@ -224,8 +224,8 @@
                 </calcite-block>
                 <button slot="footer-actions">Save</button>
                 <button slot="footer-actions">Cancel</button>
-              </calcite-flow-item>
-              <calcite-flow-item heading="Deeper flow item">
+              </calcite-panel>
+              <calcite-panel heading="Deeper flow item">
                 <calcite-value-list id="one" multiple filter-enabled>
                   <calcite-value-list-item
                     text-label="2018 Population Density (Esri)"
@@ -344,7 +344,7 @@
                 </calcite-block>
                 <calcite-button slot="footer-actions" width="half">Save</calcite-button>
                 <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
           <div slot="shell-header">
@@ -429,8 +429,8 @@
               value="4"
             ></calcite-pick-list-item>
           </calcite-pick-list>
-          <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-          <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
+          <calcite-button slot="footer-actions" width="half">Yeah!</calcite-button>
+          <calcite-button slot="footer-actions" width="half" appearance="clear">Naw.</calcite-button>
         </calcite-panel>
       </calcite-popover>
       <script>

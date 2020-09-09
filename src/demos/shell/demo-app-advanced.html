@@ -94,11 +94,11 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-                <calcite-flow-item heading="Layers">
+                <calcite-panel heading="Layers">
                     <div id="layerlist-container"></div>
                     <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
                     <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip>
-                </calcite-flow-item>
+                </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
 
@@ -128,11 +128,11 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
-              <calcite-flow-item
+              <calcite-panel
                 heading="Configure popup"
                 summary="Popular Demographics in the United States (Beta) - County"
               >
-              <calcite-action slot="menu-actions" icon="x" text="Close">
+              <calcite-action slot="header-actions-end" icon="x" text="Close">
               </calcite-action>
               
                 <calcite-block heading="Title"  summary="County: {NAME}" collapsible>
@@ -229,7 +229,7 @@
                   <!-- <img src="https://placekitten.com/200/200" /> -->
                   Add label class
                 </calcite-tooltip>
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
           <div class="gnav" slot="shell-header">

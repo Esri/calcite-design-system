@@ -105,11 +105,12 @@ Type: `Promise<void>`
 | --------------------------- | -------------------------------------------------------------------------------- |
 |                             | A slot for adding content to the panel.                                          |
 | `"fab"`                     | A slot for adding a `calcite-fab` (floating action button) to perform an action. |
-| `"footer"`                  | A slot for adding `calcite-button`s to the footer.                               |
-| `"header-content"`          | A slot for adding content in the center of the header.                           |
+| `"footer"`                  | A slot for adding a custom the footer.                               |
+| `"footer-actions"`          | A slot for adding  buttons to the footer.                               |
+| `"header-content"`          | A slot for adding a custom header.                           |
 | `"header-actions-start"`  | A slot for adding a `calcite-action` on the leading side of the header.          |
 | `"header-actions-end"` | A slot for adding a `calcite-action` on the trailing side of the header.         |
-| `header-menu-actions` | A slot for adding multiple menu items under an overflow button. |
+| `"header-menu-actions"` | A slot for adding multiple menu items under an overflow button. |
 
 ## Dependencies
 
@@ -131,7 +132,6 @@ graph TD;
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-scrim --> calcite-loader
-  calcite-flow-item --> calcite-panel
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

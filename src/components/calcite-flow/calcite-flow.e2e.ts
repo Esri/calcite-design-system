@@ -162,7 +162,7 @@ describe("calcite-flow", () => {
     expect(frame).not.toHaveClass(CSS.frameAdvancing);
   });
 
-  it("flow-item properties should be set", async () => {
+  it("panel properties should be set", async () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-flow></calcite-flow>");
