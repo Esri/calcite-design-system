@@ -355,12 +355,19 @@ export class CalcitePopover {
 
     return (
       <Host role="dialog" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
-        {arrowNode}
-        <div class={CSS.container}>
-          {this.renderImage()}
-          <div class={CSS.content}>
-            <slot />
-            {this.renderCloseButton()}
+        <div
+          class={{
+            [CSS.anim]: true,
+            [CSS.animActive]: displayed
+          }}
+        >
+          {arrowNode}
+          <div class={CSS.container}>
+            {this.renderImage()}
+            <div class={CSS.content}>
+              <slot />
+              {this.renderCloseButton()}
+            </div>
           </div>
         </div>
       </Host>

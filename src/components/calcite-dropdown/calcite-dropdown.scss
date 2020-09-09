@@ -1,7 +1,6 @@
 :host {
   position: relative;
   display: inline-block;
-  --calcite-popper-transition: #{$transition};
 }
 
 // disabled styles
@@ -20,48 +19,20 @@
   pointer-events: none;
 }
 
+@include popperElemAnim(".calcite-dropdown-wrapper");
+
 :host([active]) .calcite-dropdown-wrapper {
   pointer-events: initial;
   visibility: visible;
 }
 
-:host .dropdown-animation-wrapper {
-  position: relative;
-  z-index: 1;
+:host .calcite-dropdown-content {
   background: var(--calcite-ui-foreground-1);
-  transition: var(--calcite-popper-transition);
-  visibility: hidden;
-  transition-property: transform, visibility, opacity;
-  opacity: 0;
   max-height: 90vh;
   overflow: hidden;
   overflow-y: auto;
   width: auto;
   width: var(--calcite-dropdown-width);
-  border-radius: var(--calcite-border-radius);
-  box-shadow: $shadow-2;
-}
-
-:host [data-popper-placement^="bottom"] .dropdown-animation-wrapper {
-  transform: translateY(-5px);
-}
-
-:host [data-popper-placement^="top"] .dropdown-animation-wrapper {
-  transform: translateY(5px);
-}
-
-:host [data-popper-placement^="left"] .dropdown-animation-wrapper {
-  transform: translateX(5px);
-}
-
-:host [data-popper-placement^="right"] .dropdown-animation-wrapper {
-  transform: translateX(-5px);
-}
-
-:host([active]) .dropdown-animation-wrapper {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(0);
 }
 
 .calcite-dropdown-trigger-container {

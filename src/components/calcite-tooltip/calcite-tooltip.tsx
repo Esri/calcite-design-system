@@ -240,9 +240,16 @@ export class CalciteTooltip {
 
     return (
       <Host role="tooltip" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
-        <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
-        <div class={CSS.container}>
-          <slot />
+        <div
+          class={{
+            [CSS.anim]: true,
+            [CSS.animActive]: displayed
+          }}
+        >
+          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
+          <div class={CSS.container}>
+            <slot />
+          </div>
         </div>
       </Host>
     );

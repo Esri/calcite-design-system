@@ -151,7 +151,11 @@ export class CalciteDropdown {
           role="menu"
         >
           <div
-            class="dropdown-animation-wrapper"
+            class={{
+              ["calcite-dropdown-content"]: true,
+              ["calcite-popper-anim"]: true,
+              ["calcite-popper-anim--active"]: active
+            }}
             style={{
               maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
             }}
