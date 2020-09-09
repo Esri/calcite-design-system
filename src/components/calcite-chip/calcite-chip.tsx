@@ -13,26 +13,26 @@ export class CalciteChip {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  @Prop() value!: string;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** specify the scale of the chip, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** specify the color of the button, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color: "blue" | "red" | "yellow" | "green" | "grey" =
-    "grey";
 
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ mutable: true, reflect: true }) appearance: "solid" | "clear" = "solid";
+  @Prop({ reflect: true }) appearance: "solid" | "clear" = "solid";
+
+  /** specify the color of the button, defaults to blue */
+  @Prop({ reflect: true }) color: "blue" | "red" | "yellow" | "green" | "grey" = "grey";
+
+  /** Optionally show a button the user can click to dismiss the chip */
+  @Prop({ reflect: true }) dismissible?: boolean = false;
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
-  /** Optionally show a button the user can click to dismiss the chip */
-  @Prop({ reflect: true }) dismissible?: boolean = false;
+  /** specify the scale of the chip, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
+  @Prop() value!: string;
 
   // --------------------------------------------------------------------------
   //
@@ -67,17 +67,6 @@ export class CalciteChip {
   //  Render Methods
   //
   //--------------------------------------------------------------------------
-  connectedCallback() {
-    // prop validations
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    const appearance = ["solid", "clear"];
-    if (!appearance.includes(this.appearance)) this.appearance = "solid";
-
-    const color = ["blue", "green", "grey", "yellow", "red"];
-    if (!color.includes(this.color)) this.color = "grey";
-  }
 
   render() {
     const dir = getElementDir(this.el);

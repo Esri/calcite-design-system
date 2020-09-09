@@ -21,26 +21,26 @@ import { getKey } from "../../utils/key";
 export class CalciteSwitch {
   @Element() el: HTMLCalciteSwitchElement;
 
-  /** True if the switch is initially on */
-  @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
+  /** True if the switch is disabled */
+  @Prop({ reflect: true }) disabled?: boolean = false;
+
+  /** What color the switch should be */
+  @Prop({ reflect: true }) color: "red" | "blue" = "blue";
 
   /** The name of the checkbox input */
   @Prop({ reflect: true, mutable: true }) name?: string = "";
 
-  /** The value of the checkbox input */
-  @Prop({ reflect: true, mutable: true }) value?: string = "";
-
-  /** What color the switch should be */
-  @Prop({ reflect: true, mutable: true }) color: "red" | "blue" = "blue";
-
   /** The scale of the switch */
-  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** True if the switch is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  /** True if the switch is initially on */
+  @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
 
   /** The component's theme. */
   @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** The value of the checkbox input */
+  @Prop({ reflect: true, mutable: true }) value?: string = "";
 
   @Event() calciteSwitchChange: EventEmitter;
 
@@ -83,12 +83,6 @@ export class CalciteSwitch {
   private inputProxy: HTMLInputElement;
 
   connectedCallback() {
-    // prop validations
-    const color = ["blue", "red"];
-    if (!color.includes(this.color)) this.color = "blue";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
     this.setupProxyInput();
   }
 

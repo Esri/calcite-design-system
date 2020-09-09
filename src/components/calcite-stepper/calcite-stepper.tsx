@@ -33,20 +33,20 @@ export class CalciteStepper {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the theme of stepper, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** specify the scale of stepper, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** optionally display the number next to the step title */
-  @Prop({ mutable: true, reflect: true }) numbered = false;
-
   /** optionally display a status icon next to the step title */
-  @Prop({ mutable: true, reflect: true }) icon = false;
+  @Prop({ reflect: true }) icon = false;
 
   /** specify the layout of stepper, defaults to horizontal */
-  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  /** optionally display the number next to the step title */
+  @Prop({ reflect: true }) numbered = false;
+
+  /** specify the scale of stepper, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** specify the theme of stepper, defaults to light */
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** @internal */
   @Prop() requestedContent: HTMLElement[] | HTMLElement;
@@ -69,21 +69,6 @@ export class CalciteStepper {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // validate props
-    const layout = ["horizontal", "vertical"];
-    if (!layout.includes(this.layout)) this.layout = "horizontal";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    const numbered = [true, false];
-    if (!numbered.includes(this.numbered)) this.numbered = false;
-
-    const icon = [true, false];
-    if (!icon.includes(this.icon)) this.icon = false;
-  }
 
   componentDidLoad() {
     // if no stepper items are set as active, default to the first one

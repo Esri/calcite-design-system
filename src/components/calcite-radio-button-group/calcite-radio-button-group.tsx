@@ -37,16 +37,7 @@ export class CalciteRadioButtonGroup {
   }
 
   /** The layout direction of the radio buttons in a group. */
-  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
-
-  @Watch("layout")
-  validateLayout(newLayout: string) {
-    const layouts = ["horizontal", "vertical"];
-    if (!layouts.includes(newLayout)) {
-      this.layout = "horizontal";
-      this.passPropsToRadioButtons();
-    }
-  }
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   /** The name of the radio button group. <code>name</code> must be unique to other radio button group instances. */
   @Prop({ reflect: true }) name!: string;
@@ -55,28 +46,10 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) required = false;
 
   /** The scale (size) of the radio button group. */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  @Watch("scale")
-  validateScale(newScale: string) {
-    const scales = ["s", "m", "l"];
-    if (!scales.includes(newScale)) {
-      this.scale = "m";
-      this.passPropsToRadioButtons();
-    }
-  }
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** The color theme of the radio button group. */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
-
-  @Watch("theme")
-  validateTheme(newTheme: string) {
-    const themes = ["light", "dark"];
-    if (!themes.includes(newTheme)) {
-      this.theme = "light";
-      this.passPropsToRadioButtons();
-    }
-  }
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
   //--------------------------------------------------------------------------
   //
@@ -85,9 +58,6 @@ export class CalciteRadioButtonGroup {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    this.validateLayout(this.layout);
-    this.validateScale(this.scale);
-    this.validateTheme(this.theme);
     this.passPropsToRadioButtons();
   }
 

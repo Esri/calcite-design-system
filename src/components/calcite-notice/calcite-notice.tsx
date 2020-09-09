@@ -39,19 +39,7 @@ export class CalciteNotice {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Color for the notice (will apply to top border and icon) */
-  @Prop({ reflect: true, mutable: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
-
-  /** String for the close button. */
-  @Prop({ reflect: false }) intlClose: string = TEXT.close;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** specify the scale of the notice, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** specify the width of the notice, defaults to m */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
+  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
 
   /** Optionally show a button the user can click to dismiss the notice */
   @Prop({ reflect: true }) dismissible?: boolean = false;
@@ -59,23 +47,23 @@ export class CalciteNotice {
   /** If false, no icon will be shown in the notice */
   @Prop() icon = false;
 
+  /** String for the close button. */
+  @Prop({ reflect: false }) intlClose: string = TEXT.close;
+
+  /** specify the scale of the notice, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** specify the width of the notice, defaults to m */
+  @Prop({ reflect: true }) width: "auto" | "half" | "full" = "auto";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // prop validations
-    const colors = ["blue", "red", "green", "yellow"];
-    if (!colors.includes(this.color)) this.color = "blue";
-
-    const scales = ["s", "m", "l"];
-    if (!scales.includes(this.scale)) this.scale = "m";
-
-    const widths = ["auto", "half", "full"];
-    if (!widths.includes(this.width)) this.width = "auto";
-  }
 
   componentDidLoad() {
     this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;

@@ -41,8 +41,13 @@ export class CalciteCheckbox {
     this.calciteCheckboxChange.emit();
   }
 
-  /** The hovered state of the checkbox. */
-  @Prop({ reflect: true, mutable: true }) hovered = false;
+  /** True if the checkbox is disabled */
+  @Prop({ reflect: true }) disabled?: boolean = false;
+
+  @Watch("disabled")
+  disabledChanged(disabled: boolean) {
+    this.input.disabled = disabled;
+  }
 
   /** The focused state of the checkbox. */
   @Prop({ mutable: true, reflect: true }) focused = false;
@@ -59,6 +64,9 @@ export class CalciteCheckbox {
   /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true }) guid: string;
 
+  /** The hovered state of the checkbox. */
+  @Prop({ reflect: true, mutable: true }) hovered = false;
+
   /**
    * True if the checkbox is initially indeterminate,
    * which is independent from its checked state
@@ -74,22 +82,14 @@ export class CalciteCheckbox {
     this.input.name = newName;
   }
 
-  /** The value of the checkbox input */
-  @Prop({ reflect: true }) value?: string;
-
   /** specify the scale of the checkbox, defaults to m */
-  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
-
-  /** True if the checkbox is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
-
-  @Watch("disabled")
-  disabledChanged(disabled: boolean) {
-    this.input.disabled = disabled;
-  }
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Determines what theme to use */
   @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** The value of the checkbox input */
+  @Prop({ reflect: true }) value?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -176,8 +176,6 @@ export class CalciteCheckbox {
   connectedCallback() {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
     this.renderHiddenCheckboxInput();
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
   }
 
   disconnectedCallback() {

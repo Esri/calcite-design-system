@@ -51,25 +51,24 @@ export class CalciteAlert {
   @Prop() autoDismiss = false;
 
   /** Duration of autoDismiss (only used with `autoDismiss`) */
-  @Prop({ reflect: true, mutable: true }) autoDismissDuration: "fast" | "medium" | "slow" = this
-    .autoDismiss
+  @Prop({ reflect: true }) autoDismissDuration: "fast" | "medium" | "slow" = this.autoDismiss
     ? "medium"
     : null;
 
   /** Color for the alert (will apply to top border and icon) */
-  @Prop({ reflect: true, mutable: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** specify the scale of the button, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
 
   /** specify if the alert should display an icon */
   @Prop() icon = false;
 
   /** string to override English close text */
   @Prop() intlClose: string = TEXT.intlClose;
+
+  /** specify the scale of the button, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   //--------------------------------------------------------------------------
   //
@@ -78,17 +77,6 @@ export class CalciteAlert {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    // prop validations
-    const colors = ["blue", "red", "green", "yellow"];
-    if (!colors.includes(this.color)) this.color = "blue";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    const durations = ["slow", "medium", "fast"];
-    if (this.autoDismissDuration !== null && !durations.includes(this.autoDismissDuration)) {
-      this.autoDismissDuration = "medium";
-    }
     if (this.active && !this.queued) this.calciteAlertRegister.emit();
   }
 
