@@ -86,11 +86,10 @@ export class CalcitePopover {
 
   @Watch("open")
   openHandler(open: boolean) {
+    this.reposition();
     if (open) {
-      this.createPopper();
       this.calcitePopoverOpen.emit();
     } else {
-      this.destroyPopper();
       this.calcitePopoverClose.emit();
     }
   }
@@ -292,13 +291,12 @@ export class CalcitePopover {
 
   createPopper(): void {
     this.destroyPopper();
-    const { el, open, placement, _referenceElement: referenceEl } = this;
+    const { el, placement, _referenceElement: referenceEl } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
-      open,
       placement,
       referenceEl
     });
@@ -357,12 +355,19 @@ export class CalcitePopover {
 
     return (
       <Host role="dialog" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
-        {arrowNode}
-        <div class={CSS.container}>
-          {this.renderImage()}
-          <div class={CSS.content}>
-            <slot />
-            {this.renderCloseButton()}
+        <div
+          class={{
+            [CSS.anim]: true,
+            [CSS.animActive]: displayed
+          }}
+        >
+          {arrowNode}
+          <div class={CSS.container}>
+            {this.renderImage()}
+            <div class={CSS.content}>
+              <slot />
+              {this.renderCloseButton()}
+            </div>
           </div>
         </div>
       </Host>
