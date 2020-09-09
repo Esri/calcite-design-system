@@ -1,5 +1,6 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { getElementProp } from "../utils/dom";
 
 @Component({
   tag: "calcite-input-message",
@@ -27,10 +28,10 @@ export class CalciteInputMessage {
   @Prop({ reflect: true }) icon: boolean;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle";
+  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 
   /** specify the theme, defaults to light */
   @Prop({ reflect: true }) theme: "light" | "dark";
@@ -43,6 +44,11 @@ export class CalciteInputMessage {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback() {
+    this.status = getElementProp(this.el.parentElement, "status", this.status);
+    this.scale = getElementProp(this.el.parentElement, "scale", this.scale);
+  }
 
   componentWillUpdate() {
     this.iconEl = this.setIcon(this.iconDefaults[this.status]);

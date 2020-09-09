@@ -56,7 +56,7 @@ export class CalciteRadioGroup {
   }
 
   /** The scale of the radio group */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /**
    * The group's selected item.

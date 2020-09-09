@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { getElementProp } from "../utils/dom";
 
 @Component({
   tag: "calcite-input",
@@ -90,10 +91,10 @@ export class CalciteInput {
   @Prop() required = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle";
+  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 
   /** input step */
   @Prop({ reflect: true }) step?: number;
@@ -138,6 +139,9 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.status = getElementProp(this.el, "status", this.status);
+    this.scale = getElementProp(this.el, "scale", this.scale);
+
     // if an icon string is not provided, but icon is true and a default icon is present
     // for the requested type, set that as the icon
     const typesWithIcons = ["date", "email", "password", "search", "tel", "time"];

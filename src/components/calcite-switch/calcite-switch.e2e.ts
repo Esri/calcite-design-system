@@ -159,19 +159,12 @@ describe("calcite-switch", () => {
     expect(element).toEqualAttribute("color", "red");
   });
 
-  it("validates incorrect props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch scale="zop" color="zim"></calcite-switch>`);
-
-    const element = await page.find("calcite-switch");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("color", "blue");
-  });
-
   it("renders default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-switch></calcite-switch>`);
+
+    await page.waitForChanges();
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("scale", "m");
