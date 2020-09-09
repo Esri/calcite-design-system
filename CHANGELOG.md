@@ -1,9 +1,24 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+This document maintains a list of released versions and changes introduced by them.
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+## [1.0.0-beta.38](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.37...v1.0.0-beta.38) (2020-09-04)
+
+### Features
+
+- **calcite-label:** adds disable-spacing property also updates label-text spacing ([2cca2c6](https://github.com/Esri/calcite-components/commit/2cca2c6f2cf215240841df9b1c135cbf1de33e3c)), closes [#916](https://github.com/Esri/calcite-components/issues/916) [#916](https://github.com/Esri/calcite-components/issues/916)
+- **label:** Adds disabled prop to label, radio-group ([#923](https://github.com/Esri/calcite-components/issues/923)) ([cc34b51](https://github.com/Esri/calcite-components/commit/cc34b51914d100b68d529b81bf39faee4c1b7b93))
+- **label:** Updates alignment and spacing ([#914](https://github.com/Esri/calcite-components/issues/914)) ([943e5c2](https://github.com/Esri/calcite-components/commit/943e5c2318fd9ba2661e55ef712c7e2788aa9a09))
+- **split-button:** add secondary click event ([#889](https://github.com/Esri/calcite-components/issues/889)) ([bb3b141](https://github.com/Esri/calcite-components/commit/bb3b141336c855a418b6cdcc53e807c87714946d))
+- **tabs:** add tab-title disabled state ([#879](https://github.com/Esri/calcite-components/issues/879)) ([adef10f](https://github.com/Esri/calcite-components/commit/adef10f5c0f341f3b6198ffafa587ed1f649ecf1))
+
+### Bug Fixes
+
+- **dropdown:** fix tab through ([#880](https://github.com/Esri/calcite-components/issues/880)) ([acbef6f](https://github.com/Esri/calcite-components/commit/acbef6f47726d5cc8dd28f385b84126deb90304d))
+- **input:** emit calcite input input on up and down click on number input [#886](https://github.com/Esri/calcite-components/issues/886) ([#888](https://github.com/Esri/calcite-components/issues/888)) ([01a140b](https://github.com/Esri/calcite-components/commit/01a140bbe89e4208e2be6f889891633c12ccc826))
+- **input:** No longer set clearable by default on type date or time ([#895](https://github.com/Esri/calcite-components/issues/895)) ([d5d9d6a](https://github.com/Esri/calcite-components/commit/d5d9d6a0fb620c69e329ca4454bd30311e5bf007))
+- **tree:** change tabindex to 0 to prevent forced first tab stop on page ([#911](https://github.com/Esri/calcite-components/issues/911)) ([ef4a7ad](https://github.com/Esri/calcite-components/commit/ef4a7adfc7572411717d77f6240497f095730362)), closes [#634](https://github.com/Esri/calcite-components/issues/634)
 
 ## 1.0.0-beta.37
 
