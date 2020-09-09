@@ -17,9 +17,6 @@
 :host .calcite-dropdown-wrapper {
   @include popperContainer();
   visibility: hidden;
-  background: var(--calcite-ui-foreground-1);
-  border-radius: var(--calcite-border-radius);
-  box-shadow: $shadow-2;
   pointer-events: none;
 }
 
@@ -41,6 +38,8 @@
   overflow-y: auto;
   width: auto;
   width: var(--calcite-dropdown-width);
+  border-radius: var(--calcite-border-radius);
+  box-shadow: $shadow-2;
 }
 
 :host [data-popper-placement^="bottom"] .dropdown-animation-wrapper {
