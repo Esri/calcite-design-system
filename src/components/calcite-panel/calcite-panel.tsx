@@ -282,7 +282,9 @@ export class CalcitePanel {
   // --------------------------------------------------------------------------
 
   renderBackButton(): VNode {
-    const rtl = getElementDir(this.el) === "rtl";
+    const { el } = this;
+
+    const rtl = getElementDir(el) === "rtl";
     const { showBackButton, intlBack, backButtonClick } = this;
     const label = intlBack || TEXT.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
@@ -393,7 +395,8 @@ export class CalcitePanel {
   }
 
   renderMenu(): VNode {
-    const hasMenuItems = getSlotted(this.el, SLOTS.headerMenuActions);
+    const { el } = this;
+    const hasMenuItems = getSlotted(el, SLOTS.headerMenuActions);
 
     return hasMenuItems ? (
       <div class={CSS.menuContainer} onKeyDown={this.menuActionsContainerKeyDown}>
@@ -404,10 +407,11 @@ export class CalcitePanel {
   }
 
   renderHeaderNode(): VNode {
-    const hasHeaderSlotContent = getSlotted(this.el, SLOTS.headerContent);
+    const { el } = this;
+    const hasHeaderSlottedContent = getSlotted(el, SLOTS.headerContent);
     const backButtonNode = this.renderBackButton();
-    const hasStartActions = getSlotted(this.el, SLOTS.headerActionsStart);
-    const headerContentNode = hasHeaderSlotContent
+    const hasStartActions = getSlotted(el, SLOTS.headerActionsStart);
+    const headerContentNode = hasHeaderSlottedContent
       ? this.renderHeaderSlottedContent()
       : this.renderHeaderContent();
     const endActionsNode = this.renderHeaderEndContent();
@@ -424,16 +428,38 @@ export class CalcitePanel {
     ) : null;
   }
 
-  renderFooter(): VNode {
+  /**
+   * Allows user to override the entire footer node.
+   */
+  renderFooterSlottedContent(): VNode {
     const { el } = this;
 
-    const hasFooter = getSlotted(el, SLOTS.footer);
+    const hasFooterSlottedContent = getSlotted(el, SLOTS.footer);
 
-    return hasFooter ? (
+    return hasFooterSlottedContent ? (
       <footer class={CSS.footer}>
         <slot name={SLOTS.footer} />
       </footer>
     ) : null;
+  }
+
+  renderFooterActions(): VNode {
+    const { el } = this;
+
+    const hasFooterActions = getSlotted(el, SLOTS.footerActions);
+    
+    return hasFooterActions ? (
+      <footer>
+        <slot name={SLOTS.footerActions}></slot>
+      </footer>
+    ) : null;
+  }
+
+  renderFooter(): VNode {
+    const footerContentNode = this.renderFooterSlottedContent()
+    const footerActionsNode = this.renderFooterActions();
+
+    return footerContentNode || footerActionsNode;
   }
 
   renderContent(): VNode {
@@ -446,7 +472,9 @@ export class CalcitePanel {
   }
 
   renderFab(): VNode {
-    const hasFab = getSlotted(this.el, SLOTS.fab);
+    const { el } = this;
+    
+    const hasFab = getSlotted(el, SLOTS.fab);
 
     return hasFab ? (
       <div class={CSS.fabContainer}>
