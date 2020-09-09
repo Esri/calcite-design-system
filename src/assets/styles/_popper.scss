@@ -3,6 +3,10 @@ $popper-transform-top: translateY(5px);
 $popper-transform-left: translateX(5px);
 $popper-transform-right: translateX(-5px);
 
+:root {
+  --calcite-popper-transition: #{$transition};
+}
+
 @mixin popperAnim {
   .calcite-popper-anim {
     position: relative;
@@ -24,8 +28,6 @@ $popper-transform-right: translateX(-5px);
 
 @mixin popperElemAnim($selector) {
   #{$selector} {
-    --calcite-popper-transition: #{$transition};
-
     @include popperAnim();
 
     &[data-popper-placement^="bottom"] .calcite-popper-anim {
@@ -51,10 +53,6 @@ $popper-transform-right: translateX(-5px);
 }
 
 @mixin popperHostAnim {
-  :host {
-    --calcite-popper-transition: #{$transition};
-  }
-
   @include popperAnim();
 
   :host([data-popper-placement^="bottom"]) .calcite-popper-anim {
