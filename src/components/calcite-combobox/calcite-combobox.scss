@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  position: relative;
+}
+
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
@@ -22,11 +27,6 @@
   --calcite-combobox-item-spacing-unit-s: 16px;
 }
 
-:host {
-  display: block;
-  position: relative;
-}
-
 [role="combobox"] {
   display: flex;
 }
@@ -39,43 +39,34 @@ input {
   background-color: var(--calcite-ui-foreground-1);
   border: 1px solid var(--calcite-ui-border-1);
   color: 1px solid var(--calcite-ui-text-1);
-}
-
-input {
   @include focus-style-base();
   &:focus {
     @include focus-style-inset();
   }
 }
 
-.list {
-  transform: translate3d(0, -$baseline, 0);
-  transition: all 0.15s ease-in-out;
+.list-container {
+  @include popperContainer();
   visibility: hidden;
-  opacity: 0;
-  display: block;
-  position: absolute;
-  left: 0;
-  z-index: 200;
-  overflow: hidden;
-  max-height: 0;
-  width: auto;
-  width: var(--calcite-dropdown-width);
-  background: var(--calcite-ui-foreground-1);
-  border-radius: var(--calcite-border-radius);
-  box-shadow: $shadow-2;
   pointer-events: none;
-  margin: 0;
-  padding: 0;
-  right: 0;
 }
 
-:host([active]) .list {
-  transform: translate3d(0, 0, 0);
-  opacity: 1;
-  max-height: 100vh;
-  visibility: visible;
+@include popperElemAnim(".list-container");
+
+:host([active]) .list-container {
+  width: 100%;
   pointer-events: initial;
+  visibility: visible;
+}
+
+.list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  max-height: 100vh;
+  width: var(--calcite-dropdown-width);
+  background: var(--calcite-ui-foreground-1);
+  overflow: hidden;
   overflow-y: scroll;
 }
 

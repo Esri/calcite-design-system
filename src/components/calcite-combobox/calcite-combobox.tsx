@@ -9,12 +9,16 @@ import {
   EventEmitter,
   Element,
   VNode,
-  Build
+  Build,
+  Method,
+  Watch
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { getKey } from "../../utils/key";
+import { createPopper, updatePopper } from "../../utils/popper";
+import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
 
@@ -36,6 +40,11 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   @Prop({ reflect: true }) active = false;
+
+  @Watch("active")
+  activeHandler(): void {
+    this.reposition();
+  }
 
   @Prop({ reflect: true }) disabled = false;
 
@@ -69,6 +78,12 @@ export class CalciteCombobox {
 
   observer: MutationObserver = null;
 
+  private popper: Popper;
+
+  private menuEl: HTMLDivElement;
+
+  private referenceEl: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -82,6 +97,8 @@ export class CalciteCombobox {
     if (Build.isBrowser) {
       this.observer = new MutationObserver(this.updateItems);
     }
+
+    this.createPopper();
   }
 
   componentWillLoad(): void {
@@ -94,6 +111,28 @@ export class CalciteCombobox {
 
   disconnectedCallback(): void {
     this.observer?.disconnect();
+    this.destroyPopper();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async reposition(): Promise<void> {
+    const { popper, menuEl } = this;
+    const modifiers = this.getModifiers();
+
+    popper
+      ? updatePopper({
+          el: menuEl,
+          modifiers,
+          placement: "bottom-start",
+          popper
+        })
+      : this.createPopper();
   }
 
   // --------------------------------------------------------------------------
@@ -106,15 +145,13 @@ export class CalciteCombobox {
 
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  @Listen("calciteComboboxItemChange") calciteComboboxItemChangeHandler(
-    event: CustomEvent<HTMLCalciteComboboxItemElement>
-  ): void {
+  @Listen("calciteComboboxItemChange")
+  calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
     this.toggleSelection(event.detail);
   }
 
-  @Listen("calciteChipDismiss") calciteChipDismissHandler(
-    event: CustomEvent<HTMLCalciteChipElement>
-  ): void {
+  @Listen("calciteChipDismiss")
+  calciteChipDismissHandler(event: CustomEvent<HTMLCalciteChipElement>): void {
     this.textInput.focus();
 
     const value = event.detail?.value;
@@ -131,12 +168,56 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
+  setMenuEl = (el: HTMLDivElement): void => {
+    this.menuEl = el;
+  };
+
+  setReferenceEl = (el: HTMLDivElement): void => {
+    this.referenceEl = el;
+  };
+
+  getModifiers(): Partial<StrictModifiers>[] {
+    const flipModifier: Partial<StrictModifiers> = {
+      name: "flip",
+      enabled: true
+    };
+
+    flipModifier.options = {
+      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+    };
+
+    return [flipModifier];
+  }
+
+  createPopper(): void {
+    this.destroyPopper();
+    const { menuEl, referenceEl } = this;
+    const modifiers = this.getModifiers();
+
+    this.popper = createPopper({
+      el: menuEl,
+      modifiers,
+      placement: "bottom-start",
+      referenceEl
+    });
+  }
+
+  destroyPopper(): void {
+    const { popper } = this;
+
+    if (popper) {
+      popper.destroy();
+    }
+
+    this.popper = null;
+  }
+
   inputHandler = (event: Event): void => {
     const target = event.target as HTMLInputElement;
     this.filterItems(target.value);
   };
 
-  handleInputKeyDown(event: KeyboardEvent): void {
+  handleInputKeyDown = (event: KeyboardEvent): void => {
     if (event.target === this.textInput) {
       const key = getKey(event.key);
       if (event.shiftKey && key === "Tab") {
@@ -152,7 +233,7 @@ export class CalciteCombobox {
         this.textInput.focus();
       }
     }
-  }
+  };
 
   filterItems = debounce((value: string): void => {
     const filteredData = filter(this.data, value);
@@ -220,7 +301,8 @@ export class CalciteCombobox {
       });
   }
 
-  @Listen("calciteComboboxItemKeyEvent") calciteComboboxItemKeyEventHandler(
+  @Listen("calciteComboboxItemKeyEvent")
+  calciteComboboxItemKeyEventHandler(
     event: CustomEvent<{
       event: KeyboardEvent;
       item: HTMLCalciteComboboxItemElement;
@@ -299,11 +381,12 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   render(): VNode {
+    const { active } = this;
     const dir = getElementDir(this.el);
     const listBoxId = "listbox";
     return (
       <Host
-        active={this.active}
+        active={active}
         onFocusin={this.comboboxFocusHandler}
         onFocusout={this.comboboxFocusHandler}
         dir={dir}
@@ -325,9 +408,10 @@ export class CalciteCombobox {
         </div>
         <div
           role="combobox"
-          aria-expanded={this.active.toString()}
+          aria-expanded={active.toString()}
           aria-owns={listBoxId}
           aria-haspopup="listbox"
+          ref={this.setReferenceEl}
         >
           <input
             type="text"
@@ -337,19 +421,25 @@ export class CalciteCombobox {
             aria-controls={listBoxId}
             onInput={this.inputHandler}
             disabled={this.disabled}
-            onKeyDown={(e) => this.handleInputKeyDown(e)}
+            onKeyDown={this.handleInputKeyDown}
             ref={(el) => (this.textInput = el as HTMLInputElement)}
           />
         </div>
-        <ul
-          id={listBoxId}
-          aria-label={this.label}
-          role="listbox"
-          class={{ list: true }}
-          aria-multiselectable="true"
-        >
-          <slot />
-        </ul>
+        <div class="list-container" ref={this.setMenuEl} aria-hidden={(!active).toString()}>
+          <ul
+            id={listBoxId}
+            aria-label={this.label}
+            role="listbox"
+            class={{
+              list: true,
+              ["calcite-popper-anim"]: true,
+              ["calcite-popper-anim--active"]: active
+            }}
+            aria-multiselectable="true"
+          >
+            <slot />
+          </ul>
+        </div>
       </Host>
     );
   }
