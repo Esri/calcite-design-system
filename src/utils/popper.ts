@@ -18,17 +18,15 @@ export function getPlacement(el: HTMLElement, placement: CalcitePlacement): Plac
 export function createPopper({
   referenceEl,
   el,
-  open,
   placement,
   modifiers
 }: {
   el: HTMLElement;
   modifiers: Partial<StrictModifiers>[];
-  open: boolean;
   placement: CalcitePlacement;
   referenceEl: HTMLElement;
 }): Popper | null {
-  if (!referenceEl || !open) {
+  if (!referenceEl) {
     return null;
   }
 

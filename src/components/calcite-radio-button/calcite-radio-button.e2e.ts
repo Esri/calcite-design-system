@@ -179,16 +179,16 @@ describe("calcite-radio-button", () => {
   it("clicking a radio updates its checked status", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-radio-button name="radio" id="first" value="one" checked>
+      <calcite-radio-button name="radio" value="one" checked>
         One
       </calcite-radio-button>
-      <calcite-radio-button name="radio" id="second" value="two">
+      <calcite-radio-button name="radio" value="two">
           Two
       </calcite-radio-button>
     `);
 
-    const first = await page.find("calcite-radio-button#first");
-    const second = await page.find("calcite-radio-button#second");
+    const first = await page.find("calcite-radio-button[value=one]");
+    const second = await page.find("calcite-radio-button[value=two]");
 
     await second.click();
     await page.waitForChanges();
@@ -239,12 +239,14 @@ describe("calcite-radio-button", () => {
       </calcite-radio-button>
     `);
     const documentBody = await page.evaluate(() => {
-      document.body.appendChild(document.querySelector("calcite-radio-button#first"));
+      const one = document.querySelector("calcite-radio-button[value=one]");
+      one.parentNode.removeChild(one);
+      document.body.appendChild(one);
       return document.body;
     });
     await page.waitForChanges();
 
-    const firstInput = document.querySelector("input#second");
+    const firstInput = document.querySelector("input#first");
 
     expect(documentBody.lastChild === firstInput);
   });
@@ -252,24 +254,24 @@ describe("calcite-radio-button", () => {
   it("programmatically checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-radio-button name="radio" id="first" value="one" checked>
+      <calcite-radio-button name="radio" value="one" checked>
             One
       </calcite-radio-button>
-      <calcite-radio-button name="radio" id="second" value="two">
+      <calcite-radio-button name="radio" value="two">
           Two
       </calcite-radio-button>
-      <calcite-radio-button name="radio" id="third" value="three">
+      <calcite-radio-button name="radio" value="three">
           Three
       </calcite-radio-button>
     `);
     await page.evaluate(() => {
-      const second = document.querySelector("calcite-radio-button#second");
+      const second = document.querySelector("calcite-radio-button[value=two]");
       (second as HTMLCalciteRadioButtonElement).checked = true;
     });
     await page.waitForChanges();
 
     const checkedItems = await page.findAll("calcite-radio-button[checked]");
-    expect(checkedItems).toHaveLength(1);
+    expect(checkedItems.length).toEqual(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
     expect(selectedValue).toBe("two");
@@ -278,18 +280,18 @@ describe("calcite-radio-button", () => {
   it("programmatically un-checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-radio-button name="radio" id="first" value="one" checked>
+      <calcite-radio-button name="radio" value="one" checked>
             One
       </calcite-radio-button>
-      <calcite-radio-button name="radio" id="second" value="two">
+      <calcite-radio-button name="radio" value="two">
           Two
       </calcite-radio-button>
-      <calcite-radio-button name="radio" id="third" value="three">
+      <calcite-radio-button name="radio" value="three">
           Three
       </calcite-radio-button>
     `);
     await page.evaluate(() => {
-      const second = document.querySelector("calcite-radio-button#first");
+      const second = document.querySelector("calcite-radio-button[value=one]");
       (second as HTMLCalciteRadioButtonElement).checked = false;
     });
     await page.waitForChanges();
