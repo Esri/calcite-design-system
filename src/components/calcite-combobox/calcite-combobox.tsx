@@ -147,6 +147,12 @@ export class CalciteCombobox {
 
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
+  @Listen("click", { target: "document" })
+  documentClickHandler(event: Event): void {
+    const target = event.target as HTMLElement;
+    this.setInactiveIfNotContained(target);
+  }
+
   @Listen("calciteComboboxItemChange")
   calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
     this.toggleSelection(event.detail);
@@ -154,7 +160,7 @@ export class CalciteCombobox {
 
   @Listen("calciteChipDismiss")
   calciteChipDismissHandler(event: CustomEvent<HTMLCalciteChipElement>): void {
-    this.textInput.focus();
+    this.active = false;
 
     const value = event.detail?.value;
     const comboboxItem = this.items.find((item) => item.value === value);
@@ -169,6 +175,14 @@ export class CalciteCombobox {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setInactiveIfNotContained = (target: HTMLElement): void => {
+    if (!this.active || this.el.contains(target)) {
+      return;
+    }
+
+    this.active = false;
+  };
 
   setMenuEl = (el: HTMLDivElement): void => {
     this.menuEl = el;
@@ -372,8 +386,13 @@ export class CalciteCombobox {
     return this.items.indexOf(item);
   }
 
-  comboboxFocusHandler = (event: Event): void => {
-    this.active = event.type === "focusin";
+  comboboxFocusHandler = (): void => {
+    this.active = true;
+  };
+
+  comboboxBlurHandler = (event: FocusEvent): void => {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    this.setInactiveIfNotContained(relatedTarget);
   };
 
   //--------------------------------------------------------------------------
@@ -387,12 +406,7 @@ export class CalciteCombobox {
     const dir = getElementDir(el);
     const listBoxId = "listbox";
     return (
-      <Host
-        active={active}
-        onFocusin={this.comboboxFocusHandler}
-        onFocusout={this.comboboxFocusHandler}
-        dir={dir}
-      >
+      <Host active={active} dir={dir}>
         <div class="selections">
           {selectedItems.map((item) => {
             return (
@@ -410,6 +424,8 @@ export class CalciteCombobox {
           ref={this.setReferenceEl}
         >
           <input
+            onFocus={this.comboboxFocusHandler}
+            onBlur={this.comboboxBlurHandler}
             type="text"
             placeholder={placeholder}
             aria-label={label}
