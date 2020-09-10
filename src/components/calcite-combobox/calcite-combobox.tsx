@@ -22,6 +22,8 @@ import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
 
+const DEFAULT_PLACEMENT = "bottom-start";
+
 interface ItemData {
   label: string;
   value: string;
@@ -129,7 +131,7 @@ export class CalciteCombobox {
       ? updatePopper({
           el: menuEl,
           modifiers,
-          placement: "bottom-start",
+          placement: DEFAULT_PLACEMENT,
           popper
         })
       : this.createPopper();
@@ -197,7 +199,7 @@ export class CalciteCombobox {
     this.popper = createPopper({
       el: menuEl,
       modifiers,
-      placement: "bottom-start",
+      placement: DEFAULT_PLACEMENT,
       referenceEl
     });
   }
@@ -381,8 +383,8 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { active } = this;
-    const dir = getElementDir(this.el);
+    const { active, disabled, el, label, placeholder, scale, selectedItems } = this;
+    const dir = getElementDir(el);
     const listBoxId = "listbox";
     return (
       <Host
@@ -392,15 +394,9 @@ export class CalciteCombobox {
         dir={dir}
       >
         <div class="selections">
-          {this.selectedItems.map((item) => {
+          {selectedItems.map((item) => {
             return (
-              <calcite-chip
-                key={item.value}
-                scale={this.scale}
-                value={item.value}
-                dir={dir}
-                dismissible
-              >
+              <calcite-chip key={item.value} scale={scale} value={item.value} dir={dir} dismissible>
                 {item.textLabel}
               </calcite-chip>
             );
@@ -415,12 +411,12 @@ export class CalciteCombobox {
         >
           <input
             type="text"
-            placeholder={this.placeholder}
-            aria-label={this.label}
+            placeholder={placeholder}
+            aria-label={label}
             aria-autocomplete="list"
             aria-controls={listBoxId}
             onInput={this.inputHandler}
-            disabled={this.disabled}
+            disabled={disabled}
             onKeyDown={this.handleInputKeyDown}
             ref={(el) => (this.textInput = el as HTMLInputElement)}
           />
@@ -428,7 +424,7 @@ export class CalciteCombobox {
         <div class="list-container" ref={this.setMenuEl} aria-hidden={(!active).toString()}>
           <ul
             id={listBoxId}
-            aria-label={this.label}
+            aria-label={label}
             role="listbox"
             class={{
               list: true,
