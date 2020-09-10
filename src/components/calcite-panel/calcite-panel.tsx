@@ -326,7 +326,20 @@ export class CalcitePanel {
     );
   }
 
-  renderHeaderEndContent(): VNode {
+  renderHeaderStartActions(): VNode {
+    const { el } = this;
+    const hasStartActions = getSlotted(el, SLOTS.headerActionsStart);
+    return hasStartActions ? (
+      <div
+        key="header-actions-start"
+        class={{ [CSS.headerActionsStart]: true, [CSS.headerActions]: true }}
+      >
+        <slot name={SLOTS.headerActionsStart} />
+      </div>
+    ) : null;
+  }
+
+  renderHeaderActionsEnd(): VNode {
     const { dismiss, dismissible, el, intlClose } = this;
     const text = intlClose || TEXT.close;
 
@@ -346,7 +359,10 @@ export class CalcitePanel {
     const hasEndActions = getSlotted(el, SLOTS.headerActionsEnd);
 
     return hasEndActions || dismissibleNode ? (
-      <div key="header-trailing-content" class={CSS.headerActionsEnd}>
+      <div
+        key="header-actions-end"
+        class={{ [CSS.headerActionsEnd]: true, [CSS.headerActions]: true }}
+      >
         {slotNode}
         {dismissibleNode}
       </div>
@@ -396,6 +412,7 @@ export class CalcitePanel {
 
   renderMenu(): VNode {
     const { el } = this;
+    
     const hasMenuItems = getSlotted(el, SLOTS.headerMenuActions);
 
     return hasMenuItems ? (
@@ -408,21 +425,22 @@ export class CalcitePanel {
 
   renderHeaderNode(): VNode {
     const { el } = this;
-    const hasHeaderSlottedContent = getSlotted(el, SLOTS.headerContent);
+
     const backButtonNode = this.renderBackButton();
-    const hasStartActions = getSlotted(el, SLOTS.headerActionsStart);
+    const hasHeaderSlottedContent = getSlotted(el, SLOTS.headerContent);
     const headerContentNode = hasHeaderSlottedContent
       ? this.renderHeaderSlottedContent()
       : this.renderHeaderContent();
-    const endActionsNode = this.renderHeaderEndContent();
+    const actionsNodeStart = this.renderHeaderStartActions();
+    const actionsNodeEnd = this.renderHeaderActionsEnd();
     const headerMenuNode = this.renderMenu();
 
-    return hasStartActions || headerContentNode || endActionsNode ? (
+    return actionsNodeStart || headerContentNode || actionsNodeEnd ? (
       <header class={CSS.header}>
         {backButtonNode}
-        <slot name={SLOTS.headerActionsStart} />
+        {actionsNodeStart}
         {headerContentNode}
-        {endActionsNode}
+        {actionsNodeEnd}
         {headerMenuNode}
       </header>
     ) : null;
@@ -447,19 +465,12 @@ export class CalcitePanel {
     const { el } = this;
 
     const hasFooterActions = getSlotted(el, SLOTS.footerActions);
-    
+
     return hasFooterActions ? (
       <footer class={CSS.footer}>
         <slot name={SLOTS.footerActions}></slot>
       </footer>
     ) : null;
-  }
-
-  renderFooter(): VNode {
-    const footerContentNode = this.renderFooterSlottedContent()
-    const footerActionsNode = this.renderFooterActions();
-
-    return footerContentNode || footerActionsNode;
   }
 
   renderContent(): VNode {
@@ -473,7 +484,7 @@ export class CalcitePanel {
 
   renderFab(): VNode {
     const { el } = this;
-    
+
     const hasFab = getSlotted(el, SLOTS.fab);
 
     return hasFab ? (
@@ -502,7 +513,7 @@ export class CalcitePanel {
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
-        {this.renderFooter()}
+        {this.renderFooterSlottedContent() || this.renderFooterActions()}
       </article>
     );
 
