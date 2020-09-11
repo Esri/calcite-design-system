@@ -335,11 +335,11 @@ export class CalcitePopover {
 
     return closeButton ? (
       <button
-        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         aria-label={intlClose}
-        title={intlClose}
         class={{ [CSS.closeButton]: true }}
         onClick={this.hide}
+        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+        title={intlClose}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -354,7 +354,7 @@ export class CalcitePopover {
     ) : null;
 
     return (
-      <Host role="dialog" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
+      <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="dialog">
         <div
           class={{
             [CSS.anim]: true,

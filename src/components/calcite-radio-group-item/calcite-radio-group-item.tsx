@@ -99,11 +99,11 @@ export class CalciteRadioGroupItem {
 
     return (
       <Host
-        role="radio"
-        aria-checked={checked.toString()}
-        scale={scale}
         appearance={appearance}
+        aria-checked={checked.toString()}
         layout={layout}
+        role="radio"
+        scale={scale}
       >
         <label>
           {this.icon && this.iconPosition === "start" ? iconEl : null}

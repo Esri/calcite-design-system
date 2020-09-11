@@ -74,14 +74,14 @@ export class CalciteDateMonthHeader {
     const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
     return (
       <Host dir={dir}>
-        <div class="header" aria-hidden="true">
+        <div aria-hidden="true" class="header">
           <button
-            class="chevron"
             aria-label={this.intlPrevMonth}
+            class="chevron"
             disabled={prevMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
           >
-            <calcite-icon icon="chevron-left" scale={iconScale} mirrored dir={dir} />
+            <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
           </button>
           <div class="text">
             <span class="month" role="heading">
@@ -89,24 +89,24 @@ export class CalciteDateMonthHeader {
             </span>
             <input
               class="year"
-              type="text"
               inputmode="numeric"
               maxlength="4"
               minlength="4"
-              pattern="\d*"
-              value={`${localizedYear.slice(-4)}`}
-              onKeyDown={(event) => this.onYearKey(event)}
               onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
+              onKeyDown={(event) => this.onYearKey(event)}
+              pattern="\d*"
               ref={(el) => (this.yearInput = el)}
+              type="text"
+              value={`${localizedYear.slice(-4)}`}
             />
           </div>
           <button
-            class="chevron"
             aria-label={this.intlNextMonth}
+            class="chevron"
             disabled={nextMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
           >
-            <calcite-icon icon="chevron-right" scale={iconScale} mirrored dir={dir} />
+            <calcite-icon dir={dir} icon="chevron-right" mirrored scale={iconScale} />
           </button>
         </div>
       </Host>

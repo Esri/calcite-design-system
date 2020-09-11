@@ -90,16 +90,16 @@ export class CalciteSplitButton {
       <Host dir={dir}>
         <div class="split-button__container">
           <calcite-button
-            dir={dir}
             aria-label={this.primaryLabel}
             color={this.color}
-            scale={this.scale}
-            loading={this.loading}
-            icon-start={this.primaryIconStart ? this.primaryIconStart : null}
-            icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
+            dir={dir}
             disabled={this.disabled}
-            theme={this.theme}
+            icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
+            icon-start={this.primaryIconStart ? this.primaryIconStart : null}
+            loading={this.loading}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
+            scale={this.scale}
+            theme={this.theme}
           >
             {this.primaryText}
           </calcite-button>
@@ -109,20 +109,20 @@ export class CalciteSplitButton {
           <calcite-dropdown
             alignment="end"
             dir={dir}
-            theme={this.theme}
-            scale={this.scale}
-            width={this.scale}
             onClick={this.calciteSplitButtonSecondaryClickHandler}
+            scale={this.scale}
+            theme={this.theme}
+            width={this.scale}
           >
             <calcite-button
-              dir={dir}
               aria-label={this.dropdownLabel}
-              slot="dropdown-trigger"
-              scale={this.scale}
               color={this.color}
+              dir={dir}
               disabled={this.disabled}
-              theme={this.theme}
               icon-start={this.dropdownIcon}
+              scale={this.scale}
+              slot="dropdown-trigger"
+              theme={this.theme}
             />
             <slot />
           </calcite-dropdown>

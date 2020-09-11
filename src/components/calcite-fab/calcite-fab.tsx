@@ -113,22 +113,22 @@ export class CalciteFab {
     return (
       <Host>
         <calcite-button
-          class={CSS.button}
-          loading={loading}
-          disabled={disabled}
-          title={title}
-          aria-label={label}
-          theme={theme}
-          dir={dir}
-          scale={scale}
-          iconStart={icon}
-          round={true}
-          width="auto"
           appearance={appearance}
+          aria-label={label}
+          class={CSS.button}
           color={color}
+          dir={dir}
+          disabled={disabled}
+          iconStart={icon}
+          loading={loading}
           ref={(buttonEl): void => {
             this.buttonEl = buttonEl;
           }}
+          round={true}
+          scale={scale}
+          theme={theme}
+          title={title}
+          width="auto"
         >
           {this.textEnabled ? this.text : null}
         </calcite-button>

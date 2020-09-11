@@ -55,12 +55,12 @@ export class CalciteTree {
   render() {
     return (
       <Host
-        tabindex={this.root ? "0" : undefined}
-        aria-role={this.root ? "tree" : undefined}
         aria-multiselectable={
           this.selectionMode === TreeSelectionMode.Multi ||
           this.selectionMode === TreeSelectionMode.MultiChildren
         }
+        aria-role={this.root ? "tree" : undefined}
+        tabindex={this.root ? "0" : undefined}
       >
         <slot></slot>
       </Host>
