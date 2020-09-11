@@ -10,9 +10,9 @@ import {
   VNode
 } from "@stencil/core";
 import { CalciteLayout, CalcitePosition, CalciteTheme } from "../interfaces";
-import { CalciteExpandToggle, toggleChildActionText } from "../utils/CalciteExpandToggle";
-import { getElementDir } from "../utils/dom";
-import { CSS_UTILITY } from "../utils/resources";
+import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
+import { getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, TEXT } from "./resources";
 
 /**

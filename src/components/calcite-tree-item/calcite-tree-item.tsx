@@ -13,7 +13,7 @@ import {
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 
-import { nodeListToArray, getSlottedElements, getElementDir } from "../../utils/dom";
+import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -44,16 +44,12 @@ export class CalciteTreeItem {
 
   @Watch("expanded")
   expandedHandler(newValue: boolean) {
-    if (this.childrenSlotWrapper) {
-      const [childTree] = getSlottedElements(this.childrenSlotWrapper, "calcite-tree");
-      if (childTree) {
-        const items = getSlottedElements<HTMLCalciteTreeItemElement>(
-          childTree,
-          "calcite-tree-item"
-        );
-        items.forEach((item) => (item.parentExpanded = newValue));
-      }
-    }
+    const items = getSlotted<HTMLCalciteTreeItemElement>(this.el, "children", {
+      all: true,
+      selector: "calcite-tree-item"
+    });
+
+    items.forEach((item) => (item.parentExpanded = newValue));
   }
 
   //--------------------------------------------------------------------------
@@ -137,7 +133,7 @@ export class CalciteTreeItem {
   @Listen("click") onClick(e: Event) {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
-    const [link] = getSlottedElements(this.defaultSlotWrapper, "a") as HTMLAnchorElement[];
+    const [link] = filterDirectChildren<HTMLAnchorElement>(this.el, "a");
     if (link && (e.composedPath()[0] as any).tagName.toLowerCase() !== "a") {
       const target = link.target === "" ? "_self" : link.target;
       window.open(link.href, target);

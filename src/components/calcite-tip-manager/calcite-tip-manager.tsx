@@ -12,7 +12,7 @@ import {
   VNode
 } from "@stencil/core";
 import { CSS, ICONS, TEXT } from "./resources";
-import { getElementDir } from "../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { CalciteTheme } from "../interfaces";
 
 /**

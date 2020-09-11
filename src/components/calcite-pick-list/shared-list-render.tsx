@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { VNode } from "@stencil/core/internal";
 import { CSS } from "./resources";
-import { getElementDir, getElementTheme } from "../utils/dom";
+import { getElementDir, getElementTheme } from "../../utils/dom";
 
 export const List = ({ props, ...rest }): VNode => {
   const {

@@ -10,8 +10,8 @@ import {
   h
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementDir, getSlotted, getElementTheme } from "../utils/dom";
-import { CSS_UTILITY } from "../utils/resources";
+import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 import { VNode } from "@stencil/core/internal";
 import { CalciteScale, CalciteTheme } from "../interfaces";
 

@@ -1,7 +1,7 @@
 import { Component, Element, Host, Method, Prop, h, VNode } from "@stencil/core";
 import { CalciteAppearance, CalciteColor, CalciteScale, CalciteTheme } from "../interfaces";
 import { CSS, ICONS } from "./resources";
-import { focusElement, getElementDir } from "../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-fab",

@@ -1,9 +1,9 @@
 import { Component, Element, Event, EventEmitter, Host, Listen, Prop, h } from "@stencil/core";
 import { VNode } from "@stencil/core/internal";
-import { focusElement, getElementDir, getSlotted, getElementTheme } from "../utils/dom";
+import { focusElement, getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../calcite-panel/resources";
-import { getRoundRobinIndex } from "../utils/array";
+import { getRoundRobinIndex } from "../../utils/array";
 import { CalciteScale, CalciteTheme } from "../interfaces";
 
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
