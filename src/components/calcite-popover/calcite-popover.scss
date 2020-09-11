@@ -4,7 +4,6 @@ $image_max_height: 200px;
 @include popperArrow();
 
 .container {
-  border-radius: var(--calcite-border-radius);
   background: var(--calcite-ui-foreground-1);
   position: relative;
   display: flex;

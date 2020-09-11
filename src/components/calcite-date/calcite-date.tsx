@@ -129,58 +129,58 @@ export class CalciteDate {
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
     const dir = getElementDir(this.el);
     return (
-      <Host role="application" dir={dir}>
+      <Host dir={dir} role="application">
         <div class="slot">
           <slot></slot>
         </div>
         {!this.noCalendarInput && (
           <div role="application">
             <calcite-input
-              type="text"
-              value={formattedDate}
-              placeholder={this.localeData.placeholder}
+              class="input"
               icon="calendar"
+              number-button-type="none"
+              onCalciteInputBlur={(e) => this.blur(e.detail)}
               onCalciteInputFocus={() => (this.active = true)}
               onCalciteInputInput={(e) => this.input(e.detail.value)}
-              onCalciteInputBlur={(e) => this.blur(e.detail)}
+              placeholder={this.localeData.placeholder}
               scale={this.scale}
-              number-button-type="none"
-              class="input"
+              type="text"
+              value={formattedDate}
             />
           </div>
         )}
         <div class="calendar-picker-wrapper">
           <calcite-date-month-header
             activeDate={activeDate}
-            selectedDate={date || new Date()}
-            intlPrevMonth={this.intlPrevMonth}
+            dir={dir}
             intlNextMonth={this.intlNextMonth}
+            intlPrevMonth={this.intlPrevMonth}
             locale={this.locale}
-            min={min}
             max={max}
+            min={min}
             onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
               this.activeDate = new Date(e.detail);
             }}
-            dir={dir}
             scale={this.scale}
+            selectedDate={date || new Date()}
           />
           <calcite-date-month
-            min={min}
-            max={max}
-            selectedDate={date}
             activeDate={activeDate}
+            dir={dir}
             locale={this.locale}
+            max={max}
+            min={min}
+            onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
+              this.activeDate = new Date(e.detail);
+            }}
             onCalciteDateSelect={(e: CustomEvent<Date>) => {
               this.setValue(new Date(e.detail));
               this.activeDate = new Date(e.detail);
               this.calciteDateChange.emit(new Date(e.detail));
               this.reset();
             }}
-            onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-              this.activeDate = new Date(e.detail);
-            }}
-            dir={dir}
             scale={this.scale}
+            selectedDate={date}
           />
         </div>
       </Host>

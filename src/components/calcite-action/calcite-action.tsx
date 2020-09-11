@@ -133,7 +133,7 @@ export class CalciteAction {
     };
 
     return text ? (
-      <div key="text-container" class={textContainerClasses}>
+      <div class={textContainerClasses} key="text-container">
         {text}
       </div>
     ) : null;
@@ -159,7 +159,7 @@ export class CalciteAction {
     );
 
     return hasIconToDisplay ? (
-      <div key="icon-container" aria-hidden="true" class={CSS.iconContainer}>
+      <div aria-hidden="true" class={CSS.iconContainer} key="icon-container">
         {iconNode}
         {slotContainerNode}
       </div>
@@ -182,11 +182,11 @@ export class CalciteAction {
     return (
       <Host>
         <button
-          class={buttonClasses}
-          aria-label={ariaLabel}
-          disabled={disabled}
-          aria-disabled={disabled.toString()}
           aria-busy={loading.toString()}
+          aria-disabled={disabled.toString()}
+          aria-label={ariaLabel}
+          class={buttonClasses}
+          disabled={disabled}
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
         >
           {this.renderIconContainer()}

@@ -157,10 +157,10 @@ export class CalciteActionBar {
 
     const expandToggleNode = expand ? (
       <CalciteExpandToggle
-        expanded={expanded}
-        intlExpand={expandLabel}
-        intlCollapse={collapseLabel}
         el={el}
+        expanded={expanded}
+        intlCollapse={collapseLabel}
+        intlExpand={expandLabel}
         position={position}
         toggleExpand={toggleExpand}
         tooltipExpand={tooltipExpand}

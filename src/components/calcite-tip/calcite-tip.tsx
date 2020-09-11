@@ -102,11 +102,11 @@ export class CalciteTip {
 
     return !nonDismissible ? (
       <calcite-action
-        text={text}
-        onClick={hideTip}
-        scale="l"
         class={CSS.close}
         icon={ICONS.close}
+        onClick={hideTip}
+        scale="l"
+        text={text}
       />
     ) : null;
   }
