@@ -122,15 +122,15 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
+        aria-selected={this.active.toString()}
         dir={dir}
-        tabindex="0"
+        isLink={this.href}
         role="menuitem"
         selection-mode={this.selectionMode}
-        aria-selected={this.active.toString()}
-        isLink={this.href}
+        tabindex="0"
       >
         {this.selectionMode === "multi" ? (
-          <calcite-icon class="dropdown-item-check-icon" scale="s" icon="check" />
+          <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
         ) : null}
         {contentEl}
       </Host>

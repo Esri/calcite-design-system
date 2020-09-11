@@ -89,18 +89,18 @@ export class CalciteTreeItem {
     const icon = this.hasChildren ? (
       <calcite-icon
         class="calcite-tree-chevron"
-        icon="chevron-right"
-        scale="s"
-        onClick={this.iconClickHandler}
         data-test-id="icon"
+        icon="chevron-right"
+        onClick={this.iconClickHandler}
+        scale="s"
       ></calcite-icon>
     ) : null;
 
     return (
       <Host
-        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
-        aria-role="treeitem"
+        aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
         aria-hidden={this.parentExpanded || this.depth === 1 ? undefined : "true"}
+        aria-role="treeitem"
         aria-selected={
           this.selected
             ? "true"
@@ -109,7 +109,7 @@ export class CalciteTreeItem {
             ? "false"
             : undefined
         }
-        aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
+        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
         <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>
           {icon}
@@ -118,9 +118,9 @@ export class CalciteTreeItem {
         <div
           class="calcite-tree-children"
           data-test-id="calcite-tree-children"
-          role={this.hasChildren ? "group" : undefined}
-          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
           onClick={this.childrenClickHandler}
+          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
+          role={this.hasChildren ? "group" : undefined}
         >
           <slot name="children"></slot>
         </div>

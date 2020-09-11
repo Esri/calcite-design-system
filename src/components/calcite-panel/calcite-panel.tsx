@@ -150,7 +150,7 @@ export class CalcitePanel {
   renderHeaderLeadingContent(): VNode {
     const hasLeadingContent = getSlotted(this.el, SLOTS.headerLeadingContent);
     return hasLeadingContent ? (
-      <div key="header-leading-content" class={CSS.headerLeadingContent}>
+      <div class={CSS.headerLeadingContent} key="header-leading-content">
         <slot name={SLOTS.headerLeadingContent} />
       </div>
     ) : null;
@@ -158,7 +158,7 @@ export class CalcitePanel {
 
   renderHeaderContent(): VNode {
     return (
-      <div key="header-content" class={CSS.headerContent}>
+      <div class={CSS.headerContent} key="header-content">
         <slot name={SLOTS.headerContent} />
       </div>
     );
@@ -170,20 +170,20 @@ export class CalcitePanel {
 
     const dismissibleNode = dismissible ? (
       <calcite-action
+        aria-label={text}
+        icon={ICONS.close}
+        onClick={dismiss}
         ref={(dismissButtonEl): HTMLCalciteActionElement =>
           (this.dismissButtonEl = dismissButtonEl)
         }
-        aria-label={text}
         text={text}
-        onClick={dismiss}
-        icon={ICONS.close}
       />
     ) : null;
 
     const slotNode = <slot name={SLOTS.headerTrailingContent} />;
 
     return (
-      <div key="header-trailing-content" class={CSS.headerTrailingContent}>
+      <div class={CSS.headerTrailingContent} key="header-trailing-content">
         {slotNode}
         {dismissibleNode}
       </div>
@@ -221,7 +221,7 @@ export class CalcitePanel {
 
   renderContent(): VNode {
     return (
-      <section tabIndex={0} class={CSS.contentContainer} onScroll={this.panelScrollHandler}>
+      <section class={CSS.contentContainer} onScroll={this.panelScrollHandler} tabIndex={0}>
         <slot />
         {this.renderFab()}
       </section>
@@ -246,14 +246,14 @@ export class CalcitePanel {
     const panelNode = (
       <article
         aria-busy={loading.toString()}
-        onKeyUp={panelKeyUpHandler}
-        tabIndex={dismissible ? 0 : -1}
-        hidden={dismissible && dismissed}
-        ref={(containerEl): HTMLElement => (this.containerEl = containerEl)}
         class={{
           [CSS.container]: true,
           [CSS_UTILITY.rtl]: rtl
         }}
+        hidden={dismissible && dismissed}
+        onKeyUp={panelKeyUpHandler}
+        ref={(containerEl): HTMLElement => (this.containerEl = containerEl)}
+        tabIndex={dismissible ? 0 : -1}
       >
         {this.renderHeader()}
         {this.renderContent()}
@@ -264,7 +264,7 @@ export class CalcitePanel {
     return (
       <Host>
         {loading || disabled ? (
-          <calcite-scrim theme={getElementTheme(el)} loading={loading}>
+          <calcite-scrim loading={loading} theme={getElementTheme(el)}>
             {panelNode}
           </calcite-scrim>
         ) : (

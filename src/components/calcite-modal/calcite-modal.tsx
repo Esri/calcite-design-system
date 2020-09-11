@@ -92,11 +92,11 @@ export class CalciteModal {
   render() {
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir} role="dialog" aria-modal="true" is-active={this.isActive}>
+      <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
         <calcite-scrim class="scrim" theme="dark"></calcite-scrim>
         {this.renderStyle()}
         <div class="modal">
-          <div data-focus-fence="true" tabindex="0" onFocus={this.focusLastElement.bind(this)} />
+          <div data-focus-fence="true" onFocus={this.focusLastElement.bind(this)} tabindex="0" />
           <div class="modal__header">
             {this.renderCloseButton()}
             <header class="modal__title">
@@ -113,7 +113,7 @@ export class CalciteModal {
             <slot name="content" />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence="true" tabindex="0" onFocus={this.focusFirstElement.bind(this)} />
+          <div data-focus-fence="true" onFocus={this.focusFirstElement.bind(this)} tabindex="0" />
         </div>
       </Host>
     );
@@ -138,11 +138,11 @@ export class CalciteModal {
   renderCloseButton(): VNode {
     return !this.disableCloseButton ? (
       <button
-        class="modal__close"
         aria-label={this.intlClose}
-        title={this.intlClose}
-        ref={(el) => (this.closeButtonEl = el)}
+        class="modal__close"
         onClick={() => this.close()}
+        ref={(el) => (this.closeButtonEl = el)}
+        title={this.intlClose}
       >
         <calcite-icon icon="x" scale="l"></calcite-icon>
       </button>

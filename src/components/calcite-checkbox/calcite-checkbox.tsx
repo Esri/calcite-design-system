@@ -208,7 +208,7 @@ export class CalciteCheckbox {
   render() {
     if (this.el.textContent) {
       return (
-        <Host role="checkbox" aria-checked={this.checked.toString()}>
+        <Host aria-checked={this.checked.toString()} role="checkbox">
           <div class="hasLabel">
             <svg class="check-svg" viewBox="0 0 16 16">
               <path d={this.getPath()} />
@@ -221,7 +221,7 @@ export class CalciteCheckbox {
       );
     }
     return (
-      <Host role="checkbox" aria-checked={this.checked.toString()}>
+      <Host aria-checked={this.checked.toString()} role="checkbox">
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>

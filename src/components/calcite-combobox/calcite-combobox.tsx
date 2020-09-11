@@ -304,19 +304,19 @@ export class CalciteCombobox {
     return (
       <Host
         active={this.active}
+        dir={dir}
         onFocusin={this.comboboxFocusHandler}
         onFocusout={this.comboboxFocusHandler}
-        dir={dir}
       >
         <div class="selections">
           {this.selectedItems.map((item) => {
             return (
               <calcite-chip
+                dir={dir}
+                dismissible
                 key={item.value}
                 scale={this.scale}
                 value={item.value}
-                dir={dir}
-                dismissible
               >
                 {item.textLabel}
               </calcite-chip>
@@ -324,29 +324,29 @@ export class CalciteCombobox {
           })}
         </div>
         <div
-          role="combobox"
           aria-expanded={this.active.toString()}
-          aria-owns={listBoxId}
           aria-haspopup="listbox"
+          aria-owns={listBoxId}
+          role="combobox"
         >
           <input
-            type="text"
-            placeholder={this.placeholder}
-            aria-label={this.label}
             aria-autocomplete="list"
             aria-controls={listBoxId}
-            onInput={this.inputHandler}
+            aria-label={this.label}
             disabled={this.disabled}
+            onInput={this.inputHandler}
             onKeyDown={(e) => this.handleInputKeyDown(e)}
+            placeholder={this.placeholder}
             ref={(el) => (this.textInput = el as HTMLInputElement)}
+            type="text"
           />
         </div>
         <ul
-          id={listBoxId}
           aria-label={this.label}
-          role="listbox"
-          class={{ list: true }}
           aria-multiselectable="true"
+          class={{ list: true }}
+          id={listBoxId}
+          role="listbox"
         >
           <slot />
         </ul>
