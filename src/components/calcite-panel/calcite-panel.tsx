@@ -307,12 +307,12 @@ export class CalcitePanel {
     const headingNode = heading ? <h4 class={CSS.heading}>{heading}</h4> : null;
     const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
 
-    return (
+    return headingNode || summaryNode ? (
       <div key="header-content" class={CSS.headerContent}>
         {headingNode}
         {summaryNode}
       </div>
-    );
+    ) : null;
   }
 
   /**
@@ -412,7 +412,7 @@ export class CalcitePanel {
 
   renderMenu(): VNode {
     const { el } = this;
-    
+
     const hasMenuItems = getSlotted(el, SLOTS.headerMenuActions);
 
     return hasMenuItems ? (
@@ -427,10 +427,12 @@ export class CalcitePanel {
     const { el } = this;
 
     const backButtonNode = this.renderBackButton();
+
     const hasHeaderSlottedContent = getSlotted(el, SLOTS.headerContent);
     const headerContentNode = hasHeaderSlottedContent
       ? this.renderHeaderSlottedContent()
       : this.renderHeaderContent();
+
     const actionsNodeStart = this.renderHeaderStartActions();
     const actionsNodeEnd = this.renderHeaderActionsEnd();
     const headerMenuNode = this.renderMenu();

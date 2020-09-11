@@ -41,11 +41,12 @@ describe("calcite-panel", () => {
   it("should be accessible", async () =>
     accessible(`
     <calcite-panel>
-      <div slot="${SLOTS.headerActionsStart}">test L</div>
-      <div slot="${SLOTS.headerContent}">test center</div>
-      <div slot="${SLOTS.headerActionsEnd}">test T</div>
+      <div slot="${SLOTS.headerActionsStart}">test start</div>
+      <div slot="${SLOTS.headerContent}">test content</div>
+      <div slot="${SLOTS.headerActionsEnd}">test end</div>
       <p>Content</p>
-      <div slot="${SLOTS.footer}">test Footer</div>
+      <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
+      <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
     </calcite-panel>
     `));
 
@@ -95,6 +96,26 @@ describe("calcite-panel", () => {
     expect(scrollSpy).toHaveReceivedEventTimes(1);
   });
 
+  it("should have default heading", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent('<calcite-panel heading="test heading"></calcite-panel>');
+
+    const element = await page.find(`calcite-panel >>> .${CSS.heading}`);
+
+    expect(element).toEqualText("test heading");
+  });
+
+  it("should have default summary", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent('<calcite-panel summary="test summary"></calcite-panel>');
+
+    const element = await page.find(`calcite-panel >>> .${CSS.summary}`);
+
+    expect(element).toEqualText("test summary");
+  });
+
   it("should not render a header if there are no actions or content", async () => {
     const page = await newE2EPage();
 
@@ -104,18 +125,8 @@ describe("calcite-panel", () => {
 
     expect(header).toBeNull();
   });
-
-  it("should not render a footer if there are no actions or content", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel>test</<calcite-panel>");
-
-    const footer = await page.find(`calcite-panel >>> .${CSS.footer}`);
-
-    expect(footer).toBeNull();
-  });
   
-  it("should not render menu nodes when there are no menu actions", async () => {
+  it("should not render menu nodes when there are no header-menu-actions", async () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-panel></calcite-panel>");
@@ -125,6 +136,21 @@ describe("calcite-panel", () => {
 
     expect(menuButton).toBeNull();
     expect(menuContainer).toBeNull();
+  });
+
+  it("should render menu button when there are header-menu-actions", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-panel>
+        <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
+        <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
+      </calcite-panel>`
+    );
+
+    const menuButton = await page.find(`calcite-panel >>> .${CSS.menuButton}`);
+
+    expect(menuButton).not.toBeNull();
   });
 
   it("menuOpen should show/hide when toggled", async () => {
@@ -176,6 +202,52 @@ describe("calcite-panel", () => {
     expect(actionsContainerEnd).toBeNull();
   });
 
+  it("should render start actions containers header-actions-start", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-panel>
+        <calcite-action slot=${SLOTS.headerActionsStart} text="test start"></calcite-action>
+      </calcite-panel>`
+      );
+
+    const actionsContainerStart = await page.find(`calcite-panel >>> .${CSS.headerActionsStart}`);
+
+    expect(actionsContainerStart).not.toBeNull();
+  });
+
+  it("should render end actions containers header-actions-end", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-panel>
+        <calcite-action slot=${SLOTS.headerActionsEnd} text="test end"></calcite-action>
+      </calcite-panel>`
+      );
+
+    const actionsContainerEnd = await page.find(`calcite-panel >>> .${CSS.headerActionsEnd}`);
+
+    expect(actionsContainerEnd).not.toBeNull();
+  });
+
+  it("header-content should override heading and summary properties", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-panel heading="test heading" summary="test summary">
+        <div slot=${SLOTS.headerContent}>custom header content</div>
+      </calcite-panel>`
+    );
+
+    const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);
+    const summary = await page.find(`calcite-panel >>> ${CSS.summary}`);
+    const headerContent = await page.find(`calcite-panel >>> ${CSS.headerContent}`);
+
+    expect(heading).toBeNull();
+    expect(summary).toBeNull();
+    expect(headerContent).not.toBeNull();
+  });
+
   it("showBackButton", async () => {
     const page = await newE2EPage();
 
@@ -187,8 +259,7 @@ describe("calcite-panel", () => {
 
     expect(showBackButton).toBe(false);
 
-    const panelNode = await page.find("calcite-panel >>> calcite-panel");
-    const backButton = await panelNode.find(`.${CSS.backButton}`);
+    const backButton = await page.find(`calcite-panel >>> .${CSS.backButton}`);
 
     expect(backButton).toBeNull();
 
@@ -200,8 +271,7 @@ describe("calcite-panel", () => {
 
     expect(showBackButtonNew).toBe(true);
 
-    const panelNodeNew = await page.find("calcite-panel >>> calcite-panel");
-    const backButtonNew = await panelNodeNew.find(`.${CSS.backButton}`);
+    const backButtonNew = await page.find(`calcite-panel >>> .${CSS.backButton}`);
 
     expect(backButtonNew).not.toBeNull();
 
@@ -215,5 +285,15 @@ describe("calcite-panel", () => {
     });
 
     expect(eventSpy).toHaveReceivedEvent();
+  });
+
+  it("should not render footer node if there are no actions or content", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-panel>test</<calcite-panel>");
+
+    const footer = await page.find(`calcite-panel >>> .${CSS.footer}`);
+
+    expect(footer).toBeNull();
   });
 });
