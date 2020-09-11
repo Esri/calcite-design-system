@@ -149,8 +149,10 @@ describe("calcite-panel", () => {
     );
 
     const menuButton = await page.find(`calcite-panel >>> .${CSS.menuButton}`);
+    const menuContainer = await page.find(`calcite-panel >>> .${CSS.menuContainer}`);
 
     expect(menuButton).not.toBeNull();
+    expect(menuContainer).not.toBeNull();
   });
 
   it("menuOpen should show/hide when toggled", async () => {
@@ -241,11 +243,11 @@ describe("calcite-panel", () => {
 
     const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);
     const summary = await page.find(`calcite-panel >>> ${CSS.summary}`);
-    const headerContent = await page.find(`calcite-panel >>> ${CSS.headerContent}`);
+    const header = await page.find(`calcite-panel >>> ${CSS.header}`);
 
     expect(heading).toBeNull();
     expect(summary).toBeNull();
-    expect(headerContent).not.toBeNull();
+    expect(header).not.toBeNull();
   });
 
   it("showBackButton", async () => {

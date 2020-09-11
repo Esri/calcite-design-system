@@ -66,7 +66,7 @@ export class CalcitePanel {
   /**
    * Shows a back button in the header.
    */
-  @Prop() showBackButton = false;
+  @Prop({ reflect: true }) showBackButton = false;
 
   /**
    * 'Back' text string.
@@ -425,7 +425,7 @@ export class CalcitePanel {
   }
 
   renderHeaderNode(): VNode {
-    const { el } = this;
+    const { el, showBackButton } = this;
 
     const backButtonNode = this.renderBackButton();
 
@@ -438,7 +438,7 @@ export class CalcitePanel {
     const actionsNodeEnd = this.renderHeaderActionsEnd();
     const headerMenuNode = this.renderMenu();
 
-    return actionsNodeStart || headerContentNode || actionsNodeEnd ? (
+    return actionsNodeStart || headerContentNode || actionsNodeEnd || headerMenuNode || showBackButton ? (
       <header class={CSS.header}>
         {backButtonNode}
         {actionsNodeStart}

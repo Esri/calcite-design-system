@@ -99,6 +99,10 @@ calcite-scrim {
   flex-flow: row nowrap;
 }
 
+.menu-container:only-child {
+  margin-left: auto;
+}
+
 .menu-button {
   align-self: stretch;
   flex: 0 1 auto;
@@ -133,6 +137,10 @@ calcite-scrim {
   .header-content {
     margin-left: auto;
     margin-right: 0;
+  }
+  .menu-container:only-child {
+    margin-left: unset;
+    margin-right: auto;
   }
 }
 
