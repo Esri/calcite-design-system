@@ -1,17 +1,5 @@
 module.exports = {
   theme: {
-    borderColor: theme => ({
-      1: theme("colors.border.1"),
-      2: theme("colors.border.2"),
-      3: theme("colors.border.3"),
-      4: theme("colors.border.4"),
-      5: theme("colors.border.5"),
-    }),
-    borderWidth: {
-      0: "0",
-      1: "1px",
-      3: "3px"
-    },
     borderRadius: {
       none: '0',
       1: "var(--calcite-border-radius)",
