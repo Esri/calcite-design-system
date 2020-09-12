@@ -138,16 +138,16 @@ export class CalciteDropdown {
       <Host dir={dir} tabIndex={this.disabled ? -1 : null}>
         <div
           class="calcite-dropdown-trigger-container"
-          ref={this.setReferenceEl}
           onClick={this.openDropdown}
           onKeyDown={this.keyDownHandler}
+          ref={this.setReferenceEl}
         >
-          <slot name="dropdown-trigger" aria-haspopup="true" aria-expanded={active.toString()} />
+          <slot aria-expanded={active.toString()} aria-haspopup="true" name="dropdown-trigger" />
         </div>
         <div
           aria-hidden={(!active).toString()}
-          ref={this.setMenuEl}
           class="calcite-dropdown-wrapper"
+          ref={this.setMenuEl}
           role="menu"
         >
           <div

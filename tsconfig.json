@@ -29,6 +29,6 @@
     "src/components/calcite-tip-manager/",
     "src/components/calcite-value-list/",
     "src/components/calcite-value-list-item/",
-    "src/components/utils/CalciteExpandToggle.tsx"
+    "src/components/functional/CalciteExpandToggle.tsx"
   ]
 }

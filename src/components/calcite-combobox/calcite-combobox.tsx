@@ -410,44 +410,44 @@ export class CalciteCombobox {
         <div class="selections">
           {selectedItems.map((item) => {
             return (
-              <calcite-chip key={item.value} scale={scale} value={item.value} dir={dir} dismissible>
+              <calcite-chip dir={dir} dismissible key={item.value} scale={scale} value={item.value}>
                 {item.textLabel}
               </calcite-chip>
             );
           })}
         </div>
         <div
-          role="combobox"
           aria-expanded={active.toString()}
-          aria-owns={listBoxId}
           aria-haspopup="listbox"
+          aria-owns={listBoxId}
           ref={this.setReferenceEl}
+          role="combobox"
         >
           <input
-            onFocus={this.comboboxFocusHandler}
-            onBlur={this.comboboxBlurHandler}
-            type="text"
-            placeholder={placeholder}
-            aria-label={label}
             aria-autocomplete="list"
             aria-controls={listBoxId}
-            onInput={this.inputHandler}
+            aria-label={label}
             disabled={disabled}
+            onBlur={this.comboboxBlurHandler}
+            onFocus={this.comboboxFocusHandler}
+            onInput={this.inputHandler}
             onKeyDown={this.handleInputKeyDown}
+            placeholder={placeholder}
             ref={(el) => (this.textInput = el as HTMLInputElement)}
+            type="text"
           />
         </div>
-        <div class="list-container" ref={this.setMenuEl} aria-hidden={(!active).toString()}>
+        <div aria-hidden={(!active).toString()} class="list-container" ref={this.setMenuEl}>
           <ul
-            id={listBoxId}
             aria-label={label}
-            role="listbox"
+            aria-multiselectable="true"
             class={{
               list: true,
               [PopperCSS.animation]: true,
               [PopperCSS.animationActive]: active
             }}
-            aria-multiselectable="true"
+            id={listBoxId}
+            role="listbox"
           >
             <slot />
           </ul>

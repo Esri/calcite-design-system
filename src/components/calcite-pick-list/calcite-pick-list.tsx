@@ -191,6 +191,6 @@ export class CalcitePickList<
   }
 
   render(): VNode {
-    return <List props={this} onKeyDown={this.keyDownHandler} />;
+    return <List onKeyDown={this.keyDownHandler} props={this} />;
   }
 }

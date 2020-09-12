@@ -1,5 +1,5 @@
 import { Placement, Instance as Popper, createPopper as setupPopper, StrictModifiers } from "@popperjs/core";
-import { getElementDir } from "../utils/dom";
+import { getElementDir } from "./dom";
 
 type PlacementRtl = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 

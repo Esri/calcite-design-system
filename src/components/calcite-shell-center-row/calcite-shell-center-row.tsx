@@ -1,8 +1,8 @@
 import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { CalcitePosition, CalciteScale } from "../interfaces";
-import { getElementDir, getSlotted } from "../utils/dom";
-import { CSS_UTILITY } from "../utils/resources";
+import { getElementDir, getSlotted } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the panel.
