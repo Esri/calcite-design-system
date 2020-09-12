@@ -17,7 +17,7 @@ import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { getKey } from "../../utils/key";
-import { createPopper, updatePopper } from "../../utils/popper";
+import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
@@ -444,8 +444,8 @@ export class CalciteCombobox {
             role="listbox"
             class={{
               list: true,
-              ["calcite-popper-anim"]: true,
-              ["calcite-popper-anim--active"]: active
+              [PopperCSS.animation]: true,
+              [PopperCSS.animationActive]: active
             }}
             aria-multiselectable="true"
           >

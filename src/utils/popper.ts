@@ -5,6 +5,11 @@ type PlacementRtl = "leading-start" | "leading" | "leading-end" | "trailing-end"
 
 export type CalcitePlacement = Placement | PlacementRtl;
 
+export const CSS = {
+  animation: "calcite-popper-anim",
+  animationActive: "calcite-popper-anim--active"
+};
+
 export function getPlacement(el: HTMLElement, placement: CalcitePlacement): Placement {
   const values = ["left", "right"];
 
