@@ -163,7 +163,7 @@ export class CalciteComboboxItem {
   renderIcon(scale): VNode {
     const iconScale = scale !== "l" ? "s" : "m";
     const iconPath = this.disabled ? "circle-disallowed" : "check";
-    return <calcite-icon class={CSS.icon} scale={iconScale} icon={iconPath} />;
+    return <calcite-icon class={CSS.icon} icon={iconPath} scale={iconScale} />;
   }
 
   renderChildren(): VNode {
@@ -189,11 +189,11 @@ export class CalciteComboboxItem {
 
     return (
       <Host
-        dir={dir}
-        scale={scale}
-        role="option"
         aria-selected={this.isSelected}
+        dir={dir}
         disabled={this.disabled}
+        role="option"
+        scale={scale}
         tabIndex={this.disabled ? null : 0}
       >
         <div

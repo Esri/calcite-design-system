@@ -241,17 +241,17 @@ export class CalciteTipManager {
     return tips.length > 1 ? (
       <footer class={CSS.pagination}>
         <calcite-action
-          text={previousLabel}
-          onClick={this.previousClicked}
           class={CSS.pagePrevious}
           icon={dir === "ltr" ? ICONS.chevronLeft : ICONS.chevronRight}
+          onClick={this.previousClicked}
+          text={previousLabel}
         />
         <span class={CSS.pagePosition}>{`${paginationLabel} ${selectedIndex + 1}/${total}`}</span>
         <calcite-action
-          text={nextLabel}
-          onClick={this.nextClicked}
           class={CSS.pageNext}
           icon={dir === "ltr" ? ICONS.chevronRight : ICONS.chevronLeft}
+          onClick={this.nextClicked}
+          text={nextLabel}
         />
       </footer>
     ) : null;
@@ -268,32 +268,32 @@ export class CalciteTipManager {
     return (
       <Host>
         <section
+          aria-hidden={closed.toString()}
           class={CSS.container}
           hidden={closed}
-          aria-hidden={closed.toString()}
-          tabIndex={0}
           onKeyUp={this.tipManagerKeyUpHandler}
           ref={this.storeContainerRef}
+          tabIndex={0}
         >
           <header class={CSS.header}>
-            <h2 key={selectedIndex} class={CSS.heading}>
+            <h2 class={CSS.heading} key={selectedIndex}>
               {groupTitle}
             </h2>
             <calcite-action
-              text={closeLabel}
-              onClick={this.hideTipManager}
               class={CSS.close}
               icon={ICONS.close}
+              onClick={this.hideTipManager}
+              text={closeLabel}
             />
           </header>
           <div
-            tabIndex={0}
             class={{
               [CSS.tipContainer]: true,
               [CSS.tipContainerAdvancing]: !closed && direction === "advancing",
               [CSS.tipContainerRetreating]: !closed && direction === "retreating"
             }}
             key={selectedIndex}
+            tabIndex={0}
           >
             <slot />
           </div>

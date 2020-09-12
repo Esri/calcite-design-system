@@ -85,8 +85,8 @@ export class CalciteNotice {
     const dir = getElementDir(this.el);
     const closeButton = (
       <button
-        class="notice-close"
         aria-label={this.intlClose}
+        class="notice-close"
         onClick={() => this.close()}
         ref={() => this.closeButton}
       >
