@@ -11,8 +11,8 @@ import {
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../utils/resources";
-import { getElementDir } from "../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
+import { getElementDir } from "../../utils/dom";
 
 const filterDebounceInMs = 250;
 

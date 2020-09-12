@@ -4,9 +4,9 @@ import { CalciteAppearance, CalciteScale, CalciteTheme } from "../interfaces";
 
 import { CSS } from "./resources";
 
-import { CSS_UTILITY } from "../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
-import { getElementDir } from "../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { VNode } from "@stencil/core/internal";
 
 /**
