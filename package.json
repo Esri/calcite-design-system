@@ -42,7 +42,7 @@
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.json ./src/components/calcite-icon/assets",
     "util:deploy-next-from-existing-build": "npm run util:prep-next-from-existing-build && npm run util:push-tags && npm run util:publish-next",
-    "util:prep-next-from-existing-build": "standard-version --no-skip.bump --no-skip.commit --no-skip.tag --skip.changelog --prerelease beta",
+    "util:prep-next-from-existing-build": "standard-version --no-skip.bump --no-skip.commit --no-skip.tag --skip.changelog --prerelease next",
     "util:publish-next": "npm publish --tag next",
     "util:push-tags": "git push --follow-tags",
     "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e",
