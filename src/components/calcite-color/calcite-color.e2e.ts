@@ -306,12 +306,25 @@ describe("calcite-color", () => {
         picker.setProperty("value", rgbObject);
         await page.waitForChanges();
 
+        // see https://jasmine.github.io/tutorials/custom_argument_matchers for more info
+        function toBeInteger(): any {
+          return {
+            asymmetricMatch(abc): boolean {
+              return Number.isInteger(abc);
+            },
+
+            jasmineToString(): string {
+              return `Expected value to be an integer.`;
+            }
+          };
+        }
+
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toMatchObject(rgbObject);
           expect(value).toMatchObject({
-            r: expect.any(Number),
-            g: expect.any(Number),
-            b: expect.any(Number)
+            r: toBeInteger(),
+            g: toBeInteger(),
+            b: toBeInteger()
           });
         });
 
@@ -322,9 +335,9 @@ describe("calcite-color", () => {
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toMatchObject(hslObject);
           expect(value).toMatchObject({
-            h: expect.any(Number),
-            s: expect.any(Number),
-            l: expect.any(Number)
+            h: toBeInteger(),
+            s: toBeInteger(),
+            l: toBeInteger()
           });
         });
 
@@ -335,9 +348,9 @@ describe("calcite-color", () => {
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toMatchObject(hsvObject);
           expect(value).toMatchObject({
-            h: expect.any(Number),
-            s: expect.any(Number),
-            v: expect.any(Number)
+            h: toBeInteger(),
+            s: toBeInteger(),
+            v: toBeInteger()
           });
         });
       },
