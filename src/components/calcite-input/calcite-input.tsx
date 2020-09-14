@@ -303,9 +303,8 @@ export class CalciteInput {
             ref={(el) => (this.childEl = el)}
             required={this.required ? true : null}
             tabIndex={this.disabled ? -1 : null}
-          >
-            <slot />
-          </textarea>,
+            value={this.value}
+          />,
           <div class="calcite-input-resize-icon-wrapper">
             <calcite-icon icon="chevron-down" scale="s"></calcite-icon>
           </div>

@@ -395,4 +395,18 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEvent();
   });
+
+  it("renders the provided value for a textarea", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="textarea" value="Prefilled text."></calcite-input>
+    `);
+
+    await page.waitForChanges();
+
+    const element = await page.$("textarea");
+    const text = await page.evaluate((element) => element.value, element as any);
+
+    expect(text).toEqual("Prefilled text.");
+  });
 });
