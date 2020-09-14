@@ -6,7 +6,8 @@ import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
-  updatePopper
+  updatePopper,
+  CSS as PopperCSS
 } from "../../utils/popper";
 
 @Component({
@@ -47,12 +48,8 @@ export class CalciteTooltip {
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean) {
-    if (open) {
-      this.createPopper();
-    } else {
-      this.destroyPopper();
-    }
+  openHandler() {
+    this.reposition();
   }
 
   /**
@@ -211,13 +208,12 @@ export class CalciteTooltip {
   createPopper(): void {
     this.destroyPopper();
 
-    const { el, open, placement, _referenceElement: referenceEl } = this;
+    const { el, placement, _referenceElement: referenceEl } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
-      open,
       placement,
       referenceEl
     });
@@ -244,10 +240,17 @@ export class CalciteTooltip {
     const displayed = _referenceElement && open;
 
     return (
-      <Host role="tooltip" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
-        <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
-        <div class={CSS.container}>
-          <slot />
+      <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="tooltip">
+        <div
+          class={{
+            [PopperCSS.animation]: true,
+            [PopperCSS.animationActive]: displayed
+          }}
+        >
+          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
+          <div class={CSS.container}>
+            <slot />
+          </div>
         </div>
       </Host>
     );

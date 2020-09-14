@@ -10,9 +10,9 @@ import {
   VNode
 } from "@stencil/core";
 import { CalcitePosition, CalciteTheme } from "../interfaces";
-import { CalciteExpandToggle, toggleChildActionText } from "../utils/CalciteExpandToggle";
+import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { getSlotted } from "../utils/dom";
+import { getSlotted } from "../../utils/dom";
 
 /**
  * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
@@ -157,10 +157,10 @@ export class CalciteActionBar {
 
     const expandToggleNode = expand ? (
       <CalciteExpandToggle
-        expanded={expanded}
-        intlExpand={expandLabel}
-        intlCollapse={collapseLabel}
         el={el}
+        expanded={expanded}
+        intlCollapse={collapseLabel}
+        intlExpand={expandLabel}
         position={position}
         toggleExpand={toggleExpand}
         tooltipExpand={tooltipExpand}

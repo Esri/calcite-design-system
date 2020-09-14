@@ -484,7 +484,7 @@ describe("calcite-dropdown", () => {
 
   it("should focus the first item on open when there is no active item", async () => {
     const page = await newE2EPage({
-      html: `<calcite-dropdown>
+      html: `<calcite-dropdown style="--calcite-popper-transition:none;">
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group>
       <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
@@ -503,7 +503,7 @@ describe("calcite-dropdown", () => {
 
   it("should focus the first active item on open", async () => {
     const page = await newE2EPage({
-      html: `<calcite-dropdown>
+      html: `<calcite-dropdown style="--calcite-popper-transition:none;">
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
         <calcite-dropdown-group>
           <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
@@ -523,7 +523,7 @@ describe("calcite-dropdown", () => {
 
   it("should focus the first active item on open", async () => {
     const page = await newE2EPage({
-      html: `<calcite-dropdown>
+      html: `<calcite-dropdown style="--calcite-popper-transition:none;">
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
         <calcite-dropdown-group selection-mode="multi">
           <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
@@ -545,7 +545,7 @@ describe("calcite-dropdown", () => {
     it("focused item should be in view when long", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(`<calcite-dropdown>
+      await page.setContent(`<calcite-dropdown style="--calcite-popper-transition:none;">
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group>
         <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
@@ -789,7 +789,7 @@ describe("calcite-dropdown", () => {
   it("focus is returned to trigger after close", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-dropdown>
+    <calcite-dropdown style="--calcite-popper-transition:none;">
     <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="single">
     <calcite-dropdown-item id="item-1">

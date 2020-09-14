@@ -1,8 +1,8 @@
 import { CalcitePickList } from "./calcite-pick-list";
 import { CalciteValueList } from "../calcite-value-list/calcite-value-list";
 import { debounce } from "lodash-es";
-import { focusElement, getSlotted } from "../utils/dom";
-import { getRoundRobinIndex } from "../utils/array";
+import { focusElement, getSlotted } from "../../utils/dom";
+import { getRoundRobinIndex } from "../../utils/array";
 
 type Lists = CalcitePickList | CalciteValueList;
 type ListItemElement<T> = T extends CalcitePickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;

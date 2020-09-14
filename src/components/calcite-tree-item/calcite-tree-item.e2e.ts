@@ -10,7 +10,6 @@ describe("calcite-tree", () => {
     expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
-  // click on icon
   it("should expand/collapse children when the icon is clicked", async () => {
     const page = await newE2EPage();
 
@@ -34,7 +33,6 @@ describe("calcite-tree", () => {
     expect(isVisible).toBe(true);
   });
 
-  // click on link
   it("should navigate when the link inside the tree item is clicked", async () => {
     const page = await newE2EPage();
 
@@ -51,7 +49,6 @@ describe("calcite-tree", () => {
     expect(page.url()).toContain("#");
   });
 
-  // click on item
   it("should navigate to the link url when the item but not the link is clicked", async () => {
     const page = await newE2EPage();
 
@@ -68,7 +65,6 @@ describe("calcite-tree", () => {
     expect(page.url()).toContain("#");
   });
 
-  // click on childItem
   it("should navigate to the inner link when a child item is clicked and not the outer link", async () => {
     const page = await newE2EPage();
 
