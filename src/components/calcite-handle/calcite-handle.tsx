@@ -92,18 +92,18 @@ export class CalciteHandle {
     return (
       // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
       <span
-        role="button"
-        tabindex="0"
         aria-pressed={this.activated.toString()}
         class={{ [CSS.handle]: true, [CSS.handleActivated]: this.activated }}
-        onKeyDown={this.handleKeyDown}
         onBlur={this.handleBlur}
-        title={this.textTitle}
+        onKeyDown={this.handleKeyDown}
         ref={(el): void => {
           this.handleButton = el;
         }}
+        role="button"
+        tabindex="0"
+        title={this.textTitle}
       >
-        <calcite-icon scale="s" icon={ICONS.drag} />
+        <calcite-icon icon={ICONS.drag} scale="s" />
       </span>
     );
   }

@@ -5,6 +5,7 @@ import autoprefixer from "autoprefixer";
 import { generatePreactTypes } from "./support/preact";
 
 export const create: () => Config = () => ({
+  buildEs5: "prod",
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
@@ -111,6 +112,11 @@ export const create: () => Config = () => ({
   },
   extras: {
     appendChildSlotFix: true,
+    cssVarsShim: true,
+    dynamicImportShim: true,
+    safari10: true,
+    scriptDataOpts: true,
+    shadowDomShim: true,
     slotChildNodesFix: true
   }
 });

@@ -34,9 +34,10 @@ Basic Usage:
 
 ## Events
 
-| Event                            | Description                              | Type               |
-| -------------------------------- | ---------------------------------------- | ------------------ |
-| `calciteSplitButtonPrimaryClick` | fired when the primary button is clicked | `CustomEvent<any>` |
+| Event                              | Description                                | Type               |
+| ---------------------------------- | ------------------------------------------ | ------------------ |
+| `calciteSplitButtonPrimaryClick`   | fired when the primary button is clicked   | `CustomEvent<any>` |
+| `calciteSplitButtonSecondaryClick` | fired when the secondary button is clicked | `CustomEvent<any>` |
 
 ## Dependencies
 

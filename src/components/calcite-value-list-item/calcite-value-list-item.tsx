@@ -142,18 +142,18 @@ export class CalciteValueListItem {
     if (icon === ICON_TYPES.grip) {
       return (
         <span
-          role="button"
+          aria-pressed={this.handleActivated.toString()}
           class={{
             [CSS.handle]: true,
             [CSS.handleActivated]: this.handleActivated
           }}
-          tabindex="0"
           data-js-handle="true"
-          aria-pressed={this.handleActivated.toString()}
-          onKeyDown={this.handleKeyDown}
           onBlur={this.handleBlur}
+          onKeyDown={this.handleKeyDown}
+          role="button"
+          tabindex="0"
         >
-          <calcite-icon scale="s" icon={ICONS.drag} />
+          <calcite-icon icon={ICONS.drag} scale="s" />
         </span>
       );
     }
@@ -164,15 +164,15 @@ export class CalciteValueListItem {
       <Host data-id={this.guid}>
         {this.renderHandle()}
         <calcite-pick-list-item
-          ref={this.getPickListRef}
-          disabled={this.disabled}
           disableDeselect={this.disableDeselect}
-          selected={this.selected}
+          disabled={this.disabled}
           metadata={this.metadata}
-          removable={this.removable}
-          textLabel={this.textLabel}
-          textDescription={this.textDescription}
           onCalciteListItemChange={this.handleSelectChange}
+          ref={this.getPickListRef}
+          removable={this.removable}
+          selected={this.selected}
+          textDescription={this.textDescription}
+          textLabel={this.textLabel}
           value={this.value}
         >
           <slot name="secondary-action" slot="secondary-action" />

@@ -208,12 +208,12 @@ export class CalciteCheckbox {
   render() {
     if (this.el.textContent) {
       return (
-        <Host role="checkbox" aria-checked={this.checked.toString()}>
+        <Host aria-checked={this.checked.toString()} role="checkbox">
           <div class="hasLabel">
             <svg class="check-svg" viewBox="0 0 16 16">
               <path d={this.getPath()} />
             </svg>
-            <calcite-label dir={getElementDir(this.el)} scale={this.scale}>
+            <calcite-label dir={getElementDir(this.el)} disable-spacing scale={this.scale}>
               <slot />
             </calcite-label>
           </div>
@@ -221,7 +221,7 @@ export class CalciteCheckbox {
       );
     }
     return (
-      <Host role="checkbox" aria-checked={this.checked.toString()}>
+      <Host aria-checked={this.checked.toString()} role="checkbox">
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>
