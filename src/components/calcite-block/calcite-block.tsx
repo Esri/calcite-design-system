@@ -1,8 +1,8 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { CalciteTheme } from "../interfaces";
-import { getElementDir, getSlotted, getElementTheme } from "../utils/dom";
+import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
 
 /**
  * @slot icon - A slot for adding a trailing header icon.

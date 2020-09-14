@@ -16,7 +16,8 @@ import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
-  updatePopper
+  updatePopper,
+  CSS as PopperCSS
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -357,8 +358,8 @@ export class CalcitePopover {
       <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="dialog">
         <div
           class={{
-            [CSS.anim]: true,
-            [CSS.animActive]: displayed
+            [PopperCSS.animation]: true,
+            [PopperCSS.animationActive]: displayed
           }}
         >
           {arrowNode}
