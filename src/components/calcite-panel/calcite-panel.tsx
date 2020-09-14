@@ -438,7 +438,11 @@ export class CalcitePanel {
     const actionsNodeEnd = this.renderHeaderActionsEnd();
     const headerMenuNode = this.renderMenu();
 
-    return actionsNodeStart || headerContentNode || actionsNodeEnd || headerMenuNode || showBackButton ? (
+    return actionsNodeStart ||
+      headerContentNode ||
+      actionsNodeEnd ||
+      headerMenuNode ||
+      showBackButton ? (
       <header class={CSS.header}>
         {backButtonNode}
         {actionsNodeStart}

@@ -13,6 +13,7 @@
 
 .container {
   align-items: stretch;
+  background-color: var(--calcite-ui-background);
   transition: max-height $transition;
   width: 100%;
   height: 100%;
@@ -55,10 +56,12 @@ calcite-scrim {
 
 .header {
   align-items: stretch;
+  background-color: var(--calcite-ui-foreground-1);
   flex: 0 0 auto;
   justify-content: flex-start;
   min-height: var(--calcite-header-min-height);
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 2;
   border-bottom: 1px solid var(--calcite-ui-border-3);
   width: 100%;
@@ -130,6 +133,8 @@ calcite-scrim {
   justify-content: space-evenly;
   min-height: var(--calcite-footer-min-height);
   padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+  position: sticky;
+  bottom: 0;
   width: 100%;
 }
 
