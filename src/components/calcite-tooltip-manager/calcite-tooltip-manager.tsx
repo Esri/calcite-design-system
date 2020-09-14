@@ -9,21 +9,11 @@ import { getKey } from "../../utils/key";
 export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
   //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  disconnectedCallback(): void {
-    this.clearDelayTimer();
-  }
-
-  // --------------------------------------------------------------------------
-  //
   //  Variables
   //
   // --------------------------------------------------------------------------
 
-  delayTimer: number = null;
+  timeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
 
   // --------------------------------------------------------------------------
   //
@@ -32,14 +22,19 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   /**
-   * CSS Selector to match reference elements for tooltips.
+   * Time to wait in milliseconds before closing the popup from mouse out.
    */
-  @Prop() selector = `[${TOOLTIP_REFERENCE}]`;
+  @Prop() closeDelay = 500;
+
+  /**
+   * Time to wait in milliseconds before opening the popup from mouse over.
+   */
+  @Prop() openDelay = 0;
 
   /**
    * CSS Selector to match reference elements for tooltips.
    */
-  @Prop() delay = 1000;
+  @Prop() selector = `[${TOOLTIP_REFERENCE}]`;
 
   // --------------------------------------------------------------------------
   //
@@ -47,18 +42,24 @@ export class CalciteTooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  clearDelayTimer = (): void => {
-    window.clearTimeout(this.delayTimer);
+  clearTooltipTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
+    const { timeouts } = this;
+
+    if (timeouts.has(tooltip)) {
+      window.clearTimeout(timeouts.get(tooltip));
+    }
   };
 
-  toggle = (element: HTMLCalciteTooltipElement, value: boolean): void => {
-    element.open = value;
+  toggle = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
+    tooltip.open = value;
   };
 
-  delayedToggle = (element: HTMLCalciteTooltipElement, value: boolean): void => {
-    this.clearDelayTimer();
-
-    this.delayTimer = window.setTimeout(() => (element.open = value), this.delay || 0);
+  delayedToggle = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
+    this.clearTooltipTimeout(tooltip);
+    const { openDelay, closeDelay, timeouts } = this;
+    const delay = !value ? closeDelay : openDelay;
+    const timeoutId = window.setTimeout(() => (tooltip.open = value), delay || 0);
+    timeouts.set(tooltip, timeoutId);
   };
 
   eventToggle = ({
@@ -82,7 +83,9 @@ export class CalciteTooltipManager {
 
     if (delayed) {
       this.delayedToggle(describedByElement, value);
-      addEventListenerOnce(describedByElement, "mouseenter", () => this.clearDelayTimer());
+      addEventListenerOnce(describedByElement, "mouseenter", () =>
+        this.clearTooltipTimeout(describedByElement)
+      );
       addEventListenerOnce(describedByElement, "mouseleave", () =>
         this.delayedToggle(describedByElement, value)
       );
