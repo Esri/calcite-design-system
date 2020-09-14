@@ -6,7 +6,8 @@ import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
-  updatePopper
+  updatePopper,
+  CSS as PopperCSS
 } from "../../utils/popper";
 
 @Component({
@@ -239,11 +240,11 @@ export class CalciteTooltip {
     const displayed = _referenceElement && open;
 
     return (
-      <Host role="tooltip" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
+      <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="tooltip">
         <div
           class={{
-            [CSS.anim]: true,
-            [CSS.animActive]: displayed
+            [PopperCSS.animation]: true,
+            [PopperCSS.animationActive]: displayed
           }}
         >
           <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>

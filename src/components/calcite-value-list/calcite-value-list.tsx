@@ -29,7 +29,7 @@ import {
   setUpItems
 } from "../calcite-pick-list/shared-list-logic";
 import List from "../calcite-pick-list/shared-list-render";
-import { getRoundRobinIndex } from "../utils/array";
+import { getRoundRobinIndex } from "../../utils/array";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -285,6 +285,6 @@ export class CalciteValueList<
   }
 
   render(): VNode {
-    return <List props={this} onKeyDown={this.keyDownHandler} />;
+    return <List onKeyDown={this.keyDownHandler} props={this} />;
   }
 }

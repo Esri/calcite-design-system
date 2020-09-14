@@ -105,9 +105,9 @@ export class CalciteSwitch {
 
     return (
       <Host
+        aria-checked={this.switched.toString()}
         dir={dir}
         role="checkbox"
-        aria-checked={this.switched.toString()}
         tabIndex={this.disabled ? -1 : this.tabIndex}
       >
         <div class="track">

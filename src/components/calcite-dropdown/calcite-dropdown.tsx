@@ -14,7 +14,7 @@ import {
 import { GroupRegistration, ItemKeyboardEvent } from "../../interfaces/Dropdown";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { createPopper, CalcitePlacement, updatePopper } from "../../utils/popper";
+import { createPopper, CalcitePlacement, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 
 @Component({
@@ -138,23 +138,23 @@ export class CalciteDropdown {
       <Host dir={dir} tabIndex={this.disabled ? -1 : null}>
         <div
           class="calcite-dropdown-trigger-container"
-          ref={this.setReferenceEl}
           onClick={this.openDropdown}
           onKeyDown={this.keyDownHandler}
+          ref={this.setReferenceEl}
         >
-          <slot name="dropdown-trigger" aria-haspopup="true" aria-expanded={active.toString()} />
+          <slot aria-expanded={active.toString()} aria-haspopup="true" name="dropdown-trigger" />
         </div>
         <div
           aria-hidden={(!active).toString()}
-          ref={this.setMenuEl}
           class="calcite-dropdown-wrapper"
+          ref={this.setMenuEl}
           role="menu"
         >
           <div
             class={{
               ["calcite-dropdown-content"]: true,
-              ["calcite-popper-anim"]: true,
-              ["calcite-popper-anim--active"]: active
+              [PopperCSS.animation]: true,
+              [PopperCSS.animationActive]: active
             }}
             style={{
               maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""

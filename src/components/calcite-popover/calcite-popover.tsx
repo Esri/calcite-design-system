@@ -16,7 +16,8 @@ import {
   CalcitePlacement,
   defaultOffsetDistance,
   createPopper,
-  updatePopper
+  updatePopper,
+  CSS as PopperCSS
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -335,11 +336,11 @@ export class CalcitePopover {
 
     return closeButton ? (
       <button
-        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         aria-label={intlClose}
-        title={intlClose}
         class={{ [CSS.closeButton]: true }}
         onClick={this.hide}
+        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+        title={intlClose}
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -354,11 +355,11 @@ export class CalcitePopover {
     ) : null;
 
     return (
-      <Host role="dialog" aria-hidden={!displayed ? "true" : "false"} id={this.getId()}>
+      <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="dialog">
         <div
           class={{
-            [CSS.anim]: true,
-            [CSS.animActive]: displayed
+            [PopperCSS.animation]: true,
+            [PopperCSS.animationActive]: displayed
           }}
         >
           {arrowNode}

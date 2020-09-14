@@ -184,15 +184,15 @@ export class CalciteColorHexInput {
           aria-label={intlHex}
           class={CSS.input}
           dir={elementDir}
-          onChange={this.onInputChange}
           onCalciteInputBlur={this.onCalciteInputBlur}
+          onChange={this.onInputChange}
           onKeyDown={this.onInputKeyDown}
           prefixText="#"
           ref={(node) => (this.inputNode = node)}
           scale="s"
           value={hexInputValue}
         />
-        <calcite-color-swatch active class={CSS.preview} scale="s" color={`#${hexInputValue}`} />
+        <calcite-color-swatch active class={CSS.preview} color={`#${hexInputValue}`} scale="s" />
       </div>
     );
   }

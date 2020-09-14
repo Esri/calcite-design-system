@@ -113,10 +113,10 @@ export class CalciteStepperItem {
     const dir = getElementDir(this.el);
     return (
       <Host
-        dir={dir}
-        tabindex={this.disabled ? null : 0}
         aria-expanded={this.active.toString()}
+        dir={dir}
         onClick={() => this.emitRequestedItem()}
+        tabindex={this.disabled ? null : 0}
       >
         <div class="stepper-item-header">
           {this.icon ? this.setIcon() : null}
@@ -202,7 +202,7 @@ export class CalciteStepperItem {
       ? "checkCircleF"
       : "circle";
 
-    return <calcite-icon icon={path} scale="s" class="stepper-item-icon" />;
+    return <calcite-icon class="stepper-item-icon" icon={path} scale="s" />;
   }
 
   private determineActiveItem() {
