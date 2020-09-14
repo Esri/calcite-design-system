@@ -10,11 +10,11 @@ import {
   h
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
+import { focusElement, getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { VNode } from "@stencil/core/internal";
 import { CalciteScale, CalciteTheme } from "../interfaces";
-import { getRoundRobinIndex } from "../utils/array";
+import { getRoundRobinIndex } from "../../utils/array";
 
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
 
