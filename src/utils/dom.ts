@@ -100,6 +100,20 @@ export function getDescribedByElement<T extends Element>(element: Element): T | 
   return (id && document.getElementById(id)) || null;
 }
 
-export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement) {
+export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
   return labelEl.contains(el);
+}
+
+export function addEventListenerOnce(
+  element: HTMLElement,
+  event: string,
+  fn: (evt?: Event) => void,
+  options?: boolean | AddEventListenerOptions
+): void {
+  const func = (evt?: Event) => {
+    element.removeEventListener(event, func, options);
+    fn(evt);
+  };
+
+  element.addEventListener(event, func, options);
 }
