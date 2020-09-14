@@ -157,7 +157,7 @@ export class CalciteFlow {
 
     return (
       <Host>
-        <div key={flowCount} class={frameDirectionClasses}>
+        <div class={frameDirectionClasses} key={flowCount}>
           <slot />
         </div>
       </Host>

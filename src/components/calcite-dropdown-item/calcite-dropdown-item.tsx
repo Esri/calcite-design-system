@@ -102,16 +102,16 @@ export class CalciteDropdownItem {
       <calcite-icon
         class="dropdown-item-icon-start"
         icon={this.iconStart}
-        scale={iconScale}
         mirrored={this.iconMirror === "start" || this.iconMirror === "both"}
+        scale={iconScale}
       />
     );
     const iconEndEl = (
       <calcite-icon
         class="dropdown-item-icon-end"
         icon={this.iconEnd}
-        scale={iconScale}
         mirrored={this.iconMirror === "end" || this.iconMirror === "both"}
+        scale={iconScale}
       />
     );
 
@@ -135,15 +135,15 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
+        aria-selected={this.active.toString()}
         dir={dir}
-        tabindex="0"
+        isLink={this.href}
         role="menuitem"
         selection-mode={this.selectionMode}
-        aria-selected={this.active.toString()}
-        isLink={this.href}
+        tabindex="0"
       >
         {this.selectionMode === "multi" ? (
-          <calcite-icon class="dropdown-item-check-icon" scale="s" icon="check" />
+          <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
         ) : null}
         {contentEl}
       </Host>

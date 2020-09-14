@@ -125,8 +125,8 @@ export class CalciteButton {
       <calcite-icon
         class="calcite-button--icon icon-start"
         icon={this.iconStart}
-        scale={iconScale}
         mirrored={this.iconMirror === "start" || this.iconMirror === "both"}
+        scale={iconScale}
       />
     );
 
@@ -134,19 +134,19 @@ export class CalciteButton {
       <calcite-icon
         class="calcite-button--icon icon-end"
         icon={this.iconEnd}
-        scale={iconScale}
         mirrored={this.iconMirror === "end" || this.iconMirror === "both"}
+        scale={iconScale}
       />
     );
 
     return (
-      <Host hasText={this.hasText} dir={dir}>
+      <Host dir={dir} hasText={this.hasText}>
         <Tag
           {...attributes}
-          onClick={(e) => this.handleClick(e)}
           disabled={this.disabled}
-          tabIndex={this.disabled ? -1 : null}
+          onClick={(e) => this.handleClick(e)}
           ref={(el) => (this.childEl = el)}
+          tabIndex={this.disabled ? -1 : null}
         >
           {this.loading ? loader : null}
           {this.iconStart ? iconStartEl : null}

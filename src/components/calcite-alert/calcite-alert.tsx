@@ -108,11 +108,11 @@ export class CalciteAlert {
     const dir = getElementDir(this.el);
     const closeButton = (
       <button
-        class="alert-close"
-        type="button"
         aria-label={this.intlClose}
+        class="alert-close"
         onClick={() => this.closeAlert()}
         ref={(el) => (this.closeButton = el)}
+        type="button"
       >
         <calcite-icon icon="x" scale="m"></calcite-icon>
       </button>
@@ -127,7 +127,7 @@ export class CalciteAlert {
     const hidden = this.active ? "false" : "true";
 
     return (
-      <Host active={this.active} queued={this.queued} role={role} dir={dir} aria-hidden={hidden}>
+      <Host active={this.active} aria-hidden={hidden} dir={dir} queued={this.queued} role={role}>
         {this.icon ? this.setIcon() : null}
         <div class="alert-content">
           <slot name="alert-title"></slot>
