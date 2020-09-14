@@ -29,7 +29,7 @@ export class CalciteTooltipManager {
   /**
    * Time to wait in milliseconds before opening the popup from mouse over.
    */
-  @Prop() openDelay = 0;
+  @Prop() openDelay = 500;
 
   /**
    * CSS Selector to match reference elements for tooltips.
