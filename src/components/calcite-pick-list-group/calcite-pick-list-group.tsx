@@ -1,7 +1,7 @@
 import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { CSS_UTILITY } from "../utils/resources";
-import { getElementDir, getSlotted } from "../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
+import { getElementDir, getSlotted } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements.

@@ -1,7 +1,7 @@
 import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { CalciteTheme } from "../interfaces";
-import { getSlotted } from "../utils/dom";
+import { getSlotted } from "../../utils/dom";
 
 /**
  * @slot shell-header - A slot for adding header content. This content will be positioned at the top of the shell.

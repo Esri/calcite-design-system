@@ -394,12 +394,12 @@ export class CalciteColor {
                 </span>
                 <calcite-color-hex-input
                   class={CSS.control}
+                  dir={elementDir}
                   onCalciteColorHexInputChange={this.handleHexInputChange}
                   ref={(node) => (this.hexInputNode = node)}
                   scale={hexInputScale}
-                  value={selectedColorInHex}
                   theme={theme}
-                  dir={elementDir}
+                  value={selectedColorInHex}
                 />
               </div>
             )}
@@ -453,9 +453,9 @@ export class CalciteColor {
                 {[
                   ...savedColors.map((color) => (
                     <calcite-color-swatch
+                      active={selectedColorInHex === color}
                       class={CSS.savedColor}
                       color={color}
-                      active={selectedColorInHex === color}
                       key={color}
                       onClick={this.handleSavedColorSelect}
                       onKeyDown={this.handleSavedColorKeyDown}
@@ -537,8 +537,8 @@ export class CalciteColor {
       class={CSS.channel}
       data-channel-index={index}
       numberButtonType="none"
-      onInput={this.handleChannelInput}
       onChange={this.handleChannelChange}
+      onInput={this.handleChannelInput}
       prefixText={label}
       scale="s"
       type="number"

@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stencil/core";
 
-import { getElementDir } from "../utils/dom";
-import { CSS_UTILITY } from "../utils/resources";
+import { getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, ICONS, TEXT } from "./resources";
 import { guid } from "../utils/guid";
 import { CalciteBlockSectionToggleDisplay } from "../interfaces";
@@ -123,9 +123,9 @@ export class CalciteBlockSection {
           {text}
           <calcite-switch
             aria-labelledby={labelId}
-            switched={open}
             onCalciteSwitchChange={this.toggleSection}
             scale="s"
+            switched={open}
             tabIndex={-1}
           />
         </label>
@@ -133,11 +133,11 @@ export class CalciteBlockSection {
         <calcite-action
           aria-label={toggleLabel}
           class={CSS.toggle}
+          compact
+          icon={arrowIcon}
           onClick={this.toggleSection}
           text={text}
           textEnabled={true}
-          compact
-          icon={arrowIcon}
         />
       );
 

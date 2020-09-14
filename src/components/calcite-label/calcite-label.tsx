@@ -7,6 +7,7 @@ import {
   h,
   Prop,
   EventEmitter,
+  VNode,
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
@@ -34,6 +35,9 @@ export class CalciteLabel {
   /** specify the status of the label and any child input / input messages */
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 
+  /** The id of the input associated with the label */
+  @Prop({ reflect: true }) for: string;
+
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
@@ -50,7 +54,8 @@ export class CalciteLabel {
   /** is the label disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  @Watch("disabled") disabledWatcher() {
+  @Watch("disabled")
+  disabledWatcher(): void {
     if (this.disabled) this.setDisabledControls();
   }
   //--------------------------------------------------------------------------
@@ -67,7 +72,8 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(event: MouseEvent) {
+  @Listen("click")
+  onClick(event: MouseEvent): void {
     const forAttr = this.el.getAttribute("for");
     this.calciteLabelFocus.emit({
       labelEl: this.el,
@@ -99,7 +105,7 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     const status = ["invalid", "valid", "idle"];
     if (!status.includes(this.status)) this.status = "idle";
 
@@ -110,7 +116,7 @@ export class CalciteLabel {
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     const labelNode = this.el.querySelector("label");
     labelNode.childNodes.forEach((childNode) => {
       if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
@@ -124,7 +130,7 @@ export class CalciteLabel {
     if (this.disabled) this.setDisabledControls();
   }
 
-  render() {
+  render(): VNode {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
     return (

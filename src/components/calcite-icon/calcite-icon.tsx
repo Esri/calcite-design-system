@@ -105,11 +105,11 @@ export class CalciteIcon {
             [CSS.mirrored]: dir === "rtl" && mirrored,
             svg: true
           }}
-          xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
           height="100%"
-          width="100%"
           viewBox={`0 0 ${size} ${size}`}
+          width="100%"
+          xmlns="http://www.w3.org/2000/svg"
         >
           {paths.map((path: string | CalciteMultiPathEntry) =>
             typeof path === "string" ? (

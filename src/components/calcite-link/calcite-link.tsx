@@ -83,9 +83,9 @@ export class CalciteLink {
         <Tag
           {...attributes}
           href={Tag === "a" && this.href}
+          ref={(el) => (this.childEl = el)}
           role={role}
           tabIndex={tabIndex}
-          ref={(el) => (this.childEl = el)}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />
