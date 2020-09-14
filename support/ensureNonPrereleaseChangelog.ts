@@ -36,7 +36,10 @@ const childProcess = require("child_process");
     }
 
     // using process to generate changelog (auto loads .versionrc.json)
-    childProcess.execSync(`npx standard-version ${standardVersionOverrides}`, { stdio: "inherit" });
+    childProcess.execSync(
+      `npx standard-version ${standardVersionOverrides} --releaseCommitMessageFormat "{{currentTag}} [skip ci]"`,
+      { stdio: "inherit" }
+    );
   } catch (error) {
     console.log("an error occurred when generating the changelog:", error);
   }
