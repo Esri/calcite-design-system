@@ -20,11 +20,11 @@ $start-alpha: 0.5;
   }
 
   .frame--advancing {
-    animation: calcite-flow-item-advance var(--calcite-app-animation-time) var(--calcite-app-easing-function);
+    animation: calcite-flow-item-advance $transition;
   }
 
   .frame--retreating {
-    animation: calcite-flow-item-retreat var(--calcite-app-animation-time) var(--calcite-app-easing-function);
+    animation: calcite-flow-item-retreat $transition;
   }
 
   @keyframes calcite-flow-item-advance {
@@ -49,5 +49,3 @@ $start-alpha: 0.5;
     }
   }
 }
-
-@import "../../scss/includes/_component";

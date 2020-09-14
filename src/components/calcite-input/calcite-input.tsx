@@ -8,7 +8,8 @@ import {
   Listen,
   Method,
   Prop,
-  Watch
+  Watch,
+  VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -16,7 +17,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
-  shadow: false
+  scoped: true
 })
 export class CalciteInput {
   //--------------------------------------------------------------------------
@@ -109,16 +110,24 @@ export class CalciteInput {
   /** is the input disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
+  @Watch("disabled")
+  disabledWatcher(): void {
+    if (this.disabled) this.setDisabledAction();
+  }
+
   /** watcher to update number-to-string for min max */
-  @Watch("min") minWatcher() {
+  @Watch("min")
+  minWatcher(): void {
     this.minString = this.min.toString() || null;
   }
 
-  @Watch("max") maxWatcher() {
+  @Watch("max")
+  maxWatcher(): void {
     this.maxString = this.max.toString() || null;
   }
 
-  @Watch("step") stepWatcher() {
+  @Watch("step")
+  stepWatcher(): void {
     this.maxString = this.max.toString() || null;
   }
 
@@ -128,7 +137,7 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     // validate props
     const status = ["invalid", "valid", "idle"];
     const foundStatus = getElementProp(this.el, "status", "idle");
@@ -179,36 +188,26 @@ export class CalciteInput {
     this.determineClearable();
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.minString = this.min?.toString();
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
+    this.setDisabledAction();
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.hasAction = !!this.el.querySelector("[slot=input-action]");
   }
 
-  componentWillUpdate() {
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
-
+  componentWillUpdate(): void {
     this.determineClearable();
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
-
-    const inputClearButton = (
-      <div class="calcite-input-clear-button" onClick={() => this.clearInputValue()}>
-        <calcite-icon theme={this.theme} icon="x" scale="s"></calcite-icon>
-      </div>
-    );
 
     const loader = (
       <div class="calcite-input-loading">
@@ -216,38 +215,13 @@ export class CalciteInput {
       </div>
     );
 
-    const numberButtonClassModifier =
-      this.numberButtonType === "horizontal" ? "number-button-item-horizontal" : null;
-
-    const numberButtonsHorizontalUp = (
-      <div
-        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onMouseDown={this.updateNumberValue}
-        data-adjustment="up"
-      >
-        <calcite-icon theme={this.theme} icon="chevron-up"></calcite-icon>
-      </div>
-    );
-
-    const numberButtonsHorizontalDown = (
-      <div
-        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onMouseDown={this.updateNumberValue}
-        data-adjustment="down"
-      >
-        <calcite-icon theme={this.theme} icon="chevron-down"></calcite-icon>
-      </div>
-    );
-
-    const numberButtonsVertical = (
-      <div class={`calcite-input-number-button-wrapper`}>
-        {numberButtonsHorizontalUp}
-        {numberButtonsHorizontalDown}
-      </div>
-    );
-
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
 
+    const inputClearButton = (
+      <div class="calcite-input-clear-button" onClick={this.clearInputValue}>
+        <calcite-icon theme={this.theme} icon="x" scale={iconScale}></calcite-icon>
+      </div>
+    );
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
@@ -263,6 +237,36 @@ export class CalciteInput {
       </div>
     );
 
+    const numberButtonClassModifier =
+      this.numberButtonType === "horizontal" ? "number-button-item-horizontal" : null;
+
+    const numberButtonsHorizontalUp = (
+      <div
+        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
+        onMouseDown={this.updateNumberValue}
+        data-adjustment="up"
+      >
+        <calcite-icon theme={this.theme} scale={iconScale} icon="chevron-up"></calcite-icon>
+      </div>
+    );
+
+    const numberButtonsHorizontalDown = (
+      <div
+        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
+        onMouseDown={this.updateNumberValue}
+        data-adjustment="down"
+      >
+        <calcite-icon theme={this.theme} scale={iconScale} icon="chevron-down"></calcite-icon>
+      </div>
+    );
+
+    const numberButtonsVertical = (
+      <div class={`calcite-input-number-button-wrapper`}>
+        {numberButtonsHorizontalUp}
+        {numberButtonsHorizontalDown}
+      </div>
+    );
+
     const prefixText = <div class="calcite-input-prefix">{this.prefixText}</div>;
 
     const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
@@ -271,9 +275,9 @@ export class CalciteInput {
       this.childElType !== "textarea" ? (
         <input
           {...attributes}
-          onBlur={() => this.inputBlurHandler()}
-          onFocus={(e) => this.inputFocusHandler(e)}
-          onInput={(e) => this.inputInputHandler(e)}
+          onBlur={this.inputBlurHandler}
+          onFocus={this.inputFocusHandler}
+          onInput={this.inputInputHandler}
           type={this.type}
           min={this.minString}
           max={this.maxString}
@@ -290,9 +294,9 @@ export class CalciteInput {
         [
           <textarea
             {...attributes}
-            onBlur={() => this.inputBlurHandler()}
-            onFocus={(e) => this.inputFocusHandler(e)}
-            onInput={(e) => this.inputInputHandler(e)}
+            onBlur={this.inputBlurHandler}
+            onFocus={this.inputFocusHandler}
+            onInput={this.inputInputHandler}
             required={this.required ? true : null}
             placeholder={this.placeholder || ""}
             autofocus={this.autofocus ? true : null}
@@ -309,7 +313,7 @@ export class CalciteInput {
       );
 
     return (
-      <Host dir={dir} onClick={(e) => this.inputFocusHandler(e)}>
+      <Host dir={dir} onClick={this.inputFocusHandler}>
         <div class="calcite-input-wrapper">
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
@@ -340,17 +344,8 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus") handleLabelFocus(e) {
-    if (
-      e.detail.labelEl.contains(this.el) ||
-      e.detail.labelEl.shadowRoot.contains(this.el) ||
-      e.detail.requestedInput === this.el.id
-    ) {
-      this.childEl.focus();
-    }
-  }
-
-  @Listen("keydown") keyDownHandler(e) {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     if (this.isClearable && getKey(e.key) === "Escape") {
       this.clearInputValue();
     }
@@ -380,7 +375,7 @@ export class CalciteInput {
 
   /** focus the rendered child element */
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     this.childEl?.focus();
   }
   //--------------------------------------------------------------------------
@@ -420,43 +415,47 @@ export class CalciteInput {
   private iconTypeDefaults = {
     tel: "phone",
     password: "lock",
-    email: "send",
+    email: "email-address",
     date: "calendar",
     time: "clock",
     search: "search"
   };
 
-  private inputInputHandler(e) {
+  private inputInputHandler = (e) => {
     this.value = e.target.value;
     this.calciteInputInput.emit({
       element: this.childEl,
       value: this.value
     });
-  }
+  };
 
-  private inputBlurHandler() {
+  private inputBlurHandler = () => {
     this.calciteInputBlur.emit({
       element: this.childEl,
       value: this.value
     });
-  }
+  };
 
-  private inputFocusHandler(e) {
+  private inputFocusHandler = (e) => {
     if (e.target !== this.slottedActionEl) this.setFocus();
     this.calciteInputFocus.emit({
       element: this.childEl,
       value: this.value
     });
-  }
+  };
 
-  private determineClearable() {
+  private determineClearable(): void {
     this.isClearable =
       this.type !== "textarea" &&
-      (this.clearable || this.type === "search" || this.type === "time" || this.type === "date") &&
+      (this.clearable || this.type === "search") &&
       this.value.length > 0;
   }
 
-  private getAttributes() {
+  private setDisabledAction(): void {
+    if (this.slottedActionEl) (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
+  }
+
+  private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
     const props = [
       "alignment",
@@ -480,9 +479,9 @@ export class CalciteInput {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
-  private clearInputValue() {
+  private clearInputValue = () => {
     this.value = "";
-  }
+  };
 
   private updateNumberValue = (e) => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown
@@ -505,6 +504,10 @@ export class CalciteInput {
           break;
       }
       this.value = this.childEl.value.toString();
+      this.calciteInputInput.emit({
+        element: this.childEl,
+        value: this.value
+      });
     }
   };
 }

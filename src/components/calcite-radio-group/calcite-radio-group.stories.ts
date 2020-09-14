@@ -1,15 +1,12 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme } from "../../../.storybook/helpers";
+import { select } from "@storybook/addon-knobs";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-radio-group-item/readme.md";
 
-const notes1 = parseReadme(readme1);
-const notes2 = parseReadme(readme2);
-const notes = notes1.concat(`\n${notes2}`);
-
-storiesOf("components|Radio Group", module)
-  .addDecorator(withKnobs)
+storiesOf("Components/Radio Group", module)
+  .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
     () => `
@@ -18,14 +15,14 @@ storiesOf("components|Radio Group", module)
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "full"], "auto")}"
+      ${boolean("disabled", false)}
     >
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
       <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
       <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
       <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
     </calcite-radio-group>
-  `,
-    { notes }
+  `
   )
   .add(
     "Wrapping Calcite Label",
@@ -36,6 +33,7 @@ storiesOf("components|Radio Group", module)
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       width="${select("width", ["auto", "full"], "auto")}"
+      ${boolean("disabled", false)}
     >
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
       <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
@@ -43,8 +41,7 @@ storiesOf("components|Radio Group", module)
       <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-label>
-  `,
-    { notes }
+  `
   )
   .add(
     "With icons",
@@ -55,14 +52,14 @@ storiesOf("components|Radio Group", module)
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       width="${select("width", ["auto", "full"], "auto")}"
+      ${boolean("disabled", false)}
     >
       <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
       <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
       <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-label>
-  `,
-    { notes }
+  `
   )
   .add(
     "Dark mode",
@@ -73,6 +70,7 @@ storiesOf("components|Radio Group", module)
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "full"], "auto")}"
+      ${boolean("disabled", false)}
     >
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
       <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
@@ -80,7 +78,7 @@ storiesOf("components|Radio Group", module)
       <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
     </calcite-radio-group>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   )
   .add(
     "Full width",
@@ -90,6 +88,7 @@ storiesOf("components|Radio Group", module)
         layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
         appearance="${select("appearance", ["solid", "outline"], "solid")}"
         width="${select("width", ["auto", "full"], "full")}"
+        ${boolean("disabled", false)}
       >
         <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
         <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
@@ -98,6 +97,5 @@ storiesOf("components|Radio Group", module)
       </calcite-radio-group>
     </div>
 
-  `,
-    { notes }
+  `
   );

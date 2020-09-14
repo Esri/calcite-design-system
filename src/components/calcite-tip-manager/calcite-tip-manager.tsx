@@ -109,7 +109,7 @@ export class CalciteTipManager {
     this.observer.observe(this.el, { childList: true, subtree: true });
   }
 
-  componentDidUnload(): void {
+  disconnectedCallback(): void {
     this.observer.disconnect();
   }
 

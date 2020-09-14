@@ -254,11 +254,11 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>
     `);
 
-    let firstInput = await page.find("input#first");
+    let firstInput = await page.find("input#first-input");
     expect(firstInput).toBeTruthy();
 
     await page.evaluate(() => {
-      const first = document.querySelector("input#first");
+      const first = document.querySelector("input#first-input");
       first.parentNode.removeChild(first);
     });
     await page.waitForChanges();
@@ -282,7 +282,9 @@ describe("calcite-radio-button-group", () => {
     `);
     const group = await page.evaluate(() => {
       const group = document.querySelector("calcite-radio-button-group");
-      group.appendChild(document.querySelector("calcite-radio-button#first"));
+      const first = document.querySelector("calcite-radio-button[value=one]");
+      group.removeChild(first);
+      group.appendChild(first);
       return group;
     });
     await page.waitForChanges();

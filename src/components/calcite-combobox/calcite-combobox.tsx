@@ -75,7 +75,7 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     // prop validations
     const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
@@ -92,7 +92,7 @@ export class CalciteCombobox {
     this.observer?.observe(this.el, { childList: true, subtree: true });
   }
 
-  componentDidUnload(): void {
+  disconnectedCallback(): void {
     this.observer?.disconnect();
   }
 

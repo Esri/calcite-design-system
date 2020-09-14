@@ -1,24 +1,49 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+This document maintains a list of released versions and changes introduced by them.
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+## [1.0.0-beta.38](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.37...v1.0.0-beta.38) (2020-09-04)
 
-## Unreleased
+### Features
 
-### Added
+- **calcite-label:** adds disable-spacing property also updates label-text spacing ([2cca2c6](https://github.com/Esri/calcite-components/commit/2cca2c6f2cf215240841df9b1c135cbf1de33e3c)), closes [#916](https://github.com/Esri/calcite-components/issues/916) [#916](https://github.com/Esri/calcite-components/issues/916)
+- **label:** Adds disabled prop to label, radio-group ([#923](https://github.com/Esri/calcite-components/issues/923)) ([cc34b51](https://github.com/Esri/calcite-components/commit/cc34b51914d100b68d529b81bf39faee4c1b7b93))
+- **label:** Updates alignment and spacing ([#914](https://github.com/Esri/calcite-components/issues/914)) ([943e5c2](https://github.com/Esri/calcite-components/commit/943e5c2318fd9ba2661e55ef712c7e2788aa9a09))
+- **split-button:** add secondary click event ([#889](https://github.com/Esri/calcite-components/issues/889)) ([bb3b141](https://github.com/Esri/calcite-components/commit/bb3b141336c855a418b6cdcc53e807c87714946d))
+- **tabs:** add tab-title disabled state ([#879](https://github.com/Esri/calcite-components/issues/879)) ([adef10f](https://github.com/Esri/calcite-components/commit/adef10f5c0f341f3b6198ffafa587ed1f649ecf1))
 
-- `calcite-tab-title` - now supports icons: `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.
-- new component `calcite-video`
-- `calcite-button` now has an `icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
-- `calcite-split-button` now has a `primary-icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
-- `calcite-dropdown-item` now has an `icon-mirror` prop that can be used with values `start`, `end`, or `both`, to mirror displayed icons.
+### Bug Fixes
 
-### Updated
+- **dropdown:** fix tab through ([#880](https://github.com/Esri/calcite-components/issues/880)) ([acbef6f](https://github.com/Esri/calcite-components/commit/acbef6f47726d5cc8dd28f385b84126deb90304d))
+- **input:** emit calcite input input on up and down click on number input [#886](https://github.com/Esri/calcite-components/issues/886) ([#888](https://github.com/Esri/calcite-components/issues/888)) ([01a140b](https://github.com/Esri/calcite-components/commit/01a140bbe89e4208e2be6f889891633c12ccc826))
+- **input:** No longer set clearable by default on type date or time ([#895](https://github.com/Esri/calcite-components/issues/895)) ([d5d9d6a](https://github.com/Esri/calcite-components/commit/d5d9d6a0fb620c69e329ca4454bd30311e5bf007))
+- **tree:** change tabindex to 0 to prevent forced first tab stop on page ([#911](https://github.com/Esri/calcite-components/issues/911)) ([ef4a7ad](https://github.com/Esri/calcite-components/commit/ef4a7adfc7572411717d77f6240497f095730362)), closes [#634](https://github.com/Esri/calcite-components/issues/634)
 
-- `calcite-radio-group` styling has been updated
-- `calcite-icon` - the `mirrored` prop will now be applied in both `dir=rtl` and `dir=ltr` - previously it would only apply when `dir=rtl`
+## 1.0.0-beta.37
+
+### Features
+
+- **calcite-checkbox:** label support ([#849](https://github.com/Esri/calcite-components/issues/849)) ([30db0f3](https://github.com/Esri/calcite-components/commit/30db0f3829a71646aef4b19e11458076116d94e5))
+- **color:** allow hiding sections ([#841](https://github.com/Esri/calcite-components/issues/841)) ([f31fbb3](https://github.com/Esri/calcite-components/commit/f31fbb384dd402f8f5736ef246be14afd27c3e39)), closes [#763](https://github.com/Esri/calcite-components/issues/763)
+- **input:** Update default icon of input type email ([#865](https://github.com/Esri/calcite-components/issues/865)) ([be42e9e](https://github.com/Esri/calcite-components/commit/be42e9e968ff46d057e99be4522565edd9b0af8a))
+- **switch:** add disabled prop ([#856](https://github.com/Esri/calcite-components/issues/856)) ([d00cb5e](https://github.com/Esri/calcite-components/commit/d00cb5e7e3e854b34c563cac6e04bc4dd868dfe8))
+- **tabs:** Add support for content positioning (tabs can now be positioned `above` (default) or `below` the tab content with the `position` prop) ([#809](https://github.com/Esri/calcite-components/issues/809)) ([3b0fc79](https://github.com/Esri/calcite-components/commit/3b0fc79e8a1707632edac8309f4124766bdbfc97))
+- **tabs:** Add support for icons in tab-title (now supports icons: `icon-start` and `icon-end` props have been added for explicit positioning of up to two icons.) ([#807](https://github.com/Esri/calcite-components/issues/807)) ([5afc650](https://github.com/Esri/calcite-components/commit/5afc650cc4ed255da1f5c032c9e4e913493a432a))
+- **tooltip:** Dismiss calcite-tooltip via ESC key [#877](https://github.com/Esri/calcite-components/issues/877) ([#878](https://github.com/Esri/calcite-components/issues/878)) ([5b2262e](https://github.com/Esri/calcite-components/commit/5b2262e520ced633c32450b9be887213b597a84c))
+
+### Bug Fixes
+
+- **calcite-checkbox:** cleaning up hidden input when checkbox is unmo… ([#813](https://github.com/Esri/calcite-components/issues/813)) ([2bc35e8](https://github.com/Esri/calcite-components/commit/2bc35e8022f9295c190e99381b2a490e8152e0fc))
+- **calcite-icon:** Fixing issue where calcite-icon being rendered in a flex container wasn't sizing properly or not appearing at all. ([#805](https://github.com/Esri/calcite-components/issues/805)) ([2b1c528](https://github.com/Esri/calcite-components/commit/2b1c528dfdbe51c150923d896f80de67ecbe9367))
+- **calcite-radio-button:** removing css class on host element ([#854](https://github.com/Esri/calcite-components/issues/854)) ([831b9f4](https://github.com/Esri/calcite-components/commit/831b9f4867442776244320949740a0f525ec7f8d))
+- **color:** ensure color change event is emitted when color is modified via API or interaction ([#881](https://github.com/Esri/calcite-components/issues/881)) ([13d796f](https://github.com/Esri/calcite-components/commit/13d796f16ca03de539fa6c0b5e371288d7c19c20)), closes [#822](https://github.com/Esri/calcite-components/issues/822)
+- **input:** Removed calciteInputInput event on componentWillUpdate ([#830](https://github.com/Esri/calcite-components/issues/830)) ([10ccd62](https://github.com/Esri/calcite-components/commit/10ccd62aea6b4b0e21f60c45acf53e7009e86617))
+- **loader:** ensure fallback id for loaders is generated properly ([#836](https://github.com/Esri/calcite-components/issues/836)) ([9136777](https://github.com/Esri/calcite-components/commit/9136777a5348581c485b4cd47fa234ef837c5891))
+- **pagination:** prevent page one rendering twice when total is smaller than num ([#835](https://github.com/Esri/calcite-components/issues/835)) ([bbc74a0](https://github.com/Esri/calcite-components/commit/bbc74a037b2be4df5487604e102d9ccaea94cd02))
+- **storybook:** fix split button storybook ([#794](https://github.com/Esri/calcite-components/issues/794)) ([da8f90a](https://github.com/Esri/calcite-components/commit/da8f90abdda9cf7cfd6a01dafc24a9f3c341c75b))
+- **storybook:** fix stepper storybook ([#793](https://github.com/Esri/calcite-components/issues/793)) ([685cea1](https://github.com/Esri/calcite-components/commit/685cea129402583d1d504c7433d6c8bb8a8d57b0))
+- **tabs:** ensure proper ARIA roles ([#832](https://github.com/Esri/calcite-components/issues/832)) ([12467a7](https://github.com/Esri/calcite-components/commit/12467a7de4ac57050cdc5c9630a62c2ba7fe98e2)), closes [#831](https://github.com/Esri/calcite-components/issues/831)
 
 ## [v1.0.0-beta.36]
 

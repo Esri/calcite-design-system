@@ -1,12 +1,11 @@
 import { storiesOf } from "@storybook/html";
-import { withKnobs, select, text } from "@storybook/addon-knobs";
-import { darkBackground, parseReadme, boolean } from "../../../.storybook/helpers";
+import { select, text } from "@storybook/addon-knobs";
+import { boolean } from "../../../.storybook/helpers";
+import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-const notes = parseReadme(readme);
 
-storiesOf("components|Input", module)
-  .addDecorator(withKnobs)
-
+storiesOf("Components/Input", module)
+  .addParameters({ notes: readme })
   .add(
     "With Label",
     () => `
@@ -44,15 +43,17 @@ storiesOf("components|Input", module)
     )}</calcite-input-message>
     </calcite-label>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "With Label and Input Message",
     () => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
-    scale="${select("scale", ["s", "m", "l"], "m", "Label")}">
+    <calcite-label
+    status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
+    scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
+    layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
+    >
     ${text("label text", "My great label", "Label")}
     <calcite-input
       type="${select(
@@ -82,8 +83,7 @@ storiesOf("components|Input", module)
    >${text("input message text", "My great input message", "Input Message")}</calcite-input-message>
     </calcite-label>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Without Label",
@@ -113,8 +113,7 @@ storiesOf("components|Input", module)
       placeholder="${text("placeholder", "Placeholder text")}">
     </calcite-input>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "With Slotted Action",
@@ -154,8 +153,7 @@ storiesOf("components|Input", module)
     )}</calcite-input-message>
     </calcite-label>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Textarea",
@@ -180,8 +178,7 @@ storiesOf("components|Input", module)
     )}</calcite-input-message>
     </calcite-label>
     </div>
-  `,
-    { notes }
+  `
   )
   .add(
     "Simple - Dark mode",
@@ -219,5 +216,5 @@ storiesOf("components|Input", module)
     </calcite-label>
     </div>
   `,
-    { notes, backgrounds: darkBackground }
+    { backgrounds: darkBackground }
   );

@@ -230,11 +230,16 @@ export class CalcitePickListItem {
       return null;
     }
 
-    const iconName = icon === ICON_TYPES.circle ? ICONS.circle : ICONS.checked;
-
     return (
-      <span class={CSS.icon}>
-        <calcite-icon scale="s" icon={iconName} />
+      <span
+        class={{
+          [CSS.icon]: true,
+          [CSS.iconDot]: icon === ICON_TYPES.circle
+        }}
+      >
+        {icon === ICON_TYPES.square ? (
+          <calcite-icon scale="s" icon={ICONS.checked}></calcite-icon>
+        ) : null}
       </span>
     );
   }

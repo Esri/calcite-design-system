@@ -371,4 +371,28 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("");
   });
+
+  it("should emit event when up or down clicked on input", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" max="0" value="-2"></calcite-input>
+    `);
+
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+    );
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+
+    expect(calciteInputInput).toHaveReceivedEvent();
+
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+    );
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEvent();
+  });
 });

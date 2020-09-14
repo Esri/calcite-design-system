@@ -1,6 +1,7 @@
-import { Component, Host, h, Listen, Prop } from "@stencil/core";
+import { Component, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
 import { getDescribedByElement } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tooltip-manager"
@@ -34,14 +35,20 @@ export class CalciteTooltipManager {
     }
   };
 
+  keyUpHandler = (event: KeyboardEvent): void => {
+    if (getKey(event.key) === "Escape") {
+      this.toggle(event, false);
+    }
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
 
-  render() {
-    return <Host />;
+  render(): VNode {
+    return <Host onkeyup={this.keyUpHandler} />;
   }
 
   //--------------------------------------------------------------------------
@@ -50,19 +57,23 @@ export class CalciteTooltipManager {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("mouseenter", { capture: true }) mouseEnterShow(event: Event) {
+  @Listen("mouseenter", { capture: true })
+  mouseEnterShow(event: Event): void {
     this.toggle(event, true);
   }
 
-  @Listen("mouseleave", { capture: true }) mouseLeaveHide(event: Event) {
+  @Listen("mouseleave", { capture: true })
+  mouseLeaveHide(event: Event): void {
     this.toggle(event, false);
   }
 
-  @Listen("focus", { capture: true }) focusShow(event: Event) {
+  @Listen("focus", { capture: true })
+  focusShow(event: Event): void {
     this.toggle(event, true);
   }
 
-  @Listen("blur", { capture: true }) blurHide(event: Event) {
+  @Listen("blur", { capture: true })
+  blurHide(event: Event): void {
     this.toggle(event, false);
   }
 }

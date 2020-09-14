@@ -7,9 +7,11 @@ import {
   Element,
   Watch,
   Event,
-  EventEmitter
+  EventEmitter,
+  VNode
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-radio-button",
@@ -35,7 +37,7 @@ export class CalciteRadioButton {
   @Prop({ mutable: true, reflect: true }) checked = false;
 
   @Watch("checked")
-  checkedChanged(newChecked: boolean, oldChecked: boolean) {
+  checkedChanged(newChecked: boolean, oldChecked: boolean): void {
     if (newChecked === true && oldChecked === false) {
       this.uncheckOtherRadioButtonsInGroup();
     }
@@ -47,7 +49,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) disabled?: boolean = false;
 
   @Watch("disabled")
-  disabledChanged(disabled: boolean) {
+  disabledChanged(disabled: boolean): void {
     this.input.disabled = disabled;
   }
 
@@ -55,7 +57,7 @@ export class CalciteRadioButton {
   @Prop({ mutable: true, reflect: true }) focused = false;
 
   @Watch("focused")
-  focusedChanged(focused: boolean) {
+  focusedChanged(focused: boolean): void {
     if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
     } else {
@@ -65,13 +67,13 @@ export class CalciteRadioButton {
   }
 
   /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid: string = this.el.id || `calcite-radio-button-${guid()}`;
+  @Prop({ reflect: true }) guid: string;
 
   /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   @Watch("hidden")
-  hiddenChanged(newHidden: boolean) {
+  hiddenChanged(newHidden: boolean): void {
     this.input.hidden = newHidden;
   }
 
@@ -82,7 +84,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) name!: string;
 
   @Watch("name")
-  nameChanged(newName: string) {
+  nameChanged(newName: string): void {
     this.input.name = newName;
   }
 
@@ -90,7 +92,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) required = false;
 
   @Watch("required")
-  requiredChanged(required: boolean) {
+  requiredChanged(required: boolean): void {
     this.input.required = required;
   }
 
@@ -98,7 +100,7 @@ export class CalciteRadioButton {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   @Watch("scale")
-  validateScale(newScale: string) {
+  validateScale(newScale: string): void {
     const scales = ["s", "m", "l"];
     if (!scales.includes(newScale)) this.scale = "m";
   }
@@ -107,7 +109,7 @@ export class CalciteRadioButton {
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   @Watch("theme")
-  validateTheme(newTheme: string) {
+  validateTheme(newTheme: string): void {
     const themes = ["light", "dark"];
     if (!themes.includes(newTheme)) this.theme = "light";
   }
@@ -122,6 +124,8 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   private input: HTMLInputElement;
+
+  private label: HTMLCalciteLabelElement;
 
   private titleAttributeObserver: MutationObserver;
 
@@ -173,11 +177,9 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  @Event()
-  calciteRadioButtonChange: EventEmitter;
+  @Event() calciteRadioButtonChange: EventEmitter;
 
-  @Event()
-  calciteRadioButtonFocusedChange: EventEmitter;
+  @Event() calciteRadioButtonFocusedChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -186,26 +188,34 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  check() {
+  check(event: MouseEvent | FocusEvent): void {
+    // Prevent parent label from clicking the first radio when calcite-radio-button is clicked
+    if (this.el.closest("label") && event.target === this.el) {
+      event.preventDefault();
+    }
     if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
-      this.focused = true;
       this.checked = true;
+      this.focused = true;
     }
   }
 
   @Listen("mouseenter")
-  mouseenter() {
+  mouseenter(): void {
     this.hovered = true;
   }
 
   @Listen("mouseleave")
-  mouseleave() {
+  mouseleave(): void {
     this.hovered = false;
   }
 
-  onInputBlur() {
+  private onInputBlur() {
     this.focused = false;
+  }
+
+  private onInputFocus() {
+    this.focused = true;
   }
 
   //--------------------------------------------------------------------------
@@ -214,26 +224,25 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    this.renderHiddenRadioInput();
-    this.setupTitleAttributeObserver();
-  }
-
-  componentWillLoad() {
+  connectedCallback(): void {
+    this.guid = this.el.id || `calcite-radio-button-${guid()}`;
     this.validateScale(this.scale);
     this.validateTheme(this.theme);
+    this.renderInput();
+    this.renderLabel();
+    this.setupTitleAttributeObserver();
     if (this.name) {
       this.checkFirstRadioButton();
     }
   }
 
   componentDidLoad() {
-    if (this.name) {
-      this.checkFirstRadioButton();
+    if (this.focused) {
+      this.input.focus();
     }
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
     this.titleAttributeObserver.disconnect();
   }
@@ -244,7 +253,7 @@ export class CalciteRadioButton {
   //
   // --------------------------------------------------------------------------
 
-  private renderHiddenRadioInput() {
+  private renderInput() {
     // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
     // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
     this.input = this.el.ownerDocument.createElement("input");
@@ -252,12 +261,12 @@ export class CalciteRadioButton {
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
     this.input.hidden = this.hidden;
-    this.input.id = this.guid;
+    this.input.id = `${this.guid}-input`;
     if (this.name) {
       this.input.name = this.name;
     }
-    this.input.onfocus = this.check.bind(this);
     this.input.onblur = this.onInputBlur.bind(this);
+    this.input.onfocus = this.onInputFocus.bind(this);
 
     // We're using option #3 explained here to hide the radio input without compromising accessibility
     // @link https://blog.bitsrc.io/customise-radio-buttons-without-compromising-accessibility-b03061b5ba93
@@ -284,22 +293,31 @@ export class CalciteRadioButton {
     this.el.insertAdjacentElement("beforeend", this.input);
   }
 
-  render() {
-    const hasLabel = this.el.textContent ? true : false;
+  private renderLabel() {
+    // Rendering a calcite-label outside of Shadow DOM for accessibility and form participation
+    this.el.childNodes.forEach((childNode) => {
+      if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
+        this.label = this.el.ownerDocument.createElement("calcite-label");
+        this.label.setAttribute("dir", getElementDir(this.el));
+        this.disabled && this.label.setAttribute("disabled", "");
+        this.label.setAttribute("for", `${this.guid}-input`);
+        this.label.setAttribute("disable-spacing", "");
+        this.label.setAttribute("scale", this.scale);
+        this.label.appendChild(this.el.ownerDocument.createTextNode(childNode.textContent.trim()));
+        childNode.parentNode.replaceChild(this.label, childNode);
+      }
+    });
+  }
+
+  render(): VNode {
     return (
       <Host
         aria-checked={this.checked.toString()}
         aria-disabled={this.disabled}
-        class={{ hasLabel }}
+        labeled={this.el.textContent ? true : false}
       >
         <div class="radio"></div>
-        {hasLabel ? (
-          <calcite-label dir={document.documentElement.getAttribute("dir")} scale={this.scale}>
-            <slot />
-          </calcite-label>
-        ) : (
-          <slot />
-        )}
+        <slot />
       </Host>
     );
   }

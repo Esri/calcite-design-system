@@ -44,8 +44,8 @@ Type: `Promise<void>`
 graph TD;
   calcite-color-hex-input --> calcite-input
   calcite-color-hex-input --> calcite-color-swatch
-  calcite-input --> calcite-icon
   calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   calcite-color --> calcite-color-hex-input
   style calcite-color-hex-input fill:#f9f,stroke:#333,stroke-width:4px
 ```

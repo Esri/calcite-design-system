@@ -17,7 +17,6 @@ import {
  */
 @Component({
   tag: "calcite-sortable-list",
-  styleUrl: "./calcite-sortable-list.scss",
   shadow: true
 })
 export class CalciteSortableList {
@@ -74,7 +73,7 @@ export class CalciteSortableList {
     this.beginObserving();
   }
 
-  componentDidUnload(): void {
+  disconnectedCallback(): void {
     this.observer.disconnect();
     this.cleanUpDragAndDrop();
   }

@@ -7,6 +7,9 @@
 | Property          | Attribute           | Description                                                                                                                                                                                          | Type                                                                                                     | Default                             |
 | ----------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | `appearance`      | `appearance`        | specify the appearance - default (containing border), or minimal (no containing border)                                                                                                              | `"default" \| "minimal"`                                                                                 | `"default"`                         |
+| `hideChannels`    | `hide-channels`     | When true, hides the RGB/HSV channel inputs                                                                                                                                                          | `boolean`                                                                                                | `false`                             |
+| `hideHex`         | `hide-hex`          | When true, hides the hex input                                                                                                                                                                       | `boolean`                                                                                                | `false`                             |
+| `hideSaved`       | `hide-saved`        | When true, hides the saved colors section                                                                                                                                                            | `boolean`                                                                                                | `false`                             |
 | `intlB`           | `intl-b`            | Label used for the blue channel                                                                                                                                                                      | `string`                                                                                                 | `TEXT.b`                            |
 | `intlBlue`        | `intl-blue`         | Label used for the blue channel description                                                                                                                                                          | `string`                                                                                                 | `TEXT.blue`                         |
 | `intlDeleteColor` | `intl-delete-color` | Label used for the delete color button.                                                                                                                                                              | `string`                                                                                                 | `TEXT.deleteColor`                  |
@@ -72,8 +75,8 @@ graph TD;
   calcite-color --> calcite-button
   calcite-color --> calcite-color-swatch
   calcite-tab-title --> calcite-icon
-  calcite-input --> calcite-icon
   calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   calcite-color-hex-input --> calcite-input
   calcite-color-hex-input --> calcite-color-swatch
   calcite-button --> calcite-loader

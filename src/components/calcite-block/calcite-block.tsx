@@ -145,7 +145,7 @@ export class CalciteBlock {
           </div>
         ) : null}
         <div class={CSS.title}>
-          <h3 class={CSS.heading}>{heading}</h3>
+          <h4 class={CSS.heading}>{heading}</h4>
           {summary ? <div class={CSS.summary}>{summary}</div> : null}
         </div>
       </header>
@@ -185,7 +185,10 @@ export class CalciteBlock {
         <article
           aria-expanded={collapsible ? open.toString() : null}
           aria-busy={loading.toString()}
-          class={rtl ? CSS_UTILITY.rtl : null}
+          class={{
+            [CSS.article]: true,
+            [CSS_UTILITY.rtl]: rtl
+          }}
         >
           {headerNode}
           <div class={CSS.content} hidden={!open}>
