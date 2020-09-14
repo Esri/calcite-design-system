@@ -18,10 +18,13 @@ describe("calcite-tooltip-manager", () => {
   it("should honor tooltips on mouseover/mouseout", async () => {
     const page = await newE2EPage();
 
+    const openDelay = 500;
+    const closeDelay = 500;
+
     await page.setContent(
       `
       <button id="test">test</button>
-      <calcite-tooltip-manager>
+      <calcite-tooltip-manager open-delay="${openDelay}" close-delay="${closeDelay}">
         <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
         <button id="ref">Button</button>
       <calcite-tooltip-manager>
@@ -40,6 +43,8 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
+    await page.waitFor(openDelay);
+
     expect(await tooltip.getProperty("open")).toBe(true);
 
     const testElement = await page.find("#test");
@@ -47,6 +52,8 @@ describe("calcite-tooltip-manager", () => {
     await testElement.hover();
 
     await page.waitForChanges();
+
+    await page.waitFor(closeDelay);
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });

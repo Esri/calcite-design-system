@@ -107,12 +107,12 @@ export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boo
 export function addEventListenerOnce(
   element: HTMLElement,
   event: string,
-  fn: (evt?: Event) => void,
+  callback: (evt?: Event) => void,
   options?: boolean | AddEventListenerOptions
 ): void {
   const func = (evt?: Event) => {
     element.removeEventListener(event, func, options);
-    fn(evt);
+    callback(evt);
   };
 
   element.addEventListener(event, func, options);
