@@ -193,7 +193,7 @@ export class CalciteInput {
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
-    this.setDisabledAction();
+    if (this.disabled) this.setDisabledAction();
   }
 
   componentWillLoad(): void {
