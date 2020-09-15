@@ -2,11 +2,12 @@
   @extend %component-host;
   display: flex;
   position: relative;
-
-  --calcite-panel-max-height-small: 40vh;
-  --calcite-panel-max-height-medium: 60vh;
-  --calcite-panel-max-height-large: 80vh;
+  
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
+  --calcite-panel-max-height: unset;
+  --calcite-panel-width: 100%;
+  --calcite-panel-min-width: 150px;
+  --calcite-panel-max-width: unset;
 }
 
 @import "../../assets/styles/header";
@@ -14,9 +15,12 @@
 .container {
   align-items: stretch;
   background-color: var(--calcite-ui-background);
-  transition: max-height $transition;
-  width: 100%;
+  transition: max-height $transition, width $transition;
   height: 100%;
+  max-height: var(--calcite-panel-max-height);
+  width: var(--calcite-panel-width);
+  max-width: var(--calcite-panel-max-width);
+  min-width: var(--calcite-panel-min-width);
   padding: 0;
   margin: 0;
   display: flex;
@@ -33,15 +37,30 @@ calcite-scrim {
 }
 
 :host([height-scale="s"]) .container {
-  max-height: var(--calcite-panel-max-height-small);
+  --calcite-panel-max-height: 40vh;
 }
 
 :host([height-scale="m"]) .container {
-  max-height: var(--calcite-panel-max-height-medium);
+  --calcite-panel-max-height: 60vh;
 }
 
 :host([height-scale="l"]) .container {
-  max-height: var(--calcite-panel-max-height-large);
+  --calcite-panel-max-height: 80vh;
+}
+
+:host([width-scale="s"]) {
+  --calcite-panel-width: 12vw;
+  --calcite-panel-max-width: 300px;
+}
+
+:host([width-scale="m"]) {
+  --calcite-panel-width: 20vw;
+  --calcite-panel-max-width: 420px;
+}
+
+:host([width-scale="l"]) {
+  --calcite-panel-width: 45vw;
+  --calcite-panel-max-width: 680px;
 }
 
 .container[hidden] {
@@ -71,7 +90,7 @@ calcite-scrim {
   display: block;
   overflow: hidden;
   margin-right: auto;
-  padding: var(--calcite-spacing) var(--calcite-spacing);
+  padding: var(--calcite-spacing) var(--calcite-spacing-three-quarters);
   .heading,
   .summary {
     padding: 0;
@@ -127,6 +146,7 @@ calcite-scrim {
 }
 
 .footer {
+  background-color: var(--calcite-ui-foreground-1);
   border-top: 1px solid var(--calcite-ui-border-3);
   display: flex;
   flex: 0 0 auto;
