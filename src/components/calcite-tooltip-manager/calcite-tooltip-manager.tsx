@@ -1,7 +1,9 @@
 import { Component, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
-import { getDescribedByElement, addEventListenerOnce } from "../../utils/dom";
+import { getDescribedByElement, once } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+
+const TOOLTIP_DELAY_MS = 500;
 
 @Component({
   tag: "calcite-tooltip-manager"
@@ -15,21 +17,17 @@ export class CalciteTooltipManager {
 
   timeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
 
+  hoveredTooltipEl: HTMLCalciteTooltipElement;
+
+  hoveredReferenceEl: HTMLElement;
+
+  focusedReferenceEl: HTMLElement;
+
   // --------------------------------------------------------------------------
   //
   //  Properties
   //
   // --------------------------------------------------------------------------
-
-  /**
-   * Time to wait in milliseconds before closing the popup from mouse out.
-   */
-  @Prop() closeDelay = 500;
-
-  /**
-   * Time to wait in milliseconds before opening the popup from mouse over.
-   */
-  @Prop() openDelay = 500;
 
   /**
    * CSS Selector to match reference elements for tooltips.
@@ -56,20 +54,62 @@ export class CalciteTooltipManager {
 
   delayedToggle = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
     this.clearTooltipTimeout(tooltip);
-    const { openDelay, closeDelay, timeouts } = this;
-    const delay = !value ? closeDelay : openDelay;
-    const timeoutId = window.setTimeout(() => (tooltip.open = value), delay || 0);
+    const { timeouts } = this;
+    const timeoutId = window.setTimeout(() => (tooltip.open = value), TOOLTIP_DELAY_MS || 0);
     timeouts.set(tooltip, timeoutId);
   };
 
-  eventToggle = ({
-    event,
-    value = true,
-    delayed = true
+  // todo: cleanup event removals
+  tooltipMouseEnter = (tooltip: HTMLCalciteTooltipElement): void => {
+    this.clearTooltipTimeout(tooltip);
+    this.hoveredTooltipEl = tooltip;
+    once(tooltip, "mouseleave", () => this.tooltipMouseLeave(tooltip));
+  };
+
+  tooltipMouseLeave = (tooltip: HTMLCalciteTooltipElement): void => {
+    this.delayedToggle(tooltip, false);
+    this.hoveredTooltipEl = null;
+  };
+
+  hoverEvent = ({
+    tooltip,
+    value,
+    referenceEl
   }: {
-    event: Event;
+    referenceEl: HTMLElement;
+    tooltip: HTMLCalciteTooltipElement;
     value: boolean;
-    delayed: boolean;
+  }): void => {
+    this.hoveredReferenceEl = value ? referenceEl : null;
+
+    if (referenceEl !== this.focusedReferenceEl) {
+      this.delayedToggle(tooltip, value);
+      once(tooltip, "mouseenter", () => this.tooltipMouseEnter(tooltip));
+    }
+  };
+
+  focusEvent = ({
+    tooltip,
+    value,
+    referenceEl
+  }: {
+    referenceEl: HTMLElement;
+    tooltip: HTMLCalciteTooltipElement;
+    value: boolean;
+  }): void => {
+    this.focusedReferenceEl = value ? referenceEl : null;
+
+    if (referenceEl !== this.hoveredReferenceEl && tooltip !== this.hoveredTooltipEl) {
+      this.toggle(tooltip, value);
+    }
+  };
+
+  tooltipEvent = ({
+    event,
+    value = true
+  }: {
+    event: FocusEvent | MouseEvent | KeyboardEvent;
+    value: boolean;
   }): void => {
     const target = event.target as HTMLElement;
 
@@ -81,22 +121,22 @@ export class CalciteTooltipManager {
       return;
     }
 
-    if (delayed) {
-      this.delayedToggle(describedByElement, value);
-      addEventListenerOnce(describedByElement, "mouseenter", () =>
-        this.clearTooltipTimeout(describedByElement)
-      );
-      addEventListenerOnce(describedByElement, "mouseleave", () =>
-        this.delayedToggle(describedByElement, value)
-      );
-    } else {
-      this.toggle(describedByElement, value);
+    if (event instanceof MouseEvent) {
+      this.hoverEvent({ referenceEl: target, tooltip: describedByElement, value });
+    }
+
+    if (event instanceof FocusEvent) {
+      this.focusEvent({ referenceEl: target, tooltip: describedByElement, value });
+    }
+
+    if (event instanceof KeyboardEvent) {
+      this.focusEvent({ referenceEl: target, tooltip: describedByElement, value });
     }
   };
 
   keyUpHandler = (event: KeyboardEvent): void => {
     if (getKey(event.key) === "Escape") {
-      this.eventToggle({ event, value: false, delayed: false });
+      this.tooltipEvent({ event, value: false });
     }
   };
 
@@ -118,21 +158,21 @@ export class CalciteTooltipManager {
 
   @Listen("mouseenter", { capture: true })
   mouseEnterShow(event: MouseEvent): void {
-    this.eventToggle({ event, value: true, delayed: true });
+    this.tooltipEvent({ event, value: true });
   }
 
   @Listen("mouseleave", { capture: true })
   mouseLeaveHide(event: MouseEvent): void {
-    this.eventToggle({ event, value: false, delayed: true });
+    this.tooltipEvent({ event, value: false });
   }
 
   @Listen("focus", { capture: true })
-  focusShow(event: Event): void {
-    this.eventToggle({ event, value: true, delayed: false });
+  focusShow(event: FocusEvent): void {
+    this.tooltipEvent({ event, value: true });
   }
 
   @Listen("blur", { capture: true })
-  blurHide(event: Event): void {
-    this.eventToggle({ event, value: false, delayed: false });
+  blurHide(event: FocusEvent): void {
+    this.tooltipEvent({ event, value: false });
   }
 }

@@ -104,7 +104,7 @@ export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boo
   return labelEl.contains(el);
 }
 
-export function addEventListenerOnce(
+export function once(
   element: HTMLElement,
   event: string,
   callback: (evt?: Event) => void,
