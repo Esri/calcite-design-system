@@ -25,6 +25,6 @@ describe("calcite-date", () => {
     await input.press("2");
     await input.press("0");
     await page.waitForChanges();
-    expect(changedEvent).toHaveReceivedEventTimes(1);
+    expect(changedEvent).toHaveReceivedEventTimes(2);
   });
 });
