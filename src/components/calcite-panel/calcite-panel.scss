@@ -6,7 +6,7 @@
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
   --calcite-panel-width: 100%;
-  --calcite-panel-min-width: 150px;
+  --calcite-panel-min-width: unset;
   --calcite-panel-max-width: unset;
 }
 
@@ -51,16 +51,19 @@ calcite-scrim {
 :host([width-scale="s"]) {
   --calcite-panel-width: 12vw;
   --calcite-panel-max-width: 300px;
+  --calcite-panel-min-width: 150px;
 }
 
 :host([width-scale="m"]) {
   --calcite-panel-width: 20vw;
   --calcite-panel-max-width: 420px;
+  --calcite-panel-min-width: 210px;
 }
 
 :host([width-scale="l"]) {
   --calcite-panel-width: 45vw;
   --calcite-panel-max-width: 680px;
+  --calcite-panel-min-width: 340px;
 }
 
 .container[hidden] {

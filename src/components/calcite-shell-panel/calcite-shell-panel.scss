@@ -4,12 +4,6 @@
   align-items: stretch;
   background-color: transparent;
   pointer-events: none;
-
-  --calcite-shell-panel-min-width: 240px;
-  --calcite-shell-panel-min-height: 4rem;
-  --calcite-shell-panel-max-height-small: 35vh;
-  --calcite-shell-panel-max-height-medium: 55vh;
-  --calcite-shell-panel-max-height-large: 80vh;
 }
 
 ::slotted(calcite-panel),
