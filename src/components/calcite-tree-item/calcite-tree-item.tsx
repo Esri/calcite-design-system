@@ -89,7 +89,7 @@ export class CalciteTreeItem {
         icon="chevron-right"
         onClick={this.iconClickHandler}
         scale="s"
-      ></calcite-icon>
+      />
     ) : null;
 
     return (
@@ -109,7 +109,7 @@ export class CalciteTreeItem {
       >
         <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>
           {icon}
-          <slot></slot>
+          <slot />
         </div>
         <div
           class="calcite-tree-children"
@@ -118,7 +118,7 @@ export class CalciteTreeItem {
           ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
           role={this.hasChildren ? "group" : undefined}
         >
-          <slot name="children"></slot>
+          <slot name="children" />
         </div>
       </Host>
     );

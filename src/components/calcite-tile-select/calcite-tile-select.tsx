@@ -177,8 +177,8 @@ export class CalciteTileSelect {
           embed
           heading={this.heading}
           icon={this.icon}
-        ></calcite-tile>
-        <slot></slot>
+        />
+        <slot />
       </Host>
     );
   }

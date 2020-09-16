@@ -62,7 +62,7 @@ export class CalciteTree {
         aria-role={this.root ? "tree" : undefined}
         tabindex={this.root ? "0" : undefined}
       >
-        <slot></slot>
+        <slot />
       </Host>
     );
   }

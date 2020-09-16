@@ -34,7 +34,7 @@ export class CalciteScrim {
   // --------------------------------------------------------------------------
 
   render() {
-    const loaderNode = this.loading ? <calcite-loader active></calcite-loader> : null;
+    const loaderNode = this.loading ? <calcite-loader active /> : null;
 
     const scrimNode = <div class={CSS.scrim}>{loaderNode}</div>;
 

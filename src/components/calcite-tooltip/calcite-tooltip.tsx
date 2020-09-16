@@ -247,7 +247,7 @@ export class CalciteTooltip {
             [PopperCSS.animationActive]: displayed
           }}
         >
-          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
+          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
           <div class={CSS.container}>
             <slot />
           </div>

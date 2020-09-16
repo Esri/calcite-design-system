@@ -342,7 +342,7 @@ export class CalcitePopover {
         ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         title={intlClose}
       >
-        <calcite-icon icon="x" scale="m"></calcite-icon>
+        <calcite-icon icon="x" scale="m" />
       </button>
     ) : null;
   }
@@ -351,7 +351,7 @@ export class CalcitePopover {
     const { _referenceElement, open, disablePointer } = this;
     const displayed = _referenceElement && open;
     const arrowNode = !disablePointer ? (
-      <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
+      <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
     ) : null;
 
     return (

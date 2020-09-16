@@ -70,7 +70,7 @@ export class CalciteCard {
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
-              <calcite-loader active></calcite-loader>
+              <calcite-loader active />
             </div>
           ) : null}
           <section aria-busy={this.loading} class={{ [CSS.container]: true }}>
@@ -133,7 +133,7 @@ export class CalciteCard {
         onClick={() => this.cardSelectClick()}
         onKeyDown={(e) => this.cardSelectKeyDown(e)}
       >
-        <calcite-checkbox checked={this.selected} theme={this.theme}></calcite-checkbox>
+        <calcite-checkbox checked={this.selected} theme={this.theme} />
       </div>
     );
   }
