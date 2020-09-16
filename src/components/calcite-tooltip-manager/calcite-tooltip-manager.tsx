@@ -82,7 +82,7 @@ export class CalciteTooltipManager {
       : this.delayedToggle(hoveredTooltipEl, false);
   };
 
-  hoverEvent = ({ event, value }: { event: MouseEvent; value: boolean }): void => {
+  hoverEvent = (event: MouseEvent, value: boolean): void => {
     this.activeTooltipHover(event);
 
     const referenceEl = event.target as HTMLElement;
@@ -102,7 +102,7 @@ export class CalciteTooltipManager {
     }
   };
 
-  focusEvent = ({ event, value }: { event: FocusEvent; value: boolean }): void => {
+  focusEvent = (event: FocusEvent, value: boolean): void => {
     const referenceEl = event.target as HTMLElement;
     const tooltip = this.queryTooltip(referenceEl);
 
@@ -151,21 +151,21 @@ export class CalciteTooltipManager {
 
   @Listen("mouseenter", { capture: true })
   mouseEnterShow(event: MouseEvent): void {
-    this.hoverEvent({ event, value: true });
+    this.hoverEvent(event, true);
   }
 
   @Listen("mouseleave", { capture: true })
   mouseLeaveHide(event: MouseEvent): void {
-    this.hoverEvent({ event, value: true });
+    this.hoverEvent(event, false);
   }
 
   @Listen("focus", { capture: true })
   focusShow(event: FocusEvent): void {
-    this.focusEvent({ event, value: true });
+    this.focusEvent(event, true);
   }
 
   @Listen("blur", { capture: true })
   blurHide(event: FocusEvent): void {
-    this.focusEvent({ event, value: false });
+    this.focusEvent(event, false);
   }
 }
