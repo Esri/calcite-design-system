@@ -176,7 +176,7 @@ export class CalcitePagination {
     if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
-          <calcite-icon scale={iconScale} icon="ellipsis" />
+          <calcite-icon icon="ellipsis" scale={iconScale} />
         </span>
       );
     }
@@ -186,7 +186,7 @@ export class CalcitePagination {
     if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
-          <calcite-icon scale={iconScale} icon="ellipsis" />
+          <calcite-icon icon="ellipsis" scale={iconScale} />
         </span>
       );
     }
@@ -198,15 +198,15 @@ export class CalcitePagination {
     return (
       <Host>
         <button
+          aria-label={this.textLabelPrevious}
           class={{
             [CSS.previous]: true,
             [CSS.disabled]: start < num
           }}
-          aria-label={this.textLabelPrevious}
-          onClick={this.previousClicked}
           disabled={start < num}
+          onClick={this.previousClicked}
         >
-          <calcite-icon scale={iconScale} icon="chevronLeft" />
+          <calcite-icon icon="chevronLeft" scale={iconScale} />
         </button>
         {total > num ? this.renderPage(1) : null}
         {this.renderLeftEllipsis(iconScale)}
@@ -214,15 +214,15 @@ export class CalcitePagination {
         {this.renderRightEllipsis(iconScale)}
         {this.renderPage(this.getLastStart())}
         <button
+          aria-label={this.textLabelNext}
           class={{
             [CSS.next]: true,
             [CSS.disabled]: start + num >= total
           }}
-          aria-label={this.textLabelNext}
-          onClick={this.nextClicked}
           disabled={start + num >= total}
+          onClick={this.nextClicked}
         >
-          <calcite-icon scale={iconScale} icon="chevronRight" />
+          <calcite-icon icon="chevronRight" scale={iconScale} />
         </button>
       </Host>
     );

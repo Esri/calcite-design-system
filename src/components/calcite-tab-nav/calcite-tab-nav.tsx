@@ -1,17 +1,17 @@
 import {
   Component,
-  Listen,
-  Prop,
-  Watch,
+  Element,
   Event,
   EventEmitter,
-  Element,
-  State,
   h,
-  Host
+  Host,
+  Listen,
+  Prop,
+  State,
+  Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
-import { getSlottedElements } from "../../utils/dom";
+import { filterDirectChildren } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -93,7 +93,7 @@ export class CalciteTabNav {
   render() {
     return (
       <Host role="tablist">
-        <div class="tab-nav" ref={(el) => (this.tabNavEl = el as HTMLElement)}>
+        <div class="tab-nav">
           <slot />
         </div>
       </Host>
@@ -200,20 +200,6 @@ export class CalciteTabNav {
 
   //--------------------------------------------------------------------------
   //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  private tabNavEl: HTMLElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
@@ -225,19 +211,13 @@ export class CalciteTabNav {
   }
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {
-    if (this.tabNavEl) {
-      return getSlottedElements<HTMLCalciteTabTitleElement>(this.tabNavEl, "calcite-tab-title");
-    }
-    return [];
+    return filterDirectChildren<HTMLCalciteTabTitleElement>(this.el, "calcite-tab-title");
   }
 
   private get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
-    if (this.tabNavEl) {
-      return getSlottedElements<HTMLCalciteTabTitleElement>(
-        this.tabNavEl,
-        "calcite-tab-title:not([disabled])"
-      );
-    }
-    return [];
+    return filterDirectChildren<HTMLCalciteTabTitleElement>(
+      this.el,
+      "calcite-tab-title:not([disabled])"
+    );
   }
 }

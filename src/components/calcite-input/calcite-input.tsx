@@ -159,7 +159,7 @@ export class CalciteInput {
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
-    this.setDisabledAction();
+    if (this.disabled) this.setDisabledAction();
   }
 
   componentWillLoad(): void {
@@ -185,15 +185,15 @@ export class CalciteInput {
 
     const inputClearButton = (
       <div class="calcite-input-clear-button" onClick={this.clearInputValue}>
-        <calcite-icon theme={this.theme} icon="x" scale={iconScale}></calcite-icon>
+        <calcite-icon icon="x" scale={iconScale} theme={this.theme}></calcite-icon>
       </div>
     );
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
+        icon={this.icon as string}
         scale={iconScale}
         theme={this.theme}
-        icon={this.icon as string}
       ></calcite-icon>
     );
 
@@ -209,20 +209,20 @@ export class CalciteInput {
     const numberButtonsHorizontalUp = (
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onMouseDown={this.updateNumberValue}
         data-adjustment="up"
+        onMouseDown={this.updateNumberValue}
       >
-        <calcite-icon theme={this.theme} scale={iconScale} icon="chevron-up"></calcite-icon>
+        <calcite-icon icon="chevron-up" scale={iconScale} theme={this.theme}></calcite-icon>
       </div>
     );
 
     const numberButtonsHorizontalDown = (
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onMouseDown={this.updateNumberValue}
         data-adjustment="down"
+        onMouseDown={this.updateNumberValue}
       >
-        <calcite-icon theme={this.theme} scale={iconScale} icon="chevron-down"></calcite-icon>
+        <calcite-icon icon="chevron-down" scale={iconScale} theme={this.theme}></calcite-icon>
       </div>
     );
 
@@ -241,34 +241,34 @@ export class CalciteInput {
       this.childElType !== "textarea" ? (
         <input
           {...attributes}
+          autofocus={this.autofocus ? true : null}
+          disabled={this.disabled ? true : null}
+          max={this.maxString}
+          min={this.minString}
           onBlur={this.inputBlurHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputInputHandler}
-          type={this.type}
-          min={this.minString}
-          max={this.maxString}
-          step={this.stepString}
-          value={this.value}
           placeholder={this.placeholder || ""}
-          required={this.required ? true : null}
-          autofocus={this.autofocus ? true : null}
-          disabled={this.disabled ? true : null}
-          tabIndex={this.disabled ? -1 : null}
           ref={(el) => (this.childEl = el)}
+          required={this.required ? true : null}
+          step={this.stepString}
+          tabIndex={this.disabled ? -1 : null}
+          type={this.type}
+          value={this.value}
         />
       ) : (
         [
           <textarea
             {...attributes}
+            autofocus={this.autofocus ? true : null}
+            disabled={this.disabled ? true : null}
             onBlur={this.inputBlurHandler}
             onFocus={this.inputFocusHandler}
             onInput={this.inputInputHandler}
-            required={this.required ? true : null}
             placeholder={this.placeholder || ""}
-            autofocus={this.autofocus ? true : null}
-            disabled={this.disabled ? true : null}
-            tabIndex={this.disabled ? -1 : null}
             ref={(el) => (this.childEl = el)}
+            required={this.required ? true : null}
+            tabIndex={this.disabled ? -1 : null}
           >
             <slot />
           </textarea>,
