@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop, Build, State } from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 
@@ -74,7 +74,7 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     // prop validations
 
     const appearance = ["solid", "outline", "clear", "transparent"];
@@ -93,11 +93,11 @@ export class CalciteButton {
     this.setupTextContentObserver();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.observer.disconnect();
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     if (Build.isBrowser) {
       this.updateHasText();
       const elType = this.el.getAttribute("type");
@@ -105,7 +105,7 @@ export class CalciteButton {
     }
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
     const Tag = this.childElType;
@@ -155,7 +155,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     this.childEl.focus();
   }
 
@@ -193,7 +193,7 @@ export class CalciteButton {
     }
   }
 
-  private getAttributes() {
+  private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
     const props = [
       "appearance",
@@ -221,7 +221,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   // act on a requested or nearby form based on type
-  private handleClick = (e: Event) => {
+  private handleClick = (e: Event): void => {
     // this.type refers to type attribute, not child element type
     if (this.childElType === "button" && this.type !== "button") {
       const requestedForm = this.el.getAttribute("form");
@@ -230,7 +230,7 @@ export class CalciteButton {
         : (this.el.closest("form") as HTMLFormElement);
 
       if (targetForm) {
-        const targetFormSubmitFunction = targetForm.onsubmit as Function;
+        const targetFormSubmitFunction = targetForm.onsubmit as () => void;
         switch (this.type) {
           case "submit":
             if (targetFormSubmitFunction) targetFormSubmitFunction();

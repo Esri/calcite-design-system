@@ -63,7 +63,7 @@ export class CalciteCard {
   //
   // --------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
@@ -102,7 +102,7 @@ export class CalciteCard {
     this.selectCard();
   }
 
-  private cardSelectKeyDown(e) {
+  private cardSelectKeyDown(e): void {
     switch (getKey(e.key)) {
       case " ":
       case "Enter":

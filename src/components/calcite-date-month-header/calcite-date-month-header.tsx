@@ -1,4 +1,4 @@
-import { Component, Element, Prop, Host, Event, h, EventEmitter } from "@stencil/core";
+import { Component, Element, Prop, Host, Event, h, EventEmitter, VNode } from "@stencil/core";
 import { getLocaleFormatData, replaceArabicNumerals, getMonths, getYear } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
@@ -64,7 +64,7 @@ export class CalciteDateMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const activeMonth = this.activeDate.getMonth();
     const localizedMonth = getMonths(this.locale)[activeMonth];
     const localizedYear = getYear(this.activeDate, this.locale);
@@ -128,7 +128,7 @@ export class CalciteDateMonthHeader {
   /**
    * Increment year on UP/DOWN keys
    */
-  private onYearKey(e: KeyboardEvent) {
+  private onYearKey(e: KeyboardEvent): void {
     const year = (e.target as HTMLInputElement).value;
     switch (getKey(e.key)) {
       case "ArrowDown":

@@ -8,7 +8,8 @@ import {
   Host,
   Watch,
   Build,
-  State
+  State,
+  VNode
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 @Component({
@@ -78,18 +79,18 @@ export class CalciteRadioGroupItem {
       this.iconPosition = "start";
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.mutationObserver.disconnect();
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     // only use default slot content in browsers that support shadow dom
     // or if ie11 has no label provided (#374)
     const label = this.el.querySelector("label");
     this.useFallback = !label || label.textContent === "";
   }
 
-  render() {
+  render(): VNode {
     const { checked, useFallback, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
     const appearance = getElementProp(this.el, "appearance", "solid");

@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop, Watch } from "@stencil/core";
+import { Component, Host, h, Element, Prop, Watch, VNode } from "@stencil/core";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -24,7 +24,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
-  onDisabledChange() {
+  onDisabledChange(): void {
     this.passPropsToRadioButtons();
   }
 
@@ -32,7 +32,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) hidden = false;
 
   @Watch("hidden")
-  onHiddenChange() {
+  onHiddenChange(): void {
     this.passPropsToRadioButtons();
   }
 
@@ -40,7 +40,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   @Watch("layout")
-  validateLayout(newLayout: string) {
+  validateLayout(newLayout: string): void {
     const layouts = ["horizontal", "vertical"];
     if (!layouts.includes(newLayout)) {
       this.layout = "horizontal";
@@ -58,7 +58,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   @Watch("scale")
-  validateScale(newScale: string) {
+  validateScale(newScale: string): void {
     const scales = ["s", "m", "l"];
     if (!scales.includes(newScale)) {
       this.scale = "m";
@@ -70,7 +70,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
 
   @Watch("theme")
-  validateTheme(newTheme: string) {
+  validateTheme(newTheme: string): void {
     const themes = ["light", "dark"];
     if (!themes.includes(newTheme)) {
       this.theme = "light";
@@ -84,7 +84,7 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.validateLayout(this.layout);
     this.validateScale(this.scale);
     this.validateTheme(this.theme);
@@ -97,7 +97,7 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  private passPropsToRadioButtons = () => {
+  private passPropsToRadioButtons = (): void => {
     const radioButtons = this.el.querySelectorAll("calcite-radio-button");
     let firstCheckedRadioButton;
 
@@ -127,7 +127,7 @@ export class CalciteRadioButtonGroup {
   //
   // --------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     return (
       <Host role="radiogroup">
         <slot></slot>

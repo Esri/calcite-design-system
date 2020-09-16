@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+  VNode
+} from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
@@ -61,7 +71,7 @@ export class CalciteAccordionItem {
     this.scale = getElementProp(this.el, "scale", "m");
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.itemPosition = this.getItemPosition();
     this.calciteAccordionItemRegister.emit({
       parent: this.parent,
@@ -69,7 +79,7 @@ export class CalciteAccordionItem {
     });
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const iconScale = this.scale !== "l" ? "s" : "m";
 
@@ -115,7 +125,7 @@ export class CalciteAccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     if (e.target === this.el) {
       switch (getKey(e.key)) {
         case " ":
@@ -138,7 +148,7 @@ export class CalciteAccordionItem {
   }
 
   @Listen("calciteAccordionChange", { target: "body" })
-  updateActiveItemOnChange(event: CustomEvent) {
+  updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail
       .requestedAccordionItem as HTMLCalciteAccordionItemElement;
     this.determineActiveItem();
@@ -172,14 +182,14 @@ export class CalciteAccordionItem {
   private scale: string;
 
   /** handle clicks on item header */
-  private itemHeaderClickHandler = () => this.emitRequestedItem();
+  private itemHeaderClickHandler = (): void => this.emitRequestedItem();
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private determineActiveItem() {
+  private determineActiveItem(): void {
     switch (this.selectionMode) {
       case "multi":
         if (this.el === this.requestedAccordionItem) this.active = !this.active;
@@ -196,13 +206,13 @@ export class CalciteAccordionItem {
     }
   }
 
-  private emitRequestedItem() {
+  private emitRequestedItem(): void {
     this.calciteAccordionItemSelect.emit({
       requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
     });
   }
 
-  private getItemPosition() {
+  private getItemPosition(): number {
     return Array.prototype.indexOf.call(
       this.parent.querySelectorAll("calcite-accordion-item"),
       this.el

@@ -1,4 +1,4 @@
-import { Component, h, Host, Prop, Event, EventEmitter, Element } from "@stencil/core";
+import { Component, h, Host, Prop, Event, EventEmitter, Element, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { CSS, TEXT } from "./resources";
 
@@ -57,7 +57,7 @@ export class CalciteChip {
   //
   // --------------------------------------------------------------------------
 
-  closeClickHandler = (event: MouseEvent) => {
+  closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
     this.calciteChipDismiss.emit(this.el);
   };
@@ -67,7 +67,7 @@ export class CalciteChip {
   //  Render Methods
   //
   //--------------------------------------------------------------------------
-  connectedCallback() {
+  connectedCallback(): void {
     // prop validations
     const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
@@ -79,7 +79,7 @@ export class CalciteChip {
     if (!color.includes(this.color)) this.color = "grey";
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const iconScale = this.scale !== "l" ? "s" : "m";
 

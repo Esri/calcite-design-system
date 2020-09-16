@@ -7,7 +7,7 @@ storiesOf("Components/Scrim", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div
     style="position: relative; width: 400px; height: 400px; overflow: auto;"
   ><calcite-scrim
@@ -25,7 +25,7 @@ storiesOf("Components/Scrim", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <div
     style="position: relative; width: 400px; height: 400px; overflow: auto;"
   ><calcite-scrim

@@ -1,4 +1,4 @@
-import { Build, Component, Element, h, Host, Prop, State, Watch } from "@stencil/core";
+import { Build, Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
@@ -92,7 +92,7 @@ export class CalciteIcon {
     this.loadIconPathData();
   }
 
-  render() {
+  render(): VNode {
     const { el, mirrored, pathData, scale, textLabel } = this;
     const dir = getElementDir(el);
     const size = scaleToPx[scale];

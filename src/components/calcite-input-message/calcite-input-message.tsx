@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop } from "@stencil/core";
+import { Component, Element, Host, h, Prop, VNode } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
@@ -43,7 +43,7 @@ export class CalciteInputMessage {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  connectedCallback() {
+  connectedCallback(): void {
     // validate props
     const statusOptions = ["invalid", "valid", "idle"];
     if (!statusOptions.includes(this.status))
@@ -57,16 +57,11 @@ export class CalciteInputMessage {
     if (!type.includes(this.type)) this.type = "default";
   }
 
-  componentWillUpdate() {
-    this.iconEl = this.setIcon(this.iconDefaults[this.status]);
-  }
-
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
-    this.iconEl = this.setIcon(this.iconDefaults[this.status]);
     return (
       <Host dir={dir} theme={this.theme}>
-        {this.icon ? this.iconEl : null}
+        {this.icon ? this.renderIcon(this.iconDefaults[this.status]) : null}
         <slot />
       </Host>
     );
@@ -85,16 +80,13 @@ export class CalciteInputMessage {
     idle: "information"
   };
 
-  // the icon to be rendered if icon is requested
-  private iconEl: string;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private setIcon(iconName) {
+  private renderIcon(iconName): VNode {
     return (
       <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s"></calcite-icon>
     );

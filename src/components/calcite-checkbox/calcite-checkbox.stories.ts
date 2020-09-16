@@ -8,7 +8,7 @@ storiesOf("Components/Checkbox", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <label>
       <calcite-checkbox
         ${boolean("checked", true)}
@@ -22,7 +22,7 @@ storiesOf("Components/Checkbox", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <label>
       <calcite-checkbox
         theme="dark"

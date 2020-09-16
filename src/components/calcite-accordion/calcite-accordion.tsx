@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+  VNode
+} from "@stencil/core";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -56,7 +66,7 @@ export class CalciteAccordion {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     // validate props
     const appearance = ["default", "minimal", "transparent"];
     if (!appearance.includes(this.appearance)) this.appearance = "default";
@@ -74,14 +84,14 @@ export class CalciteAccordion {
     if (!selectionMode.includes(this.selectionMode)) this.selectionMode = "multi";
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     if (!this.sorted) {
       this.items = this.sortItems(this.items);
       this.sorted = true;
     }
   }
 
-  render() {
+  render(): VNode {
     return (
       <Host>
         <slot />
@@ -95,7 +105,7 @@ export class CalciteAccordion {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteAccordionItemKeyEvent") calciteAccordionItemKeyEvent(e: CustomEvent) {
+  @Listen("calciteAccordionItemKeyEvent") calciteAccordionItemKeyEvent(e: CustomEvent): void {
     const item = e.detail.item;
     const parent = e.detail.parent as HTMLCalciteAccordionElement;
     if (this.el === parent) {
@@ -122,7 +132,7 @@ export class CalciteAccordion {
     }
   }
 
-  @Listen("calciteAccordionItemRegister") registerCalciteAccordionItem(e: CustomEvent) {
+  @Listen("calciteAccordionItemRegister") registerCalciteAccordionItem(e: CustomEvent): void {
     const item = {
       item: e.target as HTMLCalciteAccordionItemElement,
       parent: e.detail.parent as HTMLCalciteAccordionElement,
@@ -131,7 +141,7 @@ export class CalciteAccordion {
     if (this.el === item.parent) this.items.push(item);
   }
 
-  @Listen("calciteAccordionItemSelect") updateActiveItemOnChange(event: CustomEvent) {
+  @Listen("calciteAccordionItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
     this.calciteAccordionChange.emit({
       requestedAccordionItem: this.requestedAccordionItem
@@ -169,19 +179,19 @@ export class CalciteAccordion {
     this.focusElement(lastItem);
   }
 
-  private focusNextItem(e) {
+  private focusNextItem(e): void {
     const index = this.itemIndex(e);
     const nextItem = this.items[index + 1] || this.items[0];
     this.focusElement(nextItem);
   }
 
-  private focusPrevItem(e) {
+  private focusPrevItem(e): void {
     const index = this.itemIndex(e);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
     this.focusElement(prevItem);
   }
 
-  private itemIndex(e) {
+  private itemIndex(e): number {
     return this.items.indexOf(e);
   }
 

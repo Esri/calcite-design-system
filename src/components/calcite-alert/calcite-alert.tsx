@@ -9,7 +9,8 @@ import {
   Listen,
   Prop,
   State,
-  Watch
+  Watch,
+  VNode
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { TEXT } from "./calcite-alert.resources";
@@ -77,7 +78,7 @@ export class CalciteAlert {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     // prop validations
     const colors = ["blue", "red", "green", "yellow"];
     if (!colors.includes(this.color)) this.color = "blue";
@@ -92,11 +93,11 @@ export class CalciteAlert {
     if (this.active && !this.queued) this.calciteAlertRegister.emit();
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.alertLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
-  @Watch("active") watchActive() {
+  @Watch("active") watchActive(): void {
     if (this.active && !this.queued) this.calciteAlertRegister.emit();
     if (!this.active) {
       this.queue = this.queue.filter((e) => e !== this.el);
@@ -104,7 +105,7 @@ export class CalciteAlert {
     }
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const closeButton = (
       <button
@@ -128,7 +129,7 @@ export class CalciteAlert {
 
     return (
       <Host active={this.active} aria-hidden={hidden} dir={dir} queued={this.queued} role={role}>
-        {this.icon ? this.setIcon() : null}
+        {this.icon ? this.renderIcon() : null}
         <div class="alert-content">
           <slot name="alert-title"></slot>
           <slot name="alert-message"></slot>
@@ -168,7 +169,7 @@ export class CalciteAlert {
   //--------------------------------------------------------------------------
 
   /** focus either the slotted alert-link or the close button */
-  @Method() async setFocus() {
+  @Method() async setFocus(): Promise<void> {
     if (!this.closeButton && !this.alertLinkEl) return;
     else if (this.alertLinkEl) this.alertLinkEl.setFocus();
     else if (this.closeButton) this.closeButton.focus();
@@ -212,7 +213,7 @@ export class CalciteAlert {
 
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteAlertSync", { target: "window" })
-  alertSync(event: CustomEvent) {
+  alertSync(event: CustomEvent): void {
     if (this.queue !== event.detail.queue) {
       this.queue = event.detail.queue;
     }
@@ -222,7 +223,7 @@ export class CalciteAlert {
 
   // when an alert is first registered, trigger a queue sync to get queue
   @Listen("calciteAlertRegister", { target: "window" })
-  alertRegister() {
+  alertRegister(): void {
     if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
       this.queue.push(this.el as HTMLCalciteAlertElement);
@@ -232,7 +233,7 @@ export class CalciteAlert {
   }
 
   /** emit the opened alert and the queue */
-  private openAlert() {
+  private openAlert(): void {
     setTimeout(() => (this.queued = false), 300);
     this.calciteAlertOpen.emit({
       el: this.el,
@@ -254,7 +255,7 @@ export class CalciteAlert {
   }
 
   /** determine which alert is active */
-  private determineActiveAlert() {
+  private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
       this.openAlert();
       if (this.autoDismiss) {
@@ -263,7 +264,7 @@ export class CalciteAlert {
     } else return;
   }
 
-  private setIcon() {
+  private renderIcon(): VNode {
     const path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">

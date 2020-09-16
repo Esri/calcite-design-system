@@ -8,7 +8,7 @@ storiesOf("Components/Alert", module)
   .addParameters({ notes: readme })
   .add(
     "Alert - title, message, link",
-    () => `
+    (): string => `
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
@@ -27,7 +27,7 @@ storiesOf("Components/Alert", module)
   )
   .add(
     "Alert - title, message",
-    () => `
+    (): string => `
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
@@ -45,7 +45,7 @@ storiesOf("Components/Alert", module)
   )
   .add(
     "Alert - message, link",
-    () => `
+    (): string => `
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
@@ -63,7 +63,7 @@ storiesOf("Components/Alert", module)
   )
   .add(
     "Alert - message",
-    () => `
+    (): string => `
     <calcite-alert
     theme="light"
     icon="${boolean("icon", true)}"
@@ -80,7 +80,7 @@ storiesOf("Components/Alert", module)
   )
   .add(
     "Alert - Queue",
-    () => `
+    (): string => `
    <div>
     <h5>Open or add to queue</h5>
     <calcite-button onclick='document.querySelector("#one").setAttribute("active", "")'>Open Alert 1</calcite-button>
@@ -130,7 +130,7 @@ storiesOf("Components/Alert", module)
   )
   .add(
     "Alert - Dark Theme",
-    () => `
+    (): string => `
     <calcite-alert
     theme="dark"
     icon="${boolean("icon", true)}"
@@ -150,7 +150,7 @@ storiesOf("Components/Alert", module)
   )
   .add(
     "Alert - Dark Theme Queue",
-    () => `
+    (): string => `
    <div>
     <h5 style="color:white">Open or add to queue</h5>
     <calcite-button theme="dark" onclick='document.querySelector("#one").setAttribute("active", "")'>Open Alert 1</calcite-button>
@@ -199,7 +199,7 @@ storiesOf("Components/Alert", module)
   )
   .add(
     "Alert - RTL",
-    () => `
+    (): string => `
     <div dir="rtl">
     <calcite-alert
     theme="light"

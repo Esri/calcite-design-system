@@ -8,7 +8,7 @@ storiesOf("Components/Button", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-button
       appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
@@ -25,7 +25,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "With icon-start",
-    () => `
+    (): string => `
     <calcite-button
       appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
@@ -42,7 +42,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "With icon-end",
-    () => `
+    (): string => `
     <calcite-button
       appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
@@ -59,7 +59,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "With icon-start and icon-end",
-    () => `
+    (): string => `
     <calcite-button
       appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
@@ -77,7 +77,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "Set width container",
-    () => `
+    (): string => `
     <div style="width: 480px; max-width: 100%; background-color: #fff">
       <calcite-button
         width="${select("width", ["auto", "half", "full"], "auto")}"
@@ -89,7 +89,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "Side by side",
-    () => `
+    (): string => `
     <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
     <calcite-button
     width="half"
@@ -110,7 +110,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "FAB",
-    () => `
+    (): string => `
   <div
   style="height:300px;width:200px;border:1px solid #c9c9c9;padding:20px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
@@ -147,7 +147,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "FAB with text",
-    () => `
+    (): string => `
   <div
     style="height:300px;width:200px;border:1px solid #c9c9c9;padding:20px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
@@ -183,7 +183,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <calcite-button
     theme="dark"
     appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
@@ -204,7 +204,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "FAB - dark mode",
-    () => `
+    (): string => `
   <div
     style="height:300px;width:200px;border:1px solid #555;color: #eaeaea;padding:20px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
@@ -242,7 +242,7 @@ storiesOf("Components/Button", module)
   )
   .add(
     "FAB with text - dark mode",
-    () => `
+    (): string => `
   <div
   style="height:300px;width:200px;border:1px solid #555;color: #eaeaea;padding:20px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus

@@ -8,7 +8,8 @@ import {
   State,
   Listen,
   Build,
-  EventEmitter
+  EventEmitter,
+  VNode
 } from "@stencil/core";
 import { parseDateString, getLocaleFormatData, DateFormattingData } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
@@ -69,7 +70,7 @@ export class CalciteDate {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("blur") focusOutHandler() {
+  @Listen("blur") focusOutHandler(): void {
     this.reset();
   }
 
@@ -77,13 +78,13 @@ export class CalciteDate {
    * Blur doesn't fire properly when there is no shadow dom (ege/IE11)
    * Check if the focused element is inside the date picker, if not close
    */
-  @Listen("focusin", { target: "window" }) focusInHandler(e: FocusEvent) {
+  @Listen("focusin", { target: "window" }) focusInHandler(e: FocusEvent): void {
     if (!this.hasShadow && !this.el.contains(e.srcElement as HTMLElement)) {
       this.reset();
     }
   }
 
-  @Listen("keyup") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keyup") keyDownHandler(e: KeyboardEvent): void {
     if (getKey(e.key) === "Escape") {
       this.reset();
     }
@@ -109,19 +110,19 @@ export class CalciteDate {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-  connectedCallback() {
+  connectedCallback(): void {
     this.setupProxyInput();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.observer.disconnect();
   }
 
-  componentWillRender() {
+  componentWillRender(): void {
     this.syncProxyInputToThis();
   }
 
-  render() {
+  render(): VNode {
     const min = dateFromISO(this.min);
     const max = dateFromISO(this.max);
     const date = dateFromRange(this.valueAsDate, min, max);
@@ -209,7 +210,7 @@ export class CalciteDate {
   /**
    * Register slotted date input proxy, or create one if not provided
    */
-  setupProxyInput() {
+  setupProxyInput(): void {
     // check for a proxy input
     this.inputProxy = this.el.querySelector("input");
 
@@ -236,7 +237,7 @@ export class CalciteDate {
   /**
    * Update component based on input proxy
    */
-  syncThisToProxyInput = () => {
+  syncThisToProxyInput = (): void => {
     this.min = this.inputProxy.min;
     this.max = this.inputProxy.max;
     const min = dateFromISO(this.min);
@@ -249,7 +250,7 @@ export class CalciteDate {
   /**
    * Update input proxy
    */
-  syncProxyInputToThis = () => {
+  syncProxyInputToThis = (): void => {
     if (this.inputProxy) {
       this.inputProxy.value = this.value || "";
       if (this.min) {
@@ -264,7 +265,7 @@ export class CalciteDate {
   /**
    * Set both iso value and date value and update proxy
    */
-  private setValue(date: Date) {
+  private setValue(date: Date): void {
     this.valueAsDate = new Date(date);
     this.value = date.toISOString().split("T")[0];
     this.syncProxyInputToThis();
@@ -273,7 +274,7 @@ export class CalciteDate {
   /**
    * Reset active date and close
    */
-  private reset() {
+  private reset(): void {
     if (this.valueAsDate) {
       this.activeDate = new Date(this.valueAsDate);
     }
@@ -285,7 +286,7 @@ export class CalciteDate {
   /**
    * If inputted string is a valid date, update value/active
    */
-  private input(value: string) {
+  private input(value: string): void {
     const date = this.getDateFromInput(value);
     if (date) {
       this.setValue(date);
@@ -297,7 +298,7 @@ export class CalciteDate {
   /**
    * Clean up invalid date from input on blur
    */
-  private blur(target: HTMLInputElement) {
+  private blur(target: HTMLInputElement): void {
     const date = this.getDateFromInput(target.value);
     if (!date && this.valueAsDate) {
       target.value = this.valueAsDate.toLocaleDateString(this.locale);
@@ -307,7 +308,7 @@ export class CalciteDate {
   /**
    * Get an active date using the value, or current date as default
    */
-  private getActiveDate(value: Date | null, min: Date | null, max: Date | null) {
+  private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
     return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
   }
 

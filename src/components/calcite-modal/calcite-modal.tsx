@@ -82,14 +82,14 @@ export class CalciteModal {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentWillLoad() {
+  componentWillLoad(): void {
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.active) {
       this.open();
     }
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     return (
       <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
@@ -185,7 +185,7 @@ export class CalciteModal {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent) {
+  @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent): void {
     if (this.active && !this.disableEscape && getKey(e.key) === "Escape") {
       this.beforeClose(this.el).then(() => {
         this.active = false;
@@ -240,7 +240,7 @@ export class CalciteModal {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  @Watch("active") async toggleModal(value, oldValue): Promise<void> {
+  @Watch("active") async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
       if (value) {
         this.open();

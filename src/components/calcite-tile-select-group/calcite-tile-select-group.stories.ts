@@ -5,7 +5,7 @@ import { darkBackground } from "../../../.storybook/utils";
 storiesOf("Components/Tile Select Group", module)
   .add(
     "Light",
-    () => `
+    (): string => `
     <calcite-tile-select-group>
       <calcite-tile-select
         checked
@@ -54,7 +54,7 @@ storiesOf("Components/Tile Select Group", module)
   )
   .add(
     "Dark",
-    () => `
+    (): string => `
     <calcite-tile-select-group>
       <calcite-tile-select
         checked

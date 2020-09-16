@@ -8,6 +8,7 @@ import {
   Listen,
   Method,
   Prop,
+  VNode,
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
@@ -52,7 +53,7 @@ export class CalciteStepper {
   @Prop() requestedContent: HTMLElement[] | HTMLElement;
 
   // watch for removal of disabled to register step
-  @Watch("requestedContent") contentWatcher() {
+  @Watch("requestedContent") contentWatcher(): void {
     this.updateContent(this.requestedContent);
   }
 
@@ -70,7 +71,7 @@ export class CalciteStepper {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     // validate props
     const layout = ["horizontal", "vertical"];
     if (!layout.includes(this.layout)) this.layout = "horizontal";
@@ -85,7 +86,7 @@ export class CalciteStepper {
     if (!icon.includes(this.icon)) this.icon = false;
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
     if (!this.currentPosition) {
       this.calciteStepperItemChange.emit({
@@ -94,7 +95,7 @@ export class CalciteStepper {
     }
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
@@ -115,7 +116,7 @@ export class CalciteStepper {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteStepperItemKeyEvent") calciteStepperItemKeyEvent(e: CustomEvent) {
+  @Listen("calciteStepperItemKeyEvent") calciteStepperItemKeyEvent(e: CustomEvent): void {
     const item = e.detail.item;
     const itemToFocus = e.target;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
@@ -140,7 +141,7 @@ export class CalciteStepper {
     }
   }
 
-  @Listen("calciteStepperItemRegister") registerItem(event: CustomEvent) {
+  @Listen("calciteStepperItemRegister") registerItem(event: CustomEvent): void {
     const item = {
       item: event.target as HTMLCalciteStepperItemElement,
       position: event.detail.position,
@@ -151,7 +152,7 @@ export class CalciteStepper {
     this.sortedItems = this.sortItems();
   }
 
-  @Listen("calciteStepperItemSelect") updateItem(event: CustomEvent) {
+  @Listen("calciteStepperItemSelect") updateItem(event: CustomEvent): void {
     if (event.detail.content)
       this.requestedContent =
         event.detail.content.length > 0 ? event.detail.content : [event.detail.content];
@@ -246,19 +247,19 @@ export class CalciteStepper {
     this.focusElement(lastItem);
   }
 
-  private focusNextItem(e) {
+  private focusNextItem(e): void {
     const index = this.itemIndex(e);
     const nextItem = this.sortedItems[index + 1] || this.sortedItems[0];
     this.focusElement(nextItem);
   }
 
-  private focusPrevItem(e) {
+  private focusPrevItem(e): void {
     const index = this.itemIndex(e);
     const prevItem = this.sortedItems[index - 1] || this.sortedItems[this.sortedItems.length - 1];
     this.focusElement(prevItem);
   }
 
-  private itemIndex(e) {
+  private itemIndex(e): number {
     return this.sortedItems.indexOf(e);
   }
 

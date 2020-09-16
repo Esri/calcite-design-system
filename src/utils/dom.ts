@@ -100,6 +100,6 @@ export function getDescribedByElement<T extends Element>(element: Element): T | 
   return (id && document.getElementById(id)) || null;
 }
 
-export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement) {
+export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
   return labelEl.contains(el);
 }

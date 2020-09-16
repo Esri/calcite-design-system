@@ -66,7 +66,7 @@ export class CalcitePopover {
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
   @Watch("offsetDistance")
-  offsetDistanceOffsetHandler() {
+  offsetDistanceOffsetHandler(): void {
     this.reposition();
   }
 
@@ -76,7 +76,7 @@ export class CalcitePopover {
   @Prop({ reflect: true }) offsetSkidding = 0;
 
   @Watch("offsetSkidding")
-  offsetSkiddingHandler() {
+  offsetSkiddingHandler(): void {
     this.reposition();
   }
 
@@ -86,7 +86,7 @@ export class CalcitePopover {
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean) {
+  openHandler(open: boolean): void {
     this.reposition();
     if (open) {
       this.calcitePopoverOpen.emit();
@@ -101,7 +101,7 @@ export class CalcitePopover {
   @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
 
   @Watch("placement")
-  placementHandler() {
+  placementHandler(): void {
     this.reposition();
   }
 
@@ -111,7 +111,7 @@ export class CalcitePopover {
   @Prop() referenceElement!: HTMLElement | string;
 
   @Watch("referenceElement")
-  referenceElementHandler() {
+  referenceElementHandler(): void {
     this.removeReferences();
     this._referenceElement = this.getReferenceElement();
     this.addReferences();
@@ -190,7 +190,7 @@ export class CalcitePopover {
   }
 
   @Method()
-  async setFocus(focusId?: FocusId) {
+  async setFocus(focusId?: FocusId): Promise<void> {
     if (focusId === "close-button") {
       this.closeButtonEl?.focus();
       return;
@@ -347,7 +347,7 @@ export class CalcitePopover {
     ) : null;
   }
 
-  render() {
+  render(): VNode {
     const { _referenceElement, open, disablePointer } = this;
     const displayed = _referenceElement && open;
     const arrowNode = !disablePointer ? (

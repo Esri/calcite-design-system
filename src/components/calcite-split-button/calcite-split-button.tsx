@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  VNode,
+  Watch
+} from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -54,37 +64,37 @@ export class CalciteSplitButton {
   @Event() calciteSplitButtonSecondaryClick: EventEmitter;
 
   @Watch("color")
-  validateColor() {
+  validateColor(): void {
     const color = ["blue", "red", "dark", "light"];
     if (!color.includes(this.color)) this.color = "blue";
   }
 
   @Watch("scale")
-  validateScale() {
+  validateScale(): void {
     const scale = ["s", "m", "l"];
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
   @Watch("theme")
-  validateTheme() {
+  validateTheme(): void {
     const theme = ["dark", "light"];
     if (!theme.includes(this.theme)) this.theme = "light";
   }
 
   @Watch("dropdownIconType")
-  validateDropdownIconType() {
+  validateDropdownIconType(): void {
     const dropdownIconType = ["chevron", "caret", "ellipsis", "overflow"];
     if (!dropdownIconType.includes(this.dropdownIconType)) this.dropdownIconType = "chevron";
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.validateColor();
     this.validateScale();
     this.validateTheme();
     this.validateDropdownIconType();
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
@@ -131,13 +141,13 @@ export class CalciteSplitButton {
     );
   }
 
-  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent) =>
+  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent): CustomEvent =>
     this.calciteSplitButtonPrimaryClick.emit(e);
 
-  private calciteSplitButtonSecondaryClickHandler = (e: MouseEvent) =>
+  private calciteSplitButtonSecondaryClickHandler = (e: MouseEvent): CustomEvent =>
     this.calciteSplitButtonSecondaryClick.emit(e);
 
-  private get dropdownIcon() {
+  private get dropdownIcon(): string {
     return this.dropdownIconType === "chevron"
       ? "chevronDown"
       : this.dropdownIconType === "caret"

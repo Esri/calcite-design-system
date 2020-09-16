@@ -7,7 +7,7 @@ storiesOf("Components/Label", module)
   .addParameters({ notes: readme })
   .add(
     "Wrapping components other than input",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%;text-align:center;">
       <calcite-label>
       Default label wrapping a switch
@@ -72,7 +72,7 @@ storiesOf("Components/Label", module)
 
   .add(
     "Dark Theme",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%;text-align:center;">
       <calcite-label theme="dark">
       Default label wrapping a switch
