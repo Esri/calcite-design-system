@@ -1,9 +1,7 @@
 import { Component, Host, h, Listen, Prop, VNode } from "@stencil/core";
-import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
+import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { getDescribedByElement } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-
-const TOOLTIP_DELAY_MS = 500;
 
 @Component({
   tag: "calcite-tooltip-manager"

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
+import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip-manager", () => {
@@ -18,13 +18,10 @@ describe("calcite-tooltip-manager", () => {
   it("should honor tooltips on mouseover/mouseout", async () => {
     const page = await newE2EPage();
 
-    const openDelay = 500;
-    const closeDelay = 500;
-
     await page.setContent(
       `
       <button id="test">test</button>
-      <calcite-tooltip-manager open-delay="${openDelay}" close-delay="${closeDelay}">
+      <calcite-tooltip-manager>
         <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
         <button id="ref">Button</button>
       <calcite-tooltip-manager>
@@ -43,7 +40,7 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
-    await page.waitFor(openDelay);
+    await page.waitFor(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -53,7 +50,7 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
-    await page.waitFor(closeDelay);
+    await page.waitFor(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
