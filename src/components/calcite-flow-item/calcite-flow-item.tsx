@@ -310,7 +310,7 @@ export class CalciteFlowItem {
     const hasLeadingActions = getSlotted(this.el, SLOTS.leadingActions);
     return hasLeadingActions ? (
       <div class={CSS.leadingActions} slot={PANEL_SLOTS.headerLeadingContent}>
-        <slot name={SLOTS.leadingActions}></slot>
+        <slot name={SLOTS.leadingActions} />
       </div>
     ) : null;
   }

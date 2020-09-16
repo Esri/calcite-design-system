@@ -1,6 +1,5 @@
 import { Component, Element, Host, h, Prop } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
-import { getElementProp } from "../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-message",
@@ -88,8 +87,6 @@ export class CalciteInputMessage {
   //--------------------------------------------------------------------------
 
   private setIcon(iconName) {
-    return (
-      <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s"></calcite-icon>
-    );
+    return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
   }
 }

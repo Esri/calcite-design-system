@@ -237,9 +237,7 @@ export class CalcitePickListItem {
           [CSS.iconDot]: icon === ICON_TYPES.circle
         }}
       >
-        {icon === ICON_TYPES.square ? (
-          <calcite-icon icon={ICONS.checked} scale="s"></calcite-icon>
-        ) : null}
+        {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
       </span>
     );
   }

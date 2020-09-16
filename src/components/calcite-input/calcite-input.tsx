@@ -11,9 +11,8 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { getElementProp } from "../utils/dom";
 
 @Component({
   tag: "calcite-input",
@@ -177,7 +176,7 @@ export class CalciteInput {
 
     const loader = (
       <div class="calcite-input-loading">
-        <calcite-progress type="indeterminate"></calcite-progress>
+        <calcite-progress type="indeterminate" />
       </div>
     );
 
@@ -185,7 +184,7 @@ export class CalciteInput {
 
     const inputClearButton = (
       <div class="calcite-input-clear-button" onClick={this.clearInputValue}>
-        <calcite-icon icon="x" scale={iconScale} theme={this.theme}></calcite-icon>
+        <calcite-icon icon="x" scale={iconScale} theme={this.theme} />
       </div>
     );
     const iconEl = (
@@ -194,12 +193,12 @@ export class CalciteInput {
         icon={this.icon as string}
         scale={iconScale}
         theme={this.theme}
-      ></calcite-icon>
+      />
     );
 
     const inputAction = (
       <div class="calcite-input-action-wrapper">
-        <slot name="input-action"></slot>
+        <slot name="input-action" />
       </div>
     );
 
@@ -212,7 +211,7 @@ export class CalciteInput {
         data-adjustment="up"
         onMouseDown={this.updateNumberValue}
       >
-        <calcite-icon icon="chevron-up" scale={iconScale} theme={this.theme}></calcite-icon>
+        <calcite-icon icon="chevron-up" scale={iconScale} theme={this.theme} />
       </div>
     );
 
@@ -222,7 +221,7 @@ export class CalciteInput {
         data-adjustment="down"
         onMouseDown={this.updateNumberValue}
       >
-        <calcite-icon icon="chevron-down" scale={iconScale} theme={this.theme}></calcite-icon>
+        <calcite-icon icon="chevron-down" scale={iconScale} theme={this.theme} />
       </div>
     );
 
@@ -273,7 +272,7 @@ export class CalciteInput {
             <slot />
           </textarea>,
           <div class="calcite-input-resize-icon-wrapper">
-            <calcite-icon icon="chevron-down" scale="s"></calcite-icon>
+            <calcite-icon icon="chevron-down" scale="s" />
           </div>
         ]
       );

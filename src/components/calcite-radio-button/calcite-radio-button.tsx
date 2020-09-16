@@ -302,7 +302,7 @@ export class CalciteRadioButton {
         aria-disabled={this.disabled}
         labeled={this.el.textContent ? true : false}
       >
-        <div class="radio"></div>
+        <div class="radio" />
         <slot />
       </Host>
     );

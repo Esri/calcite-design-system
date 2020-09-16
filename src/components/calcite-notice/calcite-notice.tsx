@@ -78,7 +78,7 @@ export class CalciteNotice {
         onClick={() => this.close()}
         ref={() => this.closeButton}
       >
-        <calcite-icon icon="x" scale="m"></calcite-icon>
+        <calcite-icon icon="x" scale="m" />
       </button>
     );
 
@@ -86,9 +86,9 @@ export class CalciteNotice {
       <Host active={this.active} dir={dir}>
         {this.icon ? this.setIcon() : null}
         <div class="notice-content">
-          <slot name="notice-title"></slot>
-          <slot name="notice-message"></slot>
-          <slot name="notice-link"></slot>
+          <slot name="notice-title" />
+          <slot name="notice-message" />
+          <slot name="notice-link" />
         </div>
         {this.dismissible ? closeButton : null}
       </Host>
@@ -160,7 +160,7 @@ export class CalciteNotice {
     const path = this.iconDefaults[this.color];
     return (
       <div class="notice-icon">
-        <calcite-icon icon={path} scale="m"></calcite-icon>
+        <calcite-icon icon={path} scale="m" />
       </div>
     );
   }
