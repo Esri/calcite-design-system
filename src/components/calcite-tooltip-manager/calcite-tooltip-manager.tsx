@@ -1,6 +1,6 @@
 import { Component, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
-import { getDescribedByElement, once } from "../../utils/dom";
+import { getDescribedByElement } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 const TOOLTIP_DELAY_MS = 500;
@@ -15,13 +15,15 @@ export class CalciteTooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  timeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
+  focusedReferenceEl: HTMLElement;
 
-  hoveredTooltipEl: HTMLCalciteTooltipElement;
+  focusedTooltipEl: HTMLCalciteTooltipElement;
 
   hoveredReferenceEl: HTMLElement;
 
-  focusedReferenceEl: HTMLElement;
+  hoveredTooltipEl: HTMLCalciteTooltipElement;
+
+  timeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
 
   // --------------------------------------------------------------------------
   //
@@ -40,6 +42,10 @@ export class CalciteTooltipManager {
   //
   // --------------------------------------------------------------------------
 
+  queryTooltip = (el: HTMLElement): HTMLCalciteTooltipElement => {
+    return getDescribedByElement(el.closest(this.selector)) as HTMLCalciteTooltipElement;
+  };
+
   clearTooltipTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
     const { timeouts } = this;
 
@@ -54,89 +60,76 @@ export class CalciteTooltipManager {
 
   delayedToggle = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
     this.clearTooltipTimeout(tooltip);
+
     const { timeouts } = this;
+
     const timeoutId = window.setTimeout(() => (tooltip.open = value), TOOLTIP_DELAY_MS || 0);
+
     timeouts.set(tooltip, timeoutId);
   };
 
-  // todo: cleanup event removals
-  tooltipMouseEnter = (tooltip: HTMLCalciteTooltipElement): void => {
-    this.clearTooltipTimeout(tooltip);
-    this.hoveredTooltipEl = tooltip;
-    once(tooltip, "mouseleave", () => this.tooltipMouseLeave(tooltip));
-  };
+  activeTooltipHover = (event: MouseEvent): void => {
+    const { hoveredTooltipEl } = this;
 
-  tooltipMouseLeave = (tooltip: HTMLCalciteTooltipElement): void => {
-    this.delayedToggle(tooltip, false);
-    this.hoveredTooltipEl = null;
-  };
-
-  hoverEvent = ({
-    tooltip,
-    value,
-    referenceEl
-  }: {
-    referenceEl: HTMLElement;
-    tooltip: HTMLCalciteTooltipElement;
-    value: boolean;
-  }): void => {
-    this.hoveredReferenceEl = value ? referenceEl : null;
-
-    if (referenceEl !== this.focusedReferenceEl) {
-      this.delayedToggle(tooltip, value);
-      once(tooltip, "mouseenter", () => this.tooltipMouseEnter(tooltip));
-    }
-  };
-
-  focusEvent = ({
-    tooltip,
-    value,
-    referenceEl
-  }: {
-    referenceEl: HTMLElement;
-    tooltip: HTMLCalciteTooltipElement;
-    value: boolean;
-  }): void => {
-    this.focusedReferenceEl = value ? referenceEl : null;
-
-    if (referenceEl !== this.hoveredReferenceEl && tooltip !== this.hoveredTooltipEl) {
-      this.toggle(tooltip, value);
-    }
-  };
-
-  tooltipEvent = ({
-    event,
-    value = true
-  }: {
-    event: FocusEvent | MouseEvent | KeyboardEvent;
-    value: boolean;
-  }): void => {
-    const target = event.target as HTMLElement;
-
-    const describedByElement = getDescribedByElement(
-      target.closest(this.selector)
-    ) as HTMLCalciteTooltipElement;
-
-    if (!describedByElement) {
+    if (!hoveredTooltipEl) {
       return;
     }
 
-    if (event instanceof MouseEvent) {
-      this.hoverEvent({ referenceEl: target, tooltip: describedByElement, value });
+    const hoveringActiveTooltip = event.composedPath().includes(hoveredTooltipEl);
+
+    hoveringActiveTooltip
+      ? this.clearTooltipTimeout(hoveredTooltipEl)
+      : this.delayedToggle(hoveredTooltipEl, false);
+  };
+
+  hoverEvent = ({ event, value }: { event: MouseEvent; value: boolean }): void => {
+    this.activeTooltipHover(event);
+
+    const referenceEl = event.target as HTMLElement;
+    const tooltip = this.queryTooltip(referenceEl);
+
+    if (!tooltip) {
+      return;
     }
 
-    if (event instanceof FocusEvent) {
-      this.focusEvent({ referenceEl: target, tooltip: describedByElement, value });
+    const { focusedReferenceEl, focusedTooltipEl } = this;
+
+    this.hoveredReferenceEl = value ? referenceEl : null;
+    this.hoveredTooltipEl = value ? tooltip : null; // todo: move into delayedToggle
+
+    if (referenceEl !== focusedReferenceEl && tooltip !== focusedTooltipEl) {
+      this.delayedToggle(tooltip, value);
+    }
+  };
+
+  focusEvent = ({ event, value }: { event: FocusEvent; value: boolean }): void => {
+    const referenceEl = event.target as HTMLElement;
+    const tooltip = this.queryTooltip(referenceEl);
+
+    if (!tooltip) {
+      return;
     }
 
-    if (event instanceof KeyboardEvent) {
-      this.focusEvent({ referenceEl: target, tooltip: describedByElement, value });
+    const { hoveredReferenceEl, hoveredTooltipEl } = this;
+
+    this.focusedReferenceEl = value ? referenceEl : null;
+    this.focusedTooltipEl = value ? tooltip : null; // todo: move into toggle
+
+    if (referenceEl !== hoveredReferenceEl && tooltip !== hoveredTooltipEl) {
+      this.toggle(tooltip, value);
     }
   };
 
   keyUpHandler = (event: KeyboardEvent): void => {
     if (getKey(event.key) === "Escape") {
-      this.tooltipEvent({ event, value: false });
+      const referenceEl = event.target as HTMLElement;
+      const tooltip = this.queryTooltip(referenceEl);
+
+      // todo: close focused or mouse tooltip
+      console.log(this.focusedTooltipEl);
+      if (tooltip) {
+        this.toggle(tooltip, false);
+      }
     }
   };
 
@@ -158,21 +151,21 @@ export class CalciteTooltipManager {
 
   @Listen("mouseenter", { capture: true })
   mouseEnterShow(event: MouseEvent): void {
-    this.tooltipEvent({ event, value: true });
+    this.hoverEvent({ event, value: true });
   }
 
   @Listen("mouseleave", { capture: true })
   mouseLeaveHide(event: MouseEvent): void {
-    this.tooltipEvent({ event, value: false });
+    this.hoverEvent({ event, value: true });
   }
 
   @Listen("focus", { capture: true })
   focusShow(event: FocusEvent): void {
-    this.tooltipEvent({ event, value: true });
+    this.focusEvent({ event, value: true });
   }
 
   @Listen("blur", { capture: true })
   blurHide(event: FocusEvent): void {
-    this.tooltipEvent({ event, value: false });
+    this.focusEvent({ event, value: false });
   }
 }

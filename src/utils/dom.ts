@@ -103,17 +103,3 @@ export function getDescribedByElement<T extends Element>(element: Element): T | 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
   return labelEl.contains(el);
 }
-
-export function once(
-  element: HTMLElement,
-  event: string,
-  callback: (evt?: Event) => void,
-  options?: boolean | AddEventListenerOptions
-): void {
-  const func = (evt?: Event) => {
-    element.removeEventListener(event, func, options);
-    callback(evt);
-  };
-
-  element.addEventListener(event, func, options);
-}
