@@ -24,7 +24,18 @@
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {
-        "allowArgumentsExplicitlyTypedAsAny": true
+        "allowArgumentsExplicitlyTypedAsAny": true,
+        "allowedNames": [
+          "connectedCallback",
+          "disconnectedCallback",
+          "componentWillRender",
+          "componentDidRender",
+          "componentWillLoad",
+          "componentDidLoad",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "render"
+        ]
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",
