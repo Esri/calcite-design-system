@@ -45,8 +45,8 @@ export class CalciteInputMessage {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    this.status = getElementProp(this.el.parentElement, "status", this.status);
-    this.scale = getElementProp(this.el.parentElement, "scale", this.scale);
+    this.status = getElementProp(this.el, "status", this.status);
+    this.scale = getElementProp(this.el, "scale", this.scale);
   }
 
   componentWillUpdate() {
