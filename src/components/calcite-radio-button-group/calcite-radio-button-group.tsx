@@ -48,8 +48,18 @@ export class CalciteRadioButtonGroup {
   /** The scale (size) of the radio button group. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
+  @Watch("scale")
+  onScaleChange(): void {
+    this.passPropsToRadioButtons();
+  }
+
   /** The color theme of the radio button group. */
   @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+
+  @Watch("theme")
+  onThemeChange(): void {
+    this.passPropsToRadioButtons();
+  }
 
   //--------------------------------------------------------------------------
   //
