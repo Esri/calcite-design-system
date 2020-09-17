@@ -61,14 +61,12 @@ export class CalciteTooltipManager {
     tooltip: HTMLCalciteTooltipElement;
     value: boolean;
   }): void => {
-    const { hoveredTooltipEl, hoveredReferenceEl } = this;
-
-    if (tooltip === hoveredTooltipEl) {
-      this.clearTooltipTimeout(hoveredTooltipEl);
+    if (tooltip === this.hoveredTooltipEl) {
       this.hoveredTooltipEl = null;
-      this.hoveredReferenceEl = null;
-      this.focusedTooltipEl = tooltip;
+      this.clearTooltipTimeout(tooltip);
     }
+
+    const { hoveredTooltipEl, hoveredReferenceEl } = this;
 
     this.focusedReferenceEl = value ? referenceEl : null;
 
