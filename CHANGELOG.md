@@ -3,6 +3,20 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.39](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.38...v1.0.0-beta.39) (2020-09-17)
+
+### Features
+
+- **label:** Adjust spacing ([#956](https://github.com/Esri/calcite-components/issues/956)) ([63fe1f3](https://github.com/Esri/calcite-components/commit/63fe1f3c9d9c7e7ea4636782afccc7b116aac1c6))
+
+### Bug Fixes
+
+- **calcite-checkbox:** visibility of hidden input controlled by inline styles to prevent outside CSS from affecting its display ([#999](https://github.com/Esri/calcite-components/issues/999)) ([c29585a](https://github.com/Esri/calcite-components/commit/c29585ad09b85c9de75b99be7fa736dd11e4aff3))
+- **color:** ensure color object values are rounded ([#883](https://github.com/Esri/calcite-components/issues/883)) ([de9b242](https://github.com/Esri/calcite-components/commit/de9b2421c8262e679bb0de97ddeff5468fc9f929))
+- **dropdown:** fix item selection when dropdown is in a shadow DOM context ([#995](https://github.com/Esri/calcite-components/issues/995)) ([dc843db](https://github.com/Esri/calcite-components/commit/dc843dba4f0b4cd00852f80bf12bfb10f696aaf2)), closes [#992](https://github.com/Esri/calcite-components/issues/992)
+- **tooltip:** Add a11y improvements for hovering over a tooltip ([#987](https://github.com/Esri/calcite-components/issues/987)) ([6705110](https://github.com/Esri/calcite-components/commit/67051103c7d90958e17e605d49c85584cd56de6d)), closes [#938](https://github.com/Esri/calcite-components/issues/938)
+- **tooltip:** Keep tooltip visible if focus occurs after hover [#938](https://github.com/Esri/calcite-components/issues/938) ([#1005](https://github.com/Esri/calcite-components/issues/1005)) ([9df2502](https://github.com/Esri/calcite-components/commit/9df2502168e4b761495b074cdcfc73002ed78339))
+
 ## [1.0.0-beta.38](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.37...v1.0.0-beta.38) (2020-09-04)
 
 ### Features
