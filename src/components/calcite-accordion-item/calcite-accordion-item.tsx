@@ -100,7 +100,7 @@ export class CalciteAccordionItem {
                 : "plus"
             }
             scale="s"
-          ></calcite-icon>
+          />
         </div>
         <div class="accordion-item-content">
           <slot />

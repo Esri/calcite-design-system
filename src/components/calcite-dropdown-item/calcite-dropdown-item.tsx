@@ -176,7 +176,9 @@ export class CalciteDropdownItem {
 
   @Listen("calciteDropdownItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent) {
-    if (event.target === this.parentDropdownGroupEl) {
+    const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
+
+    if (parentEmittedChange) {
       this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
       this.requestedDropdownItem = event.detail.requestedDropdownItem;
       this.determineActiveItem();

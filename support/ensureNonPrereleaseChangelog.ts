@@ -6,12 +6,11 @@ const childProcess = require("child_process");
   // this command will pass through standard-version args
   const standardVersionOverrides = process.argv.slice(2).join(" ");
 
-  const includePrereleaseChanges = true; // skipping until v1.0.0 is released
   const previousReleasedTag = childProcess.execSync("git describe --abbrev=0 --tags", { encoding: "utf-8" }).trim();
-  const prereleaseVersionPattern = /-beta\.\d+$/;
+  const prereleaseVersionPattern = /-next\.\d+$/;
   const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
 
-  if (!previousReleaseIsPrerelease || includePrereleaseChanges) {
+  if (!previousReleaseIsPrerelease) {
     // using process to generate changelog (auto loads .versionrc.json)
     childProcess.execSync(`npx standard-version --prerelease ${standardVersionOverrides}`, { stdio: "inherit" });
     process.exit();
@@ -37,7 +36,10 @@ const childProcess = require("child_process");
     }
 
     // using process to generate changelog (auto loads .versionrc.json)
-    childProcess.execSync(`npx standard-version ${standardVersionOverrides}`, { stdio: "inherit" });
+    childProcess.execSync(
+      `npx standard-version ${standardVersionOverrides} --releaseCommitMessageFormat "{{currentTag}} [skip ci]"`,
+      { stdio: "inherit" }
+    );
   } catch (error) {
     console.log("an error occurred when generating the changelog:", error);
   }

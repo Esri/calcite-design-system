@@ -13,11 +13,6 @@
 :host([scale="l"]) {
   --calcite-checkbox-size: 20px;
 }
-::slotted(input) {
-  opacity: 0;
-  position: absolute;
-  z-index: -1;
-}
 :host {
   display: inline-flex;
   cursor: pointer;

@@ -95,8 +95,6 @@ export class CalciteInputMessage {
   //--------------------------------------------------------------------------
 
   private setIcon(iconName) {
-    return (
-      <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s"></calcite-icon>
-    );
+    return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
   }
 }

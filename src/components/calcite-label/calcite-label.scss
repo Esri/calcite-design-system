@@ -26,19 +26,16 @@
 :host([scale="s"]) label {
   font-size: var(--calcite-label-font-size, 12px);
   --calcite-label-spacing-value: 8px;
-  --calcite-label-text-spacing-value: 4px;
 }
 
 :host([scale="m"]) label {
   font-size: var(--calcite-label-font-size, 16px);
   --calcite-label-spacing-value: 12px;
-  --calcite-label-text-spacing-value: 6px;
 }
 
 :host([scale="l"]) label {
   font-size: var(--calcite-label-font-size, 20px);
   --calcite-label-spacing-value: 16px;
-  --calcite-label-text-spacing-value: 8px;
 }
 
 :host([layout="default"]) {
@@ -48,7 +45,7 @@
     margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
   }
   & > ::slotted(.calcite-label-text) {
-    margin-bottom: var(--calcite-label-text-spacing-value);
+    margin-bottom: 4px;
   }
 }
 

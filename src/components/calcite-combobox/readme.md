@@ -20,6 +20,14 @@
 | `calciteComboboxChipDismiss` |             | `CustomEvent<any>` |
 | `calciteLookupChange`        |             | `CustomEvent<any>` |
 
+## Methods
+
+### `reposition() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Dependencies
 
 ### Depends on
