@@ -6,6 +6,7 @@
   width: var(--calcite-panel-width);
   max-width: var(--calcite-panel-max-width);
   min-width: var(--calcite-panel-min-width);
+  transition: max-height $transition, width $transition;
   
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
@@ -19,7 +20,6 @@
 .container {
   align-items: stretch;
   background-color: var(--calcite-ui-background);
-  transition: max-height $transition, width $transition;
   height: 100%;
   width: 100%;
   padding: 0;
