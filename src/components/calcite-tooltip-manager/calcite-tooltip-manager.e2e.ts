@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
+import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip-manager", () => {
@@ -40,6 +40,8 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
+    await page.waitFor(TOOLTIP_DELAY_MS);
+
     expect(await tooltip.getProperty("open")).toBe(true);
 
     const testElement = await page.find("#test");
@@ -47,6 +49,8 @@ describe("calcite-tooltip-manager", () => {
     await testElement.hover();
 
     await page.waitForChanges();
+
+    await page.waitFor(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });

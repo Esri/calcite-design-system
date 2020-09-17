@@ -1,4 +1,4 @@
-import { Component, Element, Host, Method, Prop, State, Watch, h } from "@stencil/core";
+import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "@stencil/core";
 import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -28,7 +28,7 @@ export class CalciteTooltip {
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
   @Watch("offsetDistance")
-  offsetDistanceOffsetHandler() {
+  offsetDistanceOffsetHandler(): void {
     this.reposition();
   }
 
@@ -38,7 +38,7 @@ export class CalciteTooltip {
   @Prop({ reflect: true }) offsetSkidding = 0;
 
   @Watch("offsetSkidding")
-  offsetSkiddingHandler() {
+  offsetSkiddingHandler(): void {
     this.reposition();
   }
 
@@ -48,7 +48,7 @@ export class CalciteTooltip {
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler() {
+  openHandler(): void {
     this.reposition();
   }
 
@@ -58,7 +58,7 @@ export class CalciteTooltip {
   @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
 
   @Watch("placement")
-  placementHandler() {
+  placementHandler(): void {
     this.reposition();
   }
 
@@ -68,7 +68,7 @@ export class CalciteTooltip {
   @Prop() referenceElement!: HTMLElement | string;
 
   @Watch("referenceElement")
-  referenceElementHandler() {
+  referenceElementHandler(): void {
     this.removeReferences();
     this._referenceElement = this.getReferenceElement();
     this.addReferences();
@@ -116,7 +116,8 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  @Method() async reposition(): Promise<void> {
+  @Method()
+  async reposition(): Promise<void> {
     const { popper, el, placement } = this;
     const modifiers = this.getModifiers();
 
@@ -235,7 +236,7 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const { _referenceElement, open } = this;
     const displayed = _referenceElement && open;
 
