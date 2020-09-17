@@ -303,6 +303,7 @@ export class CalcitePanel {
         key="back-button"
         onClick={backButtonClick}
         slot={SLOTS.headerActionsStart}
+        scale="s"
         text={label}
       />
     ) : null;

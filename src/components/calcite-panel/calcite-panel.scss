@@ -2,6 +2,10 @@
   @extend %component-host;
   display: flex;
   position: relative;
+  max-height: var(--calcite-panel-max-height);
+  width: var(--calcite-panel-width);
+  max-width: var(--calcite-panel-max-width);
+  min-width: var(--calcite-panel-min-width);
   
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
@@ -17,10 +21,7 @@
   background-color: var(--calcite-ui-background);
   transition: max-height $transition, width $transition;
   height: 100%;
-  max-height: var(--calcite-panel-max-height);
-  width: var(--calcite-panel-width);
-  max-width: var(--calcite-panel-max-width);
-  min-width: var(--calcite-panel-min-width);
+  width: 100%;
   padding: 0;
   margin: 0;
   display: flex;
@@ -36,15 +37,15 @@ calcite-scrim {
   pointer-events: none;
 }
 
-:host([height-scale="s"]) .container {
+:host([height-scale="s"]) {
   --calcite-panel-max-height: 40vh;
 }
 
-:host([height-scale="m"]) .container {
+:host([height-scale="m"]) {
   --calcite-panel-max-height: 60vh;
 }
 
-:host([height-scale="l"]) .container {
+:host([height-scale="l"]) {
   --calcite-panel-max-height: 80vh;
 }
 
