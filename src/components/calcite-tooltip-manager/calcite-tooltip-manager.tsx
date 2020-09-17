@@ -63,9 +63,11 @@ export class CalciteTooltipManager {
   }): void => {
     const { hoveredTooltipEl, hoveredReferenceEl } = this;
 
-    if (tooltip === this.hoveredTooltipEl) {
+    if (tooltip === hoveredTooltipEl) {
+      this.clearTooltipTimeout(hoveredTooltipEl);
       this.hoveredTooltipEl = null;
-      this.clearTooltipTimeout(tooltip);
+      this.hoveredReferenceEl = null;
+      this.focusedTooltipEl = tooltip;
     }
 
     this.focusedReferenceEl = value ? referenceEl : null;
@@ -181,6 +183,7 @@ export class CalciteTooltipManager {
       this.focusedReferenceEl = null;
 
       if (hoveredTooltipEl) {
+        this.clearTooltipTimeout(hoveredTooltipEl);
         this.toggleHoveredTooltip(hoveredTooltipEl, false);
       }
 
