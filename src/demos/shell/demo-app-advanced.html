@@ -64,7 +64,7 @@
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached height-scale="l">
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator>
@@ -93,13 +93,11 @@
                 <calcite-action text="What's next" icon="mega-phone"></calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <calcite-flow>
-                <calcite-panel heading="Layers">
-                    <div id="layerlist-container"></div>
-                    <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
-                    <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip>
-                </calcite-panel>
-            </calcite-flow>
+              <calcite-panel heading="Layers" height-scale="l" width-scale="m">
+                  <div id="layerlist-container"></div>
+                  <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
+                  <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip>
+              </calcite-panel>
           </calcite-shell-panel>
 
           <calcite-shell-panel slot="contextual-panel" position="end">
@@ -131,6 +129,7 @@
               <calcite-panel
                 heading="Configure popup"
                 summary="Popular Demographics in the United States (Beta) - County"
+                width-scale="m"
               >
               <calcite-action slot="header-actions-end" icon="x" text="Close">
               </calcite-action>

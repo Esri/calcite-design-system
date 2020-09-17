@@ -63,7 +63,7 @@
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached height-scale="l">
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached >
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -86,7 +86,7 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-              <calcite-panel heading="Layers">
+              <calcite-panel heading="Layers" height-scale="l" width-scale="m">
                 <calcite-label>
                   It's a label.
                   <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -100,7 +100,7 @@
             </calcite-flow>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="contextual-panel" position="end" detached>
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -126,13 +126,18 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
+              <calcite-panel heading="cool" summary="Popular Demographics in the United States (Beta) - County" width-scale="m" height-scale="l">
+                I'm this panel's content.
+              </calcite-panel>
               <calcite-panel
                 heading="Configure popup"
                 summary="Popular Demographics in the United States (Beta) - County"
+                height-scale="l"
+                width-scale="m"
               >
-                <calcite-block heading="Basic" summary="Collapsible with section" collapsible>
-                  <calcite-value-list id="one" multiple filter-enabled>
-                    <calcite-action slot="menu-actions" indicator text="Cool" scale="s" icon="hamburger"> </calcite-action>
+                <calcite-block heading="Basic" summary="Collapsible with section" collapsible open>
+                  <calcite-value-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double);">
+                    <!-- <calcite-action slot="menu-actions" indicator text="Cool" scale="s" icon="hamburger"> </calcite-action> -->
                     <calcite-value-list-item text-label="Dogs" text-description="Man's best friend" value="dogs">
                       <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="x">
                       </calcite-action>
@@ -142,7 +147,7 @@
                       </calcite-action>
                     </calcite-value-list-item>
                     <calcite-value-list-item
-                      text-label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
+                      text-label="Fish. But not just any fish."
                       text-description="Easy to care for."
                       value="fish"
                     >
@@ -162,7 +167,7 @@
                   <calcite-label scale="s">
                     It's a label (action).
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                      <calcite-action text="cool action" icon="pencil" slot="input-action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
 
@@ -517,6 +522,8 @@
                 <calcite-tooltip reference-element="label-fab" disable-pointer>
                   Add label class
                 </calcite-tooltip>
+                <calcite-button slot="footer-actions" appearance="outline" width="half">Cancel</calcite-button>
+                <calcite-button slot="footer-actions" width="half">Done</calcite-button>
               </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
