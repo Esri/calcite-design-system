@@ -100,7 +100,9 @@
                 </calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <div id="layerlist-container"></div>
+            <calcite-panel heading="Layers" height-scale="l" width-scale="m" >
+              <div id="layerlist-container"></div>
+            </calcite-panel>
           </calcite-shell-panel>
 
           <calcite-shell-panel slot="contextual-panel" position="end">
@@ -128,8 +130,8 @@
                 </calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <calcite-flow id="flow">
               <calcite-panel
+                width-scale="m"
                 heading="Label features"
                 summary="Popular Demographics in the United States (Beta) - County"
               >
@@ -203,7 +205,6 @@
                   Add label class
                 </calcite-tooltip>
               </calcite-panel>
-            </calcite-flow>
           </calcite-shell-panel>
           <div slot="shell-header">
             <header class="header">
@@ -301,7 +302,7 @@
             ? tipManager.removeAttribute("hidden")
             : tipManager.setAttribute("hidden", "");
         });
-        const flowNode = document.getElementById("flow");
+        
       </script>
     </main>
   </body>

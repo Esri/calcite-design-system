@@ -126,8 +126,9 @@
             <h2>Boomer v Millennial - California</h2>
           </div>
           <calcite-shell-center-row slot="center-row" height-scale="l" detached id="center-row">
-              <calcite-panel heading="flow in center row" summary="summary of flow item">
+              <calcite-panel heading="Table" summary="Table in the center row.">
                 <calcite-action slot="header-actions-start" icon="caret-down" scale="s"></calcite-action>
+                <calcite-action slot="header-actions-end" icon="chevrons-down" scale="m" id="expand-trigger"></calcite-action>
                 <calcite-action slot="header-actions-end" icon="x" scale="m"></calcite-action>
                 <style>
                   .demo-table th {
@@ -435,8 +436,12 @@
         const centerRow = document.getElementById("center-row");
         expandTrigger.addEventListener("click", function () {
           centerRow.getAttribute("height-scale") == "s"
-            ? centerRow.setAttribute("height-scale", "m")
+            ? centerRow.setAttribute("height-scale", "l")
             : centerRow.setAttribute("height-scale", "s");
+
+          centerRow.getAttribute("height-scale") == "s"
+            ? expandTrigger.setAttribute("icon", "chevrons-up")
+            : expandTrigger.setAttribute("icon", "chevrons-down");
         });
       </script>
     </main>
