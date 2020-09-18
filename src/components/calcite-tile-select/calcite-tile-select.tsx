@@ -151,7 +151,7 @@ export class CalciteTileSelect {
   // --------------------------------------------------------------------------
 
   private renderInput() {
-    this.input = this.el.ownerDocument.createElement(
+    this.input = document.createElement(
       this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox"
     );
     this.input.checked = this.checked;

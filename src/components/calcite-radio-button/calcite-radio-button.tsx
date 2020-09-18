@@ -256,7 +256,7 @@ export class CalciteRadioButton {
   private renderInput() {
     // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
     // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
-    this.input = this.el.ownerDocument.createElement("input");
+    this.input = document.createElement("input");
     this.input.setAttribute("aria-label", this.value || this.guid);
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
@@ -297,13 +297,13 @@ export class CalciteRadioButton {
     // Rendering a calcite-label outside of Shadow DOM for accessibility and form participation
     this.el.childNodes.forEach((childNode) => {
       if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
-        this.label = this.el.ownerDocument.createElement("calcite-label");
+        this.label = document.createElement("calcite-label");
         this.label.setAttribute("dir", getElementDir(this.el));
         this.disabled && this.label.setAttribute("disabled", "");
         this.label.setAttribute("for", `${this.guid}-input`);
         this.label.setAttribute("disable-spacing", "");
         this.label.setAttribute("scale", this.scale);
-        this.label.appendChild(this.el.ownerDocument.createTextNode(childNode.textContent.trim()));
+        this.label.appendChild(document.createTextNode(childNode.textContent.trim()));
         childNode.parentNode.replaceChild(this.label, childNode);
       }
     });
