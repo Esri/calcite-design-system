@@ -1,9 +1,9 @@
 import { Component, Element, Event, EventEmitter, Host, Listen, Prop, h } from "@stencil/core";
 import { VNode } from "@stencil/core/internal";
-import { focusElement, getElementDir, getSlotted, getElementTheme } from "../utils/dom";
+import { focusElement, getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../calcite-panel/resources";
-import { getRoundRobinIndex } from "../utils/array";
+import { getRoundRobinIndex } from "../../utils/array";
 import { CalciteScale, CalciteTheme } from "../interfaces";
 
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
@@ -227,13 +227,13 @@ export class CalciteFlowItem {
 
     return showBackButton ? (
       <calcite-action
-        slot={PANEL_SLOTS.headerLeadingContent}
-        key="back-button"
         aria-label={label}
-        text={label}
         class={CSS.backButton}
-        onClick={backButtonClick}
         icon={icon}
+        key="back-button"
+        onClick={backButtonClick}
+        slot={PANEL_SLOTS.headerLeadingContent}
+        text={label}
       />
     ) : null;
   }
@@ -247,13 +247,13 @@ export class CalciteFlowItem {
 
     return (
       <calcite-action
-        class={CSS.menuButton}
         aria-label={menuLabel}
-        text={menuLabel}
-        ref={(menuButtonEl): HTMLCalciteActionElement => (this.menuButtonEl = menuButtonEl)}
+        class={CSS.menuButton}
+        icon={ICONS.menu}
         onClick={this.toggleMenuOpen}
         onKeyDown={this.menuButtonKeyDown}
-        icon={ICONS.menu}
+        ref={(menuButtonEl): HTMLCalciteActionElement => (this.menuButtonEl = menuButtonEl)}
+        text={menuLabel}
       />
     );
   }
@@ -263,14 +263,14 @@ export class CalciteFlowItem {
 
     return (
       <calcite-popover
+        disablePointer={true}
+        flipPlacements={["bottom-end", "top-end"]}
+        offsetDistance={0}
+        onKeyDown={this.menuActionsKeydown}
+        open={menuOpen}
+        placement="bottom-end"
         referenceElement={menuButtonEl}
         theme={getElementTheme(el)}
-        open={menuOpen}
-        offsetDistance={0}
-        disablePointer={true}
-        placement="bottom-end"
-        flipPlacements={["bottom-end", "top-end"]}
-        onKeyDown={this.menuActionsKeydown}
       >
         <div class={CSS.menu}>
           <slot name={SLOTS.menuActions} />
@@ -283,7 +283,7 @@ export class CalciteFlowItem {
     const hasFooterActions = !!getSlotted(this.el, SLOTS.footerActions);
 
     return hasFooterActions ? (
-      <div slot={PANEL_SLOTS.footer} class={CSS.footerActions}>
+      <div class={CSS.footerActions} slot={PANEL_SLOTS.footer}>
         <slot name={SLOTS.footerActions} />
       </div>
     ) : null;
@@ -309,8 +309,8 @@ export class CalciteFlowItem {
   renderHeaderLeadingContent(): VNode {
     const hasLeadingActions = getSlotted(this.el, SLOTS.leadingActions);
     return hasLeadingActions ? (
-      <div slot={PANEL_SLOTS.headerLeadingContent} class={CSS.leadingActions}>
-        <slot name={SLOTS.leadingActions}></slot>
+      <div class={CSS.leadingActions} slot={PANEL_SLOTS.headerLeadingContent}>
+        <slot name={SLOTS.leadingActions} />
       </div>
     ) : null;
   }
@@ -327,7 +327,7 @@ export class CalciteFlowItem {
         : null;
 
     return menuActionsNodes ? (
-      <div slot={PANEL_SLOTS.headerTrailingContent} class={CSS.headerActions}>
+      <div class={CSS.headerActions} slot={PANEL_SLOTS.headerTrailingContent}>
         {menuActionsNodes}
       </div>
     ) : null;
@@ -377,11 +377,11 @@ export class CalciteFlowItem {
     return (
       <Host>
         <calcite-panel
-          loading={this.loading}
-          disabled={this.disabled}
-          theme={getElementTheme(el)}
-          height-scale={this.heightScale}
           dir={dir}
+          disabled={this.disabled}
+          height-scale={this.heightScale}
+          loading={this.loading}
+          theme={getElementTheme(el)}
         >
           {this.renderBackButton(dir === "rtl")}
           {this.renderHeaderLeadingContent()}

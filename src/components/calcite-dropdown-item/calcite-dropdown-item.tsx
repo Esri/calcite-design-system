@@ -122,15 +122,15 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
+        aria-selected={this.active.toString()}
         dir={dir}
-        tabindex="0"
+        isLink={this.href}
         role="menuitem"
         selection-mode={this.selectionMode}
-        aria-selected={this.active.toString()}
-        isLink={this.href}
+        tabindex="0"
       >
         {this.selectionMode === "multi" ? (
-          <calcite-icon class="dropdown-item-check-icon" scale="s" icon="check" />
+          <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
         ) : null}
         {contentEl}
       </Host>
@@ -176,7 +176,9 @@ export class CalciteDropdownItem {
 
   @Listen("calciteDropdownItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent) {
-    if (event.target === this.parentDropdownGroupEl) {
+    const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
+
+    if (parentEmittedChange) {
       this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
       this.requestedDropdownItem = event.detail.requestedDropdownItem;
       this.determineActiveItem();

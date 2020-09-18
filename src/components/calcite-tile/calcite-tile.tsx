@@ -57,7 +57,7 @@ export class CalciteTile {
       <div class={{ "large-visual": isLargeVisual, tile: true }}>
         {this.icon && (
           <div class="icon">
-            <calcite-icon icon={this.icon} scale="l" style={iconStyle}></calcite-icon>
+            <calcite-icon icon={this.icon} scale="l" style={iconStyle} />
           </div>
         )}
         {this.heading && <div class="heading">{this.heading}</div>}

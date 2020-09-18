@@ -108,13 +108,13 @@ export class CalciteAlert {
     const dir = getElementDir(this.el);
     const closeButton = (
       <button
-        class="alert-close"
-        type="button"
         aria-label={this.intlClose}
+        class="alert-close"
         onClick={() => this.closeAlert()}
         ref={(el) => (this.closeButton = el)}
+        type="button"
       >
-        <calcite-icon icon="x" scale="m"></calcite-icon>
+        <calcite-icon icon="x" scale="m" />
       </button>
     );
     const queueCount = (
@@ -122,17 +122,17 @@ export class CalciteAlert {
         +{this.queueLength > 2 ? this.queueLength - 1 : 1}
       </div>
     );
-    const progress = <div class="alert-dismiss-progress"></div>;
+    const progress = <div class="alert-dismiss-progress" />;
     const role = this.autoDismiss ? "alert" : "alertdialog";
     const hidden = this.active ? "false" : "true";
 
     return (
-      <Host active={this.active} queued={this.queued} role={role} dir={dir} aria-hidden={hidden}>
+      <Host active={this.active} aria-hidden={hidden} dir={dir} queued={this.queued} role={role}>
         {this.icon ? this.setIcon() : null}
         <div class="alert-content">
-          <slot name="alert-title"></slot>
-          <slot name="alert-message"></slot>
-          <slot name="alert-link"></slot>
+          <slot name="alert-title" />
+          <slot name="alert-message" />
+          <slot name="alert-link" />
         </div>
         {queueCount}
         {!this.autoDismiss ? closeButton : null}
@@ -267,7 +267,7 @@ export class CalciteAlert {
     const path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
-        <calcite-icon icon={path} scale="m"></calcite-icon>
+        <calcite-icon icon={path} scale="m" />
       </div>
     );
   }

@@ -77,10 +77,10 @@ export class CalciteAccordionItem {
 
     return (
       <Host
-        tabindex="0"
         aria-expanded={this.active.toString()}
         dir={dir}
         icon-position={this.iconPosition}
+        tabindex="0"
       >
         <div class="accordion-item-header" onClick={this.itemHeaderClickHandler}>
           {this.icon ? iconEl : null}
@@ -100,7 +100,7 @@ export class CalciteAccordionItem {
                 : "plus"
             }
             scale="s"
-          ></calcite-icon>
+          />
         </div>
         <div class="accordion-item-content">
           <slot />

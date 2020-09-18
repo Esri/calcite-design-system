@@ -198,6 +198,9 @@ export class CalciteCheckbox {
     this.input.name = this.name;
     this.input.onblur = () => (this.focused = false);
     this.input.onfocus = () => (this.focused = true);
+    this.input.style.opacity = "0";
+    this.input.style.position = "absolute";
+    this.input.style.zIndex = "-1";
     this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value;
@@ -208,7 +211,7 @@ export class CalciteCheckbox {
   render() {
     if (this.el.textContent) {
       return (
-        <Host role="checkbox" aria-checked={this.checked.toString()}>
+        <Host aria-checked={this.checked.toString()} role="checkbox">
           <div class="hasLabel">
             <svg class="check-svg" viewBox="0 0 16 16">
               <path d={this.getPath()} />
@@ -221,7 +224,7 @@ export class CalciteCheckbox {
       );
     }
     return (
-      <Host role="checkbox" aria-checked={this.checked.toString()}>
+      <Host aria-checked={this.checked.toString()} role="checkbox">
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>

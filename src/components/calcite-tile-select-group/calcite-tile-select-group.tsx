@@ -9,7 +9,7 @@ export class CalciteTileSelectGroup {
   render() {
     return (
       <Host>
-        <slot></slot>
+        <slot />
       </Host>
     );
   }

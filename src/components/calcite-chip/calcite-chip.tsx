@@ -86,14 +86,14 @@ export class CalciteChip {
     const iconEl = <calcite-icon class="calcite-chip--icon" icon={this.icon} scale={iconScale} />;
 
     const closeButton = (
-      <button onClick={this.closeClickHandler} class={CSS.close} title={TEXT.close}>
-        <calcite-icon scale={iconScale} icon="x" />
+      <button class={CSS.close} onClick={this.closeClickHandler} title={TEXT.close}>
+        <calcite-icon icon="x" scale={iconScale} />
       </button>
     );
 
     return (
       <Host dir={dir}>
-        <slot name="chip-image"></slot>
+        <slot name="chip-image" />
         {this.icon ? iconEl : null}
         <span>
           <slot />

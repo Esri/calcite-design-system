@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-
+import { TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
@@ -117,6 +117,8 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
+    await page.waitFor(TOOLTIP_DELAY_MS);
+
     expect(await tooltip.isVisible()).toBe(true);
   });
 
@@ -136,6 +138,8 @@ describe("calcite-tooltip", () => {
     const ref = await page.find("#ref span");
 
     await ref.hover();
+
+    await page.waitFor(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
   });

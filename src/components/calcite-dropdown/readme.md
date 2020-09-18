@@ -64,6 +64,14 @@ You can choose to leave the dropdown open when an item is selected with the `dis
 | `calciteDropdownOpen`   | fires when a dropdown has been opened \*                      | `CustomEvent<void>` |
 | `calciteDropdownSelect` | fires when a dropdown item has been selected or deselected \* | `CustomEvent<void>` |
 
+## Methods
+
+### `reposition() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Dependencies
 
 ### Used by

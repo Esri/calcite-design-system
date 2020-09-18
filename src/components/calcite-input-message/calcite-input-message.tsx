@@ -65,7 +65,7 @@ export class CalciteInputMessage {
     const dir = getElementDir(this.el);
     this.iconEl = this.setIcon(this.iconDefaults[this.status]);
     return (
-      <Host theme={this.theme} dir={dir}>
+      <Host dir={dir} theme={this.theme}>
         {this.icon ? this.iconEl : null}
         <slot />
       </Host>
@@ -95,8 +95,6 @@ export class CalciteInputMessage {
   //--------------------------------------------------------------------------
 
   private setIcon(iconName) {
-    return (
-      <calcite-icon class="calcite-input-message-icon" scale="s" icon={iconName}></calcite-icon>
-    );
+    return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
   }
 }
