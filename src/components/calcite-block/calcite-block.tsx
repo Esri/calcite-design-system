@@ -169,7 +169,7 @@ export class CalciteBlock {
           headerContent
         )}
         {loading ? (
-          <calcite-loader inline is-active></calcite-loader>
+          <calcite-loader inline is-active />
         ) : hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />

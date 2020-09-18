@@ -93,7 +93,7 @@ export class CalciteChip {
 
     return (
       <Host dir={dir}>
-        <slot name="chip-image"></slot>
+        <slot name="chip-image" />
         {this.icon ? iconEl : null}
         <span>
           <slot />

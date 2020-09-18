@@ -93,7 +93,7 @@ export class CalciteModal {
     const dir = getElementDir(this.el);
     return (
       <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
-        <calcite-scrim class="scrim" theme="dark"></calcite-scrim>
+        <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
         <div class="modal">
           <div data-focus-fence="true" onFocus={this.focusLastElement.bind(this)} tabindex="0" />
@@ -144,7 +144,7 @@ export class CalciteModal {
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
       >
-        <calcite-icon icon="x" scale="l"></calcite-icon>
+        <calcite-icon icon="x" scale="l" />
       </button>
     ) : null;
   }

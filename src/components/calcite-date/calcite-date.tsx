@@ -132,7 +132,7 @@ export class CalciteDate {
     return (
       <Host dir={dir} role="application">
         <div class="slot">
-          <slot></slot>
+          <slot />
         </div>
         {!this.noCalendarInput && (
           <div role="application">

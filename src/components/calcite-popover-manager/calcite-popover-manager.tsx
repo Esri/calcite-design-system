@@ -46,7 +46,8 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click", { target: "window", capture: true }) closeOpenPopovers(event: Event): void {
+  @Listen("click", { target: "window", capture: true })
+  closeOpenPopovers(event: Event): void {
     const target = event.target as HTMLElement;
     const { autoClose, el, selector } = this;
     const popoverSelector = "calcite-popover";

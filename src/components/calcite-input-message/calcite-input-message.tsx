@@ -87,8 +87,6 @@ export class CalciteInputMessage {
   //--------------------------------------------------------------------------
 
   private renderIcon(iconName): VNode {
-    return (
-      <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s"></calcite-icon>
-    );
+    return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
   }
 }

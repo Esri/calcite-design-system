@@ -116,7 +116,8 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  @Method() async reposition(): Promise<void> {
+  @Method()
+  async reposition(): Promise<void> {
     const { popper, el, placement } = this;
     const modifiers = this.getModifiers();
 
@@ -247,7 +248,7 @@ export class CalciteTooltip {
             [PopperCSS.animationActive]: displayed
           }}
         >
-          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)}></div>
+          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
           <div class={CSS.container}>
             <slot />
           </div>

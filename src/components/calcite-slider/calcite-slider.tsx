@@ -156,7 +156,7 @@ export class CalciteSlider {
         role="slider"
         style={{ right }}
       >
-        <div class="handle"></div>
+        <div class="handle" />
       </button>
     );
 
@@ -190,7 +190,7 @@ export class CalciteSlider {
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
           {value ? value.toLocaleString() : value}
         </span>
-        <div class="handle"></div>
+        <div class="handle" />
       </button>
     );
 
@@ -215,7 +215,7 @@ export class CalciteSlider {
         role="slider"
         style={{ right }}
       >
-        <div class="handle"></div>
+        <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
         </span>
@@ -250,8 +250,8 @@ export class CalciteSlider {
         role="slider"
         style={{ right }}
       >
-        <div class="handle"></div>
-        <div class="handle-extension"></div>
+        <div class="handle" />
+        <div class="handle-extension" />
       </button>
     );
 
@@ -277,8 +277,8 @@ export class CalciteSlider {
         role="slider"
         style={{ right }}
       >
-        <div class="handle-extension"></div>
-        <div class="handle"></div>
+        <div class="handle-extension" />
+        <div class="handle" />
       </button>
     );
 
@@ -313,8 +313,8 @@ export class CalciteSlider {
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
           {value ? value.toLocaleString() : value}
         </span>
-        <div class="handle"></div>
-        <div class="handle-extension"></div>
+        <div class="handle" />
+        <div class="handle-extension" />
       </button>
     );
 
@@ -340,8 +340,8 @@ export class CalciteSlider {
         role="slider"
         style={{ right }}
       >
-        <div class="handle-extension"></div>
-        <div class="handle"></div>
+        <div class="handle-extension" />
+        <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
         </span>
@@ -375,7 +375,7 @@ export class CalciteSlider {
         role="slider"
         style={{ left }}
       >
-        <div class="handle"></div>
+        <div class="handle" />
       </button>
     );
 
@@ -409,7 +409,7 @@ export class CalciteSlider {
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <div class="handle"></div>
+        <div class="handle" />
       </button>
     );
 
@@ -434,7 +434,7 @@ export class CalciteSlider {
         role="slider"
         style={{ left }}
       >
-        <div class="handle"></div>
+        <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--minValue">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
@@ -469,8 +469,8 @@ export class CalciteSlider {
         role="slider"
         style={{ left }}
       >
-        <div class="handle-extension"></div>
-        <div class="handle"></div>
+        <div class="handle-extension" />
+        <div class="handle" />
       </button>
     );
 
@@ -496,8 +496,8 @@ export class CalciteSlider {
         role="slider"
         style={{ left }}
       >
-        <div class="handle-extension"></div>
-        <div class="handle"></div>
+        <div class="handle-extension" />
+        <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--minValue">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
