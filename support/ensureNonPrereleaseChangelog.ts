@@ -1,18 +1,23 @@
 const pify = require("pify");
 const gitSemverTags = require("git-semver-tags");
 const childProcess = require("child_process");
+const { argv } = require("yargs");
 
 (async function () {
-  // this command will pass through standard-version args
-  const standardVersionOverrides = process.argv.slice(2).join(" ");
+  // we allow passing standard-version options through
+  const { standardVersionOptions: standardVersionOverrides = "" } = argv;
 
   const previousReleasedTag = childProcess.execSync("git describe --abbrev=0 --tags", { encoding: "utf-8" }).trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
   const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
 
   if (!previousReleaseIsPrerelease) {
-    // using process to generate changelog (auto loads .versionrc.json)
-    childProcess.execSync(`npx standard-version --prerelease ${standardVersionOverrides}`, { stdio: "inherit" });
+    childProcess.execSync(
+      `npx ts-node ./support/prepareVersionUpdate.ts --standard-version-options="${standardVersionOverrides}"`,
+      {
+        stdio: "inherit"
+      }
+    );
     process.exit();
   }
 
@@ -35,17 +40,30 @@ const childProcess = require("child_process");
       childProcess.execSync(`git stash pop`);
     }
 
-    // using process to generate changelog (auto loads .versionrc.json)
+    // create changelog from previous release and commit
     childProcess.execSync(
-      `npx standard-version ${standardVersionOverrides} --releaseCommitMessageFormat "{{currentTag}} [skip ci]"`,
-      { stdio: "inherit" }
+      `npx ts-node ./support/prepareVersionUpdate.ts --standard-version-options="--skip.tag ${standardVersionOverrides}"`,
+      {
+        stdio: "inherit"
+      }
+    );
+
+    childProcess.execSync(`git checkout master --quiet`);
+    childProcess.execSync(`git cherry-pick ${tempBranchName}`); // grab changelog commit
+
+    // tag using latest package version
+    childProcess.execSync(
+      `npx ts-node ./support/prepareVersionUpdate.ts --standard-version-options="--skip.bump --skip-commit --skip.changelog ${standardVersionOverrides}"`,
+      {
+        stdio: "inherit"
+      }
     );
   } catch (error) {
     console.log("an error occurred when generating the changelog:", error);
   }
 
-  childProcess.execSync(`git checkout master --quiet`);
-  childProcess.execSync(`git branch -D ${tempBranchName}`);
+  childProcess.execSync(`git checkout master --force --quiet`);
+  childProcess.execSync(`git branch -D ${tempBranchName} --quiet`);
 
   process.exit();
 })();
