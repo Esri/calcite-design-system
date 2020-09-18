@@ -244,6 +244,7 @@ export class CalciteRadioButton {
 
   disconnectedCallback(): void {
     this.titleAttributeObserver.disconnect();
+    this.input.parentNode.removeChild(this.input);
   }
 
   // --------------------------------------------------------------------------
