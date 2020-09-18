@@ -180,10 +180,6 @@ export class CalciteCheckbox {
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
-  disconnectedCallback() {
-    this.input.parentNode.removeChild(this.input);
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
