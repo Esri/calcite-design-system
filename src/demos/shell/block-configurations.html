@@ -48,11 +48,6 @@
           padding: { left: 49, right: 385 }
         });
         view.when(function () {
-          // var layerList = new LayerList({
-          //   view: view,
-          //   selectionEnabled: true,
-          //   container: "layerlist-container"
-          // });
 
           view.ui.move("zoom", "bottom-right");
         });
@@ -93,9 +88,6 @@
                     <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
                   </calcite-input>
                 </calcite-label>
-                <!-- <div id="layerlist-container"></div> -->
-                <!-- <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab> -->
-                <!-- <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip> -->
               </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
@@ -137,7 +129,6 @@
               >
                 <calcite-block heading="Basic" summary="Collapsible with section" collapsible open>
                   <calcite-value-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double);">
-                    <!-- <calcite-action slot="menu-actions" indicator text="Cool" scale="s" icon="hamburger"> </calcite-action> -->
                     <calcite-value-list-item text-label="Dogs" text-description="Man's best friend" value="dogs">
                       <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="x">
                       </calcite-action>

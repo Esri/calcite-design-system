@@ -49,31 +49,6 @@
       <div class="shell-container">
         <calcite-shell>
           <calcite-shell-panel slot="primary-panel" position="start" >
-            <!-- <calcite-panel
-              id="shell-floating-panel"
-              slot="shell-floating-panel"
-              heading="Anchored Shell Floating Panel"
-              placement="anchor"
-              hidden
-              ><span>
-                Shell Floating Panel Content
-              </span>
-            </calcite-panel>
-            <calcite-panel
-              id="shell-floating-panel-over"
-              slot="shell-floating-panel"
-              heading="Over Shell Floating Panel"
-              placement="over"
-              hidden
-              ><span>
-                Shell Floating Panel Content
-              </span>
-            </calcite-panel> -->
-            <calcite-action-pad id="action-pad" placement="side" slot="action-pad" hidden>
-              <calcite-action-group>
-                <calcite-action text="Add" icon="plus"> </calcite-action>
-              </calcite-action-group>
-            </calcite-action-pad>
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -92,23 +67,19 @@
                   <calcite-action
                     text="Side ActionPad"
                     text-enabled
-                    id="action-pad-button"
                     indicator
                     icon="caret-square-right"
                   >
                   </calcite-action>
-                  <!-- popover from click of this action at bottom of file -->
                   <calcite-action
                     text="Anchored Shell Floating Panel"
                     text-enabled
-                    id="shell-floating-panel-button"
                     icon="extent"
                   >
                   </calcite-action>
                   <calcite-action
                     text="Over Shell Floating Panel"
                     text-enabled
-                    id="shell-floating-panel-over-button"
                     icon="arrow-up-right"
                   >
                   </calcite-action>
@@ -425,32 +396,6 @@
           <footer slot="shell-footer">Footer</footer>
         </calcite-shell>
       </div>
-      <calcite-popover placement="right-start" reference-element="action-pad-button" add-click-handle class="popover">
-        <calcite-panel theme="light">
-          <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
-          <calcite-pick-list filter-enabled filter-sticky>
-            <calcite-action slot="menu-actions" text="options" icon="ellipsis"> </calcite-action>
-            <calcite-pick-list-item
-              text-label="about disasters, fires, floods and killer bees"
-              value="1"
-            ></calcite-pick-list-item>
-            <calcite-pick-list-item
-              text-label="about the NASA shuttle falling in the sea"
-              value="2"
-            ></calcite-pick-list-item>
-            <calcite-pick-list-item
-              text-label="about starvation and the food that Live Aid bought"
-              value="3"
-            ></calcite-pick-list-item>
-            <calcite-pick-list-item
-              text-label="about disease, baby rock, Hudson, rock,"
-              value="4"
-            ></calcite-pick-list-item>
-          </calcite-pick-list>
-          <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-          <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
-        </calcite-panel>
-      </calcite-popover>
       <script>
         const tipManagerButton = document.getElementById("tip-manager-button");
         const tipManager = document.getElementById("tip-manager");
@@ -459,36 +404,6 @@
             ? tipManager.removeAttribute("hidden")
             : tipManager.setAttribute("hidden", "");
         });
-
-        // const actionPad = document.getElementById("action-pad");
-        // const actionPadButton = document.getElementById("action-pad-button");
-        // actionPadButton.addEventListener("click", function () {
-        //   actionPad.hasAttribute("hidden") ? actionPad.removeAttribute("hidden") : actionPad.setAttribute("hidden", "");
-
-        //   actionPad.positionElement = actionPadButton;
-        // });
-
-        // const shellFloatingPanel = document.getElementById("shell-floating-panel");
-        // const shellFloatingPanelButton = document.getElementById("shell-floating-panel-button");
-        // shellFloatingPanelButton.addEventListener("click", function () {
-        //   shellFloatingPanel.hasAttribute("hidden")
-        //     ? shellFloatingPanel.removeAttribute("hidden")
-        //     : shellFloatingPanel.setAttribute("hidden", "");
-
-        //   shellFloatingPanel.positionElement = shellFloatingPanelButton;
-        // });
-
-        // const shellFloatingPanelOver = document.getElementById("shell-floating-panel-over");
-        // const shellFloatingPanelOverButton = document.getElementById("shell-floating-panel-over-button");
-        // shellFloatingPanelOverButton.addEventListener("click", function () {
-        //   shellFloatingPanelOver.hasAttribute("hidden")
-        //     ? shellFloatingPanelOver.removeAttribute("hidden")
-        //     : shellFloatingPanelOver.setAttribute("hidden", "");
-
-        //   shellFloatingPanelOver.positionElement = shellFloatingPanelOverButton;
-        // });
-
-        const flowNode = document.getElementById("flow");
       </script>
     </main>
   </body>
