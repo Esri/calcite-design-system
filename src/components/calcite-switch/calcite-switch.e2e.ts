@@ -81,6 +81,19 @@ describe("calcite-switch", () => {
     expect(changeEvent).toHaveFirstReceivedEventDetail({ switched: true });
   });
 
+  it("doesn't emit when controlling switched attribute", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-switch></calcite-switch>");
+    const element = await page.find("calcite-switch");
+    const spy = await element.spyOnEvent("calciteSwitchChange");
+
+    await element.setProperty("switched", true);
+    await page.waitForChanges();
+    await element.setProperty("switched", false);
+    await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(0);
+  });
+
   it("does not toggle when disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-switch disabled></calcite-switch>`);
