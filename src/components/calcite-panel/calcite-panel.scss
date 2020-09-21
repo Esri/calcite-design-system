@@ -165,7 +165,7 @@ calcite-scrim {
 .calcite--rtl {
   .header-content {
     margin-left: auto;
-    margin-right: 0;
+    margin-right: unset;
   }
   .menu-container:only-child {
     margin-left: unset;

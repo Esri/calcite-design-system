@@ -10,7 +10,7 @@ import {
   h
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { focusElement, getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
+import { focusElement, getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { VNode } from "@stencil/core/internal";
 import { CalciteScale, CalciteTheme } from "../interfaces";
@@ -388,7 +388,6 @@ export class CalcitePanel {
         open={menuOpen}
         placement="bottom-end"
         referenceElement={menuButtonEl}
-        theme={getElementTheme(el)}
       >
         <div class={CSS.menu}>
           <slot name={SLOTS.headerMenuActions} />
@@ -533,7 +532,7 @@ export class CalcitePanel {
     return (
       <Host>
         {loading || disabled ? (
-          <calcite-scrim loading={loading} theme={getElementTheme(el)}>
+          <calcite-scrim loading={loading}>
             {panelNode}
           </calcite-scrim>
         ) : (
