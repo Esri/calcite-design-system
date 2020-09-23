@@ -64,32 +64,6 @@ describe("calcite-dropdown", () => {
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
 
-  it("renders default props when invalid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-dropdown alignment="zip" scale="zop" theme="zut" width="zat">
-    <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
-    <calcite-dropdown-group id="group-1" selection-mode="zap">
-    <calcite-dropdown-item id="item-1">
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-2" active>
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-3">
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    </calcite-dropdown-group>
-    </calcite-dropdown>`);
-
-    const element = await page.find("calcite-dropdown");
-    const group1 = await element.find("calcite-dropdown-group[id='group-1']");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("width", "m");
-    expect(element).toEqualAttribute("alignment", "start");
-    expect(group1).toEqualAttribute("selection-mode", "single");
-  });
-
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`

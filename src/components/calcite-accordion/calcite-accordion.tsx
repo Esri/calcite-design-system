@@ -21,26 +21,24 @@ export class CalciteAccordion {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** specify the scale of accordion, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
   /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
-  @Prop({ mutable: true, reflect: true }) appearance: "default" | "minimal" | "transparent" =
-    "default";
+  @Prop({ reflect: true }) appearance: "default" | "minimal" | "transparent" = "default";
 
   /** specify the placement of the icon in the header, defaults to end */
-  @Prop({ mutable: true, reflect: true }) iconPosition: "start" | "end" = "end";
+  @Prop({ reflect: true }) iconPosition: "start" | "end" = "end";
 
   /** specify the type of the icon in the header, defaults to chevron */
-  @Prop({ mutable: true, reflect: true }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
+  @Prop({ reflect: true }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
+
+  /** specify the scale of accordion, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the selection mode - multi (allow any number of open items), single (allow one open item),
    * or single-persist (allow and require one open item), defaults to multi */
-  @Prop({ mutable: true, reflect: true }) selectionMode: "multi" | "single" | "single-persist" =
-    "multi";
+  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
+
+  /** specify the theme of accordion, defaults to light */
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   //--------------------------------------------------------------------------
   //
@@ -55,24 +53,6 @@ export class CalciteAccordion {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // validate props
-    const appearance = ["default", "minimal", "transparent"];
-    if (!appearance.includes(this.appearance)) this.appearance = "default";
-
-    const iconPosition = ["start", "end"];
-    if (!iconPosition.includes(this.iconPosition)) this.iconPosition = "end";
-
-    const iconType = ["chevron", "caret", "plus-minus"];
-    if (!iconType.includes(this.iconType)) this.iconType = "chevron";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    const selectionMode = ["multi", "single", "single-persist"];
-    if (!selectionMode.includes(this.selectionMode)) this.selectionMode = "multi";
-  }
 
   componentDidLoad() {
     if (!this.sorted) {

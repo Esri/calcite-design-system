@@ -169,13 +169,6 @@ describe("calcite-radio-button", () => {
     expect(value).toBe("1");
   });
 
-  it("validates incorrect props", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-button scale='none' theme='none' layout='none'></calcite-radio-button>");
-    const element = await page.find("calcite-radio-button");
-    expect(element).toEqualAttribute("scale", "m");
-  });
-
   it("clicking a radio updates its checked status", async () => {
     const page = await newE2EPage();
     await page.setContent(`

@@ -27,34 +27,26 @@ export class CalciteInputMessage {
   @Prop({ reflect: true }) icon: boolean;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
+  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 
   /** specify the theme, defaults to light */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
-  @Prop({ mutable: true, reflect: true }) type: "default" | "floating" = "default";
+  @Prop({ reflect: true }) type: "default" | "floating" = "default";
 
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
   connectedCallback() {
-    // validate props
-    const statusOptions = ["invalid", "valid", "idle"];
-    if (!statusOptions.includes(this.status))
-      this.status = getElementProp(this.el.parentElement, "status", "idle");
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale))
-      this.scale = getElementProp(this.el.parentElement, "scale", "m");
-
-    const type = ["default", "floating"];
-    if (!type.includes(this.type)) this.type = "default";
+    this.status = getElementProp(this.el, "status", this.status);
+    this.scale = getElementProp(this.el, "scale", this.scale);
   }
 
   componentWillUpdate() {

@@ -25,7 +25,7 @@ export class CalciteDropdownGroup {
 
   /** specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
    none (no active items), defaults to single */
-  @Prop({ mutable: true, reflect: true }) selectionMode: "multi" | "single" | "none" = "single";
+  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "none" = "single";
 
   //--------------------------------------------------------------------------
   //
@@ -42,12 +42,6 @@ export class CalciteDropdownGroup {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // validate props
-    const selectionMode = ["multi", "single", "none"];
-    if (!selectionMode.includes(this.selectionMode)) this.selectionMode = "single";
-  }
 
   componentDidLoad() {
     this.groupPosition = this.getGroupPosition();

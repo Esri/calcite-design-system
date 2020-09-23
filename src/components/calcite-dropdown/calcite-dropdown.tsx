@@ -45,7 +45,16 @@ export class CalciteDropdown {
   }
 
   /** specify the alignment of dropdown, defaults to start */
-  @Prop({ mutable: true, reflect: true }) alignment: "start" | "center" | "end" = "start";
+  @Prop({ reflect: true }) alignment: "start" | "center" | "end" = "start";
+
+  /**
+   allow the dropdown to remain open after a selection is made
+   if the selection-mode of the selected item's containing group is "none", the dropdown will always close
+   */
+  @Prop({ reflect: true }) disableCloseOnSelect = false;
+
+  /** is the dropdown disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
 
   @Watch("alignment")
   alignmentHandler(): void {
@@ -55,8 +64,8 @@ export class CalciteDropdown {
   /** specify the max items to display before showing the scroller, must be greater than 0 **/
   @Prop() maxItems = 0;
 
-  /** specify the theme of the dropdown, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  /** specify the scale of dropdown, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /**
    * **read-only** The currently selected items
@@ -65,24 +74,15 @@ export class CalciteDropdown {
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteDropdownItemElement[] = [];
 
-  /** specify the scale of dropdown, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** specify the width of dropdown, defaults to m */
-  @Prop({ mutable: true, reflect: true }) width: "s" | "m" | "l" = "m";
+  /** specify the theme of the dropdown, defaults to light */
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify whether the dropdown is opened by hover or click of a trigger element */
-  @Prop({ mutable: true, reflect: true }) type: "hover" | "click" = "click";
+  @Prop({ reflect: true }) type: "hover" | "click" = "click";
 
-  /**
-  allow the dropdown to remain open after a selection is made
-  if the selection-mode of the selected item's containing group is "none", the dropdown will always close
-  */
+  /** specify the width of dropdown, defaults to m */
+  @Prop({ reflect: true }) width: "s" | "m" | "l" = "m";
 
-  @Prop({ reflect: true }) disableCloseOnSelect = false;
-
-  /** is the dropdown disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -90,19 +90,6 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    // validate props
-    const alignment = ["start", "center", "end"];
-    if (!alignment.includes(this.alignment)) this.alignment = "start";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    const width = ["s", "m", "l"];
-    if (!width.includes(this.width)) this.width = "m";
-
-    const type = ["hover", "click"];
-    if (!type.includes(this.type)) this.type = "hover";
-
     this.createPopper();
   }
 

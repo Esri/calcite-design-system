@@ -28,30 +28,14 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the color of the button, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
-
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ mutable: true, reflect: true }) appearance:
-    | "solid"
-    | "outline"
-    | "clear"
-    | "transparent" = "solid";
+  @Prop({ reflect: true }) appearance: "solid" | "outline" | "clear" | "transparent" = "solid";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  /** specify the color of the button, defaults to blue */
+  @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
-  /** specify the scale of the button, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** specify the width of the button, defaults to auto */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
-
-  /** optionally add a calcite-loader component to the button, disabling interaction.  */
-  @Prop({ reflect: true }) loading?: boolean = false;
-
-  /** optionally add a round style to the button  */
-  @Prop({ reflect: true }) round?: boolean = false;
+  /** is the button disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
 
   /** optionally add a floating style to the button - this should be positioned fixed or sticky */
   @Prop({ reflect: true }) floating?: boolean = false;
@@ -59,14 +43,26 @@ export class CalciteButton {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconStart?: string;
-
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** is the button disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /** optionally add a calcite-loader component to the button, disabling interaction.  */
+  @Prop({ reflect: true }) loading?: boolean = false;
+
+  /** optionally add a round style to the button  */
+  @Prop({ reflect: true }) round?: boolean = false;
+
+  /** specify the scale of the button, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** specify the width of the button, defaults to auto */
+  @Prop({ reflect: true }) width: "auto" | "half" | "full" = "auto";
 
   //--------------------------------------------------------------------------
   //
@@ -75,20 +71,6 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    // prop validations
-
-    const appearance = ["solid", "outline", "clear", "transparent"];
-    if (!appearance.includes(this.appearance)) this.appearance = "solid";
-
-    const color = ["blue", "red", "dark", "light"];
-    if (!color.includes(this.color)) this.color = "blue";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    const width = ["auto", "half", "full"];
-    if (!width.includes(this.width)) this.width = "auto";
-
     this.childElType = this.href ? "a" : "button";
     this.setupTextContentObserver();
   }

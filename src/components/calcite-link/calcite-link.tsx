@@ -28,22 +28,22 @@ export class CalciteLink {
   //--------------------------------------------------------------------------
 
   /** specify the color of the link, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
+  @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  /** is the link disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
 
   /** optionally pass a href - used to determine if the component should render as a link or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconStart?: string;
-
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** is the link disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** Allows the text to be selectable */
   @Prop({ reflect: true }) userSelect = true;
@@ -55,11 +55,6 @@ export class CalciteLink {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    // prop validations
-
-    const color = ["blue", "red", "dark", "light"];
-    if (!color.includes(this.color)) this.color = "blue";
-
     this.childElType = this.href ? "a" : "span";
   }
 

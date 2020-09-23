@@ -35,17 +35,17 @@ export class CalciteRadioGroupItem {
   /** Indicates whether the control is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
-  @Prop({ reflect: true }) icon?: string;
-
-  /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" = "start";
-
   @Watch("checked")
   protected handleCheckedChange(): void {
     this.calciteRadioGroupItemChange.emit();
     this.syncToExternalInput();
   }
+
+  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) icon?: string;
+
+  /** optionally used with icon, select where to position the icon */
+  @Prop({ reflect: true }) iconPosition?: "start" | "end" = "start";
 
   /**
    * The control's value.
@@ -71,11 +71,6 @@ export class CalciteRadioGroupItem {
     }
 
     this.inputProxy = inputProxy;
-
-    // prop validations
-    const iconPosition = ["start", "end"];
-    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
-      this.iconPosition = "start";
   }
 
   disconnectedCallback() {
