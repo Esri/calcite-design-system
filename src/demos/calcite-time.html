@@ -34,11 +34,26 @@
   <script nomodule src="../build/calcite.js"></script>
   <script type="module" src="./helpers/demo-form.js"></script>
   <script type="module" src="./helpers/demo-spacer.js"></script>
-
 </head>
 
 <body>
+  <span role="spinbutton" aria-placeholder="--" aria-valuemin="1" aria-valuemax="12" aria-label="Hours"
+    pseudo="-webkit-datetime-edit-hour-field" aria-valuenow="5" aria-valuetext="05">05</span>
   <demo-spacer>
+    <div>
+      <calcite-date scale="s"></calcite-date>
+      <calcite-time scale="s"></calcite-time>
+    </div>
+    <div>
+      <calcite-date scale="m"></calcite-date>
+      <calcite-time scale="m"></calcite-time>
+    </div>
+    <div>
+      <calcite-date scale="l"></calcite-date>
+      <calcite-time scale="l"></calcite-time>
+    </div>
+  </demo-spacer>
+  <!-- <demo-spacer>
     <calcite-button href="/">
       < Home</calcite-button>
         <h1>Calcite Time</h1>
@@ -57,7 +72,7 @@
             </demo-spacer>
           </form>
         </demo-form>
-  </demo-spacer>
+  </demo-spacer> -->
 </body>
 
 </html>

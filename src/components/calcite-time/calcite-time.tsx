@@ -104,7 +104,60 @@ export class CalciteTime {
     return (
       <Host>
         <slot />
-        <div class="time-picker"></div>
+        <div class="time-picker">
+          <div class="column hour">
+            <calcite-icon icon="chevronup" scale={this.scale}></calcite-icon>
+            <input
+              aria-placeholder="--"
+              aria-valuemin="1"
+              aria-valuemax="12"
+              aria-label="Hours"
+              aria-valuenow="5"
+              aria-valuetext="05"
+              maxLength={2}
+              minLength={2}
+              role="spinbutton"
+              type="number"
+            >
+            </input>
+            <calcite-icon icon="chevrondown" scale={this.scale}></calcite-icon>
+          </div>
+          <div>:</div>
+          <div class="column minute">
+            <calcite-icon icon="chevronup" scale={this.scale}></calcite-icon>
+            <input
+              aria-placeholder="--"
+              aria-valuemin="1"
+              aria-valuemax="12"
+              aria-label="Hours"
+              aria-valuenow="5"
+              aria-valuetext="05"
+              maxLength={2}
+              minLength={2}
+              role="spinbutton"
+              type="number"
+            >
+            </input>
+            <calcite-icon icon="chevrondown" scale={this.scale}></calcite-icon>
+          </div>
+          <div class="column ampm">
+            <calcite-icon icon="chevronup" scale={this.scale}></calcite-icon>
+            <input
+              aria-placeholder="--"
+              aria-valuemin="1"
+              aria-valuemax="12"
+              aria-label="Hours"
+              aria-valuenow="5"
+              aria-valuetext="05"
+              maxLength={2}
+              minLength={2}
+              role="spinbutton"
+              type="number"
+            >
+            </input>
+            <calcite-icon icon="chevrondown" scale={this.scale}></calcite-icon>
+          </div>
+        </div>
       </Host>
     );
   }
