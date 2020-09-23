@@ -42,7 +42,6 @@ export class CalciteRadioButton {
       this.uncheckOtherRadioButtonsInGroup();
     }
     this.input.checked = newChecked;
-    this.calciteRadioButtonChange.emit();
   }
 
   /** The disabled state of the radio button. */
@@ -63,7 +62,6 @@ export class CalciteRadioButton {
     } else {
       this.input.blur();
     }
-    this.calciteRadioButtonFocusedChange.emit();
   }
 
   /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
@@ -97,22 +95,10 @@ export class CalciteRadioButton {
   }
 
   /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  @Watch("scale")
-  validateScale(newScale: string): void {
-    const scales = ["s", "m", "l"];
-    if (!scales.includes(newScale)) this.scale = "m";
-  }
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
-
-  @Watch("theme")
-  validateTheme(newTheme: string): void {
-    const themes = ["light", "dark"];
-    if (!themes.includes(newTheme)) this.theme = "light";
-  }
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
   /** The value of the radio button. */
   @Prop({ reflect: true }) value!: string;
@@ -197,6 +183,7 @@ export class CalciteRadioButton {
       this.uncheckOtherRadioButtonsInGroup();
       this.checked = true;
       this.focused = true;
+      this.calciteRadioButtonChange.emit();
     }
   }
 
@@ -212,10 +199,12 @@ export class CalciteRadioButton {
 
   private onInputBlur(): void {
     this.focused = false;
+    this.calciteRadioButtonFocusedChange.emit();
   }
 
   private onInputFocus(): void {
     this.focused = true;
+    this.calciteRadioButtonFocusedChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -226,8 +215,6 @@ export class CalciteRadioButton {
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
-    this.validateScale(this.scale);
-    this.validateTheme(this.theme);
     this.renderInput();
     this.renderLabel();
     this.setupTitleAttributeObserver();

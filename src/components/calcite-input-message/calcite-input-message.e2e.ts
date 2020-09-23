@@ -20,17 +20,6 @@ describe("calcite-input-message", () => {
     expect(element).toEqualAttribute("type", "default");
   });
 
-  it("renders default props when invalid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input-message status="zip" theme="zap" type="zur"></calcite-input-message>
-    `);
-
-    const element = await page.find("calcite-input-message");
-    expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("type", "default");
-  });
-
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
