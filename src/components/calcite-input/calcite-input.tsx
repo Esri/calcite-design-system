@@ -34,46 +34,83 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the status of the input field, determines message and icons */
-  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
-
-  /** specify if the input is in loading state */
-  @Prop({ reflect: true }) loading = false;
-
-  /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l";
-
   /** specify the alignment of the value of the input */
-  @Prop({ mutable: true, reflect: true }) alignment: "start" | "end" = "start";
+  @Prop({ reflect: true }) alignment: "start" | "end" = "start";
 
-  /** input value */
-  @Prop({ mutable: true, reflect: true }) value?: string = "";
+  /** should the input autofocus */
+  @Prop() autofocus = false;
 
-  /** optionally display a clear button that displays when field has a value  */
-  /** shows by default for search, time, date */
-  /** will not display for type="textarea" */
+  /** optionally display a clear button that displays when field has a value
+   * shows by default for search, time, date
+   * will not display for type="textarea" */
   @Prop({ reflect: true }) clearable?: boolean;
 
-  /** input step */
-  @Prop({ reflect: true }) step?: number;
+  /** is the input disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
 
-  /** input min */
-  @Prop({ reflect: true }) min?: number;
-
-  /** input max */
-  @Prop({ reflect: true }) max?: number;
-
-  /** optionally add prefix  **/
-  @Prop() prefixText?: string;
-
-  /** optionally add suffix  **/
-  @Prop() suffixText?: string;
+  @Watch("disabled")
+  disabledWatcher(): void {
+    if (this.disabled) this.setDisabledAction();
+  }
 
   /** for recognized input types, show an icon if applicable */
   @Prop({ reflect: true }) icon: string | boolean = false;
 
+  /** specify if the input is in loading state */
+  @Prop({ reflect: true }) loading = false;
+
+  /** input max */
+  @Prop({ reflect: true }) max?: number;
+
+  /** watcher to update number-to-string for max */
+  @Watch("max")
+  maxWatcher(): void {
+    this.maxString = this.max.toString() || null;
+  }
+
+  /** input min */
+  @Prop({ reflect: true }) min?: number;
+
+  /** watcher to update number-to-string for min */
+  @Watch("min")
+  minWatcher(): void {
+    this.minString = this.min.toString() || null;
+  }
+
+  /** specify the placement of the number buttons */
+  @Prop({ reflect: true }) numberButtonType?: "vertical" | "horizontal" | "none" = "vertical";
+
+  /** explicitly whitelist placeholder attribute */
+  @Prop() placeholder: string;
+
+  /** optionally add prefix  **/
+  @Prop() prefixText?: string;
+
+  /** is the input required */
+  @Prop() required = false;
+
+  /** specify the scale of the input, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** specify the status of the input field, determines message and icons */
+  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
+
+  /** input step */
+  @Prop({ reflect: true }) step?: number;
+
+  @Watch("step")
+  stepWatcher(): void {
+    this.maxString = this.max.toString() || null;
+  }
+
+  /** optionally add suffix  **/
+  @Prop() suffixText?: string;
+
+  /** specify the alignment of dropdown, defaults to left */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
   /** specify the input type */
-  @Prop({ mutable: true, reflect: true }) type:
+  @Prop({ reflect: true }) type:
     | "color"
     | "date"
     | "datetime-local"
@@ -91,45 +128,8 @@ export class CalciteInput {
     | "url"
     | "week" = "text";
 
-  /** specify the placement of the number buttons */
-  @Prop({ mutable: true, reflect: true }) numberButtonType?: "vertical" | "horizontal" | "none" =
-    "vertical";
-
-  /** specify the alignment of dropdown, defaults to left */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** is the input required */
-  @Prop() required = false;
-
-  /** should the input autofocus */
-  @Prop() autofocus = false;
-
-  /** explicitly whitelist placeholder attribute */
-  @Prop() placeholder: string;
-
-  /** is the input disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
-
-  @Watch("disabled")
-  disabledWatcher(): void {
-    if (this.disabled) this.setDisabledAction();
-  }
-
-  /** watcher to update number-to-string for min max */
-  @Watch("min")
-  minWatcher(): void {
-    this.minString = this.min.toString() || null;
-  }
-
-  @Watch("max")
-  maxWatcher(): void {
-    this.maxString = this.max.toString() || null;
-  }
-
-  @Watch("step")
-  stepWatcher(): void {
-    this.maxString = this.max.toString() || null;
-  }
+  /** input value */
+  @Prop({ mutable: true, reflect: true }) value?: string = "";
 
   //--------------------------------------------------------------------------
   //
@@ -138,43 +138,8 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    // validate props
-    const status = ["invalid", "valid", "idle"];
-    const foundStatus = getElementProp(this.el, "status", "idle");
-    if (!status.includes(this.status))
-      this.status = !status.includes(foundStatus) ? "idle" : foundStatus;
-
-    const scale = ["s", "m", "l"];
-    const foundScale = getElementProp(this.el, "scale", "m");
-    if (!scale.includes(this.scale)) {
-      this.scale = !scale.includes(foundScale) ? "m" : foundScale;
-    }
-
-    const alignment = ["start", "end"];
-    if (!alignment.includes(this.alignment)) this.alignment = "start";
-
-    const type = [
-      "color",
-      "date",
-      "datetime-local",
-      "email",
-      "file",
-      "image",
-      "month",
-      "number",
-      "password",
-      "search",
-      "tel",
-      "text",
-      "textarea",
-      "time",
-      "url",
-      "week"
-    ];
-    if (!type.includes(this.type)) this.type = "text";
-
-    const numberButtonType = ["vertical", "horizontal", "none"];
-    if (!numberButtonType.includes(this.numberButtonType)) this.numberButtonType = "vertical";
+    this.status = getElementProp(this.el, "status", this.status);
+    this.scale = getElementProp(this.el, "scale", this.scale);
 
     // if an icon string is not provided, but icon is true and a default icon is present
     // for the requested type, set that as the icon

@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, Method } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  Method,
+  VNode
+} from "@stencil/core";
 
 import { CSS, TEXT } from "./resources";
 
@@ -47,18 +57,6 @@ export class CalcitePagination {
   //
   // --------------------------------------------------------------------------
   @Element() el: HTMLCalcitePaginationElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // prop validations
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -131,7 +129,7 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
-  renderPages() {
+  renderPages(): VNode[] {
     const lastStart = this.getLastStart();
     let end;
     let nextStart;
@@ -166,7 +164,7 @@ export class CalcitePagination {
     return pages.map((page) => this.renderPage(page));
   }
 
-  renderPage(start: number) {
+  renderPage(start: number): VNode {
     const page = Math.floor(start / this.num) + 1;
     return (
       <button
@@ -184,7 +182,7 @@ export class CalcitePagination {
     );
   }
 
-  renderLeftEllipsis(iconScale) {
+  renderLeftEllipsis(iconScale: this["scale"]): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
@@ -194,7 +192,7 @@ export class CalcitePagination {
     }
   }
 
-  renderRightEllipsis(iconScale) {
+  renderRightEllipsis(iconScale: this["scale"]): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
@@ -204,7 +202,7 @@ export class CalcitePagination {
     }
   }
 
-  render() {
+  render(): VNode {
     const { total, num, start } = this;
     const iconScale = this.scale === "l" ? "m" : "s";
     return (

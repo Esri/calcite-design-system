@@ -8,7 +8,7 @@ storiesOf("Components/Tile Select", module)
   .addParameters({ notes: readme })
   .add(
     "Light",
-    () => `
+    (): string => `
       <calcite-tile-select
         ${boolean("checked", false)}
         description="${text(
@@ -30,7 +30,7 @@ storiesOf("Components/Tile Select", module)
   )
   .add(
     "Dark",
-    () => `
+    (): string => `
       <calcite-tile-select
         ${boolean("checked", false)}
         description="${text(

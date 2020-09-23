@@ -13,7 +13,7 @@ import {
   VNode
 } from "@stencil/core";
 
-import { getElementDir, getElementProp, hasLabel } from "../../utils/dom";
+import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -36,6 +36,15 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
+  /** specify the appearance style of the radio group, defaults to solid. */
+  @Prop({ reflect: true }) appearance: "solid" | "outline" = "solid";
+
+  /** is the radio group disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
+
+  /** specify the layout of the radio group, defaults to horizontal */
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
   /**
    * The group's name. Gets submitted with the form.
    */
@@ -45,6 +54,9 @@ export class CalciteRadioGroup {
   protected handleNameChange(value: string): void {
     this.hiddenInput.name = value;
   }
+
+  /** The scale of the radio group */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /**
    * The group's selected item.
@@ -75,20 +87,9 @@ export class CalciteRadioGroup {
   /** The component's theme. */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
-  /** The scale of the radio group */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l";
-
-  /** specify the appearance style of the radio group, defaults to solid. */
-  @Prop({ mutable: true, reflect: true }) appearance: "solid" | "outline" = "solid";
-
-  /** specify the layout of the radio group, defaults to horizontal */
-  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
-
   /** specify the width of the group, defaults to auto */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "full" = "auto";
+  @Prop({ reflect: true }) width: "auto" | "full" = "auto";
 
-  /** is the radio group disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -96,20 +97,6 @@ export class CalciteRadioGroup {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    // prop validations
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale))
-      this.scale = getElementProp(this.el.parentElement, "scale", "m");
-
-    const appearance = ["solid", "outline"];
-    if (!appearance.includes(this.appearance)) this.appearance = "solid";
-
-    const layout = ["horizontal", "vertical"];
-    if (!layout.includes(this.layout)) this.layout = "horizontal";
-
-    const width = ["auto", "full"];
-    if (!width.includes(this.width)) this.width = "auto";
-
     const items = this.getItems();
     const lastChecked = Array.from(items)
       .filter((item) => item.checked)
