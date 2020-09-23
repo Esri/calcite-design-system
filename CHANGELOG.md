@@ -3,6 +3,14 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.40](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.39...v1.0.0-beta.40) (2020-09-23)
+
+
+### Bug Fixes
+
+* **calcite-radio-button:** fixing issue where input isn't properly initialized in some cases ([#1011](https://github.com/Esri/calcite-components/issues/1011)) ([e25921d](https://github.com/Esri/calcite-components/commit/e25921d78ae5289987d6f8f72aa0965ad8ea5245))
+* **dropdown:** Adjust display of slotted full width buttons ([#1013](https://github.com/Esri/calcite-components/issues/1013)) ([511cda0](https://github.com/Esri/calcite-components/commit/511cda033e1bbd91d11b590a42895765fc0df5bf))
+
 ## [1.0.0-beta.39](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.38...v1.0.0-beta.39) (2020-09-17)
 
 ### Features
