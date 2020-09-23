@@ -5,7 +5,7 @@ import { CSS } from "./resources";
 import { CalciteTheme, FlowDirection } from "../interfaces";
 
 /**
- * @slot - A slot for adding `calcite-flow-item`s to the flow.
+ * @slot - A slot for adding `calcite-panel`s to the flow.
  */
 @Component({
   tag: "calcite-flow",
@@ -31,13 +31,13 @@ export class CalciteFlow {
   // --------------------------------------------------------------------------
 
   /**
-   * Removes the currently active `calcite-flow-item`.
+   * Removes the currently active `calcite-panel`.
    */
   @Method()
-  async back(): Promise<HTMLCalciteFlowItemElement> {
+  async back(): Promise<HTMLCalcitePanelElement> {
     const lastItem = this.el.querySelector(
-      "calcite-flow-item:last-child"
-    ) as HTMLCalciteFlowItemElement;
+      "calcite-panel:last-child"
+    ) as HTMLCalcitePanelElement;
 
     if (!lastItem) {
       return;
@@ -62,11 +62,11 @@ export class CalciteFlow {
 
   @Element() el: HTMLCalciteFlowElement;
 
-  @State() flowCount = 0;
+  @State() panelCount = 0;
 
   @State() flowDirection: FlowDirection = null;
 
-  @State() flows: HTMLCalciteFlowItemElement[] = [];
+  @State() panels: HTMLCalcitePanelElement[] = [];
 
   // --------------------------------------------------------------------------
   //
@@ -75,12 +75,12 @@ export class CalciteFlow {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.flowItemObserver.observe(this.el, { childList: true, subtree: true });
+    this.panelItemObserver.observe(this.el, { childList: true, subtree: true });
     this.updateFlowProps();
   }
 
   disconnectedCallback(): void {
-    this.flowItemObserver.disconnect();
+    this.panelItemObserver.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -89,56 +89,56 @@ export class CalciteFlow {
   //
   // --------------------------------------------------------------------------
 
-  @Listen("calciteFlowItemBackClick")
-  handleCalciteFlowItemBackClick(): void {
+  @Listen("calcitePanelBackClick")
+  handleCalcitePanelBackClick(): void {
     this.back();
   }
 
-  getFlowDirection = (oldFlowCount: number, newFlowCount: number): FlowDirection | null => {
-    const allowRetreatingDirection = oldFlowCount > 1;
-    const allowAdvancingDirection = oldFlowCount && newFlowCount > 1;
+  getFlowDirection = (oldPanelCount: number, newPanelCount: number): FlowDirection | null => {
+    const allowRetreatingDirection = oldPanelCount > 1;
+    const allowAdvancingDirection = oldPanelCount && newPanelCount > 1;
 
     if (!allowAdvancingDirection && !allowRetreatingDirection) {
       return null;
     }
 
-    return newFlowCount < oldFlowCount ? "retreating" : "advancing";
+    return newPanelCount < oldPanelCount ? "retreating" : "advancing";
   };
 
   updateFlowProps = (): void => {
-    const { flows } = this;
+    const { panels } = this;
 
-    const newFlows: HTMLCalciteFlowItemElement[] = Array.from(
-      this.el.querySelectorAll("calcite-flow-item")
+    const newPanels: HTMLCalcitePanelElement[] = Array.from(
+      this.el.querySelectorAll("calcite-panel")
     );
 
-    const oldFlowCount = flows.length;
-    const newFlowCount = newFlows.length;
+    const oldPanelCount = panels.length;
+    const newPanelCount = newPanels.length;
 
-    const activeFlow = newFlows[newFlowCount - 1];
-    const previousFlow = newFlows[newFlowCount - 2];
+    const activePanel = newPanels[newPanelCount - 1];
+    const previousPanel = newPanels[newPanelCount - 2];
 
-    if (newFlowCount && activeFlow) {
-      newFlows.forEach((flowNode) => {
-        flowNode.showBackButton = newFlowCount > 1;
-        flowNode.hidden = flowNode !== activeFlow;
+    if (newPanelCount && activePanel) {
+      newPanels.forEach((panelNode) => {
+        panelNode.showBackButton = newPanelCount > 1;
+        panelNode.hidden = panelNode !== activePanel;
       });
     }
 
-    if (previousFlow) {
-      previousFlow.menuOpen = false;
+    if (previousPanel) {
+      previousPanel.menuOpen = false;
     }
 
-    this.flows = newFlows;
+    this.panels = newPanels;
 
-    if (oldFlowCount !== newFlowCount) {
-      const flowDirection = this.getFlowDirection(oldFlowCount, newFlowCount);
-      this.flowCount = newFlowCount;
+    if (oldPanelCount !== newPanelCount) {
+      const flowDirection = this.getFlowDirection(oldPanelCount, newPanelCount);
+      this.panelCount = newPanelCount;
       this.flowDirection = flowDirection;
     }
   };
 
-  flowItemObserver = new MutationObserver(this.updateFlowProps);
+  panelItemObserver = new MutationObserver(this.updateFlowProps);
 
   // --------------------------------------------------------------------------
   //
@@ -147,7 +147,7 @@ export class CalciteFlow {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { flowDirection, flowCount } = this;
+    const { flowDirection, panelCount } = this;
 
     const frameDirectionClasses = {
       [CSS.frame]: true,
@@ -157,7 +157,7 @@ export class CalciteFlow {
 
     return (
       <Host>
-        <div class={frameDirectionClasses} key={flowCount}>
+        <div key={panelCount} class={frameDirectionClasses}>
           <slot />
         </div>
       </Host>

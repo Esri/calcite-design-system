@@ -4,28 +4,11 @@
   align-items: stretch;
   background-color: transparent;
   pointer-events: none;
-
-  --calcite-shell-panel-min-width: 240px;
-  --calcite-shell-panel-min-height: 4rem;
-  --calcite-shell-panel-max-height-small: 35vh;
-  --calcite-shell-panel-max-height-medium: 55vh;
-  --calcite-shell-panel-max-height-large: 80vh;
 }
 
-:host([width-scale="s"]) {
-  --calcite-shell-panel-width: 12vw;
-  --calcite-shell-panel-min-width: 150px;
-  --calcite-shell-panel-max-width: 300px;
-}
-
-:host([width-scale="m"]) {
-  --calcite-shell-panel-width: 20vw;
-  --calcite-shell-panel-max-width: 420px;
-}
-
-:host([width-scale="l"]) {
-  --calcite-shell-panel-width: 45vw;
-  --calcite-shell-panel-max-width: 680px;
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  height: 100%;
 }
 
 .content {
@@ -34,10 +17,6 @@
   background-color: var(--calcite-ui-background);
   flex-flow: column nowrap;
   display: flex;
-  width: var(--calcite-shell-panel-width);
-  min-width: var(--calcite-shell-panel-min-width);
-  max-width: var(--calcite-shell-panel-max-width);
-  min-height: var(--calcite-shell-panel-min-height);
   padding: 0;
   pointer-events: auto;
   transition: max-height $transition, max-width $transition;
@@ -47,19 +26,7 @@
   border-radius: var(--calcite-border-radius);
   box-shadow: var(--calcite-shadow-0);
   margin: var(--calcite-spacing-half) var(--calcite-spacing-half) auto;
-  overflow: auto;
-}
-
-:host([height-scale="s"]) .content--detached {
-  max-height: var(--calcite-shell-panel-max-height-small);
-}
-
-:host([height-scale="m"]) .content--detached {
-  max-height: var(--calcite-shell-panel-max-height-medium);
-}
-
-:host([height-scale="l"]) .content--detached {
-  max-height: var(--calcite-shell-panel-max-height-large);
+  overflow: hidden;
 }
 
 .content[hidden] {
