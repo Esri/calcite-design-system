@@ -8,7 +8,8 @@ import {
   State,
   Listen,
   Watch,
-  h
+  h,
+  VNode
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
@@ -43,7 +44,7 @@ export class CalciteTreeItem {
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
-  expandedHandler(newValue: boolean) {
+  expandedHandler(newValue: boolean): void {
     const items = getSlotted<HTMLCalciteTreeItemElement>(this.el, "children", {
       all: true,
       selector: "calcite-tree-item"
@@ -58,7 +59,7 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  componentWillRender() {
+  componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
 
     let parentTree = this.el.closest("calcite-tree");
@@ -81,7 +82,7 @@ export class CalciteTreeItem {
     }
   }
 
-  render() {
+  render(): VNode {
     const icon = this.hasChildren ? (
       <calcite-icon
         class="calcite-tree-chevron"
@@ -130,7 +131,7 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(e: Event) {
+  @Listen("click") onClick(e: Event): void {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
     const [link] = filterDirectChildren<HTMLAnchorElement>(this.el, "a");
@@ -145,7 +146,7 @@ export class CalciteTreeItem {
     });
   }
 
-  iconClickHandler = (event: Event) => {
+  iconClickHandler = (event: Event): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
@@ -154,9 +155,9 @@ export class CalciteTreeItem {
     });
   };
 
-  childrenClickHandler = (event) => event.stopPropagation();
+  childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     let root;
 
     switch (getKey(e.key)) {

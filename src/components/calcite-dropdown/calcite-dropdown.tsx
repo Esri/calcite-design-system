@@ -456,19 +456,19 @@ export class CalciteDropdown {
     this.getFocusableElement(lastItem);
   }
 
-  private focusNextItem(e) {
+  private focusNextItem(e): void {
     const index = this.itemIndex(e);
     const nextItem = this.items[index + 1] || this.items[0];
     this.getFocusableElement(nextItem);
   }
 
-  private focusPrevItem(e) {
+  private focusPrevItem(e): void {
     const index = this.itemIndex(e);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
     this.getFocusableElement(prevItem);
   }
 
-  private itemIndex(e) {
+  private itemIndex(e): number {
     return this.items.indexOf(e);
   }
 

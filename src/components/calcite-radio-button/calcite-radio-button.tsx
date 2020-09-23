@@ -121,7 +121,7 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  private checkFirstRadioButton() {
+  private checkFirstRadioButton(): void {
     const radioButtons = document.querySelectorAll(`calcite-radio-button[name=${this.name}]`);
     let firstCheckedRadioButton: HTMLCalciteRadioButtonElement;
     if (radioButtons && radioButtons.length > 0) {
@@ -136,7 +136,7 @@ export class CalciteRadioButton {
     }
   }
 
-  private setupTitleAttributeObserver() {
+  private setupTitleAttributeObserver(): void {
     this.titleAttributeObserver = new MutationObserver(() => {
       this.input.title = this.el.getAttribute("title");
     });
@@ -146,7 +146,7 @@ export class CalciteRadioButton {
     });
   }
 
-  private uncheckOtherRadioButtonsInGroup() {
+  private uncheckOtherRadioButtonsInGroup(): void {
     const otherRadioButtons = document.querySelectorAll(
       `calcite-radio-button[name=${this.name}]:not([guid="${this.guid}"])`
     );
@@ -197,12 +197,12 @@ export class CalciteRadioButton {
     this.hovered = false;
   }
 
-  private onInputBlur() {
+  private onInputBlur(): void {
     this.focused = false;
     this.calciteRadioButtonFocusedChange.emit();
   }
 
-  private onInputFocus() {
+  private onInputFocus(): void {
     this.focused = true;
     this.calciteRadioButtonFocusedChange.emit();
   }
@@ -223,7 +223,7 @@ export class CalciteRadioButton {
     }
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     if (this.focused) {
       this.input.focus();
     }
@@ -240,7 +240,7 @@ export class CalciteRadioButton {
   //
   // --------------------------------------------------------------------------
 
-  private renderInput() {
+  private renderInput(): void {
     // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
     // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
     this.input = document.createElement("input");
@@ -280,7 +280,7 @@ export class CalciteRadioButton {
     this.el.insertAdjacentElement("beforeend", this.input);
   }
 
-  private renderLabel() {
+  private renderLabel(): void {
     // Rendering a calcite-label outside of Shadow DOM for accessibility and form participation
     this.el.childNodes.forEach((childNode) => {
       if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {

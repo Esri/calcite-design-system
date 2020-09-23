@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -50,7 +50,7 @@ export class CalciteSplitButton {
   /** fired when the secondary button is clicked */
   @Event() calciteSplitButtonSecondaryClick: EventEmitter;
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
@@ -97,13 +97,13 @@ export class CalciteSplitButton {
     );
   }
 
-  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent) =>
+  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent): CustomEvent =>
     this.calciteSplitButtonPrimaryClick.emit(e);
 
-  private calciteSplitButtonSecondaryClickHandler = (e: MouseEvent) =>
+  private calciteSplitButtonSecondaryClickHandler = (e: MouseEvent): CustomEvent =>
     this.calciteSplitButtonSecondaryClick.emit(e);
 
-  private get dropdownIcon() {
+  private get dropdownIcon(): string {
     return this.dropdownIconType === "chevron"
       ? "chevronDown"
       : this.dropdownIconType === "caret"

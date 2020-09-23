@@ -115,7 +115,8 @@ export class CalciteValueListItem {
   //
   // --------------------------------------------------------------------------
 
-  getPickListRef = (el): HTMLCalcitePickListItemElement => (this.pickListItem = el);
+  getPickListRef = (el: HTMLCalcitePickListItemElement): HTMLCalcitePickListItemElement =>
+    (this.pickListItem = el);
 
   handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " ") {

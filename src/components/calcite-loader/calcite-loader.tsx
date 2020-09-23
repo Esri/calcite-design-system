@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -46,7 +46,7 @@ export class CalciteLoader {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const { el, inline, scale, text, type, value } = this;
 
     const id = el.id || guid();

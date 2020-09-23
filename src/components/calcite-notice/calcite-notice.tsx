@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Method, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Method,
+  Prop,
+  VNode
+} from "@stencil/core";
 
 import { TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
@@ -65,11 +75,11 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const closeButton = (
       <button
@@ -84,7 +94,7 @@ export class CalciteNotice {
 
     return (
       <Host active={this.active} dir={dir}>
-        {this.icon ? this.setIcon() : null}
+        {this.icon ? this.renderIcon() : null}
         <div class="notice-content">
           <slot name="notice-title" />
           <slot name="notice-message" />
@@ -114,20 +124,20 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
-  @Method() async close() {
+  @Method() async close(): Promise<void> {
     this.active = false;
     this.calciteNoticeClose.emit();
   }
 
   /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
-  @Method() async open() {
+  @Method() async open(): Promise<void> {
     this.active = true;
     this.calciteNoticeOpen.emit();
   }
 
   /** focus the close button, if present and requested */
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     if (!this.closeButton && !this.noticeLinkEl) {
       return;
     }
@@ -156,7 +166,7 @@ export class CalciteNotice {
     blue: "lightbulb"
   };
 
-  private setIcon() {
+  private renderIcon(): VNode {
     const path = this.iconDefaults[this.color];
     return (
       <div class="notice-icon">

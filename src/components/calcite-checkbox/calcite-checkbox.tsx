@@ -7,7 +7,8 @@ import {
   Host,
   EventEmitter,
   Listen,
-  Watch
+  Watch,
+  VNode
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { guid } from "../../utils/guid";
@@ -36,7 +37,7 @@ export class CalciteCheckbox {
   /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
 
-  @Watch("checked") checkedWatcher(newChecked: boolean) {
+  @Watch("checked") checkedWatcher(newChecked: boolean): void {
     newChecked ? this.input.setAttribute("checked", "") : this.input.removeAttribute("checked");
   }
 
@@ -44,14 +45,14 @@ export class CalciteCheckbox {
   @Prop({ reflect: true }) disabled?: boolean = false;
 
   @Watch("disabled")
-  disabledChanged(disabled: boolean) {
+  disabledChanged(disabled: boolean): void {
     this.input.disabled = disabled;
   }
 
   /** The focused state of the checkbox. */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  @Watch("focused") focusedChanged(focused: boolean) {
+  @Watch("focused") focusedChanged(focused: boolean): void {
     if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
     } else {
@@ -76,7 +77,7 @@ export class CalciteCheckbox {
   @Prop({ reflect: true }) name?: string = "";
 
   @Watch("name")
-  nameChanged(newName: string) {
+  nameChanged(newName: string): void {
     this.input.name = newName;
   }
 
@@ -110,7 +111,7 @@ export class CalciteCheckbox {
   private getPath = (): string =>
     this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
 
-  private toggle = () => {
+  private toggle = (): void => {
     if (!this.disabled) {
       this.checked = !this.checked;
       this.focused = true;
@@ -137,7 +138,7 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick({ currentTarget, target }: MouseEvent) {
+  @Listen("click") onClick({ currentTarget, target }: MouseEvent): void {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
     if (
@@ -148,7 +149,7 @@ export class CalciteCheckbox {
     }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (key === " ") {
       e.preventDefault();
@@ -157,12 +158,12 @@ export class CalciteCheckbox {
   }
 
   @Listen("mouseenter")
-  mouseenter() {
+  mouseenter(): void {
     this.hovered = true;
   }
 
   @Listen("mouseleave")
-  mouseleave() {
+  mouseleave(): void {
     this.hovered = false;
   }
 
@@ -182,12 +183,12 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
     this.renderHiddenCheckboxInput();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
   }
 
@@ -215,7 +216,7 @@ export class CalciteCheckbox {
     this.el.appendChild(this.input);
   }
 
-  render() {
+  render(): VNode {
     if (this.el.textContent) {
       return (
         <Host aria-checked={this.checked.toString()} role="checkbox">

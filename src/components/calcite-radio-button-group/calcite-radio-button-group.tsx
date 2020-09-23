@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop, Watch } from "@stencil/core";
+import { Component, Host, h, Element, Prop, Watch, VNode } from "@stencil/core";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -24,7 +24,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
-  onDisabledChange() {
+  onDisabledChange(): void {
     this.passPropsToRadioButtons();
   }
 
@@ -32,12 +32,17 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) hidden = false;
 
   @Watch("hidden")
-  onHiddenChange() {
+  onHiddenChange(): void {
     this.passPropsToRadioButtons();
   }
 
   /** The layout direction of the radio buttons in a group. */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  @Watch("layout")
+  onLayoutChange(): void {
+    this.passPropsToRadioButtons();
+  }
 
   /** The name of the radio button group. <code>name</code> must be unique to other radio button group instances. */
   @Prop({ reflect: true }) name!: string;
@@ -67,7 +72,7 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.passPropsToRadioButtons();
   }
 
@@ -77,7 +82,7 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  private passPropsToRadioButtons = () => {
+  private passPropsToRadioButtons = (): void => {
     const radioButtons = this.el.querySelectorAll("calcite-radio-button");
     let firstCheckedRadioButton;
 
@@ -107,7 +112,7 @@ export class CalciteRadioButtonGroup {
   //
   // --------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     return (
       <Host role="radiogroup">
         <slot />

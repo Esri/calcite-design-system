@@ -888,7 +888,7 @@ describe("calcite-dropdown", () => {
               super();
             }
 
-            connectedCallback() {
+            connectedCallback(): void {
               this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
             }
           }

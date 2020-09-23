@@ -3,7 +3,7 @@ import { VNode } from "@stencil/core/internal";
 import { CSS } from "./resources";
 import { getElementDir, getElementTheme } from "../../utils/dom";
 
-export const List = ({ props, ...rest }): VNode => {
+export const List = ({ props, ...rest }: { props: any }): VNode => {
   const {
     disabled,
     loading,

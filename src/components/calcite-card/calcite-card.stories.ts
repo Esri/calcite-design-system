@@ -7,7 +7,7 @@ storiesOf("Components/Card", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div style="width:260px">
     <calcite-card
       ${boolean("loading", false)}
@@ -22,7 +22,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Simple with Links",
-    () => `
+    (): string => `
     <div style="width:260px">
     <calcite-card
       ${boolean("loading", false)}
@@ -39,7 +39,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Footer Button",
-    () => `
+    (): string => `
     <div style="width:260px">
       <calcite-card
       ${boolean("loading", false)}
@@ -54,7 +54,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Footer Links",
-    () => `
+    (): string => `
     <div style="width:260px">
       <calcite-card
       ${boolean("loading", false)}
@@ -72,7 +72,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Footer Text, Buttons, Tooltips",
-    () => `
+    (): string => `
     <div style="width:260px">
       <calcite-card
       ${boolean("loading", false)}
@@ -98,7 +98,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Footer Buttons, Tooltips, Dropdown",
-    () => `
+    (): string => `
     <div style="width:260px">
       <calcite-card
       ${boolean("loading", false)}
@@ -141,7 +141,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Dark Theme - Simple",
-    () => `
+    (): string => `
     <div style="width:260px">
     <calcite-card
       theme="dark"
@@ -158,7 +158,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Dark Theme - Simple with Links",
-    () => `
+    (): string => `
     <div style="width:260px">
     <calcite-card
     theme="dark"
@@ -177,7 +177,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Dark Theme - Footer Button",
-    () => `
+    (): string => `
     <div style="width:260px">
       <calcite-card
       theme="dark"
@@ -194,7 +194,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Dark Theme - Footer Links",
-    () => `
+    (): string => `
     <div style="width:260px">
       <calcite-card
       theme="dark"
@@ -214,7 +214,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Dark Theme - Footer Text, Buttons, Tooltips",
-    () => `
+    (): string => `
     <div style="width:260px">
       <calcite-card
       theme="dark"
@@ -242,7 +242,7 @@ storiesOf("Components/Card", module)
   )
   .add(
     "Dark Theme - Footer Buttons, Tooltips, Dropdown",
-    () => `
+    (): string => `
     <div style="width:260px">
       <calcite-card
       theme="dark"

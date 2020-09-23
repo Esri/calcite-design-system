@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop } from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -54,11 +54,11 @@ export class CalciteLink {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.childElType = this.href ? "a" : "span";
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
     const Tag = this.childElType;
@@ -97,7 +97,7 @@ export class CalciteLink {
   //--------------------------------------------------------------------------
 
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     this.childEl.focus();
   }
 
@@ -113,7 +113,7 @@ export class CalciteLink {
   /** the node type of the rendered child element */
   private childElType?: "a" | "span" = "span";
 
-  private getAttributes() {
+  private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
     const props = ["color", "dir", "icon", "icon-position", "id", "theme"];
     return Array.from(this.el.attributes)

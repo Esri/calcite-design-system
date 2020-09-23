@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+  VNode
+} from "@stencil/core";
 import { GroupRegistration, ItemRegistration } from "../../interfaces/Dropdown";
 
 @Component({
@@ -43,7 +53,7 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.groupPosition = this.getGroupPosition();
     this.items = this.sortItems(this.items) as HTMLCalciteDropdownItemElement[];
     this.calciteDropdownGroupRegister.emit({
@@ -54,7 +64,7 @@ export class CalciteDropdownGroup {
     });
   }
 
-  render() {
+  render(): VNode {
     const groupTitle = this.groupTitle ? (
       <span class="dropdown-title" ref={(node) => (this.titleEl = node)}>
         {this.groupTitle}
@@ -77,7 +87,7 @@ export class CalciteDropdownGroup {
 
   @Listen("calciteDropdownItemRegister") registerCalciteDropdownItem(
     event: CustomEvent<ItemRegistration>
-  ) {
+  ): void {
     const item = event.target as HTMLCalciteDropdownItemElement;
 
     if (this.selectionMode === "none") {
@@ -92,7 +102,7 @@ export class CalciteDropdownGroup {
     event.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(event: CustomEvent) {
+  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
     this.calciteDropdownItemChange.emit({
@@ -127,7 +137,7 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  private getGroupPosition() {
+  private getGroupPosition(): number {
     return Array.prototype.indexOf.call(
       this.el.parentElement.querySelectorAll("calcite-dropdown-group"),
       this.el

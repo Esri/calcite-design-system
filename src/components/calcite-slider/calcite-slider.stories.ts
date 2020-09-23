@@ -8,7 +8,7 @@ storiesOf("Components/Slider", module)
   .addParameters({ notes: readme })
   .add(
     "Single value",
-    () => `
+    (): string => `
     <calcite-slider
       min="${number("min", 0)}"
       max="${number("max", 100)}"
@@ -27,7 +27,7 @@ storiesOf("Components/Slider", module)
   )
   .add(
     "Range",
-    () => `
+    (): string => `
     <calcite-slider
       min="${number("min", 0)}"
       min-label="${text("min-label", "Temperature, lower bound")}"
@@ -66,7 +66,7 @@ storiesOf("Components/Slider", module)
   })
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <calcite-slider
       min="0"
       max="100"

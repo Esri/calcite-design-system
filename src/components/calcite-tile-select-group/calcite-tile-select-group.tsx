@@ -1,4 +1,4 @@
-import { Component, Host, h } from "@stencil/core";
+import { Component, Host, h, VNode } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile-select-group",
@@ -6,7 +6,7 @@ import { Component, Host, h } from "@stencil/core";
   shadow: true
 })
 export class CalciteTileSelectGroup {
-  render() {
+  render(): VNode {
     return (
       <Host>
         <slot />

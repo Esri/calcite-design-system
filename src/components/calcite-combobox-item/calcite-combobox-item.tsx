@@ -37,7 +37,7 @@ export class CalciteComboboxItem {
   /* Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
   @Prop({ reflect: true }) selected = false;
 
-  @Watch("selected") selectedWatchHandler(newValue: boolean) {
+  @Watch("selected") selectedWatchHandler(newValue: boolean): void {
     this.isSelected = newValue;
   }
 
@@ -69,7 +69,7 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     this.isNested = this.getDepth();
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
@@ -94,7 +94,7 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(event): void {
+  @Listen("keydown") keyDownHandler(event: KeyboardEvent): void {
     event.stopPropagation();
     switch (getKey(event.key)) {
       case " ":
@@ -128,7 +128,7 @@ export class CalciteComboboxItem {
    * Used to toggle the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
    */
-  @Method() async toggleSelected(coerce?: boolean) {
+  @Method() async toggleSelected(coerce?: boolean): Promise<void> {
     if (this.disabled) {
       return;
     }
@@ -160,7 +160,7 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(scale): VNode {
+  renderIcon(scale: string): VNode {
     const iconScale = scale !== "l" ? "s" : "m";
     const iconPath = this.disabled ? "circle-disallowed" : "check";
     return <calcite-icon class={CSS.icon} icon={iconPath} scale={iconScale} />;

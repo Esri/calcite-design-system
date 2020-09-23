@@ -8,7 +8,8 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build
+  Build,
+  VNode
 } from "@stencil/core";
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -46,7 +47,7 @@ export class CalciteSwitch {
 
   private observer: MutationObserver;
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
     if (
       !this.disabled &&
       !this.el.contains(e.detail.interactedEl) &&
@@ -56,7 +57,7 @@ export class CalciteSwitch {
     } else return;
   }
 
-  @Listen("click") onClick(e) {
+  @Listen("click") onClick(e: MouseEvent): void {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
     if (
@@ -67,14 +68,14 @@ export class CalciteSwitch {
     }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (!this.disabled && (key === " " || key === "Enter")) {
       this.updateSwitch(e);
     }
   }
 
-  @Watch("switched") switchWatcher() {
+  @Watch("switched") switchWatcher(): void {
     this.switched
       ? this.inputProxy.setAttribute("checked", "")
       : this.inputProxy.removeAttribute("checked");
@@ -82,19 +83,19 @@ export class CalciteSwitch {
 
   private inputProxy: HTMLInputElement;
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.setupProxyInput();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.observer.disconnect();
   }
 
-  componentWillRender() {
+  componentWillRender(): void {
     this.syncProxyInputToThis();
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
 
     return (
@@ -121,7 +122,7 @@ export class CalciteSwitch {
     return 0;
   }
 
-  private setupProxyInput() {
+  private setupProxyInput(): void {
     // check for a proxy input
     this.inputProxy = this.el.querySelector("input");
 
@@ -141,13 +142,13 @@ export class CalciteSwitch {
     }
   }
 
-  private syncThisToProxyInput = () => {
+  private syncThisToProxyInput = (): void => {
     this.switched = this.inputProxy.hasAttribute("checked");
     this.name = this.inputProxy.name;
     this.value = this.inputProxy.value;
   };
 
-  private syncProxyInputToThis = () => {
+  private syncProxyInputToThis = (): void => {
     this.switched
       ? this.inputProxy.setAttribute("checked", "")
       : this.inputProxy.removeAttribute("checked");
@@ -155,7 +156,7 @@ export class CalciteSwitch {
     this.inputProxy.setAttribute("value", this.value);
   };
 
-  private updateSwitch(e) {
+  private updateSwitch(e: Event): void {
     e.preventDefault();
     this.switched = !this.switched;
     this.calciteSwitchChange.emit({
