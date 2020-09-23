@@ -163,14 +163,16 @@ export class CalcitePanel {
   //
   // --------------------------------------------------------------------------
 
-  setRefNode = (node: HTMLElement): void => {
-    const propName = node.getAttribute("data-ref-prop-name");
+  setContainerRef = (node: HTMLElement): void => {
+    this.containerEl = node;
+  };
 
-    if (!(propName in this)) {
-      throw new Error("cannot set ref on non-existent variable");
-    }
+  setMenuButonRef = (node: HTMLCalciteActionElement): void => {
+    this.menuButtonEl = node;
+  };
 
-    this[propName] = node;
+  setDismissRef = (node: HTMLCalciteActionElement): void => {
+    this.dismissButtonEl = node;
   };
 
   panelKeyUpHandler = (event: KeyboardEvent): void => {
@@ -363,10 +365,9 @@ export class CalcitePanel {
     const dismissibleNode = dismissible ? (
       <calcite-action
         aria-label={text}
-        data-ref-prop-name="dismissButtonEl"
         icon={ICONS.close}
         onClick={dismiss}
-        ref={this.setRefNode}
+        ref={this.setDismissRef}
         text={text}
       />
     ) : null;
@@ -386,7 +387,7 @@ export class CalcitePanel {
   }
 
   renderMenuItems(): VNode {
-    const { el, menuOpen, menuButtonEl } = this;
+    const { menuOpen, menuButtonEl } = this;
 
     return (
       <calcite-popover
@@ -416,11 +417,10 @@ export class CalcitePanel {
       <calcite-action
         aria-label={menuLabel}
         class={CSS.menuButton}
-        data-ref-prop-name="menuButtonEl"
         icon={ICONS.menu}
         onClick={this.toggleMenuOpen}
         onKeyDown={this.menuButtonKeyDown}
-        ref={this.setRefNode}
+        ref={this.setMenuButonRef}
         text={menuLabel}
       />
     );
@@ -521,6 +521,8 @@ export class CalcitePanel {
 
     const rtl = getElementDir(el) === "rtl";
 
+    console.log("*: " + this["containerEl"]);
+
     const panelNode = (
       <article
         aria-busy={loading.toString()}
@@ -528,10 +530,9 @@ export class CalcitePanel {
           [CSS.container]: true,
           [CSS_UTILITY.rtl]: rtl
         }}
-        data-ref-prop-name="containerEl"
         hidden={dismissible && dismissed}
         onKeyUp={panelKeyUpHandler}
-        ref={this.setRefNode}
+        ref={this.setContainerRef}
         tabIndex={dismissible ? 0 : -1}
       >
         {this.renderHeaderNode()}
