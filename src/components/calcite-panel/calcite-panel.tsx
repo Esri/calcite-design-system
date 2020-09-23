@@ -163,6 +163,16 @@ export class CalcitePanel {
   //
   // --------------------------------------------------------------------------
 
+  setRefNode = (node: HTMLElement): void => {
+    const propName = node.getAttribute("data-ref-prop-name");
+
+    if (!(propName in this)) {
+      throw new Error("cannot set ref on non-existent variable");
+    }
+
+    this[propName] = node;
+  };
+
   panelKeyUpHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.dismiss();
@@ -302,8 +312,8 @@ export class CalcitePanel {
         icon={icon}
         key="back-button"
         onClick={backButtonClick}
-        slot={SLOTS.headerActionsStart}
         scale="s"
+        slot={SLOTS.headerActionsStart}
         text={label}
       />
     ) : null;
@@ -353,11 +363,10 @@ export class CalcitePanel {
     const dismissibleNode = dismissible ? (
       <calcite-action
         aria-label={text}
+        data-ref-prop-name="dismissButtonEl"
         icon={ICONS.close}
         onClick={dismiss}
-        ref={(dismissButtonEl): HTMLCalciteActionElement =>
-          (this.dismissButtonEl = dismissButtonEl)
-        }
+        ref={this.setRefNode}
         text={text}
       />
     ) : null;
@@ -407,10 +416,11 @@ export class CalcitePanel {
       <calcite-action
         aria-label={menuLabel}
         class={CSS.menuButton}
+        data-ref-prop-name="menuButtonEl"
         icon={ICONS.menu}
         onClick={this.toggleMenuOpen}
         onKeyDown={this.menuButtonKeyDown}
-        ref={(menuButtonEl): HTMLCalciteActionElement => (this.menuButtonEl = menuButtonEl)}
+        ref={this.setRefNode}
         text={menuLabel}
       />
     );
@@ -480,7 +490,7 @@ export class CalcitePanel {
 
     return hasFooterActions ? (
       <footer class={CSS.footer}>
-        <slot name={SLOTS.footerActions}></slot>
+        <slot name={SLOTS.footerActions} />
       </footer>
     ) : null;
   }
@@ -518,9 +528,10 @@ export class CalcitePanel {
           [CSS.container]: true,
           [CSS_UTILITY.rtl]: rtl
         }}
+        data-ref-prop-name="containerEl"
         hidden={dismissible && dismissed}
         onKeyUp={panelKeyUpHandler}
-        ref={(containerEl): HTMLElement => (this.containerEl = containerEl)}
+        ref={this.setRefNode}
         tabIndex={dismissible ? 0 : -1}
       >
         {this.renderHeaderNode()}
@@ -532,9 +543,7 @@ export class CalcitePanel {
     return (
       <Host>
         {loading || disabled ? (
-          <calcite-scrim loading={loading}>
-            {panelNode}
-          </calcite-scrim>
+          <calcite-scrim loading={loading}>{panelNode}</calcite-scrim>
         ) : (
           panelNode
         )}
