@@ -67,8 +67,12 @@ export class CalciteDropdownGroup {
       </span>
     ) : null;
 
+    const dropdownseparator =
+      this.groupPosition !== 0 ? <div class="dropdown-separator" role="separator" /> : null;
+
     return (
       <Host>
+        {dropdownseparator}
         {groupTitle}
         <slot />
       </Host>
