@@ -1,4 +1,14 @@
-import { Component, Element, Prop, Host, Event, EventEmitter, h, Listen } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  VNode
+} from "@stencil/core";
 import { getFirstDayOfWeek, getLocalizedWeekdays } from "../../utils/locale";
 import { inRange, sameDate, dateFromRange } from "../../utils/date";
 import { getKey } from "../../utils/key";
@@ -63,7 +73,7 @@ export class CalciteDateMonth {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const isRTL = this.el.dir === "rtl";
     switch (getKey(e.key)) {
       case "ArrowUp":
@@ -116,7 +126,7 @@ export class CalciteDateMonth {
    * Once user is not interacting via keyboard,
    * disable auto focusing of active date
    */
-  @Listen("focusout") disableActiveFocus() {
+  @Listen("focusout") disableActiveFocus(): void {
     this.activeFocus = false;
   }
 
@@ -125,7 +135,7 @@ export class CalciteDateMonth {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  render() {
+  render(): VNode {
     const month = this.activeDate.getMonth();
     const year = this.activeDate.getFullYear();
     const startOfWeek = getFirstDayOfWeek(this.locale);

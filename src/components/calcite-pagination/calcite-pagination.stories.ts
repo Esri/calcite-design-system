@@ -8,7 +8,7 @@ storiesOf("Components/Pagination", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-pagination
       scale="${select("scale", ["s", "m", "l"], "m")}"
       start="${number("start", 1)}"
@@ -22,7 +22,7 @@ storiesOf("Components/Pagination", module)
   )
   .add(
     "Dark Mode",
-    () => `
+    (): string => `
     <calcite-pagination
       scale="${select("scale", ["s", "m", "l"], "m")}"
       start="${number("start", 1)}"

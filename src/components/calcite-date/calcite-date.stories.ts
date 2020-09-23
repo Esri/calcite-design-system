@@ -48,7 +48,7 @@ storiesOf("Components/Date", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div style="width: 400px">
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -64,7 +64,7 @@ storiesOf("Components/Date", module)
   )
   .add(
     "No input",
-    () => `
+    (): string => `
     <div style="width: 400px">
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -82,7 +82,7 @@ storiesOf("Components/Date", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <div style="width: 400px">
     <calcite-date
       theme="dark"

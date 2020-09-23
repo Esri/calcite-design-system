@@ -88,7 +88,7 @@ export class CalciteSlider {
   /** Display a histogram above the slider */
   @Prop() histogram?: DataSeries;
 
-  @Watch("histogram") histogramWatcher(newHistogram) {
+  @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
     this.hasHistogram = newHistogram ? true : false;
   }
 
@@ -100,7 +100,7 @@ export class CalciteSlider {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentWillLoad() {
+  componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
     this.value = this.bound(this.value);
@@ -113,7 +113,7 @@ export class CalciteSlider {
     this.calciteSliderUpdate.emit();
   }
 
-  componentDidRender() {
+  componentDidRender(): void {
     if (this.labelHandles) {
       this.adjustHostObscuredHandleLabel("value");
       if (this.isRange) {
@@ -126,7 +126,7 @@ export class CalciteSlider {
     this.hideObscuredBoundingTickLabels();
   }
 
-  render() {
+  render(): VNode {
     const id = this.el.id || this.guid;
     const min = this.minValue || this.min;
     const max = this.maxValue || this.value;
@@ -658,13 +658,13 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
     if (e.detail.interactedEl !== this.el && hasLabel(e.detail.labelEl, this.el)) {
       this.setFocus();
     }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const value = this[this.activeProp];
     switch (getKey(e.key)) {
       case "ArrowUp":
@@ -706,7 +706,7 @@ export class CalciteSlider {
     }
   }
 
-  @Listen("click") clickHandler(e: MouseEvent) {
+  @Listen("click") clickHandler(e: MouseEvent): void {
     const x = e.clientX || e.pageX;
     const num = this.translate(x);
     let prop: activeSliderProperty = "value";
@@ -752,7 +752,7 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle.focus();
   }
@@ -916,7 +916,7 @@ export class CalciteSlider {
     return num;
   }
 
-  private getFontSizeForElement(element: HTMLElement) {
+  private getFontSizeForElement(element: HTMLElement): number {
     return Number(window.getComputedStyle(element).getPropertyValue("font-size").match(/\d+/)[0]);
   }
 
@@ -931,7 +931,7 @@ export class CalciteSlider {
     return (num - this.min) / range;
   }
 
-  private adjustHostObscuredHandleLabel(name: "value" | "minValue") {
+  private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
     const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.static`
@@ -947,7 +947,7 @@ export class CalciteSlider {
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
 
-  private hyphenateCollidingRangeHandleLabels() {
+  private hyphenateCollidingRangeHandleLabels(): void {
     const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue`
     );
@@ -1062,7 +1062,7 @@ export class CalciteSlider {
   /**
    * Hides bounding tick labels that are obscured by either handle.
    */
-  private hideObscuredBoundingTickLabels() {
+  private hideObscuredBoundingTickLabels(): void {
     if (!this.hasHistogram && !this.isRange && !this.labelHandles && !this.precise) {
       return;
     }

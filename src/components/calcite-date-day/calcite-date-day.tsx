@@ -1,4 +1,14 @@
-import { Component, Element, Prop, Host, Event, EventEmitter, Listen, h } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  EventEmitter,
+  Listen,
+  h,
+  VNode
+} from "@stencil/core";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -48,11 +58,11 @@ export class CalciteDateDay {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick() {
+  @Listen("click") onClick(): void {
     !this.disabled && this.calciteDaySelect.emit();
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (key === " " || key === "Enter") {
       !this.disabled && this.calciteDaySelect.emit();
@@ -75,7 +85,7 @@ export class CalciteDateDay {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  render() {
+  render(): VNode {
     const intl = new Intl.NumberFormat(this.locale);
     return (
       <Host role="gridcell" tabindex={this.selected || this.active ? 0 : -1}>

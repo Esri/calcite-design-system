@@ -138,29 +138,6 @@ describe("calcite-button", () => {
     expect(loader).toBeNull();
   });
 
-  it("validates incorrect props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-button color="zip" scale="zot" width="zap" appearance="zom">Continue</calcite-button>`
-    );
-    const element = await page.find("calcite-button");
-    const elementAsButton = await page.find("calcite-button >>> button");
-    const elementAsLink = await page.find("calcite-button >>> a");
-    const iconStart = await page.find("calcite-button >>> .calcite-button--icon.icon-start");
-    const iconEnd = await page.find("calcite-button >>> .calcite-button--icon.icon-end");
-    const loader = await page.find("calcite-button >>> .calcite-button--loader");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "blue");
-    expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("width", "auto");
-    expect(elementAsLink).toBeNull();
-    expect(elementAsButton).not.toBeNull();
-    expect(iconStart).toBeNull();
-    expect(iconEnd).toBeNull();
-    expect(loader).toBeNull();
-  });
-
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button icon-start='plus'>Continue</calcite-button>`);

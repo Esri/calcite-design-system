@@ -21,7 +21,23 @@
     "@stencil/required-jsdoc": "off",
     "@stencil/strict-boolean-conditions": "off",
     "@typescript-eslint/ban-types": "warn",
-    "@typescript-eslint/explicit-module-boundary-types": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": [
+      "error",
+      {
+        "allowArgumentsExplicitlyTypedAsAny": true,
+        "allowedNames": [
+          "connectedCallback",
+          "disconnectedCallback",
+          "componentWillRender",
+          "componentDidRender",
+          "componentWillLoad",
+          "componentDidLoad",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "render"
+        ]
+      }
+    ],
     "@typescript-eslint/no-explicit-any": "off",
     "lines-between-class-members": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],

@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Listen, Prop } from "@stencil/core";
+import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
@@ -36,7 +36,7 @@ export class CalcitePopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  render(): void {
+  render(): VNode {
     return <Host />;
   }
 

@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "@stencil/core";
-import { getElementDir } from "./dom";
+import { getElementDir } from "../../utils/dom";
 import { CalcitePosition } from "../interfaces";
 
 interface CalciteExpandToggleProps {

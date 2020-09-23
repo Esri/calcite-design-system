@@ -11,7 +11,7 @@ storiesOf("Components/Tabs", module)
   .addParameters({ notes: [readme1, readme2, readme3, readme4] })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-tabs
       layout="${select("layout", ["inline", "center"], "inline")}"
       position="${select("position", ["above", "below"], "above")}"
@@ -32,7 +32,7 @@ storiesOf("Components/Tabs", module)
   )
   .add(
     "With icons",
-    () => `
+    (): string => `
     <calcite-tabs
       layout="${select("layout", ["inline", "center"], "inline")}"
       position="${select("position", ["above", "below"], "above")}"
@@ -62,7 +62,7 @@ storiesOf("Components/Tabs", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <calcite-tabs theme="dark"
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
