@@ -293,7 +293,22 @@ describe("calcite-radio-button", () => {
     expect(checkedItems).toHaveLength(0);
   });
 
-  it("emits when checked", async () => {
+  it("appropriately triggers the custom change event", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-radio-button></calcite-radio-button>`);
+
+    const radio = await page.find("calcite-radio-button");
+
+    const changeEvent = await radio.spyOnEvent("calciteRadioButtonChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await radio.click();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("doesn't emit when controlling checked attribute", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-radio-button value='test-value'></calcite-radio-button>");
     const element = await page.find("calcite-radio-button");
@@ -303,7 +318,7 @@ describe("calcite-radio-button", () => {
     await page.waitForChanges();
     await element.setProperty("checked", false);
     await page.waitForChanges();
-    expect(spy).toHaveReceivedEventTimes(2);
+    expect(spy).toHaveReceivedEventTimes(0);
   });
 
   it("is un-checked by default", async () => {

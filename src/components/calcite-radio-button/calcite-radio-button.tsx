@@ -42,7 +42,6 @@ export class CalciteRadioButton {
       this.uncheckOtherRadioButtonsInGroup();
     }
     this.input.checked = newChecked;
-    this.calciteRadioButtonChange.emit();
   }
 
   /** The disabled state of the radio button. */
@@ -63,7 +62,6 @@ export class CalciteRadioButton {
     } else {
       this.input.blur();
     }
-    this.calciteRadioButtonFocusedChange.emit();
   }
 
   /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
@@ -185,6 +183,7 @@ export class CalciteRadioButton {
       this.uncheckOtherRadioButtonsInGroup();
       this.checked = true;
       this.focused = true;
+      this.calciteRadioButtonChange.emit();
     }
   }
 
@@ -200,10 +199,12 @@ export class CalciteRadioButton {
 
   private onInputBlur() {
     this.focused = false;
+    this.calciteRadioButtonFocusedChange.emit();
   }
 
   private onInputFocus() {
     this.focused = true;
+    this.calciteRadioButtonFocusedChange.emit();
   }
 
   //--------------------------------------------------------------------------
