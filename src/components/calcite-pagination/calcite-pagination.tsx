@@ -165,8 +165,7 @@ export class CalcitePagination {
   }
 
   renderPage(start: number): VNode {
-    let page = Math.floor(start / this.num) + 1;
-    if (this.num === 1) page--;
+    const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
     return (
       <button
         class={{
