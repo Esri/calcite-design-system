@@ -26,7 +26,7 @@ const { argv } = require("yargs");
   const nextTagsSinceLastRelease = semverTags.slice(0, indexOfNonNextTag);
 
   try {
-    // remove prerelease tags locally, so they can be ignored when generating the changelog
+    // delete prerelease tags locally, so they can be ignored when generating the changelog
     childProcess.execSync(`git tag --delete ${nextTagsSinceLastRelease.join(" ")}`);
 
     childProcess.execSync(
