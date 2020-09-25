@@ -214,6 +214,40 @@ describe("calcite-color", () => {
     expect(await picker.getProperty("color")).toBeTruthy();
   });
 
+  describe.only("initial value used to initialize internal color", () => {
+    const initialColor = "#c0ff33";
+
+    async function getInternalColorAsHex(page: E2EPage): Promise<string> {
+      return page.$eval("calcite-color", (picker: HTMLCalciteColorElement) => picker.color.hex().toLowerCase());
+    }
+
+    it("value as attribute", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color value="${initialColor}"></calcite-color>`
+      });
+
+      expect(await getInternalColorAsHex(page)).toBe(initialColor);
+    });
+
+    it("value as property", async () => {
+      // initialize page with calcite-color to make it available in the evaluate callback below
+      const page = await newE2EPage({
+        html: "<calcite-color></calcite-color>"
+      });
+      await page.setContent("");
+
+      await page.evaluate(async (color) => {
+        const picker = document.createElement<HTMLCalciteColorElement>("calcite-color");
+        picker.value = color;
+        document.body.append(picker);
+
+        await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+      }, initialColor);
+
+      expect(await getInternalColorAsHex(page)).toBe(initialColor);
+    });
+  });
+
   // skipping until https://github.com/Esri/calcite-components/issues/928 is addressed
   describe.skip("color inputs", () => {
     // tests for all individual inputs takes longer than the default
