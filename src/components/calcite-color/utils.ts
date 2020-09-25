@@ -130,7 +130,7 @@ export function parseMode(colorValue: ColorValue): SupportedMode | null {
   return null;
 }
 
-function hasChannels(colorObject: object, ...channels: string[]): boolean {
+function hasChannels(colorObject: Exclude<ColorValue, string>, ...channels: string[]): boolean {
   return channels.every((channel) => `${channel}` in colorObject);
 }
 

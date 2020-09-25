@@ -10,7 +10,7 @@ storiesOf("Components/Dropdown", module)
   .addParameters({ notes: [readme1, readme2, readme3] })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-dropdown
       alignment="${select("alignment", ["start", "center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -34,7 +34,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "With Icons",
-    () => `
+    (): string => `
     <calcite-dropdown
       alignment="${select("alignment", ["start", "center", "end"], "start")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -76,7 +76,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "Groups and selection modes",
-    () => `
+    (): string => `
   <calcite-dropdown
     alignment="${select("alignment", ["start", "center", "end"], "start")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -105,7 +105,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "Items as Links",
-    () => `
+    (): string => `
   <calcite-dropdown
     alignment="${select("alignment", ["start", "center", "end"], "start")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -127,7 +127,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "A mix of links and non-links",
-    () => `
+    (): string => `
   <calcite-dropdown
     alignment="${select("alignment", ["start", "center", "end"], "start")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -149,7 +149,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "Dark theme",
-    () => `
+    (): string => `
     <calcite-dropdown
       theme="dark"
       alignment="${select("alignment", ["start", "center", "end"], "start")}"
@@ -175,7 +175,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "With Icons - Dark theme",
-    () => `
+    (): string => `
     <calcite-dropdown
       theme="dark"
       alignment="${select("alignment", ["start", "center", "end"], "start")}"
@@ -219,7 +219,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "Groups and selection modes dark theme",
-    () => `
+    (): string => `
   <calcite-dropdown
     theme="dark"
     alignment="${select("alignment", ["start", "center", "end"], "start")}"
@@ -249,7 +249,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "Items as Links - dark theme",
-    () => `
+    (): string => `
   <calcite-dropdown
     theme="dark"
     alignment="${select("alignment", ["start", "center", "end"], "start")}"
@@ -273,7 +273,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "Simple - RTL",
-    () => `
+    (): string => `
     <calcite-dropdown
       dir="rtl"
       alignment="${select("alignment", ["start", "center", "end"], "start")}"
@@ -298,7 +298,7 @@ storiesOf("Components/Dropdown", module)
   )
   .add(
     "Scrolling after certain items",
-    () => `
+    (): string => `
     <calcite-dropdown
       alignment="${select("alignment", ["start", "center", "end"], "start")}"
       max-items="${number("max-items", 7, { min: 0, max: 10, step: 1 })}"

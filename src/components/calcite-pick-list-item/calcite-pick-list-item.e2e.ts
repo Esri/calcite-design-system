@@ -24,7 +24,7 @@ describe("calcite-pick-list-item", () => {
     });
     const item = await page.find("calcite-pick-list-item");
     await page.evaluate(() => {
-      document.addEventListener("calciteListItemChange", (event: CustomEvent) => {
+      document.addEventListener("calciteListItemChange", (event: CustomEvent): void => {
         (window as any).eventDetail = event.detail;
       });
     });

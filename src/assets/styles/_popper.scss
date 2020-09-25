@@ -1,15 +1,95 @@
-@mixin popperHost {
-  :host {
-    display: block;
-    position: absolute;
-    z-index: 999;
-    top: -999999px;
-    left: -999999px;
+$popper-transform-bottom: translateY(-5px);
+$popper-transform-top: translateY(5px);
+$popper-transform-left: translateX(5px);
+$popper-transform-right: translateX(-5px);
+
+:root {
+  --calcite-popper-transition: #{$transition};
+}
+
+@mixin popperAnim {
+  .calcite-popper-anim {
+    position: relative;
+    z-index: 1;
+    transition: var(--calcite-popper-transition);
+    visibility: hidden;
+    transition-property: transform, visibility, opacity;
+    opacity: 0;
+    box-shadow: $shadow-2;
+    border-radius: var(--calcite-border-radius);
+  }
+}
+
+@mixin popperAnimActive {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0);
+}
+
+@mixin popperElemAnim($selector) {
+  #{$selector} {
+    @include popperAnim();
+
+    &[data-popper-placement^="bottom"] .calcite-popper-anim {
+      transform: $popper-transform-bottom;
+    }
+
+    &[data-popper-placement^="top"] .calcite-popper-anim {
+      transform: $popper-transform-top;
+    }
+
+    &[data-popper-placement^="left"] .calcite-popper-anim {
+      transform: $popper-transform-left;
+    }
+
+    &[data-popper-placement^="right"] .calcite-popper-anim {
+      transform: $popper-transform-right;
+    }
+
+    &[data-popper-placement] .calcite-popper-anim--active {
+      @include popperAnimActive();
+    }
+  }
+}
+
+@mixin popperHostAnim {
+  @include popperAnim();
+
+  :host([data-popper-placement^="bottom"]) .calcite-popper-anim {
+    transform: $popper-transform-bottom;
   }
 
-  :host([aria-hidden="false"]) {
-    box-shadow: $shadow-2;
+  :host([data-popper-placement^="top"]) .calcite-popper-anim {
+    transform: $popper-transform-top;
   }
+
+  :host([data-popper-placement^="left"]) .calcite-popper-anim {
+    transform: $popper-transform-left;
+  }
+
+  :host([data-popper-placement^="right"]) .calcite-popper-anim {
+    transform: $popper-transform-right;
+  }
+
+  :host([data-popper-placement]) .calcite-popper-anim--active {
+    @include popperAnimActive();
+  }
+}
+
+@mixin popperContainer {
+  display: block;
+  position: absolute;
+  z-index: 999;
+  top: -999999px;
+  left: -999999px;
+}
+
+@mixin popperHost {
+  :host {
+    @include popperContainer();
+  }
+
+  @include popperHostAnim();
 }
 
 $pointer_size: 8px;
@@ -31,19 +111,19 @@ $pointer_offset: -$pointer_size/2;
     background: var(--calcite-ui-foreground-1);
   }
 
-  :host([data-popper-placement^="top"]) > .arrow {
+  :host([data-popper-placement^="top"]) .arrow {
     bottom: $pointer_offset;
   }
 
-  :host([data-popper-placement^="bottom"]) > .arrow {
+  :host([data-popper-placement^="bottom"]) .arrow {
     top: $pointer_offset;
   }
 
-  :host([data-popper-placement^="left"]) > .arrow {
+  :host([data-popper-placement^="left"]) .arrow {
     right: $pointer_offset;
   }
 
-  :host([data-popper-placement^="right"]) > .arrow {
+  :host([data-popper-placement^="right"]) .arrow {
     left: $pointer_offset;
   }
 }

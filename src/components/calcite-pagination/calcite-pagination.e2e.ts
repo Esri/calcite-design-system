@@ -99,7 +99,7 @@ describe("calcite-pagination", () => {
       const toggleSpy = await page.spyOnEvent("calcitePaginationUpdate");
 
       await page.evaluate(() => {
-        document.addEventListener("calcitePaginationUpdate", (event: CustomEvent) => {
+        document.addEventListener("calcitePaginationUpdate", (event: CustomEvent): void => {
           (window as any).eventDetail = event.detail;
         });
       });

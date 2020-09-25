@@ -1,11 +1,47 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+This document maintains a list of released versions and changes introduced by them.
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+## [1.0.0-beta.40](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.39...v1.0.0-beta.40) (2020-09-23)
 
-## 1.0.0-beta.37
+### Bug Fixes
+
+- **calcite-radio-button:** fixing issue where input isn't properly initialized in some cases ([#1011](https://github.com/Esri/calcite-components/issues/1011)) ([2f59ea6](https://github.com/Esri/calcite-components/commit/2f59ea6dfab845b922560182bfede49fb643cd9b))
+- **dropdown:** Adjust display of slotted full width buttons ([#1013](https://github.com/Esri/calcite-components/issues/1013)) ([407ef02](https://github.com/Esri/calcite-components/commit/407ef02cf2e7ba9434f04395adee44fcd567b4ce))
+
+## [1.0.0-beta.39](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.38...v1.0.0-beta.39) (2020-09-17)
+
+### Features
+
+- **label:** Adjust spacing ([#956](https://github.com/Esri/calcite-components/issues/956)) ([5483740](https://github.com/Esri/calcite-components/commit/5483740c6dc0956c0bfb49b9b2f52e046b7937c9))
+
+### Bug Fixes
+
+- **calcite-checkbox:** visibility of hidden input controlled by inline styles to prevent outside CSS from affecting its display ([#999](https://github.com/Esri/calcite-components/issues/999)) ([e1e31bc](https://github.com/Esri/calcite-components/commit/e1e31bc4dbbbde3221b8c7da4419ee072acd408d))
+- **color:** ensure color object values are rounded ([#883](https://github.com/Esri/calcite-components/issues/883)) ([ce9fd18](https://github.com/Esri/calcite-components/commit/ce9fd187933c901eb23c99fa32437ddbc657aa71))
+- **dropdown:** fix item selection when dropdown is in a shadow DOM context ([#995](https://github.com/Esri/calcite-components/issues/995)) ([bc0308a](https://github.com/Esri/calcite-components/commit/bc0308ae0398a1664ce7b279d909f096d516de36)), closes [#992](https://github.com/Esri/calcite-components/issues/992)
+- **tooltip:** Add a11y improvements for hovering over a tooltip ([#987](https://github.com/Esri/calcite-components/issues/987)) ([943bd86](https://github.com/Esri/calcite-components/commit/943bd86a625b39d356d6d401f798101ad2374aca)), closes [#938](https://github.com/Esri/calcite-components/issues/938)
+- **tooltip:** Keep tooltip visible if focus occurs after hover [#938](https://github.com/Esri/calcite-components/issues/938) ([#1005](https://github.com/Esri/calcite-components/issues/1005)) ([94ed432](https://github.com/Esri/calcite-components/commit/94ed432f2a22e739d841c90c10d5988e4d4e9e4a))
+
+## [1.0.0-beta.38](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.37...v1.0.0-beta.38) (2020-09-04)
+
+### Features
+
+- **calcite-label:** adds disable-spacing property also updates label-text spacing ([2cca2c6](https://github.com/Esri/calcite-components/commit/2cca2c6f2cf215240841df9b1c135cbf1de33e3c)), closes [#916](https://github.com/Esri/calcite-components/issues/916) [#916](https://github.com/Esri/calcite-components/issues/916)
+- **label:** Adds disabled prop to label, radio-group ([#923](https://github.com/Esri/calcite-components/issues/923)) ([cc34b51](https://github.com/Esri/calcite-components/commit/cc34b51914d100b68d529b81bf39faee4c1b7b93))
+- **label:** Updates alignment and spacing ([#914](https://github.com/Esri/calcite-components/issues/914)) ([943e5c2](https://github.com/Esri/calcite-components/commit/943e5c2318fd9ba2661e55ef712c7e2788aa9a09))
+- **split-button:** add secondary click event ([#889](https://github.com/Esri/calcite-components/issues/889)) ([bb3b141](https://github.com/Esri/calcite-components/commit/bb3b141336c855a418b6cdcc53e807c87714946d))
+- **tabs:** add tab-title disabled state ([#879](https://github.com/Esri/calcite-components/issues/879)) ([adef10f](https://github.com/Esri/calcite-components/commit/adef10f5c0f341f3b6198ffafa587ed1f649ecf1))
+
+### Bug Fixes
+
+- **dropdown:** fix tab through ([#880](https://github.com/Esri/calcite-components/issues/880)) ([acbef6f](https://github.com/Esri/calcite-components/commit/acbef6f47726d5cc8dd28f385b84126deb90304d))
+- **input:** emit calcite input input on up and down click on number input [#886](https://github.com/Esri/calcite-components/issues/886) ([#888](https://github.com/Esri/calcite-components/issues/888)) ([01a140b](https://github.com/Esri/calcite-components/commit/01a140bbe89e4208e2be6f889891633c12ccc826))
+- **input:** No longer set clearable by default on type date or time ([#895](https://github.com/Esri/calcite-components/issues/895)) ([d5d9d6a](https://github.com/Esri/calcite-components/commit/d5d9d6a0fb620c69e329ca4454bd30311e5bf007))
+- **tree:** change tabindex to 0 to prevent forced first tab stop on page ([#911](https://github.com/Esri/calcite-components/issues/911)) ([ef4a7ad](https://github.com/Esri/calcite-components/commit/ef4a7adfc7572411717d77f6240497f095730362)), closes [#634](https://github.com/Esri/calcite-components/issues/634)
+
+## [1.0.0-beta.37](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.36...v1.0.0-beta.37) (2020-08-19)
 
 ### Features
 
@@ -602,41 +638,3 @@ Fix issue with previous release.
 ## [v1.0.0-beta.1] - Aug 2nd 2019
 
 First initial beta release.
-
-[v1.0.0-beta.36]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.35...v1.0.0-beta.36 "v1.0.0-beta.36"
-[v1.0.0-beta.35]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.34...v1.0.0-beta.35 "v1.0.0-beta.35"
-[v1.0.0-beta.34]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.33...v1.0.0-beta.34 "v1.0.0-beta.34"
-[v1.0.0-beta.33]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.32...v1.0.0-beta.33 "v1.0.0-beta.33"
-[v1.0.0-beta.32]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.31...v1.0.0-beta.32 "v1.0.0-beta.32"
-[v1.0.0-beta.31]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.30...v1.0.0-beta.31 "v1.0.0-beta.31"
-[v1.0.0-beta.30]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.29...v1.0.0-beta.30 "v1.0.0-beta.30"
-[v1.0.0-beta.29]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.28...v1.0.0-beta.29 "v1.0.0-beta.29"
-[v1.0.0-beta.28]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.27...v1.0.0-beta.28 "v1.0.0-beta.28"
-[v1.0.0-beta.27]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.26...v1.0.0-beta.27 "v1.0.0-beta.27"
-[v1.0.0-beta.26]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.25...v1.0.0-beta.26 "v1.0.0-beta.26"
-[v1.0.0-beta.25]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.24...v1.0.0-beta.25 "v1.0.0-beta.25"
-[v1.0.0-beta.24]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.23...v1.0.0-beta.24 "v1.0.0-beta.24"
-[v1.0.0-beta.23]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.22...v1.0.0-beta.23 "v1.0.0-beta.23"
-[v1.0.0-beta.22]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.21...v1.0.0-beta.22 "v1.0.0-beta.22"
-[v1.0.0-beta.21]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.20...v1.0.0-beta.21 "v1.0.0-beta.21"
-[v1.0.0-beta.20]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.19...v1.0.0-beta.20 "v1.0.0-beta.20"
-[v1.0.0-beta.19]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.18...v1.0.0-beta.19 "v1.0.0-beta.19"
-[v1.0.0-beta.18]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.17...v1.0.0-beta.18 "v1.0.0-beta.18"
-[v1.0.0-beta.17]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.16...v1.0.0-beta.17 "v1.0.0-beta.17"
-[v1.0.0-beta.16]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.15...v1.0.0-beta.16 "v1.0.0-beta.16"
-[v1.0.0-beta.15]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.14...v1.0.0-beta.15 "v1.0.0-beta.15"
-[v1.0.0-beta.14]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.13...v1.0.0-beta.14 "v1.0.0-beta.14"
-[v1.0.0-beta.13]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.12...v1.0.0-beta.13 "v1.0.0-beta.13"
-[v1.0.0-beta.12]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.11...v1.0.0-beta.12 "v1.0.0-beta.12"
-[v1.0.0-beta.11]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.10...v1.0.0-beta.11 "v1.0.0-beta.11"
-[v1.0.0-beta.10]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.9...v1.0.0-beta.10 "v1.0.0-beta.10"
-[v1.0.0-beta.9]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.8...v1.0.0-beta.9 "v1.0.0-beta.9"
-[v1.0.0-beta.8]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.7...v1.0.0-beta.8 "v1.0.0-beta.8"
-[v1.0.0-beta.7]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.6...v1.0.0-beta.7 "v1.0.0-beta.7"
-[v1.0.0-beta.6]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.5...v1.0.0-beta.6 "v1.0.0-beta.6"
-[v1.0.0-beta.5]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.4...v1.0.0-beta.5 "v1.0.0-beta.5"
-[v1.0.0-beta.4]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.3...v1.0.0-beta.4 "v1.0.0-beta.4"
-[v1.0.0-beta.3]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.2...v1.0.0-beta.3 "v1.0.0-beta.3"
-[v1.0.0-beta.2]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.1...v1.0.0-beta.2 "v1.0.0-beta.2"
-[v1.0.0-beta.1]: https://github.com/Esri/calcite-components/compare/dafb2312835ec6fef134d0d2b20aabd1dfe907cf...v1.0.0-beta.1 "v1.0.0-beta.1"
-[head]: https://github.com/Esri/calcite-components/compare/v1.0.0-beta.21...HEAD "Unreleased Changes"

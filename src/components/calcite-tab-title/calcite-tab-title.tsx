@@ -9,7 +9,8 @@ import {
   h,
   Host,
   State,
-  Build
+  Build,
+  VNode
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -66,16 +67,17 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.setupTextContentObserver();
+    this.parentTabNavEl = this.el.closest("calcite-tab-nav");
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.observer.disconnect();
     this.calciteTabTitleUnregister.emit();
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     if (Build.isBrowser) {
       this.updateHasText();
     }
@@ -84,12 +86,12 @@ export class CalciteTabTitle {
     }
   }
 
-  componentWillRender() {
+  componentWillRender(): void {
     this.layout = this.el.closest("calcite-tabs")?.layout;
     this.position = this.el.closest("calcite-tabs")?.position;
   }
 
-  render() {
+  render(): VNode {
     const id = this.el.id || this.guid;
     const Tag = this.disabled ? "span" : "a";
 
@@ -103,12 +105,12 @@ export class CalciteTabTitle {
 
     return (
       <Host
-        id={id}
         aria-controls={this.controls}
         aria-expanded={this.active.toString()}
+        hasText={this.hasText}
+        id={id}
         role="tab"
         tabindex={this.disabled ? "-1" : "0"}
-        hasText={this.hasText}
       >
         <Tag>
           {this.iconStart ? iconStartEl : null}
@@ -129,23 +131,25 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
+  @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
-  ) {
-    if (this.tab) {
-      this.active = this.tab === event.detail.tab;
-    } else {
-      this.getTabIndex().then((index) => {
-        this.active = index === event.detail.tab;
-      });
+  ): void {
+    if (this.parentTabNavEl === event.target) {
+      if (this.tab) {
+        this.active = this.tab === event.detail.tab;
+      } else {
+        this.getTabIndex().then((index) => {
+          this.active = index === event.detail.tab;
+        });
+      }
     }
   }
 
-  @Listen("click") onClick() {
+  @Listen("click") onClick(): void {
     this.emitActiveTab();
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     switch (getKey(e.key)) {
       case " ":
       case "Enter":
@@ -211,11 +215,9 @@ export class CalciteTabTitle {
    */
   @Method()
   async getTabIndex(): Promise<number> {
-    return Promise.resolve(
-      Array.prototype.indexOf.call(
-        this.el.parentElement.querySelectorAll("calcite-tab-title"),
-        this.el
-      )
+    return Array.prototype.indexOf.call(
+      this.el.parentElement.querySelectorAll("calcite-tab-title"),
+      this.el
     );
   }
 
@@ -224,15 +226,14 @@ export class CalciteTabTitle {
    */
   @Method()
   async getTabIdentifier(): Promise<string | number> {
-    return this.tab ? Promise.resolve(this.tab) : this.getTabIndex();
+    return this.tab ? this.tab : this.getTabIndex();
   }
 
   /**
    * @internal
    */
-  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []) {
+  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
-    return Promise.resolve();
   }
 
   //--------------------------------------------------------------------------
@@ -249,11 +250,16 @@ export class CalciteTabTitle {
   /** determine if there is slotted text for styling purposes */
   @State() private hasText?: boolean = false;
 
-  private updateHasText() {
+  /**
+   * @internal
+   */
+  private parentTabNavEl: HTMLCalciteTabNavElement;
+
+  private updateHasText(): void {
     this.hasText = this.el.textContent.trim().length > 0;
   }
 
-  private setupTextContentObserver() {
+  private setupTextContentObserver(): void {
     if (Build.isBrowser) {
       this.observer = new MutationObserver(() => {
         this.updateHasText();
@@ -262,7 +268,7 @@ export class CalciteTabTitle {
     }
   }
 
-  private emitActiveTab() {
+  private emitActiveTab(): void {
     if (!this.disabled) {
       this.calciteTabsActivate.emit({
         tab: this.tab

@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
-import { getSlotted } from "../utils/dom";
+import { getSlotted } from "../../utils/dom";
 
 /**
  * @slot secondary-action - A slot intended for adding a `calcite-action` or `calcite-button` to the right side of the card.
@@ -229,7 +229,7 @@ export class CalcitePickListItem {
     if (!icon) {
       return null;
     }
-    
+
     return (
       <span
         class={{
@@ -237,9 +237,7 @@ export class CalcitePickListItem {
           [CSS.iconDot]: icon === ICON_TYPES.circle
         }}
       >
-        {icon === ICON_TYPES.square ? (
-          <calcite-icon scale="s" icon={ICONS.checked}></calcite-icon>
-        ) : null}
+        {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
       </span>
     );
   }
@@ -251,11 +249,11 @@ export class CalcitePickListItem {
 
     return (
       <calcite-action
-        scale="s"
         class={CSS.remove}
         icon={ICONS.remove}
-        text={this.textRemove}
         onClick={this.removeClickHandler}
+        scale="s"
+        text={this.textRemove}
       />
     );
   }
@@ -275,14 +273,14 @@ export class CalcitePickListItem {
     ) : null;
 
     return (
-      <Host role="menuitemcheckbox" aria-checked={this.selected.toString()}>
+      <Host aria-checked={this.selected.toString()} role="menuitemcheckbox">
         <label
+          aria-label={this.textLabel}
           class={CSS.label}
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
-          tabIndex={0}
           ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
-          aria-label={this.textLabel}
+          tabIndex={0}
         >
           {this.renderIcon()}
           <div class={CSS.textContainer}>

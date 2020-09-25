@@ -6,12 +6,21 @@
   text-align: right;
 }
 
+:host([scale="s"]) {
+  --calcite-label-margin-bottom: 12px;
+}
+:host([scale="m"]) {
+  --calcite-label-margin-bottom: 16px;
+}
+:host([scale="l"]) {
+  --calcite-label-margin-bottom: 20px;
+}
+
 :host label {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
   cursor: pointer;
-  margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
+  width: 100%;
+  margin: 0 0 var(--calcite-label-margin-bottom) 0;
+  line-height: 1.3;
 }
 
 :host([scale="s"]) label {
@@ -30,39 +39,76 @@
 }
 
 :host([layout="default"]) {
-  ::slotted(.calcite-label-text) {
-    margin-bottom: 8px;
+  label {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
+  }
+  & > ::slotted(.calcite-label-text) {
+    margin-bottom: 4px;
   }
 }
 
 :host([layout="inline"]) {
   label {
     align-items: center;
+    display: flex;
     flex-direction: row;
+    margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
   }
 }
 
 :host([layout="inline-space-between"]) {
   label {
     align-items: center;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
   }
 }
 
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
-  ::slotted(.calcite-label-text) {
+  & > ::slotted(.calcite-label-text) {
     margin-left: $baseline/2;
     margin-right: $baseline/2;
   }
-  ::slotted(.calcite-label-text:first-child) {
+  & > ::slotted(.calcite-label-text:first-child) {
     margin-left: 0;
     margin-right: $baseline/2;
   }
-  ::slotted(.calcite-label-text:last-child) {
+  & > ::slotted(.calcite-label-text:last-child) {
     margin-left: $baseline/2;
     margin-right: 0;
+  }
+}
+
+:host([dir="rtl"][layout="inline"]),
+:host([dir="rtl"][layout="inline-space-between"]) {
+  ::slotted(.calcite-label-text:first-child) {
+    margin-left: $baseline/2;
+    margin-right: 0;
+  }
+  ::slotted(.calcite-label-text:last-child) {
+    margin-left: 0;
+    margin-right: $baseline/2;
+  }
+}
+
+// disabled styles
+:host([disabled]) {
+  & > label {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  ::slotted(*) {
+    pointer-events: none;
+  }
+  // prevent opacity stacking with already disabled child elements
+  ::slotted(*[disabled]),
+  ::slotted(*[disabled] *) {
+    opacity: 1;
   }
 }
 
@@ -75,5 +121,12 @@ $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-
 
   :host([status="#{$name}"]) label {
     color: $color;
+  }
+}
+
+:host([disable-spacing]) {
+  label,
+  ::slotted(.calcite-label-text) {
+    margin: 0;
   }
 }

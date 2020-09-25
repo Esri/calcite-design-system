@@ -8,7 +8,7 @@ export default {
   parameters: { notes: readme }
 };
 
-export const simple = () => `
+export const simple = (): string => `
   <calcite-icon
     icon="${select("icon", iconNames, iconNames[0])}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -16,7 +16,7 @@ export const simple = () => `
   ></calcite-icon>
 `;
 
-export const RTL = () => `
+export const RTL = (): string => `
   <calcite-icon
     dir="rtl"
     icon="arrowBoldLeft"
@@ -24,7 +24,7 @@ export const RTL = () => `
   ></calcite-icon>
 `;
 
-export const darkMode = () => `
+export const darkMode = (): string => `
   <calcite-icon
     dir="rtl"
     icon="${select("icon", iconNames, iconNames[0])}"

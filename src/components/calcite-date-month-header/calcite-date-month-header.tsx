@@ -1,4 +1,4 @@
-import { Component, Element, Prop, Host, Event, h, EventEmitter } from "@stencil/core";
+import { Component, Element, Prop, Host, Event, h, EventEmitter, VNode } from "@stencil/core";
 import { getLocaleFormatData, replaceArabicNumerals, getMonths, getYear } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
@@ -64,7 +64,7 @@ export class CalciteDateMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const activeMonth = this.activeDate.getMonth();
     const localizedMonth = getMonths(this.locale)[activeMonth];
     const localizedYear = getYear(this.activeDate, this.locale);
@@ -74,14 +74,14 @@ export class CalciteDateMonthHeader {
     const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
     return (
       <Host dir={dir}>
-        <div class="header" aria-hidden="true">
+        <div aria-hidden="true" class="header">
           <button
-            class="chevron"
             aria-label={this.intlPrevMonth}
+            class="chevron"
             disabled={prevMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
           >
-            <calcite-icon icon="chevron-left" scale={iconScale} mirrored dir={dir} />
+            <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
           </button>
           <div class="text">
             <span class="month" role="heading">
@@ -89,24 +89,24 @@ export class CalciteDateMonthHeader {
             </span>
             <input
               class="year"
-              type="text"
               inputmode="numeric"
               maxlength="4"
               minlength="4"
-              pattern="\d*"
-              value={`${localizedYear.slice(-4)}`}
-              onKeyDown={(event) => this.onYearKey(event)}
               onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
+              onKeyDown={(event) => this.onYearKey(event)}
+              pattern="\d*"
               ref={(el) => (this.yearInput = el)}
+              type="text"
+              value={`${localizedYear.slice(-4)}`}
             />
           </div>
           <button
-            class="chevron"
             aria-label={this.intlNextMonth}
+            class="chevron"
             disabled={nextMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
           >
-            <calcite-icon icon="chevron-right" scale={iconScale} mirrored dir={dir} />
+            <calcite-icon dir={dir} icon="chevron-right" mirrored scale={iconScale} />
           </button>
         </div>
       </Host>
@@ -128,7 +128,7 @@ export class CalciteDateMonthHeader {
   /**
    * Increment year on UP/DOWN keys
    */
-  private onYearKey(e: KeyboardEvent) {
+  private onYearKey(e: KeyboardEvent): void {
     const year = (e.target as HTMLInputElement).value;
     switch (getKey(e.key)) {
       case "ArrowDown":

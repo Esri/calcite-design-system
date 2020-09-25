@@ -8,7 +8,7 @@ storiesOf("Components/Split Button", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
@@ -29,7 +29,7 @@ storiesOf("Components/Split Button", module)
   )
   .add(
     "Simple primary-icon-end",
-    () => `
+    (): string => `
     <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
@@ -50,7 +50,7 @@ storiesOf("Components/Split Button", module)
   )
   .add(
     "Simple primary-icon-start and primary-icon-end",
-    () => `
+    (): string => `
     <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
@@ -72,7 +72,7 @@ storiesOf("Components/Split Button", module)
   )
   .add(
     "RTL",
-    () => `
+    (): string => `
     <div dir='rtl'>
       <calcite-split-button
           color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
@@ -94,7 +94,7 @@ storiesOf("Components/Split Button", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <calcite-split-button
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"

@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, Host, Prop, h } from "@stencil
 import { CalciteTheme } from "../interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { VNode } from "@stencil/core/internal";
-import { getSlotted } from "../utils/dom";
+import { getSlotted } from "../../utils/dom";
 
 /**
  * @slot thumbnail - A slot for adding an HTML image element to the tip.
@@ -86,20 +86,28 @@ export class CalciteTip {
   // --------------------------------------------------------------------------
 
   renderHeader(): VNode {
-    const { nonDismissible, hideTip, intlClose, heading } = this;
+    const { heading } = this;
+
+    return heading ? (
+      <header class={CSS.header}>
+        <h3 class={CSS.heading}>{heading}</h3>
+      </header>
+    ) : null;
+  }
+
+  renderDismissButton(): VNode {
+    const { nonDismissible, hideTip, intlClose } = this;
+
     const text = intlClose || TEXT.close;
 
-    const dismissButtonNode = !nonDismissible ? (
-      <calcite-action text={text} onClick={hideTip} class={CSS.close} icon={ICONS.close} />
-    ) : null;
-
-    const headingNode = heading ? <h3 class={CSS.heading}>{heading}</h3> : null;
-
-    return dismissButtonNode || headingNode ? (
-      <header class={CSS.header}>
-        {headingNode}
-        {dismissButtonNode}
-      </header>
+    return !nonDismissible ? (
+      <calcite-action
+        class={CSS.close}
+        icon={ICONS.close}
+        onClick={hideTip}
+        scale="l"
+        text={text}
+      />
     ) : null;
   }
 
@@ -137,6 +145,7 @@ export class CalciteTip {
           {this.renderHeader()}
           {this.renderContent()}
         </article>
+        {this.renderDismissButton()}
       </Host>
     );
   }

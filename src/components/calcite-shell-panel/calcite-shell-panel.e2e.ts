@@ -13,14 +13,6 @@ describe("calcite-shell-panel", () => {
       {
         propertyName: "collapsed",
         defaultValue: false
-      },
-      {
-        propertyName: "heightScale",
-        defaultValue: "m"
-      },
-      {
-        propertyName: "widthScale",
-        defaultValue: "m"
       }
     ]));
 

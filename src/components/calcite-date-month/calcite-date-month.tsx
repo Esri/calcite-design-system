@@ -1,4 +1,14 @@
-import { Component, Element, Prop, Host, Event, EventEmitter, h, Listen } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  VNode
+} from "@stencil/core";
 import { getFirstDayOfWeek, getLocalizedWeekdays } from "../../utils/locale";
 import { inRange, sameDate, dateFromRange } from "../../utils/date";
 import { getKey } from "../../utils/key";
@@ -63,7 +73,7 @@ export class CalciteDateMonth {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const isRTL = this.el.dir === "rtl";
     switch (getKey(e.key)) {
       case "ArrowUp":
@@ -116,7 +126,7 @@ export class CalciteDateMonth {
    * Once user is not interacting via keyboard,
    * disable auto focusing of active date
    */
-  @Listen("focusout") disableActiveFocus() {
+  @Listen("focusout") disableActiveFocus(): void {
     this.activeFocus = false;
   }
 
@@ -125,7 +135,7 @@ export class CalciteDateMonth {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  render() {
+  render(): VNode {
     const month = this.activeDate.getMonth();
     const year = this.activeDate.getFullYear();
     const startOfWeek = getFirstDayOfWeek(this.locale);
@@ -138,12 +148,12 @@ export class CalciteDateMonth {
         const date = new Date(year, month - 1, day);
         return (
           <calcite-date-day
-            scale={this.scale}
             day={day}
             disabled={!inRange(date, this.min, this.max)}
-            selected={sameDate(date, this.selectedDate)}
-            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             locale={this.locale}
+            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
+            scale={this.scale}
+            selected={sameDate(date, this.selectedDate)}
           />
         );
       }),
@@ -152,20 +162,20 @@ export class CalciteDateMonth {
         const active = sameDate(date, this.activeDate);
         return (
           <calcite-date-day
-            scale={this.scale}
+            active={active}
+            current-month
             day={day}
             disabled={!inRange(date, this.min, this.max)}
-            selected={sameDate(date, this.selectedDate)}
-            active={active}
-            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             locale={this.locale}
+            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             ref={(el) => {
               // when moving via keyboard, focus must be updated on active date
               if (active && this.activeFocus) {
                 el?.focus();
               }
             }}
-            current-month
+            scale={this.scale}
+            selected={sameDate(date, this.selectedDate)}
           />
         );
       }),
@@ -173,12 +183,12 @@ export class CalciteDateMonth {
         const date = new Date(year, month + 1, day);
         return (
           <calcite-date-day
-            scale={this.scale}
             day={day}
             disabled={!inRange(date, this.min, this.max)}
-            selected={sameDate(date, this.selectedDate)}
-            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             locale={this.locale}
+            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
+            scale={this.scale}
+            selected={sameDate(date, this.selectedDate)}
           />
         );
       })

@@ -8,7 +8,8 @@ import {
   Host,
   Watch,
   Build,
-  State
+  State,
+  VNode
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 @Component({
@@ -35,17 +36,17 @@ export class CalciteRadioGroupItem {
   /** Indicates whether the control is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
-  @Prop({ reflect: true }) icon?: string;
-
-  /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true, mutable: true }) iconPosition?: "start" | "end" = "start";
-
   @Watch("checked")
   protected handleCheckedChange(): void {
     this.calciteRadioGroupItemChange.emit();
     this.syncToExternalInput();
   }
+
+  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) icon?: string;
+
+  /** optionally used with icon, select where to position the icon */
+  @Prop({ reflect: true }) iconPosition?: "start" | "end" = "start";
 
   /**
    * The control's value.
@@ -71,25 +72,20 @@ export class CalciteRadioGroupItem {
     }
 
     this.inputProxy = inputProxy;
-
-    // prop validations
-    const iconPosition = ["start", "end"];
-    if (this.icon !== null && !iconPosition.includes(this.iconPosition))
-      this.iconPosition = "start";
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.mutationObserver.disconnect();
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     // only use default slot content in browsers that support shadow dom
     // or if ie11 has no label provided (#374)
     const label = this.el.querySelector("label");
     this.useFallback = !label || label.textContent === "";
   }
 
-  render() {
+  render(): VNode {
     const { checked, useFallback, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
     const appearance = getElementProp(this.el, "appearance", "solid");
@@ -99,11 +95,11 @@ export class CalciteRadioGroupItem {
 
     return (
       <Host
-        role="radio"
-        aria-checked={checked.toString()}
-        scale={scale}
         appearance={appearance}
+        aria-checked={checked.toString()}
         layout={layout}
+        role="radio"
+        scale={scale}
       >
         <label>
           {this.icon && this.iconPosition === "start" ? iconEl : null}

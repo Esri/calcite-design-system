@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop, Watch } from "@stencil/core";
+import { Component, Host, h, Element, Prop, Watch, VNode } from "@stencil/core";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -24,7 +24,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
-  onDisabledChange() {
+  onDisabledChange(): void {
     this.passPropsToRadioButtons();
   }
 
@@ -32,20 +32,16 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) hidden = false;
 
   @Watch("hidden")
-  onHiddenChange() {
+  onHiddenChange(): void {
     this.passPropsToRadioButtons();
   }
 
   /** The layout direction of the radio buttons in a group. */
-  @Prop({ mutable: true, reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   @Watch("layout")
-  validateLayout(newLayout: string) {
-    const layouts = ["horizontal", "vertical"];
-    if (!layouts.includes(newLayout)) {
-      this.layout = "horizontal";
-      this.passPropsToRadioButtons();
-    }
+  onLayoutChange(): void {
+    this.passPropsToRadioButtons();
   }
 
   /** The name of the radio button group. <code>name</code> must be unique to other radio button group instances. */
@@ -55,27 +51,19 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) required = false;
 
   /** The scale (size) of the radio button group. */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   @Watch("scale")
-  validateScale(newScale: string) {
-    const scales = ["s", "m", "l"];
-    if (!scales.includes(newScale)) {
-      this.scale = "m";
-      this.passPropsToRadioButtons();
-    }
+  onScaleChange(): void {
+    this.passPropsToRadioButtons();
   }
 
   /** The color theme of the radio button group. */
-  @Prop({ mutable: true, reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
 
   @Watch("theme")
-  validateTheme(newTheme: string) {
-    const themes = ["light", "dark"];
-    if (!themes.includes(newTheme)) {
-      this.theme = "light";
-      this.passPropsToRadioButtons();
-    }
+  onThemeChange(): void {
+    this.passPropsToRadioButtons();
   }
 
   //--------------------------------------------------------------------------
@@ -84,10 +72,7 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad() {
-    this.validateLayout(this.layout);
-    this.validateScale(this.scale);
-    this.validateTheme(this.theme);
+  connectedCallback(): void {
     this.passPropsToRadioButtons();
   }
 
@@ -97,13 +82,13 @@ export class CalciteRadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  private passPropsToRadioButtons = () => {
+  private passPropsToRadioButtons = (): void => {
     const radioButtons = this.el.querySelectorAll("calcite-radio-button");
     let firstCheckedRadioButton;
 
     if (radioButtons.length > 0) {
       radioButtons.forEach((radioButton) => {
-        radioButton.disabled = this.disabled;
+        radioButton.disabled = this.disabled || radioButton.disabled;
         radioButton.hidden = this.hidden;
         radioButton.name = this.name;
         radioButton.required = this.required;
@@ -127,10 +112,10 @@ export class CalciteRadioButtonGroup {
   //
   // --------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     return (
       <Host role="radiogroup">
-        <slot></slot>
+        <slot />
       </Host>
     );
   }

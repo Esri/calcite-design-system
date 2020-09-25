@@ -9,7 +9,7 @@ storiesOf("Components/Accordion", module)
   .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%">
     <calcite-accordion
       theme="light"
@@ -37,7 +37,7 @@ storiesOf("Components/Accordion", module)
   )
   .add(
     "With Icons",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%">
     <calcite-accordion
       theme="light"
@@ -65,7 +65,7 @@ storiesOf("Components/Accordion", module)
   )
   .add(
     "Dark Mode",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%">
     <calcite-accordion
       theme="dark"
@@ -94,7 +94,7 @@ storiesOf("Components/Accordion", module)
   )
   .add(
     "RTL",
-    () => `
+    (): string => `
       <div style="width:300px;max-width:100%" dir="rtl">
       <calcite-accordion
         theme="light"
@@ -122,7 +122,7 @@ storiesOf("Components/Accordion", module)
   )
   .add(
     "RTL With Icons",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%" dir="rtl">
     <calcite-accordion
       theme="light"

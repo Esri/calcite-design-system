@@ -20,24 +20,6 @@ describe("calcite-alert", () => {
     expect(icon).toBeNull();
   });
 
-  it("renders default props when invalid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-alert color="zip" auto-dismiss-duration="zot" bought-o-dismiss>
-    <div slot="alert-title">Title Text</div>
-    <div slot="alert-message">Message Text</div>
-    <a slot="alert-link" href="">Action</a>
-    </calcite-alert>`);
-
-    const element = await page.find("calcite-alert");
-    const close = await page.find("calcite-alert >>> .alert-close");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(element).toEqualAttribute("color", "blue");
-    expect(element).toEqualAttribute("auto-dismiss-duration", "medium");
-    expect(close).not.toBeNull();
-    expect(icon).toBeNull();
-  });
-
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`

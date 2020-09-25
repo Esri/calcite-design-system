@@ -7,7 +7,8 @@ import {
   Host,
   EventEmitter,
   Listen,
-  Watch
+  Watch,
+  VNode
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { guid } from "../../utils/guid";
@@ -36,28 +37,34 @@ export class CalciteCheckbox {
   /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
 
-  @Watch("checked") checkedWatcher(newChecked: boolean) {
+  @Watch("checked") checkedWatcher(newChecked: boolean): void {
     newChecked ? this.input.setAttribute("checked", "") : this.input.removeAttribute("checked");
-    this.calciteCheckboxChange.emit();
   }
 
-  /** The hovered state of the checkbox. */
-  @Prop({ reflect: true, mutable: true }) hovered = false;
+  /** True if the checkbox is disabled */
+  @Prop({ reflect: true }) disabled?: boolean = false;
+
+  @Watch("disabled")
+  disabledChanged(disabled: boolean): void {
+    this.input.disabled = disabled;
+  }
 
   /** The focused state of the checkbox. */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  @Watch("focused") focusedChanged(focused: boolean) {
+  @Watch("focused") focusedChanged(focused: boolean): void {
     if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
     } else {
       this.input.blur();
     }
-    this.calciteCheckboxFocusedChange.emit();
   }
 
   /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid: string = this.el.id || `calcite-checkbox-${guid()}`;
+  @Prop({ reflect: true }) guid: string;
+
+  /** The hovered state of the checkbox. */
+  @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
    * True if the checkbox is initially indeterminate,
@@ -70,26 +77,18 @@ export class CalciteCheckbox {
   @Prop({ reflect: true }) name?: string = "";
 
   @Watch("name")
-  nameChanged(newName: string) {
+  nameChanged(newName: string): void {
     this.input.name = newName;
   }
 
-  /** The value of the checkbox input */
-  @Prop({ reflect: true }) value?: string;
-
   /** specify the scale of the checkbox, defaults to m */
-  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
-
-  /** True if the checkbox is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
-
-  @Watch("disabled")
-  disabledChanged(disabled: boolean) {
-    this.input.disabled = disabled;
-  }
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Determines what theme to use */
   @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** The value of the checkbox input */
+  @Prop({ reflect: true }) value?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -112,11 +111,12 @@ export class CalciteCheckbox {
   private getPath = (): string =>
     this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
 
-  private toggle = () => {
+  private toggle = (): void => {
     if (!this.disabled) {
       this.checked = !this.checked;
       this.focused = true;
       this.indeterminate = false;
+      this.calciteCheckboxChange.emit();
     }
   };
 
@@ -138,7 +138,7 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick({ currentTarget, target }: MouseEvent) {
+  @Listen("click") onClick({ currentTarget, target }: MouseEvent): void {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
     if (
@@ -149,7 +149,7 @@ export class CalciteCheckbox {
     }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (key === " ") {
       e.preventDefault();
@@ -158,13 +158,23 @@ export class CalciteCheckbox {
   }
 
   @Listen("mouseenter")
-  mouseenter() {
+  mouseenter(): void {
     this.hovered = true;
   }
 
   @Listen("mouseleave")
-  mouseleave() {
+  mouseleave(): void {
     this.hovered = false;
+  }
+
+  private onInputBlur() {
+    this.focused = false;
+    this.calciteCheckboxFocusedChange.emit();
+  }
+
+  private onInputFocus() {
+    this.focused = true;
+    this.calciteCheckboxFocusedChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -173,13 +183,12 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
+    this.guid = this.el.id || `calcite-checkbox-${guid()}`;
     this.renderHiddenCheckboxInput();
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
   }
 
@@ -195,8 +204,11 @@ export class CalciteCheckbox {
     this.input.disabled = this.disabled;
     this.input.id = `${this.guid}-input`;
     this.input.name = this.name;
-    this.input.onblur = () => (this.focused = false);
-    this.input.onfocus = () => (this.focused = true);
+    this.input.onblur = this.onInputBlur.bind(this);
+    this.input.onfocus = this.onInputFocus.bind(this);
+    this.input.style.opacity = "0";
+    this.input.style.position = "absolute";
+    this.input.style.zIndex = "-1";
     this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value;
@@ -204,15 +216,15 @@ export class CalciteCheckbox {
     this.el.appendChild(this.input);
   }
 
-  render() {
+  render(): VNode {
     if (this.el.textContent) {
       return (
-        <Host role="checkbox" aria-checked={this.checked.toString()}>
+        <Host aria-checked={this.checked.toString()} role="checkbox">
           <div class="hasLabel">
             <svg class="check-svg" viewBox="0 0 16 16">
               <path d={this.getPath()} />
             </svg>
-            <calcite-label dir={getElementDir(this.el)} scale={this.scale}>
+            <calcite-label dir={getElementDir(this.el)} disable-spacing scale={this.scale}>
               <slot />
             </calcite-label>
           </div>
@@ -220,7 +232,7 @@ export class CalciteCheckbox {
       );
     }
     return (
-      <Host role="checkbox" aria-checked={this.checked.toString()}>
+      <Host aria-checked={this.checked.toString()} role="checkbox">
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>

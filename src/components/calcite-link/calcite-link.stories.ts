@@ -14,7 +14,7 @@ storiesOf("Components/Link", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
@@ -32,7 +32,7 @@ storiesOf("Components/Link", module)
   )
   .add(
     "With icon-start",
-    () => `
+    (): string => `
     <div style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
@@ -50,7 +50,7 @@ storiesOf("Components/Link", module)
   )
   .add(
     "With icon-end",
-    () => `
+    (): string => `
     <div style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
@@ -68,7 +68,7 @@ storiesOf("Components/Link", module)
   )
   .add(
     "With icon-start and icon-end",
-    () => `
+    (): string => `
     <div style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
@@ -87,7 +87,7 @@ storiesOf("Components/Link", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <div style="color: white; font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],

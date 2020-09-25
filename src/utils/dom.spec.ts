@@ -26,7 +26,10 @@ describe("dom", () => {
     beforeEach(() => {
       document.body.innerHTML = `
       <slot-test>
-        <h2 slot=${testSlotName}><span>😃</span></h2>
+        <h2 slot=${testSlotName}>
+          <span>😃</span>
+          <span>🙂</span>
+        </h2>
         <h2 slot=${testSlotName}><span>😂</span></h2>
       </slot-test>
     `;
@@ -107,7 +110,7 @@ describe("dom", () => {
               all: true,
               selector: "span"
             })
-          ).toHaveLength(2));
+          ).toHaveLength(3));
 
         it("returns empty list with non-matching child selector", () =>
           expect(

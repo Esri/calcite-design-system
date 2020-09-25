@@ -29,7 +29,7 @@ import {
   setUpItems
 } from "../calcite-pick-list/shared-list-logic";
 import List from "../calcite-pick-list/shared-list-render";
-import { getRoundRobinIndex } from "../utils/array";
+import { getRoundRobinIndex } from "../../utils/array";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -63,6 +63,11 @@ export class CalciteValueList<
    * When true, an input appears at the top of the list that can be used by end users to filter items in the list.
    */
   @Prop({ reflect: true }) filterEnabled = false;
+
+  /**
+   * If this is set and drag is enabled, items can be dropped between lists of the same group.
+   */
+  @Prop() group: string;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -182,7 +187,8 @@ export class CalciteValueList<
     this.sortable = Sortable.create(this.el, {
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
-      onUpdate: () => {
+      group: this.group,
+      onSort: () => {
         this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
         const values = this.items.map((item) => item.value);
         this.calciteListOrderChange.emit(values);
@@ -279,6 +285,6 @@ export class CalciteValueList<
   }
 
   render(): VNode {
-    return <List props={this} onKeyDown={this.keyDownHandler} />;
+    return <List onKeyDown={this.keyDownHandler} props={this} />;
   }
 }
