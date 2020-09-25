@@ -7,22 +7,22 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- **calcite-radio-button:** fixing issue where input isn't properly initialized in some cases ([#1011](https://github.com/Esri/calcite-components/issues/1011)) ([e25921d](https://github.com/Esri/calcite-components/commit/e25921d78ae5289987d6f8f72aa0965ad8ea5245))
-- **dropdown:** Adjust display of slotted full width buttons ([#1013](https://github.com/Esri/calcite-components/issues/1013)) ([511cda0](https://github.com/Esri/calcite-components/commit/511cda033e1bbd91d11b590a42895765fc0df5bf))
+- **calcite-radio-button:** fixing issue where input isn't properly initialized in some cases ([#1011](https://github.com/Esri/calcite-components/issues/1011)) ([2f59ea6](https://github.com/Esri/calcite-components/commit/2f59ea6dfab845b922560182bfede49fb643cd9b))
+- **dropdown:** Adjust display of slotted full width buttons ([#1013](https://github.com/Esri/calcite-components/issues/1013)) ([407ef02](https://github.com/Esri/calcite-components/commit/407ef02cf2e7ba9434f04395adee44fcd567b4ce))
 
 ## [1.0.0-beta.39](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.38...v1.0.0-beta.39) (2020-09-17)
 
 ### Features
 
-- **label:** Adjust spacing ([#956](https://github.com/Esri/calcite-components/issues/956)) ([63fe1f3](https://github.com/Esri/calcite-components/commit/63fe1f3c9d9c7e7ea4636782afccc7b116aac1c6))
+- **label:** Adjust spacing ([#956](https://github.com/Esri/calcite-components/issues/956)) ([5483740](https://github.com/Esri/calcite-components/commit/5483740c6dc0956c0bfb49b9b2f52e046b7937c9))
 
 ### Bug Fixes
 
-- **calcite-checkbox:** visibility of hidden input controlled by inline styles to prevent outside CSS from affecting its display ([#999](https://github.com/Esri/calcite-components/issues/999)) ([c29585a](https://github.com/Esri/calcite-components/commit/c29585ad09b85c9de75b99be7fa736dd11e4aff3))
-- **color:** ensure color object values are rounded ([#883](https://github.com/Esri/calcite-components/issues/883)) ([de9b242](https://github.com/Esri/calcite-components/commit/de9b2421c8262e679bb0de97ddeff5468fc9f929))
-- **dropdown:** fix item selection when dropdown is in a shadow DOM context ([#995](https://github.com/Esri/calcite-components/issues/995)) ([dc843db](https://github.com/Esri/calcite-components/commit/dc843dba4f0b4cd00852f80bf12bfb10f696aaf2)), closes [#992](https://github.com/Esri/calcite-components/issues/992)
-- **tooltip:** Add a11y improvements for hovering over a tooltip ([#987](https://github.com/Esri/calcite-components/issues/987)) ([6705110](https://github.com/Esri/calcite-components/commit/67051103c7d90958e17e605d49c85584cd56de6d)), closes [#938](https://github.com/Esri/calcite-components/issues/938)
-- **tooltip:** Keep tooltip visible if focus occurs after hover [#938](https://github.com/Esri/calcite-components/issues/938) ([#1005](https://github.com/Esri/calcite-components/issues/1005)) ([9df2502](https://github.com/Esri/calcite-components/commit/9df2502168e4b761495b074cdcfc73002ed78339))
+- **calcite-checkbox:** visibility of hidden input controlled by inline styles to prevent outside CSS from affecting its display ([#999](https://github.com/Esri/calcite-components/issues/999)) ([e1e31bc](https://github.com/Esri/calcite-components/commit/e1e31bc4dbbbde3221b8c7da4419ee072acd408d))
+- **color:** ensure color object values are rounded ([#883](https://github.com/Esri/calcite-components/issues/883)) ([ce9fd18](https://github.com/Esri/calcite-components/commit/ce9fd187933c901eb23c99fa32437ddbc657aa71))
+- **dropdown:** fix item selection when dropdown is in a shadow DOM context ([#995](https://github.com/Esri/calcite-components/issues/995)) ([bc0308a](https://github.com/Esri/calcite-components/commit/bc0308ae0398a1664ce7b279d909f096d516de36)), closes [#992](https://github.com/Esri/calcite-components/issues/992)
+- **tooltip:** Add a11y improvements for hovering over a tooltip ([#987](https://github.com/Esri/calcite-components/issues/987)) ([943bd86](https://github.com/Esri/calcite-components/commit/943bd86a625b39d356d6d401f798101ad2374aca)), closes [#938](https://github.com/Esri/calcite-components/issues/938)
+- **tooltip:** Keep tooltip visible if focus occurs after hover [#938](https://github.com/Esri/calcite-components/issues/938) ([#1005](https://github.com/Esri/calcite-components/issues/1005)) ([94ed432](https://github.com/Esri/calcite-components/commit/94ed432f2a22e739d841c90c10d5988e4d4e9e4a))
 
 ## [1.0.0-beta.38](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.37...v1.0.0-beta.38) (2020-09-04)
 
@@ -41,7 +41,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** No longer set clearable by default on type date or time ([#895](https://github.com/Esri/calcite-components/issues/895)) ([d5d9d6a](https://github.com/Esri/calcite-components/commit/d5d9d6a0fb620c69e329ca4454bd30311e5bf007))
 - **tree:** change tabindex to 0 to prevent forced first tab stop on page ([#911](https://github.com/Esri/calcite-components/issues/911)) ([ef4a7ad](https://github.com/Esri/calcite-components/commit/ef4a7adfc7572411717d77f6240497f095730362)), closes [#634](https://github.com/Esri/calcite-components/issues/634)
 
-## 1.0.0-beta.37
+## [1.0.0-beta.37](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.36...v1.0.0-beta.37) (2020-08-19)
 
 ### Features
 
