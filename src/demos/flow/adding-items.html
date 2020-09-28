@@ -30,7 +30,7 @@
 
         <h2>Adding new Flow-items to Flow</h2>
         <calcite-flow id="flow">
-          <calcite-flow-item
+          <calcite-panel
             heading="What are the most popular commute alternatives?"
             summary="I don't have an answer to this questions. Stop asking me this question."
           >
@@ -40,18 +40,18 @@
             <button slot="footer-actions" class="btn btn-secondary">Cancel</button>
             <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
             <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
-          </calcite-flow-item>
+          </calcite-panel>
         </calcite-flow>
-        <button class="demo-btn" id="add-flow-item">Add Flow Item</button>
+        <button class="demo-btn" id="add-panel">Add Flow Item</button>
       </section>
     </main>
     <script>
       const flowNode = document.getElementById("flow");
 
-      const addFlowButtonNode = document.getElementById("add-flow-item");
+      const addFlowButtonNode = document.getElementById("add-panel");
 
       addFlowButtonNode.addEventListener("click", function () {
-        const newNode = document.createElement("calcite-flow-item");
+        const newNode = document.createElement("calcite-panel");
 
         newNode.beforeBack = function () {
           newNode.loading = true;

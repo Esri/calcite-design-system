@@ -229,7 +229,7 @@ export function selectionAndDeselection(listType: ListType): void {
         </calcite-${listType}-list>`);
       const item = await page.find(`calcite-${listType}-list-item`);
       await page.evaluate(() => {
-        document.addEventListener("calciteListChange", (event: CustomEvent) => {
+        document.addEventListener("calciteListChange", (event: CustomEvent): void => {
           (window as any).eventDetail = event.detail;
         });
       });

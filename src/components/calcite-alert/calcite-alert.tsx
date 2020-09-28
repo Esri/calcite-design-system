@@ -9,7 +9,8 @@ import {
   Listen,
   Prop,
   State,
-  Watch
+  Watch,
+  VNode
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { TEXT } from "./calcite-alert.resources";
@@ -51,19 +52,12 @@ export class CalciteAlert {
   @Prop() autoDismiss = false;
 
   /** Duration of autoDismiss (only used with `autoDismiss`) */
-  @Prop({ reflect: true, mutable: true }) autoDismissDuration: "fast" | "medium" | "slow" = this
-    .autoDismiss
+  @Prop({ reflect: true }) autoDismissDuration: "fast" | "medium" | "slow" = this.autoDismiss
     ? "medium"
     : null;
 
   /** Color for the alert (will apply to top border and icon) */
-  @Prop({ reflect: true, mutable: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** specify the scale of the button, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
 
   /** specify if the alert should display an icon */
   @Prop() icon = false;
@@ -71,32 +65,27 @@ export class CalciteAlert {
   /** string to override English close text */
   @Prop() intlClose: string = TEXT.intlClose;
 
+  /** specify the scale of the button, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // prop validations
-    const colors = ["blue", "red", "green", "yellow"];
-    if (!colors.includes(this.color)) this.color = "blue";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    const durations = ["slow", "medium", "fast"];
-    if (this.autoDismissDuration !== null && !durations.includes(this.autoDismissDuration)) {
-      this.autoDismissDuration = "medium";
-    }
+  connectedCallback(): void {
     if (this.active && !this.queued) this.calciteAlertRegister.emit();
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.alertLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
-  @Watch("active") watchActive() {
+  @Watch("active") watchActive(): void {
     if (this.active && !this.queued) this.calciteAlertRegister.emit();
     if (!this.active) {
       this.queue = this.queue.filter((e) => e !== this.el);
@@ -104,17 +93,17 @@ export class CalciteAlert {
     }
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const closeButton = (
       <button
-        class="alert-close"
-        type="button"
         aria-label={this.intlClose}
+        class="alert-close"
         onClick={() => this.closeAlert()}
         ref={(el) => (this.closeButton = el)}
+        type="button"
       >
-        <calcite-icon icon="x" scale="m"></calcite-icon>
+        <calcite-icon icon="x" scale="m" />
       </button>
     );
     const queueCount = (
@@ -122,17 +111,17 @@ export class CalciteAlert {
         +{this.queueLength > 2 ? this.queueLength - 1 : 1}
       </div>
     );
-    const progress = <div class="alert-dismiss-progress"></div>;
+    const progress = <div class="alert-dismiss-progress" />;
     const role = this.autoDismiss ? "alert" : "alertdialog";
     const hidden = this.active ? "false" : "true";
 
     return (
-      <Host active={this.active} queued={this.queued} role={role} dir={dir} aria-hidden={hidden}>
-        {this.icon ? this.setIcon() : null}
+      <Host active={this.active} aria-hidden={hidden} dir={dir} queued={this.queued} role={role}>
+        {this.icon ? this.renderIcon() : null}
         <div class="alert-content">
-          <slot name="alert-title"></slot>
-          <slot name="alert-message"></slot>
-          <slot name="alert-link"></slot>
+          <slot name="alert-title" />
+          <slot name="alert-message" />
+          <slot name="alert-link" />
         </div>
         {queueCount}
         {!this.autoDismiss ? closeButton : null}
@@ -168,7 +157,7 @@ export class CalciteAlert {
   //--------------------------------------------------------------------------
 
   /** focus either the slotted alert-link or the close button */
-  @Method() async setFocus() {
+  @Method() async setFocus(): Promise<void> {
     if (!this.closeButton && !this.alertLinkEl) return;
     else if (this.alertLinkEl) this.alertLinkEl.setFocus();
     else if (this.closeButton) this.closeButton.focus();
@@ -212,7 +201,7 @@ export class CalciteAlert {
 
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteAlertSync", { target: "window" })
-  alertSync(event: CustomEvent) {
+  alertSync(event: CustomEvent): void {
     if (this.queue !== event.detail.queue) {
       this.queue = event.detail.queue;
     }
@@ -222,7 +211,7 @@ export class CalciteAlert {
 
   // when an alert is first registered, trigger a queue sync to get queue
   @Listen("calciteAlertRegister", { target: "window" })
-  alertRegister() {
+  alertRegister(): void {
     if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
       this.queue.push(this.el as HTMLCalciteAlertElement);
@@ -232,7 +221,7 @@ export class CalciteAlert {
   }
 
   /** emit the opened alert and the queue */
-  private openAlert() {
+  private openAlert(): void {
     setTimeout(() => (this.queued = false), 300);
     this.calciteAlertOpen.emit({
       el: this.el,
@@ -254,7 +243,7 @@ export class CalciteAlert {
   }
 
   /** determine which alert is active */
-  private determineActiveAlert() {
+  private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
       this.openAlert();
       if (this.autoDismiss) {
@@ -263,11 +252,11 @@ export class CalciteAlert {
     } else return;
   }
 
-  private setIcon() {
+  private renderIcon(): VNode {
     const path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
-        <calcite-icon icon={path} scale="m"></calcite-icon>
+        <calcite-icon icon={path} scale="m" />
       </div>
     );
   }

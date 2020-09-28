@@ -45,14 +45,6 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") =>
       value: boolean("detached", false, group)
     },
     {
-      name: "height-scale",
-      value: select("heightScale", scale.values, scale.defaultValue, group)
-    },
-    {
-      name: "width-scale",
-      value: select("widthScale", scale.values, scale.defaultValue, group)
-    },
-    {
       name: "position",
       value: select(
         "position",
@@ -262,10 +254,10 @@ const advancedLeadingPanelHTML = dedent`
 const advancedTrailingPanelHTMl = dedent`
   ${actionBarContextualHTML}
   <calcite-flow>
-    <calcite-flow-item heading="Layer settings">
-        <calcite-action slot="menu-actions" text="Cool thing" text-enabled></calcite-action>
-        <calcite-action slot="menu-actions" text="Cool thing" text-enabled></calcite-action>
-        <calcite-action slot="menu-actions" text="Cool thing" text-enabled></calcite-action>
+    <calcite-panel heading="Layer settings">
+        <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
+        <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
+        <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
         <calcite-block-content>
           <img alt="demo" src="https://placeimg.com/640/480/any" width="100%" />
@@ -283,8 +275,8 @@ const advancedTrailingPanelHTMl = dedent`
       </calcite-block>
       <calcite-button slot="footer-actions" width="half" >Save</calcite-button>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
-    </calcite-flow-item>
-    <calcite-flow-item heading="Deeper flow item">
+    </calcite-panel>
+    <calcite-panel heading="Deeper flow item">
       <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
         <calcite-block-content>
           <calcite-block-section text="Cool things">
@@ -317,7 +309,7 @@ const advancedTrailingPanelHTMl = dedent`
       </calcite-block>
       <calcite-button slot="footer-actions" width="half" >Save</calcite-button>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
-    </calcite-flow-item>
+    </calcite-panel>
   </calcite-flow>
 `;
 

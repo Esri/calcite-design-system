@@ -8,7 +8,7 @@ storiesOf("Components/Switch", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <label>
       <calcite-switch
         name="setting"
@@ -24,7 +24,7 @@ storiesOf("Components/Switch", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <div style="color:white">
       <label>
       <calcite-switch
@@ -45,7 +45,7 @@ storiesOf("Components/Switch", module)
   )
   .add(
     "RTL",
-    () => `
+    (): string => `
       <label>
       <calcite-switch
         dir="rtl"

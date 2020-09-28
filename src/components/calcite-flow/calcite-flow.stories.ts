@@ -3,8 +3,8 @@ import { Attributes, createComponentHTML as create, darkBackground } from "../..
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, theme } = ATTRIBUTES;
 import readme from "./readme.md";
-import itemReadme from "../calcite-flow-item/readme.md";
-import { SLOTS, TEXT } from "../calcite-flow-item/resources";
+import itemReadme from "../calcite-panel/readme.md";
+import { SLOTS, TEXT } from "../calcite-panel/resources";
 import dedent from "dedent";
 
 export default {
@@ -116,6 +116,6 @@ export const basic = (): string =>
   create(
     "calcite-flow",
     createAttributes(),
-    `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
+    `${create("calcite-panel", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
+    ${create("calcite-panel", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
   );

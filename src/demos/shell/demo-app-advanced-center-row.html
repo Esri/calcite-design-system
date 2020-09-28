@@ -57,7 +57,7 @@
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" height-scale="l">
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start">
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -80,16 +80,16 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-              <calcite-flow-item heading="First flow item">
-                Default slot of the first flow-item
-              </calcite-flow-item>
-              <calcite-flow-item heading="Second flow item 02">
-                Default slot of the second flow-item
-              </calcite-flow-item>
+              <calcite-panel heading="First flow item" width-scale="l">
+                Default slot of the first panel
+              </calcite-panel>
+              <calcite-panel heading="Second flow item 02" width-scale="m">
+                Default slot of the second panel
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end" height-scale="l">
+          <calcite-shell-panel slot="contextual-panel" position="end">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -114,11 +114,11 @@
                 </calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <calcite-flow id="flow">
-              <calcite-flow-item heading="Single flow-item" summary="I'm in the contextual-panel">
-                Default slot of flow-item
-              </calcite-flow-item>
-            </calcite-flow>
+            <calcite-panel heading="Single panel" summary="I'm in the contextual-panel" width-scale="m">
+              Default slot of panel
+              <calcite-button width="half" slot="footer-actions" appearance="outline">Cancel</calcite-button>
+              <calcite-button width="half" slot="footer-actions">Done</calcite-button>
+            </calcite-panel>
           </calcite-shell-panel>
           <div class="gnav" slot="shell-header">
             <h2>Boomer v Millennial - California</h2>
@@ -127,13 +127,12 @@
             <calcite-panel heading="Data table" summary="US Demographics - Country - County">
               <calcite-action slot="header-leading-content" text="Switch layer" icon="caret-down"></calcite-action>
               <calcite-action
-                slot="header-trailing-content"
+                slot="header-actions-end"
                 text="Expand"
-                icon="expand"
+                icon="chevrons-up"
                 id="expand-trigger"
               ></calcite-action>
               <calcite-fab slot="fab"></calcite-fab>
-              <div class="header" slot="header-content">Data table<br />US Demographics - Country - County</div>
               <style>
                 .demo-table th {
                   background-color: white;
@@ -427,6 +426,10 @@
           centerRow.getAttribute("height-scale") == "s"
             ? centerRow.setAttribute("height-scale", "m")
             : centerRow.setAttribute("height-scale", "s");
+
+            centerRow.getAttribute("height-scale") == "s"
+            ? expandTrigger.setAttribute("icon", "chevrons-up")
+            : expandTrigger.setAttribute("icon", "chevrons-down");
         });
       </script>
     </main>

@@ -88,7 +88,7 @@ export class CalciteSlider {
   /** Display a histogram above the slider */
   @Prop() histogram?: DataSeries;
 
-  @Watch("histogram") histogramWatcher(newHistogram) {
+  @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
     this.hasHistogram = newHistogram ? true : false;
   }
 
@@ -100,7 +100,7 @@ export class CalciteSlider {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentWillLoad() {
+  componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
     this.value = this.bound(this.value);
@@ -113,7 +113,7 @@ export class CalciteSlider {
     this.calciteSliderUpdate.emit();
   }
 
-  componentDidRender() {
+  componentDidRender(): void {
     if (this.labelHandles) {
       this.adjustHostObscuredHandleLabel("value");
       if (this.isRange) {
@@ -126,7 +126,7 @@ export class CalciteSlider {
     this.hideObscuredBoundingTickLabels();
   }
 
-  render() {
+  render(): VNode {
     const id = this.el.id || this.guid;
     const min = this.minValue || this.min;
     const max = this.maxValue || this.value;
@@ -137,92 +137,92 @@ export class CalciteSlider {
 
     const handle = (
       <button
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={value}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ right }}
+        aria-valuemin={this.min}
+        aria-valuenow={value}
         class={{
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ right }}
       >
-        <div class="handle"></div>
+        <div class="handle" />
       </button>
     );
 
     const labeledHandle = (
       <button
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={value}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ right }}
+        aria-valuemin={this.min}
+        aria-valuenow={value}
         class={{
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ right }}
       >
-        <span class="handle__label handle__label--value" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
         </span>
-        <span class="handle__label handle__label--value static" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value static">
           {value ? value.toLocaleString() : value}
         </span>
-        <span class="handle__label handle__label--value transformed" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value transformed">
           {value ? value.toLocaleString() : value}
         </span>
-        <div class="handle"></div>
+        <div class="handle" />
       </button>
     );
 
     const histogramLabeledHandle = (
       <button
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={value}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ right }}
+        aria-valuemin={this.min}
+        aria-valuenow={value}
         class={{
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ right }}
       >
-        <div class="handle"></div>
-        <span class="handle__label handle__label--value" aria-hidden="true">
+        <div class="handle" />
+        <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
         </span>
-        <span class="handle__label handle__label--value static" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value static">
           {value ? value.toLocaleString() : value}
         </span>
-        <span class="handle__label handle__label--value transformed" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value transformed">
           {value ? value.toLocaleString() : value}
         </span>
       </button>
@@ -230,125 +230,125 @@ export class CalciteSlider {
 
     const preciseHandle = (
       <button
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={value}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ right }}
+        aria-valuemin={this.min}
+        aria-valuenow={value}
         class={{
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ right }}
       >
-        <div class="handle"></div>
-        <div class="handle-extension"></div>
+        <div class="handle" />
+        <div class="handle-extension" />
       </button>
     );
 
     const histogramPreciseHandle = (
       <button
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={value}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ right }}
+        aria-valuemin={this.min}
+        aria-valuenow={value}
         class={{
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ right }}
       >
-        <div class="handle-extension"></div>
-        <div class="handle"></div>
+        <div class="handle-extension" />
+        <div class="handle" />
       </button>
     );
 
     const labeledPreciseHandle = (
       <button
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={value}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ right }}
+        aria-valuemin={this.min}
+        aria-valuenow={value}
         class={{
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ right }}
       >
-        <span class="handle__label handle__label--value" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
         </span>
-        <span class="handle__label handle__label--value static" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value static">
           {value ? value.toLocaleString() : value}
         </span>
-        <span class="handle__label handle__label--value transformed" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value transformed">
           {value ? value.toLocaleString() : value}
         </span>
-        <div class="handle"></div>
-        <div class="handle-extension"></div>
+        <div class="handle" />
+        <div class="handle-extension" />
       </button>
     );
 
     const histogramLabeledPreciseHandle = (
       <button
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = maxProp)}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
-        aria-valuenow={value}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ right }}
+        aria-valuemin={this.min}
+        aria-valuenow={value}
         class={{
           thumb: true,
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = maxProp)}
+        onMouseDown={() => this.dragStart(maxProp)}
+        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ right }}
       >
-        <div class="handle-extension"></div>
-        <div class="handle"></div>
-        <span class="handle__label handle__label--value" aria-hidden="true">
+        <div class="handle-extension" />
+        <div class="handle" />
+        <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
         </span>
-        <span class="handle__label handle__label--value static" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value static">
           {value ? value.toLocaleString() : value}
         </span>
-        <span class="handle__label handle__label--value transformed" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--value transformed">
           {value ? value.toLocaleString() : value}
         </span>
       </button>
@@ -356,92 +356,92 @@ export class CalciteSlider {
 
     const minHandle = (
       <button
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.minLabel}
-        aria-valuenow={this.minValue}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ left }}
+        aria-valuemin={this.min}
+        aria-valuenow={this.minValue}
         class={{
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue"
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ left }}
       >
-        <div class="handle"></div>
+        <div class="handle" />
       </button>
     );
 
     const minLabeledHandle = (
       <button
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.minLabel}
-        aria-valuenow={this.minValue}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ left }}
+        aria-valuemin={this.min}
+        aria-valuenow={this.minValue}
         class={{
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue"
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ left }}
       >
-        <span class="handle__label handle__label--minValue" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--minValue">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span class="handle__label handle__label--minValue static" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--minValue static">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span class="handle__label handle__label--minValue transformed" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <div class="handle"></div>
+        <div class="handle" />
       </button>
     );
 
     const minHistogramLabeledHandle = (
       <button
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.minLabel}
-        aria-valuenow={this.minValue}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ left }}
+        aria-valuemin={this.min}
+        aria-valuenow={this.minValue}
         class={{
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue"
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ left }}
       >
-        <div class="handle"></div>
-        <span class="handle__label handle__label--minValue" aria-hidden="true">
+        <div class="handle" />
+        <span aria-hidden="true" class="handle__label handle__label--minValue">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span class="handle__label handle__label--minValue static" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--minValue static">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span class="handle__label handle__label--minValue transformed" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
       </button>
@@ -449,62 +449,62 @@ export class CalciteSlider {
 
     const minPreciseHandle = (
       <button
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.minLabel}
-        aria-valuenow={this.minValue}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ left }}
+        aria-valuemin={this.min}
+        aria-valuenow={this.minValue}
         class={{
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
           "thumb--precise": true
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ left }}
       >
-        <div class="handle-extension"></div>
-        <div class="handle"></div>
+        <div class="handle-extension" />
+        <div class="handle" />
       </button>
     );
 
     const minLabeledPreciseHandle = (
       <button
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
-        onFocus={() => (this.activeProp = "minValue")}
-        onBlur={() => (this.activeProp = null)}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
-        role="slider"
-        aria-orientation="horizontal"
         aria-label={this.minLabel}
-        aria-valuenow={this.minValue}
-        aria-valuemin={this.min}
+        aria-orientation="horizontal"
         aria-valuemax={this.max}
-        disabled={this.disabled}
-        style={{ left }}
+        aria-valuemin={this.min}
+        aria-valuenow={this.minValue}
         class={{
           thumb: true,
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue",
           "thumb--precise": true
         }}
+        disabled={this.disabled}
+        onBlur={() => (this.activeProp = null)}
+        onFocus={() => (this.activeProp = "minValue")}
+        onMouseDown={() => this.dragStart("minValue")}
+        onTouchStart={(e) => this.dragStart("minValue", e)}
+        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        role="slider"
+        style={{ left }}
       >
-        <div class="handle-extension"></div>
-        <div class="handle"></div>
-        <span class="handle__label handle__label--minValue" aria-hidden="true">
+        <div class="handle-extension" />
+        <div class="handle" />
+        <span aria-hidden="true" class="handle__label handle__label--minValue">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span class="handle__label handle__label--minValue static" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--minValue static">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span class="handle__label handle__label--minValue transformed" aria-hidden="true">
+        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
       </button>
@@ -565,11 +565,11 @@ export class CalciteSlider {
     return this.histogram ? (
       <div class="graph">
         <calcite-graph
-          width={300}
-          height={48}
           data={this.histogram}
-          highlightMin={this.isRange ? this.minValue : this.min}
+          height={48}
           highlightMax={this.isRange ? this.maxValue : this.value}
+          highlightMin={this.isRange ? this.minValue : this.min}
+          width={300}
         />
       </div>
     ) : null;
@@ -658,13 +658,13 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
     if (e.detail.interactedEl !== this.el && hasLabel(e.detail.labelEl, this.el)) {
       this.setFocus();
     }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const value = this[this.activeProp];
     switch (getKey(e.key)) {
       case "ArrowUp":
@@ -706,7 +706,7 @@ export class CalciteSlider {
     }
   }
 
-  @Listen("click") clickHandler(e: MouseEvent) {
+  @Listen("click") clickHandler(e: MouseEvent): void {
     const x = e.clientX || e.pageX;
     const num = this.translate(x);
     let prop: activeSliderProperty = "value";
@@ -752,7 +752,7 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle.focus();
   }
@@ -916,7 +916,7 @@ export class CalciteSlider {
     return num;
   }
 
-  private getFontSizeForElement(element: HTMLElement) {
+  private getFontSizeForElement(element: HTMLElement): number {
     return Number(window.getComputedStyle(element).getPropertyValue("font-size").match(/\d+/)[0]);
   }
 
@@ -931,7 +931,7 @@ export class CalciteSlider {
     return (num - this.min) / range;
   }
 
-  private adjustHostObscuredHandleLabel(name: "value" | "minValue") {
+  private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
     const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.static`
@@ -947,7 +947,7 @@ export class CalciteSlider {
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
 
-  private hyphenateCollidingRangeHandleLabels() {
+  private hyphenateCollidingRangeHandleLabels(): void {
     const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue`
     );
@@ -1062,7 +1062,7 @@ export class CalciteSlider {
   /**
    * Hides bounding tick labels that are obscured by either handle.
    */
-  private hideObscuredBoundingTickLabels() {
+  private hideObscuredBoundingTickLabels(): void {
     if (!this.hasHistogram && !this.isRange && !this.labelHandles && !this.precise) {
       return;
     }

@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Element, Listen, State } from "@stencil/core";
+import { Component, Prop, h, Host, Element, Listen, State, VNode } from "@stencil/core";
 
 @Component({
   tag: "calcite-tabs",
@@ -50,7 +50,7 @@ export class CalciteTabs {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     return (
       <Host>
         <slot name="tab-nav" />
@@ -70,7 +70,7 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabTitleRegister") calciteTabTitleRegister(e: CustomEvent) {
+  @Listen("calciteTabTitleRegister") calciteTabTitleRegister(e: CustomEvent): void {
     this.titles = [...this.titles, e.target as HTMLCalciteTabTitleElement];
     this.registryHandler();
     e.stopPropagation();
@@ -79,7 +79,7 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabTitleUnregister") calciteTabTitleUnregister(e: CustomEvent) {
+  @Listen("calciteTabTitleUnregister") calciteTabTitleUnregister(e: CustomEvent): void {
     this.titles = this.titles.filter((el) => el !== e.target);
     this.registryHandler();
     e.stopPropagation();
@@ -88,7 +88,7 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabRegister") calciteTabRegister(e: CustomEvent) {
+  @Listen("calciteTabRegister") calciteTabRegister(e: CustomEvent): void {
     this.tabs = [...this.tabs, e.target as HTMLCalciteTabElement];
     this.registryHandler();
     e.stopPropagation();
@@ -97,7 +97,7 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabUnregister") calciteTabUnregister(e: CustomEvent) {
+  @Listen("calciteTabUnregister") calciteTabUnregister(e: CustomEvent): void {
     this.tabs = this.tabs.filter((el) => el !== e.target);
     this.registryHandler();
     e.stopPropagation();

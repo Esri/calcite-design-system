@@ -150,7 +150,7 @@
             Text trailing inline-space-between
           </calcite-label>
         </calcite-accordion-item>
-        <calcite-accordion-item item-title="Input types">
+        <calcite-accordion-item active item-title="Input types">
           <calcite-label>
             Textarea empty input
             <calcite-input type="textarea" placeholder="How was your day?"></calcite-input>
@@ -194,7 +194,6 @@
             Number input clearable kitchen sync
             <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
               <calcite-button slot="input-action">Go</calcite-button>
-
             </calcite-input>
           </calcite-label>
           <calcite-label>
@@ -241,13 +240,13 @@
           <calcite-label>
             with button with icon
             <calcite-input placeholder="Text">
-              <calcite-button slot="input-action" icon="plus">Add </calcite-button>
+              <calcite-button slot="input-action" icon-start="plus">Add </calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
             with button with icon
             <calcite-input placeholder="Text">
-              <calcite-button width="full" slot="input-action" icon="plus"></calcite-button>
+              <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
@@ -287,7 +286,7 @@
 
           <h4>Disabled - set on input with wrapping label</h4>
 
-          <calcite-label>
+          <calcite-label disabled>
             Disabled
             <calcite-input disabled value="Readonly value">
             </calcite-input>
@@ -323,7 +322,7 @@
           <calcite-label>
             Readonly with prefix and button
             <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
-              <calcite-button slot="input-action" onclick="alert('copied')" icon="copy-to-clipboard"></calcite-button>
+              <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard"></calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
@@ -405,7 +404,7 @@
 
         </calcite-accordion-item>
 
-        <calcite-accordion-item item-title="Input messages and statuses">
+        <calcite-accordion-item active item-title="Input messages and statuses">
           <calcite-notice icon scale="s" active width="full" style="margin-bottom:20px;">
             <span slot="notice-message">
               You can set status on an input, message, or label individually - or just set it once on your
@@ -450,7 +449,7 @@
           </calcite-label>
         </calcite-accordion-item>
 
-        <calcite-accordion-item item-title="Interactions with native elements">
+        <calcite-accordion-item active item-title="Interactions with native elements">
           <calcite-notice icon scale="s" active width="full" style="margin-bottom:20px;">
             <span slot="notice-message">
               It's recommended to use the `calcite-label` with `calcite-input` components together - but if there
@@ -492,7 +491,7 @@
 
           <calcite-label disabled scale="s">
             Scale s
-            <calcite-input  disabled value="My great value" prefix-text="pre" icon="banana" suffix-text="suf">
+            <calcite-input disabled value="My great value" prefix-text="pre" icon="banana" suffix-text="suf">
             </calcite-input>
             <calcite-input-message icon active>Some information about the input</calcite-input-message>
           </calcite-label>
@@ -700,13 +699,13 @@
           <calcite-label disabled>
             with button with icon
             <calcite-input placeholder="Text">
-              <calcite-button slot="input-action" icon="plus">Add </calcite-button>
+              <calcite-button slot="input-action" icon-start="plus">Add </calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label disabled>
             with button with icon
             <calcite-input placeholder="Text">
-              <calcite-button width="full" slot="input-action" icon="plus"></calcite-button>
+              <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label disabled>
@@ -782,7 +781,7 @@
           <calcite-label disabled>
             Readonly with prefix and button
             <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
-              <calcite-button slot="input-action" onclick="alert('copied')" icon="copy-to-clipboard"></calcite-button>
+              <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard"></calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label disabled>
@@ -868,7 +867,7 @@
     <div
       style="width:400px;display:inline-flex;max-width:100%;flex-direction:column;margin:0 auto;text-align:center;padding:2em">
       <h3>In use - using custom emitted events and dark mode</h3>
-      <calcite-accordion icon-position="start" selection-mode="multi" theme="dark">
+      <calcite-accordion active icon-position="start" selection-mode="multi" theme="dark">
         <calcite-accordion-item item-title="Register Event-listener example" active>
 
           <form name="form-input-example-2" id="form-input-example-2">

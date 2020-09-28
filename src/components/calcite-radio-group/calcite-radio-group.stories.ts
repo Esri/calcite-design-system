@@ -9,7 +9,7 @@ storiesOf("Components/Radio Group", module)
   .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-radio-group
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
       appearance="${select("appearance", ["solid", "outline"], "solid")}"
@@ -26,7 +26,7 @@ storiesOf("Components/Radio Group", module)
   )
   .add(
     "Wrapping Calcite Label",
-    () => `
+    (): string => `
     <calcite-label scale="${select("scale", ["s", "m", "l"], "m")}">
     My great radio group
     <calcite-radio-group
@@ -45,7 +45,7 @@ storiesOf("Components/Radio Group", module)
   )
   .add(
     "With icons",
-    () => `
+    (): string => `
     <calcite-label scale="${select("scale", ["s", "m", "l"], "m")}">
     My great radio group
     <calcite-radio-group
@@ -63,7 +63,7 @@ storiesOf("Components/Radio Group", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <calcite-radio-group
       theme="dark"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
@@ -82,7 +82,7 @@ storiesOf("Components/Radio Group", module)
   )
   .add(
     "Full width",
-    () => `
+    (): string => `
     <div style="width:33vw;">
       <calcite-radio-group
         layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"

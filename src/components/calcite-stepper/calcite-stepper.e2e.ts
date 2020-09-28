@@ -48,30 +48,6 @@ describe("calcite-stepper", () => {
     expect(element).not.toHaveAttribute("icon");
   });
 
-  it("renders default props when invalid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper layout="zot" scale="zip" numbered="zom" icon="zar">
-      <calcite-stepper-item item-title="Step 1" id="step-1">
-        <div>Step 1 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 2" id="step-2">
-        <div>Step 2 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 3" id="step-3">
-        <div>Step 3 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 4" id="step-4">
-        <div>Step 4 content</div>
-      </calcite-stepper-item>
-    </calcite-stepper>`);
-    const element = await page.find("calcite-stepper");
-    expect(element).toEqualAttribute("layout", "horizontal");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("numbered", "");
-    expect(element).toEqualAttribute("icon", "");
-  });
-
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`

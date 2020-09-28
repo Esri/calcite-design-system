@@ -48,11 +48,6 @@
           padding: { left: 49, right: 385 }
         });
         view.when(function () {
-          // var layerList = new LayerList({
-          //   view: view,
-          //   selectionEnabled: true,
-          //   container: "layerlist-container"
-          // });
 
           view.ui.move("zoom", "bottom-right");
         });
@@ -63,7 +58,7 @@
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached height-scale="l">
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached >
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -86,21 +81,18 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-              <calcite-flow-item heading="Layers" style="padding: 10px;">
+              <calcite-panel heading="Layers" height-scale="l" width-scale="m">
                 <calcite-label>
                   It's a label.
                   <calcite-input type="text" placeholder="This is stuff." scale="s">
                     <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
                   </calcite-input>
                 </calcite-label>
-                <!-- <div id="layerlist-container"></div> -->
-                <!-- <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab> -->
-                <!-- <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip> -->
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="contextual-panel" position="end" detached>
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -126,11 +118,34 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
-              <calcite-flow-item
+              <calcite-panel heading="cool" summary="Popular Demographics in the United States (Beta) - County" width-scale="m" height-scale="l">
+                I'm this panel's content.
+              </calcite-panel>
+              <calcite-panel
                 heading="Configure popup"
                 summary="Popular Demographics in the United States (Beta) - County"
+                height-scale="l"
+                width-scale="m"
               >
-                <calcite-block heading="Basic" summary="Collapsible with section" collapsible>
+                <calcite-block heading="Basic" summary="Collapsible with section" collapsible open>
+                  <calcite-value-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double);">
+                    <calcite-value-list-item text-label="Dogs" text-description="Man's best friend" value="dogs">
+                      <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="x">
+                      </calcite-action>
+                    </calcite-value-list-item>
+                    <calcite-value-list-item text-label="Cats" text-description="Independent and fluffy" value="cats">
+                      <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="x">
+                      </calcite-action>
+                    </calcite-value-list-item>
+                    <calcite-value-list-item
+                      text-label="Fish. But not just any fish."
+                      text-description="Easy to care for."
+                      value="fish"
+                    >
+                      <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="x">
+                      </calcite-action>
+                    </calcite-value-list-item>
+                  </calcite-value-list>
                   
                   <!-- Using Button -->
                   <calcite-label scale="s">
@@ -143,7 +158,7 @@
                   <calcite-label scale="s">
                     It's a label (action).
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action text="cool action" icon="brackets-curly" slot="input-action" scale="s"></calcite-action>
+                      <calcite-action text="cool action" icon="pencil" slot="input-action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
 
@@ -498,7 +513,9 @@
                 <calcite-tooltip reference-element="label-fab" disable-pointer>
                   Add label class
                 </calcite-tooltip>
-              </calcite-flow-item>
+                <calcite-button slot="footer-actions" appearance="outline" width="half">Cancel</calcite-button>
+                <calcite-button slot="footer-actions" width="half">Done</calcite-button>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
           <div class="gnav" slot="shell-header">

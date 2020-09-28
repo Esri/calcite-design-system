@@ -1,4 +1,14 @@
-import { Component, Element, Prop, Host, Event, EventEmitter, Listen, h } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  EventEmitter,
+  Listen,
+  h,
+  VNode
+} from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { DateLocaleData } from "../calcite-date/utils";
 
@@ -49,11 +59,11 @@ export class CalciteDateDay {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick() {
+  @Listen("click") onClick(): void {
     !this.disabled && this.calciteDaySelect.emit();
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (key === " " || key === "Enter") {
       !this.disabled && this.calciteDaySelect.emit();
@@ -76,7 +86,7 @@ export class CalciteDateDay {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  render() {
+  render(): VNode {
     // this.localeData.numerals.split("")
     const formattedDay = String(this.day)
       .split("")

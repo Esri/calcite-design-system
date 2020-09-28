@@ -8,7 +8,8 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  Build
+  Build,
+  VNode
 } from "@stencil/core";
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -21,32 +22,32 @@ import { getKey } from "../../utils/key";
 export class CalciteSwitch {
   @Element() el: HTMLCalciteSwitchElement;
 
-  /** True if the switch is initially on */
-  @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
+  /** True if the switch is disabled */
+  @Prop({ reflect: true }) disabled?: boolean = false;
+
+  /** What color the switch should be */
+  @Prop({ reflect: true }) color: "red" | "blue" = "blue";
 
   /** The name of the checkbox input */
   @Prop({ reflect: true, mutable: true }) name?: string = "";
 
-  /** The value of the checkbox input */
-  @Prop({ reflect: true, mutable: true }) value?: string = "";
-
-  /** What color the switch should be */
-  @Prop({ reflect: true, mutable: true }) color: "red" | "blue" = "blue";
-
   /** The scale of the switch */
-  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** True if the switch is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  /** True if the switch is initially on */
+  @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
 
   /** The component's theme. */
   @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** The value of the checkbox input */
+  @Prop({ reflect: true, mutable: true }) value?: string = "";
 
   @Event() calciteSwitchChange: EventEmitter;
 
   private observer: MutationObserver;
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
     if (
       !this.disabled &&
       !this.el.contains(e.detail.interactedEl) &&
@@ -56,7 +57,7 @@ export class CalciteSwitch {
     } else return;
   }
 
-  @Listen("click") onClick(e) {
+  @Listen("click") onClick(e: MouseEvent): void {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
     if (
@@ -67,14 +68,14 @@ export class CalciteSwitch {
     }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (!this.disabled && (key === " " || key === "Enter")) {
       this.updateSwitch(e);
     }
   }
 
-  @Watch("switched") switchWatcher() {
+  @Watch("switched") switchWatcher(): void {
     this.switched
       ? this.inputProxy.setAttribute("checked", "")
       : this.inputProxy.removeAttribute("checked");
@@ -82,32 +83,26 @@ export class CalciteSwitch {
 
   private inputProxy: HTMLInputElement;
 
-  connectedCallback() {
-    // prop validations
-    const color = ["blue", "red"];
-    if (!color.includes(this.color)) this.color = "blue";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
+  connectedCallback(): void {
     this.setupProxyInput();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.observer.disconnect();
   }
 
-  componentWillRender() {
+  componentWillRender(): void {
     this.syncProxyInputToThis();
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
 
     return (
       <Host
+        aria-checked={this.switched.toString()}
         dir={dir}
         role="checkbox"
-        aria-checked={this.switched.toString()}
         tabIndex={this.disabled ? -1 : this.tabIndex}
       >
         <div class="track">
@@ -127,7 +122,7 @@ export class CalciteSwitch {
     return 0;
   }
 
-  private setupProxyInput() {
+  private setupProxyInput(): void {
     // check for a proxy input
     this.inputProxy = this.el.querySelector("input");
 
@@ -147,13 +142,13 @@ export class CalciteSwitch {
     }
   }
 
-  private syncThisToProxyInput = () => {
+  private syncThisToProxyInput = (): void => {
     this.switched = this.inputProxy.hasAttribute("checked");
     this.name = this.inputProxy.name;
     this.value = this.inputProxy.value;
   };
 
-  private syncProxyInputToThis = () => {
+  private syncProxyInputToThis = (): void => {
     this.switched
       ? this.inputProxy.setAttribute("checked", "")
       : this.inputProxy.removeAttribute("checked");
@@ -161,7 +156,7 @@ export class CalciteSwitch {
     this.inputProxy.setAttribute("value", this.value);
   };
 
-  private updateSwitch(e) {
+  private updateSwitch(e: Event): void {
     e.preventDefault();
     this.switched = !this.switched;
     this.calciteSwitchChange.emit({

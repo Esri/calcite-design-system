@@ -82,21 +82,21 @@ export class CalciteModal {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentWillLoad() {
+  componentWillLoad(): void {
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.active) {
       this.open();
     }
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir} role="dialog" aria-modal="true" is-active={this.isActive}>
-        <calcite-scrim class="scrim" theme="dark"></calcite-scrim>
+      <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
+        <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
         <div class="modal">
-          <div data-focus-fence="true" tabindex="0" onFocus={this.focusLastElement.bind(this)} />
+          <div data-focus-fence="true" onFocus={this.focusLastElement.bind(this)} tabindex="0" />
           <div class="modal__header">
             {this.renderCloseButton()}
             <header class="modal__title">
@@ -113,7 +113,7 @@ export class CalciteModal {
             <slot name="content" />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence="true" tabindex="0" onFocus={this.focusFirstElement.bind(this)} />
+          <div data-focus-fence="true" onFocus={this.focusFirstElement.bind(this)} tabindex="0" />
         </div>
       </Host>
     );
@@ -138,13 +138,13 @@ export class CalciteModal {
   renderCloseButton(): VNode {
     return !this.disableCloseButton ? (
       <button
-        class="modal__close"
         aria-label={this.intlClose}
-        title={this.intlClose}
-        ref={(el) => (this.closeButtonEl = el)}
+        class="modal__close"
         onClick={() => this.close()}
+        ref={(el) => (this.closeButtonEl = el)}
+        title={this.intlClose}
       >
-        <calcite-icon icon="x" scale="l"></calcite-icon>
+        <calcite-icon icon="x" scale="l" />
       </button>
     ) : null;
   }
@@ -185,7 +185,7 @@ export class CalciteModal {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent) {
+  @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent): void {
     if (this.active && !this.disableEscape && getKey(e.key) === "Escape") {
       this.beforeClose(this.el).then(() => {
         this.active = false;
@@ -240,7 +240,7 @@ export class CalciteModal {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  @Watch("active") async toggleModal(value, oldValue): Promise<void> {
+  @Watch("active") async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
       if (value) {
         this.open();

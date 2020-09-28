@@ -1,9 +1,9 @@
 import { Host, h } from "@stencil/core";
 import { VNode } from "@stencil/core/internal";
 import { CSS } from "./resources";
-import { getElementDir, getElementTheme } from "../utils/dom";
+import { getElementDir, getElementTheme } from "../../utils/dom";
 
-export const List = ({ props, ...rest }): VNode => {
+export const List = ({ props, ...rest }: { props: any }): VNode => {
   const {
     disabled,
     loading,
@@ -16,22 +16,22 @@ export const List = ({ props, ...rest }): VNode => {
   const defaultSlot = <slot />;
 
   return (
-    <Host role="menu" aria-disabled={disabled.toString()} aria-busy={loading.toString()} {...rest}>
+    <Host aria-busy={loading.toString()} aria-disabled={disabled.toString()} role="menu" {...rest}>
       <section>
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
             <calcite-filter
+              aria-label={textFilterPlaceholder}
               data={dataForFilter}
               dir={getElementDir(el)}
-              placeholder={textFilterPlaceholder}
-              aria-label={textFilterPlaceholder}
               onCalciteFilterChange={handleFilter}
+              placeholder={textFilterPlaceholder}
             />
           ) : null}
           <slot name="menu-actions" />
         </header>
         {loading || disabled ? (
-          <calcite-scrim theme={getElementTheme(el)} loading={loading}>
+          <calcite-scrim loading={loading} theme={getElementTheme(el)}>
             {defaultSlot}
           </calcite-scrim>
         ) : (

@@ -57,7 +57,7 @@
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" height-scale="l" detached>
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -80,18 +80,18 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-              <calcite-flow-item heading="First flow item">
-                Default slot of the first flow-item
-              </calcite-flow-item>
-              <calcite-flow-item heading="Second flow item 02">
+              <calcite-panel heading="First flow item" height-scale="l" width-scale="m" >
+                Default slot of the first panel
+              </calcite-panel>
+              <calcite-panel heading="Second flow item 02" height-scale="l" width-scale="m" >
                 <div style="height: 45vh;">
-                Default slot of the second flow-item
+                Default slot of the second panel
               </div>
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end" height-scale="l" collapsed>
+          <calcite-shell-panel slot="contextual-panel" position="end" >
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -117,18 +117,19 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
-              <calcite-flow-item heading="Single flow-item" summary="I'm in the contextual-panel">
-                Default slot of flow-item
-              </calcite-flow-item>
+              <calcite-panel heading="Single panel" summary="I'm in the contextual-panel" width-scale="m">
+                Default slot of panel
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
           <div class="gnav" slot="shell-header">
             <h2>Boomer v Millennial - California</h2>
           </div>
-          <calcite-shell-center-row slot="center-row" height-scale="m" detached id="center-row">
-              <calcite-flow-item heading="flow in center row" summary="summary of flow item">
-                <calcite-action slot="leading-actions" icon="caret-down" scale="s"></calcite-action>
-                <calcite-action slot="menu-actions" icon="x" scale="m"></calcite-action>
+          <calcite-shell-center-row slot="center-row" height-scale="l" detached id="center-row">
+              <calcite-panel heading="Table" summary="Table in the center row.">
+                <calcite-action slot="header-actions-start" icon="caret-down" scale="s"></calcite-action>
+                <calcite-action slot="header-actions-end" icon="chevrons-down" scale="m" id="expand-trigger"></calcite-action>
+                <calcite-action slot="header-actions-end" icon="x" scale="m"></calcite-action>
                 <style>
                   .demo-table th {
                     background-color: white;
@@ -166,6 +167,7 @@
                     vertical-align: middle;
                   }
                 </style>
+                <div>
                 <table class="demo-table">
                   <tr>
                     <th class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></th>
@@ -350,7 +352,8 @@
                     <td>Protagonist</td>
                   </tr>
                 </table>
-              </calcite-flow-item>
+              </div>
+              </calcite-panel>
 
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
@@ -433,8 +436,12 @@
         const centerRow = document.getElementById("center-row");
         expandTrigger.addEventListener("click", function () {
           centerRow.getAttribute("height-scale") == "s"
-            ? centerRow.setAttribute("height-scale", "m")
+            ? centerRow.setAttribute("height-scale", "l")
             : centerRow.setAttribute("height-scale", "s");
+
+          centerRow.getAttribute("height-scale") == "s"
+            ? expandTrigger.setAttribute("icon", "chevrons-up")
+            : expandTrigger.setAttribute("icon", "chevrons-down");
         });
       </script>
     </main>
