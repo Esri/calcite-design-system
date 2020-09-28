@@ -137,6 +137,17 @@
   </calcite-date>
   <calcite-fab label="Add"></calcite-fab>
 
+  <h2>Set Value</h2>
+  <calcite-button id="dynamic-button">Set value of date input</calcite-button>
+  <calcite-date id="dynamic-value"></calcite-date>
+  <script>
+    var dynamicDate = document.getElementById("dynamic-value");
+    document.getElementById("dynamic-button").addEventListener("click", function () {
+      console.log("setting value");
+      document.getElementById("dynamic-value").dateValue = "2020-10-02";
+    });
+  </script>
+
   <h2>Events</h2>
   <calcite-date id="dateSample"></calcite-date>
   <p>Date selected: <pre><code id="dateDisplay">n/a</code></pre></p>
