@@ -6,42 +6,53 @@ import readme from "./readme.md";
 
 const locales = [
   "ar",
-  "ar-eg",
+  "bs",
   "ca",
   "cs",
   "da",
+  "de-CH",
   "de",
   "el",
+  "en-AU",
+  "en-CA",
+  "en-GB",
   "en",
+  "es-MX",
   "es",
   "et",
   "fi",
+  "fr-CH",
   "fr",
   "he",
+  "hi",
   "hr",
   "hu",
   "id",
+  "it-CH",
   "it",
   "ja",
   "ko",
   "lt",
   "lv",
-  "nl",
+  "mk",
   "nb",
+  "nl",
   "pl",
-  "pt-br",
-  "pt-pt",
+  "pt-PT",
+  "pt",
   "ro",
   "ru",
+  "sk",
+  "sl",
   "sr",
   "sv",
   "th",
   "tr",
   "uk",
   "vi",
-  "zh-cn",
-  "zh-hk",
-  "zh-tw"
+  "zh-CN",
+  "zh-HK",
+  "zh-TW",
 ];
 
 storiesOf("Components/Date", module)
@@ -55,7 +66,7 @@ storiesOf("Components/Date", module)
       value="${text("value", "")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en-US")}"
+      locale="${select("locale", locales, "en")}"
       next-month-label="${text("next-month-label", "Next month")}"
       prev-month-label="${text("prev-month-label", "Previous month")}"
     ></calcite-date>
@@ -71,7 +82,7 @@ storiesOf("Components/Date", module)
       value="${text("value", "")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en-US")}"
+      locale="${select("locale", locales, "en")}"
       active
       no-calendar-input
       next-month-label="${text("next-month-label", "Next month")}"
