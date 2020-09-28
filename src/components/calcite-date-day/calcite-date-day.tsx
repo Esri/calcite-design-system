@@ -87,7 +87,6 @@ export class CalciteDateDay {
   //
   //--------------------------------------------------------------------------
   render(): VNode {
-    // this.localeData.numerals.split("")
     const formattedDay = String(this.day)
       .split("")
       .map((i) => this.localeData.numerals[i])

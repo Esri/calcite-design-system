@@ -244,9 +244,6 @@ export class CalciteDate {
       return;
     }
     this.localeData = await getLocaleData(locale);
-    // we need locale data to parse initial date from value
-    if (this.value && !this.valueAsDate) {
-    }
   }
 
   private waitUntilVisible(callback: () => void): void {
