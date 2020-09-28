@@ -1,4 +1,14 @@
-import { Component, Element, Prop, Host, Event, EventEmitter, h, Listen, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  VNode
+} from "@stencil/core";
 import { inRange, sameDate, dateFromRange } from "../../utils/date";
 import { getKey } from "../../utils/key";
 import { DateLocaleData } from "../calcite-date/utils";
@@ -143,10 +153,10 @@ export class CalciteDateMonth {
           <calcite-date-day
             day={day}
             disabled={!inRange(date, this.min, this.max)}
-            selected={sameDate(date, this.selectedDate)}
+            localeData={this.localeData}
             onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             scale={this.scale}
-            localeData={this.localeData}
+            selected={sameDate(date, this.selectedDate)}
           />
         );
       }),
@@ -159,9 +169,8 @@ export class CalciteDateMonth {
             current-month
             day={day}
             disabled={!inRange(date, this.min, this.max)}
-            selected={sameDate(date, this.selectedDate)}
-            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             localeData={this.localeData}
+            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             ref={(el) => {
               // when moving via keyboard, focus must be updated on active date
               if (active && this.activeFocus) {
@@ -169,6 +178,7 @@ export class CalciteDateMonth {
               }
             }}
             scale={this.scale}
+            selected={sameDate(date, this.selectedDate)}
           />
         );
       }),
@@ -178,10 +188,10 @@ export class CalciteDateMonth {
           <calcite-date-day
             day={day}
             disabled={!inRange(date, this.min, this.max)}
-            selected={sameDate(date, this.selectedDate)}
-            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             localeData={this.localeData}
+            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
             scale={this.scale}
+            selected={sameDate(date, this.selectedDate)}
           />
         );
       })

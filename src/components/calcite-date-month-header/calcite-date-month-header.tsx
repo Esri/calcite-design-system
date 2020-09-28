@@ -107,19 +107,19 @@ export class CalciteDateMonthHeader {
                   year: true,
                   "year--suffix": !!suffix
                 }}
-                type="text"
                 inputmode="numeric"
                 maxlength="4"
                 minlength="4"
-                pattern="\d*"
-                value={localizedYear}
-                onKeyDown={(event) => this.onYearKey(event)}
                 onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
+                onKeyDown={(event) => this.onYearKey(event)}
+                pattern="\d*"
                 ref={(el) => (this.yearInput = el)}
+                type="text"
+                value={localizedYear}
               />
               {suffix && (
                 <span class="suffix">
-                  <span class="suffix__invisible" aria-hidden="true">
+                  <span aria-hidden="true" class="suffix__invisible">
                     {localizedYear}
                   </span>
                   {" " + suffix}

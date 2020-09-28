@@ -169,37 +169,37 @@ export class CalciteDate {
           <div class="calendar-picker-wrapper">
             <calcite-date-month-header
               activeDate={activeDate}
-              selectedDate={date || new Date()}
-              intlPrevMonth={this.intlPrevMonth}
+              dir={dir}
               intlNextMonth={this.intlNextMonth}
+              intlPrevMonth={this.intlPrevMonth}
               localeData={this.localeData}
-              min={min}
               max={max}
+              min={min}
               onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
                 this.setValue(new Date(e.detail));
                 this.activeDate = new Date(e.detail);
                 this.calciteDateChange.emit(new Date(e.detail));
               }}
-              dir={dir}
               scale={this.scale}
+              selectedDate={date || new Date()}
             />
             <calcite-date-month
-              min={min}
-              max={max}
-              selectedDate={date}
               activeDate={activeDate}
+              dir={dir}
               localeData={this.localeData}
+              max={max}
+              min={min}
+              onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
+                this.activeDate = new Date(e.detail);
+              }}
               onCalciteDateSelect={(e: CustomEvent<Date>) => {
                 this.setValue(new Date(e.detail));
                 this.activeDate = new Date(e.detail);
                 this.calciteDateChange.emit(new Date(e.detail));
                 this.reset();
               }}
-              onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-                this.activeDate = new Date(e.detail);
-              }}
-              dir={dir}
               scale={this.scale}
+              selectedDate={date}
             />
           </div>
         )}
@@ -229,7 +229,7 @@ export class CalciteDate {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  @Watch("value") validateValue(value): void {
+  @Watch("value") validateValue(value?: string): void {
     const date = dateFromISO(value);
     if (date) {
       this.valueAsDate = date as Date;
@@ -246,7 +246,6 @@ export class CalciteDate {
     this.localeData = await getLocaleData(locale);
     // we need locale data to parse initial date from value
     if (this.value && !this.valueAsDate) {
-
     }
   }
 
