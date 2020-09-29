@@ -332,9 +332,10 @@ export class CalciteDate {
     const validDay = day > 0;
     const validMonth = month > -1;
     const date = new Date(year, month, day);
+    date.setFullYear(year);
     const validDate = !isNaN(date.getTime());
     const validLength = value.split(separator).filter((c) => c).length > 2;
-    const validYear = year.toString().length > 3;
+    const validYear = year.toString().length > 0;
     if (
       validDay &&
       validMonth &&
