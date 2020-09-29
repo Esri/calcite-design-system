@@ -243,11 +243,7 @@ export class CalcitePickListItem {
   }
 
   renderRemoveAction(): VNode {
-    if (!this.removable) {
-      return null;
-    }
-
-    return (
+    return this.removable ? (
       <calcite-action
         class={CSS.remove}
         icon={ICONS.remove}
@@ -255,7 +251,7 @@ export class CalcitePickListItem {
         text={this.textRemove}
         slot={SLOTS.actionsEnd}
       />
-    );
+    ) : null;
   }
 
   renderActionsStart(): VNode {

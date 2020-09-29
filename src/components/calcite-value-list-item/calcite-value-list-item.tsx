@@ -182,7 +182,6 @@ export class CalciteValueListItem {
           onKeyDown={this.handleKeyDown}
           role="button"
           tabindex="0"
-          slot="actions-start"
         >
           <calcite-icon icon={ICONS.drag} scale="s" />
         </span>

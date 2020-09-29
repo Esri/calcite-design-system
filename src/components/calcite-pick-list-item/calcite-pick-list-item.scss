@@ -78,11 +78,11 @@
   margin: 0;
 }
 
-// .actions--start ~ .label {
-//   padding-left: var(--calcite-spacing-quarter);
-// }
+.actions--start ~ .label {
+  padding-left: var(--calcite-spacing-quarter);
+}
 
-// .calcite--rtl .actions--start ~ .label {
-//   padding-left: unset;
-//   padding-right: var(--calcite-spacing-quarter);
-// }
+.calcite--rtl .actions--start ~ .label {
+  padding-left: unset;
+  padding-right: var(--calcite-spacing-quarter);
+}
