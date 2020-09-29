@@ -9,15 +9,17 @@ import {
   Listen,
   Build,
   EventEmitter,
+  Watch,
   VNode
 } from "@stencil/core";
-import { parseDateString, getLocaleFormatData, DateFormattingData } from "../../utils/locale";
+import { getLocaleData, DateLocaleData } from "./utils";
 import { getElementDir } from "../../utils/dom";
-import { dateFromRange, inRange, dateFromISO, dateToISO } from "../../utils/date";
+import { dateFromRange, inRange, dateFromISO, dateToISO, parseDateString } from "../../utils/date";
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-date-resources";
 
 @Component({
+  assetsDirs: ["calcite-date-nls"],
   tag: "calcite-date",
   styleUrl: "calcite-date.scss",
   shadow: true
@@ -36,7 +38,7 @@ export class CalciteDate {
   //
   //--------------------------------------------------------------------------
   /** Selected date */
-  @Prop({ reflect: true, mutable: true }) value?: string;
+  @Prop() value?: string;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date;
@@ -57,7 +59,7 @@ export class CalciteDate {
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = "en-US";
+  @Prop() locale?: string = document.documentElement.lang || "en-US";
 
   /** Show only calendar popup */
   @Prop() noCalendarInput?: boolean = false;
@@ -112,10 +114,22 @@ export class CalciteDate {
   // --------------------------------------------------------------------------
   connectedCallback(): void {
     this.setupProxyInput();
+    this.waitUntilVisible(() => {
+      this.visible = true;
+      this.loadLocaleData();
+    });
   }
 
   disconnectedCallback(): void {
     this.observer.disconnect();
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+      this.intersectionObserver = null;
+    }
+  }
+
+  async componentWillLoad(): Promise<void> {
+    this.loadLocaleData();
   }
 
   componentWillRender(): void {
@@ -129,12 +143,13 @@ export class CalciteDate {
     const activeDate = this.getActiveDate(date, min, max);
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
     const dir = getElementDir(this.el);
+
     return (
       <Host dir={dir} role="application">
         <div class="slot">
           <slot />
         </div>
-        {!this.noCalendarInput && (
+        {!this.noCalendarInput && this.localeData && (
           <div role="application">
             <calcite-input
               class="input"
@@ -150,40 +165,42 @@ export class CalciteDate {
             />
           </div>
         )}
-        <div class="calendar-picker-wrapper">
-          <calcite-date-month-header
-            activeDate={activeDate}
-            dir={dir}
-            intlNextMonth={this.intlNextMonth}
-            intlPrevMonth={this.intlPrevMonth}
-            locale={this.locale}
-            max={max}
-            min={min}
-            onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-              this.activeDate = new Date(e.detail);
-            }}
-            scale={this.scale}
-            selectedDate={date || new Date()}
-          />
-          <calcite-date-month
-            activeDate={activeDate}
-            dir={dir}
-            locale={this.locale}
-            max={max}
-            min={min}
-            onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-              this.activeDate = new Date(e.detail);
-            }}
-            onCalciteDateSelect={(e: CustomEvent<Date>) => {
-              this.setValue(new Date(e.detail));
-              this.activeDate = new Date(e.detail);
-              this.calciteDateChange.emit(new Date(e.detail));
-              this.reset();
-            }}
-            scale={this.scale}
-            selectedDate={date}
-          />
-        </div>
+        {this.localeData && (
+          <div class="calendar-picker-wrapper">
+            <calcite-date-month-header
+              activeDate={activeDate}
+              dir={dir}
+              intlNextMonth={this.intlNextMonth}
+              intlPrevMonth={this.intlPrevMonth}
+              localeData={this.localeData}
+              max={max}
+              min={min}
+              onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
+                this.activeDate = new Date(e.detail);
+              }}
+              scale={this.scale}
+              selectedDate={date || new Date()}
+            />
+            <calcite-date-month
+              activeDate={activeDate}
+              dir={dir}
+              localeData={this.localeData}
+              max={max}
+              min={min}
+              onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
+                this.activeDate = new Date(e.detail);
+              }}
+              onCalciteDateSelect={(e: CustomEvent<Date>) => {
+                this.setValue(new Date(e.detail));
+                this.activeDate = new Date(e.detail);
+                this.calciteDateChange.emit(new Date(e.detail));
+                this.reset();
+              }}
+              scale={this.scale}
+              selectedDate={date}
+            />
+          </div>
+        )}
       </Host>
     );
   }
@@ -193,7 +210,9 @@ export class CalciteDate {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  private localeData: DateFormattingData = getLocaleFormatData(this.locale);
+  @State() private visible = false;
+
+  @State() private localeData: DateLocaleData;
 
   private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
@@ -201,11 +220,48 @@ export class CalciteDate {
 
   private observer: MutationObserver;
 
+  private intersectionObserver: IntersectionObserver;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+  @Watch("locale")
+  private async loadLocaleData(): Promise<void> {
+    const { locale, visible } = this;
+
+    if (!Build.isBrowser || !locale || !visible) {
+      return;
+    }
+    this.localeData = await getLocaleData(locale);
+  }
+
+  private waitUntilVisible(callback: () => void): void {
+    if (
+      !Build.isBrowser ||
+      typeof window === "undefined" ||
+      !(window as any).IntersectionObserver
+    ) {
+      callback();
+      return;
+    }
+
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.intersectionObserver.disconnect();
+            this.intersectionObserver = null;
+            callback();
+          }
+        });
+      },
+      { rootMargin: "50px" }
+    );
+
+    this.intersectionObserver.observe(this.el);
+  }
 
   /**
    * Register slotted date input proxy, or create one if not provided
@@ -317,8 +373,11 @@ export class CalciteDate {
    * return false if date is invalid, or out of range
    */
   private getDateFromInput(value: string): Date | false {
+    if (!this.localeData) {
+      return false;
+    }
     const { separator } = this.localeData;
-    const { day, month, year } = parseDateString(value, this.locale);
+    const { day, month, year } = parseDateString(value, this.localeData);
     const validDay = day > 0;
     const validMonth = month > -1;
     const date = new Date(year, month, day);

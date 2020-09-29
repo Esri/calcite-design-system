@@ -1,3 +1,5 @@
+import { DateLocaleData } from "../components/calcite-date/utils";
+
 /**
  * Check if date is within a min and max
  */
@@ -93,4 +95,63 @@ export function nextMonth(date: Date): Date {
     return new Date(date.getFullYear(), month + 2, 0);
   }
   return nextDate;
+}
+
+/**
+ * Translate a number into a given locals numeral system
+ */
+export function localizeNumber(num: number, localeData: DateLocaleData): string {
+  return String(num)
+    .split("")
+    .map((i) => localeData.numerals[i])
+    .join("");
+}
+
+/**
+ * Calculate actual number from localized string
+ */
+export function parseNumber(str: string, localeData: DateLocaleData): number {
+  const numerals = "0123456789";
+  return parseInt(
+    str
+      .split("")
+      .map((i) => numerals[localeData.numerals.indexOf(i)])
+      .filter((num) => num)
+      .join("")
+  );
+}
+
+/**
+ * Parse numeric units for day, month, and year from a localized string
+ * month starts at 0 (can pass to date constructor)
+ */
+export function parseDateString(str: string, localeData: DateLocaleData): { day: number; month: number; year: number } {
+  const { separator, unitOrder } = localeData;
+  const order = getOrder(unitOrder);
+  const values = replaceArabicNumerals(str).split(separator);
+  return {
+    day: parseInt(values[order.indexOf("d")]),
+    month: parseInt(values[order.indexOf("m")]) - 1,
+    year: parseInt(values[order.indexOf("y")])
+  };
+}
+
+/**
+ * Convert eastern arbic numerals
+ */
+export function replaceArabicNumerals(str = ""): string {
+  return str
+    .replace(/[\u0660-\u0669]/g, (c) => (c.charCodeAt(0) - 0x0660) as any)
+    .replace(/[\u06f0-\u06f9]/g, (c) => (c.charCodeAt(0) - 0x06f0) as any);
+}
+
+type unitOrderSignifier = "m" | "d" | "y";
+
+/**
+ * Based on the unitOrder string, find order of month, day, and year for locale
+ */
+export function getOrder(unitOrder: string): unitOrderSignifier[] {
+  const signifiers: unitOrderSignifier[] = ["d", "m", "y"];
+  const order = unitOrder.toLowerCase();
+  return signifiers.sort((a, b) => order.indexOf(a) - order.indexOf(b));
 }
