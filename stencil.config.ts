@@ -37,7 +37,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
     {
-      components: ["calcite-panel", "calcite-flow", "calcite-flow-item"]
+      components: ["calcite-panel", "calcite-flow"]
     },
     { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
