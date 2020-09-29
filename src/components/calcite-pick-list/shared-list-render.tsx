@@ -1,10 +1,22 @@
-import { Host, h } from "@stencil/core";
-import { VNode } from "@stencil/core/internal";
+import { Host, h, FunctionalComponent } from "@stencil/core";
+import { JSXBase, VNode } from "@stencil/core/internal";
 import { CSS } from "./resources";
 import { getElementDir, getElementTheme } from "../../utils/dom";
+import DOMAttributes = JSXBase.DOMAttributes;
+import { handleFilter } from "./shared-list-logic";
 
-export const List = ({ props, ...rest }: { props: any }): VNode => {
-  const {
+interface ListProps extends DOMAttributes {
+  disabled: boolean;
+  loading: boolean;
+  filterEnabled: boolean;
+  dataForFilter: any;
+  handleFilter: typeof handleFilter;
+  textFilterPlaceholder: string;
+  el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
+}
+
+export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = ({
+  props: {
     disabled,
     loading,
     filterEnabled,
@@ -12,7 +24,9 @@ export const List = ({ props, ...rest }: { props: any }): VNode => {
     handleFilter,
     textFilterPlaceholder,
     el
-  } = props;
+  },
+  ...rest
+}): VNode => {
   const defaultSlot = <slot />;
 
   return (
