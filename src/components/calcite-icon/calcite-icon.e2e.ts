@@ -1,28 +1,26 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
 describe("calcite-icon", () => {
   it("has defaults", async () =>
     defaults("calcite-icon", [
-      { propertyName: "filled", defaultValue: false },
       { propertyName: "mirrored", defaultValue: false },
-      { propertyName: "theme", defaultValue: "light" },
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
   it("reflects", async () =>
     reflects("calcite-icon", [
-      { propertyName: "filled", value: true },
       { propertyName: "mirrored", value: true },
-      { propertyName: "theme", value: "light" },
       { propertyName: "scale", value: "m" }
     ]));
 
+  it("is accessible", async () => accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`));
+
   it("mirrors icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-icon icon='a-z'></calcite-icon>`);
+    await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
     const icon = await page.find(`calcite-icon`);
     const mirroredIconSelector = `calcite-icon >>> .${CSS.mirrored}`;
 
@@ -40,16 +38,17 @@ describe("calcite-icon", () => {
 
     it("uses path data to render icon", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-icon icon='a-z'></calcite-icon>");
+      await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
+      await page.waitForChanges();
       const path = await page.find(`calcite-icon >>> path`);
 
       expect(await path.getAttribute("d")).toBeTruthy();
-
     });
 
     it("supports both camelcase and kebab case for icon name", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-icon icon='a-z'></calcite-icon>");
+      await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
+      await page.waitForChanges();
       const icon = await page.find(`calcite-icon`);
       const path = await page.find(`calcite-icon >>> path`);
       const iconPathData = await path.getAttribute("d");
@@ -62,14 +61,13 @@ describe("calcite-icon", () => {
 
     it("loads icon when it's close to viewport", async () => {
       const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-icon icon='a-z' style="margin-top: 1000px"></calcite-icon>`
-      );
+      await page.setContent(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
+      await page.waitForChanges();
 
       const icon = await page.find(`calcite-icon`);
-      let path = await page.find(`calcite-icon >>> path`);
+      const path = await page.find(`calcite-icon >>> path`);
 
-      expect(await path.getAttribute("d")).toBeNull();
+      expect(await path.getAttribute("d")).toBeFalsy();
 
       icon.setProperty("style", null);
       await page.waitForChanges();
@@ -80,20 +78,20 @@ describe("calcite-icon", () => {
     describe("scales", () => {
       const scales = ["s", "m", "l"];
 
-      scales.forEach(scale =>
+      scales.forEach((scale) =>
         it(`${scale} scale`, async () => {
           const page = await newE2EPage();
-          await page.setContent(
-            `<calcite-icon icon='a-z' scale='${scale}'></calcite-icon>`
-          );
+          await page.setContent(`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
+          const calciteIcon = await page.find(`calcite-icon`);
+          const calciteIconComputedStyle = await calciteIcon.getComputedStyle();
           const svg = await page.find(`calcite-icon >>> svg`);
           const sizeInPx = scaleToPx[scale];
 
-          expect(await svg.getAttribute("width")).toBe(`${sizeInPx}`);
-          expect(await svg.getAttribute("height")).toBe(`${sizeInPx}`);
-          expect(await svg.getAttribute("viewBox")).toBe(
-            `0 0 ${sizeInPx} ${sizeInPx}`
-          );
+          expect(calciteIconComputedStyle.height).toBe(`${sizeInPx}px`);
+          expect(calciteIconComputedStyle.width).toBe(`${sizeInPx}px`);
+          expect(await svg.getAttribute("width")).toBe("100%");
+          expect(await svg.getAttribute("height")).toBe("100%");
+          expect(await svg.getAttribute("viewBox")).toBe(`0 0 ${sizeInPx} ${sizeInPx}`);
         })
       );
     });

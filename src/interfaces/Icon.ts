@@ -1,3 +1,3 @@
-import { Scale as AllScales} from "./common";
+import { Scale as AllScales } from "./common";
 
-export type Scale = Extract<AllScales, "s" | "m" | "l">
+export type IconScale = Extract<AllScales, "s" | "m" | "l">;

@@ -1,17 +1,18 @@
 import {
   Component,
-  Listen,
-  Prop,
-  Watch,
+  Element,
   Event,
   EventEmitter,
-  Element,
-  State,
   h,
-  Host
+  Host,
+  Listen,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
-import { getSlottedElements } from "../../utils/dom";
+import { filterDirectChildren } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -25,7 +26,7 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el;
+  @Element() el: HTMLCalciteTabNavElement;
 
   //--------------------------------------------------------------------------
   //
@@ -43,6 +44,9 @@ export class CalciteTabNav {
    */
   @Prop() syncId: string;
 
+  /** @internal Parent tabs component layout value */
+  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+
   /**
    * @internal
    */
@@ -50,17 +54,14 @@ export class CalciteTabNav {
   selectedTab: number | string;
 
   @Watch("selectedTab")
-  selectedTabChanged() {
+  selectedTabChanged(): void {
     if (
       localStorage &&
       this.storageId &&
       this.selectedTab !== undefined &&
       this.selectedTab !== null
     ) {
-      localStorage.setItem(
-        `calcite-tab-nav-${this.storageId}`,
-        JSON.stringify(this.selectedTab)
-      );
+      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTab));
     }
 
     this.calciteTabChange.emit({
@@ -74,7 +75,7 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
 
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
@@ -86,24 +87,28 @@ export class CalciteTabNav {
     }
   }
 
-  render() {
+  componentWillRender(): void {
+    this.layout = this.el.closest("calcite-tabs")?.layout;
+  }
+
+  render(): VNode {
     return (
       <Host role="tablist">
-        <nav class="tab-nav" ref={el => (this.tabNavEl = el as HTMLElement)}>
+        <div class="tab-nav">
           <slot />
-        </nav>
+        </div>
       </Host>
     );
   }
 
-  componentDidRender() {
+  componentDidRender(): void {
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
-      this.tabTitles.every(title => !title.isActive) &&
+      this.tabTitles.every((title) => !title.active) &&
       !this.selectedTab
     ) {
-      this.tabTitles[0].getTabIdentifier().then(tab => {
+      this.tabTitles[0].getTabIdentifier().then((tab) => {
         this.calciteTabChange.emit({
           tab
         });
@@ -120,14 +125,15 @@ export class CalciteTabNav {
   /**
    * @internal
    */
-  @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent) {
+  @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
-      e.target as HTMLCalciteTabTitleElement
+      e.target as HTMLCalciteTabTitleElement,
+      this.enabledTabTitles
     );
 
     const previousTab =
-      this.tabTitles[currentIndex - 1] ||
-      this.tabTitles[this.tabTitles.length - 1];
+      this.enabledTabTitles[currentIndex - 1] ||
+      this.enabledTabTitles[this.enabledTabTitles.length - 1];
 
     previousTab.focus();
 
@@ -138,12 +144,13 @@ export class CalciteTabNav {
   /**
    * @internal
    */
-  @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent) {
+  @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
-      e.target as HTMLCalciteTabTitleElement
+      e.target as HTMLCalciteTabTitleElement,
+      this.enabledTabTitles
     );
 
-    const nextTab = this.tabTitles[currentIndex + 1] || this.tabTitles[0];
+    const nextTab = this.enabledTabTitles[currentIndex + 1] || this.enabledTabTitles[0];
 
     nextTab.focus();
 
@@ -154,15 +161,11 @@ export class CalciteTabNav {
   /**
    * @internal
    */
-  @Listen("calciteTabsActivate") activateTabHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ) {
+  @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
     if (e.detail.tab) {
       this.selectedTab = e.detail.tab;
     } else {
-      this.selectedTab = this.getIndexOfTabTitle(
-        e.target as HTMLCalciteTabTitleElement
-      );
+      this.selectedTab = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
     }
 
     e.stopPropagation();
@@ -174,7 +177,7 @@ export class CalciteTabNav {
    */
   @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
     e: CustomEvent<TabChangeEventDetail>
-  ) {
+  ): void {
     if (
       this.syncId &&
       e.target !== this.el &&
@@ -198,35 +201,24 @@ export class CalciteTabNav {
 
   //--------------------------------------------------------------------------
   //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  private tabNavEl: HTMLElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement) {
-    return this.tabTitles.indexOf(el);
+  private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
+    // In most cases, since these indexes correlate with tab contents, we want to consider all tab titles.
+    // However, when doing relative index operations, it makes sense to pass in this.enabledTabTitles as the 2nd arg.
+    return tabTitles.indexOf(el);
   }
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {
-    if (this.tabNavEl) {
-      return getSlottedElements<HTMLCalciteTabTitleElement>(
-        this.tabNavEl,
-        "calcite-tab-title"
-      );
-    }
-    return [];
+    return filterDirectChildren<HTMLCalciteTabTitleElement>(this.el, "calcite-tab-title");
+  }
+
+  private get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
+    return filterDirectChildren<HTMLCalciteTabTitleElement>(
+      this.el,
+      "calcite-tab-title:not([disabled])"
+    );
   }
 }

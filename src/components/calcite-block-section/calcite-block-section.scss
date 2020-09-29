@@ -1,0 +1,36 @@
+:host {
+  @extend %component-host;
+  display: block;
+}
+
+:host([open]) {
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+}
+
+:host(:last-child) {
+  border-bottom: none;
+}
+
+.toggle--switch {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  margin: var(--calcite-spacing-quarter) 0;
+  padding: var(--calcite-spacing-half) 0;
+  user-select: none;
+  @include font-size(-4);
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-outset();
+  }
+  calcite-switch {
+    pointer-events: none;
+    margin: 0 0 0 var(--calcite-spacing-half);
+  }
+}
+
+.calcite--rtl .toggle--switch calcite-switch {
+  margin-left: 0;
+  margin-right: var(--calcite-spacing-half);
+}

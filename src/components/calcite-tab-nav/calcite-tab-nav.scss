@@ -1,15 +1,17 @@
+:host {
+  z-index: 2;
+}
+
 .tab-nav {
   display: flex;
-  justify-content: var(--calcite-tabs-layout);
   overflow: auto;
+  justify-content: flex-start;
+  -webkit-overflow-scrolling: touch;
+  // workaround for outset focus within a scrolling container
+  padding: 4px;
+  margin: -4px;
 }
 
-::slotted(calcite-tab-title) {
-  margin-right: var(--calcite-tabs-tab-margin-start);
-  margin-left: var(--calcite-tabs-tab-margin-end);
-}
-
-:host([dir="rtl"]) ::slotted(calcite-tab-title) {
-  margin-right: var(--calcite-tabs-tab-margin-end);
-  margin-left: var(--calcite-tabs-tab-margin-start);
+:host([layout="center"]) .tab-nav {
+  justify-content: center;
 }

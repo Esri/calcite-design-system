@@ -1,0 +1,157 @@
+:host {
+  @extend %component-host;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  padding: 0;
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+  transition: margin $transition, box-shadow $transition;
+}
+
+@import "../../assets/styles/header";
+
+.header {
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.header,
+.toggle {
+  grid-area: header;
+}
+
+.header-container {
+  display: grid;
+  grid-template: auto / auto 1fr auto;
+  grid-template-areas: "handle header control";
+  grid-column: header-start / control-end;
+  grid-row: 1 / 2;
+  align-items: stretch;
+
+  & > .header {
+    padding: var(--calcite-spacing-three-quarters) 0;
+  }
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin: 0;
+  padding: var(--calcite-spacing-three-quarters) 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: unset;
+  @include focus-style-base();
+  &:hover {
+    background-color: var(--calcite-ui-foreground-2);
+  }
+  &:focus {
+    @include focus-style-inset();
+  }
+}
+
+calcite-loader[inline] {
+  grid-area: control;
+  align-self: center;
+}
+
+calcite-handle {
+  grid-area: handle;
+}
+
+.title {
+  margin: 0;
+  padding: 0 var(--calcite-spacing-three-quarters);
+}
+
+.header .title .heading {
+  padding: 0;
+  color: var(--calcite-ui-text-3);
+  transition: color $transition;
+  @include word-break();
+}
+
+.summary {
+  color: var(--calcite-ui-text-3);
+  padding: 0;
+  @include font-size(-5);
+  @include word-break();
+}
+
+.icon {
+  margin-left: var(--calcite-spacing-three-quarters);
+}
+
+.toggle-icon {
+  fill: currentColor;
+  flex: 0 0 var(--calcite-icon-size);
+  margin: 0 var(--calcite-spacing) 0 0;
+}
+
+.content {
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-three-quarters);
+  position: relative;
+}
+
+.control-container {
+  grid-area: control;
+  display: flex;
+  margin: 0;
+}
+
+calcite-scrim {
+  pointer-events: none;
+}
+
+.calcite--rtl {
+  .icon {
+    margin-left: 0;
+    margin-right: var(--calcite-spacing-three-quarters);
+  }
+}
+
+:host([open]) {
+  margin-top: var(--calcite-spacing);
+  margin-bottom: var(--calcite-spacing);
+  box-shadow: 1px 0 0 var(--calcite-ui-border-1) inset;
+  &.calcite--rtl {
+    box-shadow: -1px 0 0 var(--calcite-ui-border-1) inset;
+  }
+  .header .title .heading {
+    color: var(--calcite-ui-text-1);
+  }
+}
+
+:host([disabled]) {
+  pointer-events: none;
+  user-select: none;
+
+  .header-container {
+    opacity: var(--calcite-ui-opacity-disabled);
+  }
+}
+
+:host([drag-handle]) {
+  .title {
+    padding-left: var(--calcite-spacing-quarter);
+  }
+
+  .icon {
+    margin-left: 0;
+    margin-right: var(--calcite-spacing-half);
+  }
+
+  .calcite--rtl {
+    .title {
+      padding-left: 0;
+      padding-right: var(--calcite-spacing-quarter);
+    }
+    .icon {
+      margin-right: 0;
+      margin-left: var(--calcite-spacing-quarter);
+    }
+  }
+}

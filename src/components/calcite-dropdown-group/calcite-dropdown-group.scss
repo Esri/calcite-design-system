@@ -1,13 +1,18 @@
-// scale: s
-:host([scale="s"]) {
+// ie11 theme
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+// ie11
+:host-context([scale="s"]) {
   --calcite-dropdown-group-padding: #{$baseline/3 0};
 }
 
-:host([scale="m"]) {
+:host-context([scale="m"]) {
   --calcite-dropdown-group-padding: #{$baseline/2 0};
 }
 
-:host([scale="l"]) {
+:host-context([scale="l"]) {
   --calcite-dropdown-group-padding: #{$baseline/1.5 0};
 }
 

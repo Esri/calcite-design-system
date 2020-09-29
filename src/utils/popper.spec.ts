@@ -1,4 +1,4 @@
-import { getPlacement } from "./popper";
+import { getPlacement, defaultOffsetDistance, hypotenuse } from "./popper";
 
 it("should set calcite placement to popper placement", () => {
   const el = document.createElement("div");
@@ -18,4 +18,12 @@ it("should set calcite placement to popper placement", () => {
   expect(getPlacement(el, "trailing")).toBe("left");
   expect(getPlacement(el, "trailing-start")).toBe("left-start");
   expect(getPlacement(el, "trailing-end")).toBe("left-end");
+});
+
+it("should have correct value for defaultOffsetDistance", () => {
+  expect(defaultOffsetDistance).toBe(6);
+});
+
+it("should correctly calculate hypotenuse", () => {
+  expect(Math.floor(hypotenuse(4, 4))).toBe(5);
 });

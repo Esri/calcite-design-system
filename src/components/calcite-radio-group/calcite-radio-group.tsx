@@ -8,18 +8,13 @@ import {
   Prop,
   Watch,
   Host,
-  Build
+  Build,
+  Method,
+  VNode
 } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
-
-const navigationKeys = {
-  up: "ArrowUp",
-  down: "ArrowDown",
-  left: "ArrowLeft",
-  right: "ArrowRight",
-  space: " "
-};
+import { getElementDir, hasLabel } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-radio-group",
@@ -33,8 +28,7 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Element()
-  el: HTMLElement;
+  @Element() el: HTMLCalciteRadioGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -42,33 +36,44 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
+  /** specify the appearance style of the radio group, defaults to solid. */
+  @Prop({ reflect: true }) appearance: "solid" | "outline" = "solid";
+
+  /** is the radio group disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
+
+  /** specify the layout of the radio group, defaults to horizontal */
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
   /**
    * The group's name. Gets submitted with the form.
    */
-  @Prop()
-  name: string;
+  @Prop() name: string;
 
   @Watch("name")
-  protected handleNameChange(value): void {
+  protected handleNameChange(value: string): void {
     this.hiddenInput.name = value;
   }
+
+  /** The scale of the radio group */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /**
    * The group's selected item.
    */
-  @Prop()
-  selectedItem: HTMLCalciteRadioGroupItemElement;
+  @Prop() selectedItem: HTMLCalciteRadioGroupItemElement;
 
   @Watch("selectedItem")
-  protected handleSelectedItemChange<
-    T extends HTMLCalciteRadioGroupItemElement
-  >(newItem: T, oldItem: T) {
+  protected handleSelectedItemChange<T extends HTMLCalciteRadioGroupItemElement>(
+    newItem: T,
+    oldItem: T
+  ): void {
     if (newItem === oldItem) {
       return;
     }
     const items = this.getItems();
     const match = Array.from(items)
-      .filter(item => item === newItem)
+      .filter((item) => item === newItem)
       .pop();
 
     if (match) {
@@ -80,10 +85,10 @@ export class CalciteRadioGroup {
   }
 
   /** The component's theme. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
-  /** The scale of the button */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  /** specify the width of the group, defaults to auto */
+  @Prop({ reflect: true }) width: "auto" | "full" = "auto";
 
   //--------------------------------------------------------------------------
   //
@@ -91,17 +96,10 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // prop validations
-    let scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    let theme = ["dark", "light"];
-    if (!theme.includes(this.theme)) this.theme = "light";
-
+  connectedCallback(): void {
     const items = this.getItems();
-    let lastChecked = Array.from(items)
-      .filter(item => item.checked)
+    const lastChecked = Array.from(items)
+      .filter((item) => item.checked)
       .pop();
 
     if (lastChecked) {
@@ -121,13 +119,13 @@ export class CalciteRadioGroup {
     }
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.hasLoaded = true;
   }
 
-  render() {
+  render(): VNode {
     return (
-      <Host role="radiogroup">
+      <Host role="radiogroup" tabIndex={this.disabled ? -1 : null}>
         <slot />
       </Host>
     );
@@ -139,11 +137,16 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click")
-  protected handleClick(event: MouseEvent): void {
-    if (
-      (event.target as HTMLElement).localName === "calcite-radio-group-item"
-    ) {
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(
+    e: Record<string, any>
+  ): void {
+    if (hasLabel(e.detail.labelEl, this.el)) {
+      this.setFocus();
+    }
+  }
+
+  @Listen("click") protected handleClick(event: MouseEvent): void {
+    if ((event.target as HTMLElement).localName === "calcite-radio-group-item") {
       this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
     }
   }
@@ -160,22 +163,26 @@ export class CalciteRadioGroup {
 
   @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
-    const { key } = event;
+    const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
+    const key = getKey(event.key);
+    const { el, selectedItem } = this;
 
-    if (Object.values(navigationKeys).indexOf(key) === -1) {
+    if (keys.indexOf(key) === -1) {
       return;
     }
 
-    event.preventDefault();
+    let adjustedKey = key;
 
-    const { el, selectedItem } = this;
-    const dir = getElementDir(el);
-    const moveBackwardKey =
-      (dir === "rtl"
-        ? key === navigationKeys.right
-        : key === navigationKeys.left) || key === navigationKeys.up;
+    if (getElementDir(el) === "rtl") {
+      if (key === "ArrowRight") {
+        adjustedKey = "ArrowLeft";
+      }
+      if (key === "ArrowLeft") {
+        adjustedKey = "ArrowRight";
+      }
+    }
+
     const items = this.getItems();
-
     let selectedIndex = -1;
 
     items.forEach((item, index) => {
@@ -184,32 +191,27 @@ export class CalciteRadioGroup {
       }
     });
 
-    if (moveBackwardKey) {
-      const previous =
-        selectedIndex === -1 || selectedIndex === 0
-          ? items.item(items.length - 1)
-          : items.item(selectedIndex - 1);
-      this.selectItem(previous);
-      return;
-    }
-
-    const moveForwardKey =
-      (dir === "rtl"
-        ? key === navigationKeys.left
-        : key === navigationKeys.right) || key === navigationKeys.down;
-
-    if (moveForwardKey) {
-      const next =
-        selectedIndex === -1
-          ? items.item(1)
-          : items.item(selectedIndex + 1) || items.item(0);
-      this.selectItem(next);
-      return;
-    }
-
-    if (key === navigationKeys.space) {
-      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
-      return;
+    switch (adjustedKey) {
+      case "ArrowLeft":
+      case "ArrowUp":
+        event.preventDefault();
+        const previous =
+          selectedIndex < 1 ? items.item(items.length - 1) : items.item(selectedIndex - 1);
+        this.selectItem(previous);
+        return;
+      case "ArrowRight":
+      case "ArrowDown":
+        event.preventDefault();
+        const next =
+          selectedIndex === -1 ? items.item(1) : items.item(selectedIndex + 1) || items.item(0);
+        this.selectItem(next);
+        return;
+      case " ":
+        event.preventDefault();
+        this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+        return;
+      default:
+        return;
     }
   }
 
@@ -219,8 +221,19 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Event()
-  calciteRadioGroupChange: EventEmitter;
+  @Event() calciteRadioGroupChange: EventEmitter;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Focuses the selected item. If there is no selection, it focuses the first item. */
+  @Method()
+  async setFocus(): Promise<void> {
+    (this.selectedItem || this.getItems()[0])?.focus();
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -255,7 +268,7 @@ export class CalciteRadioGroup {
     const items = this.getItems();
     let match: HTMLCalciteRadioGroupItemElement = null;
 
-    items.forEach(item => {
+    items.forEach((item) => {
       const matches = item.value === selected.value;
 
       if ((matches && !item.checked) || (!matches && item.checked)) {

@@ -1,0 +1,79 @@
+:host {
+  @extend %component-host;
+  display: flex;
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+  width: 100%;
+}
+
+label {
+  align-items: center;
+  display: flex;
+  margin: 0 var(--calcite-spacing-quarter);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+input[type="text"] {
+  background-color: transparent;
+  border: 0;
+  font-family: inherit;
+  @include font-size(-2);
+  margin-bottom: 2px;
+  padding: var(--calcite-spacing-quarter) var(--calcite-spacing-quarter) var(--calcite-spacing-quarter)
+    var(--calcite-spacing-plus-half);
+  transition: padding $transition, box-shadow $transition;
+  width: 100%;
+  &::-ms-clear {
+    display: none;
+  }
+}
+
+.search-icon {
+  color: var(--calcite-ui-text-2);
+  display: flex;
+  left: 0;
+  position: absolute;
+  transition: left $transition, right $transition, opacity $transition;
+}
+
+.calcite--rtl .search-icon {
+  left: unset;
+  right: 0;
+}
+
+input[type="text"]:focus {
+  border-color: var(--calcite-ui-blue-1);
+  box-shadow: 0 2px 0 var(--calcite-ui-blue-1);
+  outline: none;
+  padding-left: var(--calcite-spacing-quarter);
+  padding-right: var(--calcite-spacing-quarter);
+  & ~ .search-icon {
+    left: calc(var(--calcite-icon-size) * -1);
+    opacity: 0;
+  }
+}
+
+.calcite--rtl {
+  input[type="text"] {
+    padding-left: var(--calcite-spacing-quarter);
+    padding-right: var(--calcite-spacing-plus-half);
+    &:focus {
+      padding-right: var(--calcite-spacing-plus-quarter);
+      & ~ .search-icon {
+        right: calc(var(--calcite-icon-size) * -1);
+      }
+    }
+  }
+}
+
+.clear-button {
+  color: var(--calcite-ui-text-2);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    color: var(--calcite-ui-text-1);
+  }
+}

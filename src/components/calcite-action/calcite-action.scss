@@ -1,0 +1,242 @@
+:host {
+  @extend %component-host;
+  display: flex;
+  background-color: transparent;
+}
+
+:host([disabled]) {
+  pointer-events: none;
+}
+
+.button {
+  font-family: inherit;
+  display: flex;
+  color: var(--calcite-ui-text-2);
+  fill: var(--calcite-ui-text-2);
+  background-color: var(--calcite-ui-foreground-1);
+  margin: 0;
+  justify-content: flex-start;
+  align-items: center;
+  border: none;
+  width: auto;
+  cursor: pointer;
+  text-align: unset;
+  position: relative;
+  @include font-size(-4);
+  @include focus-style-base();
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-ui-foreground-2);
+    color: var(--calcite-ui-text-1);
+    fill: var(--calcite-ui-text-1);
+  }
+
+  &:focus {
+    background-color: var(--calcite-ui-foreground-2);
+    color: var(--calcite-ui-text-1);
+    fill: var(--calcite-ui-text-1);
+    @include focus-style-inset();
+  }
+
+  .icon-container {
+    min-width: 1rem;
+    min-height: 1rem;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    pointer-events: none;
+  }
+
+  .text-container {
+    color: inherit;
+    line-height: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    opacity: 0;
+    width: 0;
+    transition: opacity $transition, margin $transition, width $transition;
+  }
+
+  .text-container--visible {
+    flex: 1 1 auto;
+    opacity: 1;
+    width: auto;
+  }
+}
+
+:host([scale="s"]) .button {
+  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+}
+
+:host([scale="m"]) .button {
+  padding: var(--calcite-spacing) var(--calcite-spacing);
+}
+
+:host([scale="l"]) .button {
+  padding: var(--calcite-spacing-plus-quarter) var(--calcite-spacing-plus-quarter);
+  @include font-size(-1);
+}
+
+// Compact
+:host([scale="s"][compact]) .button,
+:host([scale="m"][compact]) .button,
+:host([scale="l"][compact]) .button {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.slot-container {
+  display: flex;
+}
+
+.slot-container--hidden {
+  display: none;
+}
+
+.button--text-visible {
+  width: 100%;
+
+  .icon-container {
+    margin: 0 var(--calcite-spacing-half) 0 0;
+  }
+  .text-container--visible {
+    margin: 0 var(--calcite-spacing-half) 0 0;
+  }
+}
+
+.button--text-visible.calcite--rtl {
+  .icon-container {
+    margin: 0 0 0 var(--calcite-spacing-half);
+  }
+  .text-container--visible {
+    margin: 0 0 0 var(--calcite-spacing-half);
+  }
+}
+
+:host([active]) .button,
+:host([active]) .button:hover,
+:host([active]) .button:focus,
+:host([active][loading]) .button {
+  color: var(--calcite-ui-text-current);
+  fill: var(--calcite-ui-text-current);
+  background-color: var(--calcite-ui-foreground-current);
+}
+
+:host([appearance="clear"]) .button {
+  background-color: transparent;
+  transition: box-shadow $transition;
+}
+
+:host([appearance="clear"]) .button:hover,
+:host([appearance="clear"]) .button:focus {
+  background-color: transparent;
+  box-shadow: 0 0 0 2px var(--calcite-ui-border-1) inset;
+}
+
+:host([active][appearance="clear"]) .button,
+:host([active][appearance="clear"]) .button:hover,
+:host([active][appearance="clear"]) .button:focus {
+  color: var(--calcite-ui-text-current);
+  fill: var(--calcite-ui-text-current);
+  background-color: var(--calcite-ui-foreground-current);
+  box-shadow: none;
+}
+
+:host([appearance="clear"][loading]) .button,
+:host([appearance="clear"][disabled]) .button {
+  background-color: transparent;
+}
+
+:host([loading]) .button,
+:host([loading]) .button:hover,
+:host([loading]) .button:focus {
+  background-color: var(--calcite-ui-foreground-1);
+  .text-container {
+    opacity: var(--calcite-ui-opacity-disabled);
+  }
+}
+
+:host([loading]) calcite-loader[inline] {
+  color: var(--calcite-ui-border-5);
+  margin-right: 0;
+}
+
+:host([disabled]) .button,
+:host([disabled]) .button:hover,
+:host([disabled]) .button:focus {
+  cursor: default;
+  opacity: var(--calcite-ui-opacity-disabled);
+  background-color: var(--calcite-ui-foreground-1);
+}
+
+:host([disabled][active]) .button,
+:host([disabled][active]) .button:hover,
+:host([disabled][active]) .button:focus {
+  opacity: var(--calcite-ui-opacity-disabled);
+  background-color: var(--calcite-ui-foreground-current);
+}
+
+:host([indicator]) .button--text-visible,
+:host([indicator][scale="s"]) .button--text-visible,
+:host([indicator][scale="l"]) .button--text-visible {
+  padding-right: var(--calcite-spacing);
+}
+
+:host([indicator]) .button::after {
+  content: "";
+  border-radius: 50%;
+  width: var(--calcite-spacing-half);
+  height: var(--calcite-spacing-half);
+  border: var(--calcite-spacing-eighth) solid var(--calcite-ui-foreground-1);
+  background-color: var(--calcite-ui-text-current);
+  position: absolute;
+  bottom: var(--calcite-spacing-half);
+  right: var(--calcite-spacing-half);
+  z-index: 1;
+}
+
+:host([indicator][scale="s"]) .button::after {
+  bottom: var(--calcite-spacing-quarter);
+  right: var(--calcite-spacing-quarter);
+}
+
+:host([indicator][scale="l"]) .button::after {
+  bottom: var(--calcite-spacing-half);
+  right: var(--calcite-spacing-half);
+}
+
+:host([indicator]) .calcite--rtl::after {
+  right: unset;
+  left: var(--calcite-spacing-quarter);
+}
+
+:host([indicator]) .button--text-visible.calcite--rtl {
+  padding-right: var(--calcite-spacing-three-quarters);
+  padding-left: var(--calcite-spacing);
+}
+
+:host([indicator]) .button:hover::after,
+:host([indicator]) .button:focus::after {
+  border-color: var(--calcite-ui-foreground-1);
+}
+
+:host([indicator][active]) .button::after {
+  border-color: var(--calcite-ui-foreground-current);
+}
+
+:host([indicator]) .button--text-visible::after,
+:host([indicator][scale="s"]) .button--text-visible::after,
+:host([indicator][scale="l"]) .button--text-visible::after {
+  bottom: unset;
+  right: var(--calcite-spacing-half);
+}
+
+:host([indicator]) .button--text-visible.calcite--rtl::after,
+:host([indicator][scale="s"]) .button--text-visible.calcite--rtl::after,
+:host([indicator][scale="l"]) .button--text-visible.calcite--rtl::after {
+  right: unset;
+  left: var(--calcite-spacing-half);
+}

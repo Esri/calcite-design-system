@@ -20,17 +20,12 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
-| Property         | Attribute         | Description                                                                                                                                                                  | Type      | Default |
-| ---------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------- |
-| `depth`          | `depth`           |                                                                                                                                                                              | `number`  | `-1`    |
-| `expanded`       | `expanded`        |                                                                                                                                                                              | `boolean` | `false` |
-| `hasChildren`    | `has-children`    |                                                                                                                                                                              | `boolean` | `null`  |
-| `parentExpanded` | `parent-expanded` |                                                                                                                                                                              | `boolean` | `false` |
-| `selected`       | `selected`        | Be sure to add a jsdoc comment describing your property for the generated readme file. If your property should be hidden from documentation, you can use the `@internal` tag | `boolean` | `false` |
-
+| Property   | Attribute  | Description                              | Type      | Default |
+| ---------- | ---------- | ---------------------------------------- | --------- | ------- |
+| `expanded` | `expanded` | True if the item is in an expanded state | `boolean` | `false` |
+| `selected` | `selected` | Is the item currently selected           | `boolean` | `false` |
 
 ## Events
 
@@ -38,7 +33,20 @@
 | ----------------------- | ----------- | ----------------------------------- |
 | `calciteTreeItemSelect` |             | `CustomEvent<TreeItemSelectDetail>` |
 
+## Dependencies
 
-----------------------------------------------
+### Depends on
 
-*Built with [StencilJS](https://stenciljs.com/)*
+- [calcite-icon](../calcite-icon)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-tree-item --> calcite-icon
+  style calcite-tree-item fill:#f9f,stroke:#333,stroke-width:4px
+```
+
+---
+
+_Built with [StencilJS](https://stenciljs.com/)_

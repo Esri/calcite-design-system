@@ -1,31 +1,28 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-loader", () => {
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-loader></calcite-loader>");
     const loader = await page.find("calcite-loader");
-    expect(loader).toHaveClass("hydrated");
+    expect(loader).toHaveAttribute(HYDRATED_ATTR);
   });
 
-  it("becomes visible when is-active prop is set", async () => {
+  it("becomes visible when active prop is set", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-loader></calcite-loader>`);
     const loader = await page.find("calcite-loader");
-    let isVisible = await loader.isIntersectingViewport();
-    expect(isVisible).toBe(false);
-    loader.setProperty("is-active", true);
+    expect(await loader.isVisible()).not.toBe(true);
+    loader.setProperty("active", true);
     await page.waitForChanges();
-    isVisible = await loader.isIntersectingViewport();
-    expect(isVisible).toBe(false);
+    expect(await loader.isVisible()).toBe(true);
   });
 
   it("displays label from text prop", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-loader is-active text="testing"></calcite-loader>`
-    );
-    const elm = await page.find("calcite-loader >>> div");
+    await page.setContent(`<calcite-loader active text="testing"></calcite-loader>`);
+    const elm = await page.find("calcite-loader >>> .loader__text");
     expect(elm).toEqualText("testing");
   });
 
@@ -41,9 +38,7 @@ describe("calcite-loader", () => {
 
   it("sets aria attributes properly for determinate loader", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-loader type="determinate"></calcite-loader>`
-    );
+    await page.setContent(`<calcite-loader type="determinate"></calcite-loader>`);
     const loader = await page.find("calcite-loader");
     expect(loader).toHaveAttribute("aria-valuenow");
     expect(loader).toEqualAttribute("aria-valuenow", 0);
@@ -56,8 +51,16 @@ describe("calcite-loader", () => {
 
   it("displays inline with text from inline prop", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader is-active inline></calcite-loader>`);
-    const rect = await page.find("calcite-loader >>> rect");
-    expect(rect).toEqualAttribute("width", "16");
+    await page.setContent(`<calcite-loader active inline></calcite-loader>`);
+    const rect = await page.find("calcite-loader >>> circle");
+    expect(rect).toEqualAttribute("r", "7.2");
+  });
+
+  it("sets a default id when none is provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-loader active></calcite-loader>`);
+    const loader = await page.find("calcite-loader");
+    expect(loader).toHaveAttribute("id");
+    expect(loader.getAttribute("id").length).toEqual(36);
   });
 });

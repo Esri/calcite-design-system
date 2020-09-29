@@ -1,0 +1,77 @@
+:host {
+  @extend %component-host;
+  align-items: stretch;
+  display: flex;
+  margin: 0 0 1px 0;
+  color: var(--calcite-ui-text-1);
+  transition: background-color $transition;
+  animation: calcite-fade-in $transition;
+  @include borderShadow();
+
+  --calcite-icon-dot-size: 16px;
+}
+
+.icon {
+  color: var(--calcite-ui-blue-3);
+  flex: 0 0 auto;
+  line-height: 0;
+  margin: 0 var(--calcite-spacing-quarter);
+  opacity: 0;
+}
+
+.icon-dot {
+  width: calc(var(--calcite-icon-dot-size) / 2);
+  margin: calc(var(--calcite-icon-dot-size) / 2);
+  &:before {
+    content: "\2022";
+  }
+}
+
+:host([selected]) .icon {
+  transition: opacity $transition;
+  opacity: 1;
+}
+
+.label {
+  display: flex;
+  flex: 1 1 auto;
+  padding: var(--calcite-spacing-three-quarters);
+  align-items: center;
+  cursor: pointer;
+  @include focus-style-base();
+  &:hover {
+    background-color: var(--calcite-ui-foreground-2);
+  }
+  &:focus {
+    @include focus-style-inset();
+  }
+}
+
+.text-container {
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+  pointer-events: none;
+  padding: 0 var(--calcite-spacing-quarter);
+}
+
+.title {
+  @include font-size(-4);
+  @include word-break();
+}
+
+.description {
+  color: var(--calcite-ui-text-3);
+  font-family: var(--calcite-code-family);
+  margin-top: var(--calcite-spacing-quarter);
+  @include font-size(-4);
+  @include word-break();
+}
+
+.action {
+  align-items: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  justify-self: flex-end;
+  margin: 0;
+}

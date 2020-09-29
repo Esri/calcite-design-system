@@ -6,10 +6,10 @@ import {
   h,
   Host,
   Listen,
-  Prop
+  Prop,
+  VNode
 } from "@stencil/core";
-import { getElementTheme, getElementProp } from "../../utils/dom";
-import { guid } from "../../utils/guid";
+import { GroupRegistration, ItemRegistration } from "../../interfaces/Dropdown";
 
 @Component({
   tag: "calcite-dropdown-group",
@@ -22,7 +22,7 @@ export class CalciteDropdownGroup {
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDropdownGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -35,10 +35,7 @@ export class CalciteDropdownGroup {
 
   /** specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
    none (no active items), defaults to single */
-  @Prop({ mutable: true, reflect: true }) selectionMode:
-    | "multi"
-    | "single"
-    | "none" = "single";
+  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "none" = "single";
 
   //--------------------------------------------------------------------------
   //
@@ -46,8 +43,9 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteDropdownItemHasChanged: EventEmitter;
-  @Event() registerCalciteDropdownGroup: EventEmitter;
+  @Event() calciteDropdownGroupRegister: EventEmitter<GroupRegistration>;
+
+  @Event() calciteDropdownItemChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -55,32 +53,26 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // validate props
-    let selectionMode = ["multi", "single", "none"];
-    if (!selectionMode.includes(this.selectionMode))
-      this.selectionMode = "single";
-  }
-
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.groupPosition = this.getGroupPosition();
-    this.items = this.sortItems(this.items);
-    this.registerCalciteDropdownGroup.emit({
+    this.items = this.sortItems(this.items) as HTMLCalciteDropdownItemElement[];
+    this.calciteDropdownGroupRegister.emit({
       items: this.items,
       position: this.groupPosition,
-      groupId: this.dropdownGroupId
+      group: this.el,
+      titleEl: this.titleEl
     });
   }
 
-  render() {
-    const theme = getElementTheme(this.el);
-    const scale = getElementProp(this.el, "scale", "m");
+  render(): VNode {
     const groupTitle = this.groupTitle ? (
-      <span class="dropdown-title">{this.groupTitle}</span>
+      <span class="dropdown-title" ref={(node) => (this.titleEl = node)}>
+        {this.groupTitle}
+      </span>
     ) : null;
 
     return (
-      <Host theme={theme} scale={scale}>
+      <Host>
         {groupTitle}
         <slot />
       </Host>
@@ -93,23 +85,27 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("registerCalciteDropdownItem") registerCalciteDropdownItem(
-    event: CustomEvent
-  ) {
-    const item = {
-      item: event.target as HTMLCalciteDropdownItemElement,
+  @Listen("calciteDropdownItemRegister") registerCalciteDropdownItem(
+    event: CustomEvent<ItemRegistration>
+  ): void {
+    const item = event.target as HTMLCalciteDropdownItemElement;
+
+    if (this.selectionMode === "none") {
+      item.active = false;
+    }
+
+    this.items.push({
+      item,
       position: event.detail.position
-    };
-    this.items.push(item);
-    this.requestedDropdownItem = event.detail.requestedDropdownItem;
+    });
+
+    event.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelected") updateActiveItemOnChange(
-    event: CustomEvent
-  ) {
+  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
-    this.calciteDropdownItemHasChanged.emit({
+    this.calciteDropdownItemChange.emit({
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem
     });
@@ -124,17 +120,16 @@ export class CalciteDropdownGroup {
   /** created list of dropdown items */
   private items = [];
 
-  /** unique id for dropdown group */
-  private dropdownGroupId = `calcite-dropdown-group-${guid()}`;
-
   /** position of group within a dropdown */
   private groupPosition: number;
 
   /** the requested group */
-  private requestedDropdownGroup: string;
+  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
 
   /** the requested item */
-  private requestedDropdownItem: string;
+  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
+
+  private titleEl: HTMLSpanElement = null;
 
   //--------------------------------------------------------------------------
   //
@@ -142,7 +137,7 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  private getGroupPosition() {
+  private getGroupPosition(): number {
     return Array.prototype.indexOf.call(
       this.el.parentElement.querySelectorAll("calcite-dropdown-group"),
       this.el
@@ -150,5 +145,5 @@ export class CalciteDropdownGroup {
   }
 
   private sortItems = (items: any[]): any[] =>
-    items.sort((a, b) => a.position - b.position).map(a => a.item);
+    items.sort((a, b) => a.position - b.position).map((a) => a.item);
 }

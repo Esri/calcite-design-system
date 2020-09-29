@@ -6,8 +6,11 @@ import {
   h,
   Host,
   Method,
-  Prop
+  Prop,
+  VNode
 } from "@stencil/core";
+
+import { TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -34,7 +37,7 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteNoticeElement;
 
   //--------------------------------------------------------------------------
   //
@@ -43,30 +46,28 @@ export class CalciteNotice {
   //---------------------------------------------------------------------------
 
   /** Is the notice currently active or not */
-  @Prop({ reflect: true, mutable: true }) active: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Color for the notice (will apply to top border and icon) */
-  @Prop({ reflect: true, mutable: true }) color:
-    | "blue"
-    | "green"
-    | "red"
-    | "yellow" = "blue";
+  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) theme: "light" | "dark" = "light";
-
-  /** specify the scale of the notice, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** specify the scale of the button, defaults to m */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" =
-    "auto";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true, mutable: true }) dismissible?: boolean = false;
+  /** Optionally show a button the user can click to dismiss the notice */
+  @Prop({ reflect: true }) dismissible?: boolean = false;
 
   /** If false, no icon will be shown in the notice */
-  @Prop() icon: boolean = false;
+  @Prop() icon = false;
+
+  /** String for the close button. */
+  @Prop({ reflect: false }) intlClose: string = TEXT.close;
+
+  /** specify the scale of the notice, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** specify the width of the notice, defaults to m */
+  @Prop({ reflect: true }) width: "auto" | "half" | "full" = "auto";
 
   //--------------------------------------------------------------------------
   //
@@ -74,47 +75,30 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // prop validations
-    let colors = ["blue", "red", "green", "yellow"];
-    if (!colors.includes(this.color)) this.color = "blue";
-
-    let themes = ["dark", "light"];
-    if (!themes.includes(this.theme)) this.theme = "light";
-
-    let scales = ["s", "m", "l"];
-    if (!scales.includes(this.scale)) this.scale = "m";
-
-    let widths = ["auto", "half", "full"];
-    if (!widths.includes(this.width)) this.width = "auto";
+  componentDidLoad(): void {
+    this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
-  componentDidLoad() {
-    this.noticeLinkEl = this.el.querySelectorAll(
-      "calcite-button"
-    )[0] as HTMLCalciteButtonElement;
-  }
-
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const closeButton = (
       <button
+        aria-label={this.intlClose}
         class="notice-close"
-        aria-label="close"
         onClick={() => this.close()}
-        ref={el => (this.closeButton = el)}
+        ref={() => this.closeButton}
       >
-        <calcite-icon icon="x" scale="s"></calcite-icon>
+        <calcite-icon icon="x" scale="m" />
       </button>
     );
 
     return (
       <Host active={this.active} dir={dir}>
-        {this.icon ? this.setIcon() : null}
+        {this.icon ? this.renderIcon() : null}
         <div class="notice-content">
-          <slot name="notice-title"></slot>
-          <slot name="notice-message"></slot>
-          <slot name="notice-link"></slot>
+          <slot name="notice-title" />
+          <slot name="notice-message" />
+          <slot name="notice-link" />
         </div>
         {this.dismissible ? closeButton : null}
       </Host>
@@ -140,20 +124,20 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
-  @Method() async close() {
+  @Method() async close(): Promise<void> {
     this.active = false;
-    this.calciteNoticeClose.emit({ requestedNotice: this.noticeId });
+    this.calciteNoticeClose.emit();
   }
 
   /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
-  @Method() async open() {
+  @Method() async open(): Promise<void> {
     this.active = true;
-    this.calciteNoticeOpen.emit({ requestedNotice: this.noticeId });
+    this.calciteNoticeOpen.emit();
   }
 
   /** focus the close button, if present and requested */
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     if (!this.closeButton && !this.noticeLinkEl) {
       return;
     }
@@ -169,14 +153,11 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  /** Unique ID for this notice */
-  private noticeId: string = this.el.id;
-
   /** the close button element */
   private closeButton?: HTMLElement;
 
   /** the notice link child element  */
-  private noticeLinkEl?: HTMLCalciteButtonElement;
+  private noticeLinkEl?: HTMLCalciteLinkElement;
 
   private iconDefaults = {
     green: "checkCircle",
@@ -185,11 +166,11 @@ export class CalciteNotice {
     blue: "lightbulb"
   };
 
-  private setIcon() {
-    var path = this.iconDefaults[this.color];
+  private renderIcon(): VNode {
+    const path = this.iconDefaults[this.color];
     return (
       <div class="notice-icon">
-        <calcite-icon icon={path} filled scale="s"></calcite-icon>
+        <calcite-icon icon={path} scale="m" />
       </div>
     );
   }

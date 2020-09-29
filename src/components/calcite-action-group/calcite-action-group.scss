@@ -1,0 +1,15 @@
+:host {
+  @extend %component-host;
+  display: flex;
+  flex-direction: column;
+  padding: var(--calcite-spacing-half) 0;
+}
+
+:host(:first-child) {
+  padding-top: 0;
+}
+
+::slotted(calcite-action) {
+  display: flex;
+  width: 100%;
+}

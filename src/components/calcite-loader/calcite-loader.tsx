@@ -1,6 +1,5 @@
-import { Component, Element, h, Host, Prop, State } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-loader",
@@ -13,176 +12,105 @@ export class CalciteLoader {
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteLoaderElement;
 
   //--------------------------------------------------------------------------
   //
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /**
-   * Show the loader
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  isActive: boolean = false;
-  /**
-   * Inline loaders are smaller and will appear to the left of the text
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  inline: boolean = false;
-  /**
-   * Use indeterminate if finding actual progress value is impossible
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  type: "indeterminate" | "determinate" = "indeterminate";
-  /**
-   * Percent complete of 100, only valid for determinate indicators
-   */
+  /** Show the loader */
+  @Prop({ reflect: true }) active = false;
+
+  /** Inline loaders are smaller and will appear to the left of the text */
+  @Prop({ reflect: true }) inline = false;
+
+  /** Speficy the scale of the loader. Defaults to "m" */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Use indeterminate if finding actual progress value is impossible */
+  @Prop({ reflect: true }) type: "indeterminate" | "determinate";
+
+  /** Percent complete of 100, only valid for determinate indicators */
   @Prop() value = 0;
-  /**
-   * Text which should appear under the loading indicator (optional)
-   */
-  @Prop() text: string = "";
+
+  /** Text which should appear under the loading indicator (optional) */
+  @Prop() text = "";
 
   /** Turn off spacing around the loader */
   @Prop() noPadding?: boolean;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentWillLoad() {
-    this.isEdge = /Edge/.test(navigator.userAgent);
-    if (this.isEdge) {
-      this.updateOffset();
-    }
-  }
 
-  componentDidUnload() {
-    if (this.animationID) {
-      window.cancelAnimationFrame(this.animationID);
-    }
-  }
+  render(): VNode {
+    const { el, inline, scale, text, type, value } = this;
 
-  render() {
-    const dir = getElementDir(this.el);
-    const id = this.el.id || this.guid;
-    const ariaAttributes = {
-      "aria-valuenow": this.value,
+    const id = el.id || guid();
+    const radiusRatio = 0.45;
+    const size = inline ? this.getInlineSize(scale) : this.getSize(scale);
+    const radius = size * radiusRatio;
+    const viewbox = `0 0 ${size} ${size}`;
+    const isDeterminate = type === "determinate";
+    const circumference = 2 * radius * Math.PI;
+    const progress = (value / 100) * circumference;
+    const remaining = circumference - progress;
+    const valueNow = Math.floor(value);
+    const hostAttributes = {
+      "aria-valuenow": valueNow,
       "aria-valuemin": 0,
-      "aria-valuemax": 100
+      "aria-valuemax": 100,
+      complete: valueNow === 100
     };
-    const size = this.inline ? 16 : 56;
-    const viewbox = this.inline ? "0 0 16 16" : "0 0 56 56";
-    const isDeterminate = this.type === "determinate";
-    const styleProperties = {};
-    if (this.isEdge) {
-      styleProperties[
-        "--calcite-loader-offset"
-      ] = `${this.loaderBarOffsets[0]}%`;
-      styleProperties[
-        "--calcite-loader-offset2"
-      ] = `${this.loaderBarOffsets[1]}%`;
-      styleProperties[
-        "--calcite-loader-offset3"
-      ] = `${this.loaderBarOffsets[2]}%`;
-    }
-    const progress = {
-      "--calcite-loader-progress": `${-400 - this.value * 4}%`
-    };
+    const svgAttributes = { r: radius, cx: size / 2, cy: size / 2 };
+    const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
     return (
-      <Host
-        id={id}
-        dir={dir}
-        role="progressbar"
-        {...(this.type === "determinate" ? ariaAttributes : {})}
-        style={styleProperties}
-      >
-        <svg viewBox={viewbox} class="loader__square">
-          <rect width={size} height={size} />
-        </svg>
-        <svg viewBox={viewbox} class="loader__square loader__square--2">
-          <rect width={size} height={size} />
-        </svg>
-        <svg
-          viewBox={viewbox}
-          class="loader__square loader__square--3"
-          style={isDeterminate ? progress : {}}
-        >
-          <rect width={size} height={size} />
-        </svg>
-        {this.text ? <div class="loader__text">{this.text}</div> : ""}
-        {this.value ? (
-          <div class="loader__percentage">{Math.floor(this.value)}</div>
-        ) : (
-          ""
-        )}
+      <Host id={id} role="progressbar" {...(isDeterminate ? hostAttributes : {})}>
+        <div class="loader__svgs">
+          <svg class="loader__svg loader__svg--1" viewBox={viewbox}>
+            <circle {...svgAttributes} />
+          </svg>
+          <svg class="loader__svg loader__svg--2" viewBox={viewbox}>
+            <circle {...svgAttributes} />
+          </svg>
+          <svg
+            class="loader__svg loader__svg--3"
+            viewBox={viewbox}
+            {...(isDeterminate ? { style: determinateStyle } : {})}
+          >
+            <circle {...svgAttributes} />
+          </svg>
+        </div>
+        {text && <div class="loader__text">{text}</div>}
+        {isDeterminate && <div class="loader__percentage">{value}</div>}
       </Host>
     );
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-  /**
-   * @internal
-   */
-  @State() private loaderBarOffsets: number[] = [0, 0, 0];
-
-  /**
-   * @internal
-   */
-  private loaderBarRates: number[] = [1, 2.25, 3.5];
-
-  /**
-   * @internal
-   */
-  @State() private isEdge: boolean = false;
-
-  /**
-   * @internal
-   */
-  private animationID: any = null;
-
-  /**
-   * @internal
-   */
-  private guid = `calcite-loader-${guid()}`;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  /**
-   * @internal
-   */
-  private updateOffset(): void {
-    this.loaderBarOffsets = this.rotateLoaderBars(this.loaderBarOffsets);
-    this.animationID = window.requestAnimationFrame(() => this.updateOffset());
-  }
 
   /**
-   * @internal
+   * Return the proper sizes based on the scale property
    */
-  private rotateLoaderBars(barOffsets: number[]): number[] {
-    return barOffsets.map((offset, i) => {
-      if (offset > -400) {
-        return offset - this.loaderBarRates[i];
-      } else {
-        return 0;
-      }
-    });
+  private getSize(scale: string) {
+    return {
+      s: 32,
+      m: 56,
+      l: 80
+    }[scale];
+  }
+
+  private getInlineSize(scale: string) {
+    return {
+      s: 12,
+      m: 16,
+      l: 20
+    }[scale];
   }
 }

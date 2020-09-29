@@ -7,7 +7,9 @@ import {
   Element,
   Host,
   Watch,
-  Build
+  Build,
+  State,
+  VNode
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 @Component({
@@ -23,7 +25,7 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLElement;
+  el: HTMLCalciteRadioGroupItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -31,20 +33,20 @@ export class CalciteRadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Indicates whether the control is checked.
-   */
-  @Prop({
-    reflect: true,
-    mutable: true
-  })
-  checked = false;
+  /** Indicates whether the control is checked. */
+  @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
   protected handleCheckedChange(): void {
     this.calciteRadioGroupItemChange.emit();
     this.syncToExternalInput();
   }
+
+  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  @Prop({ reflect: true }) icon?: string;
+
+  /** optionally used with icon, select where to position the icon */
+  @Prop({ reflect: true }) iconPosition?: "start" | "end" = "start";
 
   /**
    * The control's value.
@@ -59,9 +61,7 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    let inputProxy: HTMLInputElement = this.el.querySelector(
-      `input[slot="input"]`
-    );
+    const inputProxy: HTMLInputElement = this.el.querySelector(`input[slot="input"]`);
 
     if (inputProxy) {
       this.value = inputProxy.value;
@@ -74,22 +74,38 @@ export class CalciteRadioGroupItem {
     this.inputProxy = inputProxy;
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.mutationObserver.disconnect();
   }
 
-  render() {
-    const { checked, value } = this;
+  componentWillLoad(): void {
+    // only use default slot content in browsers that support shadow dom
+    // or if ie11 has no label provided (#374)
+    const label = this.el.querySelector("label");
+    this.useFallback = !label || label.textContent === "";
+  }
+
+  render(): VNode {
+    const { checked, useFallback, value } = this;
     const scale = getElementProp(this.el, "scale", "m");
+    const appearance = getElementProp(this.el, "appearance", "solid");
+    const layout = getElementProp(this.el, "layout", "horizontal");
+
+    const iconEl = <calcite-icon class="radio-group-item-icon" icon={this.icon} scale="s" />;
+
     return (
       <Host
-        role="radio"
+        appearance={appearance}
         aria-checked={checked.toString()}
+        layout={layout}
+        role="radio"
         scale={scale}
       >
         <label>
-          <slot>{value}</slot>
+          {this.icon && this.iconPosition === "start" ? iconEl : null}
+          <slot>{useFallback ? value : ""}</slot>
           <slot name="input" />
+          {this.icon && this.iconPosition === "end" ? iconEl : null}
         </label>
       </Host>
     );
@@ -109,6 +125,8 @@ export class CalciteRadioGroupItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+  @State() private useFallback: boolean;
+
   private inputProxy: HTMLInputElement;
 
   private mutationObserver = this.getMutationObserver();
@@ -120,10 +138,7 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   private getMutationObserver(): MutationObserver | null {
-    return (
-      Build.isBrowser &&
-      new MutationObserver(() => this.syncFromExternalInput())
-    );
+    return Build.isBrowser && new MutationObserver(() => this.syncFromExternalInput());
   }
 
   private syncFromExternalInput(): void {
@@ -139,6 +154,10 @@ export class CalciteRadioGroupItem {
     }
 
     this.inputProxy.value = this.value;
-    this.inputProxy.toggleAttribute("checked", this.checked);
+    if (this.checked) {
+      this.inputProxy.setAttribute("checked", "true");
+    } else {
+      this.inputProxy.removeAttribute("checked");
+    }
   }
 }

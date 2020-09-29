@@ -1,34 +1,14 @@
 $image_max_height: 200px;
 
-:host {
-  display: block;
-  position: absolute;
-  z-index: 999;
-  top: -999999px;
-  left: -999999px;
-}
+@include popperHost();
+@include popperArrow();
 
 .container {
-  border-radius: var(--calcite-border-radius);
-  box-shadow: $shadow-2;
+  background: var(--calcite-ui-foreground-1);
   position: relative;
-  visibility: hidden;
-}
-
-.container--open {
-  visibility: visible;
-}
-
-:host([x-out-of-boundaries]) .container {
-  visibility: hidden;
-}
-
-.content-container {
   display: flex;
-  max-width: 350px;
   overflow: hidden;
   flex-direction: column;
-  background: var(--calcite-ui-foreground);
   color: var(--calcite-ui-text-1);
 }
 
@@ -36,27 +16,38 @@ $image_max_height: 200px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
   line-height: 24px;
+}
+// focus styles
+.close-button {
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-inset();
+  }
 }
 
 .close-button {
-  display: flex;
-  justify-content: flex-end;
-  width: 40px;
-  height: 45px;
-  z-index: 1;
-  background: var(--calcite-ui-foreground);
-  color: var(--calcite-ui-text-1);
-  padding: 16px 12px;
-  border: none;
   display: block;
+  flex: 0 0 auto;
+  padding: 12px;
+  border: none;
+  border-radius: 0 var(--calcite-border-radius) 0 0;
+  color: var(--calcite-ui-text-1);
   cursor: pointer;
-  border-top-right-radius: 2px;
+  background: var(--calcite-ui-foreground-1);
+  z-index: 1;
   &:hover {
-    background: var(--calcite-ui-foreground-hover);
+    background: var(--calcite-ui-foreground-2);
   }
   &:active {
-    background: var(--calcite-ui-foreground-press);
+    background: var(--calcite-ui-foreground-3);
+  }
+}
+
+:host-context([dir="rtl"]) {
+  .close-button {
+    border-radius: var(--calcite-border-radius) 0 0 0;
   }
 }
 
@@ -73,6 +64,3 @@ slot[name="image"]::slotted(img) {
   object-position: 50% 50%;
   object-fit: cover;
 }
-
-@include popperPointer(".container--pointer .content-container");
-@include popperMargin(".container--pointer");

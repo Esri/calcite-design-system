@@ -8,7 +8,8 @@ import {
   EventEmitter,
   h,
   State,
-  Host
+  Host,
+  VNode
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -26,7 +27,7 @@ export class CalciteTab {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteTabElement;
 
   //--------------------------------------------------------------------------
   //
@@ -38,20 +39,12 @@ export class CalciteTab {
    * Optionally include a unique name for this tab,
    * be sure to also set this name on the associated title.
    */
-  @Prop({
-    reflectToAttr: true,
-    mutable: true
-  })
-  tab: string;
+  @Prop({ reflect: true }) tab: string;
 
   /**
    * Show this tab
    */
-  @Prop({
-    reflectToAttr: true,
-    mutable: true
-  })
-  isActive: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   //--------------------------------------------------------------------------
   //
@@ -59,14 +52,14 @@ export class CalciteTab {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const id = this.el.id || this.guid;
 
     return (
       <Host
+        aria-expanded={this.active.toString()}
+        aria-labelledby={this.labeledBy}
         id={id}
-        aria-labeledby={this.labeledBy}
-        aria-expanded={this.isActive.toString()}
         role="tabpanel"
       >
         <section>
@@ -76,11 +69,11 @@ export class CalciteTab {
     );
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.calciteTabRegister.emit();
   }
 
-  componentDidUnload() {
+  disconnectedCallback(): void {
     this.calciteTabUnregister.emit();
   }
 
@@ -106,24 +99,21 @@ export class CalciteTab {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "parent" }) tabChangeHandler(
+  @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
-  ) {
+  ): void {
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a title that is a
     // child of the `<calcite-tabs>` that is the a parent of this tab.
-    if (
-      (event.target as HTMLElement).closest("calcite-tabs") !==
-      this.el.closest("calcite-tabs")
-    ) {
+    if ((event.target as HTMLElement).closest("calcite-tabs") !== this.el.closest("calcite-tabs")) {
       return;
     }
 
     if (this.tab) {
-      this.isActive = this.tab === event.detail.tab;
+      this.active = this.tab === event.detail.tab;
     } else {
-      this.getTabIndex().then(index => {
-        this.isActive = index === event.detail.tab;
+      this.getTabIndex().then((index) => {
+        this.active = index === event.detail.tab;
       });
     }
   }
@@ -139,13 +129,9 @@ export class CalciteTab {
    */
   @Method()
   async getTabIndex(): Promise<number> {
-    return Promise.resolve(
-      Array.prototype.indexOf.call(
-        nodeListToArray(this.el.parentElement.children).filter(e =>
-          e.matches("calcite-tab")
-        ),
-        this.el
-      )
+    return Array.prototype.indexOf.call(
+      nodeListToArray(this.el.parentElement.children).filter((e) => e.matches("calcite-tab")),
+      this.el
     );
   }
 
@@ -171,8 +157,7 @@ export class CalciteTab {
   /**
    * @internal
    */
-  @Method() updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []) {
+  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
-    return Promise.resolve();
   }
 }

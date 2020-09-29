@@ -1,0 +1,69 @@
+:host {
+  @extend %component-host;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  --calcite-shell-tip-spacing: 26vw;
+}
+
+.main {
+  height: 100%;
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  border-top: 1px solid var(--calcite-ui-border-3);
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.main--reversed {
+  flex-direction: row-reverse;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 0;
+}
+
+::slotted(.header .heading) {
+  font-weight: var(--calcite-ui-text-weight);
+  @include font-size(-2);
+}
+
+::slotted(calcite-shell-panel),
+::slotted(calcite-shell-center-row) {
+  position: relative;
+  z-index: 1;
+}
+
+::slotted(calcite-tip-manager) {
+  animation: calcite-fade-in-up $transition;
+  border-radius: var(--calcite-border-radius);
+  bottom: var(--calcite-spacing-plus-half);
+  box-shadow: var(--calcite-shadow-2);
+  box-sizing: border-box;
+  left: var(--calcite-shell-tip-spacing);
+  position: absolute;
+  right: var(--calcite-shell-tip-spacing);
+  z-index: 2;
+}
+
+.footer {
+  padding: var(--calcite-spacing-half) var(--calcite-spacing);
+}

@@ -1,5 +1,4 @@
 :host {
-  --calcite-modal-scrim: rgba(0, 0, 0, 0.75);
   position: fixed;
   top: 0;
   right: 0;
@@ -12,9 +11,42 @@
   color: var(--calcite-ui-text-2);
   opacity: 0;
   visibility: hidden !important;
-  background: var(--calcite-modal-scrim);
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
+  --calcite-modal-title-padding: 12px 16px;
+  --calcite-modal-title-text: 20px;
+  --calcite-modal-content-padding: 16px;
+  --calcite-modal-content-text: 16px;
+  --calcite-modal-close-padding: 12px;
+  --calcite-modal-footer-padding: 12px;
+}
+
+:host([scale="s"]) {
+  --calcite-modal-title-padding: 8px 12px;
+  --calcite-modal-title-text: 18px;
+  --calcite-modal-content-padding: 12px;
+  --calcite-modal-content-text: 14px;
+  --calcite-modal-close-padding: 8px;
+  --calcite-modal-footer-padding: 8px;
+}
+
+:host([scale="l"]) {
+  --calcite-modal-title-padding: 16px 20px;
+  --calcite-modal-title-text: 26px;
+  --calcite-modal-content-padding: 20px;
+  --calcite-modal-content-text: 18px;
+  --calcite-modal-close-padding: 16px;
+  --calcite-modal-footer-padding: 16px;
+}
+
+.scrim {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  overflow-y: hidden;
 }
 
 .modal {
@@ -28,28 +60,36 @@
   flex-wrap: row-wrap;
   opacity: 0;
   visibility: hidden;
-  transition: transform 300ms $easing-function, visibility 0ms linear 300ms,
-    opacity 300ms $easing-function;
+  pointer-events: none;
+  transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   box-shadow: $shadow-2--press;
   border-radius: var(--calcite-border-radius);
   margin: $baseline;
   width: 100%;
 }
 
-:host(.is-active) {
+// focus styles
+.modal__close {
+  @include focus-style-base();
+  &.modal__close:focus {
+    @include focus-style-inset();
+  }
+}
+
+:host([is-active]) {
   visibility: visible !important;
   opacity: 1;
   transition-delay: 0ms;
   .modal {
+    pointer-events: auto;
     visibility: visible;
     opacity: 1;
     transition-delay: 0ms;
     transform: translate3d(0, 0, 0);
-    transition: transform 300ms $easing-function, visibility 0ms linear,
-      opacity 300ms $easing-function, max-width 300ms $easing-function,
-      max-height 300ms $easing-function;
+    transition: transform 300ms $easing-function, visibility 0ms linear, opacity 300ms $easing-function,
+      max-width 300ms $easing-function, max-height 300ms $easing-function;
   }
 }
 
@@ -61,8 +101,8 @@
  * Header
  */
 .modal__header {
-  background-color: var(--calcite-ui-foreground);
-  flex: 0;
+  background-color: var(--calcite-ui-foreground-1);
+  flex: 0 0 auto;
   display: flex;
   max-width: 100%;
   min-width: 0;
@@ -72,7 +112,7 @@
 }
 
 .modal__close {
-  padding: $baseline * 0.75;
+  padding: var(--calcite-modal-close-padding);
   margin: 0;
   order: 2;
   flex: 0 0 auto;
@@ -85,15 +125,16 @@
   outline: none;
   cursor: pointer;
   border-radius: 0 var(--calcite-border-radius) 0 0;
-  svg {
+  calcite-icon {
     pointer-events: none;
+    vertical-align: -2px;
   }
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-hover);
+    background-color: var(--calcite-ui-foreground-2);
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-press);
+    background-color: var(--calcite-ui-foreground-3);
   }
 }
 
@@ -104,7 +145,7 @@
 .modal__title {
   display: flex;
   align-items: center;
-  padding: $baseline / 2 $baseline;
+  padding: var(--calcite-modal-title-padding);
   flex: 1 1 auto;
   order: 1;
   min-width: 0;
@@ -113,7 +154,7 @@
 @include slotted("header", "*") {
   margin: 0;
   font-weight: 400;
-  @include font-size(2);
+  font-size: var(--calcite-modal-title-text);
   color: var(--calcite-ui-text-1);
 }
 
@@ -128,16 +169,24 @@
   max-height: calc(100vh - 12rem);
   overflow-y: auto;
   display: block;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
+  box-sizing: border-box;
   z-index: 1;
 }
 
 .modal__content--spaced {
-  padding: $baseline;
+  padding: var(--calcite-modal-content-padding);
 }
 
 @include slotted("content", "*") {
-  @include font-size(0);
+  font-size: var(--calcite-modal-content-text);
+  line-height: 1.5;
+}
+
+:host([background-color="grey"]) {
+  .modal__content {
+    background-color: var(--calcite-ui-background);
+  }
 }
 
 /**
@@ -145,14 +194,14 @@
  */
 .modal__footer {
   display: flex;
-  flex: 0;
-  justify-content: flex-end;
-  padding: $baseline/1.25 $baseline * 0.75;
+  flex: 0 0 auto;
+  justify-content: space-between;
+  padding: var(--calcite-modal-footer-padding);
   margin-top: auto;
   box-sizing: border-box;
   border-radius: 0 0 var(--calcite-border-radius) var(--calcite-border-radius);
   width: 100%;
-  background-color: var(--calcite-ui-foreground);
+  background-color: var(--calcite-ui-foreground-1);
   border-top: 1px solid var(--calcite-ui-border-3);
   z-index: 2;
 }
@@ -185,23 +234,23 @@ slot[name="primary"] {
  * Sizes
  */
 @mixin modal-size($size, $width) {
-  :host([size="#{$size}"]) {
+  :host([width="#{$size}"]) {
     .modal {
       max-width: $width;
     }
   }
   @media screen and (max-width: $width + 2 * $baseline) {
-    :host([size="#{$size}"]) {
+    :host([width="#{$size}"]) {
       .modal {
-        height: 100vh;
-        max-height: 100vh;
-        width: 100vw;
-        max-width: 100vw;
+        height: 100%;
+        max-height: 100%;
+        width: 100%;
+        max-width: 100%;
         margin: 0;
         border-radius: 0;
       }
       .modal__content {
-        flex: 1 1 0;
+        flex: 1 1 auto;
         max-height: unset;
       }
       .modal__header,
@@ -209,35 +258,36 @@ slot[name="primary"] {
         flex: inherit;
       }
     }
-    :host([size="#{$size}"][docked]) {
+    :host([width="#{$size}"][docked]) {
       align-items: flex-end;
     }
   }
 }
 
-:host([size="small"]) .modal {
+:host([width="small"]) .modal {
   width: auto;
 }
 
-@include modal-size("small", 32rem);
-@include modal-size("medium", 48rem);
-@include modal-size("large", 94rem);
+@include modal-size("s", 32rem);
+@include modal-size("m", 48rem);
+@include modal-size("l", 94rem);
 
 /**
  * Fullscreen
  */
-:host([size="fullscreen"]) {
+:host([fullscreen]) {
   background-color: transparent;
   .modal {
     transform: translate3D(0, 20px, 0) scale(0.95);
-    height: 100vh;
-    max-height: 100vh;
-    width: 100vw;
-    max-width: 100vw;
+    height: 100%;
+    max-height: 100%;
+    width: 100%;
+    max-width: 100%;
     margin: 0;
   }
   .modal__content {
     flex: 1 1 auto;
+    max-height: 100%;
   }
   .modal__header,
   .modal__footer {
@@ -245,7 +295,7 @@ slot[name="primary"] {
   }
 }
 
-:host(.is-active[size="fullscreen"]) {
+:host([is-active][fullscreen]) {
   .modal {
     transform: translate3D(0, 0, 0) scale(1);
   }
@@ -266,7 +316,7 @@ slot[name="primary"] {
   }
   .modal__content {
     height: auto;
-    flex: 1;
+    flex: 1 1 auto;
   }
   @media screen and (max-width: $viewport-medium) {
     .modal {
@@ -290,13 +340,13 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-red);
+    border-top: 4px solid var(--calcite-ui-red-1);
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-blue);
+    border-top: 4px solid var(--calcite-ui-blue-1);
   }
 }
 
@@ -318,7 +368,7 @@ slot[name="primary"] {
     padding: $baseline * 0.25 $baseline * 0.675;
   }
   .modal__close {
-    padding: $baseline * 0.675;
+    padding: 0.75rem;
   }
   .modal__content--spaced {
     padding: $baseline * 0.675;

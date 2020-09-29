@@ -1,3 +1,7 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
 // scale variants for child
 :host([scale="s"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline/3};
@@ -20,38 +24,14 @@
   @include font-size(-1);
 }
 
-// icon position variants for child
-:host([icon-position="start"]) {
-  --calcite-accordion-item-flex-direction: row-reverse;
-  --calcite-accordion-item-icon-rotation: 90deg;
-  --calcite-accordion-item-active-icon-rotation: 180deg;
-  --calcite-accordion-item-icon-rotation-rtl: -90deg;
-  --calcite-accordion-item-active-icon-rotation-rtl: -180deg;
-  --calcite-accordion-item-icon-spacing-start: 0;
-  --calcite-accordion-item-icon-spacing-end: var(
-    --calcite-accordion-item-spacing-unit
-  );
-}
-:host([icon-position="end"]) {
-  --calcite-accordion-item-flex-direction: row;
-  --calcite-accordion-item-icon-rotation: -90deg;
-  --calcite-accordion-item-active-icon-rotation: -180deg;
-  --calcite-accordion-item-icon-rotation-rtl: 90deg;
-  --calcite-accordion-item-active-icon-rotation-rtl: 180deg;
-  --calcite-accordion-item-icon-spacing-start: var(
-    --calcite-accordion-item-spacing-unit
-  );
-  --calcite-accordion-item-icon-spacing-end: 0;
-}
-
 :host {
   display: block;
   position: relative;
   max-width: 100%;
-  border: 1px solid var(--calcite-ui-border-1);
+  border: 1px solid var(--calcite-ui-border-2);
   border-bottom: none;
   --calcite-accordion-item-border: var(--calcite-ui-border-2);
-  --calcite-accordion-item-background: var(--calcite-ui-foreground);
+  --calcite-accordion-item-background: var(--calcite-ui-foreground-1);
 }
 
 :host([appearance="minimal"]) {

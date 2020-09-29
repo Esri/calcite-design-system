@@ -1,0 +1,52 @@
+@import "./node_modules/@esri/calcite-colors/colors.scss";
+@import "./node_modules/@esri/calcite-base/dist/_index.scss";
+
+/* CSS vars (@include in global) */
+@import "layout";
+@import "shadow";
+
+:root {
+  font-family: $avenir-family;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @include calcite-theme-light();
+  @include componentLayoutVars();
+  @include componentShadowVars();
+
+  --calcite-border-radius: 3px;
+  --calcite-icon-size: 1rem;
+  --calcite-ui-opacity-disabled: 0.3;
+
+  --calcite-ui-text-weight-light: 300;
+  --calcite-ui-text-weight: 400;
+  --calcite-ui-text-weight-medium: 500;
+  --calcite-ui-text-weight-demi: 700;
+
+  --calcite-code-family: #{$code-family};
+
+  --calcite-ui-foreground-current: #{$h-bb-010};
+  --calcite-ui-text-current: #{$h-bb-070};
+}
+
+[theme="dark"] {
+  @include calcite-theme-dark();
+  --calcite-ui-foreground-current: #{$blk-220};
+  --calcite-ui-text-current: #{$v-bb-120};
+}
+
+[theme="light"] {
+  @include calcite-theme-light();
+  --calcite-ui-foreground-current: #{$h-bb-010};
+  --calcite-ui-text-current: #{$h-bb-070};
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+[calcite-hydrated][aria-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
+}

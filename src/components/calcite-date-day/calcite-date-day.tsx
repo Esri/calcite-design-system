@@ -6,9 +6,10 @@ import {
   Event,
   EventEmitter,
   Listen,
-  h
+  h,
+  VNode
 } from "@stencil/core";
-import { SPACE, ENTER } from "../../utils/keys";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-date-day",
@@ -22,7 +23,7 @@ export class CalciteDateDay {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLElement;
+  @Element() el: HTMLCalciteDateDayElement;
 
   //--------------------------------------------------------------------------
   //
@@ -30,22 +31,43 @@ export class CalciteDateDay {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * day of the month to be shown.
-   */
-  @Prop() day: number = 0;
-  /**
-   * Enables tells whether day enabled for the user click.
-   */
-  @Prop() enable: boolean = true;
-  /**
-   * Selected tells whether day is selected.
-   */
-  @Prop() selected: boolean = false;
-  /**
-   * Active tells whether day is Actively in focus.
-   */
-  @Prop() active: boolean = false;
+  /** Day of the month to be shown. */
+  @Prop() day: number;
+
+  /** Date is outside of range and can't be selected */
+  @Prop({ reflect: true }) disabled = false;
+
+  /** Date is in the current month. */
+  @Prop({ reflect: true }) currentMonth = false;
+
+  /** Date is the current selected date of the picker */
+  @Prop({ reflect: true }) selected = false;
+
+  /** Date is actively in focus for keyboard navigation */
+  @Prop({ reflect: true }) active = false;
+
+  /** Locale to display the day in */
+  @Prop() locale: string;
+
+  /** specify the scale of the date picker */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("click") onClick(): void {
+    !this.disabled && this.calciteDaySelect.emit();
+  }
+
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
+      !this.disabled && this.calciteDaySelect.emit();
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -54,7 +76,7 @@ export class CalciteDateDay {
   //--------------------------------------------------------------------------
 
   /**
-   * When user selects day it emits the event.
+   * Emitted when user selects day
    */
   @Event() calciteDaySelect: EventEmitter;
 
@@ -63,36 +85,14 @@ export class CalciteDateDay {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  componentWillUpdate(): void {}
-
-  render() {
+  render(): VNode {
+    const intl = new Intl.NumberFormat(this.locale);
     return (
-      <Host
-        class={`${this.active ? "active" : ""}
-        ${this.enable ? "enabled" : "disabled"}
-        ${this.selected ? "selected-day" : ""}`}
-        role="gridcell"
-        tabindex={(this.selected || this.active) ? 0 : -1}
-      >
-        <span class="day" >{this.day}</span>
+      <Host role="gridcell" tabindex={this.selected || this.active ? 0 : -1}>
+        <span class="day">
+          <span class="text">{intl.format(this.day)}</span>
+        </span>
       </Host>
     );
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("click") onClick() {
-    this.enable && (this.selected = true) && this.calciteDaySelect.emit();
-  }
-
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
-    if (e.keyCode === SPACE || e.keyCode === ENTER) {
-      this.enable && (this.selected = true) && this.calciteDaySelect.emit();
-    }
   }
 }

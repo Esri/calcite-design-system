@@ -1,0 +1,93 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+// todo update to font and spacing value when added to calcite-base
+
+:host([scale="s"]) {
+  font-size: 12px;
+  --calcite-combobox-item-spacing-unit-l: 12px;
+  --calcite-combobox-item-spacing-unit-s: 8px;
+}
+
+:host([scale="m"]) {
+  font-size: 14px;
+  --calcite-combobox-item-spacing-unit-l: 16px;
+  --calcite-combobox-item-spacing-unit-s: 12px;
+}
+
+:host([scale="l"]) {
+  font-size: 16px;
+  --calcite-combobox-item-spacing-unit-l: 20px;
+  --calcite-combobox-item-spacing-unit-s: 16px;
+}
+
+[role="combobox"] {
+  display: flex;
+}
+
+input {
+  flex-grow: 1;
+  font-size: inherit;
+  font-family: inherit;
+  padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l);
+  background-color: var(--calcite-ui-foreground-1);
+  border: 1px solid var(--calcite-ui-border-1);
+  color: 1px solid var(--calcite-ui-text-1);
+  @include focus-style-base();
+  &:focus {
+    @include focus-style-inset();
+  }
+}
+
+.list-container {
+  @include popperContainer();
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@include popperElemAnim(".list-container");
+
+:host([active]) .list-container {
+  width: 100%;
+  pointer-events: initial;
+  visibility: visible;
+}
+
+.list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  max-height: 100vh;
+  width: var(--calcite-dropdown-width);
+  background: var(--calcite-ui-foreground-1);
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.selections calcite-chip {
+  margin-right: var(--calcite-combobox-item-spacing-unit-s);
+  margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
+}
+
+.selections calcite-chip:last-child {
+  margin-right: 0;
+}
+
+:host([dir="rtl"]) .selections calcite-chip {
+  margin-right: unset;
+  margin-left: var(--calcite-combobox-item-spacing-unit-s);
+}
+
+:host([dir="rtl"]) .selections calcite-chip:last-child {
+  margin-left: 0;
+}
+
+.item {
+  display: block;
+}

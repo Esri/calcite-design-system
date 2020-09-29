@@ -1,0 +1,38 @@
+:host {
+  @extend %component-host;
+  align-items: stretch;
+  background-color: transparent;
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: column;
+  position: relative;
+}
+
+calcite-value-list-item:last-of-type {
+  box-shadow: none;
+}
+
+header {
+  background-color: var(--calcite-ui-foreground-1);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: var(--calcite-spacing-quarter);
+  &.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  @include borderShadow();
+}
+
+calcite-filter {
+  margin-bottom: 1px;
+}
+
+calcite-scrim {
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: column;
+  pointer-events: none;
+}

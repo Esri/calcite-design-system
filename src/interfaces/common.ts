@@ -1,2 +1,2 @@
-export type Scale = "xs" | "s" | "m" | "l" | "xl";
+export type Scale = "s" | "m" | "l";
 export type Theme = "light" | "dark";

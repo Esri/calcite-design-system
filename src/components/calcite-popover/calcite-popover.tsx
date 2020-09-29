@@ -1,24 +1,28 @@
 import {
   Component,
   Element,
+  Event,
+  EventEmitter,
   Host,
   Method,
   Prop,
   State,
   Watch,
-  h
+  h,
+  VNode
 } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE, TEXT } from "./resources";
 import {
-  CalciteFlipPlacements,
   CalcitePlacement,
-  getPlacement
+  defaultOffsetDistance,
+  createPopper,
+  updatePopper,
+  CSS as PopperCSS
 } from "../../utils/popper";
-import Popper from "popper.js";
-import { VNode } from "@stencil/state-tunnel/dist/types/stencil.core";
-import { x16 } from "@esri/calcite-ui-icons";
-import CalciteIcon from "../../utils/CalciteIcon";
+import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
+
+export type FocusId = "close-button";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -37,32 +41,9 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   /**
-   * Adds a click handler to the referenceElement to toggle open the Popover.
-   */
-  @Prop({ reflect: true }) addClickHandle = false;
-
-  @Watch("addClickHandle")
-  interactionElementHandler() {
-    this.removeReferenceListener();
-    this.addReferenceListener();
-  }
-
-  /**
    * Display a close button within the Popover.
    */
   @Prop({ reflect: true }) closeButton = false;
-
-  /**
-   *  HTMLElement Used to position this component within the a boundary.
-   */
-  @Prop() boundariesElement?: HTMLElement | string;
-
-  @Watch("boundariesElement")
-  boundariesElementHandler() {
-    this._boundariesElement = this.getBoundariesElement();
-    this.destroyPopper();
-    this.reposition();
-  }
 
   /**
    * Prevents flipping the popover's placement when it starts to overlap its reference element.
@@ -75,14 +56,29 @@ export class CalcitePopover {
   @Prop({ reflect: true }) disablePointer = false;
 
   /**
-   * Makes the popover flow toward the inner of the reference element.
-   */
-  @Prop({ reflect: true }) flowInner = false;
-
-  /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: CalciteFlipPlacements;
+  @Prop() flipPlacements?: Placement[];
+
+  /**
+   * Offset the position of the popover away from the reference element.
+   */
+  @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
+
+  @Watch("offsetDistance")
+  offsetDistanceOffsetHandler(): void {
+    this.reposition();
+  }
+
+  /**
+   * Offset the position of the popover along the reference element.
+   */
+  @Prop({ reflect: true }) offsetSkidding = 0;
+
+  @Watch("offsetSkidding")
+  offsetSkiddingHandler(): void {
+    this.reposition();
+  }
 
   /**
    * Display and position the component.
@@ -90,11 +86,12 @@ export class CalcitePopover {
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean) {
+  openHandler(open: boolean): void {
+    this.reposition();
     if (open) {
-      this.reposition();
+      this.calcitePopoverOpen.emit();
     } else {
-      this.destroyPopper();
+      this.calcitePopoverClose.emit();
     }
   }
 
@@ -104,8 +101,7 @@ export class CalcitePopover {
   @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
 
   @Watch("placement")
-  placementHandler() {
-    this.destroyPopper();
+  placementHandler(): void {
     this.reposition();
   }
 
@@ -115,42 +111,18 @@ export class CalcitePopover {
   @Prop() referenceElement!: HTMLElement | string;
 
   @Watch("referenceElement")
-  referenceElementHandler() {
-    this.removeReferenceListener();
+  referenceElementHandler(): void {
+    this.removeReferences();
     this._referenceElement = this.getReferenceElement();
-    this.addReferenceListener();
-    this.addReferenceAria();
-    this.destroyPopper();
-    this.reposition();
+    this.addReferences();
+    this.createPopper();
   }
 
   /** Text for close button. */
-  @Prop() textClose = "Close";
+  @Prop() intlClose = TEXT.close;
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
-
-  /**
-   * Offset the position of the popover in the horizontal direction.
-   */
-  @Prop({ reflect: true }) xOffset = 0;
-
-  @Watch("xOffset")
-  xOffsetHandler() {
-    this.destroyPopper();
-    this.reposition();
-  }
-
-  /**
-   * Offset the position of the popover in the vertical direction.
-   */
-  @Prop({ reflect: true }) yOffset = 0;
-
-  @Watch("yOffset")
-  yOffsetHandler() {
-    this.destroyPopper();
-    this.reposition();
-  }
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   // --------------------------------------------------------------------------
   //
@@ -162,9 +134,13 @@ export class CalcitePopover {
 
   @State() _referenceElement: HTMLElement = this.getReferenceElement();
 
-  @State() _boundariesElement: HTMLElement = this.getBoundariesElement();
-
   popper: Popper;
+
+  arrowEl: HTMLDivElement;
+
+  closeButtonEl: HTMLButtonElement;
+
+  guid = `calcite-popover-${guid()}`;
 
   // --------------------------------------------------------------------------
   //
@@ -172,16 +148,26 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad() {
-    this.reposition();
-    this.addReferenceListener();
-    this.addReferenceAria();
+  componentDidLoad(): void {
+    this.createPopper();
+    this.addReferences();
   }
 
-  componentDidUnload() {
-    this.removeReferenceListener();
+  disconnectedCallback(): void {
+    this.removeReferences();
     this.destroyPopper();
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+  /** Fired when the popover is closed */
+  @Event() calcitePopoverClose: EventEmitter;
+
+  /** Fired when the popover is opened */
+  @Event() calcitePopoverOpen: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -189,14 +175,34 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
-  @Method() async reposition(): Promise<void> {
-    const { popper } = this;
+  @Method()
+  async reposition(): Promise<void> {
+    const { popper, el, placement } = this;
+    const modifiers = this.getModifiers();
 
-    popper ? this.updatePopper(popper) : this.createPopper();
+    popper
+      ? updatePopper({
+          el,
+          modifiers,
+          placement,
+          popper
+        })
+      : this.createPopper();
   }
 
-  @Method() async toggle(): Promise<void> {
-    this.open = !this.open;
+  @Method()
+  async setFocus(focusId?: FocusId): Promise<void> {
+    if (focusId === "close-button") {
+      this.closeButtonEl?.focus();
+      return;
+    }
+
+    this.el?.focus();
+  }
+
+  @Method()
+  async toggle(value = !this.open): Promise<void> {
+    this.open = value;
   }
 
   // --------------------------------------------------------------------------
@@ -206,42 +212,32 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   getId = (): string => {
-    return this.el.id || `calcite-popover-${guid()}`;
+    return this.el.id || this.guid;
   };
 
-  addReferenceAria = (): void => {
-    const { _referenceElement } = this;
-
-    if (
-      _referenceElement &&
-      !_referenceElement.hasAttribute("aria-describedby")
-    ) {
-      _referenceElement.setAttribute("aria-describedby", this.getId());
-    }
-  };
-
-  clickHandler = (): void => {
-    this.toggle();
-  };
-
-  addReferenceListener = (): void => {
-    const { _referenceElement, addClickHandle } = this;
-
-    if (!_referenceElement || !addClickHandle) {
-      return;
-    }
-
-    _referenceElement.addEventListener("click", this.clickHandler);
-  };
-
-  removeReferenceListener = (): void => {
+  addReferences = (): void => {
     const { _referenceElement } = this;
 
     if (!_referenceElement) {
       return;
     }
 
-    _referenceElement.removeEventListener("click", this.clickHandler);
+    _referenceElement.setAttribute(POPOVER_REFERENCE, "");
+
+    if (!_referenceElement.hasAttribute(ARIA_DESCRIBED_BY)) {
+      _referenceElement.setAttribute(ARIA_DESCRIBED_BY, this.getId());
+    }
+  };
+
+  removeReferences = (): void => {
+    const { _referenceElement } = this;
+
+    if (!_referenceElement) {
+      return;
+    }
+
+    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    _referenceElement.removeAttribute(POPOVER_REFERENCE);
   };
 
   getReferenceElement(): HTMLElement {
@@ -254,79 +250,59 @@ export class CalcitePopover {
     );
   }
 
-  getBoundariesElement(): HTMLElement {
-    const { boundariesElement } = this;
-
-    return (
-      (typeof boundariesElement === "string"
-        ? document.getElementById(boundariesElement)
-        : boundariesElement) || null
-    );
-  }
-
-  getModifiers(): Popper.Modifiers {
-    const verticalRE = /top|bottom/gi;
-    const autoRE = /auto/gi;
+  getModifiers(): Partial<StrictModifiers>[] {
     const {
-      _boundariesElement,
-      disableFlip,
+      arrowEl,
       flipPlacements,
-      flowInner,
-      placement,
-      xOffset,
-      yOffset
+      disableFlip,
+      disablePointer,
+      offsetDistance,
+      offsetSkidding
     } = this;
-    const offsetEnabled = !!(yOffset || xOffset) && !autoRE.test(placement);
-    const offsets = [yOffset, xOffset];
+    const flipModifier: Partial<StrictModifiers> = {
+      name: "flip",
+      enabled: !disableFlip
+    };
 
-    if (verticalRE.test(placement)) {
-      offsets.reverse();
+    if (flipPlacements) {
+      flipModifier.options = {
+        fallbackPlacements: flipPlacements
+      };
     }
 
-    return {
-      preventOverflow: {
-        enabled: true,
-        boundariesElement: _boundariesElement || "viewport",
-        escapeWithReference: true
-      },
-      flip: {
-        enabled: !disableFlip,
-        boundariesElement: _boundariesElement || "viewport",
-        flipVariationsByContent: true,
-        behavior: flipPlacements || "flip"
-      },
-      inner: {
-        enabled: flowInner
-      },
-      offset: {
-        enabled: !!offsetEnabled,
-        offset: offsets.join(",")
+    const arrowModifier: Partial<StrictModifiers> = {
+      name: "arrow",
+      enabled: !disablePointer
+    };
+
+    if (arrowEl) {
+      arrowModifier.options = {
+        element: arrowEl
+      };
+    }
+
+    const offsetModifier: Partial<StrictModifiers> = {
+      name: "offset",
+      enabled: true,
+      options: {
+        offset: [offsetSkidding, offsetDistance]
       }
     };
+
+    return [arrowModifier, flipModifier, offsetModifier];
   }
 
   createPopper(): void {
-    const { el, open, placement, _referenceElement } = this;
+    this.destroyPopper();
+    const { el, placement, _referenceElement: referenceEl } = this;
+    const modifiers = this.getModifiers();
 
-    if (!_referenceElement || !open) {
-      return;
-    }
-
-    const newPopper = new Popper(_referenceElement, el, {
-      placement: getPlacement(el, placement),
-      modifiers: this.getModifiers()
+    this.popper = createPopper({
+      el,
+      modifiers,
+      placement,
+      referenceEl
     });
-
-    this.popper = newPopper;
-  }
-
-  updatePopper(popper: Popper): void {
-    popper.options.placement = getPlacement(this.el, this.placement);
-    popper.options.modifiers = {
-      ...popper.options.modifiers,
-      ...this.getModifiers()
-    };
-    popper.scheduleUpdate();
   }
 
   destroyPopper(): void {
@@ -358,38 +334,38 @@ export class CalcitePopover {
   }
 
   renderCloseButton(): VNode {
-    const { closeButton, textClose } = this;
+    const { closeButton, intlClose } = this;
 
     return closeButton ? (
       <button
-        aria-label={textClose}
-        title={textClose}
+        aria-label={intlClose}
         class={{ [CSS.closeButton]: true }}
         onClick={this.hide}
+        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+        title={intlClose}
       >
-        <CalciteIcon size="16" path={x16} />
+        <calcite-icon icon="x" scale="m" />
       </button>
     ) : null;
   }
 
-  render() {
+  render(): VNode {
     const { _referenceElement, open, disablePointer } = this;
     const displayed = _referenceElement && open;
+    const arrowNode = !disablePointer ? (
+      <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
+    ) : null;
 
     return (
-      <Host
-        role="dialog"
-        aria-hidden={!displayed ? "true" : "false"}
-        id={this.getId()}
-      >
+      <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="dialog">
         <div
           class={{
-            [CSS.container]: true,
-            [CSS.containerOpen]: displayed,
-            [CSS.containerPointer]: !disablePointer
+            [PopperCSS.animation]: true,
+            [PopperCSS.animationActive]: displayed
           }}
         >
-          <div class={CSS.contentContainer}>
+          {arrowNode}
+          <div class={CSS.container}>
             {this.renderImage()}
             <div class={CSS.content}>
               <slot />

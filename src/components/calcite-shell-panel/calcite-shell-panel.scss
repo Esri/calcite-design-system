@@ -1,0 +1,47 @@
+:host {
+  @extend %component-host;
+  display: flex;
+  align-items: stretch;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  height: 100%;
+  max-height: 100%;
+}
+
+.content {
+  align-items: stretch;
+  align-self: stretch;
+  background-color: var(--calcite-ui-background);
+  flex-flow: column nowrap;
+  display: flex;
+  padding: 0;
+  pointer-events: auto;
+  transition: max-height $transition, max-width $transition;
+}
+
+.content--detached {
+  border-radius: var(--calcite-border-radius);
+  box-shadow: var(--calcite-shadow-0);
+  margin: var(--calcite-spacing-half) var(--calcite-spacing-half) auto;
+  overflow: hidden;
+  ::slotted(calcite-panel),
+  ::slotted(calcite-flow) {
+    max-height: unset;
+  }
+}
+
+.content[hidden] {
+  display: none;
+}
+
+:host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
+  border-right: 1px solid var(--calcite-ui-border-3);
+}
+
+:host([position="end"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
+  border-left: 1px solid var(--calcite-ui-border-3);
+}

@@ -1,0 +1,54 @@
+{
+  "extends": [
+    "plugin:@stencil/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "ignorePatterns": ["dist", "docs", "www"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig-eslint.json",
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "eslint-plugin-react", "prettier"],
+  "rules": {
+    "@stencil/decorators-style": "warn",
+    "@stencil/own-methods-must-be-private": "off",
+    "@stencil/own-props-must-be-private": "off",
+    "@stencil/prefer-vdom-listener": "warn",
+    "@stencil/required-jsdoc": "off",
+    "@stencil/strict-boolean-conditions": "off",
+    "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": [
+      "error",
+      {
+        "allowArgumentsExplicitlyTypedAsAny": true,
+        "allowedNames": [
+          "connectedCallback",
+          "disconnectedCallback",
+          "componentWillRender",
+          "componentDidRender",
+          "componentWillLoad",
+          "componentDidLoad",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "render"
+        ]
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "lines-between-class-members": ["error", "always"],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "react/jsx-sort-props": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/self-closing-comp": "error"
+  },
+  "settings": {
+    "react": {
+      "pragma": "h"
+    }
+  }
+}

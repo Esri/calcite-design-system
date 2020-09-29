@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-tree", () => {
   it("renders", async () => {
@@ -6,10 +7,9 @@ describe("calcite-tree", () => {
 
     await page.setContent("<calcite-tree></calcite-tree>");
     const element = await page.find("calcite-tree");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
-  // click on icon
   it("should expand/collapse children when the icon is clicked", async () => {
     const page = await newE2EPage();
 
@@ -33,7 +33,6 @@ describe("calcite-tree", () => {
     expect(isVisible).toBe(true);
   });
 
-  // click on link
   it("should navigate when the link inside the tree item is clicked", async () => {
     const page = await newE2EPage();
 
@@ -43,14 +42,13 @@ describe("calcite-tree", () => {
       </calcite-tree-item>
     </calcite-tree>`);
 
-    const anchor = await page.find('#firstItem a');
+    const anchor = await page.find("#firstItem a");
     await anchor.click();
 
     await page.waitForChanges();
     expect(page.url()).toContain("#");
   });
 
-  // click on item
   it("should navigate to the link url when the item but not the link is clicked", async () => {
     const page = await newE2EPage();
 
@@ -60,14 +58,13 @@ describe("calcite-tree", () => {
       </calcite-tree-item>
     </calcite-tree>`);
 
-    const item = await page.find('#firstItem');
+    const item = await page.find("#firstItem");
     await item.click();
 
     await page.waitForChanges();
     expect(page.url()).toContain("#");
   });
 
-  // click on childItem
   it("should navigate to the inner link when a child item is clicked and not the outer link", async () => {
     const page = await newE2EPage();
 
@@ -84,11 +81,13 @@ describe("calcite-tree", () => {
     </calcite-tree>`);
 
     await page.waitForChanges();
-    const item = await page.find('#secondItem');
-    await item.click();
 
-    await page.waitForChanges();
-    expect(page.url()).toContain("#inner");
-    expect(page.url()).not.toContain("#outer");
+    const hash = await page.evaluate(() => {
+      const item = document.getElementById("secondItem");
+      item.click();
+      return window.location.hash;
+    });
+
+    expect(hash).toEqual("#inner");
   });
 });

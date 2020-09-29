@@ -1,27 +1,9 @@
-:host {
-  display: block;
-  position: absolute;
-  z-index: 999;
-  top: -999999px;
-  left: -999999px;
-}
+@include popperHost();
+@include popperArrow();
 
-.tooltip-container {
-  visibility: hidden;
+.container {
   position: relative;
-  box-shadow: $shadow-2;
-}
-
-.tooltip-container--open {
-  visibility: visible;
-}
-
-:host([x-out-of-boundaries]) .tooltip-container {
-  visibility: hidden;
-}
-
-.tooltip-content-container {
-  background: var(--calcite-ui-foreground);
+  background: var(--calcite-ui-foreground-1);
   max-width: 300px;
   max-height: 300px;
   display: flex;
@@ -34,5 +16,6 @@
   @include font-size(-3);
 }
 
-@include popperPointer(".tooltip-content-container");
-@include popperMargin(".tooltip-container");
+:host([theme="dark"]) .container {
+  background: var(--calcite-ui-foreground-2);
+}

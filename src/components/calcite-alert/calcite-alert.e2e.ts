@@ -1,17 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { renders, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-alert", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-alert>
-    <div slot="alert-title">Title Text</div>
-    <div slot="alert-message">Message Text</div>
-    <a slot="alert-link" href="">Action</a>
-    </calcite-alert>`);
-    const element = await page.find("calcite-alert");
-    expect(element).toHaveClass("hydrated");
-  });
+  it("renders", async () => renders("calcite-alert", false));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
@@ -24,29 +15,7 @@ describe("calcite-alert", () => {
     const element = await page.find("calcite-alert");
     const close = await page.find("calcite-alert >>> .alert-close");
     const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(element).toHaveClass("hydrated");
     expect(element).toEqualAttribute("color", "blue");
-    expect(element).toEqualAttribute("theme", "light");
-    expect(close).not.toBeNull();
-    expect(icon).toBeNull();
-  });
-
-  it("renders default props when invalid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-alert color="zip" auto-dismiss-duration="zot" theme="zat" bought-o-dismiss>
-    <div slot="alert-title">Title Text</div>
-    <div slot="alert-message">Message Text</div>
-    <a slot="alert-link" href="">Action</a>
-    </calcite-alert>`);
-
-    const element = await page.find("calcite-alert");
-    const close = await page.find("calcite-alert >>> .alert-close");
-    const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(element).toHaveClass("hydrated");
-    expect(element).toEqualAttribute("color", "blue");
-    expect(element).toEqualAttribute("auto-dismiss-duration", "medium");
-    expect(element).toEqualAttribute("theme", "light");
     expect(close).not.toBeNull();
     expect(icon).toBeNull();
   });
@@ -64,7 +33,6 @@ describe("calcite-alert", () => {
     const close = await page.find("calcite-alert >>> .alert-close");
     const icon = await page.find("calcite-alert >>> .alert-icon");
 
-    expect(element).toHaveClass("hydrated");
     expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("auto-dismiss-duration", "fast");
     expect(element).toEqualAttribute("theme", "dark");
@@ -84,7 +52,7 @@ describe("calcite-alert", () => {
     const element = await page.find("calcite-alert");
     const close = await page.find("calcite-alert >>> .alert-close");
     const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(element).toHaveClass("hydrated");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(close).not.toBeNull();
     expect(icon).not.toBeNull();
   });
@@ -93,7 +61,7 @@ describe("calcite-alert", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <div>
-    <calcite-button id="button-1" onclick="document.querySelector('#alert-1').open()">open alert-1</calcite-button>
+    <calcite-button id="button-1" onclick="document.querySelector('#alert-1').setAttribute('active', '')">open alert-1</calcite-button>
     <calcite-alert id="alert-1">
     <div slot="alert-title">Title Text</div>
     <div slot="alert-message">Message Text</div>
@@ -109,12 +77,12 @@ describe("calcite-alert", () => {
 
     await button1.click();
     // wait for animation to complete
-    await new Promise(resolve => setTimeout(resolve, 400));
+    await new Promise((resolve) => setTimeout(resolve, 400));
     expect(await alert1.isVisible()).toBe(true);
 
     await alertclose1.click();
     // wait for animation to complete
-    await new Promise(resolve => setTimeout(resolve, 400));
+    await new Promise((resolve) => setTimeout(resolve, 400));
     expect(await alert1.isVisible()).not.toBe(true);
   });
 
@@ -122,9 +90,9 @@ describe("calcite-alert", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <div>
-    <calcite-button id="button-1" onclick="document.querySelector('#alert-1').open()">open alert-1</calcite-button>
-    <calcite-button id="button-2" onclick="document.querySelector('#alert-2').open()">open alert-2</calcite-button>
-    <calcite-button id="button-3" onclick="document.querySelector('#alert-3').open()">open alert-3</calcite-button>
+    <calcite-button id="button-1" onclick="document.querySelector('#alert-1').setAttribute('active', '')">open alert-1</calcite-button>
+    <calcite-button id="button-2" onclick="document.querySelector('#alert-2').setAttribute('active', '')">open alert-2</calcite-button>
+    <calcite-button id="button-3" onclick="document.querySelector('#alert-3').setAttribute('active', '')">open alert-3</calcite-button>
     <calcite-alert id="alert-1">
     <div slot="alert-title">Title Text</div>
     <div slot="alert-message">Message Text</div>
@@ -153,17 +121,17 @@ describe("calcite-alert", () => {
 
     await button1.click();
     // wait for animation to complete
-    await new Promise(resolve => setTimeout(resolve, 400));
+    await new Promise((resolve) => setTimeout(resolve, 400));
     await alertclose1.click();
 
     await button2.click();
     // wait for animation to complete
-    await new Promise(resolve => setTimeout(resolve, 400));
+    await new Promise((resolve) => setTimeout(resolve, 400));
     await alertclose2.click();
 
     await button3.click();
     // wait for animation to complete
-    await new Promise(resolve => setTimeout(resolve, 400));
+    await new Promise((resolve) => setTimeout(resolve, 400));
 
     expect(await alert1.isVisible()).not.toBe(true);
     expect(await alert2.isVisible()).not.toBe(true);

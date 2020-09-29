@@ -1,0 +1,132 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+:host([dir="rtl"]) {
+  text-align: right;
+}
+
+:host([scale="s"]) {
+  --calcite-label-margin-bottom: 12px;
+}
+:host([scale="m"]) {
+  --calcite-label-margin-bottom: 16px;
+}
+:host([scale="l"]) {
+  --calcite-label-margin-bottom: 20px;
+}
+
+:host label {
+  cursor: pointer;
+  width: 100%;
+  margin: 0 0 var(--calcite-label-margin-bottom) 0;
+  line-height: 1.3;
+}
+
+:host([scale="s"]) label {
+  font-size: var(--calcite-label-font-size, 12px);
+  --calcite-label-spacing-value: 8px;
+}
+
+:host([scale="m"]) label {
+  font-size: var(--calcite-label-font-size, 16px);
+  --calcite-label-spacing-value: 12px;
+}
+
+:host([scale="l"]) label {
+  font-size: var(--calcite-label-font-size, 20px);
+  --calcite-label-spacing-value: 16px;
+}
+
+:host([layout="default"]) {
+  label {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
+  }
+  & > ::slotted(.calcite-label-text) {
+    margin-bottom: 4px;
+  }
+}
+
+:host([layout="inline"]) {
+  label {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
+  }
+}
+
+:host([layout="inline-space-between"]) {
+  label {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
+  }
+}
+
+:host([layout="inline"]),
+:host([layout="inline-space-between"]) {
+  & > ::slotted(.calcite-label-text) {
+    margin-left: $baseline/2;
+    margin-right: $baseline/2;
+  }
+  & > ::slotted(.calcite-label-text:first-child) {
+    margin-left: 0;
+    margin-right: $baseline/2;
+  }
+  & > ::slotted(.calcite-label-text:last-child) {
+    margin-left: $baseline/2;
+    margin-right: 0;
+  }
+}
+
+:host([dir="rtl"][layout="inline"]),
+:host([dir="rtl"][layout="inline-space-between"]) {
+  ::slotted(.calcite-label-text:first-child) {
+    margin-left: $baseline/2;
+    margin-right: 0;
+  }
+  ::slotted(.calcite-label-text:last-child) {
+    margin-left: 0;
+    margin-right: $baseline/2;
+  }
+}
+
+// disabled styles
+:host([disabled]) {
+  & > label {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  ::slotted(*) {
+    pointer-events: none;
+  }
+  // prevent opacity stacking with already disabled child elements
+  ::slotted(*[disabled]),
+  ::slotted(*[disabled] *) {
+    opacity: 1;
+  }
+}
+
+// status
+$inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-text-2), "idle" var(--calcite-ui-text-2);
+
+@each $statusColor in $inputStatusColors {
+  $name: nth($statusColor, 1);
+  $color: nth($statusColor, 2);
+
+  :host([status="#{$name}"]) label {
+    color: $color;
+  }
+}
+
+:host([disable-spacing]) {
+  label,
+  ::slotted(.calcite-label-text) {
+    margin: 0;
+  }
+}
