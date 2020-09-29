@@ -12,7 +12,9 @@
 }
 
 .icon {
+  align-items: center;
   color: var(--calcite-ui-blue-3);
+  display: flex;
   flex: 0 0 auto;
   line-height: 0;
   margin: 0 var(--calcite-spacing-quarter);
@@ -68,10 +70,19 @@
   @include word-break();
 }
 
-.action {
+.actions {
   align-items: stretch;
   display: flex;
   flex: 0 0 auto;
   justify-self: flex-end;
   margin: 0;
 }
+
+// .actions--start ~ .label {
+//   padding-left: var(--calcite-spacing-quarter);
+// }
+
+// .calcite--rtl .actions--start ~ .label {
+//   padding-left: unset;
+//   padding-right: var(--calcite-spacing-quarter);
+// }

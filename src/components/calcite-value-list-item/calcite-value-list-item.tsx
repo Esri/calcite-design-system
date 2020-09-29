@@ -2,7 +2,9 @@ import { Component, Element, Host, Method, Prop, h, VNode, Listen } from "@stenc
 import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { guid } from "../../utils/guid";
 import { CSS } from "../calcite-pick-list-item/resources";
-import { ICONS } from "./resources";
+import { ICONS, SLOTS } from "./resources";
+import { SLOTS as PICK_LIST_SLOTS } from "../calcite-pick-list-item/resources";
+import { getSlotted } from "../../utils/dom";
 
 /**
  * @slot secondary-action - A slot intended for adding a `calcite-action` or `calcite-button`. This is placed at the end of the item.
@@ -138,6 +140,33 @@ export class CalciteValueListItem {
   //
   // --------------------------------------------------------------------------
 
+  renderActionsEnd(): VNode {
+    const { el } = this;
+    const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
+
+    return hasActionsEnd ? (
+      <slot name={SLOTS.actionsEnd} slot={PICK_LIST_SLOTS.actionsEnd}></slot>
+    ) : null;
+  }
+
+  renderSecondaryActions(): VNode {
+    const { el } = this;
+    const hasSecondaryActions = getSlotted(el, SLOTS.secondaryAction);
+
+    return hasSecondaryActions ? (
+      <slot name={SLOTS.secondaryAction} slot={PICK_LIST_SLOTS.actionsEnd}></slot>
+    ) : null;
+  }
+  
+  renderActionsStart(): VNode {
+    const { el } = this;
+    const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
+
+    return hasActionsStart ? (
+      <slot name={SLOTS.actionsStart} slot={PICK_LIST_SLOTS.actionsStart}></slot>
+    ) : null;
+  }
+
   renderHandle(): VNode {
     const { icon } = this;
     if (icon === ICON_TYPES.grip) {
@@ -153,6 +182,7 @@ export class CalciteValueListItem {
           onKeyDown={this.handleKeyDown}
           role="button"
           tabindex="0"
+          slot="actions-start"
         >
           <calcite-icon icon={ICONS.drag} scale="s" />
         </span>
@@ -164,6 +194,7 @@ export class CalciteValueListItem {
     return (
       <Host data-id={this.guid}>
         {this.renderHandle()}
+        {this.renderActionsStart()}
         <calcite-pick-list-item
           disableDeselect={this.disableDeselect}
           disabled={this.disabled}
@@ -176,7 +207,8 @@ export class CalciteValueListItem {
           textLabel={this.textLabel}
           value={this.value}
         >
-          <slot name="secondary-action" slot="secondary-action" />
+          {this.renderActionsEnd()}
+          {this.renderSecondaryActions()}
         </calcite-pick-list-item>
       </Host>
     );

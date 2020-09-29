@@ -252,17 +252,33 @@ export class CalcitePickListItem {
         class={CSS.remove}
         icon={ICONS.remove}
         onClick={this.removeClickHandler}
-        scale="s"
         text={this.textRemove}
+        slot={SLOTS.actionsEnd}
       />
     );
   }
 
-  renderSecondaryAction(): VNode {
-    const hasSecondaryAction = getSlotted(this.el, SLOTS.secondaryAction);
-    return hasSecondaryAction || this.removable ? (
-      <div class={CSS.action}>
-        <slot name={SLOTS.secondaryAction}>{this.renderRemoveAction()}</slot>
+  renderActionsStart(): VNode {
+    const { el } = this;
+    const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
+
+    return hasActionsStart ? (
+      <div class={{ [CSS.actions]:true, [CSS.actionsStart]:true }}>
+        <slot name={SLOTS.actionsStart}></slot>
+      </div>
+    ) : null;
+  }
+
+  renderActionsEnd(): VNode {
+    const { el, removable } = this;
+    const hasSecondaryAction = getSlotted(el, SLOTS.secondaryAction);
+    const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
+
+    return hasSecondaryAction || hasActionsEnd || removable ? (
+      <div class={{ [CSS.actions]: true, [CSS.actionsEnd]:true }}>
+        <slot name={SLOTS.secondaryAction}></slot>
+        <slot name={SLOTS.actionsEnd}></slot>
+        {this.renderRemoveAction()}
       </div>
     ) : null;
   }
@@ -274,6 +290,8 @@ export class CalcitePickListItem {
 
     return (
       <Host aria-checked={this.selected.toString()} role="menuitemcheckbox">
+        {this.renderIcon()}
+        {this.renderActionsStart()}
         <label
           aria-label={this.textLabel}
           class={CSS.label}
@@ -282,13 +300,12 @@ export class CalcitePickListItem {
           ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
           tabIndex={0}
         >
-          {this.renderIcon()}
           <div class={CSS.textContainer}>
             <span class={CSS.title}>{this.textLabel}</span>
             {description}
           </div>
         </label>
-        {this.renderSecondaryAction()}
+        {this.renderActionsEnd()}
       </Host>
     );
   }
