@@ -72,19 +72,25 @@
 
 .text {
   flex: 1 1 auto;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
   line-height: 1;
   margin: auto 0;
   text-align: center;
 }
 
 .month,
-.year {
+.year,
+.suffix {
   color: var(--calcite-ui-text-1);
   background: var(--calcite-ui-foreground-1);
   font-size: inherit;
   font-weight: 500;
+  line-height: 1.25;
   margin: 0 4px;
+  display: inline-block;
 }
 
 .year {
@@ -93,6 +99,9 @@
   border: none;
   width: 3em;
   padding: 0;
+  background-color: transparent;
+  position: relative;
+  z-index: 2;
   @include focus-style-base();
   &:hover {
     transition: outline-color 100ms ease-in-out;
@@ -102,4 +111,26 @@
   &:focus {
     @include focus-style-outset();
   }
+}
+
+.year--suffix {
+  width: 4rem;
+  text-align: left;
+}
+
+.year-wrap {
+  position: relative;
+}
+
+.suffix {
+  position: absolute;
+  width: 4rem;
+  white-space: nowrap;
+  text-align: left;
+  top: 0;
+  left: 0;
+}
+
+.suffix__invisible {
+  visibility: hidden;
 }
