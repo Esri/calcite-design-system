@@ -77,6 +77,7 @@ export class CalciteDateMonthHeader {
     const dir = getElementDir(this.el);
     const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
     const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+    const suffix = this.localeData.year?.suffix;
     return (
       <Host dir={dir}>
         <div aria-hidden="true" class="header">
@@ -92,18 +93,31 @@ export class CalciteDateMonthHeader {
             <span class="month" role="heading">
               {localizedMonth}
             </span>
-            <input
-              class="year"
-              inputmode="numeric"
-              maxlength="4"
-              minlength="4"
-              onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
-              onKeyDown={(event) => this.onYearKey(event)}
-              pattern="\d*"
-              ref={(el) => (this.yearInput = el)}
-              type="text"
-              value={`${localizedYear.slice(-4)}`}
-            />
+            <span class="year-wrap">
+              <input
+                class={{
+                  year: true,
+                  "year--suffix": !!suffix
+                }}
+                inputmode="numeric"
+                maxlength="4"
+                minlength="4"
+                onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
+                onKeyDown={(event) => this.onYearKey(event)}
+                pattern="\d*"
+                ref={(el) => (this.yearInput = el)}
+                type="text"
+                value={localizedYear}
+              />
+              {suffix && (
+                <span class="suffix">
+                  <span aria-hidden="true" class="suffix__invisible">
+                    {localizedYear}
+                  </span>
+                  {" " + suffix}
+                </span>
+              )}
+            </span>
           </div>
           <button
             aria-label={this.intlNextMonth}
