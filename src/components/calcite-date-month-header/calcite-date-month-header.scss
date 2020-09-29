@@ -81,6 +81,10 @@
   text-align: center;
 }
 
+.text--reverse {
+  flex-direction: row-reverse;
+}
+
 .month,
 .year,
 .suffix {
