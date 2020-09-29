@@ -114,21 +114,6 @@ export class CalciteDate {
   // --------------------------------------------------------------------------
   connectedCallback(): void {
     this.setupProxyInput();
-    this.waitUntilVisible(() => {
-      this.visible = true;
-      this.loadLocaleData();
-    });
-  }
-
-  disconnectedCallback(): void {
-    this.observer.disconnect();
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
-      this.intersectionObserver = null;
-    }
-  }
-
-  async componentWillLoad(): Promise<void> {
     this.loadLocaleData();
   }
 
@@ -210,8 +195,6 @@ export class CalciteDate {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  @State() private visible = false;
-
   @State() private localeData: DateLocaleData;
 
   private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
@@ -220,8 +203,6 @@ export class CalciteDate {
 
   private observer: MutationObserver;
 
-  private intersectionObserver: IntersectionObserver;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -229,38 +210,8 @@ export class CalciteDate {
   //--------------------------------------------------------------------------
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
-    const { locale, visible } = this;
-
-    if (!Build.isBrowser || !locale || !visible) {
-      return;
-    }
+    const { locale } = this;
     this.localeData = await getLocaleData(locale);
-  }
-
-  private waitUntilVisible(callback: () => void): void {
-    if (
-      !Build.isBrowser ||
-      typeof window === "undefined" ||
-      !(window as any).IntersectionObserver
-    ) {
-      callback();
-      return;
-    }
-
-    this.intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.intersectionObserver.disconnect();
-            this.intersectionObserver = null;
-            callback();
-          }
-        });
-      },
-      { rootMargin: "50px" }
-    );
-
-    this.intersectionObserver.observe(this.el);
   }
 
   /**
