@@ -145,7 +145,7 @@ describe("calcite-pick-list", () => {
           filterInput.value = "nums";
           filterInput.dispatchEvent(new Event("input"));
         });
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
 
         const item1Visible = await item1.isVisible();
         const item2Visible = await item2.isVisible();

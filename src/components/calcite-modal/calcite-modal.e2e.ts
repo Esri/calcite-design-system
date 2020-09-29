@@ -86,7 +86,7 @@ describe("calcite-modal events", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    await page.waitFor(400);
+    await page.waitForTimeout(400);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
   it("emits the calciteModalClose event on close", async () => {
@@ -99,7 +99,7 @@ describe("calcite-modal events", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await modal.setProperty("active", false);
     await page.waitForChanges();
-    await page.waitFor(400);
+    await page.waitForTimeout(400);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 });
