@@ -48,6 +48,7 @@ export class CalciteDateDay {
   @Prop({ reflect: true }) active = false;
 
   /** CLDR data for current locale */
+  /* @internal */
   @Prop() localeData: DateLocaleData;
 
   /** specify the scale of the date picker */

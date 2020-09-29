@@ -49,6 +49,7 @@ export class CalciteDateMonthHeader {
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
   /** CLDR locale data for translated calendar info */
+  /* @internal */
   @Prop() localeData: DateLocaleData;
 
   //--------------------------------------------------------------------------
