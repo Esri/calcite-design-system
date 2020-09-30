@@ -8,7 +8,7 @@ storiesOf("Components/Progress", module)
   .addParameters({ notes: readme })
   .add(
     "Determinate",
-    () => `
+    (): string => `
     <calcite-progress
       type="determinate"
       value="${number("value", 0, { range: true, min: 0, max: 1, step: 0.01 })}"
@@ -18,7 +18,7 @@ storiesOf("Components/Progress", module)
   )
   .add(
     "Indeterminate",
-    () => `
+    (): string => `
     <calcite-progress
       reversed=${boolean("reversed", false)}
       type="indeterminate"
@@ -28,7 +28,7 @@ storiesOf("Components/Progress", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <calcite-progress
       theme="dark"
       type="${select("type", { determinate: "determinate", indeterminate: "indeterminate" }, "indeterminate")}"

@@ -2,20 +2,26 @@
   @extend %component-host;
   display: flex;
   position: relative;
-
-  --calcite-panel-max-height-small: 40vh;
-  --calcite-panel-max-height-medium: 60vh;
-  --calcite-panel-max-height-large: 80vh;
+  max-height: var(--calcite-panel-max-height);
+  width: var(--calcite-panel-width);
+  max-width: var(--calcite-panel-max-width);
+  min-width: var(--calcite-panel-min-width);
+  transition: max-height $transition, width $transition;
+  
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
+  --calcite-panel-max-height: unset;
+  --calcite-panel-width: 100%;
+  --calcite-panel-min-width: unset;
+  --calcite-panel-max-width: unset;
 }
 
 @import "../../assets/styles/header";
 
 .container {
   align-items: stretch;
-  transition: max-height $transition;
-  width: 100%;
+  background-color: var(--calcite-ui-background);
   height: 100%;
+  width: 100%;
   padding: 0;
   margin: 0;
   display: flex;
@@ -31,16 +37,34 @@ calcite-scrim {
   pointer-events: none;
 }
 
-:host([height-scale="s"]) .container {
-  max-height: var(--calcite-panel-max-height-small);
+:host([height-scale="s"]) {
+  --calcite-panel-max-height: 40vh;
 }
 
-:host([height-scale="m"]) .container {
-  max-height: var(--calcite-panel-max-height-medium);
+:host([height-scale="m"]) {
+  --calcite-panel-max-height: 60vh;
 }
 
-:host([height-scale="l"]) .container {
-  max-height: var(--calcite-panel-max-height-large);
+:host([height-scale="l"]) {
+  --calcite-panel-max-height: 80vh;
+}
+
+:host([width-scale="s"]) {
+  --calcite-panel-width: 12vw;
+  --calcite-panel-max-width: 300px;
+  --calcite-panel-min-width: 150px;
+}
+
+:host([width-scale="m"]) {
+  --calcite-panel-width: 20vw;
+  --calcite-panel-max-width: 420px;
+  --calcite-panel-min-width: 210px;
+}
+
+:host([width-scale="l"]) {
+  --calcite-panel-width: 45vw;
+  --calcite-panel-max-width: 680px;
+  --calcite-panel-min-width: 340px;
 }
 
 .container[hidden] {
@@ -55,33 +79,65 @@ calcite-scrim {
 
 .header {
   align-items: stretch;
+  background-color: var(--calcite-ui-foreground-1);
   flex: 0 0 auto;
   justify-content: flex-start;
   min-height: var(--calcite-header-min-height);
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 2;
   border-bottom: 1px solid var(--calcite-ui-border-3);
   width: 100%;
 }
 
 .header-content {
+  display: block;
   overflow: hidden;
-  padding: var(--calcite-spacing) var(--calcite-spacing);
+  margin-right: auto;
+  padding: var(--calcite-spacing) var(--calcite-spacing-three-quarters);
+  .heading,
+  .summary {
+    padding: 0;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+  .heading {
+    color: var(--calcite-ui-text-3);
+    font-weight: var(--calcite-ui-text-weight-demi);
+    margin: 0 0 var(--calcite-spacing-quarter);
+    @include font-size(-2);
+    &:only-child {
+      margin-bottom: 0;
+    }
+  }
+  .summary {
+    color: var(--calcite-ui-text-3);
+    @include font-size(-4);
+  }
 }
 
-.header-leading-content,
-.header-trailing-content {
+.header-actions {
   align-items: stretch;
   display: flex;
   flex-flow: row nowrap;
 }
 
-.header-trailing-content {
+.menu-container:only-child {
   margin-left: auto;
 }
 
-.header-leading-content + .header-content {
-  padding-left: var(--calcite-spacing-half);
+.menu-button {
+  align-self: stretch;
+  flex: 0 1 auto;
+  height: 100%;
+  position: relative;
+}
+.menu {
+  min-width: var(--calcite-menu-min-width);
+  flex-flow: column nowrap;
 }
 
 .content-container {
@@ -94,20 +150,25 @@ calcite-scrim {
 }
 
 .footer {
+  background-color: var(--calcite-ui-foreground-1);
   border-top: 1px solid var(--calcite-ui-border-3);
   display: flex;
   flex: 0 0 auto;
   justify-content: space-evenly;
   min-height: var(--calcite-footer-min-height);
   padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+  position: sticky;
+  bottom: 0;
+  width: 100%;
 }
 
 .calcite--rtl {
-  .header-leading-content + .header-content {
-    padding-right: var(--calcite-spacing-half);
+  .header-content {
+    margin-left: auto;
+    margin-right: unset;
   }
-  .header-trailing-content {
-    margin-left: 0;
+  .menu-container:only-child {
+    margin-left: unset;
     margin-right: auto;
   }
 }

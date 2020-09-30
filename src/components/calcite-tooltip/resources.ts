@@ -1,10 +1,10 @@
 export const CSS = {
   container: "container",
-  arrow: "arrow",
-  anim: "calcite-popper-anim",
-  animActive: "calcite-popper-anim--active"
+  arrow: "arrow"
 };
 
 export const TOOLTIP_REFERENCE = "data-calcite-tooltip-reference";
 
 export const ARIA_DESCRIBED_BY = "aria-describedby";
+
+export const TOOLTIP_DELAY_MS = 500;

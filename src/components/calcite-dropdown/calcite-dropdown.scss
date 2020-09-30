@@ -1,6 +1,7 @@
 :host {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  flex-grow: 1;
 }
 
 // disabled styles
@@ -37,7 +38,7 @@
 
 .calcite-dropdown-trigger-container {
   position: relative;
-  display: inline-block;
+  width: 100%;
 }
 
 // width

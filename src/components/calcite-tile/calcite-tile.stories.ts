@@ -8,7 +8,7 @@ storiesOf("Components/Tile", module)
   .addParameters({ notes: readme })
   .add(
     "Light",
-    () => `
+    (): string => `
       <calcite-tile
         ${boolean("active", false)}
         description="${text(
@@ -26,7 +26,7 @@ storiesOf("Components/Tile", module)
   )
   .add(
     "Dark",
-    () => `
+    (): string => `
     <calcite-tile
         ${boolean("active", false)}
         description="${text(

@@ -1,4 +1,4 @@
-import { Component, Element, Prop, h } from "@stencil/core";
+import { Component, Element, Prop, h, VNode } from "@stencil/core";
 import { DataSeries } from "../../interfaces/Graph";
 import { guid } from "../../utils/guid";
 import { area, range, translate } from "./util";
@@ -46,7 +46,7 @@ export class CalciteGraph {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const { data, width, height, highlightMax, highlightMin } = this;
     const id = this.maskId;
 

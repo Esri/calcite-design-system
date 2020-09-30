@@ -64,32 +64,6 @@ describe("calcite-dropdown", () => {
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
 
-  it("renders default props when invalid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-dropdown alignment="zip" scale="zop" theme="zut" width="zat">
-    <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
-    <calcite-dropdown-group id="group-1" selection-mode="zap">
-    <calcite-dropdown-item id="item-1">
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-2" active>
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-3">
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    </calcite-dropdown-group>
-    </calcite-dropdown>`);
-
-    const element = await page.find("calcite-dropdown");
-    const group1 = await element.find("calcite-dropdown-group[id='group-1']");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("width", "m");
-    expect(element).toEqualAttribute("alignment", "start");
-    expect(group1).toEqualAttribute("selection-mode", "single");
-  });
-
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -881,5 +855,56 @@ describe("calcite-dropdown", () => {
     await trigger[1].click();
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(false);
+  });
+
+  it("item selection should work when placed inside shadow DOM (#992)", async () => {
+    const wrappedDropdownTemplateHTML = `
+     <calcite-dropdown disable-close-on-select>
+        <calcite-button slot="dropdown-trigger">Open</calcite-button>
+        <calcite-dropdown-group selection-mode="single">
+          <calcite-dropdown-item id="item-1" active>1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    `;
+
+    const page = await newE2EPage({
+      // load page with the dropdown template,
+      // so they're available in the browser-evaluated fn below
+      html: wrappedDropdownTemplateHTML
+    });
+
+    await page.waitForChanges();
+
+    const finalSelectedItem = await page.evaluate(
+      async (templateHTML: string): Promise<string> => {
+        const wrapperName = "dropdown-wrapping-component";
+
+        customElements.define(
+          wrapperName,
+          class extends HTMLElement {
+            constructor() {
+              super();
+            }
+
+            connectedCallback(): void {
+              this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
+            }
+          }
+        );
+
+        document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
+
+        const wrapper = document.querySelector(wrapperName);
+        wrapper.shadowRoot.querySelector<HTMLElement>("#item-3").click();
+        await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+
+        return wrapper.shadowRoot.querySelector("calcite-dropdown-item[active]").id;
+      },
+      [wrappedDropdownTemplateHTML]
+    );
+
+    expect(finalSelectedItem).toBe("item-3");
   });
 });

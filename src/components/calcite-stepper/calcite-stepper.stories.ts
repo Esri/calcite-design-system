@@ -9,7 +9,7 @@ storiesOf("Components/Stepper", module)
   .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-stepper
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
@@ -44,7 +44,7 @@ storiesOf("Components/Stepper", module)
   )
   .add(
     "No content",
-    () => `
+    (): string => `
     <calcite-stepper
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
@@ -76,7 +76,7 @@ storiesOf("Components/Stepper", module)
   )
   .add(
     "Dark Mode",
-    () => `
+    (): string => `
     <calcite-stepper
     theme="dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -113,7 +113,7 @@ storiesOf("Components/Stepper", module)
   )
   .add(
     "RTL",
-    () => `
+    (): string => `
       <div dir="rtl">
       <calcite-stepper
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"

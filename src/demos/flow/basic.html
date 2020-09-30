@@ -17,74 +17,90 @@
 
         <h2>Basic</h2>
         <calcite-flow>
-          <calcite-flow-item heading="Item One">
-            <calcite-action icon="caret-down" slot="leading-actions"></calcite-action>
-            <button slot="menu-actions">Reset</button>
-            <button slot="menu-actions">Rename</button>
-            <img src="https://via.placeholder.com/300x200" alt="placeholder" />
-          </calcite-flow-item>
-          <calcite-flow-item heading="Item Two">
-            <img src="http://www.fillmurray.com/100/100" height="40" slot="leading-actions" />
-            <button slot="menu-actions">Reset</button>
-            <button slot="menu-actions">Rename</button>
-            <img src="https://via.placeholder.com/400x300" alt="placeholder" />
+          <calcite-panel heading="Item One">
+            <calcite-action icon="caret-down" slot="header-actions-end"></calcite-action>
+            <!-- <calcite-action slot="header-actions-end" icon="banana"></calcite-action>
+            <calcite-action slot="header-actions-end" icon="banana"></calcite-action> -->
+            <p>
+              <img src="https://via.placeholder.com/300x200" alt="placeholder" />
+            </p>
+          </calcite-panel>
+          <calcite-panel heading="Item Two">
+            <img src="http://www.fillmurray.com/100/100" height="40" slot="header-actions-start" />
+            <button slot="header-menu-actions">Reset</button>
+            <button slot="header-menu-actions">Rename</button>
+            <p>
+              <img src="https://via.placeholder.com/400x300" alt="placeholder" />
+            </p>
             <calcite-fab slot="fab"></calcite-fab>
-          </calcite-flow-item>
-          <calcite-flow-item heading="Item Three">
-            <button slot="menu-actions">Reset</button>
-            <button slot="menu-actions">Rename</button>
-            <img src="https://via.placeholder.com/400x300" alt="placeholder" />
+            <div slot="footer">
+              <img src="http://www.fillmurray.com/100/100" alt="placeholder" />
+              <hr>
+              I'm a custom footer.
+            </div>
+          </calcite-panel>
+          <calcite-panel heading="Header menu items" summary="I'm a summary.">
+            <calcite-action icon="caret-down" slot="header-actions-start"></calcite-action>
+            <calcite-action icon="banana" text="cool banana" text-enabled slot="header-menu-actions"></calcite-action>
+            <calcite-action icon="banana" text="cool banana" text-enabled slot="header-menu-actions"></calcite-action>
+            <calcite-button width="half" slot="footer-actions">Save</calcite-button>
+            <calcite-button width="half" slot="footer-actions" appearance="outline">Cancel</calcite-button>
+            <p>
+              <img src="https://via.placeholder.com/400x300" alt="placeholder" />
+            </p>
             <calcite-fab slot="fab"></calcite-fab>
-          </calcite-flow-item>
+          </calcite-panel>
         </calcite-flow>
 
         <h2>Menu-actions and Footer-actions</h2>
         <calcite-flow>
-          <calcite-flow-item heading="What are the most popular commute alternatives?">
-            <button slot="menu-actions">Reset</button>
-            <button slot="menu-actions">Rename</button>
-            <button slot="footer-actions" class="btn">Save</button>
-            <button slot="footer-actions" class="btn btn-secondary">Cancel</button>
+          <calcite-panel heading="What are the most popular commute alternatives?">
+            <calcite-action icon="banana" slot="header-actions-end"></calcite-action>
+
+            <calcite-button width="full" slot="footer-actions">Save</calcite-button>
+            <calcite-button width="full" slot="footer-actions" appearance="outline">Cancel</calcite-button>
             <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
             <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
-          </calcite-flow-item>
+          </calcite-panel>
         </calcite-flow>
 
         <div dir="rtl">
           <h2>Flow RTL</h2>
           <h3>Basic</h3>
           <calcite-flow>
-            <calcite-flow-item heading="Item One">
-              <calcite-action icon="caret-down" slot="leading-actions"></calcite-action>
-              <button slot="menu-actions">Reset</button>
-              <button slot="menu-actions">Rename</button>
+            <calcite-panel heading="Item One">
+              <calcite-action icon="caret-down" slot="header-actions-start"></calcite-action>
+              <calcite-action icon="banana" slot="header-actions-end"></calcite-action>
+              <calcite-action icon="banana" slot="header-actions-end"></calcite-action>
               <img src="https://via.placeholder.com/300x200" alt="placeholder" />
-            </calcite-flow-item>
-            <calcite-flow-item heading="Item Two">
-              <img src="http://www.fillmurray.com/100/100" height="40" slot="leading-actions" />
-              <button slot="menu-actions">Reset</button>
-              <button slot="menu-actions">Rename</button>
+            </calcite-panel>
+            <calcite-panel heading="Item Two">
+              <p>
+                <img src="http://www.fillmurray.com/100/100" height="40" slot="header-actions-start" />
+              </p>
+              <calcite-action slot="header-actions-end" icon="banana"></calcite-action>
+              <calcite-action slot="header-actions-end" icon="banana"></calcite-action>
               <img src="https://via.placeholder.com/400x300" alt="placeholder" />
               <calcite-fab slot="fab"></calcite-fab>
-            </calcite-flow-item>
-            <calcite-flow-item heading="Item Three">
-              <button slot="menu-actions">Reset</button>
-              <button slot="menu-actions">Rename</button>
+            </calcite-panel>
+            <calcite-panel heading="Item Three">
+              <calcite-action slot="header-actions-end" icon="banana"></calcite-action>
+              <calcite-action slot="header-actions-end" icon="banana"></calcite-action>
               <img src="https://via.placeholder.com/400x300" alt="placeholder" />
               <calcite-fab slot="fab"></calcite-fab>
-            </calcite-flow-item>
+            </calcite-panel>
           </calcite-flow>
 
           <h3>Menu-actions and Footer-actions</h3>
           <calcite-flow>
-            <calcite-flow-item heading="What are the most popular commute alternatives?">
-              <button slot="menu-actions">Reset</button>
-              <button slot="menu-actions">Rename</button>
-              <button slot="footer-actions" class="btn">Save</button>
-              <button slot="footer-actions" class="btn btn-secondary">Cancel</button>
+            <calcite-panel heading="What are the most popular commute alternatives?">
+              <calcite-action slot="header-actions-end" icon="banana"></calcite-action>
+              <calcite-action slot="header-actions-end" icon="banana"></calcite-action>
+              <button width="full" slot="footer-actions" class="btn">Save</button>
+              <button width="full" slot="footer-actions" class="btn btn-secondary">Cancel</button>
               <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
               <p><img src="https://via.placeholder.com/300x200" alt="placeholder" /></p>
-            </calcite-flow-item>
+            </calcite-panel>
           </calcite-flow>
         </div>
       </section>

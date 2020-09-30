@@ -41,9 +41,7 @@ Renders a panel with an action bar.
 | ------------- | -------------- | --------------------------------------------------------------------------------------- | ------------------- | ----------- |
 | `collapsed`   | `collapsed`    | Hide the content panel.                                                                 | `boolean`           | `false`     |
 | `detached`    | `detached`     | This property makes the content area appear like a "floating" panel.                    | `boolean`           | `false`     |
-| `heightScale` | `height-scale` | This sets limits the height of the content area. It only applies when detached is true. | `"l" \| "m" \| "s"` | `"m"`       |
 | `position`    | `position`     | Arranges the component depending on the elements 'dir' property.                        | `"end" \| "start"`  | `undefined` |
-| `widthScale`  | `width-scale`  | This sets width and max-width of the content area.                                      | `"l" \| "m" \| "s"` | `"m"`       |
 
 
 ## Events

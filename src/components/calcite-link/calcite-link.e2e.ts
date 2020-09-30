@@ -111,22 +111,6 @@ describe("calcite-link", () => {
     expect(iconEnd).toBeNull();
   });
 
-  it("validates incorrect props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-link color="zip">Continue</calcite-link>`);
-    const element = await page.find("calcite-link");
-    const elementAsSpan = await page.find("calcite-link >>> span");
-    const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "blue");
-    expect(elementAsLink).toBeNull();
-    expect(elementAsSpan).not.toBeNull();
-    expect(iconStart).toBeNull();
-    expect(iconEnd).toBeNull();
-  });
-
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-start='plus'>Continue</calcite-link>`);
