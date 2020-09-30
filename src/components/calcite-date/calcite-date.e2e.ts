@@ -8,7 +8,6 @@ describe("calcite-date", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date></calcite-date>");
     const input = await page.find("calcite-date >>> calcite-input");
-    await page.waitForChanges();
     const changedEvent = await page.spyOnEvent("calciteDateChange");
     await input.callMethod("setFocus");
     // have to wait for transition
@@ -21,10 +20,12 @@ describe("calcite-date", () => {
     await input.press("7");
     await input.press("/");
     await input.press("2");
-    await input.press("0");
-    await input.press("2");
-    await input.press("0");
-    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(1);
+    await input.press("0");
+    expect(changedEvent).toHaveReceivedEventTimes(2);
+    await input.press("2");
+    expect(changedEvent).toHaveReceivedEventTimes(3);
+    await input.press("0");
+    expect(changedEvent).toHaveReceivedEventTimes(4);
   });
 });
