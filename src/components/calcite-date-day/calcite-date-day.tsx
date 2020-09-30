@@ -10,6 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
+import { DateLocaleData } from "../calcite-date/utils";
 
 @Component({
   tag: "calcite-date-day",
@@ -46,8 +47,9 @@ export class CalciteDateDay {
   /** Date is actively in focus for keyboard navigation */
   @Prop({ reflect: true }) active = false;
 
-  /** Locale to display the day in */
-  @Prop() locale: string;
+  /** CLDR data for current locale */
+  /* @internal */
+  @Prop() localeData: DateLocaleData;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
@@ -86,11 +88,14 @@ export class CalciteDateDay {
   //
   //--------------------------------------------------------------------------
   render(): VNode {
-    const intl = new Intl.NumberFormat(this.locale);
+    const formattedDay = String(this.day)
+      .split("")
+      .map((i) => this.localeData.numerals[i])
+      .join("");
     return (
       <Host role="gridcell" tabindex={this.selected || this.active ? 0 : -1}>
         <span class="day">
-          <span class="text">{intl.format(this.day)}</span>
+          <span class="text">{formattedDay}</span>
         </span>
       </Host>
     );

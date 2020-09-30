@@ -1,6 +1,6 @@
 # calcite-flow
 
-The `calcite-flow` component is a series of panels that provides a user with a workflow (eg. editing experience), by which the user can switch from panel to panel of `calcite-flow-item`s.
+The `calcite-flow` component is a series of panels that provides a user with a workflow (eg. editing experience), by which the user can switch from panel to panel of `calcite-panel`s.
 
 <!-- Auto Generated Below -->
 
@@ -10,33 +10,56 @@ The `calcite-flow` component is a series of panels that provides a user with a w
 
 #### Basic
 
-Renders a basic flow with a couple `calcite-flow-item`s.
+Renders a basic flow with a couple `calcite-panel`s.
 
 ```html
 <calcite-flow>
-  <calcite-flow-item heading="one, two, three, four">
+  <calcite-panel heading="one, two, three, four">
     <!-- image -->
-  </calcite-flow-item>
-  <calcite-flow-item heading="tell me that you love me more">
+  </calcite-panel>
+  <calcite-panel heading="tell me that you love me more">
     <!-- image -->
-  </calcite-flow-item>
+  </calcite-panel>
 </calcite-flow>
 ```
 
-#### Menu-actions and footer-actions
-
-Renders a flow with menu-actions and footer-actions in the form of buttons.
+#### header-menu-actions
+Renders a flow with header-menu-actions which appear in a drop-down like menu.
 
 ```html
 <calcite-flow>
-  <calcite-flow-item heading="What are the most popular commute alternatives?">
-    <button slot="menu-actions">Reset</button>
-    <button slot="menu-actions">Rename</button>
-    <button slot="footer-actions">Save</button>
-    <button slot="footer-actions">Cancel</button>
-  </calcite-flow-item>
+  <calcite-panel heading="What are the most popular commute alternatives?">
+    <calcite-action text="Reset" slot="header-menu-actions" text-enabled></calcite-action>
+    <calcite-action text="Rename" slot="header-menu-actions" text-enabled></calcite-action>
+  </calcite-panel>
 </calcite-flow>
 ```
+
+#### footer-actions
+Renders a flow with footer actions.
+
+```html
+<calcite-flow>
+  <calcite-panel heading="What are the most popular commute alternatives?">
+    <calcite-button slot="footer-actions">Save</calcite-button>
+    <calcite-button slot="footer-actions">Cancel</calcite-button>
+  </calcite-panel>
+</calcite-flow>
+```
+
+#### footer
+Renders a flow with custom footer.
+
+```html
+<calcite-flow>
+  <calcite-panel heading="What are the most popular commute alternatives?">
+    <div class="my-custom-footer" slot="footer">
+      I'm a custom footer.
+    </div>
+  </calcite-panel>
+</calcite-flow>
+```
+
 
 ## Properties
 
@@ -48,7 +71,7 @@ Renders a flow with menu-actions and footer-actions in the form of buttons.
 
 ### `back() => Promise<HTMLCalciteFlowItemElement>`
 
-Removes the currently active `calcite-flow-item`.
+Removes the currently active `calcite-panel`.
 
 #### Returns
 
@@ -58,7 +81,7 @@ Type: `Promise<HTMLCalciteFlowItemElement>`
 
 | Slot | Description                                         |
 | ---- | --------------------------------------------------- |
-|      | A slot for adding `calcite-flow-item`s to the flow. |
+|      | A slot for adding `calcite-panel`s to the flow. |
 
 ---
 

@@ -66,7 +66,7 @@ describe("calcite-modal properties", () => {
     `);
     const modal = await page.find("calcite-modal");
     await page.$eval("calcite-modal", (elm: any) => {
-      elm.beforeClose = this.beforeClose;
+      elm.beforeClose = (window as typeof window & { beforeClose: () => void }).beforeClose;
     });
     await page.waitForChanges();
     await modal.setProperty("active", true);

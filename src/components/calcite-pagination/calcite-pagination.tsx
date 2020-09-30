@@ -165,7 +165,7 @@ export class CalcitePagination {
   }
 
   renderPage(start: number): VNode {
-    const page = Math.floor(start / this.num) + 1;
+    const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
     return (
       <button
         class={{
@@ -205,15 +205,17 @@ export class CalcitePagination {
   render(): VNode {
     const { total, num, start } = this;
     const iconScale = this.scale === "l" ? "m" : "s";
+    const prevDisabled = num === 1 ? start <= num : start < num;
+    const nextDisabled = num === 1 ? start + num > total : start + num >= total;
     return (
       <Host>
         <button
           aria-label={this.textLabelPrevious}
           class={{
             [CSS.previous]: true,
-            [CSS.disabled]: start < num
+            [CSS.disabled]: prevDisabled
           }}
-          disabled={start < num}
+          disabled={prevDisabled}
           onClick={this.previousClicked}
         >
           <calcite-icon icon="chevronLeft" scale={iconScale} />
@@ -227,9 +229,9 @@ export class CalcitePagination {
           aria-label={this.textLabelNext}
           class={{
             [CSS.next]: true,
-            [CSS.disabled]: start + num >= total
+            [CSS.disabled]: nextDisabled
           }}
-          disabled={start + num >= total}
+          disabled={nextDisabled}
           onClick={this.nextClicked}
         >
           <calcite-icon icon="chevronRight" scale={iconScale} />

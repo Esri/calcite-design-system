@@ -1,6 +1,6 @@
 import { Component, Element, Host, Method, Prop, h, VNode, Listen } from "@stencil/core";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
-import guid from "../utils/guid";
+import { guid } from "../../utils/guid";
 import { CSS } from "../calcite-pick-list-item/resources";
 import { ICONS } from "./resources";
 

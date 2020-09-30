@@ -1,8 +1,15 @@
 import { Component, Element, Prop, Host, Event, h, EventEmitter, VNode } from "@stencil/core";
-import { getLocaleFormatData, replaceArabicNumerals, getMonths, getYear } from "../../utils/locale";
 import { getElementDir } from "../../utils/dom";
-import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
+import {
+  dateFromRange,
+  nextMonth,
+  prevMonth,
+  localizeNumber,
+  parseNumber,
+  getOrder
+} from "../../utils/date";
 import { getKey } from "../../utils/key";
+import { DateLocaleData } from "../calcite-date/utils";
 
 @Component({
   tag: "calcite-date-month-header",
@@ -48,6 +55,9 @@ export class CalciteDateMonthHeader {
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
+  /** CLDR locale data for translated calendar info */
+  @Prop() localeData: DateLocaleData;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -66,12 +76,16 @@ export class CalciteDateMonthHeader {
 
   render(): VNode {
     const activeMonth = this.activeDate.getMonth();
-    const localizedMonth = getMonths(this.locale)[activeMonth];
-    const localizedYear = getYear(this.activeDate, this.locale);
+    const { months, unitOrder } = this.localeData;
+    const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
+    const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
     const iconScale = this.scale === "l" ? "m" : "s";
     const dir = getElementDir(this.el);
+    const order = getOrder(unitOrder);
+    const reverse = order.indexOf("y") < order.indexOf("m");
     const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
     const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+    const suffix = this.localeData.year?.suffix;
     return (
       <Host dir={dir}>
         <div aria-hidden="true" class="header">
@@ -83,22 +97,35 @@ export class CalciteDateMonthHeader {
           >
             <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
           </button>
-          <div class="text">
+          <div class={{ text: true, "text--reverse": reverse }}>
             <span class="month" role="heading">
               {localizedMonth}
             </span>
-            <input
-              class="year"
-              inputmode="numeric"
-              maxlength="4"
-              minlength="4"
-              onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
-              onKeyDown={(event) => this.onYearKey(event)}
-              pattern="\d*"
-              ref={(el) => (this.yearInput = el)}
-              type="text"
-              value={`${localizedYear.slice(-4)}`}
-            />
+            <span class="year-wrap">
+              <input
+                class={{
+                  year: true,
+                  "year--suffix": !!suffix
+                }}
+                inputmode="numeric"
+                maxlength="4"
+                minlength="4"
+                onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
+                onKeyDown={(event) => this.onYearKey(event)}
+                pattern="\d*"
+                ref={(el) => (this.yearInput = el)}
+                type="text"
+                value={localizedYear}
+              />
+              {suffix && (
+                <span class="suffix">
+                  <span aria-hidden="true" class="suffix__invisible">
+                    {localizedYear}
+                  </span>
+                  {" " + suffix}
+                </span>
+              )}
+            </span>
           </div>
           <button
             aria-label={this.intlNextMonth}
@@ -147,11 +174,10 @@ export class CalciteDateMonthHeader {
    * set to active if in range
    */
   private setYear(localizedYear: string, increment = 0) {
-    const { min, max, activeDate, locale, yearInput } = this;
-    const parsedYear = parseInt(replaceArabicNumerals(localizedYear));
+    const { min, max, activeDate, localeData, yearInput } = this;
+    const parsedYear = parseNumber(localizedYear, localeData);
     const length = parsedYear.toString().length;
-    const offset = getLocaleFormatData(locale).buddhist ? 543 : 0;
-    const year = isNaN(parsedYear) ? false : parsedYear - offset + increment;
+    const year = isNaN(parsedYear) ? false : parsedYear + increment;
     const inRange =
       year && (!min || min.getFullYear() <= year) && (!max || max.getFullYear() >= year);
     // if you've supplied a year and it's in range, update active date
@@ -160,10 +186,10 @@ export class CalciteDateMonthHeader {
       nextDate.setFullYear(year as number);
       const inRangeDate = dateFromRange(nextDate, min, max);
       this.calciteActiveDateChange.emit(inRangeDate);
-      yearInput.value = getYear(inRangeDate, locale).slice(-4);
+      yearInput.value = localizeNumber(inRangeDate.getFullYear(), localeData);
     } else {
       // leave the current active date and clean up garbage input
-      yearInput.value = getYear(activeDate, locale).slice(-4);
+      yearInput.value = localizeNumber(activeDate.getFullYear(), localeData);
     }
   }
 }
