@@ -271,14 +271,14 @@ export class CalciteDropdown {
   @Listen("calciteDropdownGroupRegister")
   registerCalciteDropdownGroup(e: CustomEvent<GroupRegistration>): void {
     const {
-      detail: { group, items, position, titleEl }
+      detail: { items, position, titleEl, separatorEl }
     } = e;
 
     this.items.push({
-      group,
       items,
       position,
-      titleEl
+      titleEl,
+      separatorEl
     });
 
     e.stopPropagation();
@@ -420,24 +420,18 @@ export class CalciteDropdown {
     const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
-    let borderHeight = 0;
 
     groups.forEach((group) => {
       if (maxItems > 0 && itemsToProcess < maxItems) {
+        maxScrollerHeight += group?.titleEl?.offsetHeight || 0;
+        maxScrollerHeight += group?.separatorEl?.offsetHeight || 0;
+
         group.items.forEach((item) => {
           if (itemsToProcess < maxItems) {
             maxScrollerHeight += item.offsetHeight;
             itemsToProcess += 1;
           }
         });
-
-        const separatorEl = group?.group?.shadowRoot.querySelector(
-          ".dropdown-separator"
-        ) as HTMLElement;
-
-        borderHeight = group?.position !== 0 ? separatorEl?.offsetHeight : 0;
-        maxScrollerHeight += group?.titleEl?.offsetHeight || 0;
-        maxScrollerHeight = maxScrollerHeight + borderHeight;
       }
     });
 

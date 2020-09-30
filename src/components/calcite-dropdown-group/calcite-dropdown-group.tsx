@@ -53,14 +53,18 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad(): void {
+  componentWillLoad(): void {
     this.groupPosition = this.getGroupPosition();
+  }
+
+  componentDidLoad(): void {
     this.items = this.sortItems(this.items) as HTMLCalciteDropdownItemElement[];
     this.calciteDropdownGroupRegister.emit({
       items: this.items,
       position: this.groupPosition,
       group: this.el,
-      titleEl: this.titleEl
+      titleEl: this.titleEl,
+      separatorEl: this.separatorEl
     });
   }
 
@@ -71,12 +75,18 @@ export class CalciteDropdownGroup {
       </span>
     ) : null;
 
-    const dropdownseparator =
-      this.groupPosition !== 0 ? <div class="dropdown-separator" role="separator" /> : null;
+    const dropdownSeparator =
+      this.groupPosition > 0 ? (
+        <div
+          class="dropdown-separator"
+          ref={(node) => (this.separatorEl = node)}
+          role="separator"
+        />
+      ) : null;
 
     return (
       <Host>
-        {dropdownseparator}
+        {dropdownSeparator}
         {groupTitle}
         <slot />
       </Host>
@@ -132,6 +142,8 @@ export class CalciteDropdownGroup {
 
   /** the requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
+
+  private separatorEl: HTMLDivElement = null;
 
   private titleEl: HTMLSpanElement = null;
 
