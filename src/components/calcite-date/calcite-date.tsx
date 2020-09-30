@@ -161,7 +161,9 @@ export class CalciteDate {
               max={max}
               min={min}
               onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
+                this.setValue(new Date(e.detail));
                 this.activeDate = new Date(e.detail);
+                this.calciteDateChange.emit(new Date(e.detail));
               }}
               scale={this.scale}
               selectedDate={date || new Date()}
