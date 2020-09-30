@@ -73,11 +73,11 @@ describe("calcite-value-list", () => {
       await dragAndDrop(
         page,
         {
-          host: `calcite-value-list-item[value="one"]`,
+          element: `calcite-value-list-item[value="one"]`,
           shadow: `.${CSS.handle}`
         },
         {
-          host: `calcite-value-list-item[value="two"]`,
+          element: `calcite-value-list-item[value="two"]`,
           shadow: `.${CSS.handle}`
         }
       );
@@ -143,28 +143,43 @@ describe("calcite-value-list", () => {
       await dragAndDrop(
         page,
         {
-          host: `calcite-value-list-item[value="d"]`,
+          element: `calcite-value-list-item[value="d"]`,
           shadow: `.${CSS.handle}`
         },
-        `#first-letters`
+        {
+          element: `#first-letters`,
+          pointerPosition: {
+            vertical: "bottom"
+          }
+        }
       );
 
       await dragAndDrop(
         page,
         {
-          host: `calcite-value-list-item[value="e"]`,
+          element: `calcite-value-list-item[value="e"]`,
           shadow: `.${CSS.handle}`
         },
-        `#numbers`
+        {
+          element: `#numbers`,
+          pointerPosition: {
+            vertical: "bottom"
+          }
+        }
       );
 
       await dragAndDrop(
         page,
         {
-          host: `calcite-value-list-item[value="e"]`,
+          element: `calcite-value-list-item[value="e"]`,
           shadow: `.${CSS.handle}`
         },
-        `#no-group`
+        {
+          element: `#no-group`,
+          pointerPosition: {
+            vertical: "bottom"
+          }
+        }
       );
 
       const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await page.findAll(
