@@ -60,7 +60,7 @@ export class CalciteInput {
   @Prop({ reflect: true }) loading = false;
 
   /** input max */
-  @Prop({ reflect: true }) max?: number;
+  @Prop({ reflect: true }) max?: number | string;
 
   /** watcher to update number-to-string for max */
   @Watch("max")
@@ -69,7 +69,7 @@ export class CalciteInput {
   }
 
   /** input min */
-  @Prop({ reflect: true }) min?: number;
+  @Prop({ reflect: true }) min?: number | string;
 
   /** watcher to update number-to-string for min */
   @Watch("min")
@@ -96,7 +96,7 @@ export class CalciteInput {
   @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 
   /** input step */
-  @Prop({ reflect: true }) step?: number;
+  @Prop({ reflect: true }) step?: number | string;
 
   @Watch("step")
   stepWatcher(): void {
