@@ -193,7 +193,6 @@ export class CalciteValueListItem {
     return (
       <Host data-id={this.guid}>
         {this.renderHandle()}
-        {this.renderActionsStart()}
         <calcite-pick-list-item
           disableDeselect={this.disableDeselect}
           disabled={this.disabled}
@@ -205,7 +204,8 @@ export class CalciteValueListItem {
           textDescription={this.textDescription}
           textLabel={this.textLabel}
           value={this.value}
-        >
+          >
+          {this.renderActionsStart()}
           {this.renderActionsEnd()}
           {this.renderSecondaryActions()}
         </calcite-pick-list-item>

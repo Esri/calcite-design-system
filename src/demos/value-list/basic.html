@@ -16,7 +16,7 @@
         <calcite-value-list id="one" multiple filter-enabled>
           <calcite-action slot="menu-actions" indicator text="Cool" scale="s" icon="hamburger"> </calcite-action>
           <calcite-value-list-item
-            disable-select text-label="START ACTIONS NESTED SLOT" text-description="Man's best friend" value="dogs">
+            text-label="START ACTIONS NESTED SLOT" text-description="Man's best friend" value="dogs">
             <calcite-action slot="actions-start" text="click-me" onClick="console.log('clicked');" icon="banana">
             </calcite-action>
             <calcite-action slot="actions-start" text="click-me" onClick="console.log('clicked');" icon="banana">
@@ -27,7 +27,7 @@
             </calcite-action> -->
           </calcite-value-list-item>
           <calcite-value-list-item
-            disable-select text-label="Cats" text-description="Independent and fluffy" value="cats" removable>
+            disable-select text-label="Cats" text-description="Independent and fluffy" value="cats" >
             
             <calcite-action slot="actions-start" scale="m">
               <div style="align-self: center; width: 16px; height: 16px; background-color: #56ccf2"></div>
@@ -38,7 +38,7 @@
             text-label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
             text-description="Easy to care for."
             value="fish"
-           removable>
+           >
            <calcite-action slot="actions-start" scale="m">
             <div style="align-self: center; width: 16px; height: 16px; background-color: #990000"></div>
           </calcite-action>
