@@ -163,6 +163,11 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  /** Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
+   * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
+   * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
+   * or use the calciteRadioButtonGroupChange event if using this with calcite-radio-button-group.
+   */
   @Event() calciteRadioButtonChange: EventEmitter;
 
   @Event() calciteRadioButtonFocusedChange: EventEmitter;
@@ -287,7 +292,6 @@ export class CalciteRadioButton {
         this.label = document.createElement("calcite-label");
         this.label.setAttribute("dir", getElementDir(this.el));
         this.disabled && this.label.setAttribute("disabled", "");
-        this.label.setAttribute("for", `${this.guid}-input`);
         this.label.setAttribute("disable-spacing", "");
         this.label.setAttribute("scale", this.scale);
         this.label.appendChild(document.createTextNode(childNode.textContent.trim()));
