@@ -109,7 +109,7 @@ export class CalciteDateMonthHeader {
                 }}
                 inputmode="numeric"
                 maxlength="4"
-                minlength="4"
+                minlength="1"
                 onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
                 onKeyDown={(event) => this.onYearKey(event)}
                 pattern="\d*"
@@ -181,7 +181,7 @@ export class CalciteDateMonthHeader {
     const inRange =
       year && (!min || min.getFullYear() <= year) && (!max || max.getFullYear() >= year);
     // if you've supplied a year and it's in range, update active date
-    if (year && inRange && length === localizedYear.length && length > 3) {
+    if (year && inRange && length === localizedYear.length) {
       const nextDate = new Date(activeDate);
       nextDate.setFullYear(year as number);
       const inRangeDate = dateFromRange(nextDate, min, max);
