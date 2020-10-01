@@ -41,7 +41,7 @@ describe("dom", () => {
     });
 
     describe("shadow DOM boundaries", () => {
-      beforeAll(() => {
+      function defineTestComponents(): void {
         class PropLookupParentTest extends HTMLElement {
           constructor() {
             super();
@@ -66,7 +66,9 @@ describe("dom", () => {
 
         customElements.define("prop-lookup-parent-test", PropLookupParentTest);
         customElements.define("prop-lookup-child-test", PropLookupChildTest);
-      });
+      }
+
+      beforeEach(defineTestComponents);
 
       it("can cross shadow DOM boundary", async () => {
         document.body.innerHTML = `
@@ -97,7 +99,7 @@ describe("dom", () => {
       return document.body.querySelector("slot-test");
     }
 
-    beforeAll(() => {
+    function defineTestComponents() {
       class SlotTest extends HTMLElement {
         constructor() {
           super();
@@ -110,9 +112,11 @@ describe("dom", () => {
       }
 
       customElements.define("slot-test", SlotTest);
-    });
+    }
 
     beforeEach(() => {
+      defineTestComponents();
+
       document.body.innerHTML = `
       <slot-test>
         <h2 slot=${testSlotName}>
