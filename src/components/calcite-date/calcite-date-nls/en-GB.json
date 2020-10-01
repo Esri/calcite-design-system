@@ -1,0 +1,29 @@
+{
+  "default-calendar": "gregorian",
+  "separator": "/",
+  "unitOrder": "dd/MM/y",
+  "weekStart": 1,
+  "placeholder": "dd/MM/y",
+  "days": {
+    "narrow": ["S", "M", "T", "W", "T", "F", "S"]
+  },
+  "numerals": "0123456789",
+  "months": {
+    "narrow": ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+    "abbreviated": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "wide": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ]
+  }
+}

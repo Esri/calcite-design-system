@@ -10,7 +10,7 @@ storiesOf("Components/Color", module)
   .addParameters({ notes: [colorReadme, colorSwatchReadme, hexInputReadme] })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-color
       ${boolean("hide hex", false)}
       ${boolean("hide channels", false)}
@@ -23,7 +23,7 @@ storiesOf("Components/Color", module)
   )
   .add(
     "Dark Mode",
-    () => `
+    (): string => `
       <calcite-color
       hide-channels=${boolean("hide channels", false)}
       hide-hex=${boolean("hide hex", false)}

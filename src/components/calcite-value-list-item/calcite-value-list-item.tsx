@@ -1,6 +1,6 @@
 import { Component, Element, Host, Method, Prop, h, VNode, Listen } from "@stencil/core";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
-import guid from "../utils/guid";
+import { guid } from "../../utils/guid";
 import { CSS } from "../calcite-pick-list-item/resources";
 import { ICONS } from "./resources";
 
@@ -115,7 +115,8 @@ export class CalciteValueListItem {
   //
   // --------------------------------------------------------------------------
 
-  getPickListRef = (el): HTMLCalcitePickListItemElement => (this.pickListItem = el);
+  getPickListRef = (el: HTMLCalcitePickListItemElement): HTMLCalcitePickListItemElement =>
+    (this.pickListItem = el);
 
   handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " ") {

@@ -63,12 +63,4 @@ describe("calcite-loader", () => {
     expect(loader).toHaveAttribute("id");
     expect(loader.getAttribute("id").length).toEqual(36);
   });
-
-  it("validates scale and type properties", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-loader scale="bleep" type="bloop"></calcite-loader>`);
-    const loader = await page.find("calcite-loader");
-    expect(loader).toEqualAttribute("scale", "m");
-    expect(loader).toEqualAttribute("type", "indeterminate");
-  });
 });

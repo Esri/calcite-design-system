@@ -6,49 +6,60 @@ import readme from "./readme.md";
 
 const locales = [
   "ar",
-  "ar-eg",
+  "bs",
   "ca",
   "cs",
   "da",
+  "de-CH",
   "de",
   "el",
+  "en-AU",
+  "en-CA",
+  "en-GB",
   "en",
+  "es-MX",
   "es",
   "et",
   "fi",
+  "fr-CH",
   "fr",
   "he",
+  "hi",
   "hr",
   "hu",
   "id",
+  "it-CH",
   "it",
   "ja",
   "ko",
   "lt",
   "lv",
-  "nl",
+  "mk",
   "nb",
+  "nl",
   "pl",
-  "pt-br",
-  "pt-pt",
+  "pt-PT",
+  "pt",
   "ro",
   "ru",
+  "sk",
+  "sl",
   "sr",
   "sv",
   "th",
   "tr",
   "uk",
   "vi",
-  "zh-cn",
-  "zh-hk",
-  "zh-tw"
+  "zh-CN",
+  "zh-HK",
+  "zh-TW"
 ];
 
 storiesOf("Components/Date", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div style="width: 400px">
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -64,7 +75,7 @@ storiesOf("Components/Date", module)
   )
   .add(
     "No input",
-    () => `
+    (): string => `
     <div style="width: 400px">
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -82,7 +93,7 @@ storiesOf("Components/Date", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <div style="width: 400px">
     <calcite-date
       theme="dark"

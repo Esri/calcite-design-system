@@ -8,7 +8,8 @@ import {
   EventEmitter,
   h,
   State,
-  Host
+  Host,
+  VNode
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -51,7 +52,7 @@ export class CalciteTab {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const id = this.el.id || this.guid;
 
     return (
@@ -100,7 +101,7 @@ export class CalciteTab {
 
   @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
     event: CustomEvent<TabChangeEventDetail>
-  ) {
+  ): void {
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a title that is a
     // child of the `<calcite-tabs>` that is the a parent of this tab.
@@ -128,11 +129,9 @@ export class CalciteTab {
    */
   @Method()
   async getTabIndex(): Promise<number> {
-    return Promise.resolve(
-      Array.prototype.indexOf.call(
-        nodeListToArray(this.el.parentElement.children).filter((e) => e.matches("calcite-tab")),
-        this.el
-      )
+    return Array.prototype.indexOf.call(
+      nodeListToArray(this.el.parentElement.children).filter((e) => e.matches("calcite-tab")),
+      this.el
     );
   }
 
@@ -158,8 +157,7 @@ export class CalciteTab {
   /**
    * @internal
    */
-  @Method() updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []) {
+  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
-    return Promise.resolve();
   }
 }

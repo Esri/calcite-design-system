@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+  VNode
+} from "@stencil/core";
 import { GroupRegistration, ItemRegistration } from "../../interfaces/Dropdown";
 
 @Component({
@@ -25,7 +35,7 @@ export class CalciteDropdownGroup {
 
   /** specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
    none (no active items), defaults to single */
-  @Prop({ mutable: true, reflect: true }) selectionMode: "multi" | "single" | "none" = "single";
+  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "none" = "single";
 
   //--------------------------------------------------------------------------
   //
@@ -37,38 +47,55 @@ export class CalciteDropdownGroup {
 
   @Event() calciteDropdownItemChange: EventEmitter;
 
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+  setDropdownTitleRef = (node: HTMLSpanElement): void => {
+    this.titleEl = node;
+  };
+
+  setDropdownSeparatorRef = (node: HTMLDivElement): void => {
+    this.separatorEl = node;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // validate props
-    const selectionMode = ["multi", "single", "none"];
-    if (!selectionMode.includes(this.selectionMode)) this.selectionMode = "single";
+  componentWillLoad(): void {
+    this.groupPosition = this.getGroupPosition();
   }
 
-  componentDidLoad() {
-    this.groupPosition = this.getGroupPosition();
+  componentDidLoad(): void {
     this.items = this.sortItems(this.items) as HTMLCalciteDropdownItemElement[];
     this.calciteDropdownGroupRegister.emit({
       items: this.items,
       position: this.groupPosition,
       group: this.el,
-      titleEl: this.titleEl
+      titleEl: this.titleEl,
+      separatorEl: this.separatorEl
     });
   }
 
-  render() {
+  render(): VNode {
     const groupTitle = this.groupTitle ? (
-      <span class="dropdown-title" ref={(node) => (this.titleEl = node)}>
+      <span class="dropdown-title" ref={this.setDropdownTitleRef}>
         {this.groupTitle}
       </span>
     ) : null;
 
+    const dropdownSeparator =
+      this.groupPosition > 0 ? (
+        <div class="dropdown-separator" ref={this.setDropdownSeparatorRef} role="separator" />
+      ) : null;
+
     return (
       <Host>
+        {dropdownSeparator}
         {groupTitle}
         <slot />
       </Host>
@@ -83,7 +110,7 @@ export class CalciteDropdownGroup {
 
   @Listen("calciteDropdownItemRegister") registerCalciteDropdownItem(
     event: CustomEvent<ItemRegistration>
-  ) {
+  ): void {
     const item = event.target as HTMLCalciteDropdownItemElement;
 
     if (this.selectionMode === "none") {
@@ -98,7 +125,7 @@ export class CalciteDropdownGroup {
     event.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(event: CustomEvent) {
+  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
     this.calciteDropdownItemChange.emit({
@@ -125,6 +152,8 @@ export class CalciteDropdownGroup {
   /** the requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
+  private separatorEl: HTMLDivElement = null;
+
   private titleEl: HTMLSpanElement = null;
 
   //--------------------------------------------------------------------------
@@ -133,7 +162,7 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  private getGroupPosition() {
+  private getGroupPosition(): number {
     return Array.prototype.indexOf.call(
       this.el.parentElement.querySelectorAll("calcite-dropdown-group"),
       this.el

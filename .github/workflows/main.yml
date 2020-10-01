@@ -1,0 +1,13 @@
+name: "main"
+on:
+  release:
+    types: [released]
+jobs:
+  move_to_next_milestone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: move to next milestone
+        uses: jcfranco/actions-milestone-sync@b228ad2d9631d8a84fed3cd8d67e58c5fc9cf6db
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+

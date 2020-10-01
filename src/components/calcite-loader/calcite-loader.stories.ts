@@ -8,7 +8,7 @@ storiesOf("Components/Loader", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-loader
       active
       type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
@@ -20,7 +20,7 @@ storiesOf("Components/Loader", module)
   )
   .add(
     "Inline",
-    () => `
+    (): string => `
   <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
     <calcite-loader
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -32,7 +32,7 @@ storiesOf("Components/Loader", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <calcite-loader
       type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -45,7 +45,7 @@ storiesOf("Components/Loader", module)
   )
   .add(
     "Custom theme",
-    () => `
+    (): string => `
     <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"

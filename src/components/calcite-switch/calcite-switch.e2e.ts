@@ -81,6 +81,19 @@ describe("calcite-switch", () => {
     expect(changeEvent).toHaveFirstReceivedEventDetail({ switched: true });
   });
 
+  it("doesn't emit when controlling switched attribute", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-switch></calcite-switch>");
+    const element = await page.find("calcite-switch");
+    const spy = await element.spyOnEvent("calciteSwitchChange");
+
+    await element.setProperty("switched", true);
+    await page.waitForChanges();
+    await element.setProperty("switched", false);
+    await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(0);
+  });
+
   it("does not toggle when disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-switch disabled></calcite-switch>`);
@@ -159,19 +172,12 @@ describe("calcite-switch", () => {
     expect(element).toEqualAttribute("color", "red");
   });
 
-  it("validates incorrect props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch scale="zop" color="zim"></calcite-switch>`);
-
-    const element = await page.find("calcite-switch");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("color", "blue");
-  });
-
   it("renders default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-switch></calcite-switch>`);
+
+    await page.waitForChanges();
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("scale", "m");

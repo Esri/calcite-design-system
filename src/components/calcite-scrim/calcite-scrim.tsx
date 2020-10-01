@@ -1,4 +1,4 @@
-import { Component, Host, Prop, h } from "@stencil/core";
+import { Component, Host, Prop, h, VNode } from "@stencil/core";
 
 import { CSS } from "./resources";
 
@@ -33,8 +33,8 @@ export class CalciteScrim {
   //
   // --------------------------------------------------------------------------
 
-  render() {
-    const loaderNode = this.loading ? <calcite-loader active></calcite-loader> : null;
+  render(): VNode {
+    const loaderNode = this.loading ? <calcite-loader active /> : null;
 
     const scrimNode = <div class={CSS.scrim}>{loaderNode}</div>;
 

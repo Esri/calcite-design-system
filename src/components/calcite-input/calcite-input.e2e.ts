@@ -14,20 +14,7 @@ describe("calcite-input", () => {
     await page.setContent(`
     <calcite-input></calcite-input>
     `);
-
-    const element = await page.find("calcite-input");
-    expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("alignment", "start");
-    expect(element).toEqualAttribute("number-button-type", "vertical");
-    expect(element).toEqualAttribute("type", "text");
-    expect(element).toEqualAttribute("scale", "m");
-  });
-
-  it("renders default props when invalid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input status="zip" theme="zap" alignment="zim" number-button-type="zup" type="zat" scale="zed"></calcite-input>
-    `);
+    await page.waitForChanges();
 
     const element = await page.find("calcite-input");
     expect(element).toEqualAttribute("status", "idle");
