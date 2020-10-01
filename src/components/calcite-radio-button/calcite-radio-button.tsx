@@ -163,7 +163,7 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  /** Fires only when the radio button is checked.  This behavior is identical to the native html input element.
+  /** Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
    * Since this event does not fire when the radio is unchecked, it's not recommended to attach a listener for this event
    * directly on the element, but instead either attach it to a node that contains all of the radios in the group
    * or use the calciteRadioButtonGroupChange event if using this with calcite-radio-button-group.
