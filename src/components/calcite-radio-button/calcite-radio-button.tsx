@@ -287,7 +287,6 @@ export class CalciteRadioButton {
         this.label = document.createElement("calcite-label");
         this.label.setAttribute("dir", getElementDir(this.el));
         this.disabled && this.label.setAttribute("disabled", "");
-        this.label.setAttribute("for", `${this.guid}-input`);
         this.label.setAttribute("disable-spacing", "");
         this.label.setAttribute("scale", this.scale);
         this.label.appendChild(document.createTextNode(childNode.textContent.trim()));
