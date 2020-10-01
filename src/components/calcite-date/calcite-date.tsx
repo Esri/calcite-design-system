@@ -213,7 +213,7 @@ export class CalciteDate {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  @Watch("value") validateValue(value: string): void {
+  @Watch("value") valueWatcher(value: string): void {
     this.setValueAsDate(value);
   }
 
