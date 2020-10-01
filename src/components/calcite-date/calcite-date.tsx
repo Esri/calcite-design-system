@@ -115,6 +115,9 @@ export class CalciteDate {
   connectedCallback(): void {
     this.setupProxyInput();
     this.loadLocaleData();
+    if (this.value) {
+      this.setValueAsDate(this.value);
+    }
   }
 
   componentWillRender(): void {
@@ -210,6 +213,10 @@ export class CalciteDate {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+  @Watch("value") valueWatcher(value: string): void {
+    this.setValueAsDate(value);
+  }
+
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
     const { locale } = this;
@@ -252,8 +259,7 @@ export class CalciteDate {
     const min = dateFromISO(this.min);
     const max = dateFromISO(this.max);
     const date = dateFromISO(this.inputProxy.value);
-    this.valueAsDate = dateFromRange(date, min, max);
-    this.value = dateToISO(this.valueAsDate);
+    this.value = dateToISO(dateFromRange(date, min, max));
   };
 
   /**
@@ -275,9 +281,20 @@ export class CalciteDate {
    * Set both iso value and date value and update proxy
    */
   private setValue(date: Date): void {
-    this.valueAsDate = new Date(date);
-    this.value = date.toISOString().split("T")[0];
+    this.value = new Date(date).toISOString().split("T")[0];
     this.syncProxyInputToThis();
+  }
+
+  /**
+   * Update date instance of value if valid
+   */
+  private setValueAsDate(value: string): void {
+    if (value) {
+      const date = dateFromISO(value);
+      if (date) {
+        this.valueAsDate = date as Date;
+      }
+    }
   }
 
   /**

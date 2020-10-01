@@ -50,4 +50,13 @@ describe("calcite-date", () => {
     expect(value2).toEqual("2000-11-27");
     expect(changedEvent).toHaveReceivedEventTimes(2);
   });
+
+  it("doesn't fire calciteDateChange on outside changes to value", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-date value='2000-11-27'></calcite-date>");
+    const date = await page.find("calcite-date");
+    const changedEvent = await page.spyOnEvent("calciteDateChange");
+    await date.setProperty("value", "2001-10-28");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+  });
 });

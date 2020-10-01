@@ -40,6 +40,7 @@ export function dateFromISO(iso8601: string): Date | null {
   }
   const d = iso8601.split(/[: T-]/).map(parseFloat);
   const date = new Date(d[0], (d[1] || 1) - 1, d[2] || 1);
+  date.setFullYear(d[0]);
   if (isNaN(date.getTime())) {
     throw new Error(`Invalid ISO 8601 date: "${iso8601}"`);
   }
