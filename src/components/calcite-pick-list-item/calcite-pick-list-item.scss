@@ -4,11 +4,15 @@
   display: flex;
   margin: 0 0 1px 0;
   color: var(--calcite-ui-text-1);
-  transition: background-color $transition;
+  // transition: background-color $transition;
   animation: calcite-fade-in $transition;
   @include borderShadow();
 
   --calcite-icon-dot-size: 16px;
+}
+
+:host(:hover) {
+  background-color: var(--calcite-ui-foreground-2);
 }
 
 .icon {
@@ -17,7 +21,7 @@
   display: flex;
   flex: 0 0 auto;
   line-height: 0;
-  margin: 0 var(--calcite-spacing-quarter);
+  margin: 0 var(--calcite-spacing-half);
   opacity: 0;
 }
 
@@ -35,17 +39,20 @@
 }
 
 .label {
+  background-color: transparent;
   display: flex;
   flex: 1 1 auto;
   padding: var(--calcite-spacing-three-quarters);
   align-items: center;
+  mix-blend-mode: multiply;
   cursor: pointer;
+  // transition: background-color $transition;
   @include focus-style-base();
-  &:hover {
-    background-color: var(--calcite-ui-foreground-2);
-  }
   &:focus {
     @include focus-style-inset();
+  }
+  &:hover {
+    background-color: var(--calcite-ui-foreground-2);
   }
 }
 
@@ -76,6 +83,11 @@
   flex: 0 0 auto;
   justify-self: flex-end;
   margin: 0;
+}
+
+::slotted(calcite-action),
+.remove {
+  mix-blend-mode: multiply;
 }
 
 .actions--start ~ .label {
