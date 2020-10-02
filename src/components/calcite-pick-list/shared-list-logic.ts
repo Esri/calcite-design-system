@@ -275,8 +275,8 @@ export type ItemData = {
 
 export function getItemData<T extends Lists>(this: List<T>): ItemData {
   return (this.items as ListItemElement<T>[]).map((item) => ({
-    label: item.textLabel,
-    description: item.textDescription,
+    label: item.label || item.textLabel,
+    description: item.description || item.textDescription,
     metadata: item.metadata,
     value: item.value
   }));
