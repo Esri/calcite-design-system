@@ -7,8 +7,10 @@ import { SLOTS as PICK_LIST_SLOTS } from "../calcite-pick-list-item/resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot secondary-action - A slot intended for adding a `calcite-action` or `calcite-button`. This is placed at the end of the item.
- */
+  * @slot secondary-action - **[DEPRECATED]** use actions-end instead.
+  * @slot actions-end - A slot for adding actions or content to the end side of the item.
+  * @slot actions-start - A slot for adding actions or content to the start side of the item.
+  */
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "./calcite-value-list-item.scss",

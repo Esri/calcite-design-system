@@ -15,9 +15,10 @@ import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot secondary-action - A slot intended for adding a `calcite-action` or `calcite-button` to the right side of the card.
- * This is placed at the end of the item.
- */
+  * @slot secondary-action - **[DEPRECATED]** use actions-end instead.
+  * @slot actions-end - A slot for adding actions or content to the end side of the item.
+  * @slot actions-start - A slot for adding actions or content to the start side of the item.
+  */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "./calcite-pick-list-item.scss",
