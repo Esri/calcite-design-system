@@ -22,8 +22,8 @@ const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
  * @slot header-content - a slot for adding custom content to the header.
  * @slot header-leading-content - **[DEPRECATED]** - use header-actions-start instead
  * @slot header-trailing-content - **[DEPRECATED]** - use header-actions-end instead
- * @slot header-actions-start - a slot for adding actions or content to the start side of the item.
- * @slot header-actions-end - a slot for adding actions or content to the end side of the item.
+ * @slot header-actions-start - a slot for adding actions or content to the start side of the panel header.
+ * @slot header-actions-end - a slot for adding actions or content to the end side of the panel header.
  * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
  * @slot fab - a slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - a slot for adding custom content to the footer.
