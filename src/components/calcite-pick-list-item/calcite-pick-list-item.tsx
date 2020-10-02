@@ -16,8 +16,8 @@ import { getSlotted } from "../../utils/dom";
 
 /**
   * @slot secondary-action - **[DEPRECATED]** use actions-end instead.
-  * @slot actions-end - A slot for adding actions or content to the end side of the item.
-  * @slot actions-start - A slot for adding actions or content to the start side of the item.
+  * @slot actions-end - a slot for adding actions or content to the end side of the item.
+  * @slot actions-start - a slot for adding actions or content to the start side of the item.
   */
 @Component({
   tag: "calcite-pick-list-item",
