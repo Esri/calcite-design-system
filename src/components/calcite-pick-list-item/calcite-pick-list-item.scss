@@ -4,7 +4,7 @@
   display: flex;
   margin: 0 0 1px 0;
   color: var(--calcite-ui-text-1);
-  // transition: background-color $transition;
+  transition: background-color $transition;
   animation: calcite-fade-in $transition;
   @include borderShadow();
 
@@ -46,13 +46,9 @@
   align-items: center;
   mix-blend-mode: multiply;
   cursor: pointer;
-  // transition: background-color $transition;
   @include focus-style-base();
   &:focus {
     @include focus-style-inset();
-  }
-  &:hover {
-    background-color: var(--calcite-ui-foreground-2);
   }
 }
 
