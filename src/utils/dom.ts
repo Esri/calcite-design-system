@@ -14,9 +14,24 @@ export function getElementTheme(el: HTMLElement): CalciteTheme {
   return getElementProp(el, "theme", "light") as CalciteTheme;
 }
 
-export function getElementProp(el: HTMLElement, prop: string, value: any): any {
-  const closestWithProp = el.closest(`[${prop}]`);
-  return closestWithProp ? closestWithProp.getAttribute(prop) : value;
+export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {
+  const selector = `[${prop}]`;
+  const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(selector, el) : el.closest(selector);
+  return closest ? closest.getAttribute(prop) : fallbackValue;
+}
+
+function closestElementCrossShadowBoundary<E extends Element = Element>(
+  selector: string,
+  base: Element = this
+): E | null {
+  // based on https://stackoverflow.com/q/54520554/194216
+  function closestFrom(el): E | null {
+    if (!el || el === document || el === window) return null;
+    const found = el.closest(selector);
+    return found ? found : closestFrom(el.getRootNode().host);
+  }
+
+  return closestFrom(base);
 }
 
 export interface CalciteFocusableElement extends HTMLElement {
