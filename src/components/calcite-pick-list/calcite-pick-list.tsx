@@ -10,7 +10,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { ICON_TYPES, TEXT } from "./resources";
+import { ICON_TYPES } from "./resources";
 import {
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,

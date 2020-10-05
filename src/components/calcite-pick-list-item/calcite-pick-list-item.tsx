@@ -148,7 +148,7 @@ export class CalcitePickListItem {
   @Event() calciteListItemRemove: EventEmitter<void>;
 
   /**
-   * Emitted whenever the the item's textLabel, textDescription, value or metadata properties are modified.
+   * Emitted whenever the the item's label, description, value or metadata properties are modified.
    * @event calciteListItemPropsChange
    * @internal
    */
@@ -268,8 +268,7 @@ export class CalcitePickListItem {
   }
 
   render(): VNode {
-    const description = this.description || this.textDescription;
-    const label = this.label || this.textLabel;
+    const { description, label } = this;
 
     return (
       <Host aria-checked={this.selected.toString()} role="menuitemcheckbox">
