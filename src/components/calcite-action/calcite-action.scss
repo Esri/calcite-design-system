@@ -1,7 +1,6 @@
 :host {
   @extend %component-host;
   display: flex;
-  background-color: transparent;
 }
 
 :host([disabled]) {
