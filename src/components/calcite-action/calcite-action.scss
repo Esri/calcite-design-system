@@ -22,20 +22,19 @@
   cursor: pointer;
   text-align: unset;
   position: relative;
-  // transition: background-color $transition;
   @include font-size(-4);
   @include focus-style-base();
-  &:hover/*,
-  &:focus*/ {
+  &:hover,
+  &:focus {
     background-color: var(--calcite-ui-foreground-2);
     color: var(--calcite-ui-text-1);
     fill: var(--calcite-ui-text-1);
   }
 
   &:focus {
-    // background-color: var(--calcite-ui-foreground-2);
-    // color: var(--calcite-ui-text-1);
-    // fill: var(--calcite-ui-text-1);
+    background-color: var(--calcite-ui-foreground-2);
+    color: var(--calcite-ui-text-1);
+    fill: var(--calcite-ui-text-1);
     @include focus-style-inset();
   }
 
