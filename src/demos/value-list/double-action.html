@@ -15,14 +15,14 @@
         <h3>multiple</h3>
         <calcite-value-list id="one" multiple="true" filter-enabled>
           <calcite-value-list-item text-label="Dogs" text-description="Human's best friend" value="dogs">
-            <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked');" icon="check">
+            <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="check">
             </calcite-action>
-            <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked2');" icon="x">
+            <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked2');" icon="x">
             </calcite-action>
           </calcite-value-list-item>
           <calcite-value-list-item text-label="Cats" text-description="Cat's best friend" value="cats">
-            <span slot="secondary-action">Cool text</span>
-            <calcite-action slot="secondary-action" text="click-me" onClick="console.log('clicked2');" icon="x">
+            <span slot="actions-end">Cool text</span>
+            <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked2');" icon="x">
             </calcite-action>
           </calcite-value-list-item>
         </calcite-value-list>

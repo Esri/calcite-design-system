@@ -7,7 +7,6 @@ import { SLOTS as PICK_LIST_SLOTS } from "../calcite-pick-list-item/resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
-  * @slot secondary-action - **[DEPRECATED]** use actions-end instead.
   * @slot actions-end - A slot for adding actions or content to the end side of the item.
   * @slot actions-start - A slot for adding actions or content to the start side of the item.
   */
@@ -150,15 +149,6 @@ export class CalciteValueListItem {
       <slot name={SLOTS.actionsEnd} slot={PICK_LIST_SLOTS.actionsEnd}></slot>
     ) : null;
   }
-
-  renderSecondaryActions(): VNode {
-    const { el } = this;
-    const hasSecondaryActions = getSlotted(el, SLOTS.secondaryAction);
-
-    return hasSecondaryActions ? (
-      <slot name={SLOTS.secondaryAction} slot={PICK_LIST_SLOTS.actionsEnd}></slot>
-    ) : null;
-  }
   
   renderActionsStart(): VNode {
     const { el } = this;
@@ -209,7 +199,6 @@ export class CalciteValueListItem {
           >
           {this.renderActionsStart()}
           {this.renderActionsEnd()}
-          {this.renderSecondaryActions()}
         </calcite-pick-list-item>
       </Host>
     );

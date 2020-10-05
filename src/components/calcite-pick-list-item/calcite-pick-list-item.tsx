@@ -15,7 +15,6 @@ import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
-  * @slot secondary-action - **[DEPRECATED]** use actions-end instead.
   * @slot actions-end - a slot for adding actions or content to the end side of the item.
   * @slot actions-start - a slot for adding actions or content to the start side of the item.
   */
@@ -268,12 +267,10 @@ export class CalcitePickListItem {
 
   renderActionsEnd(): VNode {
     const { el, removable } = this;
-    const hasSecondaryAction = getSlotted(el, SLOTS.secondaryAction);
     const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
 
-    return hasSecondaryAction || hasActionsEnd || removable ? (
+    return hasActionsEnd || removable ? (
       <div class={{ [CSS.actions]: true, [CSS.actionsEnd]:true }}>
-        <slot name={SLOTS.secondaryAction}></slot>
         <slot name={SLOTS.actionsEnd}></slot>
         {this.renderRemoveAction()}
       </div>
