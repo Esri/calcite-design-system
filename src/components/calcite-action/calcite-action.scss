@@ -1,7 +1,6 @@
 :host {
   @extend %component-host;
   display: flex;
-  background-color: transparent;
 }
 
 :host([disabled]) {
@@ -22,6 +21,7 @@
   cursor: pointer;
   text-align: unset;
   position: relative;
+  transition: background-color $transition;
   @include font-size(-4);
   @include focus-style-base();
   &:hover,
