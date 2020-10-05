@@ -111,7 +111,7 @@ describe("calcite-tip-manager", () => {
       expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 1/2`);
     });
 
-    // TODO: split the group-title test into one for first render, and another for pagination
+    //Ø TODO: split the group-title test into one for first render, and another for pagination
     it("should update the group title to match the selected tips attribute", async () => {
       const sharedTitle = "group1";
       const title2 = "group2";

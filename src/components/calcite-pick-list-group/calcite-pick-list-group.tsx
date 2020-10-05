@@ -39,7 +39,7 @@ export class CalcitePickListGroup {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, groupTitle, textGroupTitle } = this;
+    const { el, groupTitle } = this;
     const rtl = getElementDir(el) === "rtl";
     const hasParentItem = getSlotted(el, SLOTS.parentItem) !== null;
     const sectionClasses = {
@@ -48,7 +48,7 @@ export class CalcitePickListGroup {
       [CSS_UTILITY.rtl]: rtl
     };
 
-    const title = groupTitle || textGroupTitle;
+    const title = groupTitle;
 
     return (
       <Host>

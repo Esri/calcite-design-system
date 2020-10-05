@@ -11,7 +11,7 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { CSS, ICON_TYPES, TEXT } from "./resources";
+import { CSS, ICON_TYPES } from "./resources";
 import {
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,

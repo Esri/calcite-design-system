@@ -196,15 +196,15 @@ export class CalciteValueListItem {
       <Host data-id={this.guid}>
         {this.renderHandle()}
         <calcite-pick-list-item
+          description={this.description}
           disableDeselect={this.disableDeselect}
           disabled={this.disabled}
+          label={this.label}
           metadata={this.metadata}
           onCalciteListItemChange={this.handleSelectChange}
           ref={this.getPickListRef}
           removable={this.removable}
           selected={this.selected}
-          textDescription={this.description || this.textDescription}
-          textLabel={this.label || this.textLabel}
           value={this.value}
           >
           {this.renderActionsStart()}
