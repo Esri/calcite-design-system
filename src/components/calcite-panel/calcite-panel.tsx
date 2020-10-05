@@ -521,8 +521,6 @@ export class CalcitePanel {
 
     const rtl = getElementDir(el) === "rtl";
 
-    console.log("*: " + this["containerEl"]);
-
     const panelNode = (
       <article
         aria-busy={loading.toString()}

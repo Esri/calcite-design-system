@@ -258,7 +258,6 @@ export class CalcitePickListItem {
   renderActionsStart(): VNode {
     const { el } = this;
     const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
-    console.log(hasActionsStart);
 
     return hasActionsStart ? (
       <div class={{ [CSS.actions]:true, [CSS.actionsStart]:true }}>
