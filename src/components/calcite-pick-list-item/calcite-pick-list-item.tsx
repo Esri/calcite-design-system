@@ -101,7 +101,7 @@ export class CalcitePickListItem {
   /**
    * The text for the remove item buttons. Only applicable if removable is true.
    */
-  @Prop({ reflect: true }) textRemove = TEXT.remove;
+  @Prop({ reflect: true }) intlRemove = TEXT.remove;
 
   /**
    * A unique value used to identify this item - similar to the value attribute on an <input>.
@@ -249,7 +249,7 @@ export class CalcitePickListItem {
         class={CSS.remove}
         icon={ICONS.remove}
         onClick={this.removeClickHandler}
-        text={this.textRemove}
+        text={this.intlRemove}
         slot={SLOTS.actionsEnd}
       />
     ) : null;
