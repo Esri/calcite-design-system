@@ -67,7 +67,7 @@ describe("calcite-pick-list-item", () => {
     expect(removeEventSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("should not render actions--end if there are no end actions or secondary actions", async () => {
+  it("should not render actions--end if there are no end actions", async () => {
     const page = await newE2EPage({
       html: `<calcite-pick-list-item text-label="test" text-description="example"></calcite-pick-list-item>`
     });
@@ -77,7 +77,7 @@ describe("calcite-pick-list-item", () => {
     expect(actionsNodeEnd).toBeNull();
   });
 
-  it("should not render actions--start if there are no start actions or secondary actions", async () => {
+  it("should not render actions--start if there are no start actions", async () => {
     const page = await newE2EPage({
       html: `<calcite-pick-list-item text-label="test" text-description="example"></calcite-pick-list-item>`
     });
@@ -93,20 +93,6 @@ describe("calcite-pick-list-item", () => {
       <calcite-pick-list-item text-label="test" text-description="example">
         <calcite-action text="test" slot="actions-end"></calcite-action>
       </calcite-pick-list-item>`
-    });
-
-    const actionsNodeEnd = await page.find(`calcite-pick-list-item >>> .${CSS.actionsEnd}`);
-
-    expect(actionsNodeEnd).not.toBeNull();
-  });
-
-  it("should render actions--end if there are secondary actions", async () => {
-    const page = await newE2EPage({
-      html: `
-      <calcite-pick-list-item text-label="test" text-description="example">
-        <calcite-action text="test" slot="secondary-action"></calcite-action>
-      </calcite-pick-list-item>
-      `
     });
 
     const actionsNodeEnd = await page.find(`calcite-pick-list-item >>> .${CSS.actionsEnd}`);

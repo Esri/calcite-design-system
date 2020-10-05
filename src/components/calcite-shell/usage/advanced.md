@@ -49,13 +49,13 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
           <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
             <calcite-value-list multiple filter-enabled>
               <calcite-value-list-item text-label="2018 Population Density (Esri)" text-description="{POPDENS_CY}" value="POPDENS_CY">
-                <calcite-action slot="secondary-action" icon="camera-flash-on"></calcite-action>
+                <calcite-action slot="actions-end" icon="camera-flash-on"></calcite-action>
               </calcite-value-list-item>
               <calcite-value-list-item text-label="2018 Population Density [Updated]" text-description="{POPDENS_CY}" value="POPDENS_CY2">
-                <calcite-action slot="secondary-action" icon="banana"></calcite-action>
+                <calcite-action slot="actions-end" icon="banana"></calcite-action>
               </calcite-value-list-item>
               <calcite-value-list-item text-label="2018 Total Households (Esri)" text-description="{TOTHH_CY}" value="TOTHH_CY">
-                <calcite-action slot="secondary-action" icon="person2"></calcite-action>
+                <calcite-action slot="actions-end" icon="person2"></calcite-action>
               </calcite-value-list-item>
             </calcite-value-list>
           </calcite-block>
