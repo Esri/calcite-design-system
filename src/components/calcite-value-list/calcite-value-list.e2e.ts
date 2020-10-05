@@ -14,7 +14,7 @@ describe("calcite-value-list", () => {
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
   it("is accessible", async () =>
     accessible(
-      `<calcite-value-list><calcite-value-list-item text-label="Sample" value="one"></calcite-value-list-item></calcite-value-list>`
+      `<calcite-value-list><calcite-value-list-item label="Sample" value="one"></calcite-value-list-item></calcite-value-list>`
     ));
 
   describe("Selection and Deselection", () => {
@@ -60,9 +60,9 @@ describe("calcite-value-list", () => {
     async function createSimpleValueList(): Promise<E2EPage> {
       return newE2EPage({
         html: `<calcite-value-list drag-enabled>
-        <calcite-value-list-item value="one" text-label="One"></calcite-value-list-item>
-        <calcite-value-list-item value="two" text-label="Two"></calcite-value-list-item>
-        <calcite-value-list-item value="three" text-label="Three"></calcite-value-list-item>
+        <calcite-value-list-item value="one" label="One"></calcite-value-list-item>
+        <calcite-value-list-item value="two" label="Two"></calcite-value-list-item>
+        <calcite-value-list-item value="three" label="Three"></calcite-value-list-item>
       </calcite-value-list>`
       });
     }
@@ -118,24 +118,24 @@ describe("calcite-value-list", () => {
       const page = await newE2EPage({
         html: `
         <calcite-value-list id="first-letters" drag-enabled group="letters">
-          <calcite-value-list-item value="a" text-label="A"></calcite-value-list-item>
-          <calcite-value-list-item value="b" text-label="B"></calcite-value-list-item>
+          <calcite-value-list-item value="a" label="A"></calcite-value-list-item>
+          <calcite-value-list-item value="b" label="B"></calcite-value-list-item>
         </calcite-value-list>
 
         <calcite-value-list id="numbers" drag-enabled group="numbers">
-          <calcite-value-list-item value="1" text-label="One"></calcite-value-list-item>
-          <calcite-value-list-item value="2" text-label="Two"></calcite-value-list-item>
+          <calcite-value-list-item value="1" label="One"></calcite-value-list-item>
+          <calcite-value-list-item value="2" label="Two"></calcite-value-list-item>
         </calcite-value-list>
 
         <calcite-value-list id="no-group" drag-enabled>
-          <calcite-value-list-item value="no-group" text-label="No group"></calcite-value-list-item>
+          <calcite-value-list-item value="no-group" label="No group"></calcite-value-list-item>
         </calcite-value-list>
 
         <calcite-value-list id="second-letters" drag-enabled group="letters">
-          <calcite-value-list-item value="c" text-label="C"></calcite-value-list-item>
-          <calcite-value-list-item value="d" text-label="D"></calcite-value-list-item>
-          <calcite-value-list-item value="e" text-label="E"></calcite-value-list-item>
-          <calcite-value-list-item value="f" text-label="F"></calcite-value-list-item>
+          <calcite-value-list-item value="c" label="C"></calcite-value-list-item>
+          <calcite-value-list-item value="d" label="D"></calcite-value-list-item>
+          <calcite-value-list-item value="e" label="E"></calcite-value-list-item>
+          <calcite-value-list-item value="f" label="F"></calcite-value-list-item>
         </calcite-value-list>
         `
       });

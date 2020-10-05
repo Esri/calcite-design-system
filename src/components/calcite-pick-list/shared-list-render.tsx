@@ -22,12 +22,14 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
     filterEnabled,
     dataForFilter,
     handleFilter,
+    filterPlaceholder,
     textFilterPlaceholder,
     el
   },
   ...rest
 }): VNode => {
   const defaultSlot = <slot />;
+  const placeholder = filterPlaceholder || textFilterPlaceholder;
 
   return (
     <Host aria-busy={loading.toString()} aria-disabled={disabled.toString()} role="menu" {...rest}>
@@ -35,11 +37,11 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
             <calcite-filter
-              aria-label={textFilterPlaceholder}
+              aria-label={placeholder}
               data={dataForFilter}
               dir={getElementDir(el)}
               onCalciteFilterChange={handleFilter}
-              placeholder={textFilterPlaceholder}
+              placeholder={placeholder}
             />
           ) : null}
           <slot name="menu-actions" />

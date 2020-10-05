@@ -49,13 +49,13 @@ export const basic = (): string =>
     "calcite-pick-list",
     createAttributes(),
     dedent`
-    <calcite-pick-list-item text-label="T. Rex" text-description="arm strength impaired" value="trex">
+    <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
       ${action}
     </calcite-pick-list-item>
-    <calcite-pick-list-item text-label="Triceratops" text-description="3 horn" value="triceratops" selected>
+    <calcite-pick-list-item label="Triceratops" description="3 horn" value="triceratops" selected>
       ${action}
     </calcite-pick-list-item>
-    <calcite-pick-list-item text-label="hi" text-description="there" value="helloWorld">
+    <calcite-pick-list-item label="hi" description="there" value="helloWorld">
       ${action}
     </calcite-pick-list-item>
   `
@@ -66,19 +66,19 @@ export const grouped = (): string =>
     "calcite-pick-list",
     createAttributes(),
     dedent`
-    <calcite-pick-list-group text-group-title="numbers">
-      <calcite-pick-list-item text-label="one" text-description="fish" value="one" icon="grip">
+    <calcite-pick-list-group group-title="numbers">
+      <calcite-pick-list-item label="one" description="fish" value="one" icon="grip">
         ${action}
       </calcite-pick-list-item>
-      <calcite-pick-list-item text-label="two" text-description="fish" value="two" icon="grip">
+      <calcite-pick-list-item label="two" description="fish" value="two" icon="grip">
         ${action}
       </calcite-pick-list-item>
     </calcite-pick-list-group>
-    <calcite-pick-list-group text-group-title="colors">
-      <calcite-pick-list-item text-label="red" text-description="fish" value="red" icon="grip">
+    <calcite-pick-list-group group-title="colors">
+      <calcite-pick-list-item label="red" description="fish" value="red" icon="grip">
         ${action}
       </calcite-pick-list-item>
-      <calcite-pick-list-item text-label="blue" text-description="fish" value="blue" icon="grip">
+      <calcite-pick-list-item label="blue" description="fish" value="blue" icon="grip">
         ${action}
       </calcite-pick-list-item>
     </calcite-pick-list-group>
@@ -91,30 +91,30 @@ export const nested = (): string =>
     createAttributes(),
     dedent`
     <calcite-pick-list-group>
-      <calcite-pick-list-item text-label="All the dogs" value="all-dogs" slot="parent-item">
+      <calcite-pick-list-item label="All the dogs" value="all-dogs" slot="parent-item">
         ${action}
       </calcite-pick-list-item>
-      <calcite-pick-list-item text-label="Husky" value="husky">
+      <calcite-pick-list-item label="Husky" value="husky">
         ${action}
       </calcite-pick-list-item>
-      <calcite-pick-list-item text-label="Pomeranian" value="pom">
+      <calcite-pick-list-item label="Pomeranian" value="pom">
         ${action}
       </calcite-pick-list-item>
-      <calcite-pick-list-item text-label="Xoloitzcuintle" value="xolo">
+      <calcite-pick-list-item label="Xoloitzcuintle" value="xolo">
         ${action}
       </calcite-pick-list-item>
     </calcite-pick-list-group>
     <calcite-pick-list-group>
-      <calcite-pick-list-item text-label="All the cats" value="all-cats" slot="parent-item">
+      <calcite-pick-list-item label="All the cats" value="all-cats" slot="parent-item">
         ${action}
       </calcite-pick-list-item>
-      <calcite-pick-list-item text-label="Himalayan" value="himalayan">
+      <calcite-pick-list-item label="Himalayan" value="himalayan">
         ${action}
       </calcite-pick-list-item>
-      <calcite-pick-list-item text-label="Persian" value="persian">
+      <calcite-pick-list-item label="Persian" value="persian">
         ${action}
       </calcite-pick-list-item>
-      <calcite-pick-list-item text-label="Spynx" value="spynx">
+      <calcite-pick-list-item label="Spynx" value="spynx">
         ${action}
       </calcite-pick-list-item>
     </calcite-pick-list-group>

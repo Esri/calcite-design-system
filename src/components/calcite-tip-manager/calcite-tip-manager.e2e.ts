@@ -118,11 +118,11 @@ describe("calcite-tip-manager", () => {
 
       const page = await newE2EPage({
         html: `<calcite-tip-manager>
-      <calcite-tip-group text-group-title=${sharedTitle}>
+      <calcite-tip-group group-title=${sharedTitle}>
         <calcite-tip><p>group title behavior</p></calcite-tip>
         <calcite-tip><p>same title as first one</p></calcite-tip>
       </calcite-tip-group>
-      <calcite-tip-group text-group-title=${title2}>
+      <calcite-tip-group group-title=${title2}>
         <calcite-tip ><p>different title</p></calcite-tip>
       </calcite-tip-group>
       <calcite-tip><p>default title</p></calcite-tip>
