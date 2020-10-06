@@ -56,6 +56,9 @@ export class CalciteTileSelect {
   /** The value of the tile select.  This value will appear in form submissions when this tile select is checked. */
   @Prop({ reflect: true }) value?: string;
 
+  /** specify the width of the tile, defaults to auto */
+  @Prop({ reflect: true }) width: "auto" | "full" = "auto";
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties
