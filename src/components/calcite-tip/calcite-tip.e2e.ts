@@ -36,27 +36,15 @@ describe("calcite-tip", () => {
     expect(eventSpy).toHaveReceivedEvent();
   });
 
-  it("header should only be visible if dismissible or has a heading", async () => {
+  it("header should only be visible if has a heading", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tip><p>testing</p></calcite-tip>`);
 
     let header = await page.find(`calcite-tip >>> .${CSS.header}`);
 
-    expect(header).toBeDefined();
-
-    let isVisible = await header.isVisible();
-
-    expect(isVisible).toBe(true);
+    expect(header).toBeNull();
 
     const tip = await page.find("calcite-tip");
-
-    tip.setProperty("nonDismissible", true);
-
-    await page.waitForChanges();
-
-    header = await page.find(`calcite-tip >>> .${CSS.header}`);
-
-    expect(header).toBeNull();
 
     tip.setProperty("heading", "test");
 
@@ -64,10 +52,7 @@ describe("calcite-tip", () => {
 
     header = await page.find(`calcite-tip >>> .${CSS.header}`);
 
-    expect(header).toBeDefined();
+    expect(header).not.toBeNull();
 
-    isVisible = await header.isVisible();
-
-    expect(isVisible).toBe(true);
   });
 });

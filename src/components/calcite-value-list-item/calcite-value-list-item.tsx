@@ -1,4 +1,4 @@
-import { Component, Element, Host, Method, Prop, h, VNode, Listen } from "@stencil/core";
+import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { guid } from "../../utils/guid";
 import { CSS } from "../calcite-pick-list-item/resources";
@@ -18,6 +18,11 @@ export class CalciteValueListItem {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * An optional description for this item. Will appear below the label text.
+   */
+  @Prop({ reflect: true }) description?: string;
 
   /**
    * When true, the item cannot be clicked and is visually muted
@@ -40,6 +45,11 @@ export class CalciteValueListItem {
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
   /**
+   * The main label for this item. Appears next to the icon.
+   */
+  @Prop({ reflect: true }) label!: string;
+
+  /**
    * Used to provide additional metadata to an item, primarily used when the parent list has a filter.
    */
   @Prop() metadata?: Record<string, unknown>;
@@ -53,16 +63,6 @@ export class CalciteValueListItem {
    * Set this to true to pre-select an item. Toggles when an item is checked/unchecked.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
-
-  /**
-   * The main label for this item. Appears next to the icon.
-   */
-  @Prop({ reflect: true }) textLabel!: string;
-
-  /**
-   * An optional description for this item. Will appear below the label text.
-   */
-  @Prop({ reflect: true }) textDescription?: string;
 
   /**
    * A unique value used to identify this item - similar to the value attribute on an <input>.
@@ -165,15 +165,15 @@ export class CalciteValueListItem {
       <Host data-id={this.guid}>
         {this.renderHandle()}
         <calcite-pick-list-item
+          description={this.description}
           disableDeselect={this.disableDeselect}
           disabled={this.disabled}
+          label={this.label}
           metadata={this.metadata}
           onCalciteListItemChange={this.handleSelectChange}
           ref={this.getPickListRef}
           removable={this.removable}
           selected={this.selected}
-          textDescription={this.textDescription}
-          textLabel={this.textLabel}
           value={this.value}
         >
           <slot name="secondary-action" slot="secondary-action" />

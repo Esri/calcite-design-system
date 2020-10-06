@@ -35,9 +35,7 @@ export class CalciteFlow {
    */
   @Method()
   async back(): Promise<HTMLCalcitePanelElement> {
-    const lastItem = this.el.querySelector(
-      "calcite-panel:last-child"
-    ) as HTMLCalcitePanelElement;
+    const lastItem = this.el.querySelector("calcite-panel:last-child") as HTMLCalcitePanelElement;
 
     if (!lastItem) {
       return;
@@ -157,7 +155,7 @@ export class CalciteFlow {
 
     return (
       <Host>
-        <div key={panelCount} class={frameDirectionClasses}>
+        <div class={frameDirectionClasses} key={panelCount}>
           <slot />
         </div>
       </Host>

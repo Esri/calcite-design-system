@@ -3,12 +3,12 @@ import {
   Element,
   Event,
   EventEmitter,
+  h,
   Host,
   Method,
   Prop,
-  Watch,
-  h,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
@@ -31,6 +31,16 @@ export class CalcitePickListItem {
   // --------------------------------------------------------------------------
 
   /**
+   * An optional description for this item.  This will appear below the label text.
+   */
+  @Prop({ reflect: true }) description?: string;
+
+  @Watch("description")
+  descriptionWatchHandler(): void {
+    this.calciteListItemPropsChange.emit();
+  }
+
+  /**
    * When true, the item cannot be clicked and is visually muted.
    */
   @Prop({ reflect: true }) disabled? = false;
@@ -44,6 +54,16 @@ export class CalcitePickListItem {
    * Determines the icon SVG symbol that will be shown. Options are circle, square, grid or null.
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
+
+  /**
+   * The main label for this item. This will appear next to the icon.
+   */
+  @Prop({ reflect: true }) label: string;
+
+  @Watch("label")
+  labelWatchHandler(): void {
+    this.calciteListItemPropsChange.emit();
+  }
 
   /**
    * Used to provide additional metadata to an item, primarily used when the parent list has a filter.
@@ -75,26 +95,6 @@ export class CalcitePickListItem {
     });
 
     this.shiftPressed = false;
-  }
-
-  /**
-   * An optional description for this item.  This will appear below the label text.
-   */
-  @Prop({ reflect: true }) textDescription?: string;
-
-  @Watch("textDescription")
-  textDescriptionWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
-  }
-
-  /**
-   * The main label for this item. This will appear next to the icon.
-   */
-  @Prop({ reflect: true }) textLabel: string;
-
-  @Watch("textLabel")
-  textLabelWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
   }
 
   /**
@@ -148,7 +148,7 @@ export class CalcitePickListItem {
   @Event() calciteListItemRemove: EventEmitter<void>;
 
   /**
-   * Emitted whenever the the item's textLabel, textDescription, value or metadata properties are modified.
+   * Emitted whenever the the item's label, description, value or metadata properties are modified.
    * @event calciteListItemPropsChange
    * @internal
    */
@@ -268,14 +268,12 @@ export class CalcitePickListItem {
   }
 
   render(): VNode {
-    const description = this.textDescription ? (
-      <span class={CSS.description}>{this.textDescription}</span>
-    ) : null;
+    const { description, label } = this;
 
     return (
       <Host aria-checked={this.selected.toString()} role="menuitemcheckbox">
         <label
-          aria-label={this.textLabel}
+          aria-label={label}
           class={CSS.label}
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
@@ -284,8 +282,8 @@ export class CalcitePickListItem {
         >
           {this.renderIcon()}
           <div class={CSS.textContainer}>
-            <span class={CSS.title}>{this.textLabel}</span>
-            {description}
+            <span class={CSS.title}>{label}</span>
+            {description ? <span class={CSS.description}>{description}</span> : null}
           </div>
         </label>
         {this.renderSecondaryAction()}

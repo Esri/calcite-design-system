@@ -9,7 +9,13 @@ export const create: () => Config = () => ({
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
+    {
+      components: ["calcite-action", "calcite-action-group", "calcite-action-bar", "calcite-action-pad"]
+    },
     { components: ["calcite-alert"] },
+    {
+      components: ["calcite-block", "calcite-block-section"]
+    },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
     { components: ["calcite-chip"] },
@@ -30,15 +36,24 @@ export const create: () => Config = () => ({
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
+    {
+      components: ["calcite-panel", "calcite-flow"]
+    },
     { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-scrim"] },
+    {
+      components: ["calcite-shell", "calcite-shell-panel"]
+    },
     { components: ["calcite-slider"] },
     { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     {
       components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"]
+    },
+    {
+      components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"]
     },
     { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
     { components: ["calcite-tree", "calcite-tree-item"] }
@@ -78,33 +93,7 @@ export const create: () => Config = () => ({
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
     },
-    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
-    testPathIgnorePatterns: [
-      "src/components/calcite-action/",
-      "src/components/calcite-action-bar/",
-      "src/components/calcite-action-group/",
-      "src/components/calcite-action-pad/",
-      "src/components/calcite-block/",
-      "src/components/calcite-block-section/",
-      "src/components/calcite-fab/",
-      "src/components/calcite-filter/",
-      "src/components/calcite-flow/",
-      "src/components/calcite-flow-item/",
-      "src/components/calcite-handle/",
-      "src/components/calcite-panel/",
-      "src/components/calcite-pick-list/",
-      "src/components/calcite-pick-list-group/",
-      "src/components/calcite-pick-list-item/",
-      "src/components/calcite-shell/",
-      "src/components/calcite-shell-center-row/",
-      "src/components/calcite-shell-panel/",
-      "src/components/calcite-sortable-list/",
-      "src/components/calcite-tip/",
-      "src/components/calcite-tip-group/",
-      "src/components/calcite-tip-manager/",
-      "src/components/calcite-value-list/",
-      "src/components/calcite-value-list-item/"
-    ]
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
   },
   hydratedFlag: {
     selector: "attribute",

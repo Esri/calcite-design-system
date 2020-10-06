@@ -2,7 +2,7 @@
   const DEMO_ROOT = "demos";
   const ASSETS_PATH = "demos/_assets";
 
-  const CSS = [`${ASSETS_PATH}/demos.css`];
+  const CSS = [`${ASSETS_PATH}/demos.css`, "build/calcite.css"];
 
   interface Script {
     src: string;
@@ -11,6 +11,14 @@
   }
 
   const SCRIPTS: Script[] = [
+    {
+      src: "build/calcite.esm.js",
+      type: "module"
+    },
+    {
+      src: "build/calcite.js",
+      noModule: true
+    },
     {
       src: "vendor/dedent/dedent.js"
     }

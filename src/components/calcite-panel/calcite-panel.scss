@@ -7,7 +7,7 @@
   max-width: var(--calcite-panel-max-width);
   min-width: var(--calcite-panel-min-width);
   transition: max-height $transition, width $transition;
-  
+
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
   --calcite-panel-width: 100%;

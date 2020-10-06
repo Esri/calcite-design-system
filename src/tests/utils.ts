@@ -1,11 +1,16 @@
 import { E2EPage } from "@stencil/core/testing";
 import { BoundingBox, JSONObject } from "puppeteer";
 
-type DragAndDropSelector = string | ShadowedSelectorOptions;
+type DragAndDropSelector = string | SelectorOptions;
 
-interface ShadowedSelectorOptions extends JSONObject {
-  host: string;
-  shadow: string;
+type PointerPosition = {
+  vertical: "bottom" | "center" | "top";
+};
+
+interface SelectorOptions extends JSONObject {
+  element: string;
+  shadow?: string;
+  pointerPosition?: PointerPosition;
 }
 
 type MouseInitEvent = Pick<
@@ -23,19 +28,23 @@ export async function dragAndDrop(
     const elementHandle =
       typeof selector === "string"
         ? await page.waitForSelector(selector)
-        : await page.evaluateHandle(
-            (selector) => document.querySelector(selector.host).shadowRoot.querySelector(selector.shadow),
-            selector
-          );
+        : await page.evaluateHandle(({ element, shadow }) => {
+            const target = document.querySelector(element);
+
+            return shadow ? target.shadowRoot.querySelector(shadow) : target;
+          }, selector);
 
     return elementHandle.asElement().boundingBox();
   }
 
   async function createEventInitializer(selector: DragAndDropSelector): Promise<MouseInitEvent> {
+    const { vertical: verticalPos }: PointerPosition =
+      typeof selector === "string" || !selector.pointerPosition ? { vertical: "center" } : selector.pointerPosition;
     const { height, width, x, y } = await getBounds(selector);
+    const verticalOffset = verticalPos === "top" ? 0 : verticalPos === "bottom" ? height : height / 2;
 
     const eventX = x + width / 2;
-    const eventY = y + height;
+    const eventY = y + verticalOffset;
 
     return {
       bubbles: true,
@@ -54,15 +63,18 @@ export async function dragAndDrop(
     dragStartInitializer: MouseInitEvent,
     dragEndInitializer: MouseInitEvent
   ): Promise<void> {
-    const dragStart =
-      typeof dragStartSelector === "string"
-        ? document.querySelector(dragStartSelector)
-        : document.querySelector(dragStartSelector.host).shadowRoot.querySelector(dragStartSelector.shadow);
+    function getElement(selector: DragAndDropSelector): Element {
+      if (typeof selector === "string") {
+        return document.querySelector(selector);
+      }
 
-    let dragEnd =
-      typeof dragEndSelector === "string"
-        ? document.querySelector(dragEndSelector)
-        : document.querySelector(dragEndSelector.host).shadowRoot.querySelector(dragEndSelector.shadow);
+      const element = document.querySelector(selector.element);
+
+      return selector.shadow ? element.shadowRoot.querySelector(selector.shadow) : element;
+    }
+
+    const dragStart = getElement(dragStartSelector);
+    let dragEnd = getElement(dragEndSelector);
 
     // if has child, put at the end.
     dragEnd = dragEnd.lastElementChild || dragEnd;
