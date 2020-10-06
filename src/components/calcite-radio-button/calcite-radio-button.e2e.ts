@@ -308,6 +308,22 @@ describe("calcite-radio-button", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
+  it("triggers the custom change event just once when label is clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-radio-button>Label</calcite-radio-button>`);
+
+    const radio = await page.find("calcite-radio-button");
+    const label = await page.find("calcite-label");
+
+    const changeEvent = await radio.spyOnEvent("calciteRadioButtonChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await label.click();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
   it("doesn't emit when controlling checked attribute", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-radio-button value='test-value'></calcite-radio-button>");

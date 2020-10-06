@@ -19,12 +19,13 @@ import { getRoundRobinIndex } from "../../utils/array";
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
 
 /**
- * @slot header-content - A slot for adding content in the center of the header.
- * @slot header-leading-content - A slot for adding a `calcite-action` on the leading side of the header.
- * @slot header-trailing-content - A slot for adding a `calcite-action` on the trailing side of the header.
- * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding `calcite-button`s to the footer.
- * @slot - A slot for adding content to the panel.
+ * @slot header-actions-start - a slot for adding actions or content to the start side of the panel header.
+ * @slot header-actions-end - a slot for adding actions or content to the end side of the panel header.
+ * @slot header-content - a slot for adding custom content to the header.
+ * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
+ * @slot fab - a slot for adding a `calcite-fab` (floating action button) to perform an action.
+ * @slot footer-actions - a slot for adding buttons to the footer.
+ * @slot footer - a slot for adding custom content to the footer.
  */
 @Component({
   tag: "calcite-panel",
@@ -103,10 +104,10 @@ export class CalcitePanel {
    */
 
   @Prop({ reflect: true }) theme: CalciteTheme;
+  
   /**
    * Heading text.
    */
-
   @Prop() heading?: string;
 
   /**
