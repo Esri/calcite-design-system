@@ -42,6 +42,7 @@ export class CalciteRadioButton {
       this.uncheckOtherRadioButtonsInGroup();
     }
     this.input.checked = newChecked;
+    this.calciteRadioButtonCheckedChange.emit(newChecked);
   }
 
   /** The disabled state of the radio button. */
@@ -170,6 +171,13 @@ export class CalciteRadioButton {
    */
   @Event() calciteRadioButtonChange: EventEmitter;
 
+  /** Fires when the checked property changes.  This is an internal event used for styling purposes only.
+   * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
+   * @internal
+   */
+  @Event() calciteRadioButtonCheckedChange: EventEmitter;
+
+  /** Fires when the radio button is either focused or blurred. */
   @Event() calciteRadioButtonFocusedChange: EventEmitter;
 
   //--------------------------------------------------------------------------

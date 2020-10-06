@@ -69,6 +69,27 @@ export class CalciteTileSelect {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private checkFirstTileSelect(): void {
+    const tileSelects = document.querySelectorAll(`calcite-tile-select[name=${this.name}]`);
+    let firstCheckedTileSelect: HTMLCalciteTileSelectElement;
+    if (tileSelects && tileSelects.length > 0) {
+      tileSelects.forEach((tileSelect: HTMLCalciteTileSelectElement) => {
+        if (firstCheckedTileSelect) {
+          tileSelect.checked = false;
+        } else if (tileSelect.checked) {
+          firstCheckedTileSelect = tileSelect;
+        }
+        return tileSelect;
+      });
+    }
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
@@ -89,9 +110,10 @@ export class CalciteTileSelect {
     }
   }
 
-  @Listen("calciteRadioButtonChange")
+  @Listen("calciteRadioButtonCheckedChange")
   calciteRadioButtonChangeEvent(event: CustomEvent): void {
-    const radioButton = event.target as HTMLCalciteRadioButtonElement;
+    const target = event.target as HTMLCalciteRadioButtonElement;
+    const radioButton = target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
     }
@@ -107,9 +129,10 @@ export class CalciteTileSelect {
 
   @Listen("click")
   click(event: MouseEvent): void {
-    if ((event.target as HTMLElement).localName === "calcite-tile-select") {
+    const target = event.target as HTMLElement;
+    const targets = ["calcite-tile", "calcite-tile-select"];
+    if (targets.includes(target.localName)) {
       this.input.click();
-      this.input.focus();
     }
   }
 
@@ -141,6 +164,9 @@ export class CalciteTileSelect {
 
   connectedCallback(): void {
     this.renderInput();
+    if (this.name) {
+      this.checkFirstTileSelect();
+    }
   }
 
   disconnectedCallback(): void {
