@@ -44,6 +44,9 @@
   padding: 0 4px;
   margin: 0 -3px;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--calcite-ui-foreground-1);
   cursor: pointer;
   transition: all 0.15s ease-in-out;
@@ -64,7 +67,7 @@
     background-color: var(--calcite-ui-foreground-3);
   }
 
-  &[disabled] {
+  &[aria-disabled] {
     pointer-events: none;
     opacity: 0;
   }
