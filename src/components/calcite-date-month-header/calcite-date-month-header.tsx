@@ -89,14 +89,18 @@ export class CalciteDateMonthHeader {
     return (
       <Host dir={dir}>
         <div aria-hidden="true" class="header">
-          <button
-            aria-label={this.intlPrevMonth}
+          <a
+            aria-disabled={nextMonthDate.getMonth() === activeMonth}
+            aria-label={this.intlNextMonth}
             class="chevron"
-            disabled={prevMonthDate.getMonth() === activeMonth}
-            onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
+            href="#"
+            onClick={(e) => this.handleArrowClick(e, prevMonthDate)}
+            onKeyDown={(e) => this.handleKeyDown(e, prevMonthDate)}
+            role="button"
+            tabindex="0"
           >
             <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
-          </button>
+          </a>
           <div class={{ text: true, "text--reverse": reverse }}>
             <span class="month" role="heading">
               {localizedMonth}
@@ -127,14 +131,18 @@ export class CalciteDateMonthHeader {
               )}
             </span>
           </div>
-          <button
+          <a
+            aria-disabled={nextMonthDate.getMonth() === activeMonth}
             aria-label={this.intlNextMonth}
             class="chevron"
-            disabled={nextMonthDate.getMonth() === activeMonth}
-            onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
+            href="#"
+            onClick={(e) => this.handleArrowClick(e, nextMonthDate)}
+            onKeyDown={(e) => this.handleKeyDown(e, nextMonthDate)}
+            role="button"
+            tabindex="0"
           >
             <calcite-icon dir={dir} icon="chevron-right" mirrored scale={iconScale} />
-          </button>
+          </a>
         </div>
       </Host>
     );
@@ -166,6 +174,26 @@ export class CalciteDateMonthHeader {
         e.preventDefault();
         this.setYear(year, 1);
         break;
+    }
+  }
+
+  /*
+   * Update active month on clicks of left/right arrows
+   */
+  private handleArrowClick(e: Event, date: Date) {
+    e?.preventDefault();
+    e.stopPropagation();
+    this.calciteActiveDateChange.emit(date);
+  }
+
+  /*
+   * Because we have to use an anchor rather than button (#1069),
+   * ensure enter/space work like a button would
+   */
+  private handleKeyDown(e: KeyboardEvent, date: Date) {
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
+      this.handleArrowClick(e, date);
     }
   }
 
