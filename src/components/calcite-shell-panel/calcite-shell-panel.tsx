@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, Host, Prop, Watch, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { CalcitePosition } from "../interfaces";
+import { CalcitePosition, CalciteScale } from "../interfaces";
 
 /**
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the panel.
@@ -32,6 +32,11 @@ export class CalciteShellPanel {
    * This property makes the content area appear like a "floating" panel.
    */
   @Prop({ reflect: true }) detached = false;
+
+  /**
+   * Specifies the maxiumum height of the contents when detached.
+   */
+  @Prop({ reflect: true }) detachedHeightScale: CalciteScale = "l";
 
   /**
    * Arranges the component depending on the elements 'dir' property.
