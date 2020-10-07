@@ -132,7 +132,6 @@ export class CalciteRadioButton {
         } else if (radioButton.checked) {
           firstCheckedRadioButton = radioButton;
         }
-        return radioButton;
       });
     }
   }

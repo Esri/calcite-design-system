@@ -76,14 +76,13 @@ export class CalciteTileSelect {
   private checkFirstTileSelect(): void {
     const tileSelects = document.querySelectorAll(`calcite-tile-select[name=${this.name}]`);
     let firstCheckedTileSelect: HTMLCalciteTileSelectElement;
-    if (tileSelects && tileSelects.length > 0) {
+    if (tileSelects?.length > 0) {
       tileSelects.forEach((tileSelect: HTMLCalciteTileSelectElement) => {
         if (firstCheckedTileSelect) {
           tileSelect.checked = false;
         } else if (tileSelect.checked) {
           firstCheckedTileSelect = tileSelect;
         }
-        return tileSelect;
       });
     }
   }
