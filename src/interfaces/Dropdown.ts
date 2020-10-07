@@ -11,6 +11,7 @@ export interface GroupRegistration {
   position: number;
   group: HTMLCalciteDropdownGroupElement;
   titleEl: HTMLSpanElement;
+  separatorEl: HTMLDivElement;
 }
 
 export interface RegisteredItem {

@@ -4,6 +4,8 @@
   align-items: stretch;
   background-color: transparent;
   pointer-events: none;
+
+  --calcite-shell-panel-detached-max-height: unset;
 }
 
 ::slotted(calcite-panel),
@@ -23,10 +25,23 @@
   transition: max-height $transition, max-width $transition;
 }
 
+:host([detached-height-scale="s"]) .content--detached {
+  --calcite-shell-panel-detached-max-height: 40vh;
+}
+
+:host([detached-height-scale="m"]) .content--detached {
+  --calcite-shell-panel-detached-max-height: 60vh;
+}
+
+:host([detached-height-scale="l"]) .content--detached {
+  --calcite-shell-panel-detached-max-height: 80vh;
+}
+
 .content--detached {
   border-radius: var(--calcite-border-radius);
   box-shadow: var(--calcite-shadow-0);
   margin: var(--calcite-spacing-half) var(--calcite-spacing-half) auto;
+  max-height: var(--calcite-shell-panel-detached-max-height);
   overflow: hidden;
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {

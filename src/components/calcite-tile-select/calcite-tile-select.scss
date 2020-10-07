@@ -26,6 +26,11 @@ $spacing: $baseline/2;
   z-index: 2;
 }
 
+:host([width="full"]) {
+  max-width: none;
+  display: block;
+}
+
 :host([show-input="none"]) {
   box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 3px var(--calcite-ui-border-2);
   margin-right: 1px;

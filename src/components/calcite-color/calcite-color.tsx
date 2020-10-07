@@ -28,6 +28,7 @@ import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from
 import { throttle } from "lodash-es";
 
 const throttleFor60FpsInMs = 16;
+const defaultColor = normalizeHex(DEFAULT_COLOR.hex());
 
 @Component({
   tag: "calcite-color",
@@ -174,7 +175,7 @@ export class CalciteColor {
   @Prop({
     mutable: true
   })
-  value: ColorValue = normalizeHex(DEFAULT_COLOR.hex());
+  value: ColorValue = defaultColor;
 
   @Watch("value")
   handleValueChange(value: ColorValue, oldValue: ColorValue): void {
@@ -333,11 +334,7 @@ export class CalciteColor {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
 
-    const valueAttr = this.el.getAttribute("value");
-    if (valueAttr) {
-      this.handleValueChange(valueAttr, this.value);
-    }
-
+    this.handleValueChange(this.value, defaultColor);
     this.updateDimensions(this.scale);
   }
 
