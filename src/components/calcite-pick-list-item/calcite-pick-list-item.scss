@@ -11,11 +11,17 @@
   --calcite-icon-dot-size: 16px;
 }
 
+:host(:hover) {
+  background-color: var(--calcite-ui-foreground-2);
+}
+
 .icon {
+  align-items: center;
   color: var(--calcite-ui-blue-3);
+  display: flex;
   flex: 0 0 auto;
   line-height: 0;
-  margin: 0 var(--calcite-spacing-quarter);
+  margin: 0 var(--calcite-spacing-half);
   opacity: 0;
 }
 
@@ -33,15 +39,14 @@
 }
 
 .label {
+  background-color: transparent;
   display: flex;
   flex: 1 1 auto;
   padding: var(--calcite-spacing-three-quarters);
   align-items: center;
+  mix-blend-mode: multiply;
   cursor: pointer;
   @include focus-style-base();
-  &:hover {
-    background-color: var(--calcite-ui-foreground-2);
-  }
   &:focus {
     @include focus-style-inset();
   }
@@ -68,10 +73,24 @@
   @include word-break();
 }
 
-.action {
+.actions {
   align-items: stretch;
   display: flex;
   flex: 0 0 auto;
   justify-self: flex-end;
   margin: 0;
+}
+
+::slotted(calcite-action),
+.remove {
+  mix-blend-mode: multiply;
+}
+
+.actions--start ~ .label {
+  padding-left: var(--calcite-spacing-quarter);
+}
+
+.calcite--rtl .actions--start ~ .label {
+  padding-left: unset;
+  padding-right: var(--calcite-spacing-quarter);
 }

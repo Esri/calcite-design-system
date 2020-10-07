@@ -2,11 +2,14 @@ import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stenc
 import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { guid } from "../../utils/guid";
 import { CSS } from "../calcite-pick-list-item/resources";
-import { ICONS } from "./resources";
+import { ICONS, SLOTS } from "./resources";
+import { SLOTS as PICK_LIST_SLOTS } from "../calcite-pick-list-item/resources";
+import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot secondary-action - A slot intended for adding a `calcite-action` or `calcite-button`. This is placed at the end of the item.
- */
+  * @slot actions-end - A slot for adding actions or content to the end side of the item.
+  * @slot actions-start - A slot for adding actions or content to the start side of the item.
+  */
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "./calcite-value-list-item.scss",
@@ -138,6 +141,24 @@ export class CalciteValueListItem {
   //
   // --------------------------------------------------------------------------
 
+  renderActionsEnd(): VNode {
+    const { el } = this;
+    const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
+
+    return hasActionsEnd ? (
+      <slot name={SLOTS.actionsEnd} slot={PICK_LIST_SLOTS.actionsEnd}></slot>
+    ) : null;
+  }
+  
+  renderActionsStart(): VNode {
+    const { el } = this;
+    const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
+
+    return hasActionsStart ? (
+      <slot name={SLOTS.actionsStart} slot={PICK_LIST_SLOTS.actionsStart}></slot>
+    ) : null;
+  }
+
   renderHandle(): VNode {
     const { icon } = this;
     if (icon === ICON_TYPES.grip) {
@@ -175,8 +196,9 @@ export class CalciteValueListItem {
           removable={this.removable}
           selected={this.selected}
           value={this.value}
-        >
-          <slot name="secondary-action" slot="secondary-action" />
+          >
+          {this.renderActionsStart()}
+          {this.renderActionsEnd()}
         </calcite-pick-list-item>
       </Host>
     );

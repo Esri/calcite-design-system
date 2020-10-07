@@ -57,7 +57,7 @@
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" id="primary-panel">
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -65,7 +65,7 @@
                 <calcite-action icon="collection" text="Open"> </calcite-action>
               </calcite-action-group>
               <calcite-action-group>
-                <calcite-action icon="layers" text="Layers" active> </calcite-action>
+                <calcite-action icon="layers" text="Layers" active id="layers-toggle"> </calcite-action>
                 <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
                 <calcite-action icon="legend" text="Legend"> </calcite-action>
                 <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
@@ -80,10 +80,10 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-              <calcite-panel heading="First flow item" height-scale="l" width-scale="m" >
+              <calcite-panel heading="First flow item" width-scale="m" >
                 Default slot of the first panel
               </calcite-panel>
-              <calcite-panel heading="Second flow item 02" height-scale="l" width-scale="m" >
+              <calcite-panel heading="Second flow item 02" width-scale="m" >
                 <div style="height: 45vh;">
                 Default slot of the second panel
               </div>
@@ -91,13 +91,13 @@
             </calcite-flow>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end" >
+          <calcite-shell-panel slot="contextual-panel" position="end" id="contextual-panel">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
                 <calcite-action text="Styles" icon="shapes"> </calcite-action>
                 <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
-                <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+                <calcite-action text="Configure pop-ups" icon="popup" active id="popup-toggle"> </calcite-action>
                 <calcite-action text="Configure attributes" icon="feature-details"> </calcite-action>
                 <calcite-action text="Labels" icon="label"> </calcite-action>
                 <calcite-action text="Tablew" icon="table"> </calcite-action>
@@ -125,10 +125,10 @@
           <div class="gnav" slot="shell-header">
             <h2>Boomer v Millennial - California</h2>
           </div>
-          <calcite-shell-center-row slot="center-row" height-scale="l" detached id="center-row">
+          <calcite-shell-center-row slot="center-row" height-scale="s" detached id="center-row">
               <calcite-panel heading="Table" summary="Table in the center row.">
                 <calcite-action slot="header-actions-start" icon="caret-down" scale="s"></calcite-action>
-                <calcite-action slot="header-actions-end" icon="chevrons-down" scale="m" id="expand-trigger"></calcite-action>
+                <calcite-action slot="header-actions-end" icon="chevrons-up" scale="m" id="expand-trigger"></calcite-action>
                 <calcite-action slot="header-actions-end" icon="x" scale="m"></calcite-action>
                 <style>
                   .demo-table th {
@@ -167,7 +167,7 @@
                     vertical-align: middle;
                   }
                 </style>
-                <div>
+                <!-- ShellCenterRow content -->
                 <table class="demo-table">
                   <tr>
                     <th class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></th>
@@ -352,7 +352,7 @@
                     <td>Protagonist</td>
                   </tr>
                 </table>
-              </div>
+                <!-- / ShellCenterRow content -->
               </calcite-panel>
 
               <calcite-action-bar slot="action-bar">
@@ -436,12 +436,38 @@
         const centerRow = document.getElementById("center-row");
         expandTrigger.addEventListener("click", function () {
           centerRow.getAttribute("height-scale") == "s"
-            ? centerRow.setAttribute("height-scale", "l")
+            ? centerRow.setAttribute("height-scale", "m")
             : centerRow.setAttribute("height-scale", "s");
 
           centerRow.getAttribute("height-scale") == "s"
             ? expandTrigger.setAttribute("icon", "chevrons-up")
             : expandTrigger.setAttribute("icon", "chevrons-down");
+        });
+
+        const popupToggle = document.getElementById("popup-toggle");
+        const popupPanel = document.getElementById("contextual-panel");
+
+        popupToggle.addEventListener("click", function() {
+          popupPanel.hasAttribute("collapsed")
+          ? popupPanel.removeAttribute("collapsed")
+          : popupPanel.setAttribute("collapsed", "");
+
+          popupToggle.hasAttribute("active")
+          ? popupToggle.removeAttribute("active")
+          : popupToggle.setAttribute("active", "");
+        });
+
+        const layersToggle = document.getElementById("layers-toggle");
+        const layersPanel = document.getElementById("primary-panel");
+        
+        layersToggle.addEventListener("click", function() {
+          layersPanel.hasAttribute("collapsed")
+          ? layersPanel.removeAttribute("collapsed")
+          : layersPanel.setAttribute("collapsed", "");
+
+          layersToggle.hasAttribute("active")
+            ? layersToggle.removeAttribute("active")
+            : layersToggle.setAttribute("active", "");
         });
       </script>
     </main>

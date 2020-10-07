@@ -104,7 +104,7 @@ export class CalcitePanel {
    */
 
   @Prop({ reflect: true }) theme: CalciteTheme;
-  
+
   /**
    * Heading text.
    */
@@ -521,8 +521,6 @@ export class CalcitePanel {
     const { dismissed, disabled, dismissible, el, loading, panelKeyUpHandler } = this;
 
     const rtl = getElementDir(el) === "rtl";
-
-    console.log("*: " + this["containerEl"]);
 
     const panelNode = (
       <article

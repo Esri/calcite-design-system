@@ -15,9 +15,9 @@ import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot secondary-action - A slot intended for adding a `calcite-action` or `calcite-button` to the right side of the card.
- * This is placed at the end of the item.
- */
+  * @slot actions-end - a slot for adding actions or content to the end side of the item.
+  * @slot actions-start - a slot for adding actions or content to the start side of the item.
+  */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "./calcite-pick-list-item.scss",
@@ -100,7 +100,7 @@ export class CalcitePickListItem {
   /**
    * The text for the remove item buttons. Only applicable if removable is true.
    */
-  @Prop({ reflect: true }) textRemove = TEXT.remove;
+  @Prop({ reflect: true }) intlRemove = TEXT.remove;
 
   /**
    * A unique value used to identify this item - similar to the value attribute on an <input>.
@@ -243,26 +243,36 @@ export class CalcitePickListItem {
   }
 
   renderRemoveAction(): VNode {
-    if (!this.removable) {
-      return null;
-    }
-
-    return (
+    return this.removable ? (
       <calcite-action
         class={CSS.remove}
         icon={ICONS.remove}
         onClick={this.removeClickHandler}
-        scale="s"
-        text={this.textRemove}
+        text={this.intlRemove}
+        slot={SLOTS.actionsEnd}
       />
-    );
+    ) : null;
   }
 
-  renderSecondaryAction(): VNode {
-    const hasSecondaryAction = getSlotted(this.el, SLOTS.secondaryAction);
-    return hasSecondaryAction || this.removable ? (
-      <div class={CSS.action}>
-        <slot name={SLOTS.secondaryAction}>{this.renderRemoveAction()}</slot>
+  renderActionsStart(): VNode {
+    const { el } = this;
+    const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
+
+    return hasActionsStart ? (
+      <div class={{ [CSS.actions]:true, [CSS.actionsStart]:true }}>
+        <slot name={SLOTS.actionsStart}></slot>
+      </div>
+    ) : null;
+  }
+
+  renderActionsEnd(): VNode {
+    const { el, removable } = this;
+    const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
+
+    return hasActionsEnd || removable ? (
+      <div class={{ [CSS.actions]: true, [CSS.actionsEnd]:true }}>
+        <slot name={SLOTS.actionsEnd}></slot>
+        {this.renderRemoveAction()}
       </div>
     ) : null;
   }
@@ -272,6 +282,8 @@ export class CalcitePickListItem {
 
     return (
       <Host aria-checked={this.selected.toString()} role="menuitemcheckbox">
+        {this.renderIcon()}
+        {this.renderActionsStart()}
         <label
           aria-label={label}
           class={CSS.label}
@@ -280,13 +292,12 @@ export class CalcitePickListItem {
           ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
           tabIndex={0}
         >
-          {this.renderIcon()}
           <div class={CSS.textContainer}>
             <span class={CSS.title}>{label}</span>
             {description ? <span class={CSS.description}>{description}</span> : null}
           </div>
         </label>
-        {this.renderSecondaryAction()}
+        {this.renderActionsEnd()}
       </Host>
     );
   }
