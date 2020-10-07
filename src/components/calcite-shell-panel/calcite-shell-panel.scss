@@ -4,6 +4,8 @@
   align-items: stretch;
   background-color: transparent;
   pointer-events: none;
+
+  --calcite-shell-panel-detached-max-height: unset;
 }
 
 ::slotted(calcite-panel),
