@@ -14,9 +14,9 @@
 | `metadata`           | --                 | Used to provide additional metadata to an item, primarily used when the parent list has a filter. | `{ [x: string]: unknown; }`                                 | `undefined`   |
 | `removable`          | `removable`        | Set this to true to display a remove action that removes the item from the list.                  | `boolean`                                                   | `false`       |
 | `selected`           | `selected`         | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                | `boolean`                                                   | `false`       |
-| `textDescription`    | `text-description` | An optional description for this item. This will appear below the label text.                     | `string`                                                    | `undefined`   |
-| `textLabel`          | `text-label`       | The main label for this item. This will appear next to the icon.                                  | `string`                                                    | `undefined`   |
-| `textRemove`         | `text-remove`      | The text for the remove item buttons. Only applicable if removable is true.                       | `string`                                                    | `TEXT.remove` |
+| `description`        | `description`      | An optional description for this item. This will appear below the label text.                     | `string`                                                    | `undefined`   |
+| `label`              | `label`            | The main label for this item. This will appear next to the icon.                                  | `string`                                                    | `undefined`   |
+| `intlRemove`         | `intlRemove`       | The text for the remove item buttons. Only applicable if removable is true.                       | `string`                                                    | `TEXT.remove` |
 | `value` _(required)_ | `value`            | A unique value used to identify this item - similar to the value attribute on an <input>.         | `string`                                                    | `undefined`   |
 
 ## Events
@@ -45,10 +45,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                 | Description                                                                                                                             |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `"actions-end"`     | A slot intended for adding a `calcite-action` or `calcite-button` to the start side of the item. |
-| `"actions-start"`    | A slot intended for adding a `calcite-action` or `calcite-button` to the end side of the item. |
+| Slot              | Description                                                                                      |
+| ----------------- | ------------------------------------------------------------------------------------------------ |
+| `"actions-end"`   | A slot intended for adding a `calcite-action` or `calcite-button` to the start side of the item. |
+| `"actions-start"` | A slot intended for adding a `calcite-action` or `calcite-button` to the end side of the item.   |
 
 ## Dependencies
 

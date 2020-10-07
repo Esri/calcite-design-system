@@ -27,8 +27,8 @@
         <calcite-value-list id="one" multiple="true" filter-enabled>
           <calcite-action slot="menu-actions" indicator text="Cool" icon="hamburger"> </calcite-action>
           <calcite-value-list-item
-            text-label="2018 Population Density (Esri)"
-            text-description="{POPDENS_CY}"
+            label="2018 Population Density (Esri)"
+            description="{POPDENS_CY}"
             value="POPDENS_CY"
           >
             <calcite-action
@@ -41,8 +41,8 @@
             </calcite-action>
           </calcite-value-list-item>
           <calcite-value-list-item
-            text-label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
-            text-description="{POPDENS_CY}"
+            label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
+            description="{POPDENS_CY}"
             value="POPDENS_CY2"
           >
             <calcite-action
@@ -55,8 +55,8 @@
             </calcite-action>
           </calcite-value-list-item>
           <calcite-value-list-item
-            text-label="2018 Total Households (Esri)"
-            text-description="{TOTHH_CY}"
+            label="2018 Total Households (Esri)"
+            description="{TOTHH_CY}"
             value="TOTHH_CY"
           >
             <calcite-action
@@ -83,8 +83,8 @@
         <h3>label-editing-enabled & single select</h3>
         <calcite-value-list id="two" multiple label-editing-enabled="true">
           <calcite-value-list-item
-            text-label="2018 Generation Alpha Population (Born 2017 or Later) [updated 2019-09-18]"
-            text-description="GENALPHACY"
+            label="2018 Generation Alpha Population (Born 2017 or Later) [updated 2019-09-18]"
+            description="GENALPHACY"
             value="GENALPHACY"
           >
             <calcite-action
@@ -97,8 +97,8 @@
             </calcite-action>
           </calcite-value-list-item>
           <calcite-value-list-item
-            text-label="2010-2018 Households: Annual Growth Rate (Esri)"
-            text-description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
+            label="2010-2018 Households: Annual Growth Rate (Esri)"
+            description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
             value="HHGRW10CY"
           >
             <calcite-action
@@ -111,8 +111,8 @@
             </calcite-action>
           </calcite-value-list-item>
           <calcite-value-list-item
-            text-label="2010-2018 Households: Annual Growth Rate (Esri)"
-            text-description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
+            label="2010-2018 Households: Annual Growth Rate (Esri)"
+            description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
             value="HHGRW10CY2"
           >
             <calcite-action
@@ -135,10 +135,10 @@
             console.log(event.detail);
           });
         </script>
-        <h3>No text-description</h3>
+        <h3>No description</h3>
         <calcite-value-list id="three" label-editing-enabled>
           <calcite-value-list-item
-            text-label="2018 Generation Alpha Population (Born 2017 or Later)"
+            label="2018 Generation Alpha Population (Born 2017 or Later)"
             value="GENALPHACY"
           >
             <calcite-action
@@ -150,7 +150,7 @@
             >
             </calcite-action>
           </calcite-value-list-item>
-          <calcite-value-list-item text-label="2010-2018 Households: Annual Growth Rate (Esri)" value="HHGRW10CY">
+          <calcite-value-list-item label="2010-2018 Households: Annual Growth Rate (Esri)" value="HHGRW10CY">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -160,7 +160,7 @@
             >
             </calcite-action>
           </calcite-value-list-item>
-          <calcite-value-list-item text-label="2010-2018 Households" value="HHGRW10CY">
+          <calcite-value-list-item label="2010-2018 Households" value="HHGRW10CY">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -183,7 +183,7 @@
         </script>
         <h3>drag-enabled</h3>
         <calcite-value-list id="four" drag-enabled>
-          <calcite-value-list-item text-label="OBJECTID" text-description="OBJECTID" value="OBJECTID" icon="grip">
+          <calcite-value-list-item label="OBJECTID" description="OBJECTID" value="OBJECTID" icon="grip">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -193,7 +193,7 @@
             >
             </calcite-action>
           </calcite-value-list-item>
-          <calcite-value-list-item text-label="OBJECTID" text-description="OBJECTID" value="OBJECTID2" icon="grip">
+          <calcite-value-list-item label="OBJECTID" description="OBJECTID" value="OBJECTID2" icon="grip">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -204,8 +204,8 @@
             </calcite-action>
           </calcite-value-list-item>
           <calcite-value-list-item
-            text-label="2023 Diversity Index (Esri)"
-            text-description="DIVINDX_FY"
+            label="2023 Diversity Index (Esri)"
+            description="DIVINDX_FY"
             value="DIVINDX_FY"
             icon="grip"
           >
@@ -219,8 +219,8 @@
             </calcite-action>
           </calcite-value-list-item>
           <calcite-value-list-item
-            text-label="2023 Per Capita Income (Esri)"
-            text-description="PCI_FY"
+            label="2023 Per Capita Income (Esri)"
+            description="PCI_FY"
             value="PCI_FY"
             icon="grip"
           >

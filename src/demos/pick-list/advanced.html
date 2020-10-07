@@ -29,7 +29,7 @@
         <h2>multi-select w/ filter</h2>
         <calcite-pick-list id="one" multiple filter-enabled>
           <calcite-action slot="menu-actions" indicator label="Cool" text="Cool" icon="hamburger"> </calcite-action>
-          <calcite-pick-list-item text-label="2018 Population Density (NO SUMMARY) (Esri)" value="POPDENS_CY" selected>
+          <calcite-pick-list-item label="2018 Population Density (NO SUMMARY) (Esri)" value="POPDENS_CY" selected>
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -43,8 +43,8 @@
             document.currentScript.previousElementSibling.metadata = { category: "first", tags: ["density"] };
           </script>
           <calcite-pick-list-item
-            text-label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
-            text-description="POPDENS_CY"
+            label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
+            description="POPDENS_CY"
             value="POPDENS_CY2"
           >
             <calcite-action
@@ -63,8 +63,8 @@
             };
           </script>
           <calcite-pick-list-item
-            text-label="2018 Total Households (Esri)"
-            text-description="TOTHH_CY"
+            label="2018 Total Households (Esri)"
+            description="TOTHH_CY"
             value="TOTHH_CY"
           >
             <calcite-action
@@ -80,8 +80,8 @@
             document.currentScript.previousElementSibling.metadata = ["total", "households"];
           </script>
           <calcite-pick-list-item
-            text-label="2018 Generation Alpha Population (Born 2017 or Later)"
-            text-description="GENALPHACY"
+            label="2018 Generation Alpha Population (Born 2017 or Later)"
+            description="GENALPHACY"
             value="GENALPHACY"
           >
             <calcite-action
@@ -94,8 +94,8 @@
             </calcite-action>
           </calcite-pick-list-item>
           <calcite-pick-list-item
-            text-label="2010-2018 Households: Annual Growth Rate (Esri)"
-            text-description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
+            label="2010-2018 Households: Annual Growth Rate (Esri)"
+            description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
             value="HHGRW10CY"
           >
             <calcite-action
@@ -118,8 +118,8 @@
         <h2>single-select</h2>
         <calcite-pick-list id="two">
           <calcite-pick-list-item
-            text-label="ID"
-            text-description="This is an id for this field and people use it for things."
+            label="ID"
+            description="This is an id for this field and people use it for things."
             value="ID"
           >
             <calcite-action
@@ -134,7 +134,7 @@
           <script>
             document.currentScript.previousElementSibling.metadata = { category: "id", tags: ["field"] };
           </script>
-          <calcite-pick-list-item text-label="OBJECTID" text-description="" value="OBJECTID">
+          <calcite-pick-list-item label="OBJECTID" description="" value="OBJECTID">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -144,7 +144,7 @@
             >
             </calcite-action>
           </calcite-pick-list-item>
-          <calcite-pick-list-item text-label="ST_ABBREV" text-description="ST_ABBREV" value="ST_ABBREV">
+          <calcite-pick-list-item label="ST_ABBREV" description="ST_ABBREV" value="ST_ABBREV">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -164,10 +164,10 @@
 
         <h2>grouped single-select</h2>
         <calcite-pick-list id="three">
-          <calcite-pick-list-group text-group-title="numbers">
+          <calcite-pick-list-group group-title="numbers">
             <calcite-pick-list-item
-              text-label="2023 Diversity Index (Esri)"
-              text-description="DIVINDX_FY"
+              label="2023 Diversity Index (Esri)"
+              description="DIVINDX_FY"
               value="DIVINDX_FY"
             >
               <calcite-action
@@ -179,7 +179,7 @@
               >
               </calcite-action>
             </calcite-pick-list-item>
-            <calcite-pick-list-item text-label="2023 Per Capita Income (Esri)" text-description="PCI_FY" value="PCI_FY">
+            <calcite-pick-list-item label="2023 Per Capita Income (Esri)" description="PCI_FY" value="PCI_FY">
               <calcite-action
                 slot="actions-end"
                 id="action-test"
@@ -190,10 +190,10 @@
               </calcite-action>
             </calcite-pick-list-item>
           </calcite-pick-list-group>
-          <calcite-pick-list-group text-group-title="colors">
+          <calcite-pick-list-group group-title="colors">
             <calcite-pick-list-item
-              text-label="2018 Total Housing Units (Esri)"
-              text-description="TOTHU_CY"
+              label="2018 Total Housing Units (Esri)"
+              description="TOTHU_CY"
               value="TOTHU_CY"
             >
               <calcite-action
@@ -206,8 +206,8 @@
               </calcite-action>
             </calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="2018 Owner Occupied Housing Units (Esri)"
-              text-description="OWNER_CY"
+              label="2018 Owner Occupied Housing Units (Esri)"
+              description="OWNER_CY"
               value="OWNER_CY"
             >
               <calcite-action
@@ -233,7 +233,7 @@
         <h1>RTL</h1>
         <h2>multi-select w/ filter</h2>
         <calcite-pick-list id="one_rtl" multiple filter-enabled>
-          <calcite-pick-list-item text-label="2018 Population Density (NO SUMMARY) (Esri)" value="POPDENS_CY">
+          <calcite-pick-list-item label="2018 Population Density (NO SUMMARY) (Esri)" value="POPDENS_CY">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -244,8 +244,8 @@
             </calcite-action>
           </calcite-pick-list-item>
           <calcite-pick-list-item
-            text-label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
-            text-description="POPDENS_CY"
+            label="2018 Population Density (Pop per Square Mile) (Esri) [updated 2019-09-18]"
+            description="POPDENS_CY"
             value="POPDENS_CY2"
           >
             <calcite-action
@@ -258,8 +258,8 @@
             </calcite-action>
           </calcite-pick-list-item>
           <calcite-pick-list-item
-            text-label="2018 Total Households (Esri)"
-            text-description="TOTHH_CY"
+            label="2018 Total Households (Esri)"
+            description="TOTHH_CY"
             value="TOTHH_CY"
           >
             <calcite-action
@@ -272,8 +272,8 @@
             </calcite-action>
           </calcite-pick-list-item>
           <calcite-pick-list-item
-            text-label="2018 Generation Alpha Population (Born 2017 or Later)"
-            text-description="GENALPHACY"
+            label="2018 Generation Alpha Population (Born 2017 or Later)"
+            description="GENALPHACY"
             value="GENALPHACY"
           >
             <calcite-action
@@ -286,8 +286,8 @@
             </calcite-action>
           </calcite-pick-list-item>
           <calcite-pick-list-item
-            text-label="2010-2018 Households: Annual Growth Rate (Esri)"
-            text-description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
+            label="2010-2018 Households: Annual Growth Rate (Esri)"
+            description="HHGRW10CY-2019-09-18.001ZZYYZALKJLKJLKJLKLJLKJ"
             value="HHGRW10CY"
           >
             <calcite-action
@@ -310,8 +310,8 @@
         <h2>single-select</h2>
         <calcite-pick-list id="two_rtl">
           <calcite-pick-list-item
-            text-label="ID"
-            text-description="This is an id for this field and people use it for things."
+            label="ID"
+            description="This is an id for this field and people use it for things."
             value="ID"
           >
             <calcite-action
@@ -323,7 +323,7 @@
             >
             </calcite-action>
           </calcite-pick-list-item>
-          <calcite-pick-list-item text-label="OBJECTID" text-description="OBJECTID" value="OBJECTID">
+          <calcite-pick-list-item label="OBJECTID" description="OBJECTID" value="OBJECTID">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -333,7 +333,7 @@
             >
             </calcite-action>
           </calcite-pick-list-item>
-          <calcite-pick-list-item text-label="ST_ABBREV" text-description="ST_ABBREV" value="ST_ABBREV">
+          <calcite-pick-list-item label="ST_ABBREV" description="ST_ABBREV" value="ST_ABBREV">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -352,10 +352,10 @@
         </script>
         <h2>grouped single-select</h2>
         <calcite-pick-list id="three_rtl">
-          <calcite-pick-list-group text-group-title="numbers">
+          <calcite-pick-list-group group-title="numbers">
             <calcite-pick-list-item
-              text-label="2023 Diversity Index (Esri)"
-              text-description="DIVINDX_FY"
+              label="2023 Diversity Index (Esri)"
+              description="DIVINDX_FY"
               value="DIVINDX_FY"
             >
               <calcite-action
@@ -367,7 +367,7 @@
               >
               </calcite-action>
             </calcite-pick-list-item>
-            <calcite-pick-list-item text-label="2023 Per Capita Income (Esri)" text-description="PCI_FY" value="PCI_FY">
+            <calcite-pick-list-item label="2023 Per Capita Income (Esri)" description="PCI_FY" value="PCI_FY">
               <calcite-action
                 slot="actions-end"
                 id="action-test"
@@ -378,10 +378,10 @@
               </calcite-action>
             </calcite-pick-list-item>
           </calcite-pick-list-group>
-          <calcite-pick-list-group text-group-title="colors">
+          <calcite-pick-list-group group-title="colors">
             <calcite-pick-list-item
-              text-label="2018 Total Housing Units (Esri)"
-              text-description="TOTHU_CY"
+              label="2018 Total Housing Units (Esri)"
+              description="TOTHU_CY"
               value="TOTHU_CY"
             >
               <calcite-action
@@ -394,8 +394,8 @@
               </calcite-action>
             </calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="2018 Owner Occupied Housing Units (Esri)"
-              text-description="OWNER_CY"
+              label="2018 Owner Occupied Housing Units (Esri)"
+              description="OWNER_CY"
               value="OWNER_CY"
             >
               <calcite-action

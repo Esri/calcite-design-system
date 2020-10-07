@@ -16,7 +16,7 @@
         <calcite-value-list id="one" multiple filter-enabled>
           <calcite-action slot="menu-actions" indicator text="Cool" scale="s" icon="hamburger"> </calcite-action>
           <calcite-value-list-item
-            text-label="START ACTIONS NESTED SLOT" text-description="Man's best friend" value="dogs">
+            label="START ACTIONS NESTED SLOT" description="Man's best friend" value="dogs">
             <calcite-action slot="actions-start" text="click-me" onClick="console.log('clicked');" icon="banana">
             </calcite-action>
             <calcite-action slot="actions-start" text="click-me" onClick="console.log('clicked');" icon="banana">
@@ -25,7 +25,7 @@
             </calcite-action>
           </calcite-value-list-item>
           <calcite-value-list-item
-            disable-select text-label="Cats" text-description="Independent and fluffy" value="cats" >
+            disable-select label="Cats" description="Independent and fluffy" value="cats" >
             
             <calcite-action slot="actions-start" scale="m">
               <div style="align-self: center; width: 16px; height: 16px; background-color: #56ccf2"></div>
@@ -33,8 +33,8 @@
           </calcite-value-list-item>
           <calcite-value-list-item
             disable-select
-            text-label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
-            text-description="Easy to care for."
+            label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
+            description="Easy to care for."
             value="fish"
            >
            <calcite-action slot="actions-start" scale="m">
@@ -46,13 +46,13 @@
         <h2>ValueList - Multi-select w/ Filter</h2>
         <h3>Pick many</h3>
         <calcite-value-list id="two" multiple filter-enabled>
-          <calcite-value-list-item text-label="Toughness" text-description="Hard to damage" value="toughness" removable>
+          <calcite-value-list-item label="Toughness" description="Hard to damage" value="toughness" removable>
             
           </calcite-value-list-item>
-          <calcite-value-list-item text-label="Athletics" value="athletics" removable>
+          <calcite-value-list-item label="Athletics" value="athletics" removable>
             
           </calcite-value-list-item>
-          <calcite-value-list-item text-label="Investigation" value="investigation" removable>
+          <calcite-value-list-item label="Investigation" value="investigation" removable>
             
           </calcite-value-list-item>
         </calcite-value-list>
@@ -60,29 +60,29 @@
         <h2>ValueList - drag and drop enabled</h2>
         <h3>Re-order by dragging the handle</h3>
         <calcite-value-list id="four" drag-enabled>
-          <calcite-value-list-item text-label="Rent" text-description="Mortgage + housing costs" value="rent">
+          <calcite-value-list-item label="Rent" description="Mortgage + housing costs" value="rent">
             <calcite-action slot="actions-start" scale="m">
               <div style="align-self: center; width: 16px; height: 16px; background-color: #56CCF2;"></div>
           </calcite-action>
           </calcite-value-list-item>
-          <calcite-value-list-item text-label="Food" text-description="its what you eat." value="food">
+          <calcite-value-list-item label="Food" description="its what you eat." value="food">
           </calcite-value-list-item>
-          <calcite-value-list-item text-label="Utilities" value="utilities"> </calcite-value-list-item>
-          <calcite-value-list-item text-label="Entertainment" text-description="Toys and leisure" value="entertainment">
+          <calcite-value-list-item label="Utilities" value="utilities"> </calcite-value-list-item>
+          <calcite-value-list-item label="Entertainment" description="Toys and leisure" value="entertainment">
           </calcite-value-list-item>
         </calcite-value-list>
 
         <h3>Drag and drop between different lists</h3>
         <h4>List 1</h4>
         <calcite-value-list id="five" drag-enabled group="draggable">
-          <calcite-value-list-item text-label="One" value="1"></calcite-value-list-item>
-          <calcite-value-list-item text-label="Two" value="2"></calcite-value-list-item>
+          <calcite-value-list-item label="One" value="1"></calcite-value-list-item>
+          <calcite-value-list-item label="Two" value="2"></calcite-value-list-item>
         </calcite-value-list>
 
         <h4>List 2</h4>
         <calcite-value-list id="six" drag-enabled group="draggable">
-          <calcite-value-list-item text-label="Three" value="3"></calcite-value-list-item>
-          <calcite-value-list-item text-label="Four" value="4"></calcite-value-list-item>
+          <calcite-value-list-item label="Three" value="3"></calcite-value-list-item>
+          <calcite-value-list-item label="Four" value="4"></calcite-value-list-item>
         </calcite-value-list>
       </section>
 

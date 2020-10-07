@@ -6,16 +6,16 @@
 
 ## Properties
 
-| Property                 | Attribute          | Description                                                                                       | Type                                                        | Default     |
-| ------------------------ | ------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
-| `disabled`               | `disabled`         | When true, the item cannot be clicked and is visually muted                                       | `boolean`                                                   | `false`     |
-| `icon`                   | `icon`             | Determines the icon SVG symbol that will be shown. Options are circle, square, grid or null.      | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`      |
-| `metadata`               | --                 | Used to provide additional metadata to an item, primarily used when the parent list has a filter. | `{ [x: string]: unknown; }`                                 | `undefined` |
-| `removable`              | `removable`        | Set this to true to display a remove action that removes the item from the list.                  | `boolean`                                                   | `false`     |
-| `selected`               | `selected`         | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                | `boolean`                                                   | `false`     |
-| `textDescription`        | `text-description` | An optional description for this item. Will appear below the label text.                          | `string`                                                    | `undefined` |
-| `textLabel` _(required)_ | `text-label`       | The main label for this item. Appears next to the icon.                                           | `string`                                                    | `undefined` |
-| `value` _(required)_     | `value`            | A unique value used to identify this item - similar to the value attribute on an <input>.         | `string`                                                    | `undefined` |
+| Property             | Attribute     | Description                                                                                       | Type                                                        | Default     |
+| -------------------- | ------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
+| `disabled`           | `disabled`    | When true, the item cannot be clicked and is visually muted                                       | `boolean`                                                   | `false`     |
+| `icon`               | `icon`        | Determines the icon SVG symbol that will be shown. Options are circle, square, grid or null.      | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`      |
+| `metadata`           | --            | Used to provide additional metadata to an item, primarily used when the parent list has a filter. | `{ [x: string]: unknown; }`                                 | `undefined` |
+| `removable`          | `removable`   | Set this to true to display a remove action that removes the item from the list.                  | `boolean`                                                   | `false`     |
+| `selected`           | `selected`    | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                | `boolean`                                                   | `false`     |
+| `description`        | `description` | An optional description for this item. Will appear below the label text.                          | `string`                                                    | `undefined` |
+| `label` _(required)_ | `label`       | The main label for this item. Appears next to the icon.                                           | `string`                                                    | `undefined` |
+| `value` _(required)_ | `value`       | A unique value used to identify this item - similar to the value attribute on an <input>.         | `string`                                                    | `undefined` |
 
 ## Methods
 
@@ -33,10 +33,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                 | Description                                                                                               |
-| -------------------- | --------------------------------------------------------------------------------------------------------- |
-| `"actions-end"`     | A slot intended for adding a `calcite-action` or `calcite-button` to the start side of the item. |
-| `"actions-start"`    | A slot intended for adding a `calcite-action` or `calcite-button` to the end side of the item. |
+| Slot              | Description                                                                                      |
+| ----------------- | ------------------------------------------------------------------------------------------------ |
+| `"actions-end"`   | A slot intended for adding a `calcite-action` or `calcite-button` to the start side of the item. |
+| `"actions-start"` | A slot intended for adding a `calcite-action` or `calcite-button` to the end side of the item.   |
 
 ## Dependencies
 

@@ -8,7 +8,7 @@
 
 | Property         | Attribute          | Description                                            | Type     | Default     |
 | ---------------- | ------------------ | ------------------------------------------------------ | -------- | ----------- |
-| `textGroupTitle` | `text-group-title` | The title used for all nested `calcite-pick-list` rows | `string` | `undefined` |
+| `groupTitle` | `group-title` | The title used for all nested `calcite-pick-list` rows | `string` | `undefined` |
 
 ## Slots
 

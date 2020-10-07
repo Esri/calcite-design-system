@@ -20,17 +20,17 @@
         <h2>default selection</h2>
         <calcite-pick-list id="one">
           <calcite-pick-list-item
-            text-label="T. Rex"
-            text-description="arm strength impaired"
+            label="T. Rex"
+            description="arm strength impaired"
             value="trex"
           ></calcite-pick-list-item>
           <calcite-pick-list-item
-            text-label="Triceratops"
-            text-description="3 horn"
+            label="Triceratops"
+            description="3 horn"
             value="triceratops"
             selected
           ></calcite-pick-list-item>
-          <calcite-pick-list-item text-label="hi" text-description="there" value="helloWorld"></calcite-pick-list-item>
+          <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
         </calcite-pick-list>
         <script>
           const pickList1 = document.querySelector("#one");
@@ -44,7 +44,7 @@
         <calcite-pick-list id="two" multiple filter-enabled>
           <calcite-action scale="s" text="filters" text-enabled="false" slot="menu-actions" icon="sliders">
           </calcite-action>
-          <calcite-pick-list-item text-label="Chocolate" text-description="Dark is the best." value="chocolate">
+          <calcite-pick-list-item label="Chocolate" description="Dark is the best." value="chocolate">
             <calcite-icon scale="s" icon="title" slot="actions-start" style="align-self: center; padding: 0 var(--calcite-spacing);"></calcite-icon>
             <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="ellipsis">
             </calcite-action>
@@ -55,7 +55,7 @@
               tags: ["icecream", "ice cream"]
             };
           </script>
-          <calcite-pick-list-item text-label="Vanilla" text-description="Oldie but goodie" value="vanilla">
+          <calcite-pick-list-item label="Vanilla" description="Oldie but goodie" value="vanilla">
             <calcite-action slot="actions-start">
               <div style="align-self: center; width: 16px; height: 16px; background-color: #56ccf2"></div>
             </calcite-action>
@@ -70,8 +70,8 @@
             document.currentScript.previousElementSibling.selected = true;
           </script>
           <calcite-pick-list-item
-            text-label="actions-start"
-            text-description="no metadata on this one"
+            label="actions-start"
+            description="no metadata on this one"
             value="strawberry"
           >
             <calcite-action
@@ -85,8 +85,8 @@
             </calcite-action>
           </calcite-pick-list-item>
           <calcite-pick-list-item
-            text-label="Winner of best category by the ice cream committee of hoth - Hulka Hulka of Burning Fudge"
-            text-description="Sooo good"
+            label="Winner of best category by the ice cream committee of hoth - Hulka Hulka of Burning Fudge"
+            description="Sooo good"
             value="hulk"
           >
             <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="ellipsis">
@@ -110,8 +110,8 @@
         <calcite-pick-list id="three" filter-enabled multiple>
           <calcite-pick-list-group>
             <calcite-pick-list-item
-              text-label="You can count on numbers."
-              text-description="Are real"
+              label="You can count on numbers."
+              description="Are real"
               value="numbers"
               slot="parent-item"
             >
@@ -119,8 +119,8 @@
               </calcite-action>
             </calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="One item label"
-              text-description="One description of the item."
+              label="One item label"
+              description="One description of the item."
               value="one"
               icon="grip"
               selected
@@ -129,8 +129,8 @@
               </calcite-action>
             </calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="Another item label"
-              text-description="Another description of the item."
+              label="Another item label"
+              description="Another description of the item."
               value="two"
               icon="grip"
             >
@@ -140,8 +140,8 @@
           </calcite-pick-list-group>
           <calcite-pick-list-group>
             <calcite-pick-list-item
-              text-label="Colors go outside the lines"
-              text-description="Description of colors."
+              label="Colors go outside the lines"
+              description="Description of colors."
               value="red"
               icon="grip"
               slot="parent-item"
@@ -150,15 +150,15 @@
               </calcite-action>
             </calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="Magenta the color"
-              text-description="It's not the other one."
+              label="Magenta the color"
+              description="It's not the other one."
               value="blue"
               icon="grip"
             >
               <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="information">
               </calcite-action>
             </calcite-pick-list-item>
-            <calcite-pick-list-item text-label="Green" text-description="It's not easy." value="blue" icon="grip">
+            <calcite-pick-list-item label="Green" description="It's not easy." value="blue" icon="grip">
               <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="information">
               </calcite-action>
             </calcite-pick-list-item>
@@ -173,24 +173,24 @@
 
         <h2>grouped filter-enabled multi-select</h2>
         <calcite-pick-list id="four" filter-enabled multiple>
-          <calcite-pick-list-group text-group-title="Cool group">
-            <calcite-pick-list-item text-label="You can count on numbers." value="numbers"></calcite-pick-list-item>
+          <calcite-pick-list-group group-title="Cool group">
+            <calcite-pick-list-item label="You can count on numbers." value="numbers"></calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="One item label"
+              label="One item label"
               value="one"
               icon="grip"
               selected
             ></calcite-pick-list-item>
-            <calcite-pick-list-item text-label="Another item label" value="two" icon="grip"></calcite-pick-list-item>
+            <calcite-pick-list-item label="Another item label" value="two" icon="grip"></calcite-pick-list-item>
           </calcite-pick-list-group>
-          <calcite-pick-list-group text-group-title="Neat group">
+          <calcite-pick-list-group group-title="Neat group">
             <calcite-pick-list-item
-              text-label="Colors go outside the lines"
+              label="Colors go outside the lines"
               value="red"
               icon="grip"
             ></calcite-pick-list-item>
-            <calcite-pick-list-item text-label="Magenta the color" value="blue" icon="grip"></calcite-pick-list-item>
-            <calcite-pick-list-item text-label="Green" value="blue" icon="grip"></calcite-pick-list-item>
+            <calcite-pick-list-item label="Magenta the color" value="blue" icon="grip"></calcite-pick-list-item>
+            <calcite-pick-list-item label="Green" value="blue" icon="grip"></calcite-pick-list-item>
           </calcite-pick-list-group>
         </calcite-pick-list>
         <script>
