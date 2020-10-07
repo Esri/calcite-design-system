@@ -47,32 +47,55 @@ export class CalciteDropdownGroup {
 
   @Event() calciteDropdownItemChange: EventEmitter;
 
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+  setDropdownTitleRef = (node: HTMLSpanElement): void => {
+    this.titleEl = node;
+  };
+
+  setDropdownSeparatorRef = (node: HTMLDivElement): void => {
+    this.separatorEl = node;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad(): void {
+  componentWillLoad(): void {
     this.groupPosition = this.getGroupPosition();
+  }
+
+  componentDidLoad(): void {
     this.items = this.sortItems(this.items) as HTMLCalciteDropdownItemElement[];
     this.calciteDropdownGroupRegister.emit({
       items: this.items,
       position: this.groupPosition,
       group: this.el,
-      titleEl: this.titleEl
+      titleEl: this.titleEl,
+      separatorEl: this.separatorEl
     });
   }
 
   render(): VNode {
     const groupTitle = this.groupTitle ? (
-      <span class="dropdown-title" ref={(node) => (this.titleEl = node)}>
+      <span class="dropdown-title" ref={this.setDropdownTitleRef}>
         {this.groupTitle}
       </span>
     ) : null;
 
+    const dropdownSeparator =
+      this.groupPosition > 0 ? (
+        <div class="dropdown-separator" ref={this.setDropdownSeparatorRef} role="separator" />
+      ) : null;
+
     return (
       <Host>
+        {dropdownSeparator}
         {groupTitle}
         <slot />
       </Host>
@@ -128,6 +151,8 @@ export class CalciteDropdownGroup {
 
   /** the requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
+
+  private separatorEl: HTMLDivElement = null;
 
   private titleEl: HTMLSpanElement = null;
 
