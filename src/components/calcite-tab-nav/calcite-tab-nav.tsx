@@ -164,9 +164,6 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * @internal
-   */
   @Listen("resize", { target: "window" }) resizeHandler(): void {
     // remove active indicator transition duration during resize to prevent wobble
     this.activeIndicatorEl.style.transitionDuration = "0s";
@@ -174,9 +171,6 @@ export class CalciteTabNav {
     this.updateOffsetPosition();
   }
 
-  /**
-   * @internal
-   */
   @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
@@ -193,9 +187,6 @@ export class CalciteTabNav {
     e.preventDefault();
   }
 
-  /**
-   * @internal
-   */
   @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
@@ -210,9 +201,6 @@ export class CalciteTabNav {
     e.preventDefault();
   }
 
-  /**
-   * @internal
-   */
   @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
     if (e.detail.tab) {
       this.selectedTab = e.detail.tab;
@@ -232,9 +220,6 @@ export class CalciteTabNav {
     }
   }
 
-  /**
-   * @internal
-   */
   @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
     e: CustomEvent<TabChangeEventDetail>
   ): void {
@@ -257,13 +242,7 @@ export class CalciteTabNav {
   /**
    * Emitted when the active tab changes
    */
-  @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
+  @Event() calciteTabChange: EventEmitter<TabChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //
