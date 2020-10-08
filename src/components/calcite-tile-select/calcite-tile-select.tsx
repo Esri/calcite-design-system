@@ -69,26 +69,6 @@ export class CalciteTileSelect {
 
   //--------------------------------------------------------------------------
   //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private checkFirstTileSelect(): void {
-    const tileSelects = document.querySelectorAll(`calcite-tile-select[name=${this.name}]`);
-    let firstCheckedTileSelect: HTMLCalciteTileSelectElement;
-    if (tileSelects?.length > 0) {
-      tileSelects.forEach((tileSelect: HTMLCalciteTileSelectElement) => {
-        if (firstCheckedTileSelect) {
-          tileSelect.checked = false;
-        } else if (tileSelect.checked) {
-          firstCheckedTileSelect = tileSelect;
-        }
-      });
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
@@ -163,9 +143,6 @@ export class CalciteTileSelect {
 
   connectedCallback(): void {
     this.renderInput();
-    if (this.name) {
-      this.checkFirstTileSelect();
-    }
   }
 
   disconnectedCallback(): void {

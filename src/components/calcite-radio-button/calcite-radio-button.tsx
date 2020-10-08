@@ -123,13 +123,15 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   private checkFirstRadioButton(): void {
-    const radioButtons = document.querySelectorAll(`calcite-radio-button[name=${this.name}]`);
-    console.log(this.value, radioButtons);
+    const radioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
+      (radioButton) => radioButton.name === this.name
+    ) as HTMLCalciteRadioButtonElement[];
     let firstCheckedRadioButton: HTMLCalciteRadioButtonElement;
     if (radioButtons && radioButtons.length > 0) {
       radioButtons.forEach((radioButton: HTMLCalciteRadioButtonElement) => {
         if (firstCheckedRadioButton) {
           radioButton.checked = false;
+          this.calciteRadioButtonCheckedChange.emit(false);
         } else if (radioButton.checked) {
           firstCheckedRadioButton = radioButton;
         }
@@ -231,12 +233,6 @@ export class CalciteRadioButton {
     this.renderInput();
     this.renderLabel();
     this.setupTitleAttributeObserver();
-    if (this.name) {
-      this.checkFirstRadioButton();
-    }
-  }
-
-  componentWillLoad(): void {
     if (this.name) {
       this.checkFirstRadioButton();
     }
