@@ -9,7 +9,7 @@ storiesOf("Components/Combobox", module)
   .addParameters({ notes: [readme1, readme2] })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
     <calcite-combobox
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -39,7 +39,7 @@ storiesOf("Components/Combobox", module)
 
   .add(
     "Dark Theme",
-    () => `
+    (): string => `
     <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
     <calcite-combobox
     theme="dark"
@@ -70,7 +70,7 @@ storiesOf("Components/Combobox", module)
   )
   .add(
     "RTL",
-    () => `
+    (): string => `
     <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
     <calcite-combobox
     dir="rtl"

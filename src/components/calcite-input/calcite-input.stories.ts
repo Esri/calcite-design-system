@@ -8,7 +8,7 @@ storiesOf("Components/Input", module)
   .addParameters({ notes: readme })
   .add(
     "With Label",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -47,10 +47,13 @@ storiesOf("Components/Input", module)
   )
   .add(
     "With Label and Input Message",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
-    scale="${select("scale", ["s", "m", "l"], "m", "Label")}">
+    <calcite-label
+    status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
+    scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
+    layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
+    >
     ${text("label text", "My great label", "Label")}
     <calcite-input
       type="${select(
@@ -84,7 +87,7 @@ storiesOf("Components/Input", module)
   )
   .add(
     "Without Label",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -114,7 +117,7 @@ storiesOf("Components/Input", module)
   )
   .add(
     "With Slotted Action",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -154,7 +157,7 @@ storiesOf("Components/Input", module)
   )
   .add(
     "Textarea",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}">
     ${text("label text", "My great label")}
@@ -179,7 +182,7 @@ storiesOf("Components/Input", module)
   )
   .add(
     "Simple - Dark mode",
-    () => `
+    (): string => `
     <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label theme="dark" status="${select("status", ["idle", "valid", "invalid"], "idle")}">
     ${text("label text", "My great label")}

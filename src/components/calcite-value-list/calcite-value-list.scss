@@ -36,7 +36,3 @@ calcite-scrim {
   flex-flow: column;
   pointer-events: none;
 }
-
-slot[name="menu-actions"]::slotted(calcite-action) {
-  padding: 0 var(--calcite-spacing-half);
-}

@@ -204,14 +204,6 @@ describe("calcite-radio-button-group", () => {
     expect(value).toBe("1");
   });
 
-  it("validates incorrect props", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-button-group scale='none' layout='none'></calcite-radio-button-group>");
-    const element = await page.find("calcite-radio-button-group");
-    expect(element).toEqualAttribute("layout", "horizontal");
-    expect(element).toEqualAttribute("scale", "m");
-  });
-
   it("clicking a radio updates its checked status", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -282,7 +274,9 @@ describe("calcite-radio-button-group", () => {
     `);
     const group = await page.evaluate(() => {
       const group = document.querySelector("calcite-radio-button-group");
-      group.appendChild(document.querySelector("calcite-radio-button#first"));
+      const first = document.querySelector("calcite-radio-button[value=one]");
+      group.removeChild(first);
+      group.appendChild(first);
       return group;
     });
     await page.waitForChanges();
@@ -378,31 +372,35 @@ describe("calcite-radio-button-group", () => {
     expect(theme).toBe("light");
   });
 
-  it("radio-button-group and radio-buttons receive necessary validated props", async () => {
+  it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button-group name="radio" layout="none" scale="none">
-        <calcite-radio-button value="one" checked>
-              One
-        </calcite-radio-button>
-        <calcite-radio-button value="two">
-            Two
-        </calcite-radio-button>
-        <calcite-radio-button value="three">
-            Three
-        </calcite-radio-button>
-      </calcite-radio-button-group>
-    `);
+    await page.setContent(
+      `<calcite-radio-button-group name="changeEvent">
+          <calcite-radio-button value="one">one</calcite-radio-button>
+          <calcite-radio-button value="two">two</calcite-radio-button>
+          <calcite-radio-button value="three">three</calcite-radio-button>
+        </calcite-radio-button-group>`
+    );
 
-    const radioButtonGroup = await page.find("calcite-radio-button-group");
-    expect(await radioButtonGroup.getProperty("layout")).toBe("horizontal");
-    expect(await radioButtonGroup.getProperty("scale")).toBe("m");
+    const group = await page.find("calcite-radio-button-group");
+    const firstRadio = await page.find('calcite-radio-button[value="one"]');
+    const secondRadio = await page.find('calcite-radio-button[value="two"]');
+    const thirdRadio = await page.find('calcite-radio-button[value="three"]');
 
-    const child1 = await page.find("calcite-radio-button[value=one]");
-    const child2 = await page.find("calcite-radio-button[value=two]");
-    const child3 = await page.find("calcite-radio-button[value=three]");
-    expect(child1).toEqualAttribute("scale", "m");
-    expect(child2).toEqualAttribute("scale", "m");
-    expect(child3).toEqualAttribute("scale", "m");
+    const changeEvent = await group.spyOnEvent("calciteRadioButtonGroupChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await firstRadio.click();
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventDetail("one");
+
+    await secondRadio.click();
+    expect(changeEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventDetail("two");
+
+    await thirdRadio.click();
+    expect(changeEvent).toHaveReceivedEventTimes(3);
+    expect(changeEvent).toHaveReceivedEventDetail("three");
   });
 });

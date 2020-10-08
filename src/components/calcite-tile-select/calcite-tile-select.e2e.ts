@@ -12,6 +12,7 @@ describe("calcite-tile-select", () => {
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
+      { propertyName: "width", defaultValue: "auto" },
       { propertyName: "theme", defaultValue: "light" }
     ]));
 
@@ -32,6 +33,7 @@ describe("calcite-tile-select", () => {
       { propertyName: "theme", value: "dark" },
       { propertyName: "type", value: "radio" },
       { propertyName: "type", value: "checkbox" },
+      { propertyName: "width", value: "auto" },
       { propertyName: "value", value: "option one" }
     ]));
 

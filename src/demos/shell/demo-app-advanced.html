@@ -64,7 +64,7 @@
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached height-scale="l">
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator>
@@ -93,13 +93,11 @@
                 <calcite-action text="What's next" icon="mega-phone"></calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <calcite-flow>
-                <calcite-flow-item heading="Layers">
-                    <div id="layerlist-container"></div>
-                    <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
-                    <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip>
-                </calcite-flow-item>
-            </calcite-flow>
+              <calcite-panel heading="Layers" height-scale="l" width-scale="m">
+                  <div id="layerlist-container"></div>
+                  <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
+                  <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip>
+              </calcite-panel>
           </calcite-shell-panel>
 
           <calcite-shell-panel slot="contextual-panel" position="end">
@@ -128,11 +126,12 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow id="flow">
-              <calcite-flow-item
+              <calcite-panel
                 heading="Configure popup"
                 summary="Popular Demographics in the United States (Beta) - County"
+                width-scale="m"
               >
-              <calcite-action slot="menu-actions" icon="x" text="Close">
+              <calcite-action slot="header-actions-end" icon="x" text="Close">
               </calcite-action>
               
                 <calcite-block heading="Title"  summary="County: {NAME}" collapsible>
@@ -153,19 +152,16 @@
                     </calcite-button>
                     <calcite-value-list drag-enabled>
                       <calcite-value-list-item
-                        text-label="2018 Total Households (Esri)"
-                        text-description="{TOTHH_CY}"
+                        label="2018 Total Households (Esri)"
+                        description="{TOTHH_CY}"
                       ></calcite-value-list-item>
                       <calcite-value-list-item
-                        text-label="2018 Average Household Size (Esri)"
-                        text-description="{AVGHHSZ_CY}"
+                        label="2018 Average Household Size (Esri)"
+                        description="{AVGHHSZ_CY}"
                       ></calcite-value-list-item>
                     </calcite-value-list>
                     <div class="row">
                         <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" color="light">Select attributes</calcite-button>
-                        <!-- <calcite-tooltip reference-element="attribute-add" disable-pointer>
-                            Select attributes
-                        </calcite-tooltip> -->
                     </div>
                   </calcite-block>
                   <calcite-block drag-handle heading="Image" collapsible>
@@ -226,17 +222,16 @@
                 </calcite-sortable-list>
                 <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
                 <calcite-tooltip reference-element="label-fab" disable-pointer>
-                  <!-- <img src="https://placekitten.com/200/200" /> -->
                   Add label class
                 </calcite-tooltip>
-              </calcite-flow-item>
+              </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
           <div class="gnav" slot="shell-header">
               <h2>Boomer v Millennial - California</h2>
           </div>
           <calcite-tip-manager slot="center-row" id="tip-manager" hidden>
-            <calcite-tip-group text-group-title="Astronomy">
+            <calcite-tip-group group-title="Astronomy">
               <calcite-tip heading="The Red Rocks and Blue Water">
                 <img slot="thumbnail" src="https://placeimg.com/1000/600/city" alt="This is an image." />
                 <p>
@@ -298,19 +293,19 @@
               <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
             </calcite-action>
             <calcite-pick-list-item
-              text-label="about disasters, fires, floods and killer bees"
+              label="about disasters, fires, floods and killer bees"
               value="1"
             ></calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="about the NASA shuttle falling in the sea"
+              label="about the NASA shuttle falling in the sea"
               value="2"
             ></calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="about starvation and the food that Live Aid bought"
+              label="about starvation and the food that Live Aid bought"
               value="3"
             ></calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="about disease, baby rock, Hudson, rock,"
+              label="about disease, baby rock, Hudson, rock,"
               value="4"
             ></calcite-pick-list-item>
           </calcite-pick-list>

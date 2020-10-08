@@ -8,7 +8,7 @@ storiesOf("Components/Notice", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
     theme="light"
@@ -29,7 +29,7 @@ storiesOf("Components/Notice", module)
   )
   .add(
     "Dark Mode",
-    () => `
+    (): string => `
     <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
     theme="dark"
@@ -50,7 +50,7 @@ storiesOf("Components/Notice", module)
   )
   .add(
     "RTL",
-    () => `
+    (): string => `
       <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
       <calcite-notice
       theme="light"

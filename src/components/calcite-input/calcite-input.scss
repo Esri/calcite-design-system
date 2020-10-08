@@ -1,5 +1,5 @@
 // temporary hardcoded values until new font scale and padding is added to calcite-base
-calcite-input[scale="s"] {
+:host([scale="s"]) {
   & textarea,
   & input,
   & .calcite-input-prefix,
@@ -22,7 +22,7 @@ calcite-input[scale="s"] {
   }
 }
 
-calcite-input[scale="m"] {
+:host([scale="m"]) {
   & textarea,
   & input,
   & .calcite-input-prefix,
@@ -45,7 +45,7 @@ calcite-input[scale="m"] {
   }
 }
 
-calcite-input[scale="l"] {
+:host([scale="l"]) {
   & textarea,
   & input,
   & .calcite-input-prefix,
@@ -69,16 +69,21 @@ calcite-input[scale="l"] {
 }
 
 // disabled styles
-calcite-input[disabled] {
+:host([disabled]) {
+  pointer-events: none;
+
+  & .calcite-input-wrapper {
+    opacity: 0.4;
+    pointer-events: none;
+  }
   & textarea,
   & input {
     pointer-events: none;
-    opacity: 0.4;
   }
 }
 
-calcite-input textarea,
-calcite-input input {
+:host textarea,
+:host input {
   display: flex;
   position: relative;
   min-width: 20%;
@@ -95,24 +100,26 @@ calcite-input input {
   background-color: var(--calcite-ui-foreground-1);
   color: var(--calcite-ui-text-1);
   font-weight: 400;
+  border-radius: 0;
+  -webkit-border-radius: 0;
 }
 
-calcite-input input[type="search"]::-webkit-search-decoration {
+:host input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
 //focus
-calcite-input textarea,
-calcite-input input {
+:host textarea,
+:host input {
   @include focus-style-base();
 }
-calcite-input textarea:focus,
-calcite-input input:focus {
+:host textarea:focus,
+:host input:focus {
   @include focus-style-inset();
 }
 
 // states
-calcite-input {
+:host {
   & input,
   & textarea {
     color: var(--calcite-ui-text-1);
@@ -144,7 +151,7 @@ calcite-input {
   }
 }
 // input message slot
-calcite-input slot:not[name="input-message"] {
+:host slot:not[name="input-message"] {
   display: block;
   margin-bottom: $baseline/4;
   color: var(--calcite-ui-text-2);
@@ -152,20 +159,20 @@ calcite-input slot:not[name="input-message"] {
 }
 
 // icon
-calcite-input[icon] input {
+:host([icon]) input {
   padding-left: $baseline * 1.5;
 }
 
-calcite-input[dir="rtl"][icon] input {
+:host([dir="rtl"][icon]) input {
   padding-right: $baseline * 1.5;
   padding-left: $baseline/2;
 }
 
-calcite-input[dir="rtl"][icon][scale="l"] input {
+:host([dir="rtl"][icon][scale="l"]) input {
   padding-right: $baseline * 2;
   padding-left: $baseline/2;
 }
-calcite-input[icon][scale="l"] input {
+:host([icon][scale="l"]) input {
   padding-left: $baseline * 2;
 }
 //positioning wrapper for icon and loader
@@ -189,11 +196,11 @@ calcite-input[icon][scale="l"] input {
 }
 
 // adjust for larger icon of scale l
-calcite-input[scale="l"] .calcite-input-icon {
+:host([scale="l"]) .calcite-input-icon {
   top: calc(50% - 12px);
 }
 
-calcite-input[dir="rtl"] .calcite-input-icon {
+:host([dir="rtl"]) .calcite-input-icon {
   left: unset;
   right: $baseline/2;
 }
@@ -291,7 +298,7 @@ input[type="time"]::-webkit-clear-button {
   border-left-width: 0px;
 }
 
-calcite-input[dir="rtl"] {
+:host([dir="rtl"]) {
   & .calcite-input-prefix {
     border-right-width: 1px;
     border-left-width: 0px;
@@ -303,32 +310,33 @@ calcite-input[dir="rtl"] {
 }
 
 // readonly
-calcite-input[readonly] .calcite-input-number-button-item {
+:host([readonly]) .calcite-input-number-button-item {
   pointer-events: none;
 }
 
 // alignment type
-calcite-input[alignment="start"] {
+:host([alignment="start"]) {
   & textarea,
   & input {
     text-align: left;
   }
 }
 
-calcite-input[alignment="end"] {
-  & textarea,
-  & input {
-    text-align: right;
-  }
-}
-calcite-input[dir="rtl"][alignment="start"] {
+:host([alignment="end"]) {
   & textarea,
   & input {
     text-align: right;
   }
 }
 
-calcite-input[dir="rtl"][alignment="end"] {
+:host([dir="rtl"])[alignment="start"] {
+  & textarea,
+  & input {
+    text-align: right;
+  }
+}
+
+:host([dir="rtl"])[alignment="end"] {
   & textarea,
   & input {
     text-align: left;
@@ -336,15 +344,15 @@ calcite-input[dir="rtl"][alignment="end"] {
 }
 
 // number buttons
-calcite-input input[type="number"]::-webkit-inner-spin-button,
-calcite-input input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+:host input[type="number"] {
   -moz-appearance: textfield;
-  margin: 0;
-}
 
-calcite-input input[type="number"] {
-  -moz-appearance: textfield;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    margin: 0;
+  }
 }
 
 .calcite-input-number-button-wrapper {
@@ -357,17 +365,19 @@ calcite-input input[type="number"] {
   order: 6;
 }
 
-calcite-input[number-button-type="vertical"] .calcite-input-wrapper {
+:host([number-button-type="vertical"]) .calcite-input-wrapper {
   flex-direction: row;
   display: flex;
 }
 
-calcite-input[number-button-type="vertical"] input,
-calcite-input[number-button-type="vertical"] textarea {
-  order: 2;
+:host([number-button-type="vertical"]) {
+  & input,
+  textarea {
+    order: 2;
+  }
 }
 
-calcite-input[dir="rtl"][number-button-type="horizontal"] {
+:host([dir="rtl"])[number-button-type="horizontal"] {
   & .calcite-input-number-button-item[data-adjustment="down"] calcite-icon {
     transform: rotate(-90deg);
   }
@@ -376,14 +386,16 @@ calcite-input[dir="rtl"][number-button-type="horizontal"] {
   }
 }
 
-.calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"],
-.calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
-  min-height: 100%;
-  max-height: 100%;
-  order: 1;
-  align-self: auto;
-  & calcite-icon {
-    transform: rotate(90deg);
+.calcite-input-number-button-item.number-button-item-horizontal {
+  &[data-adjustment="down"],
+  &[data-adjustment="up"] {
+    min-height: 100%;
+    max-height: 100%;
+    order: 1;
+    align-self: auto;
+    & calcite-icon {
+      transform: rotate(90deg);
+    }
   }
 }
 
@@ -395,7 +407,7 @@ calcite-input[dir="rtl"][number-button-type="horizontal"] {
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"] {
   order: 5;
 }
-calcite-input[dir="rtl"] {
+:host([dir="rtl"]) {
   .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
     border-right: 1px solid var(--calcite-ui-border-1);
     border-left: 0px;
@@ -406,7 +418,7 @@ calcite-input[dir="rtl"] {
   }
 }
 
-calcite-input[number-button-type="vertical"] .calcite-input-number-button-item[data-adjustment="down"] {
+:host([number-button-type="vertical"]) .calcite-input-number-button-item[data-adjustment="down"] {
   border-top: 0;
 }
 
@@ -436,7 +448,7 @@ calcite-input[number-button-type="vertical"] .calcite-input-number-button-item[d
   }
 }
 
-calcite-input[dir="rtl"][number-button-type="vertical"] {
+:host([dir="rtl"])[number-button-type="vertical"] {
   .calcite-input-number-button-item {
     border-right: none;
     border-left: 1px solid var(--calcite-ui-border-1);
@@ -450,16 +462,16 @@ calcite-input[dir="rtl"][number-button-type="vertical"] {
 }
 
 // hide the default date picker
-calcite-input input::-webkit-calendar-picker-indicator {
+:host input::-webkit-calendar-picker-indicator {
   display: none;
 }
 
-calcite-input input[type="date"]::-webkit-input-placeholder {
+:host input[type="date"]::-webkit-input-placeholder {
   visibility: hidden !important;
 }
 
 // textarea resize icon
-calcite-input textarea::-webkit-resizer {
+:host textarea::-webkit-resizer {
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
@@ -491,27 +503,33 @@ calcite-input textarea::-webkit-resizer {
   }
 }
 
-calcite-input[dir="rtl"] {
-  calcite-input textarea::-webkit-resizer {
+:host([dir="rtl"]) {
+  textarea::-webkit-resizer {
     left: 0;
     right: unset;
   }
 
-  .calcite-input-resize-icon {
-    left: 10px;
+  .calcite-input-resize-icon-wrapper {
+    left: 2px;
     right: unset;
-    transform: rotate(45deg);
+    & calcite-icon {
+      bottom: 4px;
+      right: 4px;
+      transform: rotate(45deg);
+    }
   }
 }
 
 // file input
-calcite-input[type="file"] input,
-calcite-input[type="file"] textarea {
-  cursor: pointer;
-  padding: $baseline;
-  border: 1px dashed $blk-040;
-  background-color: $blk-005;
-  text-align: center;
+:host([type="file"]) {
+  & input,
+  textarea {
+    cursor: pointer;
+    padding: $baseline;
+    border: 1px dashed $blk-040;
+    background-color: $blk-005;
+    text-align: center;
+  }
 }
 
 // status
@@ -522,7 +540,7 @@ $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-
   $name: nth($statusColor, 1);
   $color: nth($statusColor, 2);
 
-  calcite-input[status="#{$name}"] .calcite-input-icon {
+  :host([status="#{$name}"]) .calcite-input-icon {
     color: $color;
   }
 }

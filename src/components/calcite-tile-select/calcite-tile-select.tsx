@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop, Listen } from "@stencil/core";
+import { Component, Element, Host, h, Prop, Listen, VNode } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile-select",
@@ -56,6 +56,9 @@ export class CalciteTileSelect {
   /** The value of the tile select.  This value will appear in form submissions when this tile select is checked. */
   @Prop({ reflect: true }) value?: string;
 
+  /** specify the width of the tile, defaults to auto */
+  @Prop({ reflect: true }) width: "auto" | "full" = "auto";
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -71,7 +74,7 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   @Listen("calciteCheckboxChange")
-  calciteCheckboxChangeEvent(event: CustomEvent) {
+  calciteCheckboxChangeEvent(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
       this.checked = checkbox.checked;
@@ -79,7 +82,7 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteCheckboxFocusedChange")
-  calciteCheckboxFocusedChangeEvent(event: CustomEvent) {
+  calciteCheckboxFocusedChangeEvent(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
       this.focused = checkbox.focused;
@@ -87,7 +90,7 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteRadioButtonChange")
-  calciteRadioButtonChangeEvent(event: CustomEvent) {
+  calciteRadioButtonChangeEvent(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
@@ -95,7 +98,7 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteRadioButtonFocusedChange")
-  calciteRadioButtonFocusedChangeEvent(event: CustomEvent) {
+  calciteRadioButtonFocusedChangeEvent(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.focused = radioButton.focused;
@@ -103,7 +106,7 @@ export class CalciteTileSelect {
   }
 
   @Listen("click")
-  click(event: MouseEvent) {
+  click(event: MouseEvent): void {
     if ((event.target as HTMLElement).localName === "calcite-tile-select") {
       this.input.click();
       this.input.focus();
@@ -111,7 +114,7 @@ export class CalciteTileSelect {
   }
 
   @Listen("mouseenter")
-  mouseenter() {
+  mouseenter(): void {
     if (this.input.localName === "calcite-radio-button") {
       (this.input as HTMLCalciteRadioButtonElement).hovered = true;
     }
@@ -121,7 +124,7 @@ export class CalciteTileSelect {
   }
 
   @Listen("mouseleave")
-  mouseleave() {
+  mouseleave(): void {
     if (this.input.localName === "calcite-radio-button") {
       (this.input as HTMLCalciteRadioButtonElement).hovered = false;
     }
@@ -136,11 +139,11 @@ export class CalciteTileSelect {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.renderInput();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
   }
 
@@ -150,8 +153,8 @@ export class CalciteTileSelect {
   //
   // --------------------------------------------------------------------------
 
-  private renderInput() {
-    this.input = this.el.ownerDocument.createElement(
+  private renderInput(): void {
+    this.input = document.createElement(
       this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox"
     );
     this.input.checked = this.checked;
@@ -168,7 +171,7 @@ export class CalciteTileSelect {
     this.el.insertAdjacentElement("beforeend", this.input);
   }
 
-  render() {
+  render(): VNode {
     return (
       <Host>
         <calcite-tile
@@ -177,8 +180,8 @@ export class CalciteTileSelect {
           embed
           heading={this.heading}
           icon={this.icon}
-        ></calcite-tile>
-        <slot></slot>
+        />
+        <slot />
       </Host>
     );
   }

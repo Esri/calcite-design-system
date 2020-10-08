@@ -57,21 +57,21 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
         <calcite-action slot="bottom-actions" text="Tips" icon="lightbulb"></calcite-action>
       </calcite-action-bar>
       <calcite-flow>
-        <calcite-flow-item heading="Layer settings">
+        <calcite-panel heading="Layer settings">
           <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
             <calcite-value-list multiple filter-enabled>
-              <calcite-value-list-item text-label="2018 Population Density (Esri)" text-description="{POPDENS_CY}" value="POPDENS_CY">
-                <calcite-action slot="secondary-action" icon="camera-flash-on"></calcite-action>
+              <calcite-value-list-item label="2018 Population Density (Esri)" description="{POPDENS_CY}" value="POPDENS_CY">
+                <calcite-action slot="actions-end" icon="camera-flash-on"></calcite-action>
               </calcite-value-list-item>
-              <calcite-value-list-item text-label="2018 Population Density [Updated]" text-description="{POPDENS_CY}" value="POPDENS_CY2">
-                <calcite-action slot="secondary-action" icon="banana"></calcite-action>
+              <calcite-value-list-item label="2018 Population Density [Updated]" description="{POPDENS_CY}" value="POPDENS_CY2">
+                <calcite-action slot="actions-end" icon="banana"></calcite-action>
               </calcite-value-list-item>
-              <calcite-value-list-item text-label="2018 Total Households (Esri)" text-description="{TOTHH_CY}" value="TOTHH_CY">
-                <calcite-action slot="secondary-action" icon="person2"></calcite-action>
+              <calcite-value-list-item label="2018 Total Households (Esri)" description="{TOTHH_CY}" value="TOTHH_CY">
+                <calcite-action slot="actions-end" icon="person2"></calcite-action>
               </calcite-value-list-item>
             </calcite-value-list>
           </calcite-block>
-        </calcite-flow-item>
+        </calcite-panel>
       </calcite-flow>
   </calcite-shell-panel>
   <calcite-tip-manager slot="center-row">
@@ -110,9 +110,7 @@ Renders a shell with a header and panels on the left and right sides of the app.
   <calcite-shell-panel slot="primary-panel" position="start">
     Leading panel! (on the left side, since this is a LTR app)
   </calcite-shell-panel>
-  <calcite-shell-panel slot="contextual-panel" position="end">
-    Trailing panel! (right side)
-  </calcite-shell-panel>
+  <calcite-shell-panel slot="contextual-panel" position="end"> Trailing panel! (right side) </calcite-shell-panel>
   <calcite-shell-center-row slot="center-row" position="end" height-scale="m">
     Center Row! (center bottom)
   </calcite-shell-center-row>

@@ -66,20 +66,29 @@ Renders a panel that is dismissible with a click of the "x".
 
 ## Properties
 
-| Property      | Attribute      | Description                                                                                               | Type                | Default     |
-| ------------- | -------------- | --------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `disabled`    | `disabled`     | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.               | `boolean`           | `false`     |
-| `dismissed`   | `dismissed`    | Hides the panel.                                                                                          | `boolean`           | `false`     |
-| `dismissible` | `dismissible`  | Displays a close button in the trailing side of the header.                                               | `boolean`           | `false`     |
-| `heightScale` | `height-scale` | Specifies the maxiumum height of the panel.                                                               | `"l" \| "m" \| "s"` | `undefined` |
-| `intlClose`   | `intl-close`   | 'Close' text string for the close button. The close button will only be shown when 'dismissible' is true. | `string`            | `undefined` |
-| `loading`     | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                            | `boolean`           | `false`     |
-| `theme`       | `theme`        | Used to set the component's color scheme.                                                                 | `"dark" \| "light"` | `undefined` |
+| Property      | Attribute      | Description                                                                                               | Type                  | Default     |
+| ------------- | -------------- | --------------------------------------------------------------------------------------------------------- | --------------------- | ----------- |
+| `disabled`    | `disabled`     | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.               |
+| `beforeBack`  | --             | When provided, this method will be called before it is removed from the parent flow.                      | `() => Promise<void>` | `undefined` |
+| `boolean`     | `false`        |
+| `dismissed`   | `dismissed`    | Hides the panel.                                                                                          | `boolean`             | `false`     |
+| `dismissible` | `dismissible`  | Displays a close button in the trailing side of the header.                                               | `boolean`             | `false`     |
+| `heading`     | `heading`      | Heading text.                                                                                             | `string`              | `undefined` |
+| `heightScale` | `height-scale` | Specifies the maxiumum height of the panel. Leave this undefined to achieve 100% height.                  | `"l" \| "m" \| "s"`   | `undefined` |
+| `widthScale`  | `width-scale`  | This sets width and max-width of the panel. Leave this undefined to achieve 100% height.                  | `"l" \| "m" \| "s"`   | `undefined` |
+| `intlBack`    | `intl-back`    | 'Back' text string.                                                                                       | `string`              | `undefined` |
+| `intlClose`   | `intl-close`   | 'Close' text string for the close button. The close button will only be shown when 'dismissible' is true. | `string`              | `undefined` |
+| `intlOpen`    | `intl-open`    | 'Open' text string for the menu.                                                                          | `string`              | `undefined` |
+| `loading`     | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                            | `boolean`             | `false`     |
+| `menuOpen`    | `menu-open`    | Opens the action menu.                                                                                    | `boolean`             | `false`     |
+| `summary`     | `summary`      | Summary text. A description displayed underneath the heading.                                             | `string`              | `undefined` |
+| `theme`       | `theme`        | Used to set the component's color scheme.                                                                 | `"dark" \| "light"`   | `undefined` |
 
 ## Events
 
 | Event                         | Description                                     | Type               |
 | ----------------------------- | ----------------------------------------------- | ------------------ |
+| `calcitePanelBackClick`       | Emitted when the back button has been clicked.  | `CustomEvent<any>` |
 | `calcitePanelDismissedChange` | Emitted when the close button has been clicked. | `CustomEvent<any>` |
 | `calcitePanelScroll`          | Emitted when the content has been scrolled.     | `CustomEvent<any>` |
 
@@ -93,20 +102,22 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                        | Description                                                                      |
-| --------------------------- | -------------------------------------------------------------------------------- |
-|                             | A slot for adding content to the panel.                                          |
-| `"fab"`                     | A slot for adding a `calcite-fab` (floating action button) to perform an action. |
-| `"footer"`                  | A slot for adding `calcite-button`s to the footer.                               |
-| `"header-content"`          | A slot for adding content in the center of the header.                           |
-| `"header-leading-content"`  | A slot for adding a `calcite-action` on the leading side of the header.          |
-| `"header-trailing-content"` | A slot for adding a `calcite-action` on the trailing side of the header.         |
+| Slot                     | Description                                                                      |
+| ------------------------ | -------------------------------------------------------------------------------- |
+|                          | A slot for adding content to the panel.                                          |
+| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action. |
+| `"footer"`               | A slot for adding a custom the footer.                                           |
+| `"footer-actions"`       | A slot for adding buttons to the footer.                                         |
+| `"header-content"`       | A slot for adding a custom header.                                               |
+| `"header-actions-start"` | A slot for adding a `calcite-action` on the leading side of the header.          |
+| `"header-actions-end"`   | A slot for adding a `calcite-action` on the trailing side of the header.         |
+| `"header-menu-actions"`  | A slot for adding multiple menu items under an overflow button.                  |
 
 ## Dependencies
 
 ### Used by
 
-- [calcite-flow-item](../calcite-flow-item)
+- [calcite-flow](../calcite-flow)
 
 ### Depends on
 
@@ -122,7 +133,6 @@ graph TD;
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-scrim --> calcite-loader
-  calcite-flow-item --> calcite-panel
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

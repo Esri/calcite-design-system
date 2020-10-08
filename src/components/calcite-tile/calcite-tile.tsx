@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop } from "@stencil/core";
+import { Component, Host, h, Prop, VNode } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile",
@@ -45,7 +45,7 @@ export class CalciteTile {
   //
   // --------------------------------------------------------------------------
 
-  renderTile() {
+  renderTile(): VNode {
     const isLargeVisual = this.heading && this.icon && !this.description;
     const iconStyle = isLargeVisual
       ? {
@@ -57,7 +57,7 @@ export class CalciteTile {
       <div class={{ "large-visual": isLargeVisual, tile: true }}>
         {this.icon && (
           <div class="icon">
-            <calcite-icon icon={this.icon} scale="l" style={iconStyle}></calcite-icon>
+            <calcite-icon icon={this.icon} scale="l" style={iconStyle} />
           </div>
         )}
         {this.heading && <div class="heading">{this.heading}</div>}
@@ -66,7 +66,7 @@ export class CalciteTile {
     );
   }
 
-  render() {
+  render(): VNode {
     return (
       <Host>
         {this.href ? (

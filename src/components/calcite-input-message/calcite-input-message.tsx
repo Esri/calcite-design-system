@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop } from "@stencil/core";
+import { Component, Element, Host, h, Prop, VNode } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
@@ -27,46 +27,33 @@ export class CalciteInputMessage {
   @Prop({ reflect: true }) icon: boolean;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l";
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
+  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 
   /** specify the theme, defaults to light */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
-  @Prop({ mutable: true, reflect: true }) type: "default" | "floating" = "default";
+  @Prop({ reflect: true }) type: "default" | "floating" = "default";
 
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  connectedCallback() {
-    // validate props
-    const statusOptions = ["invalid", "valid", "idle"];
-    if (!statusOptions.includes(this.status))
-      this.status = getElementProp(this.el.parentElement, "status", "idle");
 
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale))
-      this.scale = getElementProp(this.el.parentElement, "scale", "m");
-
-    const type = ["default", "floating"];
-    if (!type.includes(this.type)) this.type = "default";
+  connectedCallback(): void {
+    this.status = getElementProp(this.el, "status", this.status);
+    this.scale = getElementProp(this.el, "scale", this.scale);
   }
 
-  componentWillUpdate() {
-    this.iconEl = this.setIcon(this.iconDefaults[this.status]);
-  }
-
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
-    this.iconEl = this.setIcon(this.iconDefaults[this.status]);
     return (
-      <Host theme={this.theme} dir={dir}>
-        {this.icon ? this.iconEl : null}
+      <Host dir={dir} theme={this.theme}>
+        {this.icon ? this.renderIcon(this.iconDefaults[this.status]) : null}
         <slot />
       </Host>
     );
@@ -85,18 +72,13 @@ export class CalciteInputMessage {
     idle: "information"
   };
 
-  // the icon to be rendered if icon is requested
-  private iconEl: string;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private setIcon(iconName) {
-    return (
-      <calcite-icon class="calcite-input-message-icon" scale="s" icon={iconName}></calcite-icon>
-    );
+  private renderIcon(iconName): VNode {
+    return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
   }
 }

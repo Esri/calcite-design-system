@@ -8,7 +8,7 @@ storiesOf("Components/Radio Button", module)
   .addParameters({ notes: readme })
   .add(
     "Light Theme",
-    () => `
+    (): string => `
       <calcite-radio-button
         ${boolean("checked", false)}
         ${boolean("disabled", false)}
@@ -24,7 +24,7 @@ storiesOf("Components/Radio Button", module)
   )
   .add(
     "Dark Theme",
-    () => `
+    (): string => `
     <calcite-radio-button
       ${boolean("checked", false)}
       ${boolean("disabled", false)}

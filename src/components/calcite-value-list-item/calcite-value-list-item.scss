@@ -1,12 +1,9 @@
 :host {
   @extend %component-host;
-  @include borderShadow();
+  margin-bottom: 1px;
   display: flex;
   transition: background-color $transition, box-shadow $transition;
-}
-
-:host(:hover) {
-  background-color: var(--calcite-ui-foreground-2);
+  @include borderShadow();
 }
 
 calcite-pick-list-item {
@@ -19,20 +16,15 @@ calcite-pick-list-item {
 :host([selected]) {
   @include borderShadowActive();
 }
-:host([selected]) calcite-pick-list-item:hover {
-  background-color: transparent;
-}
 
 .handle {
   display: flex;
   align-items: center;
-  align-self: stretch;
   justify-content: center;
-  margin-bottom: 1px;
-  padding: var(--calcite-spacing-three-quarters) var(--calcite-spacing-quarter);
+  padding: 0 var(--calcite-spacing-third);
   background-color: transparent;
   border: none;
-  color: var(--calcite-ui-border-3);
+  color: var(--calcite-ui-border-1);
   line-height: 0;
   cursor: move;
   &:hover {
@@ -41,16 +33,10 @@ calcite-pick-list-item {
   }
   @include focus-style-base();
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-ui-text-1);
     @include focus-style-inset();
   }
   &--activated {
     background-color: var(--calcite-ui-foreground-current);
     color: var(--calcite-ui-text-current);
   }
-}
-
-:host(:last-child) .handle {
-  margin-bottom: 0;
 }

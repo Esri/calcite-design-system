@@ -43,14 +43,9 @@
   }
 }
 
-::slotted(calcite-tip-group) {
-  max-width: var(--calcite-tip-max-width);
-  padding: 0 var(--calcite-spacing-half);
-}
-
 ::slotted(calcite-tip) {
+  border: none;
   max-width: var(--calcite-tip-max-width);
-  padding: 0 var(--calcite-spacing-half);
 }
 
 .tip-container--advancing {

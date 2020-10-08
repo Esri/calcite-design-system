@@ -8,7 +8,8 @@ import {
   Listen,
   Method,
   Prop,
-  Watch
+  Watch,
+  VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -16,7 +17,7 @@ import { getKey } from "../../utils/key";
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
-  shadow: false
+  scoped: true
 })
 export class CalciteInput {
   //--------------------------------------------------------------------------
@@ -33,46 +34,83 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the status of the input field, determines message and icons */
-  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle";
-
-  /** specify if the input is in loading state */
-  @Prop({ reflect: true }) loading = false;
-
-  /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l";
-
   /** specify the alignment of the value of the input */
-  @Prop({ mutable: true, reflect: true }) alignment: "start" | "end" = "start";
+  @Prop({ reflect: true }) alignment: "start" | "end" = "start";
 
-  /** input value */
-  @Prop({ mutable: true, reflect: true }) value?: string = "";
+  /** should the input autofocus */
+  @Prop() autofocus = false;
 
-  /** optionally display a clear button that displays when field has a value  */
-  /** shows by default for search, time, date */
-  /** will not display for type="textarea" */
+  /** optionally display a clear button that displays when field has a value
+   * shows by default for search, time, date
+   * will not display for type="textarea" */
   @Prop({ reflect: true }) clearable?: boolean;
 
-  /** input step */
-  @Prop({ reflect: true }) step?: number;
+  /** is the input disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
 
-  /** input min */
-  @Prop({ reflect: true }) min?: number;
-
-  /** input max */
-  @Prop({ reflect: true }) max?: number;
-
-  /** optionally add prefix  **/
-  @Prop() prefixText?: string;
-
-  /** optionally add suffix  **/
-  @Prop() suffixText?: string;
+  @Watch("disabled")
+  disabledWatcher(): void {
+    if (this.disabled) this.setDisabledAction();
+  }
 
   /** for recognized input types, show an icon if applicable */
   @Prop({ reflect: true }) icon: string | boolean = false;
 
+  /** specify if the input is in loading state */
+  @Prop({ reflect: true }) loading = false;
+
+  /** input max */
+  @Prop({ reflect: true }) max?: number;
+
+  /** watcher to update number-to-string for max */
+  @Watch("max")
+  maxWatcher(): void {
+    this.maxString = this.max.toString() || null;
+  }
+
+  /** input min */
+  @Prop({ reflect: true }) min?: number;
+
+  /** watcher to update number-to-string for min */
+  @Watch("min")
+  minWatcher(): void {
+    this.minString = this.min.toString() || null;
+  }
+
+  /** specify the placement of the number buttons */
+  @Prop({ reflect: true }) numberButtonType?: "vertical" | "horizontal" | "none" = "vertical";
+
+  /** explicitly whitelist placeholder attribute */
+  @Prop() placeholder: string;
+
+  /** optionally add prefix  **/
+  @Prop() prefixText?: string;
+
+  /** is the input required */
+  @Prop() required = false;
+
+  /** specify the scale of the input, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** specify the status of the input field, determines message and icons */
+  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
+
+  /** input step */
+  @Prop({ reflect: true }) step?: number;
+
+  @Watch("step")
+  stepWatcher(): void {
+    this.maxString = this.max.toString() || null;
+  }
+
+  /** optionally add suffix  **/
+  @Prop() suffixText?: string;
+
+  /** specify the alignment of dropdown, defaults to left */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
   /** specify the input type */
-  @Prop({ mutable: true, reflect: true }) type:
+  @Prop({ reflect: true }) type:
     | "color"
     | "date"
     | "datetime-local"
@@ -90,37 +128,8 @@ export class CalciteInput {
     | "url"
     | "week" = "text";
 
-  /** specify the placement of the number buttons */
-  @Prop({ mutable: true, reflect: true }) numberButtonType?: "vertical" | "horizontal" | "none" =
-    "vertical";
-
-  /** specify the alignment of dropdown, defaults to left */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** is the input required */
-  @Prop() required = false;
-
-  /** should the input autofocus */
-  @Prop() autofocus = false;
-
-  /** explicitly whitelist placeholder attribute */
-  @Prop() placeholder: string;
-
-  /** is the input disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
-
-  /** watcher to update number-to-string for min max */
-  @Watch("min") minWatcher() {
-    this.minString = this.min.toString() || null;
-  }
-
-  @Watch("max") maxWatcher() {
-    this.maxString = this.max.toString() || null;
-  }
-
-  @Watch("step") stepWatcher() {
-    this.maxString = this.max.toString() || null;
-  }
+  /** input value */
+  @Prop({ mutable: true, reflect: true }) value?: string = "";
 
   //--------------------------------------------------------------------------
   //
@@ -128,44 +137,9 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // validate props
-    const status = ["invalid", "valid", "idle"];
-    const foundStatus = getElementProp(this.el, "status", "idle");
-    if (!status.includes(this.status))
-      this.status = !status.includes(foundStatus) ? "idle" : foundStatus;
-
-    const scale = ["s", "m", "l"];
-    const foundScale = getElementProp(this.el, "scale", "m");
-    if (!scale.includes(this.scale)) {
-      this.scale = !scale.includes(foundScale) ? "m" : foundScale;
-    }
-
-    const alignment = ["start", "end"];
-    if (!alignment.includes(this.alignment)) this.alignment = "start";
-
-    const type = [
-      "color",
-      "date",
-      "datetime-local",
-      "email",
-      "file",
-      "image",
-      "month",
-      "number",
-      "password",
-      "search",
-      "tel",
-      "text",
-      "textarea",
-      "time",
-      "url",
-      "week"
-    ];
-    if (!type.includes(this.type)) this.type = "text";
-
-    const numberButtonType = ["vertical", "horizontal", "none"];
-    if (!numberButtonType.includes(this.numberButtonType)) this.numberButtonType = "vertical";
+  connectedCallback(): void {
+    this.status = getElementProp(this.el, "status", this.status);
+    this.scale = getElementProp(this.el, "scale", this.scale);
 
     // if an icon string is not provided, but icon is true and a default icon is present
     // for the requested type, set that as the icon
@@ -179,51 +153,52 @@ export class CalciteInput {
     this.determineClearable();
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.minString = this.min?.toString();
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
+    if (this.disabled) this.setDisabledAction();
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.hasAction = !!this.el.querySelector("[slot=input-action]");
   }
 
-  componentWillUpdate() {
+  componentWillUpdate(): void {
     this.determineClearable();
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
 
     const loader = (
       <div class="calcite-input-loading">
-        <calcite-progress type="indeterminate"></calcite-progress>
+        <calcite-progress type="indeterminate" />
       </div>
     );
 
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
 
     const inputClearButton = (
-      <div class="calcite-input-clear-button" onClick={() => this.clearInputValue()}>
-        <calcite-icon theme={this.theme} icon="x" scale={iconScale}></calcite-icon>
+      <div class="calcite-input-clear-button" onClick={this.clearInputValue}>
+        <calcite-icon icon="x" scale={iconScale} theme={this.theme} />
       </div>
     );
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
+        icon={this.icon as string}
         scale={iconScale}
         theme={this.theme}
-        icon={this.icon as string}
-      ></calcite-icon>
+      />
     );
 
     const inputAction = (
       <div class="calcite-input-action-wrapper">
-        <slot name="input-action"></slot>
+        <slot name="input-action" />
       </div>
     );
 
@@ -233,20 +208,20 @@ export class CalciteInput {
     const numberButtonsHorizontalUp = (
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onMouseDown={this.updateNumberValue}
         data-adjustment="up"
+        onMouseDown={this.updateNumberValue}
       >
-        <calcite-icon theme={this.theme} scale={iconScale} icon="chevron-up"></calcite-icon>
+        <calcite-icon icon="chevron-up" scale={iconScale} theme={this.theme} />
       </div>
     );
 
     const numberButtonsHorizontalDown = (
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
-        onMouseDown={this.updateNumberValue}
         data-adjustment="down"
+        onMouseDown={this.updateNumberValue}
       >
-        <calcite-icon theme={this.theme} scale={iconScale} icon="chevron-down"></calcite-icon>
+        <calcite-icon icon="chevron-down" scale={iconScale} theme={this.theme} />
       </div>
     );
 
@@ -265,45 +240,45 @@ export class CalciteInput {
       this.childElType !== "textarea" ? (
         <input
           {...attributes}
-          onBlur={() => this.inputBlurHandler()}
-          onFocus={(e) => this.inputFocusHandler(e)}
-          onInput={(e) => this.inputInputHandler(e)}
-          type={this.type}
-          min={this.minString}
-          max={this.maxString}
-          step={this.stepString}
-          value={this.value}
-          placeholder={this.placeholder || ""}
-          required={this.required ? true : null}
           autofocus={this.autofocus ? true : null}
           disabled={this.disabled ? true : null}
-          tabIndex={this.disabled ? -1 : null}
+          max={this.maxString}
+          min={this.minString}
+          onBlur={this.inputBlurHandler}
+          onFocus={this.inputFocusHandler}
+          onInput={this.inputInputHandler}
+          placeholder={this.placeholder || ""}
           ref={(el) => (this.childEl = el)}
+          required={this.required ? true : null}
+          step={this.stepString}
+          tabIndex={this.disabled ? -1 : null}
+          type={this.type}
+          value={this.value}
         />
       ) : (
         [
           <textarea
             {...attributes}
-            onBlur={() => this.inputBlurHandler()}
-            onFocus={(e) => this.inputFocusHandler(e)}
-            onInput={(e) => this.inputInputHandler(e)}
-            required={this.required ? true : null}
-            placeholder={this.placeholder || ""}
             autofocus={this.autofocus ? true : null}
             disabled={this.disabled ? true : null}
-            tabIndex={this.disabled ? -1 : null}
+            onBlur={this.inputBlurHandler}
+            onFocus={this.inputFocusHandler}
+            onInput={this.inputInputHandler}
+            placeholder={this.placeholder || ""}
             ref={(el) => (this.childEl = el)}
+            required={this.required ? true : null}
+            tabIndex={this.disabled ? -1 : null}
           >
             <slot />
           </textarea>,
           <div class="calcite-input-resize-icon-wrapper">
-            <calcite-icon icon="chevron-down" scale="s"></calcite-icon>
+            <calcite-icon icon="chevron-down" scale="s" />
           </div>
         ]
       );
 
     return (
-      <Host dir={dir} onClick={(e) => this.inputFocusHandler(e)}>
+      <Host dir={dir} onClick={this.inputFocusHandler}>
         <div class="calcite-input-wrapper">
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
@@ -334,7 +309,8 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e) {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     if (this.isClearable && getKey(e.key) === "Escape") {
       this.clearInputValue();
     }
@@ -364,7 +340,7 @@ export class CalciteInput {
 
   /** focus the rendered child element */
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     this.childEl?.focus();
   }
   //--------------------------------------------------------------------------
@@ -410,37 +386,41 @@ export class CalciteInput {
     search: "search"
   };
 
-  private inputInputHandler(e) {
+  private inputInputHandler = (e) => {
     this.value = e.target.value;
     this.calciteInputInput.emit({
       element: this.childEl,
       value: this.value
     });
-  }
+  };
 
-  private inputBlurHandler() {
+  private inputBlurHandler = () => {
     this.calciteInputBlur.emit({
       element: this.childEl,
       value: this.value
     });
-  }
+  };
 
-  private inputFocusHandler(e) {
+  private inputFocusHandler = (e) => {
     if (e.target !== this.slottedActionEl) this.setFocus();
     this.calciteInputFocus.emit({
       element: this.childEl,
       value: this.value
     });
-  }
+  };
 
-  private determineClearable() {
+  private determineClearable(): void {
     this.isClearable =
       this.type !== "textarea" &&
       (this.clearable || this.type === "search") &&
       this.value.length > 0;
   }
 
-  private getAttributes() {
+  private setDisabledAction(): void {
+    if (this.slottedActionEl) (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
+  }
+
+  private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
     const props = [
       "alignment",
@@ -464,9 +444,9 @@ export class CalciteInput {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
-  private clearInputValue() {
+  private clearInputValue = () => {
     this.value = "";
-  }
+  };
 
   private updateNumberValue = (e) => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown

@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop, Build, State } from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 
@@ -28,30 +28,14 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the color of the button, defaults to blue */
-  @Prop({ mutable: true, reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
-
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ mutable: true, reflect: true }) appearance:
-    | "solid"
-    | "outline"
-    | "clear"
-    | "transparent" = "solid";
+  @Prop({ reflect: true }) appearance: "solid" | "outline" | "clear" | "transparent" = "solid";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  /** specify the color of the button, defaults to blue */
+  @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
-  /** specify the scale of the button, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** specify the width of the button, defaults to auto */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
-
-  /** optionally add a calcite-loader component to the button, disabling interaction.  */
-  @Prop({ reflect: true }) loading?: boolean = false;
-
-  /** optionally add a round style to the button  */
-  @Prop({ reflect: true }) round?: boolean = false;
+  /** is the button disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
 
   /** optionally add a floating style to the button - this should be positioned fixed or sticky */
   @Prop({ reflect: true }) floating?: boolean = false;
@@ -59,14 +43,26 @@ export class CalciteButton {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconStart?: string;
-
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** is the button disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /** optionally add a calcite-loader component to the button, disabling interaction.  */
+  @Prop({ reflect: true }) loading?: boolean = false;
+
+  /** optionally add a round style to the button  */
+  @Prop({ reflect: true }) round?: boolean = false;
+
+  /** specify the scale of the button, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** specify the width of the button, defaults to auto */
+  @Prop({ reflect: true }) width: "auto" | "half" | "full" = "auto";
 
   //--------------------------------------------------------------------------
   //
@@ -74,30 +70,16 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // prop validations
-
-    const appearance = ["solid", "outline", "clear", "transparent"];
-    if (!appearance.includes(this.appearance)) this.appearance = "solid";
-
-    const color = ["blue", "red", "dark", "light"];
-    if (!color.includes(this.color)) this.color = "blue";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-
-    const width = ["auto", "half", "full"];
-    if (!width.includes(this.width)) this.width = "auto";
-
+  connectedCallback(): void {
     this.childElType = this.href ? "a" : "button";
     this.setupTextContentObserver();
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.observer.disconnect();
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     if (Build.isBrowser) {
       this.updateHasText();
       const elType = this.el.getAttribute("type");
@@ -105,14 +87,14 @@ export class CalciteButton {
     }
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const attributes = this.getAttributes();
     const Tag = this.childElType;
 
     const loader = (
       <div class="calcite-button--loader">
-        <calcite-loader active inline></calcite-loader>
+        <calcite-loader active inline />
       </div>
     );
 
@@ -131,13 +113,13 @@ export class CalciteButton {
     );
 
     return (
-      <Host hasText={this.hasText} dir={dir}>
+      <Host dir={dir} hasText={this.hasText}>
         <Tag
           {...attributes}
-          onClick={(e) => this.handleClick(e)}
           disabled={this.disabled}
-          tabIndex={this.disabled ? -1 : null}
+          onClick={(e) => this.handleClick(e)}
           ref={(el) => (this.childEl = el)}
+          tabIndex={this.disabled ? -1 : null}
         >
           {this.loading ? loader : null}
           {this.iconStart ? iconStartEl : null}
@@ -155,7 +137,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     this.childEl.focus();
   }
 
@@ -193,7 +175,7 @@ export class CalciteButton {
     }
   }
 
-  private getAttributes() {
+  private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
     const props = [
       "appearance",
@@ -221,7 +203,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   // act on a requested or nearby form based on type
-  private handleClick = (e: Event) => {
+  private handleClick = (e: Event): void => {
     // this.type refers to type attribute, not child element type
     if (this.childElType === "button" && this.type !== "button") {
       const requestedForm = this.el.getAttribute("form");
@@ -230,7 +212,7 @@ export class CalciteButton {
         : (this.el.closest("form") as HTMLFormElement);
 
       if (targetForm) {
-        const targetFormSubmitFunction = targetForm.onsubmit as Function;
+        const targetFormSubmitFunction = targetForm.onsubmit as () => void;
         switch (this.type) {
           case "submit":
             if (targetFormSubmitFunction) targetFormSubmitFunction();

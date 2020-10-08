@@ -22,12 +22,15 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 
 ## Properties
 
-| Property | Attribute | Description                                                          | Type                                              | Default     |
-| -------- | --------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
-| `layout` | `layout`  | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
-| `scale`  | `scale`   | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
-| `status` | `status`  | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
-| `theme`  | `theme`   | specify theme of the label and its any child input / input messages  | `"dark" \| "light"`                               | `undefined` |
+| Property         | Attribute         | Description                                                          | Type                                              | Default     |
+| ---------------- | ----------------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
+| `disableSpacing` | `disable-spacing` | Turn off spacing around the label                                    | `boolean`                                         | `undefined` |
+| `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `undefined` |
+| `for`            | `for`             | The id of the input associated with the label                        | `string`                                          | `undefined` |
+| `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
+| `scale`          | `scale`           | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
+| `status`         | `status`          | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
+| `theme`          | `theme`           | specify theme of the label and its any child input / input messages  | `"dark" \| "light"`                               | `undefined` |
 
 ## Events
 

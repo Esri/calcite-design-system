@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Listen, Prop } from "@stencil/core";
+import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { getDescribedByElement } from "../../utils/dom";
 
@@ -36,7 +36,7 @@ export class CalcitePopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     return <Host />;
   }
 
@@ -46,7 +46,8 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click", { target: "window", capture: true }) closeOpenPopovers(event: Event) {
+  @Listen("click", { target: "window", capture: true })
+  closeOpenPopovers(event: Event): void {
     const target = event.target as HTMLElement;
     const { autoClose, el, selector } = this;
     const popoverSelector = "calcite-popover";

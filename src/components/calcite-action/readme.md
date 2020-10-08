@@ -70,7 +70,6 @@ Type: `Promise<void>`
 - [calcite-action-bar](../calcite-action-bar)
 - [calcite-action-pad](../calcite-action-pad)
 - [calcite-block-section](../calcite-block-section)
-- [calcite-flow-item](../calcite-flow-item)
 - [calcite-panel](../calcite-panel)
 - [calcite-pick-list-item](../calcite-pick-list-item)
 - [calcite-tip](../calcite-tip)
@@ -90,7 +89,6 @@ graph TD;
   calcite-action-bar --> calcite-action
   calcite-action-pad --> calcite-action
   calcite-block-section --> calcite-action
-  calcite-flow-item --> calcite-action
   calcite-panel --> calcite-action
   calcite-pick-list-item --> calcite-action
   calcite-tip --> calcite-action

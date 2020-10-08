@@ -1,4 +1,15 @@
-import { Component, Element, Event, Listen, Host, h, Prop, EventEmitter } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  Listen,
+  Host,
+  h,
+  Prop,
+  EventEmitter,
+  VNode,
+  Watch
+} from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -24,6 +35,9 @@ export class CalciteLabel {
   /** specify the status of the label and any child input / input messages */
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 
+  /** The id of the input associated with the label */
+  @Prop({ reflect: true }) for: string;
+
   /** specify the scale of the input, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
@@ -34,6 +48,16 @@ export class CalciteLabel {
   @Prop({ mutable: true, reflect: true }) layout: "inline" | "inline-space-between" | "default" =
     "default";
 
+  /** Turn off spacing around the label */
+  @Prop() disableSpacing?: boolean;
+
+  /** is the label disabled  */
+  @Prop({ reflect: true }) disabled?: boolean;
+
+  @Watch("disabled")
+  disabledWatcher(): void {
+    if (this.disabled) this.setDisabledControls();
+  }
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -48,7 +72,8 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(event: MouseEvent) {
+  @Listen("click")
+  onClick(event: MouseEvent): void {
     const forAttr = this.el.getAttribute("for");
     this.calciteLabelFocus.emit({
       labelEl: this.el,
@@ -66,9 +91,9 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  private getAttributes() {
+  private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
-    const props = ["layout", "theme", "scale", "status"];
+    const props = ["layout", "theme", "scale", "status", "disabled"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
@@ -80,7 +105,7 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     const status = ["invalid", "valid", "idle"];
     if (!status.includes(this.status)) this.status = "idle";
 
@@ -91,7 +116,7 @@ export class CalciteLabel {
     if (!scale.includes(this.scale)) this.scale = "m";
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     const labelNode = this.el.querySelector("label");
     labelNode.childNodes.forEach((childNode) => {
       if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
@@ -102,17 +127,40 @@ export class CalciteLabel {
         childNode.parentNode.replaceChild(newChildNode, childNode);
       }
     });
+    if (this.disabled) this.setDisabledControls();
   }
 
-  render() {
+  render(): VNode {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
-        <label {...attributes}>
+        <label {...attributes} ref={(el) => (this.childLabelEl = el)}>
           <slot />
         </label>
       </Host>
     );
+  }
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  // the rendered wrapping label element
+  private childLabelEl: HTMLLabelElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private setDisabledControls() {
+    this.childLabelEl?.childNodes.forEach((item) => {
+      if (item.nodeName.includes("CALCITE")) {
+        (item as HTMLElement).setAttribute("disabled", "");
+      }
+    });
   }
 }

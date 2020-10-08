@@ -8,12 +8,13 @@ import {
   State,
   Listen,
   Watch,
-  h
+  h,
+  VNode
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 
-import { nodeListToArray, getSlottedElements, getElementDir } from "../../utils/dom";
+import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -43,17 +44,13 @@ export class CalciteTreeItem {
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
-  expandedHandler(newValue: boolean) {
-    if (this.childrenSlotWrapper) {
-      const [childTree] = getSlottedElements(this.childrenSlotWrapper, "calcite-tree");
-      if (childTree) {
-        const items = getSlottedElements<HTMLCalciteTreeItemElement>(
-          childTree,
-          "calcite-tree-item"
-        );
-        items.forEach((item) => (item.parentExpanded = newValue));
-      }
-    }
+  expandedHandler(newValue: boolean): void {
+    const items = getSlotted<HTMLCalciteTreeItemElement>(this.el, "children", {
+      all: true,
+      selector: "calcite-tree-item"
+    });
+
+    items.forEach((item) => (item.parentExpanded = newValue));
   }
 
   //--------------------------------------------------------------------------
@@ -62,7 +59,7 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  componentWillRender() {
+  componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
 
     let parentTree = this.el.closest("calcite-tree");
@@ -85,22 +82,22 @@ export class CalciteTreeItem {
     }
   }
 
-  render() {
+  render(): VNode {
     const icon = this.hasChildren ? (
       <calcite-icon
         class="calcite-tree-chevron"
-        icon="chevron-right"
-        scale="s"
-        onClick={this.iconClickHandler}
         data-test-id="icon"
-      ></calcite-icon>
+        icon="chevron-right"
+        onClick={this.iconClickHandler}
+        scale="s"
+      />
     ) : null;
 
     return (
       <Host
-        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
-        aria-role="treeitem"
+        aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
         aria-hidden={this.parentExpanded || this.depth === 1 ? undefined : "true"}
+        aria-role="treeitem"
         aria-selected={
           this.selected
             ? "true"
@@ -109,20 +106,20 @@ export class CalciteTreeItem {
             ? "false"
             : undefined
         }
-        aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
+        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
         <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>
           {icon}
-          <slot></slot>
+          <slot />
         </div>
         <div
           class="calcite-tree-children"
           data-test-id="calcite-tree-children"
-          role={this.hasChildren ? "group" : undefined}
-          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
           onClick={this.childrenClickHandler}
+          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
+          role={this.hasChildren ? "group" : undefined}
         >
-          <slot name="children"></slot>
+          <slot name="children" />
         </div>
       </Host>
     );
@@ -134,10 +131,10 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(e: Event) {
+  @Listen("click") onClick(e: Event): void {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
-    const [link] = getSlottedElements(this.defaultSlotWrapper, "a") as HTMLAnchorElement[];
+    const [link] = filterDirectChildren<HTMLAnchorElement>(this.el, "a");
     if (link && (e.composedPath()[0] as any).tagName.toLowerCase() !== "a") {
       const target = link.target === "" ? "_self" : link.target;
       window.open(link.href, target);
@@ -149,7 +146,7 @@ export class CalciteTreeItem {
     });
   }
 
-  iconClickHandler = (event: Event) => {
+  iconClickHandler = (event: Event): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
@@ -158,9 +155,9 @@ export class CalciteTreeItem {
     });
   };
 
-  childrenClickHandler = (event) => event.stopPropagation();
+  childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     let root;
 
     switch (getKey(e.key)) {

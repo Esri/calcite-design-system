@@ -1,8 +1,15 @@
-import { Component, Element, Prop, Host, Event, h, EventEmitter } from "@stencil/core";
-import { getLocaleFormatData, replaceArabicNumerals, getMonths, getYear } from "../../utils/locale";
+import { Component, Element, Prop, Host, Event, h, EventEmitter, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { dateFromRange, nextMonth, prevMonth } from "../../utils/date";
+import {
+  dateFromRange,
+  nextMonth,
+  prevMonth,
+  localizeNumber,
+  parseNumber,
+  getOrder
+} from "../../utils/date";
 import { getKey } from "../../utils/key";
+import { DateLocaleData } from "../calcite-date/utils";
 
 @Component({
   tag: "calcite-date-month-header",
@@ -48,6 +55,9 @@ export class CalciteDateMonthHeader {
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
+  /** CLDR locale data for translated calendar info */
+  @Prop() localeData: DateLocaleData;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -64,50 +74,75 @@ export class CalciteDateMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const activeMonth = this.activeDate.getMonth();
-    const localizedMonth = getMonths(this.locale)[activeMonth];
-    const localizedYear = getYear(this.activeDate, this.locale);
+    const { months, unitOrder } = this.localeData;
+    const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
+    const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
     const iconScale = this.scale === "l" ? "m" : "s";
     const dir = getElementDir(this.el);
+    const order = getOrder(unitOrder);
+    const reverse = order.indexOf("y") < order.indexOf("m");
     const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
     const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+    const suffix = this.localeData.year?.suffix;
     return (
       <Host dir={dir}>
-        <div class="header" aria-hidden="true">
-          <button
+        <div aria-hidden="true" class="header">
+          <a
+            aria-disabled={nextMonthDate.getMonth() === activeMonth}
+            aria-label={this.intlNextMonth}
             class="chevron"
-            aria-label={this.intlPrevMonth}
-            disabled={prevMonthDate.getMonth() === activeMonth}
-            onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
+            href="#"
+            onClick={(e) => this.handleArrowClick(e, prevMonthDate)}
+            onKeyDown={(e) => this.handleKeyDown(e, prevMonthDate)}
+            role="button"
+            tabindex="0"
           >
-            <calcite-icon icon="chevron-left" scale={iconScale} mirrored dir={dir} />
-          </button>
-          <div class="text">
+            <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
+          </a>
+          <div class={{ text: true, "text--reverse": reverse }}>
             <span class="month" role="heading">
               {localizedMonth}
             </span>
-            <input
-              class="year"
-              type="text"
-              inputmode="numeric"
-              maxlength="4"
-              minlength="4"
-              pattern="\d*"
-              value={`${localizedYear.slice(-4)}`}
-              onKeyDown={(event) => this.onYearKey(event)}
-              onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
-              ref={(el) => (this.yearInput = el)}
-            />
+            <span class="year-wrap">
+              <input
+                class={{
+                  year: true,
+                  "year--suffix": !!suffix
+                }}
+                inputmode="numeric"
+                maxlength="4"
+                minlength="1"
+                onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
+                onKeyDown={(event) => this.onYearKey(event)}
+                pattern="\d*"
+                ref={(el) => (this.yearInput = el)}
+                type="text"
+                value={localizedYear}
+              />
+              {suffix && (
+                <span class="suffix">
+                  <span aria-hidden="true" class="suffix__invisible">
+                    {localizedYear}
+                  </span>
+                  {" " + suffix}
+                </span>
+              )}
+            </span>
           </div>
-          <button
-            class="chevron"
+          <a
+            aria-disabled={nextMonthDate.getMonth() === activeMonth}
             aria-label={this.intlNextMonth}
-            disabled={nextMonthDate.getMonth() === activeMonth}
-            onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
+            class="chevron"
+            href="#"
+            onClick={(e) => this.handleArrowClick(e, nextMonthDate)}
+            onKeyDown={(e) => this.handleKeyDown(e, nextMonthDate)}
+            role="button"
+            tabindex="0"
           >
-            <calcite-icon icon="chevron-right" scale={iconScale} mirrored dir={dir} />
-          </button>
+            <calcite-icon dir={dir} icon="chevron-right" mirrored scale={iconScale} />
+          </a>
         </div>
       </Host>
     );
@@ -128,7 +163,7 @@ export class CalciteDateMonthHeader {
   /**
    * Increment year on UP/DOWN keys
    */
-  private onYearKey(e: KeyboardEvent) {
+  private onYearKey(e: KeyboardEvent): void {
     const year = (e.target as HTMLInputElement).value;
     switch (getKey(e.key)) {
       case "ArrowDown":
@@ -142,28 +177,47 @@ export class CalciteDateMonthHeader {
     }
   }
 
+  /*
+   * Update active month on clicks of left/right arrows
+   */
+  private handleArrowClick(e: Event, date: Date) {
+    e?.preventDefault();
+    e.stopPropagation();
+    this.calciteActiveDateChange.emit(date);
+  }
+
+  /*
+   * Because we have to use an anchor rather than button (#1069),
+   * ensure enter/space work like a button would
+   */
+  private handleKeyDown(e: KeyboardEvent, date: Date) {
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
+      this.handleArrowClick(e, date);
+    }
+  }
+
   /**
    * Parse localized year string from input,
    * set to active if in range
    */
   private setYear(localizedYear: string, increment = 0) {
-    const { min, max, activeDate, locale, yearInput } = this;
-    const parsedYear = parseInt(replaceArabicNumerals(localizedYear));
+    const { min, max, activeDate, localeData, yearInput } = this;
+    const parsedYear = parseNumber(localizedYear, localeData);
     const length = parsedYear.toString().length;
-    const offset = getLocaleFormatData(locale).buddhist ? 543 : 0;
-    const year = isNaN(parsedYear) ? false : parsedYear - offset + increment;
+    const year = isNaN(parsedYear) ? false : parsedYear + increment;
     const inRange =
       year && (!min || min.getFullYear() <= year) && (!max || max.getFullYear() >= year);
     // if you've supplied a year and it's in range, update active date
-    if (year && inRange && length === localizedYear.length && length > 3) {
+    if (year && inRange && length === localizedYear.length) {
       const nextDate = new Date(activeDate);
       nextDate.setFullYear(year as number);
       const inRangeDate = dateFromRange(nextDate, min, max);
       this.calciteActiveDateChange.emit(inRangeDate);
-      yearInput.value = getYear(inRangeDate, locale).slice(-4);
+      yearInput.value = localizeNumber(inRangeDate.getFullYear(), localeData);
     } else {
       // leave the current active date and clean up garbage input
-      yearInput.value = getYear(activeDate, locale).slice(-4);
+      yearInput.value = localizeNumber(activeDate.getFullYear(), localeData);
     }
   }
 }

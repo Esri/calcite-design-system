@@ -1,8 +1,8 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { CalciteTheme } from "../interfaces";
-import { getElementDir, getSlotted, getElementTheme } from "../utils/dom";
+import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
 
 /**
  * @slot icon - A slot for adding a trailing header icon.
@@ -113,7 +113,7 @@ export class CalciteBlock {
     const defaultSlot = <slot />;
 
     return loading || disabled ? (
-      <calcite-scrim theme={getElementTheme(el)} loading={loading}>
+      <calcite-scrim loading={loading} theme={getElementTheme(el)}>
         {defaultSlot}
       </calcite-scrim>
     ) : (
@@ -145,7 +145,7 @@ export class CalciteBlock {
           </div>
         ) : null}
         <div class={CSS.title}>
-          <h3 class={CSS.heading}>{heading}</h3>
+          <h4 class={CSS.heading}>{heading}</h4>
           {summary ? <div class={CSS.summary}>{summary}</div> : null}
         </div>
       </header>
@@ -169,7 +169,7 @@ export class CalciteBlock {
           headerContent
         )}
         {loading ? (
-          <calcite-loader inline is-active></calcite-loader>
+          <calcite-loader inline is-active />
         ) : hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
@@ -183,8 +183,8 @@ export class CalciteBlock {
     return (
       <Host tabIndex={disabled ? -1 : null}>
         <article
-          aria-expanded={collapsible ? open.toString() : null}
           aria-busy={loading.toString()}
+          aria-expanded={collapsible ? open.toString() : null}
           class={{
             [CSS.article]: true,
             [CSS_UTILITY.rtl]: rtl

@@ -1,4 +1,14 @@
-import { Component, Element, Prop, Host, Event, EventEmitter, Listen, h } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  EventEmitter,
+  Listen,
+  h,
+  VNode
+} from "@stencil/core";
 import { nodeListToArray } from "../../utils/dom";
 import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
 import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
@@ -43,7 +53,7 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
 
-  componentWillRender() {
+  componentWillRender(): void {
     const parent: HTMLCalciteTreeElement = this.el.parentElement.closest("calcite-tree");
     // this.theme = getElementTheme(this.el);
     this.lines = parent ? parent.lines : this.lines;
@@ -52,17 +62,17 @@ export class CalciteTree {
     this.root = parent ? false : true;
   }
 
-  render() {
+  render(): VNode {
     return (
       <Host
-        tabindex={this.root ? "1" : undefined}
-        aria-role={this.root ? "tree" : undefined}
         aria-multiselectable={
           this.selectionMode === TreeSelectionMode.Multi ||
           this.selectionMode === TreeSelectionMode.MultiChildren
         }
+        aria-role={this.root ? "tree" : undefined}
+        tabindex={this.root ? "0" : undefined}
       >
-        <slot></slot>
+        <slot />
       </Host>
     );
   }
@@ -73,7 +83,7 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("focus") onFocus() {
+  @Listen("focus") onFocus(): void {
     if (this.root) {
       const selectedNode = this.el.querySelector(
         "calcite-tree-item[selected]"
@@ -85,7 +95,7 @@ export class CalciteTree {
   }
 
   @Listen("calciteTreeItemSelect")
-  onClick(e: CustomEvent<TreeItemSelectDetail>) {
+  onClick(e: CustomEvent<TreeItemSelectDetail>): void {
     const target = e.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")

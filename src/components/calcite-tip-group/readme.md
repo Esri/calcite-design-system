@@ -6,9 +6,9 @@
 
 ## Properties
 
-| Property         | Attribute          | Description                         | Type     | Default     |
-| ---------------- | ------------------ | ----------------------------------- | -------- | ----------- |
-| `textGroupTitle` | `text-group-title` | The title used for all nested tips. | `string` | `undefined` |
+| Property     | Attribute     | Description                         | Type     | Default     |
+| ------------ | ------------- | ----------------------------------- | -------- | ----------- |
+| `groupTitle` | `group-title` | The title used for all nested tips. | `string` | `undefined` |
 
 ---
 

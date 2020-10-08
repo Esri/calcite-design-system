@@ -99,7 +99,7 @@ describe("calcite-pagination", () => {
       const toggleSpy = await page.spyOnEvent("calcitePaginationUpdate");
 
       await page.evaluate(() => {
-        document.addEventListener("calcitePaginationUpdate", (event: CustomEvent) => {
+        document.addEventListener("calcitePaginationUpdate", (event: CustomEvent): void => {
           (window as any).eventDetail = event.detail;
         });
       });
@@ -132,6 +132,38 @@ describe("calcite-pagination", () => {
       selectedPage = await page.find(`calcite-pagination >>> .${CSS.page}.${CSS.selected}`);
       expect(selectedPage.innerText).toBe("3");
       expect(toggleSpy).toHaveReceivedEventTimes(2);
+    });
+  });
+  describe("showing one item at a time", () => {
+    let page: E2EPage;
+    let pagination: E2EElement;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`<calcite-pagination start="1" total="5" num="1"></calcite-pagination>`);
+      pagination = await page.find("calcite-pagination");
+    });
+    it("should show the first page", async () => {
+      const selectedPage = await page.find(`calcite-pagination >>> .${CSS.page}.${CSS.selected}`);
+      expect(selectedPage.innerText).toBe("1");
+    });
+    it("previous button should be disabled when selected page equals the starting page", async () => {
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const previousButton = await page.find(`calcite-pagination >>> .${CSS.previous}`);
+      await previousButton.click();
+      await page.waitForChanges();
+
+      expect(toggleSpy).toHaveReceivedEventTimes(0);
+    });
+    it("next button should be disabled on last page", async () => {
+      await pagination.setAttribute("start", "5");
+      await page.waitForChanges();
+
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
+      await nextButton.click();
+      await page.waitForChanges();
+
+      expect(toggleSpy).toHaveReceivedEventTimes(0);
     });
   });
 });

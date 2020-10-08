@@ -7,6 +7,7 @@ import {
   Host,
   Listen,
   Prop,
+  VNode,
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
@@ -68,7 +69,7 @@ export class CalciteStepperItem {
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
 
   // watch for removal of disabled to register step
-  @Watch("disabled") disabledWatcher() {
+  @Watch("disabled") disabledWatcher(): void {
     this.registerStepperItem();
   }
 
@@ -90,35 +91,36 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     this.icon = getElementProp(this.el, "icon", false);
     this.numbered = getElementProp(this.el, "numbered", false);
     this.layout = getElementProp(this.el, "layout", false);
     this.scale = getElementProp(this.el, "scale", "m");
+    this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
   }
 
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.itemPosition = this.getItemPosition();
     this.itemContent = this.getItemContent();
     this.registerStepperItem();
     if (this.active) this.emitRequestedItem();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     if (this.active) this.emitRequestedItem();
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     return (
       <Host
-        dir={dir}
-        tabindex={this.disabled ? null : 0}
         aria-expanded={this.active.toString()}
+        dir={dir}
         onClick={() => this.emitRequestedItem()}
+        tabindex={this.disabled ? null : 0}
       >
         <div class="stepper-item-header">
-          {this.icon ? this.setIcon() : null}
+          {this.icon ? this.renderIcon() : null}
           {this.numbered ? (
             <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
           ) : null}
@@ -140,7 +142,7 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e) {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     if (!this.disabled && e.target === this.el) {
       switch (getKey(e.key)) {
         case " ":
@@ -161,10 +163,12 @@ export class CalciteStepperItem {
     }
   }
 
-  @Listen("calciteStepperItemChange", { target: "parent" })
-  updateActiveItemOnChange(event: CustomEvent) {
-    this.activePosition = event.detail.position;
-    this.determineActiveItem();
+  @Listen("calciteStepperItemChange", { target: "body" })
+  updateActiveItemOnChange(event: CustomEvent): void {
+    if (event.target === this.parentStepperEl) {
+      this.activePosition = event.detail.position;
+      this.determineActiveItem();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -181,13 +185,16 @@ export class CalciteStepperItem {
   /** the slotted item content */
   private itemContent: HTMLElement[] | HTMLElement;
 
+  /** the parent stepper component */
+  private parentStepperEl: HTMLCalciteStepperElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private setIcon() {
+  private renderIcon(): VNode {
     const path = this.active
       ? "circleF"
       : this.error
@@ -196,21 +203,21 @@ export class CalciteStepperItem {
       ? "checkCircleF"
       : "circle";
 
-    return <calcite-icon icon={path} scale="s" class="stepper-item-icon" />;
+    return <calcite-icon class="stepper-item-icon" icon={path} scale="s" />;
   }
 
-  private determineActiveItem() {
+  private determineActiveItem(): void {
     this.active = !this.disabled && this.itemPosition === this.activePosition;
   }
 
-  private registerStepperItem() {
+  private registerStepperItem(): void {
     this.calciteStepperItemRegister.emit({
       position: this.itemPosition,
       content: this.itemContent
     });
   }
 
-  private emitRequestedItem() {
+  private emitRequestedItem(): void {
     if (!this.disabled) {
       this.calciteStepperItemSelect.emit({
         position: this.itemPosition,
@@ -219,7 +226,7 @@ export class CalciteStepperItem {
     }
   }
 
-  private getItemContent() {
+  private getItemContent(): HTMLElement | HTMLElement[] {
     // handle ie and edge
     return this.el.shadowRoot?.querySelector("slot")
       ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
@@ -228,8 +235,10 @@ export class CalciteStepperItem {
       : null;
   }
 
-  private getItemPosition() {
-    const parent = this.el.parentElement as HTMLCalciteStepperElement;
-    return Array.prototype.indexOf.call(parent.querySelectorAll("calcite-stepper-item"), this.el);
+  private getItemPosition(): number {
+    return Array.prototype.indexOf.call(
+      this.parentStepperEl.querySelectorAll("calcite-stepper-item"),
+      this.el
+    );
   }
 }

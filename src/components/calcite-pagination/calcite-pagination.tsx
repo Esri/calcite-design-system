@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, Method } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  Method,
+  VNode
+} from "@stencil/core";
 
 import { CSS, TEXT } from "./resources";
 
@@ -47,18 +57,6 @@ export class CalcitePagination {
   //
   // --------------------------------------------------------------------------
   @Element() el: HTMLCalcitePaginationElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // prop validations
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -131,7 +129,7 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
-  renderPages() {
+  renderPages(): VNode[] {
     const lastStart = this.getLastStart();
     let end;
     let nextStart;
@@ -166,8 +164,8 @@ export class CalcitePagination {
     return pages.map((page) => this.renderPage(page));
   }
 
-  renderPage(start: number) {
-    const page = Math.floor(start / this.num) + 1;
+  renderPage(start: number): VNode {
+    const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
     return (
       <button
         class={{
@@ -184,41 +182,43 @@ export class CalcitePagination {
     );
   }
 
-  renderLeftEllipsis(iconScale) {
+  renderLeftEllipsis(iconScale: this["scale"]): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
-          <calcite-icon scale={iconScale} icon="ellipsis" />
+          <calcite-icon icon="ellipsis" scale={iconScale} />
         </span>
       );
     }
   }
 
-  renderRightEllipsis(iconScale) {
+  renderRightEllipsis(iconScale: this["scale"]): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
-          <calcite-icon scale={iconScale} icon="ellipsis" />
+          <calcite-icon icon="ellipsis" scale={iconScale} />
         </span>
       );
     }
   }
 
-  render() {
+  render(): VNode {
     const { total, num, start } = this;
     const iconScale = this.scale === "l" ? "m" : "s";
+    const prevDisabled = num === 1 ? start <= num : start < num;
+    const nextDisabled = num === 1 ? start + num > total : start + num >= total;
     return (
       <Host>
         <button
+          aria-label={this.textLabelPrevious}
           class={{
             [CSS.previous]: true,
-            [CSS.disabled]: start < num
+            [CSS.disabled]: prevDisabled
           }}
-          aria-label={this.textLabelPrevious}
+          disabled={prevDisabled}
           onClick={this.previousClicked}
-          disabled={start < num}
         >
-          <calcite-icon scale={iconScale} icon="chevronLeft" />
+          <calcite-icon icon="chevronLeft" scale={iconScale} />
         </button>
         {total > num ? this.renderPage(1) : null}
         {this.renderLeftEllipsis(iconScale)}
@@ -226,15 +226,15 @@ export class CalcitePagination {
         {this.renderRightEllipsis(iconScale)}
         {this.renderPage(this.getLastStart())}
         <button
+          aria-label={this.textLabelNext}
           class={{
             [CSS.next]: true,
-            [CSS.disabled]: start + num >= total
+            [CSS.disabled]: nextDisabled
           }}
-          aria-label={this.textLabelNext}
+          disabled={nextDisabled}
           onClick={this.nextClicked}
-          disabled={start + num >= total}
         >
-          <calcite-icon scale={iconScale} icon="chevronRight" />
+          <calcite-icon icon="chevronRight" scale={iconScale} />
         </button>
       </Host>
     );
