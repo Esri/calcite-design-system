@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop, Listen, VNode } from "@stencil/core";
+import { Component, Element, Host, h, Prop, Listen, VNode, Watch } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile-select",
@@ -23,6 +23,11 @@ export class CalciteTileSelect {
   /** The checked state of the tile select. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
+  @Watch("checked")
+  checkedChanged(newChecked: boolean): void {
+    this.input.checked = newChecked;
+  }
+
   /** The description text that appears beneath the heading of the tile. */
   @Prop({ reflect: true }) description?: string;
 
@@ -43,6 +48,11 @@ export class CalciteTileSelect {
 
   /** The name of the tile select.  This name will appear in form submissions as either a radio or checkbox identifier based on the `type` property. */
   @Prop({ reflect: true }) name = "";
+
+  @Watch("name")
+  nameChanged(newName: string): void {
+    this.input.name = newName;
+  }
 
   /** The side of the tile that the radio or checkbox appears. */
   @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";
@@ -90,11 +100,12 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteRadioButtonCheckedChange")
-  calciteRadioButtonChangeEvent(event: CustomEvent): void {
+  calciteRadioButtonCheckedChangeEvent(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
     }
+    event.stopPropagation();
   }
 
   @Listen("calciteRadioButtonFocusedChange")
