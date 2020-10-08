@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { getElementDir, filterDirectChildren } from "../../utils/dom";
+import { TabID } from "../calcite-tabs/interfaces";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -71,7 +72,7 @@ export class CalciteTabNav {
   @Prop({ mutable: true }) indicatorWidth: number;
 
   @Watch("selectedTab")
-  selectedTabChanged(): void {
+  async selectedTabChanged(): Promise<void> {
     if (
       localStorage &&
       this.storageId &&
@@ -85,14 +86,14 @@ export class CalciteTabNav {
       tab: this.selectedTab
     });
 
-    this.getTabTitleById(this.selectedTab).then((el) => (this.selectedTabEl = el));
+    this.selectedTabEl = await this.getTabTitleById(this.selectedTab);
   }
 
   @Watch("selectedTabEl") selectedTabElChanged(): void {
-    this.getOffsetPosition();
-    this.getActiveWidth();
+    this.updateOffsetPosition();
+    this.updateActiveWidth();
     // reset the animation time on tab selection
-    this.activeIndicatorEl.style.transitionDuration = this.animationActiveDuration;
+    this.activeIndicatorEl.style.transitionDuration = `${this.animationActiveDuration}s`;
   }
 
   //--------------------------------------------------------------------------
@@ -133,24 +134,16 @@ export class CalciteTabNav {
   }
 
   render(): VNode {
-    this.dir = getElementDir(this.el);
-
-    const indicatorStyle =
-      this.dir !== "rtl"
-        ? {
-            width: `${this.indicatorWidth}px`,
-            left: `${this.indicatorOffset}px`
-          }
-        : {
-            width: `${this.indicatorWidth}px`,
-            right: `${this.indicatorOffset}px`
-          };
+    const dir = getElementDir(this.el);
+    const width = `${this.indicatorWidth}px`;
+    const offset = `${this.indicatorOffset}px`;
+    const indicatorStyle = dir !== "rtl" ? { width, left: offset } : { width, right: offset };
     return (
       <Host role="tablist">
         <div
           class="tab-nav"
-          onScroll={() => this.handleContainerScroll()}
-          ref={(el) => (this.tabNavEl = el as HTMLElement)}
+          onScroll={this.handleContainerScroll}
+          ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
         >
           <div class="tab-nav-active-indicator-container">
             <div
@@ -177,8 +170,8 @@ export class CalciteTabNav {
   @Listen("resize", { target: "window" }) resizeHandler(): void {
     // remove active indicator transition duration during resize to prevent wobble
     this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.getActiveWidth();
-    this.getOffsetPosition();
+    this.updateActiveWidth();
+    this.updateOffsetPosition();
   }
 
   /**
@@ -233,7 +226,7 @@ export class CalciteTabNav {
   /**
    * Check for active tabs on register and update selected
    */
-  @Listen("calciteTabTitleRegister") updateTabTitles(e: CustomEvent<string | number>): void {
+  @Listen("calciteTabTitleRegister") updateTabTitles(e: CustomEvent<TabID>): void {
     if ((e.target as HTMLCalciteTabTitleElement).active) {
       this.selectedTab = e.detail;
     }
@@ -278,14 +271,12 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
-  private tabNavEl: HTMLElement;
+  private tabNavEl: HTMLDivElement;
 
   private activeIndicatorEl: HTMLElement;
 
-  // the duration of active indicator animation
-  private animationActiveDuration = "0.3s";
+  private animationActiveDuration = 0.3;
 
-  // component dir
   private dir: "ltr" | "rtl";
 
   //--------------------------------------------------------------------------
@@ -294,20 +285,20 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
-  private handleContainerScroll(): void {
+  private handleContainerScroll = (): void => {
     // remove active indicator transition duration while container is scrolling to prevent wobble
     this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.getOffsetPosition();
-  }
+    this.updateOffsetPosition();
+  };
 
-  private getOffsetPosition(): void {
+  private updateOffsetPosition(): void {
     this.indicatorOffset =
       this.dir !== "rtl"
         ? this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft
         : this.tabNavEl?.offsetWidth - this.selectedTabEl.getBoundingClientRect().right;
   }
 
-  private getActiveWidth(): void {
+  private updateActiveWidth(): void {
     this.indicatorWidth = this.selectedTabEl?.offsetWidth;
   }
 
@@ -317,7 +308,7 @@ export class CalciteTabNav {
     return tabTitles.indexOf(el);
   }
 
-  private getTabTitleById(id: string | number): Promise<HTMLCalciteTabTitleElement | null> {
+  private async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
     return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
       return this.tabTitles[ids.indexOf(id)];
     });

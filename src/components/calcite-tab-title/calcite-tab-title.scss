@@ -23,16 +23,16 @@ $tab-margin: 1.25rem;
   text-align: center;
   margin: 0 $tab-margin;
 }
-// positioning
+
 :host([position="below"]) a {
   border-bottom: 0;
   border-top: 3px solid transparent;
 }
 
-// focus styles
 :host a {
   @include focus-style-base();
 }
+
 :host(:focus) a {
   @include focus-style-outset();
 }
@@ -52,7 +52,6 @@ $tab-margin: 1.25rem;
   border-color: transparent;
 }
 
-// disabled styles
 :host([disabled]) {
   pointer-events: none;
   span,
@@ -85,7 +84,6 @@ span {
   cursor: default;
 }
 
-// icon positioning and styles
 .calcite-tab-title--icon {
   display: inline-flex;
   position: relative;
