@@ -44,7 +44,7 @@ storiesOf("Components/Tree", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <calcite-tree
       ${boolean("lines", false)}
       selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
@@ -56,7 +56,7 @@ storiesOf("Components/Tree", module)
   )
   .add(
     "Dark mode",
-    () => `
+    (): string => `
     <calcite-tree
       theme="dark"
       ${boolean("lines", false)}

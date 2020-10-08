@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 @Component({
   tag: "calcite-progress",
   styleUrl: "calcite-progress.scss",
@@ -22,7 +22,7 @@ export class CalciteProgress {
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
-  render() {
+  render(): VNode {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
     return (

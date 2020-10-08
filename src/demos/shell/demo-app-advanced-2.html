@@ -100,7 +100,9 @@
                 </calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <div id="layerlist-container"></div>
+            <calcite-panel heading="Layers" height-scale="l" width-scale="m" >
+              <div id="layerlist-container"></div>
+            </calcite-panel>
           </calcite-shell-panel>
 
           <calcite-shell-panel slot="contextual-panel" position="end">
@@ -128,8 +130,8 @@
                 </calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <calcite-flow id="flow">
-              <calcite-flow-item
+              <calcite-panel
+                width-scale="m"
                 heading="Label features"
                 summary="Popular Demographics in the United States (Beta) - County"
               >
@@ -143,15 +145,15 @@
                   <calcite-icon icon="label" scale="m" slot="icon"></calcite-icon>
                   <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
-                    <label for="">
+                    <calcite-label scale="s" for="">
                       Label attribute
-                      <input type="text" value="2018 Total Population (Esri)" />
-                    </label>
+                      <calcite-input type="text" value="2018 Total Population (Esri)" />
+                    </calcite-label>
                   </section>
                   <section class="form-section">
-                    <button class="combo-button__main">
-                      Edit label style
-                    </button>
+                    <calcite-button width="full" scale="s" appearance="clear" color="dark" class="combo-button__main" text="Edit label style" icon-end="pencil">
+                      Edit label
+                    </calcite-button>
                   </section>
                 </calcite-block>
                 <calcite-block heading="NAME" summary="Continent - State province" open collapsible>
@@ -159,15 +161,15 @@
                   <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
                     <section class="form-section">
-                      <label for="">
+                      <calcite-label scale="s" for="">
                         Label attribute
-                        <input type="text" value="NAME" />
-                      </label>
+                        <calcite-input type="text" value="NAME" />
+                      </calcite-label>
                     </section>
                     <section class="form-section">
-                      <button class="combo-button__main">
-                        Edit label style
-                      </button>
+                      <calcite-button width="full" scale="s" appearance="clear" color="dark" class="combo-button__main" text="Edit label style" icon-end="pencil">
+                        Edit label
+                      </calcite-button>
                     </section>
                   </section>
                 </calcite-block>
@@ -181,29 +183,23 @@
                   <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
                     <section class="form-section">
-                      <label for="">
+                      <calcite-label scale="s" for="">
                         Label attribute
-                        <input type="text" value="2018 Total Households (Esri)" />
-                      </label>
+                        <calcite-input type="text" value="2018 Total Households (Esri)" />
+                      </calcite-label>
                     </section>
                     <section class="form-section">
-                      <button class="combo-button__main">
-                        Edit label style
-                      </button>
+                      <calcite-button width="full" scale="s" appearance="clear" color="dark" class="combo-button__main" text="Edit label style" icon-end="pencil">
+                        Edit label
+                      </calcite-button>
                     </section>
                   </section>
                 </calcite-block>
-                <!-- <div slot="footer-actions">
-                  <button>Save</button>
-                  <button>Cancel</button>
-                </div> -->
                 <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
                 <calcite-tooltip reference-element="label-fab" disable-pointer>
-                  <!-- <img src="https://placekitten.com/200/200" /> -->
                   Add label class
                 </calcite-tooltip>
-              </calcite-flow-item>
-            </calcite-flow>
+              </calcite-panel>
           </calcite-shell-panel>
           <div slot="shell-header">
             <header class="header">
@@ -211,7 +207,7 @@
             </header>
           </div>
           <calcite-tip-manager slot="center-row" id="tip-manager" hidden>
-            <calcite-tip-group text-group-title="Astronomy">
+            <calcite-tip-group group-title="Astronomy">
               <calcite-tip heading="The Red Rocks and Blue Water">
                 <img slot="thumbnail" src="https://placeimg.com/1000/600/city" alt="This is an image." />
                 <p>
@@ -273,19 +269,19 @@
               <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
             </calcite-action>
             <calcite-pick-list-item
-              text-label="about disasters, fires, floods and killer bees"
+              label="about disasters, fires, floods and killer bees"
               value="1"
             ></calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="about the NASA shuttle falling in the sea"
+              label="about the NASA shuttle falling in the sea"
               value="2"
             ></calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="about starvation and the food that Live Aid bought"
+              label="about starvation and the food that Live Aid bought"
               value="3"
             ></calcite-pick-list-item>
             <calcite-pick-list-item
-              text-label="about disease, baby rock, Hudson, rock,"
+              label="about disease, baby rock, Hudson, rock,"
               value="4"
             ></calcite-pick-list-item>
           </calcite-pick-list>
@@ -301,7 +297,7 @@
             ? tipManager.removeAttribute("hidden")
             : tipManager.setAttribute("hidden", "");
         });
-        const flowNode = document.getElementById("flow");
+        
       </script>
     </main>
   </body>

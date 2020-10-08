@@ -3,20 +3,20 @@ import {
   Element,
   Event,
   EventEmitter,
+  h,
   Host,
   Method,
   Prop,
-  Watch,
-  h,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
-import { getSlotted } from "../utils/dom";
+import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot secondary-action - A slot intended for adding a `calcite-action` or `calcite-button` to the right side of the card.
- * This is placed at the end of the item.
+ * @slot actions-end - a slot for adding actions or content to the end side of the item.
+ * @slot actions-start - a slot for adding actions or content to the start side of the item.
  */
 @Component({
   tag: "calcite-pick-list-item",
@@ -29,6 +29,16 @@ export class CalcitePickListItem {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * An optional description for this item.  This will appear below the label text.
+   */
+  @Prop({ reflect: true }) description?: string;
+
+  @Watch("description")
+  descriptionWatchHandler(): void {
+    this.calciteListItemPropsChange.emit();
+  }
 
   /**
    * When true, the item cannot be clicked and is visually muted.
@@ -44,6 +54,16 @@ export class CalcitePickListItem {
    * Determines the icon SVG symbol that will be shown. Options are circle, square, grid or null.
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
+
+  /**
+   * The main label for this item. This will appear next to the icon.
+   */
+  @Prop({ reflect: true }) label: string;
+
+  @Watch("label")
+  labelWatchHandler(): void {
+    this.calciteListItemPropsChange.emit();
+  }
 
   /**
    * Used to provide additional metadata to an item, primarily used when the parent list has a filter.
@@ -78,29 +98,9 @@ export class CalcitePickListItem {
   }
 
   /**
-   * An optional description for this item.  This will appear below the label text.
-   */
-  @Prop({ reflect: true }) textDescription?: string;
-
-  @Watch("textDescription")
-  textDescriptionWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
-  }
-
-  /**
-   * The main label for this item. This will appear next to the icon.
-   */
-  @Prop({ reflect: true }) textLabel: string;
-
-  @Watch("textLabel")
-  textLabelWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
-  }
-
-  /**
    * The text for the remove item buttons. Only applicable if removable is true.
    */
-  @Prop({ reflect: true }) textRemove = TEXT.remove;
+  @Prop({ reflect: true }) intlRemove = TEXT.remove;
 
   /**
    * A unique value used to identify this item - similar to the value attribute on an <input>.
@@ -148,7 +148,7 @@ export class CalcitePickListItem {
   @Event() calciteListItemRemove: EventEmitter<void>;
 
   /**
-   * Emitted whenever the the item's textLabel, textDescription, value or metadata properties are modified.
+   * Emitted whenever the the item's label, description, value or metadata properties are modified.
    * @event calciteListItemPropsChange
    * @internal
    */
@@ -237,60 +237,67 @@ export class CalcitePickListItem {
           [CSS.iconDot]: icon === ICON_TYPES.circle
         }}
       >
-        {icon === ICON_TYPES.square ? (
-          <calcite-icon scale="s" icon={ICONS.checked}></calcite-icon>
-        ) : null}
+        {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
       </span>
     );
   }
 
   renderRemoveAction(): VNode {
-    if (!this.removable) {
-      return null;
-    }
-
-    return (
+    return this.removable ? (
       <calcite-action
-        scale="s"
         class={CSS.remove}
         icon={ICONS.remove}
-        text={this.textRemove}
         onClick={this.removeClickHandler}
+        slot={SLOTS.actionsEnd}
+        text={this.intlRemove}
       />
-    );
+    ) : null;
   }
 
-  renderSecondaryAction(): VNode {
-    const hasSecondaryAction = getSlotted(this.el, SLOTS.secondaryAction);
-    return hasSecondaryAction || this.removable ? (
-      <div class={CSS.action}>
-        <slot name={SLOTS.secondaryAction}>{this.renderRemoveAction()}</slot>
+  renderActionsStart(): VNode {
+    const { el } = this;
+    const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
+
+    return hasActionsStart ? (
+      <div class={{ [CSS.actions]: true, [CSS.actionsStart]: true }}>
+        <slot name={SLOTS.actionsStart} />
+      </div>
+    ) : null;
+  }
+
+  renderActionsEnd(): VNode {
+    const { el, removable } = this;
+    const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
+
+    return hasActionsEnd || removable ? (
+      <div class={{ [CSS.actions]: true, [CSS.actionsEnd]: true }}>
+        <slot name={SLOTS.actionsEnd} />
+        {this.renderRemoveAction()}
       </div>
     ) : null;
   }
 
   render(): VNode {
-    const description = this.textDescription ? (
-      <span class={CSS.description}>{this.textDescription}</span>
-    ) : null;
+    const { description, label } = this;
 
     return (
-      <Host role="menuitemcheckbox" aria-checked={this.selected.toString()}>
+      <Host aria-checked={this.selected.toString()} role="menuitemcheckbox">
+        {this.renderIcon()}
+        {this.renderActionsStart()}
         <label
+          aria-label={label}
           class={CSS.label}
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
-          tabIndex={0}
           ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
-          aria-label={this.textLabel}
+          tabIndex={0}
         >
-          {this.renderIcon()}
           <div class={CSS.textContainer}>
-            <span class={CSS.title}>{this.textLabel}</span>
-            {description}
+            <span class={CSS.title}>{label}</span>
+            {description ? <span class={CSS.description}>{description}</span> : null}
           </div>
         </label>
-        {this.renderSecondaryAction()}
+        {this.renderActionsEnd()}
       </Host>
     );
   }

@@ -9,14 +9,20 @@ import {
   EventEmitter,
   Element,
   VNode,
-  Build
+  Build,
+  Method,
+  Watch
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { getKey } from "../../utils/key";
+import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
+
+const DEFAULT_PLACEMENT = "bottom-start";
 
 interface ItemData {
   label: string;
@@ -37,17 +43,22 @@ export class CalciteCombobox {
 
   @Prop({ reflect: true }) active = false;
 
+  @Watch("active")
+  activeHandler(): void {
+    this.reposition();
+  }
+
   @Prop({ reflect: true }) disabled = false;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** specify the scale of the combobox, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
 
   @Prop() label!: string;
 
   @Prop() placeholder?: string;
+
+  /** specify the scale of the combobox, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   // --------------------------------------------------------------------------
   //
@@ -69,6 +80,12 @@ export class CalciteCombobox {
 
   observer: MutationObserver = null;
 
+  private popper: Popper;
+
+  private menuEl: HTMLDivElement;
+
+  private referenceEl: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -76,12 +93,11 @@ export class CalciteCombobox {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    // prop validations
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
     if (Build.isBrowser) {
       this.observer = new MutationObserver(this.updateItems);
     }
+
+    this.createPopper();
   }
 
   componentWillLoad(): void {
@@ -94,6 +110,28 @@ export class CalciteCombobox {
 
   disconnectedCallback(): void {
     this.observer?.disconnect();
+    this.destroyPopper();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async reposition(): Promise<void> {
+    const { popper, menuEl } = this;
+    const modifiers = this.getModifiers();
+
+    popper
+      ? updatePopper({
+          el: menuEl,
+          modifiers,
+          placement: DEFAULT_PLACEMENT,
+          popper
+        })
+      : this.createPopper();
   }
 
   // --------------------------------------------------------------------------
@@ -106,16 +144,20 @@ export class CalciteCombobox {
 
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  @Listen("calciteComboboxItemChange") calciteComboboxItemChangeHandler(
-    event: CustomEvent<HTMLCalciteComboboxItemElement>
-  ): void {
+  @Listen("click", { target: "document" })
+  documentClickHandler(event: Event): void {
+    const target = event.target as HTMLElement;
+    this.setInactiveIfNotContained(target);
+  }
+
+  @Listen("calciteComboboxItemChange")
+  calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
     this.toggleSelection(event.detail);
   }
 
-  @Listen("calciteChipDismiss") calciteChipDismissHandler(
-    event: CustomEvent<HTMLCalciteChipElement>
-  ): void {
-    this.textInput.focus();
+  @Listen("calciteChipDismiss")
+  calciteChipDismissHandler(event: CustomEvent<HTMLCalciteChipElement>): void {
+    this.active = false;
 
     const value = event.detail?.value;
     const comboboxItem = this.items.find((item) => item.value === value);
@@ -131,12 +173,64 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
+  setInactiveIfNotContained = (target: HTMLElement): void => {
+    if (!this.active || this.el.contains(target)) {
+      return;
+    }
+
+    this.active = false;
+  };
+
+  setMenuEl = (el: HTMLDivElement): void => {
+    this.menuEl = el;
+  };
+
+  setReferenceEl = (el: HTMLDivElement): void => {
+    this.referenceEl = el;
+  };
+
+  getModifiers(): Partial<StrictModifiers>[] {
+    const flipModifier: Partial<StrictModifiers> = {
+      name: "flip",
+      enabled: true
+    };
+
+    flipModifier.options = {
+      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+    };
+
+    return [flipModifier];
+  }
+
+  createPopper(): void {
+    this.destroyPopper();
+    const { menuEl, referenceEl } = this;
+    const modifiers = this.getModifiers();
+
+    this.popper = createPopper({
+      el: menuEl,
+      modifiers,
+      placement: DEFAULT_PLACEMENT,
+      referenceEl
+    });
+  }
+
+  destroyPopper(): void {
+    const { popper } = this;
+
+    if (popper) {
+      popper.destroy();
+    }
+
+    this.popper = null;
+  }
+
   inputHandler = (event: Event): void => {
     const target = event.target as HTMLInputElement;
     this.filterItems(target.value);
   };
 
-  handleInputKeyDown(event: KeyboardEvent): void {
+  handleInputKeyDown = (event: KeyboardEvent): void => {
     if (event.target === this.textInput) {
       const key = getKey(event.key);
       if (event.shiftKey && key === "Tab") {
@@ -152,7 +246,7 @@ export class CalciteCombobox {
         this.textInput.focus();
       }
     }
-  }
+  };
 
   filterItems = debounce((value: string): void => {
     const filteredData = filter(this.data, value);
@@ -220,7 +314,8 @@ export class CalciteCombobox {
       });
   }
 
-  @Listen("calciteComboboxItemKeyEvent") calciteComboboxItemKeyEventHandler(
+  @Listen("calciteComboboxItemKeyEvent")
+  calciteComboboxItemKeyEventHandler(
     event: CustomEvent<{
       event: KeyboardEvent;
       item: HTMLCalciteComboboxItemElement;
@@ -288,8 +383,13 @@ export class CalciteCombobox {
     return this.items.indexOf(item);
   }
 
-  comboboxFocusHandler = (event: Event): void => {
-    this.active = event.type === "focusin";
+  comboboxFocusHandler = (): void => {
+    this.active = true;
+  };
+
+  comboboxBlurHandler = (event: FocusEvent): void => {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    this.setInactiveIfNotContained(relatedTarget);
   };
 
   //--------------------------------------------------------------------------
@@ -299,57 +399,56 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const dir = getElementDir(this.el);
+    const { active, disabled, el, label, placeholder, scale, selectedItems } = this;
+    const dir = getElementDir(el);
     const listBoxId = "listbox";
     return (
-      <Host
-        active={this.active}
-        onFocusin={this.comboboxFocusHandler}
-        onFocusout={this.comboboxFocusHandler}
-        dir={dir}
-      >
+      <Host active={active} dir={dir}>
         <div class="selections">
-          {this.selectedItems.map((item) => {
+          {selectedItems.map((item) => {
             return (
-              <calcite-chip
-                key={item.value}
-                scale={this.scale}
-                value={item.value}
-                dir={dir}
-                dismissible
-              >
+              <calcite-chip dir={dir} dismissible key={item.value} scale={scale} value={item.value}>
                 {item.textLabel}
               </calcite-chip>
             );
           })}
         </div>
         <div
-          role="combobox"
-          aria-expanded={this.active.toString()}
-          aria-owns={listBoxId}
+          aria-expanded={active.toString()}
           aria-haspopup="listbox"
+          aria-owns={listBoxId}
+          ref={this.setReferenceEl}
+          role="combobox"
         >
           <input
-            type="text"
-            placeholder={this.placeholder}
-            aria-label={this.label}
             aria-autocomplete="list"
             aria-controls={listBoxId}
+            aria-label={label}
+            disabled={disabled}
+            onBlur={this.comboboxBlurHandler}
+            onFocus={this.comboboxFocusHandler}
             onInput={this.inputHandler}
-            disabled={this.disabled}
-            onKeyDown={(e) => this.handleInputKeyDown(e)}
+            onKeyDown={this.handleInputKeyDown}
+            placeholder={placeholder}
             ref={(el) => (this.textInput = el as HTMLInputElement)}
+            type="text"
           />
         </div>
-        <ul
-          id={listBoxId}
-          aria-label={this.label}
-          role="listbox"
-          class={{ list: true }}
-          aria-multiselectable="true"
-        >
-          <slot />
-        </ul>
+        <div aria-hidden={(!active).toString()} class="list-container" ref={this.setMenuEl}>
+          <ul
+            aria-label={label}
+            aria-multiselectable="true"
+            class={{
+              list: true,
+              [PopperCSS.animation]: true,
+              [PopperCSS.animationActive]: active
+            }}
+            id={listBoxId}
+            role="listbox"
+          >
+            <slot />
+          </ul>
+        </div>
       </Host>
     );
   }

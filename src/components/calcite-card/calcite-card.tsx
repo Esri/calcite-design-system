@@ -63,17 +63,17 @@ export class CalciteCard {
   //
   // --------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
-              <calcite-loader active></calcite-loader>
+              <calcite-loader active />
             </div>
           ) : null}
-          <section class={{ [CSS.container]: true }} aria-busy={this.loading}>
+          <section aria-busy={this.loading} class={{ [CSS.container]: true }}>
             {this.selectable ? this.renderCheckbox() : null}
             {this.renderThumbnail()}
             {this.renderHeader()}
@@ -102,7 +102,7 @@ export class CalciteCard {
     this.selectCard();
   }
 
-  private cardSelectKeyDown(e) {
+  private cardSelectKeyDown(e): void {
     switch (getKey(e.key)) {
       case " ":
       case "Enter":
@@ -133,7 +133,7 @@ export class CalciteCard {
         onClick={() => this.cardSelectClick()}
         onKeyDown={(e) => this.cardSelectKeyDown(e)}
       >
-        <calcite-checkbox theme={this.theme} checked={this.selected}></calcite-checkbox>
+        <calcite-checkbox checked={this.selected} theme={this.theme} />
       </div>
     );
   }

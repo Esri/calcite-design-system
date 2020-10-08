@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -46,17 +46,7 @@ export class CalciteLoader {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // prop validations
-
-    const scales = ["s", "m", "l"];
-    if (!scales.includes(this.scale)) this.scale = "m";
-
-    const types = ["indeterminate", "determinate"];
-    if (!types.includes(this.type)) this.type = "indeterminate";
-  }
-
-  render() {
+  render(): VNode {
     const { el, inline, scale, text, type, value } = this;
 
     const id = el.id || guid();
@@ -80,15 +70,15 @@ export class CalciteLoader {
     return (
       <Host id={id} role="progressbar" {...(isDeterminate ? hostAttributes : {})}>
         <div class="loader__svgs">
-          <svg viewBox={viewbox} class="loader__svg loader__svg--1">
+          <svg class="loader__svg loader__svg--1" viewBox={viewbox}>
             <circle {...svgAttributes} />
           </svg>
-          <svg viewBox={viewbox} class="loader__svg loader__svg--2">
+          <svg class="loader__svg loader__svg--2" viewBox={viewbox}>
             <circle {...svgAttributes} />
           </svg>
           <svg
-            viewBox={viewbox}
             class="loader__svg loader__svg--3"
+            viewBox={viewbox}
             {...(isDeterminate ? { style: determinateStyle } : {})}
           >
             <circle {...svgAttributes} />

@@ -61,6 +61,19 @@ describe("calcite-checkbox", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
+  it("doesn't emit when controlling checked attribute", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-checkbox value='test-value'></calcite-checkbox>");
+    const element = await page.find("calcite-checkbox");
+    const spy = await element.spyOnEvent("calciteCheckboxChange");
+
+    await element.setProperty("checked", true);
+    await page.waitForChanges();
+    await element.setProperty("checked", false);
+    await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(0);
+  });
+
   it("does not toggle when clicked if disabled", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-checkbox disabled></calcite-checkbox>");

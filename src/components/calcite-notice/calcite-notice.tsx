@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Host, Method, Prop } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Method,
+  Prop,
+  VNode
+} from "@stencil/core";
 
 import { TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
@@ -39,19 +49,7 @@ export class CalciteNotice {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Color for the notice (will apply to top border and icon) */
-  @Prop({ reflect: true, mutable: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
-
-  /** String for the close button. */
-  @Prop({ reflect: false }) intlClose: string = TEXT.close;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** specify the scale of the notice, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** specify the width of the notice, defaults to m */
-  @Prop({ mutable: true, reflect: true }) width: "auto" | "half" | "full" = "auto";
+  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
 
   /** Optionally show a button the user can click to dismiss the notice */
   @Prop({ reflect: true }) dismissible?: boolean = false;
@@ -59,48 +57,48 @@ export class CalciteNotice {
   /** If false, no icon will be shown in the notice */
   @Prop() icon = false;
 
+  /** String for the close button. */
+  @Prop({ reflect: false }) intlClose: string = TEXT.close;
+
+  /** specify the scale of the notice, defaults to m */
+  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: "light" | "dark";
+
+  /** specify the width of the notice, defaults to m */
+  @Prop({ reflect: true }) width: "auto" | "half" | "full" = "auto";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    // prop validations
-    const colors = ["blue", "red", "green", "yellow"];
-    if (!colors.includes(this.color)) this.color = "blue";
-
-    const scales = ["s", "m", "l"];
-    if (!scales.includes(this.scale)) this.scale = "m";
-
-    const widths = ["auto", "half", "full"];
-    if (!widths.includes(this.width)) this.width = "auto";
-  }
-
-  componentDidLoad() {
+  componentDidLoad(): void {
     this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
-  render() {
+  render(): VNode {
     const dir = getElementDir(this.el);
     const closeButton = (
       <button
-        class="notice-close"
         aria-label={this.intlClose}
+        class="notice-close"
         onClick={() => this.close()}
         ref={() => this.closeButton}
       >
-        <calcite-icon icon="x" scale="m"></calcite-icon>
+        <calcite-icon icon="x" scale="m" />
       </button>
     );
 
     return (
       <Host active={this.active} dir={dir}>
-        {this.icon ? this.setIcon() : null}
+        {this.icon ? this.renderIcon() : null}
         <div class="notice-content">
-          <slot name="notice-title"></slot>
-          <slot name="notice-message"></slot>
-          <slot name="notice-link"></slot>
+          <slot name="notice-title" />
+          <slot name="notice-message" />
+          <slot name="notice-link" />
         </div>
         {this.dismissible ? closeButton : null}
       </Host>
@@ -126,20 +124,20 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
-  @Method() async close() {
+  @Method() async close(): Promise<void> {
     this.active = false;
     this.calciteNoticeClose.emit();
   }
 
   /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
-  @Method() async open() {
+  @Method() async open(): Promise<void> {
     this.active = true;
     this.calciteNoticeOpen.emit();
   }
 
   /** focus the close button, if present and requested */
   @Method()
-  async setFocus() {
+  async setFocus(): Promise<void> {
     if (!this.closeButton && !this.noticeLinkEl) {
       return;
     }
@@ -168,11 +166,11 @@ export class CalciteNotice {
     blue: "lightbulb"
   };
 
-  private setIcon() {
+  private renderIcon(): VNode {
     const path = this.iconDefaults[this.color];
     return (
       <div class="notice-icon">
-        <calcite-icon icon={path} scale="m"></calcite-icon>
+        <calcite-icon icon={path} scale="m" />
       </div>
     );
   }

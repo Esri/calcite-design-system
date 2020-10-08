@@ -85,7 +85,7 @@ export class CalciteColorSwatch {
     return (
       <Host aria-label={hex} title={hex}>
         <svg class={CSS.swatch} xmlns="http://www.w3.org/2000/svg">
-          <rect width="100%" height="100%" fill={hex} stroke={borderColor} rx={borderRadius} />
+          <rect fill={hex} height="100%" rx={borderRadius} stroke={borderColor} width="100%" />
         </svg>
       </Host>
     );

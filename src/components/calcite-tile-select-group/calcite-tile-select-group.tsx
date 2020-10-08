@@ -1,4 +1,4 @@
-import { Component, Host, h } from "@stencil/core";
+import { Component, Host, h, VNode, Prop } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile-select-group",
@@ -6,10 +6,18 @@ import { Component, Host, h } from "@stencil/core";
   shadow: true
 })
 export class CalciteTileSelectGroup {
-  render() {
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
+  /** Tiles by default move horizontally, stacking with each row, vertical allows single-column layouts */
+  @Prop({ reflect: true }) layout?: "vertical" | "horizontal" = "horizontal";
+
+  render(): VNode {
     return (
       <Host>
-        <slot></slot>
+        <slot />
       </Host>
     );
   }

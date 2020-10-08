@@ -8,7 +8,7 @@ storiesOf("Components/Chip", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
-    () => `
+    (): string => `
     <div style="background-color:white;padding:100px">
     <calcite-chip
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -21,7 +21,7 @@ storiesOf("Components/Chip", module)
   )
   .add(
     "With Icon",
-    () => `
+    (): string => `
     <div style="background-color:white;padding:100px">
     <calcite-chip
     icon="${select("icon", iconNames, iconNames[0])}"
@@ -36,7 +36,7 @@ storiesOf("Components/Chip", module)
   )
   .add(
     "With Image",
-    () => `
+    (): string => `
     <div style="background-color:white;padding:100px">
     <calcite-chip
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -51,7 +51,7 @@ storiesOf("Components/Chip", module)
   )
   .add(
     "Dark theme",
-    () => `
+    (): string => `
     <div style="background-color:#2b2b2b;padding:100px">
     <calcite-chip
     theme="dark"
@@ -66,7 +66,7 @@ storiesOf("Components/Chip", module)
   )
   .add(
     "RTL",
-    () => `
+    (): string => `
     <div style="background-color:white;padding:100px" dir="rtl">
     <calcite-chip
     icon="${select("icon", iconNames, iconNames[0])}"

@@ -6,7 +6,7 @@ describe("calcite-pick-list-item", () => {
   it("renders", async () => renders("calcite-pick-list-item"));
 
   it("should toggle selected attribute when clicked", async () => {
-    const page = await newE2EPage({ html: `<calcite-pick-list-item text-label="test"></calcite-pick-list-item>` });
+    const page = await newE2EPage({ html: `<calcite-pick-list-item label="test"></calcite-pick-list-item>` });
 
     const item = await page.find("calcite-pick-list-item");
     expect(await item.getProperty("selected")).toBe(false);
@@ -20,11 +20,11 @@ describe("calcite-pick-list-item", () => {
 
   it("should fire event calciteListItemChange when item is clicked", async () => {
     const page = await newE2EPage({
-      html: `<calcite-pick-list-item text-label="test" value="example"></calcite-pick-list-item>`
+      html: `<calcite-pick-list-item label="test" value="example"></calcite-pick-list-item>`
     });
     const item = await page.find("calcite-pick-list-item");
     await page.evaluate(() => {
-      document.addEventListener("calciteListItemChange", (event: CustomEvent) => {
+      document.addEventListener("calciteListItemChange", (event: CustomEvent): void => {
         (window as any).eventDetail = event.detail;
       });
     });
@@ -42,7 +42,7 @@ describe("calcite-pick-list-item", () => {
 
   it("prevents deselection when disableDeselect is true", async () => {
     const page = await newE2EPage({
-      html: `<calcite-pick-list-item text-label="test" value="example" disable-deselect selected></calcite-pick-list-item>`
+      html: `<calcite-pick-list-item label="test" value="example" disable-deselect selected></calcite-pick-list-item>`
     });
     const item = await page.find("calcite-pick-list-item");
 
@@ -53,7 +53,7 @@ describe("calcite-pick-list-item", () => {
 
   it("allows for easy removal", async () => {
     const page = await newE2EPage({
-      html: `<calcite-pick-list-item text-label="test" value="example" removable></calcite-pick-list-item>`
+      html: `<calcite-pick-list-item label="test" value="example" removable></calcite-pick-list-item>`
     });
 
     const removeButton = await page.find(`calcite-pick-list-item >>> .${CSS.remove}`);
@@ -65,5 +65,51 @@ describe("calcite-pick-list-item", () => {
     await removeButton.click();
 
     expect(removeEventSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("should not render actions--end if there are no end actions", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-pick-list-item label="test" description="example"></calcite-pick-list-item>`
+    });
+
+    const actionsNodeEnd = await page.find(`calcite-pick-list-item >>> .${CSS.actionsEnd}`);
+
+    expect(actionsNodeEnd).toBeNull();
+  });
+
+  it("should not render actions--start if there are no start actions", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-pick-list-item label="test" description="example"></calcite-pick-list-item>`
+    });
+
+    const actionsNodeStart = await page.find(`calcite-pick-list-item >>> .${CSS.actionsStart}`);
+
+    expect(actionsNodeStart).toBeNull();
+  });
+
+  it("should render actions--end if there are end actions", async () => {
+    const page = await newE2EPage({
+      html: `
+      <calcite-pick-list-item label="test" description="example">
+        <calcite-action text="test" slot="actions-end"></calcite-action>
+      </calcite-pick-list-item>`
+    });
+
+    const actionsNodeEnd = await page.find(`calcite-pick-list-item >>> .${CSS.actionsEnd}`);
+
+    expect(actionsNodeEnd).not.toBeNull();
+  });
+
+  it("should render actions--start if there are start actions", async () => {
+    const page = await newE2EPage({
+      html: `
+      <calcite-pick-list-item label="test" description="example">
+        <calcite-action text="test" slot="actions-start"></calcite-action>
+      </calcite-pick-list-item>`
+    });
+
+    const actionsNodeStart = await page.find(`calcite-pick-list-item >>> .${CSS.actionsStart}`);
+
+    expect(actionsNodeStart).not.toBeNull();
   });
 });

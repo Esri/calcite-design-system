@@ -28,6 +28,7 @@ import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from
 import { throttle } from "lodash-es";
 
 const throttleFor60FpsInMs = 16;
+const defaultColor = normalizeHex(DEFAULT_COLOR.hex());
 
 @Component({
   tag: "calcite-color",
@@ -174,7 +175,7 @@ export class CalciteColor {
   @Prop({
     mutable: true
   })
-  value: ColorValue = normalizeHex(DEFAULT_COLOR.hex());
+  value: ColorValue = defaultColor;
 
   @Watch("value")
   handleValueChange(value: ColorValue, oldValue: ColorValue): void {
@@ -333,11 +334,7 @@ export class CalciteColor {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
 
-    const valueAttr = this.el.getAttribute("value");
-    if (valueAttr) {
-      this.handleValueChange(valueAttr, this.value);
-    }
-
+    this.handleValueChange(this.value, defaultColor);
     this.updateDimensions(this.scale);
   }
 
@@ -394,12 +391,12 @@ export class CalciteColor {
                 </span>
                 <calcite-color-hex-input
                   class={CSS.control}
+                  dir={elementDir}
                   onCalciteColorHexInputChange={this.handleHexInputChange}
                   ref={(node) => (this.hexInputNode = node)}
                   scale={hexInputScale}
-                  value={selectedColorInHex}
                   theme={theme}
-                  dir={elementDir}
+                  value={selectedColorInHex}
                 />
               </div>
             )}
@@ -453,9 +450,9 @@ export class CalciteColor {
                 {[
                   ...savedColors.map((color) => (
                     <calcite-color-swatch
+                      active={selectedColorInHex === color}
                       class={CSS.savedColor}
                       color={color}
-                      active={selectedColorInHex === color}
                       key={color}
                       onClick={this.handleSavedColorSelect}
                       onKeyDown={this.handleSavedColorKeyDown}
@@ -537,8 +534,8 @@ export class CalciteColor {
       class={CSS.channel}
       data-channel-index={index}
       numberButtonType="none"
-      onInput={this.handleChannelInput}
       onChange={this.handleChannelChange}
+      onInput={this.handleChannelInput}
       prefixText={label}
       scale="s"
       type="number"
@@ -575,7 +572,7 @@ export class CalciteColor {
       return color[mode.replace("-css", "").replace("a", "")]().string();
     }
 
-    const colorObject = color[mode]().object();
+    const colorObject = color[mode]().round().object();
 
     if (mode.endsWith("a")) {
       // normalize alpha prop

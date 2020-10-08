@@ -111,18 +111,18 @@ describe("calcite-tip-manager", () => {
       expect(paginationText.textContent).toEqual(`${TEXT.defaultPaginationLabel} 1/2`);
     });
 
-    // TODO: split the group-title test into one for first render, and another for pagination
+    //Ø TODO: split the group-title test into one for first render, and another for pagination
     it("should update the group title to match the selected tips attribute", async () => {
       const sharedTitle = "group1";
       const title2 = "group2";
 
       const page = await newE2EPage({
         html: `<calcite-tip-manager>
-      <calcite-tip-group text-group-title=${sharedTitle}>
+      <calcite-tip-group group-title=${sharedTitle}>
         <calcite-tip><p>group title behavior</p></calcite-tip>
         <calcite-tip><p>same title as first one</p></calcite-tip>
       </calcite-tip-group>
-      <calcite-tip-group text-group-title=${title2}>
+      <calcite-tip-group group-title=${title2}>
         <calcite-tip ><p>different title</p></calcite-tip>
       </calcite-tip-group>
       <calcite-tip><p>default title</p></calcite-tip>

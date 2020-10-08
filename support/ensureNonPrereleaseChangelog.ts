@@ -1,49 +1,46 @@
 const pify = require("pify");
 const gitSemverTags = require("git-semver-tags");
 const childProcess = require("child_process");
+const { argv } = require("yargs");
 
 (async function () {
-  // this command will pass through standard-version args
-  const standardVersionOverrides = process.argv.slice(2).join(" ");
+  // we allow passing standard-version options through
+  const { standardVersionOptions: standardVersionOverrides = "" } = argv;
 
-  const includePrereleaseChanges = true; // skipping until v1.0.0 is released
   const previousReleasedTag = childProcess.execSync("git describe --abbrev=0 --tags", { encoding: "utf-8" }).trim();
-  const prereleaseVersionPattern = /-beta\.\d+$/;
+  const prereleaseVersionPattern = /-next\.\d+$/;
   const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
 
-  if (!previousReleaseIsPrerelease || includePrereleaseChanges) {
-    // using process to generate changelog (auto loads .versionrc.json)
-    childProcess.execSync(`npx standard-version --prerelease ${standardVersionOverrides}`, { stdio: "inherit" });
+  if (!previousReleaseIsPrerelease) {
+    childProcess.execSync(
+      `npx ts-node ./support/prepareVersionUpdate.ts --standard-version-options="${standardVersionOverrides}"`,
+      {
+        stdio: "inherit"
+      }
+    );
     process.exit();
   }
 
   const semverTags = await pify(gitSemverTags)();
-  const latestRelease = semverTags.find((tag) => !prereleaseVersionPattern.test(tag));
-  const tempBranchName = "__temp-for-non-prerelease-changelog__";
+  const indexOfNonNextTag = semverTags.findIndex((tag) => !prereleaseVersionPattern.test(tag));
+  const nextTagsSinceLastRelease = semverTags.slice(0, indexOfNonNextTag);
 
   try {
-    // create a temp branch from the previous release
-    // with all commit messages without prerelease tags
-    // to omit them from the changelog
-    childProcess.execSync(`git stash push -m ${tempBranchName}`);
-    childProcess.execSync(`git checkout -b ${tempBranchName} ${latestRelease} --quiet`);
-    childProcess.execSync(`git cherry-pick ${latestRelease}..master`);
+    // delete prerelease tags locally, so they can be ignored when generating the changelog
+    childProcess.execSync(`git tag --delete ${nextTagsSinceLastRelease.join(" ")}`);
 
-    const [firstStashEntry] = childProcess.execSync(`git stash list`, { encoding: "utf-8" }).split("\n");
-    const hasOurStash = firstStashEntry.includes(tempBranchName);
-
-    if (hasOurStash) {
-      childProcess.execSync(`git stash pop`);
-    }
-
-    // using process to generate changelog (auto loads .versionrc.json)
-    childProcess.execSync(`npx standard-version ${standardVersionOverrides}`, { stdio: "inherit" });
+    childProcess.execSync(
+      `npx ts-node ./support/prepareVersionUpdate.ts --standard-version-options="${standardVersionOverrides}"`,
+      {
+        stdio: "inherit"
+      }
+    );
   } catch (error) {
     console.log("an error occurred when generating the changelog:", error);
+  } finally {
+    // restore deleted prerelease tags
+    childProcess.execSync(`git fetch --tags --quiet`);
   }
-
-  childProcess.execSync(`git checkout master --quiet`);
-  childProcess.execSync(`git branch -D ${tempBranchName}`);
 
   process.exit();
 })();

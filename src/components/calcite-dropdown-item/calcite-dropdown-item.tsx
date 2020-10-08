@@ -7,7 +7,8 @@ import {
   Host,
   Listen,
   Method,
-  Prop
+  Prop,
+  VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent, ItemRegistration } from "../../interfaces/Dropdown";
@@ -83,14 +84,14 @@ export class CalciteDropdownItem {
     if (this.selectionMode === "none") this.active = false;
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     this.itemPosition = this.getItemPosition();
     this.calciteDropdownItemRegister.emit({
       position: this.itemPosition
     });
   }
 
-  render() {
+  render(): VNode {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
@@ -122,15 +123,15 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
+        aria-selected={this.active.toString()}
         dir={dir}
-        tabindex="0"
+        isLink={this.href}
         role="menuitem"
         selection-mode={this.selectionMode}
-        aria-selected={this.active.toString()}
-        isLink={this.href}
+        tabindex="0"
       >
         {this.selectionMode === "multi" ? (
-          <calcite-icon class="dropdown-item-check-icon" scale="s" icon="check" />
+          <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
         ) : null}
         {contentEl}
       </Host>
@@ -143,7 +144,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick() {
+  @Listen("click") onClick(): void {
     this.emitRequestedItem();
   }
 
@@ -175,8 +176,10 @@ export class CalciteDropdownItem {
   }
 
   @Listen("calciteDropdownItemChange", { target: "body" })
-  updateActiveItemOnChange(event: CustomEvent) {
-    if (event.target === this.parentDropdownGroupEl) {
+  updateActiveItemOnChange(event: CustomEvent): void {
+    const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
+
+    if (parentEmittedChange) {
       this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
       this.requestedDropdownItem = event.detail.requestedDropdownItem;
       this.determineActiveItem();
@@ -213,7 +216,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  private determineActiveItem() {
+  private determineActiveItem(): void {
     switch (this.selectionMode) {
       case "multi":
         if (this.el === this.requestedDropdownItem) this.active = !this.active;
@@ -230,14 +233,14 @@ export class CalciteDropdownItem {
     }
   }
 
-  private emitRequestedItem() {
+  private emitRequestedItem(): void {
     this.calciteDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
     });
   }
 
-  private getAttributes() {
+  private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
     const props = ["icon-start", "icon-end", "active", "hasText", "isLink", "dir", "id", "theme"];
     return Array.from(this.el.attributes)
@@ -245,7 +248,7 @@ export class CalciteDropdownItem {
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
-  private getItemPosition() {
+  private getItemPosition(): number {
     const group = this.el.closest("calcite-dropdown-group") as HTMLCalciteDropdownGroupElement;
 
     return group
