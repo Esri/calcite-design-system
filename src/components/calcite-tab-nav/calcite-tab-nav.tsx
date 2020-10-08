@@ -54,7 +54,7 @@ export class CalciteTabNav {
   /**
    * @internal
    */
-  @State() selectedTab: number | string;
+  @State() selectedTab: TabID;
 
   /**
    * @internal
@@ -160,7 +160,7 @@ export class CalciteTabNav {
 
   //--------------------------------------------------------------------------
   //
-  //  Events Listeners
+  //  Event Listeners
   //
   //--------------------------------------------------------------------------
 

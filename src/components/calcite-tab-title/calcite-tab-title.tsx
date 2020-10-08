@@ -122,13 +122,13 @@ export class CalciteTabTitle {
     );
   }
 
-  componentDidLoad(): void {
-    this.getTabIdentifier().then((id) => this.calciteTabTitleRegister.emit(id));
+  async componentDidLoad(): Promise<void> {
+    this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
   }
 
   //--------------------------------------------------------------------------
   //
-  //  Events Listeners
+  //  Event Listeners
   //
   //--------------------------------------------------------------------------
 

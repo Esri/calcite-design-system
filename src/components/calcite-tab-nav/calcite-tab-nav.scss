@@ -39,7 +39,6 @@
   transition: all ease-out;
 }
 
-// positioning
 :host([position="below"]) .tab-nav-active-indicator {
   bottom: unset;
   top: 0;
