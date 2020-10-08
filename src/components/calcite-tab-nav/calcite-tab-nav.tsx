@@ -83,6 +83,8 @@ export class CalciteTabNav {
     this.calciteTabChange.emit({
       tab: this.selectedTab
     });
+
+    this.getTabTitleById(this.selectedTab).then((el) => (this.selectedTabEl = el));
   }
 
   @Watch("selectedTabEl") selectedTabElChanged() {
@@ -127,10 +129,6 @@ export class CalciteTabNav {
         });
       });
     }
-  }
-
-  componentDidUpdate() {
-    this.selectedTabEl = this.tabTitles.filter((el) => el.active)[0];
   }
 
   render() {
@@ -232,6 +230,15 @@ export class CalciteTabNav {
   }
 
   /**
+   * Check for active tabs on register and update selected
+   */
+  @Listen("calciteTabTitleRegister") updateTabTitles(e: CustomEvent<string | number>) {
+    if ((e.target as HTMLCalciteTabTitleElement).active) {
+      this.selectedTab = e.detail;
+    }
+  }
+
+  /**
    * @internal
    */
   @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
@@ -297,10 +304,6 @@ export class CalciteTabNav {
       this.dir !== "rtl"
         ? this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft
         : this.tabNavEl?.offsetWidth - this.selectedTabEl.getBoundingClientRect().right;
-
-    console.log(this.selectedTabEl.getBoundingClientRect().right);
-
-    console.log(this.indicatorOffset);
   }
 
   private getActiveWidth() {
@@ -311,6 +314,12 @@ export class CalciteTabNav {
     // In most cases, since these indexes correlate with tab contents, we want to consider all tab titles.
     // However, when doing relative index operations, it makes sense to pass in this.enabledTabTitles as the 2nd arg.
     return tabTitles.indexOf(el);
+  }
+
+  private getTabTitleById(id: string | number): Promise<HTMLCalciteTabTitleElement | null> {
+    return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
+      return this.tabTitles[ids.indexOf(id)];
+    });
   }
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {

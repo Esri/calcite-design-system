@@ -122,7 +122,7 @@ export class CalciteTabTitle {
   }
 
   componentDidLoad(): void {
-    this.calciteTabTitleRegister.emit();
+    this.getTabIdentifier().then((id) => this.calciteTabTitleRegister.emit(id));
   }
 
   //--------------------------------------------------------------------------
@@ -197,7 +197,7 @@ export class CalciteTabTitle {
   /**
    * @internal
    */
-  @Event() calciteTabTitleRegister: EventEmitter;
+  @Event() calciteTabTitleRegister: EventEmitter<string | number>;
 
   /**
    * @internal
