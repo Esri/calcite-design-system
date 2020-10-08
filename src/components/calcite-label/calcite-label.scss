@@ -110,7 +110,7 @@
   ::slotted(*[disabled] *) {
     opacity: 1;
   }
-  ::slotted(*[disabled] calcite-input-message:not([active])) {
+  ::slotted(calcite-input-message:not([active])) {
     opacity: 0;
   }
 }
