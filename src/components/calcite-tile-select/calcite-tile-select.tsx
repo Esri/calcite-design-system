@@ -91,8 +91,7 @@ export class CalciteTileSelect {
 
   @Listen("calciteRadioButtonCheckedChange")
   calciteRadioButtonChangeEvent(event: CustomEvent): void {
-    const target = event.target as HTMLCalciteRadioButtonElement;
-    const radioButton = target as HTMLCalciteRadioButtonElement;
+    const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
     }
