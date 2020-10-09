@@ -6,7 +6,7 @@ import dedent from "dedent";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "App Components/calcite-value-list",
+  title: "App Components/Value List",
   parameters: {
     backgrounds: darkBackground,
     notes: readme
