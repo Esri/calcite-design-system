@@ -22,12 +22,16 @@ describe("calcite-date", () => {
     await page.keyboard.press("7");
     await page.keyboard.press("/");
     await page.keyboard.press("2");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(1);
     await page.keyboard.press("0");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(2);
     await page.keyboard.press("2");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(3);
     await page.keyboard.press("0");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(4);
   });
 
