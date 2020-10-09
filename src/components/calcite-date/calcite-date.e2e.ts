@@ -11,9 +11,12 @@ describe("calcite-date", () => {
     const changedEvent = await page.spyOnEvent("calciteDateChange");
     // have to wait for transition
     await new Promise((res) => setTimeout(() => res(true), 200));
-    const wrapper = await page.find("calcite-date >>> .calendar-picker-wrapper");
-    const visible = await wrapper.isVisible();
-    expect(visible).toBe(true);
+    const wrapper = (
+      await page.waitForFunction(() =>
+        document.querySelector("calcite-date").shadowRoot.querySelector(".calendar-picker-wrapper")
+      )
+    ).asElement();
+    expect(await wrapper.isIntersectingViewport()).toBe(true);
     await page.keyboard.press("3");
     await page.keyboard.press("/");
     await page.keyboard.press("7");
