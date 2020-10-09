@@ -17,3 +17,8 @@ notifications:
 script:
   - npm test
 services: xvfb
+addons:
+  chrome: stable
+before_install:
+  - # start your web application and listen on `localhost`
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
