@@ -1,5 +1,6 @@
 import { Component, Host, h, Element, Prop, VNode, Listen } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
+import { Scale, Theme } from "../../interfaces/common";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -33,6 +34,22 @@ export class CalciteSelect {
     reflect: true
   })
   disabled = false;
+
+  /**
+   * The component scale.
+   */
+  @Prop({
+    reflect: true
+  })
+  scale: Scale = "m";
+
+  /**
+   * The component theme.
+   */
+  @Prop({
+    reflect: true
+  })
+  theme: Theme = "light";
 
   //--------------------------------------------------------------------------
   //
