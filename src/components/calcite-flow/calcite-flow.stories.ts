@@ -8,7 +8,7 @@ import { SLOTS, TEXT } from "../calcite-panel/resources";
 import dedent from "dedent";
 
 export default {
-  title: "App Components/calcite-flow",
+  title: "App Components/Flow",
   parameters: {
     backgrounds: darkBackground,
     notes: {

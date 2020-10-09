@@ -6,7 +6,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import dedent from "dedent";
 
 export default {
-  title: "App Components/calcite-block",
+  title: "App Components/Block",
   parameters: {
     backgrounds: darkBackground,
     notes: {
