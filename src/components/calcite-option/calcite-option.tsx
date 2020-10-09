@@ -81,6 +81,9 @@ export class CalciteOption {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event()
   private calciteOptionChange: EventEmitter;
 

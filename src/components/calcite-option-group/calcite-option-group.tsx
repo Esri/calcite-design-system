@@ -37,6 +37,9 @@ export class CalciteOptionGroup {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event()
   private calciteOptionGroupChange: EventEmitter;
 
