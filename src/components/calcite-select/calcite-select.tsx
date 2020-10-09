@@ -125,6 +125,12 @@ export class CalciteSelect {
     this.syncProps(nativeEl, event.target as OptionOrGroup);
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
   private syncProps(nativeOptionOrGroup: NativeOptionOrGroup, optionOrGroup: OptionOrGroup): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
     nativeOptionOrGroup.label = optionOrGroup.label;
@@ -135,12 +141,6 @@ export class CalciteSelect {
       option.value = optionOrGroup.value;
     }
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 
   private populateInternalSelect = (): void => {
     this.emptyInternalSelect();
