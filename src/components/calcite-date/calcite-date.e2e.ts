@@ -7,14 +7,22 @@ describe("calcite-date", () => {
   it("fires a calciteDateChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date></calcite-date>");
-    const input = await page.find("calcite-date >>> calcite-input");
+    const input = (
+      await page.waitForFunction(() =>
+        document.querySelector("calcite-date").shadowRoot.querySelector("calcite-input input")
+      )
+    ).asElement();
+    await input.focus();
     const changedEvent = await page.spyOnEvent("calciteDateChange");
-    await input.callMethod("setFocus");
     // have to wait for transition
     await new Promise((res) => setTimeout(() => res(true), 200));
-    const wrapper = await page.find("calcite-date >>> .calendar-picker-wrapper");
-    const visible = await wrapper.isVisible();
-    expect(visible).toBe(true);
+    const wrapper = (
+      await page.waitForFunction(() =>
+        document.querySelector("calcite-date").shadowRoot.querySelector(".calendar-picker-wrapper")
+      )
+    ).asElement();
+    expect(await wrapper.isIntersectingViewport()).toBe(true);
+
     await input.press("3");
     await input.press("/");
     await input.press("7");
