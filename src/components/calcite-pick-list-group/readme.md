@@ -6,8 +6,8 @@
 
 ## Properties
 
-| Property         | Attribute          | Description                                            | Type     | Default     |
-| ---------------- | ------------------ | ------------------------------------------------------ | -------- | ----------- |
+| Property     | Attribute     | Description                                            | Type     | Default     |
+| ------------ | ------------- | ------------------------------------------------------ | -------- | ----------- |
 | `groupTitle` | `group-title` | The title used for all nested `calcite-pick-list` rows | `string` | `undefined` |
 
 ## Slots

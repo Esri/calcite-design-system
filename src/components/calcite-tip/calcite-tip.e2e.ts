@@ -53,6 +53,5 @@ describe("calcite-tip", () => {
     header = await page.find(`calcite-tip >>> .${CSS.header}`);
 
     expect(header).not.toBeNull();
-
   });
 });
