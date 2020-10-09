@@ -13,7 +13,7 @@
     let components: HTMLElement[] = null;
     const excludedComponents = ["calcite-button"];
     const toggleProperty = (property: string): void => {
-      components = components || Array.from(document.body.querySelectorAll("[hydrated]"));
+      components = components || Array.from(document.body.querySelectorAll("[calcite-hydrated]"));
 
       components.forEach((component) => {
         if (!excludedComponents.includes(component.tagName.toLowerCase())) {

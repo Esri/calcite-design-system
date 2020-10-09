@@ -1,11 +1,14 @@
-import { Component, Element, Host, Method, Prop, h, VNode, Listen } from "@stencil/core";
+import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { guid } from "../../utils/guid";
 import { CSS } from "../calcite-pick-list-item/resources";
-import { ICONS } from "./resources";
+import { ICONS, SLOTS } from "./resources";
+import { SLOTS as PICK_LIST_SLOTS } from "../calcite-pick-list-item/resources";
+import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot secondary-action - A slot intended for adding a `calcite-action` or `calcite-button`. This is placed at the end of the item.
+ * @slot actions-end - A slot for adding actions or content to the end side of the item.
+ * @slot actions-start - A slot for adding actions or content to the start side of the item.
  */
 @Component({
   tag: "calcite-value-list-item",
@@ -18,6 +21,11 @@ export class CalciteValueListItem {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * An optional description for this item. Will appear below the label text.
+   */
+  @Prop({ reflect: true }) description?: string;
 
   /**
    * When true, the item cannot be clicked and is visually muted
@@ -40,6 +48,11 @@ export class CalciteValueListItem {
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
   /**
+   * The main label for this item. Appears next to the icon.
+   */
+  @Prop({ reflect: true }) label!: string;
+
+  /**
    * Used to provide additional metadata to an item, primarily used when the parent list has a filter.
    */
   @Prop() metadata?: Record<string, unknown>;
@@ -53,16 +66,6 @@ export class CalciteValueListItem {
    * Set this to true to pre-select an item. Toggles when an item is checked/unchecked.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
-
-  /**
-   * The main label for this item. Appears next to the icon.
-   */
-  @Prop({ reflect: true }) textLabel!: string;
-
-  /**
-   * An optional description for this item. Will appear below the label text.
-   */
-  @Prop({ reflect: true }) textDescription?: string;
 
   /**
    * A unique value used to identify this item - similar to the value attribute on an <input>.
@@ -138,6 +141,24 @@ export class CalciteValueListItem {
   //
   // --------------------------------------------------------------------------
 
+  renderActionsEnd(): VNode {
+    const { el } = this;
+    const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
+
+    return hasActionsEnd ? (
+      <slot name={SLOTS.actionsEnd} slot={PICK_LIST_SLOTS.actionsEnd} />
+    ) : null;
+  }
+
+  renderActionsStart(): VNode {
+    const { el } = this;
+    const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
+
+    return hasActionsStart ? (
+      <slot name={SLOTS.actionsStart} slot={PICK_LIST_SLOTS.actionsStart} />
+    ) : null;
+  }
+
   renderHandle(): VNode {
     const { icon } = this;
     if (icon === ICON_TYPES.grip) {
@@ -165,18 +186,19 @@ export class CalciteValueListItem {
       <Host data-id={this.guid}>
         {this.renderHandle()}
         <calcite-pick-list-item
+          description={this.description}
           disableDeselect={this.disableDeselect}
           disabled={this.disabled}
+          label={this.label}
           metadata={this.metadata}
           onCalciteListItemChange={this.handleSelectChange}
           ref={this.getPickListRef}
           removable={this.removable}
           selected={this.selected}
-          textDescription={this.textDescription}
-          textLabel={this.textLabel}
           value={this.value}
         >
-          <slot name="secondary-action" slot="secondary-action" />
+          {this.renderActionsStart()}
+          {this.renderActionsEnd()}
         </calcite-pick-list-item>
       </Host>
     );

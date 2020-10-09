@@ -24,6 +24,7 @@ Renders a basic flow with a couple `calcite-panel`s.
 ```
 
 #### header-menu-actions
+
 Renders a flow with header-menu-actions which appear in a drop-down like menu.
 
 ```html
@@ -36,6 +37,7 @@ Renders a flow with header-menu-actions which appear in a drop-down like menu.
 ```
 
 #### footer-actions
+
 Renders a flow with footer actions.
 
 ```html
@@ -48,18 +50,16 @@ Renders a flow with footer actions.
 ```
 
 #### footer
+
 Renders a flow with custom footer.
 
 ```html
 <calcite-flow>
   <calcite-panel heading="What are the most popular commute alternatives?">
-    <div class="my-custom-footer" slot="footer">
-      I'm a custom footer.
-    </div>
+    <div class="my-custom-footer" slot="footer">I'm a custom footer.</div>
   </calcite-panel>
 </calcite-flow>
 ```
-
 
 ## Properties
 
@@ -79,8 +79,8 @@ Type: `Promise<HTMLCalciteFlowItemElement>`
 
 ## Slots
 
-| Slot | Description                                         |
-| ---- | --------------------------------------------------- |
+| Slot | Description                                     |
+| ---- | ----------------------------------------------- |
 |      | A slot for adding `calcite-panel`s to the flow. |
 
 ---

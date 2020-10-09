@@ -18,9 +18,8 @@ $start-alpha: 0.5;
     display: flex;
     flex-flow: column;
     position: relative;
-
   }
-  
+
   ::slotted(calcite-panel) {
     height: 100%;
   }
