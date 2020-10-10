@@ -1,4 +1,15 @@
-import { Component, Host, h, Element, Prop, VNode, Listen, Method } from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Element,
+  Prop,
+  VNode,
+  Listen,
+  Method,
+  EventEmitter,
+  Event
+} from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
@@ -38,14 +49,11 @@ export class CalciteSelect {
   disabled = false;
 
   /**
-   * Lists all options.
+   * The component's label. This is required for accessibility purposes.
    *
-   * @readonly
    */
-  @Prop({
-    mutable: true
-  })
-  options: HTMLCalciteOptionElement[] = [];
+  @Prop()
+  label!: string;
 
   /**
    * The component scale.
@@ -62,16 +70,6 @@ export class CalciteSelect {
     reflect: true
   })
   width: "auto" | "half" | "full" = "auto";
-
-  /**
-   * The selected option.
-   *
-   * @readonly
-   */
-  @Prop({
-    mutable: true
-  })
-  selectedOption: HTMLCalciteOptionElement;
 
   /**
    * The component theme.
@@ -123,7 +121,7 @@ export class CalciteSelect {
 
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.el);
+    focusElement(this.selectEl);
   }
 
   //--------------------------------------------------------------------------
@@ -131,6 +129,15 @@ export class CalciteSelect {
   //  Events
   //
   //--------------------------------------------------------------------------
+
+  @Event()
+  private calciteSelectChange: EventEmitter<void>;
+
+  private handleSelectChange = (): void => {
+    this.selectFromNativeOption(this.selectEl.selectedOptions[0]);
+
+    this.calciteSelectChange.emit();
+  };
 
   @Listen("calciteOptionChange")
   @Listen("calciteOptionGroupChange")
@@ -145,6 +152,10 @@ export class CalciteSelect {
     }
 
     this.syncProps(nativeEl, event.target as OptionOrGroup);
+
+    if (isOption(optionOrGroup) && optionOrGroup.selected) {
+      this.deselectAllExcept(optionOrGroup);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -165,27 +176,42 @@ export class CalciteSelect {
   }
 
   private populateInternalSelect = (): void => {
-    this.emptyInternalSelect();
+    const optionsAndGroups = Array.from(this.el.children as HTMLCollectionOf<OptionOrGroup>);
 
-    Array.from(this.el.children as HTMLCollectionOf<OptionOrGroup>).forEach((optionOrGroup) =>
-      this.selectEl.append(this.toNativeElement(optionOrGroup as any))
-    );
+    this.removeFromInternalSelect(optionsAndGroups);
+
+    optionsAndGroups.forEach((optionOrGroup) => {
+      this.selectEl.append(this.toNativeElement(optionOrGroup as any));
+    });
   };
 
-  private emptyInternalSelect(): void {
-    Array.from(this.selectEl.children as HTMLCollectionOf<NativeOptionOrGroup>).forEach(
-      (optionOrGroup) => {
-        this.componentToNativeEl.clear();
-        optionOrGroup.remove();
-      }
-    );
+  private removeFromInternalSelect(optionsAndGroups: OptionOrGroup[]): void {
+    optionsAndGroups.forEach((optionOrGroup) => {
+      this.componentToNativeEl.clear();
+      this.componentToNativeEl.get(optionOrGroup)?.remove();
+    });
   }
 
   private storeSelectRef = (node: HTMLSelectElement): void => {
     this.selectEl = node;
     this.populateInternalSelect();
-    this.updateReadOnlyProps();
+
+    const selected = this.selectEl.selectedOptions[0];
+    this.selectFromNativeOption(selected);
   };
+
+  private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
+    if (!nativeOption) {
+      return;
+    }
+
+    this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
+      if (nativeOptionOrGroup === nativeOption) {
+        (optionOrGroup as HTMLCalciteOptionElement).selected = true;
+        this.deselectAllExcept(optionOrGroup as HTMLCalciteOptionElement);
+      }
+    });
+  }
 
   private toNativeElement(
     optionOrGroup: HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement
@@ -223,55 +249,8 @@ export class CalciteSelect {
     throw new Error("unsupported element child provided");
   }
 
-  private updateReadOnlyProps(): void {
-    const { el } = this;
-
-    const allOptions = Array.from(el.querySelectorAll<HTMLCalciteOptionElement>("calcite-option"));
-    const groups = Array.from(
-      el.querySelectorAll<HTMLCalciteOptionGroupElement>("calcite-option-group:not([disabled])")
-    );
-
-    this.options = allOptions;
-
-    if (groups.length > 0) {
-      const selectableOptions = groups
-        .map((group) =>
-          Array.from(
-            group.querySelectorAll<HTMLCalciteOptionElement>("calcite-option:not([disabled])")
-          )
-        )
-        .reduce((all, current) => [...all, ...current], []);
-
-      if (selectableOptions.length > 0) {
-        const firstSelected =
-          selectableOptions.find((option) => option.selected) || selectableOptions[0];
-
-        this.select(firstSelected);
-        return;
-      }
-
-      this.select(selectableOptions.length > 0 ? selectableOptions[0] : allOptions[0]);
-    } else {
-      const selectableOptions = Array.from(
-        el.querySelectorAll<HTMLCalciteOptionElement>("calcite-option:not([disabled])")
-      );
-
-      if (selectableOptions.length > 0) {
-        const firstSelected =
-          selectableOptions.find((option) => option.selected) || selectableOptions[0];
-
-        this.select(firstSelected);
-      }
-    }
-  }
-
-  private select(option: HTMLCalciteOptionElement): void {
-    this.selectedOption = option;
-    this.deselectOptions(option);
-  }
-
-  private deselectOptions(except: HTMLCalciteOptionElement): void {
-    this.options.forEach((option) => {
+  private deselectAllExcept(except: HTMLCalciteOptionElement): void {
+    this.el.querySelectorAll<HTMLCalciteOptionElement>("calcite-option").forEach((option) => {
       if (option === except) {
         return;
       }
@@ -301,7 +280,12 @@ export class CalciteSelect {
   render(): VNode {
     return (
       <Host>
-        <select disabled={this.disabled} ref={this.storeSelectRef}>
+        <select
+          aria-label={this.label}
+          disabled={this.disabled}
+          onChange={this.handleSelectChange}
+          ref={this.storeSelectRef}
+        >
           <slot />
         </select>
         {this.renderChevron()}
