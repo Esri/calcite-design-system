@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop, VNode, Listen } from "@stencil/core";
+import { Component, Host, h, Element, Prop, VNode, Listen, Method } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
@@ -101,6 +101,7 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  @Method()
   async setFocus(): Promise<void> {
     focusElement(this.el);
   }
