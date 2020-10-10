@@ -38,6 +38,16 @@ export class CalciteSelect {
   disabled = false;
 
   /**
+   * Lists all options.
+   *
+   * @readonly
+   */
+  @Prop({
+    mutable: true
+  })
+  options: HTMLCalciteOptionElement[] = [];
+
+  /**
    * The component scale.
    */
   @Prop({
@@ -52,6 +62,16 @@ export class CalciteSelect {
     reflect: true
   })
   width: "auto" | "half" | "full" = "auto";
+
+  /**
+   * The selected option.
+   *
+   * @readonly
+   */
+  @Prop({
+    mutable: true
+  })
+  selectedOption: HTMLCalciteOptionElement;
 
   /**
    * The component theme.
@@ -117,7 +137,8 @@ export class CalciteSelect {
   protected handleOptionOrGroupChange(event: CustomEvent): void {
     event.stopPropagation();
 
-    const nativeEl = this.componentToNativeEl.get(event.target as OptionOrGroup);
+    const optionOrGroup = event.target as OptionOrGroup;
+    const nativeEl = this.componentToNativeEl.get(optionOrGroup);
 
     if (!nativeEl) {
       return;
@@ -163,6 +184,7 @@ export class CalciteSelect {
   private storeSelectRef = (node: HTMLSelectElement): void => {
     this.selectEl = node;
     this.populateInternalSelect();
+    this.updateReadOnlyProps();
   };
 
   private toNativeElement(
@@ -199,6 +221,63 @@ export class CalciteSelect {
     }
 
     throw new Error("unsupported element child provided");
+  }
+
+  private updateReadOnlyProps(): void {
+    const { el } = this;
+
+    const allOptions = Array.from(el.querySelectorAll<HTMLCalciteOptionElement>("calcite-option"));
+    const groups = Array.from(
+      el.querySelectorAll<HTMLCalciteOptionGroupElement>("calcite-option-group:not([disabled])")
+    );
+
+    this.options = allOptions;
+
+    if (groups.length > 0) {
+      const selectableOptions = groups
+        .map((group) =>
+          Array.from(
+            group.querySelectorAll<HTMLCalciteOptionElement>("calcite-option:not([disabled])")
+          )
+        )
+        .reduce((all, current) => [...all, ...current], []);
+
+      if (selectableOptions.length > 0) {
+        const firstSelected =
+          selectableOptions.find((option) => option.selected) || selectableOptions[0];
+
+        this.select(firstSelected);
+        return;
+      }
+
+      this.select(selectableOptions.length > 0 ? selectableOptions[0] : allOptions[0]);
+    } else {
+      const selectableOptions = Array.from(
+        el.querySelectorAll<HTMLCalciteOptionElement>("calcite-option:not([disabled])")
+      );
+
+      if (selectableOptions.length > 0) {
+        const firstSelected =
+          selectableOptions.find((option) => option.selected) || selectableOptions[0];
+
+        this.select(firstSelected);
+      }
+    }
+  }
+
+  private select(option: HTMLCalciteOptionElement): void {
+    this.selectedOption = option;
+    this.deselectOptions(option);
+  }
+
+  private deselectOptions(except: HTMLCalciteOptionElement): void {
+    this.options.forEach((option) => {
+      if (option === except) {
+        return;
+      }
+
+      option.selected = false;
+    });
   }
 
   //--------------------------------------------------------------------------
