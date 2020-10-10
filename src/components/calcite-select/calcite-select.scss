@@ -1,3 +1,36 @@
 :host {
-  display: block;
+  align-items: center;
+  border: solid 1px var(--calcite-ui-border-1);
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+select {
+  appearance: none;
+  background-color: var(--calcite-ui-foreground-1);
+  border-radius: 0;
+  border: none;
+  color: var(--calcite-ui-text-2);
+  cursor: pointer;
+  font-family: inherit;
+  margin: 0;
+  padding: var(--calcite-spacing-half);
+  width: 100%;
+
+  @include focus-style-base();
+
+  &:focus {
+    @include focus-style-outset();
+  }
+
+  &:hover {
+    background-color: var(--calcite-ui-foreground-2);
+  }
+}
+
+.icon {
+  pointer-events: none;
+  position: absolute;
+  right: var(--calcite-spacing-half);
 }

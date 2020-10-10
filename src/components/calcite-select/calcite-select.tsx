@@ -1,6 +1,7 @@
 import { Component, Host, h, Element, Prop, VNode, Listen } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
+import { CSS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -202,6 +203,7 @@ export class CalciteSelect {
         <select disabled={this.disabled} ref={this.storeSelectRef}>
           <slot />
         </select>
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
       </Host>
     );
   }
