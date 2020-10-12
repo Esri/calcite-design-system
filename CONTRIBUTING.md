@@ -34,7 +34,7 @@ You don't _have to_ but we recommend installing TypeScript, TSLint, Prettier and
 - https://github.com/Microsoft/TypeScript-Sublime-Plugin
 - etc...
 
-To start the local development environment run `npm start` this will start the local Stencil development server on http://localhost:3333. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another `<calcite-tab>`and `<calcite-tab-title>` and start working.
+To start the local development environment run `npm start` this will start the local Stencil development server on http://localhost:3333. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
 
 ### Adding a new component
 
@@ -46,6 +46,8 @@ Before adding a new component, have a read through the [component conventions gu
 
 Calcite Components include Stencil's default testing tools which are built on [Jest](https://jestjs.io/) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
+If you're working on writing tests for a particular component, it can be helpful to use `npm run test:watch` to retest on file changes. Once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component.
+
 Please refer to the [Stencil testing documentation](https://stenciljs.com/docs/testing-overview) for more information.
 
 ### Documenting a component
@@ -54,9 +56,9 @@ Calcite Components utilizes [Storybook](https://storybook.js.org/) for documenti
 
 1. Create a new file inside your component directory like `calcite-X.stories.js`
 2. Write stories (see below)
-3. Run the documentation locally with `npm run storybook`
+3. Run the documentation locally with `npm run docs:preview`
 
-The `storybook` command will build Calcite Components, and open your browser to view the storybook docs locally.
+The `docs:preview` command will build Calcite Components, and open your browser to view the storybook docs locally.
 
 #### Writing stories
 
@@ -78,7 +80,7 @@ storiesOf('My component', module)
 We deploy the docs with [storybook deployer](https://github.com/storybookjs/storybook-deployer).
 
 1. Make sure your changes have landed in `master`
-2. Use `npm run deploy` to build the components, build the docs, and deploy to gh-pages
+2. Use `npm run release:docs` to build the docs and deploy to gh-pages
 
 ### Release process
 
@@ -87,6 +89,7 @@ To release a new version of Calcite Components you must:
 1. Be a member of the [@esri](https://www.npmjs.com/org/esri) organization on npm.
 1. Be a member of the admin team for [Calcite Components](https://github.com/Esri/calcite-components).
 1. Make sure you have a remote named `origin` pointing to [Esri/calcite-components](https://github.com/Esri/calcite-components).
+1. Ensure you have set up an access token (see below)
 1. Run `npm run release:prepare`. This script will:
 
 - Create a build
@@ -108,3 +111,13 @@ To release a new version of Calcite Components you must:
 - Push all doc content to the `gh-pages` branch
 
   **Note**: this script can be run anytime the docs need to be updated
+
+### Setting up an access token for release
+
+In order for the release script to work, you'll need to generate an access token with GitHub and export it into your shell environment as `GH_RELEASE_GITHUB_API_TOKEN`. First, [generate a token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token), then copy that token and add it to your `bash_profile` (`~/.bash_profile` on Mac):
+
+```
+export GH_RELEASE_GITHUB_API_TOKEN=PASTE_TOKEN_HERE
+```
+
+You may need to start a new terminal window to apply the profile changes.

@@ -5,22 +5,20 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [1.0.0-beta.42](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.41...v1.0.0-beta.42) (2020-10-12)
 
-
 ### Features
 
-* **action, action-group, action-bar, action-pad, block, block-section, flow, panel, shell, shell-panel, tip, tip-group, tip-manager:** add calcite app components to distributable ([#903](https://github.com/Esri/calcite-components/issues/903)) ([6f8bb6e](https://github.com/Esri/calcite-components/commit/6f8bb6ec5c64f8dec17a4d9532bee38492e48cb5)), closes [#687](https://github.com/Esri/calcite-components/issues/687)
-* **calcite-shell-panel:** adds detached-height-scale property ([5974010](https://github.com/Esri/calcite-components/commit/5974010e185dd6012de804f62630f6bc538b7a8c)), closes [#1029](https://github.com/Esri/calcite-components/issues/1029) [#1029](https://github.com/Esri/calcite-components/issues/1029)
-* **tabs:** animate active tab underline ([#1093](https://github.com/Esri/calcite-components/issues/1093)) ([072b761](https://github.com/Esri/calcite-components/commit/072b761149ca6baedd62390ba2829407c317b225))
-* **tile-select:** add width prop to tiles for full width option ([#1071](https://github.com/Esri/calcite-components/issues/1071)) ([7039f1f](https://github.com/Esri/calcite-components/commit/7039f1fc7b9ef8436d0d6050078a3994a9f237df))
-* **tile-select-group:** add layout prop for vertical tile select groups ([#1020](https://github.com/Esri/calcite-components/issues/1020)) ([#1066](https://github.com/Esri/calcite-components/issues/1066)) ([4c3ca95](https://github.com/Esri/calcite-components/commit/4c3ca953ec112d482debeaa2823050c642a779b0))
-* **value-list-item, pick-list-item:** adds start slots, uses conventional slot names, removes non-conventional slot names ([f410938](https://github.com/Esri/calcite-components/commit/f41093840b2721730fde7a58282605b11e81897c)), closes [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039)
-
+- **action, action-group, action-bar, action-pad, block, block-section, flow, panel, shell, shell-panel, tip, tip-group, tip-manager:** add calcite app components to distributable ([#903](https://github.com/Esri/calcite-components/issues/903)) ([6f8bb6e](https://github.com/Esri/calcite-components/commit/6f8bb6ec5c64f8dec17a4d9532bee38492e48cb5)), closes [#687](https://github.com/Esri/calcite-components/issues/687)
+- **calcite-shell-panel:** adds detached-height-scale property ([5974010](https://github.com/Esri/calcite-components/commit/5974010e185dd6012de804f62630f6bc538b7a8c)), closes [#1029](https://github.com/Esri/calcite-components/issues/1029) [#1029](https://github.com/Esri/calcite-components/issues/1029)
+- **tabs:** animate active tab underline ([#1093](https://github.com/Esri/calcite-components/issues/1093)) ([072b761](https://github.com/Esri/calcite-components/commit/072b761149ca6baedd62390ba2829407c317b225))
+- **tile-select:** add width prop to tiles for full width option ([#1071](https://github.com/Esri/calcite-components/issues/1071)) ([7039f1f](https://github.com/Esri/calcite-components/commit/7039f1fc7b9ef8436d0d6050078a3994a9f237df))
+- **tile-select-group:** add layout prop for vertical tile select groups ([#1020](https://github.com/Esri/calcite-components/issues/1020)) ([#1066](https://github.com/Esri/calcite-components/issues/1066)) ([4c3ca95](https://github.com/Esri/calcite-components/commit/4c3ca953ec112d482debeaa2823050c642a779b0))
+- **value-list-item, pick-list-item:** adds start slots, uses conventional slot names, removes non-conventional slot names ([f410938](https://github.com/Esri/calcite-components/commit/f41093840b2721730fde7a58282605b11e81897c)), closes [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039)
 
 ### Bug Fixes
 
-* **block-section:** use expand/collapse tooltips as a section's native tooltip. ([#1087](https://github.com/Esri/calcite-components/issues/1087)) ([1cea565](https://github.com/Esri/calcite-components/commit/1cea56563126d45296b48f954298f6d564325849)), closes [#1074](https://github.com/Esri/calcite-components/issues/1074)
-* **date:** stop date from closing on month next/previous buttons in safari ([#1091](https://github.com/Esri/calcite-components/issues/1091)) ([937f555](https://github.com/Esri/calcite-components/commit/937f5550ae924f3bf583570a0701a418e8193d1a))
-* **label:** prevent calcite-input-message from always showing in disabled label ([#1095](https://github.com/Esri/calcite-components/issues/1095)) ([2281be4](https://github.com/Esri/calcite-components/commit/2281be4daa8a95ecca2b17bbd71579966c898298))
+- **block-section:** use expand/collapse tooltips as a section's native tooltip. ([#1087](https://github.com/Esri/calcite-components/issues/1087)) ([1cea565](https://github.com/Esri/calcite-components/commit/1cea56563126d45296b48f954298f6d564325849)), closes [#1074](https://github.com/Esri/calcite-components/issues/1074)
+- **date:** stop date from closing on month next/previous buttons in safari ([#1091](https://github.com/Esri/calcite-components/issues/1091)) ([937f555](https://github.com/Esri/calcite-components/commit/937f5550ae924f3bf583570a0701a418e8193d1a))
+- **label:** prevent calcite-input-message from always showing in disabled label ([#1095](https://github.com/Esri/calcite-components/issues/1095)) ([2281be4](https://github.com/Esri/calcite-components/commit/2281be4daa8a95ecca2b17bbd71579966c898298))
 
 ## [1.0.0-beta.41](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.40...v1.0.0-beta.41) (2020-10-05)
 
