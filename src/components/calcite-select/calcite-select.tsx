@@ -64,20 +64,20 @@ export class CalciteSelect {
   scale: Scale = "m";
 
   /**
-   * The component width.
-   */
-  @Prop({
-    reflect: true
-  })
-  width: "auto" | "half" | "full" = "auto";
-
-  /**
    * The component theme.
    */
   @Prop({
     reflect: true
   })
   theme: Theme = "light";
+
+  /**
+   * The component width.
+   */
+  @Prop({
+    reflect: true
+  })
+  width: "auto" | "half" | "full" = "auto";
 
   //--------------------------------------------------------------------------
   //
