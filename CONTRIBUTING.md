@@ -104,6 +104,14 @@ To release a new version of Calcite Components you must:
 - Publish to NPM
 - Publish to GitHub (including source and package)
 
+1. Lastly, run `npm run release:docs` to update the docs. This script will:
+
+- Create the component doc
+- Create the storybook build
+- Push all doc content to the `gh-pages` branch
+
+  **Note**: this script can be run anytime the docs need to be updated
+
 ### Setting up an access token for release
 
 In order for the release script to work, you'll need to generate an access token with GitHub and export it into your shell environment as `GH_RELEASE_GITHUB_API_TOKEN`. First, [generate a token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token), then copy that token and add it to your `bash_profile` (`~/.bash_profile` on Mac):
