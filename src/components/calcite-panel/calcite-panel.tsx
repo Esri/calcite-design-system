@@ -85,7 +85,7 @@ export class CalcitePanel {
   @Prop({ reflect: true }) heightScale: CalciteScale;
 
   /**
-   * This sets width and max-width of the panel.
+   * This sets width of the panel.
    */
   @Prop({ reflect: true }) widthScale: CalciteScale = "m";
 

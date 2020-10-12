@@ -39,7 +39,7 @@ export class CalciteShellPanel {
   @Prop({ reflect: true }) detachedHeightScale: CalciteScale = "l";
 
   /**
-   * This sets width and max-width of the content area.
+   * This sets width of the content area.
    */
 
   @Prop({ reflect: true }) widthScale: CalciteScale = "m";
