@@ -130,8 +130,11 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * This event will fire whenever the selected option changes.
+   */
   @Event()
-  private calciteSelectChange: EventEmitter<void>;
+  calciteSelectChange: EventEmitter<void>;
 
   private handleInternalSelectChange = (): void => {
     this.selectFromNativeOption(this.selectEl.selectedOptions[0]);
