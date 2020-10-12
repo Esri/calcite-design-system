@@ -1,7 +1,8 @@
 import { Component, Host, h, Element, Prop, VNode, Listen } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -43,6 +44,14 @@ export class CalciteSelect {
     reflect: true
   })
   scale: Scale = "m";
+
+  /**
+   * The component width.
+   */
+  @Prop({
+    reflect: true
+  })
+  width: "auto" | "half" | "full" = "auto";
 
   /**
    * The component theme.
@@ -197,13 +206,25 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  renderChevron(): VNode {
+    const rtl = getElementDir(this.el) === "rtl";
+
+    return (
+      <calcite-icon
+        class={{ [CSS.icon]: true, [CSS_UTILITY.rtl]: rtl }}
+        icon="chevron-down"
+        scale="s"
+      />
+    );
+  }
+
   render(): VNode {
     return (
       <Host>
         <select disabled={this.disabled} ref={this.storeSelectRef}>
           <slot />
         </select>
-        <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
+        {this.renderChevron()}
       </Host>
     );
   }

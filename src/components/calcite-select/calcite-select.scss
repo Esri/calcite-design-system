@@ -3,7 +3,19 @@
   border: solid 1px var(--calcite-ui-border-1);
   display: flex;
   position: relative;
-  width: 100%;
+  width: var(--select-width);
+}
+
+:host([width="auto"]) {
+  --select-width: auto;
+}
+
+:host([width="half"]) {
+  --select-width: 50%;
+}
+
+:host([width="full"]) {
+  --select-width: 100%;
 }
 
 select {
@@ -33,4 +45,9 @@ select {
   pointer-events: none;
   position: absolute;
   right: var(--calcite-spacing-half);
+}
+
+.calcite--rtl.icon {
+  right: unset;
+  left: var(--calcite-spacing-half);
 }
