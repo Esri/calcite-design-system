@@ -133,9 +133,8 @@ export class CalciteSelect {
   @Event()
   private calciteSelectChange: EventEmitter<void>;
 
-  private handleSelectChange = (): void => {
+  private handleInternalSelectChange = (): void => {
     this.selectFromNativeOption(this.selectEl.selectedOptions[0]);
-
     this.calciteSelectChange.emit();
   };
 
@@ -151,7 +150,7 @@ export class CalciteSelect {
       return;
     }
 
-    this.syncProps(nativeEl, event.target as OptionOrGroup);
+    this.updateNativeElements(optionOrGroup, nativeEl);
 
     if (isOption(optionOrGroup) && optionOrGroup.selected) {
       this.deselectAllExcept(optionOrGroup);
@@ -164,7 +163,10 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
-  private syncProps(nativeOptionOrGroup: NativeOptionOrGroup, optionOrGroup: OptionOrGroup): void {
+  private updateNativeElements(
+    optionOrGroup: OptionOrGroup,
+    nativeOptionOrGroup: NativeOptionOrGroup
+  ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
     nativeOptionOrGroup.label = optionOrGroup.label;
 
@@ -181,7 +183,7 @@ export class CalciteSelect {
     this.removeFromInternalSelect(optionsAndGroups);
 
     optionsAndGroups.forEach((optionOrGroup) => {
-      this.selectEl.append(this.toNativeElement(optionOrGroup as any));
+      this.selectEl.append(this.toNativeElement(optionOrGroup));
     });
   };
 
@@ -206,8 +208,8 @@ export class CalciteSelect {
     }
 
     this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
-      if (nativeOptionOrGroup === nativeOption) {
-        (optionOrGroup as HTMLCalciteOptionElement).selected = true;
+      if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
+        optionOrGroup.selected = true;
         this.deselectAllExcept(optionOrGroup as HTMLCalciteOptionElement);
       }
     });
@@ -235,11 +237,13 @@ export class CalciteSelect {
       group.disabled = optionOrGroup.disabled;
       group.label = optionOrGroup.label;
 
-      Array.from(optionOrGroup.children).forEach((option) => {
-        const nativeOption = this.toNativeElement(option as HTMLCalciteOptionElement);
-        group.append(nativeOption);
-        this.componentToNativeEl.set(optionOrGroup, nativeOption);
-      });
+      Array.from(optionOrGroup.children as HTMLCollectionOf<HTMLCalciteOptionElement>).forEach(
+        (option) => {
+          const nativeOption = this.toNativeElement(option);
+          group.append(nativeOption);
+          this.componentToNativeEl.set(optionOrGroup, nativeOption);
+        }
+      );
 
       this.componentToNativeEl.set(optionOrGroup, group);
 
@@ -283,7 +287,7 @@ export class CalciteSelect {
         <select
           aria-label={this.label}
           disabled={this.disabled}
-          onChange={this.handleSelectChange}
+          onChange={this.handleInternalSelectChange}
           ref={this.storeSelectRef}
         >
           <slot />
