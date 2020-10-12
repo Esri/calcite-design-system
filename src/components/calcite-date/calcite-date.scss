@@ -35,7 +35,7 @@
 }
 
 .calendar-picker-wrapper {
-  @apply shadow-borderless-lg;
+  @apply shadow-2;
   position: absolute;
   top: 100%;
   background-color: var(--calcite-ui-foreground-1);
@@ -55,7 +55,7 @@
 }
 
 :host([active]) {
-  @apply shadow-borderless-lg;
+  @apply shadow-2;
   background-color: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
 
