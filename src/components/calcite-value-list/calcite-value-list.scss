@@ -9,7 +9,7 @@
 }
 
 calcite-value-list-item:last-of-type {
-  box-shadow: none;
+  @apply shadow-none;
 }
 
 header {

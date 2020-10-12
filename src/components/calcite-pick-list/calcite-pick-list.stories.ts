@@ -6,7 +6,7 @@ import dedent from "dedent";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "App Components/calcite-pick-list",
+  title: "App Components/Pick List",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

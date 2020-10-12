@@ -86,7 +86,7 @@ Current usage:
 
 | Shadow 1 | Shadow 2    |
 | -------- | ----------- |
-| notice   | Modals      |
+| Notice   | Modals      |
 |          | Alerts      |
 |          | Tooltips    |
 |          | Dropdowns   |

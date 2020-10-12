@@ -1,23 +1,23 @@
 :host {
-  display: inline-flex;
+  @apply inline-flex;
 }
+
 :host([scale="s"]) {
-  height: 16px;
-  min-height: 16px;
-  width: 16px;
-  min-width: 16px;
+  @apply w-4 h-4;
+  min-width: theme("spacing.4");
+  min-height: theme("spacing.4");
 }
+
 :host([scale="m"]) {
-  height: 24px;
-  min-height: 24px;
-  width: 24px;
-  min-width: 24px;
+  @apply w-6 h-6;
+  min-width: theme("spacing.6");
+  min-height: theme("spacing.6");
 }
+
 :host([scale="l"]) {
-  height: 32px;
-  min-height: 32px;
-  width: 32px;
-  min-width: 32px;
+  @apply w-8 h-8;
+  min-width: theme("spacing.8");
+  min-height: theme("spacing.8");
 }
 
 .mirrored {
@@ -25,5 +25,5 @@
 }
 
 .svg {
-  display: block;
+  @apply block;
 }

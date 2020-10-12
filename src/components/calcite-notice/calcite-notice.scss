@@ -88,13 +88,13 @@
 }
 
 :host([active]) {
+  @apply shadow-1;
   display: inline-flex;
   align-items: center;
   opacity: 1;
   max-height: 100%;
   pointer-events: initial;
   border-width: 3px;
-  box-shadow: $shadow-1;
 }
 
 @include slotted("notice-title", "*") {
