@@ -10,7 +10,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { ICON_TYPES, TEXT } from "./resources";
+import { ICON_TYPES } from "./resources";
 import {
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,
@@ -58,6 +58,11 @@ export class CalcitePickList<
   @Prop({ reflect: true }) filterEnabled = false;
 
   /**
+   * Placeholder text for the filter input field.
+   */
+  @Prop({ reflect: true }) filterPlaceholder: string;
+
+  /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
   @Prop({ reflect: true }) loading = false;
@@ -69,11 +74,6 @@ export class CalcitePickList<
    * and selecting a new item will deselect any other selected items.
    */
   @Prop({ reflect: true }) multiple = false;
-
-  /**
-   * Placeholder text for the filter input field.
-   */
-  @Prop({ reflect: true }) textFilterPlaceholder: string = TEXT.filterPlaceholder;
 
   // --------------------------------------------------------------------------
   //

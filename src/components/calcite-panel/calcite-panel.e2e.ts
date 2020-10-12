@@ -125,7 +125,7 @@ describe("calcite-panel", () => {
 
     expect(header).toBeNull();
   });
-  
+
   it("should not render menu nodes when there are no header-menu-actions", async () => {
     const page = await newE2EPage();
 
@@ -211,7 +211,7 @@ describe("calcite-panel", () => {
       `<calcite-panel>
         <calcite-action slot=${SLOTS.headerActionsStart} text="test start"></calcite-action>
       </calcite-panel>`
-      );
+    );
 
     const actionsContainerStart = await page.find(`calcite-panel >>> .${CSS.headerActionsStart}`);
 
@@ -225,7 +225,7 @@ describe("calcite-panel", () => {
       `<calcite-panel>
         <calcite-action slot=${SLOTS.headerActionsEnd} text="test end"></calcite-action>
       </calcite-panel>`
-      );
+    );
 
     const actionsContainerEnd = await page.find(`calcite-panel >>> .${CSS.headerActionsEnd}`);
 

@@ -100,3 +100,11 @@ To release a new version of Calcite Components you must:
 - Push the release tag to the repo
 - Publish to NPM
 - Publish to GitHub (including source and package)
+
+1. Lastly, run `npm run release:docs` to update the docs. This script will:
+
+- Create the component doc
+- Create the storybook build
+- Push all doc content to the `gh-pages` branch
+
+  **Note**: this script can be run anytime the docs need to be updated

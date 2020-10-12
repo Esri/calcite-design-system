@@ -16,7 +16,7 @@
   --calcite-dropdown-group-padding: #{$baseline/1.5 0};
 }
 
-:host .dropdown-title {
+.dropdown-title {
   display: block;
   margin: 0 $baseline/1.5 -1px $baseline/1.5;
   padding: var(--calcite-dropdown-group-padding);
@@ -26,4 +26,10 @@
   word-wrap: break-word;
   cursor: default;
   @include font-size(-2);
+}
+
+.dropdown-separator {
+  display: block;
+  height: 1px;
+  background-color: var(--calcite-ui-border-3);
 }

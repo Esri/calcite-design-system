@@ -1,4 +1,19 @@
-import { inRange, dateFromRange, dateFromISO, sameDate, prevMonth, nextMonth } from "./date";
+import { DateLocaleData } from "../components/calcite-date/utils";
+import {
+  inRange,
+  dateFromRange,
+  dateFromISO,
+  sameDate,
+  prevMonth,
+  nextMonth,
+  localizeNumber,
+  parseNumber,
+  parseDateString,
+  getOrder
+} from "./date";
+import arabic from "../components/calcite-date/calcite-date-nls/ar.json";
+import french from "../components/calcite-date/calcite-date-nls/fr.json";
+import korean from "../components/calcite-date/calcite-date-nls/ko.json";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -105,5 +120,56 @@ describe("nextMonth", () => {
     expect(d1.getFullYear()).toEqual(2020);
     expect(d1.getMonth()).toEqual(3);
     expect(d1.getDate()).toEqual(30);
+  });
+});
+
+describe("localizeNumber", () => {
+  it("preserves standard numerals", () => {
+    const dummyLocale = { numerals: "0123456789" };
+    expect(localizeNumber(123, dummyLocale as DateLocaleData)).toEqual("123");
+  });
+  it("converts standard numerals to arabic", () => {
+    expect(localizeNumber(123, arabic)).toEqual("١٢٣");
+  });
+});
+
+describe("parseNumber", () => {
+  it("correctly parses number string", () => {
+    const dummyLocale = { numerals: "0123456789" };
+    expect(parseNumber("123", dummyLocale as DateLocaleData)).toEqual(123);
+  });
+  it("parses arabic number", () => {
+    expect(parseNumber("٧٨٩", arabic)).toEqual(789);
+  });
+});
+
+describe("parseDateString", () => {
+  it("parses arabic date", () => {
+    const parsed = parseDateString("٢٧‏/١١‏/٢٠٠٠", arabic);
+    expect(parsed.day).toEqual(27);
+    expect(parsed.month).toEqual(10);
+    expect(parsed.year).toEqual(2000);
+  });
+  it("parses french date", () => {
+    const parsed = parseDateString("27/11/2000", french);
+    expect(parsed.day).toEqual(27);
+    expect(parsed.month).toEqual(10);
+    expect(parsed.year).toEqual(2000);
+  });
+  it("parses korean date", () => {
+    const parsed = parseDateString("2000. 11. 27.", korean);
+    expect(parsed.day).toEqual(27);
+    expect(parsed.month).toEqual(10);
+    expect(parsed.year).toEqual(2000);
+  });
+});
+
+describe("getOrder", () => {
+  it("derives order from various unit orders", () => {
+    expect(getOrder("d‏/M‏/y")).toEqual(["d", "m", "y"]);
+    expect(getOrder("dd.MM.y")).toEqual(["d", "m", "y"]);
+    expect(getOrder("M/d/yy")).toEqual(["m", "d", "y"]);
+    expect(getOrder("y/MM/dd")).toEqual(["y", "m", "d"]);
+    expect(getOrder("y. MM. dd.")).toEqual(["y", "m", "d"]);
   });
 });
