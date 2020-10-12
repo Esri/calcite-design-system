@@ -2,6 +2,7 @@ import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
+import tailwind from "tailwindcss";
 import { generatePreactTypes } from "./support/preact";
 
 export const create: () => Config = () => ({
@@ -86,7 +87,7 @@ export const create: () => Config = () => ({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [autoprefixer()]
+      plugins: [tailwind(), autoprefixer()]
     })
   ],
   testing: {

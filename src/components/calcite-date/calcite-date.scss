@@ -35,10 +35,10 @@
 }
 
 .calendar-picker-wrapper {
+  @apply shadow-2;
   position: absolute;
   top: 100%;
   background-color: var(--calcite-ui-foreground-1);
-  box-shadow: $shadow-2;
   opacity: 0;
   width: 100%;
   line-height: 0; // fixes height in ie11
@@ -55,9 +55,9 @@
 }
 
 :host([active]) {
+  @apply shadow-2;
   background-color: var(--calcite-ui-foreground-1);
   border-radius: var(--calcite-border-radius);
-  box-shadow: $shadow-2;
 
   .calendar-picker-wrapper {
     opacity: 1;
@@ -73,12 +73,12 @@
 }
 
 :host([no-calendar-input]) {
-  box-shadow: none;
+  @apply shadow-none;
   .calendar-picker-wrapper {
+    @apply shadow-none;
     position: static;
     transform: translate3d(0, 0, 0);
     border-radius: none;
-    box-shadow: none;
     border: 1px solid var(--calcite-ui-border-2);
   }
 }

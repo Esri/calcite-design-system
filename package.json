@@ -121,6 +121,7 @@
     "stylelint": "13.7.2",
     "stylelint-config-recommended-scss": "4.2.0",
     "stylelint-scss": "3.18.0",
+    "tailwindcss": "1.7.2",
     "ts-jest": "26.4.1",
     "ts-node": "9.0.0",
     "tslint": "6.1.3",
