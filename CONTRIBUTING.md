@@ -89,6 +89,7 @@ To release a new version of Calcite Components you must:
 1. Be a member of the [@esri](https://www.npmjs.com/org/esri) organization on npm.
 1. Be a member of the admin team for [Calcite Components](https://github.com/Esri/calcite-components).
 1. Make sure you have a remote named `origin` pointing to [Esri/calcite-components](https://github.com/Esri/calcite-components).
+1. Ensure you have set up an access token (see below)
 1. Run `npm run release:prepare`. This script will:
 
 - Create a build
@@ -102,3 +103,13 @@ To release a new version of Calcite Components you must:
 - Push the release tag to the repo
 - Publish to NPM
 - Publish to GitHub (including source and package)
+
+### Setting up an access token for release
+
+In order for the release script to work, you'll need to generate an access token with GitHub and export it into your shell environment as `GH_RELEASE_GITHUB_API_TOKEN`. First, [generate a token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token), then copy that token and add it to your `bash_profile` (`~/.bash_profile` on Mac):
+
+```
+export GH_RELEASE_GITHUB_API_TOKEN=PASTE_TOKEN_HERE
+```
+
+You may need to start a new terminal window to apply the profile changes.
