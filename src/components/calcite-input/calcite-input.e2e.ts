@@ -391,6 +391,38 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEvent();
   });
 
+  it("when type is search and clear button is clicked, event is received", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="search" value="John Doe"></calcite-input>
+    `);
+
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+    const element = await page.find("calcite-input");
+    const clearButton = await page.find(".calcite-input-clear-button");
+    expect(element.getAttribute("value")).toBe("John Doe");
+    clearButton.click();
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("");
+    expect(calciteInputInput).toHaveReceivedEvent();
+  });
+
+  it("when type is search and input is cleared via escape key, event is received", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="search" value="John Doe"></calcite-input>
+    `);
+
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+    const element = await page.find("calcite-input");
+    expect(element.getAttribute("value")).toBe("John Doe");
+    await element.callMethod("setFocus");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(element.getAttribute("value")).toBe("");
+    expect(calciteInputInput).toHaveReceivedEvent();
+  });
+
   it("when clearable is not requested and input is cleared via escape key, event is not received", async () => {
     const page = await newE2EPage();
     await page.setContent(`
