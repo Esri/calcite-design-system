@@ -85,9 +85,9 @@ export class CalcitePanel {
   @Prop({ reflect: true }) heightScale: CalciteScale;
 
   /**
-   * This sets width and max-width of the content area.
+   * This sets width of the panel.
    */
-  @Prop({ reflect: true }) widthScale: CalciteScale;
+  @Prop({ reflect: true }) widthScale: CalciteScale = "m";
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
