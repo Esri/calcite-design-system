@@ -386,12 +386,16 @@ export class CalciteInput {
     search: "search"
   };
 
-  private inputInputHandler = (e) => {
-    this.value = e.target.value;
+  private emitInputInput(): void {
     this.calciteInputInput.emit({
       element: this.childEl,
       value: this.value
     });
+  }
+
+  private inputInputHandler = (e) => {
+    this.value = e.target.value;
+    this.emitInputInput();
   };
 
   private inputBlurHandler = () => {
@@ -446,6 +450,7 @@ export class CalciteInput {
 
   private clearInputValue = () => {
     this.value = "";
+    this.emitInputInput();
   };
 
   private updateNumberValue = (e) => {
