@@ -93,7 +93,7 @@ export class CalciteLabel {
 
   private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
-    const props = ["layout", "theme", "scale", "status", "disabled"];
+    const props = ["disabled", "id", "layout", "scale", "status", "theme"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
