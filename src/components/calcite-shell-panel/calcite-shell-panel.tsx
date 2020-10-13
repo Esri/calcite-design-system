@@ -39,6 +39,12 @@ export class CalciteShellPanel {
   @Prop({ reflect: true }) detachedHeightScale: CalciteScale = "l";
 
   /**
+   * This sets width of the content area.
+   */
+
+  @Prop({ reflect: true }) widthScale: CalciteScale = "m";
+
+  /**
    * Arranges the component depending on the elements 'dir' property.
    */
   @Prop({ reflect: true }) position: CalcitePosition;
