@@ -47,7 +47,7 @@ export class CalciteOption {
    * The value associated with this option.
    */
   @Prop()
-  value: string;
+  value: any;
 
   @Watch("disabled")
   @Watch("label")
