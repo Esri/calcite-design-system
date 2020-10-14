@@ -8,7 +8,7 @@ $image_max_height: 200px;
   position: relative;
   display: flex;
   overflow: hidden;
-  flex-direction: column;
+  flex-direction: column nowrap;
   color: var(--calcite-ui-text-1);
 }
 
@@ -63,4 +63,9 @@ slot[name="image"]::slotted(img) {
   max-height: $image_max_height;
   object-position: 50% 50%;
   object-fit: cover;
+}
+
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  height: 100%;
 }
