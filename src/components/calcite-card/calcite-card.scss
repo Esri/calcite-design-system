@@ -26,6 +26,12 @@
   }
 }
 
+.container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
   opacity: 0;
   pointer-events: none;
@@ -56,6 +62,7 @@
   flex-direction: row;
   align-content: space-between;
   justify-content: space-between;
+  margin-top: auto;
 }
 
 :host .card-content {
