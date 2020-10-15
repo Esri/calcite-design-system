@@ -120,17 +120,46 @@ export class CalciteTime {
   };
 
   private onHourKeyDown = (event: KeyboardEvent) => {
-    // TODO: support arrowup and arrowdown
-    // TODO: support number constraints
+    event.preventDefault();
     if (numberKeys.includes(event.key)) {
-      if (this.hour.length === 2) {
-        this.hour = event.key;
+      const keyAsNumber = parseInt(event.key);
+      if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
+        this.hour = `1${event.key}`;
       } else {
-        this.hour = `${this.hour}${event.key}`;
+        this.hour = `0${event.key}`;
       }
-    }
-    if (event.key === "Backspace") {
-      this.hour = "--";
+    } else {
+      switch (event.key) {
+        case "Backspace":
+          this.hour = "--";
+          break;
+        case "ArrowDown":
+          if (this.hour === "--") {
+            this.hour = "12";
+          } else {
+            const hourAsNumber = parseInt(this.hour);
+            if (hourAsNumber === 0) {
+              this.hour = "12";
+            } else {
+              const newHour = hourAsNumber - 1;
+              this.hour = newHour >= 10 && newHour <= 12 ? newHour.toString() : `0${newHour}`;
+            }
+          }
+          break;
+        case "ArrowUp":
+          if (this.hour === "--") {
+            this.hour = "01";
+          } else {
+            const hourAsNumber = parseInt(this.hour);
+            if (hourAsNumber === 12) {
+              this.hour = "00";
+            } else {
+              const newHour = hourAsNumber + 1;
+              this.hour = newHour >= 10 && newHour <= 12 ? newHour.toString() : `0${newHour}`;
+            }
+          }
+          break;
+      }
     }
   };
 
