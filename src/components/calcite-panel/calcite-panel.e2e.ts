@@ -96,6 +96,18 @@ describe("calcite-panel", () => {
     expect(scrollSpy).toHaveReceivedEventTimes(1);
   });
 
+  it("should not have a default width-scale", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-panel heading="test heading"></calcite-panel>`);
+
+    const element = await page.find(`calcite-panel`);
+
+    const prop = await element.getAttribute("width-scale");
+
+    expect(prop).toBeNull();
+  });
+
   it("should have default heading", async () => {
     const page = await newE2EPage();
 
