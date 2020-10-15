@@ -4,51 +4,44 @@
 
 :host {
   display: inline-block;
-  input {
-    @include focus-style-base();
-    border: none;
-    &:focus {
-      @include focus-style-inset();
-    }
-    &[type="number"] {
-      -moz-appearance: textfield;
-
-      &::-webkit-inner-spin-button,
-      &::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        -moz-appearance: textfield;
-        margin: 0;
-      }
-    }
-  }
 }
 :host([scale="s"]) {
-  input {
-    font-size: 12px;
-    padding: 8px;
-  }
+  font-size: 12px;
 }
 :host([scale="m"]) {
-  input {
-    font-size: 16px;
-    padding: 12px;
-  }
+  font-size: 16px;
 }
 :host([scale="l"]) {
-  input {
-    font-size: 20px;
-    padding: 16px;
-  }
+  font-size: 20px;
+}
+::slotted(calcite-input) {
+  position: relative;
+  z-index: 200;
 }
 .time-picker {
   align-items: center;
+  border-radius: var(--calcite-border-radius);
+  box-shadow: var(--calcite-shadow-2);
   display: flex;
+  padding: 0.25em 0;
+  position: relative;
+  z-index: 200;
 }
 .column {
   align-items: center;
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
-  input {
-    width: 1.1em;
+}
+span {
+  display: inline-block;
+  font-weight: var(--calcite-ui-text-weight-medium);
+  text-align: center;
+  &:focus {
+    background: #b5d5ff;
+    outline: none;
   }
+}
+calcite-icon {
+  color: var(--calcite-ui-border-5);
 }

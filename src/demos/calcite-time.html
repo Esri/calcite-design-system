@@ -37,42 +37,51 @@
 </head>
 
 <body>
-  <span role="spinbutton" aria-placeholder="--" aria-valuemin="1" aria-valuemax="12" aria-label="Hours"
-    pseudo="-webkit-datetime-edit-hour-field" aria-valuenow="5" aria-valuetext="05">05</span>
   <demo-spacer>
-    <div>
-      <calcite-date scale="s"></calcite-date>
-      <calcite-time scale="s"></calcite-time>
-    </div>
-    <div>
-      <calcite-date scale="m"></calcite-date>
-      <calcite-time scale="m"></calcite-time>
-    </div>
-    <div>
-      <calcite-date scale="l"></calcite-date>
-      <calcite-time scale="l"></calcite-time>
-    </div>
-  </demo-spacer>
-  <!-- <demo-spacer>
     <calcite-button href="/">
       < Home</calcite-button>
         <h1>Calcite Time</h1>
         <demo-form>
           <form name="calcite-time-demo-form">
             <demo-spacer>
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, 400px); grid-gap: 8px;">
-                <div class="demo-background-light">
-                  <calcite-time name="s"></calcite-time>
-                </div>
-                <div class="demo-background-dark" theme="dark">
-                </div>
+              <div class="demo-background-light">
+                <demo-spacer>
+                  <div>
+                    <calcite-date scale="s"></calcite-date>
+                    <calcite-time scale="s" name="s"></calcite-time>
+                  </div>
+                  <div>
+                    <calcite-date scale="m"></calcite-date>
+                    <calcite-time scale="m" name="m"></calcite-time>
+                  </div>
+                  <div>
+                    <calcite-date scale="l"></calcite-date>
+                    <calcite-time scale="l" name="l"></calcite-time>
+                  </div>
+                </demo-spacer>
+              </div>
+              <div class="demo-background-dark" theme="dark">
+                <demo-spacer>
+                  <div>
+                    <calcite-date scale="s"></calcite-date>
+                    <calcite-time scale="s" name="s-dark"></calcite-time>
+                  </div>
+                  <div>
+                    <calcite-date scale="m"></calcite-date>
+                    <calcite-time scale="m" name="m-dark"></calcite-time>
+                  </div>
+                  <div>
+                    <calcite-date scale="l"></calcite-date>
+                    <calcite-time scale="l" name="l-dark"></calcite-time>
+                  </div>
+                </demo-spacer>
               </div>
               <calcite-button form="calcite-time-demo-form" type="submit">Submit</calcite-button>
               <button type="submit" style="display: none">Submit</button>
             </demo-spacer>
           </form>
         </demo-form>
-  </demo-spacer> -->
+  </demo-spacer>
 </body>
 
 </html>
