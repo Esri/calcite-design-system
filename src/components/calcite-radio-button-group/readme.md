@@ -14,6 +14,12 @@
 | `scale`             | `scale`    | The scale (size) of the radio button group.                                                                                 | `"l" \| "m" \| "s"`          | `"m"`          |
 | `theme`             | `theme`    | The color theme of the radio button group.                                                                                  | `"dark" \| "light"`          | `"light"`      |
 
+## Events
+
+| Event                           | Description | Type               |
+| ------------------------------- | ----------- | ------------------ |
+| `calciteRadioButtonGroupChange` |             | `CustomEvent<any>` |
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

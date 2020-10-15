@@ -38,6 +38,8 @@ For instances when you don't have room for the full loader, you can use the smal
 
 ### Used by
 
+- [calcite-action](../calcite-action)
+- [calcite-block](../calcite-block)
 - [calcite-button](../calcite-button)
 - [calcite-card](../calcite-card)
 - [calcite-scrim](../calcite-scrim)
@@ -46,6 +48,8 @@ For instances when you don't have room for the full loader, you can use the smal
 
 ```mermaid
 graph TD;
+  calcite-action --> calcite-loader
+  calcite-block --> calcite-loader
   calcite-button --> calcite-loader
   calcite-card --> calcite-loader
   calcite-scrim --> calcite-loader

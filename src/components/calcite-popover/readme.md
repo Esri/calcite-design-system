@@ -65,6 +65,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+- [calcite-panel](../calcite-panel)
+
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
@@ -74,6 +78,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-popover --> calcite-icon
+  calcite-panel --> calcite-popover
   style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

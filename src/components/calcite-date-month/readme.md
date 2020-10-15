@@ -4,14 +4,13 @@
 
 ## Properties
 
-| Property       | Attribute | Description                                            | Type                | Default      |
-| -------------- | --------- | ------------------------------------------------------ | ------------------- | ------------ |
-| `activeDate`   | --        | Date currently active.                                 | `Date`              | `new Date()` |
-| `locale`       | `locale`  | User's language and region as BCP 47 formatted string. | `string`            | `"en-US"`    |
-| `max`          | --        | Maximum date of the calendar above which is disabled.  | `Date`              | `undefined`  |
-| `min`          | --        | Minimum date of the calendar below which is disabled.  | `Date`              | `undefined`  |
-| `scale`        | `scale`   | specify the scale of the date picker                   | `"l" \| "m" \| "s"` | `undefined`  |
-| `selectedDate` | --        | Already selected date.                                 | `Date`              | `undefined`  |
+| Property       | Attribute | Description                                           | Type                | Default      |
+| -------------- | --------- | ----------------------------------------------------- | ------------------- | ------------ |
+| `activeDate`   | --        | Date currently active.                                | `Date`              | `new Date()` |
+| `max`          | --        | Maximum date of the calendar above which is disabled. | `Date`              | `undefined`  |
+| `min`          | --        | Minimum date of the calendar below which is disabled. | `Date`              | `undefined`  |
+| `scale`        | `scale`   | specify the scale of the date picker                  | `"l" \| "m" \| "s"` | `undefined`  |
+| `selectedDate` | --        | Already selected date.                                | `Date`              | `undefined`  |
 
 ## Events
 
