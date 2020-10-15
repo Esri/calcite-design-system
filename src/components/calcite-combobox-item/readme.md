@@ -4,13 +4,13 @@
 
 ## Properties
 
-| Property                 | Attribute    | Description | Type                             | Default     |
-| ------------------------ | ------------ | ----------- | -------------------------------- | ----------- |
-| `disabled`               | `disabled`   |             | `boolean`                        | `false`     |
-| `parentItem`             | --           |             | `HTMLCalciteComboboxItemElement` | `undefined` |
-| `selected`               | `selected`   |             | `boolean`                        | `false`     |
-| `textLabel` _(required)_ | `text-label` |             | `string`                         | `undefined` |
-| `value` _(required)_     | `value`      |             | `string`                         | `undefined` |
+| Property                 | Attribute    | Description                                                                               | Type                             | Default     |
+| ------------------------ | ------------ | ----------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
+| `disabled`               | `disabled`   | When true, the item cannot be clicked and is visually muted.                              | `boolean`                        | `false`     |
+| `parentItem`             | --           | The parent combobox item element                                                          | `HTMLCalciteComboboxItemElement` | `undefined` |
+| `selected`               | `selected`   | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.        | `boolean`                        | `false`     |
+| `textLabel` _(required)_ | `text-label` | The main label for this item.                                                             | `string`                         | `undefined` |
+| `value` _(required)_     | `value`      | A unique value used to identify this item - similar to the value attribute on an <input>. | `string`                         | `undefined` |
 
 ## Events
 
