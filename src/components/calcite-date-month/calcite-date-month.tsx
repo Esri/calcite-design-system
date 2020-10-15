@@ -48,8 +48,11 @@ export class CalciteDateMonth {
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l";
 
-  /** CLDR locale data for current locale */
-  /* @internal */
+  /**
+   * CLDR locale data for current locale
+   *
+   * @internal
+   */
   @Prop() localeData: DateLocaleData;
 
   //--------------------------------------------------------------------------
