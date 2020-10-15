@@ -80,8 +80,13 @@ export class CalciteTime {
   // --------------------------------------------------------------------------
 
   private onAmPmKeyDown = (event: KeyboardEvent) => {
-    // TODO: Support typing am and pm
     switch (event.key) {
+      case "a":
+        this.ampm = "AM";
+        break;
+      case "p":
+        this.ampm = "PM";
+        break;
       case "Backspace":
         this.ampm = "--";
         break;
