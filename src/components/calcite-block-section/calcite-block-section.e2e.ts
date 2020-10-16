@@ -84,7 +84,7 @@ describe("calcite-block-section", () => {
 
     it("renders section text", async () => {
       const page = await newE2EPage({
-        html: `<calcite-block-section text="test text" open="true"></calcite-block-section>`
+        html: `<calcite-block-section text="test text" open></calcite-block-section>`
       });
       const element = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
       expect(await element.getProperty("text")).toBe("test text");

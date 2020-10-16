@@ -299,7 +299,7 @@ export function filterBehavior(listType: ListType): void {
   let item2Visible;
   beforeEach(async () => {
     page = await newE2EPage();
-    await page.setContent(`<calcite-${listType}-list filter-enabled="true">
+    await page.setContent(`<calcite-${listType}-list filter-enabled>
         <calcite-${listType}-list-item value="1" label="One" description="uno"></calcite-${listType}-list-item>
         <calcite-${listType}-list-item value="2" label="Two" description="dos"></calcite-${listType}-list-item>
       </calcite-${listType}-list>`);

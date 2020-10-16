@@ -30,8 +30,8 @@ describe("calcite-split-button", () => {
           color="red"
           theme="dark"
           dropdown-icon-type="caret"
-          loading="true"
-          disabled="true"
+          loading
+          disabled
           dropdown-label="more actions"
           primary-label="primary action">
       </calcite-split-button>`);
