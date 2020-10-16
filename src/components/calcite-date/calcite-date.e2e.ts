@@ -86,7 +86,6 @@ describe("calcite-date", () => {
         () => document.querySelector("calcite-date").shadowRoot.querySelectorAll("calcite-input input")[1]
       )
     ).asElement();
-    // const calciteDate = await page.find("calcite-date");
     await startInput.focus();
     const changedEvent = await page.spyOnEvent("calciteDateRangeChange");
     // have to wait for transition

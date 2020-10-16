@@ -161,90 +161,16 @@ export class CalciteDateMonth {
     const days = [
       ...prevMonDays.map((day) => {
         const date = new Date(year, month - 1, day);
-        return (
-          <calcite-date-day
-            day={day}
-            dir={dir}
-            disabled={!inRange(date, this.min, this.max)}
-            endOfRange={
-              !!this.endDate &&
-              !sameDate(this.startDate, this.endDate) &&
-              sameDate(this.endDate, date)
-            }
-            highlighted={this.betweenSelectedRange(date)}
-            localeData={this.localeData}
-            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
-            range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
-            scale={this.scale}
-            selected={this.isSelected(date)}
-            startOfRange={
-              !!this.startDate &&
-              !sameDate(this.startDate, this.endDate) &&
-              sameDate(this.startDate, date)
-            }
-          />
-        );
+        return this.renderDateDay(false, day, dir, date);
       }),
       ...curMonDays.map((day) => {
         const date = new Date(year, month, day);
         const active = sameDate(date, this.activeDate);
-        return (
-          <calcite-date-day
-            active={active}
-            current-month
-            day={day}
-            dir={dir}
-            disabled={!inRange(date, this.min, this.max)}
-            endOfRange={
-              !!this.endDate &&
-              !sameDate(this.startDate, this.endDate) &&
-              sameDate(this.endDate, date)
-            }
-            highlighted={this.betweenSelectedRange(date)}
-            localeData={this.localeData}
-            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
-            range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
-            ref={(el) => {
-              // when moving via keyboard, focus must be updated on active date
-              if (active && this.activeFocus) {
-                el?.focus();
-              }
-            }}
-            scale={this.scale}
-            selected={this.isSelected(date)}
-            startOfRange={
-              !!this.startDate &&
-              !sameDate(this.startDate, this.endDate) &&
-              sameDate(this.startDate, date)
-            }
-          />
-        );
+        return this.renderDateDay(active, day, dir, date, true, true);
       }),
       ...nextMonDays.map((day) => {
         const date = new Date(year, month + 1, day);
-        return (
-          <calcite-date-day
-            day={day}
-            dir={dir}
-            disabled={!inRange(date, this.min, this.max)}
-            endOfRange={
-              !!this.endDate &&
-              !sameDate(this.startDate, this.endDate) &&
-              sameDate(this.endDate, date)
-            }
-            highlighted={this.betweenSelectedRange(date)}
-            localeData={this.localeData}
-            onCalciteDaySelect={() => this.calciteDateSelect.emit(date)}
-            range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
-            scale={this.scale}
-            selected={this.isSelected(date)}
-            startOfRange={
-              !!this.startDate &&
-              !sameDate(this.startDate, this.endDate) &&
-              sameDate(this.startDate, date)
-            }
-          />
-        );
+        return this.renderDateDay(false, day, dir, date);
       })
     ];
 
@@ -361,5 +287,46 @@ export class CalciteDateMonth {
    */
   private isSelected(date: Date): boolean {
     return sameDate(date, this.selectedDate) || (this.startDate && sameDate(date, this.startDate));
+  }
+
+  /**
+   * Render calcite-date-day
+   */
+  private renderDateDay(
+    active: boolean,
+    day: number,
+    dir: string,
+    date: Date,
+    currentMonth?: boolean,
+    ref?: boolean
+  ) {
+    const props = {
+      active,
+      ...(currentMonth && { currentMonth: true }),
+      day,
+      dir,
+      disabled: !inRange(date, this.min, this.max),
+      startOfRange:
+        !!this.startDate &&
+        !sameDate(this.startDate, this.endDate) &&
+        sameDate(this.startDate, date),
+      endOfRange:
+        !!this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date),
+      highlighted: this.betweenSelectedRange(date),
+      localeData: this.localeData,
+      onCalciteDaySelect: () => this.calciteDateSelect.emit(date),
+      range: !!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate),
+      scale: this.scale,
+      selected: this.isSelected(date),
+      ...(ref && {
+        ref: (el) => {
+          // when moving via keyboard, focus must be updated on active date
+          if (active && this.activeFocus) {
+            el?.focus();
+          }
+        }
+      })
+    };
+    return <calcite-date-day {...props} />;
   }
 }

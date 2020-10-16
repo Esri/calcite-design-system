@@ -629,8 +629,8 @@ export class CalciteDate {
         }
         if (changed) {
           this.calciteDateRangeChange.emit({
-            startDate: this.activeStartDate,
-            endDate: this.activeEndDate
+            startDate: this.startAsDate,
+            endDate: this.endAsDate
           });
         }
       }
@@ -680,8 +680,8 @@ export class CalciteDate {
       this.reset();
     }
     this.calciteDateRangeChange.emit({
-      startDate: this.activeStartDate,
-      endDate: this.activeEndDate
+      startDate: this.startAsDate,
+      endDate: this.endAsDate
     });
   }
 

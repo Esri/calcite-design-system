@@ -97,7 +97,7 @@ export class CalciteDateMonthHeader {
             onClick={(e) => this.handleArrowClick(e, prevMonthDate)}
             onKeyDown={(e) => this.handleKeyDown(e, prevMonthDate)}
             role="button"
-            tabindex="0"
+            tabindex={prevMonthDate.getMonth() === activeMonth ? -1 : 0}
           >
             <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
           </a>
@@ -139,7 +139,7 @@ export class CalciteDateMonthHeader {
             onClick={(e) => this.handleArrowClick(e, nextMonthDate)}
             onKeyDown={(e) => this.handleKeyDown(e, nextMonthDate)}
             role="button"
-            tabindex="0"
+            tabindex={nextMonthDate.getMonth() === activeMonth ? -1 : 0}
           >
             <calcite-icon dir={dir} icon="chevron-right" mirrored scale={iconScale} />
           </a>
