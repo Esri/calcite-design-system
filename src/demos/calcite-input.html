@@ -322,7 +322,8 @@
           <calcite-label>
             Readonly with prefix and button
             <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
-              <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard"></calcite-button>
+              <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard">
+              </calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label>
@@ -483,6 +484,16 @@
             <input />
           </calcite-label>
 
+        </calcite-accordion-item>
+        <calcite-accordion-item item-title="flip icon in rtl">
+          <calcite-label dir="rtl">
+            Icon flip rtl not requested
+            <calcite-input icon="camera" placeholder="Enter your cell phone"></calcite-input>
+          </calcite-label>
+          <calcite-label dir="rtl">
+            Icon flip rtl requested
+            <calcite-input icon="camera" icon-flip-rtl placeholder="Enter your cell phone"></calcite-input>
+          </calcite-label>
         </calcite-accordion-item>
       </calcite-accordion>
       <h3>Disabled</h3>
@@ -781,7 +792,8 @@
           <calcite-label disabled>
             Readonly with prefix and button
             <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
-              <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard"></calcite-button>
+              <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard">
+              </calcite-button>
             </calcite-input>
           </calcite-label>
           <calcite-label disabled>

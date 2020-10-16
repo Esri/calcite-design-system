@@ -95,7 +95,7 @@ export class CalciteDateMonthHeader {
             disabled={prevMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(prevMonthDate)}
           >
-            <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
+            <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
           </button>
           <div class={{ text: true, "text--reverse": reverse }}>
             <span class="month" role="heading">
@@ -133,7 +133,7 @@ export class CalciteDateMonthHeader {
             disabled={nextMonthDate.getMonth() === activeMonth}
             onClick={() => this.calciteActiveDateChange.emit(nextMonthDate)}
           >
-            <calcite-icon dir={dir} icon="chevron-right" mirrored scale={iconScale} />
+            <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
           </button>
         </div>
       </Host>
