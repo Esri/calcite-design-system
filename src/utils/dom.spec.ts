@@ -1,6 +1,97 @@
-import { getSlotted } from "./dom";
+import { getElementProp, getSlotted } from "./dom";
 
 describe("dom", () => {
+  describe("getElementProp()", () => {
+    describe("light DOM", () => {
+      it("returns match if found on self", async () => {
+        document.body.innerHTML = `
+        <div>
+          <div>
+            <div id="test" test-prop="self"></div>
+          </div>
+        </div>
+      `;
+
+        expect(getElementProp(document.getElementById("test"), "test-prop", "not-found")).toBe("self");
+      });
+
+      it("returns first ancestral match", async () => {
+        document.body.innerHTML = `
+        <div test-prop="root">
+          <div>
+            <div id="test" ></div>
+          </div>
+        </div>
+      `;
+
+        expect(getElementProp(document.getElementById("test"), "test-prop", "not-found")).toBe("root");
+      });
+
+      it("returns fallback if no match is found", async () => {
+        document.body.innerHTML = `
+        <div>
+          <div>
+            <div id="test"></div>
+          </div>
+        </div>
+      `;
+
+        expect(getElementProp(document.getElementById("test"), "test-prop", "not-found")).toBe("not-found");
+      });
+    });
+
+    describe("shadow DOM boundaries", () => {
+      function defineTestComponents(): void {
+        class PropLookupParentTest extends HTMLElement {
+          constructor() {
+            super();
+            this.attachShadow({ mode: "open" });
+          }
+
+          connectedCallback(): void {
+            this.shadowRoot.innerHTML = `<prop-lookup-child-test></prop-lookup-child-test>`;
+          }
+        }
+
+        class PropLookupChildTest extends HTMLElement {
+          constructor() {
+            super();
+            this.attachShadow({ mode: "open" });
+          }
+
+          connectedCallback(): void {
+            this.shadowRoot.innerHTML = "<div>😄</div>";
+          }
+        }
+
+        customElements.define("prop-lookup-parent-test", PropLookupParentTest);
+        customElements.define("prop-lookup-child-test", PropLookupChildTest);
+      }
+
+      beforeEach(defineTestComponents);
+
+      it("can cross shadow DOM boundary", async () => {
+        document.body.innerHTML = `
+        <prop-lookup-parent-test id="test" test-prop="parent"></prop-lookup-parent-test>
+      `;
+
+        expect(
+          getElementProp(document.getElementById("test").shadowRoot.firstElementChild, "test-prop", "not-found", true)
+        ).toBe("parent");
+      });
+
+      it("does not cross shadow DOM boundary (default)", () => {
+        document.body.innerHTML = `
+        <prop-lookup-parent-test id="test" test-prop="parent"></prop-lookup-parent-test>
+      `;
+
+        expect(
+          getElementProp(document.getElementById("test").shadowRoot.firstElementChild, "test-prop", "not-found")
+        ).toBe("not-found");
+      });
+    });
+  });
+
   describe("getSlotted()", () => {
     const testSlotName = "test";
 
@@ -8,7 +99,7 @@ describe("dom", () => {
       return document.body.querySelector("slot-test");
     }
 
-    beforeAll(() => {
+    function defineTestComponents() {
       class SlotTest extends HTMLElement {
         constructor() {
           super();
@@ -21,9 +112,11 @@ describe("dom", () => {
       }
 
       customElements.define("slot-test", SlotTest);
-    });
+    }
 
     beforeEach(() => {
+      defineTestComponents();
+
       document.body.innerHTML = `
       <slot-test>
         <h2 slot=${testSlotName}>
@@ -33,12 +126,6 @@ describe("dom", () => {
         <h2 slot=${testSlotName}><span>😂</span></h2>
       </slot-test>
     `;
-    });
-
-    afterEach(() => {
-      while (document.body.firstChild) {
-        document.body.firstChild.remove();
-      }
     });
 
     describe("single slotted", () => {
