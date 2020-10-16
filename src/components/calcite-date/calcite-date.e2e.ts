@@ -105,7 +105,6 @@ describe("calcite-date", () => {
     // not quite sure why, but without this delay the expected event won't have fired yet
     await new Promise((res) => setTimeout(() => res(true), 300));
     expect(changedEvent).toHaveReceivedEventTimes(1);
-    expect(changedEvent.events[0].detail.startDate).toEqual("2020-08-08T07:00:00.000Z");
     const start = await date.getProperty("start");
     expect(start).toEqual("2020-08-08");
     await endInput.focus();
