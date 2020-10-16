@@ -1,11 +1,20 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-panel", () => {
   it("renders", async () => renders("calcite-panel"));
 
   it("honors hidden attribute", async () => hidden("calcite-panel"));
+
+  it("has property defaults", async () => {
+    defaults("calcite-panel", [
+      {
+        propertyName: "widthScale",
+        defaultValue: undefined
+      }
+    ]);
+  });
 
   it("honors dismissed prop", async () => {
     const page = await newE2EPage();
@@ -94,18 +103,6 @@ describe("calcite-panel", () => {
     await page.waitForChanges();
 
     expect(scrollSpy).toHaveReceivedEventTimes(1);
-  });
-
-  it("should not have a default width-scale", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-panel heading="test heading"></calcite-panel>`);
-
-    const element = await page.find(`calcite-panel`);
-
-    const prop = await element.getAttribute("width-scale");
-
-    expect(prop).toBeNull();
   });
 
   it("should have default heading", async () => {
