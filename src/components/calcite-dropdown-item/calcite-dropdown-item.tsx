@@ -102,7 +102,7 @@ export class CalciteDropdownItem {
     const iconStartEl = (
       <calcite-icon
         class="dropdown-item-icon-start"
-        flip-rtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={iconScale}
       />
@@ -110,7 +110,7 @@ export class CalciteDropdownItem {
     const iconEndEl = (
       <calcite-icon
         class="dropdown-item-icon-end"
-        flip-rtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale={iconScale}
       />

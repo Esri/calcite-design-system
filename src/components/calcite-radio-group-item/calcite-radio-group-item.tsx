@@ -97,7 +97,7 @@ export class CalciteRadioGroupItem {
     const iconEl = (
       <calcite-icon
         class="radio-group-item-icon"
-        flip-rtl={this.iconFlipRtl}
+        flipRtl={this.iconFlipRtl}
         icon={this.icon}
         scale="s"
       />

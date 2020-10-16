@@ -64,8 +64,8 @@ export class CalciteSplitButton {
             dir={dir}
             disabled={this.disabled}
             icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
-            icon-flip-rtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
             icon-start={this.primaryIconStart ? this.primaryIconStart : null}
+            iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
             loading={this.loading}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
             scale={this.scale}

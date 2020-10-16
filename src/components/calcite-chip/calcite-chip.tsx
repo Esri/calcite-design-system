@@ -26,6 +26,9 @@ export class CalciteChip {
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
+  /** flip the icon in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
@@ -72,7 +75,14 @@ export class CalciteChip {
     const dir = getElementDir(this.el);
     const iconScale = this.scale !== "l" ? "s" : "m";
 
-    const iconEl = <calcite-icon class="calcite-chip--icon" icon={this.icon} scale={iconScale} />;
+    const iconEl = (
+      <calcite-icon
+        class="calcite-chip--icon"
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale={iconScale}
+      />
+    );
 
     const closeButton = (
       <button class={CSS.close} onClick={this.closeClickHandler} title={TEXT.close}>

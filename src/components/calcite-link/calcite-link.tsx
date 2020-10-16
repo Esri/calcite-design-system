@@ -71,7 +71,7 @@ export class CalciteLink {
     const iconStartEl = (
       <calcite-icon
         class="calcite-link--icon icon-start"
-        flip-rtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale="s"
       />
@@ -80,7 +80,7 @@ export class CalciteLink {
     const iconEndEl = (
       <calcite-icon
         class="calcite-link--icon icon-end"
-        flip-rtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale="s"
       />
