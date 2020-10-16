@@ -4,6 +4,7 @@
 
 :host {
   display: inline-block;
+  user-select: none;
 }
 :host([scale="s"]) {
   font-size: 12px;

@@ -65,6 +65,8 @@ export class CalciteTime {
   //
   //--------------------------------------------------------------------------
 
+  private hourEl: HTMLSpanElement;
+
   private input: HTMLCalciteInputElement;
 
   @State() hour?: string = "--";
@@ -79,7 +81,7 @@ export class CalciteTime {
   //
   // --------------------------------------------------------------------------
 
-  private onAmPmKeyDown = (event: KeyboardEvent) => {
+  private amPmKeyDownHandler = (event: KeyboardEvent): void => {
     switch (event.key) {
       case "a":
         this.ampm = "AM";
@@ -91,36 +93,49 @@ export class CalciteTime {
         this.ampm = "--";
         break;
       case "ArrowUp":
-        switch (this.ampm) {
-          case "--":
-            this.ampm = "AM";
-            break;
-          case "AM":
-            this.ampm = "PM";
-            break;
-          case "PM":
-            this.ampm = "AM";
-            break;
-        }
+        this.incrementAmPm();
         break;
       case "ArrowDown":
-        switch (this.ampm) {
-          case "--":
-            this.ampm = "PM";
-            break;
-          case "AM":
-            this.ampm = "PM";
-            break;
-          case "PM":
-            this.ampm = "AM";
-            break;
-        }
+        this.decrementAmPm();
+        break;
+      case "Tab":
+        return;
+    }
+    event.preventDefault();
+  };
+
+  private decrementAmPm = (): void => {
+    switch (this.ampm) {
+      case "--":
+        this.ampm = "PM";
+        break;
+      case "AM":
+        this.ampm = "PM";
+        break;
+      case "PM":
+        this.ampm = "AM";
         break;
     }
   };
 
-  private onHourKeyDown = (event: KeyboardEvent) => {
-    event.preventDefault();
+  private decrementHour = (): void => {
+    if (this.hour === "--") {
+      this.hour = "12";
+    } else {
+      const hourAsNumber = parseInt(this.hour);
+      if (hourAsNumber === 0) {
+        this.hour = "12";
+      } else {
+        const newHour = hourAsNumber - 1;
+        this.hour = newHour >= 10 && newHour <= 12 ? newHour.toString() : `0${newHour}`;
+      }
+    }
+  };
+
+  private hourKeyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Tab") {
+      return;
+    }
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
       if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
@@ -134,36 +149,45 @@ export class CalciteTime {
           this.hour = "--";
           break;
         case "ArrowDown":
-          if (this.hour === "--") {
-            this.hour = "12";
-          } else {
-            const hourAsNumber = parseInt(this.hour);
-            if (hourAsNumber === 0) {
-              this.hour = "12";
-            } else {
-              const newHour = hourAsNumber - 1;
-              this.hour = newHour >= 10 && newHour <= 12 ? newHour.toString() : `0${newHour}`;
-            }
-          }
+          this.decrementHour();
           break;
         case "ArrowUp":
-          if (this.hour === "--") {
-            this.hour = "01";
-          } else {
-            const hourAsNumber = parseInt(this.hour);
-            if (hourAsNumber === 12) {
-              this.hour = "00";
-            } else {
-              const newHour = hourAsNumber + 1;
-              this.hour = newHour >= 10 && newHour <= 12 ? newHour.toString() : `0${newHour}`;
-            }
-          }
+          this.incrementHour();
           break;
+      }
+    }
+    event.preventDefault();
+  };
+
+  private incrementAmPm = (): void => {
+    switch (this.ampm) {
+      case "--":
+        this.ampm = "AM";
+        break;
+      case "AM":
+        this.ampm = "PM";
+        break;
+      case "PM":
+        this.ampm = "AM";
+        break;
+    }
+  };
+
+  private incrementHour = (): void => {
+    if (this.hour === "--") {
+      this.hour = "01";
+    } else {
+      const hourAsNumber = parseInt(this.hour);
+      if (hourAsNumber === 12) {
+        this.hour = "00";
+      } else {
+        const newHour = hourAsNumber + 1;
+        this.hour = newHour >= 10 && newHour <= 12 ? newHour.toString() : `0${newHour}`;
       }
     }
   };
 
-  private onMinuteKeyDown = (event: KeyboardEvent) => {
+  private minuteKeyDownHandler = (event: KeyboardEvent): void => {
     // TODO: support arrowup and arrowdown
     // TODO: support number constraints
     if (numberKeys.includes(event.key)) {
@@ -225,7 +249,7 @@ export class CalciteTime {
         <slot />
         <div class="time-picker">
           <div class="column hour">
-            <calcite-icon icon="chevronup" scale={this.scale} />
+            <calcite-icon icon="chevronup" onClick={this.incrementHour} scale={this.scale} />
             <span
               aria-label="Hours"
               aria-placeholder="--"
@@ -233,15 +257,16 @@ export class CalciteTime {
               aria-valuemin="1"
               aria-valuenow="5"
               aria-valuetext="05"
-              onKeyDown={this.onHourKeyDown}
+              onKeyDown={this.hourKeyDownHandler}
+              ref={(el) => (this.hourEl = el)}
               role="spinbutton"
               tabIndex={0}
             >
               {this.hour}
             </span>
-            <calcite-icon icon="chevrondown" scale={this.scale} />
+            <calcite-icon icon="chevrondown" onClick={this.decrementHour} scale={this.scale} />
           </div>
-          <div>:</div>
+          <div class="colon">:</div>
           <div class="column minute">
             <calcite-icon icon="chevronup" scale={this.scale} />
             <span
@@ -251,7 +276,7 @@ export class CalciteTime {
               aria-valuemin="1"
               aria-valuenow="5"
               aria-valuetext="05"
-              onKeyDown={this.onMinuteKeyDown}
+              onKeyDown={this.minuteKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
             >
@@ -260,7 +285,7 @@ export class CalciteTime {
             <calcite-icon icon="chevrondown" scale={this.scale} />
           </div>
           <div class="column ampm">
-            <calcite-icon icon="chevronup" scale={this.scale} />
+            <calcite-icon icon="chevronup" onClick={this.incrementAmPm} scale={this.scale} />
             <span
               aria-label="Hours"
               aria-placeholder="--"
@@ -268,13 +293,13 @@ export class CalciteTime {
               aria-valuemin="1"
               aria-valuenow="5"
               aria-valuetext="05"
-              onKeyDown={this.onAmPmKeyDown}
+              onKeyDown={this.amPmKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
             >
               {this.ampm}
             </span>
-            <calcite-icon icon="chevrondown" scale={this.scale} />
+            <calcite-icon icon="chevrondown" onClick={this.decrementAmPm} scale={this.scale} />
           </div>
         </div>
       </Host>
