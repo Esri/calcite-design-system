@@ -90,7 +90,7 @@ export class CalciteDateMonthHeader {
       <Host dir={dir}>
         <div aria-hidden="true" class="header">
           <a
-            aria-disabled={nextMonthDate.getMonth() === activeMonth}
+            aria-disabled={prevMonthDate.getMonth() === activeMonth}
             aria-label={this.intlNextMonth}
             class="chevron"
             href="#"

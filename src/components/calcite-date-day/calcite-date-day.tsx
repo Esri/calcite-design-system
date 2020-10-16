@@ -10,6 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
+import { getElementDir } from "../../utils/dom";
 import { DateLocaleData } from "../calcite-date/utils";
 
 @Component({
@@ -44,14 +45,23 @@ export class CalciteDateDay {
   /** Date is the current selected date of the picker */
   @Prop({ reflect: true }) selected = false;
 
+  /** Date is currently highlighted as part of the range */
+  @Prop({ reflect: true }) highlighted = false;
+
+  /** Showing date range */
+  @Prop({ reflect: true }) range = false;
+
+  /** Date is the start of date range */
+  @Prop({ reflect: true }) startOfRange = false;
+
+  /** Date is the end of date range */
+  @Prop({ reflect: true }) endOfRange = false;
+
   /** Date is actively in focus for keyboard navigation */
   @Prop({ reflect: true }) active = false;
 
-  /**
-   * CLDR data for current locale
-   *
-   * @internal
-   */
+  /** CLDR data for current locale */
+  /* @internal */
   @Prop() localeData: DateLocaleData;
 
   /** specify the scale of the date picker */
@@ -95,11 +105,20 @@ export class CalciteDateDay {
       .split("")
       .map((i) => this.localeData.numerals[i])
       .join("");
+    const dir = getElementDir(this.el);
     return (
-      <Host role="gridcell" tabindex={this.selected || this.active ? 0 : -1}>
-        <span class="day">
-          <span class="text">{formattedDay}</span>
-        </span>
+      <Host
+        dir={dir}
+        role="gridcell"
+        tabindex={(this.selected && !this.startOfRange) || this.active ? 0 : -1}
+      >
+        <div class="day-v-wrapper">
+          <div class="day-wrapper">
+            <span class="day">
+              <span class="text">{formattedDay}</span>
+            </span>
+          </div>
+        </div>
       </Host>
     );
   }
