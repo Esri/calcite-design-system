@@ -11,11 +11,11 @@ describe("calcite-rating", () => {
   it("renders default props and total number of rating items", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
 
     expect(partialStarContainer).toBeNull;
@@ -39,11 +39,11 @@ describe("calcite-rating", () => {
   it("displays the value when no average is present and assigns correct data attributes and icon", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating value=3></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
 
     expect(partialStarContainer).toBeNull;
@@ -62,11 +62,11 @@ describe("calcite-rating", () => {
   it("displays the average when value is not present and assigns correct data attributes and icon", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating average=2></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
 
     expect(partialStarContainer).toBeNull;
@@ -89,11 +89,11 @@ describe("calcite-rating", () => {
   it("displays the value when average and value are present and assigns correct data attributes and icon", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating average=3 value=1></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
 
     expect(partialStarContainer).toBeNull;
@@ -117,11 +117,11 @@ describe("calcite-rating", () => {
   it("displays a partial star when average is present and contains a partial value", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating average=3.45></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
 
     expect(partialStarContainer).not.toBeNull();
@@ -147,11 +147,11 @@ describe("calcite-rating", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating></calcite-rating>");
     const element = await page.find("calcite-rating");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
 
     expect(partialStarContainer).toBeNull;
@@ -185,11 +185,11 @@ describe("calcite-rating", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating average=3.5></calcite-rating>");
     const element = await page.find("calcite-rating");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
     expect(partialStarContainer).not.toBeNull();
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
@@ -229,11 +229,11 @@ describe("calcite-rating", () => {
   it("uses the correct data attributes while hovering over an unselected star with no value", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     expect(ratingItem1).toEqualAttribute("icon", "star");
     expect(ratingItem2).toEqualAttribute("icon", "star");
     expect(ratingItem3).toEqualAttribute("icon", "star");
@@ -260,11 +260,11 @@ describe("calcite-rating", () => {
   it("uses the correct data attributes while hovering over an unselected star with value", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating value=3></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
     expect(ratingItem2).toEqualAttribute("icon", "star-f");
     expect(ratingItem3).toEqualAttribute("icon", "star-f");
@@ -301,11 +301,11 @@ describe("calcite-rating", () => {
   it("uses the correct data attributes while hovering over an unselected star with average", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating average=4.2></calcite-rating>");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon[data-value='2']");
-    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon[data-value='3']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
-    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon[data-value='5']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem2 = await page.find("calcite-rating >>> calcite-icon:nth-child(2)");
+    const ratingItem3 = await page.find("calcite-rating >>> calcite-icon:nth-child(3)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
+    const ratingItem5 = await page.find("calcite-rating >>> calcite-icon:nth-child(5)");
     const partialStarContainer = await page.find("calcite-rating >>> .partial-rating-star-container");
     expect(partialStarContainer).not.toBeNull();
     expect(ratingItem1).toEqualAttribute("icon", "star-f");
@@ -386,8 +386,8 @@ describe("calcite-rating", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating></calcite-rating>");
     const element = await page.find("calcite-rating");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
-    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon[data-value='4']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
+    const ratingItem4 = await page.find("calcite-rating >>> calcite-icon:nth-child(4)");
 
     const changeEvent = await element.spyOnEvent("calciteRatingChange");
     expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -429,7 +429,7 @@ describe("calcite-rating", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating value=4 read-only></calcite-rating>");
     const element = await page.find("calcite-rating");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
     expect(element).toEqualAttribute("value", "4");
     await ratingItem1.click();
     expect(element).toEqualAttribute("value", "4");
@@ -438,7 +438,7 @@ describe("calcite-rating", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating disabled></calcite-rating>");
     const element = await page.find("calcite-rating");
-    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon[data-value='1']");
+    const ratingItem1 = await page.find("calcite-rating >>> calcite-icon:nth-child(1)");
     expect(element).toEqualAttribute("value", "0");
     await ratingItem1.click();
     expect(element).toEqualAttribute("value", "0");

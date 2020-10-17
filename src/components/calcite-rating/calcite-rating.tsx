@@ -7,7 +7,8 @@ import {
   Host,
   Listen,
   Method,
-  Prop
+  Prop,
+  State
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { getElementDir, hasLabel } from "../../utils/dom";
@@ -70,7 +71,7 @@ export class CalciteRating {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e) {
+  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
     if (
       hasLabel(e.detail.labelEl, this.el) &&
       e.detail.interactedEl !== this.el &&
@@ -87,10 +88,6 @@ export class CalciteRating {
   //--------------------------------------------------------------------------
 
   componentDidLoad() {
-    this.ratingItems = this.el.shadowRoot.querySelectorAll(
-      "calcite-icon:not([data-partial='true'])"
-    );
-
     this.determineInitialRating();
   }
 
@@ -110,12 +107,12 @@ export class CalciteRating {
         ref={(el) => (this.partialStarContainer = el)}
       >
         <calcite-icon
+          data-partial="true"
           icon={this.selectedIconType}
+          ref={(el) => (this.partialStar = el)}
           scale={this.scale}
           theme={this.theme}
-          data-partial="true"
-          ref={(el) => (this.partialStar = el)}
-        ></calcite-icon>
+        />
       </div>
     );
 
@@ -124,15 +121,15 @@ export class CalciteRating {
     for (let i = 0; i < 5; i++) {
       iconsToRender.push(
         <calcite-icon
-          data-value={i + 1}
+          icon={this.iconType}
           onClick={(e) => this.determineRatingPosition(e)}
+          onFocus={(e) => this.showSelectedIconOnHover(e)}
           onKeyDown={(e) => this.handleKeyDown(e)}
           onMouseEnter={(e) => this.showSelectedIconOnHover(e)}
           onTouchStart={(e) => this.showSelectedIconOnHover(e)}
-          onFocus={(e) => this.showSelectedIconOnHover(e)}
-          tabindex={!this.readOnly && !this.disabled ? 0 : null}
-          icon={this.iconType}
+          ref={(el) => this.ratingItems.set(i + 1, el)}
           scale={this.scale}
+          tabindex={!this.readOnly && !this.disabled ? 0 : null}
         />
       );
     }
@@ -150,8 +147,8 @@ export class CalciteRating {
         {this.count || this.average ? (
           <calcite-chip
             dir={this.dir}
-            theme={this.theme}
             scale={this.scale}
+            theme={this.theme}
             value={this.count?.toString()}
           >
             {this.average ? (
@@ -175,8 +172,8 @@ export class CalciteRating {
   private handleKeyDown(e) {
     if (!this.readOnly) {
       const itemToFocus = e.target;
-      const isFirstItem = this.itemIndex(itemToFocus) === 0;
-      const isLastItem = this.itemIndex(itemToFocus) === this.ratingItems.length - 1;
+      const isFirstItem = this.itemValue(itemToFocus) === 1;
+      const isLastItem = this.itemValue(itemToFocus) === this.ratingItems.size;
       switch (getKey(e.key)) {
         case " ":
         case "Enter":
@@ -208,13 +205,13 @@ export class CalciteRating {
 
   private determineRatingPosition(e) {
     if (!this.readOnly) {
-      // handle edge and ie not interpreting mapped stars
       const isEdgeOrIE =
         window.navigator.userAgent.indexOf("Edge") > -1 ||
         !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
       const value = !isEdgeOrIE
-        ? e.target.dataset.value
-        : e.target.closest("CALCITE-ICON").dataset.value;
+        ? this.itemValue(e.target)
+        : this.itemValue(e.target.closest("CALCITE-ICON"));
+
       this.value = value;
       this.emitRatingChange();
       this.determineActiveItems();
@@ -223,20 +220,13 @@ export class CalciteRating {
 
   private determineInitialRating() {
     const valueToUse = this.value ? this.value : this.average;
-    this.ratingItems?.forEach((item) => {
+    this.ratingItems?.forEach((item, value) => {
       item.dataset.hovered = "false";
       item.dataset.average =
-        this.average && !this.value && parseInt(item.dataset.value) <= this.average
-          ? "true"
-          : "false";
+        this.average && !this.value && value <= this.average ? "true" : "false";
       item.dataset.selected =
-        item.dataset.average === "false" && parseInt(item.dataset.value) <= valueToUse
-          ? "true"
-          : "false";
-      item.icon =
-        parseInt(item.dataset.value) <= valueToUse || this.readOnly
-          ? this.selectedIconType
-          : this.iconType;
+        item.dataset.average === "false" && value <= valueToUse ? "true" : "false";
+      item.icon = value <= valueToUse || this.readOnly ? this.selectedIconType : this.iconType;
     });
 
     if (this.average) {
@@ -250,19 +240,17 @@ export class CalciteRating {
     const decimal = parseInt((this.average % 1).toFixed(2).split(".")[1]);
 
     // track the closest full star to position the partial icon
-    this.ratingItems?.forEach((item) => {
-      if (this.average && !this.value && parseInt(item.dataset.value) === rootVal + 1) {
+    this.ratingItems?.forEach((item, value) => {
+      if (this.average && !this.value && value === rootVal + 1) {
         this.rootStar = item;
         this.rootStar.dataset.partialparent = "true";
       }
     });
-
     if (this.rootStar) {
       this.partialStar.dataset.rootvalue = (rootVal + 1).toString();
-
       // get margin from first star item in case partial is last and has none
       const marginProp = this.dir === "rtl" ? "margin-left" : "margin-right";
-      const margin = window.getComputedStyle(this.ratingItems[0]).getPropertyValue(marginProp);
+      const margin = window.getComputedStyle(this.ratingItems.get(1)).getPropertyValue(marginProp);
       const offset = `calc((${this.rootStar.offsetWidth}px + ${margin}) * ${rootVal})`;
 
       this.partialStarContainer.style.width = `${(decimal / 100) * this.rootStar.offsetWidth}px`;
@@ -283,31 +271,22 @@ export class CalciteRating {
 
   private determineActiveItems() {
     const valueToUse = this.value ? this.value : this.average;
-    this.ratingItems?.forEach((item) => {
+    this.ratingItems?.forEach((item, value) => {
       item.dataset.hovered = "false";
       item.dataset.average = "false";
-      item.dataset.selected = parseInt(item.dataset.value) <= valueToUse ? "true" : "false";
-      item.icon =
-        this.readOnly || parseInt(item.dataset.value) <= this.value
-          ? this.selectedIconType
-          : this.iconType;
+      item.dataset.selected = value <= valueToUse ? "true" : "false";
+      item.icon = this.readOnly || value <= this.value ? this.selectedIconType : this.iconType;
     });
   }
 
   private showSelectedIconOnHover(e) {
     if (!this.readOnly) {
-      // handle edge and ie not interpreting mapped stars
-      const isEdgeOrIE =
-        window.navigator.userAgent.indexOf("Edge") > -1 ||
-        !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
-      const value = !isEdgeOrIE
-        ? e.target.dataset.value
-        : e.target.closest("CALCITE-ICON").dataset.value;
+      const hoveredValue = this.itemValue(e.target);
       if (this.partialStarContainer)
         this.partialStarContainer.dataset.partialhidden =
-          parseInt(this.partialStar.dataset.rootvalue) <= value ? "true" : "false";
-      this.ratingItems?.forEach((item) => {
-        item.dataset.hovered = parseInt(item.dataset.value) <= value ? "true" : "false";
+          parseInt(this.partialStar.dataset.rootvalue) <= hoveredValue ? "true" : "false";
+      this.ratingItems?.forEach((item, value) => {
+        item.dataset.hovered = hoveredValue >= value ? "true" : "false";
       });
     }
   }
@@ -320,33 +299,34 @@ export class CalciteRating {
 
   // focus helpers
   private focusFirstItem() {
-    const firstItem = this.ratingItems[0];
+    const firstItem = this.ratingItems.get(1);
     this.focusElement(firstItem);
   }
 
   private focusLastItem() {
-    const lastItem = this.ratingItems[this.ratingItems.length - 1];
+    const lastItem = this.ratingItems.get(this.ratingItems.size);
     this.focusElement(lastItem);
   }
 
   private focusNextItem(e) {
-    const index = this.itemIndex(e);
-    const nextItem = this.ratingItems[index + 1] || this.ratingItems[0];
+    const position = this.itemValue(e);
+    const nextItem = this.ratingItems.get(position + 1) || this.ratingItems.get(1);
     this.focusElement(nextItem);
   }
 
   private focusPrevItem(e) {
-    const index = this.itemIndex(e);
-    const prevItem = this.ratingItems[index - 1] || this.ratingItems[this.ratingItems.length - 1];
+    const position = this.itemValue(e);
+    const prevItem =
+      this.ratingItems.get(position - 1) || this.ratingItems.get(this.ratingItems.size);
     this.focusElement(prevItem);
   }
 
-  private itemIndex(e) {
-    return Array.from(this.ratingItems).indexOf(e);
+  private itemValue(e) {
+    return Array.from(this.ratingItems.values()).indexOf(e) + 1;
   }
 
   private focusElement(item) {
-    const target = item as HTMLCalciteAccordionItemElement;
+    const target = item as HTMLCalciteIconElement;
     target.focus();
   }
 
@@ -357,8 +337,8 @@ export class CalciteRating {
   //--------------------------------------------------------------------------
 
   @Method()
-  async setFocus() {
-    this.ratingItems[0].focus();
+  async setFocus(): Promise<void> {
+    this.ratingItems.get(1).focus();
   }
 
   // --------------------------------------------------------------------------
@@ -367,7 +347,8 @@ export class CalciteRating {
   //
   // --------------------------------------------------------------------------
 
-  private ratingItems: NodeListOf<HTMLCalciteIconElement>;
+  /* @internal */
+  @State() ratingItems: Map<number, HTMLCalciteIconElement> = new Map();
 
   private iconType = "star";
 
