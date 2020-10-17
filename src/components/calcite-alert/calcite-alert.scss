@@ -56,6 +56,7 @@
 }
 
 :host {
+  @apply shadow-2;
   display: flex;
   position: fixed;
   justify-content: center;
@@ -66,7 +67,6 @@
   max-width: 90%;
   max-height: 0;
   background-color: var(--calcite-ui-foreground-1);
-  box-shadow: $shadow-2;
   border-radius: var(--calcite-border-radius);
   opacity: 0;
   left: 0;

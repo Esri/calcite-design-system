@@ -1,31 +1,36 @@
-import { Host, h } from "@stencil/core";
-import { VNode } from "@stencil/core/internal";
+import { FunctionalComponent, h, Host } from "@stencil/core";
+import { JSXBase, VNode } from "@stencil/core/internal";
 import { CSS } from "./resources";
 import { getElementDir, getElementTheme } from "../../utils/dom";
+import { handleFilter } from "./shared-list-logic";
+import DOMAttributes = JSXBase.DOMAttributes;
 
-export const List = ({ props, ...rest }: { props: any }): VNode => {
-  const {
-    disabled,
-    loading,
-    filterEnabled,
-    dataForFilter,
-    handleFilter,
-    textFilterPlaceholder,
-    el
-  } = props;
+interface ListProps extends DOMAttributes {
+  disabled: boolean;
+  loading: boolean;
+  filterEnabled: boolean;
+  dataForFilter: any;
+  handleFilter: typeof handleFilter;
+  filterPlaceholder: string;
+  el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
+}
+
+export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = ({
+  props: { disabled, loading, filterEnabled, dataForFilter, handleFilter, filterPlaceholder, el },
+  ...rest
+}): VNode => {
   const defaultSlot = <slot />;
-
   return (
     <Host aria-busy={loading.toString()} aria-disabled={disabled.toString()} role="menu" {...rest}>
       <section>
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
             <calcite-filter
-              aria-label={textFilterPlaceholder}
+              aria-label={filterPlaceholder}
               data={dataForFilter}
               dir={getElementDir(el)}
               onCalciteFilterChange={handleFilter}
-              placeholder={textFilterPlaceholder}
+              placeholder={filterPlaceholder}
             />
           ) : null}
           <slot name="menu-actions" />

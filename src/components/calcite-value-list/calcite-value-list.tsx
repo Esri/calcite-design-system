@@ -11,7 +11,7 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { CSS, ICON_TYPES, TEXT } from "./resources";
+import { CSS, ICON_TYPES } from "./resources";
 import {
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,
@@ -65,6 +65,11 @@ export class CalciteValueList<
   @Prop({ reflect: true }) filterEnabled = false;
 
   /**
+   * Placeholder text for the filter input field.
+   */
+  @Prop({ reflect: true }) filterPlaceholder: string;
+
+  /**
    * If this is set and drag is enabled, items can be dropped between lists of the same group.
    */
   @Prop() group: string;
@@ -81,11 +86,6 @@ export class CalciteValueList<
    * and selecting a new item will deselect any other selected items.
    */
   @Prop({ reflect: true }) multiple = false;
-
-  /**
-   * Placeholder text for the filter input field.
-   */
-  @Prop({ reflect: true }) textFilterPlaceholder: string = TEXT.filterPlaceholder;
 
   // --------------------------------------------------------------------------
   //

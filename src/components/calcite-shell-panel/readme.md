@@ -4,7 +4,6 @@ The `calcite-shell-panel` is a child component of `calcite-shell` used as a cont
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Basic
@@ -33,23 +32,21 @@ Renders a panel with an action bar.
 </calcite-shell-panel>
 ```
 
-
-
 ## Properties
 
-| Property      | Attribute      | Description                                                                             | Type                | Default     |
-| ------------- | -------------- | --------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `collapsed`   | `collapsed`    | Hide the content panel.                                                                 | `boolean`           | `false`     |
-| `detached`    | `detached`     | This property makes the content area appear like a "floating" panel.                    | `boolean`           | `false`     |
-| `position`    | `position`     | Arranges the component depending on the elements 'dir' property.                        | `"end" \| "start"`  | `undefined` |
-
+| Property              | Attribute               | Description                                                          | Type                | Default     |
+| --------------------- | ----------------------- | -------------------------------------------------------------------- | ------------------- | ----------- |
+| `collapsed`           | `collapsed`             | Hide the content panel.                                              | `boolean`           | `false`     |
+| `detached`            | `detached`              | This property makes the content area appear like a "floating" panel. | `boolean`           | `false`     |
+| `detachedHeightScale` | `detached-height-scale` | Specifies the maxiumum height of the contents when detached.         | `"l" \| "m" \| "s"` | `"l"`       |
+| `position`            | `position`              | Arranges the component depending on the elements 'dir' property.     | `"end" \| "start"`  | `undefined` |
+| `widthScale`          | `width-scale`           | This sets width of the content area.                                 | `"l" \| "m" \| "s"` | `"m"`       |
 
 ## Events
 
 | Event                     | Description                             | Type               |
 | ------------------------- | --------------------------------------- | ------------------ |
 | `calciteShellPanelToggle` | Emitted when collapse has been toggled. | `CustomEvent<any>` |
-
 
 ## Slots
 
@@ -58,7 +55,6 @@ Renders a panel with an action bar.
 |                | A slot for adding content to the shell panel.          |
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the panel. |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -47,6 +47,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-color](../calcite-color)
+- [calcite-fab](../calcite-fab)
 - [calcite-split-button](../calcite-split-button)
 
 ### Depends on
@@ -61,6 +62,7 @@ graph TD;
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
   calcite-color --> calcite-button
+  calcite-fab --> calcite-button
   calcite-split-button --> calcite-button
   style calcite-button fill:#f9f,stroke:#333,stroke-width:4px
 ```

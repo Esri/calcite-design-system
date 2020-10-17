@@ -5,7 +5,7 @@ import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
-  title: "App Components/calcite-tip",
+  title: "App Components/Tip",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

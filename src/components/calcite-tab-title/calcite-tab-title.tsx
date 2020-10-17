@@ -16,6 +16,7 @@ import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { TabID } from "../calcite-tabs/interfaces";
 
 @Component({
   tag: "calcite-tab-title",
@@ -134,13 +135,13 @@ export class CalciteTabTitle {
     );
   }
 
-  componentDidLoad(): void {
-    this.calciteTabTitleRegister.emit();
+  async componentDidLoad(): Promise<void> {
+    this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
   }
 
   //--------------------------------------------------------------------------
   //
-  //  Events Listeners
+  //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
@@ -210,7 +211,7 @@ export class CalciteTabTitle {
   /**
    * @internal
    */
-  @Event() calciteTabTitleRegister: EventEmitter;
+  @Event() calciteTabTitleRegister: EventEmitter<TabID>;
 
   /**
    * @internal
@@ -238,7 +239,7 @@ export class CalciteTabTitle {
    * @internal
    */
   @Method()
-  async getTabIdentifier(): Promise<string | number> {
+  async getTabIdentifier(): Promise<TabID> {
     return this.tab ? this.tab : this.getTabIndex();
   }
 

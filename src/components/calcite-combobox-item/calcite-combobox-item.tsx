@@ -28,23 +28,23 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  /* When true, the item cannot be clicked and is visually muted. */
+  /** When true, the item cannot be clicked and is visually muted. */
   @Prop({ reflect: true }) disabled = false;
 
-  /* The parent combobox item element */
+  /** The parent combobox item element */
   @Prop() parentItem?: HTMLCalciteComboboxItemElement;
 
-  /* Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
+  /** Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
   @Prop({ reflect: true }) selected = false;
 
   @Watch("selected") selectedWatchHandler(newValue: boolean): void {
     this.isSelected = newValue;
   }
 
-  /* The main label for this item. */
+  /** The main label for this item. */
   @Prop({ reflect: true }) textLabel!: string;
 
-  /* A unique value used to identify this item - similar to the value attribute on an <input>. */
+  /** A unique value used to identify this item - similar to the value attribute on an <input>. */
   @Prop({ reflect: true }) value!: string;
 
   // --------------------------------------------------------------------------

@@ -134,6 +134,13 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
+  @Watch("value") valueWatcher(): void {
+    this.calciteInputInput.emit({
+      element: this.childEl,
+      value: this.value
+    });
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -392,10 +399,6 @@ export class CalciteInput {
 
   private inputInputHandler = (e) => {
     this.value = e.target.value;
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
   };
 
   private inputBlurHandler = () => {
@@ -473,10 +476,6 @@ export class CalciteInput {
           break;
       }
       this.value = this.childEl.value.toString();
-      this.calciteInputInput.emit({
-        element: this.childEl,
-        value: this.value
-      });
     }
   };
 }

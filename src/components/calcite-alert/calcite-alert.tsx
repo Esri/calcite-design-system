@@ -142,12 +142,18 @@ export class CalciteAlert {
   /** Fired when an alert is opened */
   @Event() calciteAlertOpen: EventEmitter;
 
-  /** Fired to sync queue when opened or closed */
-  /* @internal */
+  /**
+   * Fired to sync queue when opened or closed
+   *
+   * @internal
+   */
   @Event() calciteAlertSync: EventEmitter;
 
-  /** Fired when an alert is added to dom - used to receive initial queue */
-  /* @internal */
+  /**
+   * Fired when an alert is added to dom - used to receive initial queue
+   *
+   * @internal
+   */
   @Event() calciteAlertRegister: EventEmitter;
 
   //--------------------------------------------------------------------------

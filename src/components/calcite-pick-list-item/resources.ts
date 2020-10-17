@@ -1,5 +1,7 @@
 export const CSS = {
-  action: "action",
+  actions: "actions",
+  actionsEnd: "actions--end",
+  actionsStart: "actions--start",
   description: "description",
   handle: "handle",
   handleActivated: "handle--activated",
@@ -18,7 +20,8 @@ export const ICONS = {
 };
 
 export const SLOTS = {
-  secondaryAction: "secondary-action"
+  actionsEnd: "actions-end",
+  actionsStart: "actions-start"
 };
 
 export const TEXT = {

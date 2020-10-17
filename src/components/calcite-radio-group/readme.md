@@ -10,7 +10,7 @@
 | `disabled`     | `disabled`   | is the radio group disabled                                         | `boolean`                          | `undefined`    |
 | `layout`       | `layout`     | specify the layout of the radio group, defaults to horizontal       | `"horizontal" \| "vertical"`       | `"horizontal"` |
 | `name`         | `name`       | The group's name. Gets submitted with the form.                     | `string`                           | `undefined`    |
-| `scale`        | `scale`      | The scale of the radio group                                        | `"l" \| "m" \| "s"`                | `undefined`    |
+| `scale`        | `scale`      | The scale of the radio group                                        | `"l" \| "m" \| "s"`                | `"m"`          |
 | `selectedItem` | --           | The group's selected item.                                          | `HTMLCalciteRadioGroupItemElement` | `undefined`    |
 | `theme`        | `theme`      | The component's theme.                                              | `"dark" \| "light"`                | `undefined`    |
 | `width`        | `width`      | specify the width of the group, defaults to auto                    | `"auto" \| "full"`                 | `"auto"`       |

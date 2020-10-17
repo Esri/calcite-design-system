@@ -1,4 +1,15 @@
-import { Component, Host, h, Element, Prop, Watch, VNode, Event, EventEmitter, Listen } from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Element,
+  Prop,
+  Watch,
+  VNode,
+  Event,
+  EventEmitter,
+  Listen
+} from "@stencil/core";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -121,7 +132,7 @@ export class CalciteRadioButtonGroup {
   //--------------------------------------------------------------------------
 
   @Listen("calciteRadioButtonChange")
-  radioButtonChangeHandler (event: CustomEvent): void {
+  radioButtonChangeHandler(event: CustomEvent): void {
     this.calciteRadioButtonGroupChange.emit((event.target as HTMLCalciteRadioButtonElement).value);
   }
 

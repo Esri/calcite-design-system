@@ -3,35 +3,49 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## [1.0.0-beta.41](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.40...v1.0.0-beta.41) (2020-10-05)
-
-
-### ⚠ BREAKING CHANGES
-
-* dropping prop validation helps keep components lean and should not be necessary with existing component documentation and typings.
+## [1.0.0-beta.42](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.41...v1.0.0-beta.42) (2020-10-12)
 
 ### Features
 
-* **calcite-radio-button-group:** calciteRadioButtonGroup change event ([#1056](https://github.com/Esri/calcite-components/issues/1056)) ([662173d](https://github.com/Esri/calcite-components/commit/662173d78b38210b971d22cf45614e0fb97ca3d2))
-* **date:** add full localization support ([#585](https://github.com/Esri/calcite-components/issues/585), [#979](https://github.com/Esri/calcite-components/issues/979)) ([#1043](https://github.com/Esri/calcite-components/issues/1043)) ([4c95292](https://github.com/Esri/calcite-components/commit/4c95292dc336f2fbd041964fd61521acda53f528))
-* **date:** respect order of year and month in date-header ([#908](https://github.com/Esri/calcite-components/issues/908)) ([#1046](https://github.com/Esri/calcite-components/issues/1046)) ([18ffe9a](https://github.com/Esri/calcite-components/commit/18ffe9aea6eea5dcab466f95d1bd5ecd455a1fe4))
-* **dom:** allow prop lookup to go beyond shadow boundary ([#982](https://github.com/Esri/calcite-components/issues/982)) ([51b2f8e](https://github.com/Esri/calcite-components/commit/51b2f8eb38bccbc618067a9882e91171c63bf1cd))
-* **dropdown:** Update styling of dropdown groups ([#1024](https://github.com/Esri/calcite-components/issues/1024)) ([eb08309](https://github.com/Esri/calcite-components/commit/eb08309e1a2e81be0aba61bbd88cddc9f2baf95b))
-
+- **action, action-group, action-bar, action-pad, block, block-section, flow, panel, shell, shell-panel, tip, tip-group, tip-manager:** add calcite app components to distributable ([#903](https://github.com/Esri/calcite-components/issues/903)) ([6f8bb6e](https://github.com/Esri/calcite-components/commit/6f8bb6ec5c64f8dec17a4d9532bee38492e48cb5)), closes [#687](https://github.com/Esri/calcite-components/issues/687)
+- **calcite-shell-panel:** adds detached-height-scale property ([5974010](https://github.com/Esri/calcite-components/commit/5974010e185dd6012de804f62630f6bc538b7a8c)), closes [#1029](https://github.com/Esri/calcite-components/issues/1029) [#1029](https://github.com/Esri/calcite-components/issues/1029)
+- **tabs:** animate active tab underline ([#1093](https://github.com/Esri/calcite-components/issues/1093)) ([072b761](https://github.com/Esri/calcite-components/commit/072b761149ca6baedd62390ba2829407c317b225))
+- **tile-select:** add width prop to tiles for full width option ([#1071](https://github.com/Esri/calcite-components/issues/1071)) ([7039f1f](https://github.com/Esri/calcite-components/commit/7039f1fc7b9ef8436d0d6050078a3994a9f237df))
+- **tile-select-group:** add layout prop for vertical tile select groups ([#1020](https://github.com/Esri/calcite-components/issues/1020)) ([#1066](https://github.com/Esri/calcite-components/issues/1066)) ([4c3ca95](https://github.com/Esri/calcite-components/commit/4c3ca953ec112d482debeaa2823050c642a779b0))
+- **value-list-item, pick-list-item:** adds start slots, uses conventional slot names, removes non-conventional slot names ([f410938](https://github.com/Esri/calcite-components/commit/f41093840b2721730fde7a58282605b11e81897c)), closes [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039) [#1039](https://github.com/Esri/calcite-components/issues/1039)
 
 ### Bug Fixes
 
-* **calcite-radio-button, calcite-checkbox:** no longer fires custom change event when the checked attribute is controlled ([#1019](https://github.com/Esri/calcite-components/issues/1019)) ([3fabd6d](https://github.com/Esri/calcite-components/commit/3fabd6d7b68e0e7acb18feb39729ee546a57c216))
-* **color:** initial user-defined value gets set properly ([#1038](https://github.com/Esri/calcite-components/issues/1038)) ([0482868](https://github.com/Esri/calcite-components/commit/0482868d548f40f68ae02eb4a5e333fcd7d12443))
-* **date:** allow 3 digit years in input [#905](https://github.com/Esri/calcite-components/issues/905) ([#1047](https://github.com/Esri/calcite-components/issues/1047)) ([8c7717c](https://github.com/Esri/calcite-components/commit/8c7717cdb59b2367a609f9afdb806cb4795c9ada))
-* **date:** don't fire event on outside value update ([#722](https://github.com/Esri/calcite-components/issues/722)) ([#1053](https://github.com/Esri/calcite-components/issues/1053)) ([3b7912a](https://github.com/Esri/calcite-components/commit/3b7912a2641c5be66c7323562d705946b36496f9))
-* **date:** fire date change on interactions with calcite-date-hmonth-header element ([#1017](https://github.com/Esri/calcite-components/issues/1017)) ([#1048](https://github.com/Esri/calcite-components/issues/1048)) ([df380eb](https://github.com/Esri/calcite-components/commit/df380eb789b37c95012e8360a565db39dc9ca871))
-* **date:** fix display of year in languages with year unit - ja,ko,ch ([#907](https://github.com/Esri/calcite-components/issues/907)) ([#1045](https://github.com/Esri/calcite-components/issues/1045)) ([7f233c0](https://github.com/Esri/calcite-components/commit/7f233c0a81344d70501c9aea047832de0896898a))
-* **pagination:** prev/next disabled, page 1 shown ([#1030](https://github.com/Esri/calcite-components/issues/1030)) ([8f17589](https://github.com/Esri/calcite-components/commit/8f17589ebbe5fdd410996af14530247271d845bc))
-* **shell-panel:** fixes height styling for panel and flow in undetached shell-panel ([#1028](https://github.com/Esri/calcite-components/issues/1028)) ([16c01a5](https://github.com/Esri/calcite-components/commit/16c01a5cdd8ff1bb6b20d82477dd1a35473e551f))
+- **block-section:** use expand/collapse tooltips as a section's native tooltip. ([#1087](https://github.com/Esri/calcite-components/issues/1087)) ([1cea565](https://github.com/Esri/calcite-components/commit/1cea56563126d45296b48f954298f6d564325849)), closes [#1074](https://github.com/Esri/calcite-components/issues/1074)
+- **date:** stop date from closing on month next/previous buttons in safari ([#1091](https://github.com/Esri/calcite-components/issues/1091)) ([937f555](https://github.com/Esri/calcite-components/commit/937f5550ae924f3bf583570a0701a418e8193d1a))
+- **label:** prevent calcite-input-message from always showing in disabled label ([#1095](https://github.com/Esri/calcite-components/issues/1095)) ([2281be4](https://github.com/Esri/calcite-components/commit/2281be4daa8a95ecca2b17bbd71579966c898298))
 
+## [1.0.0-beta.41](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.40...v1.0.0-beta.41) (2020-10-05)
 
-* drop prop validation in favor of documentation and types ([#954](https://github.com/Esri/calcite-components/issues/954)) ([3986771](https://github.com/Esri/calcite-components/commit/3986771b7c2a232bdd13879bfd2f0b9db3960179)), closes [#637](https://github.com/Esri/calcite-components/issues/637)
+### ⚠ BREAKING CHANGES
+
+- dropping prop validation helps keep components lean and should not be necessary with existing component documentation and typings.
+
+### Features
+
+- **calcite-radio-button-group:** calciteRadioButtonGroup change event ([#1056](https://github.com/Esri/calcite-components/issues/1056)) ([662173d](https://github.com/Esri/calcite-components/commit/662173d78b38210b971d22cf45614e0fb97ca3d2))
+- **date:** add full localization support ([#585](https://github.com/Esri/calcite-components/issues/585), [#979](https://github.com/Esri/calcite-components/issues/979)) ([#1043](https://github.com/Esri/calcite-components/issues/1043)) ([4c95292](https://github.com/Esri/calcite-components/commit/4c95292dc336f2fbd041964fd61521acda53f528))
+- **date:** respect order of year and month in date-header ([#908](https://github.com/Esri/calcite-components/issues/908)) ([#1046](https://github.com/Esri/calcite-components/issues/1046)) ([18ffe9a](https://github.com/Esri/calcite-components/commit/18ffe9aea6eea5dcab466f95d1bd5ecd455a1fe4))
+- **dom:** allow prop lookup to go beyond shadow boundary ([#982](https://github.com/Esri/calcite-components/issues/982)) ([51b2f8e](https://github.com/Esri/calcite-components/commit/51b2f8eb38bccbc618067a9882e91171c63bf1cd))
+- **dropdown:** Update styling of dropdown groups ([#1024](https://github.com/Esri/calcite-components/issues/1024)) ([eb08309](https://github.com/Esri/calcite-components/commit/eb08309e1a2e81be0aba61bbd88cddc9f2baf95b))
+
+### Bug Fixes
+
+- **calcite-radio-button, calcite-checkbox:** no longer fires custom change event when the checked attribute is controlled ([#1019](https://github.com/Esri/calcite-components/issues/1019)) ([3fabd6d](https://github.com/Esri/calcite-components/commit/3fabd6d7b68e0e7acb18feb39729ee546a57c216))
+- **color:** initial user-defined value gets set properly ([#1038](https://github.com/Esri/calcite-components/issues/1038)) ([0482868](https://github.com/Esri/calcite-components/commit/0482868d548f40f68ae02eb4a5e333fcd7d12443))
+- **date:** allow 3 digit years in input [#905](https://github.com/Esri/calcite-components/issues/905) ([#1047](https://github.com/Esri/calcite-components/issues/1047)) ([8c7717c](https://github.com/Esri/calcite-components/commit/8c7717cdb59b2367a609f9afdb806cb4795c9ada))
+- **date:** don't fire event on outside value update ([#722](https://github.com/Esri/calcite-components/issues/722)) ([#1053](https://github.com/Esri/calcite-components/issues/1053)) ([3b7912a](https://github.com/Esri/calcite-components/commit/3b7912a2641c5be66c7323562d705946b36496f9))
+- **date:** fire date change on interactions with calcite-date-hmonth-header element ([#1017](https://github.com/Esri/calcite-components/issues/1017)) ([#1048](https://github.com/Esri/calcite-components/issues/1048)) ([df380eb](https://github.com/Esri/calcite-components/commit/df380eb789b37c95012e8360a565db39dc9ca871))
+- **date:** fix display of year in languages with year unit - ja,ko,ch ([#907](https://github.com/Esri/calcite-components/issues/907)) ([#1045](https://github.com/Esri/calcite-components/issues/1045)) ([7f233c0](https://github.com/Esri/calcite-components/commit/7f233c0a81344d70501c9aea047832de0896898a))
+- **pagination:** prev/next disabled, page 1 shown ([#1030](https://github.com/Esri/calcite-components/issues/1030)) ([8f17589](https://github.com/Esri/calcite-components/commit/8f17589ebbe5fdd410996af14530247271d845bc))
+- **shell-panel:** fixes height styling for panel and flow in undetached shell-panel ([#1028](https://github.com/Esri/calcite-components/issues/1028)) ([16c01a5](https://github.com/Esri/calcite-components/commit/16c01a5cdd8ff1bb6b20d82477dd1a35473e551f))
+
+- drop prop validation in favor of documentation and types ([#954](https://github.com/Esri/calcite-components/issues/954)) ([3986771](https://github.com/Esri/calcite-components/commit/3986771b7c2a232bdd13879bfd2f0b9db3960179)), closes [#637](https://github.com/Esri/calcite-components/issues/637)
 
 ## [1.0.0-beta.40](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.39...v1.0.0-beta.40) (2020-09-23)
 
