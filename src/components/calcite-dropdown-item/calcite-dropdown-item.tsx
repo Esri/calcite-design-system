@@ -36,6 +36,9 @@ export class CalciteDropdownItem {
 
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+
   /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
@@ -97,10 +100,20 @@ export class CalciteDropdownItem {
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "s" || scale === "m" ? "s" : "m";
     const iconStartEl = (
-      <calcite-icon class="dropdown-item-icon-start" icon={this.iconStart} scale={iconScale} />
+      <calcite-icon
+        class="dropdown-item-icon-start"
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale={iconScale}
+      />
     );
     const iconEndEl = (
-      <calcite-icon class="dropdown-item-icon-end" icon={this.iconEnd} scale={iconScale} />
+      <calcite-icon
+        class="dropdown-item-icon-end"
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale={iconScale}
+      />
     );
 
     const slottedContent =

@@ -39,6 +39,9 @@ export class CalciteLink {
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
@@ -66,11 +69,21 @@ export class CalciteLink {
     const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
 
     const iconStartEl = (
-      <calcite-icon class="calcite-link--icon icon-start" icon={this.iconStart} scale="s" />
+      <calcite-icon
+        class="calcite-link--icon icon-start"
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale="s"
+      />
     );
 
     const iconEndEl = (
-      <calcite-icon class="calcite-link--icon icon-end" icon={this.iconEnd} scale="s" />
+      <calcite-icon
+        class="calcite-link--icon icon-end"
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale="s"
+      />
     );
 
     return (

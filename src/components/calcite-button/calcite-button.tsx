@@ -46,6 +46,9 @@ export class CalciteButton {
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
@@ -103,13 +106,19 @@ export class CalciteButton {
     const iconStartEl = (
       <calcite-icon
         class="calcite-button--icon icon-start"
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={iconScale}
       />
     );
 
     const iconEndEl = (
-      <calcite-icon class="calcite-button--icon icon-end" icon={this.iconEnd} scale={iconScale} />
+      <calcite-icon
+        class="calcite-button--icon icon-end"
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale={iconScale}
+      />
     );
 
     return (

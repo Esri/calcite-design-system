@@ -45,6 +45,9 @@ export class CalciteRadioGroupItem {
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
+  /** flip the icon in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+
   /** optionally used with icon, select where to position the icon */
   @Prop({ reflect: true }) iconPosition?: "start" | "end" = "start";
 
@@ -91,7 +94,14 @@ export class CalciteRadioGroupItem {
     const appearance = getElementProp(this.el, "appearance", "solid");
     const layout = getElementProp(this.el, "layout", "horizontal");
 
-    const iconEl = <calcite-icon class="radio-group-item-icon" icon={this.icon} scale="s" />;
+    const iconEl = (
+      <calcite-icon
+        class="radio-group-item-icon"
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale="s"
+      />
+    );
 
     return (
       <Host

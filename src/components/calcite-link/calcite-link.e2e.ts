@@ -13,6 +13,7 @@ describe("calcite-link", () => {
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
+    expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(element).toEqualAttribute("color", "blue");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -30,6 +31,7 @@ describe("calcite-link", () => {
     const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
+    expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(element).toEqualAttribute("color", "blue");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
