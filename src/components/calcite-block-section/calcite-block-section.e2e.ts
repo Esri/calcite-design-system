@@ -81,14 +81,6 @@ describe("calcite-block-section", () => {
       const page = await newE2EPage({ html: "<calcite-block-section></calcite-block-section>" });
       await assertToggleBehavior(page);
     });
-
-    it("renders section text", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-block-section text="test text" open="true"></calcite-block-section>`
-      });
-      const element = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
-      expect(await element.getProperty("text")).toBe("test text");
-    });
   });
 
   async function assertContentIsDisplayedAndHidden(page: E2EPage): Promise<void> {

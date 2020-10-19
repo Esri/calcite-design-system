@@ -136,6 +136,7 @@ export class CalciteBlockSection {
           class={CSS.sectionHeader}
           onClick={this.toggleSection}
           onKeyDown={this.handleHeaderLabelKeyDown}
+          role="button"
           tabIndex={0}
           title={toggleLabel}
         >
