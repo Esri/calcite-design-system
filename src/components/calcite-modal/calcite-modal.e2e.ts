@@ -191,7 +191,7 @@ describe("calcite-modal accessibility checks", () => {
     expect(modal).toHaveAttribute("is-active");
   });
 
-  it("closes when Close button  is clicked", async () => {
+  it("closes when Close button is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
