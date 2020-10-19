@@ -11,6 +11,15 @@
   border-bottom: none;
 }
 
+.toggle {
+  background-color: transparent;
+  border: none;
+  color: var(--calcite-ui-text-2);
+  font-family: theme("fontFamily.sans");
+  font-weight: theme("fontWeight.normal");
+  width: 100%;
+}
+
 .toggle--switch,
 .section-header {
   align-items: center;

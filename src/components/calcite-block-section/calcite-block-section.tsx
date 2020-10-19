@@ -131,18 +131,19 @@ export class CalciteBlockSection {
           />
         </label>
       ) : (
-        <label
+        <button
           aria-label={toggleLabel}
-          class={CSS.sectionHeader}
+          class={{
+            [CSS.sectionHeader]: true,
+            [CSS.toggle]: true
+          }}
+          name={toggleLabel}
           onClick={this.toggleSection}
           onKeyDown={this.handleHeaderLabelKeyDown}
-          role="button"
-          tabIndex={0}
-          title={toggleLabel}
         >
           <calcite-icon icon={arrowIcon} scale="s" />
           <span class={CSS.sectionHeaderText}>{text}</span>
-        </label>
+        </button>
       );
 
     return (
