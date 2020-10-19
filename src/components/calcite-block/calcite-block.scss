@@ -71,13 +71,14 @@ calcite-handle {
   padding: 0;
   color: var(--calcite-ui-text-3);
   transition: color $transition;
+  font-size: theme("fontSize.-1");
   @include word-break();
 }
 
 .summary {
   color: var(--calcite-ui-text-3);
   padding: 0;
-  @include font-size(-5);
+  font-size: theme("fontSize.-2");
   @include word-break();
 }
 
