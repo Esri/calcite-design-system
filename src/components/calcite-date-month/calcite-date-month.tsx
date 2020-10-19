@@ -290,6 +290,21 @@ export class CalciteDateMonth {
   }
 
   /**
+   * Determine if the date is the start of the date range
+   */
+  private isStartOfRange(date: Date): boolean {
+    return (
+      !!this.startDate && !sameDate(this.startDate, this.endDate) && sameDate(this.startDate, date)
+    );
+  }
+
+  private isEndOfRange(date: Date): boolean {
+    return (
+      !!this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date)
+    );
+  }
+
+  /**
    * Render calcite-date-day
    */
   private renderDateDay(
@@ -302,16 +317,12 @@ export class CalciteDateMonth {
   ) {
     const props = {
       active,
-      ...(currentMonth && { currentMonth: true }),
+      currentMonth,
       day,
       dir,
       disabled: !inRange(date, this.min, this.max),
-      startOfRange:
-        !!this.startDate &&
-        !sameDate(this.startDate, this.endDate) &&
-        sameDate(this.startDate, date),
-      endOfRange:
-        !!this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date),
+      startOfRange: this.isStartOfRange(date),
+      endOfRange: this.isEndOfRange(date),
       highlighted: this.betweenSelectedRange(date),
       localeData: this.localeData,
       onCalciteDaySelect: () => this.calciteDateSelect.emit(date),
