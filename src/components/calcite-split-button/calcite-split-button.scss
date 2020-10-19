@@ -72,6 +72,11 @@
       background-color: var(--calcite-button-light);
     }
   }
+  &:host([theme="dark"]) {
+    .split-button__divider-container {
+      background-color: var(--calcite-button-dark);
+    }
+  }
   &:host([appearance="transparent"]) .split-button__divider {
     background-color: var(--calcite-button-light);
   }
