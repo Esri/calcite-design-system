@@ -1,11 +1,20 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-panel", () => {
   it("renders", async () => renders("calcite-panel"));
 
   it("honors hidden attribute", async () => hidden("calcite-panel"));
+
+  it("has property defaults", async () => {
+    defaults("calcite-panel", [
+      {
+        propertyName: "widthScale",
+        defaultValue: undefined
+      }
+    ]);
+  });
 
   it("honors dismissed prop", async () => {
     const page = await newE2EPage();
