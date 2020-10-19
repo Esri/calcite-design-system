@@ -187,9 +187,7 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent): void {
     if (this.active && !this.disableEscape && getKey(e.key) === "Escape") {
-      this.beforeClose(this.el).then(() => {
-        this.active = false;
-      });
+      this.close();
     }
   }
 
@@ -244,10 +242,8 @@ export class CalciteModal {
     if (value !== oldValue) {
       if (value) {
         this.open();
-        this.isActive = true;
       } else if (!value) {
         this.close();
-        this.isActive = false;
       }
     }
   }
@@ -268,6 +264,7 @@ export class CalciteModal {
   private close() {
     return this.beforeClose(this.el).then(() => {
       this.active = false;
+      this.isActive = false;
       this.previousActiveElement?.focus();
       document.documentElement.classList.remove("overflow-hidden");
       setTimeout(() => this.calciteModalClose.emit(), 300);
