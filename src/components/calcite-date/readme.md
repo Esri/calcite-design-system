@@ -20,18 +20,18 @@ Date also supports passing in a proxy input to make event handling and binding e
 
 ## Properties
 
-| Property          | Attribute           | Description                                                 | Type                | Default          |
-| ----------------- | ------------------- | ----------------------------------------------------------- | ------------------- | ---------------- |
-| `active`          | `active`            | Expand or collapse when calendar does not have input        | `boolean`           | `false`          |
-| `intlNextMonth`   | `intl-next-month`   | Localized string for "next month"                           | `string`            | `TEXT.nextMonth` |
-| `intlPrevMonth`   | `intl-prev-month`   | Localized string for "previous month"                       | `string`            | `TEXT.prevMonth` |
-| `locale`          | `locale`            | BCP 47 language tag for desired language and country format | `string`            | `"en-US"`        |
-| `max`             | `max`               | Latest allowed date ("yyyy-mm-dd")                          | `string`            | `undefined`      |
-| `min`             | `min`               | Earliest allowed date ("yyyy-mm-dd")                        | `string`            | `undefined`      |
-| `noCalendarInput` | `no-calendar-input` | Show only calendar popup                                    | `boolean`           | `false`          |
-| `scale`           | `scale`             | specify the scale of the date picker                        | `"l" \| "m" \| "s"` | `"m"`            |
-| `value`           | `value`             | Selected date                                               | `string`            | `undefined`      |
-| `valueAsDate`     | --                  | Selected date as full date object                           | `Date`              | `undefined`      |
+| Property          | Attribute           | Description                                                 | Type                | Default                                      |
+| ----------------- | ------------------- | ----------------------------------------------------------- | ------------------- | -------------------------------------------- |
+| `active`          | `active`            | Expand or collapse when calendar does not have input        | `boolean`           | `false`                                      |
+| `intlNextMonth`   | `intl-next-month`   | Localized string for "next month"                           | `string`            | `TEXT.nextMonth`                             |
+| `intlPrevMonth`   | `intl-prev-month`   | Localized string for "previous month"                       | `string`            | `TEXT.prevMonth`                             |
+| `locale`          | `locale`            | BCP 47 language tag for desired language and country format | `string`            | `document.documentElement.lang \|\| "en-US"` |
+| `max`             | `max`               | Latest allowed date ("yyyy-mm-dd")                          | `string`            | `undefined`                                  |
+| `min`             | `min`               | Earliest allowed date ("yyyy-mm-dd")                        | `string`            | `undefined`                                  |
+| `noCalendarInput` | `no-calendar-input` | Show only calendar popup                                    | `boolean`           | `false`                                      |
+| `scale`           | `scale`             | specify the scale of the date picker                        | `"l" \| "m" \| "s"` | `"m"`                                        |
+| `value`           | `value`             | Selected date                                               | `string`            | `undefined`                                  |
+| `valueAsDate`     | --                  | Selected date as full date object                           | `Date`              | `undefined`                                  |
 
 ## Events
 

@@ -50,6 +50,7 @@
 }
 
 .modal {
+  @apply shadow-2-sm;
   box-sizing: border-box;
   z-index: 102;
   float: none;
@@ -64,7 +65,6 @@
   transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
   background-color: var(--calcite-ui-foreground-1);
-  box-shadow: $shadow-2--press;
   border-radius: var(--calcite-border-radius);
   margin: $baseline;
   width: 100%;

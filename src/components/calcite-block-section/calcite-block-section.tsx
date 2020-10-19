@@ -119,6 +119,7 @@ export class CalciteBlockSection {
           id={labelId}
           onKeyDown={this.handleHeaderLabelKeyDown}
           tabIndex={0}
+          title={toggleLabel}
         >
           {text}
           <calcite-switch
@@ -138,6 +139,7 @@ export class CalciteBlockSection {
           onClick={this.toggleSection}
           text={text}
           textEnabled={true}
+          title={toggleLabel}
         />
       );
 

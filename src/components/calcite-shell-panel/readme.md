@@ -34,11 +34,13 @@ Renders a panel with an action bar.
 
 ## Properties
 
-| Property    | Attribute   | Description                                                          | Type               | Default     |
-| ----------- | ----------- | -------------------------------------------------------------------- | ------------------ | ----------- |
-| `collapsed` | `collapsed` | Hide the content panel.                                              | `boolean`          | `false`     |
-| `detached`  | `detached`  | This property makes the content area appear like a "floating" panel. | `boolean`          | `false`     |
-| `position`  | `position`  | Arranges the component depending on the elements 'dir' property.     | `"end" \| "start"` | `undefined` |
+| Property              | Attribute               | Description                                                          | Type                | Default     |
+| --------------------- | ----------------------- | -------------------------------------------------------------------- | ------------------- | ----------- |
+| `collapsed`           | `collapsed`             | Hide the content panel.                                              | `boolean`           | `false`     |
+| `detached`            | `detached`              | This property makes the content area appear like a "floating" panel. | `boolean`           | `false`     |
+| `detachedHeightScale` | `detached-height-scale` | Specifies the maxiumum height of the contents when detached.         | `"l" \| "m" \| "s"` | `"l"`       |
+| `position`            | `position`              | Arranges the component depending on the elements 'dir' property.     | `"end" \| "start"`  | `undefined` |
+| `widthScale`          | `width-scale`           | This sets width of the content area.                                 | `"l" \| "m" \| "s"` | `"m"`       |
 
 ## Events
 

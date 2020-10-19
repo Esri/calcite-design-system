@@ -52,10 +52,10 @@ export class CalciteDate {
   /** Expand or collapse when calendar does not have input */
   @Prop({ reflect: true }) active = false;
 
-  /** Localized string for "previous month" */
+  /** Localized string for "previous month" (used for aria label) */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
-  /** Localized string for "next month" */
+  /** Localized string for "next month" (used for aria label) */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /** BCP 47 language tag for desired language and country format */

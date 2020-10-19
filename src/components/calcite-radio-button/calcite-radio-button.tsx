@@ -37,11 +37,12 @@ export class CalciteRadioButton {
   @Prop({ mutable: true, reflect: true }) checked = false;
 
   @Watch("checked")
-  checkedChanged(newChecked: boolean, oldChecked: boolean): void {
-    if (newChecked === true && oldChecked === false) {
+  checkedChanged(newChecked: boolean): void {
+    if (newChecked) {
       this.uncheckOtherRadioButtonsInGroup();
     }
     this.input.checked = newChecked;
+    this.calciteRadioButtonCheckedChange.emit(newChecked);
   }
 
   /** The disabled state of the radio button. */
@@ -84,6 +85,13 @@ export class CalciteRadioButton {
   @Watch("name")
   nameChanged(newName: string): void {
     this.input.name = newName;
+    this.checkFirstRadioButton();
+    const currentValue: HTMLInputElement = document.querySelector(
+      `input[name="${this.name}"]:checked`
+    );
+    if (!currentValue?.value) {
+      this.uncheckAllRadioButtonsInGroup();
+    }
   }
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
@@ -122,16 +130,18 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   private checkFirstRadioButton(): void {
-    const radioButtons = document.querySelectorAll(`calcite-radio-button[name=${this.name}]`);
+    const radioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
+      (radioButton) => radioButton.name === this.name
+    ) as HTMLCalciteRadioButtonElement[];
     let firstCheckedRadioButton: HTMLCalciteRadioButtonElement;
-    if (radioButtons && radioButtons.length > 0) {
+    if (radioButtons?.length > 0) {
       radioButtons.forEach((radioButton: HTMLCalciteRadioButtonElement) => {
         if (firstCheckedRadioButton) {
           radioButton.checked = false;
+          this.calciteRadioButtonCheckedChange.emit(false);
         } else if (radioButton.checked) {
           firstCheckedRadioButton = radioButton;
         }
-        return radioButton;
       });
     }
   }
@@ -146,13 +156,26 @@ export class CalciteRadioButton {
     });
   }
 
-  private uncheckOtherRadioButtonsInGroup(): void {
-    const otherRadioButtons = document.querySelectorAll(
-      `calcite-radio-button[name=${this.name}]:not([guid="${this.guid}"])`
-    );
+  private uncheckAllRadioButtonsInGroup(): void {
+    const otherRadioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
+      (radioButton) => radioButton.name === this.name
+    ) as HTMLCalciteRadioButtonElement[];
     otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
       if (otherRadioButton.checked) {
         otherRadioButton.checked = false;
+        otherRadioButton.focused = false;
+      }
+    });
+  }
+
+  private uncheckOtherRadioButtonsInGroup(): void {
+    const otherRadioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
+      (radioButton) => radioButton.name === this.name && radioButton.guid !== this.guid
+    ) as HTMLCalciteRadioButtonElement[];
+    otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
+      if (otherRadioButton.checked) {
+        otherRadioButton.checked = false;
+        otherRadioButton.focused = false;
       }
     });
   }
@@ -170,6 +193,13 @@ export class CalciteRadioButton {
    */
   @Event() calciteRadioButtonChange: EventEmitter;
 
+  /** Fires when the checked property changes.  This is an internal event used for styling purposes only.
+   * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
+   * @internal
+   */
+  @Event() calciteRadioButtonCheckedChange: EventEmitter;
+
+  /** Fires when the radio button is either focused or blurred. */
   @Event() calciteRadioButtonFocusedChange: EventEmitter;
 
   //--------------------------------------------------------------------------

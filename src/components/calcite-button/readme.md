@@ -6,7 +6,6 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### Internals
@@ -17,8 +16,6 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
 
 - `<calcite-button href="https://github.com/esri/calcite-components target="_blank">Calcite Components on GitHub</calcite-button>` would set `target="_blank` On the internal `<a>`.
 - `<calcite-button type="submit">Submit</calcite-button>` would set `type="submit"` On the internal `<button>`.
-
-
 
 ## Properties
 
@@ -37,26 +34,21 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
 | `theme`      | `theme`      | Select theme (light or dark)                                                                       | `"dark" \| "light"`                                | `undefined` |
 | `width`      | `width`      | specify the width of the button, defaults to auto                                                  | `"auto" \| "full" \| "half"`                       | `"auto"`    |
 
-
 ## Methods
 
 ### `setFocus() => Promise<void>`
-
-
 
 #### Returns
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-color](../calcite-color)
- - [calcite-split-button](../calcite-split-button)
+- [calcite-color](../calcite-color)
+- [calcite-fab](../calcite-fab)
+- [calcite-split-button](../calcite-split-button)
 
 ### Depends on
 
@@ -64,15 +56,17 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
   calcite-color --> calcite-button
+  calcite-fab --> calcite-button
   calcite-split-button --> calcite-button
   style calcite-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

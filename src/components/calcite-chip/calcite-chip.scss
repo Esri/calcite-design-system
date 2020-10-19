@@ -21,16 +21,16 @@
 :host([scale="s"]) {
   font-size: 10px;
   height: 22px;
-  --calcite-chip-spacing-unit-l: 8px;
-  --calcite-chip-spacing-unit-s: 4px;
+  --calcite-chip-spacing-unit-l: theme("spacing.2");
+  --calcite-chip-spacing-unit-s: theme("spacing.1");
   & slot[name="chip-image"]::slotted(*) {
-    max-height: 16px;
+    max-height: theme("spacing.4");
   }
 }
 :host([scale="m"]) {
   font-size: 12px;
   height: 28px;
-  --calcite-chip-spacing-unit-l: 12px;
+  --calcite-chip-spacing-unit-l: theme("spacing.3");
   --calcite-chip-spacing-unit-s: 6px;
   & slot[name="chip-image"]::slotted(*) {
     max-height: 22px;
@@ -40,8 +40,8 @@
 :host([scale="l"]) {
   font-size: 14px;
   height: 40px;
-  --calcite-chip-spacing-unit-l: 16px;
-  --calcite-chip-spacing-unit-s: 8px;
+  --calcite-chip-spacing-unit-l: theme("spacing.4");
+  --calcite-chip-spacing-unit-s: theme("spacing.2");
   & slot[name="chip-image"]::slotted(*) {
     max-height: 30px;
   }

@@ -2,17 +2,15 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
-| Property                 | Attribute    | Description | Type                             | Default     |
-| ------------------------ | ------------ | ----------- | -------------------------------- | ----------- |
-| `disabled`               | `disabled`   |             | `boolean`                        | `false`     |
-| `parentItem`             | --           |             | `HTMLCalciteComboboxItemElement` | `undefined` |
-| `selected`               | `selected`   |             | `boolean`                        | `false`     |
-| `textLabel` _(required)_ | `text-label` |             | `string`                         | `undefined` |
-| `value` _(required)_     | `value`      |             | `string`                         | `undefined` |
-
+| Property                 | Attribute    | Description                                                                               | Type                             | Default     |
+| ------------------------ | ------------ | ----------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
+| `disabled`               | `disabled`   | When true, the item cannot be clicked and is visually muted.                              | `boolean`                        | `false`     |
+| `parentItem`             | --           | The parent combobox item element                                                          | `HTMLCalciteComboboxItemElement` | `undefined` |
+| `selected`               | `selected`   | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.        | `boolean`                        | `false`     |
+| `textLabel` _(required)_ | `text-label` | The main label for this item.                                                             | `string`                         | `undefined` |
+| `value` _(required)_     | `value`      | A unique value used to identify this item - similar to the value attribute on an <input>. | `string`                         | `undefined` |
 
 ## Events
 
@@ -20,7 +18,6 @@
 | ----------------------------- | ---------------------------------------------------- | ------------------ |
 | `calciteComboboxItemChange`   | Emitted whenever the item is selected or unselected. | `CustomEvent<any>` |
 | `calciteComboboxItemKeyEvent` |                                                      | `CustomEvent<any>` |
-
 
 ## Methods
 
@@ -33,9 +30,6 @@ The first argument allows the value to be coerced, rather than swapping values.
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Depends on
@@ -43,12 +37,13 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-combobox-item --> calcite-icon
   style calcite-combobox-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

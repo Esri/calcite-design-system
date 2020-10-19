@@ -24,10 +24,15 @@ $tab-margin: 1.25rem;
   margin: 0 $tab-margin;
 }
 
-// focus styles
+:host([position="below"]) a {
+  border-bottom: 0;
+  border-top: 3px solid transparent;
+}
+
 :host a {
   @include focus-style-base();
 }
+
 :host(:focus) a {
   @include focus-style-outset();
 }
@@ -38,23 +43,15 @@ $tab-margin: 1.25rem;
   a {
     text-decoration: none;
     color: var(--calcite-ui-text-1);
-    border-bottom-color: var(--calcite-ui-border-2);
+    border-color: var(--calcite-ui-border-2);
   }
-}
-
-// positioning
-:host([position="below"]) a {
-  border-bottom: 0;
-  border-top: 3px solid transparent;
 }
 
 :host([active]) a {
   color: var(--calcite-ui-text-1);
-  border-color: var(--calcite-ui-blue-1);
-  font-weight: 500;
+  border-color: transparent;
 }
 
-// disabled styles
 :host([disabled]) {
   pointer-events: none;
   span,
@@ -87,7 +84,6 @@ span {
   cursor: default;
 }
 
-// icon positioning and styles
 .calcite-tab-title--icon {
   display: inline-flex;
   position: relative;
