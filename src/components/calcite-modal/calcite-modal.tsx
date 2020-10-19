@@ -244,8 +244,10 @@ export class CalciteModal {
     if (value !== oldValue) {
       if (value) {
         this.open();
+        this.isActive = true;
       } else if (!value) {
         this.close();
+        this.isActive = false;
       }
     }
   }
@@ -265,7 +267,7 @@ export class CalciteModal {
   /** Close the modal, first running the `beforeClose` method */
   private close() {
     return this.beforeClose(this.el).then(() => {
-      this.isActive = false;
+      this.active = false;
       this.previousActiveElement?.focus();
       document.documentElement.classList.remove("overflow-hidden");
       setTimeout(() => this.calciteModalClose.emit(), 300);
