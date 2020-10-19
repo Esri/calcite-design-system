@@ -61,6 +61,9 @@ export class CalciteButton {
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
+  /** is the button a child of a calcite-split-button */
+  @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
+
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
@@ -194,6 +197,7 @@ export class CalciteButton {
       "icon-start",
       "icon-end",
       "id",
+      "isSplitPrimary",
       "loading",
       "scale",
       "slot",
