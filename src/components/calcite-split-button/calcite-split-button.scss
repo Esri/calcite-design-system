@@ -88,6 +88,15 @@
     &:host(:hover) .split-button__divider-container {
       background-color: var(--calcite-button-light);
     }
+    &:host([theme="dark"]) {
+      .split-button__divider {
+        background-color: var(--calcite-ui-text-1);
+      }
+      .split-button__divider-container {
+        background-color: var(--calcite-ui-foreground-1);
+        border-color: var(--calcite-ui-foreground-1);
+      }
+    }
   }
   &:host([appearance="clear"]) {
     .split-button__divider-container {
@@ -97,14 +106,34 @@
     &:host(:hover) .split-button__divider-container {
       background-color: var(--calcite-button-light);
     }
+    &:host([theme="dark"]) {
+      .split-button__divider,
+      &:host(:hover) .split-button__divider-container {
+        background-color: var(--calcite-button-dark);
+      }
+      .split-button__divider-container {
+        background-color: transparent;
+        border-color: var(--calcite-button-dark);
+      }
+    }
   }
   &:host([theme="dark"]) {
     .split-button__divider-container {
       background-color: var(--calcite-button-dark);
     }
   }
-  &:host([appearance="transparent"]) .split-button__divider {
-    background-color: var(--calcite-button-light);
+  &:host([appearance="transparent"]) {
+    .split-button__divider {
+      background-color: var(--calcite-button-light);
+    }
+    &:host([theme="dark"]) {
+      .split-button__divider-container {
+        background-color: transparent;
+      }
+      .split-button__divider {
+        background-color: var(--calcite-ui-foreground-1);
+      }
+    }
   }
 
   .split-button__divider {
