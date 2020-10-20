@@ -17,6 +17,9 @@
   .split-button__divider-container {
     background-color: var(--calcite-ui-blue-1);
   }
+  &:host([appearance="outline"]) .split-button__divider-container {
+    background-color: var(--calcite-ui-foreground-1);
+  }
   &:host([appearance="outline"]),
   &:host([appearance="clear"]) {
     .split-button__divider-container {
@@ -134,11 +137,14 @@
 
 :host([appearance="outline"]) .split-button__divider-container,
 :host([appearance="clear"]) .split-button__divider-container {
-  background-color: transparent;
   border-width: 1px;
   border-left: 0;
   border-right: 0;
   border-style: solid;
+}
+
+:host([appearance="clear"]) .split-button__divider-container {
+  background-color: transparent;
 }
 
 :host([appearance="transparent"]) .split-button__divider-container {
