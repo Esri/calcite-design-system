@@ -197,7 +197,7 @@ export class CalciteButton {
       "icon-start",
       "icon-end",
       "id",
-      "isSplitPrimary",
+      "splitChild",
       "loading",
       "scale",
       "slot",
