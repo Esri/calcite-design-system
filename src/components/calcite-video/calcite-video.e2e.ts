@@ -1,19 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden, accessible } from "../../tests/commonTests";
 
-describe("calcite-combobox", () => {
+describe("calcite-video", () => {
   it("renders", async () => renders("calcite-video"));
-  it("honors hidden attribute", async () => hidden("calcite-video"));
-  it("is accessible", async () =>
-    accessible(`
-      <calcite-video></calcite-video>
-  `));
-
-  it("does something", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(` <calcite-video></calcite-video>`);
-  });
 });
 
 // scrubbing works (check updated time val)?
