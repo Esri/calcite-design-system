@@ -10,6 +10,7 @@ storiesOf("Components/Split Button", module)
     "Simple",
     (): string => `
     <calcite-split-button
+        appearance="${select("appearance", ["solid", "outline", "clear", "transparent"], "solid")}"
         color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
         scale="${select("size", ["s", "m", "l"], "m")}"
         ${boolean("loading", false)}

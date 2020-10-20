@@ -22,7 +22,8 @@
     .split-button__divider-container {
       border-color: var(--calcite-ui-blue-1);
     }
-    .split-button__divider {
+    .split-button__divider,
+    &:host(:hover) .split-button__divider-container {
       background-color: var(--calcite-ui-blue-1);
     }
   }
@@ -45,7 +46,8 @@
     .split-button__divider-container {
       border-color: var(--calcite-ui-red-1);
     }
-    .split-button__divider {
+    .split-button__divider,
+    &:host(:hover) .split-button__divider-container {
       background-color: var(--calcite-ui-red-1);
     }
   }
@@ -68,7 +70,8 @@
     .split-button__divider-container {
       border-color: var(--calcite-button-light);
     }
-    .split-button__divider {
+    .split-button__divider,
+    &:host(:hover) .split-button__divider-container {
       background-color: var(--calcite-button-light);
     }
   }
@@ -95,7 +98,8 @@
     .split-button__divider-container {
       border-color: var(--calcite-button-dark);
     }
-    .split-button__divider {
+    .split-button__divider,
+    &:host(:hover) .split-button__divider-container {
       background-color: var(--calcite-button-dark);
     }
   }
