@@ -1,4 +1,15 @@
-import { Component, Host, h, Element, Prop, VNode, Listen } from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Element,
+  Prop,
+  VNode,
+  Listen,
+  Method,
+  EventEmitter,
+  Event
+} from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
@@ -38,6 +49,13 @@ export class CalciteSelect {
   disabled = false;
 
   /**
+   * The component's label. This is required for accessibility purposes.
+   *
+   */
+  @Prop()
+  label!: string;
+
+  /**
    * The component scale.
    */
   @Prop({
@@ -46,20 +64,20 @@ export class CalciteSelect {
   scale: Scale = "m";
 
   /**
-   * The component width.
-   */
-  @Prop({
-    reflect: true
-  })
-  width: "auto" | "half" | "full" = "auto";
-
-  /**
    * The component theme.
    */
   @Prop({
     reflect: true
   })
   theme: Theme = "light";
+
+  /**
+   * The component width.
+   */
+  @Prop({
+    reflect: true
+  })
+  width: "auto" | "half" | "full" = "auto";
 
   //--------------------------------------------------------------------------
   //
@@ -101,8 +119,9 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.el);
+    focusElement(this.selectEl);
   }
 
   //--------------------------------------------------------------------------
@@ -111,21 +130,46 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * This event will fire whenever the selected option changes.
+   */
+  @Event()
+  calciteSelectChange: EventEmitter<void>;
+
+  private handleInternalSelectChange = (): void => {
+    this.selectFromNativeOption(this.selectEl.selectedOptions[0]);
+    this.calciteSelectChange.emit();
+  };
+
   @Listen("calciteOptionChange")
   @Listen("calciteOptionGroupChange")
   protected handleOptionOrGroupChange(event: CustomEvent): void {
     event.stopPropagation();
 
-    const nativeEl = this.componentToNativeEl.get(event.target as OptionOrGroup);
+    const optionOrGroup = event.target as OptionOrGroup;
+    const nativeEl = this.componentToNativeEl.get(optionOrGroup);
 
     if (!nativeEl) {
       return;
     }
 
-    this.syncProps(nativeEl, event.target as OptionOrGroup);
+    this.updateNativeElements(optionOrGroup, nativeEl);
+
+    if (isOption(optionOrGroup) && optionOrGroup.selected) {
+      this.deselectAllExcept(optionOrGroup);
+    }
   }
 
-  private syncProps(nativeOptionOrGroup: NativeOptionOrGroup, optionOrGroup: OptionOrGroup): void {
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private updateNativeElements(
+    optionOrGroup: OptionOrGroup,
+    nativeOptionOrGroup: NativeOptionOrGroup
+  ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
     nativeOptionOrGroup.label = optionOrGroup.label;
 
@@ -136,33 +180,43 @@ export class CalciteSelect {
     }
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
   private populateInternalSelect = (): void => {
-    this.emptyInternalSelect();
+    const optionsAndGroups = Array.from(this.el.children as HTMLCollectionOf<OptionOrGroup>);
 
-    Array.from(this.el.children as HTMLCollectionOf<OptionOrGroup>).forEach((optionOrGroup) =>
-      this.selectEl.append(this.toNativeElement(optionOrGroup as any))
-    );
+    this.removeFromInternalSelect(optionsAndGroups);
+
+    optionsAndGroups.forEach((optionOrGroup) => {
+      this.selectEl.append(this.toNativeElement(optionOrGroup));
+    });
   };
 
-  private emptyInternalSelect(): void {
-    Array.from(this.selectEl.children as HTMLCollectionOf<NativeOptionOrGroup>).forEach(
-      (optionOrGroup) => {
-        this.componentToNativeEl.clear();
-        optionOrGroup.remove();
-      }
-    );
+  private removeFromInternalSelect(optionsAndGroups: OptionOrGroup[]): void {
+    optionsAndGroups.forEach((optionOrGroup) => {
+      this.componentToNativeEl.clear();
+      this.componentToNativeEl.get(optionOrGroup)?.remove();
+    });
   }
 
   private storeSelectRef = (node: HTMLSelectElement): void => {
     this.selectEl = node;
     this.populateInternalSelect();
+
+    const selected = this.selectEl.selectedOptions[0];
+    this.selectFromNativeOption(selected);
   };
+
+  private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
+    if (!nativeOption) {
+      return;
+    }
+
+    this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
+      if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
+        optionOrGroup.selected = true;
+        this.deselectAllExcept(optionOrGroup as HTMLCalciteOptionElement);
+      }
+    });
+  }
 
   private toNativeElement(
     optionOrGroup: HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement
@@ -186,11 +240,13 @@ export class CalciteSelect {
       group.disabled = optionOrGroup.disabled;
       group.label = optionOrGroup.label;
 
-      Array.from(optionOrGroup.children).forEach((option) => {
-        const nativeOption = this.toNativeElement(option as HTMLCalciteOptionElement);
-        group.append(nativeOption);
-        this.componentToNativeEl.set(optionOrGroup, nativeOption);
-      });
+      Array.from(optionOrGroup.children as HTMLCollectionOf<HTMLCalciteOptionElement>).forEach(
+        (option) => {
+          const nativeOption = this.toNativeElement(option);
+          group.append(nativeOption);
+          this.componentToNativeEl.set(optionOrGroup, nativeOption);
+        }
+      );
 
       this.componentToNativeEl.set(optionOrGroup, group);
 
@@ -198,6 +254,16 @@ export class CalciteSelect {
     }
 
     throw new Error("unsupported element child provided");
+  }
+
+  private deselectAllExcept(except: HTMLCalciteOptionElement): void {
+    this.el.querySelectorAll<HTMLCalciteOptionElement>("calcite-option").forEach((option) => {
+      if (option === except) {
+        return;
+      }
+
+      option.selected = false;
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -222,8 +288,10 @@ export class CalciteSelect {
     return (
       <Host>
         <select
+          aria-label={this.label}
           class={{ [CSS_UTILITY.rtl]: rtl }}
           disabled={this.disabled}
+          onChange={this.handleInternalSelectChange}
           ref={this.storeSelectRef}
         >
           <slot />

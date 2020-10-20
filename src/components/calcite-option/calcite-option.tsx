@@ -47,13 +47,17 @@ export class CalciteOption {
    * The value associated with this option.
    */
   @Prop()
-  value: string;
+  value: any;
 
   @Watch("disabled")
   @Watch("label")
   @Watch("selected")
   @Watch("value")
-  protected handlePropChange(): void {
+  protected handlePropChange(_newValue: any, _oldValue: any, propName: string): void {
+    if (propName === "label" || propName === "value") {
+      this.ensureTextContentDependentProps();
+    }
+
     this.calciteOptionChange.emit();
   }
 
