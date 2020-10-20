@@ -1,0 +1,238 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+calcite-video {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  width: auto;
+  max-width: 100%;
+  background-color: var(--calcite-ui-foreground-1);
+  & video {
+    max-height: 100%;
+    max-width: 100%;
+    cursor: pointer;
+  }
+
+  & calcite-loader {
+    z-index: 999;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  // todo hide these
+  video::-webkit-media-controls {
+    opacity: 0;
+  }
+  *::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+  }
+  *::-webkit-media-controls-panel {
+    display: none !important;
+    -webkit-appearance: none;
+  }
+}
+
+// focus
+calcite-video {
+  @include focus-style-base();
+}
+calcite-video:focus {
+  @include focus-style-outset();
+}
+// show controls on hover
+calcite-video[show-controls-on-hover] {
+  & .calcite-video-footer {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: all 0.15s ease-in-out;
+    background-color: var(--calcite-ui-foreground-1);
+    box-sizing: border-box;
+    z-index: 9;
+  }
+}
+
+calcite-video[show-controls-on-hover]:focus,
+calcite-video[show-controls-on-hover]:focus-within,
+calcite-video[show-controls-on-hover]:hover {
+  .calcite-video-footer {
+    visibility: visible;
+    opacity: 0.9;
+  }
+}
+
+.calcite-video-wrapper {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  border: 1px solid var(--calcite-ui-border-3);
+  &.calcite-video-fullscreen {
+    height: 100%;
+    border-color: transparent;
+    & video {
+      height: 100vh;
+      width: auto;
+    }
+  }
+}
+
+.calcite-video-footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid var(--calcite-ui-border-3);
+  border-top: 0;
+  box-sizing: border-box;
+}
+
+.calcite-video-controls {
+  display: flex;
+  flex-direction: row;
+}
+
+.calcite-video-scrubber-wrapper {
+  position: relative;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+}
+
+// custom subtitles
+.calcite-video-subtitle-container {
+  background-color: rgba(20, 20, 20, 0.7);
+  text-align: center;
+  color: white;
+  box-shadow: $shadow-2;
+  position: absolute;
+  margin-left: 0;
+  margin-right: 0;
+  width: auto;
+  padding: 0.5em 0.75em;
+  bottom: 1em;
+  z-index: 99;
+  @include font-size(-2);
+  display: none;
+
+  &.calcite-video-subtitle-container-active {
+    display: block;
+  }
+}
+
+.calcite-video-wrapper.calcite-video-fullscreen .calcite-video-subtitle-container {
+  @include font-size(5);
+}
+calcite-slider.calcite-video-scrubber {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 0;
+  width: 100%;
+}
+.calcite-video-control-item {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  border-right: 1px solid var(--calcite-ui-border-3);
+
+  &:hover,
+  &:focus {
+    background-color: var(--calcite-ui-foreground-2);
+  }
+  &:active {
+    background-color: var(--calcite-ui-foreground-3);
+  }
+  & calcite-chip {
+    display: inline-flex;
+    align-items: baseline;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+}
+
+calcite-video[dir="rtl"] .calcite-video-control-item {
+  border-right: 0;
+  border-left: 1px solid var(--calcite-ui-border-3);
+}
+
+.calcite-video-subtitle-control-item {
+  border-right: 0;
+  border-left: 1px solid var(--calcite-ui-border-3);
+  order: 4;
+  &:nth-last-child(2) {
+    margin-left: auto;
+  }
+  & ~ .calcite-video-fullscreen-control-item {
+    margin-left: 0;
+  }
+}
+calcite-video[dir="rtl"] {
+  & .calcite-video-subtitle-control-item {
+    border-left: 0;
+    border-right: 1px solid var(--calcite-ui-border-3);
+    &:nth-last-child(2) {
+      margin-right: auto;
+      margin-left: 0;
+    }
+    & ~ .calcite-video-fullscreen-control-item {
+      margin-right: 0;
+    }
+  }
+}
+
+.calcite-video-fullscreen-control-item {
+  margin-left: auto;
+  border-right: 0;
+  border-left: 1px solid var(--calcite-ui-border-3);
+  order: 5;
+}
+
+calcite-video[dir="rtl"] .calcite-video-fullscreen-control-item {
+  margin-right: auto;
+  margin-left: 0;
+  border-left: 0;
+  border-right: 1px solid var(--calcite-ui-border-3);
+}
+
+.calcite-video-volume-control-item {
+  order: 2;
+}
+
+.calcite-video-time {
+  align-self: center;
+  font-size: 12px;
+  padding: 8px 12px;
+  order: 3;
+  color: var(--calcite-ui-text-1);
+  & span:first-child {
+    font-weight: 500;
+  }
+}
+.calcite-video-control-item.calcite-video-volume-control-item calcite-slider {
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  align-self: flex-end;
+  transition: all ease-in-out 0.15s;
+}
+
+.calcite-video-control-item.calcite-video-volume-control-item *:focus-within ~ calcite-slider,
+.calcite-video-control-item.calcite-video-volume-control-item calcite-slider:focus,
+.calcite-video-control-item.calcite-video-volume-control-item calcite-slider:focus-within,
+.calcite-video-control-item.calcite-video-volume-control-item:hover calcite-slider {
+  width: 60px;
+  margin-left: 20px;
+  margin-right: 20px;
+  opacity: 1;
+  pointer-events: initial;
+  visibility: visible;
+}
