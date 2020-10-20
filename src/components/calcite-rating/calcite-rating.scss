@@ -1,0 +1,147 @@
+:host([scale="s"]) {
+  --calcite-rating-spacing-unit: 4px;
+}
+
+:host,
+:host([scale="m"]) {
+  --calcite-rating-spacing-unit: 8px;
+}
+
+:host([scale="l"]) {
+  --calcite-rating-spacing-unit: 12px;
+}
+
+:host {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  position: relative;
+}
+
+:host([disabled]) {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+:host([read-only]) {
+  pointer-events: none;
+}
+
+:host(:not([read-only])) calcite-icon {
+  transition: $transition;
+  cursor: pointer;
+  &:active {
+    transform: scale(1.1);
+  }
+}
+
+// container for icon items
+:host .calcite-rating-item-container {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+}
+
+// focus styles
+:host calcite-icon {
+  @include focus-style-base();
+
+  &:focus {
+    @include focus-style-outset();
+  }
+}
+
+:host calcite-icon {
+  pointer-events: default;
+  &:not(:last-of-type) {
+    margin-right: var(--calcite-rating-spacing-unit);
+  }
+}
+:host([dir="rtl"]) calcite-icon:not(:last-of-type) {
+  margin-right: 0;
+  margin-left: var(--calcite-rating-spacing-unit);
+}
+
+:host calcite-icon {
+  color: var(--calcite-ui-text-3);
+  box-sizing: border-box;
+}
+:host([read-only]) calcite-icon:not([data-selected="true"]) {
+  color: var(--calcite-ui-border-1);
+}
+
+:host calcite-icon[data-average="true"],
+:host calcite-icon[data-partial="true"],
+:host calcite-icon[data-average="true"][date-selected="false"] {
+  color: var(--calcite-ui-yellow-1);
+}
+
+:host calcite-icon[data-partial="true"] {
+}
+
+:host .partial-rating-star-container {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  top: 0;
+  transition: $transition;
+  &:hover {
+    transform: scale(0.9);
+  }
+}
+
+// handle hiding of our partial star
+:host
+  calcite-icon[data-partialparent="true"]:hover
+  ~ .partial-rating-star-container
+  :host
+  calcite-icon[data-partialparent="true"]:focus
+  ~ .partial-rating-star-container {
+  opacity: 0;
+}
+
+:host .partial-rating-star-container[data-partialhidden="true"] {
+  opacity: 0;
+}
+
+:host([read-only]) calcite-icon[data-average="true"],
+:host([disabled]) calcite-icon[data-average="true"],
+:host([read-only]) calcite-icon[data-partial="true"],
+:host([disabled]) calcite-icon[data-partial="true"],
+:host calcite-icon[data-selected="true"],
+:host calcite-icon[data-hovered="true"] {
+  color: var(--calcite-ui-blue-1);
+}
+
+:host calcite-icon[data-hovered="true"]:not([data-selected="true"]) {
+  transform: scale(0.9);
+}
+
+// rating count
+:host calcite-chip {
+  margin-left: var(--calcite-rating-spacing-unit);
+  cursor: default;
+  pointer-events: none;
+}
+
+:host([dir="rtl"]) calcite-chip {
+  margin-right: var(--calcite-rating-spacing-unit);
+  margin-left: 0;
+}
+
+:host .calcite-rating-average {
+  font-weight: 700;
+}
+
+:host .calcite-rating-count {
+  font-style: italic;
+  color: var(--calcite-ui-text-2);
+  &:not(:first-child) {
+    margin-left: var(--calcite-rating-spacing-unit);
+  }
+}
+
+:host([dir="rtl"]) .calcite-rating-count:not(:first-child) {
+  margin-right: var(--calcite-rating-spacing-unit);
+  margin-left: 0;
+}

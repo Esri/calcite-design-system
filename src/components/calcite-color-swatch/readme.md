@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property | Attribute | Description                                          | Type                | Default     |
@@ -11,15 +12,15 @@
 | `scale`  | `scale`   | The component scale.                                 | `"l" \| "m" \| "s"` | `"m"`       |
 | `theme`  | `theme`   | The component's theme.                               | `"dark" \| "light"` | `"light"`   |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-color](../calcite-color)
-- [calcite-color-hex-input](../calcite-color-hex-input)
+ - [calcite-color](../calcite-color)
+ - [calcite-color-hex-input](../calcite-color-hex-input)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-color --> calcite-color-swatch
@@ -27,6 +28,6 @@ graph TD;
   style calcite-color-swatch fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
