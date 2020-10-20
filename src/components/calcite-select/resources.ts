@@ -1,3 +1,4 @@
 export const CSS = {
-  icon: "icon"
+  icon: "icon",
+  iconContainer: "icon-container"
 };

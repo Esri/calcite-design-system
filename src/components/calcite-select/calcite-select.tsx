@@ -210,18 +210,22 @@ export class CalciteSelect {
     const rtl = getElementDir(this.el) === "rtl";
 
     return (
-      <calcite-icon
-        class={{ [CSS.icon]: true, [CSS_UTILITY.rtl]: rtl }}
-        icon="chevron-down"
-        scale="s"
-      />
+      <div class={{ [CSS.iconContainer]: true, [CSS_UTILITY.rtl]: rtl }}>
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
+      </div>
     );
   }
 
   render(): VNode {
+    const rtl = getElementDir(this.el) === "rtl";
+
     return (
       <Host>
-        <select disabled={this.disabled} ref={this.storeSelectRef}>
+        <select
+          class={{ [CSS_UTILITY.rtl]: rtl }}
+          disabled={this.disabled}
+          ref={this.storeSelectRef}
+        >
           <slot />
         </select>
         {this.renderChevron()}

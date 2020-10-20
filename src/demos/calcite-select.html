@@ -25,17 +25,32 @@
     <calcite-button href="/">Home</calcite-button>
 
     <h1>Calcite Select</h1>
+    <h3>Basic small</h3>
 
-    <h3>Basic</h3>
+    <calcite-select scale="s">
+      <calcite-option>uno</calcite-option>
+      <calcite-option>dos</calcite-option>
+      <calcite-option>tres</calcite-option>
+    </calcite-select>
 
-    <calcite-select>
+    <h3>Basic medium (default)</h3>
+
+    <calcite-select scale="m">
+      <calcite-option>uno</calcite-option>
+      <calcite-option>dos</calcite-option>
+      <calcite-option>tres</calcite-option>
+    </calcite-select>
+
+    <h3>Basic large</h3>
+
+    <calcite-select scale="l">
       <calcite-option>uno</calcite-option>
       <calcite-option>dos</calcite-option>
       <calcite-option>tres</calcite-option>
     </calcite-select>
 
     <h3>Grouped</h3>
-
+    <div style="width:33vw;">
     <calcite-select>
       <calcite-option-group label="letters">
         <calcite-option>a</calcite-option>
@@ -55,6 +70,7 @@
         <calcite-option>Voldemort</calcite-option>
       </calcite-option-group>
     </calcite-select>
+  </div>
 
     <h3>Side by side (container is flex-box)</h3>
     <div class="demo-side-by-side">
