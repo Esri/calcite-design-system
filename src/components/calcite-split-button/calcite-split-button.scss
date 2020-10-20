@@ -23,7 +23,7 @@
   &:host([appearance="outline"]),
   &:host([appearance="clear"]) {
     .split-button__divider-container {
-      border-color: var(--calcite-ui-blue-1);
+      border-color: var(--calcite-ui-blue-3);
     }
     .split-button__divider,
     &:host(:hover) .split-button__divider-container,
@@ -33,7 +33,7 @@
   }
   &:host([appearance="transparent"]) {
     .split-button__divider {
-      background-color: var(--calcite-ui-blue-1);
+      background-color: var(--calcite-ui-blue-3);
     }
     &:host([appearance="transparent"]) .split-button__divider {
       background-color: var(--calcite-ui-blue-3);
