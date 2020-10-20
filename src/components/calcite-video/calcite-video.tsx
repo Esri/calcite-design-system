@@ -9,7 +9,6 @@ import {
   Listen,
   State
 } from "@stencil/core";
-import { Mouse } from "puppeteer";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-video.resources";
@@ -323,12 +322,15 @@ export class CalciteVideo {
   }
 
   @Listen("mouseenter") mouseEnterListener(): MouseEvent {
-    if (!this.isLoading && this.playOnHover && document.activeElement !== this.el) this.playVideo();
+    if (!this.isLoading && this.playOnHover && document.activeElement !== this.el) {
+      return this.playVideo();
+    } else return;
   }
 
   @Listen("mouseleave") mouseLeaveListener(): MouseEvent {
-    if (!this.isLoading && this.playOnHover && document.activeElement !== this.el)
-      this.pauseVideo();
+    if (!this.isLoading && this.playOnHover && document.activeElement !== this.el) {
+      return this.pauseVideo();
+    } else return;
   }
 
   @Listen("focus") focusInListener(): FocusEvent {
@@ -510,13 +512,13 @@ export class CalciteVideo {
     }
   }
 
-  playVideo(): void {
+  playVideo(): any {
     this.videoEl?.play();
     this.isPlaying = true;
     this.calciteVideoPlay.emit();
   }
 
-  pauseVideo(): void {
+  pauseVideo(): any {
     this.videoEl?.pause();
     this.isPlaying = false;
     this.calciteVideoPause.emit();
