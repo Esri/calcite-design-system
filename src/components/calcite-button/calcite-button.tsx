@@ -106,6 +106,7 @@ export class CalciteButton {
     const iconStartEl = (
       <calcite-icon
         class="calcite-button--icon icon-start"
+        dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={iconScale}
@@ -115,6 +116,7 @@ export class CalciteButton {
     const iconEndEl = (
       <calcite-icon
         class="calcite-button--icon icon-end"
+        dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale={iconScale}

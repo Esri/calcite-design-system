@@ -200,6 +200,7 @@ export class CalciteInput {
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
+        dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon as string}
         scale={iconScale}
