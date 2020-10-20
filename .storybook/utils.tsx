@@ -15,28 +15,28 @@ import {
   text
 } from "@storybook/addon-knobs";
 
-import { Colors } from "../node_modules/@esri/calcite-colors/dist/colors";
+import { colors } from "../node_modules/@esri/calcite-colors/dist/colors";
 import { Description, DocsPage } from "@storybook/addon-docs/blocks";
 import React from "react";
 
 const lightValue = {
   name: "Light",
-  value: Colors["blk-005"]
+  value: colors["blk-005"]
 };
 
 const foregroundValue = {
   name: "Foreground",
-  value: Colors["blk-000"]
+  value: colors["blk-000"]
 };
 
 const darkValue = {
   name: "Dark",
-  value: Colors["blk-210"]
+  value: colors["blk-210"]
 };
 
 const foregroundDarkValue = {
   name: "Foreground Dark",
-  value: Colors["blk-200"]
+  value: colors["blk-200"]
 };
 
 export const backgrounds = {
