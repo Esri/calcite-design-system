@@ -334,7 +334,7 @@ export class CalciteRadioButton {
     return (
       <Host
         aria-checked={this.checked.toString()}
-        aria-disabled={this.disabled}
+        aria-disabled={this.disabled.toString()}
         labeled={this.el.textContent ? true : false}
       >
         <div class="radio" />
