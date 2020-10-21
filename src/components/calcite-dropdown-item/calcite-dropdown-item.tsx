@@ -136,10 +136,10 @@ export class CalciteDropdownItem {
     );
     return (
       <Host
-        aria-selected={this.active.toString()}
+        aria-checked={this.active.toString()}
         dir={dir}
         isLink={this.href}
-        role="menuitem"
+        role="menuitemcheckbox"
         selection-mode={this.selectionMode}
         tabindex="0"
       >
