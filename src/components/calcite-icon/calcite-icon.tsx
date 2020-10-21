@@ -37,12 +37,12 @@ export class CalciteIcon {
   icon: string = null;
 
   /**
-   * When true, the icon will be mirrored when the element direction is 'rtl'.
+   * When true, the icon will be flipped when the element direction is 'rtl'.
    */
   @Prop({
     reflect: true
   })
-  mirrored = false;
+  flipRtl = false;
 
   /**
    * Icon scale. Can be "s" | "m" | "l".
@@ -93,7 +93,7 @@ export class CalciteIcon {
   }
 
   render(): VNode {
-    const { el, mirrored, pathData, scale, textLabel } = this;
+    const { el, flipRtl, pathData, scale, textLabel } = this;
     const dir = getElementDir(el);
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
@@ -102,7 +102,7 @@ export class CalciteIcon {
       <Host aria-label={semantic ? textLabel : null} role={semantic ? "img" : null}>
         <svg
           class={{
-            [CSS.mirrored]: dir === "rtl" && mirrored,
+            [CSS.flipRtl]: dir === "rtl" && flipRtl,
             svg: true
           }}
           fill="currentColor"

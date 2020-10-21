@@ -76,6 +76,7 @@ graph TD;
   calcite-pick-list-item --> calcite-icon
   calcite-popover --> calcite-icon
   calcite-radio-group-item --> calcite-icon
+  calcite-rating --> calcite-icon
   calcite-stepper-item --> calcite-icon
   calcite-tab-title --> calcite-icon
   calcite-tile --> calcite-icon

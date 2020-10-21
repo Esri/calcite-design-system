@@ -43,6 +43,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
+    { components: ["calcite-rating"] },
     { components: ["calcite-scrim"] },
     {
       components: ["calcite-shell", "calcite-shell-panel"]
