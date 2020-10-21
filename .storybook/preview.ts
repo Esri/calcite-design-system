@@ -6,7 +6,7 @@ addParameters({
     element: "#root",
     config: {},
     options: {},
-    manual: false
+    manual: true
   },
   backgrounds,
   docs: {
