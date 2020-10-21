@@ -21,6 +21,7 @@ These can be passed straight to the `calcite-pagination` component:
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property            | Attribute             | Description                                       | Type                | Default              |
@@ -33,11 +34,13 @@ These can be passed straight to the `calcite-pagination` component:
 | `theme`             | `theme`               | specify the theme of accordion, defaults to light | `"dark" \| "light"` | `undefined`          |
 | `total`             | `total`               | total number of items                             | `number`            | `0`                  |
 
+
 ## Events
 
 | Event                     | Description                                 | Type                                   |
 | ------------------------- | ------------------------------------------- | -------------------------------------- |
 | `calcitePaginationUpdate` | Emitted whenever the selected page changes. | `CustomEvent<CalcitePaginationDetail>` |
+
 
 ## Methods
 
@@ -49,6 +52,8 @@ Go to the next page of results
 
 Type: `Promise<void>`
 
+
+
 ### `previousPage() => Promise<void>`
 
 Go to the previous page of results
@@ -57,6 +62,9 @@ Go to the previous page of results
 
 Type: `Promise<void>`
 
+
+
+
 ## Dependencies
 
 ### Depends on
@@ -64,13 +72,12 @@ Type: `Promise<void>`
 - [calcite-icon](../calcite-icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-pagination --> calcite-icon
   style calcite-pagination fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

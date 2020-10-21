@@ -29,6 +29,9 @@ export class CalciteSplitButton {
   /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
+  /** flip the primary icon(s) in rtl */
+  @Prop({ reflect: true }) primaryIconFlipRtl?: "both" | "start" | "end";
+
   /** optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconStart?: string;
 
@@ -62,6 +65,7 @@ export class CalciteSplitButton {
             disabled={this.disabled}
             icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
             icon-start={this.primaryIconStart ? this.primaryIconStart : null}
+            iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
             loading={this.loading}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
             scale={this.scale}

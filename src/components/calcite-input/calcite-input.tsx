@@ -56,6 +56,9 @@ export class CalciteInput {
   /** for recognized input types, show an icon if applicable */
   @Prop({ reflect: true }) icon: string | boolean = false;
 
+  /** flip the icon in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+
   /** specify if the input is in loading state */
   @Prop({ reflect: true }) loading = false;
 
@@ -197,6 +200,8 @@ export class CalciteInput {
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
+        dir={dir}
+        flipRtl={this.iconFlipRtl}
         icon={this.icon as string}
         scale={iconScale}
         theme={this.theme}

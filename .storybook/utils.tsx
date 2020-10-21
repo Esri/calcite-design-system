@@ -15,7 +15,7 @@ import {
   text
 } from "@storybook/addon-knobs";
 
-import colors from "../node_modules/@esri/calcite-colors/colors.json";
+import { colors } from "../node_modules/@esri/calcite-colors/dist/colors";
 import { Description, DocsPage } from "@storybook/addon-docs/blocks";
 import React from "react";
 

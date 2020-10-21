@@ -22,7 +22,7 @@
   cursor: pointer;
   text-align: unset;
   position: relative;
-  @include font-size(-4);
+  font-size: theme("fontSize.-2");
   @include focus-style-base();
   &:hover,
   &:focus {

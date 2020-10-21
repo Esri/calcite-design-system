@@ -67,8 +67,8 @@ storiesOf("Components/Date", module)
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       locale="${select("locale", locales, "en-US")}"
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
+      intl-next-month="${text("intl-next-month", "Next month")}"
+      intl-prev-month="${text("intl-prev-month", "Previous month")}"
     ></calcite-date>
     </div>
   `
@@ -85,8 +85,8 @@ storiesOf("Components/Date", module)
       locale="${select("locale", locales, "en-US")}"
       active
       no-calendar-input
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
+      intl-next-month="${text("intl-next-month", "Next month")}"
+      intl-prev-month="${text("intl-prev-month", "Previous month")}"
     ></calcite-date>
     </div>
   `
@@ -102,8 +102,8 @@ storiesOf("Components/Date", module)
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       locale="${select("locale", locales, "en-US")}"
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
+      intl-next-month="${text("intl-next-month", "Next month")}"
+      intl-prev-month="${text("intl-prev-month", "Previous month")}"
     ></calcite-date>
     </div>
 `,

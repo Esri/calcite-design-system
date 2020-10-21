@@ -91,7 +91,7 @@ export class CalciteDateMonthHeader {
         <div aria-hidden="true" class="header">
           <a
             aria-disabled={nextMonthDate.getMonth() === activeMonth}
-            aria-label={this.intlNextMonth}
+            aria-label={this.intlPrevMonth}
             class="chevron"
             href="#"
             onClick={(e) => this.handleArrowClick(e, prevMonthDate)}
@@ -99,7 +99,7 @@ export class CalciteDateMonthHeader {
             role="button"
             tabindex="0"
           >
-            <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
+            <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
           </a>
           <div class={{ text: true, "text--reverse": reverse }}>
             <span class="month" role="heading">
@@ -141,7 +141,7 @@ export class CalciteDateMonthHeader {
             role="button"
             tabindex="0"
           >
-            <calcite-icon dir={dir} icon="chevron-right" mirrored scale={iconScale} />
+            <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
           </a>
         </div>
       </Host>
