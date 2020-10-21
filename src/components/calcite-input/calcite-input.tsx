@@ -11,9 +11,9 @@ import {
   State,
   VNode,
   Watch
-  } from '@stencil/core'
-import { getElementDir, getElementProp } from '../../utils/dom'
-import { getKey } from '../../utils/key'
+} from "@stencil/core";
+import { getElementDir, getElementProp } from "../../utils/dom";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-input",
@@ -60,10 +60,13 @@ export class CalciteInput {
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
 
+  /** Allow toggling between read only / editable state */
   @Prop() inlineEditable?: boolean = false;
 
+  /** Enable editing mode for inline-editable inputs */
   @Prop({ mutable: true, reflect: true }) editingEnabled?: boolean = false;
 
+  /** Flag used to disable input controls while an async/longer-running task is in progress. */
   @Prop() isActionInProgress?: boolean = false;
 
   /** specify if the input is in loading state */
