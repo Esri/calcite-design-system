@@ -97,7 +97,6 @@ export class CalciteTreeItem {
       <Host
         aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
         aria-hidden={this.parentExpanded || this.depth === 1 ? undefined : "true"}
-        aria-role="treeitem"
         aria-selected={
           this.selected
             ? "true"
@@ -106,6 +105,7 @@ export class CalciteTreeItem {
             ? "false"
             : undefined
         }
+        role="treeitem"
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
         <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>
