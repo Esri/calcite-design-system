@@ -1,18 +1,19 @@
 import {
   Component,
   Element,
-  Host,
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
-  Watch,
-  VNode
-} from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+  State,
+  VNode,
+  Watch
+  } from '@stencil/core'
+import { getElementDir, getElementProp } from '../../utils/dom'
+import { getKey } from '../../utils/key'
 
 @Component({
   tag: "calcite-input",
@@ -58,6 +59,12 @@ export class CalciteInput {
 
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
+
+  @Prop() inlineEditable?: boolean = false;
+
+  @Prop({ mutable: true, reflect: true }) editingEnabled?: boolean = false;
+
+  @Prop() isActionInProgress?: boolean = false;
 
   /** specify if the input is in loading state */
   @Prop({ reflect: true }) loading = false;
@@ -159,8 +166,6 @@ export class CalciteInput {
       : this.icon !== false && typesWithIcons.includes(this.type)
       ? this.iconTypeDefaults[this.type]
       : false;
-
-    this.determineClearable();
   }
 
   componentDidLoad(): void {
@@ -169,6 +174,11 @@ export class CalciteInput {
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
     if (this.disabled) this.setDisabledAction();
+    if (this.type === "textarea") this.value = this.slotValue;
+  }
+
+  componentDidRender(): void {
+    this.labelValue = this.value || this.placeholder;
   }
 
   componentWillLoad(): void {
@@ -176,8 +186,46 @@ export class CalciteInput {
     this.hasAction = !!this.el.querySelector("[slot=input-action]");
   }
 
-  componentWillUpdate(): void {
-    this.determineClearable();
+  componentShouldUpdate(newValue: any, _oldValue: any, state: string): boolean {
+    if (state === "editingEnabled" && newValue === true) {
+      this.shouldSetFocus = true;
+      return true;
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.shouldSetFocus) this.setFocus();
+    this.shouldSetFocus = false;
+  }
+
+  get shouldShowAction(): boolean {
+    return this.inlineEditable ? this.hasAction && this.editingEnabled : this.hasAction;
+  }
+
+  get shouldShowLoadingIndicator(): boolean {
+    return this.loading && !this.inlineEditable;
+  }
+
+  get shouldShowInputControls(): boolean {
+    return (this.inlineEditable && this.editingEnabled) || !this.inlineEditable;
+  }
+
+  get isTextarea(): boolean {
+    return this.childElType === "textarea";
+  }
+
+  get slotValue(): string | undefined {
+    return this.slotRef?.innerText.trim();
+  }
+
+  get isClearable(): boolean {
+    if (this.inlineEditable && this.editingEnabled && this.hasAction) return true;
+    return (
+      !this.inlineEditable &&
+      this.type !== "textarea" &&
+      (this.clearable || this.type === "search") &&
+      this.value.length > 0
+    );
   }
 
   render(): VNode {
@@ -193,9 +241,13 @@ export class CalciteInput {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
 
     const inputClearButton = (
-      <div class="calcite-input-clear-button" onClick={this.clearInputValue}>
+      <button
+        class="calcite-input-clear-button"
+        disabled={this.loading}
+        onClick={this.clearInputValue}
+      >
         <calcite-icon icon="x" scale={iconScale} theme={this.theme} />
-      </div>
+      </button>
     );
     const iconEl = (
       <calcite-icon
@@ -206,12 +258,6 @@ export class CalciteInput {
         scale={iconScale}
         theme={this.theme}
       />
-    );
-
-    const inputAction = (
-      <div class="calcite-input-action-wrapper">
-        <slot name="input-action" />
-      </div>
     );
 
     const numberButtonClassModifier =
@@ -248,68 +294,109 @@ export class CalciteInput {
 
     const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
 
-    const childEl =
-      this.childElType !== "textarea" ? (
-        <input
-          {...attributes}
-          autofocus={this.autofocus ? true : null}
-          disabled={this.disabled ? true : null}
-          max={this.maxString}
-          min={this.minString}
-          onBlur={this.inputBlurHandler}
-          onFocus={this.inputFocusHandler}
-          onInput={this.inputInputHandler}
-          placeholder={this.placeholder || ""}
-          ref={(el) => (this.childEl = el)}
-          required={this.required ? true : null}
-          step={this.stepString}
-          tabIndex={this.disabled ? -1 : null}
-          type={this.type}
-          value={this.value}
+    const childEl = [
+      <this.childElType
+        {...attributes}
+        autofocus={this.autofocus ? true : null}
+        disabled={this.disabled ? true : null}
+        max={this.maxString}
+        min={this.minString}
+        onBlur={this.inputBlurHandler}
+        onFocus={this.inputFocusHandler}
+        onInput={this.inputInputHandler}
+        placeholder={this.placeholder || ""}
+        ref={(el) => (this.childEl = el)}
+        required={this.required ? true : null}
+        step={this.stepString}
+        tabIndex={this.disabled ? -1 : null}
+        type={this.type}
+        value={this.value}
+      >
+        {this.value}
+      </this.childElType>,
+      this.isTextarea ? (
+        <div class="calcite-input-resize-icon-wrapper">
+          <calcite-icon icon="chevron-down" scale="s" />
+        </div>
+      ) : null
+    ];
+
+    const labelEl = (
+      <div
+        class={`calcite-input-inline-editable-label-wrapper ${
+          this.shouldShowInputControls ? "" : "is-visible"
+        } ${this.hasAction ? "has-action" : ""}`}
+      >
+        <calcite-label
+          class={`calcite-input-inline-editable-label ${!this.value ? "with-placeholder" : ""}`}
+          disable-spacing="true"
+          onClick={this.enableInputEditingHandler}
+          scale={this.scale}
+          theme={this.theme}
+        >
+          {this.labelValue}
+        </calcite-label>
+        <calcite-button
+          appearance="transparent"
+          class="calcite-input-enable-editing-button"
+          color="dark"
+          disabled={this.disabled}
+          iconStart="pencil"
+          onClick={this.enableInputEditingHandler}
+          scale={this.scale}
+          theme={this.theme}
         />
-      ) : (
-        [
-          <textarea
-            {...attributes}
-            autofocus={this.autofocus ? true : null}
-            disabled={this.disabled ? true : null}
-            onBlur={this.inputBlurHandler}
-            onFocus={this.inputFocusHandler}
-            onInput={this.inputInputHandler}
-            placeholder={this.placeholder || ""}
-            ref={(el) => (this.childEl = el)}
-            required={this.required ? true : null}
-            tabIndex={this.disabled ? -1 : null}
-          >
-            <slot />
-          </textarea>,
-          <div class="calcite-input-resize-icon-wrapper">
-            <calcite-icon icon="chevron-down" scale="s" />
-          </div>
-        ]
-      );
+      </div>
+    );
 
     return (
       <Host dir={dir} onClick={this.inputFocusHandler}>
+        <div ref={(el) => (this.slotRef = el)} style={{ display: "none" }}>
+          <slot />
+        </div>
         <div class="calcite-input-wrapper">
-          {this.type === "number" && this.numberButtonType === "horizontal"
-            ? numberButtonsHorizontalDown
-            : null}
-          {this.prefixText ? prefixText : null}
-          <div class="calcite-input-element-wrapper">
+          {this.type === "number" &&
+          this.numberButtonType === "horizontal" &&
+          this.shouldShowInputControls ? (
+            numberButtonsHorizontalDown
+          ) : (
+            <div />
+          )}
+          {this.prefixText && this.shouldShowInputControls ? prefixText : <div />}
+          {labelEl}
+          <div
+            class={`calcite-input-element-wrapper ${
+              this.shouldShowInputControls ? "is-visible" : ""
+            }`}
+          >
             {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.icon ? iconEl : null}
-            {this.loading ? loader : null}
+            {this.isClearable && !this.inlineEditable ? inputClearButton : <div />}
+            {this.icon && this.shouldShowInputControls ? iconEl : <div />}
+            {this.shouldShowLoadingIndicator ? loader : <div />}
           </div>
-          {this.hasAction ? inputAction : null}
-          {this.type === "number" && this.numberButtonType === "vertical"
-            ? numberButtonsVertical
-            : null}
-          {this.suffixText ? suffixText : null}
-          {this.type === "number" && this.numberButtonType === "horizontal"
-            ? numberButtonsHorizontalUp
-            : null}
+          <div class="calcite-input-buttons-wrapper">
+            {this.isClearable && this.inlineEditable ? inputClearButton : <div />}
+            <div
+              class={`calcite-input-action-wrapper ${this.shouldShowAction ? "is-visible" : ""}`}
+            >
+              <slot name="input-action" />
+            </div>
+          </div>
+          {this.type === "number" &&
+          this.numberButtonType === "vertical" &&
+          this.shouldShowInputControls ? (
+            numberButtonsVertical
+          ) : (
+            <div />
+          )}
+          {this.suffixText && this.shouldShowInputControls ? suffixText : <div />}
+          {this.type === "number" &&
+          this.numberButtonType === "horizontal" &&
+          this.shouldShowInputControls ? (
+            numberButtonsHorizontalUp
+          ) : (
+            <div />
+          )}
         </div>
       </Host>
     );
@@ -337,6 +424,8 @@ export class CalciteInput {
   @Event() calciteInputFocus: EventEmitter;
 
   @Event() calciteInputBlur: EventEmitter;
+
+  @Event() calciteInputEnableEditing: EventEmitter;
 
   @Event({
     eventName: "calciteInputInput",
@@ -373,8 +462,14 @@ export class CalciteInput {
   /** determine if there is a slotted action for styling purposes */
   private slottedActionEl?: HTMLSlotElement;
 
-  /** track if the input is clearable */
-  private isClearable = false;
+  /** textarea types set their value via a slot. this ref provides access to it */
+  private slotRef?: HTMLElement;
+
+  @State() private labelValue?: string;
+
+  private shouldSetFocus = false;
+
+  private valuePriorToInlineEdit? = this.value;
 
   private minString?: string;
 
@@ -403,6 +498,7 @@ export class CalciteInput {
   };
 
   private inputBlurHandler = () => {
+    if (this.inlineEditable && this.editingEnabled && !this.hasAction) this.editingEnabled = false;
     this.calciteInputBlur.emit({
       element: this.childEl,
       value: this.value
@@ -417,12 +513,12 @@ export class CalciteInput {
     });
   };
 
-  private determineClearable(): void {
-    this.isClearable =
-      this.type !== "textarea" &&
-      (this.clearable || this.type === "search") &&
-      this.value.length > 0;
-  }
+  private enableInputEditingHandler = async (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.valuePriorToInlineEdit = this.value;
+    this.calciteInputEnableEditing.emit();
+  };
 
   private setDisabledAction(): void {
     if (this.slottedActionEl) (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
@@ -453,6 +549,11 @@ export class CalciteInput {
   }
 
   private clearInputValue = () => {
+    if (this.inlineEditable) {
+      this.value = this.valuePriorToInlineEdit;
+      this.editingEnabled = false;
+      return;
+    }
     this.value = "";
   };
 

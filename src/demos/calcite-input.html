@@ -517,6 +517,156 @@
             </calcite-label>
           </calcite-accordion-item>
         </calcite-accordion>
+
+        <h3>Inline Editable Text Input</h3>
+        <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
+          <calcite-accordion-item item-title="Scales" active>
+            <div>
+              S
+              <calcite-input id='monday-s' inline-editable value="Monday" placeholder="Day of the week" scale='s'/>
+              <script>enableEditingForInput('#monday-s')</script>
+            </div>
+
+            <div>
+              M
+              <calcite-input id='monday-m' inline-editable value="Monday" placeholder="Day of the week" scale='m'/>
+              <script>enableEditingForInput('#monday-m')</script>
+            </div>
+
+            <div>
+              L
+              <calcite-input id='monday-l' inline-editable value="Monday" placeholder="Day of the week" scale='l'/>
+              <script>enableEditingForInput('#monday-l')</script>
+            </div>
+          </calcite-accordion-item>
+
+          <calcite-accordion-item item-title="Scales: With Action">
+            <div>
+              S
+              <calcite-input id='tuesday-s' inline-editable value="Tuesday" placeholder="Day of the week" scale='s'>
+                <calcite-button slot="input-action" icon-start="check" scale='s'></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#tuesday-s')</script>
+              <script>saveChangesForInput('#tuesday-s')</script>
+            </div>
+
+            <div>
+              M
+              <calcite-input id='tuesday-m' inline-editable value="Tuesday" placeholder="Day of the week" scale='m'>
+                <calcite-button slot="input-action" icon-start="check" scale='m'></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#tuesday-m')</script>
+              <script>saveChangesForInput('#tuesday-m')</script>
+            </div>
+
+            <div>
+              L
+              <calcite-input id='tuesday-l' inline-editable value="Tuesday" placeholder="Day of the week" scale='l'>
+                <calcite-button slot="input-action" icon-start="check" scale='l'></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#tuesday-l')</script>
+              <script>saveChangesForInput('#tuesday-l')</script>
+            </div>
+          </calcite-accordion-item>
+
+          <calcite-accordion-item item-title="Input Types">
+            <div>
+              <calcite-input id="inline-editable-kitchen" inline-editable prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
+                <calcite-button slot="input-action" icon-start="check"></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#inline-editable-kitchen')</script>
+              <script>saveChangesForInput('#inline-editable-kitchen')</script>
+            </div>
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="RTL">
+            <div>
+              <calcite-input id='inline-editable-rtl' inline-editable placeholder="Day of the week" scale='l' dir="rtl">
+                Wednesday
+                <calcite-button slot="input-action" icon-start="check" scale='l'></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#inline-editable-rtl')</script>
+              <script>saveChangesForInput('#inline-editable-rtl')</script>
+            </div>
+            <div>
+              <calcite-input id="inline-editable-kitchen-rtl" inline-editable prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?" dir="rtl">
+                <calcite-button slot="input-action" icon-start="check"></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#inline-editable-kitchen-rtl')</script>
+              <script>saveChangesForInput('#inline-editable-kitchen-rtl')</script>
+            </div>
+          </calcite-accordion-item>
+        </calcite-accordion>
+
+        <h3>Inline Editable Textarea</h3>
+        <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
+          <calcite-accordion-item item-title="Scales" active>
+            <div>
+              S
+              <calcite-input id='monday-ta-s' inline-editable placeholder="Day of the week" scale='s' type='textarea' editing-enabled/>
+                Monday
+              </calcite-input>
+              <script>enableEditingForInput('#monday-ta-s')</script>
+            </div>
+
+            <div>
+              M
+              <calcite-input id='monday-ta-m' inline-editable placeholder="Day of the week" scale='m' type='textarea'>
+                Monday
+              </calcite-input>
+              <script>enableEditingForInput('#monday-ta-m')</script>
+            </div>
+
+            <div>
+              L
+              <calcite-input id='monday-ta-l' inline-editable placeholder="Day of the week" scale='l' type='textarea'>
+                Monday
+              </calcite-input>
+              <script>enableEditingForInput('#monday-ta-l')</script>
+            </div>
+          </calcite-accordion-item>
+
+          <calcite-accordion-item item-title="Scales: With Action">
+            <div>
+              S
+              <calcite-input id='tuesday-ta-s' inline-editable placeholder="Day of the week" scale='s' type='textarea'>
+                Tuesday
+                <calcite-button slot="input-action" icon-start="check" scale='s'></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#tuesday-ta-s')</script>
+              <script>saveChangesForInput('#tuesday-ta-s')</script>
+            </div>
+
+            <div>
+              M
+              <calcite-input id='tuesday-ta-m' inline-editable placeholder="Day of the week" scale='m' type='textarea'>
+                Tuesday
+                <calcite-button slot="input-action" icon-start="check" scale='m'></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#tuesday-ta-m')</script>
+              <script>saveChangesForInput('#tuesday-ta-m')</script>
+            </div>
+
+            <div>
+              L
+              <calcite-input id='tuesday-ta-l' inline-editable placeholder="Day of the week" scale='l' type='textarea'>
+                Tuesday
+                <calcite-button slot="input-action" icon-start="check" scale='l'></calcite-button>
+              </calcite-input>
+              <script>enableEditingForInput('#tuesday-ta-l')</script>
+              <script>saveChangesForInput('#tuesday-ta-l')</script>
+            </div>
+          </calcite-accordion-item>
+
+          <calcite-accordion-item item-title="RTL">
+            <calcite-input id='ta-rtl' inline-editable placeholder="Day of the week" scale='l' type='textarea' dir="rtl">
+              Wednesday
+              <calcite-button slot="input-action" icon-start="check" scale='l'></calcite-button>
+            </calcite-input>
+            <script>enableEditingForInput('#ta-rtl')</script>
+            <script>saveChangesForInput('#ta-rtl')</script>
+          </calcite-accordion-item>
+        </calcite-accordion>
+
         <h3>Disabled</h3>
         <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
           <calcite-accordion-item item-title="Scales" active>
@@ -532,6 +682,18 @@
               <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
               <calcite-input-message icon active>Some information about the input</calcite-input-message>
             </calcite-label>
+
+            <div>
+              Inline Editable Text Input
+              <calcite-input id='disabled-inline' inline-editable placeholder="Day of the week" scale='m' disabled>
+                Pi Day
+              </calcite-input>
+            </div>
+
+            <div>
+              Inline Editable Textarea
+              <calcite-input id='disabled-inline-ta' inline-editable placeholder="Day of the week" scale='m' type='textarea' value="Friday" disabled/>
+            </div>
 
             <calcite-label disabled scale="l">
               Scale l
@@ -1003,6 +1165,25 @@
               }
               validateInputWithNativeEvents("#validate-input-example-native-function-password");
             </script>
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Inline Editable Text Input" active>
+            <calcite-label id='black-friday-status'>
+              Success
+              <calcite-input id='black-friday' inline-editable value="Friday" placeholder="Day of the week" theme="dark">
+                <calcite-button slot="input-action" icon-start="check" theme="dark"/>
+              </calcite-input>
+              <script>enableEditingForInput('#black-friday')</script>
+              <script>saveChangesForInput('#black-friday')</script>
+            </calcite-label>
+
+            <calcite-label id='black-friday-error-status'>
+              Error
+              <calcite-input id='black-friday-error' inline-editable value="Friday" placeholder="Day of the week" theme="dark">
+                <calcite-button slot="input-action" icon-start="check" theme="dark"/>
+              </calcite-input>
+              <script>enableEditingForInput('#black-friday-error')</script>
+              <script>saveChangesForInput('#black-friday-error', false)</script>
+            </calcite-label>
           </calcite-accordion-item>
         </calcite-accordion>
       </div>

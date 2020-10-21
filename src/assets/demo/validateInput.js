@@ -134,3 +134,26 @@ function logNativeFocusIn(event) {
 function logNativeFocusOut(event) {
   console.log("native focusout", event.target.id);
 }
+
+function enableEditingForInput(id) {
+  const input = document.querySelector(id);
+  input.addEventListener('calciteInputEnableEditing', () => input.editingEnabled = true)
+}
+
+function saveChangesForInput(id, isSuccess = true) {
+  const input = document.querySelector(id)
+  const action = input.querySelector('[slot="input-action"]');
+  const label = document.querySelector(`${id}-status`);
+  action.addEventListener('click', () => {
+    action.loading = true
+    action.disabled = true
+    input.loading = true
+    window.setTimeout(() => {
+      input.loading = false
+      action.disabled = false
+      action.loading = false
+      if (isSuccess) return input.setAttribute('editing-enabled', false)
+      label.status = 'invalid'
+    }, 1500)
+  })
+}

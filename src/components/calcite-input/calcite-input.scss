@@ -13,12 +13,17 @@
   }
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
-  & .calcite-input-action-wrapper calcite-button button {
+  & .calcite-input-action-wrapper calcite-button button,
+  & .calcite-input-inline-editable-label-wrapper {
     height: 32px;
   }
   & textarea,
   & input[type="file"] {
     height: auto;
+  }
+  & .calcite-input-clear-button {
+    min-height: 32px;
+    min-width: 32px;
   }
 }
 
@@ -36,12 +41,17 @@
   }
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
-  & .calcite-input-action-wrapper calcite-button button {
+  & .calcite-input-action-wrapper calcite-button button,
+  & .calcite-input-inline-editable-label-wrapper {
     height: 44px;
   }
   & textarea,
   & input[type="file"] {
     height: auto;
+  }
+  & .calcite-input-clear-button {
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 
@@ -59,12 +69,17 @@
   }
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
-  & .calcite-input-action-wrapper calcite-button button {
+  & .calcite-input-action-wrapper calcite-button button,
+  & .calcite-input-inline-editable-label-wrapper {
     height: 56px;
   }
   & textarea,
   & input[type="file"] {
     height: auto;
+  }
+  & .calcite-input-clear-button {
+    min-height: 56px;
+    min-width: 56px;
   }
 }
 
@@ -177,11 +192,14 @@
 }
 //positioning wrapper for icon and loader
 .calcite-input-element-wrapper {
-  display: inline-flex;
+  display: none;
   flex: 1;
   min-width: 20%;
   position: relative;
   order: 3;
+  &.is-visible {
+    display: inline-flex;
+  }
 }
 
 .calcite-input-icon {
@@ -229,10 +247,10 @@ input[type="time"]::-webkit-clear-button {
   display: flex;
   align-self: stretch;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   cursor: pointer;
   min-height: 100%;
-  padding: 0 $baseline/2;
   border: 1px solid var(--calcite-ui-border-1);
   transition: $transition;
   pointer-events: initial;
@@ -245,6 +263,16 @@ input[type="time"]::-webkit-clear-button {
   }
   &:active {
     background-color: var(--calcite-ui-foreground-3);
+  }
+  &:disabled {
+    opacity: 0.4;
+  }
+}
+
+:host([dir="rtl"]) {
+  .calcite-input-clear-button {
+    border-left: 1px solid var(--calcite-ui-border-1);
+    border-right: none;
   }
 }
 
@@ -267,8 +295,11 @@ input[type="time"]::-webkit-clear-button {
 
 // slotted action
 .calcite-input-action-wrapper {
-  display: flex;
-  order: 7;
+  display: none;
+  &.is-visible {
+    order: 7;
+    display: flex;
+  }
 }
 
 // prefix and suffix
@@ -542,5 +573,90 @@ $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-
 
   :host([status="#{$name}"]) .calcite-input-icon {
     color: $color;
+  }
+}
+
+.calcite-input-buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+  order: 7;
+}
+
+.calcite-input-inline-editable-label-wrapper {
+  align-items: center;
+  display: none;
+  justify-content: space-between;
+  width: 100%;
+  &.is-visible {
+    display: flex;
+  }
+  &:hover {
+    background-color: var(--calcite-ui-foreground-2);
+  }
+  .calcite-input-inline-editable-label {
+    flex: 1;
+    height: 100%;
+    justify-content: center;
+    &.with-placeholder {
+      color: var(--calcite-ui-text-3);
+    }
+  }
+}
+
+:host([type="textarea"]) {
+  &[scale="s"] {
+    .calcite-input-inline-editable-label-wrapper {
+      min-height: 46px;
+      padding: 8px 0;
+      &.has-action {
+        min-height: 64px;
+      }
+    }
+    .calcite-input-clear-button {
+      width: 100%;
+    }
+  }
+  &[scale="m"] {
+    .calcite-input-inline-editable-label-wrapper {
+      min-height: 64px;
+      padding: 12px 0;
+      &.has-action {
+        min-height: 88px;
+      }
+    }
+  }
+  &[scale="l"] {
+    .calcite-input-inline-editable-label-wrapper {
+      min-height: 82px;
+      padding: 16px 0;
+      &.has-action {
+        min-height: 112px;
+      }
+    }
+  }
+  .calcite-input-buttons-wrapper {
+    flex-direction: column;
+  }
+  .calcite-input-clear-button {
+    align-self: flex-start;
+    order: 1;
+  }
+  .calcite-input-inline-editable-label-wrapper {
+    align-items: flex-start;
+    box-sizing: border-box;
+    .calcite-input-inline-editable-label {
+      justify-content: flex-start;
+    }
+  }
+  .calcite-input-enable-editing-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  &[dir="rtl"] {
+    .calcite-input-enable-editing-button {
+      left: 0;
+      right: unset;
+    }
   }
 }
