@@ -144,7 +144,7 @@
 
 :host([range][layout="vertical"]) {
   .input-wrapper {
-    width: 100%;
+    @apply w-full;
   }
 
   .input-container {
@@ -158,12 +158,12 @@
 
   .vertical-arrow-container {
     position: absolute;
-    left: 0;
+    @apply left-0;
     top: 36px;
     z-index: 1;
     background-color: var(--calcite-ui-foreground-1);
-    padding: 0 10px;
-    margin: 0 1px;
+    @apply px-10px;
+    @apply mx-px;
   }
 }
 
@@ -173,7 +173,7 @@
 
 :host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
   top: 50px;
-  padding: 0 14px;
+  @apply px-14px;
 }
 
 :host([range][layout="vertical"][active]) {

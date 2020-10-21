@@ -286,7 +286,11 @@ export class CalciteDateMonth {
    * Determine if the date should be in selected state
    */
   private isSelected(date: Date): boolean {
-    return sameDate(date, this.selectedDate) || (this.startDate && sameDate(date, this.startDate));
+    return (
+      sameDate(date, this.selectedDate) ||
+      (this.startDate && sameDate(date, this.startDate)) ||
+      (this.endDate && sameDate(date, this.endDate))
+    );
   }
 
   /**

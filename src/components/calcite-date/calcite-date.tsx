@@ -498,7 +498,7 @@ export class CalciteDate {
           <calcite-date-month
             activeDate={activeDate}
             dir={dir}
-            endDate={this.focusedInput === "end" ? endDate : undefined}
+            endDate={this.range ? endDate : undefined}
             localeData={this.localeData}
             max={maxDate}
             min={minDate}
@@ -517,7 +517,7 @@ export class CalciteDate {
             onCalciteDateSelect={(e: CustomEvent<Date>) => this.handleDateChange(e, true)}
             scale={this.scale}
             selectedDate={this.focusedInput === "start" ? date : endDate}
-            startDate={this.focusedInput === "end" ? date : undefined}
+            startDate={this.range ? date : undefined}
           />
         </div>
       )
