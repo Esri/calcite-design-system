@@ -141,7 +141,7 @@ export class CalciteDropdownItem {
         aria-checked={this.active.toString()}
         dir={dir}
         isLink={this.href}
-        role="menuitemcheckbox"
+        role="menuitem"
         selection-mode={this.selectionMode}
         tabindex="0"
       >
