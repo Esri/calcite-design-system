@@ -88,9 +88,9 @@ export class CalciteDateMonthHeader {
     const suffix = this.localeData.year?.suffix;
     return (
       <Host dir={dir}>
-        <div aria-hidden="true" class="header">
+        <div class="header">
           <a
-            aria-disabled={nextMonthDate.getMonth() === activeMonth}
+            aria-disabled={(nextMonthDate.getMonth() === activeMonth).toString()}
             aria-label={this.intlPrevMonth}
             class="chevron"
             href="#"
@@ -102,7 +102,7 @@ export class CalciteDateMonthHeader {
             <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
           </a>
           <div class={{ text: true, "text--reverse": reverse }}>
-            <span class="month" role="heading">
+            <span aria-level="2" class="month" role="heading">
               {localizedMonth}
             </span>
             <span class="year-wrap">
@@ -132,7 +132,7 @@ export class CalciteDateMonthHeader {
             </span>
           </div>
           <a
-            aria-disabled={nextMonthDate.getMonth() === activeMonth}
+            aria-disabled={(nextMonthDate.getMonth() === activeMonth).toString()}
             aria-label={this.intlNextMonth}
             class="chevron"
             href="#"
