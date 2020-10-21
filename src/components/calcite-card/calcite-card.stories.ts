@@ -45,7 +45,7 @@ storiesOf("Components/Card", module)
       ${boolean("loading", false)}
       ${boolean("selectable", false)}
       >
-      <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">Untitled experience</h3>
       <span slot="subtitle">Subtext</span>
       <calcite-button slot="footer-leading" width="full">Go</calcite-button>
@@ -60,7 +60,7 @@ storiesOf("Components/Card", module)
       ${boolean("loading", false)}
       ${boolean("selectable", false)}
       >
-      <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">My perhaps multiline card title</h3>
       <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
       overly verbose.</span>
@@ -78,7 +78,7 @@ storiesOf("Components/Card", module)
       ${boolean("loading", false)}
       ${boolean("selectable", false)}
       >
-      <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">My great project that might wrap two lines</h3>
       <span slot="subtitle">Johnathan Smith</span>
       <span slot="footer-leading">Nov 25, 2018</span>
@@ -104,7 +104,7 @@ storiesOf("Components/Card", module)
       ${boolean("loading", false)}
       ${boolean("selectable", false)}
       >
-        <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+        <img alt="" slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
         <h3 slot="title">Portland Businesses</h3>
         <span slot="subtitle">by
           <calcite-link href="">example_user</calcite-button>
@@ -184,7 +184,7 @@ storiesOf("Components/Card", module)
       ${boolean("loading", false)}
       ${boolean("selectable", false)}
       >
-      <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">Untitled experience</h3>
       <span slot="subtitle">Subtext</span>
       <calcite-button theme="dark" slot="footer-leading" width="full">Go</calcite-button>
@@ -201,7 +201,7 @@ storiesOf("Components/Card", module)
       ${boolean("loading", false)}
       ${boolean("selectable", false)}
       >
-      <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">My perhaps multiline card title</h3>
       <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
       overly verbose.</span>
@@ -221,7 +221,7 @@ storiesOf("Components/Card", module)
       ${boolean("loading", false)}
       ${boolean("selectable", false)}
       >
-      <img slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
       <h3 slot="title">My great project that might wrap two lines</h3>
       <span slot="subtitle">Johnathan Smith</span>
       <span slot="footer-leading">Nov 25, 2018</span>
@@ -249,7 +249,7 @@ storiesOf("Components/Card", module)
       ${boolean("loading", false)}
       ${boolean("selectable", false)}
       >
-        <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+        <img alt="" slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
         <h3 slot="title">Portland Businesses</h3>
         <span slot="subtitle">by
           <calcite-link theme="dark" href="">example_user</calcite-link>

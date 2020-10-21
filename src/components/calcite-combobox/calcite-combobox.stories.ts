@@ -12,6 +12,7 @@ storiesOf("Components/Combobox", module)
     (): string => `
     <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
     <calcite-combobox
+      label="demo combobox"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       >
       <calcite-combobox-item value="Trees" text-label="Trees">
@@ -42,6 +43,7 @@ storiesOf("Components/Combobox", module)
     (): string => `
     <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
     <calcite-combobox
+    label="demo combobox"
     theme="dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     >

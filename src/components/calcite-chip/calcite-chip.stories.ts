@@ -44,7 +44,7 @@ storiesOf("Components/Chip", module)
     color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
     ${boolean("dismissible", false)}
     >
-    <img slot="chip-image" src="https://placekitten.com/50/50" />
+    <img alt="" slot="chip-image" src="https://placekitten.com/50/50" />
     My great chip</calcite-chip>
     </div>
   `
