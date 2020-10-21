@@ -289,7 +289,7 @@ export class CalciteSelect {
       <Host>
         <select
           aria-label={this.label}
-          class={{ [CSS_UTILITY.rtl]: rtl }}
+          class={{ [CSS.select]: true, [CSS_UTILITY.rtl]: rtl }}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
           ref={this.storeSelectRef}
