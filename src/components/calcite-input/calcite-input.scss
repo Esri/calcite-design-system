@@ -192,14 +192,11 @@
 }
 //positioning wrapper for icon and loader
 .calcite-input-element-wrapper {
-  display: none;
+  display: inline-flex;
   flex: 1;
   min-width: 20%;
   position: relative;
   order: 3;
-  &.is-visible {
-    display: inline-flex;
-  }
 }
 
 .calcite-input-icon {
@@ -295,11 +292,8 @@ input[type="time"]::-webkit-clear-button {
 
 // slotted action
 .calcite-input-action-wrapper {
-  display: none;
-  &.is-visible {
-    order: 7;
-    display: flex;
-  }
+  display: flex;
+  order: 7;
 }
 
 // prefix and suffix
@@ -398,7 +392,10 @@ input[type="time"]::-webkit-clear-button {
 
 :host([number-button-type="vertical"]) .calcite-input-wrapper {
   flex-direction: row;
-  display: flex;
+  display: none;
+  &.is-visible {
+    display: flex;
+  }
 }
 
 :host([number-button-type="vertical"]) {
@@ -487,9 +484,12 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite-input-wrapper {
-  display: flex;
+  display: none;
   flex-direction: row;
   position: relative;
+  &.is-visible {
+    display: flex;
+  }
 }
 
 // hide the default date picker
@@ -584,12 +584,9 @@ $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-
 
 .calcite-input-inline-editable-label-wrapper {
   align-items: center;
-  display: none;
+  display: flex;
   justify-content: space-between;
   width: 100%;
-  &.is-visible {
-    display: flex;
-  }
   &:hover {
     background-color: var(--calcite-ui-foreground-2);
   }
@@ -644,6 +641,7 @@ $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-
   .calcite-input-inline-editable-label-wrapper {
     align-items: flex-start;
     box-sizing: border-box;
+    position: relative;
     .calcite-input-inline-editable-label {
       justify-content: flex-start;
     }
