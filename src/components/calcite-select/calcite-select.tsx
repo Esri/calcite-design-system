@@ -15,15 +15,15 @@ import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
-type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
+type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
-function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is HTMLCalciteOptionElement {
+function isOption(optionOrGroup: CalciteOptionOrGroup): optionOrGroup is HTMLCalciteOptionElement {
   return optionOrGroup.tagName === "CALCITE-OPTION";
 }
 
 function isOptionGroup(
-  optionOrGroup: OptionOrGroup
+  optionOrGroup: CalciteOptionOrGroup
 ): optionOrGroup is HTMLCalciteOptionGroupElement {
   return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
 }
@@ -88,7 +88,7 @@ export class CalciteSelect {
   @Element()
   private el: HTMLCalciteSelectElement;
 
-  private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
+  private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
 
   private mutationObserver = new MutationObserver(() => this.populateInternalSelect());
 
@@ -146,7 +146,7 @@ export class CalciteSelect {
   protected handleOptionOrGroupChange(event: CustomEvent): void {
     event.stopPropagation();
 
-    const optionOrGroup = event.target as OptionOrGroup;
+    const optionOrGroup = event.target as CalciteOptionOrGroup;
     const nativeEl = this.componentToNativeEl.get(optionOrGroup);
 
     if (!nativeEl) {
@@ -167,7 +167,7 @@ export class CalciteSelect {
   //--------------------------------------------------------------------------
 
   private updateNativeElements(
-    optionOrGroup: OptionOrGroup,
+    optionOrGroup: CalciteOptionOrGroup,
     nativeOptionOrGroup: NativeOptionOrGroup
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
@@ -181,7 +181,7 @@ export class CalciteSelect {
   }
 
   private populateInternalSelect = (): void => {
-    const optionsAndGroups = Array.from(this.el.children as HTMLCollectionOf<OptionOrGroup>);
+    const optionsAndGroups = Array.from(this.el.children as HTMLCollectionOf<CalciteOptionOrGroup>);
 
     this.removeFromInternalSelect(optionsAndGroups);
 
@@ -190,7 +190,7 @@ export class CalciteSelect {
     });
   };
 
-  private removeFromInternalSelect(optionsAndGroups: OptionOrGroup[]): void {
+  private removeFromInternalSelect(optionsAndGroups: CalciteOptionOrGroup[]): void {
     optionsAndGroups.forEach((optionOrGroup) => {
       this.componentToNativeEl.clear();
       this.componentToNativeEl.get(optionOrGroup)?.remove();
