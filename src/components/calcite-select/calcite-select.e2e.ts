@@ -1,23 +1,24 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, reflects, renders } from "../../tests/commonTests";
+import dedent from "dedent";
 
 describe("calcite-select", () => {
-  function createSimpleTestMarkup(): string {
-    return `<calcite-select label="required-for-a11y-test">
-        <calcite-option>uno</calcite-option>
-        <calcite-option>dos</calcite-option>
-        <calcite-option>tres</calcite-option>
-      </calcite-select>`;
-  }
+  const simpleTestMarkup = dedent`
+    <calcite-select label="required-for-a11y-test">
+      <calcite-option>uno</calcite-option>
+      <calcite-option>dos</calcite-option>
+      <calcite-option>tres</calcite-option>
+    </calcite-select>
+  `;
 
-  it("renders", async () => renders(createSimpleTestMarkup()));
+  it("renders", async () => renders(simpleTestMarkup));
 
-  it("is accessible", async () => accessible(createSimpleTestMarkup()));
+  it("is accessible", async () => accessible(simpleTestMarkup));
 
-  it("is focusable", async () => focusable(createSimpleTestMarkup()));
+  it("is focusable", async () => focusable(simpleTestMarkup));
 
   it("reflects", async () =>
-    reflects(createSimpleTestMarkup(), [
+    reflects(simpleTestMarkup, [
       {
         propertyName: "disabled",
         value: true
