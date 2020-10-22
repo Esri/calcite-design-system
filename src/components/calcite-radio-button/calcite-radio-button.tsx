@@ -85,7 +85,7 @@ export class CalciteRadioButton {
   @Watch("name")
   nameChanged(newName: string): void {
     this.input.name = newName;
-    this.checkFirstRadioButton();
+    this.checkLastRadioButton();
     const currentValue: HTMLInputElement = document.querySelector(
       `input[name="${this.name}"]:checked`
     );
@@ -129,20 +129,22 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  private checkFirstRadioButton(): void {
+  private checkLastRadioButton(): void {
     const radioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
       (radioButton) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
-    let firstCheckedRadioButton: HTMLCalciteRadioButtonElement;
-    if (radioButtons?.length > 0) {
-      radioButtons.forEach((radioButton: HTMLCalciteRadioButtonElement) => {
-        if (firstCheckedRadioButton) {
-          radioButton.checked = false;
-          this.calciteRadioButtonCheckedChange.emit(false);
-        } else if (radioButton.checked) {
-          firstCheckedRadioButton = radioButton;
-        }
-      });
+
+    const checkedRadioButtons = radioButtons?.filter(
+      (radioButton) => radioButton.checked
+    ) as HTMLCalciteRadioButtonElement[];
+
+    if (radioButtons?.length > 0 && checkedRadioButtons?.length > 1) {
+      const lastCheckedRadioButton: HTMLCalciteRadioButtonElement = checkedRadioButtons[checkedRadioButtons.length - 1];
+      checkedRadioButtons.filter(
+        (checkedRadioButton) => checkedRadioButton !== lastCheckedRadioButton).forEach(
+          (checkedRadioButton) => {
+            checkedRadioButton.checked = false;
+          });
     }
   }
 
@@ -254,7 +256,7 @@ export class CalciteRadioButton {
     this.renderLabel();
     this.setupTitleAttributeObserver();
     if (this.name) {
-      this.checkFirstRadioButton();
+      this.checkLastRadioButton();
     }
   }
 
