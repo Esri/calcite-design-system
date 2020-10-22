@@ -117,6 +117,8 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  private initialChecked: boolean;
+
   private input: HTMLInputElement;
 
   private label: HTMLCalciteLabelElement;
@@ -232,6 +234,11 @@ export class CalciteRadioButton {
     this.hovered = false;
   }
 
+  private formResetHandler = (): void => {
+    this.checked = this.initialChecked;
+    this.initialChecked && this.input.setAttribute("checked", "");
+  }
+
   private onInputBlur(): void {
     this.focused = false;
     this.calciteRadioButtonFocusedChange.emit();
@@ -250,11 +257,16 @@ export class CalciteRadioButton {
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
+    this.initialChecked = this.checked;
     this.renderInput();
     this.renderLabel();
     this.setupTitleAttributeObserver();
     if (this.name) {
       this.checkFirstRadioButton();
+    }
+    const form = this.el.closest("form");
+    if (form) {
+      form.addEventListener("reset", this.formResetHandler);
     }
   }
 
@@ -267,6 +279,10 @@ export class CalciteRadioButton {
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
     this.titleAttributeObserver.disconnect();
+    const form = this.el.closest("form");
+    if (form) {
+      form.removeEventListener("reset", this.formResetHandler);
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -279,8 +295,9 @@ export class CalciteRadioButton {
     // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
     // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
     this.input = document.createElement("input");
-    this.input.setAttribute("aria-label", this.value || this.guid);
     this.input.checked = this.checked;
+    this.checked && this.input.setAttribute("checked", "");
+    this.input.setAttribute("aria-label", this.value || this.guid);
     this.input.disabled = this.disabled;
     this.input.hidden = this.hidden;
     this.input.id = `${this.guid}-input`;
@@ -294,9 +311,9 @@ export class CalciteRadioButton {
     // @link https://blog.bitsrc.io/customise-radio-buttons-without-compromising-accessibility-b03061b5ba93
     // The only difference is we're using "fixed" instead of "absolute" positioning thanks to this StackOverflow:
     // @link https://stackoverflow.com/questions/24299567/radio-button-causes-browser-to-jump-to-the-top/24323870
-    this.input.style.opacity = "0";
-    this.input.style.position = "fixed";
-    this.input.style.zIndex = "-1";
+    // this.input.style.opacity = "0";
+    // this.input.style.position = "fixed";
+    // this.input.style.zIndex = "-1";
 
     if (this.value) {
       this.input.value = this.value;
