@@ -11,6 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { FocusRequest } from "../../interfaces/Label";
 
 @Component({
   tag: "calcite-label",
@@ -64,7 +65,7 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteLabelFocus: EventEmitter;
+  @Event() calciteLabelFocus: EventEmitter<FocusRequest>;
 
   //--------------------------------------------------------------------------
   //
@@ -77,7 +78,7 @@ export class CalciteLabel {
     const forAttr = this.el.getAttribute("for");
     this.calciteLabelFocus.emit({
       labelEl: this.el,
-      interactedEl: event.target,
+      interactedEl: event.target as HTMLElement,
       requestedInput: forAttr
     });
     if (forAttr) {

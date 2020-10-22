@@ -1,19 +1,20 @@
 import {
   Component,
-  Host,
-  h,
   Element,
-  Prop,
-  VNode,
+  Event,
+  EventEmitter,
+  h,
+  Host,
   Listen,
   Method,
-  EventEmitter,
-  Event
+  Prop,
+  VNode
 } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
+import { FocusRequest } from "../../interfaces/Label";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -157,6 +158,17 @@ export class CalciteSelect {
 
     if (isOption(optionOrGroup) && optionOrGroup.selected) {
       this.deselectAllExcept(optionOrGroup);
+    }
+  }
+
+  @Listen("calciteLabelFocus", { target: "window" })
+  handleLabelFocus(event: CustomEvent<FocusRequest>): void {
+    const { requestedInput, labelEl } = event.detail;
+    const { el } = this;
+
+    if (labelEl.contains(el) || (requestedInput && requestedInput === el.getAttribute("id"))) {
+      this.setFocus();
+      event.stopImmediatePropagation();
     }
   }
 
