@@ -15,9 +15,9 @@ import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
-  * @slot actions-end - a slot for adding actions or content to the end side of the item.
-  * @slot actions-start - a slot for adding actions or content to the start side of the item.
-  */
+ * @slot actions-end - a slot for adding actions or content to the end side of the item.
+ * @slot actions-start - a slot for adding actions or content to the start side of the item.
+ */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "./calcite-pick-list-item.scss",
@@ -248,8 +248,8 @@ export class CalcitePickListItem {
         class={CSS.remove}
         icon={ICONS.remove}
         onClick={this.removeClickHandler}
-        text={this.intlRemove}
         slot={SLOTS.actionsEnd}
+        text={this.intlRemove}
       />
     ) : null;
   }
@@ -259,8 +259,8 @@ export class CalcitePickListItem {
     const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
 
     return hasActionsStart ? (
-      <div class={{ [CSS.actions]:true, [CSS.actionsStart]:true }}>
-        <slot name={SLOTS.actionsStart}></slot>
+      <div class={{ [CSS.actions]: true, [CSS.actionsStart]: true }}>
+        <slot name={SLOTS.actionsStart} />
       </div>
     ) : null;
   }
@@ -270,8 +270,8 @@ export class CalcitePickListItem {
     const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return hasActionsEnd || removable ? (
-      <div class={{ [CSS.actions]: true, [CSS.actionsEnd]:true }}>
-        <slot name={SLOTS.actionsEnd}></slot>
+      <div class={{ [CSS.actions]: true, [CSS.actionsEnd]: true }}>
+        <slot name={SLOTS.actionsEnd} />
         {this.renderRemoveAction()}
       </div>
     ) : null;

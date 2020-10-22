@@ -4,5 +4,5 @@
 }
 
 calcite-button {
-  box-shadow: var(--calcite-shadow-1);
+  @apply shadow-1;
 }

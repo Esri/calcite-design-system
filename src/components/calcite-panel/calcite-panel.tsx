@@ -85,9 +85,9 @@ export class CalcitePanel {
   @Prop({ reflect: true }) heightScale: CalciteScale;
 
   /**
-   * This sets width and max-width of the content area.
+   * This sets width of the panel.
    */
-  @Prop({ reflect: true }) widthScale: CalciteScale;
+  @Prop({ reflect: true }) widthScale?: CalciteScale;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -324,7 +324,7 @@ export class CalcitePanel {
 
   renderHeaderContent(): VNode {
     const { heading, summary } = this;
-    const headingNode = heading ? <h4 class={CSS.heading}>{heading}</h4> : null;
+    const headingNode = heading ? <h3 class={CSS.heading}>{heading}</h3> : null;
     const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
 
     return headingNode || summaryNode ? (

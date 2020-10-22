@@ -56,7 +56,7 @@
   // accommodate for spacing of label
   margin-top: -1.5rem;
   border-radius: var(--calcite-border-radius);
-  box-shadow: $shadow-2;
+  box-shadow: var(--calcite-shadow-2);
   padding: var(--calcite-input-message-spacing-value);
   z-index: 101;
 }

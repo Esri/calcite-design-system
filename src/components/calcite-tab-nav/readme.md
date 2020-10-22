@@ -4,6 +4,7 @@ The tab-nav groups several [calcite-tab-title](../calcite-tab-title) components 
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property    | Attribute    | Description                                                                       | Type     | Default     |
@@ -11,26 +12,27 @@ The tab-nav groups several [calcite-tab-title](../calcite-tab-title) components 
 | `storageId` | `storage-id` | Name to use when saving selected tab data to localStorage                         | `string` | `undefined` |
 | `syncId`    | `sync-id`    | Pass the same string to multiple tab navs to keep them all in sync if one changes | `string` | `undefined` |
 
+
 ## Events
 
 | Event              | Description                         | Type                                |
 | ------------------ | ----------------------------------- | ----------------------------------- |
 | `calciteTabChange` | Emitted when the active tab changes | `CustomEvent<TabChangeEventDetail>` |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+ - [calcite-color](../calcite-color)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-color --> calcite-tab-nav
   style calcite-tab-nav fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

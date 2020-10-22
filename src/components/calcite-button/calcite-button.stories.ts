@@ -109,9 +109,10 @@ storiesOf("Components/Button", module)
   `
   )
   .add(
-    "FAB",
+    "FAB (Floating Action Button)",
     (): string => `
   <div
+  tabindex="0"
   style="height:300px;width:200px;border:1px solid #c9c9c9;padding:20px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
   semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
@@ -131,6 +132,7 @@ storiesOf("Components/Button", module)
 
   <div class="sticky-example" style="position: -webkit-sticky;position: sticky;bottom: 10px;margin: 0 auto;">
   <calcite-button
+  aria-label="demo"
   id="calcite-fab-tooltip"
   ${boolean("round", true)}
   ${boolean("floating", true)}
@@ -206,6 +208,7 @@ storiesOf("Components/Button", module)
     "FAB - dark mode",
     (): string => `
   <div
+  tabindex="0"
     style="height:300px;width:200px;border:1px solid #555;color: #eaeaea;padding:20px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
     semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
@@ -226,6 +229,7 @@ storiesOf("Components/Button", module)
     <div class="sticky-example" style="position: -webkit-sticky;position: sticky;bottom: 10px;margin: 0 auto;">
     <calcite-button
     theme="dark"
+    aria-label="demo"
     id="calcite-fab-tooltip"
     ${boolean("round", true)}
     ${boolean("floating", true)}

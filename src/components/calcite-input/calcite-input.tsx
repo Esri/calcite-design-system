@@ -56,6 +56,9 @@ export class CalciteInput {
   /** for recognized input types, show an icon if applicable */
   @Prop({ reflect: true }) icon: string | boolean = false;
 
+  /** flip the icon in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+
   /** specify if the input is in loading state */
   @Prop({ reflect: true }) loading = false;
 
@@ -131,6 +134,13 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
+  @Watch("value") valueWatcher(): void {
+    this.calciteInputInput.emit({
+      element: this.childEl,
+      value: this.value
+    });
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -190,6 +200,8 @@ export class CalciteInput {
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
+        dir={dir}
+        flipRtl={this.iconFlipRtl}
         icon={this.icon as string}
         scale={iconScale}
         theme={this.theme}
@@ -388,10 +400,6 @@ export class CalciteInput {
 
   private inputInputHandler = (e) => {
     this.value = e.target.value;
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
   };
 
   private inputBlurHandler = () => {
@@ -469,10 +477,6 @@ export class CalciteInput {
           break;
       }
       this.value = this.childEl.value.toString();
-      this.calciteInputInput.emit({
-        element: this.childEl,
-        value: this.value
-      });
     }
   };
 }

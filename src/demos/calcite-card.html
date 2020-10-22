@@ -27,6 +27,17 @@
       color: white;
       padding: 1rem;
     }
+
+    .block-group {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+
+    .block-group > calcite-card {
+      flex-basis: 300px;
+      margin: 10px;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="/build/calcite.css" />
@@ -141,7 +152,42 @@
       </calcite-card>
     </div>
     <div class="example-grid-item">
+      <calcite-card selectable>
+        <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+        <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+          overly verbose.</span>
+        <calcite-link slot="footer-leading">Lead füt</calcite-link>
+        <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+      </calcite-card>
+    </div>
+  </div>
+  <div >
+    <h2>Same height</h2>
+    <div class="block-group">
+      <calcite-card selected selectable>
+        <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
 
+        <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+        <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+          overly verbose.</span>
+        <calcite-link slot="footer-leading">Lead füt</calcite-link>
+        <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+      </calcite-card>
+      <calcite-card loading>
+        <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+
+        <h3 slot="title">Loading example</h3>
+        <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
+          overly verbose.</span>
+        <calcite-link slot="footer-leading">Lead füt</calcite-link>
+        <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+      </calcite-card>
+      <calcite-card selectable>
+        <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+        <h3 slot="title">Untitled experience</h3>
+        <span slot="subtitle">Subtext</span>
+        <calcite-button slot="footer-leading" width="full">Go</calcite-button>
+      </calcite-card>
       <calcite-card selectable>
         <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
         <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't

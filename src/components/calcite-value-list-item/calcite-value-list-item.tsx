@@ -7,9 +7,9 @@ import { SLOTS as PICK_LIST_SLOTS } from "../calcite-pick-list-item/resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
-  * @slot actions-end - A slot for adding actions or content to the end side of the item.
-  * @slot actions-start - A slot for adding actions or content to the start side of the item.
-  */
+ * @slot actions-end - A slot for adding actions or content to the end side of the item.
+ * @slot actions-start - A slot for adding actions or content to the start side of the item.
+ */
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "./calcite-value-list-item.scss",
@@ -146,16 +146,16 @@ export class CalciteValueListItem {
     const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return hasActionsEnd ? (
-      <slot name={SLOTS.actionsEnd} slot={PICK_LIST_SLOTS.actionsEnd}></slot>
+      <slot name={SLOTS.actionsEnd} slot={PICK_LIST_SLOTS.actionsEnd} />
     ) : null;
   }
-  
+
   renderActionsStart(): VNode {
     const { el } = this;
     const hasActionsStart = getSlotted(el, SLOTS.actionsStart);
 
     return hasActionsStart ? (
-      <slot name={SLOTS.actionsStart} slot={PICK_LIST_SLOTS.actionsStart}></slot>
+      <slot name={SLOTS.actionsStart} slot={PICK_LIST_SLOTS.actionsStart} />
     ) : null;
   }
 
@@ -196,7 +196,7 @@ export class CalciteValueListItem {
           removable={this.removable}
           selected={this.selected}
           value={this.value}
-          >
+        >
           {this.renderActionsStart()}
           {this.renderActionsEnd()}
         </calcite-pick-list-item>

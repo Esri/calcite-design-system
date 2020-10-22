@@ -11,7 +11,9 @@
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   height: 100%;
-  max-height: 100%;
+  max-height: unset;
+  max-width: unset;
+  width: 100%;
 }
 
 .content {
@@ -22,7 +24,28 @@
   display: flex;
   padding: 0;
   pointer-events: auto;
+  width: var(--calcite-shell-panel-width);
+  max-width: var(--calcite-shell-panel-max-width);
+  min-width: var(--calcite-shell-panel-min-width);
   transition: max-height $transition, max-width $transition;
+}
+
+:host([width-scale="s"]) .content {
+  --calcite-shell-panel-width: 12vw;
+  --calcite-shell-panel-max-width: 300px;
+  --calcite-shell-panel-min-width: 150px;
+}
+
+:host([width-scale="m"]) .content {
+  --calcite-shell-panel-width: 20vw;
+  --calcite-shell-panel-max-width: 420px;
+  --calcite-shell-panel-min-width: 240px;
+}
+
+:host([width-scale="l"]) .content {
+  --calcite-shell-panel-width: 45vw;
+  --calcite-shell-panel-max-width: 680px;
+  --calcite-shell-panel-min-width: 340px;
 }
 
 :host([detached-height-scale="s"]) .content--detached {
@@ -40,7 +63,7 @@
 .content--detached {
   border-radius: var(--calcite-border-radius);
   box-shadow: var(--calcite-shadow-0);
-  margin: var(--calcite-spacing-half) var(--calcite-spacing-half) auto;
+  margin: var(--calcite-spacing-half) var(--calcite-spacing-half) 0;
   max-height: var(--calcite-shell-panel-detached-max-height);
   overflow: hidden;
   ::slotted(calcite-panel),

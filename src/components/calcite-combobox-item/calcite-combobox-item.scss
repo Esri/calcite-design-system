@@ -94,19 +94,19 @@
 
 :host(:not([disabled])) .combobox-item-label:hover,
 :host(:not([disabled])) .combobox-item-label:active {
+  @apply shadow-none;
   background-color: var(--calcite-ui-foreground-2);
   color: var(--calcite-ui-text-1);
   text-decoration: none;
-  box-shadow: none;
   & .combobox-item-icon {
     opacity: 1;
   }
 }
 
 :host(:focus:not([disabled])) .combobox-item-label {
+  @apply shadow-none;
   color: var(--calcite-ui-text-1);
   text-decoration: none;
-  box-shadow: none;
   & .combobox-item-icon {
     opacity: 1;
   }
@@ -121,7 +121,7 @@
 }
 
 :host(:focus) {
-  box-shadow: none;
+  @apply shadow-none;
 }
 
 // selected state

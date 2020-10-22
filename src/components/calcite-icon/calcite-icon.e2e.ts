@@ -6,31 +6,31 @@ import { scaleToPx } from "./utils";
 describe("calcite-icon", () => {
   it("has defaults", async () =>
     defaults("calcite-icon", [
-      { propertyName: "mirrored", defaultValue: false },
+      { propertyName: "flipRtl", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
   it("reflects", async () =>
     reflects("calcite-icon", [
-      { propertyName: "mirrored", value: true },
+      { propertyName: "flipRtl", value: true },
       { propertyName: "scale", value: "m" }
     ]));
 
   it("is accessible", async () => accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`));
 
-  it("mirrors icon when enabled and in RTL", async () => {
+  it("flips icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
     const icon = await page.find(`calcite-icon`);
-    const mirroredIconSelector = `calcite-icon >>> .${CSS.mirrored}`;
+    const flipRtlIconSelector = `calcite-icon >>> .${CSS.flipRtl}`;
 
-    expect(await page.find(mirroredIconSelector)).toBeNull();
+    expect(await page.find(flipRtlIconSelector)).toBeNull();
 
     icon.setProperty("dir", "rtl");
-    icon.setProperty("mirrored", true);
+    icon.setProperty("flipRtl", true);
     await page.waitForChanges();
 
-    expect(await page.find(mirroredIconSelector)).toBeTruthy();
+    expect(await page.find(flipRtlIconSelector)).toBeTruthy();
   });
 
   describe("rendering", () => {

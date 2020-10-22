@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop, Listen, VNode } from "@stencil/core";
+import { Component, Element, Host, h, Prop, Listen, VNode, Watch } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile-select",
@@ -23,6 +23,11 @@ export class CalciteTileSelect {
   /** The checked state of the tile select. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
+  @Watch("checked")
+  checkedChanged(newChecked: boolean): void {
+    this.input.checked = newChecked;
+  }
+
   /** The description text that appears beneath the heading of the tile. */
   @Prop({ reflect: true }) description?: string;
 
@@ -43,6 +48,11 @@ export class CalciteTileSelect {
 
   /** The name of the tile select.  This name will appear in form submissions as either a radio or checkbox identifier based on the `type` property. */
   @Prop({ reflect: true }) name = "";
+
+  @Watch("name")
+  nameChanged(newName: string): void {
+    this.input.name = newName;
+  }
 
   /** The side of the tile that the radio or checkbox appears. */
   @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";
@@ -89,12 +99,13 @@ export class CalciteTileSelect {
     }
   }
 
-  @Listen("calciteRadioButtonChange")
-  calciteRadioButtonChangeEvent(event: CustomEvent): void {
+  @Listen("calciteRadioButtonCheckedChange")
+  calciteRadioButtonCheckedChangeEvent(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
     }
+    event.stopPropagation();
   }
 
   @Listen("calciteRadioButtonFocusedChange")
@@ -107,9 +118,10 @@ export class CalciteTileSelect {
 
   @Listen("click")
   click(event: MouseEvent): void {
-    if ((event.target as HTMLElement).localName === "calcite-tile-select") {
+    const target = event.target as HTMLElement;
+    const targets = ["calcite-tile", "calcite-tile-select"];
+    if (targets.includes(target.localName)) {
       this.input.click();
-      this.input.focus();
     }
   }
 

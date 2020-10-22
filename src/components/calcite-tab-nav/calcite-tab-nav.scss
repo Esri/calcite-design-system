@@ -1,9 +1,12 @@
 :host {
   z-index: 2;
+  position: relative;
+  display: flex;
 }
 
 .tab-nav {
   display: flex;
+  width: 100%;
   overflow: auto;
   justify-content: flex-start;
   -webkit-overflow-scrolling: touch;
@@ -14,4 +17,34 @@
 
 :host([layout="center"]) .tab-nav {
   justify-content: center;
+}
+
+// prevent indicator overflow in horizontal scrolling situations
+.tab-nav-active-indicator-container {
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  position: absolute;
+  overflow: hidden;
+}
+
+.tab-nav-active-indicator {
+  position: absolute;
+  bottom: 0;
+  background: var(--calcite-ui-blue-1);
+  display: block;
+  height: 3px;
+  transition: all ease-out;
+}
+
+:host([position="below"]) .tab-nav-active-indicator {
+  bottom: unset;
+  top: 0;
+}
+
+:host([position="below"]) .tab-nav-active-indicator-container {
+  bottom: unset;
+  top: 0;
 }
