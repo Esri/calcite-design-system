@@ -321,9 +321,9 @@ export class CalciteRadioButton {
     // @link https://blog.bitsrc.io/customise-radio-buttons-without-compromising-accessibility-b03061b5ba93
     // The only difference is we're using "fixed" instead of "absolute" positioning thanks to this StackOverflow:
     // @link https://stackoverflow.com/questions/24299567/radio-button-causes-browser-to-jump-to-the-top/24323870
-    // this.input.style.opacity = "0";
-    // this.input.style.position = "fixed";
-    // this.input.style.zIndex = "-1";
+    this.input.style.opacity = "0";
+    this.input.style.position = "fixed";
+    this.input.style.zIndex = "-1";
 
     if (this.value) {
       this.input.value = this.value;
