@@ -143,7 +143,7 @@ export class CalciteRadioButton {
 
     const checkedRadioButtons = radioButtons.filter(
       (radioButton) => radioButton.checked
-    ) as HTMLCalciteRadioButtonElement[];
+    );
 
     if (checkedRadioButtons?.length > 1) {
       const lastCheckedRadioButton = checkedRadioButtons[checkedRadioButtons.length - 1];
