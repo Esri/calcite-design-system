@@ -82,11 +82,11 @@
 
 :host([disabled]) {
   cursor: default;
-  pointer-events: none;
+  // pointer-events: none;
   opacity: 0.2;
 }
 
-:host(:hover),
+:host(:hover:not([disabled])),
 :host([active]) {
   & .day {
     background-color: var(--calcite-ui-foreground-2);
@@ -99,13 +99,13 @@
   z-index: 1;
 }
 
-:host(:focus) .day {
+:host(:focus:not([disabled])) .day {
   box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
 }
 
 :host([selected]) .day {
-  background-color: var(--calcite-ui-blue-1);
-  color: var(--calcite-ui-foreground-1);
+  background-color: var(--calcite-ui-blue-1) !important;
+  color: var(--calcite-ui-foreground-1) !important;
   font-weight: 500;
   z-index: 1;
 }
@@ -161,6 +161,58 @@
 
 :host([highlighted]:not([active]:focus)) .day {
   border-radius: 0;
+  color: var(--calcite-ui-text-1);
+}
+
+:host([range-hover]:not([selected])) {
+  .day-wrapper {
+    background-color: var(--calcite-ui-foreground-2);
+  }
+  .day {
+    border-radius: 0;
+  }
+}
+
+:host(:hover[range-hover]:not([selected]).focused--end[dir="ltr"]),
+:host(:hover[range-hover]:not([selected]).focused--start[dir="rtl"]) {
+  .day-wrapper {
+    border-top-right-radius: 40%;
+    border-bottom-right-radius: 40%;
+    box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
+  }
+  .day {
+    border-radius: 100%;
+    box-shadow: -2px 0 var(--calcite-ui-foreground-1);
+  }
+}
+
+:host(:hover[range-hover]:not([selected]).focused--start[dir="ltr"]),
+:host(:hover[range-hover]:not([selected]).focused--end[dir="rtl"]) {
+  .day-wrapper {
+    border-top-left-radius: 40%;
+    border-bottom-left-radius: 40%;
+    box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
+  }
+  .day {
+    border-radius: 100%;
+    box-shadow: 2px 0 var(--calcite-ui-foreground-1);
+  }
+}
+
+:host([end-of-range].hover--inside-range.focused--end),
+:host([start-of-range].hover--inside-range.focused--start),
+:host(:hover[start-of-range].hover--inside-range.focused--end),
+:host(:hover[end-of-range].hover--inside-range.focused--start) {
+  .day-wrapper {
+    background: none;
+  }
+}
+
+:host([start-of-range].hover--inside-range.focused--end),
+:host([end-of-range].hover--inside-range.focused--start) {
+  .day-wrapper {
+    background-color: var(--calcite-ui-foreground-2);
+  }
 }
 
 :host([dir="ltr"][highlighted]:first-child) .day-wrapper,

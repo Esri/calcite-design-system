@@ -62,6 +62,8 @@ export class CalciteDateMonth {
    */
   @Prop() localeData: DateLocaleData;
 
+  @Prop() hoverRange;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -74,9 +76,16 @@ export class CalciteDateMonth {
   @Event() calciteDateSelect: EventEmitter;
 
   /**
+   * Event emitted when user hovers the date.
+   */
+  @Event() calciteDateHover: EventEmitter;
+
+  /**
    * Active date for the user keyboard access.
    */
   @Event() calciteActiveDateChange: EventEmitter;
+
+  @Event() calciteDateMouseOut: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -139,6 +148,10 @@ export class CalciteDateMonth {
    */
   @Listen("focusout") disableActiveFocus(): void {
     this.activeFocus = false;
+  }
+
+  @Listen("mouseout") mouseoutHandler(): void {
+    this.calciteDateMouseOut.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -279,7 +292,14 @@ export class CalciteDateMonth {
    * Determine if the date is in between the start and end dates
    */
   private betweenSelectedRange(date: Date): boolean {
-    return this.startDate && this.endDate && date > this.startDate && date < this.endDate;
+    return (
+      this.startDate &&
+      this.endDate &&
+      date > this.startDate &&
+      date < this.endDate &&
+      !this.isRangeHover(date) &&
+      !this.isHoverInRange()
+    );
   }
 
   /**
@@ -330,6 +350,13 @@ export class CalciteDateMonth {
       highlighted: this.betweenSelectedRange(date),
       localeData: this.localeData,
       onCalciteDaySelect: () => this.calciteDateSelect.emit(date),
+      onCalciteDayHover: (e: CustomEvent) => {
+        if (e.detail.disabled) {
+          this.calciteDateMouseOut.emit();
+        } else {
+          this.calciteDateHover.emit(date);
+        }
+      },
       range: !!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate),
       scale: this.scale,
       selected: this.isSelected(date),
@@ -340,8 +367,45 @@ export class CalciteDateMonth {
             el?.focus();
           }
         }
-      })
+      }),
+      rangeHover: this.isRangeHover(date),
+      class: `${this.isHoverInRange() ? "hover--inside-range" : "hover--outside-range"} ${
+        this.isFocusedOnStart() ? "focused--start" : "focused--end"
+      }`
     };
     return <calcite-date-day {...props} />;
+  }
+
+  private isFocusedOnStart() {
+    return this.hoverRange?.focused === "start";
+  }
+
+  private isHoverInRange() {
+    if (!this.hoverRange) {
+      return;
+    }
+    const { start, end } = this.hoverRange;
+    return (
+      (!this.isFocusedOnStart() && end < this.endDate) ||
+      (this.isFocusedOnStart() && start > this.startDate)
+    );
+  }
+
+  private isRangeHover(date) {
+    if (!this.hoverRange) {
+      return false;
+    }
+    const { start, end } = this.hoverRange;
+    const isStart = this.isFocusedOnStart();
+    const insideRange = this.isHoverInRange();
+    const cond1 =
+      insideRange &&
+      ((!isStart && date > this.startDate && (date < end || sameDate(date, end))) ||
+        (isStart && date < this.endDate && (date > start || sameDate(date, start))));
+    const cond2 =
+      !insideRange &&
+      ((!isStart && date > this.endDate && (date < end || sameDate(date, end))) ||
+        (isStart && date < this.startDate && (date > start || sameDate(date, start))));
+    return cond1 || cond2;
   }
 }

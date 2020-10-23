@@ -57,6 +57,8 @@ export class CalciteDateDay {
   /** Date is the end of date range */
   @Prop({ reflect: true }) endOfRange = false;
 
+  @Prop({ reflect: true }) rangeHover = false;
+
   /** Date is actively in focus for keyboard navigation */
   @Prop({ reflect: true }) active = false;
 
@@ -84,6 +86,12 @@ export class CalciteDateDay {
     }
   }
 
+  @Listen("mouseover") mouseoverHandler(): void {
+    this.calciteDayHover.emit({
+      disabled: this.disabled
+    });
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -94,6 +102,11 @@ export class CalciteDateDay {
    * Emitted when user selects day
    */
   @Event() calciteDaySelect: EventEmitter;
+
+  /**
+   * Emitted when user hovers over a day
+   */
+  @Event() calciteDayHover: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
