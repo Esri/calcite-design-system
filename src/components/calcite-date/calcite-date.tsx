@@ -238,7 +238,7 @@ export class CalciteDate {
             </div>
             {this.range && !this.noCalendarInput && this.layout === "horizontal" && (
               <div class="horizontal-arrow-container">
-                <calcite-icon icon={dir === "ltr" ? `arrow-right` : `arrow-left`} scale="s" />
+                <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
               </div>
             )}
             {this.range && !this.noCalendarInput && this.layout === "vertical" && (
