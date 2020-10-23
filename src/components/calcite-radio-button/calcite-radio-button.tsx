@@ -126,7 +126,7 @@ export class CalciteRadioButton {
 
   /** @internal */
   @Method()
-  emitCheckedChange(): void {
+  async emitCheckedChange() {
     this.calciteRadioButtonCheckedChange.emit();
   }
 
