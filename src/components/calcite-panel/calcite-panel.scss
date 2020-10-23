@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-layout;
   display: flex;
   position: relative;
   max-height: var(--calcite-panel-max-height);
@@ -106,7 +107,7 @@ calcite-scrim {
   }
   .heading {
     color: var(--calcite-ui-text-3);
-    font-weight: var(--calcite-ui-text-weight-demi);
+    font-weight: var(--calcite-font-weight-medium);
     margin: 0 0 var(--calcite-spacing-quarter);
     font-size: theme("fontSize.0");
     &:only-child {

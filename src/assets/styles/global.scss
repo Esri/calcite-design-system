@@ -2,7 +2,7 @@
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
 /* CSS vars (@include in global) */
-@import "layout";
+@import "type";
 @import "shadow";
 
 :root {
@@ -12,17 +12,12 @@
   -moz-osx-font-smoothing: grayscale;
 
   @include calcite-theme-light();
-  @include componentLayoutVars();
+  @include componentTypeVars();
   @include componentShadowVars();
 
   --calcite-border-radius: 3px;
   --calcite-icon-size: 1rem;
   --calcite-ui-opacity-disabled: 0.3;
-
-  --calcite-ui-text-weight-light: 300;
-  --calcite-ui-text-weight: 400;
-  --calcite-ui-text-weight-medium: 500;
-  --calcite-ui-text-weight-demi: 700;
 
   --calcite-code-family: #{$code-family};
 

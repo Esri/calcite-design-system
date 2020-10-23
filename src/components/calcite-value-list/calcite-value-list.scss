@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-layout;
   align-items: stretch;
   background-color: transparent;
   display: flex;

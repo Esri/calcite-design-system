@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-layout;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -42,7 +43,7 @@
 }
 
 ::slotted(.header .heading) {
-  font-weight: var(--calcite-ui-text-weight);
+  font-weight: var(--calcite-font-weight-normal);
   @include font-size(-2);
 }
 

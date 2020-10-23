@@ -1,4 +1,4 @@
-@mixin componentLayoutVars() {
+%component-layout {
   /* Component layout variables */
   --calcite-spacing-eighth: theme("spacing.05");
 
@@ -20,4 +20,34 @@
 
   --calcite-header-min-height: theme("spacing.12");
   --calcite-footer-min-height: theme("spacing.12");
+
+  /* Increase by 0.25rem */
+  --calcite-spacing-0: theme("spacing.0");
+  --calcite-spacing-px: theme("spacing.px");
+  --calcite-spacing-05: theme("spacing.05"); // --calcite-spacing-eighth
+  --calcite-spacing-1: theme("spacing.1"); // --calcite-spacing-quarter
+  --calcite-spacing-2: theme("spacing.2"); // --calcite-spacing-half
+  --calcite-spacing-3: theme("spacing.3"); // --calcite-spacing-three-quarters
+  --calcite-spacing-4: theme("spacing.4"); // --calcite-spacing
+  --calcite-spacing-5: theme("spacing.5"); // --calcite-spacing-plus-quarter
+  --calcite-spacing-6: theme("spacing.6"); // --calcite-spacing-plus-half
+  --calcite-spacing-7: theme("spacing.7");
+  --calcite-spacing-8: theme("spacing.8"); // --calcite-spacing-double
+  --calcite-spacing-9: theme("spacing.9");
+  --calcite-spacing-10: theme("spacing.10");
+
+  /* Increase by 0.5rem */
+  --calcite-spacing-12: theme("spacing.12");
+
+  /* Increase by 1rem */
+  --calcite-spacing-16: theme("spacing.16");
+  --calcite-spacing-20: theme("spacing.20");
+  --calcite-spacing-24: theme("spacing.24");
+
+  /* Increase by 2rem */
+  --calcite-spacing-32: theme("spacing.32");
+  --calcite-spacing-40: theme("spacing.40");
+  --calcite-spacing-48: theme("spacing.48");
+  --calcite-spacing-56: theme("spacing.56");
+  --calcite-spacing-64: theme("spacing.64");
 }
