@@ -1,26 +1,5 @@
 %component-layout {
-  /* Component layout variables */
-  --calcite-spacing-eighth: theme("spacing.05");
-
-  --calcite-spacing-quarter: theme("spacing.1");
-
-  --calcite-spacing-half: theme("spacing.2");
-
-  --calcite-spacing-three-quarters: theme("spacing.3");
-
-  --calcite-spacing: theme("spacing.4");
-
-  --calcite-spacing-plus-quarter: theme("spacing.5");
-
-  --calcite-spacing-plus-half: theme("spacing.6");
-
-  --calcite-spacing-double: theme("spacing.8");
-
-  --calcite-menu-min-width: theme("spacing.40");
-
-  --calcite-header-min-height: theme("spacing.12");
-  --calcite-footer-min-height: theme("spacing.12");
-
+  /* Component spacing variables */
   /* Increase by 0.25rem */
   --calcite-spacing-0: theme("spacing.0");
   --calcite-spacing-px: theme("spacing.px");
@@ -50,4 +29,30 @@
   --calcite-spacing-48: theme("spacing.48");
   --calcite-spacing-56: theme("spacing.56");
   --calcite-spacing-64: theme("spacing.64");
+
+  --calcite-icon-size: 1rem;
+
+  /**
+  * These will be removed once all components are using the below spacing vars.
+  */
+  --calcite-spacing-eighth: theme("spacing.05");
+
+  --calcite-spacing-quarter: theme("spacing.1");
+
+  --calcite-spacing-half: theme("spacing.2");
+
+  --calcite-spacing-three-quarters: theme("spacing.3");
+
+  --calcite-spacing: theme("spacing.4");
+
+  --calcite-spacing-plus-quarter: theme("spacing.5");
+
+  --calcite-spacing-plus-half: theme("spacing.6");
+
+  --calcite-spacing-double: theme("spacing.8");
+
+  --calcite-menu-min-width: theme("spacing.40");
+
+  --calcite-header-min-height: theme("spacing.12");
+  --calcite-footer-min-height: theme("spacing.12");
 }

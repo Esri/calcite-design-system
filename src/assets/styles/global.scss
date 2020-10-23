@@ -16,10 +16,8 @@
   @include componentShadowVars();
 
   --calcite-border-radius: 3px;
-  --calcite-icon-size: 1rem;
-  --calcite-ui-opacity-disabled: 0.3;
 
-  --calcite-code-family: #{$code-family};
+  --calcite-ui-opacity-disabled: 0.3;
 
   --calcite-ui-foreground-current: #{$h-bb-010};
   --calcite-ui-text-current: #{$h-bb-070};

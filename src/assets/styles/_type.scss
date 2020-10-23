@@ -1,4 +1,6 @@
 @mixin componentTypeVars() {
+  --calcite-code-family: theme("fontFamily.mono");
+
   /* Component type variables */
   --calcite-font-size--3: theme("fontSize.-3"); // 0.625rem     10px
   --calcite-font-size--2: theme("fontSize.-2"); // 0.75rem      12px
