@@ -98,7 +98,7 @@ describe("calcite-radio-button-group", () => {
     }
   });
 
-  it("when multiple items are checked, first one wins", async () => {
+  it("when multiple items are checked, last one wins", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button-group name="multiple-checked">
@@ -111,7 +111,7 @@ describe("calcite-radio-button-group", () => {
     expect(checkedItems).toHaveLength(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
-    expect(selectedValue).toBe("1");
+    expect(selectedValue).toBe("3");
   });
 
   it("selects item with left and arrow keys", async () => {
