@@ -8,7 +8,8 @@ import {
   Watch,
   Event,
   EventEmitter,
-  VNode
+  VNode,
+  Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
@@ -123,6 +124,12 @@ export class CalciteRadioButton {
 
   private titleAttributeObserver: MutationObserver;
 
+  /** @internal */
+  @Method()
+  emitCheckedChange(): void {
+    this.calciteRadioButtonCheckedChange.emit();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -134,16 +141,17 @@ export class CalciteRadioButton {
       (radioButton) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
 
-    const checkedRadioButtons = radioButtons?.filter(
+    const checkedRadioButtons = radioButtons.filter(
       (radioButton) => radioButton.checked
     ) as HTMLCalciteRadioButtonElement[];
 
-    if (radioButtons?.length > 0 && checkedRadioButtons?.length > 1) {
-      const lastCheckedRadioButton: HTMLCalciteRadioButtonElement = checkedRadioButtons[checkedRadioButtons.length - 1];
+    if (checkedRadioButtons?.length > 1) {
+      const lastCheckedRadioButton = checkedRadioButtons[checkedRadioButtons.length - 1];
       checkedRadioButtons.filter(
         (checkedRadioButton) => checkedRadioButton !== lastCheckedRadioButton).forEach(
-          (checkedRadioButton) => {
+          (checkedRadioButton: HTMLCalciteRadioButtonElement) => {
             checkedRadioButton.checked = false;
+            checkedRadioButton.emitCheckedChange();
           });
     }
   }
