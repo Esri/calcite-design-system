@@ -439,22 +439,20 @@ describe("calcite-radio-button", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <form>
-        <calcite-radio-button id="unchecked" name="reset" value="unchecked"></calcite-radio-button>
-        <calcite-radio-button id="checked" name="reset" value="checked" checked></calcite-radio-button>
+        <calcite-radio-button id="unchecked" name="reset" value="unchecked">Unchecked</calcite-radio-button>
+        <calcite-radio-button id="checked" name="reset" value="checked" checked>Checked</calcite-radio-button>
       </form>
     `);
 
     const unchecked = await page.find("#unchecked");
     expect(await unchecked.getProperty("checked")).toBe(false);
 
+    const checked = await page.find("#checked");
+    expect(await checked.getProperty("checked")).toBe(true);
+
     await unchecked.click();
     expect(await unchecked.getProperty("checked")).toBe(true);
-
-    const checked = await page.find("#checked");
     expect(await checked.getProperty("checked")).toBe(false);
-
-    await checked.click();
-    expect(await checked.getProperty("checked")).toBe(true);
 
     await page.evaluate(() => {
       const form = document.querySelector("form");
