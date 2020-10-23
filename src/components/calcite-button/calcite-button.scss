@@ -512,6 +512,20 @@
   }
 }
 
+:host([dir="ltr"][appearance="outline"][split-child="primary"]:not([floating])) button,
+:host([dir="rtl"][appearance="outline"][split-child="secondary"]:not([floating])) button,
+:host([dir="ltr"][appearance="clear"][split-child="primary"]:not([floating])) button,
+:host([dir="rtl"][appearance="clear"][split-child="secondary"]:not([floating])) button {
+  border-right: 0;
+}
+
+:host([dir="ltr"][appearance="outline"][split-child="secondary"]:not([floating])) button,
+:host([dir="rtl"][appearance="outline"][split-child="primary"]:not([floating])) button,
+:host([dir="ltr"][appearance="clear"][split-child="secondary"]:not([floating])) button,
+:host([dir="rtl"][appearance="clear"][split-child="primary"]:not([floating])) button {
+  border-left: 0;
+}
+
 // transparent
 @mixin btn-transparent($color) {
   color: $color;
