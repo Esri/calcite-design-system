@@ -1,0 +1,52 @@
+//ie11 fixes
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+// scale variants for child
+:host-context([scale="s"]) {
+  @include font-size(-3);
+}
+
+:host-context([scale="m"]) {
+  @include font-size(-1);
+}
+
+:host-context([scale="l"]) {
+  @include font-size(1);
+}
+
+:host {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 0 2px var(--calcite-ui-border-1);
+  border: 2px solid var(--calcite-ui-background);
+  border-radius: 50%;
+}
+
+:host .calcite-avatar-icon {
+  display: flex;
+}
+
+:host .calcite-avatar-initials {
+  font-weight: bold;
+  color: var(--calcite-ui-text-3);
+}
+// generate button scales
+$avatarScales: "s" calc(#{$baseline}* 1.25), "m" calc(#{$baseline}* 1.75), "l" calc(#{$baseline}* 2.25);
+
+@each $avatarScale in $avatarScales {
+  $name: nth($avatarScale, 1);
+  $scale: nth($avatarScale, 2);
+
+  :host([scale="#{$name}"]) {
+    height: #{$scale};
+    width: #{$scale};
+    & img {
+      border-radius: 50%;
+      height: #{$scale};
+      width: #{$scale};
+    }
+  }
+}

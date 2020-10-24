@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Avatar</title>
+  <style>
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+  <script src="../assets/demo/createAlert.js"></script>
+
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Avatar</h1>
+  <h3>Default Image (no image, no names provided)</h3>
+  <calcite-avatar scale="s"></calcite-avatar><br /><br />
+  <calcite-avatar scale="m"></calcite-avatar><br /><br />
+  <calcite-avatar scale="l"></calcite-avatar><br /><br />
+  <h3>Provided Image</h3>
+  <calcite-avatar src="http://placekitten.com/105/105" scale="s"></calcite-avatar><br /><br />
+  <calcite-avatar src="http://placekitten.com/40/40" scale="m"></calcite-avatar><br /><br />
+  <calcite-avatar src="http://placekitten.com/120/120" scale="l"></calcite-avatar><br /><br />
+  <h3>Initials from first and last name</h3>
+  <calcite-avatar first-name="Ron" last-name="swanson" scale="s"></calcite-avatar><br /><br />
+  <calcite-avatar first-name="Ron" scale="s"></calcite-avatar><br /><br />
+  <calcite-avatar first-name="Ron" scale="m"></calcite-avatar><br /><br />
+  <calcite-avatar first-name="Ron" last-name="swanson" scale="m"></calcite-avatar><br /><br />
+  <calcite-avatar last-name="swanson" scale="l"></calcite-avatar><br /><br />
+  <calcite-avatar first-name="Ron" last-name="swanson" scale="l"></calcite-avatar><br /><br />
+  <div class="demo-background-dark">
+    <h3>Default Image</h3>
+    <calcite-avatar theme="dark" scale="s"></calcite-avatar><br /><br />
+    <calcite-avatar theme="dark" scale="m"></calcite-avatar><br /><br />
+    <calcite-avatar theme="dark" scale="l"></calcite-avatar><br /><br />
+    <h3>Provided Image</h3>
+    <calcite-avatar theme="dark" src="http://placekitten.com/105/105" scale="s"></calcite-avatar><br /><br />
+    <calcite-avatar theme="dark" src="http://placekitten.com/40/40" scale="m"></calcite-avatar><br /><br />
+    <calcite-avatar theme="dark" src="http://placekitten.com/120/120" scale="l"></calcite-avatar><br /><br />
+    <h3>Initials from first and last name</h3>
+    <calcite-avatar theme="dark" first-name="Ron" last-name="swanson" scale="s"></calcite-avatar><br /><br />
+    <calcite-avatar theme="dark" first-name="Ron" scale="m"></calcite-avatar><br /><br />
+    <calcite-avatar theme="dark" last-name="swanson" scale="l"></calcite-avatar><br /><br />
+  </div>
+</body>
+</html>
