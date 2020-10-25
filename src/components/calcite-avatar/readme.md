@@ -33,13 +33,14 @@ When no thumbnail is provided, the avatar component will construct a useful plac
 
 ## Properties
 
-| Property    | Attribute    | Description                                    | Type                | Default     |
-| ----------- | ------------ | ---------------------------------------------- | ------------------- | ----------- |
-| `firstName` | `first-name` | first name                                     | `string`            | `undefined` |
-| `lastName`  | `last-name`  | last name                                      | `string`            | `undefined` |
-| `scale`     | `scale`      | specify the scale of the avatar, defaults to m | `"l" \| "m" \| "s"` | `"m"`       |
-| `src`       | `src`        | src to an image                                | `string`            | `undefined` |
-| `theme`     | `theme`      | Select theme (light or dark)                   | `"dark" \| "light"` | `"light"`   |
+| Property    | Attribute   | Description                                                      | Type                | Default     |
+| ----------- | ----------- | ---------------------------------------------------------------- | ------------------- | ----------- |
+| `fullName`  | `full-name` | full name of the user                                            | `string`            | `undefined` |
+| `scale`     | `scale`     | specify the scale of the avatar, defaults to m                   | `"l" \| "m" \| "s"` | `"m"`       |
+| `theme`     | `theme`     | Select theme (light or dark)                                     | `"dark" \| "light"` | `"light"`   |
+| `thumbnail` | `thumbnail` | src to an image (remember to add a token if the user is private) | `string`            | `undefined` |
+| `userId`    | `user-id`   | unique id for user                                               | `string`            | `undefined` |
+| `username`  | `username`  | user name                                                        | `string`            | `undefined` |
 
 ## Dependencies
 
