@@ -1,5 +1,6 @@
 /**
- * Convert a string to a valid hex by hashing its contents and
+ * Convert a string to a valid hex by hashing its contents
+ * and using the hash as a seed for three distinct color values
  */
 export function stringToHex(str: string): string {
   let hash = 0;
