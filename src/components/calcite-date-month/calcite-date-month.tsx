@@ -369,9 +369,13 @@ export class CalciteDateMonth {
         }
       }),
       rangeHover: this.isRangeHover(date),
-      class: `${this.isHoverInRange() ? "hover--inside-range" : "hover--outside-range"} ${
-        this.isFocusedOnStart() ? "focused--start" : "focused--end"
-      }`
+      class: `${
+        !this.startDate
+          ? ""
+          : this.isHoverInRange()
+          ? "hover--inside-range"
+          : "hover--outside-range"
+      } ${this.isFocusedOnStart() ? "focused--start" : "focused--end"}`
     };
     return <calcite-date-day {...props} />;
   }
@@ -386,8 +390,8 @@ export class CalciteDateMonth {
     }
     const { start, end } = this.hoverRange;
     return (
-      (!this.isFocusedOnStart() && end < this.endDate) ||
-      (this.isFocusedOnStart() && start > this.startDate)
+      (!this.isFocusedOnStart() && this.startDate && (!this.endDate || end < this.endDate)) ||
+      (this.isFocusedOnStart() && this.startDate && start > this.startDate)
     );
   }
 

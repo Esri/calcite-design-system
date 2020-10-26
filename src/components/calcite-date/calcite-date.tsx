@@ -537,6 +537,10 @@ export class CalciteDate {
               }
             }}
             onCalciteDateHover={(e: CustomEvent<Date>) => {
+              if (!this.startAsDate) {
+                this.hoverRange = undefined;
+                return this.hoverRange;
+              }
               const date = new Date(e.detail);
               this.hoverRange = {
                 focused: this.focusedInput,
@@ -550,18 +554,23 @@ export class CalciteDate {
                   this.hoverRange.end = date;
                 }
               } else {
-                if (this.proximitySelection) {
-                  const startDiff = getDaysDiff(date, this.startAsDate);
-                  const endDiff = getDaysDiff(date, this.endAsDate);
-                  if (startDiff < endDiff) {
-                    this.hoverRange.start = date;
-                    this.hoverRange.focused = "start";
-                  } else {
-                    this.hoverRange.end = date;
-                    this.hoverRange.focused = "end";
-                  }
+                if (!this.endAsDate) {
+                  this.hoverRange.end = date;
+                  this.hoverRange.focused = "end";
                 } else {
-                  this.hoverRange = undefined;
+                  if (this.proximitySelection) {
+                    const startDiff = getDaysDiff(date, this.startAsDate);
+                    const endDiff = getDaysDiff(date, this.endAsDate);
+                    if (startDiff < endDiff) {
+                      this.hoverRange.start = date;
+                      this.hoverRange.focused = "start";
+                    } else {
+                      this.hoverRange.end = date;
+                      this.hoverRange.focused = "end";
+                    }
+                  } else {
+                    this.hoverRange = undefined;
+                  }
                 }
               }
             }}
