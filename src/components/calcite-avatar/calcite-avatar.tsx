@@ -88,7 +88,9 @@ export class CalciteAvatar {
     return (
       <span class="background" style={{ backgroundColor }}>
         {initials ? (
-          <span class="initials">{initials}</span>
+          <span aria-hidden="true" class="initials">
+            {initials}
+          </span>
         ) : (
           <calcite-icon class="icon" icon="user" scale={this.scale} theme={this.theme} />
         )}
