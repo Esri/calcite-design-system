@@ -66,6 +66,14 @@ storiesOf("Components/Label", module)
       <calcite-checkbox></calcite-checkbox>
       Text trailing inline-space-between
       </calcite-label>
+      <calcite-label>
+        Default label wrapping a select
+        <calcite-select>
+          <calcite-option>a</calcite-option>
+          <calcite-option>b</calcite-option>
+          <calcite-option>c</calcite-option>
+        </calcite-select>
+      </calcite-label>
     </div>
   `
   )

@@ -9,6 +9,7 @@ storiesOf("Components/Scrim", module)
     "Simple",
     (): string => `
     <div
+    tabindex="0"
     style="position: relative; width: 400px; height: 400px; overflow: auto;"
   ><calcite-scrim
       ${boolean("loading", false)}
@@ -27,6 +28,7 @@ storiesOf("Components/Scrim", module)
     "Dark mode",
     (): string => `
     <div
+    tabindex="0"
     style="position: relative; width: 400px; height: 400px; overflow: auto;"
   ><calcite-scrim
       theme="dark"

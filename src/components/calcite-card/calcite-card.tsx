@@ -73,7 +73,7 @@ export class CalciteCard {
               <calcite-loader active />
             </div>
           ) : null}
-          <section aria-busy={this.loading} class={{ [CSS.container]: true }}>
+          <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
             {this.selectable ? this.renderCheckbox() : null}
             {this.renderThumbnail()}
             {this.renderHeader()}

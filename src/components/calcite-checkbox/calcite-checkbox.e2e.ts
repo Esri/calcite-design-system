@@ -175,4 +175,36 @@ describe("calcite-checkbox", () => {
     expect(element).toEqualText("test-label");
     expect(defaultSlot).toBeDefined();
   });
+
+  it("resets to initial value when form reset event is triggered", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <form>
+        <calcite-checkbox id="unchecked"></calcite-checkbox>
+        <calcite-checkbox id="checked" checked></calcite-checkbox>
+      </form>
+    `);
+
+    const unchecked = await page.find("#unchecked");
+    expect(await unchecked.getProperty("checked")).toBe(false);
+
+    await unchecked.click();
+    expect(await unchecked.getProperty("checked")).toBe(true);
+
+    const checked = await page.find("#checked");
+    expect(await checked.getProperty("checked")).toBe(true);
+
+    await checked.click();
+    expect(await checked.getProperty("checked")).toBe(false);
+
+    await page.evaluate(() => {
+      const form = document.querySelector("form");
+      form.reset();
+    });
+    await page.waitForChanges();
+
+    expect(await unchecked.getProperty("checked")).toBe(false);
+    expect(await checked.getProperty("checked")).toBe(true);
+
+  });
 });

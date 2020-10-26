@@ -6,59 +6,6 @@
       height: 100%;
     }
   }
-
-  --calcite-button-light: #{$blk-020};
-  --calcite-button-light-text: #{$blk-220};
-  --calcite-button-dark: #{$blk-180};
-  --calcite-button-dark-text: #{$blk-230};
-}
-
-:host([color="blue"]) {
-  .split-button__divider-container {
-    background-color: var(--calcite-ui-blue-1);
-  }
-  &:host([theme="dark"]) {
-    .split-button__divider {
-      background-color: var(--calcite-button-dark-text);
-    }
-  }
-}
-
-:host([color="red"]) {
-  .split-button__divider-container {
-    background-color: var(--calcite-ui-red-1);
-  }
-  &:host([theme="dark"]) {
-    .split-button__divider {
-      background-color: var(--calcite-button-dark-text);
-    }
-  }
-}
-
-:host([color="light"]) {
-  .split-button__divider-container {
-    background-color: var(--calcite-button-light);
-  }
-
-  .split-button__divider {
-    background-color: var(--calcite-button-light-text);
-  }
-}
-
-:host([color="dark"]) {
-  .split-button__divider-container {
-    background-color: var(--calcite-button-dark);
-  }
-}
-
-:host([disabled]) {
-  .split-button__divider-container {
-    opacity: 0.4;
-  }
-
-  calcite-dropdown > calcite-button {
-    pointer-events: none;
-  }
 }
 
 .split-button__divider-container {
@@ -72,5 +19,108 @@
   width: 1px;
   height: 66.666%;
   display: inline-block;
-  background-color: white;
+}
+
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+:host([disabled]) {
+  .split-button__divider-container {
+    opacity: 0.4;
+  }
+
+  calcite-dropdown > calcite-button {
+    pointer-events: none;
+  }
+}
+
+:host([appearance="solid"]) {
+  --border-color: transparent;
+  --seperator-color: var(--calcite-ui-foreground-1);
+
+  &:host([color="blue"]) {
+    --bg-color: var(--calcite-ui-blue-1);
+  }
+
+  &:host([color="red"]) {
+    --bg-color: var(--calcite-ui-red-1);
+  }
+
+  &:host([color="light"]) {
+    --bg-color: var(--calcite-ui-foreground-3);
+    --seperator-color: var(--calcite-ui-text-1);
+  }
+
+  &:host([color="dark"]) {
+    --bg-color: #{$blk-180};
+    --seperator-color: #{$blk-000};
+  }
+}
+
+:host([appearance="outline"]),
+:host([appearance="clear"]),
+:host([appearance="transparent"]) {
+  --bg-color: var(--calcite-ui-foreground-1);
+
+  &:host([color="blue"]) {
+    --border-color: var(--calcite-ui-blue-3);
+    --seperator-color: var(--calcite-ui-blue-3);
+  }
+
+  &:host([color="red"]) {
+    --border-color: var(--calcite-ui-red-3);
+    --seperator-color: var(--calcite-ui-red-3);
+  }
+
+  &:host([color="light"]) {
+    --border-color: var(--calcite-ui-foreground-3);
+    --seperator-color: var(--calcite-ui-text-1);
+  }
+
+  &:host([color="dark"]) {
+    --border-color: #{$blk-180};
+    --seperator-color: var(--calcite-ui-text-1);
+  }
+}
+
+:host([appearance="clear"]),
+:host([appearance="transparent"]) {
+  --bg-color: transparent;
+
+  &:host([color="light"]) {
+    --seperator-color: var(--calcite-ui-background);
+  }
+
+  &:host([color="dark"]) {
+    --seperator-color: #{$blk-220};
+  }
+}
+
+:host([appearance="transparent"]) {
+  --border-color: transparent;
+}
+
+.split-button__divider-container {
+  background-color: var(--bg-color);
+  border-color: var(--border-color);
+}
+.split-button__divider {
+  background-color: var(--seperator-color);
+}
+:host(:hover[appearance="outline"]) .split-button__divider-container,
+:host(:hover[appearance="clear"]) .split-button__divider-container {
+  background-color: var(--border-color);
+}
+
+:host([appearance="outline"]) .split-button__divider-container,
+:host([appearance="clear"]) .split-button__divider-container {
+  border-width: 1px;
+  border-left: 0;
+  border-right: 0;
+  border-style: solid;
+}
+
+:host([appearance="transparent"]) .split-button__divider-container {
+  border-width: 0;
 }

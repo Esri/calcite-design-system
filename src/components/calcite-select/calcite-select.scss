@@ -1,0 +1,94 @@
+:host {
+  align-items: stretch;
+  display: flex;
+  position: relative;
+  width: var(--select-width);
+}
+
+:host([scale="s"]) {
+  --calcite-select-font-size: 0.75rem;
+  --calcite-select-spacing: 0.5rem;
+}
+
+:host([scale="m"]) {
+  --calcite-select-font-size: 1rem;
+  --calcite-select-spacing: 0.75rem;
+}
+
+:host([scale="l"]) {
+  --calcite-select-font-size: 1.25rem;
+  --calcite-select-spacing: 1rem;
+}
+
+:host([width="auto"]) {
+  --select-width: auto;
+}
+
+:host([width="half"]) {
+  --select-width: 50%;
+}
+
+:host([width="full"]) {
+  --select-width: 100%;
+}
+
+.select {
+  appearance: none;
+  background-color: var(--calcite-ui-foreground-1);
+  border: solid 1px var(--calcite-ui-border-1);
+  border-right: none;
+  border-radius: 0;
+  color: var(--calcite-ui-text-2);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--calcite-select-font-size);
+  margin: 0;
+  padding: var(--calcite-select-spacing);
+  width: 100%;
+
+  @include focus-style-base();
+
+  &:focus {
+    @include focus-style-inset();
+  }
+
+  &:hover {
+    background-color: var(--calcite-ui-foreground-2);
+  }
+}
+
+.select:focus ~ .icon-container {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+:host(:hover) .icon-container {
+  background-color: transparent;
+}
+
+.icon-container {
+  align-items: center;
+  background-color: var(--calcite-ui-foreground-1);
+  border: solid 1px var(--calcite-ui-border-1);
+  border-left: none;
+  color: var(--calcite-ui-text-2);
+  display: flex;
+  padding: 0 var(--calcite-spacing-half);
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.select.calcite--rtl {
+  border-right: solid 1px var(--calcite-ui-border-1);
+  border-left: none;
+}
+
+.icon-container.calcite--rtl {
+  border-left: solid 1px var(--calcite-ui-border-1);
+  border-right: none;
+  right: unset;
+  left: 0;
+}

@@ -100,6 +100,8 @@ export class CalciteCheckbox {
 
   private readonly indeterminatePath = "M4 7h8v2H4z";
 
+  private initialChecked: boolean;
+
   private input: HTMLInputElement;
 
   //--------------------------------------------------------------------------
@@ -167,6 +169,10 @@ export class CalciteCheckbox {
     this.hovered = false;
   }
 
+  formResetHandler = (): void => {
+    this.checked = this.initialChecked;
+  }
+
   private onInputBlur() {
     this.focused = false;
     this.calciteCheckboxFocusedChange.emit();
@@ -185,11 +191,20 @@ export class CalciteCheckbox {
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
+    this.initialChecked = this.checked;
     this.renderHiddenCheckboxInput();
+    const form = this.el.closest("form");
+    if (form) {
+      form.addEventListener("reset", this.formResetHandler);
+    }
   }
 
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
+    const form = this.el.closest("form");
+    if (form) {
+      form.removeEventListener("reset", this.formResetHandler);
+    }
   }
 
   // --------------------------------------------------------------------------
