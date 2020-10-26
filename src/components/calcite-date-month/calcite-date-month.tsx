@@ -380,22 +380,22 @@ export class CalciteDateMonth {
     return <calcite-date-day {...props} />;
   }
 
-  private isFocusedOnStart() {
+  private isFocusedOnStart(): boolean {
     return this.hoverRange?.focused === "start";
   }
 
-  private isHoverInRange() {
+  private isHoverInRange(): boolean {
     if (!this.hoverRange) {
       return;
     }
     const { start, end } = this.hoverRange;
     return (
-      (!this.isFocusedOnStart() && this.startDate && (!this.endDate || end < this.endDate)) ||
-      (this.isFocusedOnStart() && this.startDate && start > this.startDate)
+      (!this.isFocusedOnStart() && !!this.startDate && (!this.endDate || end < this.endDate)) ||
+      (this.isFocusedOnStart() && !!this.startDate && start > this.startDate)
     );
   }
 
-  private isRangeHover(date) {
+  private isRangeHover(date): boolean {
     if (!this.hoverRange) {
       return false;
     }
