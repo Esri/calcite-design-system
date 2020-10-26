@@ -79,7 +79,9 @@ export class CalciteAvatar {
 
   private determineContent() {
     if (this.thumbnail && !this.error) {
-      return <img class="thumbnail" onError={() => (this.error = true)} src={this.thumbnail} />;
+      return (
+        <img alt="" class="thumbnail" onError={() => (this.error = true)} src={this.thumbnail} />
+      );
     }
     const initials = this.generateInitials();
     const backgroundColor = this.generateFillColor();
