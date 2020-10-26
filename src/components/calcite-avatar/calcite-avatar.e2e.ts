@@ -39,7 +39,7 @@ describe("calcite-avatar", () => {
       const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
       return background.getAttribute("style");
     });
-    expect(style).toEqual("background-color: rgba(95, 107, 116, 0.2);");
+    expect(style).toEqual("background-color: rgb(222, 236, 247);");
   });
 
   it("computes a background fill if id is not a valid hex", async () => {
@@ -51,7 +51,7 @@ describe("calcite-avatar", () => {
       const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
       return background.getAttribute("style");
     });
-    expect(style).toEqual("background-color: rgba(209, 161, 153, 0.2);");
+    expect(style).toEqual("background-color: rgb(247, 226, 222);");
   });
 
   it("renders default icon when no information is passed", async () => {
