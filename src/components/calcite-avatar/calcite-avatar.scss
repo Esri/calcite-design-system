@@ -4,8 +4,7 @@
 }
 
 :host {
-  @apply inline-flex justify-center items-center border-background border-solid border-2 rounded-half overflow-hidden;
-  box-shadow: 0 0 0 2px var(--calcite-ui-border-1);
+  @apply inline-flex justify-center items-center rounded-half overflow-hidden;
 }
 
 :host([scale="s"]) {
@@ -17,7 +16,7 @@
 }
 
 :host([scale="l"]) {
-  @apply w-12 h-12 text-1;
+  @apply w-10 h-10 text-1;
 }
 
 .icon {
