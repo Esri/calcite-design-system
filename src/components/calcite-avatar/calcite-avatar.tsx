@@ -109,7 +109,7 @@ export class CalciteAvatar {
       return `var(--calcite-ui-foreground-2)`;
     }
     const hue = hexToHue(hex);
-    const l = theme === "dark" ? 8 : 92;
+    const l = theme === "dark" ? 15 : 92;
     return `hsl(${hue}, 60%, ${l}%)`;
   }
 
