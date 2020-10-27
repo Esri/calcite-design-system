@@ -108,5 +108,23 @@ describe("calcite-combobox", () => {
       chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
     });
+
+    it("should honor calciteComboboxChipDismiss", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-combobox>
+        <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
+      </calcite-combobox>`
+      });
+
+      const eventSpy = await page.spyOnEvent("calciteComboboxChipDismiss", "window");
+
+      const chip = await page.find("calcite-combobox >>> calcite-chip");
+
+      chip.triggerEvent("calciteChipDismiss");
+
+      await page.waitForChanges();
+
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+    });
   });
 });
