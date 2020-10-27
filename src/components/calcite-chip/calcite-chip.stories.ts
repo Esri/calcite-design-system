@@ -49,6 +49,22 @@ storiesOf("Components/Chip", module)
     </div>
   `
   )
+  .add("With Avatar", (): string => {
+    const scale = select("scale", ["s", "m", "l"], "m");
+    return `
+      <div style="background-color:white;padding:100px">
+        <calcite-chip
+          scale="${scale}"
+          appearance="${select("appearance", ["solid", "clear"], "solid")}"
+          color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
+          ${boolean("dismissible", false)}
+        >
+          <calcite-avatar slot="chip-image" scale="${scale}" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
+          User Name
+        </calcite-chip>
+      </div>
+    `;
+  })
   .add(
     "Dark theme",
     (): string => `
