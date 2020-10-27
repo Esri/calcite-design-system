@@ -12,11 +12,11 @@
 }
 
 :host([scale="m"]) {
-  @apply w-8 h-8 text--1;
+  @apply w-8 h-8 text--2;
 }
 
 :host([scale="l"]) {
-  @apply w-10 h-10 text-1;
+  @apply w-10 h-10 text--1;
 }
 
 .icon {
@@ -24,7 +24,7 @@
 }
 
 .background {
-  @apply w-full h-full flex items-center justify-center;
+  @apply w-full h-full flex items-center justify-center rounded-half;
 }
 
 .initials {
