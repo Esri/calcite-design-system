@@ -434,4 +434,33 @@ describe("calcite-radio-button", () => {
     inputTitleAttribute = await input.getAttribute("title");
     expect(inputTitleAttribute).toBe("second title");
   });
+
+  it("resets to initial value when form reset event is triggered", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <form id="form">
+        <calcite-radio-button id="unchecked" name="reset" value="unchecked">Unchecked</calcite-radio-button>
+        <calcite-radio-button id="checked" name="reset" value="checked" checked>Checked</calcite-radio-button>
+        <button type="reset">Reset</button>
+      </form>
+    `);
+
+    const unchecked = await page.find("#unchecked");
+    expect(await unchecked.getProperty("checked")).toBe(false);
+
+    const checked = await page.find("#checked");
+    expect(await checked.getProperty("checked")).toBe(true);
+
+    await unchecked.click();
+    expect(await unchecked.getProperty("checked")).toBe(true);
+    expect(await checked.getProperty("checked")).toBe(false);
+
+    const resetButton = await page.find("button");
+    resetButton.click();
+
+    await page.waitForChanges();
+
+    expect(await unchecked.getProperty("checked")).toBe(false);
+    expect(await checked.getProperty("checked")).toBe(true);
+  });
 });

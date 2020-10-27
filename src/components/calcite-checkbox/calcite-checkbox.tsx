@@ -169,7 +169,7 @@ export class CalciteCheckbox {
     this.hovered = false;
   }
 
-  formResetHandler = (): void => {
+  private formResetHandler = (): void => {
     this.checked = this.initialChecked;
   }
 
