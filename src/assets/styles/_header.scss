@@ -11,8 +11,9 @@
 .heading {
   padding: 0;
   margin: 0;
-  font-weight: var(--calcite-font-weight-bold);
+  // font-weight: var(--calcite-font-weight-bold);
   line-height: 1.5;
+  @apply font-medium;
 }
 
 .header .heading {

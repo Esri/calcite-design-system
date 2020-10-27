@@ -1,6 +1,6 @@
 :host {
   @extend %component-host;
-  @extend %component-layout;
+  @extend %component-spacing;
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;

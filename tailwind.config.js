@@ -59,24 +59,24 @@ module.exports = {
       mono: ["Consolas", "Andale Mono", "Lucida Console", "Monaco", "monospace"],
     },
     fontSize: {
-      "-3": "0.625rem", // 10px
-      "-2": "0.75rem",  // 12px
-      "-1": "0.875rem", // 14px
-      0: "1rem",        // 16px
-      1: "1.125rem",    // 18px
-      2: "1.25rem",     // 20px
-      3: "1.625rem",    // 26px
-      4: "2rem",        // 32px
-      5: "2.5rem",      // 40px
-      6: "3rem",        // 48px
-      7: "3.5rem",      // 56px
-      8: "4rem",        // 64px
+      "-3": "var(--calcite-font-size--3)",  // 10px
+      "-2": "var(--calcite-font-size--2)",  // 12px
+      "-1": "var(--calcite-font-size--1)",  // 14px
+      0: "var(--calcite-font-size-0)",      // 16px
+      1: "var(--calcite-font-size-1)",      // 18px
+      2: "var(--calcite-font-size-2)",      // 20px
+      3: "var(--calcite-font-size-3)",      // 26px
+      4: "var(--calcite-font-size-4)",      // 32px
+      5: "var(--calcite-font-size-5)",      // 40px
+      6: "var(--calcite-font-size-6)",      // 48px
+      7: "var(--calcite-font-size-7)",      // 56px
+      8: "var(--calcite-font-size-8)",      // 64px
     },
     fontWeight: {
-      light: 300,
-      normal: 400,
-      medium: 500,
-      bold: 700
+      light: "var(--calcite-font-weight-light)",
+      normal: "var(--calcite-font-weight-normal)",
+      medium: "var(--calcite-font-weight-medium)",
+      bold: "var(--calcite-font-weight-bold)"
     },
     screens: {
       's': '480px',
