@@ -52,6 +52,7 @@
   margin-right: 12px;
   @supports not (display: grid) {
     .radio {
+      height: 12px;
       margin-right: 8px;
     }
   }
