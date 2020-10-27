@@ -206,7 +206,7 @@ export class CalcitePagination {
     const { total, num, start } = this;
     const iconScale = this.scale === "l" ? "m" : "s";
     const prevDisabled = num === 1 ? start <= num : start < num;
-    const nextDisabled = num === 1 ? start + num > total : start + num >= total;
+    const nextDisabled = num === 1 ? start + num > total : start + num > total;
     return (
       <Host>
         <button

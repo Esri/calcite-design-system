@@ -91,6 +91,19 @@ describe("calcite-pagination", () => {
 
       expect(toggleSpy).toHaveReceivedEventTimes(0);
     });
+    it("next button should be enabled if last page has only 1 result", async () => {
+      await pagination.setAttribute("total", "11");
+      await pagination.setAttribute("num", "10");
+      await pagination.setAttribute("start", "1");
+      await page.waitForChanges();
+
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
+      await nextButton.click();
+      await page.waitForChanges();
+
+      expect(toggleSpy).toHaveReceivedEventTimes(1);
+    });
   });
   describe("page buttons", () => {
     it("should switch selected page to the page that's clicked", async () => {
