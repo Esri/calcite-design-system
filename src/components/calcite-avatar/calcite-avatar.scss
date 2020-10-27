@@ -1,0 +1,36 @@
+//ie11 fixes
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+
+:host {
+  @apply inline-flex justify-center items-center rounded-half overflow-hidden;
+}
+
+:host([scale="s"]) {
+  @apply w-6 h-6 text--3;
+}
+
+:host([scale="m"]) {
+  @apply w-8 h-8 text--1;
+}
+
+:host([scale="l"]) {
+  @apply w-10 h-10 text-1;
+}
+
+.icon {
+  @apply flex;
+}
+
+.background {
+  @apply w-full h-full flex items-center justify-center;
+}
+
+.initials {
+  @apply font-bold uppercase text-color-3;
+}
+
+.thumbnail {
+  @apply w-full h-full rounded-half;
+}
