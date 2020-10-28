@@ -7,21 +7,21 @@
   --calcite-accordion-item-spacing-unit: #{$baseline/3};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
-  font-size: theme("fontSize.-2");
+  @apply text--2;
 }
 
 :host([scale="m"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline/2};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
-  font-size: theme("fontSize.-1");
+  @apply text--1;
 }
 
 :host([scale="l"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
-  font-size: theme("fontSize.1");
+  @apply text-1;
 }
 
 :host {

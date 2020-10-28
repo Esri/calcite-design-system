@@ -5,7 +5,7 @@
   & .calcite-input-prefix,
   & .calcite-input-suffix {
     padding: 8px;
-    font-size: theme("fontSize.-2");
+    @apply text--2;
     height: 32px;
   }
   & textarea {
@@ -28,7 +28,7 @@
   & .calcite-input-prefix,
   & .calcite-input-suffix {
     padding: 12px;
-    font-size: theme("fontSize.-1");
+    @apply text--1;
     height: 44px;
   }
   & textarea {
@@ -51,7 +51,7 @@
   & .calcite-input-prefix,
   & .calcite-input-suffix {
     padding: 16px;
-    font-size: theme("fontSize.1");
+    @apply text-1;
     height: 56px;
   }
   & textarea {

@@ -24,15 +24,15 @@
 }
 
 :host([scale="s"]) label {
-  font-size: theme("fontSize.-2");
+  @apply text--2;
 }
 
 :host([scale="m"]) label {
-  font-size: theme("fontSize.-1");
+  @apply text--1;
 }
 
 :host([scale="l"]) label {
-  font-size: theme("fontSize.1");
+  @apply text-1;
 }
 
 :host([layout="default"]) {

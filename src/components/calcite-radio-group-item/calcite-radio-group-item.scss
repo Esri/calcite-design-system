@@ -36,17 +36,17 @@
 }
 
 :host([scale="s"]) label {
-  font-size: theme("fontSize.-2");
+  @apply text--2;
   padding: 0.25rem 0.75rem;
 }
 
 :host([scale="m"]) label {
-  font-size: theme("fontSize.-1");
+  @apply text--1;
   padding: 0.4rem 1rem;
 }
 
 :host([scale="l"]) label {
-  font-size: theme("fontSize.1");
+  @apply text-1;
   padding: 0.5rem 1.5rem;
 }
 
