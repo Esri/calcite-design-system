@@ -16,16 +16,17 @@
   @apply text-1 pr-5 pl-10 py-4;
 }
 
+// RTL
 :host-context([dir="rtl"][scale="s"]) {
-  @apply text--2 pr-6 pl-3 py-2;
+  @apply pr-6 pl-3;
 }
 
 :host-context([dir="rtl"][scale="m"]) {
-  @apply text--1 pr-8 pl-4 py-3;
+  @apply pr-8 pl-4;
 }
 
 :host-context([dir="rtl"][scale="l"]) {
-  @apply text-1 pr-10 pl-5 py-4;
+  @apply pr-10 pl-5;
 }
 
 @mixin itemStyling {
