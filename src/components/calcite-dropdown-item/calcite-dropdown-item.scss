@@ -52,6 +52,15 @@
   @include itemStyling;
 }
 
+.dropdown-item-content {
+  @apply mr-auto;
+}
+
+:host([dir="rtl"]) .dropdown-item-content {
+  margin-right: unset;
+  @apply ml-auto;
+}
+
 //focus
 :host,
 :host([islink]) a {
