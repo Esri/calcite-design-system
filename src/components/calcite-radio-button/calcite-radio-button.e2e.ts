@@ -463,4 +463,41 @@ describe("calcite-radio-button", () => {
     expect(await unchecked.getProperty("checked")).toBe(false);
     expect(await checked.getProperty("checked")).toBe(true);
   });
+
+  it("renders all children text nodes concatenated together in a single calcite-label", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button>More<br> than<br> one<br> text<br> node</calcite-radio-button>
+    `);
+
+    const labels = await page.findAll("calcite-label");
+    expect(labels).toHaveLength(1);
+
+    const label = await page.find("calcite-label");
+    expect(label.textContent).toEqual("More than one text node");
+
+    const page2 = await newE2EPage();
+    await page2.setContent(`
+      <calcite-radio-button>More<br>than<br>one<br>text<br>node<p>Only plain text nodes allowed!</p></calcite-radio-button>
+    `);
+    const label2 = await page2.find("calcite-label");
+    expect(label2.textContent).toEqual("Morethanonetextnode");
+  });
+
+  it("only renders a label when text nodes are supplied", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-radio-button></calcite-radio-button>
+    `);
+    const labels = await page.findAll("calcite-label");
+    expect(labels).toHaveLength(0);
+
+    const page2 = await newE2EPage();
+    await page2.setContent(`
+      <calcite-radio-button><p>Only plain text nodes allowed!</p></calcite-radio-button>
+    `);
+
+    const labels2 = await page.findAll("calcite-label");
+    expect(labels2).toHaveLength(0);
+  });
 });
