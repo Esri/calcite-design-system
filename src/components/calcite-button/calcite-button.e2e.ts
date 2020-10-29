@@ -27,7 +27,7 @@ describe("calcite-button", () => {
 
   it("is accessible", async () => accessible(`<calcite-button>Continue</calcite-button>`));
 
-  it("is accessible: href", async () => accessible(`<calcite-button  href="/">Continue</calcite-button>`));
+  it("is accessible: href", async () => accessible(`<calcite-button href="/">Continue</calcite-button>`));
 
   it("is accessible: href", async () =>
     accessible(`<calcite-button color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`));
