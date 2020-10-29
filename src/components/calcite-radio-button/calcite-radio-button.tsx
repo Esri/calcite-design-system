@@ -128,7 +128,7 @@ export class CalciteRadioButton {
 
   /** @internal */
   @Method()
-  async emitCheckedChange() {
+  async emitCheckedChange(): Promise<void> {
     this.calciteRadioButtonCheckedChange.emit();
   }
 
@@ -143,18 +143,16 @@ export class CalciteRadioButton {
       (radioButton) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
 
-    const checkedRadioButtons = radioButtons.filter(
-      (radioButton) => radioButton.checked
-    );
+    const checkedRadioButtons = radioButtons.filter((radioButton) => radioButton.checked);
 
     if (checkedRadioButtons?.length > 1) {
       const lastCheckedRadioButton = checkedRadioButtons[checkedRadioButtons.length - 1];
-      checkedRadioButtons.filter(
-        (checkedRadioButton) => checkedRadioButton !== lastCheckedRadioButton).forEach(
-          (checkedRadioButton: HTMLCalciteRadioButtonElement) => {
-            checkedRadioButton.checked = false;
-            checkedRadioButton.emitCheckedChange();
-          });
+      checkedRadioButtons
+        .filter((checkedRadioButton) => checkedRadioButton !== lastCheckedRadioButton)
+        .forEach((checkedRadioButton: HTMLCalciteRadioButtonElement) => {
+          checkedRadioButton.checked = false;
+          checkedRadioButton.emitCheckedChange();
+        });
     }
   }
 
@@ -247,7 +245,7 @@ export class CalciteRadioButton {
   private formResetHandler = (): void => {
     this.checked = this.initialChecked;
     this.initialChecked && this.input.setAttribute("checked", "");
-  }
+  };
 
   private onInputBlur(): void {
     this.focused = false;

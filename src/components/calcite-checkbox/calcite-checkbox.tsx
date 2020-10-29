@@ -37,7 +37,8 @@ export class CalciteCheckbox {
   /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
 
-  @Watch("checked") checkedWatcher(newChecked: boolean): void {
+  @Watch("checked")
+  checkedWatcher(newChecked: boolean): void {
     newChecked ? this.input.setAttribute("checked", "") : this.input.removeAttribute("checked");
   }
 
@@ -52,7 +53,8 @@ export class CalciteCheckbox {
   /** The focused state of the checkbox. */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  @Watch("focused") focusedChanged(focused: boolean): void {
+  @Watch("focused")
+  focusedChanged(focused: boolean): void {
     if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
     } else {
@@ -140,7 +142,8 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick({ currentTarget, target }: MouseEvent): void {
+  @Listen("click")
+  onClick({ currentTarget, target }: MouseEvent): void {
     // prevent duplicate click events that occur
     // when the component is wrapped in a label and checkbox is clicked
     if (
@@ -151,7 +154,8 @@ export class CalciteCheckbox {
     }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (key === " ") {
       e.preventDefault();
@@ -171,7 +175,7 @@ export class CalciteCheckbox {
 
   private formResetHandler = (): void => {
     this.checked = this.initialChecked;
-  }
+  };
 
   private onInputBlur() {
     this.focused = false;
