@@ -218,13 +218,12 @@ export class CalciteStepper {
   //--------------------------------------------------------------------------
 
   private addHorizontalContentContainer(): void {
-    const contentContainer = document.createElement("div") as HTMLDivElement;
-    contentContainer.classList.add("calcite-stepper-content");
+    this.stepperContentContainer = document.createElement("div") as HTMLDivElement;
+    this.stepperContentContainer.classList.add("calcite-stepper-content");
     // handle ie styles
     const isIE = !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
-    if (isIE) contentContainer.style.cssText = IESTYLES;
-    this.el.insertAdjacentElement("beforeend", contentContainer);
-    this.stepperContentContainer = this.el.querySelector(".calcite-stepper-content");
+    if (isIE) this.stepperContentContainer.style.cssText = IESTYLES;
+    this.el.insertAdjacentElement("beforeend", this.stepperContentContainer);
   }
 
   private emitChangedItem(): void {
