@@ -4,8 +4,7 @@
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    @apply text--2 p-2;
-    height: 32px;
+    @apply text--2 p-2 h-8;
   }
   & textarea {
     min-height: 32px;
@@ -13,11 +12,11 @@
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
   & .calcite-input-action-wrapper calcite-button button {
-    height: 32px;
+    @apply h-8;
   }
   & textarea,
   & input[type="file"] {
-    height: auto;
+    @apply h-auto;
   }
 }
 
@@ -39,7 +38,7 @@
   }
   & textarea,
   & input[type="file"] {
-    height: auto;
+    @apply h-auto;
   }
 }
 
