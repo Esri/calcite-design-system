@@ -1,10 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
-import { defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
   it("renders", async () =>
     renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
+
+  it("is accessible when closed", async () =>
+    accessible(`<calcite-tooltip reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
+
+  it("is accessible when open", async () =>
+    accessible(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
 
   it("honors hidden attribute", async () => hidden("calcite-tooltip"));
 

@@ -5,13 +5,16 @@
   @include calcite-theme-dark();
 }
 :host([scale="s"]) {
-  --calcite-checkbox-size: theme("spacing.3");
+  --calcite-checkbox-size: theme("fontSize.-2");
+  --calcite-checkbox-grid-gap: theme("spacing.2");
 }
 :host([scale="m"]) {
-  --calcite-checkbox-size: theme("spacing.4");
+  --calcite-checkbox-size: theme("fontSize.-1");
+  --calcite-checkbox-grid-gap: theme("spacing.2");
 }
 :host([scale="l"]) {
-  --calcite-checkbox-size: theme("spacing.5");
+  --calcite-checkbox-size: theme("fontSize.1");
+  --calcite-checkbox-grid-gap: theme("spacing.3");
 }
 :host {
   @apply inline-flex
@@ -33,7 +36,7 @@
   }
   .hasLabel {
     display: grid;
-    grid-gap: 12px;
+    grid-gap: var(--calcite-checkbox-grid-gap);
     align-items: center;
     --calcite-label-margin-bottom: 0;
   }

@@ -5,14 +5,17 @@
 
 // ie11
 :host-context([scale="s"]) {
+  @apply text--2;
   --calcite-dropdown-group-padding: #{$baseline/3 0};
 }
 
 :host-context([scale="m"]) {
+  @apply text--1;
   --calcite-dropdown-group-padding: #{$baseline/2 0};
 }
 
 :host-context([scale="l"]) {
+  @apply text-1;
   --calcite-dropdown-group-padding: #{$baseline/1.5 0};
 }
 
@@ -25,7 +28,6 @@
   font-weight: 600;
   word-wrap: break-word;
   cursor: default;
-  @include font-size(-2);
 }
 
 .dropdown-separator {

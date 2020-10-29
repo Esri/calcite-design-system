@@ -1,12 +1,26 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-import { defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
   it("renders", async () =>
     renders(`<calcite-popover open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+
+  it("is accessible when closed", async () =>
+    accessible(`<calcite-popover reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+
+  it("is accessible when open", async () =>
+    accessible(`<calcite-popover open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+
+  it("is accessible with close button", async () =>
+    accessible(`<calcite-popover open close-button reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+
+  it("is accessible with image", async () =>
+    accessible(
+      `<calcite-popover placement="auto" reference-element="ref" open><img alt="" slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
+    ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
 
