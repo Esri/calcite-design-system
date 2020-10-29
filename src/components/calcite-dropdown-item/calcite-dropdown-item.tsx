@@ -98,7 +98,7 @@ export class CalciteDropdownItem {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
-    const iconScale = scale === "s" || scale === "m" ? "s" : "m";
+    const iconScale = scale === "l" ? "m" : "s";
     const iconStartEl = (
       <calcite-icon
         class="dropdown-item-icon-start"
