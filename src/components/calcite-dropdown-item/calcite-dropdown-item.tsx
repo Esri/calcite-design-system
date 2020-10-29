@@ -135,7 +135,7 @@ export class CalciteDropdownItem {
     const contentEl = !this.href ? (
       slottedContent
     ) : (
-      <a {...attributes} ref={(el) => (this.childLink = el)}>
+      <a {...attributes} ref={(el) => (this.childLink = el)} class="dropdown-link">
         {slottedContent}
       </a>
     );
