@@ -18,6 +18,10 @@
   & input[type="file"] {
     @apply h-auto;
   }
+  & .calcite-input-clear-button {
+    min-height: 32px;
+    min-width: 32px;
+  }
 }
 
 :host([scale="m"]) {
@@ -40,6 +44,10 @@
   & input[type="file"] {
     @apply h-auto;
   }
+  & .calcite-input-clear-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
 :host([scale="l"]) {
@@ -61,6 +69,10 @@
   & textarea,
   & input[type="file"] {
     height: auto;
+  }
+  & .calcite-input-clear-button {
+    min-height: 56px;
+    min-width: 56px;
   }
 }
 
@@ -225,10 +237,10 @@ input[type="time"]::-webkit-clear-button {
   display: flex;
   align-self: stretch;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   cursor: pointer;
   min-height: 100%;
-  padding: 0 $baseline/2;
   border: 1px solid var(--calcite-ui-border-1);
   transition: $transition;
   pointer-events: initial;
@@ -241,6 +253,16 @@ input[type="time"]::-webkit-clear-button {
   }
   &:active {
     background-color: var(--calcite-ui-foreground-3);
+  }
+  &:disabled {
+    opacity: 0.4;
+  }
+}
+
+:host([dir="rtl"]) {
+  .calcite-input-clear-button {
+    border-left: 1px solid var(--calcite-ui-border-1);
+    border-right: none;
   }
 }
 
