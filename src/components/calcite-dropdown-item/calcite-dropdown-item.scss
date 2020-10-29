@@ -138,16 +138,6 @@
   display: none;
 }
 
-// :host([selection-mode="none"]:not([islink])),
-// :host([selection-mode="none"][isLink]) a {
-//   padding-left: $baseline/1.5;
-// }
-
-// :host([dir="rtl"][selection-mode="none"]:not([islink])),
-// :host([dir="rtl"][selection-mode="none"][isLink]) a {
-//   padding-right: $baseline/1.5;
-// }
-
 // single select "icon"
 :host-context([scale="s"]):before {
   left: theme("spacing.2");
