@@ -266,8 +266,8 @@ export class CalciteRadioButton {
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
     this.initialChecked = this.checked;
-    this.renderInput();
     this.renderLabel();
+    this.renderInput();
     this.setupTitleAttributeObserver();
     if (this.name) {
       this.checkLastRadioButton();
@@ -342,17 +342,20 @@ export class CalciteRadioButton {
 
   private renderLabel(): void {
     // Rendering a calcite-label outside of Shadow DOM for accessibility and form participation
-    this.el.childNodes.forEach((childNode) => {
-      if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
-        this.label = document.createElement("calcite-label");
-        this.label.setAttribute("dir", getElementDir(this.el));
-        this.disabled && this.label.setAttribute("disabled", "");
-        this.label.setAttribute("disable-spacing", "");
-        this.label.setAttribute("scale", this.scale);
-        this.label.appendChild(document.createTextNode(childNode.textContent.trim()));
-        childNode.parentNode.replaceChild(this.label, childNode);
+    if (this.el.textContent) {
+      const textNodes = Array.from(this.el.childNodes).filter((childNode) => childNode.nodeName === "#text");
+      const labelText = textNodes.reduce((labelText, textNode) => labelText += textNode.textContent, "");
+      while (this.el.firstChild) {
+        this.el.removeChild(this.el.firstChild);
       }
-    });
+      this.label = document.createElement("calcite-label");
+      this.label.setAttribute("dir", getElementDir(this.el));
+      this.disabled && this.label.setAttribute("disabled", "");
+      this.label.setAttribute("disable-spacing", "");
+      this.label.setAttribute("scale", this.scale);
+      this.label.appendChild(document.createTextNode(labelText));
+      this.el.appendChild(this.label);
+    }
   }
 
   render(): VNode {
