@@ -9,6 +9,9 @@ import { getElementDir } from "../../utils/dom";
 export class CalciteSplitButton {
   @Element() el: HTMLCalciteSplitButtonElement;
 
+  /** specify the appearance style of the button, defaults to solid. */
+  @Prop({ reflect: true }) appearance: "solid" | "outline" | "clear" | "transparent" = "solid";
+
   /** specify the color of the control, defaults to blue */
   @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
@@ -59,6 +62,7 @@ export class CalciteSplitButton {
       <Host dir={dir}>
         <div class="split-button__container">
           <calcite-button
+            appearance={this.appearance}
             aria-label={this.primaryLabel}
             color={this.color}
             dir={dir}
@@ -69,6 +73,7 @@ export class CalciteSplitButton {
             loading={this.loading}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
             scale={this.scale}
+            splitChild={"primary"}
             theme={this.theme}
           >
             {this.primaryText}
@@ -85,6 +90,7 @@ export class CalciteSplitButton {
             width={this.scale}
           >
             <calcite-button
+              appearance={this.appearance}
               aria-label={this.dropdownLabel}
               color={this.color}
               dir={dir}
@@ -92,6 +98,7 @@ export class CalciteSplitButton {
               icon-start={this.dropdownIcon}
               scale={this.scale}
               slot="dropdown-trigger"
+              splitChild={"secondary"}
               theme={this.theme}
             />
             <slot />

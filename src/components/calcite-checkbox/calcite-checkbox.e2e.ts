@@ -205,6 +205,5 @@ describe("calcite-checkbox", () => {
 
     expect(await unchecked.getProperty("checked")).toBe(false);
     expect(await checked.getProperty("checked")).toBe(true);
-
   });
 });

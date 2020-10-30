@@ -1,9 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
-import { defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-popover-manager", () => {
   it("renders", async () => renders(`<calcite-popover-manager></calcite-popover-manager>`));
+
+  it("is accessible", async () =>
+    accessible(`<calcite-popover-manager>
+  <calcite-popover reference-element="ref">Content</calcite-popover>
+  <div id="ref">Button</div>
+<calcite-popover-manager>`));
 
   it("honors hidden attribute", async () => hidden("calcite-popover-manager"));
 

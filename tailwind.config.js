@@ -3,6 +3,7 @@ module.exports = {
     borderRadius: {
       none: '0',
       1: "var(--calcite-border-radius)",
+      half: '50%',
       full: '100%',
     },
     boxShadow: {
@@ -113,9 +114,9 @@ module.exports = {
       64: "16rem"       // 256px
     },
     textColor: theme => ({
-      1: theme("colors.text.1"),
-      2: theme("colors.text.2"),
-      3: theme("colors.text.3"),
+      "color-1": theme("colors.text.1"),
+      "color-2": theme("colors.text.2"),
+      "color-3": theme("colors.text.3"),
       blue: {
         1: theme("colors.blue.1"),
         2: theme("colors.blue.2"),

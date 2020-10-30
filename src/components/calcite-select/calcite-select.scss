@@ -6,17 +6,17 @@
 }
 
 :host([scale="s"]) {
-  --calcite-select-font-size: 0.75rem;
+  --calcite-select-font-size: theme("fontSize.-2");
   --calcite-select-spacing: 0.5rem;
 }
 
 :host([scale="m"]) {
-  --calcite-select-font-size: 1rem;
+  --calcite-select-font-size: theme("fontSize.-1");
   --calcite-select-spacing: 0.75rem;
 }
 
 :host([scale="l"]) {
-  --calcite-select-font-size: 1.25rem;
+  --calcite-select-font-size: theme("fontSize.1");
   --calcite-select-spacing: 1rem;
 }
 
