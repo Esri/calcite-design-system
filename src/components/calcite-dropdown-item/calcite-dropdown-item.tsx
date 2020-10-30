@@ -98,7 +98,7 @@ export class CalciteDropdownItem {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
-    const iconScale = scale === "s" || scale === "m" ? "s" : "m";
+    const iconScale = scale === "l" ? "m" : "s";
     const iconStartEl = (
       <calcite-icon
         class="dropdown-item-icon-start"
@@ -135,7 +135,7 @@ export class CalciteDropdownItem {
     const contentEl = !this.href ? (
       slottedContent
     ) : (
-      <a {...attributes} ref={(el) => (this.childLink = el)}>
+      <a {...attributes} ref={(el) => (this.childLink = el)} class="dropdown-link">
         {slottedContent}
       </a>
     );

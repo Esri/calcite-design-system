@@ -33,7 +33,6 @@
   display: flex;
   flex-grow: 1;
   align-items: center;
-  @apply text--1;
   color: var(--calcite-ui-text-3);
   transition: $transition;
   cursor: pointer;
@@ -74,10 +73,22 @@
 
 // when used as link move styling anchor
 :host([islink]) {
-  padding: 0;
+  @apply p-0;
   & a {
     @include itemStyling;
   }
+}
+
+:host-context([scale="s"]) .dropdown-link {
+  @apply px-3 py-2;
+}
+
+:host-context([scale="m"]) .dropdown-link {
+  @apply px-4 py-3;
+}
+
+:host-context([scale="l"]) .dropdown-link {
+  @apply px-5 py-4;
 }
 
 :host(:hover),
@@ -125,16 +136,6 @@
 :host([selection-mode="multi"]):before,
 :host([selection-mode="none"]):before {
   display: none;
-}
-
-:host([selection-mode="none"]:not([islink])),
-:host([selection-mode="none"][isLink]) a {
-  padding-left: $baseline/1.5;
-}
-
-:host([dir="rtl"][selection-mode="none"]:not([islink])),
-:host([dir="rtl"][selection-mode="none"][isLink]) a {
-  padding-right: $baseline/1.5;
 }
 
 // single select "icon"

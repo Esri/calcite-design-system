@@ -6,23 +6,28 @@
 // ie11
 :host-context([scale="s"]) {
   @apply text--2;
-  --calcite-dropdown-group-padding: #{$baseline/3 0};
+  .dropdown-title {
+    @apply py-3 mt-0 mx-3;
+  }
 }
 
 :host-context([scale="m"]) {
   @apply text--1;
-  --calcite-dropdown-group-padding: #{$baseline/2 0};
+  .dropdown-title {
+    @apply py-4 mt-0 mx-4;
+  }
 }
 
 :host-context([scale="l"]) {
   @apply text-1;
-  --calcite-dropdown-group-padding: #{$baseline/1.5 0};
+  .dropdown-title {
+    @apply py-5 mt-0 mx-5;
+  }
 }
 
 .dropdown-title {
   display: block;
-  margin: 0 $baseline/1.5 -1px $baseline/1.5;
-  padding: var(--calcite-dropdown-group-padding);
+  margin-bottom: -1px;
   border-bottom: 1px solid var(--calcite-ui-border-3);
   color: var(--calcite-ui-text-2);
   font-weight: 600;
