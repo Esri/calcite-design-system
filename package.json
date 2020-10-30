@@ -36,7 +36,7 @@
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm:build --dev --watch --serve\"",
     "test": "npm run util:run-tests && npm run test:prerender",
     "test:prerender": "stencil build --no-docs --prerender",
-    "test-storybook": "screener-storybook --debug --conf screener.config.js",
+    "test-storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --debug --conf screener.config.js\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
     "util:add-custom-elements-index-mjs": "cpy dist/custom-elements/index.js dist/custom-elements/ --rename index.mjs",
     "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
