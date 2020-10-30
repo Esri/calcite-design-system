@@ -59,8 +59,9 @@ export class CalciteAlert {
   /** Color for the alert (will apply to top border and icon) */
   @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
 
-  /** specify if the alert should display an icon */
-  @Prop() icon = false;
+  /** when used as a boolean set to true, show a default recommended icon. You can
+   * also pass a calcite-ui-icon name to this prop to display a requested icon */
+  @Prop({ reflect: true }) icon: string | boolean = false;
 
   /** string to override English close text */
   @Prop() intlClose: string = TEXT.intlClose;
@@ -79,6 +80,14 @@ export class CalciteAlert {
 
   connectedCallback(): void {
     if (this.active && !this.queued) this.calciteAlertRegister.emit();
+    // if an icon string is not provided, but icon is true and a default icon is present
+    // for the requested color, set that as the icon
+    const colors = ["blue", "green", "red", "yellow"];
+    this.icon = this.icon
+      ? (this.icon as string)
+      : this.icon !== false && colors.includes(this.color)
+      ? this.iconColorDefaults[this.color]
+      : false;
   }
 
   componentDidLoad(): void {
@@ -198,7 +207,7 @@ export class CalciteAlert {
   };
 
   /** map icon strings */
-  private iconDefaults = {
+  private iconColorDefaults = {
     green: "checkCircle",
     yellow: "exclamationMarkTriangle",
     red: "exclamationMarkTriangle",
@@ -259,10 +268,9 @@ export class CalciteAlert {
   }
 
   private renderIcon(): VNode {
-    const path = this.iconDefaults[this.color];
     return (
       <div class="alert-icon">
-        <calcite-icon icon={path} scale="m" />
+        <calcite-icon icon={this.icon as string} scale="m" />
       </div>
     );
   }

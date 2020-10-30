@@ -53,7 +53,10 @@ export class CalciteInput {
     if (this.disabled) this.setDisabledAction();
   }
 
-  /** for recognized input types, show an icon if applicable */
+  /** when used as a boolean set to true, show a default recommended icon for certain
+   * input types (tel, password, email, date, time, search). You can also pass a
+   * calcite-ui-icon name to this prop to display a requested icon for any input type */
+
   @Prop({ reflect: true }) icon: string | boolean = false;
 
   /** flip the icon in rtl */

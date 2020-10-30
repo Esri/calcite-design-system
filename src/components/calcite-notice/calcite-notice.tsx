@@ -54,8 +54,9 @@ export class CalciteNotice {
   /** Optionally show a button the user can click to dismiss the notice */
   @Prop({ reflect: true }) dismissible?: boolean = false;
 
-  /** If false, no icon will be shown in the notice */
-  @Prop() icon = false;
+  /** when used as a boolean set to true, show a default recommended icon. You can
+   * also pass a calcite-ui-icon name to this prop to display a requested icon */
+  @Prop({ reflect: true }) icon: string | boolean = false;
 
   /** String for the close button. */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
@@ -74,6 +75,16 @@ export class CalciteNotice {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+  connectedCallback(): void {
+    // if an icon string is not provided, but icon is true and a default icon is present
+    // for the requested color, set that as the icon
+    const colors = ["blue", "green", "red", "yellow"];
+    this.icon = this.icon
+      ? (this.icon as string)
+      : this.icon !== false && colors.includes(this.color)
+      ? this.iconColorDefaults[this.color]
+      : false;
+  }
 
   componentDidLoad(): void {
     this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
@@ -159,7 +170,7 @@ export class CalciteNotice {
   /** the notice link child element  */
   private noticeLinkEl?: HTMLCalciteLinkElement;
 
-  private iconDefaults = {
+  private iconColorDefaults = {
     green: "checkCircle",
     yellow: "exclamationMarkTriangle",
     red: "exclamationMarkTriangle",
@@ -167,10 +178,9 @@ export class CalciteNotice {
   };
 
   private renderIcon(): VNode {
-    const path = this.iconDefaults[this.color];
     return (
       <div class="notice-icon">
-        <calcite-icon icon={path} scale="m" />
+        <calcite-icon icon={this.icon as string} scale="m" />
       </div>
     );
   }
