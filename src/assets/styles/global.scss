@@ -6,23 +6,20 @@
 @import "shadow";
 
 :root {
-  // font-family: $avenir-family;
-  @apply font-sans;
+  @extend %type-vars;
+  @extend %shadow-vars;
+  @include calcite-theme-light();
+
+  --calcite-border-radius: 3px;  
+  --calcite-ui-opacity-disabled: 0.3;
+  --calcite-ui-foreground-current: #{$h-bb-010};
+  --calcite-ui-text-current: #{$h-bb-070};
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @include calcite-theme-light();
-  @include componentTypeVars();
-  @include componentShadowVars();
-
-  --calcite-border-radius: 3px;
-
-  --calcite-ui-opacity-disabled: 0.3;
-
-  --calcite-ui-foreground-current: #{$h-bb-010};
-  --calcite-ui-text-current: #{$h-bb-070};
+  
+  @apply font-sans;
 }
 
 [theme="dark"] {
@@ -38,10 +35,9 @@
 }
 
 .overflow-hidden {
-  overflow: hidden;
+  @apply overflow-hidden;
 }
 
 [calcite-hydrated][aria-hidden="true"] {
-  visibility: hidden;
-  pointer-events: none;
+  @apply invisible pointer-events-none;
 }
