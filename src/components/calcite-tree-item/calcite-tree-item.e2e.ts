@@ -1,14 +1,29 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
-describe("calcite-tree", () => {
+describe("calcite-tree-item", () => {
   it("renders", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<calcite-tree></calcite-tree>");
-    const element = await page.find("calcite-tree");
+    await page.setContent("<calcite-tree-item></calcite-tree-item>");
+    const element = await page.find("calcite-tree-item");
     expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
+
+  it("is accessible", async () => accessible(`<calcite-tree-item></calcite-tree-item>`));
+
+  it("is accessible: nested children", async () =>
+    accessible(`
+    <calcite-tree lines>
+      <calcite-tree-item>
+        <a href="#">Child 2</a>
+        <calcite-tree slot="children">
+          <calcite-tree-item>
+            <a href="http://www.google.com">Grandchild 1</a>
+          </calcite-tree-item>
+        </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>`));
 
   it("should expand/collapse children when the icon is clicked", async () => {
     const page = await newE2EPage();
