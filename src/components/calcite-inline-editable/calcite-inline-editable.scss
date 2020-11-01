@@ -109,3 +109,19 @@
     }
   }
 }
+
+[dir="rtl"] {
+  :host {
+    &:not([editing-enabled]) {
+      &::slotted(*) {
+        .calcite-input-element-wrapper {
+          textarea,
+          input {
+            padding-right: 0;
+            padding-left: unset;
+          }
+        }
+      }
+    }
+  }
+}

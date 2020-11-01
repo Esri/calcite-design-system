@@ -56,7 +56,8 @@ export class CalciteInlineEditable {
   /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the theme of the closest wrapping component with a set theme */
   @Prop({ reflect: true }) theme?: "light" | "dark";
 
-  @Prop() onConfirmChanges: () => Promise<any>;
+  //** when has-controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
+  @Prop() onConfirmChanges: () => Promise<any>; //eslint-disable-line
 
   //--------------------------------------------------------------------------
   //
@@ -76,7 +77,6 @@ export class CalciteInlineEditable {
 
   componentWillLoad() {
     this.inputElement = this.el.querySelector("calcite-input") as HTMLCalciteInputElement;
-    this.inputElement.tabIndex = -1;
     this.scale =
       this.scale || this.inputElement.scale || getElementProp(this.el, "scale", undefined);
     this.theme =
@@ -104,7 +104,7 @@ export class CalciteInlineEditable {
               <calcite-button
                 appearance="transparent"
                 aria-label={this.intlEnableEditing}
-                class="calcite-input-enable-editing-button"
+                class="calcite-inline-editable-enable-editing-button"
                 color="dark"
                 disabled={this.inputElement.disabled}
                 iconStart="pencil"
@@ -172,12 +172,22 @@ export class CalciteInlineEditable {
 
   @Listen("click", { target: "window" })
   handleLabelFocus(e: CustomEvent): void {
-    const HTMLTarget = e.target as HTMLElement;
-    if (!HTMLTarget.classList.contains("calcite-label-text")) return;
-    if (!HTMLTarget.parentElement.contains(this.el)) return;
+    const htmlTarget = e.target as HTMLElement;
+    if (
+      !(
+        htmlTarget.parentElement.tagName === "LABEL" ||
+        htmlTarget.parentElement.tagName === "CALCITE-LABEL"
+      )
+    )
+      return;
+    if (!htmlTarget.parentElement.contains(this.el)) return;
     e.preventDefault();
     e.stopPropagation();
-    this.enableEditingButton.setFocus();
+    if (this.editingEnabled) {
+      this.inputElement.setFocus();
+    } else {
+      this.enableEditingButton.setFocus();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -240,13 +250,14 @@ export class CalciteInlineEditable {
   private confirmChangesChangesHandler = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    this.calciteInlineEditableConfirmChanges.emit();
     try {
       if (this.onConfirmChanges) {
         this.loading = true;
         await this.onConfirmChanges();
         this.disableEditing();
       }
-      this.calciteInlineEditableConfirmChanges.emit();
+    } catch (e) {
     } finally {
       this.loading = false;
     }

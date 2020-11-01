@@ -6,18 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Calcite Inline Editable</title>
-  <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-  </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
   <script type="module" src="../build/calcite.esm.js"></script>
   <script nomodule src="../build/calcite.js"></script>
   <script>
+    let isDarkTheme = false;
     const handleChangesFoInput = (id, isSuccess = true) => {
       const onConfirmChanges = () => new Promise((resolve, reject) => {
         if (isSuccess) return setTimeout(resolve, 1500)
@@ -30,9 +24,19 @@
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Inline Editable</h1>
-
+  <calcite-label layout="inline">
+    Dark Mode
+    <calcite-switch id="themeSwitch"></calcite-switch>
+  </calcite-label>
+  <script>
+    document.querySelector("#themeSwitch").addEventListener("calciteSwitchChange", () => {
+      isDarkTheme = !isDarkTheme;
+      document.querySelectorAll("calcite-accordion").forEach(accordion => {
+        accordion.setAttribute("theme", isDarkTheme ? "dark" : "light");
+      });
+    });
+  </script>
   <h3>Inline Editable Input</h3>
-
   <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
     <calcite-accordion-item item-title="Scales" active>
       <calcite-label>
@@ -64,11 +68,11 @@
 
 
     <calcite-accordion-item item-title="RTL">
-      <div>
+      <div dir="rtl">
         <calcite-label>
           S
-          <calcite-inline-editable dir="rtl">
-            <calcite-input placeholder="Day of the week" scale="s" theme="dark" />
+          <calcite-inline-editable>
+            <calcite-input placeholder="Day of the week" scale="s" />
           </calcite-inline-editable>
         </calcite-label>
         <calcite-label>

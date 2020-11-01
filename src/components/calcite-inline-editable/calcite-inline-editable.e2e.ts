@@ -1,509 +1,273 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { newE2EPage } from "@stencil/core/testing";
 
-describe("calcite-input", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-input></calcite-input>");
-    const input = await page.find("calcite-input");
-    expect(input).toHaveAttribute(HYDRATED_ATTR);
+describe("calcite-inline-editable", () => {
+  describe("rendering permutations", () => {
+    let page: E2EPage;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`
+      <calcite-inline-editable>
+        <calcite-input/>
+      </calcite-inline-editable>
+      `);
+    });
+
+    it("renders", async () => {
+      const element = await page.find("calcite-inline-editable");
+      expect(element).toHaveAttribute(HYDRATED_ATTR);
+    });
+
+    it("renders default props when none are provided", async () => {
+      const element = await page.find("calcite-inline-editable");
+      expect(element).toEqualAttribute("scale", "m");
+      expect(element).not.toHaveAttribute("has-controls");
+      expect(element).not.toHaveAttribute("editing-enabled");
+      expect(element).not.toHaveAttribute("loading");
+    });
+
+    it("uses a wrapping label's scale and theme when none are provided", async () => {
+      page = await newE2EPage();
+      await page.setContent(`
+      <calcite-label theme="dark" scale="l">
+        <calcite-inline-editable>
+          <calcite-input/>
+        </calcite-inline-editable>
+      </calcite-label>
+      `);
+      await page.waitForChanges();
+      const element = await page.find("calcite-inline-editable");
+      expect(element).toEqualAttribute("scale", "l");
+      expect(element).toEqualAttribute("theme", "dark");
+    });
+
+    it("uses a child input's scale and theme when none are provided", async () => {
+      page = await newE2EPage();
+      await page.setContent(`
+      <calcite-label>
+        <calcite-inline-editable>
+          <calcite-input theme="dark" scale="l"/>
+        </calcite-inline-editable>
+      </calcite-label>
+      `);
+      await page.waitForChanges();
+      const element = await page.find("calcite-inline-editable");
+      expect(element).toEqualAttribute("scale", "l");
+      expect(element).toEqualAttribute("theme", "dark");
+    });
+
+    it("renders requested props when valid props are provided", async () => {
+      page = await newE2EPage();
+      await page.setContent(`
+      <calcite-inline-editable has-controls editing-enabled loading scale="l" theme="dark">
+        <calcite-input/>
+      </calcite-inline-editable>
+      `);
+      await page.waitForChanges();
+      const element = await page.find("calcite-inline-editable");
+      expect(element).toEqualAttribute("scale", "l");
+      expect(element).toEqualAttribute("theme", "dark");
+      expect(element).toHaveAttribute("has-controls");
+      expect(element).toHaveAttribute("editing-enabled");
+      expect(element).toHaveAttribute("loading");
+    });
   });
 
-  it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input></calcite-input>
-    `);
-    await page.waitForChanges();
+  describe("does not have controls", () => {
+    let page: E2EPage;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`
+      <calcite-inline-editable>
+        <calcite-input value="John Doe"/>
+      </calcite-inline-editable>
+      `);
+    });
 
-    const element = await page.find("calcite-input");
-    expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("alignment", "start");
-    expect(element).toEqualAttribute("number-button-type", "vertical");
-    expect(element).toEqualAttribute("type", "text");
-    expect(element).toEqualAttribute("scale", "m");
+    it("enables editing when enable button is clicked", async () => {
+      const calciteInlineEditableEnableEditing = await page.spyOnEvent("calciteInlineEditableEnableEditing");
+      const element = await page.find("calcite-inline-editable");
+      const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
+      await enableEditingButton.click();
+      expect(element).toHaveAttribute("editing-enabled");
+      expect(calciteInlineEditableEnableEditing).toHaveReceivedEventTimes(1);
+    });
+
+    it("enables editing when the child input is clicked", async () => {
+      const calciteInlineEditableEnableEditing = await page.spyOnEvent("calciteInlineEditableEnableEditing");
+      const element = await page.find("calcite-inline-editable");
+      await element.click();
+      expect(element).toHaveAttribute("editing-enabled");
+      expect(calciteInlineEditableEnableEditing).toHaveReceivedEventTimes(1);
+    });
+
+    it("disables editing when the child input loses focus", async () => {
+      const element = await page.find("calcite-inline-editable");
+      const input = await page.find("calcite-input");
+      const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
+      await enableEditingButton.click();
+      expect(element).toHaveAttribute("editing-enabled");
+      input.triggerEvent("calciteInputBlur");
+      await page.waitForChanges();
+      expect(element).not.toHaveAttribute("editing-enabled");
+    });
   });
 
-  it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input status="invalid" theme="dark" alignment="end" number-button-type="none" type="number" scale="s"></calcite-input>
-    `);
+  describe("has controls", () => {
+    let page: E2EPage;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`
+      <calcite-inline-editable has-controls>
+        <calcite-input value="John Doe"/>
+      </calcite-inline-editable>
+      `);
+    });
 
-    const element = await page.find("calcite-input");
-    expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("theme", "dark");
-    expect(element).toEqualAttribute("alignment", "end");
-    expect(element).toEqualAttribute("number-button-type", "none");
-    expect(element).toEqualAttribute("type", "number");
-    expect(element).toEqualAttribute("scale", "s");
-  });
+    it("enables editing when enable button is clicked", async () => {
+      const calciteInlineEditableEnableEditing = await page.spyOnEvent("calciteInlineEditableEnableEditing");
+      const element = await page.find("calcite-inline-editable");
+      const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
+      await enableEditingButton.click();
+      expect(element).toHaveAttribute("editing-enabled");
+      expect(calciteInlineEditableEnableEditing).toHaveReceivedEventTimes(1);
+    });
 
-  it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label status="invalid" theme="dark" scale="s">
-    Label text
-    <calcite-input></calcite-input>
-    </calcite-label>
-    `);
+    it("enables editing when the child input is clicked", async () => {
+      const calciteInlineEditableEnableEditing = await page.spyOnEvent("calciteInlineEditableEnableEditing");
+      const element = await page.find("calcite-inline-editable");
+      await element.click();
+      expect(element).toHaveAttribute("editing-enabled");
+      expect(calciteInlineEditableEnableEditing).toHaveReceivedEventTimes(1);
+    });
 
-    const element = await page.find("calcite-input");
-    expect(element).toEqualAttribute("status", "invalid");
-    expect(element).toEqualAttribute("scale", "s");
-  });
+    it("restores input value after cancel button is clicked", async () => {
+      const calciteInlineEditableCancelEditing = await page.spyOnEvent("calciteInlineEditableCancelEditing");
+      const element = await page.find("calcite-inline-editable");
+      const input = await element.find("calcite-input");
+      await element.click();
+      const cancelEditingButton = await element.find(".calcite-inline-editable-cancel-editing-button");
+      expect(input.getAttribute("value")).toBe("John Doe");
+      await input.type("typo");
+      expect(input.getAttribute("value")).toBe("John Doetypo");
+      await cancelEditingButton.click();
+      await page.waitForChanges();
+      expect(input.getAttribute("value")).toBe("John Doe");
+      expect(calciteInlineEditableCancelEditing).toHaveReceivedEventTimes(1);
+    });
 
-  it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input icon="key" type="number"></calcite-input>
-    `);
+    it("restores input value after escape key is pressed", async () => {
+      const calciteInlineEditableCancelEditing = await page.spyOnEvent("calciteInlineEditableCancelEditing");
+      const element = await page.find("calcite-inline-editable");
+      const input = await element.find("calcite-input");
+      await element.click();
+      expect(input.getAttribute("value")).toBe("John Doe");
+      await input.type("typo");
+      expect(input.getAttribute("value")).toBe("John Doetypo");
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      expect(input.getAttribute("value")).toBe("John Doe");
+      expect(calciteInlineEditableCancelEditing).toHaveReceivedEventTimes(1);
+    });
 
-    const icon = await page.find("calcite-input .calcite-input-icon");
-    expect(icon).not.toBeNull();
-  });
+    it("does not disable editing when input focus is lost", async () => {
+      const element = await page.find("calcite-inline-editable");
+      const input = await page.find("calcite-input");
+      const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
+      await enableEditingButton.click();
+      expect(element).toHaveAttribute("editing-enabled");
+      input.triggerEvent("calciteInputBlur");
+      await page.waitForChanges();
+      expect(element).toHaveAttribute("editing-enabled");
+    });
 
-  it("renders an icon when explicit Calcite UI is requested, and is a type with a default icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input icon="key" type="date"></calcite-input>
-    `);
+    it("emits a confirm changes event when the save button is clicked", async () => {
+      const calciteInlineEditableConfirmChanges = await page.spyOnEvent("calciteInlineEditableConfirmChanges");
+      const element = await page.find("calcite-inline-editable");
+      const input = await page.find("calcite-input");
+      const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
+      await enableEditingButton.click();
+      const confirmChangesButton = await element.find(".calcite-inline-editable-confirm-changes-button");
+      await input.type("Moe");
+      await confirmChangesButton.click();
+      expect(calciteInlineEditableConfirmChanges).toHaveReceivedEventTimes(1);
+      expect(input.getAttribute("value")).toBe("John DoeMoe");
+      expect(element).toHaveAttribute("editing-enabled");
+    });
 
-    const icon = await page.find("calcite-input .calcite-input-icon");
-    expect(icon).not.toBeNull();
-  });
+    it("it disables editing when onConfirmChanges resolves successfully", async () => {
+      const element = await page.find("calcite-inline-editable");
+      const onConfirmChanges = () => new Promise((resolve) => setTimeout(resolve, 100));
+      // https://github.com/ionic-team/stencil/issues/1174
+      page.exposeFunction("onConfirmChanges", onConfirmChanges);
+      page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
+        el.onConfirmChanges = onConfirmChanges;
+      });
+      const calciteInlineEditableConfirmChanges = await page.spyOnEvent("calciteInlineEditableConfirmChanges");
+      const input = await page.find("calcite-input");
+      const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
+      await enableEditingButton.click();
+      const confirmChangesButton = await element.find(".calcite-inline-editable-confirm-changes-button");
+      await input.type("Moe");
+      await confirmChangesButton.click();
+      expect(calciteInlineEditableConfirmChanges).toHaveReceivedEventTimes(1);
+      await page.waitForChanges();
+      expect(input.getAttribute("value")).toBe("John DoeMoe");
+      expect(element).not.toHaveAttribute("editing-enabled");
+    });
 
-  it("renders an icon when requested without an explicit Calcite UI, and is a type with a default icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input icon type="date"></calcite-input>
-    `);
+    it("it does not disable editing when onConfirmChanges resolves unsuccessfully", async () => {
+      const element = await page.find("calcite-inline-editable");
+      const onConfirmChanges = () => new Promise((_resolve, reject) => setTimeout(reject, 100));
+      // https://github.com/ionic-team/stencil/issues/1174
+      page.exposeFunction("onConfirmChanges", onConfirmChanges);
+      page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
+        el.onConfirmChanges = onConfirmChanges;
+      });
+      const calciteInlineEditableConfirmChanges = await page.spyOnEvent("calciteInlineEditableConfirmChanges");
+      const input = await page.find("calcite-input");
+      const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
+      await enableEditingButton.click();
+      const confirmChangesButton = await element.find(".calcite-inline-editable-confirm-changes-button");
+      await input.type("Moe");
+      await confirmChangesButton.click();
+      expect(calciteInlineEditableConfirmChanges).toHaveReceivedEventTimes(1);
+      await page.waitForChanges();
+      expect(input.getAttribute("value")).toBe("John DoeMoe");
+      expect(element).toHaveAttribute("editing-enabled");
+    });
 
-    const icon = await page.find("calcite-input .calcite-input-icon");
-    expect(icon).not.toBeNull();
-  });
+    describe("with label", () => {
+      beforeEach(async () => {
+        page = await newE2EPage();
+        await page.setContent(`
+        <calcite-label>
+          <span>Hello</span>
+          <calcite-inline-editable has-controls>
+            <calcite-input value="John Doe"/>
+          </calcite-inline-editable>
+        </calcite-label>
+        `);
+      });
 
-  it("does not render an icon when requested without an explicit Calcite UI, and is a type without a default icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input icon type="number"></calcite-input>
-    `);
+      it("focuses the enable editing button when the label is clicked", async () => {
+        const label = await page.find("span");
+        await label.click();
+        const activeEl = await page.evaluateHandle(() => document.activeElement);
+        expect(activeEl["_remoteObject"].description).toMatch(
+          "calcite-button.calcite-inline-editable-enable-editing-button"
+        );
+      });
 
-    const icon = await page.find("calcite-input .calcite-input-icon");
-    expect(icon).toBeNull();
-  });
-
-  it("renders number buttons in default vertical alignment when type=number", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number"></calcite-input>
-    `);
-
-    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
-    );
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
-    );
-
-    expect(numberVerticalWrapper).not.toBeNull();
-    expect(numberHorizontalItemDown).toBeNull();
-    expect(numberHorizontalItemUp).toBeNull();
-  });
-
-  it("renders number buttons in horizontal vertical alignment when type=number and number button type is horizontal", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" number-button-type="horizontal"></calcite-input>
-    `);
-
-    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
-    );
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
-    );
-
-    expect(numberVerticalWrapper).toBeNull();
-    expect(numberHorizontalItemDown).not.toBeNull();
-    expect(numberHorizontalItemUp).not.toBeNull();
-  });
-
-  it("renders no buttons in type=number and number button type is none", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" number-button-type="none"></calcite-input>
-    `);
-
-    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
-    );
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
-    );
-
-    expect(numberVerticalWrapper).toBeNull();
-    expect(numberHorizontalItemDown).toBeNull();
-    expect(numberHorizontalItemUp).toBeNull();
-  });
-
-  it("focuses child input when setFocus method is called", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label>
-    Label text
-    <calcite-input></calcite-input>
-    </calcite-label>
-    `);
-
-    const element = await page.find("calcite-input");
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-    expect(activeEl).toEqual(element.nodeName);
-  });
-
-  it("correctly increments and decrements value when number buttons are clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" value="3"></calcite-input>
-    `);
-
-    const element = await page.find("calcite-input");
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
-    );
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
-    );
-    expect(element.getAttribute("value")).toBe("3");
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("2");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("3");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("4");
-  });
-
-  it("correctly increments and decrements value when number buttons are clicked and step is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" step="10" value="15"></calcite-input>
-    `);
-
-    const element = await page.find("calcite-input");
-
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
-    );
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
-    );
-    expect(element.getAttribute("value")).toBe("15");
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("5");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("15");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("25");
-  });
-
-  it("correctly stops decrementing value when min is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" min="10" value="12"></calcite-input>
-    `);
-
-    const element = await page.find("calcite-input");
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
-    );
-    expect(element.getAttribute("value")).toBe("12");
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("11");
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("10");
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("10");
-  });
-  it("correctly stops incrementing value when max is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" max="10" value="8"></calcite-input>
-    `);
-
-    const element = await page.find("calcite-input");
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
-    );
-    expect(element.getAttribute("value")).toBe("8");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("9");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("10");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("10");
-  });
-  it("correctly stops decrementing value when min is 0", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" min="0" value="2"></calcite-input>
-    `);
-
-    const element = await page.find("calcite-input");
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
-    );
-    expect(element.getAttribute("value")).toBe("2");
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("1");
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("0");
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("0");
-  });
-
-  it("correctly stops incrementing value when max is 0", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" max="0" value="-2"></calcite-input>
-    `);
-
-    const element = await page.find("calcite-input");
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
-    );
-    expect(element.getAttribute("value")).toBe("-2");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("-1");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("0");
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("0");
-  });
-
-  it("when value is added, event is received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input></calcite-input>
-    `);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe("");
-    await element.callMethod("setFocus");
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
-    await page.keyboard.press("a");
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("a");
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
-  });
-
-  it("when value changes, event is received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input value="John Doe"></calcite-input>
-    `);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe("John Doe");
-    await element.callMethod("setFocus");
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
-    await page.keyboard.press("e");
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("John Doee");
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
-  });
-
-  it("renders clear button when clearable is requested and value is populated at load", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input clearable value="John Doe"></calcite-input>
-    `);
-    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
-    expect(clearButton).not.toBe(null);
-  });
-
-  it("does not render clear button when clearable is requested and value is not populated", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input clearable></calcite-input>
-    `);
-
-    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
-    expect(clearButton).toBe(null);
-  });
-
-  it("does not render clear button when clearable is not requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input></calcite-input>
-    `);
-
-    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
-    expect(clearButton).toBe(null);
-  });
-
-  it("when clearable is requested, value is cleared on escape key press", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input clearable value="John Doe"></calcite-input>
-    `);
-
-    const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe("John Doe");
-    await element.callMethod("setFocus");
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("");
-  });
-
-  it("when clearable is requested, value is cleared on clear button click", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input clearable value="John Doe"></calcite-input>
-    `);
-
-    const element = await page.find("calcite-input");
-    const clearButton = await page.find(".calcite-input-clear-button");
-    expect(element.getAttribute("value")).toBe("John Doe");
-    clearButton.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("");
-  });
-
-  it("when clearable is requested and clear button is clicked, event is received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input clearable value="John Doe"></calcite-input>
-    `);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    const clearButton = await page.find(".calcite-input-clear-button");
-    expect(element.getAttribute("value")).toBe("John Doe");
-    clearButton.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("");
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
-  });
-
-  it("when clearable is requested and input is cleared via escape key, event is received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input clearable value="John Doe"></calcite-input>
-    `);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe("John Doe");
-    await element.callMethod("setFocus");
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("");
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
-  });
-
-  it("when type is search and clear button is clicked, event is received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="search" value="John Doe"></calcite-input>
-    `);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    const clearButton = await page.find(".calcite-input-clear-button");
-    expect(element.getAttribute("value")).toBe("John Doe");
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
-    clearButton.click();
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("");
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
-  });
-
-  it("when type is search and input is cleared via escape key, event is received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="search" value="John Doe"></calcite-input>
-    `);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe("John Doe");
-    await element.callMethod("setFocus");
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("");
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
-  });
-
-  it("when clearable is not requested and input is cleared via escape key, event is not received", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input value="John Doe"></calcite-input>
-    `);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe("John Doe");
-    await element.callMethod("setFocus");
-    expect(calciteInputInput).not.toHaveReceivedEvent();
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("John Doe");
-    expect(calciteInputInput).not.toHaveReceivedEvent();
-  });
-
-  it("should emit event when up or down clicked on input", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" max="0" value="-2"></calcite-input>
-    `);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
-    );
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
-
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
-    );
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(2);
-
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(3);
+      it("focuses the input when editing is enabled and the label is subsequently clicked", async () => {
+        const enableEditingButton = await page.find(".calcite-inline-editable-enable-editing-button");
+        await enableEditingButton.click();
+        const label = await page.find("span");
+        await label.click();
+        const activeEl = await page.evaluateHandle(() => document.activeElement);
+        expect(activeEl["_remoteObject"].description).toMatch("input");
+      });
+    });
   });
 });
