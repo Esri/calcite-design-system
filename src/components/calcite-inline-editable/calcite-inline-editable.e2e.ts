@@ -21,6 +21,7 @@ describe("calcite-inline-editable", () => {
 
     it("renders default props when none are provided", async () => {
       const element = await page.find("calcite-inline-editable");
+      await page.waitForChanges();
       expect(element).toEqualAttribute("scale", "m");
       expect(element).not.toHaveAttribute("has-controls");
       expect(element).not.toHaveAttribute("editing-enabled");

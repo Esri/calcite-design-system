@@ -57,7 +57,7 @@ export class CalciteInlineEditable {
   @Prop({ reflect: true }) theme?: "light" | "dark";
 
   //** when has-controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
-  @Prop() onConfirmChanges: () => Promise<any>; //eslint-disable-line
+  @Prop() onConfirmChanges: () => Promise<any>; // eslint-disable-line @stencil/decorators-style
 
   //--------------------------------------------------------------------------
   //
