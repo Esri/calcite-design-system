@@ -1,16 +1,25 @@
 // place on the element that receives focus style, not in focus
+/**
+* Replace with @apply focus-style-base
+*/
 @mixin focus-style-base() {
   outline-offset: 0;
   outline-color: transparent;
   transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
 }
 
+/**
+* Replace with @apply focus-style-outset
+*/
 // place on the element that receives focus style, while in focus
 @mixin focus-style-outset() {
   outline: 2px solid var(--calcite-ui-blue-1);
   outline-offset: 2px;
 }
 
+/**
+* Replace with @apply focus-style-inset
+*/
 @mixin focus-style-inset() {
   outline: 2px solid var(--calcite-ui-blue-1);
   outline-offset: -2px;

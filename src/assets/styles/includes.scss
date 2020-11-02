@@ -20,6 +20,9 @@
   display: none;
 }
 
+/**
+* TODO: Replace usages of this with @apply word-break.
+*/
 @mixin word-break() {
   word-wrap: break-word;
   word-break: break-word;

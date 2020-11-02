@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   theme: {
     borderRadius: {
@@ -65,28 +67,62 @@ module.exports = {
       medium: "var(--calcite-font-weight-medium)",
       bold: "var(--calcite-font-weight-bold)"
     },
+    opacity: {
+      disabled: "var(--calcite-ui-opacity-disabled)"
+    },
     screens: {
       's': '480px',
       'm': '864px',
       'l': '1024px',
       'xl': '1440px'
     },
-    // textColor: theme => ({
-    //   "color-1": theme("colors.text.1"),
-    //   "color-2": theme("colors.text.2"),
-    //   "color-3": theme("colors.text.3"),
-    //   blue: {
-    //     1: theme("colors.blue.1"),
-    //     2: theme("colors.blue.2"),
-    //     3: theme("colors.blue.3"),
-    //   },
-    //   white: theme("colors.background")
-    // }),
-    transitionTimingFunction: {
-      cubic: "cubic-bezier(0.215, 0.440, 0.420, 0.880)"
+    textColor: theme => ({
+      "color-1": theme("colors.text.1"),
+      "color-2": theme("colors.text.2"),
+      "color-3": theme("colors.text.3"),
+      blue: {
+        1: theme("colors.blue.1"),
+        2: theme("colors.blue.2"),
+        3: theme("colors.blue.3"),
+      },
+      white: theme("colors.background")
+    }),
+    backgroundColor: theme => theme("colors"),
+    extend: {
+      transitionProperty: {
+        margin: "margin",
+        color: "color"
+      },
+      transitionTimingFunction: {
+        cubic: "cubic-bezier(0.215, 0.440, 0.420, 0.880)"
+      }
     }
   },
-  backgroundColor: theme => theme("colors"),
+  plugins: [
+    plugin(function({ addUtilities }){
+      const newUtilities = {
+        ".word-break": {
+          "word-wrap": "break-word",
+          "word-break": "break-word"
+        },
+        ".focus-style-base": {
+          "outline-offset": 0,
+          "outline-color": "transparent",
+          "transition": "outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out"
+        },
+        ".focus-style-outset": {
+          "outline": "2px solid var(--calcite-ui-blue-1)",
+          "outline-offset": "2px"
+        },
+        ".focus-style-inset": {
+          "outline": "2px solid var(--calcite-ui-blue-1)",
+          "outline-offset": "-2px"
+        }
+        // TODO: focus-box-shadow
+      }
+      addUtilities(newUtilities);
+    })
+  ],
   future: {
     removeDeprecatedGapUtilities: true,
   },
