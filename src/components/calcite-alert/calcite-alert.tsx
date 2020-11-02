@@ -50,6 +50,15 @@ export class CalciteAlert {
   /** Is the alert currently active or not */
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  @Watch("active")
+  watchActive(): void {
+    if (this.active && !this.queued) this.calciteAlertRegister.emit();
+    if (!this.active) {
+      this.queue = this.queue.filter((e) => e !== this.el);
+      this.calciteAlertSync.emit({ queue: this.queue });
+    }
+  }
+
   /** Close the alert automatically (recommended for passive, non-blocking alerts) */
   @Prop() autoDismiss = false;
 
@@ -65,10 +74,6 @@ export class CalciteAlert {
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  @Watch("icon") iconWatcher(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
-  }
-
   /** string to override English close text */
   @Prop() intlClose: string = TEXT.intlClose;
 
@@ -77,6 +82,12 @@ export class CalciteAlert {
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: CalciteTheme;
+
+  @Watch("icon")
+  @Watch("color")
+  updateRequestedIcon(): void {
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -94,14 +105,6 @@ export class CalciteAlert {
 
   componentDidLoad(): void {
     this.alertLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
-  }
-
-  @Watch("active") watchActive(): void {
-    if (this.active && !this.queued) this.calciteAlertRegister.emit();
-    if (!this.active) {
-      this.queue = this.queue.filter((e) => e !== this.el);
-      this.calciteAlertSync.emit({ queue: this.queue });
-    }
   }
 
   render(): VNode {
@@ -227,7 +230,8 @@ export class CalciteAlert {
   private alertLinkEl?: HTMLCalciteLinkElement;
 
   /** the computed icon to render */
-  private requestedIcon?: string;
+  /* @internal */
+  @State() requestedIcon?: string;
 
   //--------------------------------------------------------------------------
   //

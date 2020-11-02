@@ -61,10 +61,6 @@ export class CalciteNotice {
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  @Watch("icon") iconWatcher(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
-  }
-
   /** String for the close button. */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
@@ -77,11 +73,17 @@ export class CalciteNotice {
   /** specify the width of the notice, defaults to auto */
   @Prop({ reflect: true }) width: CalciteWidth = "auto";
 
+  @Watch("icon")
+  @Watch("color")
+  updateRequestedIcon(): void {
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  }
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
   componentWillLoad(): void {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }

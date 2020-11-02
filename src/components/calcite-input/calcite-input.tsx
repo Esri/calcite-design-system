@@ -60,10 +60,6 @@ export class CalciteInput {
    * calcite-ui-icon name to this prop to display a requested icon for any input type */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  @Watch("icon") iconWatcher(): void {
-    this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
-  }
-
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
 
@@ -142,11 +138,18 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
-  @Watch("value") valueWatcher(): void {
+  @Watch("value")
+  valueWatcher(): void {
     this.calciteInputInput.emit({
       element: this.childEl,
       value: this.value
     });
+  }
+
+  @Watch("icon")
+  @Watch("type")
+  updateRequestedIcon(): void {
+    this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
   }
 
   //--------------------------------------------------------------------------
@@ -161,18 +164,18 @@ export class CalciteInput {
     this.determineClearable();
   }
 
+  componentWillLoad(): void {
+    this.childElType = this.type === "textarea" ? "textarea" : "input";
+    this.hasAction = !!this.el.querySelector("[slot=input-action]");
+    this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
+  }
+
   componentDidLoad(): void {
     this.minString = this.min?.toString();
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
     if (this.disabled) this.setDisabledAction();
-  }
-
-  componentWillLoad(): void {
-    this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.hasAction = !!this.el.querySelector("[slot=input-action]");
-    this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
   }
 
   componentWillUpdate(): void {

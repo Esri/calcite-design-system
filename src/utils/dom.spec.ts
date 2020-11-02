@@ -1,4 +1,4 @@
-import { getElementProp, getSlotted } from "./dom";
+import { getElementProp, getSlotted, setRequestedIcon } from "./dom";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -246,5 +246,15 @@ describe("dom", () => {
         });
       });
     });
+    describe("set requested icon", () => {
+      it("returns the custom icon name if passed", () =>
+        expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "mycustomvalue", "mycustomvalue")).toBe(
+          "mycustomvalue"
+        ));
+    });
+    it("returns the recommended icon if not passed", () =>
+      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
+        "exampleReturnedValue"
+      ));
   });
 });

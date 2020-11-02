@@ -125,7 +125,7 @@ export function setRequestedIcon(
   iconValue: string | boolean,
   matchedValue: string
 ): string {
-  if (iconValue && typeof iconValue === "string" && iconValue !== "") {
+  if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
   } else if (iconValue === "") {
     return iconObject[matchedValue];
