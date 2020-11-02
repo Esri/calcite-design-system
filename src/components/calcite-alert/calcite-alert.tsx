@@ -12,8 +12,10 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
-import { TEXT } from "./calcite-alert.resources";
+import { getElementDir, setRequestedIcon } from "../../utils/dom";
+import { DURATIONS, TEXT } from "./calcite-alert.resources";
+import { CalciteStatusColor, CalciteScale, CalciteTheme } from "../interfaces";
+import { StatusIcons } from "../../interfaces/StatusIcons";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
@@ -57,20 +59,24 @@ export class CalciteAlert {
     : null;
 
   /** Color for the alert (will apply to top border and icon) */
-  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
+  @Prop({ reflect: true }) color: CalciteStatusColor = "blue";
 
   /** when used as a boolean set to true, show a default recommended icon. You can
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
-  @Prop({ reflect: true }) icon: string | boolean = false;
+  @Prop({ reflect: true }) icon: string | boolean;
+
+  @Watch("icon") iconWatcher(): void {
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  }
 
   /** string to override English close text */
   @Prop() intlClose: string = TEXT.intlClose;
 
   /** specify the scale of the button, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: CalciteScale = "m";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: CalciteTheme;
 
   //--------------------------------------------------------------------------
   //
@@ -80,14 +86,10 @@ export class CalciteAlert {
 
   connectedCallback(): void {
     if (this.active && !this.queued) this.calciteAlertRegister.emit();
-    // if an icon string is not provided, but icon is true and a default icon is present
-    // for the requested color, set that as the icon
-    const colors = ["blue", "green", "red", "yellow"];
-    this.icon = this.icon
-      ? (this.icon as string)
-      : this.icon !== false && colors.includes(this.color)
-      ? this.iconColorDefaults[this.color]
-      : false;
+  }
+
+  componentWillLoad(): void {
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
   componentDidLoad(): void {
@@ -126,7 +128,11 @@ export class CalciteAlert {
 
     return (
       <Host active={this.active} aria-hidden={hidden} dir={dir} queued={this.queued} role={role}>
-        {this.icon ? this.renderIcon() : null}
+        {this.requestedIcon ? (
+          <div class="alert-icon">
+            <calcite-icon icon={this.requestedIcon} scale="m" />
+          </div>
+        ) : null}
         <div class="alert-content">
           <slot name="alert-title" />
           <slot name="alert-message" />
@@ -165,6 +171,27 @@ export class CalciteAlert {
    */
   @Event() calciteAlertRegister: EventEmitter;
 
+  // when an alert is opened or closed, update queue and determine active alert
+  @Listen("calciteAlertSync", { target: "window" })
+  alertSync(event: CustomEvent): void {
+    if (this.queue !== event.detail.queue) {
+      this.queue = event.detail.queue;
+    }
+    this.queueLength = this.queue.length;
+    this.determineActiveAlert();
+  }
+
+  // when an alert is first registered, trigger a queue sync to get queue
+  @Listen("calciteAlertRegister", { target: "window" })
+  alertRegister(): void {
+    if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
+      this.queued = true;
+      this.queue.push(this.el as HTMLCalciteAlertElement);
+    }
+    this.calciteAlertSync.emit({ queue: this.queue });
+    this.determineActiveAlert();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -199,49 +226,23 @@ export class CalciteAlert {
   /** the slotted alert link child element  */
   private alertLinkEl?: HTMLCalciteLinkElement;
 
-  /** map dismissal durations */
-  private autoDismissDurations = {
-    slow: 14000,
-    medium: 10000,
-    fast: 6000
-  };
+  /** the computed icon to render */
+  private requestedIcon?: string;
 
-  /** map icon strings */
-  private iconColorDefaults = {
-    green: "checkCircle",
-    yellow: "exclamationMarkTriangle",
-    red: "exclamationMarkTriangle",
-    blue: "lightbulb"
-  };
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
 
-  // when an alert is opened or closed, update queue and determine active alert
-  @Listen("calciteAlertSync", { target: "window" })
-  alertSync(event: CustomEvent): void {
-    if (this.queue !== event.detail.queue) {
-      this.queue = event.detail.queue;
-    }
-    this.queueLength = this.queue.length;
-    this.determineActiveAlert();
-  }
-
-  // when an alert is first registered, trigger a queue sync to get queue
-  @Listen("calciteAlertRegister", { target: "window" })
-  alertRegister(): void {
-    if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
-      this.queued = true;
-      this.queue.push(this.el as HTMLCalciteAlertElement);
-    }
-    this.calciteAlertSync.emit({ queue: this.queue });
-    this.determineActiveAlert();
-  }
-
-  /** emit the opened alert and the queue */
-  private openAlert(): void {
-    setTimeout(() => (this.queued = false), 300);
-    this.calciteAlertOpen.emit({
-      el: this.el,
-      queue: this.queue
-    });
+  /** determine which alert is active */
+  private determineActiveAlert(): void {
+    if (this.queue?.[0] === this.el) {
+      this.openAlert();
+      if (this.autoDismiss) {
+        setTimeout(() => this.closeAlert(), DURATIONS[this.autoDismissDuration]);
+      }
+    } else return;
   }
 
   /** close and emit the closed alert and the queue */
@@ -257,21 +258,12 @@ export class CalciteAlert {
     });
   }
 
-  /** determine which alert is active */
-  private determineActiveAlert(): void {
-    if (this.queue?.[0] === this.el) {
-      this.openAlert();
-      if (this.autoDismiss) {
-        setTimeout(() => this.closeAlert(), this.autoDismissDurations[this.autoDismissDuration]);
-      }
-    } else return;
-  }
-
-  private renderIcon(): VNode {
-    return (
-      <div class="alert-icon">
-        <calcite-icon icon={this.icon as string} scale="m" />
-      </div>
-    );
+  /** emit the opened alert and the queue */
+  private openAlert(): void {
+    setTimeout(() => (this.queued = false), 300);
+    this.calciteAlertOpen.emit({
+      el: this.el,
+      queue: this.queue
+    });
   }
 }
