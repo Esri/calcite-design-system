@@ -343,8 +343,13 @@ export class CalciteRadioButton {
   private renderLabel(): void {
     // Rendering a calcite-label outside of Shadow DOM for accessibility and form participation
     if (this.el.textContent) {
-      const textNodes = Array.from(this.el.childNodes).filter((childNode) => childNode.nodeName === "#text");
-      const labelText = textNodes.reduce((labelText, textNode) => labelText += textNode.textContent, "");
+      const textNodes = Array.from(this.el.childNodes).filter(
+        (childNode) => childNode.nodeName === "#text"
+      );
+      const labelText = textNodes.reduce(
+        (labelText, textNode) => (labelText += textNode.textContent),
+        ""
+      );
       while (this.el.firstChild) {
         this.el.removeChild(this.el.firstChild);
       }

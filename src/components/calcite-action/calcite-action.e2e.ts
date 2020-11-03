@@ -49,8 +49,7 @@ describe("calcite-action", () => {
 
     const action = await page.find("calcite-action");
 
-    const delay = 1;
-    await new Promise((resolve) => setTimeout(resolve, delay));
+    await page.waitForTimeout(1);
 
     action.innerHTML = `<calcite-icon icon="hamburger" scale="s"></calcite-icon>`;
 
