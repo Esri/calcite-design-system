@@ -11,8 +11,8 @@ module.exports = {
       half: '50%',
       full: '100%',
     },
-    // assets/styles/_shadow
     boxShadow: {
+      // assets/styles/_shadow
       '1-sm': 'var(--calcite-shadow-1-press)',
       '1': 'var(--calcite-shadow-1)',
       '1-lg': 'var(--calcite-shadow-1-hover)',
@@ -23,8 +23,8 @@ module.exports = {
       'border-active': 'var(--calcite-shadow-border-active)', 
       'none': 'none',
     },
-    // CalciteColors
     colors: {
+      // CalciteColors
       blue: "var(--calcite-ui-blue-3)",
       green: "var(--calcite-ui-green-3)",
       yellow: "var(--calcite-ui-yellow-3)",
@@ -49,14 +49,14 @@ module.exports = {
       },
       transparent: "transparent"
     },
-    // assets/styles/_type
     fontFamily: {
+      // assets/styles/_type
       sans: "var(--calcite-sans-family)",
       mono: "var(--calcite-code-family)",
       inherit: "inherit"
     },
-    // assets/styles/_type
     fontSize: {
+      // assets/styles/_type
       "-3": "var(--calcite-font-size--3)",  // 10px
       "-2": "var(--calcite-font-size--2)",  // 12px
       "-1": "var(--calcite-font-size--1)",  // 14px
@@ -70,20 +70,20 @@ module.exports = {
       7: "var(--calcite-font-size-7)",      // 56px
       8: "var(--calcite-font-size-8)",      // 64px
     },
-    // assets/styles/_type
     fontWeight: {
+      // assets/styles/_type
       light: "var(--calcite-font-weight-light)",
       normal: "var(--calcite-font-weight-normal)",
       medium: "var(--calcite-font-weight-medium)",
       bold: "var(--calcite-font-weight-bold)"
     },
-    // assets/styles/global
     opacity: {
+      // assets/styles/global
       disabled: "var(--calcite-ui-opacity-disabled)"
     },
-    
+
     /**
-     * Non-themable
+     * Not themable
      */
     screens: {
       's': '480px',
