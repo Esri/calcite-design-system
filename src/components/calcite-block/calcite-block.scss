@@ -3,7 +3,16 @@
   @extend %component-spacing;
   // flex: 0 0 auto;
   
-  @apply flex flex-grow-0 flex-shrink-0 flex-col p-0 transition-margin duration-150 ease-cubic;
+  @apply
+    flex
+    flex-grow-0
+    flex-shrink-0
+    flex-col
+    p-0
+    transition-margin
+    duration-150
+    ease-cubic;
+    
   border-bottom: 1px solid var(--calcite-ui-border-3);
 }
 
@@ -19,12 +28,11 @@
 }
 
 .header-container {
-  display: grid;
+  @apply grid items-stretch;
   grid-template: auto / auto 1fr auto;
   grid-template-areas: "handle header control";
   grid-column: header-start / control-end;
   grid-row: 1 / 2;
-  align-items: stretch;
 
   & > .header {
     @apply py-3 px-0;
@@ -32,7 +40,20 @@
 }
 
 .toggle {
-  @apply bg-transparent flex flex-no-wrap font-inherit items-center m-0 py-3 px-0 border-none cursor-pointer text-left focus-style-base;
+  @apply
+    bg-transparent
+    flex
+    flex-no-wrap
+    font-inherit
+    items-center
+    m-0
+    py-3
+    px-0
+    border-none
+    cursor-pointer
+    text-left
+    focus-style-base;
+
   &:hover {
     @apply bg-foreground-2;
   }
@@ -55,11 +76,22 @@ calcite-handle {
 }
 
 .header .title .heading {
-  @apply p-0 text--1 text-color-3 word-break transition-color duration-150 ease-in-out;
+  @apply
+    p-0
+    text--1
+    text-color-3
+    word-break
+    transition-color
+    duration-150
+    ease-in-out;
 }
 
 .summary {
-  @apply p-0 text--2 text-color-3 word-break
+  @apply
+    p-0
+    text--2
+    text-color-3
+    word-break
 }
 
 .icon {
@@ -67,12 +99,21 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply flex-grow-0 flex-shrink-0 fill-current m-0 mr-4;
+  @apply
+    flex-grow-0
+    flex-shrink-0
+    fill-current
+    m-0
+    mr-4;
+
   flex-basis: theme("spacing.4");
 }
 
 .content {
-  @apply px-3 py-2 relative;
+  @apply
+    px-3
+    py-2
+    relative;
 }
 
 .control-container {
