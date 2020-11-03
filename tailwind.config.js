@@ -15,6 +15,8 @@ module.exports = {
       '2-sm': 'var(--calcite-shadow-2-press)',
       '2': 'var(--calcite-shadow-2)',
       '2-lg': 'var(--calcite-shadow-2-hover)',
+      'border-bottom': '0 1px 0 var(--calcite-ui-border-3)',
+      'border-active': '0 0 0 1px var(--calcite-ui-blue-3)', 
       'none': 'none',
     },
     colors: {
