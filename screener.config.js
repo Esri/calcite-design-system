@@ -17,6 +17,8 @@ module.exports = {
     }
   ],
 
+  baseBranch: 'master',
+
   tunnel: {
     host: 'localhost:3333'
   }
