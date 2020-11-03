@@ -7,7 +7,8 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { TEXT } from "./resources";
@@ -32,6 +33,14 @@ export class CalciteInlineEditable {
   //
   //--------------------------------------------------------------------------
 
+  /** specify whether editing can be enabled */
+  @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  disabledWatcher(disabled: boolean): void {
+    this.inputElement.disabled = disabled;
+  }
+
   /** specify whether the wrapped input element is editable, defaults to false */
   @Prop({ mutable: true, reflect: true }) editingEnabled = false;
 
@@ -53,11 +62,11 @@ export class CalciteInlineEditable {
   /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale */
   @Prop({ reflect: true }) scale?: "s" | "m" | "l";
 
-  /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the theme of the closest wrapping component with a set theme */
+  /** specify the theme of the inline-editable component, defaults to the theme of the wrapped calcite-input or the theme of the closest wrapping component with a set theme */
   @Prop({ reflect: true }) theme?: "light" | "dark";
 
-  //** when has-controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
-  @Prop() onConfirmChanges: () => Promise<any>; // eslint-disable-line @stencil/decorators-style
+  /** when has-controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
+  @Prop() afterConfirm?: () => Promise<any>;
 
   //--------------------------------------------------------------------------
   //
@@ -77,6 +86,7 @@ export class CalciteInlineEditable {
 
   componentWillLoad() {
     this.inputElement = this.el.querySelector("calcite-input") as HTMLCalciteInputElement;
+    this.inputElement.disabled = this.disabled;
     this.scale =
       this.scale || this.inputElement.scale || getElementProp(this.el, "scale", undefined);
     this.theme =
@@ -106,7 +116,7 @@ export class CalciteInlineEditable {
                 aria-label={this.intlEnableEditing}
                 class="calcite-inline-editable-enable-editing-button"
                 color="dark"
-                disabled={this.inputElement.disabled}
+                disabled={this.disabled}
                 iconStart="pencil"
                 onClick={this.enableEditingHandler}
                 ref={(el) => (this.enableEditingButton = el)}
@@ -121,7 +131,7 @@ export class CalciteInlineEditable {
                   aria-label={this.intlCancelEditing}
                   class="calcite-inline-editable-cancel-editing-button"
                   color="dark"
-                  disabled={this.inputElement.disabled}
+                  disabled={this.disabled}
                   iconStart="x"
                   onClick={this.cancelEditingHandler}
                   scale={this.scale}
@@ -133,10 +143,10 @@ export class CalciteInlineEditable {
                 aria-label={this.intlConfirmChanges}
                 class="calcite-inline-editable-confirm-changes-button"
                 color="blue"
-                disabled={this.inputElement.disabled}
+                disabled={this.disabled}
                 iconStart="check"
                 loading={this.loading}
-                onClick={this.confirmChangesChangesHandler}
+                onClick={this.confirmChangesHandler}
                 scale={this.scale}
                 theme={this.theme}
               />
@@ -153,11 +163,11 @@ export class CalciteInlineEditable {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteInlineEditableCancelEditing: EventEmitter;
+  @Event() calciteInlineEditableEditingCancel: EventEmitter;
 
-  @Event() calciteInlineEditableConfirmChanges: EventEmitter;
+  @Event() calciteInlineEditableChangesConfirm: EventEmitter;
 
-  @Event() calciteInlineEditableEnableEditing: EventEmitter;
+  @Event() calciteInlineEditableEnableEditingChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -215,7 +225,7 @@ export class CalciteInlineEditable {
     this.valuePriorToEditing = this.inputElement.value;
     this.editingEnabled = true;
     this.inputElement.setFocus();
-    this.calciteInlineEditableEnableEditing.emit();
+    this.calciteInlineEditableEnableEditingChange.emit();
   };
 
   private disableEditing = () => {
@@ -227,7 +237,7 @@ export class CalciteInlineEditable {
     this.inputElement.value = this.valuePriorToEditing;
     this.disableEditing();
     setTimeout(() => this.enableEditingButton.setFocus(), 100);
-    this.calciteInlineEditableCancelEditing.emit();
+    this.calciteInlineEditableEditingCancel.emit();
   };
 
   private escapeKeyHandler = async (e: KeyboardEvent) => {
@@ -244,17 +254,18 @@ export class CalciteInlineEditable {
   private enableEditingHandler = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (this.disabled) return;
     if (!this.editingEnabled) this.enableEditing();
   };
 
-  private confirmChangesChangesHandler = async (e: MouseEvent) => {
+  private confirmChangesHandler = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    this.calciteInlineEditableConfirmChanges.emit();
+    this.calciteInlineEditableChangesConfirm.emit();
     try {
-      if (this.onConfirmChanges) {
+      if (this.afterConfirm) {
         this.loading = true;
-        await this.onConfirmChanges();
+        await this.afterConfirm();
         this.disableEditing();
       }
     } catch (e) {

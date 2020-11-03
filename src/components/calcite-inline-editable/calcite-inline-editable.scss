@@ -46,6 +46,12 @@
   border-right: none;
 }
 
+:host([disabled]) {
+  .calcite-inline-editable-cancel-editing-button-wrapper {
+    border-color: var(--calcite-ui-border-2);
+  }
+}
+
 :host {
   &::slotted(*) {
     .calcite-input-element-wrapper {

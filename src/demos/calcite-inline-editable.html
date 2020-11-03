@@ -13,11 +13,11 @@
   <script>
     let isDarkTheme = false;
     const handleChangesFoInput = (id, isSuccess = true) => {
-      const onConfirmChanges = () => new Promise((resolve, reject) => {
+      const afterConfirm = () => new Promise((resolve, reject) => {
         if (isSuccess) return setTimeout(resolve, 1500)
         setTimeout(reject, 1500)
       })
-      document.querySelector(id).onConfirmChanges = onConfirmChanges
+      document.querySelector(id).afterConfirm = afterConfirm
     }
   </script>
 </head>
@@ -66,6 +66,14 @@
       </calcite-inline-editable>
     </calcite-accordion-item>
 
+    <calcite-accordion-item item-title="Disabled">
+        <calcite-label>
+          Access denied
+          <calcite-inline-editable disabled>
+            <calcite-input placeholder="Day of the week"/>
+          </calcite-inline-editable>
+        </calcite-label>
+    </calcite-accordion-item>
 
     <calcite-accordion-item item-title="RTL">
       <div dir="rtl">
@@ -124,6 +132,14 @@
         </script>
       </calcite-label>
     </calcite-accordion-item>
+    <calcite-accordion-item item-title="Disabled">
+      <calcite-label>
+        Access denied
+        <calcite-inline-editable has-controls disabled>
+          <calcite-input placeholder="Day of the week"/>
+        </calcite-inline-editable>
+      </calcite-label>
+  </calcite-accordion-item>
     <calcite-accordion-item item-title="RTL">
       <div dir="rtl">
         <calcite-label>

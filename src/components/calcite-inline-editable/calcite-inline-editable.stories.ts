@@ -18,6 +18,7 @@ storiesOf("Components/Inline Editable", module)
           ${boolean("has-controls", false, "InlineEditable") && "has-controls"}
           ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
           ${boolean("loading", false, "InlineEditable") && "loading"}
+          ${boolean("disabled", false, "InlineEditable") && "disabled"}
           intl-cancel-editing="${text("intl-cancel-editing", "Cancelar", "InlineEditable")}"
           intl-enable-editing="${text("intl-enable-editing", "Haga clic para editar", "InlineEditable")}"
           intl-confirm-changes="${text("intl-confirm-changes", "Guardar", "InlineEditable")}">
@@ -46,6 +47,7 @@ storiesOf("Components/Inline Editable", module)
           ${boolean("has-controls", false, "InlineEditable") && "has-controls"}
           ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
           ${boolean("loading", false, "InlineEditable") && "loading"}
+          ${boolean("disabled", false, "InlineEditable") && "disabled"}
           intl-cancel-editing="${text("intl-cancel-editing", "Cancelar", "InlineEditable")}"
           intl-enable-editing="${text("intl-enable-editing", "Haga clic para editar", "InlineEditable")}"
           intl-confirm-changes="${text("intl-confirm-changes", "Guardar", "InlineEditable")}">
@@ -71,6 +73,7 @@ storiesOf("Components/Inline Editable", module)
           ${boolean("has-controls", false, "InlineEditable") && "has-controls"}
           ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
           ${boolean("loading", false, "InlineEditable") && "loading"}
+          ${boolean("disabled", false, "InlineEditable") && "disabled"}
           intl-cancel-editing="${text("intl-cancel-editing", "Cancelar", "InlineEditable")}"
           intl-enable-editing="${text("intl-enable-editing", "Haga clic para editar", "InlineEditable")}"
           intl-confirm-changes="${text("intl-confirm-changes", "Guardar", "InlineEditable")}">
