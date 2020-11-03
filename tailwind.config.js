@@ -2,13 +2,16 @@ const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   theme: {
-    // Themeable
+    /**
+     * Themeable
+     */
     borderRadius: {
       none: '0',
       1: "var(--calcite-border-radius)",
       half: '50%',
       full: '100%',
     },
+    // assets/styles/_shadow
     boxShadow: {
       '1-sm': 'var(--calcite-shadow-1-press)',
       '1': 'var(--calcite-shadow-1)',
@@ -74,10 +77,14 @@ module.exports = {
       medium: "var(--calcite-font-weight-medium)",
       bold: "var(--calcite-font-weight-bold)"
     },
+    // assets/styles/global
     opacity: {
       disabled: "var(--calcite-ui-opacity-disabled)"
     },
-    // Non-themeable
+    
+    /**
+     * Non-themable
+     */
     screens: {
       's': '480px',
       'm': '864px',
