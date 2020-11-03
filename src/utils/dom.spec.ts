@@ -247,12 +247,12 @@ describe("dom", () => {
       });
     });
     describe("set requested icon", () => {
-      it("returns the custom icon name if passed", () =>
-        expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "mycustomvalue", "mycustomvalue")).toBe(
+      it("returns the custom icon name if custom value is passed", () =>
+        expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "mycustomvalue", "exampleValue")).toBe(
           "mycustomvalue"
         ));
     });
-    it("returns the recommended icon if not passed", () =>
+    it("returns the pre-defined icon name if custom value is not passed", () =>
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
         "exampleReturnedValue"
       ));
