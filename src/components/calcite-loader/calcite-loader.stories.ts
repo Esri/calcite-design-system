@@ -52,9 +52,9 @@ storiesOf("Components/Loader", module)
     ${boolean("no-padding", false)}
     value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
       style="
-        --calcite-loader-spot-light: ${color("spot-light", "#50ba5f")};
-        --calcite-loader-spot-dark: ${color("spot-dark", "#1a6324")};
-        --calcite-loader-spot: ${color("loader-spot", "#338033")};"
+        --calcite-ui-blue-1: ${color("calcite-ui-blue-1", "#50ba5f")};
+        --calcite-ui-blue-2: ${color("calcite-ui-blue-2", "#1a6324")};
+        --calcite-ui-blue-3: ${color("calcite-ui-blue-3", "#338033")};"
       active
     />
   `

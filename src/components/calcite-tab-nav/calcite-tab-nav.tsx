@@ -12,7 +12,8 @@ import {
   Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
-import { filterDirectChildren } from "../../utils/dom";
+import { getElementDir, filterDirectChildren } from "../../utils/dom";
+import { TabID } from "../calcite-tabs/interfaces";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -45,16 +46,33 @@ export class CalciteTabNav {
   @Prop() syncId: string;
 
   /** @internal Parent tabs component layout value */
-  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline" = "inline";
+
+  /** @internal Parent tabs component position value */
+  @Prop({ reflect: true, mutable: true }) position: "above" | "below" = "below";
 
   /**
    * @internal
    */
-  @State()
-  selectedTab: number | string;
+  @State() selectedTab: TabID;
+
+  /**
+   * @internal
+   */
+  @State() selectedTabEl: HTMLCalciteTabTitleElement;
+
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) indicatorOffset: number;
+
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) indicatorWidth: number;
 
   @Watch("selectedTab")
-  selectedTabChanged(): void {
+  async selectedTabChanged(): Promise<void> {
     if (
       localStorage &&
       this.storageId &&
@@ -67,6 +85,15 @@ export class CalciteTabNav {
     this.calciteTabChange.emit({
       tab: this.selectedTab
     });
+
+    this.selectedTabEl = await this.getTabTitleById(this.selectedTab);
+  }
+
+  @Watch("selectedTabEl") selectedTabElChanged(): void {
+    this.updateOffsetPosition();
+    this.updateActiveWidth();
+    // reset the animation time on tab selection
+    this.activeIndicatorEl.style.transitionDuration = `${this.animationActiveDuration}s`;
   }
 
   //--------------------------------------------------------------------------
@@ -77,10 +104,9 @@ export class CalciteTabNav {
 
   componentWillLoad(): void {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
-
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
-      this.selectedTab = JSON.parse(localStorage.getItem(storageKey));
-
+      const storedTab = JSON.parse(localStorage.getItem(storageKey));
+      this.selectedTab = storedTab;
       this.calciteTabChange.emit({
         tab: this.selectedTab
       });
@@ -89,16 +115,7 @@ export class CalciteTabNav {
 
   componentWillRender(): void {
     this.layout = this.el.closest("calcite-tabs")?.layout;
-  }
-
-  render(): VNode {
-    return (
-      <Host role="tablist">
-        <div class="tab-nav">
-          <slot />
-        </div>
-      </Host>
-    );
+    this.position = this.el.closest("calcite-tabs")?.position;
   }
 
   componentDidRender(): void {
@@ -116,15 +133,44 @@ export class CalciteTabNav {
     }
   }
 
+  render(): VNode {
+    const dir = getElementDir(this.el);
+    const width = `${this.indicatorWidth}px`;
+    const offset = `${this.indicatorOffset}px`;
+    const indicatorStyle = dir !== "rtl" ? { width, left: offset } : { width, right: offset };
+    return (
+      <Host role="tablist">
+        <div
+          class="tab-nav"
+          onScroll={this.handleContainerScroll}
+          ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
+        >
+          <div class="tab-nav-active-indicator-container">
+            <div
+              class="tab-nav-active-indicator"
+              ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
+              style={indicatorStyle}
+            />
+          </div>
+          <slot />
+        </div>
+      </Host>
+    );
+  }
+
   //--------------------------------------------------------------------------
   //
-  //  Events Listeners
+  //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * @internal
-   */
+  @Listen("resize", { target: "window" }) resizeHandler(): void {
+    // remove active indicator transition duration during resize to prevent wobble
+    this.activeIndicatorEl.style.transitionDuration = "0s";
+    this.updateActiveWidth();
+    this.updateOffsetPosition();
+  }
+
   @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
@@ -141,9 +187,6 @@ export class CalciteTabNav {
     e.preventDefault();
   }
 
-  /**
-   * @internal
-   */
   @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
@@ -158,23 +201,25 @@ export class CalciteTabNav {
     e.preventDefault();
   }
 
-  /**
-   * @internal
-   */
   @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
     if (e.detail.tab) {
       this.selectedTab = e.detail.tab;
     } else {
       this.selectedTab = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
     }
-
     e.stopPropagation();
     e.preventDefault();
   }
 
   /**
-   * @internal
+   * Check for active tabs on register and update selected
    */
+  @Listen("calciteTabTitleRegister") updateTabTitles(e: CustomEvent<TabID>): void {
+    if ((e.target as HTMLCalciteTabTitleElement).active) {
+      this.selectedTab = e.detail;
+    }
+  }
+
   @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
     e: CustomEvent<TabChangeEventDetail>
   ): void {
@@ -197,7 +242,21 @@ export class CalciteTabNav {
   /**
    * Emitted when the active tab changes
    */
-  @Event() calciteTabChange!: EventEmitter<TabChangeEventDetail>;
+  @Event() calciteTabChange: EventEmitter<TabChangeEventDetail>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  private tabNavEl: HTMLDivElement;
+
+  private activeIndicatorEl: HTMLElement;
+
+  private animationActiveDuration = 0.3;
+
+  private dir: "ltr" | "rtl";
 
   //--------------------------------------------------------------------------
   //
@@ -205,10 +264,33 @@ export class CalciteTabNav {
   //
   //--------------------------------------------------------------------------
 
+  private handleContainerScroll = (): void => {
+    // remove active indicator transition duration while container is scrolling to prevent wobble
+    this.activeIndicatorEl.style.transitionDuration = "0s";
+    this.updateOffsetPosition();
+  };
+
+  private updateOffsetPosition(): void {
+    this.indicatorOffset =
+      this.dir !== "rtl"
+        ? this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft
+        : this.tabNavEl?.offsetWidth - this.selectedTabEl.getBoundingClientRect().right;
+  }
+
+  private updateActiveWidth(): void {
+    this.indicatorWidth = this.selectedTabEl?.offsetWidth;
+  }
+
   private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
     // In most cases, since these indexes correlate with tab contents, we want to consider all tab titles.
     // However, when doing relative index operations, it makes sense to pass in this.enabledTabTitles as the 2nd arg.
     return tabTitles.indexOf(el);
+  }
+
+  private async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
+    return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
+      return this.tabTitles[ids.indexOf(id)];
+    });
   }
 
   private get tabTitles(): HTMLCalciteTabTitleElement[] {

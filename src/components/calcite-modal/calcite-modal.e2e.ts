@@ -176,6 +176,50 @@ describe("calcite-modal accessibility checks", () => {
     expect(modal).not.toHaveAttribute("is-active");
   });
 
+  it("closes and allows re-opening when Escape key is pressed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("is-active");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(modal).not.toHaveAttribute("is-active");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("is-active");
+  });
+
+  it("closes when Close button is clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    const button = await page.find("calcite-modal >>> .modal__close");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("is-active");
+    await button.click();
+    await page.waitForChanges();
+    expect(modal).not.toHaveAttribute("is-active");
+  });
+
+  it("closes and allows re-opening when Close button  is clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    const button = await page.find("calcite-modal >>> .modal__close");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("is-active");
+    await button.click();
+    await page.waitForChanges();
+    expect(modal).not.toHaveAttribute("is-active");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("is-active");
+  });
+
   it("does not close when Escape is pressed and disable-escape is set", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal disable-escape></calcite-modal>`);

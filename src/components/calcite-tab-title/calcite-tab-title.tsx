@@ -16,6 +16,7 @@ import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { TabID } from "../calcite-tabs/interfaces";
 
 @Component({
   tag: "calcite-tab-title",
@@ -37,29 +38,32 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Optionally include a unique name for the tab title,
-   * be sure to also set this name on the associated tab.
-   */
-  @Prop({ reflect: true }) tab?: string;
-
   /** Show this tab title as selected */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Disable this tab title  */
   @Prop({ reflect: true }) disabled = false;
 
-  /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconStart?: string;
-
   /** optionally pass an icon to display at the end of a tab title - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
+
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+
+  /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
 
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
 
   /** @internal Parent tabs component position value */
   @Prop({ reflect: true, mutable: true }) position: "above" | "below";
+
+  /**
+   * Optionally include a unique name for the tab title,
+   * be sure to also set this name on the associated tab.
+   */
+  @Prop({ reflect: true }) tab?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -92,15 +96,28 @@ export class CalciteTabTitle {
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
     const id = this.el.id || this.guid;
     const Tag = this.disabled ? "span" : "a";
 
     const iconStartEl = (
-      <calcite-icon class="calcite-tab-title--icon icon-start" icon={this.iconStart} scale="s" />
+      <calcite-icon
+        class="calcite-tab-title--icon icon-start"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale="s"
+      />
     );
 
     const iconEndEl = (
-      <calcite-icon class="calcite-tab-title--icon icon-end" icon={this.iconEnd} scale="s" />
+      <calcite-icon
+        class="calcite-tab-title--icon icon-end"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale="s"
+      />
     );
 
     return (
@@ -121,13 +138,13 @@ export class CalciteTabTitle {
     );
   }
 
-  componentDidLoad(): void {
-    this.calciteTabTitleRegister.emit();
+  async componentDidLoad(): Promise<void> {
+    this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
   }
 
   //--------------------------------------------------------------------------
   //
-  //  Events Listeners
+  //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
@@ -197,7 +214,7 @@ export class CalciteTabTitle {
   /**
    * @internal
    */
-  @Event() calciteTabTitleRegister: EventEmitter;
+  @Event() calciteTabTitleRegister: EventEmitter<TabID>;
 
   /**
    * @internal
@@ -225,7 +242,7 @@ export class CalciteTabTitle {
    * @internal
    */
   @Method()
-  async getTabIdentifier(): Promise<string | number> {
+  async getTabIdentifier(): Promise<TabID> {
     return this.tab ? this.tab : this.getTabIndex();
   }
 

@@ -23,43 +23,20 @@ Renders a basic flow with a couple `calcite-panel`s.
 </calcite-flow>
 ```
 
-#### header-menu-actions
-Renders a flow with header-menu-actions which appear in a drop-down like menu.
+#### Menu-actions and footer-actions
+
+Renders a flow with menu-actions and footer-actions in the form of buttons.
 
 ```html
 <calcite-flow>
   <calcite-panel heading="What are the most popular commute alternatives?">
-    <calcite-action text="Reset" slot="header-menu-actions" text-enabled></calcite-action>
-    <calcite-action text="Rename" slot="header-menu-actions" text-enabled></calcite-action>
+    <button slot="header-menu-actions">Reset</button>
+    <button slot="header-menu-actions">Rename</button>
+    <button slot="footer-actions">Save</button>
+    <button slot="footer-actions">Cancel</button>
   </calcite-panel>
 </calcite-flow>
 ```
-
-#### footer-actions
-Renders a flow with footer actions.
-
-```html
-<calcite-flow>
-  <calcite-panel heading="What are the most popular commute alternatives?">
-    <calcite-button slot="footer-actions">Save</calcite-button>
-    <calcite-button slot="footer-actions">Cancel</calcite-button>
-  </calcite-panel>
-</calcite-flow>
-```
-
-#### footer
-Renders a flow with custom footer.
-
-```html
-<calcite-flow>
-  <calcite-panel heading="What are the most popular commute alternatives?">
-    <div class="my-custom-footer" slot="footer">
-      I'm a custom footer.
-    </div>
-  </calcite-panel>
-</calcite-flow>
-```
-
 
 ## Properties
 
@@ -69,18 +46,18 @@ Renders a flow with custom footer.
 
 ## Methods
 
-### `back() => Promise<HTMLCalciteFlowItemElement>`
+### `back() => Promise<HTMLCalcitePanelElement>`
 
 Removes the currently active `calcite-panel`.
 
 #### Returns
 
-Type: `Promise<HTMLCalciteFlowItemElement>`
+Type: `Promise<HTMLCalcitePanelElement>`
 
 ## Slots
 
-| Slot | Description                                         |
-| ---- | --------------------------------------------------- |
+| Slot | Description                                     |
+| ---- | ----------------------------------------------- |
 |      | A slot for adding `calcite-panel`s to the flow. |
 
 ---

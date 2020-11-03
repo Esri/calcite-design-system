@@ -1,4 +1,4 @@
 export const CSS = {
   icon: "icon",
-  mirrored: "mirrored"
+  flipRtl: "flip-rtl"
 };

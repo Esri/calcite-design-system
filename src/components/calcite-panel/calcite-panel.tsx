@@ -19,12 +19,13 @@ import { getRoundRobinIndex } from "../../utils/array";
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
 
 /**
- * @slot header-content - A slot for adding content in the center of the header.
- * @slot header-leading-content - A slot for adding a `calcite-action` on the leading side of the header.
- * @slot header-trailing-content - A slot for adding a `calcite-action` on the trailing side of the header.
- * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding `calcite-button`s to the footer.
- * @slot - A slot for adding content to the panel.
+ * @slot header-actions-start - a slot for adding actions or content to the start side of the panel header.
+ * @slot header-actions-end - a slot for adding actions or content to the end side of the panel header.
+ * @slot header-content - a slot for adding custom content to the header.
+ * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
+ * @slot fab - a slot for adding a `calcite-fab` (floating action button) to perform an action.
+ * @slot footer-actions - a slot for adding buttons to the footer.
+ * @slot footer - a slot for adding custom content to the footer.
  */
 @Component({
   tag: "calcite-panel",
@@ -84,9 +85,9 @@ export class CalcitePanel {
   @Prop({ reflect: true }) heightScale: CalciteScale;
 
   /**
-   * This sets width and max-width of the content area.
+   * This sets width of the panel.
    */
-  @Prop({ reflect: true }) widthScale: CalciteScale;
+  @Prop({ reflect: true }) widthScale?: CalciteScale;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -103,10 +104,10 @@ export class CalcitePanel {
    */
 
   @Prop({ reflect: true }) theme: CalciteTheme;
+
   /**
    * Heading text.
    */
-
   @Prop() heading?: string;
 
   /**
@@ -323,7 +324,7 @@ export class CalcitePanel {
 
   renderHeaderContent(): VNode {
     const { heading, summary } = this;
-    const headingNode = heading ? <h4 class={CSS.heading}>{heading}</h4> : null;
+    const headingNode = heading ? <h3 class={CSS.heading}>{heading}</h3> : null;
     const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
 
     return headingNode || summaryNode ? (
@@ -520,8 +521,6 @@ export class CalcitePanel {
     const { dismissed, disabled, dismissible, el, loading, panelKeyUpHandler } = this;
 
     const rtl = getElementDir(el) === "rtl";
-
-    console.log("*: " + this["containerEl"]);
 
     const panelNode = (
       <article

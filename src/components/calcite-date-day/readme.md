@@ -10,7 +10,6 @@
 | `currentMonth` | `current-month` | Date is in the current month.                     | `boolean`           | `false`     |
 | `day`          | `day`           | Day of the month to be shown.                     | `number`            | `undefined` |
 | `disabled`     | `disabled`      | Date is outside of range and can't be selected    | `boolean`           | `false`     |
-| `locale`       | `locale`        | Locale to display the day in                      | `string`            | `undefined` |
 | `scale`        | `scale`         | specify the scale of the date picker              | `"l" \| "m" \| "s"` | `undefined` |
 | `selected`     | `selected`      | Date is the current selected date of the picker   | `boolean`           | `false`     |
 

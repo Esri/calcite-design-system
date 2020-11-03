@@ -14,9 +14,24 @@ export function getElementTheme(el: HTMLElement): CalciteTheme {
   return getElementProp(el, "theme", "light") as CalciteTheme;
 }
 
-export function getElementProp(el: HTMLElement, prop: string, value: any): any {
-  const closestWithProp = el.closest(`[${prop}]`);
-  return closestWithProp ? closestWithProp.getAttribute(prop) : value;
+export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {
+  const selector = `[${prop}]`;
+  const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(selector, el) : el.closest(selector);
+  return closest ? closest.getAttribute(prop) : fallbackValue;
+}
+
+function closestElementCrossShadowBoundary<E extends Element = Element>(
+  selector: string,
+  base: Element = this
+): E | null {
+  // based on https://stackoverflow.com/q/54520554/194216
+  function closestFrom(el): E | null {
+    if (!el || el === document || el === window) return null;
+    const found = el.closest(selector);
+    return found ? found : closestFrom(el.getRootNode().host);
+  }
+
+  return closestFrom(base);
 }
 
 export interface CalciteFocusableElement extends HTMLElement {
@@ -102,4 +117,17 @@ export function getDescribedByElement<T extends Element>(element: Element): T | 
 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
   return labelEl.contains(el);
+}
+
+// set a default icon from a defined set or allow an override with an icon name string
+export function setRequestedIcon(
+  iconObject: Record<string, string>,
+  iconValue: string | boolean,
+  matchedValue: string
+): string {
+  if (typeof iconValue === "string" && iconValue !== "") {
+    return iconValue;
+  } else if (iconValue === "") {
+    return iconObject[matchedValue];
+  }
 }

@@ -36,6 +36,9 @@ export class CalciteDropdownItem {
 
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+
   /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
@@ -95,35 +98,50 @@ export class CalciteDropdownItem {
     const attributes = this.getAttributes();
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
-    const iconScale = scale === "s" || scale === "m" ? "s" : "m";
+    const iconScale = scale === "l" ? "m" : "s";
     const iconStartEl = (
-      <calcite-icon class="dropdown-item-icon-start" icon={this.iconStart} scale={iconScale} />
+      <calcite-icon
+        class="dropdown-item-icon-start"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale={iconScale}
+      />
+    );
+    const contentNode = (
+      <span class="dropdown-item-content">
+        <slot />
+      </span>
     );
     const iconEndEl = (
-      <calcite-icon class="dropdown-item-icon-end" icon={this.iconEnd} scale={iconScale} />
+      <calcite-icon
+        class="dropdown-item-icon-end"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale={iconScale}
+      />
     );
 
     const slottedContent =
-      this.iconStart && this.iconEnd ? (
-        [iconStartEl, <slot />, iconEndEl]
-      ) : this.iconStart ? (
-        [iconStartEl, <slot />]
-      ) : this.iconEnd ? (
-        [<slot />, iconEndEl]
-      ) : (
-        <slot />
-      );
+      this.iconStart && this.iconEnd
+        ? [iconStartEl, contentNode, iconEndEl]
+        : this.iconStart
+        ? [iconStartEl, <slot />]
+        : this.iconEnd
+        ? [contentNode, iconEndEl]
+        : contentNode;
 
     const contentEl = !this.href ? (
       slottedContent
     ) : (
-      <a {...attributes} ref={(el) => (this.childLink = el)}>
+      <a {...attributes} class="dropdown-link" ref={(el) => (this.childLink = el)}>
         {slottedContent}
       </a>
     );
     return (
       <Host
-        aria-selected={this.active.toString()}
+        aria-checked={this.active.toString()}
         dir={dir}
         isLink={this.href}
         role="menuitem"

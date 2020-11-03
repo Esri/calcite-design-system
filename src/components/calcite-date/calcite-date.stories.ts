@@ -6,42 +6,53 @@ import readme from "./readme.md";
 
 const locales = [
   "ar",
-  "ar-eg",
+  "bs",
   "ca",
   "cs",
   "da",
+  "de-CH",
   "de",
   "el",
+  "en-AU",
+  "en-CA",
+  "en-GB",
   "en",
+  "es-MX",
   "es",
   "et",
   "fi",
+  "fr-CH",
   "fr",
   "he",
+  "hi",
   "hr",
   "hu",
   "id",
+  "it-CH",
   "it",
   "ja",
   "ko",
   "lt",
   "lv",
-  "nl",
+  "mk",
   "nb",
+  "nl",
   "pl",
-  "pt-br",
-  "pt-pt",
+  "pt-PT",
+  "pt",
   "ro",
   "ru",
+  "sk",
+  "sl",
   "sr",
   "sv",
   "th",
   "tr",
   "uk",
   "vi",
-  "zh-cn",
-  "zh-hk",
-  "zh-tw"
+  "zh-CN",
+  "zh-HK",
+  "zh-TW"
 ];
 
 storiesOf("Components/Date", module)
@@ -50,15 +61,17 @@ storiesOf("Components/Date", module)
     "Simple",
     (): string => `
     <div style="width: 400px">
+    <label>
+    Date
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="${text("value", "")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       locale="${select("locale", locales, "en-US")}"
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
-    ></calcite-date>
+      intl-next-month="${text("intl-next-month", "Next month")}"
+      intl-prev-month="${text("intl-prev-month", "Previous month")}"
+    ></calcite-date></label>
     </div>
   `
   )
@@ -74,8 +87,8 @@ storiesOf("Components/Date", module)
       locale="${select("locale", locales, "en-US")}"
       active
       no-calendar-input
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
+      intl-next-month="${text("intl-next-month", "Next month")}"
+      intl-prev-month="${text("intl-prev-month", "Previous month")}"
     ></calcite-date>
     </div>
   `
@@ -84,6 +97,8 @@ storiesOf("Components/Date", module)
     "Dark mode",
     (): string => `
     <div style="width: 400px">
+    <label>
+    Date
     <calcite-date
       theme="dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -91,9 +106,9 @@ storiesOf("Components/Date", module)
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       locale="${select("locale", locales, "en-US")}"
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
-    ></calcite-date>
+      intl-next-month="${text("intl-next-month", "Next month")}"
+      intl-prev-month="${text("intl-prev-month", "Previous month")}"
+    ></calcite-date></label>
     </div>
 `,
     { backgrounds: darkBackground }

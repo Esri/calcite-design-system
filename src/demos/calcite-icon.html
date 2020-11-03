@@ -61,12 +61,17 @@
     <calcite-icon icon="camera" theme="dark"></calcite-icon>
   </div>
 
-  <h2>Flips icon in RTL when mirrored</h2>
+  <h2>Flips icon in RTL when requested with "flip-rtl"</h2>
+  <h3>rtl set on parent</h3>
   <div dir="rtl">
-    <calcite-icon icon="aZ" mirror></calcite-icon>
-    <calcite-icon icon="basemap" mirror></calcite-icon>
-    <calcite-icon icon="camera" mirror></calcite-icon>
+    <calcite-icon icon="aZ" flip-rtl></calcite-icon>
+    <calcite-icon icon="basemap" flip-rtl></calcite-icon>
+    <calcite-icon icon="camera" flip-rtl></calcite-icon>
   </div>
+  <h3>rtl set on icon</h3>
+  <calcite-icon dir="rtl" icon="aZ" flip-rtl></calcite-icon>
+  <calcite-icon dir="rtl" icon="basemap" flip-rtl></calcite-icon>
+  <calcite-icon dir="rtl" icon="camera" flip-rtl></calcite-icon>
 
 </body>
 

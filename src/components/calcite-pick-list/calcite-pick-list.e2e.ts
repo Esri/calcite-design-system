@@ -10,7 +10,7 @@ describe("calcite-pick-list", () => {
 
   it("is accessible", async () =>
     accessible(
-      `<calcite-pick-list><calcite-pick-list-item text-label="Sample" value="one"></calcite-pick-list-item></calcite-pick-list>`
+      `<calcite-pick-list><calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item></calcite-pick-list>`
     ));
 
   describe("Selection and Deselection", () => selectionAndDeselection("pick"));
@@ -55,7 +55,7 @@ describe("calcite-pick-list", () => {
       item1: E2EElement,
       item2: E2EElement
     ): Promise<void> {
-      const item1ValueLowercased = (await item1.getProperty("textLabel")).toLowerCase();
+      const item1ValueLowercased = (await item1.getProperty("label")).toLowerCase();
 
       await page.evaluate(
         (filterText) => {
@@ -77,9 +77,9 @@ describe("calcite-pick-list", () => {
       beforeEach(async () => {
         page = await newE2EPage({
           html: `<calcite-pick-list filter-enabled>
-          <calcite-pick-list-group text-group-title="Numbers">
-            <calcite-pick-list-item value="1" text-label="One" text-description="uno"></calcite-pick-list-item>
-            <calcite-pick-list-item value="2" text-label="Two" text-description="dos"></calcite-pick-list-item>
+          <calcite-pick-list-group group-title="Numbers">
+            <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
+            <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
         </calcite-pick-list>`
         });
@@ -111,9 +111,9 @@ describe("calcite-pick-list", () => {
         page = await newE2EPage({
           html: `<calcite-pick-list filter-enabled>
           <calcite-pick-list-group>
-            <calcite-pick-list-item slot="parent-item" value="nums" text-label="Numbers"></calcite-pick-list-item>
-            <calcite-pick-list-item value="1" text-label="One" text-description="uno"></calcite-pick-list-item>
-            <calcite-pick-list-item value="2" text-label="Two" text-description="dos"></calcite-pick-list-item>
+            <calcite-pick-list-item slot="parent-item" value="nums" label="Numbers"></calcite-pick-list-item>
+            <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
+            <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
         </calcite-pick-list>`
         });

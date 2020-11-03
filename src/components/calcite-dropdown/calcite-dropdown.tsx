@@ -271,13 +271,14 @@ export class CalciteDropdown {
   @Listen("calciteDropdownGroupRegister")
   registerCalciteDropdownGroup(e: CustomEvent<GroupRegistration>): void {
     const {
-      detail: { items, position, titleEl }
+      detail: { items, position, titleEl, separatorEl }
     } = e;
 
     this.items.push({
       items,
       position,
-      titleEl
+      titleEl,
+      separatorEl
     });
 
     e.stopPropagation();
@@ -423,6 +424,7 @@ export class CalciteDropdown {
     groups.forEach((group) => {
       if (maxItems > 0 && itemsToProcess < maxItems) {
         maxScrollerHeight += group?.titleEl?.offsetHeight || 0;
+        maxScrollerHeight += group?.separatorEl?.offsetHeight || 0;
 
         group.items.forEach((item) => {
           if (itemsToProcess < maxItems) {

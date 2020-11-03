@@ -248,11 +248,7 @@ describe("calcite-color", () => {
     });
   });
 
-  // skipping until https://github.com/Esri/calcite-components/issues/928 is addressed
-  describe.skip("color inputs", () => {
-    // tests for all individual inputs takes longer than the default
-    const timeoutOverrideInMs = 240000;
-
+  describe("color inputs", () => {
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");
       await page.waitForChanges();
@@ -271,155 +267,147 @@ describe("calcite-color", () => {
       await page.waitForChanges();
     };
 
-    it(
-      "keeps value in same format when applying updates",
-      async () => {
-        const page = await newE2EPage({
-          html: "<calcite-color></calcite-color>"
-        });
-        const picker = await page.find("calcite-color");
+    it("keeps value in same format when applying updates", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color></calcite-color>"
+      });
+      const picker = await page.find("calcite-color");
 
-        const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void): Promise<void> => {
-          const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
-
-          await clearAndEnterValue(page, hexInput, "abc");
-
-          assertColorUpdate(await picker.getProperty("value"));
-
-          const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
-
-          await rgbModeButton.click();
-          await page.waitForChanges();
-          const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
-
-          await clearAndEnterValue(page, rInput, "128");
-          await clearAndEnterValue(page, gInput, "64");
-          await clearAndEnterValue(page, bInput, "32");
-
-          assertColorUpdate(await picker.getProperty("value"));
-
-          await hsvModeButton.click();
-          await page.waitForChanges();
-          const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
-
-          await clearAndEnterValue(page, hInput, "180");
-          await clearAndEnterValue(page, sInput, "90");
-          await clearAndEnterValue(page, vInput, "45");
-
-          assertColorUpdate(await picker.getProperty("value"));
-        };
-
-        const hex = "#ff00ff";
-        picker.setProperty("value", hex);
-        await page.waitForChanges();
-
-        await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toBe(hex);
-          expect(value).toMatch(/^#[a-f0-9]{6}$/);
-        });
-
-        const rgbCss = "rgb(255, 0, 255)";
-        picker.setProperty("value", rgbCss);
-        await page.waitForChanges();
-
-        await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toBe(rgbCss);
-          expect(value).toMatch(/^rgb\(\d+, \d+, \d+\)/);
-        });
-
-        const hslCss = "hsl(30, 100%, 50%)";
-        picker.setProperty("value", hslCss);
-        await page.waitForChanges();
-
-        await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toBe(hslCss);
-          expect(value).toMatch(/^hsl\([0-9.]+, [0-9.]+%, [0-9.]+%\)/);
-        });
-
-        const rgbObject = { r: 255, g: 255, b: 0 };
-        picker.setProperty("value", rgbObject);
-        await page.waitForChanges();
-
-        // see https://jasmine.github.io/tutorials/custom_argument_matchers for more info
-        function toBeInteger(): any {
-          return {
-            asymmetricMatch(abc): boolean {
-              return Number.isInteger(abc);
-            },
-
-            jasmineToString(): string {
-              return `Expected value to be an integer.`;
-            }
-          };
-        }
-
-        await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(rgbObject);
-          expect(value).toMatchObject({
-            r: toBeInteger(),
-            g: toBeInteger(),
-            b: toBeInteger()
-          });
-        });
-
-        const hslObject = { h: 270, s: 60, l: 70 };
-        picker.setProperty("value", hslObject);
-        await page.waitForChanges();
-
-        await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(hslObject);
-          expect(value).toMatchObject({
-            h: toBeInteger(),
-            s: toBeInteger(),
-            l: toBeInteger()
-          });
-        });
-
-        const hsvObject = { h: 202, s: 0, v: 100 };
-        picker.setProperty("value", hsvObject);
-        await page.waitForChanges();
-
-        await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(hsvObject);
-          expect(value).toMatchObject({
-            h: toBeInteger(),
-            s: toBeInteger(),
-            v: toBeInteger()
-          });
-        });
-      },
-      timeoutOverrideInMs
-    );
-
-    it(
-      "color gets propagated to hex, RGB & HSV inputs",
-      async () => {
-        const page = await newE2EPage({
-          html: "<calcite-color value='#fff000'></calcite-color>"
-        });
-
+      const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void): Promise<void> => {
         const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
 
-        expect(await hexInput.getProperty("value")).toBe("#fff000");
+        await clearAndEnterValue(page, hexInput, "abc");
+
+        assertColorUpdate(await picker.getProperty("value"));
 
         const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
 
         await rgbModeButton.click();
+        await page.waitForChanges();
         const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
-        expect(await rInput.getProperty("value")).toBe("255");
-        expect(await gInput.getProperty("value")).toBe("240");
-        expect(await bInput.getProperty("value")).toBe("0");
+        await clearAndEnterValue(page, rInput, "128");
+        await clearAndEnterValue(page, gInput, "64");
+        await clearAndEnterValue(page, bInput, "32");
+
+        assertColorUpdate(await picker.getProperty("value"));
 
         await hsvModeButton.click();
+        await page.waitForChanges();
         const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
-        expect(await hInput.getProperty("value")).toBe("56");
-        expect(await sInput.getProperty("value")).toBe("100");
-        expect(await vInput.getProperty("value")).toBe("100");
-      },
-      timeoutOverrideInMs
-    );
+        await clearAndEnterValue(page, hInput, "180");
+        await clearAndEnterValue(page, sInput, "90");
+        await clearAndEnterValue(page, vInput, "45");
+
+        assertColorUpdate(await picker.getProperty("value"));
+      };
+
+      const hex = "#ff00ff";
+      picker.setProperty("value", hex);
+      await page.waitForChanges();
+
+      await updateColorWithAllInputs((value: ColorValue) => {
+        expect(value).not.toBe(hex);
+        expect(value).toMatch(/^#[a-f0-9]{6}$/);
+      });
+
+      const rgbCss = "rgb(255, 0, 255)";
+      picker.setProperty("value", rgbCss);
+      await page.waitForChanges();
+
+      await updateColorWithAllInputs((value: ColorValue) => {
+        expect(value).not.toBe(rgbCss);
+        expect(value).toMatch(/^rgb\(\d+, \d+, \d+\)/);
+      });
+
+      const hslCss = "hsl(30, 100%, 50%)";
+      picker.setProperty("value", hslCss);
+      await page.waitForChanges();
+
+      await updateColorWithAllInputs((value: ColorValue) => {
+        expect(value).not.toBe(hslCss);
+        expect(value).toMatch(/^hsl\([0-9.]+, [0-9.]+%, [0-9.]+%\)/);
+      });
+
+      const rgbObject = { r: 255, g: 255, b: 0 };
+      picker.setProperty("value", rgbObject);
+      await page.waitForChanges();
+
+      // see https://jasmine.github.io/tutorials/custom_argument_matchers for more info
+      function toBeInteger(): any {
+        return {
+          asymmetricMatch(abc): boolean {
+            return Number.isInteger(abc);
+          },
+
+          jasmineToString(): string {
+            return `Expected value to be an integer.`;
+          }
+        };
+      }
+
+      await updateColorWithAllInputs((value: ColorValue) => {
+        expect(value).not.toMatchObject(rgbObject);
+        expect(value).toMatchObject({
+          r: toBeInteger(),
+          g: toBeInteger(),
+          b: toBeInteger()
+        });
+      });
+
+      const hslObject = { h: 270, s: 60, l: 70 };
+      picker.setProperty("value", hslObject);
+      await page.waitForChanges();
+
+      await updateColorWithAllInputs((value: ColorValue) => {
+        expect(value).not.toMatchObject(hslObject);
+        expect(value).toMatchObject({
+          h: toBeInteger(),
+          s: toBeInteger(),
+          l: toBeInteger()
+        });
+      });
+
+      const hsvObject = { h: 202, s: 0, v: 100 };
+      picker.setProperty("value", hsvObject);
+      await page.waitForChanges();
+
+      await updateColorWithAllInputs((value: ColorValue) => {
+        expect(value).not.toMatchObject(hsvObject);
+        expect(value).toMatchObject({
+          h: toBeInteger(),
+          s: toBeInteger(),
+          v: toBeInteger()
+        });
+      });
+    });
+
+    it("color gets propagated to hex, RGB & HSV inputs", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color value='#fff000'></calcite-color>"
+      });
+
+      const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
+
+      expect(await hexInput.getProperty("value")).toBe("#fff000");
+
+      const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
+
+      await rgbModeButton.click();
+      const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
+
+      expect(await rInput.getProperty("value")).toBe("255");
+      expect(await gInput.getProperty("value")).toBe("240");
+      expect(await bInput.getProperty("value")).toBe("0");
+
+      await hsvModeButton.click();
+      const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
+
+      expect(await hInput.getProperty("value")).toBe("56");
+      expect(await sInput.getProperty("value")).toBe("100");
+      expect(await vInput.getProperty("value")).toBe("100");
+    });
 
     it("allows modifying color via hex, RGB, HSV inputs", async () => {
       const page = await newE2EPage({

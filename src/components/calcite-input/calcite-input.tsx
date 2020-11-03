@@ -11,7 +11,9 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { CalciteScale, CalciteTheme } from "../interfaces";
+import { INPUTTYPEICONS } from "./calcite-input.resources";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -53,8 +55,13 @@ export class CalciteInput {
     if (this.disabled) this.setDisabledAction();
   }
 
-  /** for recognized input types, show an icon if applicable */
-  @Prop({ reflect: true }) icon: string | boolean = false;
+  /** when used as a boolean set to true, show a default recommended icon for certain
+   * input types (tel, password, email, date, time, search). You can also pass a
+   * calcite-ui-icon name to this prop to display a requested icon for any input type */
+  @Prop({ reflect: true }) icon: string | boolean;
+
+  /** flip the icon in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: boolean;
 
   /** specify if the input is in loading state */
   @Prop({ reflect: true }) loading = false;
@@ -90,7 +97,7 @@ export class CalciteInput {
   @Prop() required = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: CalciteScale = "m";
 
   /** specify the status of the input field, determines message and icons */
   @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
@@ -107,7 +114,7 @@ export class CalciteInput {
   @Prop() suffixText?: string;
 
   /** specify the alignment of dropdown, defaults to left */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: CalciteTheme;
 
   /** specify the input type */
   @Prop({ reflect: true }) type:
@@ -131,6 +138,20 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
+  @Watch("value")
+  valueWatcher(): void {
+    this.calciteInputInput.emit({
+      element: this.childEl,
+      value: this.value
+    });
+  }
+
+  @Watch("icon")
+  @Watch("type")
+  updateRequestedIcon(): void {
+    this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -140,17 +161,13 @@ export class CalciteInput {
   connectedCallback(): void {
     this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
-
-    // if an icon string is not provided, but icon is true and a default icon is present
-    // for the requested type, set that as the icon
-    const typesWithIcons = ["date", "email", "password", "search", "tel", "time"];
-    this.icon = this.icon
-      ? (this.icon as string)
-      : this.icon !== false && typesWithIcons.includes(this.type)
-      ? this.iconTypeDefaults[this.type]
-      : false;
-
     this.determineClearable();
+  }
+
+  componentWillLoad(): void {
+    this.childElType = this.type === "textarea" ? "textarea" : "input";
+    this.hasAction = !!this.el.querySelector("[slot=input-action]");
+    this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
   }
 
   componentDidLoad(): void {
@@ -159,11 +176,6 @@ export class CalciteInput {
     this.stepString = this.step?.toString();
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
     if (this.disabled) this.setDisabledAction();
-  }
-
-  componentWillLoad(): void {
-    this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.hasAction = !!this.el.querySelector("[slot=input-action]");
   }
 
   componentWillUpdate(): void {
@@ -190,7 +202,9 @@ export class CalciteInput {
     const iconEl = (
       <calcite-icon
         class="calcite-input-icon"
-        icon={this.icon as string}
+        dir={dir}
+        flipRtl={this.iconFlipRtl}
+        icon={this.requestedIcon}
         scale={iconScale}
         theme={this.theme}
       />
@@ -287,7 +301,7 @@ export class CalciteInput {
           <div class="calcite-input-element-wrapper">
             {childEl}
             {this.isClearable ? inputClearButton : null}
-            {this.icon ? iconEl : null}
+            {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
           {this.hasAction ? inputAction : null}
@@ -370,28 +384,17 @@ export class CalciteInput {
 
   private stepString?: string;
 
+  /** the computed icon to render */
+  private requestedIcon?: string;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  /** map icons to colors */
-  private iconTypeDefaults = {
-    tel: "phone",
-    password: "lock",
-    email: "email-address",
-    date: "calendar",
-    time: "clock",
-    search: "search"
-  };
-
   private inputInputHandler = (e) => {
     this.value = e.target.value;
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
   };
 
   private inputBlurHandler = () => {
@@ -469,10 +472,6 @@ export class CalciteInput {
           break;
       }
       this.value = this.childEl.value.toString();
-      this.calciteInputInput.emit({
-        element: this.childEl,
-        value: this.value
-      });
     }
   };
 }

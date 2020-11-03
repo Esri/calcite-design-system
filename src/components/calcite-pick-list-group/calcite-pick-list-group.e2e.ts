@@ -15,14 +15,14 @@ describe("calcite-pick-list-group", () => {
 
   it("is accessible", async () =>
     accessible(
-      `<calcite-pick-list><calcite-pick-list-group><calcite-pick-list-item text-label="Sample" value="one"></calcite-pick-list-item></calcite-pick-list-group></calcite-pick-list>`
+      `<calcite-pick-list><calcite-pick-list-group><calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item></calcite-pick-list-group></calcite-pick-list>`
     ));
 
   it("should render a header if one is provided", async () => {
     const page = await newE2EPage();
     const headingText = "testing";
 
-    await page.setContent(`<calcite-pick-list-group text-group-title=${headingText}></calcite-pick-list-group>`);
+    await page.setContent(`<calcite-pick-list-group group-title=${headingText}></calcite-pick-list-group>`);
     const heading = await page.find(`calcite-pick-list-group >>> .${CSS.heading}`);
     const isVisible = await heading.isVisible();
     expect(isVisible).toBe(true);
@@ -33,8 +33,8 @@ describe("calcite-pick-list-group", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-pick-list filter-enabled>
       <calcite-pick-list-group>
-        <calcite-pick-list-item slot="parent-item" value="nums" text-label="Numbers"></calcite-pick-list-item>
-        <calcite-pick-list-item value="1" text-label="One" text-description="uno"></calcite-pick-list-item>
+        <calcite-pick-list-item slot="parent-item" value="nums" label="Numbers"></calcite-pick-list-item>
+        <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
       </calcite-pick-list-group>
     </calcite-pick-list>`);
     const indentedContainer = await page.find(`calcite-pick-list-group >>> ${CSS.indented}`);

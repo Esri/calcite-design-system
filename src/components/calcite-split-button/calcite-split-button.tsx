@@ -9,6 +9,9 @@ import { getElementDir } from "../../utils/dom";
 export class CalciteSplitButton {
   @Element() el: HTMLCalciteSplitButtonElement;
 
+  /** specify the appearance style of the button, defaults to solid. */
+  @Prop({ reflect: true }) appearance: "solid" | "outline" | "clear" | "transparent" = "solid";
+
   /** specify the color of the control, defaults to blue */
   @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
 
@@ -28,6 +31,9 @@ export class CalciteSplitButton {
 
   /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconEnd?: string;
+
+  /** flip the primary icon(s) in rtl */
+  @Prop({ reflect: true }) primaryIconFlipRtl?: "both" | "start" | "end";
 
   /** optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconStart?: string;
@@ -56,15 +62,18 @@ export class CalciteSplitButton {
       <Host dir={dir}>
         <div class="split-button__container">
           <calcite-button
+            appearance={this.appearance}
             aria-label={this.primaryLabel}
             color={this.color}
             dir={dir}
             disabled={this.disabled}
             icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
             icon-start={this.primaryIconStart ? this.primaryIconStart : null}
+            iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
             loading={this.loading}
             onClick={this.calciteSplitButtonPrimaryClickHandler}
             scale={this.scale}
+            splitChild={"primary"}
             theme={this.theme}
           >
             {this.primaryText}
@@ -81,6 +90,7 @@ export class CalciteSplitButton {
             width={this.scale}
           >
             <calcite-button
+              appearance={this.appearance}
               aria-label={this.dropdownLabel}
               color={this.color}
               dir={dir}
@@ -88,6 +98,7 @@ export class CalciteSplitButton {
               icon-start={this.dropdownIcon}
               scale={this.scale}
               slot="dropdown-trigger"
+              splitChild={"secondary"}
               theme={this.theme}
             />
             <slot />

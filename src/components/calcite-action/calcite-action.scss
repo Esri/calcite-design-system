@@ -22,7 +22,7 @@
   cursor: pointer;
   text-align: unset;
   position: relative;
-  @include font-size(-4);
+  font-size: theme("fontSize.-2");
   @include focus-style-base();
   &:hover,
   &:focus {
@@ -139,10 +139,10 @@
 :host([active][appearance="clear"]) .button,
 :host([active][appearance="clear"]) .button:hover,
 :host([active][appearance="clear"]) .button:focus {
+  @apply shadow-none;
   color: var(--calcite-ui-text-current);
   fill: var(--calcite-ui-text-current);
   background-color: var(--calcite-ui-foreground-current);
-  box-shadow: none;
 }
 
 :host([appearance="clear"][loading]) .button,

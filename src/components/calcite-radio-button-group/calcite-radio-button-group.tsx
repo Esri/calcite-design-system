@@ -1,4 +1,15 @@
-import { Component, Host, h, Element, Prop, Watch, VNode } from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Element,
+  Prop,
+  Watch,
+  VNode,
+  Event,
+  EventEmitter,
+  Listen
+} from "@stencil/core";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -84,8 +95,6 @@ export class CalciteRadioButtonGroup {
 
   private passPropsToRadioButtons = (): void => {
     const radioButtons = this.el.querySelectorAll("calcite-radio-button");
-    let firstCheckedRadioButton;
-
     if (radioButtons.length > 0) {
       radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
@@ -94,17 +103,28 @@ export class CalciteRadioButtonGroup {
         radioButton.required = this.required;
         radioButton.scale = this.scale;
         radioButton.theme = this.theme;
-
-        if (firstCheckedRadioButton) {
-          radioButton.checked = false;
-        } else if (radioButton.checked) {
-          firstCheckedRadioButton = radioButton;
-        }
-
-        return radioButton;
       });
     }
   };
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Event() calciteRadioButtonGroupChange: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("calciteRadioButtonChange")
+  radioButtonChangeHandler(event: CustomEvent): void {
+    this.calciteRadioButtonGroupChange.emit((event.target as HTMLCalciteRadioButtonElement).value);
+  }
 
   // --------------------------------------------------------------------------
   //

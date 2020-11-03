@@ -14,8 +14,9 @@ export class CalciteTipGroup {
 
   /**
    * The title used for all nested tips.
+   *
    */
-  @Prop() textGroupTitle?: string;
+  @Prop() groupTitle?: string;
 
   render(): VNode {
     return <slot />;

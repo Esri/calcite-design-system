@@ -14,7 +14,7 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ```html
 <calcite-tip-manager>
-  <calcite-tip-group text-group-title="Greek Myth Stuff">
+  <calcite-tip-group group-title="Greek Myth Stuff">
     <calcite-tip
       heading="Pegasus"
       thumbnail="https://placeimg.com/1000/600"

@@ -98,7 +98,7 @@ describe("calcite-radio-button-group", () => {
     }
   });
 
-  it("when multiple items are checked, first one wins", async () => {
+  it("when multiple items are checked, last one wins", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button-group name="multiple-checked">
@@ -111,7 +111,7 @@ describe("calcite-radio-button-group", () => {
     expect(checkedItems).toHaveLength(1);
 
     const selectedValue = await checkedItems[0].getProperty("value");
-    expect(selectedValue).toBe("1");
+    expect(selectedValue).toBe("3");
   });
 
   it("selects item with left and arrow keys", async () => {
@@ -370,5 +370,37 @@ describe("calcite-radio-button-group", () => {
     expect(scale).toBe("m");
     expect(required).toBe(false);
     expect(theme).toBe("light");
+  });
+
+  it("appropriately triggers the custom change event", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-button-group name="changeEvent">
+          <calcite-radio-button value="one">one</calcite-radio-button>
+          <calcite-radio-button value="two">two</calcite-radio-button>
+          <calcite-radio-button value="three">three</calcite-radio-button>
+        </calcite-radio-button-group>`
+    );
+
+    const group = await page.find("calcite-radio-button-group");
+    const firstRadio = await page.find('calcite-radio-button[value="one"]');
+    const secondRadio = await page.find('calcite-radio-button[value="two"]');
+    const thirdRadio = await page.find('calcite-radio-button[value="three"]');
+
+    const changeEvent = await group.spyOnEvent("calciteRadioButtonGroupChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await firstRadio.click();
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventDetail("one");
+
+    await secondRadio.click();
+    expect(changeEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventDetail("two");
+
+    await thirdRadio.click();
+    expect(changeEvent).toHaveReceivedEventTimes(3);
+    expect(changeEvent).toHaveReceivedEventDetail("three");
   });
 });

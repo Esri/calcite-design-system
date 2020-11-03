@@ -4,9 +4,7 @@
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    padding: 8px;
-    font-size: 12px;
-    height: 32px;
+    @apply text--2 p-2 h-8;
   }
   & textarea {
     min-height: 32px;
@@ -14,11 +12,11 @@
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
   & .calcite-input-action-wrapper calcite-button button {
-    height: 32px;
+    @apply h-8;
   }
   & textarea,
   & input[type="file"] {
-    height: auto;
+    @apply h-auto;
   }
 }
 
@@ -27,8 +25,7 @@
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    padding: 12px;
-    font-size: 16px;
+    @apply text--1 p-3;
     height: 44px;
   }
   & textarea {
@@ -41,7 +38,7 @@
   }
   & textarea,
   & input[type="file"] {
-    height: auto;
+    @apply h-auto;
   }
 }
 
@@ -50,8 +47,7 @@
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    padding: 16px;
-    font-size: 20px;
+    @apply text-1 p-4;
     height: 56px;
   }
   & textarea {
