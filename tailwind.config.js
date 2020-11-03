@@ -2,12 +2,7 @@ const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   theme: {
-    animation: {
-      "in": "in 300ms ease-in-out",
-      "in-down": "in-down 300ms ease-in-out",
-      "in-up": "in-up 300ms ease-in-out",
-      "in-scale": "in-scale 300ms linear"
-    },
+    // Themeable
     borderRadius: {
       none: '0',
       1: "var(--calcite-border-radius)",
@@ -78,6 +73,7 @@ module.exports = {
     opacity: {
       disabled: "var(--calcite-ui-opacity-disabled)"
     },
+    // Non-themeable
     screens: {
       's': '480px',
       'm': '864px',
@@ -96,6 +92,12 @@ module.exports = {
       white: theme("colors.background")
     }),
     backgroundColor: theme => theme("colors"),
+    animation: {
+      "in": "in 300ms ease-in-out",
+      "in-down": "in-down 300ms ease-in-out",
+      "in-up": "in-up 300ms ease-in-out",
+      "in-scale": "in-scale 300ms linear"
+    },
     keyframes: {
       "in": {
         "0%": {
