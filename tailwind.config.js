@@ -2,6 +2,12 @@ const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   theme: {
+    animation: {
+      "in": "in 300ms ease-in-out",
+      "in-down": "in-down 300ms ease-in-out",
+      "in-up": "in-up 300ms ease-in-out",
+      "in-scale": "in-scale 300ms linear"
+    },
     borderRadius: {
       none: '0',
       1: "var(--calcite-border-radius)",
@@ -90,6 +96,46 @@ module.exports = {
       white: theme("colors.background")
     }),
     backgroundColor: theme => theme("colors"),
+    keyframes: {
+      "in": {
+        "0%": {
+          opacity: 0
+        },
+        "100%": {
+          opacity: 1
+        }
+      },
+      "in-down": {
+        "0%": {
+          opacity: 0,
+          transform: "translate3D(0, -5px, 0)"
+        },
+        "100%": {
+          opacity: 1,
+          transform: "translate3D(0, 0, 0)"
+        }
+      },
+      "in-up": {
+        "0%": {
+          opacity: 0,
+          transform: "translate3D(0, 5px, 0)"
+        },
+        "100%": {
+          opacity: 1,
+          transform: "translate3D(0, 0, 0)"
+        }
+      },
+      "in-scale": {
+        "0%": {
+          opacity: 0,
+          transform: "scale3D(0.95, 0.95, 1)"
+        },
+        "100%": {
+          opacity: 1,
+          transform: "scale3D(1, 1, 1)"
+        }
+      }
+    },
     extend: {
       transitionProperty: {
         margin: "margin",
