@@ -54,6 +54,15 @@
     11 Autodismiss (slow),link
   </calcite-button>
 
+  <calcite-button title="12 Custom icon"
+    onclick="document.querySelector('#alert-twelve').setAttribute('active', '')">
+    Custom icon
+  </calcite-button>
+
+  <calcite-button title="13 Custom icon 2"
+    onclick="document.querySelector('#alert-thirteen').setAttribute('active', '')">
+    Custom icon 2
+  </calcite-button>
 
   <h5>You can use in combination with alerts inserted into the DOM programmatically</h5>
   <calcite-button title="created alert" onclick="createExampleAlert('created-1')">created alert
@@ -150,13 +159,20 @@
     <div slot="alert-message">11 A general piece of information</div>
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
+  <calcite-alert id="alert-twelve" icon="layer">
+    <div slot="alert-message">12 A custom icon</div>
+  </calcite-alert>
 
+  <calcite-alert id="alert-thirteen" color="green" icon="plus">
+    <div slot="alert-message">13 Another icon</div>
+    <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
+  </calcite-alert>
   <calcite-alert data-custom-id="myalert1" auto-dismiss auto-dismiss-duration="slow">
-    <div slot="alert-message">12 Generated GUID</div>
+    <div slot="alert-message">14 Generated GUID</div>
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
   <calcite-alert data-custom-id="myalert2" auto-dismiss auto-dismiss-duration="slow">
-    <div slot="alert-message">13 Generated GUID</div>
+    <div slot="alert-message">15 Generated GUID</div>
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
 </body>
