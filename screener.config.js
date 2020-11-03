@@ -15,5 +15,9 @@ module.exports = {
       name: 'calcite-radio-button',
       steps: new Steps().snapshot('Default').end()
     }
-  ]
+  ],
+
+  tunnel: {
+    host: 'localhost:3333'
+  }
 };
