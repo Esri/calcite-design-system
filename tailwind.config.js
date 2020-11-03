@@ -16,10 +16,11 @@ module.exports = {
       '2-sm': 'var(--calcite-shadow-2-press)',
       '2': 'var(--calcite-shadow-2)',
       '2-lg': 'var(--calcite-shadow-2-hover)',
-      'border-bottom': '0 1px 0 var(--calcite-ui-border-3)',
-      'border-active': '0 0 0 1px var(--calcite-ui-blue-3)', 
+      'border-bottom': 'var(--calcite-shadow-border-bottom)',
+      'border-active': 'var(--calcite-shadow-border-active)', 
       'none': 'none',
     },
+    // CalciteColors
     colors: {
       blue: "var(--calcite-ui-blue-3)",
       green: "var(--calcite-ui-green-3)",
@@ -45,11 +46,13 @@ module.exports = {
       },
       transparent: "transparent"
     },
+    // assets/styles/_type
     fontFamily: {
       sans: "var(--calcite-sans-family)",
       mono: "var(--calcite-code-family)",
       inherit: "inherit"
     },
+    // assets/styles/_type
     fontSize: {
       "-3": "var(--calcite-font-size--3)",  // 10px
       "-2": "var(--calcite-font-size--2)",  // 12px
@@ -64,6 +67,7 @@ module.exports = {
       7: "var(--calcite-font-size-7)",      // 56px
       8: "var(--calcite-font-size-8)",      // 64px
     },
+    // assets/styles/_type
     fontWeight: {
       light: "var(--calcite-font-weight-light)",
       normal: "var(--calcite-font-weight-normal)",
