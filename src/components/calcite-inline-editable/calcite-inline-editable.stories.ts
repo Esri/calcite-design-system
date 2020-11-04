@@ -15,7 +15,7 @@ storiesOf("Components/Inline Editable", module)
         layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}">
       ${text("label text", "My great label", "Label")}
       <calcite-inline-editable
-          ${boolean("has-controls", false, "InlineEditable") && "has-controls"}
+          ${boolean("controls", false, "InlineEditable") && "controls"}
           ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
           ${boolean("loading", false, "InlineEditable") && "loading"}
           ${boolean("disabled", false, "InlineEditable") && "disabled"}
@@ -44,7 +44,7 @@ storiesOf("Components/Inline Editable", module)
     <div style="width:300px;max-width:100%;">
       <calcite-inline-editable
           scale="${select("scale", ["s", "m", "l"], "m", "InlineEditable")}"
-          ${boolean("has-controls", false, "InlineEditable") && "has-controls"}
+          ${boolean("controls", false, "InlineEditable") && "controls"}
           ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
           ${boolean("loading", false, "InlineEditable") && "loading"}
           ${boolean("disabled", false, "InlineEditable") && "disabled"}
@@ -70,7 +70,7 @@ storiesOf("Components/Inline Editable", module)
         layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}">
       ${text("label text", "My great label", "Label")}
       <calcite-inline-editable
-          ${boolean("has-controls", false, "InlineEditable") && "has-controls"}
+          ${boolean("controls", false, "InlineEditable") && "controls"}
           ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
           ${boolean("loading", false, "InlineEditable") && "loading"}
           ${boolean("disabled", false, "InlineEditable") && "disabled"}

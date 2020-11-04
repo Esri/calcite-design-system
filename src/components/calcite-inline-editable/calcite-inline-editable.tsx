@@ -48,7 +48,7 @@ export class CalciteInlineEditable {
   @Prop({ mutable: true, reflect: true }) loading = false;
 
   /** specify whether save/cancel controls should be displayed when editingEnabled is true, defaults to false */
-  @Prop({ reflect: true }) hasControls = false;
+  @Prop({ reflect: true }) controls = false;
 
   /** specify text to be user for the enable editing button's aria-label, defaults to `Click to edit` */
   @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
@@ -65,18 +65,8 @@ export class CalciteInlineEditable {
   /** specify the theme of the inline-editable component, defaults to the theme of the wrapped calcite-input or the theme of the closest wrapping component with a set theme */
   @Prop({ reflect: true }) theme?: "light" | "dark";
 
-  /** when has-controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
-  @Prop() afterConfirm?: () => Promise<any>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Getters/Setters
-  //
-  //--------------------------------------------------------------------------
-
-  get shouldShowControls(): boolean {
-    return this.editingEnabled && this.hasControls;
-  }
+  /** when controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
+  @Prop() afterConfirm?: () => Promise<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -177,7 +167,7 @@ export class CalciteInlineEditable {
 
   @Listen("calciteInputBlur")
   blurHandler(): void {
-    if (!this.hasControls) this.disableEditing();
+    if (!this.controls) this.disableEditing();
   }
 
   @Listen("click", { target: "window" })
@@ -219,6 +209,10 @@ export class CalciteInlineEditable {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private get shouldShowControls(): boolean {
+    return this.editingEnabled && this.controls;
+  }
 
   private enableEditing = () => {
     this.htmlInput.tabIndex = undefined;

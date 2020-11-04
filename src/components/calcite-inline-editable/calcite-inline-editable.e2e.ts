@@ -22,7 +22,7 @@ describe("calcite-inline-editable", () => {
     it("renders default props when none are provided", async () => {
       const element = await page.find("calcite-inline-editable");
       await page.waitForChanges();
-      expect(element).not.toHaveAttribute("has-controls");
+      expect(element).not.toHaveAttribute("controls");
       expect(element).not.toHaveAttribute("editing-enabled");
       expect(element).not.toHaveAttribute("loading");
     });
@@ -60,7 +60,7 @@ describe("calcite-inline-editable", () => {
     it("renders requested props when valid props are provided", async () => {
       page = await newE2EPage();
       await page.setContent(`
-      <calcite-inline-editable has-controls editing-enabled loading disabled scale="l" theme="dark">
+      <calcite-inline-editable controls editing-enabled loading disabled scale="l" theme="dark">
         <calcite-input/>
       </calcite-inline-editable>
       `);
@@ -68,7 +68,7 @@ describe("calcite-inline-editable", () => {
       const element = await page.find("calcite-inline-editable");
       expect(element).toEqualAttribute("scale", "l");
       expect(element).toEqualAttribute("theme", "dark");
-      expect(element).toHaveAttribute("has-controls");
+      expect(element).toHaveAttribute("controls");
       expect(element).toHaveAttribute("editing-enabled");
       expect(element).toHaveAttribute("loading");
       expect(element).toHaveAttribute("disabled");
@@ -170,7 +170,7 @@ describe("calcite-inline-editable", () => {
     beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent(`
-      <calcite-inline-editable has-controls>
+      <calcite-inline-editable controls>
         <calcite-input value="John Doe"/>
       </calcite-inline-editable>
       `);
@@ -296,7 +296,7 @@ describe("calcite-inline-editable", () => {
     describe("accessibility", () => {
       it("is accessible", async () =>
         accessible(`
-        <calcite-label has-controls>
+        <calcite-label controls>
           Label
           <calcite-inline-editable>
             <calcite-input value="John Doe"/>
@@ -306,7 +306,7 @@ describe("calcite-inline-editable", () => {
 
       it("is accessible when editing is enabled", async () =>
         accessible(`
-        <calcite-label has-controls editing-enabled>
+        <calcite-label controls editing-enabled>
           Label
           <calcite-inline-editable editing-enabled>
             <calcite-input value="John Doe"/>
@@ -321,7 +321,7 @@ describe("calcite-inline-editable", () => {
         await page.setContent(`
         <calcite-label>
           <span>Hello</span>
-          <calcite-inline-editable has-controls>
+          <calcite-inline-editable controls>
             <calcite-input value="John Doe"/>
           </calcite-inline-editable>
         </calcite-label>
