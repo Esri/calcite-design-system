@@ -7,10 +7,6 @@ module.exports = {
   browsers: [
     {
       browserName: 'chrome'
-    },
-    {
-      browserName: 'internet explorer',
-      version: '11'
     }
   ]
 };
