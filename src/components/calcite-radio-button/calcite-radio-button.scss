@@ -9,13 +9,18 @@
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
     cursor: pointer;
     transition: all 0.15s ease-in-out;
+    @supports not (gap: 8px) {
+      margin-right: 8px;
+    }
   }
 }
 :host([labeled]) {
   --calcite-label-margin-bottom: 0;
   align-items: center;
   display: inline-flex;
-  gap: 8px;
+  @supports (gap: 8px) {
+    gap: 8px;
+  }
 }
 :host([hovered]),
 :host(:not([checked])[focused]) {
