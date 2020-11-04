@@ -35,6 +35,7 @@ $spacing: $baseline/2;
 .heading {
   @include font-size(0);
   color: var(--calcite-ui-text-2);
+  transition: $transition;
   font-weight: 500;
   pointer-events: none;
 }
@@ -51,9 +52,11 @@ $spacing: $baseline/2;
 .description {
   @include font-size(-1);
   color: var(--calcite-ui-text-3);
+  transition: $transition;
   pointer-events: none;
 }
 
+:host(:hover),
 :host([active]) {
   .heading {
     color: var(--calcite-ui-text-1);
