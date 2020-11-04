@@ -1,20 +1,20 @@
+import { CalciteScale, CalciteTheme } from '../interfaces'
 import {
   Component,
   Element,
-  Host,
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
-  Watch,
-  VNode
-} from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
-import { CalciteScale, CalciteTheme } from "../interfaces";
-import { INPUTTYPEICONS } from "./calcite-input.resources";
-import { getKey } from "../../utils/key";
+  VNode,
+  Watch
+  } from '@stencil/core'
+import { getElementDir, getElementProp, setRequestedIcon } from '../../utils/dom'
+import { getKey } from '../../utils/key'
+import { INPUTTYPEICONS } from './calcite-input.resources'
 
 @Component({
   tag: "calcite-input",
@@ -161,12 +161,10 @@ export class CalciteInput {
   connectedCallback(): void {
     this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
-    this.determineClearable();
   }
 
   componentWillLoad(): void {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.hasAction = !!this.el.querySelector("[slot=input-action]");
     this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
   }
 
@@ -178,8 +176,12 @@ export class CalciteInput {
     if (this.disabled) this.setDisabledAction();
   }
 
-  componentWillUpdate(): void {
-    this.determineClearable();
+  get isTextarea(): boolean {
+    return this.childElType === "textarea";
+  }
+
+  get isClearable(): boolean {
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
   }
 
   render(): VNode {
@@ -195,9 +197,13 @@ export class CalciteInput {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
 
     const inputClearButton = (
-      <div class="calcite-input-clear-button" onClick={this.clearInputValue}>
+      <button
+        class="calcite-input-clear-button"
+        disabled={this.loading}
+        onClick={this.clearInputValue}
+      >
         <calcite-icon icon="x" scale={iconScale} theme={this.theme} />
-      </div>
+      </button>
     );
     const iconEl = (
       <calcite-icon
@@ -208,12 +214,6 @@ export class CalciteInput {
         scale={iconScale}
         theme={this.theme}
       />
-    );
-
-    const inputAction = (
-      <div class="calcite-input-action-wrapper">
-        <slot name="input-action" />
-      </div>
     );
 
     const numberButtonClassModifier =
@@ -250,46 +250,32 @@ export class CalciteInput {
 
     const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
 
-    const childEl =
-      this.childElType !== "textarea" ? (
-        <input
-          {...attributes}
-          autofocus={this.autofocus ? true : null}
-          disabled={this.disabled ? true : null}
-          max={this.maxString}
-          min={this.minString}
-          onBlur={this.inputBlurHandler}
-          onFocus={this.inputFocusHandler}
-          onInput={this.inputInputHandler}
-          placeholder={this.placeholder || ""}
-          ref={(el) => (this.childEl = el)}
-          required={this.required ? true : null}
-          step={this.stepString}
-          tabIndex={this.disabled ? -1 : null}
-          type={this.type}
-          value={this.value}
-        />
-      ) : (
-        [
-          <textarea
-            {...attributes}
-            autofocus={this.autofocus ? true : null}
-            disabled={this.disabled ? true : null}
-            onBlur={this.inputBlurHandler}
-            onFocus={this.inputFocusHandler}
-            onInput={this.inputInputHandler}
-            placeholder={this.placeholder || ""}
-            ref={(el) => (this.childEl = el)}
-            required={this.required ? true : null}
-            tabIndex={this.disabled ? -1 : null}
-          >
-            <slot />
-          </textarea>,
-          <div class="calcite-input-resize-icon-wrapper">
-            <calcite-icon icon="chevron-down" scale="s" />
-          </div>
-        ]
-      );
+    const childEl = [
+      <this.childElType
+        {...attributes}
+        autofocus={this.autofocus ? true : null}
+        disabled={this.disabled ? true : null}
+        max={this.maxString}
+        min={this.minString}
+        onBlur={this.inputBlurHandler}
+        onFocus={this.inputFocusHandler}
+        onInput={this.inputInputHandler}
+        placeholder={this.placeholder || ""}
+        ref={(el) => (this.childEl = el)}
+        required={this.required ? true : null}
+        step={this.stepString}
+        tabIndex={this.disabled ? -1 : null}
+        type={this.type}
+        value={this.value}
+      >
+        {this.value}
+      </this.childElType>,
+      this.isTextarea ? (
+        <div class="calcite-input-resize-icon-wrapper">
+          <calcite-icon icon="chevron-down" scale="s" />
+        </div>
+      ) : null
+    ];
 
     return (
       <Host dir={dir} onClick={this.inputFocusHandler}>
@@ -304,7 +290,9 @@ export class CalciteInput {
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          {this.hasAction ? inputAction : null}
+          <div class="calcite-input-action-wrapper">
+            <slot name="input-action" />
+          </div>
           {this.type === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical
             : null}
@@ -370,13 +358,7 @@ export class CalciteInput {
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
 
   /** determine if there is a slotted action for styling purposes */
-  private hasAction = false;
-
-  /** determine if there is a slotted action for styling purposes */
   private slottedActionEl?: HTMLSlotElement;
-
-  /** track if the input is clearable */
-  private isClearable = false;
 
   private minString?: string;
 
@@ -411,13 +393,6 @@ export class CalciteInput {
       value: this.value
     });
   };
-
-  private determineClearable(): void {
-    this.isClearable =
-      this.type !== "textarea" &&
-      (this.clearable || this.type === "search") &&
-      this.value.length > 0;
-  }
 
   private setDisabledAction(): void {
     if (this.slottedActionEl) (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
