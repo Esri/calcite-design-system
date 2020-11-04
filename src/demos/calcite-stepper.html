@@ -12,6 +12,10 @@
       color: white;
       padding: 1rem;
     }
+    .demo-test-style {
+      background: red;
+      padding:2rem;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
@@ -61,7 +65,7 @@
 
 
   </calcite-modal>
-  <calcite-button onClick="document.querySelector('.js-modal-1').open()">Invite Members
+  <calcite-button onClick="document.querySelector('.js-modal-1').active = true">Invite Members
   </calcite-button>
 
   <h4>Horizontal</h4>
@@ -71,7 +75,7 @@
         <calcite-notice active width="full">
           <div slot="notice-message">Step 1 Content Goes Here</div>
         </calcite-notice>
-        Something after a div
+       <div class="demo-test-style">Something after a div</div>
         <div>a non calcite element div</div>
         Something else
     </calcite-stepper-item>

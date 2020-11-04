@@ -46,6 +46,9 @@ export class CalciteButton {
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
@@ -57,6 +60,9 @@ export class CalciteButton {
 
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** is the button a child of a calcite-split-button */
+  @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
@@ -103,13 +109,21 @@ export class CalciteButton {
     const iconStartEl = (
       <calcite-icon
         class="calcite-button--icon icon-start"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={iconScale}
       />
     );
 
     const iconEndEl = (
-      <calcite-icon class="calcite-button--icon icon-end" icon={this.iconEnd} scale={iconScale} />
+      <calcite-icon
+        class="calcite-button--icon icon-end"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale={iconScale}
+      />
     );
 
     return (
@@ -185,6 +199,7 @@ export class CalciteButton {
       "icon-start",
       "icon-end",
       "id",
+      "splitChild",
       "loading",
       "scale",
       "slot",

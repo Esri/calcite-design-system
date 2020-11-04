@@ -165,6 +165,8 @@ export class CalciteCombobox {
     if (comboboxItem) {
       this.toggleSelection(comboboxItem, false);
     }
+
+    this.calciteComboboxChipDismiss.emit(event.detail);
   }
 
   // --------------------------------------------------------------------------

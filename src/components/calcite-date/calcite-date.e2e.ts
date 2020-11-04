@@ -1,8 +1,37 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
+import { renders, defaults, hidden } from "../../tests/commonTests";
+import { TEXT } from "./calcite-date-resources";
 
 describe("calcite-date", () => {
   it("renders", async () => renders("calcite-date"));
+
+  it("honors hidden attribute", async () => hidden("calcite-date"));
+
+  it("has property defaults", async () =>
+    defaults("calcite-date", [
+      {
+        propertyName: "intlPrevMonth",
+        defaultValue: TEXT.prevMonth
+      },
+      {
+        propertyName: "intlNextMonth",
+        defaultValue: TEXT.nextMonth
+      },
+      {
+        propertyName: "active",
+        defaultValue: false
+      },
+      {
+        propertyName: "noCalendarInput",
+        defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      }
+    ]));
+
+  const animationDurationInMs = 200;
 
   it("fires a calciteDateChange event on change", async () => {
     const page = await newE2EPage();
@@ -14,8 +43,7 @@ describe("calcite-date", () => {
     ).asElement();
     await input.focus();
     const changedEvent = await page.spyOnEvent("calciteDateChange");
-    // have to wait for transition
-    await new Promise((res) => setTimeout(() => res(true), 200));
+    await page.waitForTimeout(animationDurationInMs);
     const wrapper = (
       await page.waitForFunction(() =>
         document.querySelector("calcite-date").shadowRoot.querySelector(".calendar-picker-wrapper")
@@ -42,8 +70,7 @@ describe("calcite-date", () => {
     await page.setContent("<calcite-date value='2000-11-27' no-calendar-input active></calcite-date>");
     const date = await page.find("calcite-date");
     const changedEvent = await page.spyOnEvent("calciteDateChange");
-    // have to wait for transition
-    await new Promise((res) => setTimeout(() => res(true), 200));
+    await page.waitForTimeout(animationDurationInMs);
     // can't find this input as it's deeply nested in shadow dom, so just tab to it
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");

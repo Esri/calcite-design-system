@@ -1,0 +1,133 @@
+:host([scale="s"]) {
+  .calcite-inline-editable-controls-wrapper {
+    height: 32px;
+  }
+}
+
+:host([scale="m"]) {
+  .calcite-inline-editable-controls-wrapper {
+    height: 44px;
+  }
+}
+
+:host([scale="l"]) {
+  .calcite-inline-editable-controls-wrapper {
+    height: 56px;
+  }
+}
+
+:host(:not([editing-enabled])) {
+  .calcite-inline-editable-wrapper {
+    &:hover {
+      background: var(--calcite-ui-foreground-2);
+    }
+  }
+}
+
+.calcite-inline-editable-wrapper {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  transition: $transition;
+  background: var(--calcite-ui-foreground-1);
+
+  .calcite-inline-editable-input-wrapper {
+    flex: 1;
+  }
+}
+
+.calcite-inline-editable-controls-wrapper {
+  display: flex;
+}
+
+.calcite-inline-editable-cancel-editing-button-wrapper {
+  border: 1px solid var(--calcite-ui-border-1);
+  border-left: none;
+  border-right: none;
+}
+
+:host([disabled]) {
+  .calcite-inline-editable-cancel-editing-button-wrapper {
+    border-color: var(--calcite-ui-border-2);
+  }
+}
+
+:host {
+  &::slotted(*) {
+    .calcite-input-element-wrapper {
+      textarea,
+      input {
+        transition: $transition;
+      }
+    }
+  }
+}
+
+:host(:not([editing-enabled])) {
+  &:not([theme="dark"]) {
+    &::slotted(*) {
+      .calcite-input-element-wrapper {
+        background: transparent;
+      }
+    }
+  }
+}
+
+:host(:not([editing-enabled])) {
+  &::slotted(*) {
+    .sc-calcite-input {
+      display: none;
+    }
+
+    .calcite-input-element-wrapper {
+      display: flex;
+      cursor: pointer;
+      textarea,
+      input {
+        border-color: transparent;
+        padding-left: 0;
+        cursor: pointer;
+        display: flex;
+      }
+    }
+  }
+
+  &:hover {
+    &::slotted(*) {
+      textarea,
+      input {
+        background: var(--calcite-ui-foreground-2);
+      }
+    }
+  }
+}
+
+:host([dir="rtl"]) {
+  &:not([editing-enabled]) {
+    &::slotted(*) {
+      .calcite-input-element-wrapper {
+        textarea,
+        input {
+          padding-right: 0;
+          padding-left: unset;
+        }
+      }
+    }
+  }
+}
+
+[dir="rtl"] {
+  :host {
+    &:not([editing-enabled]) {
+      &::slotted(*) {
+        .calcite-input-element-wrapper {
+          textarea,
+          input {
+            padding-right: 0;
+            padding-left: unset;
+          }
+        }
+      }
+    }
+  }
+}

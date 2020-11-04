@@ -34,6 +34,20 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 | --------------------- | ----------- | ------------------ |
 | `calciteSwitchChange` |             | `CustomEvent<any>` |
 
+## Dependencies
+
+### Used by
+
+- [calcite-block-section](../calcite-block-section)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-block-section --> calcite-switch
+  style calcite-switch fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

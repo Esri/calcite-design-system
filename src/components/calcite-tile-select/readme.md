@@ -18,6 +18,7 @@
 | `theme`       | `theme`       | The theme of the tile select.                                                                                                                 | `"dark" \| "light"`           | `"light"`   |
 | `type`        | `type`        | The selection mode of the tile select: radio (single) or checkbox (multiple).                                                                 | `"checkbox" \| "radio"`       | `"radio"`   |
 | `value`       | `value`       | The value of the tile select. This value will appear in form submissions when this tile select is checked.                                    | `string`                      | `undefined` |
+| `width`       | `width`       | specify the width of the tile, defaults to auto                                                                                               | `"auto" \| "full"`            | `"auto"`    |
 
 ## Dependencies
 

@@ -47,7 +47,11 @@
 
 ### Used by
 
+- [calcite-block](../calcite-block)
 - [calcite-modal](../calcite-modal)
+- [calcite-panel](../calcite-panel)
+- [calcite-pick-list](../calcite-pick-list)
+- [calcite-value-list](../calcite-value-list)
 
 ### Depends on
 
@@ -58,7 +62,11 @@
 ```mermaid
 graph TD;
   calcite-scrim --> calcite-loader
+  calcite-block --> calcite-scrim
   calcite-modal --> calcite-scrim
+  calcite-panel --> calcite-scrim
+  calcite-pick-list --> calcite-scrim
+  calcite-value-list --> calcite-scrim
   style calcite-scrim fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

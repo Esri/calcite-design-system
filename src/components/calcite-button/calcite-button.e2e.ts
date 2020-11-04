@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-button", () => {
   it("renders as a button with default props", async () => {
@@ -24,6 +24,21 @@ describe("calcite-button", () => {
     expect(iconEnd).toBeNull();
     expect(loader).toBeNull();
   });
+
+  it("is accessible", async () => accessible(`<calcite-button>Continue</calcite-button>`));
+
+  it("is accessible: href", async () => accessible(`<calcite-button href="/">Continue</calcite-button>`));
+
+  it("is accessible: href", async () =>
+    accessible(`<calcite-button color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`));
+
+  it("is accessible: href and target", async () =>
+    accessible(
+      `<calcite-button rel="noopener noreferrer" target="_blank" class="mycustomclass" href="google.com">Continue</calcite-button>`
+    ));
+
+  it("is accessible: icons and loading", async () =>
+    accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`));
 
   it("renders as a link with default props", async () => {
     const page = await newE2EPage();

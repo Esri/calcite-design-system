@@ -1,9 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
-import { defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip-manager", () => {
   it("renders", async () => renders(`<calcite-tooltip-manager></calcite-tooltip-manager>`));
+
+  it("is accessible", async () =>
+    accessible(`<button id="test">test</button>
+  <calcite-tooltip-manager>
+    <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+    <button id="ref">Button</button>
+  <calcite-tooltip-manager>`));
 
   it("honors hidden attribute", async () => hidden("calcite-tooltip-manager"));
 
@@ -40,7 +47,7 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -50,7 +57,7 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
@@ -114,7 +121,7 @@ describe("calcite-tooltip-manager", () => {
 
     await referenceElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await referenceElement.focus();
 
@@ -126,7 +133,7 @@ describe("calcite-tooltip-manager", () => {
 
     await testElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -156,7 +163,7 @@ describe("calcite-tooltip-manager", () => {
 
     await referenceElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await referenceElement.focus();
 
@@ -228,7 +235,7 @@ describe("calcite-tooltip-manager", () => {
 
     await referenceElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -265,7 +272,7 @@ describe("calcite-tooltip-manager", () => {
 
     await referenceElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await page.waitForChanges();
 

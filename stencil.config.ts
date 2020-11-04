@@ -14,6 +14,7 @@ export const create: () => Config = () => ({
       components: ["calcite-action", "calcite-action-group", "calcite-action-bar", "calcite-action-pad"]
     },
     { components: ["calcite-alert"] },
+    { components: ["calcite-avatar"] },
     {
       components: ["calcite-block", "calcite-block-section"]
     },
@@ -43,7 +44,9 @@ export const create: () => Config = () => ({
     { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
+    { components: ["calcite-rating"] },
     { components: ["calcite-scrim"] },
+    { components: ["calcite-select", "calcite-option", "calcite-option-group"] },
     {
       components: ["calcite-shell", "calcite-shell-panel"]
     },

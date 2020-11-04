@@ -183,7 +183,7 @@ export class CalciteStepperItem {
   private activePosition: number;
 
   /** the slotted item content */
-  private itemContent: HTMLElement[] | HTMLElement;
+  private itemContent: HTMLElement[] | NodeListOf<any>;
 
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
@@ -226,12 +226,12 @@ export class CalciteStepperItem {
     }
   }
 
-  private getItemContent(): HTMLElement | HTMLElement[] {
+  private getItemContent(): HTMLElement[] | NodeListOf<any> {
     // handle ie and edge
     return this.el.shadowRoot?.querySelector("slot")
       ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
       : this.el.querySelector(".stepper-item-content")
-      ? (this.el.querySelector(".stepper-item-content") as HTMLElement)
+      ? (this.el.querySelector(".stepper-item-content").childNodes as NodeListOf<any>)
       : null;
   }
 

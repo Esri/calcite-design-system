@@ -19,9 +19,9 @@ storiesOf("Components/Accordion", module)
       selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
       icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
     >
-    <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
     <calcite-radio-group scale="s">
@@ -29,7 +29,7 @@ storiesOf("Components/Accordion", module)
     <calcite-radio-group-item value="No">No</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
     </calcite-accordion>
     </div>
@@ -47,9 +47,9 @@ storiesOf("Components/Accordion", module)
       selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
       icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
     >
-    <calcite-accordion-item icon="banana" item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item icon="banana" item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
-    <calcite-accordion-item icon="car" item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item icon="car" item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
     <calcite-accordion-item icon="map" item-title="Accordion Item 3" item-subtitle="Something short about this item">
     <calcite-radio-group scale="s">
@@ -57,7 +57,7 @@ storiesOf("Components/Accordion", module)
     <calcite-radio-group-item value="No">No</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-accordion-item>
-    <calcite-accordion-item icon="plane" item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item icon="plane" item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
     </calcite-accordion>
     </div>
@@ -75,9 +75,9 @@ storiesOf("Components/Accordion", module)
       selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
       icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
     >
-    <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
     <calcite-radio-group scale="s">
@@ -85,7 +85,7 @@ storiesOf("Components/Accordion", module)
     <calcite-radio-group-item value="No">No</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
     </calcite-accordion>
     </div>
@@ -104,9 +104,9 @@ storiesOf("Components/Accordion", module)
         selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
         icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
       >
-      <calcite-accordion-item item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
+      <calcite-accordion-item item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
       </calcite-accordion-item>
-      <calcite-accordion-item item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
+      <calcite-accordion-item item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
       </calcite-accordion-item>
       <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
       <calcite-radio-group scale="s">
@@ -114,7 +114,7 @@ storiesOf("Components/Accordion", module)
       <calcite-radio-group-item value="No">No</calcite-radio-group-item>
       </calcite-radio-group>
       </calcite-accordion-item>
-      <calcite-accordion-item item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
+      <calcite-accordion-item item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
       </calcite-accordion-item>
       </calcite-accordion>
       </div>
@@ -132,9 +132,9 @@ storiesOf("Components/Accordion", module)
       selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
       icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
     >
-    <calcite-accordion-item icon="banana" item-title="Accordion Item"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item icon="banana" item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
-    <calcite-accordion-item icon="car" item-title="Accordion Item 2" active><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item icon="car" item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
     <calcite-accordion-item icon="map" item-title="Accordion Item 3" item-subtitle="Something short about this item">
     <calcite-radio-group scale="s">
@@ -142,7 +142,7 @@ storiesOf("Components/Accordion", module)
     <calcite-radio-group-item value="No">No</calcite-radio-group-item>
     </calcite-radio-group>
     </calcite-accordion-item>
-    <calcite-accordion-item icon="plane" item-title="Accordion Item 4"><img src="http://placekitten.com/100/200" />
+    <calcite-accordion-item icon="plane" item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
     </calcite-accordion-item>
     </calcite-accordion>
     </div>

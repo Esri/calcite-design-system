@@ -25,6 +25,7 @@
 ### Used by
 
 - [calcite-combobox](../calcite-combobox)
+- [calcite-rating](../calcite-rating)
 
 ### Depends on
 
@@ -36,6 +37,7 @@
 graph TD;
   calcite-chip --> calcite-icon
   calcite-combobox --> calcite-chip
+  calcite-rating --> calcite-chip
   style calcite-chip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
