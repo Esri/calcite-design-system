@@ -34,7 +34,7 @@ $spacing: $baseline/2;
 }
 :host([show-input="none"][focused]) {
   box-shadow: 0 0 0 1px var(--calcite-ui-blue-1), inset 0 0 0 2px var(--calcite-ui-foreground-1),
-    inset 0 0 0 4px var(--calcite-ui-blue-1);
+    inset 0 0 0 5px var(--calcite-ui-blue-1);
 }
 
 :host([width="full"]) {
