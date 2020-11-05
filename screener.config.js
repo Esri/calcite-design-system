@@ -15,6 +15,11 @@ module.exports = {
       name: 'calcite-radio-button',
       steps: new Steps().snapshot('Default').end()
     }
+    {
+      url: 'http://localhost:3333/demos/calcite-radio-button-group.html',
+      name: 'calcite-radio-button',
+      steps: new Steps().snapshot('Default').end()
+    }
   ],
 
   baseBranch: 'master',
