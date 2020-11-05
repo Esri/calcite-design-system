@@ -5,7 +5,8 @@ import {
   selectionAndDeselection,
   filterBehavior,
   disabledStates,
-  keyboardNavigation
+  keyboardNavigation,
+  itemRemoval
 } from "../calcite-pick-list/shared-list-tests";
 import { dragAndDrop } from "../../tests/utils";
 
@@ -51,6 +52,8 @@ describe("calcite-value-list", () => {
   describe("filter behavior (hide/show items)", () => {
     filterBehavior("value");
   });
+
+  describe("item removal", () => itemRemoval("value"));
 
   describe("disabled states", () => {
     disabledStates("value");

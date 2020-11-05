@@ -25,7 +25,8 @@ import {
   setUpItems,
   keyDownHandler,
   setFocus,
-  ItemData
+  ItemData,
+  removeItem
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 
@@ -121,6 +122,11 @@ export class CalcitePickList<
    * @event calciteListChange
    */
   @Event() calciteListChange: EventEmitter;
+
+  @Listen("calciteListItemRemove")
+  calciteListItemRemoveHandler(event: CustomEvent<void>): void {
+    removeItem.call(this, event);
+  }
 
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
