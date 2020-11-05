@@ -190,6 +190,25 @@ export class CalciteRadioButton {
     });
   }
 
+  private flexGapSupported() {
+    // create flex container with row-gap set
+    var flex = document.createElement("div");
+    flex.style.display = "flex";
+    flex.style.flexDirection = "column";
+    flex.style.rowGap = "1px";
+
+    // create two, elements inside it
+    flex.appendChild(document.createElement("div"));
+    flex.appendChild(document.createElement("div"));
+
+    // append to the DOM (needed to obtain scrollHeight)
+    document.body.appendChild(flex);
+    var isSupported = flex.scrollHeight === 1; // flex container should be 1px high from the row-gap
+    flex.parentNode.removeChild(flex);
+
+    return isSupported;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -365,7 +384,7 @@ export class CalciteRadioButton {
         aria-disabled={this.disabled.toString()}
         labeled={this.el.textContent ? true : false}
       >
-        <div class="radio" />
+        <div class={{ radio: true, "no-flex-gap": !this.flexGapSupported() }} />
         <slot />
       </Host>
     );
