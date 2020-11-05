@@ -195,18 +195,16 @@ export class CalciteSelect {
   private populateInternalSelect = (): void => {
     const optionsAndGroups = Array.from(this.el.children as HTMLCollectionOf<CalciteOptionOrGroup>);
 
-    this.removeFromInternalSelect(optionsAndGroups);
+    this.clearInternalSelect();
 
-    optionsAndGroups.forEach((optionOrGroup) => {
-      this.selectEl.append(this.toNativeElement(optionOrGroup));
-    });
+    optionsAndGroups.forEach((optionOrGroup) =>
+      this.selectEl.append(this.toNativeElement(optionOrGroup))
+    );
   };
 
-  private removeFromInternalSelect(optionsAndGroups: CalciteOptionOrGroup[]): void {
-    optionsAndGroups.forEach((optionOrGroup) => {
-      this.componentToNativeEl.clear();
-      this.componentToNativeEl.get(optionOrGroup)?.remove();
-    });
+  private clearInternalSelect(): void {
+    this.componentToNativeEl.forEach((value) => value.remove());
+    this.componentToNativeEl.clear();
   }
 
   private storeSelectRef = (node: HTMLSelectElement): void => {
