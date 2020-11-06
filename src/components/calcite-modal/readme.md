@@ -59,6 +59,7 @@ modal.beforeClose = beforeClose;
 | `noPadding`          | `no-padding`           | Turn off spacing around the content area slot                                                               | `boolean`                            | `undefined`               |
 | `scale`              | `scale`                | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
 | `theme`              | `theme`                | Select theme (light or dark)                                                                                | `"dark" \| "light"`                  | `undefined`               |
+| `title`              | `title`                | Title of the modal                                                                                          | `string`                             | `undefined`               |
 | `width`              | `width`                | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
 ## Events

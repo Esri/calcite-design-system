@@ -1,91 +1,73 @@
 :host {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-y: hidden;
-  color: var(--calcite-ui-text-2);
-  opacity: 0;
+  @apply fixed inset-0 flex justify-center items-center overflow-y-hidden text-color-2 opacity-0;
   visibility: hidden !important;
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
-  --calcite-modal-title-padding: 12px 16px;
-  --calcite-modal-title-text: 20px;
-  --calcite-modal-content-padding: 16px;
-  --calcite-modal-content-text: 16px;
-  --calcite-modal-close-padding: 12px;
-  --calcite-modal-footer-padding: 12px;
+  --calcite-modal-title-padding: theme("spacing.3") theme("spacing.4");
+  --calcite-modal-title-text: theme("spacing.5");
+  --calcite-modal-content-padding: theme("spacing.4");
+  --calcite-modal-content-text: theme("spacing.4");
+  --calcite-modal-close-padding: theme("spacing.3");
+  --calcite-modal-footer-padding: theme("spacing.3");
 }
 
 :host([scale="s"]) {
-  --calcite-modal-title-padding: 8px 12px;
-  --calcite-modal-title-text: 18px;
-  --calcite-modal-content-padding: 12px;
-  --calcite-modal-content-text: 14px;
-  --calcite-modal-close-padding: 8px;
-  --calcite-modal-footer-padding: 8px;
+  --calcite-modal-title-padding: theme("spacing.2") theme("spacing.3");
+  --calcite-modal-title-text: 1theme ("spacing.2");
+  --calcite-modal-content-padding: theme("spacing.3");
+  --calcite-modal-content-text: theme("fontSize.-1");
+  --calcite-modal-close-padding: theme("spacing.2");
+  --calcite-modal-footer-padding: theme("spacing.2");
 }
 
 :host([scale="l"]) {
-  --calcite-modal-title-padding: 16px 20px;
-  --calcite-modal-title-text: 26px;
-  --calcite-modal-content-padding: 20px;
-  --calcite-modal-content-text: 18px;
-  --calcite-modal-close-padding: 16px;
-  --calcite-modal-footer-padding: 16px;
+  --calcite-modal-title-padding: theme("spacing.4") theme("spacing.5");
+  --calcite-modal-title-text: theme("fontSize.3");
+  --calcite-modal-content-padding: theme("spacing.5");
+  --calcite-modal-content-text: theme("fontSize.1");
+  --calcite-modal-close-padding: theme("spacing.4");
+  --calcite-modal-footer-padding: theme("spacing.4");
 }
 
 .scrim {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  overflow-y: hidden;
+  @apply inset-0 fixed overflow-y-hidden;
 }
 
 .modal {
-  @apply shadow-2-sm;
-  box-sizing: border-box;
+  @apply shadow-2-sm
+  box-border
+  float-none
+  text-left
+  scrolling-touch
+  flex
+  flex-col
+  opacity-0
+  pointer-events-none
+  bg-foreground-1
+  rounded-1
+  m-6
+  w-full;
   z-index: 102;
-  float: none;
-  text-align: left;
-  -webkit-overflow-scrolling: touch;
-  display: flex;
-  flex-direction: column;
   flex-wrap: row-wrap;
-  opacity: 0;
   visibility: hidden;
-  pointer-events: none;
   transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
-  background-color: var(--calcite-ui-foreground-1);
-  border-radius: var(--calcite-border-radius);
-  margin: $baseline;
-  width: 100%;
 }
 
 // focus styles
-.modal__close {
+.close {
   @include focus-style-base();
-  &.modal__close:focus {
+  &.close:focus {
     @include focus-style-inset();
   }
 }
 
 :host([is-active]) {
+  @apply opacity-100;
   visibility: visible !important;
-  opacity: 1;
   transition-delay: 0ms;
   .modal {
-    pointer-events: auto;
-    visibility: visible;
-    opacity: 1;
+    @apply pointer-events-auto visible opacity-100;
     transition-delay: 0ms;
     transform: translate3d(0, 0, 0);
     transition: transform 300ms $easing-function, visibility 0ms linear, opacity 300ms $easing-function,
@@ -94,87 +76,65 @@
 }
 
 :host([dir="rtl"]) .modal {
-  text-align: right;
+  @apply text-right;
 }
 
 /**
- * Header
+ * top
  */
-.modal__header {
-  background-color: var(--calcite-ui-foreground-1);
+.top {
+  @apply bg-foreground-1 flex max-w-full min-w-0;
   flex: 0 0 auto;
-  display: flex;
-  max-width: 100%;
-  min-width: 0;
   z-index: 2;
   border-bottom: 1px solid var(--calcite-ui-border-3);
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
 }
 
-.modal__close {
+.close {
+  @apply m-0 order-2 appearance-none border-none text-color-1 outline-none cursor-pointer;
   padding: var(--calcite-modal-close-padding);
-  margin: 0;
-  order: 2;
   flex: 0 0 auto;
   transition-delay: 300ms;
   transition: all 0.15s ease-in-out;
   background-color: transparent;
-  -webkit-appearance: none;
-  border: none;
-  color: var(--calcite-ui-text-1);
-  outline: none;
-  cursor: pointer;
   border-radius: 0 var(--calcite-border-radius) 0 0;
   calcite-icon {
-    pointer-events: none;
+    @apply pointer-events-none;
     vertical-align: -2px;
   }
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
 }
 
-:host([dir="rtl"]) .modal__close {
+:host([dir="rtl"]) .close {
   border-radius: var(--calcite-border-radius) 0 0 0;
 }
 
-.modal__title {
-  display: flex;
-  align-items: center;
+.header {
+  @apply flex items-center flex-auto order-1 min-w-0;
   padding: var(--calcite-modal-title-padding);
-  flex: 1 1 auto;
-  order: 1;
-  min-width: 0;
 }
 
-@include slotted("header", "*") {
-  margin: 0;
-  font-weight: 400;
+.title {
+  @apply m-0 font-normal text-color-1;
   font-size: var(--calcite-modal-title-text);
-  color: var(--calcite-ui-text-1);
 }
 
 /**
  * Content area
  */
-.modal__content {
-  position: relative;
-  padding: 0;
-  height: 100%;
-  overflow: auto;
-  max-height: calc(100vh - 12rem);
-  overflow-y: auto;
-  display: block;
-  background-color: var(--calcite-ui-foreground-1);
-  box-sizing: border-box;
+.content {
+  @apply relative p-0 h-full overflow-auto block bg-foreground-1 box-border;
+  max-height: calc(100vh - theme("spacing.48"));
   z-index: 1;
 }
 
-.modal__content--spaced {
+.content--spaced {
   padding: var(--calcite-modal-content-padding);
 }
 
@@ -184,50 +144,43 @@
 }
 
 :host([background-color="grey"]) {
-  .modal__content {
-    background-color: var(--calcite-ui-background);
+  .content {
+    @apply bg-background;
   }
 }
 
 /**
  * Footer
  */
-.modal__footer {
-  display: flex;
+.footer {
+  @apply flex justify-between mt-auto box-border w-full bg-foreground-1;
   flex: 0 0 auto;
-  justify-content: space-between;
   padding: var(--calcite-modal-footer-padding);
-  margin-top: auto;
-  box-sizing: border-box;
   border-radius: 0 0 var(--calcite-border-radius) var(--calcite-border-radius);
-  width: 100%;
-  background-color: var(--calcite-ui-foreground-1);
   border-top: 1px solid var(--calcite-ui-border-3);
   z-index: 2;
 }
 
-.modal__footer--hide-back .modal__back,
-.modal__footer--hide-secondary .modal__secondary {
-  display: none;
+.footer--hide-back .back,
+.footer--hide-secondary .secondary {
+  @apply hidden;
 }
 
-.modal__back {
-  display: block;
-  margin-right: auto;
+.back {
+  @apply block mr-auto;
 }
 
-:host([dir="rtl"]) .modal__back {
-  margin-left: auto;
+:host([dir="rtl"]) .back {
+  @apply ml-auto;
   margin-right: unset;
 }
 
-.modal__secondary {
-  display: block;
-  margin: 0 $baseline * 0.25;
+.secondary {
+  @apply block my-0 mx-1;
 }
 
 slot[name="primary"] {
-  display: block;
+  @apply block;
 }
 
 /**
@@ -242,30 +195,25 @@ slot[name="primary"] {
   @media screen and (max-width: $width + 2 * $baseline) {
     :host([width="#{$size}"]) {
       .modal {
-        height: 100%;
-        max-height: 100%;
-        width: 100%;
-        max-width: 100%;
-        margin: 0;
-        border-radius: 0;
+        @apply h-full max-h-full w-full max-w-full m-0 rounded-none;
       }
-      .modal__content {
-        flex: 1 1 auto;
+      .content {
+        @apply flex-auto;
         max-height: unset;
       }
-      .modal__header,
-      .modal__footer {
+      .top,
+      .footer {
         flex: inherit;
       }
     }
     :host([width="#{$size}"][docked]) {
-      align-items: flex-end;
+      @apply items-end;
     }
   }
 }
 
 :host([width="small"]) .modal {
-  width: auto;
+  @apply w-auto;
 }
 
 @include modal-size("s", 32rem);
@@ -278,19 +226,14 @@ slot[name="primary"] {
 :host([fullscreen]) {
   background-color: transparent;
   .modal {
+    @apply h-full max-h-full w-full max-w-full m-0;
     transform: translate3D(0, 20px, 0) scale(0.95);
-    height: 100%;
-    max-height: 100%;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
   }
-  .modal__content {
-    flex: 1 1 auto;
-    max-height: 100%;
+  .content {
+    @apply flex-auto max-h-full;
   }
-  .modal__header,
-  .modal__footer {
+  .top,
+  .footer {
     flex: inherit;
   }
 }
@@ -299,11 +242,11 @@ slot[name="primary"] {
   .modal {
     transform: translate3D(0, 0, 0) scale(1);
   }
-  .modal__header {
-    border-radius: 0;
+  .top {
+    @apply rounded-none;
   }
-  .modal__footer {
-    border-radius: 0;
+  .footer {
+    @apply rounded-none;
   }
 }
 
@@ -314,23 +257,22 @@ slot[name="primary"] {
   .modal {
     height: auto !important;
   }
-  .modal__content {
-    height: auto;
-    flex: 1 1 auto;
+  .content {
+    @apply h-auto flex-auto;
   }
   @media screen and (max-width: $viewport-medium) {
     .modal {
-      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+      @apply rounded-t-1 rounded-b-none;
     }
 
-    .modal__close {
+    .close {
       border-radius: 0 var(--calcite-border-radius) 0 0;
     }
   }
 }
 
 @media screen and (max-width: $viewport-medium) {
-  :host([docked][dir="rtl"]) .modal__close {
+  :host([docked][dir="rtl"]) .close {
     border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
@@ -352,8 +294,8 @@ slot[name="primary"] {
 
 :host([color="red"]),
 :host([color="blue"]) {
-  .modal__header {
-    border-radius: var(--calcite-border-radius);
+  .top {
+    @apply rounded-1;
   }
 }
 
@@ -361,21 +303,20 @@ slot[name="primary"] {
  * Tablet
  */
 @media screen and (max-width: $viewport-medium) {
-  @include slotted("header", "*") {
-    @include font-size(1);
+  .title {
+    @apply text-1;
   }
-  .modal__title {
-    padding: $baseline * 0.25 $baseline * 0.675;
+  .header {
+    @apply py-1 px-4;
   }
-  .modal__close {
-    padding: 0.75rem;
+  .close {
+    @apply p-3;
   }
-  .modal__content--spaced {
-    padding: $baseline * 0.675;
+  .content--spaced {
+    @apply p-4;
   }
-  .modal__footer {
-    position: sticky;
-    bottom: 0;
+  .footer {
+    @apply sticky bottom-0;
   }
 }
 
@@ -383,12 +324,11 @@ slot[name="primary"] {
  * Mobile
  */
 @media screen and (max-width: $viewport-small) {
-  .modal__footer {
-    flex-direction: column;
+  .footer {
+    @apply flex-col;
   }
-  .modal__back,
-  .modal__secondary {
-    margin: 0;
-    margin-bottom: $baseline * 0.25;
+  .back,
+  .secondary {
+    @apply m-0 mb-1;
   }
 }

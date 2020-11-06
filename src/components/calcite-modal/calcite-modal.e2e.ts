@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-modal properties", () => {
   it("renders", async () => {
@@ -9,10 +9,14 @@ describe("calcite-modal properties", () => {
     expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
 
+  it("should be accessible", async () => {
+    await accessible(`<calcite-modal title-text="Title"></calcite-modal>`);
+  });
+
   it("adds localized strings set via intl-* props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
-    const button = await page.find("calcite-modal >>> .modal__close");
+    const button = await page.find("calcite-modal >>> .close");
     expect(button).toEqualAttribute("aria-label", "test");
   });
 
@@ -22,7 +26,7 @@ describe("calcite-modal properties", () => {
     const modal = await page.find("calcite-modal");
     modal.setProperty("disableCloseButton", true);
     await page.waitForChanges();
-    const closeButton = await page.find("calcite-modal >>> .modal__close");
+    const closeButton = await page.find("calcite-modal >>> .close");
     expect(closeButton).toBe(null);
   });
 
@@ -42,8 +46,7 @@ describe("calcite-modal properties", () => {
   it("focuses the firstFocus element on load", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-modal active>
-        <h3 slot="header">Title</h3>
+      <calcite-modal title-text="Title" active>
         <p slot="content">This is the content <button class="test">test</button></p>
       </calcite-modal>
     `);
@@ -122,7 +125,7 @@ describe("calcite-modal accessibility checks", () => {
     await page.$eval(".btn-1", (elm) => ($button1 = elm));
     await page.$eval(".btn-2", (elm) => ($button2 = elm));
     await page.$eval("calcite-modal", (elm) => {
-      $close = elm.shadowRoot.querySelector(".modal__close");
+      $close = elm.shadowRoot.querySelector(".close");
     });
     await modal.setProperty("active", true);
     await page.waitForChanges();
@@ -156,14 +159,6 @@ describe("calcite-modal accessibility checks", () => {
     expect(document.activeElement).toEqual($button);
   });
 
-  it("has correct aria role/attribute", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
-    const modal = await page.find("calcite-modal");
-    expect(modal).toEqualAttribute("role", "dialog");
-    expect(modal).toEqualAttribute("aria-modal", "true");
-  });
-
   it("closes when Escape key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
@@ -195,7 +190,7 @@ describe("calcite-modal accessibility checks", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
-    const button = await page.find("calcite-modal >>> .modal__close");
+    const button = await page.find("calcite-modal >>> .close");
     await modal.setProperty("active", true);
     await page.waitForChanges();
     expect(modal).toHaveAttribute("is-active");
@@ -208,7 +203,7 @@ describe("calcite-modal accessibility checks", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
-    const button = await page.find("calcite-modal >>> .modal__close");
+    const button = await page.find("calcite-modal >>> .close");
     await modal.setProperty("active", true);
     await page.waitForChanges();
     expect(modal).toHaveAttribute("is-active");

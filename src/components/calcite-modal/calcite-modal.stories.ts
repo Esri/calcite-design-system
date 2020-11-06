@@ -19,8 +19,8 @@ storiesOf("Components/Modal", module)
         ${boolean("disable-escape", false)}
         ${boolean("no-padding", false)}
         close-label="${text("close-label", "Close")}"
+        title-text="${text("title-text", "Modal Title")}"
       >
-        <h3 slot="header">Small Modal</h3>
         <div slot="content">
           <p>
             The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
@@ -37,8 +37,8 @@ storiesOf("Components/Modal", module)
       <calcite-modal
         active
         width="${number("width", 500)}"
+        title-text="Custom Size"
       >
-        <h3 slot="header">Custom Size</h3>
         <div slot="content">
           <p>
             By passing a number rather than "small", "medium", "large", or "fullscreen", you can set your own max width for the modal.
@@ -67,6 +67,7 @@ storiesOf("Components/Modal", module)
         ${boolean("disable-escape", false)}
         ${boolean("no-padding", false)}
         close-label="${text("close-label", "Close")}"
+        title-text="${text("title-text", "Modal Title")}"
       >
         <h3 slot="header">Small Modal</h3>
         <div slot="content">

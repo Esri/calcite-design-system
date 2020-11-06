@@ -15,6 +15,7 @@ import {
 import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-modal",
@@ -36,6 +37,9 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   /** Add the active attribute to open the modal */
   @Prop() active?: boolean;
+
+  /** Title of the modal */
+  @Prop() titleText: string;
 
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
@@ -92,22 +96,31 @@ export class CalciteModal {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
+      <Host dir={dir} is-active={this.isActive}>
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
-        <div class="modal">
+        <div
+          aria-describedby={`${this.guid}-body`}
+          aria-labelledby={`${this.guid}-title`}
+          aria-modal="true"
+          class="modal"
+          role="dialog"
+        >
           <div data-focus-fence="true" onFocus={this.focusLastElement.bind(this)} tabindex="0" />
-          <div class="modal__header">
-            {this.renderCloseButton()}
-            <header class="modal__title">
-              <slot name="header" />
+          <div class="top">
+            <header class="header">
+              <h2 class="title" id={`${this.guid}-title`}>
+                {this.titleText}
+              </h2>
             </header>
+            {this.renderCloseButton()}
           </div>
           <div
             class={{
-              modal__content: true,
-              "modal__content--spaced": !this.noPadding
+              content: true,
+              "content--spaced": !this.noPadding
             }}
+            id={`${this.guid}-body`}
             ref={(el) => (this.modalContent = el)}
           >
             <slot name="content" />
@@ -121,14 +134,14 @@ export class CalciteModal {
 
   renderFooter(): VNode {
     return this.el.querySelector("[slot=back], [slot=secondary], [slot=primary]") ? (
-      <div class="modal__footer">
-        <span class="modal__back">
+      <div class="footer">
+        <span class="back">
           <slot name="back" />
         </span>
-        <span class="modal__secondary">
+        <span class="secondary">
           <slot name="secondary" />
         </span>
-        <span class="modal__primary">
+        <span class="primary">
           <slot name="primary" />
         </span>
       </div>
@@ -139,7 +152,7 @@ export class CalciteModal {
     return !this.disableCloseButton ? (
       <button
         aria-label={this.intlClose}
-        class="modal__close"
+        class="close"
         onClick={() => this.close()}
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
@@ -166,12 +179,11 @@ export class CalciteModal {
             margin: 0;
             border-radius: 0;
           }
-          .modal__content {
+          .content {
             flex: 1 1 auto;
             max-height: unset;
           }
-          .modal__header,
-          .modal__footer {
+          .footer {
             flex: inherit;
           }
         }
@@ -283,6 +295,8 @@ export class CalciteModal {
   private closeButtonEl: HTMLButtonElement;
 
   private modalContent: HTMLDivElement;
+
+  private guid = `calcite-modal-${guid()}`;
 
   private focusFirstElement() {
     this.closeButtonEl?.focus();
