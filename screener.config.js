@@ -5,7 +5,7 @@ module.exports = {
   projectRepo: 'Esri/calcite-components',
 
   // this example assumes Environment Variables listed below exist on your system:
-  apiKey: '1817834e-8791-4606-a9f0-6c164f21b1ec',
+  apiKey: process.env.SCREENER_API_KEY,
 
   // array of UI states to capture visual snapshots of.
   // each state consists of a url and a name.
