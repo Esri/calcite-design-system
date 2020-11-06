@@ -37,7 +37,7 @@
     "test": "npm run util:run-tests && npm run test:prerender",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:watch": "npm run util:run-tests -- --watchAll",
-    "test:screener": "concurrently \"npm start\" \"sleep 60 && screener-runner --conf screener.config.js\"",
+    "test:screener": "concurrently --kill-others --kill-others-on-fail \"npm start\" \"sleep 60 && screener-runner --conf screener.config.js\"",
     "util:add-custom-elements-index-mjs": "cpy dist/custom-elements/index.js dist/custom-elements/ --rename index.mjs",
     "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
