@@ -17,7 +17,7 @@
   display: inline-flex;
   gap: 8px;
   .radio.no-flex-gap {
-    margin-right: 4px;
+    margin-right: 8px;
   }
 }
 :host([hovered]),
@@ -116,7 +116,7 @@
   margin-bottom: 10px;
   margin-right: 20px;
   .radio.no-flex-gap {
-    margin-right: 6px;
+    margin-right: 12px;
   }
 }
 :host([scale="l"][checked]),

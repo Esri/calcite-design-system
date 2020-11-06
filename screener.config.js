@@ -26,5 +26,10 @@ module.exports = {
 
   tunnel: {
     host: 'localhost:3333'
+  },
+
+  diffOptions: {
+    minLayoutPosition: 1,
+    minLayoutDimension: 1
   }
 };
