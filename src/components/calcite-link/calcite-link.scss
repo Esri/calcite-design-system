@@ -3,17 +3,13 @@
 :host {
   display: inline;
   --calcite-blue-accessible: #{$h-bb-070};
-  --calcite-red-accessible: #{$h-rr-070};
   --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
-  --calcite-link-red-underline: #{rgba($h-rr-070, 0.4)};
 }
 
 // dark theme
 :host([theme="dark"]) {
   --calcite-blue-accessible: #{$d-bb-420};
-  --calcite-red-accessible: #{$d-rr-420};
   --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
-  --calcite-link-red-underline: #{rgba($d-rr-420, 0.4)};
 }
 
 // link base
@@ -115,31 +111,13 @@
   }
 }
 
-:host([color="blue"]) {
+:host {
   span,
   a {
     @include link-style(var(--calcite-blue-accessible), var(--calcite-ui-blue-1), var(--calcite-link-blue-underline));
   }
 }
 
-:host([color="red"]) {
-  span,
-  a {
-    @include link-style(var(--calcite-red-accessible), var(--calcite-ui-red-1), var(--calcite-link-red-underline));
-  }
-}
-:host([color="light"]) {
-  span,
-  a {
-    @include link-style($blk-010, $blk-000, $blk-080);
-  }
-}
-:host([color="dark"]) {
-  span,
-  a {
-    @include link-style($blk-200, $blk-180, $blk-120);
-  }
-}
 :host([dir="rtl"]) {
   span,
   a {
