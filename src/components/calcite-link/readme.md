@@ -6,7 +6,6 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property     | Attribute     | Description                                                                                      | Type                                   | Default     |
@@ -19,31 +18,26 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 | `theme`      | `theme`       | Select theme (light or dark)                                                                     | `"dark" \| "light"`                    | `undefined` |
 | `userSelect` | `user-select` | Allows the text to be selectable                                                                 | `boolean`                              | `true`      |
 
-
 ## Methods
 
 ### `setFocus() => Promise<void>`
-
-
 
 #### Returns
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Used by
 
- - [calcite-tile](../calcite-tile)
+- [calcite-tile](../calcite-tile)
 
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   calcite-link --> calcite-icon
@@ -51,6 +45,6 @@ graph TD;
   style calcite-link fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

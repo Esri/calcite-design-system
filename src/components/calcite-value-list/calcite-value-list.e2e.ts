@@ -8,14 +8,19 @@ import {
   keyboardNavigation
 } from "../calcite-pick-list/shared-list-tests";
 import { dragAndDrop } from "../../tests/utils";
+import dedent from "dedent";
 
 describe("calcite-value-list", () => {
-  it("renders", async () => renders("calcite-value-list"));
+  it("renders", () => renders("calcite-value-list"));
+
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
-  it("is accessible", async () =>
-    accessible(
-      `<calcite-value-list><calcite-value-list-item label="Sample" value="one"></calcite-value-list-item></calcite-value-list>`
-    ));
+
+  it("is accessible", () =>
+    accessible(dedent`
+      <calcite-value-list>
+        <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
+      </calcite-value-list>
+    `));
 
   describe("Selection and Deselection", () => {
     selectionAndDeselection("value");

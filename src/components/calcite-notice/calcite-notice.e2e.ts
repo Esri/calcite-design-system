@@ -80,12 +80,12 @@ describe("calcite-notice", () => {
 
     const notice1 = await page.find("#notice-1");
     const noticeclose1 = await page.find("#notice-1 >>> .notice-close");
+    const animationDurationInMs = 400;
 
     expect(await notice1.isVisible()).toBe(true);
 
     await noticeclose1.click();
-    // wait for animation to complete
-    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForTimeout(animationDurationInMs);
     expect(await notice1.isVisible()).not.toBe(true);
   });
 });

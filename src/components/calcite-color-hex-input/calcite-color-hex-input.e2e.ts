@@ -1,9 +1,11 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, focusable, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
 import { isValidHex, normalizeHex } from "../calcite-color/utils";
 
 describe("calcite-color-hex-input", () => {
   it("renders", () => renders("calcite-color-hex-input"));
+
+  it("is accessible", () => accessible("calcite-color-hex-input"));
 
   it("has defaults", () =>
     defaults("calcite-color-hex-input", [

@@ -47,7 +47,7 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -57,7 +57,7 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
@@ -121,7 +121,7 @@ describe("calcite-tooltip-manager", () => {
 
     await referenceElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await referenceElement.focus();
 
@@ -133,7 +133,7 @@ describe("calcite-tooltip-manager", () => {
 
     await testElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -163,7 +163,7 @@ describe("calcite-tooltip-manager", () => {
 
     await referenceElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await referenceElement.focus();
 
@@ -235,7 +235,7 @@ describe("calcite-tooltip-manager", () => {
 
     await referenceElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -272,7 +272,7 @@ describe("calcite-tooltip-manager", () => {
 
     await referenceElement.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await page.waitForChanges();
 

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -11,6 +11,15 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).toHaveAttribute(HYDRATED_ATTR);
     expect(calciteSwitch).toHaveAttribute("switched");
   });
+
+  it("is accessible", async () => accessible(`<calcite-switch></calcite-switch>`));
+
+  it("is accessible: switched", async () => accessible(`<calcite-switch switched></calcite-switch>`));
+
+  it("is accessible: slotted input", async () =>
+    accessible(`<calcite-switch name="switch-name" value="switch-value" switched>
+  <input type="checkbox" id="test-id" name="test-name" value="test-value"/>
+</calcite-switch>`));
 
   it("correctly creates a proxy checkbox if none is provided", async () => {
     const testName = "test-name";

@@ -1,8 +1,31 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders } from "../../tests/commonTests";
+import { accessible, defaults, renders } from "../../tests/commonTests";
 
 describe("calcite-graph", () => {
   it("renders", async () => renders(`<calcite-graph></calcite-graph>`));
+
+  it("is accessible", async () => accessible(`<calcite-graph></calcite-graph>`));
+
+  it("is accessible: with data", async () => {
+    const html = "<calcite-graph></calcite-graph>";
+    const page = await newE2EPage({
+      html
+    });
+
+    await page.$eval("calcite-graph", (elm: any) => {
+      elm.data = [
+        [0, 4],
+        [1, 7],
+        [4, 6],
+        [6, 2]
+      ];
+    });
+
+    await page.waitForChanges();
+
+    await accessible(html, page);
+  });
+
   it("has property defaults", async () =>
     defaults("calcite-graph", [
       {

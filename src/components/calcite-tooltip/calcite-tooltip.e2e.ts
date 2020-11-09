@@ -123,7 +123,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
   });
@@ -145,7 +145,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
-    await page.waitFor(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
   });
