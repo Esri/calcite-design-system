@@ -92,4 +92,16 @@ describe("calcite-date", () => {
     await date.setProperty("value", "2001-10-28");
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
+
+  it("displays a calendar when clicked", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-date value='2000-11-27'></calcite-date>"
+    });
+    const date = await page.find("calcite-date");
+
+    await date.click();
+    const calendar = await page.find("calcite-date >>> .calendar-picker-wrapper");
+
+    expect(await calendar.isVisible());
+  });
 });
