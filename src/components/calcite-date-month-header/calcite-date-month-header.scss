@@ -67,7 +67,7 @@
     background-color: var(--calcite-ui-foreground-3);
   }
 
-  &[aria-disabled] {
+  &[aria-disabled="true"] {
     pointer-events: none;
     opacity: 0;
   }
