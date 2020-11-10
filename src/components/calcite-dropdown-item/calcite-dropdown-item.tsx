@@ -145,6 +145,7 @@ export class CalciteDropdownItem {
         dir={dir}
         isLink={this.href}
         role="menuitem"
+        scale={scale}
         selection-mode={this.selectionMode}
         tabindex="0"
       >
