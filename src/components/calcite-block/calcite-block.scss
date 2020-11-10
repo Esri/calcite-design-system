@@ -52,13 +52,13 @@
     border-none
     cursor-pointer
     text-left
-    focus-style-base;
+    focus-base;
 
   &:hover {
     @apply bg-foreground-2;
   }
   &:focus {
-    @apply focus-style-inset;
+    @apply focus-inset;
   }
 }
 

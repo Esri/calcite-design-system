@@ -166,16 +166,16 @@ module.exports = {
           "word-wrap": "break-word",
           "word-break": "break-word"
         },
-        ".focus-style-base": {
+        ".focus-base": {
           "outline-offset": 0,
           "outline-color": "transparent",
           "transition": "outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out"
         },
-        ".focus-style-outset": {
+        ".focus-outset": {
           "outline": "2px solid var(--calcite-ui-blue-1)",
           "outline-offset": "2px"
         },
-        ".focus-style-inset": {
+        ".focus-inset": {
           "outline": "2px solid var(--calcite-ui-blue-1)",
           "outline-offset": "-2px"
         }
