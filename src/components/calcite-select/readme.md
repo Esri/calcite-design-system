@@ -1,5 +1,7 @@
 # calcite-select
 
+This component represents a menu of options.
+
 <!-- Auto Generated Below -->
 
 ## Properties
