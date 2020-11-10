@@ -23,8 +23,8 @@ Date also supports passing in a proxy input to make event handling and binding e
 | Property          | Attribute           | Description                                                 | Type                | Default                                      |
 | ----------------- | ------------------- | ----------------------------------------------------------- | ------------------- | -------------------------------------------- |
 | `active`          | `active`            | Expand or collapse when calendar does not have input        | `boolean`           | `false`                                      |
-| `intlNextMonth`   | `intl-next-month`   | Localized string for "next month"                           | `string`            | `TEXT.nextMonth`                             |
-| `intlPrevMonth`   | `intl-prev-month`   | Localized string for "previous month"                       | `string`            | `TEXT.prevMonth`                             |
+| `intlNextMonth`   | `intl-next-month`   | Localized string for "next month" (used for aria label)     | `string`            | `TEXT.nextMonth`                             |
+| `intlPrevMonth`   | `intl-prev-month`   | Localized string for "previous month" (used for aria label) | `string`            | `TEXT.prevMonth`                             |
 | `locale`          | `locale`            | BCP 47 language tag for desired language and country format | `string`            | `document.documentElement.lang \|\| "en-US"` |
 | `max`             | `max`               | Latest allowed date ("yyyy-mm-dd")                          | `string`            | `undefined`                                  |
 | `min`             | `min`               | Earliest allowed date ("yyyy-mm-dd")                        | `string`            | `undefined`                                  |
