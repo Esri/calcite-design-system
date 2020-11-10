@@ -97,6 +97,7 @@ describe("calcite-date", () => {
     const page = await newE2EPage({
       html: "<calcite-date value='2000-11-27'></calcite-date>"
     });
+    await page.waitForChanges();
     const date = await page.find("calcite-date");
 
     await date.click();
