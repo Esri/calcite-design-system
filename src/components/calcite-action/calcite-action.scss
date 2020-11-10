@@ -12,8 +12,8 @@
 .button {
   font-family: inherit;
   display: flex;
-  color: var(--calcite-ui-text-2);
-  fill: var(--calcite-ui-text-2);
+  color: var(--calcite-ui-text-3);
+  fill: var(--calcite-ui-text-3);
   background-color: var(--calcite-ui-foreground-1);
   margin: 0;
   justify-content: flex-start;
@@ -121,9 +121,9 @@
 :host([active]) .button:hover,
 :host([active]) .button:focus,
 :host([active][loading]) .button {
-  color: var(--calcite-ui-text-current);
-  fill: var(--calcite-ui-text-current);
-  background-color: var(--calcite-ui-foreground-current);
+  color: var(--calcite-ui-text-1);
+  fill: var(--calcite-ui-text-1);
+  background-color: var(--calcite-ui-foreground-3);
 }
 
 :host([appearance="clear"]) .button {
@@ -140,10 +140,9 @@
 :host([active][appearance="clear"]) .button,
 :host([active][appearance="clear"]) .button:hover,
 :host([active][appearance="clear"]) .button:focus {
-  @apply shadow-none;
-  color: var(--calcite-ui-text-current);
-  fill: var(--calcite-ui-text-current);
-  background-color: var(--calcite-ui-foreground-current);
+  color: var(--calcite-ui-text-1);
+  fill: var(--calcite-ui-text-1);
+  background-color: var(--calcite-ui-foreground-3);
 }
 
 :host([appearance="clear"][loading]) .button,
@@ -177,7 +176,7 @@
 :host([disabled][active]) .button:hover,
 :host([disabled][active]) .button:focus {
   opacity: var(--calcite-ui-opacity-disabled);
-  background-color: var(--calcite-ui-foreground-current);
+  background-color: var(--calcite-ui-foreground-3);
 }
 
 :host([indicator]) .button--text-visible,
@@ -192,7 +191,7 @@
   width: var(--calcite-spacing-half);
   height: var(--calcite-spacing-half);
   border: var(--calcite-spacing-eighth) solid var(--calcite-ui-foreground-1);
-  background-color: var(--calcite-ui-text-current);
+  background-color: var(--calcite-ui-blue-1);
   position: absolute;
   bottom: var(--calcite-spacing-half);
   right: var(--calcite-spacing-half);
@@ -225,7 +224,7 @@
 }
 
 :host([indicator][active]) .button::after {
-  border-color: var(--calcite-ui-foreground-current);
+  border-color: var(--calcite-ui-foreground-3);
 }
 
 :host([indicator]) .button--text-visible::after,

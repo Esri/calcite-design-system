@@ -11,9 +11,7 @@
   @include calcite-theme-light();
 
   --calcite-border-radius: 3px;  
-  --calcite-ui-opacity-disabled: 0.3;
-  --calcite-ui-foreground-current: #{$h-bb-010};
-  --calcite-ui-text-current: #{$h-bb-070};
+  --calcite-ui-opacity-disabled: 0.3; // remove post refactor
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,14 +22,10 @@
 
 [theme="dark"] {
   @include calcite-theme-dark();
-  --calcite-ui-foreground-current: #{$blk-220};
-  --calcite-ui-text-current: #{$v-bb-120};
 }
 
 [theme="light"] {
   @include calcite-theme-light();
-  --calcite-ui-foreground-current: #{$h-bb-010};
-  --calcite-ui-text-current: #{$h-bb-070};
 }
 
 .overflow-hidden {

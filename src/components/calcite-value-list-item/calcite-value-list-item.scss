@@ -37,7 +37,7 @@ calcite-pick-list-item {
     @include focus-style-inset();
   }
   &--activated {
-    background-color: var(--calcite-ui-foreground-current);
-    color: var(--calcite-ui-text-current);
+    background-color: var(--calcite-ui-foreground-3);
+    color: var(--calcite-ui-text-1);
   }
 }

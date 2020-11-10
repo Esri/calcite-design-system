@@ -25,7 +25,11 @@ module.exports = {
     },
     colors: {
       // CalciteColors
-      blue: "var(--calcite-ui-blue-3)",
+      blue: {
+        1: "var(--calcite-ui-blue-1)",
+        2: "var(--calcite-ui-blue-2)",
+        3: "var(--calcite-ui-blue-3)",
+      },
       green: "var(--calcite-ui-green-3)",
       yellow: "var(--calcite-ui-yellow-3)",
       red: "var(--calcite-ui-red-3)",
@@ -33,7 +37,7 @@ module.exports = {
       foreground: {
         1: "var(--calcite-ui-foreground-1)",
         2: "var(--calcite-ui-foreground-2)",
-        3: "var(--calcite-ui-foreground-3)",
+        3: "var(--calcite-ui-foreground-3)"
       },
       text: {
         1: "var(--calcite-ui-text-1)",
@@ -76,10 +80,6 @@ module.exports = {
       normal: "var(--calcite-font-weight-normal)",
       medium: "var(--calcite-font-weight-medium)",
       bold: "var(--calcite-font-weight-bold)"
-    },
-    opacity: {
-      // assets/styles/global
-      disabled: "var(--calcite-ui-opacity-disabled)"
     },
 
     /**
