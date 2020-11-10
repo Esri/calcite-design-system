@@ -25,11 +25,7 @@ module.exports = {
     },
     colors: {
       // CalciteColors
-      blue: {
-        1: "var(--calcite-ui-blue-1)",
-        2: "var(--calcite-ui-blue-2)",
-        3: "var(--calcite-ui-blue-3)",
-      },
+      blue: "var(--calcite-ui-blue-1)",
       green: "var(--calcite-ui-green-3)",
       yellow: "var(--calcite-ui-yellow-3)",
       red: "var(--calcite-ui-red-3)",
@@ -95,11 +91,7 @@ module.exports = {
       "color-1": theme("colors.text.1"),
       "color-2": theme("colors.text.2"),
       "color-3": theme("colors.text.3"),
-      blue: {
-        1: theme("colors.blue.1"),
-        2: theme("colors.blue.2"),
-        3: theme("colors.blue.3"),
-      },
+      blue: theme("colors.blue"),
       white: theme("colors.background")
     }),
     backgroundColor: theme => theme("colors"),
