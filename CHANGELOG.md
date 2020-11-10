@@ -3,6 +3,13 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.44](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.43...v1.0.0-beta.44) (2020-11-10)
+
+
+### Bug Fixes
+
+* **date:** fix prev/next month buttons not rendering ([#1243](https://github.com/Esri/calcite-components/issues/1243)) ([357ade1](https://github.com/Esri/calcite-components/commit/357ade17b1fc916be12223ad5b022623ba146bb8))
+
 ## [1.0.0-beta.43](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.42...v1.0.0-beta.43) (2020-11-06)
 
 ### ⚠ BREAKING CHANGES
