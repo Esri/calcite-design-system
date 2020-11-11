@@ -108,7 +108,7 @@ export class CalciteRating {
       const partial = !this.value && !hovered && fraction > 0 && fraction < 1;
       const focused = this.hasFocus && this.focusValue === i;
       return (
-        <span class="wrapper">
+        <span class={{ wrapper: true }}>
           <label
             class={{ star: true, focused, selected, average, hovered, partial }}
             htmlFor={`${this.guid}-${i}`}
@@ -119,7 +119,7 @@ export class CalciteRating {
             <calcite-icon
               aria-hidden="true"
               class="icon"
-              icon={selected || average || (this.readOnly && !partial) ? "star-f" : "star"}
+              icon={selected || average || this.readOnly ? "star-f" : "star"}
               scale={this.scale}
             />
             {partial && (
@@ -141,6 +141,7 @@ export class CalciteRating {
               this.focusValue = i;
             }}
             type="radio"
+            value={i}
           />
         </span>
       );

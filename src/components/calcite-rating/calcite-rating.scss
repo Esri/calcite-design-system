@@ -53,14 +53,14 @@
 }
 
 .average,
-.partial {
+.fraction {
   color: var(--calcite-ui-yellow-1);
 }
 
 .hovered,
 .selected,
 :host([read-only]) .average,
-:host([read-only]) .partial {
+:host([read-only]) .fraction {
   color: var(--calcite-ui-blue-1);
 }
 
