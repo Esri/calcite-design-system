@@ -10,10 +10,13 @@
     p-0
     transition-margin
     duration-150
-    ease-cubic;
-
+    ease-cubic
+    border-0
+    border-b
+    border-border-3
+    border-solid
+    ;
   flex-basis: auto;
-  border-bottom: 1px solid var(--calcite-ui-border-3);
 }
 
 @import "../../assets/styles/header";

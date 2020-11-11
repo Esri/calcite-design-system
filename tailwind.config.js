@@ -20,7 +20,7 @@ module.exports = {
       '2': 'var(--calcite-shadow-2)',
       '2-lg': 'var(--calcite-shadow-2-hover)',
       'border-bottom': 'var(--calcite-shadow-border-bottom)',
-      'border-active': 'var(--calcite-shadow-border-active)', 
+      'outline-active': 'var(--calcite-shadow-border-active)', 
       'none': 'none',
     },
     colors: {

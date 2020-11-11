@@ -7,7 +7,7 @@
   color: var(--calcite-ui-text-1);
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
-  @include borderShadow();
+  @apply shadow-border-bottom;
 
   --calcite-icon-dot-size: 16px;
 }

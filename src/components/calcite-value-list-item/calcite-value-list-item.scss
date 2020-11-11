@@ -4,7 +4,7 @@
   margin-bottom: 1px;
   display: flex;
   transition: background-color $transition, box-shadow $transition;
-  @include borderShadow();
+  @apply shadow-border-bottom;
 }
 
 calcite-pick-list-item {
@@ -14,8 +14,9 @@ calcite-pick-list-item {
   margin: 0;
 }
 
+:host([active]),
 :host([selected]) {
-  @include borderShadowActive();
+  @apply shadow-outline-active;
 }
 
 .handle {
