@@ -1,19 +1,5 @@
 # calcite-checkbox
 
-calcite-checkbox is used to toggle a value on or off. You can optionally pass in a checkbox. This is useful when using a framework like React to get around their synthetic event handling:
-
-```jsx
-<calcite-checkbox>
-  <input name="myCheckbox" type="checkbox" onChange={this.handleInputChange} />
-</calcite-checkbox>
-```
-
-If you don't pass in an input, calcite-checkbox will act as the source of truth:
-
-```html
-<label> <calcite-checkbox checked="true"></calcite-checkbox> Switch is on </label>
-```
-
 <!-- Auto Generated Below -->
 
 ## Properties

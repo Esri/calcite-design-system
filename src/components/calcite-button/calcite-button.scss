@@ -537,6 +537,9 @@
   &:active {
     background-color: var(--calcite-button-transparent-press);
   }
+  & calcite-loader {
+    color: $color;
+  }
 }
 
 :host([appearance="transparent"][color="blue"]) {
