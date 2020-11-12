@@ -115,17 +115,25 @@
 }
 
 // alignment
-:host([alignment="center"]) button {
-  justify-content: center;
+:host([alignment="center"]:not([width="auto"])) {
+  a, button {
+    justify-content: center;
+  }
 }
-:host([alignment="start"]) button {
-  justify-content: flex-start;
+:host([alignment="start"]:not([width="auto"])) {
+  a, button {
+    justify-content: flex-start;
+  }
 }
-:host([alignment="end"]) button {
-  justify-content: end;
+:host([alignment="end"]:not([width="auto"])) {
+  a, button {
+    justify-content: flex-end;
+  }
 }
-:host([alignment="space-between"]) button {
-  justify-content: space-between;
+:host([alignment="space-between"]:not([width="auto"])) {
+  a, button {
+    justify-content: space-between;
+  }
 }
 
 .calcite-button--icon {
