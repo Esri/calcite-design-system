@@ -13,7 +13,6 @@ import {
 import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import { FocusRequest } from "../../interfaces/Label";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
@@ -283,23 +282,21 @@ export class CalciteSelect {
   //--------------------------------------------------------------------------
 
   renderChevron(): VNode {
-    const rtl = getElementDir(this.el) === "rtl";
-
     return (
-      <div class={{ [CSS.iconContainer]: true, [CSS_UTILITY.rtl]: rtl }}>
+      <div class={{ [CSS.iconContainer]: true }}>
         <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
       </div>
     );
   }
 
   render(): VNode {
-    const rtl = getElementDir(this.el) === "rtl";
+    const dir = getElementDir(this.el);
 
     return (
-      <Host>
+      <Host dir={dir}>
         <select
           aria-label={this.label}
-          class={{ [CSS.select]: true, [CSS_UTILITY.rtl]: rtl }}
+          class={{ [CSS.select]: true }}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
           ref={this.storeSelectRef}

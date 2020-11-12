@@ -44,9 +44,11 @@ describe("calcite-flow", () => {
 
     await page.setContent("<calcite-flow><calcite-panel></calcite-panel></calcite-flow>");
 
-    await page.$eval("calcite-panel", (elm: HTMLCalcitePanelElement) => {
-      elm.beforeBack = this.beforeBack;
-    });
+    await page.$eval(
+      "calcite-panel",
+      (elm: HTMLCalcitePanelElement) =>
+        (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
+    );
 
     const flow = await page.find("calcite-flow");
 

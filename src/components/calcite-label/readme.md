@@ -34,9 +34,9 @@ It allows consumers to set a `status` attribute that child `calcite-input` and `
 
 ## Events
 
-| Event               | Description | Type               |
-| ------------------- | ----------- | ------------------ |
-| `calciteLabelFocus` |             | `CustomEvent<any>` |
+| Event               | Description | Type                        |
+| ------------------- | ----------- | --------------------------- |
+| `calciteLabelFocus` |             | `CustomEvent<FocusRequest>` |
 
 ## Dependencies
 
