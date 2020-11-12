@@ -175,6 +175,15 @@ export class CalciteCheckbox {
     this.checked = this.initialChecked;
   };
 
+  private nativeLabelClickHandler = (event: MouseEvent): void => {
+    if (!this.el.closest("calcite-label") && (event.target as HTMLElement).nodeName === "LABEL") {
+      const target = event.target as HTMLLabelElement;
+      if (this.el.id && target.htmlFor === this.el.id) {
+        this.toggle();
+      }
+    }
+  };
+
   private onInputBlur() {
     this.focused = false;
     this.calciteCheckboxFocusedChange.emit();
@@ -199,6 +208,7 @@ export class CalciteCheckbox {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
+    document.addEventListener("click", this.nativeLabelClickHandler);
   }
 
   disconnectedCallback(): void {
@@ -207,6 +217,7 @@ export class CalciteCheckbox {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
+    document.removeEventListener("click", this.nativeLabelClickHandler);
   }
 
   // --------------------------------------------------------------------------
