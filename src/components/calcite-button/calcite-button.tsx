@@ -52,6 +52,9 @@ export class CalciteButton {
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
+  /** optionally define alignment of button elements. */
+  @Prop({ reflect: true }) alignment?: "start" | "end" | "center" | "space-between" = "center";
+
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
 
