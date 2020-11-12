@@ -36,14 +36,17 @@ describe("calcite-checkbox", () => {
     const input = await page.find("input");
 
     expect(calciteCheckbox).not.toHaveAttribute("checked");
+    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
     expect(input).not.toHaveAttribute("checked");
+    expect(await input.getProperty("checked")).toBe(false);
 
     calciteCheckbox.click();
 
     await page.waitForChanges();
 
     expect(calciteCheckbox).toHaveAttribute("checked");
-    expect(input).toHaveAttribute("checked");
+    expect(await calciteCheckbox.getProperty("checked")).toBe(true);
+    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("appropriately triggers the custom change event", async () => {
@@ -118,12 +121,18 @@ describe("calcite-checkbox", () => {
     const input = await page.find("input");
     const paragraph = await page.find("p");
 
+    expect(calciteCheckbox).not.toHaveAttribute("checked");
+    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
+    expect(input).not.toHaveAttribute("checked");
+    expect(await input.getProperty("checked")).toBe(false);
+
     paragraph.click();
 
     await page.waitForChanges();
 
     expect(calciteCheckbox).toHaveAttribute("checked");
-    expect(input).toHaveAttribute("checked");
+    expect(await calciteCheckbox.getProperty("checked")).toBe(true);
+    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("removing a checkbox also removes the hidden <input type=checkbox> element", async () => {

@@ -109,13 +109,13 @@ describe("calcite-label", () => {
     </calcite-label>
   `);
     const label = await page.find("calcite-label");
-    const checkbox = await page.find("input");
-    const checkboxClass = checkbox["_elmHandle"]["_remoteObject"].description;
+    const input = await page.find("input");
+    const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
     await label.click();
     const activeEl = await page.evaluateHandle(() => document.activeElement);
     const activeElClass = activeEl["_remoteObject"].description;
     expect(activeElClass).toEqual(checkboxClass);
-    expect(checkbox).toHaveAttribute("checked");
+    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("focuses but does not check a wrapped checkbox when tabbed to", async () => {
