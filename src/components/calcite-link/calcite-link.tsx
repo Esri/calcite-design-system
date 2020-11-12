@@ -27,9 +27,6 @@ export class CalciteLink {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the color of the link, defaults to blue */
-  @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
-
   /** is the link disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
@@ -130,7 +127,7 @@ export class CalciteLink {
 
   private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
-    const props = ["color", "dir", "icon", "icon-position", "id", "theme"];
+    const props = ["dir", "icon-end", "icon-start", "id", "theme", "user-select"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
