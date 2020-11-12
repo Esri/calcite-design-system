@@ -5,24 +5,6 @@ module.exports = {
     /**
      * Themeable
      */
-    borderRadius: {
-      none: '0',
-      1: "var(--calcite-border-radius)",
-      half: '50%',
-      full: '100%',
-    },
-    boxShadow: {
-      // assets/styles/_shadow
-      '1-sm': 'var(--calcite-shadow-1-press)',
-      '1': 'var(--calcite-shadow-1)',
-      '1-lg': 'var(--calcite-shadow-1-hover)',
-      '2-sm': 'var(--calcite-shadow-2-press)',
-      '2': 'var(--calcite-shadow-2)',
-      '2-lg': 'var(--calcite-shadow-2-hover)',
-      'border-bottom': 'var(--calcite-shadow-border-bottom)',
-      'outline-active': 'var(--calcite-shadow-border-active)', 
-      'none': 'none',
-    },
     colors: {
       // CalciteColors
       blue: "var(--calcite-ui-blue-1)",
@@ -95,53 +77,68 @@ module.exports = {
       white: theme("colors.background")
     }),
     backgroundColor: theme => theme("colors"),
-    animation: {
-      "in": "in 300ms ease-in-out",
-      "in-down": "in-down 300ms ease-in-out",
-      "in-up": "in-up 300ms ease-in-out",
-      "in-scale": "in-scale 300ms linear"
-    },
-    keyframes: {
-      "in": {
-        "0%": {
-          opacity: 0
-        },
-        "100%": {
-          opacity: 1
-        }
-      },
-      "in-down": {
-        "0%": {
-          opacity: 0,
-          transform: "translate3D(0, -5px, 0)"
-        },
-        "100%": {
-          opacity: 1,
-          transform: "translate3D(0, 0, 0)"
-        }
-      },
-      "in-up": {
-        "0%": {
-          opacity: 0,
-          transform: "translate3D(0, 5px, 0)"
-        },
-        "100%": {
-          opacity: 1,
-          transform: "translate3D(0, 0, 0)"
-        }
-      },
-      "in-scale": {
-        "0%": {
-          opacity: 0,
-          transform: "scale3D(0.95, 0.95, 1)"
-        },
-        "100%": {
-          opacity: 1,
-          transform: "scale3D(1, 1, 1)"
-        }
-      }
-    },
     extend: {
+      animation: {
+        "in": "in 300ms ease-in-out",
+        "in-down": "in-down 300ms ease-in-out",
+        "in-up": "in-up 300ms ease-in-out",
+        "in-scale": "in-scale 300ms linear"
+      },
+      borderRadius: {
+        half: "50%"
+      },
+      boxShadow: {
+        0: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
+        1: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
+        "1-lg": "0 4px 16px 0 rgba(0, 0, 0, 0.08), 0 2px 8px 0 rgba(0, 0, 0, 0.04)",
+        "1-sm": "0 1px 6px -1px rgba(0, 0, 0, 0.16), 0 1px 2px -1px rgba(0, 0, 0, 0.08)",
+        2: "0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08)",
+        "2-lg": "0 12px 32px -2px rgba(0, 0, 0, 0.1), 0 4px 20px 0 rgba(0, 0, 0, 0.08)",
+        "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
+        'border-bottom': 'box-shadow: 0 1px 0 var(--calcite-ui-border-3)',
+        'outline-active': 'box-shadow: 0 0 0 1px var(--calcite-ui-blue-3)', 
+        'none': 'none',
+      },
+      keyframes: {
+        "in": {
+          "0%": {
+            opacity: 0
+          },
+          "100%": {
+            opacity: 1
+          }
+        },
+        "in-down": {
+          "0%": {
+            opacity: 0,
+            transform: "translate3D(0, -5px, 0)"
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translate3D(0, 0, 0)"
+          }
+        },
+        "in-up": {
+          "0%": {
+            opacity: 0,
+            transform: "translate3D(0, 5px, 0)"
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translate3D(0, 0, 0)"
+          }
+        },
+        "in-scale": {
+          "0%": {
+            opacity: 0,
+            transform: "scale3D(0.95, 0.95, 1)"
+          },
+          "100%": {
+            opacity: 1,
+            transform: "scale3D(1, 1, 1)"
+          }
+        }
+      },
       transitionProperty: {
         margin: "margin",
         color: "color"

@@ -54,13 +54,15 @@
 }
 
 ::slotted(calcite-tip-manager) {
-  animation: calcite-fade-in-up $transition;
-  border-radius: var(--calcite-border-radius);
+  @apply
+  rounded
+  shadow-2
+  absolute
+  animate-in-up;
+
   bottom: var(--calcite-spacing-plus-half);
-  box-shadow: var(--calcite-shadow-2);
   box-sizing: border-box;
   left: var(--calcite-shell-tip-spacing);
-  position: absolute;
   right: var(--calcite-shell-tip-spacing);
   z-index: 2;
 }

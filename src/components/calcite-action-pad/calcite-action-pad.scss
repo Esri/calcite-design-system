@@ -2,6 +2,7 @@
   @extend %component-host;
   @extend %component-spacing;
   animation: calcite-fade-in $transition;
+  @apply rounded-sm;
 }
 
 :host([expanded]) {
@@ -15,11 +16,14 @@
 }
 
 .container {
-  display: inline-flex;
-  flex-direction: column;
-  box-shadow: var(--calcite-shadow-2);
+  @apply
+  inline-flex
+  flex-col
+  shadow-2
+  overflow-y-auto
+  rounded;
+
   max-width: 15vw;
-  overflow-y: auto;
 }
 
 .action-group--bottom {

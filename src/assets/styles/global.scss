@@ -3,11 +3,9 @@
 
 /* CSS vars (@include in global) */
 @import "type";
-@import "shadow";
 
 :root {
   @extend %type-vars;
-  @extend %shadow-vars;
   @include calcite-theme-light();
 
   --calcite-border-radius: 3px;  
