@@ -114,6 +114,20 @@
   width: 100%;
 }
 
+// alignment
+:host([alignment="center"]) button {
+  justify-content: center;
+}
+:host([alignment="start"]) button {
+  justify-content: flex-start;
+}
+:host([alignment="end"]) button {
+  justify-content: end;
+}
+:host([alignment="space-between"]) button {
+  justify-content: space-between;
+}
+
 .calcite-button--icon {
   display: inline-flex;
   position: relative;
