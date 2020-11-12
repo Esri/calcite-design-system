@@ -53,7 +53,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) iconStart?: string;
 
   /** optionally define alignment of button elements. */
-  @Prop({ reflect: true }) alignment?: "start" | "end" | "center" | "space-between" = "center";
+  @Prop({ reflect: true }) alignment?: "start" | "end" | "center" | "space-between" | "space-around" = "center";
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;

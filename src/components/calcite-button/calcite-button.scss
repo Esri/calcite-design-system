@@ -135,6 +135,11 @@
     justify-content: space-between;
   }
 }
+:host([alignment="space-around"]:not([width="auto"])) {
+  a, button {
+    justify-content: space-around;
+  }
+}
 
 .calcite-button--icon {
   display: inline-flex;
