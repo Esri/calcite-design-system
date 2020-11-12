@@ -5,21 +5,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [1.0.0-beta.45](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.44...v1.0.0-beta.45) (2020-11-11)
 
-
 ### Bug Fixes
 
-* **button:** Fix loading style in transparent / dark button ([#1256](https://github.com/Esri/calcite-components/issues/1256)) ([5bc33a1](https://github.com/Esri/calcite-components/commit/5bc33a184dcd1da5f249b8646cb38926dd3073a7))
-* **dropdown:** Fix styles in Firefox and Safari ([#1242](https://github.com/Esri/calcite-components/issues/1242)) ([e793d66](https://github.com/Esri/calcite-components/commit/e793d66d24c0d41df77b1495f2b7d5299d932f94))
-* **notice:** prevent text overflow in smaller notices on ie11 ([#1252](https://github.com/Esri/calcite-components/issues/1252)) ([e04108b](https://github.com/Esri/calcite-components/commit/e04108ba5a9d7b102edbf685a4f3b4bb322e689c))
-* **rating:** add props for accessible labels, structure as radio button ([#1264](https://github.com/Esri/calcite-components/issues/1264)) ([eb0bdde](https://github.com/Esri/calcite-components/commit/eb0bdde1d5b0d6cfcf5abc4884d720a428246693))
-* **select:** Fix overlapping text with long options ([#1239](https://github.com/Esri/calcite-components/issues/1239)) ([93cae17](https://github.com/Esri/calcite-components/commit/93cae1750b60492cec41189d0b87b1dcf002bd01))
+- **button:** Fix loading style in transparent / dark button ([#1256](https://github.com/Esri/calcite-components/issues/1256)) ([5bc33a1](https://github.com/Esri/calcite-components/commit/5bc33a184dcd1da5f249b8646cb38926dd3073a7))
+- **dropdown:** Fix styles in Firefox and Safari ([#1242](https://github.com/Esri/calcite-components/issues/1242)) ([e793d66](https://github.com/Esri/calcite-components/commit/e793d66d24c0d41df77b1495f2b7d5299d932f94))
+- **notice:** prevent text overflow in smaller notices on ie11 ([#1252](https://github.com/Esri/calcite-components/issues/1252)) ([e04108b](https://github.com/Esri/calcite-components/commit/e04108ba5a9d7b102edbf685a4f3b4bb322e689c))
+- **rating:** add props for accessible labels, structure as radio button ([#1264](https://github.com/Esri/calcite-components/issues/1264)) ([eb0bdde](https://github.com/Esri/calcite-components/commit/eb0bdde1d5b0d6cfcf5abc4884d720a428246693))
+- **select:** Fix overlapping text with long options ([#1239](https://github.com/Esri/calcite-components/issues/1239)) ([93cae17](https://github.com/Esri/calcite-components/commit/93cae1750b60492cec41189d0b87b1dcf002bd01))
 
 ## [1.0.0-beta.44](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.43...v1.0.0-beta.44) (2020-11-10)
 
-
 ### Bug Fixes
 
-* **date:** fix prev/next month buttons not rendering ([#1243](https://github.com/Esri/calcite-components/issues/1243)) ([357ade1](https://github.com/Esri/calcite-components/commit/357ade17b1fc916be12223ad5b022623ba146bb8))
+- **date:** fix prev/next month buttons not rendering ([#1243](https://github.com/Esri/calcite-components/issues/1243)) ([357ade1](https://github.com/Esri/calcite-components/commit/357ade17b1fc916be12223ad5b022623ba146bb8))
 
 ## [1.0.0-beta.43](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.42...v1.0.0-beta.43) (2020-11-06)
 

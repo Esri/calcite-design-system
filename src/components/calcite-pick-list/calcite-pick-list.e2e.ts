@@ -1,7 +1,13 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { ICON_TYPES } from "./resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
-import { selectionAndDeselection, filterBehavior, disabledStates, keyboardNavigation } from "./shared-list-tests";
+import {
+  selectionAndDeselection,
+  filterBehavior,
+  disabledStates,
+  keyboardNavigation,
+  itemRemoval
+} from "./shared-list-tests";
 import dedent from "dedent";
 
 describe("calcite-pick-list", () => {
@@ -158,6 +164,8 @@ describe("calcite-pick-list", () => {
       });
     });
   });
+
+  describe("item removal", () => itemRemoval("pick"));
 
   describe("disabled states", () => disabledStates("pick"));
 });

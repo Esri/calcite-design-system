@@ -1,6 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSEvalable } from "puppeteer";
 import dedent from "dedent";
+import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
 
 type ListType = "pick" | "value";
 type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
@@ -196,6 +197,7 @@ export function selectionAndDeselection(listType: ListType): void {
 
       expect(numSelected).toBe(3);
     });
+
     it("should multi de-select", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-${listType}-list multiple>
@@ -298,6 +300,7 @@ export function filterBehavior(listType: ListType): void {
   let item2: E2EElement;
   let item1Visible;
   let item2Visible;
+
   beforeEach(async () => {
     page = await newE2EPage();
     await page.setContent(`<calcite-${listType}-list filter-enabled="true">
@@ -317,6 +320,7 @@ export function filterBehavior(listType: ListType): void {
       (window as any).filterInput = filter.shadowRoot.querySelector("input");
     }, listType);
   });
+
   it("should match text in the label prop", async () => {
     // Match first item
     await page.evaluate(() => {
@@ -345,6 +349,7 @@ export function filterBehavior(listType: ListType): void {
     expect(item1Visible).toBe(false);
     expect(item2Visible).toBe(true);
   });
+
   it("should match text in the description prop", async () => {
     // Match first item
     await page.evaluate(() => {
@@ -373,6 +378,7 @@ export function filterBehavior(listType: ListType): void {
     expect(item1Visible).toBe(false);
     expect(item2Visible).toBe(true);
   });
+
   it("should match text in the metadata prop", async () => {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
@@ -417,6 +423,7 @@ export function disabledStates(listType: ListType): void {
     await item1.click();
     expect(toggleSpy).toHaveReceivedEventTimes(0);
   });
+
   it("loading", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-${listType}-list loading>
@@ -429,5 +436,40 @@ export function disabledStates(listType: ListType): void {
 
     await item1.click();
     expect(toggleSpy).toHaveReceivedEventTimes(0);
+  });
+}
+
+export function itemRemoval(listType: ListType): void {
+  it("handles removing items", async () => {
+    const page = await newE2EPage({
+      html: dedent`
+      <calcite-${listType}-list>
+        <calcite-${listType}-list-item value="remove-me" label="Remove me!" removable></calcite-${listType}-list-item>
+      </calcite-${listType}-list>
+    `
+    });
+    const list = await page.find(`calcite-${listType}-list`);
+    const removeItemSpy = await list.spyOnEvent("calciteListItemRemove");
+    const listChangeSpy = await list.spyOnEvent("calciteListChange");
+
+    await page.$eval(
+      `calcite-${listType}-list-item`,
+      (item: ListElement, listType, selector) => {
+        listType === "pick"
+          ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
+          : item.shadowRoot
+              .querySelector<ListElement>("calcite-pick-list-item")
+              .shadowRoot.querySelector<HTMLElement>(selector)
+              .click();
+      },
+      listType,
+      `.${PICK_LIST_ITEM_CSS.remove}`
+    );
+
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-${listType}-list-item`));
+    expect(removeItemSpy).toHaveReceivedEventTimes(1);
+    expect(listChangeSpy).toHaveReceivedEventTimes(1);
   });
 }
