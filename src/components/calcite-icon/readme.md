@@ -18,8 +18,8 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 
 | Property    | Attribute    | Description                                                                                                                         | Type                | Default     |
 | ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `flipRtl`   | `flip-rtl`   | When true, the icon will be flipped when the element direction is 'rtl'.                                                            | `boolean`           | `false`     |
 | `icon`      | `icon`       | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`            | `null`      |
-| `mirrored`  | `mirrored`   | When true, the icon will be mirrored when the element direction is 'rtl'.                                                           | `boolean`           | `false`     |
 | `scale`     | `scale`      | Icon scale. Can be "s" \| "m" \| "l".                                                                                               | `"l" \| "m" \| "s"` | `"m"`       |
 | `textLabel` | `text-label` | The icon label. It is recommended to set this value if your icon is semantic.                                                       | `string`            | `undefined` |
 | `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `undefined` |
@@ -32,6 +32,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-action](../calcite-action)
 - [calcite-alert](../calcite-alert)
 - [calcite-avatar](../calcite-avatar)
+- [calcite-block-section](../calcite-block-section)
 - [calcite-button](../calcite-button)
 - [calcite-chip](../calcite-chip)
 - [calcite-combobox-item](../calcite-combobox-item)
@@ -48,6 +49,8 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-pick-list-item](../calcite-pick-list-item)
 - [calcite-popover](../calcite-popover)
 - [calcite-radio-group-item](../calcite-radio-group-item)
+- [calcite-rating](../calcite-rating)
+- [calcite-select](../calcite-select)
 - [calcite-stepper-item](../calcite-stepper-item)
 - [calcite-tab-title](../calcite-tab-title)
 - [calcite-tile](../calcite-tile)
@@ -62,6 +65,7 @@ graph TD;
   calcite-action --> calcite-icon
   calcite-alert --> calcite-icon
   calcite-avatar --> calcite-icon
+  calcite-block-section --> calcite-icon
   calcite-button --> calcite-icon
   calcite-chip --> calcite-icon
   calcite-combobox-item --> calcite-icon
@@ -79,6 +83,7 @@ graph TD;
   calcite-popover --> calcite-icon
   calcite-radio-group-item --> calcite-icon
   calcite-rating --> calcite-icon
+  calcite-select --> calcite-icon
   calcite-stepper-item --> calcite-icon
   calcite-tab-title --> calcite-icon
   calcite-tile --> calcite-icon

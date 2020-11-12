@@ -3,22 +3,21 @@
   @include calcite-theme-dark();
 }
 
-// ie11
-:host-context([scale="s"]) {
+:host([scale="s"]) {
   @apply text--2;
   .dropdown-title {
     @apply py-3 mt-0 mx-3;
   }
 }
 
-:host-context([scale="m"]) {
+:host([scale="m"]) {
   @apply text--1;
   .dropdown-title {
     @apply py-4 mt-0 mx-4;
   }
 }
 
-:host-context([scale="l"]) {
+:host([scale="l"]) {
   @apply text-1;
   .dropdown-title {
     @apply py-5 mt-0 mx-5;

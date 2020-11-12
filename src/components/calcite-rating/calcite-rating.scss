@@ -1,139 +1,98 @@
 :host([scale="s"]) {
-  --calcite-rating-spacing-unit: 4px;
-}
-
-:host,
-:host([scale="m"]) {
-  --calcite-rating-spacing-unit: 8px;
-}
-
-:host([scale="l"]) {
-  --calcite-rating-spacing-unit: 12px;
+  --calcite-rating-spacing-unit: theme("spacing.1");
 }
 
 :host {
-  display: flex;
-  align-items: center;
+  --calcite-rating-spacing-unit: theme("spacing.2");
+}
+
+:host([scale="l"]) {
+  --calcite-rating-spacing-unit: theme("spacing.3");
+}
+
+:host {
+  @apply flex items-center relative;
   width: fit-content;
-  position: relative;
 }
 
 :host([disabled]) {
-  opacity: 0.4;
-  pointer-events: none;
+  @apply pointer-events-none opacity-50;
 }
 
 :host([read-only]) {
-  pointer-events: none;
+  @apply pointer-events-none;
 }
 
-:host(:not([read-only])) calcite-icon {
+.fieldset {
+  @apply p-0 m-0 border-0 flex flex-no-wrap relative;
+}
+
+.wrapper {
+  margin-right: var(--calcite-rating-spacing-unit);
+}
+
+:host([dir="rtl"]) .wrapper {
+  margin-right: 0;
+  margin-left: var(--calcite-rating-spacing-unit);
+}
+
+.star {
+  @include focus-style-base();
+  @apply relative inline-block;
+  color: var(--calcite-ui-border-1);
   transition: $transition;
+  transform: scale(1);
   cursor: pointer;
   &:active {
     transform: scale(1.1);
   }
 }
 
-// container for icon items
-:host .calcite-rating-item-container {
-  display: flex;
-  flex-wrap: nowrap;
-  position: relative;
+.focused {
+  @include focus-style-outset();
 }
 
-// focus styles
-:host calcite-icon {
-  @include focus-style-base();
-
-  &:focus {
-    @include focus-style-outset();
-  }
-}
-
-:host calcite-icon {
-  pointer-events: default;
-  &:not(:last-of-type) {
-    margin-right: var(--calcite-rating-spacing-unit);
-  }
-}
-:host([dir="rtl"]) calcite-icon:not(:last-of-type) {
-  margin-right: 0;
-  margin-left: var(--calcite-rating-spacing-unit);
-}
-
-:host calcite-icon {
-  color: var(--calcite-ui-text-3);
-  box-sizing: border-box;
-}
-:host([read-only]) calcite-icon:not([data-selected="true"]) {
-  color: var(--calcite-ui-border-1);
-}
-
-:host calcite-icon[data-average="true"],
-:host calcite-icon[data-partial="true"],
-:host calcite-icon[data-average="true"][date-selected="false"] {
+.average,
+.fraction {
   color: var(--calcite-ui-yellow-1);
 }
 
-:host calcite-icon[data-partial="true"] {
+.hovered,
+.selected,
+:host([read-only]) .average,
+:host([read-only]) .fraction {
+  color: var(--calcite-ui-blue-1);
 }
 
-:host .partial-rating-star-container {
+.hovered:not(.selected) {
+  transform: scale(0.9);
+}
+
+:host .fraction {
   position: absolute;
   overflow: hidden;
   pointer-events: none;
   top: 0;
+  left: 0;
   transition: $transition;
-  &:hover {
-    transform: scale(0.9);
-  }
 }
 
-// handle hiding of our partial star
-:host
-  calcite-icon[data-partialparent="true"]:hover
-  ~ .partial-rating-star-container
-  :host
-  calcite-icon[data-partialparent="true"]:focus
-  ~ .partial-rating-star-container {
-  opacity: 0;
-}
-
-:host .partial-rating-star-container[data-partialhidden="true"] {
-  opacity: 0;
-}
-
-:host([read-only]) calcite-icon[data-average="true"],
-:host([disabled]) calcite-icon[data-average="true"],
-:host([read-only]) calcite-icon[data-partial="true"],
-:host([disabled]) calcite-icon[data-partial="true"],
-:host calcite-icon[data-selected="true"],
-:host calcite-icon[data-hovered="true"] {
-  color: var(--calcite-ui-blue-1);
-}
-
-:host calcite-icon[data-hovered="true"]:not([data-selected="true"]) {
-  transform: scale(0.9);
+:host([dir="rtl"]) .fraction {
+  right: 0;
+  left: unset;
 }
 
 // rating count
-:host calcite-chip {
-  margin-left: var(--calcite-rating-spacing-unit);
+calcite-chip {
   cursor: default;
   pointer-events: none;
 }
 
-:host([dir="rtl"]) calcite-chip {
-  margin-right: var(--calcite-rating-spacing-unit);
-  margin-left: 0;
-}
-
-:host .calcite-rating-average {
+.number--average {
   font-weight: 700;
 }
 
-:host .calcite-rating-count {
+.number--count {
   font-style: italic;
   color: var(--calcite-ui-text-2);
   &:not(:first-child) {
@@ -141,7 +100,11 @@
   }
 }
 
-:host([dir="rtl"]) .calcite-rating-count:not(:first-child) {
+:host([dir="rtl"]) .number--count:not(:first-child) {
   margin-right: var(--calcite-rating-spacing-unit);
   margin-left: 0;
+}
+
+.visually-hidden {
+  @apply sr-only;
 }
