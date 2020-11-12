@@ -1,4 +1,10 @@
-@keyframes calcite-fade-in {
+/**
+* TODO:
+* Get the keyframes in tailwind config to work
+* so that this include can be removed.
+*/
+
+@keyframes in {
   0% {
     opacity: 0;
   }
@@ -7,7 +13,7 @@
   }
 }
 
-@keyframes calcite-fade-in-down {
+@keyframes in-down {
   0% {
     opacity: 0;
     transform: translate3D(0, -5px, 0);
@@ -18,7 +24,7 @@
   }
 }
 
-@keyframes calcite-fade-in-up {
+@keyframes in-up {
   0% {
     opacity: 0;
     transform: translate3D(0, 5px, 0);
@@ -29,7 +35,7 @@
   }
 }
 
-@keyframes calcite-fade-in-scale {
+@keyframes in-scale {
   0% {
     opacity: 0;
     transform: scale3D(0.95, 0.95, 1);

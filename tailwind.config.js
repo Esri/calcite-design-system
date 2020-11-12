@@ -1,10 +1,18 @@
 const plugin = require('tailwindcss/plugin');
+var flattenColorPalette = require('tailwindcss/lib/util/flattenColorPalette').default;
 
 module.exports = {
   theme: {
     /**
      * Themeable
      */
+    borderColor: {
+      "color1": "var(--calcite-ui-border-1)",
+      "color2": "var(--calcite-ui-border-2)",
+      "color3": "var(--calcite-ui-border-3)",
+      "color4": "var(--calcite-ui-border-4)",
+      "color5": "var(--calcite-ui-border-5)",
+    },
     colors: {
       // CalciteColors
       blue: "var(--calcite-ui-blue-1)",
@@ -21,13 +29,6 @@ module.exports = {
         1: "var(--calcite-ui-text-1)",
         2: "var(--calcite-ui-text-2)",
         3: "var(--calcite-ui-text-3)",
-      },
-      border: {
-        1: "var(--calcite-ui-border-1)",
-        2: "var(--calcite-ui-border-2)",
-        3: "var(--calcite-ui-border-3)",
-        4: "var(--calcite-ui-border-4)",
-        5: "var(--calcite-ui-border-5)",
       },
       transparent: "transparent"
     },
@@ -149,7 +150,7 @@ module.exports = {
     }
   },
   plugins: [
-    plugin(function({ addUtilities }){
+    ({ addUtilities }) => {
       const newUtilities = {
         ".word-break": {
           "word-wrap": "break-word",
@@ -171,7 +172,22 @@ module.exports = {
         // TODO: focus-box-shadow
       }
       addUtilities(newUtilities);
-    })
+    },
+    ({ addUtilities, e, theme, variants }) => {
+      const colors = flattenColorPalette(theme('borderColor'));
+      delete colors['default'];
+
+      const colorMap = Object.keys(colors)
+        .map(color => ({
+          [`.border-t-${color}`]: {borderTopColor: colors[color]},
+          [`.border-r-${color}`]: {borderRightColor: colors[color]},
+          [`.border-b-${color}`]: {borderBottomColor: colors[color]},
+          [`.border-l-${color}`]: {borderLeftColor: colors[color]},
+        }));
+      const utilities = Object.assign({}, ...colorMap);
+
+      addUtilities(utilities, variants('borderColor'));
+    },
   ],
   future: {
     removeDeprecatedGapUtilities: true,

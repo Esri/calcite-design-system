@@ -1,8 +1,7 @@
 :host {
   @extend %component-host;
   @extend %component-spacing;
-  animation: calcite-fade-in $transition;
-  @apply rounded-sm;
+  @apply rounded-sm animate-in;
 }
 
 :host([expanded]) {
@@ -10,9 +9,12 @@
 }
 
 ::slotted(calcite-action-group) {
-  border-bottom: 1px solid var(--calcite-ui-border-2);
-  padding-bottom: 0;
-  padding-top: 0;
+  @apply
+  border-0
+  border-solid
+  border-b
+  border-color3
+  pb-0 pt-0;
 }
 
 .container {
@@ -27,31 +29,29 @@
 }
 
 .action-group--bottom {
-  padding-bottom: 0;
-  flex-grow: 1;
-  justify-content: flex-end;
+  @apply pb-0 flex-grow justify-end;
 }
 
 :host([layout="horizontal"]) {
   .container {
-    flex-direction: row;
+    @apply flex-row;
     max-width: unset;
     .action-group--bottom {
-      padding: 0;
+      @apply p-0;
     }
     ::slotted(calcite-action-group) {
-      border-right: 1px solid var(--calcite-ui-border-3);
-      border-bottom: none;
-      flex-direction: row;
-      padding: 0;
+      @apply
+      border-0
+      border-r
+      flex-row
+      p-0;
     }
   }
   .container.calcite--rtl ::slotted(calcite-action-group) {
-    border-right: none;
-    border-left: 1px solid var(--calcite-ui-border-3);
+    @apply border-0 border-l;
   }
 }
 
 ::slotted(calcite-action-group:last-child) {
-  border-bottom: none;
+  @apply border-b-0
 }
