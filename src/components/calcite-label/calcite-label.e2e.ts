@@ -118,6 +118,42 @@ describe("calcite-label", () => {
     expect(await input.getProperty("checked")).toBe(true);
   });
 
+  it("focuses and checks a wrapped native checkbox when clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label>
+    Label text
+    <input type="checkbox">
+    </calcite-label>
+  `);
+    const label = await page.find("calcite-label");
+    const input = await page.find("input");
+    const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
+    await label.click();
+    const activeEl = await page.evaluateHandle(() => document.activeElement);
+    const activeElClass = activeEl["_remoteObject"].description;
+    expect(activeElClass).toEqual(checkboxClass);
+    expect(await input.getProperty("checked")).toBe(true);
+  });
+
+  it("focuses and checks a wrapped native checkbox with for when clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-label for="native">
+    Label text
+    <input id="native" type="checkbox">
+    </calcite-label>
+  `);
+    const label = await page.find("calcite-label");
+    const input = await page.find("input");
+    const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
+    await label.click();
+    const activeEl = await page.evaluateHandle(() => document.activeElement);
+    const activeElClass = activeEl["_remoteObject"].description;
+    expect(activeElClass).toEqual(checkboxClass);
+    expect(await input.getProperty("checked")).toBe(true);
+  });
+
   it("focuses but does not check a wrapped checkbox when tabbed to", async () => {
     const page = await newE2EPage();
     await page.setContent(`
