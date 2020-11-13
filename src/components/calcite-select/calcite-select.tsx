@@ -138,7 +138,7 @@ export class CalciteSelect {
 
   private handleInternalSelectChange = (): void => {
     this.selectFromNativeOption(this.selectEl.selectedOptions[0]);
-    this.calciteSelectChange.emit();
+    requestAnimationFrame(this.emitChangeEvent);
   };
 
   @Listen("calciteOptionChange")
@@ -274,6 +274,10 @@ export class CalciteSelect {
       option.selected = false;
     });
   }
+
+  private emitChangeEvent = (): void => {
+    this.calciteSelectChange.emit();
+  };
 
   //--------------------------------------------------------------------------
   //

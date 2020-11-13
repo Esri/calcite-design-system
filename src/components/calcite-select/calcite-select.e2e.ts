@@ -300,4 +300,37 @@ describe("calcite-select", () => {
       expect(await internalSelect.findAll("optgroup")).toHaveLength(2);
     });
   });
+
+  it("item is selected before change event", async () => {
+    const page = await newE2EPage({
+      html: dedent`
+          <calcite-select>
+            <calcite-option id="1">uno</calcite-option>
+            <calcite-option id="2">dos</calcite-option>
+            <calcite-option id="3">tres</calcite-option>
+          </calcite-select>
+        `
+    });
+
+    type TestWindow = typeof window & { selectedOptionId: string };
+
+    await page.evaluate(() => {
+      document.querySelector("calcite-select").addEventListener("calciteSelectChange", (event) => {
+        (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
+          "calcite-option[selected]"
+        ).id;
+      });
+    });
+
+    const internalSelect = await page.evaluateHandle(() =>
+      document.querySelector("calcite-select").shadowRoot.querySelector("select")
+    );
+
+    await internalSelect.asElement().select("dos");
+    await page.waitForChanges();
+
+    const selectedOptionId = await page.evaluate(() => (window as TestWindow).selectedOptionId);
+
+    expect(selectedOptionId).toBe("2");
+  });
 });
