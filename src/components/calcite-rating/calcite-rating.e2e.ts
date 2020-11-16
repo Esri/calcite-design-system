@@ -337,22 +337,22 @@ describe("calcite-rating", () => {
     expect(changeEvent).toHaveReceivedEventDetail({
       value: 1
     });
-    await page.keyboard.press("ArrowRight");
+    await element.press("ArrowRight");
     expect(changeEvent).toHaveReceivedEventTimes(2);
     expect(changeEvent).toHaveReceivedEventDetail({
       value: 2
     });
-    await page.keyboard.press("ArrowLeft");
+    await element.press("ArrowLeft");
     expect(changeEvent).toHaveReceivedEventTimes(3);
     expect(changeEvent).toHaveReceivedEventDetail({
       value: 1
     });
-    await page.keyboard.press("ArrowLeft");
+    await element.press("ArrowLeft");
     expect(changeEvent).toHaveReceivedEventTimes(4);
     expect(changeEvent).toHaveReceivedEventDetail({
       value: 5
     });
-    await page.keyboard.press("ArrowRight");
+    await element.press("ArrowRight");
     expect(changeEvent).toHaveReceivedEventTimes(5);
     expect(changeEvent).toHaveReceivedEventDetail({
       value: 1
