@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { select, text } from "@storybook/addon-knobs";
+import { select, text, number } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
@@ -23,9 +23,9 @@ storiesOf("Components/Input", module)
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-      min="${text("min", "")}"
-      max="${text("max", "")}"
-      step="${text("step", "")}"
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      step="${number("step", 1)}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       ${boolean("loading", false)}
@@ -65,9 +65,9 @@ storiesOf("Components/Input", module)
       status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
       alignment="${select("alignment", ["start", "end"], "start", "Input")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal", "Input")}"
-      min="${text("min", "", "Input")}"
-      max="${text("max", "", "Input")}"
-      step="${text("step", "", "Input")}"
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      step="${number("step", 1)}"
       prefix-text="${text("prefix-text", "", "Input")}"
       suffix-text="${text("suffix-text", "", "Input")}"
       ${boolean("loading", false, "Input")}
@@ -101,9 +101,9 @@ storiesOf("Components/Input", module)
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-      min="${text("min", "")}"
-      max="${text("max", "")}"
-      step="${text("step", "")}"
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      step="${number("step", 1)}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       ${boolean("loading", false)}
@@ -132,9 +132,9 @@ storiesOf("Components/Input", module)
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-      min="${text("min", "")}"
-      max="${text("max", "")}"
-      step="${text("step", "")}"
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      step="${number("step", 1)}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       ${boolean("loading", false)}
@@ -195,9 +195,9 @@ storiesOf("Components/Input", module)
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-      min="${text("min", "")}"
-      max="${text("max", "")}"
-      step="${text("step", "")}"
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      step="${number("step", 1)}"
       prefix-text="${text("prefix-text", "")}"
       suffix-text="${text("suffix-text", "")}"
       ${boolean("loading", false)}

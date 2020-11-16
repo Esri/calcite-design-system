@@ -1,17 +1,17 @@
 import { storiesOf } from "@storybook/html";
-import { boolean, select } from "@storybook/addon-knobs";
-
+import { select } from "@storybook/addon-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
 storiesOf("Components/Alert", module)
   .addParameters({ notes: readme })
   .add(
-    "Alert - title, message, link",
+    "Title, message, link",
     (): string => `
     <calcite-alert
     theme="light"
-    icon="${boolean("icon", true)}"
+    ${boolean("icon", true)}
     auto-dismiss="${boolean("auto-dismiss", false)}"
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
@@ -26,11 +26,11 @@ storiesOf("Components/Alert", module)
   `
   )
   .add(
-    "Alert - title, message",
+    "Title, message",
     (): string => `
     <calcite-alert
     theme="light"
-    icon="${boolean("icon", true)}"
+    ${boolean("icon", true)}
     auto-dismiss="${boolean("auto-dismiss", false)}"
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
@@ -44,11 +44,11 @@ storiesOf("Components/Alert", module)
   `
   )
   .add(
-    "Alert - message, link",
+    "Message, link",
     (): string => `
     <calcite-alert
     theme="light"
-    icon="${boolean("icon", true)}"
+    ${boolean("icon", true)}
     auto-dismiss="${boolean("auto-dismiss", false)}"
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
@@ -62,11 +62,11 @@ storiesOf("Components/Alert", module)
   `
   )
   .add(
-    "Alert - message",
+    "Message",
     (): string => `
     <calcite-alert
     theme="light"
-    icon="${boolean("icon", true)}"
+    ${boolean("icon", true)}
     auto-dismiss="${boolean("auto-dismiss", false)}"
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
@@ -79,7 +79,25 @@ storiesOf("Components/Alert", module)
   `
   )
   .add(
-    "Alert - Queue",
+    "Custom icon",
+    (): string => `
+    <calcite-alert
+    theme="light"
+    icon="${select("icon", iconNames, iconNames[0])}"
+    auto-dismiss="${boolean("auto-dismiss", false)}"
+    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
+    active="${boolean("active", true)}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
+    <div slot="alert-message">
+     Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer
+    </div>
+    <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
+  </calcite-alert>
+  `
+  )
+  .add(
+    "Queue",
     (): string => `
    <div>
     <h5>Open or add to queue</h5>
@@ -95,7 +113,7 @@ storiesOf("Components/Alert", module)
       <calcite-alert
       id="one"
       theme="light"
-      icon="${boolean("icon", true)}"
+      icon
       color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
       <div slot="alert-title">Your great thing happened</div>
       <div slot="alert-message">
@@ -106,7 +124,7 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     id="two"
     theme="light"
-    icon="${boolean("icon-2", true)}"
+    icon
     color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}">
     <div slot="alert-title">Your great thing happened</div>
     <div slot="alert-message">
@@ -117,7 +135,7 @@ storiesOf("Components/Alert", module)
     <calcite-alert
       data-custom-id="my-id"
       theme="light"
-      icon="${boolean("icon-3", true)}"
+      icon
       color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}">
       <div slot="alert-title">That didn't work out</div>
       <div slot="alert-message">
@@ -129,11 +147,11 @@ storiesOf("Components/Alert", module)
   `
   )
   .add(
-    "Alert - Dark Theme",
+    "Dark Theme",
     (): string => `
     <calcite-alert
     theme="dark"
-    icon="${boolean("icon", true)}"
+    ${boolean("icon", true)}
     auto-dismiss="${boolean("auto-dismiss", false)}"
   auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"
@@ -149,7 +167,7 @@ storiesOf("Components/Alert", module)
     { backgrounds: darkBackground }
   )
   .add(
-    "Alert - Dark Theme Queue",
+    "Dark Theme Queue",
     (): string => `
    <div>
     <h5 style="color:white">Open or add to queue</h5>
@@ -165,7 +183,7 @@ storiesOf("Components/Alert", module)
       <calcite-alert
       id="one"
       theme="dark"
-      icon="${boolean("icon", true)}"
+      icon
       color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
       <div slot="alert-title">Your great thing happened</div>
       <div slot="alert-message">
@@ -176,7 +194,7 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     id="two"
     theme="dark"
-    icon="${boolean("icon-2", true)}"
+    icon
     color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}">
     <div slot="alert-title">Your great thing happened</div>
     <div slot="alert-message">
@@ -187,7 +205,7 @@ storiesOf("Components/Alert", module)
     <calcite-alert
       data-custom-id="my-id"
       theme="dark"
-      icon="${boolean("icon-3", true)}"
+      icon
       color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}">
       <div slot="alert-message">
         That thing you wanted to do didn't work out so well.
@@ -198,12 +216,12 @@ storiesOf("Components/Alert", module)
     { backgrounds: darkBackground }
   )
   .add(
-    "Alert - RTL",
+    "RTL",
     (): string => `
     <div dir="rtl">
     <calcite-alert
     theme="light"
-    icon="${boolean("icon", true)}"
+    ${boolean("icon", true)}
     auto-dismiss="${boolean("auto-dismiss", false)}"
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
     active="${boolean("active", true)}"

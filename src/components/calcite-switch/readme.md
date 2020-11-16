@@ -20,7 +20,6 @@ If you don't pass in an input, calcite-switch will act as the source of truth:
 
 | Property   | Attribute  | Description                        | Type                | Default     |
 | ---------- | ---------- | ---------------------------------- | ------------------- | ----------- |
-| `color`    | `color`    | What color the switch should be    | `"blue" \| "red"`   | `"blue"`    |
 | `disabled` | `disabled` | True if the switch is disabled     | `boolean`           | `false`     |
 | `name`     | `name`     | The name of the checkbox input     | `string`            | `""`        |
 | `scale`    | `scale`    | The scale of the switch            | `"l" \| "m" \| "s"` | `"m"`       |

@@ -74,15 +74,25 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  onClick(event: MouseEvent): void {
-    const forAttr = this.el.getAttribute("for");
-    this.calciteLabelFocus.emit({
-      labelEl: this.el,
-      interactedEl: event.target as HTMLElement,
-      requestedInput: forAttr
-    });
-    if (forAttr) {
-      document.getElementById(forAttr).click();
+  onClick({ target }: MouseEvent): void {
+    if (
+      (target === this.el) ||
+      (target === this.labelEl) ||
+      (target === this.spanEl)
+    ) {
+      const forAttr = this.el.getAttribute("for");
+      this.calciteLabelFocus.emit({
+        labelEl: this.el,
+        interactedEl: target as HTMLElement,
+        requestedInput: forAttr
+      });
+      const inputForThisLabel: HTMLElement = forAttr ? document.getElementById(forAttr) : this.el.querySelector("input");
+      if (
+        (inputForThisLabel && inputForThisLabel.nodeName.startsWith("CALCITE-")) ||
+        (inputForThisLabel && inputForThisLabel.nodeName === "INPUT" && target === this.el)
+      ) {
+        inputForThisLabel.click();
+      }
     }
   }
 
@@ -118,14 +128,12 @@ export class CalciteLabel {
   }
 
   componentDidLoad(): void {
-    const labelNode = this.el.querySelector("label");
-    labelNode.childNodes.forEach((childNode) => {
+    this.labelEl.childNodes.forEach((childNode) => {
       if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
-        const newChildNode = document.createElement("span");
-        newChildNode.classList.add("calcite-label-text");
-        const newChildNodeText = document.createTextNode(childNode.textContent.trim());
-        newChildNode.appendChild(newChildNodeText);
-        childNode.parentNode.replaceChild(newChildNode, childNode);
+        this.spanEl = document.createElement("span");
+        this.spanEl.classList.add("calcite-label-text");
+        this.spanEl.appendChild(document.createTextNode(childNode.textContent.trim()));
+        childNode.parentNode.replaceChild(this.spanEl, childNode);
       }
     });
     if (this.disabled) this.setDisabledControls();
@@ -136,7 +144,7 @@ export class CalciteLabel {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
-        <label {...attributes} ref={(el) => (this.childLabelEl = el)}>
+        <label {...attributes} ref={(el) => (this.labelEl = el)}>
           <slot />
         </label>
       </Host>
@@ -149,7 +157,10 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   // the rendered wrapping label element
-  private childLabelEl: HTMLLabelElement;
+  private labelEl: HTMLLabelElement;
+
+  // the span element that contains the computed label text
+  private spanEl: HTMLSpanElement;
 
   //--------------------------------------------------------------------------
   //
@@ -158,7 +169,7 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   private setDisabledControls() {
-    this.childLabelEl?.childNodes.forEach((item) => {
+    this.labelEl?.childNodes.forEach((item) => {
       if (item.nodeName.includes("CALCITE")) {
         (item as HTMLElement).setAttribute("disabled", "");
       }

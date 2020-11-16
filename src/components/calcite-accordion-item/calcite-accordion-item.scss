@@ -8,21 +8,21 @@
   --calcite-accordion-item-spacing-unit: #{$baseline/3};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
-  @include font-size(-3);
+  @apply text--2;
 }
 
 :host-context([scale="m"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline/2};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
-  @include font-size(-2);
+  @apply text--1;
 }
 
 :host-context([scale="l"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
-  @include font-size(-1);
+  @apply text-1;
 }
 
 // icon position variants for child

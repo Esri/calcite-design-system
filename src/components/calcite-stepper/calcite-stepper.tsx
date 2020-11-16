@@ -12,6 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { IESTYLES } from "./calcite-stepper.resources";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -50,11 +51,15 @@ export class CalciteStepper {
   @Prop({ reflect: true }) theme: "light" | "dark";
 
   /** @internal */
-  @Prop() requestedContent: HTMLElement[] | HTMLElement;
+  @Prop() requestedContent: HTMLElement[] | NodeListOf<any>;
 
   // watch for removal of disabled to register step
   @Watch("requestedContent") contentWatcher(): void {
-    this.updateContent(this.requestedContent);
+    if (this.layout === "horizontal") {
+      if (!this.stepperContentContainer && this.requestedContent)
+        this.addHorizontalContentContainer();
+      this.updateContent(this.requestedContent);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -70,7 +75,6 @@ export class CalciteStepper {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
     if (!this.currentPosition) {
@@ -80,17 +84,16 @@ export class CalciteStepper {
     }
   }
 
+  componentWillLoad() {
+    if (this.layout === "horizontal" && !this.stepperContentContainer)
+      this.addHorizontalContentContainer();
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
         <slot />
-        {this.layout === "horizontal" ? (
-          <div
-            class="stepper-content"
-            ref={(el) => (this.stepperContentContainer = el as HTMLDivElement)}
-          />
-        ) : null}
       </Host>
     );
   }
@@ -132,15 +135,13 @@ export class CalciteStepper {
       position: event.detail.position,
       content: event.detail.content
     };
-    if (item.content !== null && item.item.active) this.requestedContent = [item.content];
+    if (item.content && item.item.active) this.requestedContent = item.content;
     if (!this.items.includes(item)) this.items.push(item);
     this.sortedItems = this.sortItems();
   }
 
   @Listen("calciteStepperItemSelect") updateItem(event: CustomEvent): void {
-    if (event.detail.content)
-      this.requestedContent =
-        event.detail.content.length > 0 ? event.detail.content : [event.detail.content];
+    if (event.detail.content) this.requestedContent = event.detail.content;
     this.currentPosition = event.detail.position;
     this.calciteStepperItemChange.emit({
       position: this.currentPosition
@@ -207,7 +208,7 @@ export class CalciteStepper {
   /** keep track of the currently active item position */
   private currentPosition: number;
 
-  /** the referenced content container element */
+  /** the container where we place horizontal layout step content */
   private stepperContentContainer: HTMLDivElement;
 
   //--------------------------------------------------------------------------
@@ -216,18 +217,27 @@ export class CalciteStepper {
   //
   //--------------------------------------------------------------------------
 
-  private emitChangedItem() {
+  private addHorizontalContentContainer(): void {
+    this.stepperContentContainer = document.createElement("div") as HTMLDivElement;
+    this.stepperContentContainer.classList.add("calcite-stepper-content");
+    // handle ie styles
+    const isIE = !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
+    if (isIE) this.stepperContentContainer.style.cssText = IESTYLES;
+    this.el.insertAdjacentElement("beforeend", this.stepperContentContainer);
+  }
+
+  private emitChangedItem(): void {
     this.calciteStepperItemChange.emit({
       position: this.currentPosition
     });
   }
 
-  private focusFirstItem() {
+  private focusFirstItem(): void {
     const firstItem = this.sortedItems[0];
     this.focusElement(firstItem);
   }
 
-  private focusLastItem() {
+  private focusLastItem(): void {
     const lastItem = this.sortedItems[this.sortedItems.length - 1];
     this.focusElement(lastItem);
   }
@@ -263,9 +273,21 @@ export class CalciteStepper {
   }
 
   private updateContent(content) {
-    if (this.stepperContentContainer) {
-      this.stepperContentContainer.innerHTML = ``;
+    this.stepperContentContainer.innerHTML = "";
+    // handle ie
+    const isIE = !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
+    if (!isIE) {
       this.stepperContentContainer.append(...content);
+    } else {
+      // handle ie content
+      content.forEach((contentItem) => {
+        if (contentItem.nodeName === "#text") {
+          const text = document.createTextNode(contentItem.textContent.trim());
+          if (text.length > 0) this.stepperContentContainer.appendChild(text);
+        } else if (contentItem.nodeName) {
+          this.stepperContentContainer.insertAdjacentHTML("beforeend", contentItem.outerHTML);
+        } else return;
+      });
     }
   }
 }

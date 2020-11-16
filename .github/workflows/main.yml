@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: move to next milestone
-        uses: jcfranco/actions-milestone-sync@aed539478f3c52958c3f5e22bd6d4a185532d855
+        uses: jcfranco/actions-milestone-sync@1e6c074cad4d8d627128f25a46d72eced6f5da45
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
 

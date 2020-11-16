@@ -18,19 +18,21 @@ Basic Usage:
 
 ## Properties
 
-| Property           | Attribute            | Description                                                                                              | Type                                               | Default     |
-| ------------------ | -------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- |
-| `color`            | `color`              | specify the color of the control, defaults to blue                                                       | `"blue" \| "dark" \| "light" \| "red"`             | `"blue"`    |
-| `disabled`         | `disabled`           | is the control disabled                                                                                  | `boolean`                                          | `undefined` |
-| `dropdownIconType` | `dropdown-icon-type` | specify the icon used for the dropdown menu, defaults to chevron                                         | `"caret" \| "chevron" \| "ellipsis" \| "overflow"` | `"chevron"` |
-| `dropdownLabel`    | `dropdown-label`     | aria label for overflow button                                                                           | `string`                                           | `undefined` |
-| `loading`          | `loading`            | optionally add a calcite-loader component to the control, disabling interaction. with the primary button | `boolean`                                          | `false`     |
-| `primaryIconEnd`   | `primary-icon-end`   | optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names      | `string`                                           | `undefined` |
-| `primaryIconStart` | `primary-icon-start` | optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names    | `string`                                           | `undefined` |
-| `primaryLabel`     | `primary-label`      | optionally pass an aria-label for the primary button                                                     | `string`                                           | `undefined` |
-| `primaryText`      | `primary-text`       | text for primary action button                                                                           | `string`                                           | `undefined` |
-| `scale`            | `scale`              | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s"`                                | `"m"`       |
-| `theme`            | `theme`              | select theme (light or dark), defaults to light                                                          | `"dark" \| "light"`                                | `undefined` |
+| Property             | Attribute               | Description                                                                                              | Type                                               | Default     |
+| -------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- |
+| `appearance`         | `appearance`            | specify the appearance style of the button, defaults to solid.                                           | `"clear" \| "outline" \| "solid" \| "transparent"` | `"solid"`   |
+| `color`              | `color`                 | specify the color of the control, defaults to blue                                                       | `"blue" \| "dark" \| "light" \| "red"`             | `"blue"`    |
+| `disabled`           | `disabled`              | is the control disabled                                                                                  | `boolean`                                          | `undefined` |
+| `dropdownIconType`   | `dropdown-icon-type`    | specify the icon used for the dropdown menu, defaults to chevron                                         | `"caret" \| "chevron" \| "ellipsis" \| "overflow"` | `"chevron"` |
+| `dropdownLabel`      | `dropdown-label`        | aria label for overflow button                                                                           | `string`                                           | `undefined` |
+| `loading`            | `loading`               | optionally add a calcite-loader component to the control, disabling interaction. with the primary button | `boolean`                                          | `false`     |
+| `primaryIconEnd`     | `primary-icon-end`      | optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names      | `string`                                           | `undefined` |
+| `primaryIconFlipRtl` | `primary-icon-flip-rtl` | flip the primary icon(s) in rtl                                                                          | `"both" \| "end" \| "start"`                       | `undefined` |
+| `primaryIconStart`   | `primary-icon-start`    | optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names    | `string`                                           | `undefined` |
+| `primaryLabel`       | `primary-label`         | optionally pass an aria-label for the primary button                                                     | `string`                                           | `undefined` |
+| `primaryText`        | `primary-text`          | text for primary action button                                                                           | `string`                                           | `undefined` |
+| `scale`              | `scale`                 | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s"`                                | `"m"`       |
+| `theme`              | `theme`                 | select theme (light or dark), defaults to light                                                          | `"dark" \| "light"`                                | `undefined` |
 
 ## Events
 

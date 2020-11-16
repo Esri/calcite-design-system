@@ -9,6 +9,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { GroupRegistration, ItemRegistration } from "../../interfaces/Dropdown";
 
 @Component({
@@ -82,6 +83,8 @@ export class CalciteDropdownGroup {
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
+    const scale = getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
       <span class="dropdown-title" ref={this.setDropdownTitleRef}>
         {this.groupTitle}
@@ -94,7 +97,7 @@ export class CalciteDropdownGroup {
       ) : null;
 
     return (
-      <Host>
+      <Host dir={dir} scale={scale}>
         {dropdownSeparator}
         {groupTitle}
         <slot />

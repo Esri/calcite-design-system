@@ -118,3 +118,16 @@ export function getDescribedByElement<T extends Element>(element: Element): T | 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
   return labelEl.contains(el);
 }
+
+// set a default icon from a defined set or allow an override with an icon name string
+export function setRequestedIcon(
+  iconObject: Record<string, string>,
+  iconValue: string | boolean,
+  matchedValue: string
+): string {
+  if (typeof iconValue === "string" && iconValue !== "") {
+    return iconValue;
+  } else if (iconValue === "") {
+    return iconObject[matchedValue];
+  }
+}

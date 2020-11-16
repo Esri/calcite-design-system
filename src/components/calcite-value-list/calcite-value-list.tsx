@@ -24,6 +24,7 @@ import {
   ItemData,
   keyDownHandler,
   mutationObserverCallback,
+  removeItem,
   selectSiblings,
   setFocus,
   setUpItems
@@ -146,6 +147,11 @@ export class CalciteValueList<
    * @event calciteListOrderChange
    */
   @Event() calciteListOrderChange: EventEmitter;
+
+  @Listen("calciteListItemRemove")
+  calciteListItemRemoveHandler(event: CustomEvent<void>): void {
+    removeItem.call(this, event);
+  }
 
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
