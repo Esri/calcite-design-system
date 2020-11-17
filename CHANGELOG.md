@@ -3,6 +3,27 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.46](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.45...v1.0.0-beta.46) (2020-11-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **link:** Remove red, light, and dark variants and color prop (#1237)
+* **switch:** Remove red variant and color prop (#1236)
+
+### Features
+
+* **link:** Remove red, light, and dark variants and color prop ([#1237](https://github.com/Esri/calcite-components/issues/1237)) ([205e1af](https://github.com/Esri/calcite-components/commit/205e1afc65b24c9b6bde51e0c854436f28681d74))
+* **pick-list, value-list:** enhance lists to handle item removal ([#1229](https://github.com/Esri/calcite-components/issues/1229)) ([d6940c9](https://github.com/Esri/calcite-components/commit/d6940c99272097a674d500ff7c19654be789cd82)), closes [#1219](https://github.com/Esri/calcite-components/issues/1219)
+* **switch:** Remove red variant and color prop ([#1236](https://github.com/Esri/calcite-components/issues/1236)) ([ac2a17a](https://github.com/Esri/calcite-components/commit/ac2a17ad1546e05fa91129b3a97c3033e7e7c13c))
+
+
+### Bug Fixes
+
+* **select:** ensure select change event fires after render update ([#1273](https://github.com/Esri/calcite-components/issues/1273)) ([8225df5](https://github.com/Esri/calcite-components/commit/8225df5884ca5604e36ecae3d72f2c9568e749b1)), closes [#1262](https://github.com/Esri/calcite-components/issues/1262)
+* fixing click issues when using calcite-label with calcite-checkbox and enabling interoperability with native labels and inputs ([#1268](https://github.com/Esri/calcite-components/issues/1268)) ([6081b26](https://github.com/Esri/calcite-components/commit/6081b26232726ccb0bce13fbae88b67f4dd8150e))
+* **rating:** fix ratings appearing vertically in certain sites ([#1266](https://github.com/Esri/calcite-components/issues/1266)) ([c0da43f](https://github.com/Esri/calcite-components/commit/c0da43f064292eada0a26b23eb32b27ae9cb0959))
+
 ## [1.0.0-beta.42](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.41...v1.0.0-beta.42) (2020-11-17)
 
 
