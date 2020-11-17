@@ -116,28 +116,67 @@
 
 // alignment
 :host([alignment="center"]:not([width="auto"])) {
-  a, button {
+  a,
+  button {
     justify-content: center;
   }
 }
 :host([alignment="start"]:not([width="auto"])) {
-  a, button {
+  a,
+  button {
     justify-content: flex-start;
   }
 }
 :host([alignment="end"]:not([width="auto"])) {
-  a, button {
+  a,
+  button {
     justify-content: flex-end;
   }
 }
-:host([alignment="space-between"]:not([width="auto"])) {
-  a, button {
+:host([alignment*="space-between"]:not([width="auto"])) {
+  a,
+  button {
     justify-content: space-between;
   }
 }
 :host([alignment="space-around"]:not([width="auto"])) {
-  a, button {
+  a,
+  button {
     justify-content: space-around;
+  }
+}
+:host([icon-start][alignment="icon-start-space-between"]:not([width="auto"])) {
+  a,
+  button {
+    .icon-start {
+      margin-right: auto; // see RTL
+    }
+  }
+}
+:host([icon-end][alignment="icon-end-space-between"]:not([width="auto"])) {
+  a,
+  button {
+    .icon-end {
+      margin-left: auto; // see RTL
+    }
+  }
+}
+:host([dir="rtl"][icon-start][alignment="icon-start-space-between"]:not([width="auto"])) {
+  a,
+  button {
+    .icon-start {
+      margin-right: unset;
+      margin-left: auto;
+    }
+  }
+}
+:host([dir="rtl"][icon-end][alignment="icon-end-space-between"]:not([width="auto"])) {
+  a,
+  button {
+    .icon-end {
+      margin-left: unset;
+      margin-right: auto;
+    }
   }
 }
 
