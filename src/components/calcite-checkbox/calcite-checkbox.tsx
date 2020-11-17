@@ -39,7 +39,7 @@ export class CalciteCheckbox {
 
   @Watch("checked")
   checkedWatcher(newChecked: boolean): void {
-    newChecked ? this.input.setAttribute("checked", "") : this.input.removeAttribute("checked");
+    this.input.checked = newChecked;
   }
 
   /** True if the checkbox is disabled */
@@ -143,15 +143,13 @@ export class CalciteCheckbox {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  onClick({ currentTarget, target }: MouseEvent): void {
-    // prevent duplicate click events that occur
-    // when the component is wrapped in a label and checkbox is clicked
-    if (
-      (this.el.closest("label") && target === this.input) ||
-      (!this.el.closest("label") && currentTarget === this.el)
-    ) {
-      this.toggle();
+  onClick(event: MouseEvent): void {
+    // This line prevents double-triggering when wrapped inside either a <label> or a <calcite-label>
+    // by preventing the browser default behavior, which is to click the label's first input child element
+    if (event.target === this.el) {
+      event.preventDefault();
     }
+    this.toggle();
   }
 
   @Listen("keydown")
@@ -175,6 +173,15 @@ export class CalciteCheckbox {
 
   private formResetHandler = (): void => {
     this.checked = this.initialChecked;
+  };
+
+  private nativeLabelClickHandler = (event: MouseEvent): void => {
+    if (!this.el.closest("calcite-label") && (event.target as HTMLElement).nodeName === "LABEL") {
+      const target = event.target as HTMLLabelElement;
+      if (this.el.id && target.htmlFor === this.el.id) {
+        this.toggle();
+      }
+    }
   };
 
   private onInputBlur() {
@@ -201,6 +208,7 @@ export class CalciteCheckbox {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
+    document.addEventListener("click", this.nativeLabelClickHandler);
   }
 
   disconnectedCallback(): void {
@@ -209,6 +217,7 @@ export class CalciteCheckbox {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
+    document.removeEventListener("click", this.nativeLabelClickHandler);
   }
 
   // --------------------------------------------------------------------------

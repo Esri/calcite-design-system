@@ -3,6 +3,7 @@
   display: flex;
   position: relative;
   width: var(--select-width);
+  --calcite-select-spacing-end: 2rem;
 }
 
 :host([scale="s"]) {
@@ -44,6 +45,7 @@
   font-size: var(--calcite-select-font-size);
   margin: 0;
   padding: var(--calcite-select-spacing);
+  padding-right: var(--calcite-select-spacing-end);
   width: 100%;
 
   @include focus-style-base();
@@ -57,18 +59,16 @@
   }
 }
 
-.select:focus ~ .icon-container {
-  background-color: transparent;
-  border-color: transparent;
-}
-
-:host(:hover) .icon-container {
-  background-color: transparent;
+:host([dir="rtl"]) .select {
+  padding-left: var(--calcite-select-spacing-end);
+  padding-right: var(--calcite-select-spacing);
+  border-right: solid 1px var(--calcite-ui-border-1);
+  border-left: none;
 }
 
 .icon-container {
   align-items: center;
-  background-color: var(--calcite-ui-foreground-1);
+  background-color: transparent;
   border: solid 1px var(--calcite-ui-border-1);
   border-left: none;
   color: var(--calcite-ui-text-2);
@@ -81,14 +81,13 @@
   top: 0;
 }
 
-.select.calcite--rtl {
-  border-right: solid 1px var(--calcite-ui-border-1);
-  border-left: none;
-}
-
-.icon-container.calcite--rtl {
+:host([dir="rtl"]) .icon-container {
   border-left: solid 1px var(--calcite-ui-border-1);
   border-right: none;
   right: unset;
   left: 0;
+}
+
+.select:focus ~ .icon-container {
+  border-color: transparent;
 }
