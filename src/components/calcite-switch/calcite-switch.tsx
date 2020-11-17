@@ -25,9 +25,6 @@ export class CalciteSwitch {
   /** True if the switch is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
 
-  /** What color the switch should be */
-  @Prop({ reflect: true }) color: "red" | "blue" = "blue";
-
   /** The name of the checkbox input */
   @Prop({ reflect: true, mutable: true }) name?: string = "";
 

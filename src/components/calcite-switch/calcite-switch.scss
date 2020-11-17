@@ -14,16 +14,6 @@
   --calcite-switch-switched-hover-handle-border: var(--calcite-ui-blue-3);
 }
 
-:host([color="red"]) {
-  --calcite-switch-switched-track-background: var(--calcite-ui-red-2);
-  --calcite-switch-switched-track-border: var(--calcite-ui-red-1);
-  --calcite-switch-hover-handle-border: var(--calcite-ui-red-2);
-  --calcite-switch-switched-handle-border: var(--calcite-ui-red-1);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-red-1);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-red-2);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-red-3);
-}
-
 // sizes
 :host([scale="s"]) {
   --calcite-switch-track-width: 28px;
