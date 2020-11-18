@@ -166,12 +166,6 @@
     justify-content: space-between;
   }
 }
-:host([alignment="space-around"]:not([width="auto"])) {
-  a,
-  button {
-    justify-content: space-around;
-  }
-}
 :host([alignment="icon-start-space-between"]:not([width="auto"])) {
   a,
   button {
