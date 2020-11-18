@@ -147,7 +147,7 @@ export class CalciteButton {
         >
           {this.loading ? loader : null}
           {this.iconStart ? iconStartEl : null}
-          <slot />
+          {this.hasText ? <slot /> : null}
           {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>

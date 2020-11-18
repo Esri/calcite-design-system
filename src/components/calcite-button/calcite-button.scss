@@ -68,7 +68,6 @@
   height: 100%;
   border-radius: 0;
   border: none;
-  gap: $baseline/3;
   user-select: none;
   font-family: inherit;
   -webkit-appearance: none;
@@ -80,6 +79,33 @@
     outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
   &:hover {
     text-decoration: none;
+  }
+}
+
+:host([hastext]) {
+  button,
+  a,
+  span {
+    .icon-start {
+      margin-right: $baseline/3;
+    }
+    .icon-end {
+      margin-left: $baseline/3;
+    }
+  }
+}
+:host([dir="rtl"][hastext]) {
+  button,
+  a,
+  span {
+    .icon-start {
+      margin-right: unset;
+      margin-left: $baseline/3;
+    }
+    .icon-end {
+      margin-left: unset;
+      margin-right: $baseline/3;
+    }
   }
 }
 
@@ -177,6 +203,24 @@
     .icon-end {
       margin-left: unset;
       margin-right: auto;
+    }
+  }
+}
+// only two icons
+:host([alignment="center"]:not([hastext="true"])) {
+  a,
+  button {
+    .icon-start + .icon-end {
+      margin-left: $baseline/3;
+    }
+  }
+}
+:host([dir="rtl"][alignment="center"]:not([hastext="true"])) {
+  a,
+  button {
+    .icon-start + .icon-end {
+      margin-left: unset;
+      margin-right: $baseline/3;
     }
   }
 }
