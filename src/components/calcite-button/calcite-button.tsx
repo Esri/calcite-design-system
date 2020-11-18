@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
-
+import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -109,7 +109,7 @@ export class CalciteButton {
     const Tag = this.childElType;
 
     const loader = (
-      <div class="calcite-button--loader">
+      <div class={CSS.buttonLoader}>
         <calcite-loader active inline />
       </div>
     );
@@ -118,7 +118,7 @@ export class CalciteButton {
 
     const iconStartEl = (
       <calcite-icon
-        class="calcite-button--icon icon-start"
+        class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
@@ -128,7 +128,7 @@ export class CalciteButton {
 
     const iconEndEl = (
       <calcite-icon
-        class="calcite-button--icon icon-end"
+        class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}

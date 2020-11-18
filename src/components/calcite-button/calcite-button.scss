@@ -68,6 +68,7 @@
   height: 100%;
   border-radius: 0;
   border: none;
+  gap: $baseline/3;
   user-select: none;
   font-family: inherit;
   -webkit-appearance: none;
@@ -145,7 +146,7 @@
     justify-content: space-around;
   }
 }
-:host([icon-start][alignment="icon-start-space-between"]:not([width="auto"])) {
+:host([alignment="icon-start-space-between"]:not([width="auto"])) {
   a,
   button {
     .icon-start {
@@ -153,7 +154,7 @@
     }
   }
 }
-:host([icon-end][alignment="icon-end-space-between"]:not([width="auto"])) {
+:host([alignment="icon-end-space-between"]:not([width="auto"])) {
   a,
   button {
     .icon-end {
@@ -161,7 +162,7 @@
     }
   }
 }
-:host([dir="rtl"][icon-start][alignment="icon-start-space-between"]:not([width="auto"])) {
+:host([dir="rtl"][alignment="icon-start-space-between"]:not([width="auto"])) {
   a,
   button {
     .icon-start {
@@ -170,7 +171,7 @@
     }
   }
 }
-:host([dir="rtl"][icon-end][alignment="icon-end-space-between"]:not([width="auto"])) {
+:host([dir="rtl"][alignment="icon-end-space-between"]:not([width="auto"])) {
   a,
   button {
     .icon-end {
@@ -196,38 +197,6 @@
   a {
     pointer-events: none;
     opacity: 0.4;
-  }
-}
-// icon positioning and styles
-:host([hastext]) .calcite-button--icon.icon-start {
-  margin-right: $baseline/3;
-}
-
-:host([hastext][dir="rtl"]) .calcite-button--icon.icon-start {
-  margin-right: 0;
-  margin-left: $baseline/3;
-}
-
-:host([hastext]) .calcite-button--icon.icon-end {
-  margin-left: $baseline/3;
-}
-
-:host([hastext][dir="rtl"]) .calcite-button--icon.icon-end {
-  margin-left: 0;
-  margin-right: $baseline/3;
-}
-
-// compensate for spacing when no hastext and two icons
-:host([icon-start][icon-end]) {
-  .calcite-button--icon:first-child {
-    margin-right: $baseline/3;
-  }
-}
-
-:host([icon-start][icon-end][dir="rtl"]) {
-  .calcite-button--icon:first-child {
-    margin-right: 0;
-    margin-left: $baseline/3;
   }
 }
 
