@@ -58,7 +58,6 @@ export class CalciteButton {
     | "end"
     | "center"
     | "space-between"
-    | "space-around"
     | "icon-start-space-between"
     | "icon-end-space-between" = "center";
 
