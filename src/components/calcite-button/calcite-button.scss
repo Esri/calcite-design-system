@@ -45,6 +45,7 @@
     }
   }
 }
+
 // focus styles
 :host button,
 :host a,
@@ -82,30 +83,31 @@
   }
 }
 
-:host([hastext]) {
-  button,
-  a,
-  span {
-    .icon-start {
-      margin-right: $baseline/3;
-    }
-    .icon-end {
-      margin-left: $baseline/3;
-    }
+.content {
+  margin-left: $baseline/3;
+  margin-right: $baseline/3;
+}
+
+:host(:not([icon-start])) {
+  .content {
+    margin-left: unset;
   }
 }
-:host([dir="rtl"][hastext]) {
-  button,
-  a,
-  span {
-    .icon-start {
-      margin-right: unset;
-      margin-left: $baseline/3;
-    }
-    .icon-end {
-      margin-left: unset;
-      margin-right: $baseline/3;
-    }
+:host(:not([icon-end])) {
+  .content {
+    margin-right: unset;
+  }
+}
+:host([icon-start][dir="rtl"]:not([icon-end])) {
+  .content {
+    margin-left: unset;
+    margin-right: $baseline/3;
+  }
+}
+:host([icon-end][dir="rtl"]:not([icon-start])) {
+  .content {
+    margin-right: unset;
+    margin-left: $baseline/3;
   }
 }
 
@@ -167,59 +169,42 @@
   }
 }
 :host([alignment="icon-start-space-between"]:not([width="auto"])) {
-  a,
-  button {
-    .icon-start {
+    .icon--start {
       margin-right: auto;
     }
-  }
 }
 :host([alignment="icon-end-space-between"]:not([width="auto"])) {
-  a,
-  button {
-    .icon-end {
+    .icon--end {
       margin-left: auto;
     }
-  }
 }
 :host([dir="rtl"][alignment="icon-start-space-between"]:not([width="auto"])) {
-  a,
-  button {
-    .icon-start {
+    .icon--start {
       margin-right: unset;
       margin-left: auto;
     }
-  }
 }
 :host([dir="rtl"][alignment="icon-end-space-between"]:not([width="auto"])) {
-  a,
-  button {
-    .icon-end {
+    .icon--end {
       margin-left: unset;
       margin-right: auto;
     }
-  }
 }
+
 // only two icons
 :host([alignment="center"]:not([hastext="true"])) {
-  a,
-  button {
-    .icon-start + .icon-end {
+    .icon--start + .icon--end {
       margin-left: $baseline/3;
     }
-  }
 }
 :host([dir="rtl"][alignment="center"]:not([hastext="true"])) {
-  a,
-  button {
-    .icon-start + .icon-end {
+    .icon--start + .icon--end {
       margin-left: unset;
       margin-right: $baseline/3;
     }
-  }
 }
 
-.calcite-button--icon {
+.icon {
   display: inline-flex;
   position: relative;
   margin: 0;

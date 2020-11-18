@@ -135,6 +135,12 @@ export class CalciteButton {
       />
     );
 
+    const contentEl = (
+      <div class={CSS.content}>
+        <slot></slot>
+      </div>
+    );
+
     return (
       <Host dir={dir} hasText={this.hasText}>
         <Tag
@@ -146,7 +152,7 @@ export class CalciteButton {
         >
           {this.loading ? loader : null}
           {this.iconStart ? iconStartEl : null}
-          {this.hasText ? <slot /> : null}
+          {this.hasText ? contentEl : null}
           {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>
