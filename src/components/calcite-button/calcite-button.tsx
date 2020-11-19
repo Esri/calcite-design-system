@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
-
+import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -52,6 +52,15 @@ export class CalciteButton {
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
+  /** optionally specify alignment of button elements. */
+  @Prop({ reflect: true }) alignment?:
+    | "start"
+    | "end"
+    | "center"
+    | "space-between"
+    | "icon-start-space-between"
+    | "icon-end-space-between" = "center";
+
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
 
@@ -99,7 +108,7 @@ export class CalciteButton {
     const Tag = this.childElType;
 
     const loader = (
-      <div class="calcite-button--loader">
+      <div class={CSS.buttonLoader}>
         <calcite-loader active inline />
       </div>
     );
@@ -108,7 +117,7 @@ export class CalciteButton {
 
     const iconStartEl = (
       <calcite-icon
-        class="calcite-button--icon icon-start"
+        class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
@@ -118,12 +127,18 @@ export class CalciteButton {
 
     const iconEndEl = (
       <calcite-icon
-        class="calcite-button--icon icon-end"
+        class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale={iconScale}
       />
+    );
+
+    const contentEl = (
+      <span class={CSS.content}>
+        <slot></slot>
+      </span>
     );
 
     return (
@@ -137,7 +152,7 @@ export class CalciteButton {
         >
           {this.loading ? loader : null}
           {this.iconStart ? iconStartEl : null}
-          <slot />
+          {this.hasText ? contentEl : null}
           {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>
