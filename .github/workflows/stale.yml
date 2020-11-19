@@ -15,4 +15,3 @@ jobs:
           close-pr-message: "This PR has been automatically closed due to inactivity."
           days-before-stale: 30
           days-before-close: 7
-
