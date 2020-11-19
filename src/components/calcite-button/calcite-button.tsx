@@ -136,9 +136,9 @@ export class CalciteButton {
     );
 
     const contentEl = (
-      <div class={CSS.content}>
+      <span class={CSS.content}>
         <slot></slot>
-      </div>
+      </span>
     );
 
     return (

@@ -48,8 +48,7 @@
 
 // focus styles
 :host button,
-:host a,
-:host span {
+:host a {
   @include focus-style-base();
   &:focus {
     @include focus-style-outset();
@@ -57,8 +56,7 @@
 }
 // button base
 :host button,
-:host a,
-:host span {
+:host a {
   position: relative;
   display: flex;
   align-items: center;
@@ -216,7 +214,6 @@
 :host([disabled]) {
   pointer-events: none;
   button,
-  span,
   a {
     pointer-events: none;
     opacity: 0.4;
