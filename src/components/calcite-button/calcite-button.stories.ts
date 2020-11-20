@@ -88,6 +88,20 @@ storiesOf("Components/Button", module)
   `
   )
   .add(
+    "Alignment",
+    (): string => `
+    <div style="width: 480px; max-width: 100%; background-color: #fff">
+    <calcite-button
+      alignment="${select("alignment", [ "start", "end",  "center",  "space-between",  "icon-start-space-between",  "icon-end-space-between"], "center")}"
+      width="${select("width", ["auto", "half", "full"], "auto")}"
+      icon-start="${select("icon-start", iconNames, iconNames[0])}"
+      icon-end="${select("icon-end", iconNames, iconNames[0])}">
+      ${text("text", "button text here")}
+    </calcite-button>
+    </div>
+    `
+  )
+  .add(
     "Side by side",
     (): string => `
     <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
