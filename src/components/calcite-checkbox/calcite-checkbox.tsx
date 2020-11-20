@@ -10,7 +10,6 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getKey } from "../../utils/key";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
 
@@ -150,15 +149,6 @@ export class CalciteCheckbox {
       event.preventDefault();
     }
     this.toggle();
-  }
-
-  @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    const key = getKey(e.key);
-    if (key === " ") {
-      e.preventDefault();
-      this.toggle();
-    }
   }
 
   @Listen("mouseenter")
