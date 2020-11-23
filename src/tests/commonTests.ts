@@ -36,8 +36,11 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
   });
 }
 
-export async function accessible(componentTagOrHTML: TagOrHTML): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
+export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage): Promise<void> {
+  if (!page) {
+    page = await simplePageSetup(componentTagOrHTML);
+  }
+
   await page.addScriptTag({ path: require.resolve("axe-core") });
 
   expect(

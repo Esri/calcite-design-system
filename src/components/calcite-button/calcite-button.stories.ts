@@ -88,6 +88,20 @@ storiesOf("Components/Button", module)
   `
   )
   .add(
+    "Alignment",
+    (): string => `
+    <div style="width: 480px; max-width: 100%; background-color: #fff">
+    <calcite-button
+      alignment="${select("alignment", [ "start", "end",  "center",  "space-between",  "icon-start-space-between",  "icon-end-space-between"], "center")}"
+      width="${select("width", ["auto", "half", "full"], "auto")}"
+      icon-start="${select("icon-start", iconNames, iconNames[0])}"
+      icon-end="${select("icon-end", iconNames, iconNames[0])}">
+      ${text("text", "button text here")}
+    </calcite-button>
+    </div>
+    `
+  )
+  .add(
     "Side by side",
     (): string => `
     <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
@@ -109,9 +123,10 @@ storiesOf("Components/Button", module)
   `
   )
   .add(
-    "FAB",
+    "FAB (Floating Action Button)",
     (): string => `
   <div
+  tabindex="0"
   style="height:300px;width:200px;border:1px solid #c9c9c9;padding:20px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
   semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
@@ -131,6 +146,7 @@ storiesOf("Components/Button", module)
 
   <div class="sticky-example" style="position: -webkit-sticky;position: sticky;bottom: 10px;margin: 0 auto;">
   <calcite-button
+  aria-label="demo"
   id="calcite-fab-tooltip"
   ${boolean("round", true)}
   ${boolean("floating", true)}
@@ -206,6 +222,7 @@ storiesOf("Components/Button", module)
     "FAB - dark mode",
     (): string => `
   <div
+  tabindex="0"
     style="height:300px;width:200px;border:1px solid #555;color: #eaeaea;padding:20px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
     semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
@@ -226,6 +243,7 @@ storiesOf("Components/Button", module)
     <div class="sticky-example" style="position: -webkit-sticky;position: sticky;bottom: 10px;margin: 0 auto;">
     <calcite-button
     theme="dark"
+    aria-label="demo"
     id="calcite-fab-tooltip"
     ${boolean("round", true)}
     ${boolean("floating", true)}

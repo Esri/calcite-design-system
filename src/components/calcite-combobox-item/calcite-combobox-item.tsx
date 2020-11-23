@@ -189,7 +189,7 @@ export class CalciteComboboxItem {
 
     return (
       <Host
-        aria-selected={this.isSelected}
+        aria-selected={this.isSelected.toString()}
         dir={dir}
         disabled={this.disabled}
         role="option"

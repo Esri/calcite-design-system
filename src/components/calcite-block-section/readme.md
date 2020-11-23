@@ -31,16 +31,14 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 ### Depends on
 
 - [calcite-switch](../calcite-switch)
-- [calcite-action](../calcite-action)
+- [calcite-icon](../calcite-icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-block-section --> calcite-switch
-  calcite-block-section --> calcite-action
-  calcite-action --> calcite-loader
-  calcite-action --> calcite-icon
+  calcite-block-section --> calcite-icon
   style calcite-block-section fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

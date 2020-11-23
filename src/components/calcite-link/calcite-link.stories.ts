@@ -22,7 +22,6 @@ storiesOf("Components/Link", module)
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};">
     Some wrapping text <calcite-link
       href="${text("href", "")}"
-      color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       ${boolean("disabled", false)}
     >
    ${text("text", "link text here")}</calcite-link>
@@ -40,7 +39,6 @@ storiesOf("Components/Link", module)
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};">
     Some wrapping text <calcite-link
       href="${text("href", "")}"
-      color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       ${boolean("disabled", false)}
       icon-start="${select("icon-start", iconNames, iconNames[0])}">
       ${text("text", "link text here")}</calcite-link>
@@ -58,7 +56,6 @@ storiesOf("Components/Link", module)
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};">
     Some wrapping text <calcite-link
       href="${text("href", "")}"
-      color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       ${boolean("disabled", false)}
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
       ${text("text", "link text here")}</calcite-link>
@@ -76,7 +73,6 @@ storiesOf("Components/Link", module)
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};">
     Some wrapping text <calcite-link
       href="${text("href", "")}"
-      color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
       ${boolean("disabled", false)}
       icon-start="${select("icon-start", iconNames, iconNames[0])}"
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
@@ -95,13 +91,8 @@ storiesOf("Components/Link", module)
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};">
     Some wrapping text <calcite-link
     theme="dark"
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     href="${text("href", "")}"
-    ${boolean("disabled", false)}
-    icon="${select("icon", iconNames, iconNames[0])}"
-    icon-position="${select("icon-position", ["start", "end"], "end")}">
-    ${text("text", "link text here")}
-  </calcite-link>
+    ${boolean("disabled", false)}>${text("text", "link text here")}</calcite-link>
   around the link
   </div>
   `,

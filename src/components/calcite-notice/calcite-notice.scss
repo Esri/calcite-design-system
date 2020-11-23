@@ -64,6 +64,7 @@
   margin: 0 auto;
   box-sizing: border-box;
   width: var(--calcite-notice-width);
+  max-width: 100%;
   max-height: 0;
   background-color: var(--calcite-ui-foreground-1);
   opacity: 0;
@@ -89,7 +90,7 @@
 
 :host([active]) {
   @apply shadow-1;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   opacity: 1;
   max-height: 100%;
@@ -129,7 +130,7 @@
   @include notice-element-base;
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-width: 0;
   word-wrap: break-word;
   padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-small)

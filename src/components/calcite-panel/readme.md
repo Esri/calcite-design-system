@@ -74,7 +74,6 @@ Renders a panel that is dismissible with a click of the "x".
 | `dismissible`    | `dismissible`      | Displays a close button in the trailing side of the header.                                               | `boolean`             | `false`     |
 | `heading`        | `heading`          | Heading text.                                                                                             | `string`              | `undefined` |
 | `heightScale`    | `height-scale`     | Specifies the maxiumum height of the panel.                                                               | `"l" \| "m" \| "s"`   | `undefined` |
-| `widthScale`     | `width-scale`      | Specifies the width of the panel. Leave this undefined to achieve 100% width.                             | `"l" \| "m" \| "s"`   | `undefined` |
 | `intlBack`       | `intl-back`        | 'Back' text string.                                                                                       | `string`              | `undefined` |
 | `intlClose`      | `intl-close`       | 'Close' text string for the close button. The close button will only be shown when 'dismissible' is true. | `string`              | `undefined` |
 | `intlOpen`       | `intl-open`        | 'Open' text string for the menu.                                                                          | `string`              | `undefined` |
@@ -83,7 +82,7 @@ Renders a panel that is dismissible with a click of the "x".
 | `showBackButton` | `show-back-button` | Shows a back button in the header.                                                                        | `boolean`             | `false`     |
 | `summary`        | `summary`          | Summary text. A description displayed underneath the heading.                                             | `string`              | `undefined` |
 | `theme`          | `theme`            | Used to set the component's color scheme.                                                                 | `"dark" \| "light"`   | `undefined` |
-| `widthScale`     | `width-scale`      | This sets width of the panel.                                                                             | `"l" \| "m" \| "s"`   | `"m"`       |
+| `widthScale`     | `width-scale`      | This sets width of the panel.                                                                             | `"l" \| "m" \| "s"`   | `undefined` |
 
 ## Events
 

@@ -63,7 +63,8 @@
 .content--detached {
   border-radius: var(--calcite-border-radius);
   box-shadow: var(--calcite-shadow-0);
-  margin: var(--calcite-spacing-half) var(--calcite-spacing-half) 0;
+  height: auto;
+  margin: var(--calcite-spacing-half) var(--calcite-spacing-half) auto;
   max-height: var(--calcite-shell-panel-detached-max-height);
   overflow: hidden;
   ::slotted(calcite-panel),

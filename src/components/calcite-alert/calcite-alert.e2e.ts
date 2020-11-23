@@ -57,6 +57,8 @@ describe("calcite-alert", () => {
     expect(icon).not.toBeNull();
   });
 
+  const animationDurationInMs = 400;
+
   it("opens and then closes a single alert", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -76,13 +78,11 @@ describe("calcite-alert", () => {
     expect(await alert1.isVisible()).not.toBe(true);
 
     await button1.click();
-    // wait for animation to complete
-    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForTimeout(animationDurationInMs);
     expect(await alert1.isVisible()).toBe(true);
 
     await alertclose1.click();
-    // wait for animation to complete
-    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForTimeout(animationDurationInMs);
     expect(await alert1.isVisible()).not.toBe(true);
   });
 
@@ -120,18 +120,15 @@ describe("calcite-alert", () => {
     const alertclose2 = await page.find("#alert-2 >>> .alert-close");
 
     await button1.click();
-    // wait for animation to complete
-    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForTimeout(animationDurationInMs);
     await alertclose1.click();
 
     await button2.click();
-    // wait for animation to complete
-    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForTimeout(animationDurationInMs);
     await alertclose2.click();
 
     await button3.click();
-    // wait for animation to complete
-    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForTimeout(animationDurationInMs);
 
     expect(await alert1.isVisible()).not.toBe(true);
     expect(await alert2.isVisible()).not.toBe(true);

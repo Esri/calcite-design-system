@@ -12,7 +12,8 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
+import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
@@ -187,9 +188,7 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent): void {
     if (this.active && !this.disableEscape && getKey(e.key) === "Escape") {
-      this.beforeClose(this.el).then(() => {
-        this.active = false;
-      });
+      this.close();
     }
   }
 
@@ -265,6 +264,7 @@ export class CalciteModal {
   /** Close the modal, first running the `beforeClose` method */
   private close() {
     return this.beforeClose(this.el).then(() => {
+      this.active = false;
       this.isActive = false;
       this.previousActiveElement?.focus();
       document.documentElement.classList.remove("overflow-hidden");
