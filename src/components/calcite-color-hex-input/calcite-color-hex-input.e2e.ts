@@ -169,5 +169,31 @@ describe("calcite-color-hex-input", () => {
       await assertTabAndEnterBehavior("aa", startingHex);
       await assertTabAndEnterBehavior("a", startingHex);
     });
+
+    it("allows nudging RGB channels with arrow keys (+/-1) and shift modifies amount (+/-10)", async () => {
+      const initialHex = "#000000";
+
+      await input.callMethod("setFocus");
+      await input.setProperty("value", initialHex);
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("#010101");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe(initialHex);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("ArrowUp");
+      await page.keyboard.up("Shift");
+      expect(await input.getProperty("value")).toBe("#0a0a0a");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("ArrowDown");
+      await page.keyboard.up("Shift");
+      expect(await input.getProperty("value")).toBe(initialHex);
+    });
   });
 });
