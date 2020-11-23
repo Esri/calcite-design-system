@@ -72,6 +72,19 @@ describe("calcite-panel", () => {
     expect(tagName).toBe("CALCITE-ACTION");
   });
 
+  it("should focus on back button", async () => {
+    const page = await newE2EPage({ html: "<calcite-panel show-back-button>test</calcite-panel>" });
+
+    const tagName = await page.evaluate(async () => {
+      const calcitePanel = document.querySelector("calcite-panel");
+      await calcitePanel.setFocus("back-button");
+      const activeElement = calcitePanel.shadowRoot.activeElement;
+      return activeElement.tagName;
+    });
+
+    expect(tagName).toBe("CALCITE-ACTION");
+  });
+
   it("should focus on container", async () => {
     const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
 

@@ -128,6 +128,8 @@ export class CalcitePanel {
 
   @Element() el: HTMLCalcitePanelElement;
 
+  backButtonEl: HTMLCalciteActionElement;
+
   dismissButtonEl: HTMLCalciteActionElement;
 
   menuButtonEl: HTMLCalciteActionElement;
@@ -174,6 +176,10 @@ export class CalcitePanel {
 
   setDismissRef = (node: HTMLCalciteActionElement): void => {
     this.dismissButtonEl = node;
+  };
+
+  setBackRef = (node: HTMLCalciteActionElement): void => {
+    this.backButtonEl = node;
   };
 
   panelKeyUpHandler = (event: KeyboardEvent): void => {
@@ -285,9 +291,14 @@ export class CalcitePanel {
   // --------------------------------------------------------------------------
 
   @Method()
-  async setFocus(focusId?: "dismiss-button"): Promise<void> {
+  async setFocus(focusId?: "dismiss-button" | "back-button"): Promise<void> {
     if (focusId === "dismiss-button") {
       this.dismissButtonEl?.setFocus();
+      return;
+    }
+
+    if (focusId === "back-button") {
+      this.backButtonEl?.setFocus();
       return;
     }
 
@@ -315,6 +326,7 @@ export class CalcitePanel {
         icon={icon}
         key="back-button"
         onClick={backButtonClick}
+        ref={this.setBackRef}
         scale="s"
         slot={SLOTS.headerActionsStart}
         text={label}
