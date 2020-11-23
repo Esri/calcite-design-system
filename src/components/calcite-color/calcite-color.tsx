@@ -26,6 +26,7 @@ import {
 import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
+import { getKey } from "../../utils/key";
 
 const throttleFor60FpsInMs = 16;
 const defaultColor = normalizeHex(DEFAULT_COLOR.hex());
@@ -285,6 +286,8 @@ export class CalciteColor {
   };
 
   private handleChannelKeyUpOrDown = ({ key, shiftKey }: KeyboardEvent): void => {
+    key = getKey(key);
+
     // this gets applied to the input's up/down arrow increment/decrement
     const complementaryBump = 9;
 
