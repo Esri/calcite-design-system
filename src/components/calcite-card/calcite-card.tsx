@@ -134,7 +134,6 @@ export class CalciteCard {
 
   private renderCheckbox(): VNode {
     const checkboxLabel = this.selected ? this.intlDeselect : this.intlSelect;
-    console.log(checkboxLabel);
 
     return (
       <label
