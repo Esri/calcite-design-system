@@ -33,19 +33,6 @@
   }
 }
 
-:host([floating]) {
-  & a,
-  & button {
-    @apply shadow-2;
-    &:hover {
-      @apply shadow-2-lg;
-    }
-    &:active {
-      @apply shadow-2-sm;
-    }
-  }
-}
-
 // focus styles
 :host button,
 :host a {
@@ -371,7 +358,7 @@
   }
 }
 
-:host([appearance="outline"][color="blue"]:not([floating])) {
+:host([appearance="outline"][color="blue"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -384,7 +371,7 @@
     );
   }
 }
-:host([appearance="outline"][color="red"]:not([floating])) {
+:host([appearance="outline"][color="red"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -397,7 +384,7 @@
     );
   }
 }
-:host([appearance="outline"][color="light"]:not([floating])) {
+:host([appearance="outline"][color="light"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -410,7 +397,7 @@
     );
   }
 }
-:host([appearance="outline"][color="dark"]:not([floating])) {
+:host([appearance="outline"][color="dark"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -423,7 +410,7 @@
     );
   }
 }
-:host([appearance="clear"][color="blue"]:not([floating])) {
+:host([appearance="clear"][color="blue"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -436,7 +423,7 @@
     );
   }
 }
-:host([appearance="clear"][color="red"]:not([floating])) {
+:host([appearance="clear"][color="red"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -449,7 +436,7 @@
     );
   }
 }
-:host([appearance="clear"][color="light"]:not([floating])) {
+:host([appearance="clear"][color="light"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -462,7 +449,7 @@
     );
   }
 }
-:host([appearance="clear"][color="dark"]:not([floating])) {
+:host([appearance="clear"][color="dark"]) {
   button,
   a {
     @include btn-outline-clear(transparent, $blk-180, $blk-190, $blk-170, $blk-220, $blk-220);
@@ -567,17 +554,17 @@
   }
 }
 
-:host([dir="ltr"][appearance="outline"][split-child="primary"]:not([floating])) button,
-:host([dir="rtl"][appearance="outline"][split-child="secondary"]:not([floating])) button,
-:host([dir="ltr"][appearance="clear"][split-child="primary"]:not([floating])) button,
-:host([dir="rtl"][appearance="clear"][split-child="secondary"]:not([floating])) button {
+:host([dir="ltr"][appearance="outline"][split-child="primary"]) button,
+:host([dir="rtl"][appearance="outline"][split-child="secondary"]) button,
+:host([dir="ltr"][appearance="clear"][split-child="primary"]) button,
+:host([dir="rtl"][appearance="clear"][split-child="secondary"]) button {
   border-right: 0;
 }
 
-:host([dir="ltr"][appearance="outline"][split-child="secondary"]:not([floating])) button,
-:host([dir="rtl"][appearance="outline"][split-child="primary"]:not([floating])) button,
-:host([dir="ltr"][appearance="clear"][split-child="secondary"]:not([floating])) button,
-:host([dir="rtl"][appearance="clear"][split-child="primary"]:not([floating])) button {
+:host([dir="ltr"][appearance="outline"][split-child="secondary"]) button,
+:host([dir="rtl"][appearance="outline"][split-child="primary"]) button,
+:host([dir="ltr"][appearance="clear"][split-child="secondary"]) button,
+:host([dir="rtl"][appearance="clear"][split-child="primary"]) button {
   border-left: 0;
 }
 
