@@ -92,7 +92,11 @@ storiesOf("Components/Button", module)
     (): string => `
     <div style="width: 480px; max-width: 100%; background-color: #fff">
     <calcite-button
-      alignment="${select("alignment", [ "start", "end",  "center",  "space-between",  "icon-start-space-between",  "icon-end-space-between"], "center")}"
+      alignment="${select(
+        "alignment",
+        ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
+        "center"
+      )}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       icon-start="${select("icon-start", iconNames, iconNames[0])}"
       icon-end="${select("icon-end", iconNames, iconNames[0])}">
