@@ -10,13 +10,18 @@ import {
   Build,
   EventEmitter,
   Watch,
-  VNode
+  VNode,
+  Method
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, inRange, dateFromISO, dateToISO, parseDateString } from "../../utils/date";
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-date-resources";
+import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+
+const DEFAULT_PLACEMENT = "bottom-start";
 
 @Component({
   assetsDirs: ["calcite-date-nls"],
@@ -52,6 +57,11 @@ export class CalciteDate {
   /** Expand or collapse when calendar does not have input */
   @Prop({ reflect: true }) active = false;
 
+  @Watch("active")
+  activeHandler(): void {
+    this.reposition();
+  }
+
   /** Localized string for "previous month" (used for aria label) */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
@@ -72,7 +82,8 @@ export class CalciteDate {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("blur") focusOutHandler(): void {
+  @Listen("blur")
+  focusOutHandler(): void {
     this.reset();
   }
 
@@ -80,16 +91,39 @@ export class CalciteDate {
    * Blur doesn't fire properly when there is no shadow dom (ege/IE11)
    * Check if the focused element is inside the date picker, if not close
    */
-  @Listen("focusin", { target: "window" }) focusInHandler(e: FocusEvent): void {
+  @Listen("focusin", { target: "window" })
+  focusInHandler(e: FocusEvent): void {
     if (!this.hasShadow && !this.el.contains(e.srcElement as HTMLElement)) {
       this.reset();
     }
   }
 
-  @Listen("keyup") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keyup")
+  keyDownHandler(e: KeyboardEvent): void {
     if (getKey(e.key) === "Escape") {
       this.reset();
     }
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async reposition(): Promise<void> {
+    const { popper, menuEl } = this;
+    const modifiers = this.getModifiers();
+
+    popper
+      ? updatePopper({
+          el: menuEl,
+          modifiers,
+          placement: DEFAULT_PLACEMENT,
+          popper
+        })
+      : this.createPopper();
   }
 
   //--------------------------------------------------------------------------
@@ -118,10 +152,16 @@ export class CalciteDate {
     if (this.value) {
       this.setValueAsDate(this.value);
     }
+
+    this.createPopper();
   }
 
   componentWillRender(): void {
     this.syncProxyInputToThis();
+  }
+
+  disconnectedCallback(): void {
+    this.destroyPopper();
   }
 
   render(): VNode {
@@ -138,7 +178,7 @@ export class CalciteDate {
           <slot />
         </div>
         {!this.noCalendarInput && this.localeData && (
-          <div role="application">
+          <div aria-expanded={this.active.toString()} ref={this.setReferenceEl} role="application">
             <calcite-input
               class="input"
               icon="calendar"
@@ -154,41 +194,49 @@ export class CalciteDate {
           </div>
         )}
         {this.localeData && (
-          <div class="calendar-picker-wrapper">
-            <calcite-date-month-header
-              activeDate={activeDate}
-              dir={dir}
-              intlNextMonth={this.intlNextMonth}
-              intlPrevMonth={this.intlPrevMonth}
-              localeData={this.localeData}
-              max={max}
-              min={min}
-              onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-                this.setValue(new Date(e.detail));
-                this.activeDate = new Date(e.detail);
-                this.calciteDateChange.emit(new Date(e.detail));
+          <div aria-hidden={(!this.active).toString()} class="menu-container" ref={this.setMenuEl}>
+            <div
+              class={{
+                ["calendar-picker-wrapper"]: true,
+                [PopperCSS.animation]: true,
+                [PopperCSS.animationActive]: this.active
               }}
-              scale={this.scale}
-              selectedDate={date || new Date()}
-            />
-            <calcite-date-month
-              activeDate={activeDate}
-              dir={dir}
-              localeData={this.localeData}
-              max={max}
-              min={min}
-              onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-                this.activeDate = new Date(e.detail);
-              }}
-              onCalciteDateSelect={(e: CustomEvent<Date>) => {
-                this.setValue(new Date(e.detail));
-                this.activeDate = new Date(e.detail);
-                this.calciteDateChange.emit(new Date(e.detail));
-                this.reset();
-              }}
-              scale={this.scale}
-              selectedDate={date}
-            />
+            >
+              <calcite-date-month-header
+                activeDate={activeDate}
+                dir={dir}
+                intlNextMonth={this.intlNextMonth}
+                intlPrevMonth={this.intlPrevMonth}
+                localeData={this.localeData}
+                max={max}
+                min={min}
+                onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
+                  this.setValue(new Date(e.detail));
+                  this.activeDate = new Date(e.detail);
+                  this.calciteDateChange.emit(new Date(e.detail));
+                }}
+                scale={this.scale}
+                selectedDate={date || new Date()}
+              />
+              <calcite-date-month
+                activeDate={activeDate}
+                dir={dir}
+                localeData={this.localeData}
+                max={max}
+                min={min}
+                onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
+                  this.activeDate = new Date(e.detail);
+                }}
+                onCalciteDateSelect={(e: CustomEvent<Date>) => {
+                  this.setValue(new Date(e.detail));
+                  this.activeDate = new Date(e.detail);
+                  this.calciteDateChange.emit(new Date(e.detail));
+                  this.reset();
+                }}
+                scale={this.scale}
+                selectedDate={date}
+              />
+            </div>
           </div>
         )}
       </Host>
@@ -208,12 +256,64 @@ export class CalciteDate {
 
   private observer: MutationObserver;
 
+  private popper: Popper;
+
+  private menuEl: HTMLDivElement;
+
+  private referenceEl: HTMLDivElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  @Watch("value") valueWatcher(value: string): void {
+
+  setMenuEl = (el: HTMLDivElement): void => {
+    this.menuEl = el;
+  };
+
+  setReferenceEl = (el: HTMLDivElement): void => {
+    this.referenceEl = el;
+  };
+
+  getModifiers(): Partial<StrictModifiers>[] {
+    const flipModifier: Partial<StrictModifiers> = {
+      name: "flip",
+      enabled: true
+    };
+
+    flipModifier.options = {
+      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+    };
+
+    return [flipModifier];
+  }
+
+  createPopper(): void {
+    this.destroyPopper();
+    const { menuEl, referenceEl } = this;
+    const modifiers = this.getModifiers();
+
+    this.popper = createPopper({
+      el: menuEl,
+      modifiers,
+      placement: DEFAULT_PLACEMENT,
+      referenceEl
+    });
+  }
+
+  destroyPopper(): void {
+    const { popper } = this;
+
+    if (popper) {
+      popper.destroy();
+    }
+
+    this.popper = null;
+  }
+
+  @Watch("value")
+  valueWatcher(value: string): void {
     this.setValueAsDate(value);
   }
 
