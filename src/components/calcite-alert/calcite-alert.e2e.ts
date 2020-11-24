@@ -2,13 +2,13 @@ import { newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-alert", () => {
-  it("renders", async () => renders("calcite-alert", false));
-
   const alertContent = `
-  <div slot="alert-title">Title Text</div>
-  <div slot="alert-message">Message Text</div>
-  <a slot="alert-link" href="">Action</a>
-`;
+    <div slot="alert-title">Title Text</div>
+    <div slot="alert-message">Message Text</div>
+    <a slot="alert-link" href="">Action</a>
+  `;
+
+  it("renders", async () => renders("calcite-alert", false));
 
   it("is accessible", async () =>
     accessible(`
