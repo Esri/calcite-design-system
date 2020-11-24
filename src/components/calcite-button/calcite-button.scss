@@ -167,39 +167,39 @@
   }
 }
 :host([alignment="icon-start-space-between"]:not([width="auto"])) {
-    .icon--start {
-      margin-right: auto;
-    }
+  .icon--start {
+    margin-right: auto;
+  }
 }
 :host([alignment="icon-end-space-between"]:not([width="auto"])) {
-    .icon--end {
-      margin-left: auto;
-    }
+  .icon--end {
+    margin-left: auto;
+  }
 }
 :host([dir="rtl"][alignment="icon-start-space-between"]:not([width="auto"])) {
-    .icon--start {
-      margin-right: unset;
-      margin-left: auto;
-    }
+  .icon--start {
+    margin-right: unset;
+    margin-left: auto;
+  }
 }
 :host([dir="rtl"][alignment="icon-end-space-between"]:not([width="auto"])) {
-    .icon--end {
-      margin-left: unset;
-      margin-right: auto;
-    }
+  .icon--end {
+    margin-left: unset;
+    margin-right: auto;
+  }
 }
 
 // only two icons
 :host([alignment="center"]:not([hastext="true"])) {
-    .icon--start + .icon--end {
-      margin-left: $baseline/3;
-    }
+  .icon--start + .icon--end {
+    margin-left: $baseline/3;
+  }
 }
 :host([dir="rtl"][alignment="center"]:not([hastext="true"])) {
-    .icon--start + .icon--end {
-      margin-left: unset;
-      margin-right: $baseline/3;
-    }
+  .icon--start + .icon--end {
+    margin-left: unset;
+    margin-right: $baseline/3;
+  }
 }
 
 .icon {

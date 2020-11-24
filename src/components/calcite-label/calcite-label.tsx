@@ -75,18 +75,16 @@ export class CalciteLabel {
 
   @Listen("click")
   onClick({ target }: MouseEvent): void {
-    if (
-      (target === this.el) ||
-      (target === this.labelEl) ||
-      (target === this.spanEl)
-    ) {
+    if (target === this.el || target === this.labelEl || target === this.spanEl) {
       const forAttr = this.el.getAttribute("for");
       this.calciteLabelFocus.emit({
         labelEl: this.el,
         interactedEl: target as HTMLElement,
         requestedInput: forAttr
       });
-      const inputForThisLabel: HTMLElement = forAttr ? document.getElementById(forAttr) : this.el.querySelector("input");
+      const inputForThisLabel: HTMLElement = forAttr
+        ? document.getElementById(forAttr)
+        : this.el.querySelector("input");
       if (
         (inputForThisLabel && inputForThisLabel.nodeName.startsWith("CALCITE-")) ||
         (inputForThisLabel && inputForThisLabel.nodeName === "INPUT" && target === this.el)
