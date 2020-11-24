@@ -1,19 +1,24 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-accordion", () => {
-  it("renders", async () => renders("calcite-accordion"));
-
-  it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-accordion>
+  const accordionContent = `
     <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
     </calcite-accordion-item>
+ `;
+  it("renders", async () => renders("calcite-accordion"));
+
+  it("is accessible", async () => accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`));
+
+  it("renders default props when none are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion>
+    ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("appearance", "default");
@@ -27,12 +32,7 @@ describe("calcite-accordion", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" theme="dark" icon-type="caret">
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
+    ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("appearance", "minimal");
@@ -66,12 +66,7 @@ describe("calcite-accordion", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion>
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
+    ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
     const item1 = await element.find("calcite-accordion-item[id='1']");
@@ -92,12 +87,7 @@ describe("calcite-accordion", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion>
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
+    ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("selection-mode", "multi");
@@ -121,12 +111,7 @@ describe("calcite-accordion", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion selection-mode="single">
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
+    ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("selection-mode", "single");
@@ -150,12 +135,7 @@ describe("calcite-accordion", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion selection-mode="single-persist">
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
+    ${accordionContent}
     </calcite-accordion>`);
 
     const element = await page.find("calcite-accordion");
