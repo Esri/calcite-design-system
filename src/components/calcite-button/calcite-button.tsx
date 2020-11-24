@@ -37,9 +37,6 @@ export class CalciteButton {
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  /** optionally add a floating style to the button - this should be positioned fixed or sticky */
-  @Prop({ reflect: true }) floating?: boolean = false;
-
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
@@ -137,7 +134,7 @@ export class CalciteButton {
 
     const contentEl = (
       <span class={CSS.content}>
-        <slot></slot>
+        <slot />
       </span>
     );
 
@@ -146,7 +143,7 @@ export class CalciteButton {
         <Tag
           {...attributes}
           disabled={this.disabled}
-          onClick={(e) => this.handleClick(e)}
+          onClick={this.handleClick}
           ref={(el) => (this.childEl = el)}
           tabIndex={this.disabled ? -1 : null}
         >
