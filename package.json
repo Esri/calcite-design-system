@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "build": "npm run util:copy-icons && stencil build && npm run util:add-custom-elements-index-mjs",
+    "build:watch": "npm run util:copy-icons && stencil build --watch && npm run util:add-custom-elements-index-mjs",
     "deps:update": "updtr --ex @types/jest @types/puppeteer jest jest-cli puppeteer && git add package*.json && git commit -q -m \"build(deps): bump versions\"",
     "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --static-dir ./__docs-temp__ --output-dir ./docs\"  \"ts-node ./support/tempDocDirCleaner.ts\"",
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/tempDocDirCleaner.ts\"",
