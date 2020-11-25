@@ -1,6 +1,6 @@
 import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
 import { accessible, focusable, renders } from "../../tests/commonTests";
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import dedent from "dedent";
 
 describe("calcite-value-list-item", () => {
@@ -75,6 +75,23 @@ describe("calcite-value-list-item", () => {
     expect(await item.getProperty("selected")).toBe(true);
   });
 
+  function queryWrappedPickListPart(page: E2EPage, partSelector: string, partMethodToInvoke?: string): Promise<void> {
+    return page.$eval(
+      "calcite-value-list-item",
+      (item: HTMLCalciteValueListItemElement, selector, partMethod?: string) => {
+        const part = item.shadowRoot
+          .querySelector("calcite-pick-list-item")
+          .shadowRoot.querySelector<HTMLElement>(selector);
+
+        if (partMethod) {
+          part[partMethod]();
+        }
+      },
+      partSelector,
+      partMethodToInvoke
+    );
+  }
+
   it("allows for easy removal", async () => {
     const page = await newE2EPage({
       html: `<calcite-value-list-item label="test" value="example" removable></calcite-value-list-item>`
@@ -83,12 +100,7 @@ describe("calcite-value-list-item", () => {
     const item = await page.find("calcite-value-list-item");
     const removeEventSpy = await item.spyOnEvent("calciteListItemRemove");
 
-    await page.$eval(
-      "calcite-value-list-item",
-      (item: HTMLCalciteValueListItemElement, selector) =>
-        item.shadowRoot.querySelector("calcite-pick-list-item").shadowRoot.querySelector<HTMLElement>(selector).click(),
-      `.${PICK_LIST_ITEM_CSS.remove}`
-    );
+    await queryWrappedPickListPart(page, `.${PICK_LIST_ITEM_CSS.remove}`, "click");
 
     expect(removeEventSpy).toHaveReceivedEventTimes(1);
   });
@@ -101,12 +113,7 @@ describe("calcite-value-list-item", () => {
       </calcite-value-list-item>`
     });
 
-    const actionsNodeStart = await page.$eval(
-      "calcite-value-list-item",
-      (item: HTMLCalciteValueListItemElement, selector) =>
-        item.shadowRoot.querySelector("calcite-pick-list-item").shadowRoot.querySelector(selector),
-      `.${PICK_LIST_ITEM_CSS.actionsStart}`
-    );
+    const actionsNodeStart = await queryWrappedPickListPart(page, `.${PICK_LIST_ITEM_CSS.actionsStart}`);
 
     expect(actionsNodeStart).not.toBeNull();
   });
@@ -119,12 +126,7 @@ describe("calcite-value-list-item", () => {
       </calcite-value-list-item>`
     });
 
-    const actionsNodeEnd = await page.$eval(
-      "calcite-value-list-item",
-      (item: HTMLCalciteValueListItemElement, selector) =>
-        item.shadowRoot.querySelector("calcite-pick-list-item").shadowRoot.querySelector(selector),
-      `.${PICK_LIST_ITEM_CSS.actionsEnd}`
-    );
+    const actionsNodeEnd = await queryWrappedPickListPart(page, `.${PICK_LIST_ITEM_CSS.actionsEnd}`);
 
     expect(actionsNodeEnd).not.toBeNull();
   });
