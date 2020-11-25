@@ -17,7 +17,7 @@ import { getElementDir } from "../../utils/dom";
 @Component({
   tag: "calcite-radio-button",
   styleUrl: "calcite-radio-button.scss",
-  shadow: true
+  scoped: true
 })
 export class CalciteRadioButton {
   //--------------------------------------------------------------------------
@@ -42,7 +42,9 @@ export class CalciteRadioButton {
     if (newChecked) {
       this.uncheckOtherRadioButtonsInGroup();
     }
-    this.input.checked = newChecked;
+    if (this.input) {
+      this.input.checked = newChecked;
+    }
     this.calciteRadioButtonCheckedChange.emit(newChecked);
   }
 
@@ -121,8 +123,6 @@ export class CalciteRadioButton {
   private initialChecked: boolean;
 
   private input: HTMLInputElement;
-
-  private label: HTMLCalciteLabelElement;
 
   private titleAttributeObserver: MutationObserver;
 
@@ -266,8 +266,6 @@ export class CalciteRadioButton {
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
     this.initialChecked = this.checked;
-    this.renderLabel();
-    this.renderInput();
     this.setupTitleAttributeObserver();
     if (this.name) {
       this.checkLastRadioButton();
@@ -285,7 +283,6 @@ export class CalciteRadioButton {
   }
 
   disconnectedCallback(): void {
-    this.input.parentNode.removeChild(this.input);
     this.titleAttributeObserver.disconnect();
     const form = this.el.closest("form");
     if (form) {
@@ -299,79 +296,63 @@ export class CalciteRadioButton {
   //
   // --------------------------------------------------------------------------
 
-  private renderInput(): void {
-    // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
-    // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
-    this.input = document.createElement("input");
-    this.input.checked = this.checked;
-    this.checked && this.input.setAttribute("checked", "");
-    this.input.setAttribute("aria-label", this.value || this.guid);
-    this.input.disabled = this.disabled;
-    this.input.hidden = this.hidden;
-    this.input.id = `${this.guid}-input`;
-    if (this.name) {
-      this.input.name = this.name;
-    }
-    this.input.onblur = this.onInputBlur.bind(this);
-    this.input.onfocus = this.onInputFocus.bind(this);
-
-    // We're using option #3 explained here to hide the radio input without compromising accessibility
-    // @link https://blog.bitsrc.io/customise-radio-buttons-without-compromising-accessibility-b03061b5ba93
-    // The only difference is we're using "fixed" instead of "absolute" positioning thanks to this StackOverflow:
-    // @link https://stackoverflow.com/questions/24299567/radio-button-causes-browser-to-jump-to-the-top/24323870
-    this.input.style.opacity = "0";
-    this.input.style.position = "fixed";
-    this.input.style.zIndex = "-1";
-
-    if (this.value) {
-      this.input.value = this.value;
-    }
-    this.input.required = this.required;
-
-    if (this.el.getAttribute("title")) {
-      this.input.title = this.el.getAttribute("title");
-    } else if (this.name && this.value) {
-      this.input.title = `Radio button with name of ${this.name} and value of ${this.value}`;
-    } else {
-      this.input.title = this.guid;
-    }
-
-    this.input.type = "radio";
-    this.el.insertAdjacentElement("beforeend", this.input);
-  }
-
-  private renderLabel(): void {
-    // Rendering a calcite-label outside of Shadow DOM for accessibility and form participation
+  private renderLabel(): VNode {
     if (this.el.textContent) {
-      const textNodes = Array.from(this.el.childNodes).filter(
-        (childNode) => childNode.nodeName === "#text"
+      return (
+        <calcite-label
+          dir={getElementDir(this.el)}
+          disable-spacing
+          disabled={this.disabled}
+          scale={this.scale}
+        >
+          <slot />
+        </calcite-label>
       );
-      const labelText = textNodes.reduce(
-        (labelText, textNode) => (labelText += textNode.textContent),
-        ""
-      );
-      while (this.el.firstChild) {
-        this.el.removeChild(this.el.firstChild);
-      }
-      this.label = document.createElement("calcite-label");
-      this.label.setAttribute("dir", getElementDir(this.el));
-      this.disabled && this.label.setAttribute("disabled", "");
-      this.label.setAttribute("disable-spacing", "");
-      this.label.setAttribute("scale", this.scale);
-      this.label.appendChild(document.createTextNode(labelText));
-      this.el.appendChild(this.label);
     }
+    return <slot />;
   }
 
   render(): VNode {
+    let title;
+    if (this.el.getAttribute("title")) {
+      title = this.el.getAttribute("title");
+    } else if (this.name && this.value) {
+      title = `Radio button with name of ${this.name} and value of ${this.value}`;
+    } else {
+      title = this.guid;
+    }
     return (
       <Host
         aria-checked={this.checked.toString()}
         aria-disabled={this.disabled.toString()}
         labeled={this.el.textContent ? true : false}
       >
-        <div class="radio" />
-        <slot />
+        <input
+          aria-label={this.value || this.guid}
+          checked={this.checked}
+          disabled={this.disabled}
+          hidden={this.hidden}
+          id={`${this.guid}-input`}
+          name={this.name}
+          onBlur={this.onInputBlur.bind(this)}
+          onFocus={this.onInputFocus.bind(this)}
+          ref={(el) => (this.input = el)}
+          required={this.required}
+          style={{ opacity: "0", position: "fixed", zIndex: "-1" }}
+          title={title}
+          type="radio"
+          value={this.value}
+        />
+        <calcite-radio
+          checked={this.checked}
+          disabled={this.disabled}
+          focused={this.focused}
+          hidden={this.hidden}
+          hovered={this.hovered}
+          scale={this.scale}
+          theme={this.theme}
+        />
+        {this.renderLabel()}
       </Host>
     );
   }

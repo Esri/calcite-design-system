@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Radio</title>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <style>
+    h1,
+    h2,
+    h3 {
+      margin: 12px 0;
+    }
+
+    hr {
+      width: 100%;
+      border: 0;
+      height: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      margin: 12px 0;
+    }
+
+    .vertical-grid {
+      display: grid;
+      grid-gap: 25px;
+      grid-template-columns: repeat(3, minmax(0px, max-content));
+    }
+
+    .dark {
+      background: #2B2B2B;
+      padding: 1rem;
+    }
+
+    .dark h2,
+    .dark h3 {
+      color: white;
+    }
+  </style>
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+  <script type="module" src="./helpers/demo-spacer.js"></script>
+  <style>
+    calcite-radio .radio {
+      box-shadow:inset 0 0 0 1px orange;
+    }
+  </style>
+</head>
+
+<body>
+    <demo-spacer>
+      <calcite-radio scale="s"></calcite-radio>
+      <calcite-radio scale="s" focused></calcite-radio>
+      <calcite-radio scale="s" checked></calcite-radio>
+      <calcite-radio scale="s" checked focused></calcite-radio>
+      <calcite-radio scale="m"></calcite-radio>
+      <calcite-radio scale="m" focused></calcite-radio>
+      <calcite-radio scale="m" checked></calcite-radio>
+      <calcite-radio scale="m" checked focused></calcite-radio>
+      <calcite-radio scale="l"></calcite-radio>
+      <calcite-radio scale="l" focused></calcite-radio>
+      <calcite-radio scale="l" checked></calcite-radio>
+      <calcite-radio scale="l" checked focused></calcite-radio>
+    </demo-spacer>
+</body>
+</html>

@@ -211,12 +211,12 @@ describe("calcite-radio-button", () => {
     expect(firstInput).toBeTruthy();
 
     await page.evaluate(() => {
-      const first = document.querySelector("input#first-input");
+      const first = document.querySelector("#first");
       first.parentNode.removeChild(first);
     });
     await page.waitForChanges();
 
-    firstInput = await page.find("input#first");
+    firstInput = await page.find("input#first-input");
 
     expect(firstInput).toBeFalsy();
   });
@@ -239,7 +239,7 @@ describe("calcite-radio-button", () => {
     });
     await page.waitForChanges();
 
-    const firstInput = document.querySelector("input#first");
+    const firstInput = document.querySelector("input#first-input");
 
     expect(documentBody.lastChild === firstInput);
   });
@@ -384,14 +384,6 @@ describe("calcite-radio-button", () => {
     expect(ariaChecked).toEqualText("false");
   });
 
-  it("content/value is wrapped by label", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-button></calcite-radio-button>");
-    const defaultSlot = await page.find("calcite-radio-button >>> label slot");
-
-    expect(defaultSlot).toBeDefined();
-  });
-
   it("provides a default title attribute that reflects to the corresponding input", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -464,27 +456,7 @@ describe("calcite-radio-button", () => {
     expect(await checked.getProperty("checked")).toBe(true);
   });
 
-  it("renders all children text nodes concatenated together in a single calcite-label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button>More<br> than<br> one<br> text<br> node</calcite-radio-button>
-    `);
-
-    const labels = await page.findAll("calcite-label");
-    expect(labels).toHaveLength(1);
-
-    const label = await page.find("calcite-label");
-    expect(label.textContent).toEqual("More than one text node");
-
-    const page2 = await newE2EPage();
-    await page2.setContent(`
-      <calcite-radio-button>More<br>than<br>one<br>text<br>node<p>Only plain text nodes allowed!</p></calcite-radio-button>
-    `);
-    const label2 = await page2.find("calcite-label");
-    expect(label2.textContent).toEqual("Morethanonetextnode");
-  });
-
-  it("only renders a label when text nodes are supplied", async () => {
+  it("only renders a calcite-label when content is supplied", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button></calcite-radio-button>
@@ -494,7 +466,7 @@ describe("calcite-radio-button", () => {
 
     const page2 = await newE2EPage();
     await page2.setContent(`
-      <calcite-radio-button><p>Only plain text nodes allowed!</p></calcite-radio-button>
+      <calcite-radio-button><p>Label content</p></calcite-radio-button>
     `);
 
     const labels2 = await page.findAll("calcite-label");
