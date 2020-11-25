@@ -1,4 +1,4 @@
-import { CalciteScale, CalciteTheme } from '../interfaces'
+import { CalciteScale, CalciteTheme } from "../interfaces";
 import {
   Component,
   Element,
@@ -11,10 +11,10 @@ import {
   Prop,
   VNode,
   Watch
-  } from '@stencil/core'
-import { getElementDir, getElementProp, setRequestedIcon } from '../../utils/dom'
-import { getKey } from '../../utils/key'
-import { INPUTTYPEICONS } from './calcite-input.resources'
+} from "@stencil/core";
+import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getKey } from "../../utils/key";
+import { INPUTTYPEICONS } from "./calcite-input.resources";
 
 @Component({
   tag: "calcite-input",
