@@ -12,7 +12,7 @@ import {
   Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
+// import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-radio-button",
@@ -61,10 +61,12 @@ export class CalciteRadioButton {
 
   @Watch("focused")
   focusedChanged(focused: boolean): void {
-    if (focused && !this.el.hasAttribute("hidden")) {
-      this.input.focus();
-    } else {
-      this.input.blur();
+    if (this.input) {
+      if (focused && !this.el.hasAttribute("hidden")) {
+        this.input.focus();
+      } else {
+        this.input.blur();
+      }
     }
   }
 
@@ -87,7 +89,12 @@ export class CalciteRadioButton {
 
   @Watch("name")
   nameChanged(newName: string): void {
-    this.input.name = newName;
+    if (this.name === newName) {
+      return;
+    }
+    if (this.input) {
+      this.input.name = newName;
+    }
     this.checkLastRadioButton();
     const currentValue: HTMLInputElement = document.querySelector(
       `input[name="${this.name}"]:checked`
@@ -296,21 +303,21 @@ export class CalciteRadioButton {
   //
   // --------------------------------------------------------------------------
 
-  private renderLabel(): VNode {
-    if (this.el.textContent) {
-      return (
-        <calcite-label
-          dir={getElementDir(this.el)}
-          disable-spacing
-          disabled={this.disabled}
-          scale={this.scale}
-        >
-          <slot />
-        </calcite-label>
-      );
-    }
-    return <slot />;
-  }
+  // private renderLabel(): VNode {
+  //   if (this.el.textContent) {
+  //     return (
+  //       <calcite-label
+  //         dir={getElementDir(this.el)}
+  //         disable-spacing
+  //         disabled={this.disabled}
+  //         scale={this.scale}
+  //       >
+  //         <slot />
+  //       </calcite-label>
+  //     );
+  //   }
+  //   return <slot />;
+  // }
 
   render(): VNode {
     let title;
@@ -352,7 +359,7 @@ export class CalciteRadioButton {
           scale={this.scale}
           theme={this.theme}
         />
-        {this.renderLabel()}
+        {/* {this.renderLabel()} */}
       </Host>
     );
   }
