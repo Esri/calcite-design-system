@@ -9,5 +9,6 @@ module.exports = {
     {
       browserName: 'chrome'
     }
-  ]
+  ],
+  failureExitCode: 0
 };
