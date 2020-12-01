@@ -403,7 +403,7 @@ export class CalciteDropdown {
             this.closeCalciteDropdown();
             break;
         }
-      } else if (key === "Escape" || (e.shiftKey && key === "Tab")) {
+      } else if (this.active && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
         this.closeCalciteDropdown();
       }
     }
@@ -493,6 +493,8 @@ export class CalciteDropdown {
 
     if (this.active) {
       setTimeout(() => this.focusOnFirstActiveOrFirstItem(), animationDelayInMs);
+    } else {
+      this.calciteDropdownClose.emit();
     }
   }
 }
