@@ -117,7 +117,7 @@
     "puppeteer": "5.3.1",
     "rimraf": "3.0.2",
     "screener-storybook": "0.20.5",
-    "semver": "7.3.2",
+    "semver": "7.3.3",
     "sortablejs": "1.12.0",
     "standard-version": "9.0.0",
     "storybook": "6.1.9",
@@ -132,7 +132,7 @@
     "tslint-stencil": "1.0.1",
     "typescript": "4.1.2",
     "updtr": "3.1.0",
-    "workbox-build": "5.1.4",
+    "workbox-build": "6.0.0",
     "yargs": "16.1.1"
   },
   "license": "UNLICENSED"
