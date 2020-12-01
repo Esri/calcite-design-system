@@ -12,14 +12,14 @@ describe("calcite-alert", () => {
 
   it("is accessible", async () =>
     accessible(`
-    <calcite-alert active>
+    <calcite-alert active label="test">
     ${alertContent}
     </calcite-alert>
   `));
 
   it("is accessible with auto-dismiss", async () =>
     accessible(`
-    <calcite-alert active auto-dismiss>
+    <calcite-alert active auto-dismiss label="test">
     ${alertContent}
     </calcite-alert>
   `));

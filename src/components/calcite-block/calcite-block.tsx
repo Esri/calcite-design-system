@@ -51,6 +51,9 @@ export class CalciteBlock {
    */
   @Prop() intlExpand?: string;
 
+  /** string to override English loading text */
+  @Prop() intlLoading?: string = TEXT.loading;
+
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
@@ -131,7 +134,8 @@ export class CalciteBlock {
       intlExpand,
       loading,
       open,
-      summary
+      summary,
+      intlLoading
     } = this;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
@@ -169,7 +173,7 @@ export class CalciteBlock {
           headerContent
         )}
         {loading ? (
-          <calcite-loader inline is-active />
+          <calcite-loader inline is-active label={intlLoading} />
         ) : hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
