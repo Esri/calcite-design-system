@@ -202,4 +202,94 @@ describe("calcite-tooltip-manager", () => {
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
+
+  it("should only open the last focused tooltip", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `
+      <calcite-tooltip-manager>
+        <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
+        <button id="focusRef">Button</button>
+        <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
+        <button id="hoverRef">Button</button>
+      <calcite-tooltip-manager>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const focusTip = await page.find("#focusTip");
+    const focusRef = await page.find("#focusRef");
+    const hoverTip = await page.find("#hoverTip");
+
+    expect(await focusTip.getProperty("open")).toBe(false);
+
+    expect(await hoverTip.getProperty("open")).toBe(false);
+
+    await page.$eval("#hoverRef", (elm: HTMLElement) => {
+      elm.dispatchEvent(new Event("mouseenter"));
+    });
+
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+
+    await page.waitForChanges();
+
+    expect(await focusTip.getProperty("open")).toBe(false);
+
+    expect(await hoverTip.getProperty("open")).toBe(true);
+
+    await focusRef.focus();
+
+    await page.waitForChanges();
+
+    expect(await focusTip.getProperty("open")).toBe(true);
+
+    expect(await hoverTip.getProperty("open")).toBe(false);
+  });
+
+  it("should only open the last hovered tooltip", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `
+      <calcite-tooltip-manager>
+        <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
+        <button id="focusRef">Button</button>
+        <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
+        <button id="hoverRef">Button</button>
+      <calcite-tooltip-manager>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const focusTip = await page.find("#focusTip");
+    const focusRef = await page.find("#focusRef");
+    const hoverTip = await page.find("#hoverTip");
+
+    expect(await focusTip.getProperty("open")).toBe(false);
+
+    expect(await hoverTip.getProperty("open")).toBe(false);
+
+    await focusRef.focus();
+
+    await page.waitForChanges();
+
+    expect(await focusTip.getProperty("open")).toBe(true);
+
+    expect(await hoverTip.getProperty("open")).toBe(false);
+
+    await page.$eval("#hoverRef", (elm: HTMLElement) => {
+      elm.dispatchEvent(new Event("mouseenter"));
+    });
+
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+
+    await page.waitForChanges();
+
+    expect(await focusTip.getProperty("open")).toBe(false);
+
+    expect(await hoverTip.getProperty("open")).toBe(true);
+  });
 });
