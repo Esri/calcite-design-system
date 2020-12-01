@@ -166,7 +166,7 @@ describe("calcite-tooltip-manager", () => {
     expect(await tooltip.getProperty("open")).toBe(false);
   });
 
-  it("should honor hovered + focused tooltip closing with ESC key", async () => {
+  it("should honor hovered and focused tooltip closing with ESC key", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
