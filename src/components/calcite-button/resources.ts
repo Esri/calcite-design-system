@@ -5,3 +5,7 @@ export const CSS = {
   iconStart: "icon--start",
   iconEnd: "icon--end"
 };
+
+export const TEXT = {
+  loading: "Loading"
+};
