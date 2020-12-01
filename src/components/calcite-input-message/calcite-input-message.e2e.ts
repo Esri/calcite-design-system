@@ -1,13 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-input-message", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-input-message></calcite-input-message>");
-    const input = await page.find("calcite-input-message");
-    expect(input).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", async () => renders("calcite-input-message"));
+
+  it("is accessible", async () => accessible(`<calcite-input-message>Text</calcite-input-message>`));
+  it("is accessible with icon", async () => accessible(`<calcite-input-message icon>Text</calcite-input-message>`));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
@@ -23,7 +21,7 @@ describe("calcite-input-message", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message status="valid" theme="dark" type="floating"></calcite-input-message>
+    <calcite-input-message status="valid" theme="dark" type="floating">Text</calcite-input-message>
     `);
 
     const element = await page.find("calcite-input-message");
@@ -37,7 +35,7 @@ describe("calcite-input-message", () => {
     await page.setContent(`
     <calcite-label status="invalid" theme="dark">
     Label text
-    <calcite-input-message></calcite-input-message>
+    <calcite-input-message>Text</calcite-input-message>
     </calcite-label>
     `);
 
@@ -48,7 +46,7 @@ describe("calcite-input-message", () => {
   it("does not render an icon if not requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message></calcite-input-message>
+    <calcite-input-message>Text</calcite-input-message>
     `);
 
     const icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
@@ -58,7 +56,7 @@ describe("calcite-input-message", () => {
   it("renders an icon if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message icon></calcite-input-message>
+    <calcite-input-message icon>Text</calcite-input-message>
     `);
 
     const icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
