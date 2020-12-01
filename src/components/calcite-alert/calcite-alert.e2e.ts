@@ -10,7 +10,7 @@ describe("calcite-alert", () => {
 
   it("renders", async () => renders("calcite-alert", false));
 
-  it("is accessible", async () =>
+  it.skip("is accessible", async () =>
     accessible(`
     <calcite-alert active label="test">
     ${alertContent}
