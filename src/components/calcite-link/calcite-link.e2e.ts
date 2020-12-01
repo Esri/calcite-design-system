@@ -1,7 +1,13 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
+  it("is accessible", async () =>
+    Promise.all([
+      accessible("<calcite-link href='/'>link</calcite-link>"),
+      accessible("<calcite-link>link</calcite-link>")
+    ]));
+
   it("renders as a span with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link>Continue</calcite-link>`);
@@ -123,6 +129,7 @@ describe("calcite-link", () => {
     expect(iconStart).not.toBeNull();
     expect(iconEnd).toBeNull();
   });
+
   it("renders with an icon-end", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-end='plus'>Continue</calcite-link>`);
@@ -151,5 +158,40 @@ describe("calcite-link", () => {
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).not.toBeNull();
     expect(iconEnd).not.toBeNull();
+  });
+
+  describe("link interactivity", () => {
+    const targetPage = "test";
+
+    let page: E2EPage;
+    let pageUrl: string;
+    let targetUrl: string;
+
+    beforeEach(async () => {
+      page = await newE2EPage({
+        html: `<calcite-link href="/${targetPage}">link</calcite-link>`
+      });
+
+      pageUrl = page.url();
+      targetUrl = `${pageUrl}${targetPage}`;
+    });
+
+    it("keyboard", async () => {
+      const element = await page.find("calcite-link");
+      await element.focus();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(page.url()).toBe(targetUrl);
+    });
+
+    it("mouse", async () => {
+      await page.$eval("calcite-link", (link: HTMLElement): void => {
+        link.click();
+      });
+      await page.waitForChanges();
+
+      expect(page.url()).toBe(targetUrl);
+    });
   });
 });
