@@ -4,5 +4,11 @@
 }
 
 calcite-button {
-  @apply shadow-1;
+  @apply shadow-2;
+  &:hover {
+    @apply shadow-2-lg;
+  }
+  &:active {
+    @apply shadow-2-sm;
+  }
 }

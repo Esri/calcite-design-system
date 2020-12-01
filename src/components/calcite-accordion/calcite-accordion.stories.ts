@@ -1,150 +1,163 @@
-import { storiesOf } from "@storybook/html";
-import { select } from "@storybook/addon-knobs";
+import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import dedent from "dedent";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { iconNames } from "../../../.storybook/helpers";
+import { select, text } from "@storybook/addon-knobs";
+import accordionReadme from "./readme.md";
+import accordionItemReadme from "../calcite-accordion-item/readme.md";
 
-import { darkBackground } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../calcite-accordion-item/readme.md";
+const createAccordionAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
+  const group = "accordion";
+  const { dir, theme, scale } = ATTRIBUTES;
 
-storiesOf("Components/Accordion", module)
-  .addParameters({ notes: [readme1, readme2] })
-  .add(
-    "Simple",
-    (): string => `
-    <div style="width:300px;max-width:100%">
-    <calcite-accordion
-      theme="light"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
-      icon-position="${select("icon-position", ["start", "end"], "end")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
-      icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
-    >
-    <calcite-accordion-item item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
-    <calcite-radio-group scale="s">
-    <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
-    <calcite-radio-group-item value="No">No</calcite-radio-group-item>
-    </calcite-radio-group>
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    </calcite-accordion>
-    </div>
+  interface DeferredAttribute {
+    name: string;
+    commit: () => Attribute;
+  }
+
+  return ([
+    {
+      name: "dir",
+      commit(): Attribute {
+        this.value = select("dir", dir.values, dir.defaultValue, group);
+        delete this.build;
+        return this;
+      }
+    },
+    {
+      name: "scale",
+      commit(): Attribute {
+        this.value = select("scale", scale.values, scale.defaultValue, group);
+        delete this.build;
+        return this;
+      }
+    },
+    {
+      name: "theme",
+      commit(): Attribute {
+        this.value = select("theme", theme.values, theme.defaultValue, group);
+        delete this.build;
+        return this;
+      }
+    },
+    {
+      name: "appearance",
+      commit(): Attribute {
+        this.value = select("appearance", ["default", "minimal", "transparent"], "default", group);
+        delete this.build;
+        return this;
+      }
+    },
+    {
+      name: "icon-position",
+      commit(): Attribute {
+        this.value = select("icon-position", ["start", "end"], "end", group);
+        delete this.build;
+        return this;
+      }
+    },
+    {
+      name: "icon-type",
+      commit(): Attribute {
+        this.value = select("icon-type", ["chevron", "caret", "plus-minus"], "chevron", group);
+        delete this.build;
+        return this;
+      }
+    },
+    {
+      name: "selection-mode",
+      commit(): Attribute {
+        this.value = select("selection-mode", ["multi", "single", "single-persist"], "multi", group);
+        delete this.build;
+        return this;
+      }
+    }
+  ] as DeferredAttribute[])
+    .filter((attr) => !except.find((excluded) => excluded === attr.name))
+    .map((attr) => attr.commit());
+};
+
+const createAccordionItemAttributes: (options?: { icon?: boolean; group?: string }) => Attributes = ({
+  icon,
+  group
+}) => {
+  const groupTitle = group ? group : "";
+  const defaultAttributes = [
+    {
+      name: "item-title",
+      value: text("item-title", "Item title", groupTitle)
+    },
+    {
+      name: "item-subtitle",
+      value: text("item-subtitle", "Item subtitle", groupTitle)
+    }
+  ];
+
+  const iconAttribute = [
+    {
+      name: "icon",
+      value: select("icon", iconNames, iconNames[0], groupTitle)
+    }
+  ];
+
+  return icon ? iconAttribute.concat(defaultAttributes) : defaultAttributes;
+};
+
+const accordionItemContent = `Custom content here<br/><img src="https://placem.at/places?w=200&txt=0"><br/>More custom content here`;
+
+export default {
+  title: "Components/Accordion",
+  parameters: {
+    backgrounds: darkBackground,
+    notes: {
+      accordion: accordionReadme,
+      accordionItem: accordionItemReadme
+    }
+  }
+};
+
+export const basic = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes(),
+    dedent`
+    ${create(
+      "calcite-accordion-item",
+      createAccordionItemAttributes({ group: "accordion-item-1" }),
+      accordionItemContent
+    )}
+    ${create(
+      "calcite-accordion-item",
+      createAccordionItemAttributes({ group: "accordion-item-2" }),
+      accordionItemContent
+    )}
+    ${create(
+      "calcite-accordion-item",
+      createAccordionItemAttributes({ group: "accordion-item-3" }),
+      accordionItemContent
+    )}
   `
-  )
-  .add(
-    "With Icons",
-    (): string => `
-    <div style="width:300px;max-width:100%">
-    <calcite-accordion
-      theme="light"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
-      icon-position="${select("icon-position", ["start", "end"], "end")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
-      icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
-    >
-    <calcite-accordion-item icon="banana" item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    <calcite-accordion-item icon="car" item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    <calcite-accordion-item icon="map" item-title="Accordion Item 3" item-subtitle="Something short about this item">
-    <calcite-radio-group scale="s">
-    <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
-    <calcite-radio-group-item value="No">No</calcite-radio-group-item>
-    </calcite-radio-group>
-    </calcite-accordion-item>
-    <calcite-accordion-item icon="plane" item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    </calcite-accordion>
-    </div>
-  `
-  )
-  .add(
-    "Dark Mode",
-    (): string => `
-    <div style="width:300px;max-width:100%">
-    <calcite-accordion
-      theme="dark"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
-      icon-position="${select("icon-position", ["start", "end"], "end")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
-      icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
-    >
-    <calcite-accordion-item item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
-    <calcite-radio-group scale="s">
-    <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
-    <calcite-radio-group-item value="No">No</calcite-radio-group-item>
-    </calcite-radio-group>
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    </calcite-accordion>
-    </div>
-    `,
-    { backgrounds: darkBackground }
-  )
-  .add(
-    "RTL",
-    (): string => `
-      <div style="width:300px;max-width:100%" dir="rtl">
-      <calcite-accordion
-        theme="light"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
-        icon-position="${select("icon-position", ["start", "end"], "end")}"
-        selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
-        icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
-      >
-      <calcite-accordion-item item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
-      </calcite-accordion-item>
-      <calcite-accordion-item item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
-      </calcite-accordion-item>
-      <calcite-accordion-item item-title="Accordion Item 3" item-subtitle="Something short about this item">
-      <calcite-radio-group scale="s">
-      <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
-      <calcite-radio-group-item value="No">No</calcite-radio-group-item>
-      </calcite-radio-group>
-      </calcite-accordion-item>
-      <calcite-accordion-item item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
-      </calcite-accordion-item>
-      </calcite-accordion>
-      </div>
-      `
-  )
-  .add(
-    "RTL With Icons",
-    (): string => `
-    <div style="width:300px;max-width:100%" dir="rtl">
-    <calcite-accordion
-      theme="light"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["default", "minimal", "transparent"], "default")}"
-      icon-position="${select("icon-position", ["start", "end"], "end")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "single-persist"], "multi")}"
-      icon-type="${select("icon-type", ["chevron", "caret", "plus-minus"], "chevron")}"
-    >
-    <calcite-accordion-item icon="banana" item-title="Accordion Item"><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    <calcite-accordion-item icon="car" item-title="Accordion Item 2" active><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    <calcite-accordion-item icon="map" item-title="Accordion Item 3" item-subtitle="Something short about this item">
-    <calcite-radio-group scale="s">
-    <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
-    <calcite-radio-group-item value="No">No</calcite-radio-group-item>
-    </calcite-radio-group>
-    </calcite-accordion-item>
-    <calcite-accordion-item icon="plane" item-title="Accordion Item 4"><img alt="" src="http://placekitten.com/100/200" />
-    </calcite-accordion-item>
-    </calcite-accordion>
-    </div>
+  );
+
+export const icon = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes(),
+    dedent`
+    ${create(
+      "calcite-accordion-item",
+      createAccordionItemAttributes({ icon: true, group: "accordion-item-1" }),
+      accordionItemContent
+    )}
+    ${create(
+      "calcite-accordion-item",
+      createAccordionItemAttributes({ icon: true, group: "accordion-item-2" }),
+      accordionItemContent
+    )}
+    ${create(
+      "calcite-accordion-item",
+      createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+      accordionItemContent
+    )}
   `
   );

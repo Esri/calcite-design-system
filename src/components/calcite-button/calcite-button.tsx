@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -37,9 +37,6 @@ export class CalciteButton {
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  /** optionally add a floating style to the button - this should be positioned fixed or sticky */
-  @Prop({ reflect: true }) floating?: boolean = false;
-
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
@@ -51,6 +48,9 @@ export class CalciteButton {
 
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
+
+  /** string to override English loading text */
+  @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally specify alignment of button elements. */
   @Prop({ reflect: true }) alignment?:
@@ -109,7 +109,7 @@ export class CalciteButton {
 
     const loader = (
       <div class={CSS.buttonLoader}>
-        <calcite-loader active inline />
+        <calcite-loader active inline label={this.intlLoading} />
       </div>
     );
 
@@ -137,7 +137,7 @@ export class CalciteButton {
 
     const contentEl = (
       <span class={CSS.content}>
-        <slot></slot>
+        <slot />
       </span>
     );
 
@@ -146,7 +146,7 @@ export class CalciteButton {
         <Tag
           {...attributes}
           disabled={this.disabled}
-          onClick={(e) => this.handleClick(e)}
+          onClick={this.handleClick}
           ref={(el) => (this.childEl = el)}
           tabIndex={this.disabled ? -1 : null}
         >
