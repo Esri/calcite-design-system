@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -48,6 +48,9 @@ export class CalciteButton {
 
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
+
+  /** string to override English loading text */
+  @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally specify alignment of button elements. */
   @Prop({ reflect: true }) alignment?:
@@ -106,7 +109,7 @@ export class CalciteButton {
 
     const loader = (
       <div class={CSS.buttonLoader}>
-        <calcite-loader active inline />
+        <calcite-loader active inline label={this.intlLoading} />
       </div>
     );
 

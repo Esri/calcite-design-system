@@ -7,10 +7,10 @@ describe("calcite-tooltip", () => {
     renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
 
   it("is accessible when closed", async () =>
-    accessible(`<calcite-tooltip reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
+    accessible(`<calcite-tooltip label="test" reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
 
   it("is accessible when open", async () =>
-    accessible(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
+    accessible(`<calcite-tooltip label="test" open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
 
   it("honors hidden attribute", async () => hidden("calcite-tooltip"));
 
