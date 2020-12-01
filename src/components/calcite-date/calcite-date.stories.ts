@@ -61,7 +61,7 @@ storiesOf("Components/Date", module)
     "Simple",
     (): string => `
     <div style="width: 400px">
-    <label>
+    <calcite-label layout="inline">
     Date
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -71,7 +71,7 @@ storiesOf("Components/Date", module)
       locale="${select("locale", locales, "en-US")}"
       intl-next-month="${text("intl-next-month", "Next month")}"
       intl-prev-month="${text("intl-prev-month", "Previous month")}"
-    ></calcite-date></label>
+    ></calcite-date></calcite-label>
     </div>
   `
   )
@@ -97,7 +97,7 @@ storiesOf("Components/Date", module)
     "Dark mode",
     (): string => `
     <div style="width: 400px">
-    <label>
+    <calcite-label layout="inline" theme="dark">
     Date
     <calcite-date
       theme="dark"
@@ -108,7 +108,7 @@ storiesOf("Components/Date", module)
       locale="${select("locale", locales, "en-US")}"
       intl-next-month="${text("intl-next-month", "Next month")}"
       intl-prev-month="${text("intl-prev-month", "Previous month")}"
-    ></calcite-date></label>
+    ></calcite-date></calcite-label>
     </div>
 `,
     { backgrounds: darkBackground }
