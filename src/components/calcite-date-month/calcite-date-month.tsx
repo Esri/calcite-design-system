@@ -318,13 +318,20 @@ export class CalciteDateMonth {
    */
   private isStartOfRange(date: Date): boolean {
     return (
-      !!this.startDate && !sameDate(this.startDate, this.endDate) && sameDate(this.startDate, date)
+      !!this.startDate &&
+      !sameDate(this.startDate, this.endDate) &&
+      sameDate(this.startDate, date) &&
+      !this.isEndOfRange(date)
     );
   }
 
   private isEndOfRange(date: Date): boolean {
     return (
-      !!this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date)
+      (!!this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date)) ||
+      (!this.endDate &&
+        this.hoverRange &&
+        sameDate(this.startDate, this.hoverRange.end) &&
+        sameDate(date, this.hoverRange.end))
     );
   }
 
@@ -372,7 +379,8 @@ export class CalciteDateMonth {
       class: `${
         !this.startDate
           ? ""
-          : this.isHoverInRange()
+          : this.isHoverInRange() ||
+            (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate))
           ? "hover--inside-range"
           : "hover--outside-range"
       } ${this.isFocusedOnStart() ? "focused--start" : "focused--end"}`
@@ -408,8 +416,10 @@ export class CalciteDateMonth {
         (isStart && date < this.endDate && (date > start || sameDate(date, start))));
     const cond2 =
       !insideRange &&
-      ((!isStart && date > this.endDate && (date < end || sameDate(date, end))) ||
-        (isStart && date < this.startDate && (date > start || sameDate(date, start))));
+      ((!isStart && date >= this.endDate && (date < end || sameDate(date, end))) ||
+        (isStart &&
+          (date < this.startDate || (this.endDate && sameDate(date, this.startDate))) &&
+          (date > start || sameDate(date, start))));
     return cond1 || cond2;
   }
 }

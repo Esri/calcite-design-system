@@ -58,6 +58,9 @@ export class CalciteDate {
   /** Selected end date as full date object*/
   @Prop({ mutable: true }) endAsDate?: Date;
 
+  /** Last date value that was set in range */
+  @Prop({ mutable: true }) mostRecentRangeValue?: Date;
+
   /** Earliest allowed date ("yyyy-mm-dd") */
   @Prop() min?: string;
 
@@ -195,8 +198,17 @@ export class CalciteDate {
     let activeDate = activeStartDate;
     const endDate = this.range ? dateFromRange(this.endAsDate, min, max) : null;
     const activeEndDate = this.getActiveEndDate(endDate, min, max);
-    if (this.focusedInput === "end" && activeEndDate) {
+    if (
+      (this.focusedInput === "end" ||
+        (this.noCalendarInput &&
+          this.hoverRange?.focused === "end" &&
+          (this.proximitySelection || endDate))) &&
+      activeEndDate
+    ) {
       activeDate = activeEndDate;
+    }
+    if (this.range && this.noCalendarInput && this.mostRecentRangeValue) {
+      activeDate = this.mostRecentRangeValue;
     }
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
@@ -416,7 +428,7 @@ export class CalciteDate {
       if (this.min) {
         this.startProxy.min = this.min;
       }
-      if (this.max || this.endProxy.value) {
+      if ((this.max || this.endProxy.value) && this.proximitySelection) {
         this.startProxy.max = this.endProxy.value || this.max;
       }
     }
@@ -511,6 +523,7 @@ export class CalciteDate {
                 } else if (this.focusedInput === "end") {
                   this.activeEndDate = date;
                 }
+                this.mostRecentRangeValue = date;
               }
             }}
             scale={this.scale}
@@ -554,16 +567,37 @@ export class CalciteDate {
                   this.hoverRange.end = date;
                 }
               } else {
-                if (!this.endAsDate) {
-                  this.hoverRange.end = date;
-                  this.hoverRange.focused = "end";
-                } else {
-                  if (this.proximitySelection) {
+                if (this.proximitySelection) {
+                  if (this.endAsDate) {
                     const startDiff = getDaysDiff(date, this.startAsDate);
                     const endDiff = getDaysDiff(date, this.endAsDate);
                     if (startDiff < endDiff) {
                       this.hoverRange.start = date;
                       this.hoverRange.focused = "start";
+                    } else {
+                      this.hoverRange.end = date;
+                      this.hoverRange.focused = "end";
+                    }
+                  } else {
+                    if (date < this.startAsDate) {
+                      this.hoverRange = {
+                        focused: "start",
+                        start: date,
+                        end: this.startAsDate
+                      };
+                    } else {
+                      this.hoverRange.end = date;
+                      this.hoverRange.focused = "end";
+                    }
+                  }
+                } else {
+                  if (!this.endAsDate) {
+                    if (date < this.startAsDate) {
+                      this.hoverRange = {
+                        focused: "start",
+                        start: date,
+                        end: this.startAsDate
+                      };
                     } else {
                       this.hoverRange.end = date;
                       this.hoverRange.focused = "end";
@@ -633,6 +667,7 @@ export class CalciteDate {
       const date = dateFromISO(start);
       if (date) {
         this.startAsDate = date as Date;
+        this.mostRecentRangeValue = this.startAsDate;
       }
     }
   }
@@ -645,6 +680,7 @@ export class CalciteDate {
       const date = dateFromISO(end);
       if (date) {
         this.endAsDate = date as Date;
+        this.mostRecentRangeValue = this.endAsDate;
       }
     }
   }
@@ -734,7 +770,12 @@ export class CalciteDate {
     }
 
     if (this.range && this.noCalendarInput) {
-      if (!this.startAsDate) {
+      if (!this.startAsDate || (!this.endAsDate && date < this.startAsDate)) {
+        if (this.startAsDate) {
+          const newEndDate = new Date(this.startAsDate);
+          this.setEndDate(newEndDate);
+          this.activeEndDate = newEndDate;
+        }
         this.setStartDate(date);
         this.activeStartDate = date;
       } else if (!this.endAsDate) {
@@ -784,10 +825,10 @@ export class CalciteDate {
     });
 
     setTimeout(() => {
-      if (this.focusedInput === "start") {
+      if (this.focusedInput === "start" && !this.noCalendarInput) {
         this.endInput.setFocus();
       }
-    }, 10);
+    }, 150);
   }
 
   /**
