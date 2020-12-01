@@ -37,5 +37,6 @@ export const SLOTS = {
 export const TEXT = {
   back: "Back",
   close: "Close",
-  open: "Open"
+  open: "Open",
+  options: "Options"
 };
