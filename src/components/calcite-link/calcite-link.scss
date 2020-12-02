@@ -4,12 +4,18 @@
   display: inline;
   --calcite-blue-accessible: #{$h-bb-070};
   --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
+
+  @include focus-style-base();
 }
 
 // dark theme
 :host([theme="dark"]) {
   --calcite-blue-accessible: #{$d-bb-420};
   --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
+}
+
+:host(:focus) {
+  @include focus-style-outset();
 }
 
 // link base
@@ -30,15 +36,6 @@
   transition: $transition;
   &:hover {
     text-decoration: none;
-  }
-}
-
-// focus styles
-:host a,
-:host span {
-  @include focus-style-base();
-  &:focus {
-    @include focus-style-inset();
   }
 }
 
@@ -90,8 +87,7 @@
   background-size: 0% 1px, 100% 1px;
   transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
 
-  &:hover,
-  &:focus {
+  &:hover {
     color: $color-hover;
     background-size: 100% 1px, 100% 1px;
     & .calcite-link--icon {
