@@ -61,7 +61,10 @@ export class CalciteDropdown {
     this.reposition();
   }
 
-  /** specify the max items to display before showing the scroller, must be greater than 0 **/
+  /**
+   specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
+   this value does not include groupTitles passed to calcite-dropdown-group
+  */
   @Prop() maxItems = 0;
 
   /** specify the scale of dropdown, defaults to m */
