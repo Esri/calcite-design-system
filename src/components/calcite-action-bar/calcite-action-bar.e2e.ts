@@ -151,4 +151,23 @@ describe("calcite-action-bar", () => {
       </calcite-action-group>
     </calcite-action-bar>
     `));
+
+  it("should focus on toggle button", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action-bar>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>`
+    });
+
+    const tagName = await page.evaluate(async () => {
+      const actionBar = document.querySelector("calcite-action-bar");
+      await actionBar.setFocus("expand-toggle");
+      const activeElement = actionBar.shadowRoot.activeElement;
+      return activeElement.tagName;
+    });
+
+    expect(tagName).toBe("CALCITE-ACTION");
+  });
 });

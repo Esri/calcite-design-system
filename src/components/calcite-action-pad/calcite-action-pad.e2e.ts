@@ -130,4 +130,23 @@ describe("calcite-action-pad", () => {
       </calcite-action-group>
     </calcite-action-pad>
     `));
+
+  it("should focus on toggle button", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action-pad>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-pad>`
+    });
+
+    const tagName = await page.evaluate(async () => {
+      const actionPad = document.querySelector("calcite-action-pad");
+      await actionPad.setFocus("expand-toggle");
+      const activeElement = actionPad.shadowRoot.activeElement;
+      return activeElement.tagName;
+    });
+
+    expect(tagName).toBe("CALCITE-ACTION");
+  });
 });

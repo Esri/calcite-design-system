@@ -7,11 +7,12 @@ import {
   Prop,
   Watch,
   h,
-  VNode
+  VNode,
+  Method
 } from "@stencil/core";
 import { CalciteLayout, CalcitePosition, CalciteTheme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, focusElement } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, TEXT } from "./resources";
 
@@ -104,6 +105,8 @@ export class CalciteActionPad {
 
   @Element() el: HTMLCalciteActionPadElement;
 
+  expandToggleEl: HTMLCalciteActionElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -120,12 +123,32 @@ export class CalciteActionPad {
 
   // --------------------------------------------------------------------------
   //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(focusId?: "expand-toggle"): Promise<void> {
+    if (focusId === "expand-toggle") {
+      await focusElement(this.expandToggleEl);
+      return;
+    }
+
+    this.el.focus();
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
+  };
+
+  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
+    this.expandToggleEl = el;
   };
 
   // --------------------------------------------------------------------------
@@ -156,8 +179,9 @@ export class CalciteActionPad {
         intlCollapse={collapseLabel}
         intlExpand={expandLabel}
         position={position}
-        toggleExpand={toggleExpand}
-        tooltipExpand={tooltipExpand}
+        ref={this.setExpandToggleRef}
+        toggle={toggleExpand}
+        tooltip={tooltipExpand}
       />
     ) : null;
 
