@@ -81,6 +81,7 @@ describe("calcite-date", () => {
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(1);
     const value = await date.getProperty("value");
     expect(value).toEqual("2001-11-27");
@@ -102,6 +103,7 @@ describe("calcite-date", () => {
   it("fires calciteDateRangeChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-date range start="2020-09-08" end="2020-09-23"></calcite-date>`);
+    await page.waitForChanges();
     const date = await page.find("calcite-date");
     const startInput = (
       await page.waitForFunction(
@@ -123,24 +125,24 @@ describe("calcite-date", () => {
       )
     ).asElement();
     expect(await wrapper.isIntersectingViewport()).toBe(true);
+    expect(changedEvent).toHaveReceivedEventTimes(0);
     const start1 = await date.getProperty("start");
     const end1 = await date.getProperty("end");
     expect(start1).toEqual("2020-09-08");
     expect(end1).toEqual("2020-09-23");
     await page.keyboard.press("Tab");
-    await page.keyboard.press("Space");
-    // not quite sure why, but without this delay the expected event won't have fired yet
-    await new Promise((res) => setTimeout(() => res(true), 300));
-    expect(changedEvent).toHaveReceivedEventTimes(1);
-    const start = await date.getProperty("start");
-    expect(start).toEqual("2020-08-08");
-    await endInput.focus();
+    await page.waitForChanges();
     await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
     await page.keyboard.press("Space");
-    // not quite sure why, but without this delay the expected event won't have fired yet
-    await new Promise((res) => setTimeout(() => res(true), 300));
+    await page.waitForChanges();
+    const start = await date.getProperty("start");
+    // expect(start).toEqual("2020-09-09");
+    await new Promise((res) => setTimeout(() => res(true), 1000));
     expect(changedEvent).toHaveReceivedEventTimes(2);
-    const end = await date.getProperty("end");
-    expect(end).toEqual("2020-08-23");
   });
 });

@@ -517,6 +517,7 @@ export class CalciteDate {
               const date = new Date(e.detail);
               if (!this.range) {
                 this.activeDate = date;
+                this.handleDateChange(e);
               } else {
                 if (this.focusedInput === "start") {
                   this.activeStartDate = date;
