@@ -64,6 +64,14 @@ export class CalciteSelect {
   scale: Scale = "m";
 
   /**
+   * The currently selected option.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true })
+  selectedOption: HTMLCalciteOptionElement;
+
+  /**
    * The component theme.
    */
   @Prop({
@@ -137,8 +145,9 @@ export class CalciteSelect {
   calciteSelectChange: EventEmitter<void>;
 
   private handleInternalSelectChange = (): void => {
-    this.selectFromNativeOption(this.selectEl.selectedOptions[0]);
-    requestAnimationFrame(this.emitChangeEvent);
+    const selected = this.selectEl.selectedOptions[0];
+    this.selectFromNativeOption(selected);
+    requestAnimationFrame(() => this.emitChangeEvent());
   };
 
   @Listen("calciteOptionChange")
@@ -222,6 +231,7 @@ export class CalciteSelect {
     this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
         optionOrGroup.selected = true;
+        this.selectedOption = optionOrGroup;
         this.deselectAllExcept(optionOrGroup as HTMLCalciteOptionElement);
       }
     });
