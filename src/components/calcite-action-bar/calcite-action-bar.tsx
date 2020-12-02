@@ -136,7 +136,7 @@ export class CalciteActionBar {
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
     if (focusId === "expand-toggle") {
-      await focusElement(this.expandToggleEl);
+      focusElement(this.expandToggleEl);
       return;
     }
 
