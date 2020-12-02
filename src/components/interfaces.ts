@@ -6,6 +6,8 @@ export type CalcitePosition = "start" | "end";
 
 export type CalciteTheme = "light" | "dark";
 
+export type CalciteWidth = "auto" | "half" | "full";
+
 export type CalciteBlockSectionToggleDisplay = "button" | "switch";
 
 export type FlowDirection = "advancing" | "retreating";
@@ -13,5 +15,7 @@ export type FlowDirection = "advancing" | "retreating";
 export type CalciteAppearance = "solid" | "clear" | "outline";
 
 export type CalciteColor = "blue" | "red" | "dark" | "light";
+
+export type CalciteStatusColor = "blue" | "green" | "red" | "yellow";
 
 export type CalciteScale = "s" | "m" | "l";

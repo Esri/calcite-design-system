@@ -52,8 +52,10 @@
       < Home</calcite-button>
         <h1>Calcite Radio Button</h1>
         <demo-form>
-          <form name="calcite-radio-button-group-demo-form">
+          <form name="calcite-radio-button-demo-form">
             <demo-spacer>
+              <calcite-button form="calcite-radio-button-demo-form" type="submit">Submit</calcite-button>
+              <calcite-button form="calcite-radio-button-demo-form" type="reset">Reset</calcite-button>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, 400px); grid-gap: 8px;">
                 <div style="border: 1px solid #2B2B2B; padding: 1rem;">
                   <h3>Scale s</h3>
@@ -90,6 +92,10 @@
                     </calcite-radio-button>
                   </calcite-label>
 
+                  <hr>
+
+                  <calcite-radio-button name="s-multiple-text-nodes" scale="s">More<br> than<br> one<br> text<br> node</calcite-radio-button>
+
                   <h3>Scale m (default)</h3>
                   <calcite-radio-button name="m" scale="m" value="stencil" checked>Stencil</calcite-radio-button>
                   <calcite-radio-button name="m" scale="m" value="react" checked>React</calcite-radio-button>
@@ -121,6 +127,10 @@
                     <calcite-radio-button name="m-label-wrapped" scale="m" value="angular">Angular
                     </calcite-radio-button>
                   </calcite-label>
+
+                  <hr>
+
+                  <calcite-radio-button name="m-multiple-text-nodes" scale="m">More<br> than<br> one<br> text<br> node</calcite-radio-button>
 
                   <h3>Scale l</h3>
                   <calcite-radio-button name="l" scale="l" value="stencil" checked>Stencil</calcite-radio-button>
@@ -156,6 +166,12 @@
                     <calcite-radio-button name="l-label-wrapped" scale="l" value="angular">Angular
                     </calcite-radio-button>
                   </calcite-label>
+
+                  <hr>
+
+                  <calcite-radio-button name="l-multiple-text-nodes" scale="l">More<br> than<br> one<br> text<br> node</calcite-radio-button>
+
+                  <hr>
 
                   <calcite-radio-button name="valueAsLabelDisabledSingle" value="1" checked>1</calcite-radio-button>
                   <calcite-radio-button name="valueAsLabelDisabledSingle" value="2" disabled>2</calcite-radio-button>
@@ -446,7 +462,8 @@
 
                 </div>
               </div>
-              <calcite-button form="calcite-radio-button-group-demo-form" type="submit">Submit</calcite-button>
+              <calcite-button form="calcite-radio-button-demo-form" type="submit">Submit</calcite-button>
+              <calcite-button form="calcite-radio-button-demo-form" type="reset">Reset</calcite-button>
               <button type="submit" style="display: none">Submit</button>
             </demo-spacer>
           </form>

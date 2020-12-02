@@ -17,6 +17,12 @@
 | `selected`           | `selected`    | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                | `boolean`                                                   | `false`     |
 | `value` _(required)_ | `value`       | A unique value used to identify this item - similar to the value attribute on an <input>.         | `string`                                                    | `undefined` |
 
+## Events
+
+| Event                   | Description                                    | Type                |
+| ----------------------- | ---------------------------------------------- | ------------------- |
+| `calciteListItemRemove` | Emitted whenever the remove button is pressed. | `CustomEvent<void>` |
+
 ## Methods
 
 ### `setFocus() => Promise<void>`

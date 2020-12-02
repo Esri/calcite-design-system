@@ -42,6 +42,13 @@
 :host([lines]) {
   --calcite-tree-line: var(--calcite-ui-border-3);
   --calcite-tree-line-hover: var(--calcite-ui-border-1);
+  & .calcite-tree-node:before {
+    display: none;
+  }
+}
+
+:host(:not([lines])) .calcite-tree-node:after {
+  display: none;
 }
 
 :host([scale="s"]) {

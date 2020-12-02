@@ -22,6 +22,9 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
+  /** Accessible name for the component */
+  @Prop() label!: string;
+
   /**
    * Offset the position of the popover away from the reference element.
    */
@@ -237,11 +240,16 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { _referenceElement, open } = this;
+    const { _referenceElement, label, open } = this;
     const displayed = _referenceElement && open;
 
     return (
-      <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="tooltip">
+      <Host
+        aria-hidden={!displayed ? "true" : "false"}
+        aria-label={label}
+        id={this.getId()}
+        role="tooltip"
+      >
         <div
           class={{
             [PopperCSS.animation]: true,

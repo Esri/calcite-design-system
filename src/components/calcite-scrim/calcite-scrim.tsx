@@ -1,6 +1,6 @@
 import { Component, Host, Prop, h, VNode } from "@stencil/core";
 
-import { CSS } from "./resources";
+import { CSS, TEXT } from "./resources";
 
 @Component({
   tag: "calcite-scrim",
@@ -18,6 +18,9 @@ export class CalciteScrim {
   //
   // --------------------------------------------------------------------------
 
+  /** string to override English loading text */
+  @Prop() intlLoading?: string = TEXT.loading;
+
   /**
    * Determines if the component will have the loader overlay.
    * Otherwise, will render opaque disabled state.
@@ -34,7 +37,7 @@ export class CalciteScrim {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const loaderNode = this.loading ? <calcite-loader active /> : null;
+    const loaderNode = this.loading ? <calcite-loader active label={this.intlLoading} /> : null;
 
     const scrimNode = <div class={CSS.scrim}>{loaderNode}</div>;
 

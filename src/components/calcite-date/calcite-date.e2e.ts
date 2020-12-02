@@ -31,6 +31,8 @@ describe("calcite-date", () => {
       }
     ]));
 
+  const animationDurationInMs = 200;
+
   it("fires a calciteDateChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date></calcite-date>");
@@ -41,8 +43,7 @@ describe("calcite-date", () => {
     ).asElement();
     await input.focus();
     const changedEvent = await page.spyOnEvent("calciteDateChange");
-    // have to wait for transition
-    await new Promise((res) => setTimeout(() => res(true), 200));
+    await page.waitForTimeout(animationDurationInMs);
     const wrapper = (
       await page.waitForFunction(() =>
         document.querySelector("calcite-date").shadowRoot.querySelector(".calendar-picker-wrapper")
@@ -69,14 +70,8 @@ describe("calcite-date", () => {
     await page.setContent("<calcite-date value='2000-11-27' no-calendar-input active></calcite-date>");
     const date = await page.find("calcite-date");
     const changedEvent = await page.spyOnEvent("calciteDateChange");
-    // have to wait for transition
-    await new Promise((res) => setTimeout(() => res(true), 200));
-    const wrapper = (
-      await page.waitForFunction(() =>
-        document.querySelector("calcite-date").shadowRoot.querySelector(".calendar-picker-wrapper")
-      )
-    ).asElement();
-    expect(await wrapper.isIntersectingViewport()).toBe(true);
+
+    await page.waitForTimeout(animationDurationInMs);
     // can't find this input as it's deeply nested in shadow dom, so just tab to it
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
@@ -98,6 +93,19 @@ describe("calcite-date", () => {
     const changedEvent = await page.spyOnEvent("calciteDateChange");
     await date.setProperty("value", "2001-10-28");
     expect(changedEvent).toHaveReceivedEventTimes(0);
+  });
+
+  it("displays a calendar when clicked", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-date value='2000-11-27'></calcite-date>"
+    });
+    await page.waitForChanges();
+    const date = await page.find("calcite-date");
+
+    await date.click();
+    const calendar = await page.find("calcite-date >>> .calendar-picker-wrapper");
+
+    expect(await calendar.isVisible());
   });
 
   it("fires calciteDateRangeChange event on change", async () => {

@@ -118,6 +118,8 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  private initialChecked: boolean;
+
   private input: HTMLInputElement;
 
   private label: HTMLCalciteLabelElement;
@@ -126,7 +128,7 @@ export class CalciteRadioButton {
 
   /** @internal */
   @Method()
-  async emitCheckedChange() {
+  async emitCheckedChange(): Promise<void> {
     this.calciteRadioButtonCheckedChange.emit();
   }
 
@@ -141,18 +143,16 @@ export class CalciteRadioButton {
       (radioButton) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
 
-    const checkedRadioButtons = radioButtons.filter(
-      (radioButton) => radioButton.checked
-    );
+    const checkedRadioButtons = radioButtons.filter((radioButton) => radioButton.checked);
 
     if (checkedRadioButtons?.length > 1) {
       const lastCheckedRadioButton = checkedRadioButtons[checkedRadioButtons.length - 1];
-      checkedRadioButtons.filter(
-        (checkedRadioButton) => checkedRadioButton !== lastCheckedRadioButton).forEach(
-          (checkedRadioButton: HTMLCalciteRadioButtonElement) => {
-            checkedRadioButton.checked = false;
-            checkedRadioButton.emitCheckedChange();
-          });
+      checkedRadioButtons
+        .filter((checkedRadioButton) => checkedRadioButton !== lastCheckedRadioButton)
+        .forEach((checkedRadioButton: HTMLCalciteRadioButtonElement) => {
+          checkedRadioButton.checked = false;
+          checkedRadioButton.emitCheckedChange();
+        });
     }
   }
 
@@ -242,6 +242,11 @@ export class CalciteRadioButton {
     this.hovered = false;
   }
 
+  private formResetHandler = (): void => {
+    this.checked = this.initialChecked;
+    this.initialChecked && this.input.setAttribute("checked", "");
+  };
+
   private onInputBlur(): void {
     this.focused = false;
     this.calciteRadioButtonFocusedChange.emit();
@@ -260,11 +265,16 @@ export class CalciteRadioButton {
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
-    this.renderInput();
+    this.initialChecked = this.checked;
     this.renderLabel();
+    this.renderInput();
     this.setupTitleAttributeObserver();
     if (this.name) {
       this.checkLastRadioButton();
+    }
+    const form = this.el.closest("form");
+    if (form) {
+      form.addEventListener("reset", this.formResetHandler);
     }
   }
 
@@ -277,6 +287,10 @@ export class CalciteRadioButton {
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
     this.titleAttributeObserver.disconnect();
+    const form = this.el.closest("form");
+    if (form) {
+      form.removeEventListener("reset", this.formResetHandler);
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -289,8 +303,9 @@ export class CalciteRadioButton {
     // Rendering a hidden radio input outside Shadow DOM so it can participate in form submissions
     // @link https://www.hjorthhansen.dev/shadow-dom-form-participation/
     this.input = document.createElement("input");
-    this.input.setAttribute("aria-label", this.value || this.guid);
     this.input.checked = this.checked;
+    this.checked && this.input.setAttribute("checked", "");
+    this.input.setAttribute("aria-label", this.value || this.guid);
     this.input.disabled = this.disabled;
     this.input.hidden = this.hidden;
     this.input.id = `${this.guid}-input`;
@@ -327,17 +342,25 @@ export class CalciteRadioButton {
 
   private renderLabel(): void {
     // Rendering a calcite-label outside of Shadow DOM for accessibility and form participation
-    this.el.childNodes.forEach((childNode) => {
-      if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
-        this.label = document.createElement("calcite-label");
-        this.label.setAttribute("dir", getElementDir(this.el));
-        this.disabled && this.label.setAttribute("disabled", "");
-        this.label.setAttribute("disable-spacing", "");
-        this.label.setAttribute("scale", this.scale);
-        this.label.appendChild(document.createTextNode(childNode.textContent.trim()));
-        childNode.parentNode.replaceChild(this.label, childNode);
+    if (this.el.textContent) {
+      const textNodes = Array.from(this.el.childNodes).filter(
+        (childNode) => childNode.nodeName === "#text"
+      );
+      const labelText = textNodes.reduce(
+        (labelText, textNode) => (labelText += textNode.textContent),
+        ""
+      );
+      while (this.el.firstChild) {
+        this.el.removeChild(this.el.firstChild);
       }
-    });
+      this.label = document.createElement("calcite-label");
+      this.label.setAttribute("dir", getElementDir(this.el));
+      this.disabled && this.label.setAttribute("disabled", "");
+      this.label.setAttribute("disable-spacing", "");
+      this.label.setAttribute("scale", this.scale);
+      this.label.appendChild(document.createTextNode(labelText));
+      this.el.appendChild(this.label);
+    }
   }
 
   render(): VNode {

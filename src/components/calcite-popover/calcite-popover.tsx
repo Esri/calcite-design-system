@@ -60,6 +60,9 @@ export class CalcitePopover {
    */
   @Prop() flipPlacements?: Placement[];
 
+  /** Accessible name for the component */
+  @Prop() label!: string;
+
   /**
    * Offset the position of the popover away from the reference element.
    */
@@ -350,14 +353,19 @@ export class CalcitePopover {
   }
 
   render(): VNode {
-    const { _referenceElement, open, disablePointer } = this;
+    const { _referenceElement, label, open, disablePointer } = this;
     const displayed = _referenceElement && open;
     const arrowNode = !disablePointer ? (
       <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
     ) : null;
 
     return (
-      <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="dialog">
+      <Host
+        aria-hidden={!displayed ? "true" : "false"}
+        aria-label={label}
+        id={this.getId()}
+        role="dialog"
+      >
         <div
           class={{
             [PopperCSS.animation]: true,

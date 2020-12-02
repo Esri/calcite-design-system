@@ -1,7 +1,14 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { ICON_TYPES } from "./resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
-import { selectionAndDeselection, filterBehavior, disabledStates, keyboardNavigation } from "./shared-list-tests";
+import {
+  selectionAndDeselection,
+  filterBehavior,
+  disabledStates,
+  keyboardNavigation,
+  itemRemoval
+} from "./shared-list-tests";
+import dedent from "dedent";
 
 describe("calcite-pick-list", () => {
   it("renders", async () => renders("calcite-pick-list"));
@@ -9,9 +16,11 @@ describe("calcite-pick-list", () => {
   it("honors hidden attribute", async () => hidden("calcite-pick-list"));
 
   it("is accessible", async () =>
-    accessible(
-      `<calcite-pick-list><calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item></calcite-pick-list>`
-    ));
+    accessible(dedent`
+      <calcite-pick-list>
+        <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>
+      </calcite-pick-list>
+    `));
 
   describe("Selection and Deselection", () => selectionAndDeselection("pick"));
 
@@ -145,7 +154,7 @@ describe("calcite-pick-list", () => {
           filterInput.value = "nums";
           filterInput.dispatchEvent(new Event("input"));
         });
-        await page.waitFor(500);
+        await page.waitForTimeout(500);
 
         const item1Visible = await item1.isVisible();
         const item2Visible = await item2.isVisible();
@@ -155,6 +164,8 @@ describe("calcite-pick-list", () => {
       });
     });
   });
+
+  describe("item removal", () => itemRemoval("pick"));
 
   describe("disabled states", () => disabledStates("pick"));
 });

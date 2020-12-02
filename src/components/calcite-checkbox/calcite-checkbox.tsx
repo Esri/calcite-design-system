@@ -10,7 +10,6 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getKey } from "../../utils/key";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
 
@@ -37,8 +36,9 @@ export class CalciteCheckbox {
   /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
 
-  @Watch("checked") checkedWatcher(newChecked: boolean): void {
-    newChecked ? this.input.setAttribute("checked", "") : this.input.removeAttribute("checked");
+  @Watch("checked")
+  checkedWatcher(newChecked: boolean): void {
+    this.input.checked = newChecked;
   }
 
   /** True if the checkbox is disabled */
@@ -52,7 +52,8 @@ export class CalciteCheckbox {
   /** The focused state of the checkbox. */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  @Watch("focused") focusedChanged(focused: boolean): void {
+  @Watch("focused")
+  focusedChanged(focused: boolean): void {
     if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
     } else {
@@ -140,23 +141,14 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick({ currentTarget, target }: MouseEvent): void {
-    // prevent duplicate click events that occur
-    // when the component is wrapped in a label and checkbox is clicked
-    if (
-      (this.el.closest("label") && target === this.input) ||
-      (!this.el.closest("label") && currentTarget === this.el)
-    ) {
-      this.toggle();
+  @Listen("click")
+  onClick(event: MouseEvent): void {
+    // This line prevents double-triggering when wrapped inside either a <label> or a <calcite-label>
+    // by preventing the browser default behavior, which is to click the label's first input child element
+    if (event.target === this.el) {
+      event.preventDefault();
     }
-  }
-
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
-    const key = getKey(e.key);
-    if (key === " ") {
-      e.preventDefault();
-      this.toggle();
-    }
+    this.toggle();
   }
 
   @Listen("mouseenter")
@@ -169,9 +161,18 @@ export class CalciteCheckbox {
     this.hovered = false;
   }
 
-  formResetHandler = (): void => {
+  private formResetHandler = (): void => {
     this.checked = this.initialChecked;
-  }
+  };
+
+  private nativeLabelClickHandler = (event: MouseEvent): void => {
+    if (!this.el.closest("calcite-label") && (event.target as HTMLElement).nodeName === "LABEL") {
+      const target = event.target as HTMLLabelElement;
+      if (this.el.id && target.htmlFor === this.el.id) {
+        this.toggle();
+      }
+    }
+  };
 
   private onInputBlur() {
     this.focused = false;
@@ -197,6 +198,7 @@ export class CalciteCheckbox {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
+    document.addEventListener("click", this.nativeLabelClickHandler);
   }
 
   disconnectedCallback(): void {
@@ -205,6 +207,7 @@ export class CalciteCheckbox {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
+    document.removeEventListener("click", this.nativeLabelClickHandler);
   }
 
   // --------------------------------------------------------------------------

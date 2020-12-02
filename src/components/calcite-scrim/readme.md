@@ -38,10 +38,11 @@
 
 ## Properties
 
-| Property  | Attribute | Description                                                                                             | Type                | Default     |
-| --------- | --------- | ------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `loading` | `loading` | Determines if the component will have the loader overlay. Otherwise, will render opaque disabled state. | `boolean`           | `false`     |
-| `theme`   | `theme`   | specify the theme of scrim, defaults to light                                                           | `"dark" \| "light"` | `undefined` |
+| Property      | Attribute      | Description                                                                                             | Type                | Default        |
+| ------------- | -------------- | ------------------------------------------------------------------------------------------------------- | ------------------- | -------------- |
+| `intlLoading` | `intl-loading` | string to override English loading text                                                                 | `string`            | `TEXT.loading` |
+| `loading`     | `loading`      | Determines if the component will have the loader overlay. Otherwise, will render opaque disabled state. | `boolean`           | `false`        |
+| `theme`       | `theme`        | specify the theme of scrim, defaults to light                                                           | `"dark" \| "light"` | `undefined`    |
 
 ## Dependencies
 

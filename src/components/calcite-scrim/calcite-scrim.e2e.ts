@@ -1,10 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-scrim", () => {
   it("renders", async () => renders("<calcite-scrim></calcite-scrim>"));
 
-  it("honors hidden attribute", async () => hidden("calcite-popover"));
+  it("honors hidden attribute", async () => hidden("calcite-scrim"));
+
+  it("is accessible", async () => accessible("<calcite-scrim>My content</calcite-scrim>"));
+
+  it("is accessible when loading", async () => accessible("<calcite-scrim loading>My content</calcite-scrim>"));
 
   it("has property defaults", async () =>
     defaults("calcite-scrim", [
