@@ -8,8 +8,8 @@ interface CalciteExpandToggleProps {
   intlCollapse: string;
   el: HTMLElement;
   position: CalcitePosition;
-  tooltipExpand?: HTMLCalciteTooltipElement;
-  toggleExpand: () => void;
+  tooltip?: HTMLCalciteTooltipElement;
+  toggle: () => void;
   ref?: (el: HTMLElement) => void;
 }
 
@@ -33,18 +33,18 @@ export function toggleChildActionText({
 }
 
 const setTooltipReference = ({
-  tooltipExpand,
+  tooltip,
   referenceElement,
   expanded,
   ref
 }: {
-  tooltipExpand: HTMLCalciteTooltipElement;
+  tooltip: HTMLCalciteTooltipElement;
   referenceElement: HTMLCalciteActionElement;
   expanded: boolean;
   ref?: (el: HTMLElement) => void;
 }): HTMLCalciteActionElement => {
-  if (tooltipExpand) {
-    tooltipExpand.referenceElement = !expanded && referenceElement;
+  if (tooltip) {
+    tooltip.referenceElement = !expanded && referenceElement;
   }
 
   if (ref) {
@@ -58,10 +58,10 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
   expanded,
   intlExpand,
   intlCollapse,
-  toggleExpand,
+  toggle,
   el,
   position,
-  tooltipExpand,
+  tooltip,
   ref
 }) => {
   const rtl = getElementDir(el) === "rtl";
@@ -80,18 +80,14 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
   const actionNode = (
     <calcite-action
       icon={expanded ? expandIcon : collapseIcon}
-      onClick={toggleExpand}
+      onClick={toggle}
       ref={(referenceElement): HTMLCalciteActionElement =>
-        setTooltipReference({ tooltipExpand, referenceElement, expanded, ref })
+        setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
       text={expandText}
       textEnabled={expanded}
     />
   );
 
-  return tooltipExpand ? (
-    <calcite-tooltip-manager>{actionNode}</calcite-tooltip-manager>
-  ) : (
-    actionNode
-  );
+  return tooltip ? <calcite-tooltip-manager>{actionNode}</calcite-tooltip-manager> : actionNode;
 };

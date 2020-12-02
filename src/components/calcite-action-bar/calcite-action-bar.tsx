@@ -13,7 +13,7 @@ import {
 import { CalcitePosition, CalciteTheme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, focusElement } from "../../utils/dom";
 
 /**
  * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
@@ -136,7 +136,7 @@ export class CalciteActionBar {
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
     if (focusId === "expand-toggle") {
-      await this.expandToggleEl?.setFocus();
+      await focusElement(this.expandToggleEl);
       return;
     }
 
@@ -186,8 +186,8 @@ export class CalciteActionBar {
         intlExpand={expandLabel}
         position={position}
         ref={this.setExpandToggleRef}
-        toggleExpand={toggleExpand}
-        tooltipExpand={tooltipExpand}
+        toggle={toggleExpand}
+        tooltip={tooltipExpand}
       />
     ) : null;
 

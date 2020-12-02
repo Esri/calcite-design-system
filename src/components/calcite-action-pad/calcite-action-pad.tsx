@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CalciteLayout, CalcitePosition, CalciteTheme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, focusElement } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, TEXT } from "./resources";
 
@@ -130,7 +130,7 @@ export class CalciteActionPad {
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
     if (focusId === "expand-toggle") {
-      await this.expandToggleEl?.setFocus();
+      await focusElement(this.expandToggleEl);
       return;
     }
 
@@ -180,8 +180,8 @@ export class CalciteActionPad {
         intlExpand={expandLabel}
         position={position}
         ref={this.setExpandToggleRef}
-        toggleExpand={toggleExpand}
-        tooltipExpand={tooltipExpand}
+        toggle={toggleExpand}
+        tooltip={tooltipExpand}
       />
     ) : null;
 
