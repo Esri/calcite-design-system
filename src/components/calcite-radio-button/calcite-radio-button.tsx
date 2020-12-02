@@ -12,7 +12,7 @@ import {
   Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-// import { getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-radio-button",
@@ -303,21 +303,21 @@ export class CalciteRadioButton {
   //
   // --------------------------------------------------------------------------
 
-  // private renderLabel(): VNode {
-  //   if (this.el.textContent) {
-  //     return (
-  //       <calcite-label
-  //         dir={getElementDir(this.el)}
-  //         disable-spacing
-  //         disabled={this.disabled}
-  //         scale={this.scale}
-  //       >
-  //         <slot />
-  //       </calcite-label>
-  //     );
-  //   }
-  //   return <slot />;
-  // }
+  private renderLabel(): VNode {
+    if (this.el.textContent) {
+      return (
+        <calcite-label
+          dir={getElementDir(this.el)}
+          disable-spacing
+          disabled={this.disabled}
+          scale={this.scale}
+        >
+          <slot />
+        </calcite-label>
+      );
+    }
+    return <slot />;
+  }
 
   render(): VNode {
     let title;
@@ -359,7 +359,7 @@ export class CalciteRadioButton {
           scale={this.scale}
           theme={this.theme}
         />
-        {/* {this.renderLabel()} */}
+        {this.renderLabel()}
       </Host>
     );
   }
