@@ -120,4 +120,15 @@ describe("calcite-split-button", () => {
       expect(primaryButton).toEqualAttribute("scale", elementScaleToButtonScale[elementScale]);
     }
   });
+
+  it("adds split-child attributes to child button components ", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-split-button>
+      </calcite-split-button>`);
+    const primaryButton = await page.find("calcite-split-button >>> calcite-button");
+    const dropdownButton = await page.find("calcite-split-button >>> calcite-dropdown calcite-button");
+    expect(primaryButton).toEqualAttribute("split-child", "primary");
+    expect(dropdownButton).toEqualAttribute("split-child", "secondary");
+  });
 });

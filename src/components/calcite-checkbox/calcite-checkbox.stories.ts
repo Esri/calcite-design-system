@@ -30,7 +30,7 @@ storiesOf("Components/Checkbox", module)
         ${boolean("disabled", false)}
         ${boolean("indeterminate", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
-      ></calcite-checkbox>
+      >Text for the checkbox</calcite-checkbox>
     </label>
 `,
     { backgrounds: darkBackground }

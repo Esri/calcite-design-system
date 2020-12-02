@@ -13,15 +13,9 @@ export class CalciteTooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  focusedReferenceEl: HTMLElement;
+  tooltipEl: HTMLCalciteTooltipElement;
 
-  focusedTooltipEl: HTMLCalciteTooltipElement;
-
-  hoveredReferenceEl: HTMLElement;
-
-  hoveredTooltipEl: HTMLCalciteTooltipElement;
-
-  timeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
+  hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
 
   // --------------------------------------------------------------------------
   //
@@ -44,118 +38,117 @@ export class CalciteTooltipManager {
     return getDescribedByElement(el.closest(this.selector)) as HTMLCalciteTooltipElement;
   };
 
-  clearTooltipTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
-    const { timeouts } = this;
+  clearHoverTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
+    const { hoverTimeouts } = this;
 
-    if (timeouts.has(tooltip)) {
-      window.clearTimeout(timeouts.get(tooltip));
+    if (hoverTimeouts.has(tooltip)) {
+      window.clearTimeout(hoverTimeouts.get(tooltip));
     }
   };
 
-  focusedToggle = ({
-    referenceEl,
+  closeExistingTooltip = (): void => {
+    const { tooltipEl } = this;
+
+    if (tooltipEl) {
+      this.toggleTooltip(tooltipEl, false);
+    }
+  };
+
+  focusTooltip = ({
     tooltip,
     value
   }: {
-    referenceEl: HTMLElement;
     tooltip: HTMLCalciteTooltipElement;
     value: boolean;
   }): void => {
-    this.focusedReferenceEl = value ? referenceEl : null;
+    this.closeExistingTooltip();
 
-    if (tooltip === this.hoveredTooltipEl) {
-      this.hoveredTooltipEl = null;
-      this.clearTooltipTimeout(tooltip);
-      this.toggleFocusedTooltip(tooltip, value);
-      return;
+    if (value) {
+      this.clearHoverTimeout(tooltip);
     }
 
-    const { hoveredTooltipEl, hoveredReferenceEl } = this;
+    this.toggleTooltip(tooltip, value);
+  };
 
-    if (referenceEl === hoveredReferenceEl || tooltip === hoveredTooltipEl) {
-      return;
+  toggleTooltip = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
+    tooltip.open = value;
+
+    if (value) {
+      this.tooltipEl = tooltip;
     }
-
-    this.toggleFocusedTooltip(tooltip, value);
   };
 
-  toggleFocusedTooltip = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
-    tooltip.open = value;
-    this.focusedTooltipEl = value ? tooltip : null;
-  };
-
-  toggleHoveredTooltip = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
-    tooltip.open = value;
-    this.hoveredTooltipEl = value ? tooltip : null;
-  };
-
-  hoveredToggle = ({
-    referenceEl,
+  hoverToggle = ({
     tooltip,
     value
   }: {
-    referenceEl: HTMLElement;
     tooltip: HTMLCalciteTooltipElement;
     value: boolean;
   }): void => {
-    const { focusedReferenceEl, focusedTooltipEl } = this;
+    const { hoverTimeouts } = this;
 
-    this.hoveredReferenceEl = value ? referenceEl : null;
+    hoverTimeouts.delete(tooltip);
 
-    if (referenceEl === focusedReferenceEl || tooltip === focusedTooltipEl) {
-      return;
+    if (value) {
+      this.closeExistingTooltip();
     }
 
-    this.hoveredTooltipEl = tooltip;
-    this.clearTooltipTimeout(tooltip);
+    this.toggleTooltip(tooltip, value);
+  };
 
-    const { timeouts } = this;
+  hoverTooltip = ({
+    tooltip,
+    value
+  }: {
+    tooltip: HTMLCalciteTooltipElement;
+    value: boolean;
+  }): void => {
+    this.clearHoverTimeout(tooltip);
+
+    const { hoverTimeouts } = this;
 
     const timeoutId = window.setTimeout(
-      () => this.toggleHoveredTooltip(tooltip, value),
+      () => this.hoverToggle({ tooltip, value }),
       TOOLTIP_DELAY_MS || 0
     );
 
-    timeouts.set(tooltip, timeoutId);
+    hoverTimeouts.set(tooltip, timeoutId);
   };
 
-  activeTooltipHover = (event: MouseEvent, referenceEl: HTMLElement): void => {
-    const { hoveredTooltipEl } = this;
+  activeTooltipHover = (event: MouseEvent): void => {
+    const { tooltipEl, hoverTimeouts } = this;
 
-    if (!hoveredTooltipEl) {
+    if (!tooltipEl || !hoverTimeouts.has(tooltipEl)) {
       return;
     }
 
-    const hoveringActiveTooltip = event.composedPath().includes(hoveredTooltipEl);
+    const hoveringActiveTooltip = event.composedPath().includes(tooltipEl);
 
     hoveringActiveTooltip
-      ? this.clearTooltipTimeout(hoveredTooltipEl)
-      : this.hoveredToggle({ referenceEl, tooltip: hoveredTooltipEl, value: false });
+      ? this.clearHoverTimeout(tooltipEl)
+      : this.hoverTooltip({ tooltip: tooltipEl, value: false });
   };
 
   hoverEvent = (event: MouseEvent, value: boolean): void => {
-    const referenceEl = event.target as HTMLElement;
+    const tooltip = this.queryTooltip(event.target as HTMLElement);
 
-    this.activeTooltipHover(event, referenceEl);
-
-    const tooltip = this.queryTooltip(referenceEl);
+    this.activeTooltipHover(event);
 
     if (!tooltip) {
       return;
     }
 
-    this.hoveredToggle({ referenceEl, tooltip, value });
+    this.hoverTooltip({ tooltip, value });
   };
 
   focusEvent = (event: FocusEvent, value: boolean): void => {
-    const referenceEl = event.target as HTMLElement;
-    const tooltip = this.queryTooltip(referenceEl);
+    const tooltip = this.queryTooltip(event.target as HTMLElement);
 
     if (!tooltip) {
       return;
     }
 
-    this.focusedToggle({ referenceEl, tooltip, value });
+    this.focusTooltip({ tooltip, value });
   };
 
   // --------------------------------------------------------------------------
@@ -177,18 +170,11 @@ export class CalciteTooltipManager {
   @Listen("keyup", { target: "document" })
   keyUpHandler(event: KeyboardEvent): void {
     if (getKey(event.key) === "Escape") {
-      const { hoveredTooltipEl, focusedTooltipEl } = this;
+      const { tooltipEl } = this;
 
-      this.hoveredReferenceEl = null;
-      this.focusedReferenceEl = null;
-
-      if (hoveredTooltipEl) {
-        this.clearTooltipTimeout(hoveredTooltipEl);
-        this.toggleHoveredTooltip(hoveredTooltipEl, false);
-      }
-
-      if (focusedTooltipEl) {
-        this.toggleFocusedTooltip(focusedTooltipEl, false);
+      if (tooltipEl) {
+        this.clearHoverTimeout(tooltipEl);
+        this.toggleTooltip(tooltipEl, false);
       }
     }
   }

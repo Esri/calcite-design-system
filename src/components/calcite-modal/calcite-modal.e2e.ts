@@ -65,9 +65,11 @@ describe("calcite-modal properties", () => {
       <calcite-modal active></calcite-modal>
     `);
     const modal = await page.find("calcite-modal");
-    await page.$eval("calcite-modal", (elm: any) => {
-      elm.beforeClose = (window as typeof window & { beforeClose: () => void }).beforeClose;
-    });
+    await page.$eval(
+      "calcite-modal",
+      (elm: HTMLCalciteModalElement) =>
+        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
+    );
     await page.waitForChanges();
     await modal.setProperty("active", true);
     await page.waitForChanges();
@@ -86,7 +88,7 @@ describe("calcite-modal events", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    await page.waitFor(400);
+    await page.waitForTimeout(400);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
   it("emits the calciteModalClose event on close", async () => {
@@ -99,7 +101,7 @@ describe("calcite-modal events", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await modal.setProperty("active", false);
     await page.waitForChanges();
-    await page.waitFor(400);
+    await page.waitForTimeout(400);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 });

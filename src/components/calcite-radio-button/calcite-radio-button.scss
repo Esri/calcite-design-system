@@ -47,11 +47,12 @@
   }
 }
 :host([scale="s"][labeled]) {
-  line-height: 12px;
+  line-height: 1.33;
   margin-bottom: 8px;
   margin-right: 12px;
   @supports not (display: grid) {
     .radio {
+      height: 12px;
       margin-right: 8px;
     }
   }
@@ -71,14 +72,14 @@
 
 :host([scale="m"]) {
   .radio {
-    height: 16px;
-    min-width: 16px;
-    max-width: 16px;
+    height: 14px;
+    min-width: 14px;
+    max-width: 14px;
   }
 }
 :host([scale="m"][labeled]) {
-  line-height: 16px;
-  margin-bottom: 10px;
+  line-height: 1.15;
+  margin-bottom: 8px;
   margin-right: 16px;
   @supports not (display: grid) {
     .radio {
@@ -108,7 +109,7 @@
 }
 :host([scale="l"][labeled]) {
   gap: 12px;
-  line-height: 20px;
+  line-height: 1.2;
   margin-bottom: 10px;
   margin-right: 20px;
   @supports not (display: grid) {

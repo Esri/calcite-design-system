@@ -7,12 +7,13 @@ import {
   Prop,
   Watch,
   h,
-  VNode
+  VNode,
+  Method
 } from "@stencil/core";
 import { CalcitePosition, CalciteTheme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, focusElement } from "../../utils/dom";
 
 /**
  * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
@@ -104,6 +105,8 @@ export class CalciteActionBar {
     toggleChildActionText({ parent: el, expanded });
   });
 
+  expandToggleEl: HTMLCalciteActionElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -126,12 +129,32 @@ export class CalciteActionBar {
 
   // --------------------------------------------------------------------------
   //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(focusId?: "expand-toggle"): Promise<void> {
+    if (focusId === "expand-toggle") {
+      await focusElement(this.expandToggleEl);
+      return;
+    }
+
+    this.el.focus();
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
+  };
+
+  setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
+    this.expandToggleEl = el;
   };
 
   // --------------------------------------------------------------------------
@@ -162,8 +185,9 @@ export class CalciteActionBar {
         intlCollapse={collapseLabel}
         intlExpand={expandLabel}
         position={position}
-        toggleExpand={toggleExpand}
-        tooltipExpand={tooltipExpand}
+        ref={this.setExpandToggleRef}
+        toggle={toggleExpand}
+        tooltip={tooltipExpand}
       />
     ) : null;
 

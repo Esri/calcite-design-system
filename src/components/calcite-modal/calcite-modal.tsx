@@ -12,7 +12,8 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
+import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 

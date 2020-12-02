@@ -125,6 +125,25 @@ export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): 
   this.calciteListChange.emit(this.selectedValues);
 }
 
+export function removeItem<T extends Lists, U extends ListItemElement<T>>(this: List<T>, event: CustomEvent): void {
+  if (event.defaultPrevented) {
+    return;
+  }
+
+  const item = event.target as U;
+  const selectedValues = this.selectedValues as Map<string, U>;
+
+  if (item.parentElement.tagName === "CALCITE-PICK-LIST-GROUP") {
+    item.parentElement.remove();
+    Array.from(item.parentElement.children).forEach((item: U) => selectedValues.delete(item.value));
+  } else {
+    item.remove();
+    selectedValues.delete(item.value);
+  }
+
+  this.emitCalciteListChange();
+}
+
 function toggleSingleSelectItemTabbing<T extends Lists>(item: ListItemElement<T>, selectable: boolean): void {
   // using attribute intentionally
   if (selectable) {
