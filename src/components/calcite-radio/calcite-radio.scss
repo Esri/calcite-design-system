@@ -2,8 +2,6 @@
   @include calcite-theme-dark();
 }
 :host {
-  cursor: pointer;
-  display: inline-block;
   .radio {
     border-radius: 100%;
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
@@ -18,13 +16,9 @@
   }
 }
 :host([disabled]) {
-  cursor: default;
   .radio {
     cursor: default;
     opacity: 0.4;
-  }
-  & > ::slotted(calcite-label) {
-    cursor: default;
   }
 }
 :host([hovered][disabled]) {
@@ -32,23 +26,11 @@
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
   }
 }
-
 :host([scale="s"]) {
   .radio {
     height: 12px;
     min-width: 12px;
     max-width: 12px;
-  }
-}
-:host([scale="s"][labeled]) {
-  line-height: 1.33;
-  margin-bottom: 8px;
-  margin-right: 12px;
-  @supports not (display: grid) {
-    .radio {
-      height: 12px;
-      margin-right: 8px;
-    }
   }
 }
 :host([scale="s"][checked]),
@@ -63,22 +45,11 @@
       0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
-
 :host([scale="m"]) {
   .radio {
     height: 14px;
     min-width: 14px;
     max-width: 14px;
-  }
-}
-:host([scale="m"][labeled]) {
-  line-height: 1.15;
-  margin-bottom: 8px;
-  margin-right: 16px;
-  @supports not (display: grid) {
-    .radio {
-      margin-right: 8px;
-    }
   }
 }
 :host([scale="m"][checked]),
@@ -93,23 +64,11 @@
       0 0 0 4px var(--calcite-ui-blue-1);
   }
 }
-
 :host([scale="l"]) {
   .radio {
     height: 20px;
     min-width: 20px;
     max-width: 20px;
-  }
-}
-:host([scale="l"][labeled]) {
-  gap: 12px;
-  line-height: 1.2;
-  margin-bottom: 10px;
-  margin-right: 20px;
-  @supports not (display: grid) {
-    .radio {
-      margin-right: 12px;
-    }
   }
 }
 :host([scale="l"][checked]),

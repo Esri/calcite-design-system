@@ -43,7 +43,6 @@ export class CalciteRadio {
     return (
       <Host>
         <div class="radio" />
-        <slot />
       </Host>
     );
   }
