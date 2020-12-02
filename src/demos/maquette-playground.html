@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Stencil component lifecycle bug + maquette</title>
+  <link rel="stylesheet"
+        href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+</head>
+<body>
+  <script type="module">
+    import { h, createProjector } from "https://unpkg.com/maquette@3.3.7/dist/index.js";
+
+    let globalKey = 0;
+    let render = true;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const domNode = document.body;
+      const projector = createProjector();
+      const items = ['stencil', "react", "ember", "angular"];
+
+      const test = {
+        renderMaquette: function() {
+          render = !render;
+
+          return h("div", [
+            render ?
+            h('calcite-radio-button-group', {
+              name: "s",
+              scale: "s",
+              key: globalKey
+            }, [
+              items.map(
+                value => h("calcite-radio-button", { value }, [value])
+              )
+            ]) :
+            null
+          ])
+        }
+      };
+
+      projector.append(domNode, test.renderMaquette);
+      projector.scheduleRender();
+
+      // setInterval(() => {
+      //   globalKey++;
+      //   projector.scheduleRender();
+      // }, 1000);
+    });
+  </script>
+</body>
+</html>
