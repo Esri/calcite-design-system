@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-input", () => {
   it("renders", async () => {
@@ -150,21 +150,10 @@ describe("calcite-input", () => {
     expect(numberHorizontalItemUp).toBeNull();
   });
 
-  it("focuses child input when setFocus method is called", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label>
-    Label text
-    <calcite-input></calcite-input>
-    </calcite-label>
-    `);
-
-    const element = await page.find("calcite-input");
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-    expect(activeEl).toEqual(element.nodeName);
-  });
+  it("focuses child input when setFocus method is called", async () =>
+    focusable(`calcite-input`, {
+      focusTargetSelector: "input"
+    }));
 
   it("correctly increments and decrements value when number buttons are clicked", async () => {
     const page = await newE2EPage();

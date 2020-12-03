@@ -9,6 +9,7 @@ import {
   Method,
   VNode
 } from "@stencil/core";
+import { getElementDir } from "../../utils/dom";
 
 import { CSS, TEXT } from "./resources";
 
@@ -203,12 +204,13 @@ export class CalcitePagination {
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
     const { total, num, start } = this;
     const iconScale = this.scale === "l" ? "m" : "s";
     const prevDisabled = num === 1 ? start <= num : start < num;
     const nextDisabled = num === 1 ? start + num > total : start + num > total;
     return (
-      <Host>
+      <Host dir={dir}>
         <button
           aria-label={this.textLabelPrevious}
           class={{
@@ -218,7 +220,7 @@ export class CalcitePagination {
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon icon="chevronLeft" scale={iconScale} />
+          <calcite-icon dir={dir} flipRtl icon="chevronLeft" scale={iconScale} />
         </button>
         {total > num ? this.renderPage(1) : null}
         {this.renderLeftEllipsis(iconScale)}
@@ -234,7 +236,7 @@ export class CalcitePagination {
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon icon="chevronRight" scale={iconScale} />
+          <calcite-icon dir={dir} flipRtl icon="chevronRight" scale={iconScale} />
         </button>
       </Host>
     );

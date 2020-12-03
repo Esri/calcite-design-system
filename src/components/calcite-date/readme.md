@@ -39,6 +39,14 @@ Date also supports passing in a proxy input to make event handling and binding e
 | ------------------- | --------------------------------------------------------- | ------------------- |
 | `calciteDateChange` | Trigger calcite date change when a user changes the date. | `CustomEvent<Date>` |
 
+## Methods
+
+### `reposition() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Dependencies
 
 ### Depends on

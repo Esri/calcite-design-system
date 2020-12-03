@@ -1,18 +1,21 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-notice", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-notice>
-    <div slot="notice-title">Title Text</div>
-    <div slot="notice-message">Message Text</div>
-    <calcite-link slot="notice-link" href="">Action</calcite-link>
-    </calcite-notice>`);
-    const element = await page.find("calcite-notice");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
+  const noticeContent = `
+  <div slot="notice-title">Title Text</div>
+  <div slot="notice-message">Message Text</div>
+  <calcite-link slot="notice-link" href="">Action</calcite-link>
+`;
+  it("renders", async () => renders(`<calcite-notice active>${noticeContent}</calcite-notice>`));
+
+  it("is accessible", async () => accessible(`<calcite-notice active>${noticeContent}</calcite-notice>`));
+  it("is accessible with icon", async () =>
+    accessible(`<calcite-notice icon active>${noticeContent}</calcite-notice>`));
+  it("is accessible with close button", async () =>
+    accessible(`<calcite-notice dismissible active>${noticeContent}</calcite-notice>`));
+  it("is accessible with icon and close button", async () =>
+    accessible(`<calcite-notice icon dismissible active>${noticeContent}</calcite-notice>`));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
@@ -25,7 +28,6 @@ describe("calcite-notice", () => {
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "blue");
     expect(close).toBeNull();
     expect(icon).toBeNull();
@@ -35,16 +37,13 @@ describe("calcite-notice", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-notice theme="dark" color="yellow" dismissible>
-    <div slot="notice-title">Title Text</div>
-    <div slot="notice-message">Message Text</div>
-    <calcite-link slot="notice-link" href="">Action</calcite-link>
+    ${noticeContent}
     </calcite-notice>`);
 
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
 
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("theme", "dark");
     expect(close).not.toBeNull();
@@ -55,15 +54,11 @@ describe("calcite-notice", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-notice icon dismissible>
-    <div slot="notice-title">Title Text</div>
-    <div slot="notice-message">Message Text</div>
-    <calcite-link slot="notice-link" href="">Action</calcite-link>
+    ${noticeContent}
     </calcite-notice>`);
 
-    const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");
     const icon = await page.find("calcite-notice >>> .notice-icon");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(close).not.toBeNull();
     expect(icon).not.toBeNull();
   });
@@ -72,9 +67,7 @@ describe("calcite-notice", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-notice id="notice-1" active dismissible>
-    <div slot="notice-title">Title Text</div>
-    <div slot="notice-message">Message Text</div>
-    <calcite-link slot="notice-link" href="">Action</calcite-link>
+    ${noticeContent}
     </calcite-notice>
     `);
 
