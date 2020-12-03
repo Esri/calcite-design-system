@@ -17,7 +17,6 @@
     import { h, createProjector } from "https://unpkg.com/maquette@3.3.7/dist/index.js";
 
     let globalKey = 0;
-    let render = true;
 
     document.addEventListener('DOMContentLoaded', function() {
       const domNode = document.body;
@@ -26,10 +25,7 @@
 
       const test = {
         renderMaquette: function() {
-          render = !render;
-
           return h("div", [
-            render ?
             h('calcite-radio-button-group', {
               name: "s",
               scale: "s",
@@ -38,19 +34,13 @@
               items.map(
                 value => h("calcite-radio-button", { value }, [value])
               )
-            ]) :
-            null
+            ])
           ])
         }
       };
 
       projector.append(domNode, test.renderMaquette);
       projector.scheduleRender();
-
-      // setInterval(() => {
-      //   globalKey++;
-      //   projector.scheduleRender();
-      // }, 1000);
     });
   </script>
 </body>
