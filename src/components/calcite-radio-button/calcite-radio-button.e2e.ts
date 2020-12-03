@@ -39,7 +39,6 @@ describe("calcite-radio-button", () => {
       { propertyName: "focused", value: true },
       { propertyName: "guid", value: "reflects-guid" },
       { propertyName: "hidden", value: true },
-      { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" },
       { propertyName: "theme", value: "light" },
