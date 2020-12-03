@@ -1,5 +1,7 @@
 # calcite-radio
 
+Renders small, medium and large radio circles. This is an internal component used by `calcite-radio-button`.
+
 <!-- Auto Generated Below -->
 
 ## Properties

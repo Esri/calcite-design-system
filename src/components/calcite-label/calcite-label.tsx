@@ -142,7 +142,7 @@ export class CalciteLabel {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
-        <label {...attributes} ref={(el) => (this.labelEl = el)}>
+        <label {...attributes} htmlFor={this.for} ref={(el) => (this.labelEl = el)}>
           <slot />
         </label>
       </Host>

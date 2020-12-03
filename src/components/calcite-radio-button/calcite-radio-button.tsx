@@ -49,7 +49,7 @@ export class CalciteRadioButton {
   }
 
   /** The disabled state of the radio button. */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledChanged(disabled: boolean): void {
@@ -61,12 +61,11 @@ export class CalciteRadioButton {
 
   @Watch("focused")
   focusedChanged(focused: boolean): void {
-    if (this.input) {
-      if (focused && !this.el.hasAttribute("hidden")) {
-        this.input.focus();
-      } else {
-        this.input.blur();
-      }
+    if (!this.input) return;
+    if (focused && !this.el.hasAttribute("hidden")) {
+      this.input.focus();
+    } else {
+      this.input.blur();
     }
   }
 
@@ -85,7 +84,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) name!: string;
+  @Prop({ reflect: true }) name: string;
 
   @Watch("name")
   nameChanged(newName: string): void {
@@ -131,8 +130,6 @@ export class CalciteRadioButton {
 
   private input: HTMLInputElement;
 
-  private titleAttributeObserver: MutationObserver;
-
   /** @internal */
   @Method()
   async emitCheckedChange(): Promise<void> {
@@ -161,16 +158,6 @@ export class CalciteRadioButton {
           checkedRadioButton.emitCheckedChange();
         });
     }
-  }
-
-  private setupTitleAttributeObserver(): void {
-    this.titleAttributeObserver = new MutationObserver(() => {
-      this.input.title = this.el.getAttribute("title");
-    });
-    this.titleAttributeObserver.observe(this.el, {
-      attributes: true,
-      attributeFilter: ["title"]
-    });
   }
 
   private uncheckAllRadioButtonsInGroup(): void {
@@ -254,15 +241,15 @@ export class CalciteRadioButton {
     this.initialChecked && this.input.setAttribute("checked", "");
   };
 
-  private onInputBlur(): void {
+  private onInputBlur = (): void => {
     this.focused = false;
     this.calciteRadioButtonFocusedChange.emit();
-  }
+  };
 
-  private onInputFocus(): void {
+  private onInputFocus = (): void => {
     this.focused = true;
     this.calciteRadioButtonFocusedChange.emit();
-  }
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -273,7 +260,6 @@ export class CalciteRadioButton {
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
     this.initialChecked = this.checked;
-    this.setupTitleAttributeObserver();
     if (this.name) {
       this.checkLastRadioButton();
     }
@@ -290,7 +276,6 @@ export class CalciteRadioButton {
   }
 
   disconnectedCallback(): void {
-    this.titleAttributeObserver.disconnect();
     const form = this.el.closest("form");
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
@@ -310,6 +295,7 @@ export class CalciteRadioButton {
           dir={getElementDir(this.el)}
           disable-spacing
           disabled={this.disabled}
+          for={`${this.guid}-input`}
           scale={this.scale}
         >
           <slot />
@@ -320,33 +306,20 @@ export class CalciteRadioButton {
   }
 
   render(): VNode {
-    let title;
-    if (this.el.getAttribute("title")) {
-      title = this.el.getAttribute("title");
-    } else if (this.name && this.value) {
-      title = `Radio button with name of ${this.name} and value of ${this.value}`;
-    } else {
-      title = this.guid;
-    }
+    const inputStyle = { opacity: "0", position: "fixed", zIndex: "-1" };
     return (
-      <Host
-        aria-checked={this.checked.toString()}
-        aria-disabled={this.disabled.toString()}
-        labeled={this.el.textContent ? true : false}
-      >
+      <Host labeled={!!this.el.textContent}>
         <input
-          aria-label={this.value || this.guid}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}
           id={`${this.guid}-input`}
           name={this.name}
-          onBlur={this.onInputBlur.bind(this)}
-          onFocus={this.onInputFocus.bind(this)}
+          onBlur={this.onInputBlur}
+          onFocus={this.onInputFocus}
           ref={(el) => (this.input = el)}
           required={this.required}
-          style={{ opacity: "0", position: "fixed", zIndex: "-1" }}
-          title={title}
+          style={inputStyle}
           type="radio"
           value={this.value}
         />
