@@ -15,7 +15,7 @@ import {
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
 import { getElementDir } from "../../utils/dom";
-import { dateFromRange, inRange, dateFromISO, dateToISO, parseDateString } from "../../utils/date";
+import { dateFromRange, inRange, dateFromISO, parseDateString, dateToISO } from "../../utils/date";
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-date-resources";
 import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
@@ -147,17 +147,12 @@ export class CalciteDate {
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
-    this.setupProxyInput();
     this.loadLocaleData();
     if (this.value) {
-      this.setValueAsDate(this.value);
+      this.valueAsDate = dateFromISO(this.value);
     }
 
     this.createPopper();
-  }
-
-  componentWillRender(): void {
-    this.syncProxyInputToThis();
   }
 
   disconnectedCallback(): void {
@@ -174,9 +169,6 @@ export class CalciteDate {
 
     return (
       <Host dir={dir} role="application">
-        <div class="slot">
-          <slot />
-        </div>
         {!this.noCalendarInput && this.localeData && (
           <div aria-expanded={this.active.toString()} ref={this.setReferenceEl} role="application">
             <calcite-input
@@ -210,11 +202,7 @@ export class CalciteDate {
                 localeData={this.localeData}
                 max={max}
                 min={min}
-                onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-                  this.setValue(new Date(e.detail));
-                  this.activeDate = new Date(e.detail);
-                  this.calciteDateChange.emit(new Date(e.detail));
-                }}
+                onCalciteDateSelect={this.updateSelectedDate}
                 scale={this.scale}
                 selectedDate={date || new Date()}
               />
@@ -224,15 +212,8 @@ export class CalciteDate {
                 localeData={this.localeData}
                 max={max}
                 min={min}
-                onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-                  this.activeDate = new Date(e.detail);
-                }}
-                onCalciteDateSelect={(e: CustomEvent<Date>) => {
-                  this.setValue(new Date(e.detail));
-                  this.activeDate = new Date(e.detail);
-                  this.calciteDateChange.emit(new Date(e.detail));
-                  this.reset();
-                }}
+                onCalciteActiveDateChange={this.updateActiveDate}
+                onCalciteDateSelect={this.updateSelectedDateAndClose}
                 scale={this.scale}
                 selectedDate={date}
               />
@@ -252,10 +233,6 @@ export class CalciteDate {
 
   private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
-  private inputProxy: HTMLInputElement;
-
-  private observer: MutationObserver;
-
   private popper: Popper;
 
   private menuEl: HTMLDivElement;
@@ -267,6 +244,22 @@ export class CalciteDate {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  updateActiveDate = (e: CustomEvent<Date>): void => {
+    this.activeDate = e.detail;
+  };
+
+  updateSelectedDate = (e: CustomEvent<Date>): void => {
+    this.value = dateToISO(e.detail);
+    this.valueAsDate = e.detail;
+    this.activeDate = e.detail;
+    this.calciteDateChange.emit(new Date(e.detail));
+  };
+
+  updateSelectedDateAndClose = (e: CustomEvent<Date>): void => {
+    this.updateSelectedDate(e);
+    this.reset();
+  };
 
   setMenuEl = (el: HTMLDivElement): void => {
     this.menuEl = el;
@@ -312,11 +305,6 @@ export class CalciteDate {
     this.popper = null;
   }
 
-  @Watch("value")
-  valueWatcher(value: string): void {
-    this.setValueAsDate(value);
-  }
-
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
     const { locale } = this;
@@ -324,84 +312,10 @@ export class CalciteDate {
   }
 
   /**
-   * Register slotted date input proxy, or create one if not provided
-   */
-  setupProxyInput(): void {
-    // check for a proxy input
-    this.inputProxy = this.el.querySelector("input");
-
-    // if the user didn't pass a proxy input create one for them
-    if (!this.inputProxy) {
-      this.inputProxy = document.createElement("input");
-      try {
-        this.inputProxy.type = "date";
-      } catch (e) {
-        this.inputProxy.type = "text";
-      }
-      this.syncProxyInputToThis();
-      this.el.appendChild(this.inputProxy);
-    }
-
-    this.syncThisToProxyInput();
-
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.syncThisToProxyInput);
-      this.observer.observe(this.inputProxy, { attributes: true });
-    }
-  }
-
-  /**
-   * Update component based on input proxy
-   */
-  syncThisToProxyInput = (): void => {
-    this.min = this.inputProxy.min;
-    this.max = this.inputProxy.max;
-    const min = dateFromISO(this.min);
-    const max = dateFromISO(this.max);
-    const date = dateFromISO(this.inputProxy.value);
-    this.value = dateToISO(dateFromRange(date, min, max));
-  };
-
-  /**
-   * Update input proxy
-   */
-  syncProxyInputToThis = (): void => {
-    if (this.inputProxy) {
-      this.inputProxy.value = this.value || "";
-      if (this.min) {
-        this.inputProxy.min = this.min;
-      }
-      if (this.max) {
-        this.inputProxy.max = this.max;
-      }
-    }
-  };
-
-  /**
-   * Set both iso value and date value and update proxy
-   */
-  private setValue(date: Date): void {
-    this.value = new Date(date).toISOString().split("T")[0];
-    this.syncProxyInputToThis();
-  }
-
-  /**
-   * Update date instance of value if valid
-   */
-  private setValueAsDate(value: string): void {
-    if (value) {
-      const date = dateFromISO(value);
-      if (date) {
-        this.valueAsDate = date as Date;
-      }
-    }
-  }
-
-  /**
    * Reset active date and close
    */
   private reset(): void {
-    if (this.valueAsDate) {
+    if (this.valueAsDate && this.valueAsDate?.getTime() !== this.activeDate?.getTime()) {
       this.activeDate = new Date(this.valueAsDate);
     }
     if (!this.noCalendarInput) {
@@ -415,8 +329,8 @@ export class CalciteDate {
   private input(value: string): void {
     const date = this.getDateFromInput(value);
     if (date) {
-      this.setValue(date);
-      this.activeDate = date as Date;
+      this.valueAsDate = date;
+      this.activeDate = date;
       this.calciteDateChange.emit(new Date(date));
     }
   }
