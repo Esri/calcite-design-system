@@ -178,7 +178,7 @@ describe("calcite-link", () => {
 
     it("keyboard", async () => {
       const element = await page.find("calcite-link");
-      await element.focus();
+      await element.callMethod("setFocus");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
@@ -186,8 +186,9 @@ describe("calcite-link", () => {
     });
 
     it("mouse", async () => {
+      // workaround for https://github.com/puppeteer/puppeteer/issues/2977
       await page.$eval("calcite-link", (link: HTMLElement): void => {
-        link.click();
+        link.shadowRoot.querySelector("a").click();
       });
       await page.waitForChanges();
 

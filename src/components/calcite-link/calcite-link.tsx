@@ -1,6 +1,5 @@
-import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
 
 /** @slot default text slot for link text */
 
@@ -84,16 +83,17 @@ export class CalciteLink {
 
     const attributes = this.getAttributes();
     const Tag = this.childElType;
-    const tabIndex = this.disabled ? -1 : 0;
+    const role = this.childElType === "span" ? "link" : null;
+    const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
 
     return (
-      <Host dir={dir} role="link" tabIndex={tabIndex}>
+      <Host dir={dir} role="presentation">
         <Tag
           {...attributes}
           href={Tag === "a" && this.href}
-          onClick={this.handleInternalClick}
           ref={this.storeTagRef}
-          tabIndex={-1}
+          role={role}
+          tabIndex={tabIndex}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />
@@ -112,28 +112,6 @@ export class CalciteLink {
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.childEl);
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("click")
-  protected handleClick(event: KeyboardEvent | MouseEvent): void {
-    event.preventDefault();
-    this.childEl.click();
-  }
-
-  @Listen("keydown")
-  protected handleKeyDown(event: KeyboardEvent): void {
-    if (this.childElType !== "a" || getKey(event.key) !== "Enter") {
-      return;
-    }
-
-    event.preventDefault();
-    this.childEl.click();
   }
 
   //--------------------------------------------------------------------------
@@ -165,9 +143,4 @@ export class CalciteLink {
   private storeTagRef = (el: CalciteLink["childEl"]): void => {
     this.childEl = el;
   };
-
-  private handleInternalClick(event: MouseEvent): void {
-    // we prevent this event from reaching the host since it's triggered internally
-    event.stopImmediatePropagation();
-  }
 }
