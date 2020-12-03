@@ -48,6 +48,9 @@ export class CalciteCard {
   /**  The theme of the card.*/
   @Prop({ reflect: true }) theme: "light" | "dark";
 
+  /** string to override English loading text */
+  @Prop() intlLoading?: string = TEXT.loading;
+
   /** string to override English select text for checkbox when selectable is true */
   @Prop({ reflect: false }) intlSelect: string = TEXT.select;
 
@@ -76,7 +79,7 @@ export class CalciteCard {
         <div class="calcite-card-container">
           {this.loading ? (
             <div class="calcite-card-loader-container">
-              <calcite-loader active />
+              <calcite-loader active label={this.intlLoading} />
             </div>
           ) : null}
           <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
@@ -104,11 +107,11 @@ export class CalciteCard {
   //
   //--------------------------------------------------------------------------
 
-  private cardSelectClick() {
+  private cardSelectClick = (): void => {
     this.selectCard();
-  }
+  };
 
-  private cardSelectKeyDown(e): void {
+  private cardSelectKeyDown = (e: KeyboardEvent): void => {
     switch (getKey(e.key)) {
       case " ":
       case "Enter":
@@ -116,7 +119,7 @@ export class CalciteCard {
         e.preventDefault();
         break;
     }
-  }
+  };
 
   private selectCard() {
     this.selected = !this.selected;
@@ -139,8 +142,8 @@ export class CalciteCard {
       <label
         aria-label={checkboxLabel}
         class={CSS.checkboxWrapper}
-        onClick={() => this.cardSelectClick()}
-        onKeyDown={(e) => this.cardSelectKeyDown(e)}
+        onClick={this.cardSelectClick}
+        onKeyDown={this.cardSelectKeyDown}
         title={checkboxLabel}
       >
         <calcite-checkbox checked={this.selected} theme={this.theme} />

@@ -8,8 +8,9 @@ interface CalciteExpandToggleProps {
   intlCollapse: string;
   el: HTMLElement;
   position: CalcitePosition;
-  tooltipExpand?: HTMLCalciteTooltipElement;
-  toggleExpand: () => void;
+  tooltip?: HTMLCalciteTooltipElement;
+  toggle: () => void;
+  ref?: (el: HTMLElement) => void;
 }
 
 const ICONS = {
@@ -31,13 +32,23 @@ export function toggleChildActionText({
   parent.querySelectorAll("calcite-action").forEach((action) => (action.textEnabled = expanded));
 }
 
-const setTooltipReference = (
-  tooltip: HTMLCalciteTooltipElement,
-  referenceElement: HTMLCalciteActionElement,
-  expanded: boolean
-): HTMLCalciteActionElement => {
+const setTooltipReference = ({
+  tooltip,
+  referenceElement,
+  expanded,
+  ref
+}: {
+  tooltip: HTMLCalciteTooltipElement;
+  referenceElement: HTMLCalciteActionElement;
+  expanded: boolean;
+  ref?: (el: HTMLElement) => void;
+}): HTMLCalciteActionElement => {
   if (tooltip) {
     tooltip.referenceElement = !expanded && referenceElement;
+  }
+
+  if (ref) {
+    ref(referenceElement);
   }
 
   return referenceElement;
@@ -47,10 +58,11 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
   expanded,
   intlExpand,
   intlCollapse,
-  toggleExpand,
+  toggle,
   el,
   position,
-  tooltipExpand
+  tooltip,
+  ref
 }) => {
   const rtl = getElementDir(el) === "rtl";
 
@@ -68,18 +80,14 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
   const actionNode = (
     <calcite-action
       icon={expanded ? expandIcon : collapseIcon}
-      onClick={toggleExpand}
+      onClick={toggle}
       ref={(referenceElement): HTMLCalciteActionElement =>
-        setTooltipReference(tooltipExpand, referenceElement, expanded)
+        setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
       text={expandText}
       textEnabled={expanded}
     />
   );
 
-  return tooltipExpand ? (
-    <calcite-tooltip-manager>{actionNode}</calcite-tooltip-manager>
-  ) : (
-    actionNode
-  );
+  return tooltip ? <calcite-tooltip-manager>{actionNode}</calcite-tooltip-manager> : actionNode;
 };

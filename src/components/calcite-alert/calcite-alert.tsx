@@ -77,6 +77,9 @@ export class CalciteAlert {
   /** string to override English close text */
   @Prop() intlClose: string = TEXT.intlClose;
 
+  /** Accessible name for the component */
+  @Prop() label!: string;
+
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: CalciteScale = "m";
 
@@ -113,7 +116,7 @@ export class CalciteAlert {
       <button
         aria-label={this.intlClose}
         class="alert-close"
-        onClick={() => this.closeAlert()}
+        onClick={this.closeAlert}
         ref={(el) => (this.closeButton = el)}
         type="button"
       >
@@ -130,7 +133,14 @@ export class CalciteAlert {
     const hidden = this.active ? "false" : "true";
 
     return (
-      <Host active={this.active} aria-hidden={hidden} dir={dir} queued={this.queued} role={role}>
+      <Host
+        active={this.active}
+        aria-hidden={hidden}
+        aria-label={this.label}
+        dir={dir}
+        queued={this.queued}
+        role={role}
+      >
         {this.requestedIcon ? (
           <div class="alert-icon">
             <calcite-icon icon={this.requestedIcon} scale="m" />
@@ -202,7 +212,8 @@ export class CalciteAlert {
   //--------------------------------------------------------------------------
 
   /** focus either the slotted alert-link or the close button */
-  @Method() async setFocus(): Promise<void> {
+  @Method()
+  async setFocus(): Promise<void> {
     if (!this.closeButton && !this.alertLinkEl) return;
     else if (this.alertLinkEl) this.alertLinkEl.setFocus();
     else if (this.closeButton) this.closeButton.focus();
@@ -250,7 +261,7 @@ export class CalciteAlert {
   }
 
   /** close and emit the closed alert and the queue */
-  private closeAlert() {
+  private closeAlert = (): void => {
     this.queued = false;
     this.active = false;
     this.queue = this.queue.filter((e) => e !== this.el);
@@ -260,7 +271,7 @@ export class CalciteAlert {
       el: this.el,
       queue: this.queue
     });
-  }
+  };
 
   /** emit the opened alert and the queue */
   private openAlert(): void {

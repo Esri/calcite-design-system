@@ -15,7 +15,8 @@ export const CSS = {
 
 export const TEXT = {
   collapse: "Collapse",
-  expand: "Expand"
+  expand: "Expand",
+  loading: "Loading"
 };
 
 export const SLOTS = {

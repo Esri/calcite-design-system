@@ -22,7 +22,7 @@ This component represents a menu of options.
 
 ```html
 <calcite-select>
-  <calcite-option value="high"">😃</calcite-option>
+  <calcite-option value="high">😃</calcite-option>
   <calcite-option value="medium">😶</calcite-option>
   <calcite-option value="low">😭</calcite-option>
 </calcite-select>

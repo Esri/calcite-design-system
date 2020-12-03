@@ -34,20 +34,21 @@ Renders a `calcite-action` that has a clear background.
 
 ## Properties
 
-| Property            | Attribute      | Description                                                                                                                         | Type                              | Default     |
-| ------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ----------- |
-| `active`            | `active`       | Indicates whether the action is highlighted.                                                                                        | `boolean`                         | `false`     |
-| `appearance`        | `appearance`   | Specify the appearance style of the action, defaults to solid.                                                                      | `"clear" \| "outline" \| "solid"` | `"solid"`   |
-| `compact`           | `compact`      | Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.                                   | `boolean`                         | `false`     |
-| `disabled`          | `disabled`     | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                         | `boolean`                         | `false`     |
-| `icon`              | `icon`         | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`                          | `undefined` |
-| `indicator`         | `indicator`    | Indicates unread changes.                                                                                                           | `boolean`                         | `false`     |
-| `label`             | `label`        | Label of the action, exposed on hover. If no label is provided, the label inherits what's provided for the `text` prop.             | `string`                          | `undefined` |
-| `loading`           | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                                                      | `boolean`                         | `false`     |
-| `scale`             | `scale`        | Specifies the size of the action.                                                                                                   | `"l" \| "m" \| "s"`               | `"m"`       |
-| `text` _(required)_ | `text`         | Text that accompanies the action icon.                                                                                              | `string`                          | `undefined` |
-| `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                         | `false`     |
-| `theme`             | `theme`        | Used to set the component's color scheme.                                                                                           | `"dark" \| "light"`               | `undefined` |
+| Property            | Attribute      | Description                                                                                                                         | Type                              | Default        |
+| ------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | -------------- |
+| `active`            | `active`       | Indicates whether the action is highlighted.                                                                                        | `boolean`                         | `false`        |
+| `appearance`        | `appearance`   | Specify the appearance style of the action, defaults to solid.                                                                      | `"clear" \| "outline" \| "solid"` | `"solid"`      |
+| `compact`           | `compact`      | Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.                                   | `boolean`                         | `false`        |
+| `disabled`          | `disabled`     | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                         | `boolean`                         | `false`        |
+| `icon`              | `icon`         | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`                          | `undefined`    |
+| `indicator`         | `indicator`    | Indicates unread changes.                                                                                                           | `boolean`                         | `false`        |
+| `intlLoading`       | `intl-loading` | string to override English loading text                                                                                             | `string`                          | `TEXT.loading` |
+| `label`             | `label`        | Label of the action, exposed on hover. If no label is provided, the label inherits what's provided for the `text` prop.             | `string`                          | `undefined`    |
+| `loading`           | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                                                      | `boolean`                         | `false`        |
+| `scale`             | `scale`        | Specifies the size of the action.                                                                                                   | `"l" \| "m" \| "s"`               | `"m"`          |
+| `text` _(required)_ | `text`         | Text that accompanies the action icon.                                                                                              | `string`                          | `undefined`    |
+| `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                         | `false`        |
+| `theme`             | `theme`        | Used to set the component's color scheme.                                                                                           | `"dark" \| "light"`               | `undefined`    |
 
 ## Methods
 
