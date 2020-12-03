@@ -2,7 +2,7 @@
 name: Research
 about: Request an investigation into a specific topic.
 title: "Research: "
-labels: 0 - new, research 🔬
+labels: 0 - new, research
 assignees: ""
 ---
 

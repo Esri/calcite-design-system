@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { number, select } from "@storybook/addon-knobs";
+import { number, select, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
@@ -16,6 +16,8 @@ storiesOf("Components/Rating", module)
     count="${number("count", 0)}"
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
+    intl-rating="${text("intl-rating", "Rating")}"
+    intl-stars="${text("intl-rating", "Stars: ${num}")}"
    ></calcite-rating>
   `
   )
@@ -30,6 +32,8 @@ storiesOf("Components/Rating", module)
       count="${number("count", 0)}"
       ${boolean("read-only", false)}
       ${boolean("disabled", false)}
+      intl-rating="${text("intl-rating", "Rating")}"
+      intl-stars="${text("intl-rating", "Stars: ${num}")}"
     ></calcite-rating>
   `,
     { backgrounds: darkBackground }
@@ -46,6 +50,8 @@ storiesOf("Components/Rating", module)
       count="${number("count", 0)}"
       ${boolean("read-only", false)}
       ${boolean("disabled", false)}
+      intl-rating="${text("intl-rating", "Rating")}"
+      intl-stars="${text("intl-rating", "Stars: ${num}")}"
     ></calcite-rating>
    </calcite-label>
   `
@@ -61,6 +67,8 @@ storiesOf("Components/Rating", module)
       count="${number("count", 0)}"
       ${boolean("read-only", false)}
       ${boolean("disabled", false)}
+      intl-rating="${text("intl-rating", "Rating")}"
+      intl-stars="${text("intl-rating", "Stars: ${num}")}"
     ></calcite-rating>
    </div>
   `

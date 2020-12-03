@@ -84,14 +84,79 @@
                     <calcite-checkbox checked disabled indeterminate name="light-s-indeterminate-checked" scale="s">
                       indeterminate checked
                       disabled</calcite-checkbox>
-                    <calcite-label layout="inline" scale="s">
-                      <calcite-checkbox name="light-s-wrapped" scale="s"></calcite-checkbox>
+
+                    <calcite-label>
                       wrapped in calcite-label
+                      <calcite-checkbox name="wrapped-in-calcite-label"></calcite-checkbox>
                     </calcite-label>
-                    <calcite-label layout="inline" scale="s">
-                      wrapped in calcite-label reversed
-                      <calcite-checkbox name="light-s-wrapped-reverse" scale="s"></calcite-checkbox>
+
+                    <calcite-label layout="inline">
+                      wrapped in inline calcite-label
+                      <calcite-checkbox name="wrapped-in-inline-calcite-label"></calcite-checkbox>
                     </calcite-label>
+
+                    <calcite-label layout="inline">
+                      <calcite-checkbox name="wrapped-in-calcite-label-reverse"></calcite-checkbox>
+                      wrapped in inline calcite-label reversed
+                    </calcite-label>
+
+                    <calcite-label>
+                      wrapped in calcite-label with slotted label
+                      <calcite-checkbox name="wrapped-in-calcite-label-slotted-label">slotted label</calcite-checkbox>
+                    </calcite-label>
+
+                    <calcite-label layout="inline">
+                      wrapped in inline calcite-label with slotted label
+                      <calcite-checkbox name="wrapped-in-inline-calcite-label-slotted-label">slotted label</calcite-checkbox>
+                    </calcite-label>
+
+                    <calcite-label for="wrapped-in-calcite-label-with-for" layout="inline">
+                      <calcite-checkbox id="wrapped-in-calcite-label-with-for" name="wrapped-in-calcite-label-with-for"></calcite-checkbox>
+                      wrapped in calcite-label with for
+                    </calcite-label>
+
+                    <calcite-label for="wrapped-in-calcite-label-with-for-and-slotted-label" layout="inline">
+                      wrapped in calcite-label with for and checkbox has slotted label
+                      <calcite-checkbox id="wrapped-in-calcite-label-with-for-and-slotted-label"
+                        name="wrapped-in-calcite-label-with-for-and-slotted-label">slotted label</calcite-checkbox>
+                    </calcite-label>
+
+                    <div>
+                      <calcite-label for="sibling-calcite-label">sibling calcite-label</calcite-label>
+                      <calcite-checkbox id="sibling-calcite-label" name="sibling-calcite-label"></calcite-checkbox>
+                    </div>
+
+                    <div>
+                      <calcite-label for="sibling-calcite-label-slotted-label">sibling calcite-label with slotted label</calcite-label>
+                      <calcite-checkbox id="sibling-calcite-label-slotted-label" name="sibling-calcite-label-slotted-label">slotted label</calcite-checkbox>
+                    </div>
+
+                    <label>
+                      <calcite-checkbox name="wrapped-in-label"></calcite-checkbox>
+                      wrapped in native label
+                    </label>
+
+                    <label>
+                      wrapped in native label with slotted label
+                      <calcite-checkbox name="wrapped-in-label-slotted-label">slotted label</calcite-checkbox>
+                    </label>
+
+                    <label for="wrapped-in-label-with-for">
+                      <calcite-checkbox id="wrapped-in-label-with-for" name="wrapped-in-label-with-for"></calcite-checkbox>
+                      wrapped in native label with for
+                    </label>
+
+                    <label for="wrapped-in-label-with-for-slotted-label">
+                      wrapped in native label with for and has slotted label
+                      <calcite-checkbox id="wrapped-in-label-with-for-slotted-label"
+                        name="wrapped-in-label-with-for-slotted-label">slotted label</calcite-checkbox>
+                    </label>
+
+                    <label for="sibling-label">sibling native label</label>
+                    <calcite-checkbox id="sibling-label" name="sibling-label"></calcite-checkbox>
+
+                    <label for="sibling-label-slotted-label">sibling native label with slotted label</label>
+                    <calcite-checkbox id="sibling-label-slotted-label" name="sibling-label-slotted-label">slotted label</calcite-checkbox>
 
                     <h3>Medium</h3>
                     <calcite-checkbox name="light-m-unlabeled" scale="m"></calcite-checkbox>
@@ -355,4 +420,5 @@
         </demo-form>
   </demo-spacer>
 </body>
+
 </html>

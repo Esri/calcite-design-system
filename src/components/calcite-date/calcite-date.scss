@@ -1,13 +1,13 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host {
   display: inline-block;
   vertical-align: top;
   width: 100%;
   position: relative;
   overflow: visible;
+}
+
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
 }
 
 .slot {
@@ -34,20 +34,25 @@
   pointer-events: none;
 }
 
+:host(:not([no-calendar-input])) .menu-container {
+  @include popperContainer();
+  visibility: hidden;
+  pointer-events: none;
+  width: 100%;
+}
+:host(:not([no-calendar-input])[active]) .menu-container {
+  pointer-events: initial;
+  visibility: visible;
+}
+
+:host(:not([no-calendar-input])) {
+  @include popperElemAnim(".menu-container");
+}
+
 .calendar-picker-wrapper {
-  @apply shadow-2;
-  position: absolute;
-  top: 100%;
   background-color: var(--calcite-ui-foreground-1);
-  opacity: 0;
   width: 100%;
   line-height: 0; // fixes height in ie11
-  visibility: hidden;
-  overflow: visible;
-  transform: translate3d(0, -$baseline, 0);
-  transition: all 0.15s ease-in-out;
-  pointer-events: none;
-  z-index: 3;
 }
 
 .input .calcite-input-wrapper {
@@ -55,17 +60,6 @@
 }
 
 :host([active]) {
-  @apply shadow-2;
-  background-color: var(--calcite-ui-foreground-1);
-  border-radius: var(--calcite-border-radius);
-
-  .calendar-picker-wrapper {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    visibility: visible;
-    pointer-events: initial;
-  }
-
   .date-input-wrapper {
     border: 1px solid var(--calcite-ui-foreground-1);
     border-bottom: 1px solid var(--calcite-ui-border-3);

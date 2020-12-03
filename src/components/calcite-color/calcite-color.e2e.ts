@@ -267,6 +267,29 @@ describe("calcite-color", () => {
       await page.waitForChanges();
     };
 
+    const assertChannelValueNudge = async (page: E2EPage, inputOrHexInput: E2EElement): Promise<void> => {
+      await inputOrHexInput.callMethod("setFocus");
+      await page.waitForChanges();
+
+      const currentValue = await inputOrHexInput.getProperty("value");
+
+      await page.keyboard.press("ArrowUp");
+      expect(await inputOrHexInput.getProperty("value")).toBe(currentValue + 1);
+
+      await page.keyboard.press("ArrowDown");
+      expect(await inputOrHexInput.getProperty("value")).toBe(currentValue);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("ArrowUp");
+      await page.keyboard.up("Shift");
+      expect(await inputOrHexInput.getProperty("value")).toBe(currentValue + 10);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("ArrowDown");
+      await page.keyboard.up("Shift");
+      expect(await inputOrHexInput.getProperty("value")).toBe(currentValue);
+    };
+
     it("keeps value in same format when applying updates", async () => {
       const page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
@@ -290,6 +313,10 @@ describe("calcite-color", () => {
         await clearAndEnterValue(page, gInput, "64");
         await clearAndEnterValue(page, bInput, "32");
 
+        await assertChannelValueNudge(page, rInput);
+        await assertChannelValueNudge(page, gInput);
+        await assertChannelValueNudge(page, bInput);
+
         assertColorUpdate(await picker.getProperty("value"));
 
         await hsvModeButton.click();
@@ -299,6 +326,10 @@ describe("calcite-color", () => {
         await clearAndEnterValue(page, hInput, "180");
         await clearAndEnterValue(page, sInput, "90");
         await clearAndEnterValue(page, vInput, "45");
+
+        await assertChannelValueNudge(page, hInput);
+        await assertChannelValueNudge(page, sInput);
+        await assertChannelValueNudge(page, vInput);
 
         assertColorUpdate(await picker.getProperty("value"));
       };

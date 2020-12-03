@@ -246,12 +246,14 @@ describe("dom", () => {
         });
       });
     });
-    describe("set requested icon", () => {
-      it("returns the custom icon name if custom value is passed", () =>
-        expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "mycustomvalue", "exampleValue")).toBe(
-          "mycustomvalue"
-        ));
-    });
+  });
+
+  describe("setRequestedIcon()", () => {
+    it("returns the custom icon name if custom value is passed", () =>
+      expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "mycustomvalue", "exampleValue")).toBe(
+        "mycustomvalue"
+      ));
+
     it("returns the pre-defined icon name if custom value is not passed", () =>
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
         "exampleReturnedValue"

@@ -38,6 +38,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
+    { components: ["calcite-fab"] },
     {
       components: ["calcite-panel", "calcite-flow"]
     },

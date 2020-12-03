@@ -2,7 +2,7 @@
 name: Documentation
 about: Report issues with documentation.
 title: "Docs: "
-labels: docs 📓, 0 - new
+labels: docs, 0 - new
 assignees: ""
 ---
 

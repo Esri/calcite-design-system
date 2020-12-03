@@ -9,36 +9,42 @@ storiesOf("Components/Switch", module)
   .add(
     "Simple",
     (): string => `
-    <label>
       <calcite-switch
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
         ${boolean("disabled", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
+  `
+  )
+  .add(
+    "Wrapping calcite-label",
+    (): string => `
+      <calcite-label layout="${select("layout", ["inline", "inline-space-between", "default"], "inline")}"
+       ${boolean("disabled", false)}>
       Enable setting
-    </label>
+      <calcite-switch
+        name="setting"
+        value="enabled"
+        ${boolean("switched", true)}
+        ${boolean("disabled", false)}
+      ></calcite-switch>
+      </calcite-label>
   `
   )
   .add(
     "Dark mode",
     (): string => `
-    <div style="color:white">
-      <label>
       <calcite-switch
         theme="dark"
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
-        ${boolean("disabled", false)}
+
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
-      Enable setting
-    </label>
-    </div>`,
+ `,
     {
       backgrounds: darkBackground
     }
@@ -46,16 +52,13 @@ storiesOf("Components/Switch", module)
   .add(
     "RTL",
     (): string => `
-      <label>
+      Enable setting
       <calcite-switch
         dir="rtl"
         name="setting"
         value="enabled"
         ${boolean("switched", true)}
-        ${boolean("disabled", false)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        color="${select("color", ["blue", "red"], "blue")}"
       ></calcite-switch>
-      Enable setting
-    </label>`
+`
   );
