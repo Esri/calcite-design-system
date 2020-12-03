@@ -1,6 +1,6 @@
 import { Component, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
-import { getElementByAttributeName } from "../../utils/dom";
+import { getElementByAttributeId } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -35,7 +35,7 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   queryTooltip = (el: HTMLElement): HTMLCalciteTooltipElement => {
-    return getElementByAttributeName(
+    return getElementByAttributeId(
       el.closest(this.selector),
       TOOLTIP_REFERENCE
     ) as HTMLCalciteTooltipElement;

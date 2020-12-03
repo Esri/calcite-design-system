@@ -1,6 +1,6 @@
 import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
-import { getElementByAttributeName } from "../../utils/dom";
+import { getElementByAttributeId } from "../../utils/dom";
 
 @Component({
   tag: "calcite-popover-manager"
@@ -46,8 +46,8 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  queryPopover = (el: HTMLElement): HTMLCalcitePopoverElement => {
-    return getElementByAttributeName(
+  getRelatedPopover = (el: HTMLElement): HTMLCalcitePopoverElement => {
+    return getElementByAttributeId(
       el.closest(this.selector),
       POPOVER_REFERENCE
     ) as HTMLCalcitePopoverElement;
@@ -65,18 +65,18 @@ export class CalcitePopoverManager {
     const { autoClose, el } = this;
     const popoverSelector = "calcite-popover";
     const isTargetInsidePopover = target.closest(popoverSelector);
-    const popoverResult = this.queryPopover(target);
+    const relatedPopover = this.getRelatedPopover(target);
 
     if (autoClose && !isTargetInsidePopover) {
       Array.from(document.body.querySelectorAll(popoverSelector))
-        .filter((popover) => popover.open && popover !== popoverResult)
+        .filter((popover) => popover.open && popover !== relatedPopover)
         .forEach((popover) => popover.toggle(false));
     }
 
-    if (!el.contains(target) || !popoverResult) {
+    if (!el.contains(target) || !relatedPopover) {
       return;
     }
 
-    popoverResult.toggle();
+    relatedPopover.toggle();
   }
 }

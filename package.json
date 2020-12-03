@@ -36,6 +36,7 @@
     "release:publish": "npm run util:push-tags && npm publish && ts-node ./support/releaseToGitHub.ts",
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm:build --dev --watch --serve\"",
     "test": "npm run util:run-tests && npm run test:prerender",
+    "test2": "npm run util:copy-icons && stencil test --no-docs --spec --e2e calcite-tooltip",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener.config.js\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
