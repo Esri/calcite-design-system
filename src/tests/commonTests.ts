@@ -125,12 +125,38 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
   expect(await element.isVisible()).toBe(false);
 }
 
-export async function focusable(componentTagOrHTML: TagOrHTML): Promise<void> {
+interface FocusableOptions {
+  /** use this to pass an ID to setFocus() **/
+  focusId?: string;
+
+  /**
+   * selector used to assert the focused DOM element
+   */
+  focusTargetSelector?: string;
+
+  /**
+   * selector used to assert the focused shadow DOM element
+   */
+  shadowFocusTargetSelector?: string;
+}
+
+export async function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOptions): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
+  const focusTargetSelector = options?.focusTargetSelector || tag;
 
-  await element.callMethod("setFocus"); // assumes element is CalciteFocusableElement
+  await element.callMethod("setFocus", options?.focusId); // assumes element is CalciteFocusableElement
 
-  expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(tag.toUpperCase());
+  if (options?.shadowFocusTargetSelector) {
+    expect(
+      await page.$eval(
+        tag,
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        options?.shadowFocusTargetSelector
+      )
+    ).toBe(true);
+  }
+
+  expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 }
