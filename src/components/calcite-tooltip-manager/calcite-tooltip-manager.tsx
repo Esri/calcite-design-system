@@ -1,6 +1,6 @@
 import { Component, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
-import { getDescribedByElement } from "../../utils/dom";
+import { getElementByAttributeId } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 @Component({
@@ -35,7 +35,10 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   queryTooltip = (el: HTMLElement): HTMLCalciteTooltipElement => {
-    return getDescribedByElement(el.closest(this.selector)) as HTMLCalciteTooltipElement;
+    return getElementByAttributeId(
+      el.closest(this.selector),
+      TOOLTIP_REFERENCE
+    ) as HTMLCalciteTooltipElement;
   };
 
   clearHoverTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
