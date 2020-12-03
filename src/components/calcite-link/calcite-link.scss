@@ -1,3 +1,7 @@
+$link-color: var(--calcite-blue-accessible);
+$link-color-hover: var(--calcite-ui-blue-1);
+$link-border-color: var(--calcite-link-blue-underline);
+
 // theme variables
 // light theme
 :host {
@@ -14,8 +18,21 @@
   --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
 }
 
+@mixin focused-link() {
+  color: $link-color-hover;
+  background-size: 100% 1px, 100% 1px;
+  & .calcite-link--icon {
+    fill: $link-color-hover;
+  }
+}
+
 :host(:focus) {
   @include focus-style-outset();
+
+  span,
+  a {
+    @include focused-link();
+  }
 }
 
 // link base
@@ -72,30 +89,26 @@
 }
 
 // inline
-@mixin link-style($color, $color-hover, $border-color) {
+@mixin link-style() {
   display: inline;
   padding: 0;
   border: none;
-  color: $color;
+  color: $link-color;
   line-height: inherit;
   white-space: initial;
   background-color: transparent;
   position: relative;
-  background-image: linear-gradient(currentColor, currentColor), linear-gradient($border-color, $border-color);
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient($link-border-color, $link-border-color);
   background-position: 0% 100%, 100% 100%;
   background-repeat: no-repeat, no-repeat;
   background-size: 0% 1px, 100% 1px;
   transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
 
   &:hover {
-    color: $color-hover;
-    background-size: 100% 1px, 100% 1px;
-    & .calcite-link--icon {
-      fill: $color-hover;
-    }
+    @include focused-link();
   }
   &:active {
-    color: $color;
+    color: $link-color;
     background-size: 100% 2px, 100% 2px;
   }
 }
@@ -110,7 +123,7 @@
 :host {
   span,
   a {
-    @include link-style(var(--calcite-blue-accessible), var(--calcite-ui-blue-1), var(--calcite-link-blue-underline));
+    @include link-style();
   }
 }
 
