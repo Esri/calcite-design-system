@@ -1,6 +1,6 @@
 import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
-import { getDescribedByElement } from "../../utils/dom";
+import { getElementByAttributeName } from "../../utils/dom";
 
 @Component({
   tag: "calcite-popover-manager"
@@ -42,6 +42,19 @@ export class CalcitePopoverManager {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  queryPopover = (el: HTMLElement): HTMLCalcitePopoverElement => {
+    return getElementByAttributeName(
+      el.closest(this.selector),
+      POPOVER_REFERENCE
+    ) as HTMLCalcitePopoverElement;
+  };
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
@@ -49,23 +62,23 @@ export class CalcitePopoverManager {
   @Listen("click", { target: "window", capture: true })
   closeOpenPopovers(event: Event): void {
     const target = event.target as HTMLElement;
-    const { autoClose, el, selector } = this;
+    const { autoClose, el } = this;
     const popoverSelector = "calcite-popover";
     const isTargetInsidePopover = target.closest(popoverSelector);
-    const describedByElement = getDescribedByElement(target.closest(selector));
+    const popover = this.queryPopover(target);
 
     if (autoClose && !isTargetInsidePopover) {
       Array.from(document.body.querySelectorAll(popoverSelector))
-        .filter((popover) => popover.open && popover !== describedByElement)
-        .forEach((popover) => popover.toggle(false));
+        .filter((p) => p.open && p !== popover)
+        .forEach((p) => p.toggle(false));
     }
 
     if (!el.contains(target)) {
       return;
     }
 
-    if (describedByElement) {
-      (describedByElement as HTMLCalcitePopoverElement).toggle();
+    if (popover) {
+      popover.toggle();
     }
   }
 }
