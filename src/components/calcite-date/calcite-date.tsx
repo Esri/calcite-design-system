@@ -46,7 +46,7 @@ export class CalciteDate {
   @Prop() value?: string;
 
   /** Selected date as full date object*/
-  @State() valueAsDate?: Date;
+  @Prop() valueAsDate?: Date;
 
   /** Earliest allowed date ("yyyy-mm-dd") */
   @Prop() min?: string;
