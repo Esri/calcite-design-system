@@ -65,20 +65,18 @@ export class CalcitePopoverManager {
     const { autoClose, el } = this;
     const popoverSelector = "calcite-popover";
     const isTargetInsidePopover = target.closest(popoverSelector);
-    const popover = this.queryPopover(target);
+    const popoverResult = this.queryPopover(target);
 
     if (autoClose && !isTargetInsidePopover) {
       Array.from(document.body.querySelectorAll(popoverSelector))
-        .filter((p) => p.open && p !== popover)
-        .forEach((p) => p.toggle(false));
+        .filter((popover) => popover.open && popover !== popoverResult)
+        .forEach((popover) => popover.toggle(false));
     }
 
-    if (!el.contains(target)) {
+    if (!el.contains(target) || !popoverResult) {
       return;
     }
 
-    if (popover) {
-      popover.toggle();
-    }
+    popoverResult.toggle();
   }
 }
