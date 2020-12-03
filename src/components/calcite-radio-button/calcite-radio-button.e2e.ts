@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button"));
@@ -31,19 +31,6 @@ describe("calcite-radio-button", () => {
     const value = await selected.getProperty("value");
     expect(value).toBe("third");
   });
-
-  it("reflects", async () =>
-    reflects("calcite-radio-button", [
-      { propertyName: "checked", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "focused", value: true },
-      { propertyName: "guid", value: "reflects-guid" },
-      { propertyName: "hidden", value: true },
-      { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "theme", value: "light" },
-      { propertyName: "title", value: "reflects-title" }
-    ]));
 
   it("has a radio input for form compatibility", async () => {
     const page = await newE2EPage();
