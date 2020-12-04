@@ -4,7 +4,8 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button"));
 
-  it("is accessible", async () => accessible("calcite-radio-button"));
+  it("is accessible", async () =>
+    accessible(`<calcite-radio-button id="example" name="example" value="one">label</calcite-radio-button>`));
 
   it("has defaults", async () =>
     defaults("calcite-radio-button", [
