@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/html";
-import { select } from "@storybook/addon-knobs";
+import { select, number } from "@storybook/addon-knobs";
 
 import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
@@ -14,6 +14,7 @@ storiesOf("Components/Combobox", module)
     <calcite-combobox
       label="demo combobox"
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      max-items="${number("max-items", 0)}"
       >
       <calcite-combobox-item value="Trees" text-label="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
@@ -46,6 +47,7 @@ storiesOf("Components/Combobox", module)
     label="demo combobox"
     theme="dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    max-items="${number("max-items", 0)}"
     >
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
