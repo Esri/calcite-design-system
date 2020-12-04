@@ -110,47 +110,25 @@ describe("calcite-date", () => {
 
   it("fires calciteDateRangeChange event on change", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-date range start="2020-09-08" end="2020-09-23"></calcite-date>`);
-    await page.waitForChanges();
+    await page.setContent(
+      `<calcite-date range start="2020-09-08" end="2020-09-23" no-calendar-input active></calcite-date>`
+    );
     const date = await page.find("calcite-date");
-    const startInput = (
-      await page.waitForFunction(
-        () => document.querySelector("calcite-date").shadowRoot.querySelectorAll("calcite-input input")[0]
-      )
-    ).asElement();
-    const endInput = (
-      await page.waitForFunction(
-        () => document.querySelector("calcite-date").shadowRoot.querySelectorAll("calcite-input input")[1]
-      )
-    ).asElement();
-    await startInput.focus();
     const changedEvent = await page.spyOnEvent("calciteDateRangeChange");
     // have to wait for transition
     await new Promise((res) => setTimeout(() => res(true), 200));
-    const wrapper = (
-      await page.waitForFunction(() =>
-        document.querySelector("calcite-date").shadowRoot.querySelector(".calendar-picker-wrapper")
-      )
-    ).asElement();
-    expect(await wrapper.isIntersectingViewport()).toBe(true);
     expect(changedEvent).toHaveReceivedEventTimes(0);
     const start1 = await date.getProperty("start");
     const end1 = await date.getProperty("end");
     expect(start1).toEqual("2020-09-08");
     expect(end1).toEqual("2020-09-23");
     await page.keyboard.press("Tab");
-    await page.waitForChanges();
     await page.keyboard.press("Tab");
-    await page.waitForChanges();
     await page.keyboard.press("Tab");
-    await page.waitForChanges();
+    await page.keyboard.press("Tab");
     await page.keyboard.press("ArrowRight");
-    await page.waitForChanges();
     await page.keyboard.press("Space");
     await page.waitForChanges();
-    const start = await date.getProperty("start");
-    // expect(start).toEqual("2020-09-09");
-    await new Promise((res) => setTimeout(() => res(true), 1000));
-    expect(changedEvent).toHaveReceivedEventTimes(2);
+    expect(changedEvent).toHaveReceivedEventTimes(1);
   });
 });

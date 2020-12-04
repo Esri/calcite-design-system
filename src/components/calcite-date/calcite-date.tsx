@@ -65,9 +65,6 @@ export class CalciteDate {
   /** Selected end date as full date object*/
   @Prop({ mutable: true }) endAsDate?: Date;
 
-  /** Last date value that was set in range */
-  @Prop({ mutable: true }) mostRecentRangeValue?: Date;
-
   /** Earliest allowed date ("yyyy-mm-dd") */
   @Prop() min?: string;
 
@@ -150,7 +147,7 @@ export class CalciteDate {
     const { popper, menuEl } = this;
     const modifiers = this.getModifiers();
 
-    popper
+    popper && !this.range
       ? updatePopper({
           el: menuEl,
           modifiers,
@@ -194,6 +191,11 @@ export class CalciteDate {
    * In range mode, indicates which input was is focused on
    */
   @State() focusedInput: "start" | "end" = "start";
+
+  @Watch("focusedInput")
+  focusedHandler(): void {
+    this.reposition();
+  }
 
   private endInput: HTMLCalciteInputElement;
 
@@ -267,14 +269,9 @@ export class CalciteDate {
           <slot name="end" />
         </div>
         {this.localeData && (
-          <div
-            aria-expanded={this.active.toString()}
-            class="input-container"
-            ref={this.setReferenceEl}
-            role="application"
-          >
-            <div class="input-wrapper">
-              {!this.noCalendarInput && (
+          <div aria-expanded={this.active.toString()} class="input-container" role="application">
+            {!this.noCalendarInput && (
+              <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
                   class={`input ${
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
@@ -292,10 +289,9 @@ export class CalciteDate {
                   type="text"
                   value={formattedDate}
                 />
-              )}
-              {(!this.range || (this.focusedInput === "start" && this.layout !== "vertical")) &&
-                this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
-            </div>
+              </div>
+            )}
+            {this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
             {this.range && !this.noCalendarInput && this.layout === "horizontal" && (
               <div class="horizontal-arrow-container">
                 <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
@@ -306,28 +302,24 @@ export class CalciteDate {
                 <calcite-icon icon="arrow-down" scale="s" />
               </div>
             )}
-            {this.range && (
-              <div class="input-wrapper">
-                {!this.noCalendarInput && (
-                  <calcite-input
-                    class="input"
-                    icon="calendar"
-                    number-button-type="none"
-                    onCalciteInputBlur={(e) => this.blur(e.detail)}
-                    onCalciteInputFocus={() => {
-                      this.active = true;
-                      this.focusedInput = "end";
-                    }}
-                    onCalciteInputInput={(e) => this.input(e.detail.value)}
-                    placeholder={this.localeData?.placeholder}
-                    ref={(el) => (this.endInput = el)}
-                    scale={this.scale}
-                    type="text"
-                    value={formattedEndDate}
-                  />
-                )}
-                {(this.focusedInput === "end" || this.layout === "vertical") &&
-                  this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
+            {this.range && !this.noCalendarInput && (
+              <div class="input-wrapper" ref={this.setEndWrapper}>
+                <calcite-input
+                  class="input"
+                  icon="calendar"
+                  number-button-type="none"
+                  onCalciteInputBlur={(e) => this.blur(e.detail)}
+                  onCalciteInputFocus={() => {
+                    this.active = true;
+                    this.focusedInput = "end";
+                  }}
+                  onCalciteInputInput={(e) => this.input(e.detail.value)}
+                  placeholder={this.localeData?.placeholder}
+                  ref={(el) => (this.endInput = el)}
+                  scale={this.scale}
+                  type="text"
+                  value={formattedEndDate}
+                />
               </div>
             )}
           </div>
@@ -363,7 +355,11 @@ export class CalciteDate {
 
   private menuEl: HTMLDivElement;
 
-  private referenceEl: HTMLDivElement;
+  private startWrapper: HTMLDivElement;
+
+  private endWrapper: HTMLDivElement;
+
+  private mostRecentRangeValue?: Date;
 
   //--------------------------------------------------------------------------
   //
@@ -372,11 +368,17 @@ export class CalciteDate {
   //--------------------------------------------------------------------------
 
   setMenuEl = (el: HTMLDivElement): void => {
-    this.menuEl = el;
+    if (el) {
+      this.menuEl = el;
+    }
   };
 
-  setReferenceEl = (el: HTMLDivElement): void => {
-    this.referenceEl = el;
+  setStartWrapper = (el: HTMLDivElement): void => {
+    this.startWrapper = el;
+  };
+
+  setEndWrapper = (el: HTMLDivElement): void => {
+    this.endWrapper = el;
   };
 
   getModifiers(): Partial<StrictModifiers>[] {
@@ -394,14 +396,15 @@ export class CalciteDate {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl } = this;
+    const { menuEl, startWrapper, endWrapper } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
       placement: DEFAULT_PLACEMENT,
-      referenceEl
+      referenceEl:
+        this.focusedInput === "end" || this.layout === "vertical" ? endWrapper : startWrapper
     });
   }
 
@@ -602,9 +605,12 @@ export class CalciteDate {
       this.localeData && (
         <div aria-hidden={(!this.active).toString()} class="menu-container" ref={this.setMenuEl}>
           <div
-            class={`calendar-picker-wrapper${
-              this.focusedInput === "end" ? " calendar-picker-wrapper--end" : ""
-            }`}
+            class={{
+              ["calendar-picker-wrapper"]: true,
+              ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
+              [PopperCSS.animation]: true,
+              [PopperCSS.animationActive]: this.active
+            }}
           >
             <calcite-date-month-header
               activeDate={activeDate}
@@ -649,6 +655,7 @@ export class CalciteDate {
                   } else if (this.focusedInput === "end") {
                     this.activeEndDate = date;
                   }
+                  this.mostRecentRangeValue = date;
                 }
               }}
               onCalciteDateHover={(e: CustomEvent<Date>) => {

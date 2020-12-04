@@ -120,11 +120,7 @@ export class CalciteDateDay {
       .join("");
     const dir = getElementDir(this.el);
     return (
-      <Host
-        dir={dir}
-        role="gridcell"
-        tabindex={(this.selected && !this.startOfRange) || this.active ? 0 : -1}
-      >
+      <Host dir={dir} role="gridcell" tabindex={this.active ? 0 : -1}>
         <div class="day-v-wrapper">
           <div class="day-wrapper">
             <span class="day">

@@ -135,7 +135,6 @@ export class CalciteDateMonth {
       case "Enter":
       case " ":
         e.preventDefault();
-        this.calciteDateSelect.emit(this.activeDate);
         break;
       case "Tab":
         this.activeFocus = false;
