@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
+import { TOOLTIP_DELAY_MS, TOOLTIP_REFERENCE } from "../calcite-tooltip/resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
@@ -166,7 +166,7 @@ describe("calcite-tooltip", () => {
     expect(content.textContent).toBe("hi");
   });
 
-  it("guid id should match referenceElement's aria-describedby", async () => {
+  it("guid id should match referenceElement's referenceId", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-tooltip open></calcite-tooltip>`);
@@ -186,12 +186,12 @@ describe("calcite-tooltip", () => {
     const referenceElement = await page.find("div");
 
     const id = element.getAttribute("id");
-    const describedby = referenceElement.getAttribute("aria-describedby");
+    const referenceId = referenceElement.getAttribute(TOOLTIP_REFERENCE);
 
-    expect(id).toEqual(describedby);
+    expect(id).toEqual(referenceId);
   });
 
-  it("user defined id should match referenceElement's aria-describedby", async () => {
+  it("user defined id should match referenceElement's referenceId", async () => {
     const page = await newE2EPage();
 
     const userDefinedId = "user-defined-id";
@@ -213,9 +213,9 @@ describe("calcite-tooltip", () => {
     const referenceElement = await page.find("div");
 
     const id = element.getAttribute("id");
-    const describedby = referenceElement.getAttribute("aria-describedby");
+    const referenceId = referenceElement.getAttribute(TOOLTIP_REFERENCE);
 
     expect(id).toEqual(userDefinedId);
-    expect(describedby).toEqual(userDefinedId);
+    expect(referenceId).toEqual(userDefinedId);
   });
 });

@@ -109,8 +109,8 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
 }
 
-export function getDescribedByElement<T extends Element>(element: Element): T | HTMLElement | null {
-  const id = element?.getAttribute("aria-describedby");
+export function getElementByAttributeId<T extends Element>(element: Element, attrName: string): T | HTMLElement | null {
+  const id = element?.getAttribute(attrName);
 
   return (id && document.getElementById(id)) || null;
 }
