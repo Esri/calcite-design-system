@@ -40,6 +40,32 @@ This project follows [conventional commits](https://www.conventionalcommits.org/
 
 In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/probot/semantic-pull-requests) status check will ensure your pull requests are semantic before you merge them.
 
+#### Branch naming conventions
+
+When submitting a pull request, please use one of the following formats for your branch name:
+
+For pull requests associated with an existing issue:
+
+```
+<username>/<issue-id><issue-description>
+johndoe/15-update-modal
+johndoe/update-modal-15
+```
+
+For pull requests without an associated issue:
+
+```
+<username>/<issue-description>
+johndoe/modal-styling
+```
+
+```
+<username>/<type-of-pr><issue-description>
+johndoe/docs/update-modal-docs
+johndoe/feature/add-something-to-modal
+
+```
+
 #### Breaking Changes
 
 For ease of discoverability, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
