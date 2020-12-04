@@ -310,6 +310,7 @@ export class CalciteRadioButton {
     return (
       <Host labeled={!!this.el.textContent}>
         <input
+          aria-label={this.value || this.guid}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}
