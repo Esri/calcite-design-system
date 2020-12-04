@@ -54,7 +54,7 @@ export class CalciteCombobox {
 
   @Prop() placeholder?: string;
 
-  /** specify the maximum number lines to display before showing the scroller */
+  /** specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
 
   /** specify the scale of the combobox, defaults to m */
