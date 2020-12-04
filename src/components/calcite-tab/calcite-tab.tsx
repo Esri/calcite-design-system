@@ -73,10 +73,6 @@ export class CalciteTab {
     this.calciteTabRegister.emit();
   }
 
-  disconnectedCallback(): void {
-    this.calciteTabUnregister.emit();
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -87,11 +83,6 @@ export class CalciteTab {
    * @internal
    */
   @Event() calciteTabRegister: EventEmitter;
-
-  /**
-   * @internal
-   */
-  @Event() calciteTabUnregister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //

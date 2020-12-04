@@ -78,7 +78,6 @@ export class CalciteTabTitle {
 
   disconnectedCallback(): void {
     this.observer.disconnect();
-    this.calciteTabTitleUnregister.emit();
   }
 
   componentWillLoad(): void {
@@ -215,11 +214,6 @@ export class CalciteTabTitle {
    * @internal
    */
   @Event() calciteTabTitleRegister: EventEmitter<TabID>;
-
-  /**
-   * @internal
-   */
-  @Event() calciteTabTitleUnregister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //

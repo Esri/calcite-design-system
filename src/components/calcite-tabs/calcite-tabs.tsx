@@ -79,26 +79,8 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabTitleUnregister") calciteTabTitleUnregister(e: CustomEvent): void {
-    this.titles = this.titles.filter((el) => el !== e.target);
-    this.registryHandler();
-    e.stopPropagation();
-  }
-
-  /**
-   * @internal
-   */
   @Listen("calciteTabRegister") calciteTabRegister(e: CustomEvent): void {
     this.tabs = [...this.tabs, e.target as HTMLCalciteTabElement];
-    this.registryHandler();
-    e.stopPropagation();
-  }
-
-  /**
-   * @internal
-   */
-  @Listen("calciteTabUnregister") calciteTabUnregister(e: CustomEvent): void {
-    this.tabs = this.tabs.filter((el) => el !== e.target);
     this.registryHandler();
     e.stopPropagation();
   }
