@@ -126,14 +126,6 @@ export class CalciteLabel {
   }
 
   componentDidLoad(): void {
-    this.labelEl.childNodes.forEach((childNode) => {
-      if (childNode.nodeName === "#text" && childNode.textContent.trim().length > 0) {
-        this.spanEl = document.createElement("span");
-        this.spanEl.classList.add("calcite-label-text");
-        this.spanEl.appendChild(document.createTextNode(childNode.textContent.trim()));
-        childNode.parentNode.replaceChild(this.spanEl, childNode);
-      }
-    });
     if (this.disabled) this.setDisabledControls();
   }
 
