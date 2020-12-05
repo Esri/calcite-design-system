@@ -15,7 +15,7 @@ describe("calcite-rating", () => {
     const labels = await page.findAll("calcite-rating >>> .star");
     const partialStarContainer = await page.find("calcite-rating >>> .fraction");
 
-    expect(partialStarContainer).toBeNull;
+    expect(partialStarContainer).toBeNull();
     expect(icons[0]).toEqualAttribute("icon", "star");
     expect(icons[1]).toEqualAttribute("icon", "star");
     expect(icons[2]).toEqualAttribute("icon", "star");
@@ -35,7 +35,7 @@ describe("calcite-rating", () => {
     const labels = await page.findAll("calcite-rating >>> .star");
     const partialStarContainer = await page.find("calcite-rating >>> .fraction");
 
-    expect(partialStarContainer).toBeNull;
+    expect(partialStarContainer).toBeNull();
     expect(icons[0]).toEqualAttribute("icon", "star-f");
     expect(icons[1]).toEqualAttribute("icon", "star-f");
     expect(icons[2]).toEqualAttribute("icon", "star-f");
@@ -54,7 +54,7 @@ describe("calcite-rating", () => {
     const icons = await page.findAll("calcite-rating >>> .icon");
     const labels = await page.findAll("calcite-rating >>> .star");
     const partialStarContainer = await page.find("calcite-rating >>> .fraction");
-    expect(partialStarContainer).toBeNull;
+    expect(partialStarContainer).toBeNull();
     expect(icons[0]).toEqualAttribute("icon", "star-f");
     expect(icons[1]).toEqualAttribute("icon", "star-f");
     expect(icons[2]).toEqualAttribute("icon", "star");
@@ -126,7 +126,7 @@ describe("calcite-rating", () => {
     const labels = await page.findAll("calcite-rating >>> .star");
     const partialStarContainer = await page.find("calcite-rating >>> .fraction");
 
-    expect(partialStarContainer).toBeNull;
+    expect(partialStarContainer).toBeNull();
     expect(icons[0]).toEqualAttribute("icon", "star");
     expect(icons[1]).toEqualAttribute("icon", "star");
     expect(icons[2]).toEqualAttribute("icon", "star");
@@ -177,7 +177,7 @@ describe("calcite-rating", () => {
     await labels[3].click();
     await page.waitForChanges();
 
-    expect(partialStarContainer).toBeNull;
+    expect(partialStarContainer).toBeNull();
     expect(icons[0]).toEqualAttribute("icon", "star-f");
     expect(icons[1]).toEqualAttribute("icon", "star-f");
     expect(icons[2]).toEqualAttribute("icon", "star-f");
@@ -290,7 +290,7 @@ describe("calcite-rating", () => {
     expect(labels[4]).not.toHaveClass("hovered");
     await labels[4].hover();
     await page.waitForChanges();
-    expect(partialStarContainer).toBeNull;
+    expect(partialStarContainer).toBeNull();
     expect(icons[0]).toEqualAttribute("icon", "star-f");
     expect(icons[1]).toEqualAttribute("icon", "star-f");
     expect(icons[2]).toEqualAttribute("icon", "star-f");
@@ -383,7 +383,7 @@ describe("calcite-rating", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating></calcite-rating>");
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
-    expect(calciteChip).toBeNull;
+    expect(calciteChip).toBeNull();
   });
 
   it("renders the calcite chip and the count span when count is present and average is not", async () => {
@@ -394,7 +394,7 @@ describe("calcite-rating", () => {
     const averageSpan = await page.find("calcite-rating >>> calcite-chip >>> .number--average");
     expect(calciteChip).not.toBeNull();
     expect(countSpan).not.toBeNull();
-    expect(averageSpan).toBeNull;
+    expect(averageSpan).toBeNull();
   });
 
   it("renders the calcite chip and the average span when average is present and count is not", async () => {
@@ -404,7 +404,7 @@ describe("calcite-rating", () => {
     const countSpan = await page.find("calcite-rating >>> calcite-chip >>> .number---count");
     const averageSpan = await page.find("calcite-rating >>> calcite-chip >>> .number--average");
     expect(calciteChip).not.toBeNull();
-    expect(countSpan).toBeNull;
+    expect(countSpan).toBeNull();
     expect(averageSpan).not.toBeNull();
   });
 

@@ -251,7 +251,7 @@ describe("calcite-inline-editable", () => {
       expect(element).toHaveAttribute("editing-enabled");
     });
 
-    it("it disables editing when afterConfirm resolves successfully", async () => {
+    it("disables editing when afterConfirm resolves successfully", async () => {
       const element = await page.find("calcite-inline-editable");
       const afterConfirm = () => new Promise((resolve) => setTimeout(resolve, 100));
       // https://github.com/ionic-team/stencil/issues/1174
@@ -272,7 +272,7 @@ describe("calcite-inline-editable", () => {
       expect(element).not.toHaveAttribute("editing-enabled");
     });
 
-    it("it does not disable editing when afterConfirm resolves unsuccessfully", async () => {
+    it("does not disable editing when afterConfirm resolves unsuccessfully", async () => {
       const element = await page.find("calcite-inline-editable");
       const afterConfirm = () => new Promise((_resolve, reject) => setTimeout(reject, 100));
       // https://github.com/ionic-team/stencil/issues/1174

@@ -6,9 +6,11 @@ describe("calcite-avatar", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-avatar"));
 
-  it("is accessible", async () => accessible("<calcite-avatar></calcite-avatar>"));
   it("is accessible", async () =>
-    accessible("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>"));
+    Promise.all([
+      accessible("<calcite-avatar></calcite-avatar>"),
+      accessible("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>")
+    ]));
 
   it("has property defaults", async () =>
     defaults("calcite-avatar", [

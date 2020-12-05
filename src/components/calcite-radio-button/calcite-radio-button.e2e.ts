@@ -240,7 +240,7 @@ describe("calcite-radio-button", () => {
 
     const firstInput = document.querySelector("input#first-input");
 
-    expect(documentBody.lastChild === firstInput);
+    expect(documentBody.lastChild).toBe(firstInput);
   });
 
   it("programmatically checking a radio button updates the group's state correctly", async () => {
