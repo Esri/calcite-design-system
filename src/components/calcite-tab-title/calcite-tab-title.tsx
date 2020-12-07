@@ -78,14 +78,12 @@ export class CalciteTabTitle {
 
   disconnectedCallback(): void {
     this.observer.disconnect();
-    if (Build.isBrowser) {
-      // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
-      document.body.dispatchEvent(
-        new CustomEvent("calciteTabTitleUnregister", {
-          detail: this.el
-        })
-      );
-    }
+    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
+    document.body?.dispatchEvent(
+      new CustomEvent("calciteTabTitleUnregister", {
+        detail: this.el
+      })
+    );
   }
 
   componentWillLoad(): void {

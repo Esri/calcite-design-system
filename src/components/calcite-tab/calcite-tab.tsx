@@ -9,8 +9,7 @@ import {
   h,
   State,
   Host,
-  VNode,
-  Build
+  VNode
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { guid } from "../../utils/guid";
@@ -75,14 +74,12 @@ export class CalciteTab {
   }
 
   disconnectedCallback(): void {
-    if (Build.isBrowser) {
-      // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
-      document.body.dispatchEvent(
-        new CustomEvent("calciteTabUnregister", {
-          detail: this.el
-        })
-      );
-    }
+    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
+    document.body?.dispatchEvent(
+      new CustomEvent("calciteTabUnregister", {
+        detail: this.el
+      })
+    );
   }
 
   //--------------------------------------------------------------------------
