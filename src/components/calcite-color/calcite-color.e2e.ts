@@ -214,7 +214,7 @@ describe("calcite-color", () => {
     expect(await picker.getProperty("color")).toBeTruthy();
   });
 
-  describe.only("initial value used to initialize internal color", () => {
+  describe("initial value used to initialize internal color", () => {
     const initialColor = "#c0ff33";
 
     async function getInternalColorAsHex(page: E2EPage): Promise<string> {
@@ -267,34 +267,16 @@ describe("calcite-color", () => {
       await page.waitForChanges();
     };
 
-    const assertChannelValueNudge = async (page: E2EPage, inputOrHexInput: E2EElement): Promise<void> => {
-      await inputOrHexInput.callMethod("setFocus");
-      await page.waitForChanges();
+    describe("keeps value in same format when applying updates", () => {
+      let page: E2EPage;
+      let picker: E2EElement;
 
-      const currentValue = await inputOrHexInput.getProperty("value");
-
-      await page.keyboard.press("ArrowUp");
-      expect(await inputOrHexInput.getProperty("value")).toBe(currentValue + 1);
-
-      await page.keyboard.press("ArrowDown");
-      expect(await inputOrHexInput.getProperty("value")).toBe(currentValue);
-
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("ArrowUp");
-      await page.keyboard.up("Shift");
-      expect(await inputOrHexInput.getProperty("value")).toBe(currentValue + 10);
-
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("ArrowDown");
-      await page.keyboard.up("Shift");
-      expect(await inputOrHexInput.getProperty("value")).toBe(currentValue);
-    };
-
-    it("keeps value in same format when applying updates", async () => {
-      const page = await newE2EPage({
-        html: "<calcite-color></calcite-color>"
+      beforeEach(async () => {
+        page = await newE2EPage({
+          html: "<calcite-color></calcite-color>"
+        });
+        picker = await page.find("calcite-color");
       });
-      const picker = await page.find("calcite-color");
 
       const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void): Promise<void> => {
         const hexInput = await page.find(`calcite-color >>> calcite-color-hex-input`);
@@ -307,63 +289,26 @@ describe("calcite-color", () => {
 
         await rgbModeButton.click();
         await page.waitForChanges();
-        const [rInput, gInput, bInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
+
+        const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
+          `calcite-color >>> calcite-input.${CSS.channel}`
+        );
 
         await clearAndEnterValue(page, rInput, "128");
         await clearAndEnterValue(page, gInput, "64");
         await clearAndEnterValue(page, bInput, "32");
 
-        await assertChannelValueNudge(page, rInput);
-        await assertChannelValueNudge(page, gInput);
-        await assertChannelValueNudge(page, bInput);
-
         assertColorUpdate(await picker.getProperty("value"));
 
         await hsvModeButton.click();
         await page.waitForChanges();
-        const [hInput, sInput, vInput] = await page.findAll(`calcite-color >>> calcite-input.${CSS.channel}`);
 
         await clearAndEnterValue(page, hInput, "180");
         await clearAndEnterValue(page, sInput, "90");
         await clearAndEnterValue(page, vInput, "45");
 
-        await assertChannelValueNudge(page, hInput);
-        await assertChannelValueNudge(page, sInput);
-        await assertChannelValueNudge(page, vInput);
-
         assertColorUpdate(await picker.getProperty("value"));
       };
-
-      const hex = "#ff00ff";
-      picker.setProperty("value", hex);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toBe(hex);
-        expect(value).toMatch(/^#[a-f0-9]{6}$/);
-      });
-
-      const rgbCss = "rgb(255, 0, 255)";
-      picker.setProperty("value", rgbCss);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toBe(rgbCss);
-        expect(value).toMatch(/^rgb\(\d+, \d+, \d+\)/);
-      });
-
-      const hslCss = "hsl(30, 100%, 50%)";
-      picker.setProperty("value", hslCss);
-      await page.waitForChanges();
-
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toBe(hslCss);
-        expect(value).toMatch(/^hsl\([0-9.]+, [0-9.]+%, [0-9.]+%\)/);
-      });
-
-      const rgbObject = { r: 255, g: 255, b: 0 };
-      picker.setProperty("value", rgbObject);
-      await page.waitForChanges();
 
       // see https://jasmine.github.io/tutorials/custom_argument_matchers for more info
       function toBeInteger(): any {
@@ -378,38 +323,81 @@ describe("calcite-color", () => {
         };
       }
 
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toMatchObject(rgbObject);
-        expect(value).toMatchObject({
-          r: toBeInteger(),
-          g: toBeInteger(),
-          b: toBeInteger()
+      it("hex", async () => {
+        const hex = "#f0f";
+        picker.setProperty("value", hex);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toBe(hex);
+          expect(value).toMatch(/^#[a-f0-9]{6}$/);
         });
       });
 
-      const hslObject = { h: 270, s: 60, l: 70 };
-      picker.setProperty("value", hslObject);
-      await page.waitForChanges();
+      it("rgb", async () => {
+        const rgbCss = "rgb(255, 0, 255)";
+        picker.setProperty("value", rgbCss);
+        await page.waitForChanges();
 
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toMatchObject(hslObject);
-        expect(value).toMatchObject({
-          h: toBeInteger(),
-          s: toBeInteger(),
-          l: toBeInteger()
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toBe(rgbCss);
+          expect(value).toMatch(/^rgb\(\d+, \d+, \d+\)/);
         });
       });
 
-      const hsvObject = { h: 202, s: 0, v: 100 };
-      picker.setProperty("value", hsvObject);
-      await page.waitForChanges();
+      it("hsl", async () => {
+        const hslCss = "hsl(30, 100%, 50%)";
+        picker.setProperty("value", hslCss);
+        await page.waitForChanges();
 
-      await updateColorWithAllInputs((value: ColorValue) => {
-        expect(value).not.toMatchObject(hsvObject);
-        expect(value).toMatchObject({
-          h: toBeInteger(),
-          s: toBeInteger(),
-          v: toBeInteger()
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toBe(hslCss);
+          expect(value).toMatch(/^hsl\([0-9.]+, [0-9.]+%, [0-9.]+%\)/);
+        });
+      });
+
+      it("rgb (object)", async () => {
+        const rgbObject = { r: 255, g: 255, b: 0 };
+        picker.setProperty("value", rgbObject);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toMatchObject(rgbObject);
+          expect(value).toMatchObject({
+            r: toBeInteger(),
+            g: toBeInteger(),
+            b: toBeInteger()
+          });
+        });
+      });
+
+      it("hsl (object)", async () => {
+        const hslObject = { h: 270, s: 60, l: 70 };
+        picker.setProperty("value", hslObject);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toMatchObject(hslObject);
+          expect(value).toMatchObject({
+            h: toBeInteger(),
+            s: toBeInteger(),
+            l: toBeInteger()
+          });
+        });
+      });
+
+      it("hsv (object)", async () => {
+        const hsvObject = { h: 202, s: 0, v: 100 };
+        picker.setProperty("value", hsvObject);
+        await page.waitForChanges();
+
+        await updateColorWithAllInputs((value: ColorValue) => {
+          expect(value).not.toMatchObject(hsvObject);
+          expect(value).toMatchObject({
+            h: toBeInteger(),
+            s: toBeInteger(),
+            v: toBeInteger()
+          });
         });
       });
     });
@@ -472,6 +460,59 @@ describe("calcite-color", () => {
       await clearAndEnterValue(page, vInput, "45");
 
       expect(await picker.getProperty("value")).toBe("#0b7373");
+    });
+
+    it("allows nudging values", async () => {
+      const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
+        await calciteInput.callMethod("setFocus");
+        await page.waitForTimeout(1000);
+
+        const currentValue = await calciteInput.getProperty("value");
+
+        await page.keyboard.press("ArrowUp");
+        await page.waitForTimeout(1000);
+        expect(await calciteInput.getProperty("value")).toBe(`${Number(currentValue) + 1}`);
+
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+        expect(await calciteInput.getProperty("value")).toBe(currentValue);
+
+        await page.keyboard.down("Shift");
+        await page.keyboard.press("ArrowUp");
+        await page.keyboard.up("Shift");
+        await page.waitForChanges();
+        expect(await calciteInput.getProperty("value")).toBe(`${Number(currentValue) + 10}`);
+
+        await page.keyboard.down("Shift");
+        await page.keyboard.press("ArrowDown");
+        await page.keyboard.up("Shift");
+        await page.waitForChanges();
+        expect(await calciteInput.getProperty("value")).toBe(currentValue);
+      };
+
+      const page = await newE2EPage({
+        html: "<calcite-color value='#408048'></calcite-color>"
+      });
+
+      const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color >>> .${CSS.colorMode}`);
+
+      await rgbModeButton.click();
+      await page.waitForChanges();
+
+      const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
+        `calcite-color >>> calcite-input.${CSS.channel}`
+      );
+
+      await assertChannelValueNudge(page, rInput);
+      await assertChannelValueNudge(page, gInput);
+      await assertChannelValueNudge(page, bInput);
+
+      await hsvModeButton.click();
+      await page.waitForChanges();
+
+      await assertChannelValueNudge(page, hInput);
+      await assertChannelValueNudge(page, sInput);
+      await assertChannelValueNudge(page, vInput);
     });
   });
 
