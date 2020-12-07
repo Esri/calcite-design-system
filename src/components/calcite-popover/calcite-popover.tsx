@@ -367,14 +367,16 @@ export class CalcitePopover {
   render(): VNode {
     const { _referenceElement, label, open, disablePointer } = this;
     const displayed = _referenceElement && open;
+    const hidden = !displayed;
     const arrowNode = !disablePointer ? (
       <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
     ) : null;
 
     return (
       <Host
-        aria-hidden={(!displayed).toString()}
+        aria-hidden={hidden.toString()}
         aria-label={label}
+        calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="dialog"
       >
