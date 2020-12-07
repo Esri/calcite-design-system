@@ -213,10 +213,10 @@ export class CalciteDate {
     }
 
     if (this.start) {
-      this.setStartAsDate(this.start);
+      this.setStartAsDate(dateFromISO(this.start));
     }
     if (this.end) {
-      this.setEndAsDate(this.end);
+      this.setEndAsDate(dateFromISO(this.end));
     }
 
     this.createPopper();
@@ -562,27 +562,17 @@ export class CalciteDate {
   /**
    * Update date instance of start if valid
    */
-  private setStartAsDate(start: string): void {
-    if (start) {
-      const date = dateFromISO(start);
-      if (date) {
-        this.startAsDate = date as Date;
-        this.mostRecentRangeValue = this.startAsDate;
-      }
-    }
+  private setStartAsDate(startDate: Date): void {
+    this.startAsDate = startDate;
+    this.mostRecentRangeValue = this.startAsDate;
   }
 
   /**
    * Update date instance of end if valid
    */
-  private setEndAsDate(end: string): void {
-    if (end) {
-      const date = dateFromISO(end);
-      if (date) {
-        this.endAsDate = date as Date;
-        this.mostRecentRangeValue = this.endAsDate;
-      }
-    }
+  private setEndAsDate(endDate: Date): void {
+    this.endAsDate = endDate;
+    this.mostRecentRangeValue = this.endAsDate;
   }
 
   /**
@@ -661,6 +651,7 @@ export class CalciteDate {
     const date = new Date(e.detail);
     if (!this.range) {
       this.value = dateToISO(date);
+      this.valueAsDate = e.detail;
       this.activeDate = date;
       this.calciteDateChange.emit(date);
       if (doReset) {
@@ -674,15 +665,15 @@ export class CalciteDate {
         if (this.startAsDate) {
           const newEndDate = new Date(this.startAsDate);
           this.end = dateToISO(newEndDate);
-          this.setEndAsDate(this.end);
+          this.setEndAsDate(newEndDate);
           this.activeEndDate = newEndDate;
         }
         this.start = dateToISO(date);
-        this.setStartAsDate(this.start);
+        this.setStartAsDate(date);
         this.activeStartDate = date;
       } else if (!this.endAsDate) {
         this.end = dateToISO(date);
-        this.setEndAsDate(this.end);
+        this.setEndAsDate(date);
         this.activeEndDate = date;
       } else {
         if (this.proximitySelection) {
@@ -690,16 +681,16 @@ export class CalciteDate {
           const endDiff = getDaysDiff(date, this.endAsDate);
           if (startDiff < endDiff) {
             this.start = dateToISO(date);
-            this.setStartAsDate(this.start);
+            this.setStartAsDate(date);
             this.activeStartDate = date;
           } else {
             this.end = dateToISO(date);
-            this.setEndAsDate(this.end);
+            this.setEndAsDate(date);
             this.activeEndDate = date;
           }
         } else {
           this.start = dateToISO(date);
-          this.setStartAsDate(this.start);
+          this.setStartAsDate(date);
           this.activeStartDate = date;
           this.endAsDate = this.activeEndDate = this.end = undefined;
         }
@@ -716,11 +707,11 @@ export class CalciteDate {
 
     if (this.focusedInput === "start") {
       this.start = dateToISO(date);
-      this.setStartAsDate(this.start);
+      this.setStartAsDate(date);
       this.activeStartDate = date;
     } else {
       this.end = dateToISO(date);
-      this.setEndAsDate(this.end);
+      this.setEndAsDate(date);
       this.activeEndDate = date;
     }
 
