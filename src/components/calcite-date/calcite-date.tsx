@@ -343,22 +343,6 @@ export class CalciteDate {
   //
   //--------------------------------------------------------------------------
 
-  updateActiveDate = (e: CustomEvent<Date>): void => {
-    this.activeDate = e.detail;
-  };
-
-  updateSelectedDate = (e: CustomEvent<Date>): void => {
-    this.value = dateToISO(e.detail);
-    this.valueAsDate = e.detail;
-    this.activeDate = e.detail;
-    this.calciteDateChange.emit(new Date(e.detail));
-  };
-
-  updateSelectedDateAndClose = (e: CustomEvent<Date>): void => {
-    this.updateSelectedDate(e);
-    this.reset();
-  };
-
   setMenuEl = (el: HTMLDivElement): void => {
     if (el) {
       this.menuEl = el;
@@ -408,6 +392,21 @@ export class CalciteDate {
     }
 
     this.popper = null;
+  }
+
+  @Watch("value")
+  valueWatcher(value: string): void {
+    this.valueAsDate = dateFromISO(value);
+  }
+
+  @Watch("start")
+  startWatcher(start: string): void {
+    this.setStartAsDate(dateFromISO(start));
+  }
+
+  @Watch("end")
+  endWatcher(end: string): void {
+    this.setEndAsDate(dateFromISO(end));
   }
 
   @Watch("locale")
