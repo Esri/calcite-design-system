@@ -24,6 +24,7 @@ import {
   sameDate,
   getDaysDiff
 } from "../../utils/date";
+
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-date-resources";
 
@@ -206,13 +207,9 @@ export class CalciteDate {
   // --------------------------------------------------------------------------
   connectedCallback(): void {
     this.loadLocaleData();
-    if (!this.range) {
-      this.setupProxyInput();
-    } else {
-      this.setupRangeProxyInputs();
-    }
+
     if (this.value) {
-      this.setValueAsDate(this.value);
+      this.valueAsDate = dateFromISO(this.value);
     }
 
     if (this.start) {
@@ -223,10 +220,6 @@ export class CalciteDate {
     }
 
     this.createPopper();
-  }
-
-  componentWillRender(): void {
-    this.syncProxyInputToThis();
   }
 
   disconnectedCallback(): void {
@@ -263,11 +256,6 @@ export class CalciteDate {
 
     return (
       <Host dir={dir} role="application">
-        <div class="slot">
-          <slot />
-          <slot name="start" />
-          <slot name="end" />
-        </div>
         {this.localeData && (
           <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {!this.noCalendarInput && (
@@ -339,18 +327,6 @@ export class CalciteDate {
 
   private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
-  private inputProxy: HTMLInputElement;
-
-  private startProxy: HTMLInputElement;
-
-  private endProxy: HTMLInputElement;
-
-  private observer: MutationObserver;
-
-  private startObserver: MutationObserver;
-
-  private endObserver: MutationObserver;
-
   private popper: Popper;
 
   private menuEl: HTMLDivElement;
@@ -366,6 +342,22 @@ export class CalciteDate {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  updateActiveDate = (e: CustomEvent<Date>): void => {
+    this.activeDate = e.detail;
+  };
+
+  updateSelectedDate = (e: CustomEvent<Date>): void => {
+    this.value = dateToISO(e.detail);
+    this.valueAsDate = e.detail;
+    this.activeDate = e.detail;
+    this.calciteDateChange.emit(new Date(e.detail));
+  };
+
+  updateSelectedDateAndClose = (e: CustomEvent<Date>): void => {
+    this.updateSelectedDate(e);
+    this.reset();
+  };
 
   setMenuEl = (el: HTMLDivElement): void => {
     if (el) {
@@ -418,177 +410,11 @@ export class CalciteDate {
     this.popper = null;
   }
 
-  @Watch("value")
-  valueWatcher(value: string): void {
-    this.setValueAsDate(value);
-  }
-
-  @Watch("start") startWatcher(start: string): void {
-    this.setStartAsDate(start);
-  }
-
-  @Watch("end") endWatcher(end: string): void {
-    this.setEndAsDate(end);
-  }
-
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
     const { locale } = this;
     this.localeData = await getLocaleData(locale);
   }
-
-  /**
-   * Register slotted date input proxy, or create one if not provided
-   */
-  setupProxyInput(): void {
-    // check for a proxy input
-    this.inputProxy = this.el.querySelector(`input`);
-
-    // if the user didn't pass a proxy input create one for them
-    if (!this.inputProxy) {
-      this.inputProxy = document.createElement("input");
-      try {
-        this.inputProxy.type = "date";
-      } catch (e) {
-        this.inputProxy.type = "text";
-      }
-      this.syncProxyInputToThis();
-      this.el.appendChild(this.inputProxy);
-    }
-
-    this.syncThisToProxyInput();
-
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.syncThisToProxyInput);
-      this.observer.observe(this.inputProxy, { attributes: true });
-    }
-  }
-
-  /**
-   * Register slotted start and end date input proxies, or create one if not provided
-   */
-  setupRangeProxyInputs(): void {
-    this.startProxy = this.el.querySelector(`input[slot="start"]`);
-    let needToSyncProxy = false;
-    if (!this.startProxy) {
-      this.startProxy = document.createElement("input");
-      this.startProxy.setAttribute("slot", "start");
-      try {
-        this.startProxy.type = "date";
-      } catch (e) {
-        this.startProxy.type = "text";
-      }
-      needToSyncProxy = true;
-      this.el.appendChild(this.startProxy);
-    }
-
-    this.endProxy = this.el.querySelector(`input[slot="end"]`);
-    if (!this.endProxy) {
-      this.endProxy = document.createElement("input");
-      this.endProxy.setAttribute("slot", "end");
-      try {
-        this.endProxy.type = "date";
-      } catch (e) {
-        this.endProxy.type = "text";
-      }
-      needToSyncProxy = true;
-      this.el.appendChild(this.endProxy);
-    }
-
-    if (needToSyncProxy) {
-      this.syncStartProxyToThis();
-      this.syncEndProxyToThis();
-    }
-
-    this.syncThisToStartProxy();
-    this.syncThisToEndProxy();
-
-    if (Build.isBrowser) {
-      this.startObserver = new MutationObserver(this.syncThisToStartProxy);
-      this.startObserver.observe(this.startProxy, { attributes: true });
-      this.endObserver = new MutationObserver(this.syncThisToEndProxy);
-      this.endObserver.observe(this.endProxy, { attributes: true });
-    }
-  }
-
-  /**
-   * Update component based on start input proxy
-   */
-  syncThisToStartProxy = (): void => {
-    const startDate = dateFromISO(this.startProxy.value);
-    const endDate = dateFromISO(this.endProxy.value);
-    const min = dateFromISO(this.min);
-    const max = endDate || dateFromISO(this.max);
-    this.start = dateToISO(dateFromRange(startDate, min, max));
-  };
-
-  /**
-   * Update start input proxy
-   */
-  syncStartProxyToThis = (): void => {
-    if (this.startProxy) {
-      this.startProxy.value = this.start || "";
-      if (this.min) {
-        this.startProxy.min = this.min;
-      }
-      if ((this.max || this.endProxy.value) && this.proximitySelection) {
-        this.startProxy.max = this.endProxy.value || this.max;
-      }
-    }
-  };
-
-  /**
-   * Update component based on end input proxy
-   */
-  syncThisToEndProxy = (): void => {
-    const startDate = dateFromISO(this.startProxy.value);
-    const endDate = dateFromISO(this.endProxy.value);
-    const min = startDate || dateFromISO(this.min);
-    const max = dateFromISO(this.max);
-    this.end = dateToISO(dateFromRange(endDate, min, max));
-  };
-
-  /**
-   * Update end input proxy
-   */
-  syncEndProxyToThis = (): void => {
-    if (this.endProxy) {
-      this.endProxy.value = this.end || "";
-      if (this.startProxy.value || this.min) {
-        this.endProxy.min = this.startProxy.value || this.min;
-      }
-      if (this.max) {
-        this.endProxy.max = this.max;
-      }
-    }
-  };
-
-  /**
-   * Update component based on input proxy
-   */
-  syncThisToProxyInput = (): void => {
-    this.min = this.inputProxy.min;
-    this.max = this.inputProxy.max;
-    const min = dateFromISO(this.min);
-    const max = dateFromISO(this.max);
-    const date = dateFromISO(this.inputProxy.value);
-    this.value = dateToISO(dateFromRange(date, min, max));
-  };
-
-  /**
-   * Update input proxy
-   */
-  syncProxyInputToThis = (): void => {
-    if (this.inputProxy) {
-      this.inputProxy.value = this.value || "";
-      if (this.min) {
-        this.inputProxy.min = this.min;
-      }
-      if (this.max) {
-        this.inputProxy.max = this.max;
-      }
-    }
-  };
 
   /**
    * Render calcite-date-month-header and calcite-date-month
@@ -620,7 +446,7 @@ export class CalciteDate {
               localeData={this.localeData}
               max={maxDate}
               min={minDate}
-              onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
+              onCalciteDateSelect={(e: CustomEvent<Date>) => {
                 const date = new Date(e.detail);
                 if (!this.range) {
                   this.activeDate = date;
@@ -734,42 +560,6 @@ export class CalciteDate {
   }
 
   /**
-   * Set both iso value and date value and update proxy
-   */
-  private setValue(date: Date): void {
-    this.value = new Date(date).toISOString().split("T")[0];
-    this.syncProxyInputToThis();
-  }
-
-  /**
-   * Set start iso value and update proxy
-   */
-  private setStartDate(date: Date): void {
-    this.start = new Date(date).toISOString().split("T")[0];
-    this.syncStartProxyToThis();
-  }
-
-  /**
-   * set end iso value and update proxy
-   */
-  private setEndDate(date: Date): void {
-    this.end = new Date(date).toISOString().split("T")[0];
-    this.syncEndProxyToThis();
-  }
-
-  /**
-   * Update date instance of value if valid
-   */
-  private setValueAsDate(value: string): void {
-    if (value) {
-      const date = dateFromISO(value);
-      if (date) {
-        this.valueAsDate = date as Date;
-      }
-    }
-  }
-
-  /**
    * Update date instance of start if valid
    */
   private setStartAsDate(start: string): void {
@@ -799,13 +589,13 @@ export class CalciteDate {
    * Reset active date and close
    */
   private reset(): void {
-    if (this.valueAsDate) {
+    if (this.valueAsDate && this.valueAsDate?.getTime() !== this.activeDate?.getTime()) {
       this.activeDate = new Date(this.valueAsDate);
     }
-    if (this.startAsDate) {
+    if (this.startAsDate && this.startAsDate?.getTime() !== this.activeStartDate?.getTime()) {
       this.activeStartDate = new Date(this.startAsDate);
     }
-    if (this.endAsDate) {
+    if (this.endAsDate && this.endAsDate?.getTime() !== this.activeEndDate?.getTime()) {
       this.activeEndDate = new Date(this.endAsDate);
     }
     if (!this.noCalendarInput) {
@@ -820,7 +610,7 @@ export class CalciteDate {
     const date = this.getDateFromInput(value);
     if (date) {
       if (!this.range) {
-        this.setValue(date);
+        this.valueAsDate = date;
         this.activeDate = date as Date;
         this.calciteDateChange.emit(new Date(date));
       } else {
@@ -828,13 +618,13 @@ export class CalciteDate {
         if (this.focusedInput === "start") {
           changed = !this.startAsDate || !sameDate(date, this.startAsDate);
           if (changed) {
-            this.setStartDate(date);
+            this.startAsDate = date;
             this.activeStartDate = date as Date;
           }
         } else if (this.focusedInput === "end") {
           changed = !this.endAsDate || !sameDate(date, this.endAsDate);
           if (changed) {
-            this.setEndDate(date);
+            this.endAsDate = date;
             this.activeEndDate = date as Date;
           }
         }
@@ -870,7 +660,7 @@ export class CalciteDate {
   private handleDateChange(e: CustomEvent<Date>, doReset?: boolean) {
     const date = new Date(e.detail);
     if (!this.range) {
-      this.setValue(date);
+      this.value = dateToISO(date);
       this.activeDate = date;
       this.calciteDateChange.emit(date);
       if (doReset) {
@@ -883,27 +673,33 @@ export class CalciteDate {
       if (!this.startAsDate || (!this.endAsDate && date < this.startAsDate)) {
         if (this.startAsDate) {
           const newEndDate = new Date(this.startAsDate);
-          this.setEndDate(newEndDate);
+          this.end = dateToISO(newEndDate);
+          this.setEndAsDate(this.end);
           this.activeEndDate = newEndDate;
         }
-        this.setStartDate(date);
+        this.start = dateToISO(date);
+        this.setStartAsDate(this.start);
         this.activeStartDate = date;
       } else if (!this.endAsDate) {
-        this.setEndDate(date);
+        this.end = dateToISO(date);
+        this.setEndAsDate(this.end);
         this.activeEndDate = date;
       } else {
         if (this.proximitySelection) {
           const startDiff = getDaysDiff(date, this.startAsDate);
           const endDiff = getDaysDiff(date, this.endAsDate);
           if (startDiff < endDiff) {
-            this.setStartDate(date);
+            this.start = dateToISO(date);
+            this.setStartAsDate(this.start);
             this.activeStartDate = date;
           } else {
-            this.setEndDate(date);
+            this.end = dateToISO(date);
+            this.setEndAsDate(this.end);
             this.activeEndDate = date;
           }
         } else {
-          this.setStartDate(date);
+          this.start = dateToISO(date);
+          this.setStartAsDate(this.start);
           this.activeStartDate = date;
           this.endAsDate = this.activeEndDate = this.end = undefined;
         }
@@ -919,10 +715,12 @@ export class CalciteDate {
     }
 
     if (this.focusedInput === "start") {
-      this.setStartDate(date);
+      this.start = dateToISO(date);
+      this.setStartAsDate(this.start);
       this.activeStartDate = date;
     } else {
-      this.setEndDate(date);
+      this.end = dateToISO(date);
+      this.setEndAsDate(this.end);
       this.activeEndDate = date;
     }
 

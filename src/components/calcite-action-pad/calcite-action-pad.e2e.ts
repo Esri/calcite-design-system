@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import dedent from "dedent";
 
 describe("calcite-action-pad", () => {
   it("renders", async () => renders("calcite-action-pad"));
@@ -131,22 +132,18 @@ describe("calcite-action-pad", () => {
     </calcite-action-pad>
     `));
 
-  it("should focus on toggle button", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-action-pad>
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-pad>`
-    });
-
-    const tagName = await page.evaluate(async () => {
-      const actionPad = document.querySelector("calcite-action-pad");
-      await actionPad.setFocus("expand-toggle");
-      const activeElement = actionPad.shadowRoot.activeElement;
-      return activeElement.tagName;
-    });
-
-    expect(tagName).toBe("CALCITE-ACTION");
-  });
+  it("should focus on toggle button", async () =>
+    focusable(
+      dedent`
+        <calcite-action-pad>
+          <calcite-action-group>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-pad>
+      `,
+      {
+        focusId: "expand-toggle",
+        focusTargetSelector: "calcite-action-pad"
+      }
+    ));
 });

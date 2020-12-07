@@ -11,7 +11,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { CSS, ARIA_DESCRIBED_BY, POPOVER_REFERENCE, TEXT } from "./resources";
+import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, POPOVER_REFERENCE, TEXT } from "./resources";
 import {
   CalcitePlacement,
   defaultOffsetDistance,
@@ -91,6 +91,7 @@ export class CalcitePopover {
   @Watch("open")
   openHandler(open: boolean): void {
     this.reposition();
+    this.setExpandedAttr();
     if (open) {
       this.calcitePopoverOpen.emit();
     } else {
@@ -218,6 +219,16 @@ export class CalcitePopover {
     return this.el.id || this.guid;
   };
 
+  setExpandedAttr = (): void => {
+    const { _referenceElement, open } = this;
+
+    if (!_referenceElement) {
+      return;
+    }
+
+    _referenceElement.setAttribute(ARIA_EXPANDED, open.toString());
+  };
+
   addReferences = (): void => {
     const { _referenceElement } = this;
 
@@ -225,11 +236,11 @@ export class CalcitePopover {
       return;
     }
 
-    _referenceElement.setAttribute(POPOVER_REFERENCE, "");
+    const id = this.getId();
 
-    if (!_referenceElement.hasAttribute(ARIA_DESCRIBED_BY)) {
-      _referenceElement.setAttribute(ARIA_DESCRIBED_BY, this.getId());
-    }
+    _referenceElement.setAttribute(POPOVER_REFERENCE, id);
+    _referenceElement.setAttribute(ARIA_CONTROLS, id);
+    this.setExpandedAttr();
   };
 
   removeReferences = (): void => {
@@ -239,8 +250,9 @@ export class CalcitePopover {
       return;
     }
 
-    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
     _referenceElement.removeAttribute(POPOVER_REFERENCE);
+    _referenceElement.removeAttribute(ARIA_CONTROLS);
+    _referenceElement.removeAttribute(ARIA_EXPANDED);
   };
 
   getReferenceElement(): HTMLElement {
@@ -361,7 +373,7 @@ export class CalcitePopover {
 
     return (
       <Host
-        aria-hidden={!displayed ? "true" : "false"}
+        aria-hidden={(!displayed).toString()}
         aria-label={label}
         id={this.getId()}
         role="dialog"

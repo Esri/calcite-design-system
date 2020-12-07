@@ -8,27 +8,10 @@ You can set a min and max range, as well as an initial value with ISO 8601 forma
 <calcite-date value="2020-03-27" min="2020-02-01" max="2021-01-01" />
 ```
 
-Date also supports passing in a proxy input to make event handling and binding easier for frameworks like React:
-
-```html
-<calcite-date>
-  <input type="date" />
-</calcite-date>
-```
-
 You can also add range property to activate date range mode. In this mode, you can specify start and end instead of the single value property.
 
 ```html
 <calcite-date range start="2020-03-15" end="2020-03-27" min="2020-02-01" max="2021-01-01" />
-```
-
-Date range also supports passing in a proxy inputs to make event handling and binding easier for frameworks like React:
-
-```html
-<calcite-date range>
-  <input type="date" slot="start" />
-  <input type="date" slot="end" />
-</calcite-date>
 ```
 
 <!-- Auto Generated Below -->

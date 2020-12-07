@@ -66,7 +66,7 @@ export class CalciteDateMonthHeader {
   /**
    *  Changes to active date
    */
-  @Event() calciteActiveDateChange: EventEmitter<Date>;
+  @Event() calciteDateSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -183,7 +183,7 @@ export class CalciteDateMonthHeader {
   private handleArrowClick(e: Event, date: Date) {
     e?.preventDefault();
     e.stopPropagation();
-    this.calciteActiveDateChange.emit(date);
+    this.calciteDateSelect.emit(date);
   }
 
   /*
@@ -213,7 +213,7 @@ export class CalciteDateMonthHeader {
       const nextDate = new Date(activeDate);
       nextDate.setFullYear(year as number);
       const inRangeDate = dateFromRange(nextDate, min, max);
-      this.calciteActiveDateChange.emit(inRangeDate);
+      this.calciteDateSelect.emit(inRangeDate);
       yearInput.value = localizeNumber(inRangeDate.getFullYear(), localeData);
     } else {
       // leave the current active date and clean up garbage input
