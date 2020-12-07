@@ -1,5 +1,6 @@
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
+  --calcite-ui-foreground-current: #214155;
 }
 
 :host {
@@ -86,7 +87,7 @@
 }
 
 :host(:hover:not([disabled])),
-:host([active]) {
+:host([active]:not([highlighted])) {
   & .day {
     background-color: var(--calcite-ui-foreground-2);
     color: var(--calcite-ui-text-1);
