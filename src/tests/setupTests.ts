@@ -1,11 +1,18 @@
 let globalError: jest.SpyInstance;
 
-beforeEach(() => {
+beforeAll(() => {
   globalError = jest.spyOn(global.console, "error");
+});
+
+beforeEach(() => {
+  globalError.mockClear();
 });
 
 afterEach(() => {
   expect(globalError).not.toHaveBeenCalled();
-  globalError.mockReset();
+});
+
+afterAll(() => {
+  globalError.mockClear();
   globalError.mockRestore();
 });
