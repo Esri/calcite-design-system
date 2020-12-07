@@ -3,6 +3,7 @@ import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import tailwind from "tailwindcss";
+import { reactOutputTarget } from "@stencil/react-output-target";
 import { generatePreactTypes } from "./support/preact";
 
 export const create: () => Config = () => ({
@@ -83,6 +84,11 @@ export const create: () => Config = () => ({
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
     { type: "custom", name: "preact", generator: generatePreactTypes },
+    reactOutputTarget({
+      componentCorePackage: "@esri/calcite-components",
+      proxiesFile: "./support/output-targets/calcite-components-react/src/components.ts",
+      excludeComponents: ["context-consumer"]
+    }),
     {
       type: "www",
       baseUrl: "https://stenciljs.com/",

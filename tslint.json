@@ -11,5 +11,6 @@
       "severity": "warn"
     }
   },
+  "exclude": ["node_modules", "support/output-targets/calcite-components-react"],
   "rulesDirectory": ["node_modules/tslint-stencil/rules"]
 }

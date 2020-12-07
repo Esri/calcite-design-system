@@ -1,0 +1,41 @@
+{
+  "name": "@esri/calcite-components-react",
+  "sideEffects": false,
+  "version": "0.0.0",
+  "private": true,
+  "description": "A set of React components that wrap calcite components",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionic-team/stencil-ds-output-targets.git"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf dist",
+    "compile": "npm run tsc",
+    "tsc": "tsc -p ."
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.8.0",
+    "@testing-library/react": "^10.0.4",
+    "@types/react": "^16.7.6",
+    "@types/react-dom": "^16.0.9",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.3.4000"
+  },
+  "dependencies": {
+    "@esri/calcite-components": "1.0.0-beta.51"
+  },
+  "peerDependencies": {
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  }
+}

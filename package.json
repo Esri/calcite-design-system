@@ -71,6 +71,7 @@
     "@esri/calcite-ui-icons": "3.14.8",
     "@stencil/eslint-plugin": "0.3.1",
     "@stencil/postcss": "2.0.0",
+    "@stencil/react-output-target": "0.0.9",
     "@stencil/sass": "1.4.1",
     "@stencil/state-tunnel": "^1.0.1",
     "@storybook/addon-a11y": "6.1.19",

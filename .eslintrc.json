@@ -8,7 +8,7 @@
     "plugin:jest/recommended",
     "prettier"
   ],
-  "ignorePatterns": ["dist", "docs", "www"],
+  "ignorePatterns": ["dist", "docs", "www", "support/output-targets/calcite-components-react/"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig-eslint.json",
