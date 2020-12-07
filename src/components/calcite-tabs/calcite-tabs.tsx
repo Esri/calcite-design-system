@@ -71,7 +71,7 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabTitleUnregister", { target: "document" })
+  @Listen("calciteTabTitleUnregister", { target: "body" })
   calciteTabTitleUnregister(e: CustomEvent): void {
     this.titles = this.titles.filter((el) => el !== e.target);
     this.registryHandler();
@@ -91,7 +91,7 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabUnregister", { target: "document" })
+  @Listen("calciteTabUnregister", { target: "body" })
   calciteTabUnregister(e: CustomEvent): void {
     this.tabs = this.tabs.filter((el) => el !== e.target);
     this.registryHandler();

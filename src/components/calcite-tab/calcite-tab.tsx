@@ -74,6 +74,7 @@ export class CalciteTab {
   }
 
   disconnectedCallback(): void {
+    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body.dispatchEvent(new CustomEvent("calciteTabUnregister"));
   }
 
