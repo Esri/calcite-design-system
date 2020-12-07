@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-input-message", () => {
-  it("renders", async () => renders("calcite-input-message"));
+  it("renders", async () => renders("calcite-input-message", false));
 
   it("is accessible", async () => accessible(`<calcite-input-message>Text</calcite-input-message>`));
   it("is accessible with icon", async () => accessible(`<calcite-input-message icon>Text</calcite-input-message>`));
