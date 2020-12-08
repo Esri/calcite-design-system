@@ -86,7 +86,7 @@ export class CalciteDropdownGroup {
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
-      <span class="dropdown-title" ref={this.setDropdownTitleRef}>
+      <span aria-hidden="true" class="dropdown-title" ref={this.setDropdownTitleRef}>
         {this.groupTitle}
       </span>
     ) : null;
@@ -97,7 +97,7 @@ export class CalciteDropdownGroup {
       ) : null;
 
     return (
-      <Host dir={dir} scale={scale}>
+      <Host dir={dir} role="menu" scale={scale} title={this.groupTitle}>
         {dropdownSeparator}
         {groupTitle}
         <slot />
