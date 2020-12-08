@@ -41,7 +41,7 @@
     flex-direction: column;
     margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
   }
-  & > ::slotted(label) {
+  .calcite-label-text {
     margin-bottom: 4px;
   }
 }
@@ -67,15 +67,15 @@
 
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
-  & > ::slotted(label) {
+  .calcite-label-text {
     margin-left: $baseline/2;
     margin-right: $baseline/2;
   }
-  & > ::slotted(label:first-child) {
+  .calcite-label-text:first-child {
     margin-left: 0;
     margin-right: $baseline/2;
   }
-  & > ::slotted(label:last-child) {
+  .calcite-label-text:last-child {
     margin-left: $baseline/2;
     margin-right: 0;
   }
@@ -83,11 +83,11 @@
 
 :host([dir="rtl"][layout="inline"]),
 :host([dir="rtl"][layout="inline-space-between"]) {
-  ::slotted(label:first-child) {
+  .calcite-label-text:first-child {
     margin-left: $baseline/2;
     margin-right: 0;
   }
-  ::slotted(label:last-child) {
+  .calcite-label-text:last-child {
     margin-left: 0;
     margin-right: $baseline/2;
   }
@@ -126,7 +126,7 @@ $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-
 
 :host([disable-spacing]) {
   label,
-  ::slotted(label) {
+  .calcite-label-text {
     margin: 0;
   }
 }

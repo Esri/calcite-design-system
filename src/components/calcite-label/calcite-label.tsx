@@ -135,7 +135,9 @@ export class CalciteLabel {
     return (
       <Host dir={dir}>
         <label {...attributes} ref={(el) => (this.labelEl = el)}>
-          <slot />
+          <span class="calcite-label-text" ref={(el) => (this.spanEl = el)}>
+            <slot />
+          </span>
         </label>
       </Host>
     );
