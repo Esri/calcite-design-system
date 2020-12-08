@@ -1,4 +1,6 @@
 import { CalciteTheme } from "../components/interfaces";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
+import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
 
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
@@ -8,6 +10,14 @@ type Direction = "ltr" | "rtl";
 
 export function getElementDir(el: HTMLElement): Direction {
   return getElementProp(el, "dir", "ltr") as Direction;
+}
+
+function isCalciteFocusable(el: CalciteFocusableElement): boolean {
+  return typeof el.setFocus === "function" || isFocusable(el);
+}
+
+export function getFocusableElements(el: HTMLElement): HTMLElement[] {
+  return queryShadowRoot(el, isHidden, isCalciteFocusable);
 }
 
 export function getElementTheme(el: HTMLElement): CalciteTheme {
