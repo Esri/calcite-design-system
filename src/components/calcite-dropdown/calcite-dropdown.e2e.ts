@@ -857,6 +857,78 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
+  it("correct role and aria properties are applied based on selection type", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-dropdown>
+    <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
+    <calcite-dropdown-group id="group-1" selection-mode="multi">
+    <calcite-dropdown-item id="item-1">
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-2" active>
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-3" active>
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group id="group-2" selection-mode="single">
+    <calcite-dropdown-item id="item-4">
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-5" active>
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group id="group-3" selection-mode="none">
+    <calcite-dropdown-item id="item-6">
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-7" href="google.com">
+    Dropdown Item Content
+    </calcite-dropdown-item>
+    </calcite-dropdown-group>
+    </calcite-dropdown>`);
+
+    const element = await page.find("calcite-dropdown");
+    const group1 = await element.find("calcite-dropdown-group[id='group-1']");
+    const group2 = await element.find("calcite-dropdown-group[id='group-2']");
+    const group3 = await element.find("calcite-dropdown-group[id='group-3']");
+    const item1 = await element.find("calcite-dropdown-item[id='item-1']");
+    const item2 = await element.find("calcite-dropdown-item[id='item-2']");
+    const item3 = await element.find("calcite-dropdown-item[id='item-3']");
+    const item4 = await element.find("calcite-dropdown-item[id='item-4']");
+    const item5 = await element.find("calcite-dropdown-item[id='item-5']");
+    const item6 = await element.find("calcite-dropdown-item[id='item-6']");
+    const item7 = await element.find("calcite-dropdown-item[id='item-7']");
+
+    expect(group1).toEqualAttribute("role", "menu");
+    expect(group2).toEqualAttribute("role", "menu");
+    expect(group3).toEqualAttribute("role", "menu");
+
+    expect(item1).toEqualAttribute("role", "menuitemcheckbox");
+    expect(item1).toEqualAttribute("aria-checked", "false");
+
+    expect(item2).toEqualAttribute("role", "menuitemcheckbox");
+    expect(item2).toEqualAttribute("aria-checked", "true");
+
+    expect(item3).toEqualAttribute("role", "menuitemcheckbox");
+    expect(item3).toEqualAttribute("aria-checked", "true");
+
+    expect(item4).toEqualAttribute("role", "menuitemradio");
+    expect(item4).toEqualAttribute("aria-checked", "false");
+
+    expect(item5).toEqualAttribute("role", "menuitemradio");
+    expect(item5).toEqualAttribute("aria-checked", "true");
+
+    expect(item6).toEqualAttribute("role", "menuitem");
+    expect(item6).not.toHaveAttribute("aria-checked");
+
+    expect(item7).not.toHaveAttribute("role");
+    expect(item7).not.toHaveAttribute("aria-checked");
+  });
+
   it("item selection should work when placed inside shadow DOM (#992)", async () => {
     const wrappedDropdownTemplateHTML = `
      <calcite-dropdown disable-close-on-select>
