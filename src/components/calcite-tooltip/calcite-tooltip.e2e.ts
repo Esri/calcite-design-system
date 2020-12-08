@@ -4,7 +4,10 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
   it("renders", async () =>
-    renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
+    Promise.all([
+      renders(`calcite-tooltip`, false),
+      renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`)
+    ]));
 
   it("is accessible when closed", async () =>
     accessible(`<calcite-tooltip label="test" reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
