@@ -228,13 +228,19 @@ export class CalciteSelect {
       return;
     }
 
+    let futureSelected: HTMLCalciteOptionElement;
+
     this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
         optionOrGroup.selected = true;
-        this.selectedOption = optionOrGroup;
+        futureSelected = optionOrGroup;
         this.deselectAllExcept(optionOrGroup as HTMLCalciteOptionElement);
       }
     });
+
+    if (futureSelected) {
+      requestAnimationFrame(() => (this.selectedOption = futureSelected));
+    }
   }
 
   private toNativeElement(
