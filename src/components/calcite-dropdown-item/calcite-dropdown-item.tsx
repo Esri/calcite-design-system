@@ -140,7 +140,7 @@ export class CalciteDropdownItem {
       </a>
     );
 
-    const itemRole = this.href
+    const itemRole = this.href // https://www.levelaccess.com/how-not-to-misuse-aria-states-properties-and-roles/
       ? null
       : this.selectionMode === "single"
       ? "menuitemradio"
