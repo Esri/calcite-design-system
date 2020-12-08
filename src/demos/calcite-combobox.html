@@ -12,6 +12,9 @@
       color: white;
       padding: 1rem;
     }
+    calcite-combobox {
+      max-width: 480px;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
@@ -24,7 +27,7 @@
   <h1>Calcite Combobox</h1>
   <h2>Scale M</h2>
 
-  <calcite-combobox label="test">
+  <calcite-combobox label="test" max-items="4">
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
       <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>

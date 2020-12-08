@@ -29,11 +29,13 @@ function getTag(tagOrHTML: string): CalciteComponentTag {
 
 async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
-
-  return newE2EPage({
+  const page = await newE2EPage({
     html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}><${componentTag}/>`,
     failOnConsoleError: true
   });
+  await page.waitForChanges();
+
+  return page;
 }
 
 export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage): Promise<void> {
@@ -73,7 +75,8 @@ export async function reflects(
 
   for (const propAndValue of propsToTest) {
     const { propertyName, value } = propAndValue;
-    const componentAttributeSelector = `${componentTag}[${propToAttr(propertyName)}]`;
+    const attrName = propToAttr(propertyName);
+    const componentAttributeSelector = `${componentTag}[${attrName}]`;
 
     element.setProperty(propertyName, value);
     await page.waitForChanges();
@@ -81,15 +84,18 @@ export async function reflects(
     expect(await page.find(componentAttributeSelector)).toBeTruthy();
 
     if (typeof value === "boolean") {
-      element.setProperty(propertyName, !value);
+      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
+      const negated = !value;
+
+      element.setProperty(propertyName, negated);
       await page.waitForChanges();
 
-      expect(await page.find(componentAttributeSelector)).toBeNull();
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
       element.setProperty(propertyName, value);
       await page.waitForChanges();
 
-      expect(await page.find(componentAttributeSelector)).toBeTruthy();
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
     }
   }
 }
@@ -125,12 +131,38 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
   expect(await element.isVisible()).toBe(false);
 }
 
-export async function focusable(componentTagOrHTML: TagOrHTML): Promise<void> {
+interface FocusableOptions {
+  /** use this to pass an ID to setFocus() **/
+  focusId?: string;
+
+  /**
+   * selector used to assert the focused DOM element
+   */
+  focusTargetSelector?: string;
+
+  /**
+   * selector used to assert the focused shadow DOM element
+   */
+  shadowFocusTargetSelector?: string;
+}
+
+export async function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOptions): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
+  const focusTargetSelector = options?.focusTargetSelector || tag;
 
-  await element.callMethod("setFocus"); // assumes element is CalciteFocusableElement
+  await element.callMethod("setFocus", options?.focusId); // assumes element is CalciteFocusableElement
 
-  expect(await page.evaluate(() => document.activeElement.tagName)).toEqual(tag.toUpperCase());
+  if (options?.shadowFocusTargetSelector) {
+    expect(
+      await page.$eval(
+        tag,
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        options?.shadowFocusTargetSelector
+      )
+    ).toBe(true);
+  }
+
+  expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 }

@@ -12,9 +12,9 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     theme="light"
     ${boolean("icon", true)}
-    auto-dismiss="${boolean("auto-dismiss", false)}"
+    ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    active="${boolean("active", true)}"
+    ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
     <div slot="alert-title">Here's a general bit of information</div></div>
@@ -31,9 +31,9 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     theme="light"
     ${boolean("icon", true)}
-    auto-dismiss="${boolean("auto-dismiss", false)}"
+    ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    active="${boolean("active", true)}"
+    ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}">
     <div slot="alert-title">Something failed</div>
@@ -49,9 +49,9 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     theme="light"
     ${boolean("icon", true)}
-    auto-dismiss="${boolean("auto-dismiss", false)}"
+    ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    active="${boolean("active", true)}"
+    ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
     <div slot="alert-message">
@@ -67,9 +67,9 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     theme="light"
     ${boolean("icon", true)}
-    auto-dismiss="${boolean("auto-dismiss", false)}"
+    ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    active="${boolean("active", true)}"
+    ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "yellow")}">
     <div slot="alert-message">
@@ -84,9 +84,9 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     theme="light"
     icon="${select("icon", iconNames, iconNames[0])}"
-    auto-dismiss="${boolean("auto-dismiss", false)}"
+    ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    active="${boolean("active", true)}"
+    ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
     <div slot="alert-message">
@@ -152,9 +152,9 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     theme="dark"
     ${boolean("icon", true)}
-    auto-dismiss="${boolean("auto-dismiss", false)}"
+    ${boolean("auto-dismiss", false)}
   auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    active="${boolean("active", true)}"
+    ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}">
     <div slot="alert-title">Something failed</div>
@@ -222,9 +222,9 @@ storiesOf("Components/Alert", module)
     <calcite-alert
     theme="light"
     ${boolean("icon", true)}
-    auto-dismiss="${boolean("auto-dismiss", false)}"
+    ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    active="${boolean("active", true)}"
+    ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
     <div slot="alert-title">Something failed</div>

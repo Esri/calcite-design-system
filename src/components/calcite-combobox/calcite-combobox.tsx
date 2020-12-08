@@ -54,6 +54,9 @@ export class CalciteCombobox {
 
   @Prop() placeholder?: string;
 
+  /** specify the maximum number of combobox items (including nested children) to display before showing the scroller */
+  @Prop() maxItems = 0;
+
   /** specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
@@ -79,6 +82,9 @@ export class CalciteCombobox {
   data: ItemData[];
 
   observer: MutationObserver = null;
+
+  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
+  private maxScrollerHeight = 0;
 
   private popper: Popper;
 
@@ -106,6 +112,7 @@ export class CalciteCombobox {
 
   componentDidLoad(): void {
     this.observer?.observe(this.el, { childList: true, subtree: true });
+    this.maxScrollerHeight = this.getMaxScrollerHeight(this.items);
   }
 
   disconnectedCallback(): void {
@@ -225,6 +232,27 @@ export class CalciteCombobox {
     }
 
     this.popper = null;
+  }
+
+  private getMaxScrollerHeight(items: HTMLCalciteComboboxItemElement[]): number {
+    const { maxItems } = this;
+    let itemsToProcess = 0;
+    let maxScrollerHeight = 0;
+    items.forEach((item) => {
+      if (itemsToProcess < maxItems && maxItems > 0) {
+        maxScrollerHeight += item.offsetHeight;
+        itemsToProcess += 1;
+        // if item has children items, don't count their height twice
+        const children = item.querySelectorAll<HTMLCalciteComboboxItemElement>(
+          "calcite-combobox-item"
+        );
+        children.forEach((child) => {
+          maxScrollerHeight -= child.offsetHeight;
+        });
+      }
+    });
+
+    return maxScrollerHeight;
   }
 
   inputHandler = (event: Event): void => {
@@ -401,7 +429,16 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { active, disabled, el, label, placeholder, scale, selectedItems } = this;
+    const {
+      active,
+      disabled,
+      el,
+      label,
+      placeholder,
+      scale,
+      selectedItems,
+      maxScrollerHeight
+    } = this;
     const dir = getElementDir(el);
     const listBoxId = "listbox";
     return (
@@ -447,6 +484,9 @@ export class CalciteCombobox {
             }}
             id={listBoxId}
             role="listbox"
+            style={{
+              maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
+            }}
           >
             <slot />
           </ul>
