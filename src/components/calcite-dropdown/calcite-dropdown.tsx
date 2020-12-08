@@ -138,7 +138,7 @@ export class CalciteDropdown {
           aria-hidden={(!active).toString()}
           class="calcite-dropdown-wrapper"
           ref={this.setMenuEl}
-          role="menu"
+          tabIndex={-1}
         >
           <div
             class={{
