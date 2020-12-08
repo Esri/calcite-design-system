@@ -12,8 +12,18 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getElementDir, getFocusableElements, focusElement } from "../../utils/dom";
+import { getElementDir, CalciteFocusableElement, focusElement } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
+import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
+
+function isCalciteFocusable(el: CalciteFocusableElement): boolean {
+  return typeof el.setFocus === "function" || isFocusable(el);
+}
+
+function getFocusableElements(el: HTMLElement): HTMLElement[] {
+  return queryShadowRoot(el, isHidden, isCalciteFocusable);
+}
 
 @Component({
   tag: "calcite-modal",
