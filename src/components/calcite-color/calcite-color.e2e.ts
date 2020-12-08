@@ -237,7 +237,7 @@ describe("calcite-color", () => {
       await page.setContent("");
 
       await page.evaluate(async (color) => {
-        const picker = document.createElement("calcite-color") as HTMLCalciteColorElement;
+        const picker = document.createElement("calcite-color");
         picker.value = color;
         document.body.append(picker);
 
