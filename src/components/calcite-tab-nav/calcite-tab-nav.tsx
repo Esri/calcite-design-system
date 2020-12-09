@@ -147,7 +147,7 @@ export class CalciteTabNav {
         >
           <div
             class="tab-nav-active-indicator-container"
-            ref={(el) => (this.activeIndicatorContainerEl = el as HTMLElement)}
+            ref={(el) => (this.activeIndicatorContainerEl = el)}
           >
             <div
               class="tab-nav-active-indicator"
@@ -257,7 +257,7 @@ export class CalciteTabNav {
 
   private activeIndicatorEl: HTMLElement;
 
-  private activeIndicatorContainerEl: HTMLElement;
+  private activeIndicatorContainerEl: HTMLDivElement;
 
   private animationActiveDuration = 0.3;
 
