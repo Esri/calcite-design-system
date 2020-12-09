@@ -1,17 +1,17 @@
 import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
-
-@Component({
-  tag: "calcite-link",
-  styleUrl: "calcite-link.scss",
-  shadow: true
-})
+import { focusElement, getElementDir } from "../../utils/dom";
 
 /** @slot default text slot for link text */
 
 /** Any attributes placed on <calcite-link> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission */
+
+@Component({
+  tag: "calcite-link",
+  styleUrl: "calcite-link.scss",
+  shadow: true
+})
 export class CalciteLink {
   //--------------------------------------------------------------------------
   //
@@ -60,10 +60,6 @@ export class CalciteLink {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const attributes = this.getAttributes();
-    const Tag = this.childElType;
-    const role = this.childElType === "span" ? "link" : null;
-    const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
 
     const iconStartEl = (
       <calcite-icon
@@ -85,12 +81,17 @@ export class CalciteLink {
       />
     );
 
+    const attributes = this.getAttributes();
+    const Tag = this.childElType;
+    const role = this.childElType === "span" ? "link" : null;
+    const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
+
     return (
-      <Host dir={dir}>
+      <Host dir={dir} role="presentation">
         <Tag
           {...attributes}
           href={Tag === "a" && this.href}
-          ref={(el) => (this.childEl = el)}
+          ref={this.storeTagRef}
           role={role}
           tabIndex={tabIndex}
         >
@@ -110,7 +111,7 @@ export class CalciteLink {
 
   @Method()
   async setFocus(): Promise<void> {
-    this.childEl.focus();
+    focusElement(this.childEl);
   }
 
   //--------------------------------------------------------------------------
@@ -120,10 +121,16 @@ export class CalciteLink {
   //--------------------------------------------------------------------------
 
   /** the rendered child element */
-  private childEl?: HTMLElement;
+  private childEl: HTMLAnchorElement | HTMLSpanElement;
 
   /** the node type of the rendered child element */
-  private childElType?: "a" | "span" = "span";
+  private childElType: "a" | "span" = "span";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
 
   private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
@@ -132,4 +139,8 @@ export class CalciteLink {
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
+
+  private storeTagRef = (el: CalciteLink["childEl"]): void => {
+    this.childEl = el;
+  };
 }

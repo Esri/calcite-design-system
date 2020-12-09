@@ -550,6 +550,10 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
+:host(.no-bottom-border) input.sc-calcite-input {
+  border-bottom: none;
+}
+
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-green-1),
   "idle" var(--calcite-ui-text-2);

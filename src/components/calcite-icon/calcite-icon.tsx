@@ -99,7 +99,11 @@ export class CalciteIcon {
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");
     return (
-      <Host aria-label={semantic ? textLabel : null} role={semantic ? "img" : null}>
+      <Host
+        aria-hidden={(!semantic).toString()}
+        aria-label={semantic ? textLabel : null}
+        role={semantic ? "img" : null}
+      >
         <svg
           class={{
             [CSS.flipRtl]: dir === "rtl" && flipRtl,

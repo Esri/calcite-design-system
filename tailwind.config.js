@@ -1,5 +1,12 @@
 module.exports = {
   theme: {
+    extend: {
+      spacing: {
+        '2px': '0.125rem',
+        '10px': '0.625rem',
+        '14px': '0.875rem'
+      }
+    },
     borderRadius: {
       none: '0',
       1: "var(--calcite-border-radius)",

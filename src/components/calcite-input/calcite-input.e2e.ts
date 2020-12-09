@@ -206,6 +206,29 @@ describe("calcite-input", () => {
     expect(element.getAttribute("value")).toBe("25");
   });
 
+  it("should correctly handle property changes to 'min', 'max', and 'step'", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-input type="number" min="10" max="15" step="1" value="12"></calcite-input>`
+    });
+
+    const element = await page.find("calcite-input");
+
+    expect(await element.getProperty("value")).toBe("12");
+    expect(await element.getProperty("min")).toBe(10);
+    expect(await element.getProperty("max")).toBe(15);
+    expect(await element.getProperty("step")).toBe(1);
+
+    element.setProperty("min", null);
+    element.setProperty("max", null);
+    element.setProperty("step", null);
+
+    await page.waitForChanges();
+
+    expect(await element.getProperty("min")).toBe(null);
+    expect(await element.getProperty("max")).toBe(null);
+    expect(await element.getProperty("step")).toBe(null);
+  });
+
   it("correctly stops decrementing value when min is set", async () => {
     const page = await newE2EPage();
     await page.setContent(`

@@ -256,8 +256,6 @@ export class CalciteTabNav {
 
   private animationActiveDuration = 0.3;
 
-  private dir: "ltr" | "rtl";
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -271,8 +269,9 @@ export class CalciteTabNav {
   };
 
   private updateOffsetPosition(): void {
+    const dir = getElementDir(this.el);
     this.indicatorOffset =
-      this.dir !== "rtl"
+      dir !== "rtl"
         ? this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft
         : this.tabNavEl?.offsetWidth - this.selectedTabEl.getBoundingClientRect().right;
   }
