@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { INPUTTYPEICONS } from "./calcite-input.resources";
+import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 
 @Component({
   tag: "calcite-input",
@@ -149,7 +149,7 @@ export class CalciteInput {
   @Watch("icon")
   @Watch("type")
   updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
+    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
 
   //--------------------------------------------------------------------------
@@ -165,7 +165,7 @@ export class CalciteInput {
 
   componentWillLoad(): void {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.requestedIcon = setRequestedIcon(INPUTTYPEICONS, this.icon, this.type);
+    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
 
   componentDidLoad(): void {
