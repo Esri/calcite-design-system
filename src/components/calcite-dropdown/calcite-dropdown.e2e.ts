@@ -1,5 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR, accessible } from "../../tests/commonTests";
+import dedent from "dedent";
 
 describe("calcite-dropdown", () => {
   /**
@@ -858,7 +859,7 @@ describe("calcite-dropdown", () => {
   });
 
   it("is accessible", async () => {
-    accessible(`
+    accessible(dedent`
       <calcite-dropdown>
         <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="multi">
@@ -894,7 +895,7 @@ describe("calcite-dropdown", () => {
 
   it("correct role and aria properties are applied based on selection type", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(dedent`
       <calcite-dropdown>
         <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="multi">
