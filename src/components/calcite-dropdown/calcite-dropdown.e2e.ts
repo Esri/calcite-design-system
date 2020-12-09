@@ -17,6 +17,39 @@ describe("calcite-dropdown", () => {
     expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
   }
 
+  const dropdownSelectionModeContent = `
+    <calcite-dropdown>
+      <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
+      <calcite-dropdown-group id="group-1" selection-mode="multi">
+        <calcite-dropdown-item id="item-1">
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" active>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-3" active>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group id="group-2" selection-mode="single">
+        <calcite-dropdown-item id="item-4">
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-5" active>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group id="group-3" selection-mode="none">
+        <calcite-dropdown-item id="item-6">
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-7" href="google.com">
+          Dropdown Item Content
+        </calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+ `;
+
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -859,74 +892,12 @@ describe("calcite-dropdown", () => {
   });
 
   it("is accessible", async () => {
-    accessible(dedent`
-      <calcite-dropdown>
-        <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="multi">
-          <calcite-dropdown-item id="item-1">
-            Dropdown Item Content
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active>
-            Dropdown Item Content
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3" active>
-            Dropdown Item Content
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-        <calcite-dropdown-group id="group-2" selection-mode="single">
-          <calcite-dropdown-item id="item-4">
-            Dropdown Item Content
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-5" active>
-            Dropdown Item Content
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-        <calcite-dropdown-group id="group-3" selection-mode="none">
-          <calcite-dropdown-item id="item-6">
-            Dropdown Item Content
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-7" href="google.com">
-            Dropdown Item Content
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    `);
+    accessible(dedent`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {
     const page = await newE2EPage();
-    await page.setContent(dedent`
-      <calcite-dropdown>
-        <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="multi">
-          <calcite-dropdown-item id="item-1">
-            Dropdown Item Content
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active>
-            Dropdown Item Content
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3" active>
-            Dropdown Item Content
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-        <calcite-dropdown-group id="group-2" selection-mode="single">
-          <calcite-dropdown-item id="item-4">
-            Dropdown Item Content
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-5" active>
-            Dropdown Item Content
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-        <calcite-dropdown-group id="group-3" selection-mode="none">
-          <calcite-dropdown-item id="item-6">
-            Dropdown Item Content
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-7" href="google.com">
-            Dropdown Item Content
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    `);
+    await page.setContent(dedent`${dropdownSelectionModeContent}`);
 
     const element = await page.find("calcite-dropdown");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
