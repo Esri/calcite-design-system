@@ -72,7 +72,7 @@ export class CalciteInput {
   /** watcher to update number-to-string for max */
   @Watch("max")
   maxWatcher(): void {
-    this.maxString = this.max.toString() || null;
+    this.maxString = this.max?.toString() || null;
   }
 
   /** input min */
@@ -81,7 +81,7 @@ export class CalciteInput {
   /** watcher to update number-to-string for min */
   @Watch("min")
   minWatcher(): void {
-    this.minString = this.min.toString() || null;
+    this.minString = this.min?.toString() || null;
   }
 
   /** specify the placement of the number buttons */
@@ -107,7 +107,7 @@ export class CalciteInput {
 
   @Watch("step")
   stepWatcher(): void {
-    this.maxString = this.max.toString() || null;
+    this.maxString = this.max?.toString() || null;
   }
 
   /** optionally add suffix  **/
@@ -328,11 +328,7 @@ export class CalciteInput {
 
   @Event() calciteInputBlur: EventEmitter;
 
-  @Event({
-    eventName: "calciteInputInput",
-    cancelable: true
-  })
-  calciteInputInput: EventEmitter;
+  @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -446,6 +442,7 @@ export class CalciteInput {
             this.childEl.value = (inputVal -= inputStep).toString();
           break;
       }
+
       this.value = this.childEl.value.toString();
     }
   };
