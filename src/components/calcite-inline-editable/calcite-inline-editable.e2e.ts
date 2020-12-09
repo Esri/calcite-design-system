@@ -320,7 +320,7 @@ describe("calcite-inline-editable", () => {
         page = await newE2EPage();
         await page.setContent(`
         <calcite-label>
-          <span>Hello</span>
+          Hello
           <calcite-inline-editable controls>
             <calcite-input value="John Doe"/>
           </calcite-inline-editable>
