@@ -3,7 +3,7 @@ import { Attribute, Attributes, createComponentHTML as create, darkBackground } 
 import blockReadme from "./readme.md";
 import sectionReadme from "../calcite-block-section/readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 export default {
   title: "App Components/Block",
@@ -143,17 +143,17 @@ export const basic = (): string =>
   create(
     "calcite-block",
     createBlockAttributes(),
-    dedent`
-    ${create(
-      "calcite-block-section",
-      createSectionAttributes(),
-      `<img alt="demo" src="https://placeimg.com/320/240/animals" />`
-    )}
+    html`
+      ${create(
+        "calcite-block-section",
+        createSectionAttributes(),
+        `<img alt="demo" src="https://placeimg.com/320/240/animals" />`
+      )}
 
-    <calcite-block-section text="Nature" open>
-      <img alt="demo" src="https://placeimg.com/320/240/nature" />
-    </calcite-block-section>
-  `
+      <calcite-block-section text="Nature" open>
+        <img alt="demo" src="https://placeimg.com/320/240/nature" />
+      </calcite-block-section>
+    `
   );
 
 export const withHeaderControl = (): string =>

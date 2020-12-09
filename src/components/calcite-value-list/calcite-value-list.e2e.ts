@@ -8,8 +8,7 @@ import {
   keyboardNavigation,
   itemRemoval
 } from "../calcite-pick-list/shared-list-tests";
-import { dragAndDrop } from "../../tests/utils";
-import dedent from "dedent";
+import { dragAndDrop, html } from "../../tests/utils";
 
 describe("calcite-value-list", () => {
   it("renders", () => renders("calcite-value-list"));
@@ -17,7 +16,7 @@ describe("calcite-value-list", () => {
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
 
   it("is accessible", () =>
-    accessible(dedent`
+    accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
       </calcite-value-list>
