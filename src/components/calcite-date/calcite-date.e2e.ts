@@ -70,11 +70,13 @@ describe("calcite-date", () => {
     await page.setContent("<calcite-date value='2000-11-27' no-calendar-input active></calcite-date>");
     const date = await page.find("calcite-date");
     const changedEvent = await page.spyOnEvent("calciteDateChange");
+
     await page.waitForTimeout(animationDurationInMs);
     // can't find this input as it's deeply nested in shadow dom, so just tab to it
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(1);
     const value = await date.getProperty("value");
     expect(value).toEqual("2001-11-27");
@@ -104,5 +106,29 @@ describe("calcite-date", () => {
     const calendar = await page.find("calcite-date >>> .calendar-picker-wrapper");
 
     expect(await calendar.isVisible());
+  });
+
+  it("fires calciteDateRangeChange event on change", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-date range start="2020-09-08" end="2020-09-23" no-calendar-input active></calcite-date>`
+    );
+    const date = await page.find("calcite-date");
+    const changedEvent = await page.spyOnEvent("calciteDateRangeChange");
+    // have to wait for transition
+    await new Promise((res) => setTimeout(() => res(true), 200));
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+    const start1 = await date.getProperty("start");
+    const end1 = await date.getProperty("end");
+    expect(start1).toEqual("2020-09-08");
+    expect(end1).toEqual("2020-09-23");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+    expect(changedEvent).toHaveReceivedEventTimes(1);
   });
 });
