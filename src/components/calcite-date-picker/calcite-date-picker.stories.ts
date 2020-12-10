@@ -55,7 +55,7 @@ const locales = [
   "zh-TW"
 ];
 
-storiesOf("Components/Date", module)
+storiesOf("Components/Date Picker", module)
   .addParameters({ notes: readme })
   .add(
     "Simple",
@@ -63,7 +63,7 @@ storiesOf("Components/Date", module)
     <div style="width: 400px">
     <calcite-label layout="inline">
     Date
-    <calcite-date
+    <calcite-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="${text("value", "")}"
       min="${text("min", "2016-08-09")}"
@@ -71,7 +71,7 @@ storiesOf("Components/Date", module)
       locale="${select("locale", locales, "en-US")}"
       intl-next-month="${text("intl-next-month", "Next month")}"
       intl-prev-month="${text("intl-prev-month", "Previous month")}"
-    ></calcite-date></calcite-label>
+    ></calcite-date-picker></calcite-label>
     </div>
   `
   )
@@ -79,7 +79,7 @@ storiesOf("Components/Date", module)
     "No input",
     (): string => `
     <div style="width: 400px">
-    <calcite-date
+    <calcite-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="${text("value", "")}"
       min="${text("min", "2016-08-09")}"
@@ -89,7 +89,7 @@ storiesOf("Components/Date", module)
       no-calendar-input
       intl-next-month="${text("intl-next-month", "Next month")}"
       intl-prev-month="${text("intl-prev-month", "Previous month")}"
-    ></calcite-date>
+    ></calcite-date-picker>
     </div>
   `
   )
@@ -99,7 +99,7 @@ storiesOf("Components/Date", module)
     <div style="width: 400px">
     <calcite-label layout="inline" theme="dark">
     Date
-    <calcite-date
+    <calcite-date-picker
       theme="dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="${text("value", "")}"
@@ -109,7 +109,7 @@ storiesOf("Components/Date", module)
       intl-next-month="${text("intl-next-month", "Next month")}"
       intl-prev-month="${text("intl-prev-month", "Previous month")}"
       range="${boolean("range", false)}"
-    ></calcite-date></calcite-label>
+    ></calcite-date-picker></calcite-label>
     </div>
 `,
     { backgrounds: darkBackground }
@@ -118,7 +118,7 @@ storiesOf("Components/Date", module)
     "Range",
     (): string => `
     <div style="width: 400px">
-    <calcite-date
+    <calcite-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
       start="${text("start", "")}"
       end="${text("end", "")}"
@@ -129,7 +129,7 @@ storiesOf("Components/Date", module)
       prev-month-label="${text("prev-month-label", "Previous month")}"
       range="${boolean("range", true)}"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    ></calcite-date>
+    ></calcite-date-picker>
     </div>
   `
   );

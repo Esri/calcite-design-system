@@ -26,7 +26,7 @@ import {
 } from "../../utils/date";
 
 import { getKey } from "../../utils/key";
-import { TEXT } from "./calcite-date-resources";
+import { TEXT } from "./calcite-date-picker-resources";
 
 import { DateRangeChange } from "../../interfaces/DateRangeChange";
 
@@ -36,18 +36,18 @@ import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 const DEFAULT_PLACEMENT = "bottom-start";
 
 @Component({
-  assetsDirs: ["calcite-date-nls"],
-  tag: "calcite-date",
-  styleUrl: "calcite-date.scss",
+  assetsDirs: ["calcite-date-picker-nls"],
+  tag: "calcite-date-picker",
+  styleUrl: "calcite-date-picker.scss",
   shadow: true
 })
-export class CalciteDate {
+export class CalciteDatePicker {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteDateElement;
+  @Element() el: HTMLCalciteDatePickerElement;
 
   //--------------------------------------------------------------------------
   //
@@ -166,12 +166,12 @@ export class CalciteDate {
   /**
    * Trigger calcite date change when a user changes the date.
    */
-  @Event() calciteDateChange: EventEmitter<Date>;
+  @Event() calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Trigger calcite date change when a user changes the date range.
    */
-  @Event() calciteDateRangeChange: EventEmitter<DateRangeChange>;
+  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
    * Active date.
@@ -416,7 +416,7 @@ export class CalciteDate {
   }
 
   /**
-   * Render calcite-date-month-header and calcite-date-month
+   * Render calcite-date-picker-month-header and calcite-date-picker-month
    */
   private renderCalendar(
     activeDate: Date,
@@ -437,7 +437,7 @@ export class CalciteDate {
               [PopperCSS.animationActive]: this.active
             }}
           >
-            <calcite-date-month-header
+            <calcite-date-picker-month-header
               activeDate={activeDate}
               dir={dir}
               intlNextMonth={this.intlNextMonth}
@@ -445,7 +445,7 @@ export class CalciteDate {
               localeData={this.localeData}
               max={maxDate}
               min={minDate}
-              onCalciteDateSelect={(e: CustomEvent<Date>) => {
+              onCalciteDatePickerSelect={(e: CustomEvent<Date>) => {
                 const date = new Date(e.detail);
                 if (!this.range) {
                   this.activeDate = date;
@@ -462,7 +462,7 @@ export class CalciteDate {
               scale={this.scale}
               selectedDate={this.focusedInput === "start" ? date : endDate || new Date()}
             />
-            <calcite-date-month
+            <calcite-date-picker-month
               activeDate={activeDate}
               dir={dir}
               endDate={this.range ? endDate : undefined}
@@ -483,7 +483,7 @@ export class CalciteDate {
                   this.mostRecentRangeValue = date;
                 }
               }}
-              onCalciteDateHover={(e: CustomEvent<Date>) => {
+              onCalciteDatePickerHover={(e: CustomEvent<Date>) => {
                 if (!this.startAsDate) {
                   this.hoverRange = undefined;
                   return this.hoverRange;
@@ -542,12 +542,12 @@ export class CalciteDate {
                   }
                 }
               }}
-              onCalciteDateMouseOut={(_e) => {
+              onCalciteDatePickerMouseOut={(_e) => {
                 if (this.hoverRange) {
                   this.hoverRange = undefined;
                 }
               }}
-              onCalciteDateSelect={(e: CustomEvent<Date>) => this.handleDateChange(e, true)}
+              onCalciteDatePickerSelect={(e: CustomEvent<Date>) => this.handleDateChange(e, true)}
               scale={this.scale}
               selectedDate={this.focusedInput === "start" ? date : endDate}
               startDate={this.range ? date : undefined}
@@ -601,7 +601,7 @@ export class CalciteDate {
       if (!this.range) {
         this.valueAsDate = date;
         this.activeDate = date as Date;
-        this.calciteDateChange.emit(new Date(date));
+        this.calciteDatePickerChange.emit(new Date(date));
       } else {
         let changed = false;
         if (this.focusedInput === "start") {
@@ -618,7 +618,7 @@ export class CalciteDate {
           }
         }
         if (changed) {
-          this.calciteDateRangeChange.emit({
+          this.calciteDatePickerRangeChange.emit({
             startDate: this.startAsDate,
             endDate: this.endAsDate
           });
@@ -652,7 +652,7 @@ export class CalciteDate {
       this.value = dateToISO(date);
       this.valueAsDate = e.detail;
       this.activeDate = date;
-      this.calciteDateChange.emit(date);
+      this.calciteDatePickerChange.emit(date);
       if (doReset) {
         this.reset();
       }
@@ -697,7 +697,7 @@ export class CalciteDate {
       if (doReset) {
         this.reset();
       }
-      this.calciteDateRangeChange.emit({
+      this.calciteDatePickerRangeChange.emit({
         startDate: this.startAsDate,
         endDate: this.endAsDate
       });
@@ -717,7 +717,7 @@ export class CalciteDate {
     if (doReset) {
       this.reset();
     }
-    this.calciteDateRangeChange.emit({
+    this.calciteDatePickerRangeChange.emit({
       startDate: this.startAsDate,
       endDate: this.endAsDate
     });

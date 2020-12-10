@@ -9,21 +9,21 @@ import {
   getOrder
 } from "../../utils/date";
 import { getKey } from "../../utils/key";
-import { DateLocaleData } from "../calcite-date/utils";
+import { DateLocaleData } from "../calcite-date-picker/utils";
 
 @Component({
-  tag: "calcite-date-month-header",
-  styleUrl: "calcite-date-month-header.scss",
+  tag: "calcite-date-picker-month-header",
+  styleUrl: "calcite-date-picker-month-header.scss",
   shadow: true
 })
-export class CalciteDateMonthHeader {
+export class CalciteDatePickerMonthHeader {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteDateMonthHeaderElement;
+  @Element() el: HTMLCalciteDatePickerMonthHeaderElement;
 
   //--------------------------------------------------------------------------
   //
@@ -66,7 +66,7 @@ export class CalciteDateMonthHeader {
   /**
    *  Changes to active date
    */
-  @Event() calciteDateSelect: EventEmitter<Date>;
+  @Event() calciteDatePickerSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -183,7 +183,7 @@ export class CalciteDateMonthHeader {
   private handleArrowClick(e: Event, date: Date) {
     e?.preventDefault();
     e.stopPropagation();
-    this.calciteDateSelect.emit(date);
+    this.calciteDatePickerSelect.emit(date);
   }
 
   /*
@@ -213,7 +213,7 @@ export class CalciteDateMonthHeader {
       const nextDate = new Date(activeDate);
       nextDate.setFullYear(year as number);
       const inRangeDate = dateFromRange(nextDate, min, max);
-      this.calciteDateSelect.emit(inRangeDate);
+      this.calciteDatePickerSelect.emit(inRangeDate);
       yearInput.value = localizeNumber(inRangeDate.getFullYear(), localeData);
     } else {
       // leave the current active date and clean up garbage input

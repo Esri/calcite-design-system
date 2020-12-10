@@ -11,21 +11,21 @@ import {
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
-import { DateLocaleData } from "../calcite-date/utils";
+import { DateLocaleData } from "../calcite-date-picker/utils";
 
 @Component({
-  tag: "calcite-date-day",
-  styleUrl: "calcite-date-day.scss",
+  tag: "calcite-date-picker-day",
+  styleUrl: "calcite-date-picker-day.scss",
   shadow: true
 })
-export class CalciteDateDay {
+export class CalciteDatePickerDay {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteDateDayElement;
+  @Element() el: HTMLCalciteDatePickerDayElement;
 
   //--------------------------------------------------------------------------
   //

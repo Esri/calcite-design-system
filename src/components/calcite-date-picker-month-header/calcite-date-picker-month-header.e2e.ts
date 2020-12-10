@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-describe("calcite-date-month-header", () => {
+describe("calcite-date-picker-month-header", () => {
   const localeDataFixture = {
     "default-calendar": "gregorian",
     separator: "/",
@@ -33,13 +33,15 @@ describe("calcite-date-month-header", () => {
 
   it("displays next/previous options", async () => {
     const page = await newE2EPage({
-      // intentionally using calcite-date to wire up supporting components to be used in `evaluate` fn below
-      html: "<calcite-date></calcite-date>"
+      // intentionally using calcite-date-picker to wire up supporting components to be used in `evaluate` fn below
+      html: "<calcite-date-picker></calcite-date-picker>"
     });
     await page.waitForChanges();
 
     await page.evaluate((localeData) => {
-      const dateMonthHeader = document.createElement("calcite-date-month-header") as HTMLCalciteDateMonthHeaderElement;
+      const dateMonthHeader = document.createElement(
+        "calcite-date-picker-month-header"
+      ) as HTMLCalciteDatePickerMonthHeaderElement;
       const now = new Date();
       dateMonthHeader.activeDate = now;
       dateMonthHeader.selectedDate = now;
@@ -50,7 +52,7 @@ describe("calcite-date-month-header", () => {
     }, localeDataFixture);
     await page.waitForChanges();
 
-    const [prev, next] = await page.findAll("calcite-date-month-header >>> .chevron");
+    const [prev, next] = await page.findAll("calcite-date-picker-month-header >>> .chevron");
 
     expect(await prev.isVisible()).toBe(true);
     expect(await next.isVisible()).toBe(true);

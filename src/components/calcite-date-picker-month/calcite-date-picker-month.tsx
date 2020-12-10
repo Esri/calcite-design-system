@@ -12,21 +12,21 @@ import {
 import { inRange, sameDate, dateFromRange } from "../../utils/date";
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
-import { DateLocaleData } from "../calcite-date/utils";
+import { DateLocaleData } from "../calcite-date-picker/utils";
 
 @Component({
-  tag: "calcite-date-month",
-  styleUrl: "calcite-date-month.scss",
+  tag: "calcite-date-picker-month",
+  styleUrl: "calcite-date-picker-month.scss",
   shadow: true
 })
-export class CalciteDateMonth {
+export class CalciteDatePickerMonth {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteDateMonthElement;
+  @Element() el: HTMLCalciteDatePickerMonthElement;
 
   //--------------------------------------------------------------------------
   //
@@ -73,19 +73,19 @@ export class CalciteDateMonth {
   /**
    * Event emitted when user selects the date.
    */
-  @Event() calciteDateSelect: EventEmitter;
+  @Event() calciteDatePickerSelect: EventEmitter;
 
   /**
    * Event emitted when user hovers the date.
    */
-  @Event() calciteDateHover: EventEmitter;
+  @Event() calciteDatePickerHover: EventEmitter;
 
   /**
    * Active date for the user keyboard access.
    */
   @Event() calciteActiveDateChange: EventEmitter;
 
-  @Event() calciteDateMouseOut: EventEmitter;
+  @Event() calciteDatePickerMouseOut: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -150,7 +150,7 @@ export class CalciteDateMonth {
   }
 
   @Listen("mouseout") mouseoutHandler(): void {
-    this.calciteDateMouseOut.emit();
+    this.calciteDatePickerMouseOut.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -335,7 +335,7 @@ export class CalciteDateMonth {
   }
 
   /**
-   * Render calcite-date-day
+   * Render calcite-date-picker-day
    */
   private renderDateDay(
     active: boolean,
@@ -355,12 +355,12 @@ export class CalciteDateMonth {
       endOfRange: this.isEndOfRange(date),
       highlighted: this.betweenSelectedRange(date),
       localeData: this.localeData,
-      onCalciteDaySelect: () => this.calciteDateSelect.emit(date),
+      onCalciteDaySelect: () => this.calciteDatePickerSelect.emit(date),
       onCalciteDayHover: (e: CustomEvent) => {
         if (e.detail.disabled) {
-          this.calciteDateMouseOut.emit();
+          this.calciteDatePickerMouseOut.emit();
         } else {
-          this.calciteDateHover.emit(date);
+          this.calciteDatePickerHover.emit(date);
         }
       },
       range: !!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate),
@@ -384,7 +384,7 @@ export class CalciteDateMonth {
           : "hover--outside-range"
       } ${this.isFocusedOnStart() ? "focused--start" : "focused--end"}`
     };
-    return <calcite-date-day {...props} />;
+    return <calcite-date-picker-day {...props} />;
   }
 
   private isFocusedOnStart(): boolean {
