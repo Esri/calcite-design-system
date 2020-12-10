@@ -5,16 +5,16 @@ import {
   EventEmitter,
   h,
   Host,
-  Method,
   Listen,
+  Method,
   Prop,
   State,
-  Watch,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, TEXT } from "./calcite-alert.resources";
-import { CalciteStatusColor, CalciteScale, CalciteTheme } from "../interfaces";
+import { CalciteScale, CalciteStatusColor, CalciteTheme } from "../interfaces";
 import { StatusIcons } from "../../interfaces/StatusIcons";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -128,15 +128,18 @@ export class CalciteAlert {
         +{this.queueLength > 2 ? this.queueLength - 1 : 1}
       </div>
     );
+
+    const { active } = this;
     const progress = <div class="alert-dismiss-progress" />;
     const role = this.autoDismiss ? "alert" : "alertdialog";
-    const hidden = this.active ? "false" : "true";
+    const hidden = !active;
 
     return (
       <Host
-        active={this.active}
-        aria-hidden={hidden}
+        active={active}
+        aria-hidden={hidden.toString()}
         aria-label={this.label}
+        calcite-hydrated-hidden={hidden}
         dir={dir}
         queued={this.queued}
         role={role}

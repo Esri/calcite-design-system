@@ -6,7 +6,10 @@ import { CSS, POPOVER_REFERENCE } from "./resources";
 
 describe("calcite-popover", () => {
   it("renders", async () =>
-    renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+    Promise.all([
+      renders("calcite-popover", false),
+      renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`)
+    ]));
 
   it("is accessible when closed", async () =>
     accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`));

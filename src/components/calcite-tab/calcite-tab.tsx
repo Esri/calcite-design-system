@@ -74,7 +74,12 @@ export class CalciteTab {
   }
 
   disconnectedCallback(): void {
-    this.calciteTabUnregister.emit();
+    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
+    document.body?.dispatchEvent(
+      new CustomEvent("calciteTabUnregister", {
+        detail: this.el
+      })
+    );
   }
 
   //--------------------------------------------------------------------------
@@ -88,20 +93,14 @@ export class CalciteTab {
    */
   @Event() calciteTabRegister: EventEmitter;
 
-  /**
-   * @internal
-   */
-  @Event() calciteTabUnregister: EventEmitter;
-
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
-    event: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteTabChange", { target: "body" })
+  tabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a title that is a
     // child of the `<calcite-tabs>` that is the a parent of this tab.
@@ -157,7 +156,8 @@ export class CalciteTab {
   /**
    * @internal
    */
-  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
+  @Method()
+  async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
   }
 }

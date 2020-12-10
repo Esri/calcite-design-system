@@ -1,7 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-split-button", () => {
+  const content = `
+  <calcite-dropdown-group>
+    <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+    <calcite-dropdown-item id="item-2" active>Item2</calcite-dropdown-item>
+  </calcite-dropdown-group>`;
+
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -10,6 +16,38 @@ describe("calcite-split-button", () => {
     const element = await page.find("calcite-split-button");
     expect(element).toHaveAttribute(HYDRATED_ATTR);
   });
+
+  it("is accessible", async () =>
+    accessible(`<calcite-split-button
+    primary-text="Button Text"
+    dropdown-label="Show options">
+      ${content}
+    </calcite-split-button>`));
+
+  it("is accessible when disabled", async () =>
+    accessible(`<calcite-split-button
+    disabled
+    primary-text="Button Text"
+    dropdown-label="Show options">
+      ${content}
+    </calcite-split-button>`));
+
+  it("is accessible when loading", async () =>
+    accessible(`<calcite-split-button
+    loading
+    primary-text="Button Text"
+    dropdown-label="Show options">
+      ${content}
+    </calcite-split-button>`));
+
+  it("is accessible with icons and no text", async () =>
+    accessible(`<calcite-split-button
+    icon-end="plus"
+    icon-start="plus"
+    primary-label="Button label"
+    dropdown-label="Show options">
+      ${content}
+    </calcite-split-button>`));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

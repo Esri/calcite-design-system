@@ -145,12 +145,72 @@
     });
   </script>
 
+<h2>Date Range with Event</h2>
+<calcite-date id="dateRangeSample" range ></calcite-date>
+<div>
+  Start: <span id="startDisplay"></span>
+</div>
+<div>
+  End: <span id="endDisplay"></span>
+</div>
+<script>
+  var dateRangeSample = document.getElementById("dateRangeSample");
+  var startDisplay = document.getElementById("startDisplay");
+  var endDisplay = document.getElementById("endDisplay");
+  dateRangeSample.addEventListener("calciteDateRangeChange", function (e) {
+    startDisplay.textContent = e.detail.startDate;
+    endDisplay.textContent = e.detail.endDate;
+  });
+</script>
+
+<div>
+  <h2>Small Date Range</h2>
+  <calcite-date scale="s" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  <div style="margin-top: 16px;">
+    <calcite-date scale="s" layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  </div>
+</div>
+
+<div>
+  <h2>Medium Date Range</h2>
+  <calcite-date range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  <div style="margin-top: 16px;">
+    <calcite-date layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  </div>
+</div>
+
+<div>
+  <h2>Large Date Range</h2>
+  <calcite-date scale="l" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  <div style="margin-top: 16px;">
+    <calcite-date layout="vertical" scale="l" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  </div>
+</div>
+
+<div>
+  <h2>Date Range Always Open</h2>
+  <calcite-date range no-calendar-input active></calcite-date>
+  <h2>Without Proximity Selection</h2>
+  <calcite-date range no-calendar-input active proximity-selection="false"></calcite-date>
+</div>
+
+<div dir="rtl" style="margin-bottom: 16px;">
+  <h2>Date Range RTL</h2>
+  <calcite-date id="dateRangeSampleRtl" locale="ar-EG" dir="rtl" range  min="2020-01-03" max="2020-09-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+</div>
+
   <div class="demo-background-dark">
     <h1>Dark theme</h1>
     <calcite-date theme="dark" value="2019-08-23"></calcite-date>
 
     <h2>Always open</h2>
     <calcite-date value="2000-11-27" theme="dark" no-calendar-input="true" active></calcite-date>
+
+    <h2>Range</h2>
+    <calcite-date theme="dark" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+    <div style="margin-top: 16px;">
+      <calcite-date theme="dark" layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+    </div>
   </div>
 </body>
 

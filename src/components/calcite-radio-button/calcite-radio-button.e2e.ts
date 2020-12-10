@@ -36,6 +36,7 @@ describe("calcite-radio-button", () => {
   it("reflects", async () =>
     reflects("calcite-radio-button", [
       { propertyName: "checked", value: true },
+      { propertyName: "disabled", value: true },
       { propertyName: "focused", value: true },
       { propertyName: "guid", value: "reflects-guid" },
       { propertyName: "hidden", value: true },

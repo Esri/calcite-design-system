@@ -97,10 +97,12 @@ export class CalciteTreeItem {
       />
     ) : null;
 
+    const hidden = !(this.parentExpanded || this.depth === 1);
+
     return (
       <Host
         aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
-        aria-hidden={this.parentExpanded || this.depth === 1 ? undefined : "true"}
+        aria-hidden={hidden.toString()}
         aria-selected={
           this.selected
             ? "true"
@@ -109,6 +111,7 @@ export class CalciteTreeItem {
             ? "false"
             : undefined
         }
+        calcite-hydrated-hidden={hidden}
         role="treeitem"
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >

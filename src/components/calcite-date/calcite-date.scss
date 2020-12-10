@@ -14,12 +14,44 @@
   max-width: 216px;
 }
 
+:host([scale="s"][range]:not([layout="vertical"])) {
+  max-width: 462px;
+
+  .calendar-picker-wrapper {
+    width: 216px;
+  }
+
+  .horizontal-arrow-container {
+    height: 30px;
+  }
+}
+
 :host([scale="m"]) {
   max-width: 286px;
 }
 
+:host([scale="m"][range]:not([layout="vertical"])) {
+  max-width: 596px;
+
+  .calendar-picker-wrapper {
+    width: 286px;
+  }
+}
+
 :host([scale="l"]) {
   max-width: 398px;
+}
+
+:host([scale="l"][range]:not([layout="vertical"])) {
+  max-width: 820px;
+
+  .calendar-picker-wrapper {
+    width: 398px;
+  }
+
+  .horizontal-arrow-container {
+    height: 54px;
+  }
 }
 
 .calendar-icon {
@@ -70,5 +102,72 @@
     transform: translate3d(0, 0, 0);
     border-radius: none;
     border: 1px solid var(--calcite-ui-border-2);
+  }
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+:host([range]) {
+  .input-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .input-wrapper {
+    flex: 1 1 auto;
+  }
+
+  .horizontal-arrow-container {
+    background-color: var(--calcite-ui-background);
+    padding: 0 var(--calcite-spacing-quarter);
+    border: 1px solid var(--calcite-ui-border-1);
+    border-left: none;
+    border-right: none;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+}
+
+:host([range][layout="vertical"]) {
+  .input-wrapper {
+    @apply w-full;
+  }
+
+  .input-container {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .calendar-picker-wrapper--end {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .vertical-arrow-container {
+    position: absolute;
+    @apply left-0;
+    top: 36px;
+    z-index: 1;
+    background-color: var(--calcite-ui-foreground-1);
+    @apply px-10px;
+    @apply mx-px;
+  }
+}
+
+:host([range][layout="vertical"][scale="s"]) .vertical-arrow-container {
+  top: 24px;
+}
+
+:host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
+  top: 50px;
+  @apply px-14px;
+}
+
+:host([range][layout="vertical"][active]) {
+  .vertical-arrow-container {
+    display: none;
   }
 }
