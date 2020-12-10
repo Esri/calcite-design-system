@@ -255,8 +255,8 @@ describe("calcite-inline-editable", () => {
       const element = await page.find("calcite-inline-editable");
       const afterConfirm = () => new Promise((resolve) => setTimeout(resolve, 100));
       // https://github.com/ionic-team/stencil/issues/1174
-      page.exposeFunction("afterConfirm", afterConfirm);
-      page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
+      await page.exposeFunction("afterConfirm", afterConfirm);
+      await page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
         el.afterConfirm = afterConfirm;
       });
       const calciteInlineEditableChangesConfirm = await page.spyOnEvent("calciteInlineEditableChangesConfirm");
@@ -276,8 +276,8 @@ describe("calcite-inline-editable", () => {
       const element = await page.find("calcite-inline-editable");
       const afterConfirm = () => new Promise((_resolve, reject) => setTimeout(reject, 100));
       // https://github.com/ionic-team/stencil/issues/1174
-      page.exposeFunction("afterConfirm", afterConfirm);
-      page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
+      await page.exposeFunction("afterConfirm", afterConfirm);
+      await page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
         el.afterConfirm = afterConfirm;
       });
       const calciteInlineEditableChangesConfirm = await page.spyOnEvent("calciteInlineEditableChangesConfirm");

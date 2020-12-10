@@ -4,9 +4,7 @@ import { renders, accessible } from "../../tests/commonTests";
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>"));
 
-  it("should be accessible", async () => {
-    await accessible(`<calcite-rating></calcite-rating>`);
-  });
+  it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
 
   it("renders outlined star when no value or average is set", async () => {
     const page = await newE2EPage();

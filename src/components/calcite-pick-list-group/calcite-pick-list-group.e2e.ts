@@ -4,11 +4,10 @@ import { accessible } from "../../tests/commonTests";
 import dedent from "dedent";
 
 describe("calcite-pick-list-group", () => {
-  it("is accessible", () =>
-    Promise.all([
-      accessible("<calcite-pick-list-group></calcite-pick-list-group>"),
-      accessible(`<calcite-pick-list-group group-title="awesome title, bruh"></calcite-pick-list-group>`)
-    ]));
+  it("is accessible", async () => {
+    await accessible("<calcite-pick-list-group></calcite-pick-list-group>");
+    await accessible(`<calcite-pick-list-group group-title="awesome title, bruh"></calcite-pick-list-group>`);
+  });
 
   it("should render", async () => {
     const page = await newE2EPage();

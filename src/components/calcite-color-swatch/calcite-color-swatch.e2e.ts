@@ -5,11 +5,10 @@ import { accessible, defaults, reflects, renders } from "../../tests/commonTests
 describe("calcite-color-swatch", () => {
   it("renders", () => renders("calcite-color-swatch"));
 
-  it("is accessible", () =>
-    Promise.all([
-      accessible(`<calcite-color-swatch color='#c0ffee'></calcite-color-swatch>`),
-      accessible(`<calcite-color-swatch active color='#c0ffee'></calcite-color-swatch>`)
-    ]));
+  it("is accessible", async () => {
+    await accessible(`<calcite-color-swatch color='#c0ffee'></calcite-color-swatch>`);
+    await accessible(`<calcite-color-swatch active color='#c0ffee'></calcite-color-swatch>`);
+  });
 
   it("has defaults", () =>
     defaults("calcite-color-swatch", [
