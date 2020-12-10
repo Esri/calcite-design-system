@@ -145,7 +145,10 @@ export class CalciteTabNav {
           onScroll={this.handleContainerScroll}
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
         >
-          <div class="tab-nav-active-indicator-container">
+          <div
+            class="tab-nav-active-indicator-container"
+            ref={(el) => (this.activeIndicatorContainerEl = el)}
+          >
             <div
               class="tab-nav-active-indicator"
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
@@ -254,6 +257,8 @@ export class CalciteTabNav {
 
   private activeIndicatorEl: HTMLElement;
 
+  private activeIndicatorContainerEl: HTMLDivElement;
+
   private animationActiveDuration = 0.3;
 
   //--------------------------------------------------------------------------
@@ -270,10 +275,12 @@ export class CalciteTabNav {
 
   private updateOffsetPosition(): void {
     const dir = getElementDir(this.el);
+    const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
+    const tabLeft = this.selectedTabEl?.offsetLeft;
+    const tabWidth = this.selectedTabEl?.offsetWidth;
+    const offsetRight = navWidth - (tabLeft + tabWidth);
     this.indicatorOffset =
-      dir !== "rtl"
-        ? this.selectedTabEl?.offsetLeft - this.tabNavEl?.scrollLeft
-        : this.tabNavEl?.offsetWidth - this.selectedTabEl.getBoundingClientRect().right;
+      dir !== "rtl" ? tabLeft - this.tabNavEl?.scrollLeft : offsetRight + this.tabNavEl?.scrollLeft;
   }
 
   private updateActiveWidth(): void {
