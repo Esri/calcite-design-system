@@ -194,11 +194,13 @@ export class CalciteColor {
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
-    const nextMode = parseMode(value);
-
+    const { allowEmpty } = this;
+    const checkMode = !allowEmpty || value;
     let modeChanged = false;
 
-    if (!(this.allowEmpty && !value)) {
+    if (checkMode) {
+      const nextMode = parseMode(value);
+
       if (!nextMode) {
         console.warn(`ignoring invalid color value: ${value}`);
         this.value = oldValue;
@@ -214,8 +216,6 @@ export class CalciteColor {
       return;
     }
 
-    const { allowEmpty } = this;
-
     const color = allowEmpty && !value ? null : Color(value);
     const colorChanged = !colorEqual(color, this.color);
 
@@ -229,6 +229,10 @@ export class CalciteColor {
   //  Internal State/Props
   //
   //--------------------------------------------------------------------------
+
+  private get baseColorFieldColor(): Color {
+    return this.color || this.previousColor || DEFAULT_COLOR;
+  }
 
   private colorUpdateLocked = false;
 
@@ -284,7 +288,9 @@ export class CalciteColor {
       return;
     }
 
-    if (!color || hex !== normalizeHex(color.hex())) {
+    const normalizedHex = color && normalizeHex(color.hex());
+
+    if (hex !== normalizedHex) {
       this.internalColorSet(Color(hex));
     }
   };
@@ -304,21 +310,20 @@ export class CalciteColor {
         ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
         : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
 
-    const { allowEmpty } = this;
+    let inputValue: string;
 
-    if (allowEmpty && !internalInput.value) {
-      // need to update both calcite-input and its internal input to keep them in sync
-      input.value = null;
-      internalInput.value = "";
-      return;
+    if (this.allowEmpty && !internalInput.value) {
+      inputValue = "";
+    } else {
+      const value = Number(internalInput.value) + this.shiftKeyChannelAdjustment;
+      const clamped = Math.max(0, Math.min(value, limit));
+
+      inputValue = clamped.toString();
     }
 
-    const value = Number(internalInput.value) + this.shiftKeyChannelAdjustment;
-    const clamped = Math.max(0, Math.min(value, limit));
-
     // need to update both calcite-input and its internal input to keep them in sync
-    input.value = `${clamped}`;
-    internalInput.value = `${clamped}`;
+    input.value = inputValue;
+    internalInput.value = inputValue;
   };
 
   private handleChannelKeyUpOrDown = (event: KeyboardEvent): void => {
@@ -346,8 +351,7 @@ export class CalciteColor {
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
-    const { allowEmpty } = this;
-    const shouldClearChannels = allowEmpty && !input.value;
+    const shouldClearChannels = this.allowEmpty && !input.value;
 
     if (shouldClearChannels) {
       this.channels = [null, null, null];
@@ -634,7 +638,7 @@ export class CalciteColor {
   //--------------------------------------------------------------------------
 
   private internalColorSet(color: Color | null): void {
-    if ((!color && !this.color) || colorEqual(color, this.color)) {
+    if (colorEqual(color, this.color)) {
       return;
     }
 
@@ -645,11 +649,11 @@ export class CalciteColor {
   }
 
   private toValue(color: Color | null): ColorValue | null {
-    const { allowEmpty, mode } = this;
-    if (allowEmpty && !color) {
+    if (!color) {
       return null;
     }
 
+    const { mode } = this;
     const hexMode = "hex";
 
     if (mode.includes(hexMode)) {
@@ -733,8 +737,6 @@ export class CalciteColor {
     this.drawHueSlider();
   }, throttleFor60FpsInMs);
 
-  lastDrawnColor: InternalColor;
-
   private drawColorField(): void {
     const context = this.fieldAndSliderRenderingContext;
     const {
@@ -743,11 +745,7 @@ export class CalciteColor {
       }
     } = this;
 
-    context.fillStyle = (this.color || this.previousColor || DEFAULT_COLOR)
-      .hsv()
-      .saturationv(100)
-      .value(100)
-      .string();
+    context.fillStyle = this.baseColorFieldColor.hsv().saturationv(100).value(100).string();
     context.fillRect(0, 0, width, height);
 
     const whiteGradient = context.createLinearGradient(0, 0, width, 0);
@@ -820,12 +818,7 @@ export class CalciteColor {
       const saturation = Math.round((HSV_LIMITS.s / width) * x);
       const value = Math.round((HSV_LIMITS.v / height) * (height - y));
 
-      this.internalColorSet(
-        (this.color || this.previousColor || DEFAULT_COLOR)
-          .hsv()
-          .saturationv(saturation)
-          .value(value)
-      );
+      this.internalColorSet(this.baseColorFieldColor.hsv().saturationv(saturation).value(value));
     };
 
     canvas.addEventListener("mousedown", ({ offsetX, offsetY }) => {
@@ -859,7 +852,7 @@ export class CalciteColor {
 
       if (region === "color-field") {
         const prevHueThumbState = this.hueThumbState;
-        const color = (this.color || this.previousColor || DEFAULT_COLOR).hsv();
+        const color = this.baseColorFieldColor.hsv();
 
         const {
           dimensions: {
@@ -901,10 +894,7 @@ export class CalciteColor {
         } = this;
 
         const prevSliderThumbState = this.sliderThumbState;
-        const sliderThumbColor = (this.color || this.previousColor || DEFAULT_COLOR)
-          .hsv()
-          .saturationv(100)
-          .value(100);
+        const sliderThumbColor = this.baseColorFieldColor.hsv().saturationv(100).value(100);
         const sliderThumbCenterX = Math.round(sliderThumbColor.hue() / (360 / sliderWidth));
         const sliderThumbCenterY = Math.round((sliderHeight + this.getSliderCapSpacing()) / 2);
 
@@ -947,7 +937,7 @@ export class CalciteColor {
       } = this;
       const hue = (360 / width) * x;
 
-      this.internalColorSet((this.color || this.previousColor || DEFAULT_COLOR).hue(hue));
+      this.internalColorSet(this.baseColorFieldColor.hue(hue));
     };
   };
 

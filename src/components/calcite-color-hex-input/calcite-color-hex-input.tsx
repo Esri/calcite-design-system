@@ -155,6 +155,7 @@ export class CalciteColorHexInput {
       return;
     }
 
+    // TODO: need to handle case where !valid hex and internal color is previously null - add test for this too!
     // manipulating DOM directly since rerender doesn't update input value
     node.value =
       this.allowEmpty && !this.internalColor
