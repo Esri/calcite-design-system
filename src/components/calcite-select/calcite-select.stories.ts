@@ -1,5 +1,5 @@
 import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, select, text } from "@storybook/addon-knobs";
 import selectReadme from "../calcite-select/readme.md";
@@ -94,30 +94,30 @@ export const basic = (): string =>
   create(
     "calcite-select",
     createSelectAttributes(),
-    dedent`
-    ${create("calcite-option", createOptionAttributes())}
-    <calcite-option label="some fixed option" value="some-fixed-value"></calcite-option>
-    <calcite-option label="another fixed option" value="another-fixed-value"></calcite-option>
-  `
+    html`
+      ${create("calcite-option", createOptionAttributes())}
+      <calcite-option label="some fixed option" value="some-fixed-value"></calcite-option>
+      <calcite-option label="another fixed option" value="another-fixed-value"></calcite-option>
+    `
   );
 
 export const grouped = (): string =>
   create(
     "calcite-select",
     createSelectAttributes(),
-    dedent`
-    ${create(
-      "calcite-option-group",
-      createOptionGroupAttributes(),
-      dedent`
-        ${create("calcite-option", createOptionAttributes())}
-        <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
-        <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
-      `
-    )}
-    <calcite-option-group label="group B (fixed)">
-      <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
-      <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
-    </calcite-option-group>
-  `
+    html`
+      ${create(
+        "calcite-option-group",
+        createOptionGroupAttributes(),
+        html`
+          ${create("calcite-option", createOptionAttributes())}
+          <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
+          <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
+        `
+      )}
+      <calcite-option-group label="group B (fixed)">
+        <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
+        <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
+      </calcite-option-group>
+    `
   );

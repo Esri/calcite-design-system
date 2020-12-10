@@ -1,29 +1,29 @@
 import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
 import { accessible, focusable, renders } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 describe("calcite-value-list-item", () => {
   it("renders", async () => renders("calcite-value-list-item"));
 
   it("is accessible", async () => {
-    await accessible(dedent`
-        <calcite-value-list>
-          <calcite-value-list-item label="test" description="a number" value="one"></calcite-value-list-item>
-        </calcite-value-list>
-      `);
+    await accessible(html`
+      <calcite-value-list>
+        <calcite-value-list-item label="test" description="a number" value="one"></calcite-value-list-item>
+      </calcite-value-list>
+    `);
 
-    await accessible(dedent`
-        <calcite-value-list>
-          <calcite-value-list-item label="test" description="a number" value="one" selected></calcite-value-list-item>
-        </calcite-value-list>
-      `);
+    await accessible(html`
+      <calcite-value-list>
+        <calcite-value-list-item label="test" description="a number" value="one" selected></calcite-value-list-item>
+      </calcite-value-list>
+    `);
 
-    await accessible(dedent`
-        <calcite-value-list>
-          <calcite-value-list-item label="test" description="a number" value="one" removable></calcite-value-list-item>
-        </calcite-value-list>
-      `);
+    await accessible(html`
+      <calcite-value-list>
+        <calcite-value-list-item label="test" description="a number" value="one" removable></calcite-value-list-item>
+      </calcite-value-list>
+    `);
   });
 
   it("is focusable", async () => focusable("calcite-value-list-item"));

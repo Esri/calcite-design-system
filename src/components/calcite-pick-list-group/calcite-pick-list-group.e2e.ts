@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
 import { accessible } from "../../tests/commonTests";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 describe("calcite-pick-list-group", () => {
   it("is accessible", async () => {
@@ -20,7 +20,7 @@ describe("calcite-pick-list-group", () => {
   });
 
   it("is accessible", async () =>
-    accessible(dedent`
+    accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-group>
           <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>
