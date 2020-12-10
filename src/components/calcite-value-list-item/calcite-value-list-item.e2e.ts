@@ -6,26 +6,25 @@ import { html } from "../../tests/utils";
 describe("calcite-value-list-item", () => {
   it("renders", async () => renders("calcite-value-list-item"));
 
-  it("is accessible", async () =>
-    Promise.all([
-      accessible(html`
-        <calcite-value-list>
-          <calcite-value-list-item label="test" description="a number" value="one"></calcite-value-list-item>
-        </calcite-value-list>
-      `),
+  it("is accessible", async () => {
+    await accessible(html`
+      <calcite-value-list>
+        <calcite-value-list-item label="test" description="a number" value="one"></calcite-value-list-item>
+      </calcite-value-list>
+    `);
 
-      accessible(html`
-        <calcite-value-list>
-          <calcite-value-list-item label="test" description="a number" value="one" selected></calcite-value-list-item>
-        </calcite-value-list>
-      `),
+    await accessible(html`
+      <calcite-value-list>
+        <calcite-value-list-item label="test" description="a number" value="one" selected></calcite-value-list-item>
+      </calcite-value-list>
+    `);
 
-      accessible(html`
-        <calcite-value-list>
-          <calcite-value-list-item label="test" description="a number" value="one" removable></calcite-value-list-item>
-        </calcite-value-list>
-      `)
-    ]));
+    await accessible(html`
+      <calcite-value-list>
+        <calcite-value-list-item label="test" description="a number" value="one" removable></calcite-value-list-item>
+      </calcite-value-list>
+    `);
+  });
 
   it("is focusable", async () => focusable("calcite-value-list-item"));
 

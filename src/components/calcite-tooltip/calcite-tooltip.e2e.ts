@@ -3,11 +3,10 @@ import { TOOLTIP_DELAY_MS, TOOLTIP_REFERENCE } from "../calcite-tooltip/resource
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
-  it("renders", async () =>
-    Promise.all([
-      renders(`calcite-tooltip`, false),
-      renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`)
-    ]));
+  it("renders", async () => {
+    await renders(`calcite-tooltip`, false);
+    await renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`);
+  });
 
   it("is accessible when closed", async () =>
     accessible(`<calcite-tooltip label="test" reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));

@@ -17,7 +17,7 @@ describe("calcite-radio-button-group", () => {
     ]));
 
   it("honors hidden attribute", async () => {
-    hidden("calcite-radio-button-group");
+    await hidden("calcite-radio-button-group");
 
     const page = await newE2EPage();
     await page.setContent(`
