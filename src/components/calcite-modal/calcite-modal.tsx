@@ -288,7 +288,6 @@ export class CalciteModal {
       this.calciteModalOpen.emit();
     }, 300);
     document.documentElement.classList.add("overflow-hidden");
-    this.removeOverflowHiddenClass;
   }
 
   /** Close the modal, first running the `beforeClose` method */
