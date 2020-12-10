@@ -34,7 +34,7 @@ describe("calcite-select", () => {
       }
     ]));
 
-  async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): void {
+  async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
     const selectedOptionValue = await page.$eval(
       "calcite-select",
       (select: HTMLCalciteSelectElement): string => select.selectedOption.value

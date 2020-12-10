@@ -6,26 +6,25 @@ import dedent from "dedent";
 describe("calcite-pick-list-item", () => {
   it("renders", async () => renders("calcite-pick-list-item"));
 
-  it("is accessible", async () =>
-    Promise.all([
-      accessible(dedent`
+  it("is accessible", async () => {
+    await accessible(dedent`
         <calcite-pick-list>
           <calcite-pick-list-item label="test" description="a number" value="one"></calcite-pick-list-item>
         </calcite-pick-list>
-      `),
+      `);
 
-      accessible(dedent`
+    await accessible(dedent`
         <calcite-pick-list>
           <calcite-pick-list-item label="test" description="a number" value="one" selected></calcite-pick-list-item>
         </calcite-pick-list>
-      `),
+      `);
 
-      accessible(dedent`
+    await accessible(dedent`
         <calcite-pick-list>
           <calcite-pick-list-item label="test" description="a number" value="one" removable></calcite-pick-list-item>
         </calcite-pick-list>
-      `)
-    ]));
+      `);
+  });
 
   it("should toggle selected attribute when clicked", async () => {
     const page = await newE2EPage({ html: `<calcite-pick-list-item label="test"></calcite-pick-list-item>` });
