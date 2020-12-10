@@ -99,7 +99,7 @@ export class CalciteModal {
   }
 
   disconnectedCallback(): void {
-    this.removeOverflowHiddenClass;
+    this.removeOverflowHiddenClass();
   }
 
   render(): VNode {
@@ -287,6 +287,7 @@ export class CalciteModal {
       this.focusElement(this.firstFocus);
       this.calciteModalOpen.emit();
     }, 300);
+    document.documentElement.classList.add("overflow-hidden");
     this.removeOverflowHiddenClass;
   }
 
@@ -296,7 +297,7 @@ export class CalciteModal {
       this.active = false;
       this.isActive = false;
       focusElement(this.previousActiveElement);
-      document.documentElement.classList.remove("overflow-hidden");
+      this.removeOverflowHiddenClass();
       setTimeout(() => this.calciteModalClose.emit(), 300);
     });
   };
@@ -317,6 +318,6 @@ export class CalciteModal {
   };
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.classList.add("overflow-hidden");
+    document.documentElement.classList.remove("overflow-hidden");
   }
 }
