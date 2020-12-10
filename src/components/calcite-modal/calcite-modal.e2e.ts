@@ -233,4 +233,30 @@ describe("calcite-modal accessibility checks", () => {
     await page.waitForChanges();
     expect(modal).toHaveAttribute("is-active");
   });
+
+  it("correctly adds overflow class on document when open", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    const documentClasses = await page.evaluate(() => {
+      return document.documentElement.classList;
+    });
+    expect(documentClasses).toMatchObject({ "0": "overflow-hidden" });
+  });
+
+  it("correctly removes overflow class on document when open", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    await modal.setProperty("active", false);
+    await page.waitForChanges();
+    const documentClasses = await page.evaluate(() => {
+      return document.documentElement.classList;
+    });
+    expect(documentClasses).toEqual({});
+  });
 });
