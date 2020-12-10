@@ -1,14 +1,32 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
 import { isValidHex, normalizeHex } from "../calcite-color/utils";
+import { CSS } from "./resources";
+import { TEXT } from "../calcite-color/resources";
 
 describe("calcite-color-hex-input", () => {
   it("renders", () => renders("calcite-color-hex-input"));
 
-  it("is accessible", () => accessible("calcite-color-hex-input"));
+  it("is accessible", async () => {
+    await accessible("calcite-color-hex-input");
+    await accessible("<calcite-color-hex-input color='#c0ffee'></calcite-color-hex-input>");
+    await accessible("<calcite-color-hex-input allow-empty color=''></calcite-color-hex-input>");
+  });
 
   it("has defaults", () =>
     defaults("calcite-color-hex-input", [
+      {
+        propertyName: "allowEmpty",
+        defaultValue: false
+      },
+      {
+        propertyName: "intlHex",
+        defaultValue: TEXT.hex
+      },
+      {
+        propertyName: "intlNoColor",
+        defaultValue: TEXT.noColor
+      },
       {
         propertyName: "value",
         defaultValue: "#000000"
@@ -24,6 +42,25 @@ describe("calcite-color-hex-input", () => {
     ]));
 
   it("can be focused", async () => focusable("calcite-color-hex-input"));
+
+  it("supports no color", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-color-hex-input allow-empty></calcite-color-hex-input>"
+    });
+
+    const input = await page.find(`calcite-color-hex-input`);
+    await input.setProperty("value", null);
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(null);
+    expect(input.getAttribute("value")).toBe(null);
+
+    const internalInput = await page.find(`calcite-color-hex-input >>> .${CSS.input}`);
+    expect(await internalInput.getProperty("value")).toBe("");
+
+    const internalSwatch = await page.find(`calcite-color-hex-input >>> .${CSS.preview}`);
+    expect(await internalSwatch.getProperty("color")).toBe(null);
+  });
 
   it("accepts shorthand hex", async () => {
     const page = await newE2EPage({
@@ -60,30 +97,46 @@ describe("calcite-color-hex-input", () => {
   });
 
   it("ignores invalid hex", async () => {
+    const hex = "#b33f33";
     const page = await newE2EPage({
-      html: "<calcite-color-hex-input value='#b33f33'></calcite-color-hex-input>"
+      html: `<calcite-color-hex-input value='${hex}'></calcite-color-hex-input>`
     });
-
     const input = await page.find(`calcite-color-hex-input`);
+
+    await input.setProperty("value", null);
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(hex);
+
     await input.setProperty("value", "wrong");
     await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(hex);
 
     await input.setProperty("value", "#");
     await page.waitForChanges();
 
+    expect(await input.getProperty("value")).toBe(hex);
+
     await input.setProperty("value", "#a");
     await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(hex);
 
     await input.setProperty("value", "#aa");
     await page.waitForChanges();
 
+    expect(await input.getProperty("value")).toBe(hex);
+
     await input.setProperty("value", "#aaaa");
     await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(hex);
 
     await input.setProperty("value", "#aaaaa");
     await page.waitForChanges();
 
-    expect(await input.getProperty("value")).toBe("#b33f33");
+    expect(await input.getProperty("value")).toBe(hex);
   });
 
   it("emits event when color changes", async () => {
@@ -103,7 +156,7 @@ describe("calcite-color-hex-input", () => {
   describe("keyboard interaction", () => {
     async function assertTabAndEnterBehavior(
       hexInputChars: string,
-      expectedHex: string,
+      expectedValue: string,
       resetHex = "#efface"
     ): Promise<void> {
       const normalizedInputHex = normalizeHex(hexInputChars);
@@ -112,19 +165,19 @@ describe("calcite-color-hex-input", () => {
         throw new Error(`input hex (${hexInputChars}) cannot be the same as reset value (${resetHex})`);
       }
 
-      expectedHex = isValidHex(normalizedInputHex) ? expectedHex : resetHex;
+      expectedValue = isValidHex(normalizedInputHex) ? expectedValue : resetHex;
 
       await typeHexValue(resetHex, "Enter");
       expect(await input.getProperty("value")).toBe(resetHex);
 
       await typeHexValue(hexInputChars, "Enter");
-      expect(await input.getProperty("value")).toBe(expectedHex);
+      expect(await input.getProperty("value")).toBe(expectedValue);
 
       await typeHexValue(resetHex, "Enter");
       expect(await input.getProperty("value")).toBe(resetHex);
 
       await typeHexValue(hexInputChars, "Tab");
-      expect(await input.getProperty("value")).toBe(expectedHex);
+      expect(await input.getProperty("value")).toBe(expectedValue);
     }
 
     async function typeHexValue(text: string, commitKey: "Tab" | "Enter"): Promise<void> {
@@ -160,6 +213,7 @@ describe("calcite-color-hex-input", () => {
     it("commits hex chars on Tab and Enter", async () => {
       await assertTabAndEnterBehavior("b00", "#bb0000");
       await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
+      await assertTabAndEnterBehavior("", null);
     });
 
     it("prevents committing invalid hex chars", async () => {
@@ -194,6 +248,34 @@ describe("calcite-color-hex-input", () => {
       await page.keyboard.press("ArrowDown");
       await page.keyboard.up("Shift");
       expect(await input.getProperty("value")).toBe(initialHex);
+    });
+
+    it("does not allow nudging when no-color is allowed and set", async () => {
+      const noColorValue = null;
+
+      await input.callMethod("setFocus");
+      await input.setProperty("allowEmpty", true);
+      await page.waitForChanges();
+      await input.setProperty("value", noColorValue);
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe(noColorValue);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe(noColorValue);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("ArrowUp");
+      await page.keyboard.up("Shift");
+      expect(await input.getProperty("value")).toBe(noColorValue);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("ArrowDown");
+      await page.keyboard.up("Shift");
+      expect(await input.getProperty("value")).toBe(noColorValue);
     });
   });
 });

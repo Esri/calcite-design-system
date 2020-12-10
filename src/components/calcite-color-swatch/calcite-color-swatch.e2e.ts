@@ -1,12 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { CSS } from "./resources";
+import { COLORS, CSS } from "./resources";
 import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
+import { TEXT } from "../calcite-color/resources";
 
 describe("calcite-color-swatch", () => {
   it("renders", () => renders("calcite-color-swatch"));
 
   it("is accessible", () =>
     Promise.all([
+      accessible("calcite-color-swatch"),
+      accessible(`<calcite-color-swatch active></calcite-color-swatch>`),
       accessible(`<calcite-color-swatch color='#c0ffee'></calcite-color-swatch>`),
       accessible(`<calcite-color-swatch active color='#c0ffee'></calcite-color-swatch>`)
     ]));
@@ -16,6 +19,10 @@ describe("calcite-color-swatch", () => {
       {
         propertyName: "active",
         defaultValue: false
+      },
+      {
+        propertyName: "intlNoColor",
+        defaultValue: TEXT.noColor
       }
     ]));
 
@@ -27,7 +34,21 @@ describe("calcite-color-swatch", () => {
       }
     ]));
 
-  describe("has accepts CSS color strings", () => {
+  describe("accepts CSS color strings", () => {
+    it("supports no value", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color-swatch></calcite-color-swatch>"
+      });
+      const swatch = await page.find(`calcite-color-swatch >>> .${CSS.swatch} rect`);
+      const style = await swatch.getComputedStyle();
+
+      expect(style["fill"]).toBe(COLORS.emptyFill);
+
+      const noColorIcon = await page.find(`calcite-color-swatch >>> .${CSS.noColorIcon}`);
+
+      expect(noColorIcon).toBeTruthy();
+    });
+
     it("supports rgb", async () => {
       const page = await newE2EPage({
         html: "<calcite-color-swatch color='rgb(255, 255, 255)'></calcite-color-swatch>"

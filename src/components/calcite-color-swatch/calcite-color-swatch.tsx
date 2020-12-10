@@ -1,9 +1,8 @@
-import { Component, Prop, h, Host, Watch, VNode } from "@stencil/core";
+import { Component, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
-import { CSS } from "./resources";
+import { COLORS, CSS } from "./resources";
 import { Scale, Theme } from "../../interfaces/common";
-
-const ACTIVE_BORDER_COLOR = "rgba(0, 0, 0, 0.15)";
+import { TEXT } from "../calcite-color/resources";
 
 @Component({
   tag: "calcite-color-swatch",
@@ -31,12 +30,18 @@ export class CalciteColorSwatch {
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
    */
   @Prop()
-  color: string;
+  color: string | null;
 
   @Watch("color")
-  handleColorChange(color: string): void {
-    this.internalColor = Color(color);
+  handleColorChange(color: string | null): void {
+    this.internalColor = color ? Color(color) : null;
   }
+
+  /**
+   * Label used for no color swatches.
+   */
+  @Prop()
+  intlNoColor = TEXT.noColor;
 
   /**
    * The component scale.
@@ -60,7 +65,7 @@ export class CalciteColorSwatch {
   //
   //--------------------------------------------------------------------------
 
-  private internalColor: Color;
+  private internalColor: Color | null;
 
   //--------------------------------------------------------------------------
   //
@@ -73,20 +78,29 @@ export class CalciteColorSwatch {
   }
 
   render(): VNode {
-    const { internalColor, active, theme } = this;
-    const hex = internalColor.hex();
-
-    const borderColor = active
-      ? ACTIVE_BORDER_COLOR
-      : internalColor[theme === "light" ? "darken" : "whiten"](0.25).hex();
-
+    const { active, internalColor, intlNoColor, scale, theme } = this;
+    const noColor = !internalColor;
     const borderRadius = active ? "100%" : "0";
+    const fillColor = noColor ? COLORS.emptyFill : internalColor.hex();
+    const label = noColor ? intlNoColor : internalColor.hex();
+
+    const borderColor =
+      active || noColor
+        ? COLORS.activeBorder
+        : internalColor[theme === "light" ? "darken" : "whiten"](0.25).hex();
 
     return (
-      <Host aria-label={hex} title={hex}>
+      <Host aria-label={label} title={label}>
         <svg class={CSS.swatch} xmlns="http://www.w3.org/2000/svg">
-          <rect fill={hex} height="100%" rx={borderRadius} stroke={borderColor} width="100%" />
+          <rect
+            fill={fillColor}
+            height="100%"
+            rx={borderRadius}
+            stroke={borderColor}
+            width="100%"
+          />
         </svg>
+        {noColor ? <calcite-icon class={CSS.noColorIcon} icon="x" scale={scale} /> : null}
       </Host>
     );
   }

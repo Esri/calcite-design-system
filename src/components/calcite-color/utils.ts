@@ -130,12 +130,12 @@ export function parseMode(colorValue: ColorValue): SupportedMode | null {
   return null;
 }
 
-function hasChannels(colorObject: Exclude<ColorValue, string>, ...channels: string[]): boolean {
-  return channels.every((channel) => `${channel}` in colorObject);
+function hasChannels(colorObject: Exclude<ColorValue, string> | null, ...channels: string[]): boolean {
+  return channels.every((channel) => channel && colorObject && `${channel}` in colorObject);
 }
 
-export function colorEqual(value1: Color, value2: Color): boolean {
-  return value1.rgbNumber() === value2.rgbNumber();
+export function colorEqual(value1: Color | null, value2: Color | null): boolean {
+  return value1?.rgbNumber() === value2?.rgbNumber();
 }
 
 export function colorValueEqual(value1: ColorValue, value2: ColorValue, mode: SupportedMode): boolean {
