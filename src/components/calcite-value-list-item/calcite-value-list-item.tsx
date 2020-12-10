@@ -1,4 +1,15 @@
-import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Method,
+  Prop,
+  VNode
+} from "@stencil/core";
 import { ICON_TYPES } from "../calcite-pick-list/resources";
 import { guid } from "../../utils/guid";
 import { CSS } from "../calcite-pick-list-item/resources";
@@ -105,6 +116,12 @@ export class CalciteValueListItem {
   //  Events
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Emitted whenever the remove button is pressed.
+   * @event calciteListItemRemove
+   */
+  @Event() calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {

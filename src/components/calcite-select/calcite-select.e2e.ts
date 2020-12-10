@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, reflects, renders } from "../../tests/commonTests";
 import dedent from "dedent";
 import { CSS } from "./resources";
@@ -34,6 +34,15 @@ describe("calcite-select", () => {
       }
     ]));
 
+  async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): void {
+    const selectedOptionValue = await page.$eval(
+      "calcite-select",
+      (select: HTMLCalciteSelectElement): string => select.selectedOption.value
+    );
+
+    expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
+  }
+
   describe("flat options", () => {
     it("allows selecting items", async () => {
       const page = await newE2EPage({
@@ -57,6 +66,7 @@ describe("calcite-select", () => {
 
       const selected = await page.findAll("calcite-option[selected]");
 
+      await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
       expect(selected[0].innerText).toBe("dos");
       expect(spy).toHaveReceivedEventTimes(1);
@@ -74,6 +84,7 @@ describe("calcite-select", () => {
       });
       const selected = await page.findAll("calcite-option[selected]");
 
+      await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
       expect(selected[0].innerText).toBe("tres");
     });
@@ -90,6 +101,7 @@ describe("calcite-select", () => {
       });
       const selected = await page.findAll("calcite-option[selected]");
 
+      await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
       expect(selected[0].innerText).toBe("uno");
     });
@@ -158,6 +170,7 @@ describe("calcite-select", () => {
 
       const selected = await page.findAll("calcite-option[selected]");
 
+      await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
       expect(selected[0].innerText).toBe("c");
       expect(spy).toHaveReceivedEventTimes(1);
@@ -182,6 +195,7 @@ describe("calcite-select", () => {
       });
       const selected = await page.findAll("calcite-option[selected]");
 
+      await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
       expect(selected[0].innerText).toBe("3");
     });
@@ -205,6 +219,7 @@ describe("calcite-select", () => {
       });
       const selected = await page.findAll("calcite-option[selected]");
 
+      await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
       expect(selected[0].innerText).toBe("a");
     });

@@ -52,6 +52,41 @@ describe("calcite-combobox", () => {
     expect(item2Visible).toBe(false);
   });
 
+  it("should control max items displayed", async () => {
+    const page = await newE2EPage();
+
+    const maxItems = 7;
+
+    await page.setContent(`
+      <calcite-combobox max-items="${maxItems}">
+        <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
+          <calcite-combobox-item id="item-1" value="item-1" text-label="item-1"></calcite-combobox-item>
+          <calcite-combobox-item id="item-2" value="item-2" text-label="item-2"></calcite-combobox-item>
+          <calcite-combobox-item id="item-3" value="item-3" text-label="item-3"></calcite-combobox-item>
+          <calcite-combobox-item id="item-4" value="item-4" text-label="item-4"></calcite-combobox-item>
+          <calcite-combobox-item id="item-5" value="item-5" text-label="item-5"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item id="item-6" value="item-6" text-label="item-6">
+          <calcite-combobox-item id="item-7" value="item-7" text-label="item-7"></calcite-combobox-item>
+          <calcite-combobox-item id="item-8" value="item-8" text-label="item-8"></calcite-combobox-item>
+          <calcite-combobox-item id="item-9" value="item-9" text-label="item-9"></calcite-combobox-item>
+          <calcite-combobox-item id="item-10" value="item-10" text-label="item-10"></calcite-combobox-item>
+        </calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-combobox");
+    await element.click();
+    await page.waitForChanges();
+
+    const items = await page.findAll("calcite-combobox-item");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+  });
+
   describe("item selection", () => {
     it("should add/remove item to the selected items when an item is clicked", async () => {
       const page = await newE2EPage();

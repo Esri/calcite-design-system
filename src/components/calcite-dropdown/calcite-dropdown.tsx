@@ -61,7 +61,10 @@ export class CalciteDropdown {
     this.reposition();
   }
 
-  /** specify the max items to display before showing the scroller, must be greater than 0 **/
+  /**
+   specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
+   this value does not include groupTitles passed to calcite-dropdown-group
+  */
   @Prop() maxItems = 0;
 
   /** specify the scale of dropdown, defaults to m */
@@ -135,7 +138,7 @@ export class CalciteDropdown {
           aria-hidden={(!active).toString()}
           class="calcite-dropdown-wrapper"
           ref={this.setMenuEl}
-          role="menu"
+          tabIndex={-1}
         >
           <div
             class={{
@@ -403,7 +406,7 @@ export class CalciteDropdown {
             this.closeCalciteDropdown();
             break;
         }
-      } else if (key === "Escape" || (e.shiftKey && key === "Tab")) {
+      } else if (this.active && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
         this.closeCalciteDropdown();
       }
     }
@@ -493,6 +496,8 @@ export class CalciteDropdown {
 
     if (this.active) {
       setTimeout(() => this.focusOnFirstActiveOrFirstItem(), animationDelayInMs);
+    } else {
+      this.calciteDropdownClose.emit();
     }
   }
 }

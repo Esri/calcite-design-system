@@ -26,6 +26,7 @@ import {
 import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
+import { getKey } from "../../utils/key";
 
 const throttleFor60FpsInMs = 16;
 const defaultColor = normalizeHex(DEFAULT_COLOR.hex());
@@ -219,6 +220,8 @@ export class CalciteColor {
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
+  private shiftKeyChannelAdjustment = 0;
+
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
   @State() colorFieldAndSliderInteractive = false;
@@ -264,18 +267,36 @@ export class CalciteColor {
     this.internalColorSet(Color(swatch.color));
   };
 
-  private handleChannelInput = (event: KeyboardEvent): void => {
-    const input = event.target as HTMLInputElement;
-    const channelIndex = Number(input.getAttribute("data-channel-index"));
+  private handleChannelInput = (event: CustomEvent): void => {
+    const input = event.currentTarget as HTMLCalciteInputElement;
+    const internalInput = event.target as HTMLInputElement;
+    const channelIndex = Number(internalInput.getAttribute("data-channel-index"));
 
     const limit =
       this.channelMode === "rgb"
         ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
         : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
 
-    const clamped = Math.max(0, Math.min(Number(input.value), limit));
+    const value = Number(internalInput.value) + this.shiftKeyChannelAdjustment;
+    const clamped = Math.max(0, Math.min(value, limit));
 
+    // need to update both calcite-input and its internal input to keep them in sync
     input.value = `${clamped}`;
+    internalInput.value = `${clamped}`;
+  };
+
+  private handleChannelKeyUpOrDown = ({ key, shiftKey }: KeyboardEvent): void => {
+    key = getKey(key);
+
+    // this gets applied to the input's up/down arrow increment/decrement
+    const complementaryBump = 9;
+
+    this.shiftKeyChannelAdjustment =
+      key === "ArrowUp" && shiftKey
+        ? complementaryBump
+        : key === "ArrowDown" && shiftKey
+        ? -complementaryBump
+        : 0;
   };
 
   private handleChannelChange = (event: KeyboardEvent): void => {
@@ -536,6 +557,8 @@ export class CalciteColor {
       numberButtonType="none"
       onChange={this.handleChannelChange}
       onInput={this.handleChannelInput}
+      onKeyDown={this.handleChannelKeyUpOrDown}
+      onKeyUp={this.handleChannelKeyUpOrDown}
       prefixText={label}
       scale="s"
       type="number"

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-input", () => {
   it("renders", async () => {
@@ -150,21 +150,10 @@ describe("calcite-input", () => {
     expect(numberHorizontalItemUp).toBeNull();
   });
 
-  it("focuses child input when setFocus method is called", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label>
-    Label text
-    <calcite-input></calcite-input>
-    </calcite-label>
-    `);
-
-    const element = await page.find("calcite-input");
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-    expect(activeEl).toEqual(element.nodeName);
-  });
+  it("focuses child input when setFocus method is called", async () =>
+    focusable(`calcite-input`, {
+      focusTargetSelector: "input"
+    }));
 
   it("correctly increments and decrements value when number buttons are clicked", async () => {
     const page = await newE2EPage();
@@ -215,6 +204,29 @@ describe("calcite-input", () => {
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("25");
+  });
+
+  it("should correctly handle property changes to 'min', 'max', and 'step'", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-input type="number" min="10" max="15" step="1" value="12"></calcite-input>`
+    });
+
+    const element = await page.find("calcite-input");
+
+    expect(await element.getProperty("value")).toBe("12");
+    expect(await element.getProperty("min")).toBe(10);
+    expect(await element.getProperty("max")).toBe(15);
+    expect(await element.getProperty("step")).toBe(1);
+
+    element.setProperty("min", null);
+    element.setProperty("max", null);
+    element.setProperty("step", null);
+
+    await page.waitForChanges();
+
+    expect(await element.getProperty("min")).toBe(null);
+    expect(await element.getProperty("max")).toBe(null);
+    expect(await element.getProperty("step")).toBe(null);
   });
 
   it("correctly stops decrementing value when min is set", async () => {

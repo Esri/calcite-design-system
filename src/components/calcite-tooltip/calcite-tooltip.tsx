@@ -22,6 +22,9 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
+  /** Accessible name for the component */
+  @Prop() label!: string;
+
   /**
    * Offset the position of the popover away from the reference element.
    */
@@ -148,11 +151,10 @@ export class CalciteTooltip {
       return;
     }
 
-    _referenceElement.setAttribute(TOOLTIP_REFERENCE, "");
+    const id = this.getId();
 
-    if (!_referenceElement.hasAttribute(ARIA_DESCRIBED_BY)) {
-      _referenceElement.setAttribute(ARIA_DESCRIBED_BY, this.getId());
-    }
+    _referenceElement.setAttribute(TOOLTIP_REFERENCE, id);
+    _referenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
   };
 
   removeReferences = (): void => {
@@ -162,8 +164,8 @@ export class CalciteTooltip {
       return;
     }
 
-    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
     _referenceElement.removeAttribute(TOOLTIP_REFERENCE);
+    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
   };
 
   show = (): void => {
@@ -237,11 +239,18 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { _referenceElement, open } = this;
+    const { _referenceElement, label, open } = this;
     const displayed = _referenceElement && open;
+    const hidden = !displayed;
 
     return (
-      <Host aria-hidden={!displayed ? "true" : "false"} id={this.getId()} role="tooltip">
+      <Host
+        aria-hidden={hidden.toString()}
+        aria-label={label}
+        calcite-hydrated-hidden={hidden}
+        id={this.getId()}
+        role="tooltip"
+      >
         <div
           class={{
             [PopperCSS.animation]: true,

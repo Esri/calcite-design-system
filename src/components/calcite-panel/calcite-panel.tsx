@@ -100,6 +100,11 @@ export class CalcitePanel {
   @Prop() intlClose?: string;
 
   /**
+   * 'Options' text string for the actions menu.
+   */
+  @Prop() intlOptions?: string = TEXT.options;
+
+  /**
    * Used to set the component's color scheme.
    */
 
@@ -127,6 +132,8 @@ export class CalcitePanel {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalcitePanelElement;
+
+  backButtonEl: HTMLCalciteActionElement;
 
   dismissButtonEl: HTMLCalciteActionElement;
 
@@ -174,6 +181,10 @@ export class CalcitePanel {
 
   setDismissRef = (node: HTMLCalciteActionElement): void => {
     this.dismissButtonEl = node;
+  };
+
+  setBackRef = (node: HTMLCalciteActionElement): void => {
+    this.backButtonEl = node;
   };
 
   panelKeyUpHandler = (event: KeyboardEvent): void => {
@@ -285,9 +296,14 @@ export class CalcitePanel {
   // --------------------------------------------------------------------------
 
   @Method()
-  async setFocus(focusId?: "dismiss-button"): Promise<void> {
+  async setFocus(focusId?: "dismiss-button" | "back-button"): Promise<void> {
     if (focusId === "dismiss-button") {
       this.dismissButtonEl?.setFocus();
+      return;
+    }
+
+    if (focusId === "back-button") {
+      this.backButtonEl?.setFocus();
       return;
     }
 
@@ -315,6 +331,7 @@ export class CalcitePanel {
         icon={icon}
         key="back-button"
         onClick={backButtonClick}
+        ref={this.setBackRef}
         scale="s"
         slot={SLOTS.headerActionsStart}
         text={label}
@@ -388,12 +405,13 @@ export class CalcitePanel {
   }
 
   renderMenuItems(): VNode {
-    const { menuOpen, menuButtonEl } = this;
+    const { menuOpen, menuButtonEl, intlOptions } = this;
 
     return (
       <calcite-popover
         disablePointer={true}
         flipPlacements={["bottom-end", "top-end"]}
+        label={intlOptions}
         offsetDistance={0}
         onKeyDown={this.menuActionsKeydown}
         open={menuOpen}

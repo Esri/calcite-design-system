@@ -8,3 +8,7 @@ export const CSS = {
   textContainer: "text-container",
   textContainerVisible: "text-container--visible"
 };
+
+export const TEXT = {
+  loading: "Loading"
+};

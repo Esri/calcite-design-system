@@ -1,5 +1,10 @@
 import { addParameters } from "@storybook/html";
 import { backgrounds, globalDocsPage, parseReadme } from "./utils";
+declare global {
+  interface Window {
+    __screener_storybook__: any;
+  }
+}
 
 addParameters({
   a11y: {

@@ -24,6 +24,7 @@ import { Scale, Theme } from "../../interfaces/common";
 import { RGB } from "../../interfaces/Color";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { TEXT } from "../calcite-color/resources";
+import { getKey } from "../../utils/key";
 
 const DEFAULT_COLOR = Color();
 
@@ -137,9 +138,20 @@ export class CalciteColorHexInput {
   };
 
   private onInputKeyDown = (event: KeyboardEvent): void => {
-    const { inputNode } = this;
-    const { key, altKey, ctrlKey, metaKey } = event;
+    const { altKey, ctrlKey, metaKey, shiftKey } = event;
+    const key = getKey(event.key);
 
+    if (key === "ArrowDown" || key === "ArrowUp") {
+      const direction = key === "ArrowUp" ? 1 : -1;
+      const bump = shiftKey ? 10 : 1;
+
+      this.value = normalizeHex(this.nudgeRGBChannels(this.internalColor, bump * direction).hex());
+
+      event.preventDefault();
+      return;
+    }
+
+    const { inputNode } = this;
     const withModifiers = altKey || ctrlKey || metaKey;
     const exceededHexLength = inputNode.value.length >= 6;
     const hasTextSelection = getSelection().type === "Range";
@@ -217,5 +229,9 @@ export class CalciteColorHexInput {
 
   private formatForInternalInput(hex: string): string {
     return hex.replace("#", "");
+  }
+
+  private nudgeRGBChannels(color: Color, amount: number): Color {
+    return Color.rgb(color.array().map((channel) => channel + amount));
   }
 }
