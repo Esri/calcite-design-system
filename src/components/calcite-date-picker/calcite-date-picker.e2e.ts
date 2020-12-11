@@ -105,7 +105,7 @@ describe("calcite-date-picker", () => {
     await date.click();
     const calendar = await page.find("calcite-date-picker >>> .calendar-picker-wrapper");
 
-    expect(await calendar.isVisible());
+    expect(await calendar.isVisible()).toBe(true);
   });
 
   it("fires calciteDatePickerRangeChange event on change", async () => {
