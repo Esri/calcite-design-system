@@ -495,7 +495,7 @@ describe("calcite-dropdown", () => {
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
   });
 
-  it("should focus the first active item on open", async () => {
+  it("should focus the first active item on open (multi)", async () => {
     const page = await newE2EPage({
       html: `<calcite-dropdown style="--calcite-popper-transition:none;">
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>

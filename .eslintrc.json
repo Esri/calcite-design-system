@@ -1,7 +1,11 @@
 {
+  "env": {
+    "jest/globals": true
+  },
   "extends": [
     "plugin:@stencil/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
     "prettier",
     "prettier/@typescript-eslint"
   ],
@@ -12,7 +16,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "eslint-plugin-react", "prettier"],
+  "plugins": ["@typescript-eslint", "eslint-plugin-react", "jest", "prettier"],
   "rules": {
     "@stencil/decorators-style": "warn",
     "@stencil/own-methods-must-be-private": "off",
@@ -39,6 +43,8 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",
+    "jest/expect-expect": "off",
+    "jest/no-export": "warn",
     "lines-between-class-members": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "react/jsx-sort-props": "error",

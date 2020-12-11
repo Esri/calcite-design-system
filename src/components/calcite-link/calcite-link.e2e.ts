@@ -2,12 +2,11 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
-  it("is accessible", async () =>
-    Promise.all([
-      accessible("<calcite-link href='/'>link</calcite-link>"),
-      accessible("<calcite-link>link</calcite-link>"),
-      accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>")
-    ]));
+  it("is accessible", async () => {
+    await accessible("<calcite-link href='/'>link</calcite-link>");
+    await accessible("<calcite-link>link</calcite-link>");
+    await accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
+  });
 
   it("renders as a span with default props", async () => {
     const page = await newE2EPage();
