@@ -229,10 +229,19 @@ export class CalciteDatePicker {
     const activeStartDate = this.range
       ? this.getActiveStartDate(date, min, max)
       : this.getActiveDate(date, min, max);
-    const activeDate = activeStartDate;
+    let activeDate = activeStartDate;
     const endDate = this.range ? dateFromRange(this.endAsDate, min, max) : null;
-    //const activeEndDate = this.getActiveEndDate(endDate, min, max);
-
+    const activeEndDate = this.getActiveEndDate(endDate, min, max);
+    if (
+      (this.focusedInput === "end" ||
+        (this.hoverRange?.focused === "end" && (this.proximitySelection || endDate))) &&
+      activeEndDate
+    ) {
+      activeDate = activeEndDate;
+    }
+    if (this.range && this.mostRecentRangeValue) {
+      activeDate = this.mostRecentRangeValue;
+    }
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
     const minDate = this.focusedInput === "start" ? min : date || min;
@@ -422,7 +431,7 @@ export class CalciteDatePicker {
               [PopperCSS.animationActive]: this.active
             }}
           >
-            <calcite-input-date-picker-month-header
+            <calcite-date-picker-month-header
               activeDate={activeDate}
               dir={dir}
               intlNextMonth={this.intlNextMonth}
@@ -447,7 +456,7 @@ export class CalciteDatePicker {
               scale={this.scale}
               selectedDate={this.focusedInput === "start" ? date : endDate || new Date()}
             />
-            <calcite-input-date-picker-month
+            <calcite-date-picker-month
               activeDate={activeDate}
               dir={dir}
               endDate={this.range ? endDate : undefined}
@@ -486,7 +495,7 @@ export class CalciteDatePicker {
                   this.hoverRange.end = date;
                 }
               }}
-              onCalciteDatePickerMouseOut={(_e) => {
+              onCalciteDatePickerMouseOut={() => {
                 if (this.hoverRange) {
                   this.hoverRange = undefined;
                 }
