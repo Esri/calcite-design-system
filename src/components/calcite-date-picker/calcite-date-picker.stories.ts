@@ -86,7 +86,6 @@ storiesOf("Components/Date Picker", module)
       max="${text("max", "2023-12-18")}"
       locale="${select("locale", locales, "en-US")}"
       active
-      no-calendar-input
       intl-next-month="${text("intl-next-month", "Next month")}"
       intl-prev-month="${text("intl-prev-month", "Previous month")}"
     ></calcite-date-picker>

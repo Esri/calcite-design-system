@@ -25,6 +25,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-combobox"] },
     {
       components: [
+        "calcite-input-date-picker",
         "calcite-date-picker",
         "calcite-date-picker-month",
         "calcite-date-picker-month-header",

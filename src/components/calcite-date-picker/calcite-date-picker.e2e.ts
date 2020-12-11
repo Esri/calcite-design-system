@@ -67,7 +67,7 @@ describe("calcite-date-picker", () => {
 
   it("fires a calciteDatePickerChange event when changing year in header", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-date-picker value='2000-11-27' no-calendar-input active></calcite-date-picker>");
+    await page.setContent("<calcite-date-picker value='2000-11-27' active></calcite-date-picker>");
     const date = await page.find("calcite-date-picker");
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
 
@@ -111,7 +111,7 @@ describe("calcite-date-picker", () => {
   it("fires calciteDatePickerRangeChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-date-picker range start="2020-09-08" end="2020-09-23" no-calendar-input active></calcite-date-picker>`
+      `<calcite-date-picker range start="2020-09-08" end="2020-09-23" active></calcite-date-picker>`
     );
     const date = await page.find("calcite-date-picker");
     const changedEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
