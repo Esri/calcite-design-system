@@ -1,9 +1,8 @@
 :host {
   @extend %component-host;
   @extend %component-spacing;
-  
-  @apply
-    flex
+
+  @apply flex
     flex-grow-0
     flex-shrink-0
     flex-col
@@ -13,9 +12,8 @@
     ease-cubic
     border-0
     border-b
-    border-border-3
-    border-solid
-    ;
+    border-color-3
+    border-solid;
   flex-basis: auto;
 }
 
@@ -43,8 +41,7 @@
 }
 
 .toggle {
-  @apply
-    bg-transparent
+  @apply bg-transparent
     flex
     flex-no-wrap
     font-inherit
@@ -79,8 +76,7 @@ calcite-handle {
 }
 
 .header .title .heading {
-  @apply
-    p-0
+  @apply p-0
     text--1
     text-color-3
     word-break
@@ -90,11 +86,10 @@ calcite-handle {
 }
 
 .summary {
-  @apply
-    p-0
+  @apply p-0
     text--2
     text-color-3
-    word-break
+    word-break;
 }
 
 .icon {
@@ -102,8 +97,7 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply
-    flex-grow-0
+  @apply flex-grow-0
     flex-shrink-0
     fill-current
     m-0
@@ -113,8 +107,7 @@ calcite-handle {
 }
 
 .content {
-  @apply
-    px-3
+  @apply px-3
     py-2
     relative
     animate-in;

@@ -7,28 +7,42 @@ module.exports = {
      * Themeable
      */
     borderColor: {
-      "color1": "var(--calcite-ui-border-1)",
-      "color2": "var(--calcite-ui-border-2)",
-      "color3": "var(--calcite-ui-border-3)",
-      "color4": "var(--calcite-ui-border-4)",
-      "color5": "var(--calcite-ui-border-5)",
+      color: {
+        1: "var(--calcite-ui-border-1)",
+        2: "var(--calcite-ui-border-2)",
+        3: "var(--calcite-ui-border-3)",
+        4: "var(--calcite-ui-border-4)",
+        5: "var(--calcite-ui-border-5)"
+      }
     },
     colors: {
       // CalciteColors
+      "brand": "var(--calcite-ui-blue-1)",
+      "brand-hover": "var(--calcite-ui-blue-2)",
+      "brand-press": "var(--calcite-ui-blue-3)",
+      // intention: status vars
+      info: "var(--calcite-ui-blue-1)",
+      success: "var(--calcite-ui-green-3)",
+      warning: "var(--calcite-ui-yellow-3)",
+      error: "var(--calcite-ui-red-3)",
+      // color (deprecate)
       blue: "var(--calcite-ui-blue-1)",
       green: "var(--calcite-ui-green-3)",
       yellow: "var(--calcite-ui-yellow-3)",
       red: "var(--calcite-ui-red-3)",
-      background: "var(--calcite-ui-background)",
-      foreground: {
-        1: "var(--calcite-ui-foreground-1)",
-        2: "var(--calcite-ui-foreground-2)",
-        3: "var(--calcite-ui-foreground-3)"
+
+      background: {
+        background: "var(--calcite-ui-background)",
+        foreground: {
+          1: "var(--calcite-ui-foreground-1)",
+          2: "var(--calcite-ui-foreground-2)",
+          3: "var(--calcite-ui-foreground-3)"
+        },
       },
       text: {
         1: "var(--calcite-ui-text-1)",
         2: "var(--calcite-ui-text-2)",
-        3: "var(--calcite-ui-text-3)",
+        3: "var(--calcite-ui-text-3)"
       },
       transparent: "transparent"
     },
@@ -71,13 +85,13 @@ module.exports = {
       'xl': '1440px'
     },
     textColor: theme => ({
-      "color-1": theme("colors.text.1"),
-      "color-2": theme("colors.text.2"),
-      "color-3": theme("colors.text.3"),
-      blue: theme("colors.blue"),
-      white: theme("colors.background")
+      color: {
+        "1": theme("colors.text.1"),
+        "2": theme("colors.text.2"),
+        "3": theme("colors.text.3")
+      }
     }),
-    backgroundColor: theme => theme("colors"),
+    backgroundColor: theme => theme("colors.background"),
     extend: {
       animation: {
         "in": "in 300ms ease-in-out",
