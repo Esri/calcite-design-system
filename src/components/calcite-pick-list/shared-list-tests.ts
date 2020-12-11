@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSEvalable } from "puppeteer";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
 
 type ListType = "pick" | "value";
@@ -409,7 +409,7 @@ export function filterBehavior(listType: ListType): void {
 export function disabledStates(listType: ListType): void {
   it("disabled", async () => {
     const page = await newE2EPage({
-      html: dedent`
+      html: html`
         <calcite-${listType}-list disabled>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
@@ -442,7 +442,7 @@ export function disabledStates(listType: ListType): void {
 export function itemRemoval(listType: ListType): void {
   it("handles removing items", async () => {
     const page = await newE2EPage({
-      html: dedent`
+      html: html`
       <calcite-${listType}-list>
         <calcite-${listType}-list-item value="remove-me" label="Remove me!" removable></calcite-${listType}-list-item>
       </calcite-${listType}-list>
