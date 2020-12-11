@@ -468,7 +468,7 @@ export function itemRemoval(listType: ListType): void {
 
     await page.waitForChanges();
 
-    expect(await page.find(`calcite-${listType}-list-item`));
+    expect(await page.find(`calcite-${listType}-list-item`)).toBeNull();
     expect(removeItemSpy).toHaveReceivedEventTimes(1);
     expect(listChangeSpy).toHaveReceivedEventTimes(1);
   });

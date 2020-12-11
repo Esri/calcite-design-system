@@ -159,7 +159,7 @@ describe("calcite-split-button", () => {
     }
   });
 
-  it("adds split-child attributes to child button components ", async () => {
+  it("adds split-child attributes to child button components", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-split-button>

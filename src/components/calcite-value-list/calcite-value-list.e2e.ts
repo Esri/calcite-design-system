@@ -29,7 +29,7 @@ describe("calcite-value-list", () => {
   describe("Keyboard navigation", () => keyboardNavigation("value"));
 
   describe("icon logic", () => {
-    it("should be 'grip' when in `configuration` mode drag and drop is enabled ", async () => {
+    it("should be 'grip' when in `configuration` mode drag and drop is enabled", async () => {
       const page = await newE2EPage({
         html: `<calcite-value-list drag-enabled>
         <calcite-value-list-item value="one"></calcite-value-list-item>
