@@ -21,8 +21,7 @@ import {
   dateFromISO,
   dateToISO,
   parseDateString,
-  sameDate,
-  getDaysDiff
+  sameDate
 } from "../../utils/date";
 
 import { getKey } from "../../utils/key";
@@ -88,9 +87,6 @@ export class CalciteDatePicker {
 
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en-US";
-
-  /** Show only calendar popup */
-  @Prop() noCalendarInput?: boolean = false;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -233,32 +229,21 @@ export class CalciteDatePicker {
     const activeStartDate = this.range
       ? this.getActiveStartDate(date, min, max)
       : this.getActiveDate(date, min, max);
-    let activeDate = activeStartDate;
+    const activeDate = activeStartDate;
     const endDate = this.range ? dateFromRange(this.endAsDate, min, max) : null;
-    const activeEndDate = this.getActiveEndDate(endDate, min, max);
-    if (
-      (this.focusedInput === "end" ||
-        (this.noCalendarInput &&
-          this.hoverRange?.focused === "end" &&
-          (this.proximitySelection || endDate))) &&
-      activeEndDate
-    ) {
-      activeDate = activeEndDate;
-    }
-    if (this.range && this.noCalendarInput && this.mostRecentRangeValue) {
-      activeDate = this.mostRecentRangeValue;
-    }
+    //const activeEndDate = this.getActiveEndDate(endDate, min, max);
+
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
     const minDate = this.focusedInput === "start" ? min : date || min;
-    const maxDate = this.focusedInput === "start" && !this.noCalendarInput ? endDate || max : max;
+    const maxDate = max;
     const dir = getElementDir(this.el);
 
     return (
       <Host dir={dir} role="application">
         {this.localeData && (
           <div aria-expanded={this.active.toString()} class="input-container" role="application">
-            {!this.noCalendarInput && (
+            {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
                   class={`input ${
@@ -278,19 +263,19 @@ export class CalciteDatePicker {
                   value={formattedDate}
                 />
               </div>
-            )}
+            }
             {this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
-            {this.range && !this.noCalendarInput && this.layout === "horizontal" && (
+            {this.range && this.layout === "horizontal" && (
               <div class="horizontal-arrow-container">
                 <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
               </div>
             )}
-            {this.range && !this.noCalendarInput && this.layout === "vertical" && (
+            {this.range && this.layout === "vertical" && (
               <div class="vertical-arrow-container">
                 <calcite-icon icon="arrow-down" scale="s" />
               </div>
             )}
-            {this.range && !this.noCalendarInput && (
+            {this.range && (
               <div class="input-wrapper" ref={this.setEndWrapper}>
                 <calcite-input
                   class="input"
@@ -494,52 +479,11 @@ export class CalciteDatePicker {
                   start: this.startAsDate,
                   end: this.endAsDate
                 };
-                if (!this.noCalendarInput) {
-                  if (this.focusedInput === "start") {
-                    this.hoverRange.start = date;
-                  } else {
-                    this.hoverRange.end = date;
-                  }
+
+                if (this.focusedInput === "start") {
+                  this.hoverRange.start = date;
                 } else {
-                  if (this.proximitySelection) {
-                    if (this.endAsDate) {
-                      const startDiff = getDaysDiff(date, this.startAsDate);
-                      const endDiff = getDaysDiff(date, this.endAsDate);
-                      if (startDiff < endDiff) {
-                        this.hoverRange.start = date;
-                        this.hoverRange.focused = "start";
-                      } else {
-                        this.hoverRange.end = date;
-                        this.hoverRange.focused = "end";
-                      }
-                    } else {
-                      if (date < this.startAsDate) {
-                        this.hoverRange = {
-                          focused: "start",
-                          start: date,
-                          end: this.startAsDate
-                        };
-                      } else {
-                        this.hoverRange.end = date;
-                        this.hoverRange.focused = "end";
-                      }
-                    }
-                  } else {
-                    if (!this.endAsDate) {
-                      if (date < this.startAsDate) {
-                        this.hoverRange = {
-                          focused: "start",
-                          start: date,
-                          end: this.startAsDate
-                        };
-                      } else {
-                        this.hoverRange.end = date;
-                        this.hoverRange.focused = "end";
-                      }
-                    } else {
-                      this.hoverRange = undefined;
-                    }
-                  }
+                  this.hoverRange.end = date;
                 }
               }}
               onCalciteDatePickerMouseOut={(_e) => {
@@ -587,9 +531,7 @@ export class CalciteDatePicker {
     if (this.endAsDate && this.endAsDate?.getTime() !== this.activeEndDate?.getTime()) {
       this.activeEndDate = new Date(this.endAsDate);
     }
-    if (!this.noCalendarInput) {
-      this.active = false;
-    }
+    this.active = false;
   }
 
   /**
@@ -659,51 +601,6 @@ export class CalciteDatePicker {
       return;
     }
 
-    if (this.range && this.noCalendarInput) {
-      if (!this.startAsDate || (!this.endAsDate && date < this.startAsDate)) {
-        if (this.startAsDate) {
-          const newEndDate = new Date(this.startAsDate);
-          this.end = dateToISO(newEndDate);
-          this.setEndAsDate(newEndDate);
-          this.activeEndDate = newEndDate;
-        }
-        this.start = dateToISO(date);
-        this.setStartAsDate(date);
-        this.activeStartDate = date;
-      } else if (!this.endAsDate) {
-        this.end = dateToISO(date);
-        this.setEndAsDate(date);
-        this.activeEndDate = date;
-      } else {
-        if (this.proximitySelection) {
-          const startDiff = getDaysDiff(date, this.startAsDate);
-          const endDiff = getDaysDiff(date, this.endAsDate);
-          if (startDiff < endDiff) {
-            this.start = dateToISO(date);
-            this.setStartAsDate(date);
-            this.activeStartDate = date;
-          } else {
-            this.end = dateToISO(date);
-            this.setEndAsDate(date);
-            this.activeEndDate = date;
-          }
-        } else {
-          this.start = dateToISO(date);
-          this.setStartAsDate(date);
-          this.activeStartDate = date;
-          this.endAsDate = this.activeEndDate = this.end = undefined;
-        }
-      }
-      if (doReset) {
-        this.reset();
-      }
-      this.calciteDatePickerRangeChange.emit({
-        startDate: this.startAsDate,
-        endDate: this.endAsDate
-      });
-      return;
-    }
-
     if (this.focusedInput === "start") {
       this.start = dateToISO(date);
       this.setStartAsDate(date);
@@ -723,7 +620,7 @@ export class CalciteDatePicker {
     });
 
     setTimeout(() => {
-      if (this.focusedInput === "start" && !this.noCalendarInput) {
+      if (this.focusedInput === "start") {
         this.endInput.setFocus();
       }
     }, 150);
