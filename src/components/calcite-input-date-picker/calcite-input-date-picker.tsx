@@ -273,7 +273,37 @@ export class CalciteDatePicker {
                 />
               </div>
             }
-            {this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
+
+            <div
+              aria-hidden={(!this.active).toString()}
+              class="menu-container"
+              ref={this.setMenuEl}
+            >
+              <div
+                class={{
+                  ["calendar-picker-wrapper"]: true,
+                  ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
+                  [PopperCSS.animation]: true,
+                  [PopperCSS.animationActive]: this.active
+                }}
+              >
+                <calcite-date-picker
+                  dir={dir}
+                  endAsDate={endDate}
+                  intlNextMonth={this.intlNextMonth}
+                  intlPrevMonth={this.intlPrevMonth}
+                  layout={this.layout}
+                  locale={this.locale}
+                  max={this.max}
+                  min={this.min}
+                  range={this.range}
+                  scale={this.scale}
+                  startAsDate={minDate}
+                  valueAsDate={activeDate}
+                />
+              </div>
+            </div>
+
             {this.range && this.layout === "horizontal" && (
               <div class="horizontal-arrow-container">
                 <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
@@ -407,108 +437,6 @@ export class CalciteDatePicker {
   private async loadLocaleData(): Promise<void> {
     const { locale } = this;
     this.localeData = await getLocaleData(locale);
-  }
-
-  /**
-   * Render calcite-input-date-picker-month-header and calcite-input-date-picker-month
-   */
-  private renderCalendar(
-    activeDate: Date,
-    dir: string,
-    maxDate: Date,
-    minDate: Date,
-    date: Date,
-    endDate: Date
-  ) {
-    return (
-      this.localeData && (
-        <div aria-hidden={(!this.active).toString()} class="menu-container" ref={this.setMenuEl}>
-          <div
-            class={{
-              ["calendar-picker-wrapper"]: true,
-              ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
-              [PopperCSS.animation]: true,
-              [PopperCSS.animationActive]: this.active
-            }}
-          >
-            <calcite-date-picker-month-header
-              activeDate={activeDate}
-              dir={dir}
-              intlNextMonth={this.intlNextMonth}
-              intlPrevMonth={this.intlPrevMonth}
-              localeData={this.localeData}
-              max={maxDate}
-              min={minDate}
-              onCalciteDatePickerSelect={(e: CustomEvent<Date>) => {
-                const date = new Date(e.detail);
-                if (!this.range) {
-                  this.activeDate = date;
-                  this.handleDateChange(e);
-                } else {
-                  if (this.focusedInput === "start") {
-                    this.activeStartDate = date;
-                  } else if (this.focusedInput === "end") {
-                    this.activeEndDate = date;
-                  }
-                  this.mostRecentRangeValue = date;
-                }
-              }}
-              scale={this.scale}
-              selectedDate={this.focusedInput === "start" ? date : endDate || new Date()}
-            />
-            <calcite-date-picker-month
-              activeDate={activeDate}
-              dir={dir}
-              endDate={this.range ? endDate : undefined}
-              hoverRange={this.hoverRange}
-              localeData={this.localeData}
-              max={maxDate}
-              min={minDate}
-              onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-                const date = new Date(e.detail);
-                if (!this.range) {
-                  this.activeDate = date;
-                } else {
-                  if (this.focusedInput === "start") {
-                    this.activeStartDate = date;
-                  } else if (this.focusedInput === "end") {
-                    this.activeEndDate = date;
-                  }
-                  this.mostRecentRangeValue = date;
-                }
-              }}
-              onCalciteDatePickerHover={(e: CustomEvent<Date>) => {
-                if (!this.startAsDate) {
-                  this.hoverRange = undefined;
-                  return this.hoverRange;
-                }
-                const date = new Date(e.detail);
-                this.hoverRange = {
-                  focused: this.focusedInput,
-                  start: this.startAsDate,
-                  end: this.endAsDate
-                };
-
-                if (this.focusedInput === "start") {
-                  this.hoverRange.start = date;
-                } else {
-                  this.hoverRange.end = date;
-                }
-              }}
-              onCalciteDatePickerMouseOut={() => {
-                if (this.hoverRange) {
-                  this.hoverRange = undefined;
-                }
-              }}
-              onCalciteDatePickerSelect={(e: CustomEvent<Date>) => this.handleDateChange(e, true)}
-              scale={this.scale}
-              selectedDate={this.focusedInput === "start" ? date : endDate}
-              startDate={this.range ? date : undefined}
-            />
-          </div>
-        </div>
-      )
-    );
   }
 
   /**
