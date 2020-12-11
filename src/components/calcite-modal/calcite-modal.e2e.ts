@@ -240,10 +240,10 @@ describe("calcite-modal accessibility checks", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    const documentClasses = await page.evaluate(() => {
-      return document.documentElement.classList;
+    const documentClass = await page.evaluate(() => {
+      return document.documentElement.classList.contains("overflow-hidden");
     });
-    expect(documentClasses).toMatchObject({ "0": "overflow-hidden" });
+    expect(documentClass).toEqual(true);
   });
 
   it("correctly removes overflow class on document when open", async () => {
@@ -254,9 +254,9 @@ describe("calcite-modal accessibility checks", () => {
     await page.waitForChanges();
     await modal.setProperty("active", false);
     await page.waitForChanges();
-    const documentClasses = await page.evaluate(() => {
-      return document.documentElement.classList;
+    const documentClass = await page.evaluate(() => {
+      return document.documentElement.classList.contains("overflow-hidden");
     });
-    expect(documentClasses).toEqual({});
+    expect(documentClass).toEqual(false);
   });
 });
