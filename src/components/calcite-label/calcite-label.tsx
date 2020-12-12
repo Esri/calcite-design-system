@@ -75,21 +75,21 @@ export class CalciteLabel {
 
   @Listen("click")
   onClick({ target }: MouseEvent): void {
-    if (target === this.el || target === this.labelEl || target === this.spanEl) {
-      const forAttr = this.el.getAttribute("for");
-      this.calciteLabelFocus.emit({
-        labelEl: this.el,
-        interactedEl: target as HTMLElement,
-        requestedInput: forAttr
-      });
-      const inputForThisLabel: HTMLElement = forAttr
-        ? document.getElementById(forAttr)
-        : this.el.querySelector("input");
-      if (
-        (inputForThisLabel && inputForThisLabel.nodeName.startsWith("CALCITE-")) ||
-        (inputForThisLabel && inputForThisLabel.nodeName === "INPUT" && target === this.el)
-      ) {
-        inputForThisLabel.click();
+    this.calciteLabelFocus.emit({
+      labelEl: this.el,
+      interactedEl: target as HTMLElement,
+      requestedInput: this.for
+    });
+    if (this.for && !(target as HTMLElement).nodeName.startsWith("CALCITE")) {
+      // TODO: Need to make this logic work for wrapping calcite-label in a native checkbox with a for attribute
+      const childInputForThisLabel = this.el.querySelector(`#${this.for}`);
+      if (childInputForThisLabel && childInputForThisLabel.nodeName.startsWith("CALCITE")) {
+        (childInputForThisLabel as HTMLElement).click();
+      } else {
+        const inputForThisLabel: HTMLElement = document.getElementById(this.for);
+        if (inputForThisLabel) {
+          inputForThisLabel.click();
+        }
       }
     }
   }
@@ -135,9 +135,7 @@ export class CalciteLabel {
     return (
       <Host dir={dir}>
         <label {...attributes} ref={(el) => (this.labelEl = el)}>
-          <span class="calcite-label-text" ref={(el) => (this.spanEl = el)}>
-            <slot />
-          </span>
+          <slot />
         </label>
       </Host>
     );
@@ -150,9 +148,6 @@ export class CalciteLabel {
 
   // the rendered wrapping label element
   private labelEl: HTMLLabelElement;
-
-  // the span element that contains the computed label text
-  private spanEl: HTMLSpanElement;
 
   //--------------------------------------------------------------------------
   //

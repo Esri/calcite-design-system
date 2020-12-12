@@ -296,6 +296,7 @@ export class CalciteRadioButton {
           disable-spacing
           disabled={this.disabled}
           for={`${this.guid}-input`}
+          layout="inline"
           scale={this.scale}
         >
           <slot />
