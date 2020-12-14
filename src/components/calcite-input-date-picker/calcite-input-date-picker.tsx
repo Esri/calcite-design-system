@@ -245,7 +245,7 @@ export class CalciteDatePicker {
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
     const minDate = this.focusedInput === "start" ? min : date || min;
-    const maxDate = max;
+    const maxDate = this.focusedInput === "start" ? endDate || max : max;
     const dir = getElementDir(this.el);
 
     return (
@@ -289,7 +289,7 @@ export class CalciteDatePicker {
               >
                 <calcite-date-picker
                   dir={dir}
-                  endAsDate={endDate}
+                  endAsDate={maxDate}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   layout={this.layout}
@@ -522,6 +522,7 @@ export class CalciteDatePicker {
     }
   }
 
+  // todo: need to have another event for this to work.
   /**
    * Event handler for when the selected date changes
    */
