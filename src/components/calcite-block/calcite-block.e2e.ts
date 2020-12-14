@@ -28,7 +28,7 @@ describe("calcite-block", () => {
       </calcite-block>
   `));
 
-  it("it can be disabled", async () => {
+  it("can be disabled", async () => {
     const page = await newE2EPage({
       html: `
         <calcite-block heading="heading" summary="summary" open collapsible>
