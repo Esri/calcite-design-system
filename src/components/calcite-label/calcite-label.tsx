@@ -74,23 +74,47 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  onClick({ target }: MouseEvent): void {
+  onClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
     this.calciteLabelFocus.emit({
       labelEl: this.el,
-      interactedEl: target as HTMLElement,
+      interactedEl: target,
       requestedInput: this.for
     });
-    if (this.for && !(target as HTMLElement).nodeName.startsWith("CALCITE")) {
-      // TODO: Need to make this logic work for wrapping calcite-label in a native checkbox with a for attribute
-      const childInputForThisLabel = this.el.querySelector(`#${this.for}`);
-      if (childInputForThisLabel && childInputForThisLabel.nodeName.startsWith("CALCITE")) {
-        (childInputForThisLabel as HTMLElement).click();
-      } else {
-        const inputForThisLabel: HTMLElement = document.getElementById(this.for);
-        if (inputForThisLabel) {
-          inputForThisLabel.click();
-        }
-      }
+
+    // 1. has for
+    if (!this.for) return;
+
+    // 2. for points to a calcite component
+    const inputForThisLabel = document.getElementById(this.for);
+    if (!inputForThisLabel) return;
+    if (!inputForThisLabel.localName.startsWith("calcite")) return;
+
+    // 3. this label wraps said calcite component
+    if (!this.el.contains(inputForThisLabel)) return;
+
+    // 4. target is not a labelable native element
+    const labelableNativeElements = [
+      "button",
+      "input",
+      "meter",
+      "output",
+      "progress",
+      "select",
+      "textarea"
+    ];
+    if (labelableNativeElements.includes(target.localName)) return;
+
+    // 5. target is NOT the calcite component the label corresponds to
+    if (target === inputForThisLabel) return;
+
+    // TODO: 6. target is just the label text itself
+
+    const nativeInputForThisLabel: HTMLElement = inputForThisLabel.querySelector(
+      `#${this.for}-input`
+    );
+    if (nativeInputForThisLabel) {
+      nativeInputForThisLabel.click();
     }
   }
 

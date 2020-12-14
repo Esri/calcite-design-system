@@ -26,181 +26,206 @@
   <h1>Calcite Label</h1>
 
   <demo-form>
-    <form name="calcite-radio-button-group-demo-form">
+    <form name="calcite-label-demo-form">
+
+      <h2>Wrapping Native Inputs</h2>
 
       <calcite-label>
         Calcite Label Wrapping Native Input
-        <input id="calcite-label-wrapping-input" type="checkbox" name="calcite-label-wrapping-input">
+        <input id="wrapping-input" name="wrapping-input" value="native input">
       </calcite-label>
 
-      <calcite-label for="calcite-label-wrapping-input-with-for">
+      <calcite-label for="wrapping-input-with-for">
         Calcite Label Wrapping Native Input With For
-        <input id="calcite-label-wrapping-input-with-for" type="checkbox" name="calcite-label-wrapping-input-with-for">
+        <input id="wrapping-input-with-for" name="wrapping-input-with-for" value="native input">
       </calcite-label>
 
-      <h3>small wrapping calcite-input</h3>
-
-      <calcite-label scale="s">
-        layout="default" scale="s" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label scale="s" status="valid">
-        layout="default" scale="s" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label scale="s" status="invalid">
-        layout="default" scale="s" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label>
+        Calcite Label Wrapping Native Textarea
+        <textarea id="wrapping-textarea" name="wrapping-textarea" value="native textarea"></textarea>
       </calcite-label>
 
-      <calcite-label layout="inline" scale="s">
-        layout="inline" scale="s" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline" scale="s" status="valid">
-        layout="inline" scale="s" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline" scale="s" status="invalid">
-        layout="inline" scale="s" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label for="wrapping-textarea-with-for">
+        Calcite Label Wrapping Native Textarea With For
+        <textarea id="wrapping-textarea-with-for" name="wrapping-textarea-with-for" value="native textarea"></textarea>
       </calcite-label>
 
-      <calcite-label layout="inline-space-between" scale="s">
-        layout="inline-space-between" scale="s" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline-space-between" scale="s" status="valid">
-        layout="inline-space-between" scale="s" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline-space-between" scale="s" status="invalid">
-        layout="inline-space-between" scale="s" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label>
+        Calcite Label Wrapping Native Checkbox
+        <input id="wrapping-native-checkbox" type="checkbox" name="wrapping-native-checkbox">
       </calcite-label>
 
-      <calcite-label disable-spacing scale="s">
-        disable-spacing scale="s" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label disable-spacing scale="s" status="valid">
-        disable-spacing scale="s" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label disable-spacing scale="s" status="invalid">
-        disable-spacing scale="s" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label for="wrapping-native-checkbox-with-for">
+        Calcite Label Wrapping Native Checkbox With For
+        <input id="wrapping-native-checkbox-with-for" type="checkbox" name="wrapping-native-checkbox-with-for">
       </calcite-label>
 
-      <h3>medium wrapping calcite-input</h3>
-
-      <calcite-label scale="m">
-        layout="default" scale="m" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label scale="m" status="valid">
-        layout="default" scale="m" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label scale="m" status="invalid">
-        layout="default" scale="m" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label>
+        Calcite Label Wrapping Native Radio Group
+        <input type="radio" name="wrapping-native-radio" value="one">
+        <input type="radio" name="wrapping-native-radio" value="two">
       </calcite-label>
 
-      <calcite-label layout="inline" scale="m">
-        layout="inline" scale="m" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline" scale="m" status="valid">
-        layout="inline" scale="m" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline" scale="m" status="invalid">
-        layout="inline" scale="m" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label for="wrapping-native-radio-with-for">
+        Calcite Label Wrapping Native Radio Group With For
+        <input id="wrapping-native-radio-with-for" type="radio" name="wrapping-native-radio-with-for" value="one">
+        <input type="radio" name="wrapping-native-radio-with-for" value="two">
       </calcite-label>
 
-      <calcite-label layout="inline-space-between" scale="m">
-        layout="inline-space-between" scale="m" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline-space-between" scale="m" status="valid">
-        layout="inline-space-between" scale="m" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline-space-between" scale="m" status="invalid">
-        layout="inline-space-between" scale="m" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label>
+        Calcite Label Wrapping Native Select
+        <select name="wrapping-native-select">
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+        </select>
       </calcite-label>
 
-      <calcite-label disable-spacing scale="m">
-        disable-spacing scale="m" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label disable-spacing scale="m" status="valid">
-        disable-spacing scale="m" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label disable-spacing scale="m" status="invalid">
-        disable-spacing scale="m" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label for="wrapping-native-select-with-for">
+        Calcite Label Wrapping Native Select With For
+        <select id="wrapping-native-select-with-for" name="wrapping-native-select-with-for">
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+        </select>
       </calcite-label>
 
-      <h3>large wrapping calcite-input</h3>
-
-      <calcite-label scale="l">
-        layout="default" scale="l" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label scale="l" status="valid">
-        layout="default" scale="l" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label scale="l" status="invalid">
-        layout="default" scale="l" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label>
+        Calcite Label Wrapping Native Button
+        <button id="wrapping-native-button" type="button">Native Button</button>
       </calcite-label>
 
-      <calcite-label layout="inline" scale="l">
-        layout="inline" scale="l" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline" scale="l" status="valid">
-        layout="inline" scale="l" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline" scale="l" status="invalid">
-        layout="inline" scale="l" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label for="wrapping-native-button-with-for">
+        Calcite Label Wrapping Native Button With For
+        <button id="wrapping-native-button-with-for" type="button">Native Button</button>
       </calcite-label>
 
-      <calcite-label layout="inline-space-between" scale="l">
-        layout="inline-space-between" scale="l" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline-space-between" scale="l" status="valid">
-        layout="inline-space-between" scale="l" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label layout="inline-space-between" scale="l" status="invalid">
-        layout="inline-space-between" scale="l" status="invalid"
-        <calcite-input></calcite-input>
+      <h2>Wrapping Calcite Inputs</h2>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Input
+        <calcite-input id="wrapping-calcite-input" name="wrapping-calcite-input">
+        </calcite-input>
       </calcite-label>
 
-      <calcite-label disable-spacing scale="l">
-        disable-spacing scale="l" status="idle"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label disable-spacing scale="l" status="valid">
-        disable-spacing scale="l" status="valid"
-        <calcite-input></calcite-input>
-      </calcite-label>
-      <calcite-label disable-spacing scale="l" status="invalid">
-        disable-spacing scale="l" status="invalid"
-        <calcite-input></calcite-input>
+      <calcite-label for="wrapping-calcite-input-with-for">
+        Calcite Label Wrapping Calcite Input With For
+        <calcite-input id="wrapping-calcite-input-with-for" name="wrapping-calcite-input-with-for"></calcite-input>
       </calcite-label>
 
-      <calcite-button>Submit</calcite-button>
+      <calcite-label for="wrapping-calcite-input-with-for-text-wrapped">
+        <span>Calcite Label Wrapping Calcite Input With For and Label Text is Wrapped in span</span>
+        <calcite-input id="wrapping-calcite-input-with-for-text-wrapped" name="wrapping-calcite-input-with-for-text-wrapped"></calcite-input>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Checkbox
+        <calcite-checkbox id="wrapping-calcite-checkbox" name="wrapping-calcite-checkbox">
+        </calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-checkbox-with-for">
+        Calcite Label Wrapping Calcite Checkbox With For
+        <calcite-checkbox id="wrapping-calcite-checkbox-with-for" name="wrapping-calcite-checkbox-with-for">
+        </calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Radio Buttons
+        <calcite-radio-button name="wrapping-calcite-radio" value="one"></calcite-radio-button>
+        <calcite-radio-button name="wrapping-calcite-radio" value="two"></calcite-radio-button>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-radio-with-for">
+        Calcite Label Wrapping Calcite Radio Buttons With For
+        <calcite-radio-button id="wrapping-calcite-radio-with-for" name="wrapping-calcite-radio-with-for" value="one">
+        </calcite-radio-button>
+        <calcite-radio-button name="wrapping-calcite-radio-with-for" value="two"></calcite-radio-button>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Select
+        <calcite-select name="wrapping-calcite-select">
+          <calcite-option>high</calcite-option>
+          <calcite-option>medium</calcite-option>
+          <calcite-option>low</calcite-option>
+        </calcite-select>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-select-with-for">
+        Calcite Label Wrapping Calcite Select With For
+        <calcite-select id="wrapping-calcite-select-with-for" name="wrapping-calcite-select-with-for">
+          <calcite-option>high</calcite-option>
+          <calcite-option>medium</calcite-option>
+          <calcite-option>low</calcite-option>
+        </calcite-select>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Button
+        <calcite-button id="wrapping-calcite-button" name="wrapping-calcite-button" type="button">Calcite
+          Button</calcite-button>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-button-with-for">
+        Calcite Label Wrapping Calcite Button With For
+        <calcite-button id="wrapping-calcite-button-with-for" name="wrapping-calcite-button-with-for" type="button">
+          Native Button</calcite-button>
+      </calcite-label>
+
+      <h2>Sibling to Native Inputs</h2>
+
+      <calcite-label for="sibling-native-input">Sibling Calcite Label to Native Input</calcite-label>
+      <input id="sibling-native-input" value="native input">
+
+      <calcite-label for="sibling-native-textarea">Sibling Calcite Label to Native Text Area</calcite-label>
+      <textarea id="sibling-native-textarea" value="native textarea">native textarea</textarea>
+
+      <calcite-label for="sibling-native-checkbox">Sibling Calcite Label to Native Checkbox</calcite-label>
+      <input id="sibling-native-checkbox" type="checkbox" name="sibling-native-checkbox">
+
+      <calcite-label for="sibling-native-radio">Sibling Calcite Label to Native Radio Buttons</calcite-label>
+      <input id="sibling-native-radio" type="radio" name="sibling-native-radio">
+      <input type="radio" name="sibling-native-radio">
+
+      <calcite-label for="sibling-native-select">Sibling Calcite Label to Native Select</calcite-label>
+      <select id="sibling-native-select" name="sibling-native-select">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+      </select>
+
+      <calcite-label for="sibling-native-button">Sibling Calcite Label to Native Button</calcite-label>
+      <button id="sibling-native-button" type="button">Native Button</button>
+
+      <h2>Sibling to Calcite Inputs</h2>
+
+      <calcite-label for="sibling-calcite-input">Sibling Calcite Label to Calcite Input</calcite-label>
+      <calcite-input id="sibling-calcite-input" value="calcite input"></calcite-input>
+
+      <calcite-label for="sibling-calcite-checkbox">Sibling Calcite Label to Calcite Checkbox</calcite-label>
+      <calcite-checkbox id="sibling-calcite-checkbox" name="sibling-calcite-checkbox"></calcite-checkbox>
+
+      <calcite-label for="sibling-calcite-radio">Sibling Calcite Label to Calcite Radio Buttons</calcite-label>
+      <calcite-radio-button id="sibling-calcite-radio" name="sibling-calcite-radio"></calcite-radio-button>
+      <calcite-radio-button name="sibling-calcite-radio"></calcite-radio-button>
+
+      <calcite-label for="sibling-calcite-select">Sibling Calcite Label to Calcite Select</calcite-label>
+      <calcite-select id="sibling-calcite-select" name="sibling-calcite-select">
+        <calcite-option>high</calcite-option>
+        <calcite-option>medium</calcite-option>
+        <calcite-option>low</calcite-option>
+      </calcite-select>
+
+      <calcite-label for="sibling-calcite-button">Sibling Calcite Label to Calcite Button</calcite-label>
+      <calcite-button id="sibling-calcite-button" type="button">Calcite Button</calcite-button>
+
+      <p>
+        <calcite-button>Submit</calcite-button>
+      </p>
     </form>
   </demo-form>
 </body>
