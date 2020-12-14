@@ -1,18 +1,4 @@
-# calcite-date
-
-The `calcite-date` component allows for selecting a date via a calendar or text input. It supports multiple locales, languages, right to left, and is fully keyboard accessible.
-
-You can set a min and max range, as well as an initial value with ISO 8601 formatted strings:
-
-```html
-<calcite-date value="2020-03-27" min="2020-02-01" max="2021-01-01" />
-```
-
-You can also add range property to activate date range mode. In this mode, you can specify start and end instead of the single value property.
-
-```html
-<calcite-date range start="2020-03-15" end="2020-03-27" min="2020-02-01" max="2021-01-01" />
-```
+# calcite-input-date-picker
 
 <!-- Auto Generated Below -->
 
@@ -20,6 +6,7 @@ You can also add range property to activate date range mode. In this mode, you c
 
 | Property             | Attribute             | Description                                                 | Type                         | Default                                      |
 | -------------------- | --------------------- | ----------------------------------------------------------- | ---------------------------- | -------------------------------------------- |
+| `active`             | `active`              | Expand or collapse when calendar does not have input        | `boolean`                    | `false`                                      |
 | `end`                | `end`                 | Selected end date                                           | `string`                     | `undefined`                                  |
 | `endAsDate`          | --                    | Selected end date as full date object                       | `Date`                       | `undefined`                                  |
 | `intlNextMonth`      | `intl-next-month`     | Localized string for "next month" (used for aria label)     | `string`                     | `TEXT.nextMonth`                             |
@@ -43,27 +30,36 @@ You can also add range property to activate date range mode. In this mode, you c
 | `calciteDatePickerChange`      | Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
 | `calciteDatePickerRangeChange` | Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
 
+## Methods
+
+### `reposition() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Dependencies
-
-### Used by
-
-- [calcite-input-date-picker](../calcite-input-date-picker)
 
 ### Depends on
 
-- [calcite-date-picker-month-header](../calcite-date-picker-month-header)
-- [calcite-date-picker-month](../calcite-date-picker-month)
+- [calcite-input](../calcite-input)
+- [calcite-date-picker](../calcite-date-picker)
+- [calcite-icon](../calcite-icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-input-date-picker --> calcite-input
+  calcite-input-date-picker --> calcite-date-picker
+  calcite-input-date-picker --> calcite-icon
+  calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   calcite-date-picker --> calcite-date-picker-month-header
   calcite-date-picker --> calcite-date-picker-month
   calcite-date-picker-month-header --> calcite-icon
   calcite-date-picker-month --> calcite-date-picker-day
-  calcite-input-date-picker --> calcite-date-picker
-  style calcite-date-picker fill:#f9f,stroke:#333,stroke-width:4px
+  style calcite-input-date-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
