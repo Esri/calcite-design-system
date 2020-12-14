@@ -331,7 +331,7 @@ describe("calcite-inline-editable", () => {
       it("focuses the enable editing button when the label is clicked", async () => {
         expect(
           await page.evaluate(async () => {
-            const label: HTMLSpanElement = document.querySelector("span.calcite-label-text");
+            const label: HTMLSpanElement = document.querySelector("label");
             await label.click();
             return document.activeElement.className;
           })
@@ -341,7 +341,7 @@ describe("calcite-inline-editable", () => {
       it("focuses the input when editing is enabled and the label is subsequently clicked", async () => {
         const enableEditingButton = await page.find(".calcite-inline-editable-enable-editing-button");
         await enableEditingButton.click();
-        const label = await page.find("span");
+        const label = await page.find("label");
         await label.click();
         const activeEl = await page.evaluateHandle(() => document.activeElement);
         expect(activeEl["_remoteObject"].description).toMatch("input");

@@ -169,11 +169,11 @@ export class CalciteCheckbox {
     if (
       !this.el.closest("calcite-label") &&
       (target as HTMLElement).nodeName === "LABEL" &&
-      (target as HTMLLabelElement).parentNode.nodeName !== "CALCITE-LABEL"
+      (target as HTMLLabelElement).parentNode.nodeName !== "CALCITE-LABEL" &&
+      this.el.id &&
+      (target as HTMLLabelElement).htmlFor === this.el.id
     ) {
-      if (this.el.id && (target as HTMLLabelElement).htmlFor === this.el.id) {
-        this.toggle();
-      }
+      this.toggle();
     }
   };
 
