@@ -47,16 +47,14 @@ input {
 
 .list-container {
   @include popperContainer();
-  visibility: hidden;
-  pointer-events: none;
+  @include popperWrapper();
 }
 
 @include popperElemAnim(".list-container");
 
 :host([active]) .list-container {
   width: 100%;
-  pointer-events: initial;
-  visibility: visible;
+  @include popperWrapperActive();
 }
 
 .list {
