@@ -62,63 +62,13 @@
   pointer-events: none;
 }
 
-:host(:not([no-calendar-input])) .menu-container {
-  @include popperContainer();
-  visibility: hidden;
-  pointer-events: none;
-  width: 100%;
-}
-:host(:not([no-calendar-input])[active]) .menu-container {
-  pointer-events: initial;
-  visibility: visible;
-}
-
-:host(:not([no-calendar-input])) {
-  @include popperElemAnim(".menu-container");
-}
-
 .calendar-picker-wrapper {
   background-color: var(--calcite-ui-foreground-1);
   width: 100%;
   line-height: 0; // fixes height in ie11
 }
 
-.input .calcite-input-wrapper {
-  margin-top: 0;
-}
-
-:host([active]) {
-  .date-input-wrapper {
-    border: 1px solid var(--calcite-ui-foreground-1);
-    border-bottom: 1px solid var(--calcite-ui-border-3);
-  }
-}
-
-:host([no-calendar-input]) {
-  @apply shadow-none;
-  .calendar-picker-wrapper {
-    @apply shadow-none;
-    position: static;
-    transform: translate3d(0, 0, 0);
-    border-radius: none;
-    border: 1px solid var(--calcite-ui-border-2);
-  }
-}
-
-.input-wrapper {
-  position: relative;
-}
-
 :host([range]) {
-  .input-container {
-    display: flex;
-    align-items: center;
-  }
-
-  .input-wrapper {
-    flex: 1 1 auto;
-  }
-
   .horizontal-arrow-container {
     background-color: var(--calcite-ui-background);
     padding: 0 var(--calcite-spacing-quarter);
@@ -133,19 +83,6 @@
 }
 
 :host([range][layout="vertical"]) {
-  .input-wrapper {
-    @apply w-full;
-  }
-
-  .input-container {
-    flex-direction: column;
-    align-items: start;
-  }
-
-  .calendar-picker-wrapper--end {
-    transform: translate3d(0, 0, 0);
-  }
-
   .vertical-arrow-container {
     position: absolute;
     @apply left-0;

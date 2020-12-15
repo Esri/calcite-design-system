@@ -62,18 +62,18 @@
   pointer-events: none;
 }
 
-:host(:not([no-calendar-input])) .menu-container {
+:host() .menu-container {
   @include popperContainer();
   visibility: hidden;
   pointer-events: none;
   width: 100%;
 }
-:host(:not([no-calendar-input])[active]) .menu-container {
+:host([active]) .menu-container {
   pointer-events: initial;
   visibility: visible;
 }
 
-:host(:not([no-calendar-input])) {
+:host() {
   @include popperElemAnim(".menu-container");
 }
 
@@ -94,7 +94,7 @@
   }
 }
 
-:host([no-calendar-input]) {
+:host() {
   @apply shadow-none;
   .calendar-picker-wrapper {
     @apply shadow-none;
