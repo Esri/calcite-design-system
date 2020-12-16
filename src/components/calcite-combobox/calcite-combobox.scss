@@ -7,82 +7,123 @@
   @include calcite-theme-dark();
 }
 
-// todo update to font and spacing value when added to calcite-base
+:host([disabled]) {
+  @apply pointer-events-none select-none opacity-50;
+}
 
 :host([scale="s"]) {
-  font-size: 12px;
-  --calcite-combobox-item-spacing-unit-l: 12px;
-  --calcite-combobox-item-spacing-unit-s: 8px;
-}
-
-:host([scale="m"]) {
-  font-size: 14px;
-  --calcite-combobox-item-spacing-unit-l: 16px;
-  --calcite-combobox-item-spacing-unit-s: 12px;
-}
-
-:host([scale="l"]) {
-  font-size: 16px;
-  --calcite-combobox-item-spacing-unit-l: 20px;
-  --calcite-combobox-item-spacing-unit-s: 16px;
-}
-
-[role="combobox"] {
-  display: flex;
-}
-
-input {
-  flex-grow: 1;
-  font-size: inherit;
-  font-family: inherit;
-  padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l);
-  background-color: var(--calcite-ui-foreground-1);
-  border: 1px solid var(--calcite-ui-border-1);
-  color: 1px solid var(--calcite-ui-text-1);
-  @include focus-style-base();
-  &:focus {
-    @include focus-style-inset();
+  @apply text--2;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-m: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
+  .input {
+    @apply h-5 leading-5 mb-2;
   }
 }
 
-.list-container {
-  @include popperContainer();
-  @include popperWrapper();
+:host([scale="m"]) {
+  @apply text--1;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
+  --calcite-combobox-item-spacing-unit-m: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
+  .input {
+    @apply h-8 leading-8 mb-3;
+  }
 }
 
-@include popperElemAnim(".list-container");
+:host([scale="l"]) {
+  @apply text-0;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.5");
+  --calcite-combobox-item-spacing-unit-m: theme("spacing.4");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
+  .input {
+    @apply h-10 leading-10 mb-4;
+  }
+}
 
-:host([active]) .list-container {
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--calcite-combobox-item-spacing-unit-m) var(--calcite-combobox-item-spacing-unit-l) 0
+    var(--calcite-combobox-item-spacing-unit-l);
+  background-color: var(--calcite-ui-foreground-1);
+  border: 1px solid var(--calcite-ui-border-1);
+  color: var(--calcite-ui-text-1);
+  @include focus-style-base();
+}
+
+.wrapper--active {
+  @include focus-style-inset();
+}
+
+.input {
+  flex-grow: 1;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  color: var(--calcite-ui-text-1);
+  appearance: none;
+  min-width: 120px;
+  margin-top: 1px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.input--hidden {
+  opacity: 0;
+}
+
+.popper-container {
+  @include popperContainer();
+  @include popperWrapper();
   width: 100%;
+}
+
+@include popperElemAnim(".popper-container");
+
+:host([active]) .popper-container {
   @include popperWrapperActive();
+}
+
+.screen-readers-only {
+  @apply sr-only;
+}
+
+.list-container {
+  overflow-y: auto;
+  max-height: 100vh;
+  width: var(--calcite-dropdown-width);
+  background: var(--calcite-ui-foreground-1);
 }
 
 .list {
   display: block;
   margin: 0;
   padding: 0;
-  max-height: 100vh;
-  width: var(--calcite-dropdown-width);
-  background: var(--calcite-ui-foreground-1);
-  overflow: hidden;
-  overflow-y: scroll;
 }
 
-.selections calcite-chip {
+.chip {
   margin-right: var(--calcite-combobox-item-spacing-unit-s);
   margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
 }
 
-.selections calcite-chip:last-child {
+.chip--active {
+  @apply bg-foreground-3;
+}
+
+.chip:last-child {
   margin-right: 0;
 }
 
-:host([dir="rtl"]) .selections calcite-chip {
+:host([dir="rtl"]) .chip {
   margin-right: unset;
-  margin-left: var(--calcite-combobox-item-spacing-unit-s);
+  margin-left: var(--calcite-combobox-item-spacing-unit-m);
 }
 
-:host([dir="rtl"]) .selections calcite-chip:last-child {
+:host([dir="rtl"]) .chip:last-child {
   margin-left: 0;
 }
 

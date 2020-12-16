@@ -1,5 +1,6 @@
 import { storiesOf } from "@storybook/html";
-import { select, number } from "@storybook/addon-knobs";
+import { select, number, text } from "@storybook/addon-knobs";
+import { boolean } from "../../../.storybook/helpers";
 
 import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
@@ -13,7 +14,10 @@ storiesOf("Components/Combobox", module)
     <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
     <calcite-combobox
       label="demo combobox"
+      placeholder="${text("placeholder", "placeholder")}"
+      label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      ${boolean("disabled", false)}
       max-items="${number("max-items", 0)}"
       >
       <calcite-combobox-item value="Trees" text-label="Trees">
@@ -46,7 +50,10 @@ storiesOf("Components/Combobox", module)
     <calcite-combobox
     label="demo combobox"
     theme="dark"
+    placeholder="${text("placeholder", "placeholder")}"
+    label="${text("label (for screen readers)", "demo")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("disabled", false)}
     max-items="${number("max-items", 0)}"
     >
     <calcite-combobox-item value="Trees" text-label="Trees">
@@ -77,8 +84,11 @@ storiesOf("Components/Combobox", module)
     (): string => `
     <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
     <calcite-combobox
+    placeholder="${text("placeholder", "placeholder")}"
+    label="${text("label (for screen readers)", "demo")}"
     dir="rtl"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("disabled", false)}
     >
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>

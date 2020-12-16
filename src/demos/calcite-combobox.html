@@ -27,9 +27,11 @@
   <h1>Calcite Combobox</h1>
   <h2>Scale M</h2>
 
-  <calcite-combobox label="test" max-items="4">
+  <calcite-combobox label="test" placeholder="placeholder" max-items="6">
     <calcite-combobox-item value="Trees" text-label="Trees">
-      <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+      <calcite-combobox-item value="Pine" text-label="Pine">
+        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+      </calcite-combobox-item>
       <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
       <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
     </calcite-combobox-item>
@@ -51,7 +53,7 @@
 
   <h2>Scale S</h2>
 
-  <calcite-combobox label="test" scale="s">
+  <calcite-combobox label="test" placeholder="placeholder" scale="s">
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
       <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
@@ -73,7 +75,7 @@
   </calcite-combobox>
   <h2>Scale L</h2>
 
-  <calcite-combobox label="test" scale="l">
+  <calcite-combobox label="test" placeholder="placeholder" scale="l">
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
       <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
@@ -96,7 +98,7 @@
 
   <h2>RTL</h2>
 
-  <calcite-combobox label="test" dir="rtl">
+  <calcite-combobox label="test" placeholder="placeholder" dir="rtl">
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
       <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
@@ -121,7 +123,7 @@
   <div class="demo-background-dark">
     <h2>Scale M</h2>
 
-    <calcite-combobox theme="dark" label="test">
+    <calcite-combobox theme="dark" label="test" placeholder="placeholder">
       <calcite-combobox-item value="Trees" text-label="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
         <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
