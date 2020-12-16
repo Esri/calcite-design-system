@@ -7,7 +7,9 @@
   @include calcite-theme-dark();
 }
 
-// todo update to font and spacing value when added to calcite-base
+:host([disabled]) {
+  @apply pointer-events-none select-none opacity-50;
+}
 
 :host([scale="s"]) {
   @apply text--2;

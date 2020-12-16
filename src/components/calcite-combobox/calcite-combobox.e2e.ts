@@ -1,12 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden, accessible } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox"));
   it("honors hidden attribute", async () => hidden("calcite-combobox"));
   it("is accessible", async () =>
     accessible(`
-      <calcite-combobox label="Trees" value="Trees" text-label="Trees">
+      <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
       </calcite-combobox>
   `));
@@ -21,9 +22,9 @@ describe("calcite-combobox", () => {
     page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    const listBox = await page.find(`calcite-combobox >>> #listbox`);
-    const listBoxVisible = await listBox.isVisible();
-    expect(listBoxVisible).toBe(true);
+    const container = await page.find(`calcite-combobox >>> .popper-container`);
+    const visible = await container.isVisible();
+    expect(visible).toBe(true);
   });
 
   it("should filter the items in listbox when typing into the input", async () => {
@@ -160,6 +161,107 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("keyboard navigation", () => {
+    it("should cycle through items on up/down arrows", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox>
+            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+
+      const eventSpy = await page.spyOnEvent("calciteLookupChange", "window");
+      const item1 = await page.find("calcite-combobox-item#one");
+      const item2 = await page.find("calcite-combobox-item#two");
+      const item3 = await page.find("calcite-combobox-item#three");
+
+      const input = await page.find("calcite-combobox >>> input");
+      await input.click();
+      expect(await item1.getProperty("active")).toBe(false);
+
+      await input.press("ArrowDown");
+      expect(await item1.getProperty("active")).toBe(true);
+
+      await input.press("ArrowUp");
+      expect(await item3.getProperty("active")).toBe(true);
+      expect(await item1.getProperty("active")).toBe(false);
+
+      await input.press("ArrowUp");
+      expect(await item2.getProperty("active")).toBe(true);
+      expect(await item3.getProperty("active")).toBe(false);
+
+      await input.press("ArrowDown");
+      await input.press("ArrowDown");
+      expect(await item1.getProperty("active")).toBe(true);
+
+      await input.press("Enter");
+      expect(await item1.getProperty("selected")).toBe(true);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+
+      await input.press("Enter");
+      expect(await item1.getProperty("selected")).toBe(false);
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+    });
+
+    it("should delete last chip on Delete", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox>
+            <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      let chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).not.toBeNull();
+
+      const input = await page.find("calcite-combobox >>> input");
+      await input.click();
+
+      await input.press("Backspace");
+      chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).toBeNull();
+    });
+
+    it("should cycle through chips on left/right keys", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox>
+            <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two" selected></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three" selected></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      let chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      expect(chips[0]).not.toBeNull();
+      expect(chips[1]).not.toBeNull();
+      expect(chips[2]).not.toBeNull();
+
+      const box = await page.find("calcite-combobox");
+      const input = await page.find("calcite-combobox >>> input");
+      await input.click();
+
+      await input.press("ArrowLeft");
+      expect(chips[2]).toHaveClass("chip--active");
+
+      await input.press("ArrowLeft");
+      expect(await chips[1]).toHaveClass("chip--active");
+      expect(chips[2]).not.toHaveClass("chip--active");
+
+      await box.press("Delete");
+      chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      expect(chips.length).toEqual(2);
     });
   });
 });

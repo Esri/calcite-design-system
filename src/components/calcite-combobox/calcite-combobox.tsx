@@ -48,12 +48,21 @@ export class CalciteCombobox {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
+  /** Open and close combobox */
   @Prop({ reflect: true }) active = false;
 
+  @Watch("active") activeHandler(): void {
+    this.reposition();
+  }
+
+  /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Aria label for combobox (required) */
   @Prop() label!: string;
 
+  /** Placeholder text for input */
   @Prop() placeholder?: string;
 
   /** specify the maximum number of combobox items (including nested children) to display before showing the scroller */
@@ -64,15 +73,6 @@ export class CalciteCombobox {
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
-
-  @Watch("active") activeHandler(): void {
-    this.reposition();
-  }
-
-  /** when search text is cleared, reset active to  */
-  @Watch("text") textHandler(): void {
-    this.updateActiveItemIndex(-1);
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -195,7 +195,8 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  @Event() calciteLookupChange: EventEmitter;
+  /** Called when the selected items set changes */
+  @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
@@ -252,6 +253,11 @@ export class CalciteCombobox {
   @State() activeDescendant = "";
 
   @State() text = "";
+
+  /** when search text is cleared, reset active to  */
+  @Watch("text") textHandler(): void {
+    this.updateActiveItemIndex(-1);
+  }
 
   textInput: HTMLInputElement = null;
 
@@ -404,17 +410,21 @@ export class CalciteCombobox {
     return this.items.filter((item) => !item.hidden);
   }
 
-  /** Preserve order of entered tags */
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
     const current = [...this.selectedItems];
-    return this.items.filter(item => item.selected).sort((a, b) => {
-      const aIdx = current.indexOf(a);
-      const bIdx = current.indexOf(b);
-      if (aIdx > -1 && bIdx > -1) {
-        return aIdx - bIdx;
-      }
-      return bIdx - aIdx;
-    });
+    return (
+      this.items
+        .filter((item) => item.selected)
+        /** Preserve order of entered tags */
+        .sort((a, b) => {
+          const aIdx = current.indexOf(a);
+          const bIdx = current.indexOf(b);
+          if (aIdx > -1 && bIdx > -1) {
+            return aIdx - bIdx;
+          }
+          return bIdx - aIdx;
+        })
+    );
   }
 
   updateItems(): void {
@@ -478,7 +488,6 @@ export class CalciteCombobox {
   focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
     const chip = this.referenceEl.querySelector<HTMLCalciteChipElement>(`#chip-${guid}`);
-    console.log(this.el, chip, guid);
     chip?.setFocus();
   }
 
@@ -529,48 +538,83 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
+  renderChips(): VNode[] {
+    const { activeChipIndex, scale } = this;
+    return this.selectedItems.map((item, i) => {
+      const chipClasses = { chip: true, "chip--active": activeChipIndex === i };
+      return (
+        <calcite-chip
+          class={chipClasses}
+          dismissLabel={"remove tag"}
+          dismissible
+          id={`chip-${item.guid}`}
+          key={item.value}
+          scale={scale}
+          value={item.value}
+        >
+          {item.textLabel}
+        </calcite-chip>
+      );
+    });
+  }
+
+  renderListBoxOptions(): VNode[] {
+    return this.visibleItems.map((item) => (
+      <li aria-selected={(!!item.selected).toString()} id={item.guid} role="option" tabindex="-1">
+        {item.value}
+      </li>
+    ));
+  }
+
+  renderPopperContainer(): VNode {
+    const { active, maxScrollerHeight, setMenuEl, setListContainerEl } = this;
+    const classes = {
+      "list-container": true,
+      [PopperCSS.animation]: true,
+      [PopperCSS.animationActive]: active
+    };
+    const style = {
+      maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
+    };
+    return (
+      <div aria-hidden="true" class="popper-container" ref={setMenuEl}>
+        <div class={classes} ref={setListContainerEl} style={style}>
+          <ul class="list">
+            <slot />
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
   render(): VNode {
-    const { guid, active, disabled, el, label, placeholder, scale, selectedItems } = this;
+    const { guid, active, disabled, el, label, placeholder } = this;
     const dir = getElementDir(el);
+    const labelId = `${guid}-label`;
     return (
       <Host active={active} dir={dir}>
         <div
-          role="combobox"
+          aria-autocomplete="list"
           aria-expanded={active.toString()}
           aria-haspopup="listbox"
+          aria-labelledby={labelId}
           aria-owns={guid}
-          aria-autocomplete="list"
-          aria-label={label}
-          aria-active
           class={{ wrapper: true, "wrapper--active": active }}
           onClick={() => this.setFocus()}
           ref={this.setReferenceEl}
-
+          role="combobox"
         >
-          {selectedItems.map((item, i) => {
-            const chipClasses = { chip: true, "chip--active": this.activeChipIndex === i };
-            return (
-              <calcite-chip
-                class={chipClasses}
-                dir={dir}
-                dismissible
-                dismissLabel={"remove tag"}
-                key={item.value}
-                scale={scale}
-                value={item.value}
-                id={`chip-${item.guid}`}
-              >
-                {item.textLabel}
-              </calcite-chip>
-            );
-          })}
+          {this.renderChips()}
+          <label class="sr" htmlFor={`${guid}-input`} id={labelId}>
+            {label}
+          </label>
           <input
-            role="textbox"
+            aria-activedescendant={this.activeDescendant}
             aria-autocomplete="list"
             aria-controls={guid}
-            aria-activedescendant={this.activeDescendant}
             class={{ input: true, "input--hidden": this.activeChipIndex > -1 }}
             disabled={disabled}
+            id={`${guid}-input`}
             onBlur={this.comboboxBlurHandler}
             onFocus={this.comboboxFocusHandler}
             onInput={this.inputHandler}
@@ -580,35 +624,16 @@ export class CalciteCombobox {
           />
         </div>
         <ul
-          class="sr"
+          aria-labelledby={labelId}
           aria-multiselectable="true"
+          class="sr"
           id={guid}
           role="listbox"
           tabIndex={-1}
         >
-          {this.visibleItems.map((item) => (
-            <li role="option" tabindex="-1" id={item.guid} aria-selected={ (!!item.selected).toString() }>
-              {item.value}
-            </li>
-          ))}
+          {this.renderListBoxOptions()}
         </ul>
-        <div aria-hidden="true" class="popper-container" ref={this.setMenuEl}>
-          <div
-            class={{
-              "list-container": true,
-              [PopperCSS.animation]: true,
-              [PopperCSS.animationActive]: active
-            }}
-            style={{
-              maxHeight: this.maxScrollerHeight > 0 ? `${this.maxScrollerHeight}px` : ""
-            }}
-            ref={this.setListContainerEl}
-          >
-            <ul class="list">
-              <slot />
-            </ul>
-          </div>
-        </div>
+        {this.renderPopperContainer()}
       </Host>
     );
   }

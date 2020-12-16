@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   Host,
-  Listen,
   Method,
   Prop,
   h,
@@ -14,7 +13,6 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
-import { getKey } from "../../utils/key";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -38,7 +36,7 @@ export class CalciteComboboxItem {
   /** True when item is highlighted either from keyboard or mouse hover */
   @Prop() active = false;
 
-  @Prop({mutable: true}) anscestors: HTMLCalciteComboboxItemElement[];
+  @Prop({ mutable: true }) anscestors: HTMLCalciteComboboxItemElement[];
 
   @Prop() guid: string = guid();
 
@@ -78,7 +76,7 @@ export class CalciteComboboxItem {
   componentWillLoad(): void {
     const parent = this.el.parentElement?.closest("calcite-combobox-item");
     const grandparent = parent?.parentElement?.closest("calcite-combobox-item");
-    this.anscestors = [parent, grandparent].filter(el => el);
+    this.anscestors = [parent, grandparent].filter((el) => el);
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 
@@ -93,41 +91,6 @@ export class CalciteComboboxItem {
    * @event calciteComboboxItemChange
    */
   @Event() calciteComboboxItemChange: EventEmitter;
-
-  @Event() calciteComboboxItemKeyEvent: EventEmitter;
-
-  @Event() calciteComboboxItemHover: EventEmitter;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  // --------------------------------------------------------------------------
-
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
-    event.stopPropagation();
-    switch (getKey(event.key)) {
-      case " ":
-      case "Enter":
-        this.isSelected = !this.isSelected;
-        this.calciteComboboxItemChange.emit(this.el);
-        event.preventDefault();
-        break;
-      case "ArrowUp":
-      case "ArrowDown":
-      case "Home":
-      case "End":
-      case "Tab":
-      case "Escape":
-        this.calciteComboboxItemKeyEvent.emit({
-          event: event,
-          item: this.el
-        });
-        event.preventDefault();
-        break;
-    }
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -161,10 +124,6 @@ export class CalciteComboboxItem {
 
     this.isSelected = !this.isSelected;
     this.calciteComboboxItemChange.emit(this.el);
-  };
-
-  itemHoverHandler = (): void => {
-    this.calciteComboboxItemHover.emit(this.el);
   };
 
   getDepth(): number {
@@ -206,26 +165,17 @@ export class CalciteComboboxItem {
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.isSelected,
-      [CSS.active]: this.active,
-      [CSS.nested]: this.isNested,
-      [CSS.parent]: !this.isNested
+      [CSS.active]: this.active
     };
     const scale = getElementProp(this.el, "scale", "m");
     const dir = getElementDir(this.el);
 
     return (
-      <Host
-        dir={dir}
-        disabled={this.disabled}
-        scale={scale}
-        aria-hidden
-        tabIndex={-1}
-      >
+      <Host aria-hidden dir={dir} disabled={this.disabled} scale={scale} tabIndex={-1}>
         <li
-          id={this.guid}
           class={classes}
+          id={this.guid}
           onClick={this.itemClickHandler}
-          onMouseOver={this.itemHoverHandler}
           ref={(el) => (this.comboboxItemEl = el as HTMLElement)}
           tabIndex={-1}
         >
