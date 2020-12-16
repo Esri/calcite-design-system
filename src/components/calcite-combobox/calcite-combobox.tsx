@@ -605,7 +605,7 @@ export class CalciteCombobox {
           role="combobox"
         >
           {this.renderChips()}
-          <label class="sr" htmlFor={`${guid}-input`} id={labelId}>
+          <label class="screen-readers-only" htmlFor={`${guid}-input`} id={labelId}>
             {label}
           </label>
           <input
@@ -626,7 +626,7 @@ export class CalciteCombobox {
         <ul
           aria-labelledby={labelId}
           aria-multiselectable="true"
-          class="sr"
+          class="screen-readers-only"
           id={guid}
           role="listbox"
           tabIndex={-1}

@@ -34,7 +34,7 @@ export class CalciteChip {
   /** Optionally show a button the user can click to dismiss the chip */
   @Prop({ reflect: true }) dismissible?: boolean = false;
 
-  /** Optionally show a button the user can click to dismiss the chip */
+  /** Aria label for the "x" button */
   @Prop() dismissLabel?: string = TEXT.close;
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
@@ -91,6 +91,7 @@ export class CalciteChip {
   };
 
   private closeButton: HTMLButtonElement;
+
   private guid: string = guid();
 
   //--------------------------------------------------------------------------
@@ -115,10 +116,10 @@ export class CalciteChip {
 
     const closeButton = (
       <button
+        aria-describedby={this.guid}
+        aria-label={this.dismissLabel}
         class={CSS.close}
         onClick={this.closeClickHandler}
-        aria-label={this.dismissLabel}
-        aria-describedby={this.guid}
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={iconScale} />
