@@ -8,7 +8,7 @@ import {
   keyboardNavigation,
   itemRemoval
 } from "./shared-list-tests";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 describe("calcite-pick-list", () => {
   it("renders", async () => renders("calcite-pick-list"));
@@ -16,7 +16,7 @@ describe("calcite-pick-list", () => {
   it("honors hidden attribute", async () => hidden("calcite-pick-list"));
 
   it("is accessible", async () =>
-    accessible(dedent`
+    accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>
       </calcite-pick-list>

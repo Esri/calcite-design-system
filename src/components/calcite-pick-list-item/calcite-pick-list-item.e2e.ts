@@ -1,29 +1,29 @@
 import { CSS } from "./resources";
 import { accessible, renders } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 describe("calcite-pick-list-item", () => {
   it("renders", async () => renders("calcite-pick-list-item"));
 
   it("is accessible", async () => {
-    await accessible(dedent`
-        <calcite-pick-list>
-          <calcite-pick-list-item label="test" description="a number" value="one"></calcite-pick-list-item>
-        </calcite-pick-list>
-      `);
+    await accessible(html`
+      <calcite-pick-list>
+        <calcite-pick-list-item label="test" description="a number" value="one"></calcite-pick-list-item>
+      </calcite-pick-list>
+    `);
 
-    await accessible(dedent`
-        <calcite-pick-list>
-          <calcite-pick-list-item label="test" description="a number" value="one" selected></calcite-pick-list-item>
-        </calcite-pick-list>
-      `);
+    await accessible(html`
+      <calcite-pick-list>
+        <calcite-pick-list-item label="test" description="a number" value="one" selected></calcite-pick-list-item>
+      </calcite-pick-list>
+    `);
 
-    await accessible(dedent`
-        <calcite-pick-list>
-          <calcite-pick-list-item label="test" description="a number" value="one" removable></calcite-pick-list-item>
-        </calcite-pick-list>
-      `);
+    await accessible(html`
+      <calcite-pick-list>
+        <calcite-pick-list-item label="test" description="a number" value="one" removable></calcite-pick-list-item>
+      </calcite-pick-list>
+    `);
   });
 
   it("should toggle selected attribute when clicked", async () => {

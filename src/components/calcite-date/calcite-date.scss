@@ -64,13 +64,11 @@
 
 :host(:not([no-calendar-input])) .menu-container {
   @include popperContainer();
-  visibility: hidden;
-  pointer-events: none;
+  @include popperWrapper();
   width: 100%;
 }
 :host(:not([no-calendar-input])[active]) .menu-container {
-  pointer-events: initial;
-  visibility: visible;
+  @include popperWrapperActive();
 }
 
 :host(:not([no-calendar-input])) {

@@ -196,54 +196,6 @@ describe("calcite-radio-button", () => {
     expect(await second.getProperty("checked")).toBe(false);
   });
 
-  it("removing a radio button also removes the hidden <input type=radio> element", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button name="radio" id="first" value="one" checked>
-            One
-      </calcite-radio-button>
-      <calcite-radio-button name="radio" id="second" value="two">
-          Two
-      </calcite-radio-button>
-    `);
-
-    let firstInput = await page.find("input#first-input");
-    expect(firstInput).toBeTruthy();
-
-    await page.evaluate(() => {
-      const first = document.querySelector("#first");
-      first.parentNode.removeChild(first);
-    });
-    await page.waitForChanges();
-
-    firstInput = await page.find("input#first-input");
-
-    expect(firstInput).toBeFalsy();
-  });
-
-  it("moving a radio button also moves the corresponding <input> element", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button name="radio" id="first" value="one" checked>
-            One
-      </calcite-radio-button>
-      <calcite-radio-button name="radio" id="second" value="two">
-          Two
-      </calcite-radio-button>
-    `);
-    const documentBody = await page.evaluate(() => {
-      const one = document.querySelector("calcite-radio-button[value=one]");
-      one.parentNode.removeChild(one);
-      document.body.appendChild(one);
-      return document.body;
-    });
-    await page.waitForChanges();
-
-    const firstInput = document.querySelector("input#first-input");
-
-    expect(documentBody.lastChild === firstInput);
-  });
-
   it("programmatically checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
     await page.setContent(`
