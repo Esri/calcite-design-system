@@ -82,18 +82,18 @@ export class CalciteLabel {
       requestedInput: this.for
     });
 
-    // 1. has for
+    // 1. has htmlFor
     if (!this.for) return;
 
-    // 2. for points to a calcite component
+    // 2. htmlFor matches a calcite component
     const inputForThisLabel = document.getElementById(this.for);
     if (!inputForThisLabel) return;
     if (!inputForThisLabel.localName.startsWith("calcite")) return;
 
-    // 3. this label wraps said calcite component
-    if (!this.el.contains(inputForThisLabel)) return;
+    // 5. target is NOT the calcite component that this label matches
+    if (target === inputForThisLabel) return;
 
-    // 4. target is not a labelable native element
+    // 3. target is not a labelable native form element
     const labelableNativeElements = [
       "button",
       "input",
@@ -105,16 +105,40 @@ export class CalciteLabel {
     ];
     if (labelableNativeElements.includes(target.localName)) return;
 
-    // 5. target is NOT the calcite component the label corresponds to
-    if (target === inputForThisLabel) return;
+    // 4. target is not a labelable calcite form element
+    const labelableCalciteElements = [
+      "calcite-button",
+      "calcite-checkbox",
+      "calcite-date",
+      "calcite-inline-editable",
+      "calcite-input",
+      "calcite-radio",
+      "calcite-radio-button",
+      "calcite-radio-button-group",
+      "calcite-radio-group",
+      "calcite-rating",
+      "calcite-select",
+      "calcite-slider",
+      "calcite-switch"
+    ];
+    if (labelableCalciteElements.includes(target.localName)) return;
 
-    // TODO: 6. target is just the label text itself
+    // 5. target is not a child of a labelable calcite form element
+    for (let i = 0; i < labelableCalciteElements.length; i++) {
+      if (target.closest(labelableCalciteElements[i])) {
+        return;
+      }
+    }
 
     const nativeInputForThisLabel: HTMLElement = inputForThisLabel.querySelector(
       `#${this.for}-input`
     );
     if (nativeInputForThisLabel) {
+      // This is for components that have a hidden input with a different id than their host element
       nativeInputForThisLabel.click();
+    } else {
+      // This is for components that have a hidden input with the same id as their host element
+      inputForThisLabel.click();
     }
   }
 

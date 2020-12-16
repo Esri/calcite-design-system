@@ -19,6 +19,7 @@
   <script type="module" src="../build/calcite.esm.js"></script>
   <script nomodule src="../build/calcite.js"></script>
   <script src="../assets/demo/validateInput.js"></script>
+  <script type="module" src="./helpers/demo-form.js"></script>
 </head>
 
 <body>
@@ -105,6 +106,58 @@
       <h2>Wrapping Calcite Inputs</h2>
 
       <calcite-label>
+        Calcite Label Wrapping Calcite Button
+        <calcite-button id="wrapping-calcite-button" name="wrapping-calcite-button" type="button">Calcite
+          Button</calcite-button>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-button-with-for">
+        Calcite Label Wrapping Calcite Button With For
+        <calcite-button id="wrapping-calcite-button-with-for" name="wrapping-calcite-button-with-for" type="button">
+          Native Button</calcite-button>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Checkbox
+        <calcite-checkbox id="wrapping-calcite-checkbox" name="wrapping-calcite-checkbox">
+        </calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Checkbox with Slotted Label
+        <calcite-checkbox id="wrapping-calcite-checkbox-slotted-label" name="wrapping-calcite-checkbox-slotted-label">
+          Slotted Label</calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-checkbox-with-for">
+        Calcite Label Wrapping Calcite Checkbox With For
+        <calcite-checkbox id="wrapping-calcite-checkbox-with-for" name="wrapping-calcite-checkbox-with-for">
+        </calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-checkbox-slotted-label-with-for">
+        Calcite Label Wrapping Calcite Checkbox with Slotted Label and with For
+        <calcite-checkbox id="wrapping-calcite-checkbox-slotted-label-with-for"
+          name="wrapping-calcite-checkbox-slotted-label-with-for">Slotted Label</calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label wrapping Calcite Date
+        <calcite-date></calcite-date>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label wrapping Calcite Inline Editable
+        <calcite-inline-editable>
+          <calcite-input>
+          </calcite-input>
+        </calcite-inline-editable>
+        <calcite-input-message>
+          My great input message
+        </calcite-input-message>
+      </calcite-label>
+
+      <calcite-label>
         Calcite Label Wrapping Calcite Input
         <calcite-input id="wrapping-calcite-input" name="wrapping-calcite-input">
         </calcite-input>
@@ -117,19 +170,8 @@
 
       <calcite-label for="wrapping-calcite-input-with-for-text-wrapped">
         <span>Calcite Label Wrapping Calcite Input With For and Label Text is Wrapped in span</span>
-        <calcite-input id="wrapping-calcite-input-with-for-text-wrapped" name="wrapping-calcite-input-with-for-text-wrapped"></calcite-input>
-      </calcite-label>
-
-      <calcite-label>
-        Calcite Label Wrapping Calcite Checkbox
-        <calcite-checkbox id="wrapping-calcite-checkbox" name="wrapping-calcite-checkbox">
-        </calcite-checkbox>
-      </calcite-label>
-
-      <calcite-label for="wrapping-calcite-checkbox-with-for">
-        Calcite Label Wrapping Calcite Checkbox With For
-        <calcite-checkbox id="wrapping-calcite-checkbox-with-for" name="wrapping-calcite-checkbox-with-for">
-        </calcite-checkbox>
+        <calcite-input id="wrapping-calcite-input-with-for-text-wrapped"
+          name="wrapping-calcite-input-with-for-text-wrapped"></calcite-input>
       </calcite-label>
 
       <calcite-label>
@@ -138,11 +180,86 @@
         <calcite-radio-button name="wrapping-calcite-radio" value="two"></calcite-radio-button>
       </calcite-label>
 
+      <calcite-label>
+        <span>Calcite Label wrapped in span Wrapping Calcite Radio Buttons</span>
+        <calcite-radio-button name="wrapping-calcite-radio-label-in-span" value="one"></calcite-radio-button>
+        <calcite-radio-button name="wrapping-calcite-radio-label-in-span" value="two"></calcite-radio-button>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Radio Buttons with Slotted Labels
+        <calcite-radio-button name="wrapping-calcite-radio-slotted-label" value="one">One</calcite-radio-button>
+        <calcite-radio-button name="wrapping-calcite-radio-slotted-label" value="two">Two</calcite-radio-button>
+      </calcite-label>
+
       <calcite-label for="wrapping-calcite-radio-with-for">
         Calcite Label Wrapping Calcite Radio Buttons With For
         <calcite-radio-button id="wrapping-calcite-radio-with-for" name="wrapping-calcite-radio-with-for" value="one">
         </calcite-radio-button>
         <calcite-radio-button name="wrapping-calcite-radio-with-for" value="two"></calcite-radio-button>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-radio-slotted-label-with-for">
+        Calcite Label Wrapping Calcite Radio Buttons with Slotted Labels and with For
+        <calcite-radio-button id="wrapping-calcite-radio-slotted-label-with-for"
+          name="wrapping-calcite-radio-slotted-label-with-for" value="one">One</calcite-radio-button>
+        <calcite-radio-button name="wrapping-calcite-radio-slotted-label-with-for" value="two"><span>
+            <p>Two</p>
+          </span></calcite-radio-button>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Radio Button Group
+        <calcite-radio-button-group name="wrapping-calcite-radio-button-group">
+          <calcite-radio-button value="one"></calcite-radio-button>
+          <calcite-radio-button value="two"></calcite-radio-button>
+        </calcite-radio-button-group>
+      </calcite-label>
+
+      <calcite-label>
+        <span>Calcite Label wrapped in span Wrapping Calcite Radio Button Group</span>
+        <calcite-radio-button-group name="wrapping-calcite-radio-button-group-span">
+          <calcite-radio-button value="one"></calcite-radio-button>
+          <calcite-radio-button value="two"></calcite-radio-button>
+        </calcite-radio-button-group>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label Wrapping Calcite Radio Button Group with Slotted Labels
+        <calcite-radio-button-group name="wrapping-calcite-radio-button-group-slotted-label">
+          <calcite-radio-button value="one">One</calcite-radio-button>
+          <calcite-radio-button value="two">Two</calcite-radio-button>
+        </calcite-radio-button-group>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-radio-button-group-with-for">
+        Calcite Label Wrapping Calcite Radio Button Group With For
+        <calcite-radio-button-group name="wrapping-calcite-radio-button-group-with-for">
+          <calcite-radio-button id="wrapping-calcite-radio-button-group-with-for" value="one"></calcite-radio-button>
+          <calcite-radio-button value="two"></calcite-radio-button>
+        </calcite-radio-button-group>
+      </calcite-label>
+
+      <calcite-label for="wrapping-calcite-radio-button-group-slotted-label-with-for">
+        Calcite Label Wrapping Calcite Radio Button Group with Slotted Labels and with For
+        <calcite-radio-button-group name="wrapping-calcite-radio-button-group-slotted-label-with-for">
+          <calcite-radio-button id="wrapping-calcite-radio-button-group-slotted-label-with-for" value="one">One</calcite-radio-button>
+          <calcite-radio-button value="two"><span><p>Two</p></span></calcite-radio-button>
+        </calcite-radio-button-group>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label wrapping a Calcite Radio Group
+        <calcite-radio-group>
+          <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+
+      <calcite-label>
+        Calcite Label wrapping a Calcite Rating
+        <calcite-rating></calcite-rating>
       </calcite-label>
 
       <calcite-label>
@@ -164,15 +281,13 @@
       </calcite-label>
 
       <calcite-label>
-        Calcite Label Wrapping Calcite Button
-        <calcite-button id="wrapping-calcite-button" name="wrapping-calcite-button" type="button">Calcite
-          Button</calcite-button>
+        Calcite Label wrapping a Calcite Slider
+        <calcite-slider></calcite-slider>
       </calcite-label>
 
-      <calcite-label for="wrapping-calcite-button-with-for">
-        Calcite Label Wrapping Calcite Button With For
-        <calcite-button id="wrapping-calcite-button-with-for" name="wrapping-calcite-button-with-for" type="button">
-          Native Button</calcite-button>
+      <calcite-label>
+        Calcite Label wrapping a Calcite Switch
+        <calcite-switch></calcite-switch>
       </calcite-label>
 
       <h2>Sibling to Native Inputs</h2>
@@ -224,8 +339,9 @@
       <calcite-button id="sibling-calcite-button" type="button">Calcite Button</calcite-button>
 
       <p>
-        <calcite-button>Submit</calcite-button>
+        <calcite-button type="submit">Submit</calcite-button>
       </p>
+
     </form>
   </demo-form>
 </body>
