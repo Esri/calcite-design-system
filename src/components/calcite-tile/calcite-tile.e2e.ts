@@ -50,9 +50,9 @@ describe("calcite-tile", () => {
     const icon = await page.find("calcite-tile >>> .icon");
     const heading = await page.find("calcite-tile >>> .heading");
     const description = await page.find("calcite-tile >>> .description");
-    expect(icon).toBeNull;
+    expect(icon).toBeNull();
     expect(heading).toEqualText("My Calcite Tile");
-    expect(description).toBeNull;
+    expect(description).toBeNull();
   });
 
   it("renders icon only when supplied", async () => {
@@ -64,7 +64,7 @@ describe("calcite-tile", () => {
     const description = await page.find("calcite-tile >>> .description");
     expect(icon).toBeDefined();
     expect(heading).toBeNull();
-    expect(description).toBeNull;
+    expect(description).toBeNull();
   });
 
   it("renders description only when supplied", async () => {

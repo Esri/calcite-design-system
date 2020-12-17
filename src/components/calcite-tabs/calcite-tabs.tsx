@@ -23,26 +23,17 @@ export class CalciteTabs {
   /**
    * Select theme (light or dark)
    */
-  @Prop({
-    reflect: true
-  })
-  theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: "light" | "dark";
 
   /**
    * Align tab titles to the edge or fully justify them across the tab nav ("center")
    */
-  @Prop({
-    reflect: true
-  })
-  layout: "center" | "inline" = "inline";
+  @Prop({ reflect: true }) layout: "center" | "inline" = "inline";
 
   /**
    * Display the tabs above (default) or below the tab content
    */
-  @Prop({
-    reflect: true
-  })
-  position: "above" | "below" = "above";
+  @Prop({ reflect: true }) position: "above" | "below" = "above";
 
   //--------------------------------------------------------------------------
   //
@@ -70,7 +61,8 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabTitleRegister") calciteTabTitleRegister(e: CustomEvent): void {
+  @Listen("calciteTabTitleRegister")
+  calciteTabTitleRegister(e: CustomEvent): void {
     this.titles = [...this.titles, e.target as HTMLCalciteTabTitleElement];
     this.registryHandler();
     e.stopPropagation();
@@ -79,8 +71,9 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabTitleUnregister") calciteTabTitleUnregister(e: CustomEvent): void {
-    this.titles = this.titles.filter((el) => el !== e.target);
+  @Listen("calciteTabTitleUnregister", { target: "body" })
+  calciteTabTitleUnregister(e: CustomEvent): void {
+    this.titles = this.titles.filter((el) => el !== e.detail);
     this.registryHandler();
     e.stopPropagation();
   }
@@ -88,7 +81,8 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabRegister") calciteTabRegister(e: CustomEvent): void {
+  @Listen("calciteTabRegister")
+  calciteTabRegister(e: CustomEvent): void {
     this.tabs = [...this.tabs, e.target as HTMLCalciteTabElement];
     this.registryHandler();
     e.stopPropagation();
@@ -97,8 +91,9 @@ export class CalciteTabs {
   /**
    * @internal
    */
-  @Listen("calciteTabUnregister") calciteTabUnregister(e: CustomEvent): void {
-    this.tabs = this.tabs.filter((el) => el !== e.target);
+  @Listen("calciteTabUnregister", { target: "body" })
+  calciteTabUnregister(e: CustomEvent): void {
+    this.tabs = this.tabs.filter((el) => el !== e.detail);
     this.registryHandler();
     e.stopPropagation();
   }

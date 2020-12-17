@@ -82,6 +82,14 @@
     <div style="padding:12px 16px">I am a popover with a close button!</div>
   </calcite-popover>
 
+  <calcite-popover reference-element="tooltip-and-popover" placement="top" theme="dark" >
+    <div style="padding:12px 16px">Hello! I am some popover content!</div>
+  </calcite-popover>
+
+  <calcite-tooltip reference-element="tooltip-and-popover" placement="bottom">Lorem Ipsum is simply of the printing and typesetting industry. Lorem
+    Ipsum has been the industry's standard printer of type and scrambled it
+    to make a type specimen book.</calcite-tooltip>
+
   <style>
     .popover-list {
       list-style: none;
@@ -115,6 +123,11 @@
     <li>
       <calcite-button id="popover-button-three" icon="plus">
         Title, content & CTA</calcite-button>
+    </li>
+    <li>
+      <calcite-tooltip-manager>
+        <calcite-button id="tooltip-and-popover">Tooltip and popover test</calcite-button>
+    </calcite-tooltip-manager>
     </li>
   </ul>
 

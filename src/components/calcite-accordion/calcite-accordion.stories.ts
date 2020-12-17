@@ -1,5 +1,5 @@
 import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
 import { select, text } from "@storybook/addon-knobs";
@@ -120,44 +120,44 @@ export const basic = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes(),
-    dedent`
-    ${create(
-      "calcite-accordion-item",
-      createAccordionItemAttributes({ group: "accordion-item-1" }),
-      accordionItemContent
-    )}
-    ${create(
-      "calcite-accordion-item",
-      createAccordionItemAttributes({ group: "accordion-item-2" }),
-      accordionItemContent
-    )}
-    ${create(
-      "calcite-accordion-item",
-      createAccordionItemAttributes({ group: "accordion-item-3" }),
-      accordionItemContent
-    )}
-  `
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-1" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-2" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+    `
   );
 
 export const icon = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes(),
-    dedent`
-    ${create(
-      "calcite-accordion-item",
-      createAccordionItemAttributes({ icon: true, group: "accordion-item-1" }),
-      accordionItemContent
-    )}
-    ${create(
-      "calcite-accordion-item",
-      createAccordionItemAttributes({ icon: true, group: "accordion-item-2" }),
-      accordionItemContent
-    )}
-    ${create(
-      "calcite-accordion-item",
-      createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
-      accordionItemContent
-    )}
-  `
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-1" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-2" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+    `
   );

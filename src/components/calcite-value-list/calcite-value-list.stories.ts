@@ -2,7 +2,7 @@ import { boolean, select } from "@storybook/addon-knobs";
 import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
@@ -44,24 +44,34 @@ const createAttributes: () => Attributes = () => [
   }
 ];
 
-const action = dedent`
-  <calcite-action slot="actions-end" label="click-me" onClick="console.log('clicked');" appearance="clear" scale="s" icon="ellipsis"></calcite-action>
+const action = html`
+  <calcite-action
+    slot="actions-end"
+    label="click-me"
+    onClick="console.log('clicked');"
+    appearance="clear"
+    scale="s"
+    icon="ellipsis"
+  ></calcite-action>
 `;
 
 export const basic = (): string =>
   create(
     "calcite-value-list",
     createAttributes(),
-    dedent`
-    <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs" >
-      ${action}
-    </calcite-value-list-item>
-    <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats" >
-      ${action}
-    </calcite-value-list-item>
-    <calcite-value-list-item label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
-      description="Easy to care for." value="fish" >
-      ${action}
-    </calcite-value-list-item>
-  `
+    html`
+      <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
+        ${action}
+      </calcite-value-list-item>
+      <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
+        ${action}
+      </calcite-value-list-item>
+      <calcite-value-list-item
+        label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
+        description="Easy to care for."
+        value="fish"
+      >
+        ${action}
+      </calcite-value-list-item>
+    `
   );

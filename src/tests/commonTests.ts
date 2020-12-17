@@ -29,11 +29,13 @@ function getTag(tagOrHTML: string): CalciteComponentTag {
 
 async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
-
-  return newE2EPage({
+  const page = await newE2EPage({
     html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}><${componentTag}/>`,
     failOnConsoleError: true
   });
+  await page.waitForChanges();
+
+  return page;
 }
 
 export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage): Promise<void> {
@@ -73,7 +75,8 @@ export async function reflects(
 
   for (const propAndValue of propsToTest) {
     const { propertyName, value } = propAndValue;
-    const componentAttributeSelector = `${componentTag}[${propToAttr(propertyName)}]`;
+    const attrName = propToAttr(propertyName);
+    const componentAttributeSelector = `${componentTag}[${attrName}]`;
 
     element.setProperty(propertyName, value);
     await page.waitForChanges();
@@ -81,15 +84,18 @@ export async function reflects(
     expect(await page.find(componentAttributeSelector)).toBeTruthy();
 
     if (typeof value === "boolean") {
-      element.setProperty(propertyName, !value);
+      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
+      const negated = !value;
+
+      element.setProperty(propertyName, negated);
       await page.waitForChanges();
 
-      expect(await page.find(componentAttributeSelector)).toBeNull();
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
       element.setProperty(propertyName, value);
       await page.waitForChanges();
 
-      expect(await page.find(componentAttributeSelector)).toBeTruthy();
+      expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
     }
   }
 }

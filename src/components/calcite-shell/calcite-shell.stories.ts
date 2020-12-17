@@ -4,7 +4,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, position, scale, theme } = ATTRIBUTES;
 import readme from "./readme.md";
 import panelReadme from "../calcite-shell-panel/readme.md";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 export default {
   title: "App Components/Shell",
@@ -77,7 +77,7 @@ const createShellCenterRowAttributes: (group: string) => Attributes = (group) =>
   ];
 };
 
-const actionBarPrimaryContentHTML = dedent`
+const actionBarPrimaryContentHTML = html`
   <calcite-action-group>
     <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
     <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
@@ -87,7 +87,7 @@ const actionBarPrimaryContentHTML = dedent`
   </calcite-action-group>
 `;
 
-const actionBarContextualContentHTML = dedent`
+const actionBarContextualContentHTML = html`
   <calcite-action-group>
     <calcite-action text="Idea" label="Add Item" icon="lightbulb"></calcite-action>
     <calcite-action text="Information" label="Save Item" icon="information"></calcite-action>
@@ -97,39 +97,37 @@ const actionBarContextualContentHTML = dedent`
   </calcite-action-group>
 `;
 
-const actionBarPrimaryHTML = dedent`
-  <calcite-action-bar theme="dark" slot="action-bar">
-    ${actionBarPrimaryContentHTML}
-  </calcite-action-bar>
+const actionBarPrimaryHTML = html`
+  <calcite-action-bar theme="dark" slot="action-bar"> ${actionBarPrimaryContentHTML} </calcite-action-bar>
 `;
 
-const actionBarContextualHTML = dedent`
-  <calcite-action-bar theme="light" slot="action-bar">
-    ${actionBarContextualContentHTML}
-  </calcite-action-bar>
+const actionBarContextualHTML = html`
+  <calcite-action-bar theme="light" slot="action-bar"> ${actionBarContextualContentHTML} </calcite-action-bar>
 `;
 
-const leadingPanelHTML = dedent`
+const leadingPanelHTML = html`
   ${actionBarPrimaryHTML}
   <p>My Leading Panel</p>
 `;
 
-const centerRowHTML = dedent`
-  <div style="
+const centerRowHTML = html`
+  <div
+    style="
     width:50vw;
     background-color: var(--calcite-app-background-content);
     padding: var(--calcite-app-cap-spacing) var(--calcite-app-side-spacing);
-    ">
+    "
+  >
     <span>My Shell Center Row</span>
   </div>
 `;
 
-const trailingPanelHTML = dedent`
+const trailingPanelHTML = html`
   ${actionBarContextualHTML}
   <p>My Trailing Panel</p>
 `;
 
-const headerHTML = dedent`
+const headerHTML = html`
   <header slot="shell-header">
     <h2>My Shell Header</h2>
   </header>
@@ -137,8 +135,9 @@ const headerHTML = dedent`
 
 const footerHTML = `<footer slot="shell-footer">My Shell Footer</footer>`;
 
-const contentHTML = dedent`
-  <div style="
+const contentHTML = html`
+  <div
+    style="
     width:100%;
     height:100%;
     background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
@@ -147,10 +146,11 @@ const contentHTML = dedent`
       linear-gradient(-45deg, transparent 75%, #ccc 75%);
     background-size: 20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-  "></div>
+  "
+  ></div>
 `;
 
-const centerRowAdvancedHTML = dedent`
+const centerRowAdvancedHTML = html`
   <calcite-tip-manager slot="center-row">
     <calcite-tip-group group-title="Astronomy">
       <calcite-tip heading="The Red Rocks and Blue Water">
@@ -160,43 +160,36 @@ const centerRowAdvancedHTML = dedent`
           content. This paragraph is in an "info" slot.
         </p>
         <p>
-          This is another paragraph in a subsequent "info" slot. In publishing and graphic design, Lorem ipsum is
-          a placeholder text commonly used to demonstrate the visual form of a document without relying on
-          meaningful content (also called greeking). Replacing the actual content with placeholder text allows
-          designers to design the form of the content before the content itself has been produced.
+          This is another paragraph in a subsequent "info" slot. In publishing and graphic design, Lorem ipsum is a
+          placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful
+          content (also called greeking). Replacing the actual content with placeholder text allows designers to design
+          the form of the content before the content itself has been produced.
         </p>
         <a href="http://www.esri.com">This is the "link" slot.</a>
       </calcite-tip>
       <calcite-tip heading="The Long Trees">
         <img slot="thumbnail" src="https://placeimg.com/1000/600/nature" alt="This is an image." />
-        <p>
-          This tip has an image that is a pretty tall. And the text will run out before the end of the image.
-        </p>
+        <p>This tip has an image that is a pretty tall. And the text will run out before the end of the image.</p>
         <p>In astronomy, the terms object and body are often used interchangeably.</p>
         <a href="http://www.esri.com">View Esri</a>
       </calcite-tip>
     </calcite-tip-group>
     <calcite-tip heading="Square Nature">
       <img slot="thumbnail" src="https://placeimg.com/1000/1000/nature" alt="This is an image." />
-      <p>
-        This tip has an image that is square. And the text will run out before the end of the image.
-      </p>
+      <p>This tip has an image that is square. And the text will run out before the end of the image.</p>
       <p>In astronomy, the terms object and body are often used interchangeably.</p>
       <p>
-        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the
-        visual form of a document without relying on meaningful content (also called greeking). Replacing the
-        actual content with placeholder text allows designers to design the form of the content before the content
-        itself has been produced.
+        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form
+        of a document without relying on meaningful content (also called greeking). Replacing the actual content with
+        placeholder text allows designers to design the form of the content before the content itself has been produced.
       </p>
       <a href="http://www.esri.com">View Esri</a>
     </calcite-tip>
     <calcite-tip heading="The lack of imagery">
+      <p>This tip has no image. As such, the content area will take up the entire width of the tip.</p>
       <p>
-        This tip has no image. As such, the content area will take up the entire width of the tip.
-      </p>
-      <p>
-        This is the next paragraph and should show how wide the content area is now. Of course, the width of the
-        overall tip will affect things. In astronomy, the terms object and body are often used interchangeably.
+        This is the next paragraph and should show how wide the content area is now. Of course, the width of the overall
+        tip will affect things. In astronomy, the terms object and body are often used interchangeably.
       </p>
       <a href="http://www.esri.com">View Esri</a>
     </calcite-tip>
@@ -207,18 +200,15 @@ export const basic = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell"),
-    dedent`
-    ${headerHTML}
-    ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
-    ${contentHTML}
-    ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
-    ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)}
-    ${footerHTML}
-  `
+    html`
+      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
+      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
+    `
   );
 
 // TODO: UPDATE
-const advancedLeadingPanelHTML = dedent`
+const advancedLeadingPanelHTML = html`
   ${actionBarPrimaryHTML}
   <calcite-block collapsible open heading="Primary Content" summary="This is the primary.">
     <calcite-block-content>
@@ -251,13 +241,13 @@ const advancedLeadingPanelHTML = dedent`
 `;
 
 // TODO: UPDATE
-const advancedTrailingPanelHTMl = dedent`
+const advancedTrailingPanelHTMl = html`
   ${actionBarContextualHTML}
   <calcite-flow>
     <calcite-panel heading="Layer settings">
-        <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
-        <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
-        <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
+      <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
+      <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
+      <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
         <calcite-block-content>
           <img alt="demo" src="https://placeimg.com/640/480/any" width="100%" />
@@ -273,7 +263,7 @@ const advancedTrailingPanelHTMl = dedent`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half" >Save</calcite-button>
+      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
     </calcite-panel>
     <calcite-panel heading="Deeper flow item">
@@ -307,7 +297,7 @@ const advancedTrailingPanelHTMl = dedent`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half" >Save</calcite-button>
+      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
     </calcite-panel>
   </calcite-flow>
@@ -317,12 +307,11 @@ export const advanced = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell"),
-    dedent`
-    ${headerHTML}
-    ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
-    ${contentHTML}
-    ${centerRowAdvancedHTML}
-    ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
-    ${footerHTML}
-  `
+    html`
+      ${headerHTML}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
+      ${contentHTML} ${centerRowAdvancedHTML}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
+      ${footerHTML}
+    `
   );

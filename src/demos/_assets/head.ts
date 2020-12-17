@@ -18,9 +18,6 @@
     {
       src: "build/calcite.js",
       noModule: true
-    },
-    {
-      src: "vendor/dedent/dedent.js"
     }
   ];
 

@@ -11,5 +11,5 @@ export const TEXT = {
 };
 
 export const POPOVER_REFERENCE = "data-calcite-popover-reference";
-
-export const ARIA_DESCRIBED_BY = "aria-describedby";
+export const ARIA_CONTROLS = "aria-controls";
+export const ARIA_EXPANDED = "aria-expanded";

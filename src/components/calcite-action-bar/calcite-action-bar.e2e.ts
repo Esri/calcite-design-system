@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 describe("calcite-action-bar", () => {
   it("renders", async () => renders("calcite-action-bar"));
@@ -155,7 +155,7 @@ describe("calcite-action-bar", () => {
 
   it("should focus on toggle button", async () =>
     focusable(
-      dedent`
+      html`
         <calcite-action-bar>
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"></calcite-action>

@@ -34,7 +34,10 @@ export function dateFromRange(date?: any, min?: Date | string, max?: Date | stri
  * Parse an iso8601 string (YYYY-mm-dd) into a valid date.
  * TODO: handle time when time of day UI is added
  */
-export function dateFromISO(iso8601: string): Date | null {
+export function dateFromISO(iso8601: string | Date): Date | null {
+  if (iso8601 instanceof Date) {
+    return iso8601;
+  }
   if (!iso8601 || typeof iso8601 !== "string") {
     return null;
   }
@@ -50,7 +53,10 @@ export function dateFromISO(iso8601: string): Date | null {
 /**
  * Return first portion of ISO string (YYYY-mm-dd)
  */
-export function dateToISO(date?: Date): string {
+export function dateToISO(date?: Date | string): string {
+  if (typeof date === "string") {
+    return date;
+  }
   if (date instanceof Date) {
     return date.toISOString().split("T")[0];
   }
@@ -155,4 +161,13 @@ export function getOrder(unitOrder: string): unitOrderSignifier[] {
   const signifiers: unitOrderSignifier[] = ["d", "m", "y"];
   const order = unitOrder.toLowerCase();
   return signifiers.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+}
+
+/**
+ * Get number of days between two dates
+ */
+export function getDaysDiff(date1: Date, date2: Date): number {
+  const ts1 = date1.getTime();
+  const ts2 = date2.getTime();
+  return Math.abs(ts1 - ts2) * 1000 * 60 * 60 * 24;
 }
