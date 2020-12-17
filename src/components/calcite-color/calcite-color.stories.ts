@@ -1,37 +1,57 @@
-import { storiesOf } from "@storybook/html";
-import { select } from "@storybook/addon-knobs";
-import { darkBackground } from "../../../.storybook/utils";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, select, text } from "@storybook/addon-knobs";
+import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
-import colorSwatchReadme from "../calcite-color-swatch/readme.md";
+import swatchReadme from "../calcite-color-swatch/readme.md";
 import hexInputReadme from "../calcite-color-hex-input/readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 
-storiesOf("Components/Color", module)
-  .addParameters({ notes: [colorReadme, colorSwatchReadme, hexInputReadme] })
-  .add(
-    "Simple",
-    (): string => `
-    <calcite-color
-      ${boolean("hide hex", false)}
-      ${boolean("hide channels", false)}
-      ${boolean("hide saved", false)}
-      theme="light"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="#beefee"
-    ></calcite-color>
-  `
-  )
-  .add(
-    "Dark Mode",
-    (): string => `
-      <calcite-color
-      hide-channels=${boolean("hide channels", false)}
-      hide-hex=${boolean("hide hex", false)}
-      hide-saved=${boolean("hide saved", false)}
-      theme="dark"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="#beefee"
-    ></calcite-color>
-    `,
-    { backgrounds: darkBackground }
-  );
+export default {
+  title: "Components/Color",
+  parameters: {
+    backgrounds: darkBackground,
+    notes: {
+      color: colorReadme,
+      swatch: swatchReadme,
+      hexInput: hexInputReadme
+    }
+  }
+};
+
+const createColorAttributes: () => Attributes = () => {
+  const { dir } = ATTRIBUTES;
+
+  return [
+    {
+      name: "dir",
+      value: select("dir", dir.values, dir.defaultValue)
+    },
+    {
+      name: "hide-channels",
+      value: boolean("hide-channels", false)
+    },
+    {
+      name: "hide-hex",
+      value: boolean("hide-hex", false)
+    },
+    {
+      name: "hide-saved",
+      value: boolean("hide-saved", false)
+    },
+    {
+      name: "scale",
+      value: select("scale", ["s", "m", "l"], "m")
+    },
+    {
+      name: "value",
+      value: text("value", "#b33f33")
+    }
+  ];
+};
+
+export const simple = (): string => create("calcite-color", createColorAttributes());
+
+export const dark = (): string =>
+  create("calcite-color", [...createColorAttributes(), { name: "theme", value: "dark" }]);
+
+export const allowingEmpty = (): string =>
+  create("calcite-color", [...createColorAttributes(), { name: "allow-empty", value: true }]);
