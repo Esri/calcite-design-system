@@ -39,6 +39,10 @@
     @include focus-style-inset();
   }
 
+  &:active {
+    background-color: var(--calcite-ui-foreground-3);
+  }
+
   .icon-container {
     min-width: 1rem;
     min-height: 1rem;
@@ -155,7 +159,8 @@
 :host([loading]) .button:focus {
   background-color: var(--calcite-ui-foreground-1);
   .text-container {
-    opacity: var(--calcite-ui-opacity-disabled);
+
+    @apply opacity-disabled;
   }
 }
 
@@ -168,14 +173,14 @@
 :host([disabled]) .button:hover,
 :host([disabled]) .button:focus {
   cursor: default;
-  opacity: var(--calcite-ui-opacity-disabled);
+  @apply opacity-disabled;
   background-color: var(--calcite-ui-foreground-1);
 }
 
 :host([disabled][active]) .button,
 :host([disabled][active]) .button:hover,
 :host([disabled][active]) .button:focus {
-  opacity: var(--calcite-ui-opacity-disabled);
+  @apply opacity-disabled;
   background-color: var(--calcite-ui-foreground-3);
 }
 

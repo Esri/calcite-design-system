@@ -3,33 +3,24 @@ var flattenColorPalette = require('tailwindcss/lib/util/flattenColorPalette').de
 
 module.exports = {
   theme: {
-    /**
-     * Themeable
-     */
     borderColor: {
       color: {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
         3: "var(--calcite-ui-border-3)",
-        4: "var(--calcite-ui-border-4)",
-        5: "var(--calcite-ui-border-5)"
+        input: "var(--calcite-ui-border-input)"
       }
     },
     colors: {
-      // CalciteColors
-      "brand": "var(--calcite-ui-blue-1)",
-      "brand-hover": "var(--calcite-ui-blue-2)",
-      "brand-press": "var(--calcite-ui-blue-3)",
-      // intention: status vars
-      info: "var(--calcite-ui-blue-1)",
-      success: "var(--calcite-ui-green-3)",
-      warning: "var(--calcite-ui-yellow-3)",
-      error: "var(--calcite-ui-red-3)",
-      // color (deprecate)
-      blue: "var(--calcite-ui-blue-1)",
-      green: "var(--calcite-ui-green-3)",
-      yellow: "var(--calcite-ui-yellow-3)",
-      red: "var(--calcite-ui-red-3)",
+      "brand": "var(--calcite-ui-brand)",
+      "brand-hover": "var(--calcite-brand-hover)",
+      "brand-press": "var(--calcite-brand-press)",
+      "info": "var(--calcite-ui-info)",
+      "success": "var(--calcite-ui-success)",
+      "warning": "var(--calcite-ui-warning)",
+      "danger": "var(--calcite-ui-danger)",
+      "danger-hover": "var(--calcite-ui-danger-hover)",
+      "danger-press": "var(--calcite-ui-danger-press)",
 
       background: {
         background: "var(--calcite-ui-background)",
@@ -42,7 +33,9 @@ module.exports = {
       text: {
         1: "var(--calcite-ui-text-1)",
         2: "var(--calcite-ui-text-2)",
-        3: "var(--calcite-ui-text-3)"
+        3: "var(--calcite-ui-text-3)",
+        inverse: "var(--calcite-ui-text-inverse)",
+        link: "var(--calcite-ui-text-link)"
       },
       transparent: "transparent"
     },
@@ -74,10 +67,6 @@ module.exports = {
       medium: "var(--calcite-font-weight-medium)",
       bold: "var(--calcite-font-weight-bold)"
     },
-
-    /**
-     * Not themable
-     */
     screens: {
       's': '480px',
       'm': '864px',
@@ -110,8 +99,8 @@ module.exports = {
         2: "0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08)",
         "2-lg": "0 12px 32px -2px rgba(0, 0, 0, 0.1), 0 4px 20px 0 rgba(0, 0, 0, 0.08)",
         "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
-        'border-bottom': 'box-shadow: 0 1px 0 var(--calcite-ui-border-3)',
-        'outline-active': 'box-shadow: 0 0 0 1px var(--calcite-ui-blue-3)', 
+        'border-bottom': '0 1px 0 var(--calcite-ui-border-3)',
+        'outline-active': '0 0 0 1px var(--calcite-ui-brand)', 
         'none': 'none',
       },
       keyframes: {
@@ -154,6 +143,9 @@ module.exports = {
           }
         }
       },
+      opacity: {
+        disabled: "0.5"
+      },
       transitionProperty: {
         margin: "margin",
         color: "color"
@@ -176,11 +168,11 @@ module.exports = {
           "transition": "outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out"
         },
         ".focus-outset": {
-          "outline": "2px solid var(--calcite-ui-blue-1)",
+          "outline": "2px solid var(--calcite-ui-brand)",
           "outline-offset": "2px"
         },
         ".focus-inset": {
-          "outline": "2px solid var(--calcite-ui-blue-1)",
+          "outline": "2px solid var(--calcite-ui-brand)",
           "outline-offset": "-2px"
         }
         // TODO: focus-box-shadow

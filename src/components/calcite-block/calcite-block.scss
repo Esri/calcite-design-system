@@ -41,7 +41,7 @@
 }
 
 .toggle {
-  @apply bg-transparent
+  @apply
     flex
     flex-no-wrap
     font-inherit
@@ -53,7 +53,8 @@
     cursor-pointer
     text-left
     focus-base;
-
+  
+  background-color: transparent;
   &:hover {
     @apply bg-foreground-2;
   }

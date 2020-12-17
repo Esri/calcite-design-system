@@ -1,15 +1,13 @@
-@import "./node_modules/@esri/calcite-colors/dist/colors.scss";
+// @import "./node_modules/@esri/calcite-colors/dist/colors.scss";"
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
+@import "../../../../calcite-colors/dist/colors.scss"; // remove me
 
 /* CSS vars (@include in global) */
 @import "type";
 
 :root {
   @extend %type-vars;
-  @include calcite-theme-light();
-
-  --calcite-border-radius: 3px;  
-  --calcite-ui-opacity-disabled: 0.3; // remove post refactor
+  @include calcite-theme-light(); 
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

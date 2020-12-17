@@ -12,7 +12,7 @@
   @apply
   border-0
   border-b
-  border-color3
+  border-color-3
   border-solid
   pb-0 pt-0;
 }
@@ -23,8 +23,8 @@
   inline-flex
   overflow-y-auto
   rounded
+  bg-background
   shadow-2;
-
   max-width: 15vw;
 }
 
