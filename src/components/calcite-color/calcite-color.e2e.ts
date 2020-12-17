@@ -3,6 +3,7 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 import { CSS, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "../../interfaces/Color";
+import SpyInstance = jest.SpyInstance;
 
 describe("calcite-color", () => {
   it("is accessible", async () => {
@@ -151,29 +152,29 @@ describe("calcite-color", () => {
     const picker = await page.find("calcite-color");
     const spy = await picker.spyOnEvent("calciteColorChange");
 
-    const supportedValues = [
-      "#beefee",
-      "rgb(255, 0, 255)",
-      "hsl(30, 100%, 50%)",
+    const supportedStringValues = ["#beefee", "rgb(255, 0, 255)", "hsl(30, 100%, 50%)"];
+
+    for (const value of supportedStringValues) {
+      picker.setProperty("value", value);
+      await page.waitForChanges();
+
+      expect(await picker.getProperty("value")).toBe(value);
+    }
+
+    const supportedObjectValues = [
       { r: 255, g: 255, b: 0 },
       { h: 270, s: 60, l: 70 },
       { h: 202, s: 0, v: 100 }
     ];
 
-    for (let i = 0; i < supportedValues.length; i++) {
-      const value = supportedValues[i];
-
+    for (const value of supportedObjectValues) {
       picker.setProperty("value", value);
       await page.waitForChanges();
 
-      if (typeof value === "string") {
-        expect(await picker.getProperty("value")).toBe(value);
-      } else {
-        expect(await picker.getProperty("value")).toMatchObject(value);
-      }
+      expect(await picker.getProperty("value")).toMatchObject(value);
     }
 
-    expect(spy).toHaveReceivedEventTimes(supportedValues.length);
+    expect(spy).toHaveReceivedEventTimes(supportedStringValues.length + supportedObjectValues.length);
   });
 
   it("allows selecting colors via color field/slider", async () => {
@@ -250,7 +251,7 @@ describe("calcite-color", () => {
 
   describe("unsupported value handling", () => {
     let page: E2EPage;
-    let consoleSpy: jasmine.Spy;
+    let consoleSpy: SpyInstance;
 
     async function assertUnsupportedValue(page: E2EPage, unsupportedValue: string | null): Promise<void> {
       const picker = await page.find("calcite-color");
@@ -272,7 +273,7 @@ describe("calcite-color", () => {
       page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
       });
-      consoleSpy = spyOn(console, "warn");
+      consoleSpy = jest.spyOn(console, "warn");
     });
 
     afterEach(() => jest.clearAllMocks());
@@ -758,7 +759,7 @@ describe("calcite-color", () => {
     beforeAll(clearStorage);
     afterAll(clearStorage);
 
-    it("it allows saving unique colors", async () => {
+    it("allows saving unique colors", async () => {
       const page = await newE2EPage({
         html: `<calcite-color storage-id=${storageId}></calcite-color>`
       });
@@ -790,7 +791,7 @@ describe("calcite-color", () => {
       expect(savedColors).toHaveLength(3);
     });
 
-    it("it loads saved colors", async () => {
+    it("loads saved colors", async () => {
       const page = await newE2EPage({
         html: `<calcite-color storage-id=${storageId}></calcite-color>`
       });
@@ -799,7 +800,7 @@ describe("calcite-color", () => {
       expect(savedColors).toHaveLength(3);
     });
 
-    it("it allows removing stored colors", async () => {
+    it("allows removing stored colors", async () => {
       const page = await newE2EPage({
         html: `<calcite-color storage-id=${storageId}></calcite-color>`
       });
