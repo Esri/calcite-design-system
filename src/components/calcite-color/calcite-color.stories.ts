@@ -18,7 +18,7 @@ export default {
 };
 
 const createColorAttributes: () => Attributes = () => {
-  const { dir } = ATTRIBUTES;
+  const { dir, scale } = ATTRIBUTES;
 
   return [
     {
@@ -39,7 +39,7 @@ const createColorAttributes: () => Attributes = () => {
     },
     {
       name: "scale",
-      value: select("scale", ["s", "m", "l"], "m")
+      value: select("scale", scale.values, scale.defaultValue)
     },
     {
       name: "value",
