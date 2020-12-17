@@ -28,7 +28,7 @@
   transition: all $transition;
   background: none;
   box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
-  opacity: 0.4;
+  opacity: var(--calcite-ui-opacity-disabled);
 }
 
 .text {

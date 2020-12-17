@@ -27,7 +27,7 @@
 
 :host([disabled]) {
   .split-button__divider-container {
-    opacity: 0.4;
+    opacity: var(--calcite-ui-opacity-disabled);
   }
 
   calcite-dropdown > calcite-button {

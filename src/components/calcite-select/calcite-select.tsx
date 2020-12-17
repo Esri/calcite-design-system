@@ -10,7 +10,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir, getElementTheme } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
 import { FocusRequest } from "../../interfaces/Label";
@@ -77,7 +77,7 @@ export class CalciteSelect {
   @Prop({
     reflect: true
   })
-  theme: Theme = "light";
+  theme: Theme;
 
   /**
    * The component width.
@@ -311,9 +311,9 @@ export class CalciteSelect {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-
+    const theme = getElementTheme(this.el);
     return (
-      <Host dir={dir}>
+      <Host dir={dir} theme={theme}>
         <select
           aria-label={this.label}
           class={{ [CSS.select]: true }}

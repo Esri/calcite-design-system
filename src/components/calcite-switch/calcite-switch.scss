@@ -48,7 +48,7 @@
 }
 
 :host([disabled]) {
-  opacity: 0.4;
+  opacity: var(--calcite-ui-opacity-disabled);
   pointer-events: none;
   cursor: default;
 }
