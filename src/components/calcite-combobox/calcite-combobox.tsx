@@ -30,6 +30,14 @@ interface ItemData {
   value: string;
 }
 
+export interface SelectedComboboxOption {
+  value: string;
+  textLabel: string;
+  guid: string;
+  selected: boolean;
+  custom?: boolean;
+}
+
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
@@ -65,10 +73,13 @@ export class CalciteCombobox {
   /** Placeholder text for input */
   @Prop() placeholder?: string;
 
-  /** specify the maximum number of combobox items (including nested children) to display before showing the scroller */
+  /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
 
-  /** specify the scale of the combobox, defaults to m */
+  /** Allow entry of custom values which are not in the original set of items */
+  @Prop() customValues: boolean;
+
+  /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Select theme (light or dark) */
@@ -127,6 +138,7 @@ export class CalciteCombobox {
         break;
       case "ArrowDown":
         event.preventDefault();
+        this.active = true;
         this.shiftActiveItemIndex(1);
         break;
       case "Home":
@@ -145,6 +157,8 @@ export class CalciteCombobox {
           this.toggleSelection(this.visibleItems[this.activeItemIndex]);
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
+        } else if (this.customValues && this.text) {
+          this.addCustomChip(this.text);
         }
         break;
       case "Delete":
@@ -196,7 +210,9 @@ export class CalciteCombobox {
   // --------------------------------------------------------------------------
 
   /** Called when the selected items set changes */
-  @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
+  @Event() calciteLookupChange: EventEmitter<
+    (HTMLCalciteComboboxItemElement | SelectedComboboxOption)[]
+  >;
 
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
@@ -242,9 +258,11 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
-  @State() selectedItems: HTMLCalciteComboboxItemElement[] = [];
+  @State() selectedItems: (HTMLCalciteComboboxItemElement | SelectedComboboxOption)[] = [];
 
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
+
+  @State() customItems: SelectedComboboxOption[] = [];
 
   @State() activeItemIndex = -1;
 
@@ -396,12 +414,18 @@ export class CalciteCombobox {
     this.visibleItems = this.getVisibleItems();
   }, 100);
 
-  toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
+  toggleSelection(
+    item: HTMLCalciteComboboxItemElement | SelectedComboboxOption,
+    value = !item.selected
+  ): void {
     item.selected = value;
+    if ((item as SelectedComboboxOption).custom && !item.selected) {
+      this.customItems = this.customItems.filter((el) => el.value !== item.value);
+    }
+
     this.selectedItems = this.getSelectedItems();
     this.calciteLookupChange.emit(this.selectedItems);
-    this.textInput.value = "";
-    this.text = "";
+    this.resetText();
     this.textInput.focus();
     this.filterItems("");
   }
@@ -410,10 +434,10 @@ export class CalciteCombobox {
     return this.items.filter((item) => !item.hidden);
   }
 
-  getSelectedItems(): HTMLCalciteComboboxItemElement[] {
+  getSelectedItems(): (HTMLCalciteComboboxItemElement | SelectedComboboxOption)[] {
     const current = [...this.selectedItems];
     return (
-      this.items
+      [...this.items, ...this.customItems]
         .filter((item) => item.selected)
         /** Preserve order of entered tags */
         .sort((a, b) => {
@@ -437,13 +461,39 @@ export class CalciteCombobox {
   getData(): ItemData[] {
     return this.items.map((item) => ({
       value: item.value,
-      label: item.textLabel
+      label: item.textLabel,
+      guid: item.guid
     }));
+  }
+
+  resetText(): void {
+    this.textInput.value = "";
+    this.text = "";
   }
 
   getItems(): HTMLCalciteComboboxItemElement[] {
     const items = Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM));
     return items.filter((item) => !item.disabled);
+  }
+
+  addCustomChip(value: string): void {
+    const existingItem = this.items.find((el) => el.value === value || el.textLabel === value);
+    const existingCustomItem = this.customItems.find((item) => item.value === value);
+
+    if (existingItem) {
+      this.toggleSelection(existingItem, true);
+    } else if (!existingCustomItem) {
+      this.customItems.push({
+        value,
+        textLabel: value,
+        guid: guid(),
+        selected: true,
+        custom: true
+      });
+      this.updateItems();
+      this.resetText();
+      this.setFocus();
+    }
   }
 
   removeActiveChip(): void {
@@ -464,12 +514,11 @@ export class CalciteCombobox {
     const active = this.activeChipIndex;
     this.activeChipIndex = active === -1 ? length : Math.max(active - 1, 0);
     this.updateActiveItemIndex(-1);
-    this.active = false;
     this.focusChip();
   }
 
   nextChip(): void {
-    if (this.text) {
+    if (this.text || this.activeChipIndex === -1) {
       return;
     }
     const last = this.selectedItems.length - 1;
@@ -479,7 +528,6 @@ export class CalciteCombobox {
       this.setFocus();
     } else {
       this.activeChipIndex = newIndex;
-      this.active = false;
       this.focusChip();
     }
     this.updateActiveItemIndex(-1);
@@ -520,6 +568,7 @@ export class CalciteCombobox {
     this.activeDescendant = activeDescendant;
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
+      this.textInput.focus();
     }
   }
 
