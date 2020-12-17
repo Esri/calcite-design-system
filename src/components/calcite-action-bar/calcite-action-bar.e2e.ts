@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { html } from "../../tests/utils";
 
@@ -8,29 +8,32 @@ describe("calcite-action-bar", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-action-bar"));
 
-  it("defaults", async () => {
-    const page = await newE2EPage();
+  it("defaults", async () =>
+    defaults("calcite-action-bar", [
+      {
+        propertyName: "expand",
+        defaultValue: false
+      },
+      {
+        propertyName: "expanded",
+        defaultValue: false
+      }
+    ]));
 
-    await page.setContent("<calcite-action-bar></calcite-action-bar>");
-    const element = await page.find("calcite-action-bar");
-    expect(element.getAttribute("expand")).not.toBeNull();
-    expect(element.getAttribute("expanded")).toBeNull();
-  });
+  it("reflects", async () =>
+    reflects("calcite-action-bar", [
+      {
+        propertyName: "expand",
+        value: true
+      },
+      {
+        propertyName: "expanded",
+        value: true
+      }
+    ]));
 
   describe("expand functionality", () => {
-    it("should show expand by default", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent("<calcite-action-bar></calcite-action-bar>");
-
-      await page.waitForChanges();
-
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
-
-      expect(expandAction).not.toBeNull();
-    });
-
-    it("should not show expand when false", async () => {
+    it("should not show expand by default", async () => {
       const page = await newE2EPage();
 
       await page.setContent("<calcite-action-bar></calcite-action-bar>");
@@ -42,8 +45,20 @@ describe("calcite-action-bar", () => {
       expect(expandAction).toBeNull();
     });
 
+    it("should show expand when enabled", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent("<calcite-action-bar expand></calcite-action-bar>");
+
+      await page.waitForChanges();
+
+      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+
+      expect(expandAction).not.toBeNull();
+    });
+
     it("should toggle expanded", async () => {
-      const page = await newE2EPage({ html: "<calcite-action-bar></calcite-action-bar>" });
+      const page = await newE2EPage({ html: "<calcite-action-bar expand></calcite-action-bar>" });
 
       const bar = await page.find("calcite-action-bar");
 
@@ -77,7 +92,7 @@ describe("calcite-action-bar", () => {
     it("should have child actions be textEnabled when expanded is set", async () => {
       const page = await newE2EPage();
 
-      await page.setContent("<calcite-action-bar expanded></calcite-action-bar>");
+      await page.setContent("<calcite-action-bar expand expanded></calcite-action-bar>");
 
       const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
 
@@ -156,7 +171,7 @@ describe("calcite-action-bar", () => {
   it("should focus on toggle button", async () =>
     focusable(
       html`
-        <calcite-action-bar>
+        <calcite-action-bar expand>
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"></calcite-action>
           </calcite-action-group>
