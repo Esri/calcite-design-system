@@ -30,14 +30,6 @@ interface ItemData {
   value: string;
 }
 
-export interface SelectedComboboxOption {
-  value: string;
-  textLabel: string;
-  guid: string;
-  selected: boolean;
-  custom?: boolean;
-}
-
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
@@ -210,9 +202,7 @@ export class CalciteCombobox {
   // --------------------------------------------------------------------------
 
   /** Called when the selected items set changes */
-  @Event() calciteLookupChange: EventEmitter<
-    (HTMLCalciteComboboxItemElement | SelectedComboboxOption)[]
-  >;
+  @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
@@ -224,7 +214,7 @@ export class CalciteCombobox {
 
   connectedCallback(): void {
     if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.updateItems);
+      this.observer = new MutationObserver(this.updateItems.bind(this));
     }
 
     this.createPopper();
@@ -258,11 +248,9 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
-  @State() selectedItems: (HTMLCalciteComboboxItemElement | SelectedComboboxOption)[] = [];
+  @State() selectedItems: HTMLCalciteComboboxItemElement[] = [];
 
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
-
-  @State() customItems: SelectedComboboxOption[] = [];
 
   @State() activeItemIndex = -1;
 
@@ -414,15 +402,8 @@ export class CalciteCombobox {
     this.visibleItems = this.getVisibleItems();
   }, 100);
 
-  toggleSelection(
-    item: HTMLCalciteComboboxItemElement | SelectedComboboxOption,
-    value = !item.selected
-  ): void {
+  toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     item.selected = value;
-    if ((item as SelectedComboboxOption).custom && !item.selected) {
-      this.customItems = this.customItems.filter((el) => el.value !== item.value);
-    }
-
     this.selectedItems = this.getSelectedItems();
     this.calciteLookupChange.emit(this.selectedItems);
     this.resetText();
@@ -434,10 +415,10 @@ export class CalciteCombobox {
     return this.items.filter((item) => !item.hidden);
   }
 
-  getSelectedItems(): (HTMLCalciteComboboxItemElement | SelectedComboboxOption)[] {
+  getSelectedItems(): HTMLCalciteComboboxItemElement[] {
     const current = [...this.selectedItems];
     return (
-      [...this.items, ...this.customItems]
+      [...this.items]
         .filter((item) => item.selected)
         /** Preserve order of entered tags */
         .sort((a, b) => {
@@ -478,21 +459,21 @@ export class CalciteCombobox {
 
   addCustomChip(value: string): void {
     const existingItem = this.items.find((el) => el.value === value || el.textLabel === value);
-    const existingCustomItem = this.customItems.find((item) => item.value === value);
-
     if (existingItem) {
       this.toggleSelection(existingItem, true);
-    } else if (!existingCustomItem) {
-      this.customItems.push({
-        value,
-        textLabel: value,
-        guid: guid(),
-        selected: true,
-        custom: true
-      });
-      this.updateItems();
+    } else {
+      const item = document.createElement("calcite-combobox-item");
+      item.value = value;
+      item.textLabel = value;
+      item.guid = guid();
+      item.selected = true;
+      // construct a new item
+      const parent = this.el.querySelector(COMBO_BOX_ITEM)?.parentElement;
+      parent?.appendChild(item);
       this.resetText();
       this.setFocus();
+      this.updateItems();
+      this.filterItems("");
     }
   }
 
