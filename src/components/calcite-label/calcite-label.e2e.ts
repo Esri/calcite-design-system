@@ -143,11 +143,11 @@ describe("calcite-label", () => {
     it("focuses and checks a wrapped checkbox when clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`
-      <calcite-label>
-      Label text
-      <input type="checkbox">
-      </calcite-label>
-    `);
+        <calcite-label>
+          Label text
+          <input type="checkbox">
+        </calcite-label>
+      `);
       const label = await page.find("calcite-label");
       const input = await page.find("input");
       const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
@@ -275,6 +275,114 @@ describe("calcite-label", () => {
           <button id="button" type="button">Button</button>
         </calcite-label>
     `);
+      expect(
+        await page.evaluate(async () => {
+          const label: HTMLSpanElement = document.querySelector("label");
+          await label.click();
+          return document.activeElement.localName;
+        })
+      ).toEqual("button");
+    });
+  });
+
+  describe("sibling of labelable native controls", () => {
+    it("focuses a sibling input when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="input">
+          Label text
+        </calcite-label>
+        <input id="input"></input>
+      `);
+      expect(
+        await page.evaluate(async () => {
+          const label: HTMLSpanElement = document.querySelector("label");
+          await label.click();
+          return document.activeElement.localName;
+        })
+      ).toEqual("input");
+    });
+
+    it("focuses a sibling textarea when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="input">
+          Label text
+        </calcite-label>
+        <textarea id="input"></textarea>
+      `);
+      expect(
+        await page.evaluate(async () => {
+          const label: HTMLSpanElement = document.querySelector("label");
+          await label.click();
+          return document.activeElement.localName;
+        })
+      ).toEqual("textarea");
+    });
+
+    it("focuses a sibling checkbox when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="checkbox">
+          Label text
+        </calcite-label>
+        <input id="checkbox" type="checkbox">
+      `);
+      const label = await page.find("calcite-label");
+      const input = await page.find("input");
+      const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
+      await label.click();
+      const activeEl = await page.evaluateHandle(() => document.activeElement);
+      const activeElClass = activeEl["_remoteObject"].description;
+      expect(activeElClass).toEqual(checkboxClass);
+      expect(await input.getProperty("checked")).toBe(true);
+    });
+
+    it("clicks a sibling radio input when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="radio">
+          Label text
+        </calcite-label>
+        <input id="radio" type="radio" name="radio">
+        <input type="radio" name="radio">
+      `);
+      const label = await page.find("calcite-label");
+      const radio = await page.findAll("input");
+      await label.click();
+      expect(await radio[0].getProperty("checked")).toBe(true);
+    });
+
+    it("focuses a sibling select when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="select">
+          Label text
+        </calcite-label>
+        <select id="select">
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+        </select>
+      `);
+      expect(
+        await page.evaluate(async () => {
+          const label: HTMLSpanElement = document.querySelector("label");
+          await label.click();
+          return document.activeElement.localName;
+        })
+      ).toEqual("select");
+    });
+
+    it("focuses a sibling button when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="button">
+          Label text
+        </calcite-label>
+        <button id="button" type="button">Button</button>
+      `);
       expect(
         await page.evaluate(async () => {
           const label: HTMLSpanElement = document.querySelector("label");
