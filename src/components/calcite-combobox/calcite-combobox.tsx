@@ -77,7 +77,7 @@ export class CalciteCombobox {
   @Prop() maxItems = 0;
 
   /** Allow entry of custom values which are not in the original set of items */
-  @Prop() customValues: boolean;
+  @Prop() allowCustomValues: boolean;
 
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -157,7 +157,7 @@ export class CalciteCombobox {
           this.toggleSelection(this.visibleItems[this.activeItemIndex]);
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
-        } else if (this.customValues && this.text) {
+        } else if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text);
         }
         break;

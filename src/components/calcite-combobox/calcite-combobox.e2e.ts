@@ -270,7 +270,7 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
-          <calcite-combobox custom-values>
+          <calcite-combobox allow-custom-values>
             <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
             <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
             <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
@@ -302,7 +302,7 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
-          <calcite-combobox custom-values>
+          <calcite-combobox allow-custom-values>
             <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
             <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
             <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
