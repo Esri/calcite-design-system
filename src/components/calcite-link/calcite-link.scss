@@ -104,13 +104,6 @@
   }
 }
 
-:host([user-select]) {
-  span,
-  a {
-    user-select: text;
-  }
-}
-
 :host {
   span,
   a {

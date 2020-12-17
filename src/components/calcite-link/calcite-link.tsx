@@ -45,9 +45,6 @@ export class CalciteLink {
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
 
-  /** Allows the text to be selectable */
-  @Prop({ reflect: true }) userSelect = true;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -134,7 +131,7 @@ export class CalciteLink {
 
   private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
-    const props = ["dir", "icon-end", "icon-start", "id", "theme", "user-select"];
+    const props = ["dir", "icon-end", "icon-start", "id", "theme"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
