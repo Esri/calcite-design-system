@@ -66,6 +66,17 @@
   border-left: none;
 }
 
+// override user agent stylesheet disabled styling
+select:disabled {
+  border-color: var(--calcite-ui-border-1);
+  opacity: 1;
+}
+
+:host([disabled]) {
+  @apply pointer-events-none select-none;
+  opacity: var(--calcite-ui-opacity-disabled);
+}
+
 .icon-container {
   align-items: center;
   background-color: transparent;
