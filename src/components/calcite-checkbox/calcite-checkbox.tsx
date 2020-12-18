@@ -165,12 +165,15 @@ export class CalciteCheckbox {
     this.checked = this.initialChecked;
   };
 
-  private nativeLabelClickHandler = (event: MouseEvent): void => {
-    if (!this.el.closest("calcite-label") && (event.target as HTMLElement).nodeName === "LABEL") {
-      const target = event.target as HTMLLabelElement;
-      if (this.el.id && target.htmlFor === this.el.id) {
-        this.toggle();
-      }
+  private nativeLabelClickHandler = ({ target }: MouseEvent): void => {
+    if (
+      !this.el.closest("calcite-label") &&
+      (target as HTMLElement).nodeName === "LABEL" &&
+      (target as HTMLLabelElement).parentNode.nodeName !== "CALCITE-LABEL" &&
+      this.el.id &&
+      (target as HTMLLabelElement).htmlFor === this.el.id
+    ) {
+      this.toggle();
     }
   };
 
