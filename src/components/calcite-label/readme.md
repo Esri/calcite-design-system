@@ -2,9 +2,9 @@
 
 Renders a `<label>` around its children and can be used with any [labelable native](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Form_labelable) labelable native or labelable calcite element.
 
-## Caveat when using inline layout in some older browsers
+## Caveat when using with browsers that don't support flex gap
 
-When using the `inline` layout option with [browsers that do not support the CSS `gap` property when used with flexbox](https://caniuse.com/flexbox-gap), you will need to apply spacing manually to the label by wrapping it in a styled span like so:
+When using the `default`, `inline` or `inline-space-between` layout option with [browsers that do not support the CSS `gap` property when used with flexbox](https://caniuse.com/flexbox-gap), you will need to apply spacing manually to the label by wrapping it in a styled span like so:
 
 ```
 <calcite-label layout="inline">

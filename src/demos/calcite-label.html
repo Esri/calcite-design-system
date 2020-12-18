@@ -29,15 +29,34 @@
   <demo-form>
     <form name="calcite-label-demo-form">
 
-      <calcite-label for="radio">
-        Label text
+      <calcite-label>
+        Leading text with default layout
+        <calcite-checkbox></calcite-checkbox>
       </calcite-label>
-      <input id="radio" type="radio" name="radio">
-      <input type="radio" name="radio">
+
+      <calcite-label>
+        <calcite-checkbox></calcite-checkbox>
+        Trailing text with default layout
+      </calcite-label>
 
       <calcite-label layout="inline">
-        Text leading inline
+        Leading text with inline layout
         <calcite-checkbox></calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label layout="inline">
+        <calcite-checkbox></calcite-checkbox>
+        Trailing text with inline layout
+      </calcite-label>
+
+      <calcite-label layout="inline-space-between">
+        Leading text with inline-space-between layout
+        <calcite-checkbox></calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label layout="inline-space-between">
+        <calcite-checkbox></calcite-checkbox>
+        Trailing text with inline-space-between layout
       </calcite-label>
 
       <h2>Wrapping Native Inputs</h2>
