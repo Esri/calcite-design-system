@@ -1,5 +1,11 @@
 # calcite-rating
 
+## Labeling for a11y
+
+```
+<calcite-rating intl-rating="Label for rating"></calcite-rating>
+```
+
 <!-- Auto Generated Below -->
 
 ## Properties
