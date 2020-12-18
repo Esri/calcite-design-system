@@ -97,7 +97,7 @@
 :host([disabled]) {
   & > label {
     pointer-events: none;
-    opacity: 0.4;
+    opacity: var(--calcite-ui-opacity-disabled);
   }
   ::slotted(*) {
     pointer-events: none;

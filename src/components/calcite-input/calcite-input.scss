@@ -81,7 +81,7 @@
   pointer-events: none;
 
   & .calcite-input-wrapper {
-    opacity: 0.4;
+    opacity: var(--calcite-ui-opacity-disabled);
     pointer-events: none;
   }
   & textarea,
@@ -255,7 +255,7 @@ input[type="time"]::-webkit-clear-button {
     background-color: var(--calcite-ui-foreground-3);
   }
   &:disabled {
-    opacity: 0.4;
+    opacity: var(--calcite-ui-opacity-disabled);
   }
 }
 
