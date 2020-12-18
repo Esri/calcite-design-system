@@ -11,7 +11,7 @@ describe("calcite-action-pad", () => {
   it("defaults", async () =>
     defaults("calcite-action-pad", [
       {
-        propertyName: "expand",
+        propertyName: "disableExpand",
         defaultValue: false
       },
       {
@@ -27,7 +27,7 @@ describe("calcite-action-pad", () => {
   it("reflects", async () =>
     reflects("calcite-action-pad", [
       {
-        propertyName: "expand",
+        propertyName: "disableExpand",
         value: true
       },
       {
@@ -41,7 +41,7 @@ describe("calcite-action-pad", () => {
     ]));
 
   describe("expand functionality", () => {
-    it("should not show expand by default", async () => {
+    it("should be expandable by default", async () => {
       const page = await newE2EPage();
 
       await page.setContent("<calcite-action-pad></calcite-action-pad>");
@@ -50,23 +50,23 @@ describe("calcite-action-pad", () => {
 
       const expandAction = await page.find("calcite-action-pad >>> calcite-action");
 
-      expect(expandAction).toBeNull();
+      expect(expandAction).not.toBeNull();
     });
 
-    it("should show expand when enabled", async () => {
+    it("allows disabling expandable behavior", async () => {
       const page = await newE2EPage();
 
-      await page.setContent("<calcite-action-pad expand></calcite-action-pad>");
+      await page.setContent("<calcite-action-pad disable-expand></calcite-action-pad>");
 
       await page.waitForChanges();
 
       const expandAction = await page.find("calcite-action-pad >>> calcite-action");
 
-      expect(expandAction).not.toBeNull();
+      expect(expandAction).toBeNull();
     });
 
     it("should toggle expanded", async () => {
-      const page = await newE2EPage({ html: "<calcite-action-pad expand></calcite-action-pad>" });
+      const page = await newE2EPage({ html: "<calcite-action-pad></calcite-action-pad>" });
 
       const pad = await page.find("calcite-action-pad");
 
@@ -100,7 +100,7 @@ describe("calcite-action-pad", () => {
     it("should have child actions be textEnabled when expanded is set", async () => {
       const page = await newE2EPage();
 
-      await page.setContent("<calcite-action-pad expand expanded></calcite-action-pad>");
+      await page.setContent("<calcite-action-pad expanded></calcite-action-pad>");
 
       const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupBottom}`);
 
@@ -112,21 +112,21 @@ describe("calcite-action-pad", () => {
     });
   });
 
-  it("should not have bottomGroup when expand is false", async () => {
+  it("should not have bottomGroup when not expandable", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-action-bar></calcite-action-bar>`);
+    await page.setContent(`<calcite-action-bar disable-expand></calcite-action-bar>`);
 
     const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
 
     expect(buttonGroup).toBeNull();
   });
 
-  it("should not modify textEnabled on actions when expand is false", async () => {
+  it("should not modify textEnabled on actions when not expandable", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-action-bar expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
+      `<calcite-action-bar disable-expand expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
     );
 
     const action = await page.find("calcite-action");
@@ -157,7 +157,7 @@ describe("calcite-action-pad", () => {
   it("should focus on toggle button", async () =>
     focusable(
       html`
-        <calcite-action-pad expand>
+        <calcite-action-pad>
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"></calcite-action>
           </calcite-action-group>

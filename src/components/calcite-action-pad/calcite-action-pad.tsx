@@ -30,19 +30,15 @@ export class CalciteActionPad {
   //  Properties
   //
   // --------------------------------------------------------------------------
-  /**
-   * Indicates the horizontal or vertical layout of the component.
-   */
-  @Prop({ reflect: true }) layout: CalciteLayout = "vertical";
 
   /**
-   * Indicates whether widget can be expanded.
+   * When set to true, the expand-toggling behavior will be disabled.
    */
-  @Prop({ reflect: true }) expand = false;
+  @Prop({ reflect: true }) disableExpand = false;
 
-  @Watch("expand")
-  expandHandler(expand: boolean): void {
-    if (expand) {
+  @Watch("disableExpand")
+  expandHandler(disableExpand: boolean): void {
+    if (!disableExpand) {
       toggleChildActionText({ parent: this.el, expanded: this.expanded });
     }
   }
@@ -54,12 +50,17 @@ export class CalciteActionPad {
 
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
-    if (this.expand) {
+    if (!this.disableExpand) {
       toggleChildActionText({ parent: this.el, expanded });
     }
 
     this.calciteActionPadToggle.emit();
   }
+
+  /**
+   * Indicates the horizontal or vertical layout of the component.
+   */
+  @Prop({ reflect: true }) layout: CalciteLayout = "vertical";
 
   /**
    * Used to set the tooltip for the expand toggle.
@@ -114,9 +115,9 @@ export class CalciteActionPad {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const { el, expand, expanded } = this;
+    const { el, disableExpand, expanded } = this;
 
-    if (expand) {
+    if (!disableExpand) {
       toggleChildActionText({ parent: el, expanded });
     }
   }
@@ -160,7 +161,7 @@ export class CalciteActionPad {
   renderBottomActionGroup(): VNode {
     const {
       expanded,
-      expand,
+      disableExpand,
       intlExpand,
       intlCollapse,
       el,
@@ -172,7 +173,7 @@ export class CalciteActionPad {
     const expandLabel = intlExpand || TEXT.expand;
     const collapseLabel = intlCollapse || TEXT.collapse;
 
-    const expandToggleNode = expand ? (
+    const expandToggleNode = !disableExpand ? (
       <CalciteExpandToggle
         el={el}
         expanded={expanded}
