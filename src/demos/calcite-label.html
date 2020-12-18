@@ -29,6 +29,36 @@
   <demo-form>
     <form name="calcite-label-demo-form">
 
+      <calcite-label>
+        Leading text with default layout
+        <calcite-checkbox></calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label>
+        <calcite-checkbox></calcite-checkbox>
+        Trailing text with default layout
+      </calcite-label>
+
+      <calcite-label layout="inline">
+        Leading text with inline layout
+        <calcite-checkbox></calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label layout="inline">
+        <calcite-checkbox></calcite-checkbox>
+        Trailing text with inline layout
+      </calcite-label>
+
+      <calcite-label layout="inline-space-between">
+        Leading text with inline-space-between layout
+        <calcite-checkbox></calcite-checkbox>
+      </calcite-label>
+
+      <calcite-label layout="inline-space-between">
+        <calcite-checkbox></calcite-checkbox>
+        Trailing text with inline-space-between layout
+      </calcite-label>
+
       <h2>Wrapping Native Inputs</h2>
 
       <calcite-label>
@@ -295,15 +325,28 @@
       <calcite-label for="sibling-native-input">Sibling Calcite Label to Native Input</calcite-label>
       <input id="sibling-native-input" value="native input">
 
+      <calcite-label for="sibling-native-input-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Native Input</span></calcite-label>
+      <input id="sibling-native-input-wrapped-in-span" value="native input">
+
       <calcite-label for="sibling-native-textarea">Sibling Calcite Label to Native Text Area</calcite-label>
       <textarea id="sibling-native-textarea" value="native textarea">native textarea</textarea>
+
+      <calcite-label for="sibling-native-textarea-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Native Text Area</span></calcite-label>
+      <textarea id="sibling-native-textarea-wrapped-in-span" value="native textarea">native textarea</textarea>
 
       <calcite-label for="sibling-native-checkbox">Sibling Calcite Label to Native Checkbox</calcite-label>
       <input id="sibling-native-checkbox" type="checkbox" name="sibling-native-checkbox">
 
+      <calcite-label for="sibling-native-checkbox-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Native Checkbox</span></calcite-label>
+      <input id="sibling-native-checkbox-wrapped-in-span" type="checkbox" name="sibling-native-checkbox-wrapped-in-span">
+
       <calcite-label for="sibling-native-radio">Sibling Calcite Label to Native Radio Buttons</calcite-label>
       <input id="sibling-native-radio" type="radio" name="sibling-native-radio">
       <input type="radio" name="sibling-native-radio">
+
+      <calcite-label for="sibling-native-radio-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Native Radio Buttons</span></calcite-label>
+      <input id="sibling-native-radio-wrapped-in-span" type="radio" name="sibling-native-radio-wrapped-in-span">
+      <input type="radio" name="sibling-native-radio-wrapped-in-span">
 
       <calcite-label for="sibling-native-select">Sibling Calcite Label to Native Select</calcite-label>
       <select id="sibling-native-select" name="sibling-native-select">
@@ -313,20 +356,119 @@
         <option value="audi">Audi</option>
       </select>
 
+      <calcite-label for="sibling-native-select-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Native Select</span></calcite-label>
+      <select id="sibling-native-select-wrapped-in-span" name="sibling-native-select-wrapped-in-span">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+      </select>
+
       <calcite-label for="sibling-native-button">Sibling Calcite Label to Native Button</calcite-label>
       <button id="sibling-native-button" type="button">Native Button</button>
 
+      <calcite-label for="sibling-native-button-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Native Button</span></calcite-label>
+      <button id="sibling-native-button-wrapped-in-span" type="button">Native Button</button>
+
       <h2>Sibling to Calcite Inputs</h2>
 
-      <calcite-label for="sibling-calcite-input">Sibling Calcite Label to Calcite Input</calcite-label>
-      <calcite-input id="sibling-calcite-input" value="calcite input"></calcite-input>
+      <calcite-label for="sibling-calcite-button">Sibling Calcite Label to Calcite Button</calcite-label>
+      <calcite-button id="sibling-calcite-button" type="button">Calcite Button</calcite-button>
+
+      <calcite-label for="sibling-calcite-button-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Calcite Button</span></calcite-label>
+      <calcite-button id="sibling-calcite-button-wrapped-in-span" type="button">Calcite Button</calcite-button>
 
       <calcite-label for="sibling-calcite-checkbox">Sibling Calcite Label to Calcite Checkbox</calcite-label>
       <calcite-checkbox id="sibling-calcite-checkbox" name="sibling-calcite-checkbox"></calcite-checkbox>
 
+      <calcite-label for="sibling-calcite-checkbox-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Calcite Checkbox</span></calcite-label>
+      <calcite-checkbox id="sibling-calcite-checkbox-wrapped-in-span" name="sibling-calcite-checkbox-wrapped-in-span"></calcite-checkbox>
+
+      <calcite-label for="sibling-calcite-date">
+        Sibling Calcite Label to Calcite Date
+      </calcite-label>
+      <calcite-date id="sibling-calcite-date"></calcite-date>
+
+      <calcite-label for="sibling-calcite-date-wrapped-in-span">
+        <span>Sibling Calcite Label wrapped in span to Calcite Date</span>
+      </calcite-label>
+      <calcite-date id="sibling-calcite-date-wrapped-in-span"></calcite-date>
+
+      <calcite-label for="sibling-calcite-inline-editable">
+        Sibling Calcite Label to Calcite Inline Editable
+      </calcite-label>
+      <calcite-inline-editable id="sibling-calcite-inline-editable">
+        <calcite-input></calcite-input>
+      </calcite-inline-editable>
+      <calcite-input-message>
+        My great input message
+      </calcite-input-message>
+
+      <calcite-label for="sibling-calcite-inline-editable-wrapped-in-span">
+        <span>Sibling Calcite Label wrapped in span to Calcite Inline Editable</span>
+      </calcite-label>
+      <calcite-inline-editable id="sibling-calcite-inline-editable-wrapped-in-span">
+        <calcite-input></calcite-input>
+      </calcite-inline-editable>
+      <calcite-input-message>
+        My great input message
+      </calcite-input-message>
+
+      <calcite-label for="sibling-calcite-input">Sibling Calcite Label to Calcite Input</calcite-label>
+      <calcite-input id="sibling-calcite-input" value="calcite input"></calcite-input>
+
+      <calcite-label for="sibling-calcite-input-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Calcite Input</span></calcite-label>
+      <calcite-input id="sibling-calcite-input-wrapped-in-span" value="calcite input"></calcite-input>
+
       <calcite-label for="sibling-calcite-radio">Sibling Calcite Label to Calcite Radio Buttons</calcite-label>
       <calcite-radio-button id="sibling-calcite-radio" name="sibling-calcite-radio"></calcite-radio-button>
       <calcite-radio-button name="sibling-calcite-radio"></calcite-radio-button>
+
+      <calcite-label for="sibling-calcite-radio-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Calcite Radio Buttons</span></calcite-label>
+      <calcite-radio-button id="sibling-calcite-radio-wrapped-in-span" name="sibling-calcite-radio-wrapped-in-span"></calcite-radio-button>
+      <calcite-radio-button name="sibling-calcite-radio-wrapped-in-span"></calcite-radio-button>
+
+      <calcite-label for="sibling-calcite-radio-button-group">
+        Sibling Calcite Label to Calcite Radio Button Group
+      </calcite-label>
+      <calcite-radio-button-grou id="sibling-calcite-radio-button-group" name="sibling-calcite-radio-button-group">
+        <calcite-radio-button value="one"></calcite-radio-button>
+        <calcite-radio-button value="two"></calcite-radio-button>
+      </calcite-radio-button-group>
+
+      <calcite-label for="sibling-calcite-radio-button-group-span">
+        <span>Calcite Label wrapped in span sibling Calcite Radio Button Group</span>
+      </calcite-label>
+      <calcite-radio-button-group id="sibling-calcite-radio-button-group-span" name="sibling-calcite-radio-button-group-span">
+        <calcite-radio-button value="one"></calcite-radio-button>
+        <calcite-radio-button value="two"></calcite-radio-button>
+      </calcite-radio-button-group>
+
+      <calcite-label for="sibling-calcite-radio-button-group-slotted-label">
+        Sibling Calcite Label to Calcite Radio Button Group with Slotted Labels
+      </calcite-label>
+      <calcite-radio-button-group id="sibling-calcite-radio-button-group-slotted-label" name="sibling-calcite-radio-button-group-slotted-label">
+        <calcite-radio-button value="one">One</calcite-radio-button>
+        <calcite-radio-button value="two">Two</calcite-radio-button>
+      </calcite-radio-button-group>
+
+      <calcite-label for="sibling-calcite-radio-group">
+        Sibling Calcite Label to Calcite Radio Group
+      </calcite-label>
+      <calcite-radio-group id="sibling-calcite-radio-group">
+        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <calcite-label for="sibling-calcite-radio-group-wrapped-in-span">
+        <span>Sibling Calcite Label wrapped in span to Calcite Radio Group</span>
+      </calcite-label>
+      <calcite-radio-group id="sibling-calcite-radio-group-wrapped-in-span">
+        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+      </calcite-radio-group>
 
       <calcite-label for="sibling-calcite-select">Sibling Calcite Label to Calcite Select</calcite-label>
       <calcite-select id="sibling-calcite-select" name="sibling-calcite-select">
@@ -335,8 +477,34 @@
         <calcite-option>low</calcite-option>
       </calcite-select>
 
-      <calcite-label for="sibling-calcite-button">Sibling Calcite Label to Calcite Button</calcite-label>
-      <calcite-button id="sibling-calcite-button" type="button">Calcite Button</calcite-button>
+      <calcite-label for="sibling-calcite-select-wrapped-in-span">
+        <span>Sibling Calcite Label wrapped in span to Calcite Select</span>
+      </calcite-label>
+      <calcite-select id="sibling-calcite-select-wrapped-in-span" name="sibling-calcite-select-wrapped-in-span">
+        <calcite-option>high</calcite-option>
+        <calcite-option>medium</calcite-option>
+        <calcite-option>low</calcite-option>
+      </calcite-select>
+
+      <calcite-label for="sibling-calcite-slider">
+        Sibling Calcite Label to Calcite Slider
+      </calcite-label>
+      <calcite-slider id="sibling-calcite-slider"></calcite-slider>
+
+      <calcite-label for="sibling-calcite-slider-wrapped-in-span">
+        <span>Sibling Calcite Label wrapped in span to Calcite Slider</span>
+      </calcite-label>
+      <calcite-slider id="sibling-calcite-slider-wrapped-in-span"></calcite-slider>
+
+      <calcite-label for="sibling-calcite-switch">
+        Sibling Calcite Label to Calcite Switch
+      </calcite-label>
+      <calcite-switch id="sibling-calcite-switch"></calcite-switch>
+
+      <calcite-label for="sibling-calcite-switch-wrapped-in-span">
+        <span>Sibling Calcite Label wrapped in span to Calcite Switch</span>
+      </calcite-label>
+      <calcite-switch id="sibling-calcite-switch-wrapped-in-span"></calcite-switch>
 
       <p>
         <calcite-button type="submit">Submit</calcite-button>
