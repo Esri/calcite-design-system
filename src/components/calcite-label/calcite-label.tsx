@@ -81,7 +81,24 @@ export class CalciteLabel {
       interactedEl: target,
       requestedInput: this.for
     });
+    this.handleCalciteHtmlForClicks(target);
+  }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private getAttributes(): Record<string, any> {
+    // spread attributes from the component to rendered child, filtering out props
+    const props = ["disabled", "id", "layout", "scale", "status", "theme"];
+    return Array.from(this.el.attributes)
+      .filter((a) => a && !props.includes(a.name))
+      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
+  }
+
+  private handleCalciteHtmlForClicks = (target: HTMLElement) => {
     // 1. has htmlFor
     if (!this.for) return;
 
@@ -131,21 +148,7 @@ export class CalciteLabel {
     }
 
     inputForThisLabel.click();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private getAttributes(): Record<string, any> {
-    // spread attributes from the component to rendered child, filtering out props
-    const props = ["disabled", "id", "layout", "scale", "status", "theme"];
-    return Array.from(this.el.attributes)
-      .filter((a) => a && !props.includes(a.name))
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
-  }
+  };
 
   //--------------------------------------------------------------------------
   //
