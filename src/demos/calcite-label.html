@@ -29,6 +29,11 @@
   <demo-form>
     <form name="calcite-label-demo-form">
 
+      <calcite-label layout="inline" disable-spacing>
+        <span style="margin-right: 0.75rem">Manual spacing for browsers that don't support flex gap</span>
+        <calcite-checkbox></calcite-checkbox>
+      </calcite-label>
+
       <calcite-label>
         Leading text with default layout
         <calcite-checkbox></calcite-checkbox>
@@ -431,7 +436,7 @@
       <calcite-label for="sibling-calcite-radio-button-group">
         Sibling Calcite Label to Calcite Radio Button Group
       </calcite-label>
-      <calcite-radio-button-grou id="sibling-calcite-radio-button-group" name="sibling-calcite-radio-button-group">
+      <calcite-radio-button-group id="sibling-calcite-radio-button-group" name="sibling-calcite-radio-button-group">
         <calcite-radio-button value="one"></calcite-radio-button>
         <calcite-radio-button value="two"></calcite-radio-button>
       </calcite-radio-button-group>
