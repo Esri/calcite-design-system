@@ -56,21 +56,6 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
-  it("focuses a requested, non-wrapped calcite-input", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label for="focus-input-demo-1">
-    Label text
-    </calcite-label>
-    <calcite-input id="focus-input-demo-1"></calcite-input>
-  `);
-    const label = await page.find("calcite-label");
-    const input = await page.find("calcite-input");
-    await label.click();
-    const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-    expect(activeEl).toEqual(input.nodeName);
-  });
-
   describe("wrapped around labelable native controls", () => {
     it("focuses a wrapped input when clicked", async () => {
       const page = await newE2EPage();
@@ -686,6 +671,49 @@ describe("calcite-label", () => {
       expect(await radioInput1.getProperty("checked")).toBe(true);
     });
 
+    it("checks first calcite-radio-button with slotted labels only when the span-wrapped wrapping label is clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label>
+          <span>Label text</span>
+          <calcite-radio-button id="one" name="radio" value="one">One</calcite-radio-button>
+          <calcite-radio-button id="two" name="radio" value="two">Two</calcite-radio-button>
+        </calcite-label>
+    `);
+      const outerLabel = await page.find("label");
+      const radio1 = await page.find("#one");
+      const radioInput1 = await page.find("#one-input");
+      const radioLabel1 = await page.find("#one label");
+      const radio2 = await page.find("#two");
+      const radioInput2 = await page.find("#two-input");
+      const radioLabel2 = await page.find("#two label");
+
+      await outerLabel.click();
+
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+
+      await radioLabel2.click();
+
+      expect(await radio2.getProperty("checked")).toBe(true);
+      expect(await radioInput2.getProperty("checked")).toBe(true);
+
+      await radioLabel1.click();
+
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+
+      await radio2.click();
+
+      expect(await radio2.getProperty("checked")).toBe(true);
+      expect(await radioInput2.getProperty("checked")).toBe(true);
+
+      await radio1.click();
+
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+    });
+
     it("focuses and switches a wrapped calcite-switch when clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`
@@ -757,15 +785,15 @@ describe("calcite-label", () => {
     it("focuses a wrapped checked calcite-radio-group-item when clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`
-      <calcite-label>
-      Label text
-      <calcite-radio-group>
-        <calcite-radio-group-item value="react">React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-      </calcite-radio-group>
-      </calcite-label>
-    `);
+        <calcite-label>
+          Label text
+          <calcite-radio-group>
+            <calcite-radio-group-item value="react">React</calcite-radio-group-item>
+            <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+          </calcite-radio-group>
+        </calcite-label>
+      `);
       const label = await page.find("calcite-label");
       const radioGroupItem = await page.find("calcite-radio-group-item[checked]");
       const radioGroupItemClass = radioGroupItem["_elmHandle"]["_remoteObject"].description;
@@ -793,6 +821,219 @@ describe("calcite-label", () => {
       const activeEl = await page.evaluateHandle(() => document.activeElement);
       const activeElClass = activeEl["_remoteObject"].description;
       expect(activeElClass).toEqual(radioGroupItemClass);
+    });
+  });
+
+  describe("sibling of labelable calcite controls", () => {
+    it("focuses a sibling calcite-input when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="input">
+          Label text
+        </calcite-label>
+        <calcite-input id="input"></calcite-input>
+      `);
+      const label = await page.find("calcite-label");
+      const input = await page.find("calcite-input");
+      await label.click();
+      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
+      expect(activeEl).toEqual(input.nodeName);
+    });
+
+    it("focuses a sibling calcite-input when clicked with label wrapped in span", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="input">
+          <span>Label text</span>
+        </calcite-label>
+        <calcite-input id="input"></calcite-input>
+      `);
+      const label = await page.find("calcite-label");
+      const input = await page.find("calcite-input");
+      await label.click();
+      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
+      expect(activeEl).toEqual(input.nodeName);
+    });
+
+    it("focuses/checks a sibling calcite-checkbox when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="checkbox">
+          Label text
+        </calcite-label>
+        <calcite-checkbox id="checkbox"></calcite-checkbox>
+      `);
+      const label = await page.find("calcite-label");
+      const input = await page.find("input");
+      const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
+      await label.click();
+      const activeEl = await page.evaluateHandle(() => document.activeElement);
+      const activeElClass = activeEl["_remoteObject"].description;
+      expect(activeElClass).toEqual(checkboxClass);
+      expect(await input.getProperty("checked")).toBe(true);
+
+      const checkbox = await page.find("calcite-checkbox");
+      await checkbox.click();
+      expect(await checkbox.getProperty("checked")).toBe(false);
+      expect(await input.getProperty("checked")).toBe(false);
+    });
+
+    it("focuses/checks a sibling calcite-checkbox with slotted label when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="checkbox">
+          Label text
+        </calcite-label>
+        <calcite-checkbox id="checkbox">Slotted label</calcite-checkbox>
+    `);
+      const label = await page.find("calcite-label");
+      const input = await page.find("input");
+      const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
+      await label.click();
+      const activeEl = await page.evaluateHandle(() => document.activeElement);
+      const activeElClass = activeEl["_remoteObject"].description;
+      expect(activeElClass).toEqual(checkboxClass);
+      expect(await input.getProperty("checked")).toBe(true);
+
+      const checkbox = await page.find("calcite-checkbox");
+      await checkbox.click();
+      expect(await checkbox.getProperty("checked")).toBe(false);
+      expect(await input.getProperty("checked")).toBe(false);
+
+      const slottedLabel = await page.find("calcite-checkbox >>> label");
+      await slottedLabel.click();
+      expect(await checkbox.getProperty("checked")).toBe(true);
+      expect(await input.getProperty("checked")).toBe(true);
+    });
+
+    it("checks calcite-radio-button when its sibling label is clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="one">
+          Label text
+        </calcite-label>
+        <calcite-radio-button id="one" name="radio" value="one"></calcite-radio-button>
+        <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
+    `);
+      const label = await page.find("label");
+      const radio1 = await page.find("#one");
+      const radioInput1 = await page.find("#one-input");
+
+      await label.click();
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+
+      const radio2 = await page.find("#two");
+      const radioInput2 = await page.find("#two-input");
+      await radio2.click();
+      expect(await radio2.getProperty("checked")).toBe(true);
+      expect(await radioInput2.getProperty("checked")).toBe(true);
+
+      await label.click();
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+    });
+
+    it("checks calcite-radio-button when its sibling label wrapped in a span is clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="one">
+          <span>Label text</span>
+        </calcite-label>
+        <calcite-radio-button id="one" name="radio" value="one"></calcite-radio-button>
+        <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
+    `);
+      const label = await page.find("span");
+      const radio1 = await page.find("#one");
+      const radioInput1 = await page.find("#one-input");
+
+      await label.click();
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+
+      const radio2 = await page.find("#two");
+      const radioInput2 = await page.find("#two-input");
+      await radio2.click();
+      expect(await radio2.getProperty("checked")).toBe(true);
+      expect(await radioInput2.getProperty("checked")).toBe(true);
+
+      await label.click();
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+    });
+
+    it("checks calcite-radio-button with slotted labels when the span-wrapped sibling label is clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="one">
+          <span>Label text</span>
+        </calcite-label>
+        <calcite-radio-button id="one" name="radio" value="one">One</calcite-radio-button>
+        <calcite-radio-button id="two" name="radio" value="two">Two</calcite-radio-button>
+    `);
+      const outerLabel = await page.find("label");
+      const radio1 = await page.find("#one");
+      const radioInput1 = await page.find("#one-input");
+      const radioLabel1 = await page.find("#one label");
+      const radio2 = await page.find("#two");
+      const radioInput2 = await page.find("#two-input");
+      const radioLabel2 = await page.find("#two label");
+
+      await outerLabel.click();
+
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+
+      await radioLabel2.click();
+
+      expect(await radio2.getProperty("checked")).toBe(true);
+      expect(await radioInput2.getProperty("checked")).toBe(true);
+
+      await radioLabel1.click();
+
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+
+      await radio2.click();
+
+      expect(await radio2.getProperty("checked")).toBe(true);
+      expect(await radioInput2.getProperty("checked")).toBe(true);
+
+      await radio1.click();
+
+      expect(await radio1.getProperty("checked")).toBe(true);
+      expect(await radioInput1.getProperty("checked")).toBe(true);
+    });
+
+    it("switches a sibling calcite-switch when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="switch">
+          Label text
+        </calcite-label>
+        <calcite-switch id="switch"></calcite-switch>
+      `);
+      const label = await page.find("calcite-label");
+      const switchEl = await page.find("calcite-switch");
+      await label.click();
+      expect(switchEl).toHaveAttribute("switched");
+    });
+
+    it("focuses a sibling calcite-slider when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <calcite-label for="slider">
+          Label text
+        </calcite-label>
+        <calcite-slider id="slider"></calcite-slider>
+      `);
+      const label = await page.find("calcite-label");
+      const slider = await page.find("calcite-slider");
+      const sliderClass = slider["_elmHandle"]["_remoteObject"].description;
+      await label.click();
+      const activeEl = await page.evaluateHandle(() => document.activeElement);
+      const activeElClass = activeEl["_remoteObject"].description;
+      expect(activeElClass).toEqual(sliderClass);
     });
   });
 });
