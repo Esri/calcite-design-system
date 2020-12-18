@@ -130,16 +130,7 @@ export class CalciteLabel {
       }
     }
 
-    const nativeInputForThisLabel: HTMLElement = inputForThisLabel.querySelector(
-      `#${this.for}-input`
-    );
-    if (nativeInputForThisLabel) {
-      // This is for components that have a hidden input with a different id than their host element
-      nativeInputForThisLabel.click();
-    } else {
-      // This is for components that have a hidden input with the same id as their host element
-      inputForThisLabel.click();
-    }
+    inputForThisLabel.click();
   }
 
   //--------------------------------------------------------------------------
