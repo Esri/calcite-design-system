@@ -77,7 +77,9 @@ module.exports = {
       color: {
         "1": theme("colors.text.1"),
         "2": theme("colors.text.2"),
-        "3": theme("colors.text.3")
+        "3": theme("colors.text.3"),
+        "link": theme("colors.text.link"),
+        "inverse": theme("colors.text.inverse")
       }
     }),
     backgroundColor: theme => theme("colors.background"),
@@ -145,6 +147,11 @@ module.exports = {
       },
       opacity: {
         disabled: "0.5"
+      },
+      spacing: {
+        "0.5": "0.125rem",
+        "2.5": "0.625rem",
+        "3.5": "0.875rem"
       },
       transitionProperty: {
         margin: "margin",
