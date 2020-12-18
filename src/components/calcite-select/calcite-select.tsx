@@ -10,7 +10,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { focusElement, getElementDir, getElementTheme } from "../../utils/dom";
+import { focusElement, getElementDir, getElementProp } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
 import { FocusRequest } from "../../interfaces/Label";
@@ -115,6 +115,8 @@ export class CalciteSelect {
       subtree: true,
       childList: true
     });
+
+    if (!this.theme) this.theme = getElementProp(this.el, "theme", "light");
   }
 
   disconnectedCallback(): void {
@@ -311,9 +313,9 @@ export class CalciteSelect {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const theme = getElementTheme(this.el);
+
     return (
-      <Host dir={dir} theme={theme}>
+      <Host dir={dir}>
         <select
           aria-label={this.label}
           class={{ [CSS.select]: true }}
