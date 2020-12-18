@@ -1,6 +1,6 @@
 # calcite-label
 
-Renders a `<label>` around its children and can be used with any [labelable native](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Form_labelable) labelable native or labelable calcite element.
+Renders a `<label>` around its children and can be used with any [labelable native](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Form_labelable) or labelable calcite element.
 
 ## Caveat when using with browsers that don't support flex gap
 
