@@ -1,7 +1,7 @@
 /**
  * Standardize key property of keyboard event (mostly for ie11)
  */
-export function getKey(key: string): string {
+export function getKey(key: string, dir?: "rtl" | "ltr"): string {
   const lookup = {
     Up: "ArrowUp",
     Down: "ArrowDown",
@@ -10,5 +10,16 @@ export function getKey(key: string): string {
     Spacebar: " ",
     Esc: "Escape"
   };
-  return lookup[key] || key;
+  const adjustedKey = lookup[key] || key;
+  const isRTL = dir === "rtl";
+
+  if (isRTL && adjustedKey === "ArrowLeft") {
+    return "ArrowRight";
+  }
+
+  if (isRTL && adjustedKey === "ArrowRight") {
+    return "ArrowLeft";
+  }
+
+  return adjustedKey;
 }
