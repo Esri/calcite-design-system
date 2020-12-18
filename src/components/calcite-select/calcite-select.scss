@@ -73,7 +73,7 @@ select:disabled {
 }
 
 :host([disabled]) {
-  pointer-events: none;
+  @apply pointer-events-none select-none;
   opacity: var(--calcite-ui-opacity-disabled);
 }
 
