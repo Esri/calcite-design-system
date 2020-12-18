@@ -18,6 +18,7 @@ storiesOf("Components/Combobox", module)
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
+      ${boolean("allow-custom-values", false)}
       max-items="${number("max-items", 0)}"
       >
       <calcite-combobox-item value="Trees" text-label="Trees">
@@ -54,6 +55,7 @@ storiesOf("Components/Combobox", module)
     label="${text("label (for screen readers)", "demo")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("disabled", false)}
+    ${boolean("allow-custom-values", false)}
     max-items="${number("max-items", 0)}"
     >
     <calcite-combobox-item value="Trees" text-label="Trees">
@@ -89,6 +91,7 @@ storiesOf("Components/Combobox", module)
     dir="rtl"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("disabled", false)}
+    ${boolean("allow-custom-values", false)}
     >
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>

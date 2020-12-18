@@ -65,10 +65,13 @@ export class CalciteCombobox {
   /** Placeholder text for input */
   @Prop() placeholder?: string;
 
-  /** specify the maximum number of combobox items (including nested children) to display before showing the scroller */
+  /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
 
-  /** specify the scale of the combobox, defaults to m */
+  /** Allow entry of custom values which are not in the original set of items */
+  @Prop() allowCustomValues: boolean;
+
+  /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Select theme (light or dark) */
@@ -127,6 +130,7 @@ export class CalciteCombobox {
         break;
       case "ArrowDown":
         event.preventDefault();
+        this.active = true;
         this.shiftActiveItemIndex(1);
         break;
       case "Home":
@@ -145,6 +149,8 @@ export class CalciteCombobox {
           this.toggleSelection(this.visibleItems[this.activeItemIndex]);
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
+        } else if (this.allowCustomValues && this.text) {
+          this.addCustomChip(this.text);
         }
         break;
       case "Delete":
@@ -400,8 +406,7 @@ export class CalciteCombobox {
     item.selected = value;
     this.selectedItems = this.getSelectedItems();
     this.calciteLookupChange.emit(this.selectedItems);
-    this.textInput.value = "";
-    this.text = "";
+    this.resetText();
     this.textInput.focus();
     this.filterItems("");
   }
@@ -411,14 +416,13 @@ export class CalciteCombobox {
   }
 
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
-    const current = [...this.selectedItems];
     return (
       this.items
         .filter((item) => item.selected)
         /** Preserve order of entered tags */
         .sort((a, b) => {
-          const aIdx = current.indexOf(a);
-          const bIdx = current.indexOf(b);
+          const aIdx = this.selectedItems.indexOf(a);
+          const bIdx = this.selectedItems.indexOf(b);
           if (aIdx > -1 && bIdx > -1) {
             return aIdx - bIdx;
           }
@@ -427,23 +431,47 @@ export class CalciteCombobox {
     );
   }
 
-  updateItems(): void {
+  updateItems = (): void => {
     this.items = this.getItems();
     this.data = this.getData();
     this.selectedItems = this.getSelectedItems();
     this.visibleItems = this.getVisibleItems();
-  }
+  };
 
   getData(): ItemData[] {
     return this.items.map((item) => ({
       value: item.value,
-      label: item.textLabel
+      label: item.textLabel,
+      guid: item.guid
     }));
+  }
+
+  resetText(): void {
+    this.textInput.value = "";
+    this.text = "";
   }
 
   getItems(): HTMLCalciteComboboxItemElement[] {
     const items = Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM));
     return items.filter((item) => !item.disabled);
+  }
+
+  addCustomChip(value: string): void {
+    const existingItem = this.items.find((el) => el.value === value || el.textLabel === value);
+    if (existingItem) {
+      this.toggleSelection(existingItem, true);
+    } else {
+      const item = document.createElement("calcite-combobox-item");
+      item.value = value;
+      item.textLabel = value;
+      item.guid = guid();
+      item.selected = true;
+      this.el.appendChild(item);
+      this.resetText();
+      this.setFocus();
+      this.updateItems();
+      this.filterItems("");
+    }
   }
 
   removeActiveChip(): void {
@@ -464,12 +492,11 @@ export class CalciteCombobox {
     const active = this.activeChipIndex;
     this.activeChipIndex = active === -1 ? length : Math.max(active - 1, 0);
     this.updateActiveItemIndex(-1);
-    this.active = false;
     this.focusChip();
   }
 
   nextChip(): void {
-    if (this.text) {
+    if (this.text || this.activeChipIndex === -1) {
       return;
     }
     const last = this.selectedItems.length - 1;
@@ -479,7 +506,6 @@ export class CalciteCombobox {
       this.setFocus();
     } else {
       this.activeChipIndex = newIndex;
-      this.active = false;
       this.focusChip();
     }
     this.updateActiveItemIndex(-1);
@@ -520,6 +546,7 @@ export class CalciteCombobox {
     this.activeDescendant = activeDescendant;
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
+      this.textInput.focus();
     }
   }
 

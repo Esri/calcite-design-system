@@ -264,4 +264,67 @@ describe("calcite-combobox", () => {
       expect(chips.length).toEqual(2);
     });
   });
+
+  describe("allows free entry of text", () => {
+    it("should allow typing a new unknown tag", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values>
+            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      let chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).toBeNull();
+
+      const input = await page.find("calcite-combobox >>> input");
+      await input.click();
+
+      await input.press("K");
+      await input.press("Enter");
+
+      chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).toBeDefined();
+      expect(await chip.getProperty("value")).toBe("K");
+
+      await input.click();
+
+      await input.press("K");
+      await input.press("Enter");
+      const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      expect(chips.length).toBe(1);
+    });
+
+    it("should select known tag when input", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values>
+            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      let chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).toBeNull();
+
+      const input = await page.find("calcite-combobox >>> input");
+      await input.click();
+
+      await input.press("o");
+      await input.press("n");
+      await input.press("e");
+      await input.press("Enter");
+
+      chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).toBeDefined();
+      expect(await chip.getProperty("value")).toBe("one");
+      const item1 = await page.find("calcite-combobox-item#one");
+      expect(await item1.getProperty("selected")).toBe(true);
+    });
+  });
 });
