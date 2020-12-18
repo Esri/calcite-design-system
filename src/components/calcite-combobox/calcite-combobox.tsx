@@ -214,7 +214,7 @@ export class CalciteCombobox {
 
   connectedCallback(): void {
     if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.updateItems.bind(this));
+      this.observer = new MutationObserver(this.updateItems);
     }
 
     this.createPopper();
@@ -416,14 +416,13 @@ export class CalciteCombobox {
   }
 
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
-    const current = [...this.selectedItems];
     return (
-      [...this.items]
+      this.items
         .filter((item) => item.selected)
         /** Preserve order of entered tags */
         .sort((a, b) => {
-          const aIdx = current.indexOf(a);
-          const bIdx = current.indexOf(b);
+          const aIdx = this.selectedItems.indexOf(a);
+          const bIdx = this.selectedItems.indexOf(b);
           if (aIdx > -1 && bIdx > -1) {
             return aIdx - bIdx;
           }
@@ -432,12 +431,12 @@ export class CalciteCombobox {
     );
   }
 
-  updateItems(): void {
+  updateItems = (): void => {
     this.items = this.getItems();
     this.data = this.getData();
     this.selectedItems = this.getSelectedItems();
     this.visibleItems = this.getVisibleItems();
-  }
+  };
 
   getData(): ItemData[] {
     return this.items.map((item) => ({
@@ -467,9 +466,7 @@ export class CalciteCombobox {
       item.textLabel = value;
       item.guid = guid();
       item.selected = true;
-      // construct a new item
-      const parent = this.el.querySelector(COMBO_BOX_ITEM)?.parentElement;
-      parent?.appendChild(item);
+      this.el.appendChild(item);
       this.resetText();
       this.setFocus();
       this.updateItems();
