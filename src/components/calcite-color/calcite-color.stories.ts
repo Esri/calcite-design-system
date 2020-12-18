@@ -40,18 +40,32 @@ const createColorAttributes: () => Attributes = () => {
     {
       name: "scale",
       value: select("scale", scale.values, scale.defaultValue)
-    },
-    {
-      name: "value",
-      value: text("value", "#b33f33")
     }
   ];
 };
 
-export const simple = (): string => create("calcite-color", createColorAttributes());
+export const simple = (): string =>
+  create("calcite-color", [
+    ...createColorAttributes(),
+    {
+      name: "value",
+      value: text("value", "#b33f33")
+    }
+  ]);
 
 export const dark = (): string =>
-  create("calcite-color", [...createColorAttributes(), { name: "theme", value: "dark" }]);
+  create("calcite-color", [
+    ...createColorAttributes(),
+    { name: "theme", value: "dark" },
+    {
+      name: "value",
+      value: text("value", "#b33f33")
+    }
+  ]);
 
 export const allowingEmpty = (): string =>
-  create("calcite-color", [...createColorAttributes(), { name: "allow-empty", value: true }]);
+  create("calcite-color", [
+    ...createColorAttributes(),
+    { name: "allow-empty", value: true },
+    { name: "value", value: text("value", "") }
+  ]);
