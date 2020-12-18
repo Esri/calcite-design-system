@@ -156,7 +156,7 @@ describe("calcite-color-hex-input", () => {
   describe("keyboard interaction", () => {
     async function assertTabAndEnterBehavior(
       hexInputChars: string,
-      expectedValue: string,
+      expectedValue: string | null,
       resetHex = "#efface"
     ): Promise<void> {
       const normalizedInputHex = normalizeHex(hexInputChars);
@@ -165,7 +165,7 @@ describe("calcite-color-hex-input", () => {
         throw new Error(`input hex (${hexInputChars}) cannot be the same as reset value (${resetHex})`);
       }
 
-      expectedValue = isValidHex(normalizedInputHex) ? expectedValue : resetHex;
+      expectedValue = expectedValue === null || isValidHex(normalizedInputHex) ? expectedValue : resetHex;
 
       await typeHexValue(resetHex, "Enter");
       expect(await input.getProperty("value")).toBe(resetHex);
@@ -210,72 +210,95 @@ describe("calcite-color-hex-input", () => {
       input = await page.find("calcite-color-hex-input");
     });
 
-    it("commits hex chars on Tab and Enter", async () => {
-      await assertTabAndEnterBehavior("b00", "#bb0000");
-      await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
-      await assertTabAndEnterBehavior("", null);
+    describe("when color value is required", () => {
+      it("commits hex chars on Tab and Enter", async () => {
+        await assertTabAndEnterBehavior("b00", "#bb0000");
+        await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
+        await assertTabAndEnterBehavior("", startingHex);
+      });
+
+      it("prevents committing invalid hex chars", async () => {
+        await assertTabAndEnterBehavior("loooooooooooool", startingHex);
+        await assertTabAndEnterBehavior("aabbc", startingHex);
+        await assertTabAndEnterBehavior("aabb", startingHex);
+        await assertTabAndEnterBehavior("aa", startingHex);
+        await assertTabAndEnterBehavior("a", startingHex);
+        await assertTabAndEnterBehavior("", startingHex);
+      });
+
+      it("allows nudging RGB channels with arrow keys (+/-1) and shift modifies amount (+/-10)", async () => {
+        const initialHex = "#000000";
+
+        await input.callMethod("setFocus");
+        await input.setProperty("value", initialHex);
+        await page.waitForChanges();
+
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+        expect(await input.getProperty("value")).toBe("#010101");
+
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+        expect(await input.getProperty("value")).toBe(initialHex);
+
+        await page.keyboard.down("Shift");
+        await page.keyboard.press("ArrowUp");
+        await page.keyboard.up("Shift");
+        expect(await input.getProperty("value")).toBe("#0a0a0a");
+
+        await page.keyboard.down("Shift");
+        await page.keyboard.press("ArrowDown");
+        await page.keyboard.up("Shift");
+        expect(await input.getProperty("value")).toBe(initialHex);
+      });
     });
 
-    it("prevents committing invalid hex chars", async () => {
-      await assertTabAndEnterBehavior("loooooooooooool", startingHex);
-      await assertTabAndEnterBehavior("aabbc", startingHex);
-      await assertTabAndEnterBehavior("aabb", startingHex);
-      await assertTabAndEnterBehavior("aa", startingHex);
-      await assertTabAndEnterBehavior("a", startingHex);
-    });
+    describe("when empty is allowed", () => {
+      beforeEach(async () => {
+        input.setProperty("allowEmpty", true);
+        await page.waitForChanges();
+      });
 
-    it("allows nudging RGB channels with arrow keys (+/-1) and shift modifies amount (+/-10)", async () => {
-      const initialHex = "#000000";
+      it("commits hex chars on Tab and Enter", async () => {
+        await assertTabAndEnterBehavior("b00", "#bb0000");
+        await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
+        await assertTabAndEnterBehavior("", null);
+      });
 
-      await input.callMethod("setFocus");
-      await input.setProperty("value", initialHex);
-      await page.waitForChanges();
+      it("prevents committing invalid hex chars", async () => {
+        await assertTabAndEnterBehavior("loooooooooooool", null);
+        await assertTabAndEnterBehavior("aabbc", startingHex);
+        await assertTabAndEnterBehavior("aabb", startingHex);
+        await assertTabAndEnterBehavior("aa", startingHex);
+        await assertTabAndEnterBehavior("a", startingHex);
+        await assertTabAndEnterBehavior("", null);
+      });
 
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-      expect(await input.getProperty("value")).toBe("#010101");
+      it("does not allow nudging when no-color is allowed and set", async () => {
+        const noColorValue = null;
 
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      expect(await input.getProperty("value")).toBe(initialHex);
+        await input.callMethod("setFocus");
+        await input.setProperty("value", noColorValue);
+        await page.waitForChanges();
 
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("ArrowUp");
-      await page.keyboard.up("Shift");
-      expect(await input.getProperty("value")).toBe("#0a0a0a");
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+        expect(await input.getProperty("value")).toBe(noColorValue);
 
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("ArrowDown");
-      await page.keyboard.up("Shift");
-      expect(await input.getProperty("value")).toBe(initialHex);
-    });
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+        expect(await input.getProperty("value")).toBe(noColorValue);
 
-    it("does not allow nudging when no-color is allowed and set", async () => {
-      const noColorValue = null;
+        await page.keyboard.down("Shift");
+        await page.keyboard.press("ArrowUp");
+        await page.keyboard.up("Shift");
+        expect(await input.getProperty("value")).toBe(noColorValue);
 
-      await input.callMethod("setFocus");
-      await input.setProperty("allowEmpty", true);
-      await page.waitForChanges();
-      await input.setProperty("value", noColorValue);
-      await page.waitForChanges();
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-      expect(await input.getProperty("value")).toBe(noColorValue);
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      expect(await input.getProperty("value")).toBe(noColorValue);
-
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("ArrowUp");
-      await page.keyboard.up("Shift");
-      expect(await input.getProperty("value")).toBe(noColorValue);
-
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("ArrowDown");
-      await page.keyboard.up("Shift");
-      expect(await input.getProperty("value")).toBe(noColorValue);
+        await page.keyboard.down("Shift");
+        await page.keyboard.press("ArrowDown");
+        await page.keyboard.up("Shift");
+        expect(await input.getProperty("value")).toBe(noColorValue);
+      });
     });
   });
 });
