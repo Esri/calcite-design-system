@@ -95,7 +95,7 @@ export class CalciteRadioButton {
       this.input.name = newName;
     }
     this.checkLastRadioButton();
-    const currentValue: HTMLInputElement = document.querySelector(
+    const currentValue: HTMLInputElement = this.documentRoot.querySelector(
       `input[name="${this.name}"]:checked`
     );
     if (!currentValue?.value) {
@@ -126,6 +126,8 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  private documentRoot: any;
+
   private initialChecked: boolean;
 
   private input: HTMLInputElement;
@@ -143,8 +145,10 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   private checkLastRadioButton(): void {
-    const radioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name
+    const radioButtons = Array.from(
+      this.documentRoot.querySelectorAll("calcite-radio-button")
+    ).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
 
     const checkedRadioButtons = radioButtons.filter((radioButton) => radioButton.checked);
@@ -161,8 +165,10 @@ export class CalciteRadioButton {
   }
 
   private uncheckAllRadioButtonsInGroup(): void {
-    const otherRadioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name
+    const otherRadioButtons = Array.from(
+      this.documentRoot.querySelectorAll("calcite-radio-button")
+    ).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
     otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
       if (otherRadioButton.checked) {
@@ -173,8 +179,12 @@ export class CalciteRadioButton {
   }
 
   private uncheckOtherRadioButtonsInGroup(): void {
-    const otherRadioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name && radioButton.guid !== this.guid
+    const documentRoot: any = this.el.getRootNode();
+    const otherRadioButtons = Array.from(
+      documentRoot.querySelectorAll("calcite-radio-button")
+    ).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) =>
+        radioButton.name === this.name && radioButton.guid !== this.guid
     ) as HTMLCalciteRadioButtonElement[];
     otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
       if (otherRadioButton.checked) {
@@ -258,6 +268,7 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.documentRoot = this.el.getRootNode();
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
     this.initialChecked = this.checked;
     if (this.name) {
