@@ -37,7 +37,7 @@ It also allows consumers to set a `status` attribute for child `calcite-input` a
 
 | Property         | Attribute         | Description                                                          | Type                                              | Default     |
 | ---------------- | ----------------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
-| `disableSpacing` | `disable-spacing` | Turn off spacing around the label                                    | `boolean`                                         | `undefined` |
+| `disableSpacing` | `disable-spacing` | eliminates any space around the label                                | `boolean`                                         | `undefined` |
 | `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `undefined` |
 | `for`            | `for`             | The id of the input associated with the label                        | `string`                                          | `undefined` |
 | `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
