@@ -40,6 +40,9 @@ export class CalciteDatePicker {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+  /** Active range */
+  @Prop() activeRange?: "start" | "end" = "start";
+
   /** Selected date */
   @Prop() value?: string;
 
@@ -80,9 +83,6 @@ export class CalciteDatePicker {
   @Prop() end?: string;
 
   @Prop() proximitySelection?: boolean = true;
-
-  /** Layout */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   //--------------------------------------------------------------------------
   //
@@ -142,12 +142,6 @@ export class CalciteDatePicker {
    */
   @State() activeEndDate: Date;
 
-  // todo: figure out a better API prop for this?
-  /**
-   * In range mode, indicates which input was is focused on
-   */
-  @State() focusedInput: "start" | "end" = "start";
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -179,7 +173,7 @@ export class CalciteDatePicker {
     const endDate = this.range ? dateFromRange(this.endAsDate, min, max) : null;
     const activeEndDate = this.getActiveEndDate(endDate, min, max);
     if (
-      (this.focusedInput === "end" ||
+      (this.activeRange === "end" ||
         (this.hoverRange?.focused === "end" && (this.proximitySelection || endDate))) &&
       activeEndDate
     ) {
@@ -188,7 +182,7 @@ export class CalciteDatePicker {
     if (this.range && this.mostRecentRangeValue) {
       activeDate = this.mostRecentRangeValue;
     }
-    const minDate = this.focusedInput === "start" ? min : date || min;
+    const minDate = this.activeRange === "start" ? min : date || min;
     const maxDate = max;
     const dir = getElementDir(this.el);
 
@@ -266,16 +260,16 @@ export class CalciteDatePicker {
               this.activeDate = date;
               this.handleDateChange(e);
             } else {
-              if (this.focusedInput === "start") {
+              if (this.activeRange === "start") {
                 this.activeStartDate = date;
-              } else if (this.focusedInput === "end") {
+              } else if (this.activeRange === "end") {
                 this.activeEndDate = date;
               }
               this.mostRecentRangeValue = date;
             }
           }}
           scale={this.scale}
-          selectedDate={this.focusedInput === "start" ? date : endDate || new Date()}
+          selectedDate={this.activeRange === "start" ? date : endDate || new Date()}
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
@@ -290,9 +284,9 @@ export class CalciteDatePicker {
             if (!this.range) {
               this.activeDate = date;
             } else {
-              if (this.focusedInput === "start") {
+              if (this.activeRange === "start") {
                 this.activeStartDate = date;
-              } else if (this.focusedInput === "end") {
+              } else if (this.activeRange === "end") {
                 this.activeEndDate = date;
               }
               this.mostRecentRangeValue = date;
@@ -305,7 +299,7 @@ export class CalciteDatePicker {
             }
             const date = new Date(e.detail);
             this.hoverRange = {
-              focused: this.focusedInput,
+              focused: this.activeRange,
               start: this.startAsDate,
               end: this.endAsDate
             };
@@ -356,7 +350,7 @@ export class CalciteDatePicker {
           }}
           onCalciteDatePickerSelect={(e: CustomEvent<Date>) => this.handleDateChange(e, true)}
           scale={this.scale}
-          selectedDate={this.focusedInput === "start" ? date : endDate}
+          selectedDate={this.activeRange === "start" ? date : endDate}
           startDate={this.range ? date : undefined}
         />
       ]
@@ -403,7 +397,7 @@ export class CalciteDatePicker {
       this.value = dateToISO(date);
       this.valueAsDate = e.detail;
       this.activeDate = date;
-      this.calciteDatePickerChange.emit(date);
+      this.calciteDatePickerChange.emit(date); // todo: maybe just emit this on change of activeDate
       if (doReset) {
         this.reset();
       }
@@ -449,13 +443,14 @@ export class CalciteDatePicker {
         this.reset();
       }
       this.calciteDatePickerRangeChange.emit({
+        // todo: maybe just emit this on change of startAsDate, endAsDate
         startDate: this.startAsDate,
         endDate: this.endAsDate
       });
       return;
     }
 
-    if (this.focusedInput === "start") {
+    if (this.activeRange === "start") {
       this.start = dateToISO(date);
       this.setStartAsDate(date);
       this.activeStartDate = date;

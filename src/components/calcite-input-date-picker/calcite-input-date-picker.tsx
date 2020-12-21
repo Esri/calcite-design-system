@@ -162,12 +162,12 @@ export class CalciteDatePicker {
   /**
    * Trigger calcite date change when a user changes the date.
    */
-  @Event() calciteDatePickerChange: EventEmitter<Date>;
+  @Event() calciteDatePickerChange: EventEmitter<Date>; // todo
 
   /**
    * Trigger calcite date change when a user changes the date range.
    */
-  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>; // todo
 
   /**
    * Active date.
@@ -288,6 +288,7 @@ export class CalciteDatePicker {
                 }}
               >
                 <calcite-date-picker
+                  activeRange={this.focusedInput}
                   dir={dir}
                   endAsDate={maxDate}
                   intlNextMonth={this.intlNextMonth}
@@ -532,7 +533,7 @@ export class CalciteDatePicker {
       this.value = dateToISO(date);
       this.valueAsDate = e.detail;
       this.activeDate = date;
-      this.calciteDatePickerChange.emit(date);
+      this.calciteDatePickerChange.emit(date); // todo
       if (doReset) {
         this.reset();
       }
@@ -553,6 +554,7 @@ export class CalciteDatePicker {
       this.reset();
     }
     this.calciteDatePickerRangeChange.emit({
+      // todo
       startDate: this.startAsDate,
       endDate: this.endAsDate
     });
