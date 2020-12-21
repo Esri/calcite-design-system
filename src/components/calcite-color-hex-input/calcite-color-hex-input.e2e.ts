@@ -59,7 +59,7 @@ describe("calcite-color-hex-input", () => {
     expect(await internalInput.getProperty("value")).toBe("");
 
     const internalSwatch = await page.find(`calcite-color-hex-input >>> .${CSS.preview}`);
-    expect(await internalSwatch.getProperty("color")).toBe(null);
+    expect(internalSwatch).toBe(null);
   });
 
   it("accepts shorthand hex", async () => {

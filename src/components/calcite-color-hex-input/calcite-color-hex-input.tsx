@@ -237,7 +237,6 @@ export class CalciteColorHexInput {
     const { el, intlHex, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
     const elementDir = getElementDir(el);
-    const swatchColor = hexInputValue ? `#${hexInputValue}` : null;
 
     return (
       <div class={CSS.container}>
@@ -253,7 +252,9 @@ export class CalciteColorHexInput {
           scale="s"
           value={hexInputValue}
         />
-        <calcite-color-swatch active class={CSS.preview} color={swatchColor} scale="s" />
+        {hexInputValue ? (
+          <calcite-color-swatch active class={CSS.preview} color={`#${hexInputValue}`} scale="s" />
+        ) : null}
       </div>
     );
   }

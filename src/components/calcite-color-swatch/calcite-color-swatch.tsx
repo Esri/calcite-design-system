@@ -2,7 +2,6 @@ import { Component, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
 import { COLORS, CSS } from "./resources";
 import { Scale, Theme } from "../../interfaces/common";
-import { TEXT } from "../calcite-color/resources";
 
 @Component({
   tag: "calcite-color-swatch",
@@ -30,18 +29,12 @@ export class CalciteColorSwatch {
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
    */
   @Prop()
-  color: string | null;
+  color: string;
 
   @Watch("color")
-  handleColorChange(color: string | null): void {
-    this.internalColor = color ? Color(color) : null;
+  handleColorChange(color: string): void {
+    this.internalColor = Color(color);
   }
-
-  /**
-   * Label used for no color swatches.
-   */
-  @Prop()
-  intlNoColor = TEXT.noColor;
 
   /**
    * The component scale.
@@ -65,7 +58,7 @@ export class CalciteColorSwatch {
   //
   //--------------------------------------------------------------------------
 
-  private internalColor: Color | null;
+  private internalColor: Color;
 
   //--------------------------------------------------------------------------
   //
@@ -78,29 +71,18 @@ export class CalciteColorSwatch {
   }
 
   render(): VNode {
-    const { active, internalColor, intlNoColor, scale, theme } = this;
-    const noColor = !internalColor;
+    const { active, internalColor, theme } = this;
     const borderRadius = active ? "100%" : "0";
-    const fillColor = noColor ? COLORS.emptyFill : internalColor.hex();
-    const label = noColor ? intlNoColor : internalColor.hex();
-
-    const borderColor =
-      active || noColor
-        ? COLORS.activeBorder
-        : internalColor[theme === "light" ? "darken" : "whiten"](0.25).hex();
+    const hex = internalColor.hex();
+    const borderColor = active
+      ? COLORS.activeBorder
+      : internalColor[theme === "light" ? "darken" : "whiten"](0.25).hex();
 
     return (
-      <Host aria-label={label} title={label}>
+      <Host aria-label={hex} title={hex}>
         <svg class={CSS.swatch} xmlns="http://www.w3.org/2000/svg">
-          <rect
-            fill={fillColor}
-            height="100%"
-            rx={borderRadius}
-            stroke={borderColor}
-            width="100%"
-          />
+          <rect fill={hex} height="100%" rx={borderRadius} stroke={borderColor} width="100%" />
         </svg>
-        {noColor ? <calcite-icon class={CSS.noColorIcon} icon="x" scale={scale} /> : null}
       </Host>
     );
   }
