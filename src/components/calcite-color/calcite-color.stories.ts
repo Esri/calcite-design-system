@@ -7,13 +7,9 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
   title: "Components/Color",
+
   parameters: {
-    backgrounds: darkBackground,
-    notes: {
-      color: colorReadme,
-      swatch: swatchReadme,
-      hexInput: hexInputReadme
-    }
+    notes: [colorReadme, hexInputReadme, swatchReadme]
   }
 };
 
@@ -44,7 +40,7 @@ const createColorAttributes: () => Attributes = () => {
   ];
 };
 
-export const simple = (): string =>
+export const Simple = (): string =>
   create("calcite-color", [
     ...createColorAttributes(),
     {
@@ -53,7 +49,7 @@ export const simple = (): string =>
     }
   ]);
 
-export const dark = (): string =>
+export const DarkMode = (): string =>
   create("calcite-color", [
     ...createColorAttributes(),
     { name: "theme", value: "dark" },
@@ -63,7 +59,11 @@ export const dark = (): string =>
     }
   ]);
 
-export const allowingEmpty = (): string =>
+DarkMode.story = {
+  parameters: { backgrounds: darkBackground }
+};
+
+export const AllowingEmpty = (): string =>
   create("calcite-color", [
     ...createColorAttributes(),
     { name: "allow-empty", value: true },

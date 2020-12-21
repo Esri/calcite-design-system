@@ -18,9 +18,9 @@
 
 ## Events
 
-| Event                     | Description            | Type                |
-| ------------------------- | ---------------------- | ------------------- |
-| `calciteActiveDateChange` | Changes to active date | `CustomEvent<Date>` |
+| Event               | Description            | Type                |
+| ------------------- | ---------------------- | ------------------- |
+| `calciteDateSelect` | Changes to active date | `CustomEvent<Date>` |
 
 ## Dependencies
 
