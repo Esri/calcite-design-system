@@ -48,12 +48,23 @@ export class CalciteColorHexInput {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
-    const normalized = normalizeHex(this.value);
+  connectedCallback(): void {
+    const { allowEmpty, value } = this;
 
-    if (isValidHex(normalized)) {
-      this.internalColor = Color(normalized);
-      this.value = normalized;
+    if (value) {
+      const normalized = normalizeHex(value);
+
+      if (isValidHex(normalized)) {
+        this.internalColor = Color(normalized);
+        this.value = normalized;
+      }
+
+      return;
+    }
+
+    if (allowEmpty) {
+      this.internalColor = null;
+      this.value = null;
     }
   }
 
@@ -64,9 +75,21 @@ export class CalciteColorHexInput {
   //--------------------------------------------------------------------------
 
   /**
+   * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
+   *
+   * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
+   */
+  @Prop() allowEmpty = false;
+
+  /**
    * Label used for the hex input.
    */
   @Prop() intlHex = TEXT.hex;
+
+  /**
+   * Label used for the hex input when there is no color selected.
+   */
+  @Prop() intlNoColor = TEXT.noColor;
 
   /**
    * The component's scale.
@@ -85,15 +108,26 @@ export class CalciteColorHexInput {
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
-    const normalized = normalizeHex(value);
+    if (value) {
+      const normalized = normalizeHex(value);
 
-    if (isValidHex(normalized)) {
-      const changed = normalized !== normalizeHex(this.internalColor.hex());
-      this.internalColor = Color(normalized);
-      this.value = normalized;
-      if (changed) {
-        this.calciteColorHexInputChange.emit();
+      if (isValidHex(normalized)) {
+        const { internalColor } = this;
+        const changed = !internalColor || normalized !== normalizeHex(internalColor.hex());
+        this.internalColor = Color(normalized);
+        this.value = normalized;
+
+        if (changed) {
+          this.calciteColorHexInputChange.emit();
+        }
+
+        return;
       }
+    } else if (this.allowEmpty) {
+      this.internalColor = null;
+      this.value = null;
+      this.calciteColorHexInputChange.emit();
+
       return;
     }
 
@@ -113,45 +147,59 @@ export class CalciteColorHexInput {
 
   private onCalciteInputBlur = (event: Event): void => {
     const node = event.currentTarget as HTMLCalciteInputElement;
-    const hex = `#${node.value}`;
+    const inputValue = node.value;
+    const hex = `#${inputValue}`;
+    const willClearValue = this.allowEmpty && !inputValue;
 
-    if (isValidHex(hex) && isLonghandHex(hex)) {
+    if (willClearValue || (isValidHex(hex) && isLonghandHex(hex))) {
       return;
     }
 
     // manipulating DOM directly since rerender doesn't update input value
-    node.value = this.formatForInternalInput(rgbToHex((this.internalColor.object() as any) as RGB));
+    node.value =
+      this.allowEmpty && !this.internalColor
+        ? ""
+        : this.formatForInternalInput(rgbToHex((this.internalColor.object() as any) as RGB));
   };
 
   private onInputChange = (event: Event): void => {
     const node = event.currentTarget as HTMLCalciteInputElement;
-    const hex = node.value;
+    const inputValue = node.value;
+    let value: this["value"];
 
-    const color = hexToRGB(`#${hex}`);
+    if (inputValue) {
+      const hex = inputValue;
+      const color = hexToRGB(`#${hex}`);
 
-    if (!color) {
-      return;
+      if (!color) {
+        return;
+      }
+
+      value = normalizeHex(hex);
+    } else if (this.allowEmpty) {
+      value = null;
     }
 
-    this.value = normalizeHex(hex);
+    this.value = value;
     this.calciteColorHexInputChange.emit();
   };
 
   private onInputKeyDown = (event: KeyboardEvent): void => {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
+    const { inputNode, internalColor, value } = this;
     const key = getKey(event.key);
+    const nudgeable = value && (key === "ArrowDown" || key === "ArrowUp");
 
-    if (key === "ArrowDown" || key === "ArrowUp") {
+    if (nudgeable) {
       const direction = key === "ArrowUp" ? 1 : -1;
       const bump = shiftKey ? 10 : 1;
 
-      this.value = normalizeHex(this.nudgeRGBChannels(this.internalColor, bump * direction).hex());
+      this.value = normalizeHex(this.nudgeRGBChannels(internalColor, bump * direction).hex());
 
       event.preventDefault();
       return;
     }
 
-    const { inputNode } = this;
     const withModifiers = altKey || ctrlKey || metaKey;
     const exceededHexLength = inputNode.value.length >= 6;
     const hasTextSelection = getSelection().type === "Range";
@@ -177,7 +225,7 @@ export class CalciteColorHexInput {
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
-  @State() internalColor: Color = DEFAULT_COLOR;
+  @State() internalColor: Color | null = DEFAULT_COLOR;
 
   //--------------------------------------------------------------------------
   //
@@ -200,11 +248,13 @@ export class CalciteColorHexInput {
           onChange={this.onInputChange}
           onKeyDown={this.onInputKeyDown}
           prefixText="#"
-          ref={(node) => (this.inputNode = node)}
+          ref={this.storeInputRef}
           scale="s"
           value={hexInputValue}
         />
-        <calcite-color-swatch active class={CSS.preview} color={`#${hexInputValue}`} scale="s" />
+        {hexInputValue ? (
+          <calcite-color-swatch active class={CSS.preview} color={`#${hexInputValue}`} scale="s" />
+        ) : null}
       </div>
     );
   }
@@ -227,8 +277,12 @@ export class CalciteColorHexInput {
   //
   //--------------------------------------------------------------------------
 
+  private storeInputRef = (node: HTMLCalciteInputElement): void => {
+    this.inputNode = node;
+  };
+
   private formatForInternalInput(hex: string): string {
-    return hex.replace("#", "");
+    return hex ? hex.replace("#", "") : "";
   }
 
   private nudgeRGBChannels(color: Color, amount: number): Color {
