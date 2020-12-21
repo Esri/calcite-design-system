@@ -1,5 +1,5 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../tests/utils";
@@ -13,32 +13,16 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "disabled",
-    value: boolean("disabled", false)
-  },
-  {
-    name: "filter-enabled",
-    value: boolean("filterEnabled", false)
-  },
-  {
-    name: "loading",
-    value: boolean("loading", false)
-  },
-  {
-    name: "multiple",
-    value: boolean("multiple", false)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributeMap = (): AttributeMap => {
+  return {
+    dir: () => select("dir", dir.values, dir.defaultValue),
+    disabled: () => boolean("disabled", false),
+    "filter-enabled": () => boolean("filterEnabled", false),
+    loading: () => boolean("loading", false),
+    multiple: () => boolean("multiple", false),
+    theme: () => select("theme", theme.values, theme.defaultValue)
+  };
+};
 
 const action = html`
   <calcite-action
@@ -54,7 +38,7 @@ const action = html`
 export const basic = (): string =>
   create(
     "calcite-pick-list",
-    createAttributes(),
+    createAttributeMap(),
     html`
       <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
         ${action}
@@ -69,7 +53,7 @@ export const basic = (): string =>
 export const grouped = (): string =>
   create(
     "calcite-pick-list",
-    createAttributes(),
+    createAttributeMap(),
     html`
       <calcite-pick-list-group group-title="numbers">
         <calcite-pick-list-item label="one" description="fish" value="one" icon="grip">
@@ -93,7 +77,7 @@ export const grouped = (): string =>
 export const nested = (): string =>
   create(
     "calcite-pick-list",
-    createAttributes(),
+    createAttributeMap(),
     html`
       <calcite-pick-list-group>
         <calcite-pick-list-item label="All the dogs" value="all-dogs" slot="parent-item">

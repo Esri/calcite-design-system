@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { AttributeMap, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { appearance, dir, scale, theme } = ATTRIBUTES;
@@ -12,55 +12,19 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "appearance",
-    value: select("appearance", appearance.values, appearance.defaultValue)
-  },
-  {
-    name: "active",
-    value: boolean("active", false)
-  },
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "disabled",
-    value: boolean("disabled", false)
-  },
-  {
-    name: "icon",
-    value: text("icon", "beaker")
-  },
-  {
-    name: "indicator",
-    value: boolean("indicator", false)
-  },
-  {
-    name: "label",
-    value: text("label", "Label")
-  },
-  {
-    name: "loading",
-    value: boolean("loading", false)
-  },
-  {
-    name: "scale",
-    value: select("scale", scale.values, scale.defaultValue)
-  },
-  {
-    name: "text",
-    value: text("text", "Text")
-  },
-  {
-    name: "text-enabled",
-    value: boolean("textEnabled", false)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributeMap = (): AttributeMap => ({
+  appearance: () => select("appearance", appearance.values, appearance.defaultValue),
+  active: () => boolean("active", false),
+  dir: () => select("dir", dir.values, dir.defaultValue),
+  disabled: () => boolean("disabled", false),
+  icon: () => text("icon", "beaker"),
+  indicator: () => boolean("indicator", false),
+  label: () => text("label", "Label"),
+  loading: () => boolean("loading", false),
+  scale: () => select("scale", scale.values, scale.defaultValue),
+  text: () => text("text", "Text"),
+  "text-enabled": () => boolean("textEnabled", false),
+  theme: () => select("theme", theme.values, theme.defaultValue)
+});
 
-export const basic = (): string => create("calcite-action", createAttributes());
+export const basic = (): string => create("calcite-action", createAttributeMap());

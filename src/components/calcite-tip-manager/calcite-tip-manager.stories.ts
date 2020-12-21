@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -14,45 +14,21 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "closed",
-    value: boolean("closed", false)
-  },
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "intl-close",
-    value: text("intlClose", TEXT.close)
-  },
-  {
-    name: "intl-default-title",
-    value: text("intlDefaultTitle", TEXT.defaultGroupTitle)
-  },
-  {
-    name: "intl-pagination-label",
-    value: text("intlPaginationLabel", TEXT.defaultPaginationLabel)
-  },
-  {
-    name: "intl-next",
-    value: text("intlNext", TEXT.next)
-  },
-  {
-    name: "intl-previous",
-    value: text("intlPrevious", TEXT.previous)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributeMap = (): AttributeMap => ({
+  closed: () => boolean("closed", false),
+  dir: () => select("dir", dir.values, dir.defaultValue),
+  "intl-close": () => text("intlClose", TEXT.close),
+  "intl-default-title": () => text("intlDefaultTitle", TEXT.defaultGroupTitle),
+  "intl-pagination-label": () => text("intlPaginationLabel", TEXT.defaultPaginationLabel),
+  "intl-next": () => text("intlNext", TEXT.next),
+  "intl-previous": () => text("intlPrevious", TEXT.previous),
+  theme: () => select("theme", theme.values, theme.defaultValue)
+});
 
 export const basic = (): string =>
   create(
     "calcite-tip-manager",
-    createAttributes(),
+    createAttributeMap(),
     html`
       <calcite-tip-group group-title="Astronomy">
         <calcite-tip heading="The Red Rocks and Blue Water">

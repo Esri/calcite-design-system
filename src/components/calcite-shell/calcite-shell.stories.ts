@@ -1,5 +1,5 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, position, scale, theme } = ATTRIBUTES;
 import readme from "./readme.md";
@@ -17,64 +17,29 @@ export default {
   }
 };
 
-const createAttributes: (group: string) => Attributes = (group) => {
-  return [
-    {
-      name: "dir",
-      value: select("dir", dir.values, dir.defaultValue, group)
-    },
-    {
-      name: "theme",
-      value: select("theme", theme.values, theme.defaultValue, group)
-    }
-  ];
+const createAttributeMap = (group: string): AttributeMap => ({
+  dir: () => select("dir", dir.values, dir.defaultValue, group),
+  theme: () => select("theme", theme.values, theme.defaultValue, group)
+});
+
+const createShellPanelAttributeMap = (group: "Leading Panel" | "Trailing Panel"): AttributeMap => {
+  return {
+    slot: () => (group === "Leading Panel" ? "primary-panel" : "contextual-panel"),
+    collapsed: () => boolean("collapsed", false, group),
+    detached: () => boolean("detached", false, group),
+    position: () =>
+      select("position", position.values, group === "Leading Panel" ? position.values[0] : position.values[1], group)
+  };
 };
 
-const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") => Attributes = (group) => {
-  return [
-    {
-      name: "slot",
-      value: group === "Leading Panel" ? "primary-panel" : "contextual-panel"
-    },
-    {
-      name: "collapsed",
-      value: boolean("collapsed", false, group)
-    },
-    {
-      name: "detached",
-      value: boolean("detached", false, group)
-    },
-    {
-      name: "position",
-      value: select(
-        "position",
-        position.values,
-        group === "Leading Panel" ? position.values[0] : position.values[1],
-        group
-      )
-    }
-  ];
-};
-
-const createShellCenterRowAttributes: (group: string) => Attributes = (group) => {
-  return [
-    {
-      name: "detached",
-      value: boolean("detached", false, group)
-    },
-    {
-      name: "height-scale",
-      value: select("heightScale", scale.values, scale.values[0], group)
-    },
-    {
-      name: "position",
-      value: select("position", position.values, position.values[1], group)
-    },
-    {
-      name: "slot",
-      value: "center-row"
-    }
-  ];
+const createShellCenterRowAttributeMap = (group: string): AttributeMap => {
+  return {
+    detached: () => boolean("detached", false, group),
+    "height-scale": () => select("heightScale", scale.values, scale.values[0], group),
+    position: () => select("position", position.values, position.values[1], group),
+    name: () => "slot",
+    slot: () => "center-row"
+  };
 };
 
 const actionBarPrimaryContentHTML = html`
@@ -199,11 +164,12 @@ const centerRowAdvancedHTML = html`
 export const basic = (): string =>
   create(
     "calcite-shell",
-    createAttributes("Shell"),
+    createAttributeMap("Shell"),
     html`
-      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
-      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
+      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributeMap("Leading Panel"), leadingPanelHTML)}
+      ${contentHTML}
+      ${create("calcite-shell-center-row", createShellCenterRowAttributeMap("Center Row"), centerRowHTML)}
+      ${create("calcite-shell-panel", createShellPanelAttributeMap("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
     `
   );
 
@@ -306,12 +272,12 @@ const advancedTrailingPanelHTMl = html`
 export const advanced = (): string =>
   create(
     "calcite-shell",
-    createAttributes("Shell"),
+    createAttributeMap("Shell"),
     html`
       ${headerHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
+      ${create("calcite-shell-panel", createShellPanelAttributeMap("Leading Panel"), advancedLeadingPanelHTML)}
       ${contentHTML} ${centerRowAdvancedHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
+      ${create("calcite-shell-panel", createShellPanelAttributeMap("Trailing Panel"), advancedTrailingPanelHTMl)}
       ${footerHTML}
     `
   );

@@ -1,4 +1,4 @@
-import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
@@ -6,101 +6,33 @@ import { select, text } from "@storybook/addon-knobs";
 import accordionReadme from "./readme.md";
 import accordionItemReadme from "../calcite-accordion-item/readme.md";
 
-const createAccordionAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
+const createAccordionAttributeMap = (): AttributeMap => {
   const group = "accordion";
   const { dir, theme, scale } = ATTRIBUTES;
 
-  interface DeferredAttribute {
-    name: string;
-    commit: () => Attribute;
-  }
-
-  return ([
-    {
-      name: "dir",
-      commit(): Attribute {
-        this.value = select("dir", dir.values, dir.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "scale",
-      commit(): Attribute {
-        this.value = select("scale", scale.values, scale.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "theme",
-      commit(): Attribute {
-        this.value = select("theme", theme.values, theme.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "appearance",
-      commit(): Attribute {
-        this.value = select("appearance", ["default", "minimal", "transparent"], "default", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "icon-position",
-      commit(): Attribute {
-        this.value = select("icon-position", ["start", "end"], "end", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "icon-type",
-      commit(): Attribute {
-        this.value = select("icon-type", ["chevron", "caret", "plus-minus"], "chevron", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "selection-mode",
-      commit(): Attribute {
-        this.value = select("selection-mode", ["multi", "single", "single-persist"], "multi", group);
-        delete this.build;
-        return this;
-      }
-    }
-  ] as DeferredAttribute[])
-    .filter((attr) => !except.find((excluded) => excluded === attr.name))
-    .map((attr) => attr.commit());
+  return {
+    dir: () => select("dir", dir.values, dir.defaultValue, group),
+    scale: () => select("scale", scale.values, scale.defaultValue, group),
+    theme: () => select("theme", theme.values, theme.defaultValue, group),
+    appearance: () => select("appearance", ["default", "minimal", "transparent"], "default", group),
+    "icon-position": () => select("icon-position", ["start", "end"], "end", group),
+    "icon-type": () => select("icon-type", ["chevron", "caret", "plus-minus"], "chevron", group),
+    "selection-mode": () => select("selection-mode", ["multi", "single", "single-persist"], "multi", group)
+  };
 };
 
-const createAccordionItemAttributes: (options?: { icon?: boolean; group?: string }) => Attributes = ({
-  icon,
-  group
-}) => {
+const createAccordionItemAttributeMap = ({ icon, group }: { icon?: boolean; group?: string }): AttributeMap => {
   const groupTitle = group ? group : "";
-  const defaultAttributes = [
-    {
-      name: "item-title",
-      value: text("item-title", "Item title", groupTitle)
-    },
-    {
-      name: "item-subtitle",
-      value: text("item-subtitle", "Item subtitle", groupTitle)
-    }
-  ];
 
-  const iconAttribute = [
-    {
-      name: "icon",
-      value: select("icon", iconNames, iconNames[0], groupTitle)
-    }
-  ];
+  const iconAttribute = {
+    icon: () => select("icon", iconNames, iconNames[0], groupTitle)
+  };
 
-  return icon ? iconAttribute.concat(defaultAttributes) : defaultAttributes;
+  return {
+    ...(icon ? iconAttribute : null),
+    "item-title": () => text("item-title", "Item title", groupTitle),
+    "item-subtitle": () => text("item-subtitle", "Item subtitle", groupTitle)
+  };
 };
 
 const accordionItemContent = `Custom content here<br/><img src="https://placem.at/places?w=200&txt=0"><br/>More custom content here`;
@@ -119,21 +51,21 @@ export default {
 export const basic = (): string =>
   create(
     "calcite-accordion",
-    createAccordionAttributes(),
+    createAccordionAttributeMap(),
     html`
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-1" }),
+        createAccordionItemAttributeMap({ group: "accordion-item-1" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-2" }),
+        createAccordionItemAttributeMap({ group: "accordion-item-2" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-3" }),
+        createAccordionItemAttributeMap({ group: "accordion-item-3" }),
         accordionItemContent
       )}
     `
@@ -142,21 +74,21 @@ export const basic = (): string =>
 export const icon = (): string =>
   create(
     "calcite-accordion",
-    createAccordionAttributes(),
+    createAccordionAttributeMap(),
     html`
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-1" }),
+        createAccordionItemAttributeMap({ icon: true, group: "accordion-item-1" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-2" }),
+        createAccordionItemAttributeMap({ icon: true, group: "accordion-item-2" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+        createAccordionItemAttributeMap({ icon: true, group: "accordion-item-3" }),
         accordionItemContent
       )}
     `

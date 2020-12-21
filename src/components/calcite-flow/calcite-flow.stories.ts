@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, theme } = ATTRIBUTES;
 import readme from "./readme.md";
@@ -18,56 +18,26 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => {
+const createAttributeMap = (): AttributeMap => {
   const group = "Flow";
 
-  return [
-    {
-      name: "dir",
-      value: select("dir", dir.values, dir.defaultValue, group)
-    },
-    {
-      name: "theme",
-      value: select("theme", theme.values, theme.defaultValue, group)
-    }
-  ];
+  return {
+    dir: () => select("dir", dir.values, dir.defaultValue, group),
+    theme: () => select("theme", theme.values, theme.defaultValue, group)
+  };
 };
 
-const createFlowItemAttributes: (group: string) => Attributes = (group) => {
-  return [
-    {
-      name: "disabled",
-      value: boolean("disabled", false, group)
-    },
-    {
-      name: "heading",
-      value: text("heading", "Heading", group)
-    },
-    {
-      name: "loading",
-      value: boolean("loading", false, group)
-    },
-    {
-      name: "menu-open",
-      value: boolean("menuOpen", false, group)
-    },
-    {
-      name: "summary",
-      value: text("summary", "Summary", group)
-    },
-    {
-      name: "intl-back",
-      value: text("intlBack", TEXT.back, group)
-    },
-    {
-      name: "intl-open",
-      value: text("intlOpen", TEXT.open, group)
-    },
-    {
-      name: "intl-close",
-      value: text("intlClose", TEXT.close, group)
-    }
-  ];
+const createFlowItemAttributeMap = (group: string): AttributeMap => {
+  return {
+    disabled: () => boolean("disabled", false, group),
+    heading: () => text("heading", "Heading", group),
+    loading: () => boolean("loading", false, group),
+    "menu-open": () => boolean("menuOpen", false, group),
+    summary: () => text("summary", "Summary", group),
+    "intl-back": () => text("intlBack", TEXT.back, group),
+    "intl-open": () => text("intlOpen", TEXT.open, group),
+    "intl-close": () => text("intlClose", TEXT.close, group)
+  };
 };
 
 const menuActionsHTML = html`
@@ -154,7 +124,7 @@ const item2HTML = html`
 export const basic = (): string =>
   create(
     "calcite-flow",
-    createAttributes(),
-    `${create("calcite-panel", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
-    ${create("calcite-panel", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
+    createAttributeMap(),
+    `${create("calcite-panel", createFlowItemAttributeMap("Panel 1"), createItemHTML(item1HTML))}
+    ${create("calcite-panel", createFlowItemAttributeMap("Panel 2"), createItemHTML(item2HTML))}`
   );

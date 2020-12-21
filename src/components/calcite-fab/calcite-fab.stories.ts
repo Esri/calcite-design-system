@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
@@ -13,47 +13,17 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "appearance",
-    value: select("appearance", appearance.values, appearance.values[2])
-  },
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "disabled",
-    value: boolean("disabled", false)
-  },
-  {
-    name: "icon",
-    value: text("icon", ICONS.plus)
-  },
-  {
-    name: "label",
-    value: text("label", "Label")
-  },
-  {
-    name: "loading",
-    value: boolean("loading", false)
-  },
-  {
-    name: "text",
-    value: text("text", "Text")
-  },
-  {
-    name: "text-enabled",
-    value: boolean("textEnabled", false)
-  },
-  {
-    name: "scale",
-    value: select("scale", scale.values, scale.defaultValue)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributeMap = (): AttributeMap => ({
+  appearance: () => select("appearance", appearance.values, appearance.values[2]),
+  dir: () => select("dir", dir.values, dir.defaultValue),
+  disabled: () => boolean("disabled", false),
+  icon: () => text("icon", ICONS.plus),
+  label: () => text("label", "Label"),
+  loading: () => boolean("loading", false),
+  text: () => text("text", "Text"),
+  "text-enabled": () => boolean("textEnabled", false),
+  scale: () => select("scale", scale.values, scale.defaultValue),
+  theme: () => select("theme", theme.values, theme.defaultValue)
+});
 
-export const basic = (): string => create("calcite-fab", createAttributes());
+export const basic = (): string => create("calcite-fab", createAttributeMap());

@@ -1,4 +1,4 @@
-import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, select, text } from "@storybook/addon-knobs";
@@ -6,76 +6,34 @@ import selectReadme from "../calcite-select/readme.md";
 import optionReadme from "../calcite-option/readme.md";
 import optionGroupReadme from "../calcite-option-group/readme.md";
 
-const createSelectAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
+const createSelectAttributeMap = (): AttributeMap => {
   const group = "select";
   const { dir, theme } = ATTRIBUTES;
 
-  interface DeferredAttribute {
-    name: string;
-    commit: () => Attribute;
-  }
-
-  return ([
-    {
-      name: "dir",
-      commit(): Attribute {
-        this.value = select("dir", dir.values, dir.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "disabled",
-      commit(): Attribute {
-        this.value = boolean("disabled", false, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "theme",
-      commit(): Attribute {
-        this.value = select("theme", theme.values, theme.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    }
-  ] as DeferredAttribute[])
-    .filter((attr) => !except.find((excluded) => excluded === attr.name))
-    .map((attr) => attr.commit());
+  return {
+    dir: () => select("dir", dir.values, dir.defaultValue, group),
+    disabled: () => boolean("disabled", false, group),
+    theme: () => select("theme", theme.values, theme.defaultValue, group)
+  };
 };
 
-const createOptionAttributes: () => Attributes = () => {
+const createOptionAttributeMap = (): AttributeMap => {
   const group = "option";
 
-  return [
-    {
-      name: "disabled",
-      value: boolean("disabled", false, group)
-    },
-    {
-      name: "label",
-      value: text("label", "fancy label", group)
-    },
-    {
-      name: "selected",
-      value: boolean("selected", false, group)
-    },
-    {
-      name: "value",
-      value: text("value", "value", group)
-    }
-  ];
+  return {
+    disabled: () => boolean("disabled", false, group),
+    label: () => text("label", "fancy label", group),
+    selected: () => boolean("selected", false, group),
+    value: () => text("value", "value", group)
+  };
 };
 
-const createOptionGroupAttributes: () => Attributes = () => {
+const createOptionGroupAttributeMap = (): AttributeMap => {
   const group = "option-group";
-  return [
-    {
-      name: "label",
-      value: text("label", "My fancy group label", group)
-    }
-  ];
+
+  return {
+    label: () => text("label", "My fancy group label", group)
+  };
 };
 
 export default {
@@ -93,9 +51,9 @@ export default {
 export const basic = (): string =>
   create(
     "calcite-select",
-    createSelectAttributes(),
+    createSelectAttributeMap(),
     html`
-      ${create("calcite-option", createOptionAttributes())}
+      ${create("calcite-option", createOptionAttributeMap())}
       <calcite-option label="some fixed option" value="some-fixed-value"></calcite-option>
       <calcite-option label="another fixed option" value="another-fixed-value"></calcite-option>
     `
@@ -104,13 +62,13 @@ export const basic = (): string =>
 export const grouped = (): string =>
   create(
     "calcite-select",
-    createSelectAttributes(),
+    createSelectAttributeMap(),
     html`
       ${create(
         "calcite-option-group",
-        createOptionGroupAttributes(),
+        createOptionGroupAttributeMap(),
         html`
-          ${create("calcite-option", createOptionAttributes())}
+          ${create("calcite-option", createOptionAttributeMap())}
           <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
           <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
         `

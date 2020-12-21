@@ -1,5 +1,5 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../tests/utils";
@@ -13,36 +13,15 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "disabled",
-    value: boolean("disabled", false)
-  },
-  {
-    name: "drag-enabled",
-    value: boolean("dragEnabled", false)
-  },
-  {
-    name: "filter-enabled",
-    value: boolean("filterEnabled", false)
-  },
-  {
-    name: "loading",
-    value: boolean("loading", false)
-  },
-  {
-    name: "multiple",
-    value: boolean("multiple", false)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributeMap = (): AttributeMap => ({
+  dir: () => select("dir", dir.values, dir.defaultValue),
+  disabled: () => boolean("disabled", false),
+  "drag-enabled": () => boolean("dragEnabled", false),
+  "filter-enabled": () => boolean("filterEnabled", false),
+  loading: () => boolean("loading", false),
+  multiple: () => boolean("multiple", false),
+  theme: () => select("theme", theme.values, theme.defaultValue)
+});
 
 const action = html`
   <calcite-action
@@ -58,7 +37,7 @@ const action = html`
 export const basic = (): string =>
   create(
     "calcite-value-list",
-    createAttributes(),
+    createAttributeMap(),
     html`
       <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
         ${action}

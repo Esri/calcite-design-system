@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { createComponentHTML as create, darkBackground, AttributeMap } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, theme, scale } = ATTRIBUTES;
 import readme from "./readme.md";
@@ -14,40 +14,16 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "dismissed",
-    value: boolean("dismissed", false)
-  },
-  {
-    name: "disabled",
-    value: boolean("disabled", false)
-  },
-  {
-    name: "dismissible",
-    value: boolean("dismissible", false)
-  },
-  {
-    name: "height-scale",
-    value: select("heightScale", scale.values, scale.defaultValue)
-  },
-  {
-    name: "loading",
-    value: boolean("loading", false)
-  },
-  {
-    name: "intl-close",
-    value: text("intlClose", TEXT.close)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributeMap = (): AttributeMap => ({
+  dir: () => select("dir", dir.values, dir.defaultValue),
+  dismissed: () => boolean("dismissed", false),
+  disabled: () => boolean("disabled", false),
+  dismissible: () => boolean("dismissible", false),
+  "height-scale": () => select("heightScale", scale.values, scale.defaultValue),
+  loading: () => boolean("loading", false),
+  "intl-close": () => text("intlClose", TEXT.close),
+  theme: () => select("theme", theme.values, theme.defaultValue)
+});
 
 const headerHTML = `<h3 class="heading" slot="${SLOTS.headerContent}">Heading</h3>`;
 
@@ -84,7 +60,7 @@ const footerHTML = html`
 export const basic = (): string =>
   create(
     "calcite-panel",
-    createAttributes(),
+    createAttributeMap(),
     `${headerHTML}
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerLeadingContent}" icon="bluetooth"></calcite-action>
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerTrailingContent}" icon="attachment"></calcite-action>

@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import { AttributeMap, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../tests/utils";
@@ -14,41 +14,20 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "expand",
-    value: boolean("expand", true)
-  },
-  {
-    name: "expanded",
-    value: boolean("expanded", false)
-  },
-  {
-    name: "position",
-    value: select("position", position.values, position.defaultValue)
-  },
-  {
-    name: "intl-expand",
-    value: text("intlExpand", TEXT.expand)
-  },
-  {
-    name: "intl-collapse",
-    value: text("intlCollapse", TEXT.collapse)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributeMap = (): AttributeMap => ({
+  dir: () => select("dir", dir.values, dir.defaultValue),
+  expand: () => boolean("expand", true),
+  expanded: () => boolean("expanded", false),
+  position: () => select("position", position.values, position.defaultValue),
+  "intl-expand": () => text("intlExpand", TEXT.expand),
+  "intl-collapse": () => text("intlCollapse", TEXT.collapse),
+  theme: () => select("theme", theme.values, theme.defaultValue)
+});
 
 export const basic = (): string =>
   create(
     "calcite-action-pad",
-    createAttributes(),
+    createAttributeMap(),
     html`
       <calcite-action-group>
         <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
