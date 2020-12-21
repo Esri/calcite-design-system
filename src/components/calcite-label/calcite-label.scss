@@ -1,9 +1,25 @@
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
-:host([dir="rtl"]) {
+:host([alignment="start"]) {
+  text-align: left;
+}
+:host([alignment="start"][dir="rtl"]) {
   text-align: right;
 }
+
+:host([alignment="center"]) {
+  text-align: center;
+}
+
+:host([alignment="end"]) {
+  text-align: right;
+}
+
+:host([alignment="end"][dir="rtl"]) {
+  text-align: left;
+}
+
 :host([scale="s"]) {
   --calcite-label-margin-bottom: 12px;
   label {

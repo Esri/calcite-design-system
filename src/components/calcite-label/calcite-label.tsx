@@ -33,6 +33,8 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
+  @Prop({ reflect: true }) alignment: "start" | "center" | "end" = "start";
+
   /** specify the status of the label and any child input / input messages */
   @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
 

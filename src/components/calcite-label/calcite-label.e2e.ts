@@ -38,6 +38,25 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
+  it("alignment - default", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-label>
+      Label text
+      <calcite-input></calcite-input>
+      </calcite-label>`
+    });
+
+    const element = await page.find("calcite-label");
+
+    const alignment = await element.getProperty("alignment");
+
+    expect(alignment).toEqual("start");
+
+    const style = await element.getComputedStyle();
+
+    expect(style["textAlign"]).toEqual("left");
+  });
+
   it("does not pass id to child label element", async () => {
     const page = await newE2EPage();
     await page.setContent(`
