@@ -139,12 +139,23 @@ export class CalciteDropdownItem {
         {slottedContent}
       </a>
     );
+
+    const itemRole = this.href // https://www.levelaccess.com/how-not-to-misuse-aria-states-properties-and-roles/
+      ? null
+      : this.selectionMode === "single"
+      ? "menuitemradio"
+      : this.selectionMode === "multi"
+      ? "menuitemcheckbox"
+      : "menuitem";
+
+    const itemAria = this.selectionMode !== "none" ? this.active.toString() : null;
+
     return (
       <Host
-        aria-checked={this.active.toString()}
+        aria-checked={itemAria}
         dir={dir}
         isLink={this.href}
-        role="menuitem"
+        role={itemRole}
         scale={scale}
         selection-mode={this.selectionMode}
         tabindex="0"

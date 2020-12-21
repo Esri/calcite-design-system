@@ -10,7 +10,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir, getElementProp } from "../../utils/dom";
 import { Scale, Theme } from "../../interfaces/common";
 import { CSS } from "./resources";
 import { FocusRequest } from "../../interfaces/Label";
@@ -64,12 +64,20 @@ export class CalciteSelect {
   scale: Scale = "m";
 
   /**
+   * The currently selected option.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true })
+  selectedOption: HTMLCalciteOptionElement;
+
+  /**
    * The component theme.
    */
   @Prop({
     reflect: true
   })
-  theme: Theme = "light";
+  theme: Theme;
 
   /**
    * The component width.
@@ -107,6 +115,8 @@ export class CalciteSelect {
       subtree: true,
       childList: true
     });
+
+    if (!this.theme) this.theme = getElementProp(this.el, "theme", "light");
   }
 
   disconnectedCallback(): void {
@@ -137,8 +147,9 @@ export class CalciteSelect {
   calciteSelectChange: EventEmitter<void>;
 
   private handleInternalSelectChange = (): void => {
-    this.selectFromNativeOption(this.selectEl.selectedOptions[0]);
-    requestAnimationFrame(this.emitChangeEvent);
+    const selected = this.selectEl.selectedOptions[0];
+    this.selectFromNativeOption(selected);
+    requestAnimationFrame(() => this.emitChangeEvent());
   };
 
   @Listen("calciteOptionChange")
@@ -219,12 +230,19 @@ export class CalciteSelect {
       return;
     }
 
+    let futureSelected: HTMLCalciteOptionElement;
+
     this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
         optionOrGroup.selected = true;
+        futureSelected = optionOrGroup;
         this.deselectAllExcept(optionOrGroup as HTMLCalciteOptionElement);
       }
     });
+
+    if (futureSelected) {
+      requestAnimationFrame(() => (this.selectedOption = futureSelected));
+    }
   }
 
   private toNativeElement(

@@ -30,7 +30,7 @@ describe("calcite-button", () => {
 
   it("is accessible: href", async () => accessible(`<calcite-button href="/">Continue</calcite-button>`));
 
-  it("is accessible: href", async () =>
+  it("is accessible: style props", async () =>
     accessible(`<calcite-button color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`));
 
   it("is accessible: href and target", async () =>

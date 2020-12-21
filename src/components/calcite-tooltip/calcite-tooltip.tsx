@@ -241,11 +241,13 @@ export class CalciteTooltip {
   render(): VNode {
     const { _referenceElement, label, open } = this;
     const displayed = _referenceElement && open;
+    const hidden = !displayed;
 
     return (
       <Host
-        aria-hidden={(!displayed).toString()}
+        aria-hidden={hidden.toString()}
         aria-label={label}
+        calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="tooltip"
       >

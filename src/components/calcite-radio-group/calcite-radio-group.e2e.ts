@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable } from "../../tests/commonTests";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 describe("calcite-radio-group", () => {
   it("renders", async () => {
@@ -241,7 +241,7 @@ describe("calcite-radio-group", () => {
   describe("setFocus()", () => {
     it("focuses the first item if there is no selection", async () =>
       focusable(
-        dedent`
+        html`
           <calcite-radio-group>
             <calcite-radio-group-item id="child-1" value="1">one</calcite-radio-group-item>
             <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
@@ -255,7 +255,7 @@ describe("calcite-radio-group", () => {
 
     it("focuses the selected item", async () =>
       focusable(
-        dedent`
+        html`
           <calcite-radio-group>
             <calcite-radio-group-item id="child-1" value="1">one</calcite-radio-group-item>
             <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>

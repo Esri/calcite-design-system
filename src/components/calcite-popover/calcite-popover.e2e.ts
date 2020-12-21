@@ -5,8 +5,12 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS, POPOVER_REFERENCE } from "./resources";
 
 describe("calcite-popover", () => {
-  it("renders", async () =>
-    renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+  it("renders", async () => {
+    await renders("calcite-popover", false);
+    await renders(
+      `<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+    );
+  });
 
   it("is accessible when closed", async () =>
     accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`));

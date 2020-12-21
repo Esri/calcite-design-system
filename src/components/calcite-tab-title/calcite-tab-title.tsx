@@ -78,7 +78,12 @@ export class CalciteTabTitle {
 
   disconnectedCallback(): void {
     this.observer.disconnect();
-    this.calciteTabTitleUnregister.emit();
+    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
+    document.body?.dispatchEvent(
+      new CustomEvent("calciteTabTitleUnregister", {
+        detail: this.el
+      })
+    );
   }
 
   componentWillLoad(): void {
@@ -124,6 +129,7 @@ export class CalciteTabTitle {
       <Host
         aria-controls={this.controls}
         aria-expanded={this.active.toString()}
+        dir={dir}
         hasText={this.hasText}
         id={id}
         role="tab"
@@ -148,9 +154,8 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
-    event: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteTabChange", { target: "body" })
+  tabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     if (this.parentTabNavEl === event.target) {
       if (this.tab) {
         this.active = this.tab === event.detail.tab;
@@ -162,11 +167,13 @@ export class CalciteTabTitle {
     }
   }
 
-  @Listen("click") onClick(): void {
+  @Listen("click")
+  onClick(): void {
     this.emitActiveTab();
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     switch (getKey(e.key)) {
       case " ":
       case "Enter":
@@ -216,11 +223,6 @@ export class CalciteTabTitle {
    */
   @Event() calciteTabTitleRegister: EventEmitter<TabID>;
 
-  /**
-   * @internal
-   */
-  @Event() calciteTabTitleUnregister: EventEmitter;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -249,7 +251,8 @@ export class CalciteTabTitle {
   /**
    * @internal
    */
-  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
+  @Method()
+  async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
   }
 
