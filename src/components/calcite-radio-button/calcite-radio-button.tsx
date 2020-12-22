@@ -130,6 +130,8 @@ export class CalciteRadioButton {
 
   private input: HTMLInputElement;
 
+  private radio: HTMLCalciteRadioElement;
+
   private rootNode: Node;
 
   //--------------------------------------------------------------------------
@@ -224,7 +226,7 @@ export class CalciteRadioButton {
   @Listen("click")
   check(event: MouseEvent | FocusEvent): void {
     // Prevent parent label from clicking the first radio when calcite-radio-button is clicked
-    if (this.el.closest("label") && event.target === this.el) {
+    if (this.el.closest("label") && (event.target === this.el || event.target === this.radio)) {
       event.preventDefault();
     }
     if (!this.disabled && !this.hidden) {
@@ -306,6 +308,7 @@ export class CalciteRadioButton {
           disable-spacing
           disabled={this.disabled}
           for={`${this.guid}-input`}
+          layout="inline"
           scale={this.scale}
         >
           <slot />
@@ -340,6 +343,7 @@ export class CalciteRadioButton {
           focused={this.focused}
           hidden={this.hidden}
           hovered={this.hovered}
+          ref={(el) => (this.radio = el)}
           scale={this.scale}
           theme={this.theme}
         />
