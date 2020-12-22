@@ -2,13 +2,11 @@ import {
   Component,
   h,
   Prop,
-  Event,
   Element,
   Host,
   State,
   Listen,
   Build,
-  EventEmitter,
   Watch,
   VNode,
   Method
@@ -26,8 +24,6 @@ import {
 
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
-
-import { DateRangeChange } from "../../interfaces/DateRangeChange";
 
 import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
@@ -160,16 +156,6 @@ export class CalciteDatePicker {
   //
   //--------------------------------------------------------------------------
   /**
-   * Trigger calcite date change when a user changes the date.
-   */
-  @Event() calciteDatePickerChange: EventEmitter<Date>; // todo
-
-  /**
-   * Trigger calcite date change when a user changes the date range.
-   */
-  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>; // todo
-
-  /**
    * Active date.
    */
   @State() activeDate: Date;
@@ -260,12 +246,9 @@ export class CalciteDatePicker {
                   }`}
                   icon="calendar"
                   number-button-type="none"
-                  onCalciteInputBlur={(e) => this.blur(e.detail)}
-                  onCalciteInputFocus={() => {
-                    this.active = true;
-                    this.focusedInput = "start";
-                  }}
-                  onCalciteInputInput={(e) => this.input(e.detail.value)}
+                  onCalciteInputBlur={this.inputBlur}
+                  onCalciteInputFocus={this.startInputFocus}
+                  onCalciteInputInput={this.inputInput}
                   placeholder={this.localeData?.placeholder}
                   scale={this.scale}
                   type="text"
@@ -293,10 +276,10 @@ export class CalciteDatePicker {
                   endAsDate={maxDate}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
-                  layout={this.layout}
                   locale={this.locale}
                   max={this.max}
                   min={this.min}
+                  onCalciteDatePickerChange={this.handleDateChange}
                   range={this.range}
                   scale={this.scale}
                   startAsDate={minDate}
@@ -321,12 +304,9 @@ export class CalciteDatePicker {
                   class="input"
                   icon="calendar"
                   number-button-type="none"
-                  onCalciteInputBlur={(e) => this.blur(e.detail)}
-                  onCalciteInputFocus={() => {
-                    this.active = true;
-                    this.focusedInput = "end";
-                  }}
-                  onCalciteInputInput={(e) => this.input(e.detail.value)}
+                  onCalciteInputBlur={this.inputBlur}
+                  onCalciteInputFocus={this.endInputFocus}
+                  onCalciteInputInput={this.inputInput}
                   placeholder={this.localeData?.placeholder}
                   ref={(el) => (this.endInput = el)}
                   scale={this.scale}
@@ -367,6 +347,24 @@ export class CalciteDatePicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  inputBlur = (e: CustomEvent<any>): void => {
+    this.blur(e.detail);
+  };
+
+  startInputFocus = (): void => {
+    this.active = true;
+    this.focusedInput = "start";
+  };
+
+  endInputFocus = (): void => {
+    this.active = true;
+    this.focusedInput = "end";
+  };
+
+  inputInput = (e: CustomEvent<any>): void => {
+    this.input(e.detail.value);
+  };
 
   setMenuEl = (el: HTMLDivElement): void => {
     if (el) {
@@ -481,7 +479,6 @@ export class CalciteDatePicker {
       if (!this.range) {
         this.valueAsDate = date;
         this.activeDate = date as Date;
-        this.calciteDatePickerChange.emit(new Date(date));
       } else {
         let changed = false;
         if (this.focusedInput === "start") {
@@ -496,12 +493,6 @@ export class CalciteDatePicker {
             this.endAsDate = date;
             this.activeEndDate = date as Date;
           }
-        }
-        if (changed) {
-          this.calciteDatePickerRangeChange.emit({
-            startDate: this.startAsDate,
-            endDate: this.endAsDate
-          });
         }
       }
     }
@@ -523,20 +514,15 @@ export class CalciteDatePicker {
     }
   }
 
-  // todo: need to have another event for this to work.
   /**
    * Event handler for when the selected date changes
    */
-  private handleDateChange(e: CustomEvent<Date>, doReset?: boolean) {
+  private handleDateChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
     if (!this.range) {
       this.value = dateToISO(date);
       this.valueAsDate = e.detail;
       this.activeDate = date;
-      this.calciteDatePickerChange.emit(date); // todo
-      if (doReset) {
-        this.reset();
-      }
       return;
     }
 
@@ -550,21 +536,12 @@ export class CalciteDatePicker {
       this.activeEndDate = date;
     }
 
-    if (doReset) {
-      this.reset();
-    }
-    this.calciteDatePickerRangeChange.emit({
-      // todo
-      startDate: this.startAsDate,
-      endDate: this.endAsDate
-    });
-
     setTimeout(() => {
       if (this.focusedInput === "start") {
         this.endInput.setFocus();
       }
     }, 150);
-  }
+  };
 
   /**
    * Get an active date using the value, or current date as default

@@ -233,6 +233,97 @@ export class CalciteDatePicker {
     this.localeData = await getLocaleData(locale);
   }
 
+  monthHeaderSelectChange = (e: CustomEvent<Date>): void => {
+    const date = new Date(e.detail);
+    if (!this.range) {
+      this.activeDate = date;
+      this.handleDateChange(e);
+    } else {
+      if (this.activeRange === "start") {
+        this.activeStartDate = date;
+      } else if (this.activeRange === "end") {
+        this.activeEndDate = date;
+      }
+      this.mostRecentRangeValue = date;
+    }
+  };
+
+  monthActiveDateChange = (e: CustomEvent<Date>): void => {
+    const date = new Date(e.detail);
+    if (!this.range) {
+      this.activeDate = date;
+    } else {
+      if (this.activeRange === "start") {
+        this.activeStartDate = date;
+      } else if (this.activeRange === "end") {
+        this.activeEndDate = date;
+      }
+      this.mostRecentRangeValue = date;
+    }
+  };
+
+  monthHoverChange = (e: CustomEvent<Date>): void => {
+    if (!this.startAsDate) {
+      this.hoverRange = undefined;
+      return this.hoverRange;
+    }
+    const date = new Date(e.detail);
+    this.hoverRange = {
+      focused: this.activeRange,
+      start: this.startAsDate,
+      end: this.endAsDate
+    };
+    if (this.proximitySelection) {
+      if (this.endAsDate) {
+        const startDiff = getDaysDiff(date, this.startAsDate);
+        const endDiff = getDaysDiff(date, this.endAsDate);
+        if (startDiff < endDiff) {
+          this.hoverRange.start = date;
+          this.hoverRange.focused = "start";
+        } else {
+          this.hoverRange.end = date;
+          this.hoverRange.focused = "end";
+        }
+      } else {
+        if (date < this.startAsDate) {
+          this.hoverRange = {
+            focused: "start",
+            start: date,
+            end: this.startAsDate
+          };
+        } else {
+          this.hoverRange.end = date;
+          this.hoverRange.focused = "end";
+        }
+      }
+    } else {
+      if (!this.endAsDate) {
+        if (date < this.startAsDate) {
+          this.hoverRange = {
+            focused: "start",
+            start: date,
+            end: this.startAsDate
+          };
+        } else {
+          this.hoverRange.end = date;
+          this.hoverRange.focused = "end";
+        }
+      } else {
+        this.hoverRange = undefined;
+      }
+    }
+  };
+
+  monthMouseOutChange = (): void => {
+    if (this.hoverRange) {
+      this.hoverRange = undefined;
+    }
+  };
+
+  monthSelectChange = (e: CustomEvent<Date>): void => {
+    this.handleDateChange(e, true);
+  };
+
   /**
    * Render calcite-date-picker-month-header and calcite-date-picker-month
    */
@@ -254,20 +345,7 @@ export class CalciteDatePicker {
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
-          onCalciteDatePickerSelect={(e: CustomEvent<Date>) => {
-            const date = new Date(e.detail);
-            if (!this.range) {
-              this.activeDate = date;
-              this.handleDateChange(e);
-            } else {
-              if (this.activeRange === "start") {
-                this.activeStartDate = date;
-              } else if (this.activeRange === "end") {
-                this.activeEndDate = date;
-              }
-              this.mostRecentRangeValue = date;
-            }
-          }}
+          onCalciteDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}
           selectedDate={this.activeRange === "start" ? date : endDate || new Date()}
         />,
@@ -279,76 +357,10 @@ export class CalciteDatePicker {
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
-          onCalciteActiveDateChange={(e: CustomEvent<Date>) => {
-            const date = new Date(e.detail);
-            if (!this.range) {
-              this.activeDate = date;
-            } else {
-              if (this.activeRange === "start") {
-                this.activeStartDate = date;
-              } else if (this.activeRange === "end") {
-                this.activeEndDate = date;
-              }
-              this.mostRecentRangeValue = date;
-            }
-          }}
-          onCalciteDatePickerHover={(e: CustomEvent<Date>) => {
-            if (!this.startAsDate) {
-              this.hoverRange = undefined;
-              return this.hoverRange;
-            }
-            const date = new Date(e.detail);
-            this.hoverRange = {
-              focused: this.activeRange,
-              start: this.startAsDate,
-              end: this.endAsDate
-            };
-            if (this.proximitySelection) {
-              if (this.endAsDate) {
-                const startDiff = getDaysDiff(date, this.startAsDate);
-                const endDiff = getDaysDiff(date, this.endAsDate);
-                if (startDiff < endDiff) {
-                  this.hoverRange.start = date;
-                  this.hoverRange.focused = "start";
-                } else {
-                  this.hoverRange.end = date;
-                  this.hoverRange.focused = "end";
-                }
-              } else {
-                if (date < this.startAsDate) {
-                  this.hoverRange = {
-                    focused: "start",
-                    start: date,
-                    end: this.startAsDate
-                  };
-                } else {
-                  this.hoverRange.end = date;
-                  this.hoverRange.focused = "end";
-                }
-              }
-            } else {
-              if (!this.endAsDate) {
-                if (date < this.startAsDate) {
-                  this.hoverRange = {
-                    focused: "start",
-                    start: date,
-                    end: this.startAsDate
-                  };
-                } else {
-                  this.hoverRange.end = date;
-                  this.hoverRange.focused = "end";
-                }
-              } else {
-                this.hoverRange = undefined;
-              }
-            }
-          }}
-          onCalciteDatePickerMouseOut={() => {
-            if (this.hoverRange) {
-              this.hoverRange = undefined;
-            }
-          }}
-          onCalciteDatePickerSelect={(e: CustomEvent<Date>) => this.handleDateChange(e, true)}
+          onCalciteActiveDateChange={this.monthActiveDateChange}
+          onCalciteDatePickerHover={this.monthHoverChange}
+          onCalciteDatePickerMouseOut={this.monthMouseOutChange}
+          onCalciteDatePickerSelect={this.monthSelectChange}
           scale={this.scale}
           selectedDate={this.activeRange === "start" ? date : endDate}
           startDate={this.range ? date : undefined}
@@ -397,7 +409,8 @@ export class CalciteDatePicker {
       this.value = dateToISO(date);
       this.valueAsDate = e.detail;
       this.activeDate = date;
-      this.calciteDatePickerChange.emit(date); // todo: maybe just emit this on change of activeDate
+      // todo: maybe just emit this on change of activeDate
+      this.calciteDatePickerChange.emit(date);
       if (doReset) {
         this.reset();
       }
@@ -442,8 +455,8 @@ export class CalciteDatePicker {
       if (doReset) {
         this.reset();
       }
+      // todo: maybe just emit this on change of startAsDate, endAsDate
       this.calciteDatePickerRangeChange.emit({
-        // todo: maybe just emit this on change of startAsDate, endAsDate
         startDate: this.startAsDate,
         endDate: this.endAsDate
       });
