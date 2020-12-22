@@ -33,6 +33,7 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
+  /** specify the text alignment of the label */
   @Prop({ reflect: true }) alignment: "start" | "center" | "end" = "start";
 
   /** specify the status of the label and any child input / input messages */

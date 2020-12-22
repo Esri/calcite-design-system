@@ -54,6 +54,7 @@ export const WithLabelAndInputMessage = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label
       status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
+      alignment="${select("alignment", ["start", "center", "end"], "start", "Label")}"
       scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
       layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
     >
