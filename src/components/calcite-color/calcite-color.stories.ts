@@ -30,11 +30,11 @@ const createValueOverride = (): AttributeMap => ({
 });
 
 export const Simple = (): string =>
-  create("calcite-color", { mapping: createAttributeMap(), overrides: createValueOverride() });
+  create("calcite-color", { map: createAttributeMap(), overrides: createValueOverride() });
 
 export const DarkMode = (): string =>
   create("calcite-color", {
-    mapping: createAttributeMap(),
+    map: createAttributeMap(),
     overrides: {
       theme: () => "dark",
       ...createValueOverride()
@@ -47,7 +47,7 @@ DarkMode.story = {
 
 export const AllowingEmpty = (): string =>
   create("calcite-color", {
-    mapping: createAttributeMap(),
+    map: createAttributeMap(),
     overrides: {
       "allow-empty": () => true,
       value: () => text("value", "")
