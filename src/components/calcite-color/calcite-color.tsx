@@ -80,9 +80,20 @@ export class CalciteColor {
       return;
     }
 
-    const value = this.toValue(color);
+    this.value = this.toValue(color);
+  }
 
-    this.value = value;
+  /**
+   * The format of the value property.
+   *
+   * When "auto", the format will be inferred from `value` when set.
+   */
+  @Prop() format: "auto" | SupportedMode = "auto";
+
+  @Watch("format")
+  handleFormatChange(format: CalciteColor["format"]): void {
+    this.mode = format === "auto" ? this.mode : format;
+    this.value = this.toValue(this.color);
   }
 
   /** When true, hides the hex input */
@@ -194,14 +205,14 @@ export class CalciteColor {
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
-    const { allowEmpty } = this;
+    const { allowEmpty, format } = this;
     const checkMode = !allowEmpty || value;
     let modeChanged = false;
 
     if (checkMode) {
       const nextMode = parseMode(value);
 
-      if (!nextMode) {
+      if (!nextMode || (format !== "auto" && nextMode !== format)) {
         console.warn(`ignoring invalid color value: ${value}`);
         this.value = oldValue;
         return;
