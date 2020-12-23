@@ -131,4 +131,19 @@ describe("calcite-date", () => {
     await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(1);
   });
+
+  describe("when the locale is set to Slovak calendar", () => {
+    it("should start the week on Monday", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-date scale="m" locale="sk" value="2000-11-27" no-calendar-input="true" active></calcite-date>`
+      });
+      const weekStartDayAbbr = await page.evaluate(() => {
+        return document
+          .querySelector("calcite-date")
+          .shadowRoot.querySelector("calcite-date-month")
+          .shadowRoot.querySelector("span.week-header:nth-child(1)").textContent;
+      });
+      expect(weekStartDayAbbr).toEqual("po");
+    });
+  });
 });
