@@ -13,20 +13,14 @@ import {
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
 import { getElementDir } from "../../utils/dom";
-import {
-  dateFromRange,
-  inRange,
-  dateFromISO,
-  dateToISO,
-  parseDateString,
-  sameDate
-} from "../../utils/date";
+import { dateFromRange, inRange, dateFromISO, parseDateString, sameDate } from "../../utils/date";
 
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
 
 import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+import { DateRangeChange } from "../../interfaces/DateRangeChange";
 
 const DEFAULT_PLACEMENT = "bottom-start";
 
@@ -269,6 +263,7 @@ export class CalciteDatePicker {
                   max={this.max}
                   min={this.min}
                   onCalciteDatePickerChange={this.handleDateChange}
+                  onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                   range={this.range}
                   scale={this.scale}
                   startAsDate={minDate}
@@ -512,30 +507,19 @@ export class CalciteDatePicker {
   /**
    * Event handler for when the selected date changes
    */
-  private handleDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
-    if (!this.range) {
-      this.value = dateToISO(date);
-      this.valueAsDate = e.detail;
-      this.activeDate = date;
-      return;
-    }
-
-    if (this.focusedInput === "start") {
-      this.start = dateToISO(date);
-      this.setStartAsDate(date);
-      this.activeStartDate = date;
-    } else {
-      this.end = dateToISO(date);
-      this.setEndAsDate(date);
-      this.activeEndDate = date;
-    }
+  private handleDateChange = (event: CustomEvent<Date>): void => {
+    this.valueAsDate = event.detail;
 
     setTimeout(() => {
       if (this.focusedInput === "start") {
         this.endInput.setFocus();
       }
     }, 150);
+  };
+
+  private handleDateRangeChange = (event: CustomEvent<DateRangeChange>): void => {
+    this.startAsDate = event.detail.startDate;
+    this.endAsDate = event.detail.endDate;
   };
 
   /**

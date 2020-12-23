@@ -404,7 +404,6 @@ export class CalciteDatePicker {
       this.value = dateToISO(date);
       this.valueAsDate = e.detail;
       this.activeDate = date;
-      // todo: maybe just emit this on change of activeDate
       this.calciteDatePickerChange.emit(date);
       if (doReset) {
         this.reset();
@@ -450,7 +449,6 @@ export class CalciteDatePicker {
       if (doReset) {
         this.reset();
       }
-      // todo: maybe just emit this on change of startAsDate, endAsDate
       this.calciteDatePickerRangeChange.emit({
         startDate: this.startAsDate,
         endDate: this.endAsDate
