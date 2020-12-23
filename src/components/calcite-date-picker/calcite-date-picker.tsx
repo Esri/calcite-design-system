@@ -89,10 +89,6 @@ export class CalciteDatePicker {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("blur")
-  focusOutHandler(): void {
-    this.reset();
-  }
 
   /**
    * Blur doesn't fire properly when there is no shadow dom (ege/IE11)
@@ -101,13 +97,6 @@ export class CalciteDatePicker {
   @Listen("focusin", { target: "window" })
   focusInHandler(e: FocusEvent): void {
     if (!this.hasShadow && !this.el.contains(e.srcElement as HTMLElement)) {
-      this.reset();
-    }
-  }
-
-  @Listen("keyup")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (getKey(e.key) === "Escape") {
       this.reset();
     }
   }
@@ -187,7 +176,7 @@ export class CalciteDatePicker {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} role="application">
+      <Host dir={dir} onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
         {this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
       </Host>
     );
@@ -211,6 +200,12 @@ export class CalciteDatePicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  keyUpHandler = (e: KeyboardEvent): void => {
+    if (getKey(e.key) === "Escape") {
+      this.reset();
+    }
+  };
 
   @Watch("value")
   valueWatcher(value: string): void {
@@ -388,7 +383,7 @@ export class CalciteDatePicker {
   /**
    * Reset active date and close
    */
-  private reset(): void {
+  reset = (): void => {
     if (this.valueAsDate && this.valueAsDate?.getTime() !== this.activeDate?.getTime()) {
       this.activeDate = new Date(this.valueAsDate);
     }
@@ -398,7 +393,7 @@ export class CalciteDatePicker {
     if (this.endAsDate && this.endAsDate?.getTime() !== this.activeEndDate?.getTime()) {
       this.activeEndDate = new Date(this.endAsDate);
     }
-  }
+  };
 
   /**
    * Event handler for when the selected date changes

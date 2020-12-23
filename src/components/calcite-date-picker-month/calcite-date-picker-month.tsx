@@ -346,6 +346,7 @@ export class CalciteDatePickerMonth {
     ref?: boolean
   ) {
     const props = {
+      key: `date-day-${date.toDateString()}`,
       active,
       currentMonth,
       day,

@@ -106,10 +106,6 @@ export class CalciteDatePicker {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("blur")
-  focusOutHandler(): void {
-    this.reset();
-  }
 
   /**
    * Blur doesn't fire properly when there is no shadow dom (ege/IE11)
@@ -118,13 +114,6 @@ export class CalciteDatePicker {
   @Listen("focusin", { target: "window" })
   focusInHandler(e: FocusEvent): void {
     if (!this.hasShadow && !this.el.contains(e.srcElement as HTMLElement)) {
-      this.reset();
-    }
-  }
-
-  @Listen("keyup")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (getKey(e.key) === "Escape") {
       this.reset();
     }
   }
@@ -235,7 +224,7 @@ export class CalciteDatePicker {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} role="application">
+      <Host dir={dir} onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
           <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {
@@ -347,6 +336,12 @@ export class CalciteDatePicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  keyUpHandler = (e: KeyboardEvent): void => {
+    if (getKey(e.key) === "Escape") {
+      this.reset();
+    }
+  };
 
   inputBlur = (e: CustomEvent<any>): void => {
     this.blur(e.detail);
