@@ -510,11 +510,12 @@ export class CalciteDatePicker {
   private handleDateChange = (event: CustomEvent<Date>): void => {
     this.valueAsDate = event.detail;
 
-    setTimeout(() => {
-      if (this.focusedInput === "start") {
-        this.endInput.setFocus();
-      }
-    }, 150);
+    this.range &&
+      setTimeout(() => {
+        if (this.focusedInput === "start") {
+          this.endInput?.setFocus();
+        }
+      }, 150);
   };
 
   private handleDateRangeChange = (event: CustomEvent<DateRangeChange>): void => {
