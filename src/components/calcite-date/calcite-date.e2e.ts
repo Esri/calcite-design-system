@@ -137,13 +137,16 @@ describe("calcite-date", () => {
       const page = await newE2EPage({
         html: `<calcite-date scale="m" locale="sk" value="2000-11-27" no-calendar-input="true" active></calcite-date>`
       });
-      const weekStartDayAbbr = await page.evaluate(() => {
-        return document
-          .querySelector("calcite-date")
-          .shadowRoot.querySelector("calcite-date-month")
-          .shadowRoot.querySelector("span.week-header:nth-child(1)").textContent;
-      });
-      expect(weekStartDayAbbr).toEqual("po");
+      const handle = (
+        await page.waitForFunction(() => {
+          return document
+            .querySelector("calcite-date")
+            .shadowRoot.querySelector("calcite-date-month")
+            .shadowRoot.querySelector("span.week-header:first-child");
+        })
+      ).asElement();
+      const text = await handle.getProperty("textContent");
+      expect(await text.jsonValue()).toEqual("po");
     });
   });
 });
