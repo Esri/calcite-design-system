@@ -1,23 +1,19 @@
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
-:host([alignment="start"]) {
-  text-align: left;
+
+:host([alignment="start"]),
+:host([alignment="end"][dir="rtl"]) {
+  @apply text-left;
 }
+
+:host([alignment="end"]),
 :host([alignment="start"][dir="rtl"]) {
-  text-align: right;
+  @apply text-right;
 }
 
 :host([alignment="center"]) {
-  text-align: center;
-}
-
-:host([alignment="end"]) {
-  text-align: right;
-}
-
-:host([alignment="end"][dir="rtl"]) {
-  text-align: left;
+  @apply text-center;
 }
 
 :host([scale="s"]) {
