@@ -27,7 +27,12 @@
   <h1>Calcite Date Picker</h1>
 
   <h2>Standard</h2>
-  <calcite-input-date-picker>-picker</calcite-input-date-picker>
+  <calcite-input-date-picker id="basic-date-picker">-picker</calcite-input-date-picker>
+
+  <script>
+    var picker = document.getElementById("basic-date-picker");
+    picker.addEventListener("calciteDatePickerChange", console.log);
+  </script>
 
   <h2>Initial Value (from ISO 8601 string)</h2>
   <calcite-input-date-picker value="2020-03-07"></calcite-input-date-picker>
