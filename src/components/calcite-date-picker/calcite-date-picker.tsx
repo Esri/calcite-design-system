@@ -416,7 +416,6 @@ export class CalciteDatePicker {
     const date = new Date(e.detail);
     if (!this.range) {
       this.value = dateToISO(date);
-      this.valueAsDate = e.detail;
       this.activeDate = date;
       if (doReset) {
         this.reset();

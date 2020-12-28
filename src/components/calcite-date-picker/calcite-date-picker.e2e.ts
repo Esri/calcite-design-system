@@ -74,6 +74,6 @@ describe("calcite-date-picker", () => {
     await page.keyboard.press("ArrowRight");
     await page.keyboard.press("Space");
     await page.waitForChanges();
-    expect(changedEvent).toHaveReceivedEventTimes(2);
+    expect(changedEvent).toHaveReceivedEventTimes(1);
   });
 });
