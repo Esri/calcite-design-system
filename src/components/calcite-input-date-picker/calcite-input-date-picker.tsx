@@ -138,20 +138,6 @@ export class CalciteDatePicker {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /**
-   * Active date.
-   */
-  @State() activeDate: Date;
-
-  /**
-   * Active start date.
-   */
-  @State() activeStartDate: Date;
-
-  /**
-   * Active end date.
-   */
-  @State() activeEndDate: Date;
 
   /**
    * In range mode, indicates which input was is focused on
@@ -195,22 +181,7 @@ export class CalciteDatePicker {
     const min = dateFromISO(this.min);
     const max = dateFromISO(this.max);
     const date = dateFromRange(this.range ? this.startAsDate : this.valueAsDate, min, max);
-    const activeStartDate = this.range
-      ? this.getActiveStartDate(date, min, max)
-      : this.getActiveDate(date, min, max);
-    let activeDate = activeStartDate;
     const endDate = this.range ? dateFromRange(this.endAsDate, min, max) : null;
-    const activeEndDate = this.getActiveEndDate(endDate, min, max);
-    if (
-      (this.focusedInput === "end" ||
-        (this.hoverRange?.focused === "end" && (this.proximitySelection || endDate))) &&
-      activeEndDate
-    ) {
-      activeDate = activeEndDate;
-    }
-    if (this.range && this.mostRecentRangeValue) {
-      activeDate = this.mostRecentRangeValue;
-    }
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
     const minDate = this.focusedInput === "start" ? min : date || min;
@@ -267,7 +238,7 @@ export class CalciteDatePicker {
                   range={this.range}
                   scale={this.scale}
                   startAsDate={minDate}
-                  valueAsDate={activeDate}
+                  valueAsDate={this.valueAsDate}
                 />
               </div>
             </div>
@@ -312,8 +283,6 @@ export class CalciteDatePicker {
   //--------------------------------------------------------------------------
   @State() private localeData: DateLocaleData;
 
-  @State() private hoverRange;
-
   private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
   private popper: Popper;
@@ -323,8 +292,6 @@ export class CalciteDatePicker {
   private startWrapper: HTMLDivElement;
 
   private endWrapper: HTMLDivElement;
-
-  private mostRecentRangeValue?: Date;
 
   //--------------------------------------------------------------------------
   //
@@ -433,7 +400,6 @@ export class CalciteDatePicker {
    */
   private setStartAsDate(startDate: Date): void {
     this.startAsDate = startDate;
-    this.mostRecentRangeValue = this.startAsDate;
   }
 
   /**
@@ -441,22 +407,12 @@ export class CalciteDatePicker {
    */
   private setEndAsDate(endDate: Date): void {
     this.endAsDate = endDate;
-    this.mostRecentRangeValue = this.endAsDate;
   }
 
   /**
    * Reset active date and close
    */
   private reset(): void {
-    if (this.valueAsDate && this.valueAsDate?.getTime() !== this.activeDate?.getTime()) {
-      this.activeDate = new Date(this.valueAsDate);
-    }
-    if (this.startAsDate && this.startAsDate?.getTime() !== this.activeStartDate?.getTime()) {
-      this.activeStartDate = new Date(this.startAsDate);
-    }
-    if (this.endAsDate && this.endAsDate?.getTime() !== this.activeEndDate?.getTime()) {
-      this.activeEndDate = new Date(this.endAsDate);
-    }
     this.active = false;
   }
 
@@ -468,20 +424,17 @@ export class CalciteDatePicker {
     if (date) {
       if (!this.range) {
         this.valueAsDate = date;
-        this.activeDate = date as Date;
       } else {
         let changed = false;
         if (this.focusedInput === "start") {
           changed = !this.startAsDate || !sameDate(date, this.startAsDate);
           if (changed) {
             this.startAsDate = date;
-            this.activeStartDate = date as Date;
           }
         } else if (this.focusedInput === "end") {
           changed = !this.endAsDate || !sameDate(date, this.endAsDate);
           if (changed) {
             this.endAsDate = date;
-            this.activeEndDate = date as Date;
           }
         }
       }
@@ -522,25 +475,6 @@ export class CalciteDatePicker {
     this.startAsDate = event.detail.startDate;
     this.endAsDate = event.detail.endDate;
   };
-
-  /**
-   * Get an active date using the value, or current date as default
-   */
-  private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
-  }
-
-  private getActiveStartDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return (
-      dateFromRange(this.activeStartDate, min, max) || value || dateFromRange(new Date(), min, max)
-    );
-  }
-
-  private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return (
-      dateFromRange(this.activeEndDate, min, max) || value || dateFromRange(new Date(), min, max)
-    );
-  }
 
   /**
    * Find a date from input string

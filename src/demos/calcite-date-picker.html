@@ -27,7 +27,11 @@
   <h1>Calcite Date Picker</h1>
 
   <h2>Standard</h2>
-  <calcite-date-picker>-picker</calcite-date-picker>
+  <calcite-date-picker id="simple-picker">-picker</calcite-date-picker>
+  <script>
+    var simplePicker = document.getElementById("simple-picker");
+    simplePicker.addEventListener("calciteDatePickerChange", console.log);
+  </script>
 
   <h2>Initial Value (from ISO 8601 string)</h2>
   <calcite-date-picker value="2020-03-07"></calcite-date-picker>
@@ -140,13 +144,13 @@
   <script>
     var dateSample = document.getElementById("dateSample");
     var dateDisplay = document.getElementById("dateDisplay");
-    dateSample.addEventListener("calciteDateChange", function (e) {
+    dateSample.addEventListener("calciteDatePickerChange", function (e) {
       dateDisplay.innerHTML = e.detail;
     });
   </script>
 
 <h2>Date Range with Event</h2>
-<calcite-date-picker id="dateRangeSample" range ></calcite-date-picker>
+<calcite-date-picker id="dateRangeSample" range start="2020-09-08" end="2020-09-23"></calcite-date-picker>
 <div>
   Start: <span id="startDisplay"></span>
 </div>
@@ -157,7 +161,8 @@
   var dateRangeSample = document.getElementById("dateRangeSample");
   var startDisplay = document.getElementById("startDisplay");
   var endDisplay = document.getElementById("endDisplay");
-  dateRangeSample.addEventListener("calciteDateRangeChange", function (e) {
+  dateRangeSample.addEventListener("calciteDatePickerRangeChange", function (e) {
+    console.log(e);
     startDisplay.textContent = e.detail.startDate;
     endDisplay.textContent = e.detail.endDate;
   });

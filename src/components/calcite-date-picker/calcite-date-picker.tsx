@@ -49,11 +49,25 @@ export class CalciteDatePicker {
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date;
 
+  @Watch("valueAsDate")
+  handleValueAsDate(date: Date): void {
+    this.calciteDatePickerChange.emit(date);
+  }
+
   /** Selected start date as full date object*/
   @Prop({ mutable: true }) startAsDate?: Date;
 
   /** Selected end date as full date object*/
   @Prop({ mutable: true }) endAsDate?: Date;
+
+  @Watch("startAsDate")
+  @Watch("endAsDate")
+  handleRangeChange(): void {
+    this.calciteDatePickerRangeChange.emit({
+      startDate: this.startAsDate,
+      endDate: this.endAsDate
+    });
+  }
 
   /** Earliest allowed date ("yyyy-mm-dd") */
   @Prop() min?: string;
@@ -404,7 +418,6 @@ export class CalciteDatePicker {
       this.value = dateToISO(date);
       this.valueAsDate = e.detail;
       this.activeDate = date;
-      this.calciteDatePickerChange.emit(date);
       if (doReset) {
         this.reset();
       }
@@ -449,10 +462,6 @@ export class CalciteDatePicker {
       if (doReset) {
         this.reset();
       }
-      this.calciteDatePickerRangeChange.emit({
-        startDate: this.startAsDate,
-        endDate: this.endAsDate
-      });
       return;
     }
 
@@ -469,10 +478,6 @@ export class CalciteDatePicker {
     if (doReset) {
       this.reset();
     }
-    this.calciteDatePickerRangeChange.emit({
-      startDate: this.startAsDate,
-      endDate: this.endAsDate
-    });
   }
 
   /**

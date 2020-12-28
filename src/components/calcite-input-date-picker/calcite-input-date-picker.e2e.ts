@@ -26,12 +26,16 @@ describe("calcite-input-date-picker", () => {
     await input.press("7");
     await input.press("/");
     await input.press("2");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(1);
     await input.press("0");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(2);
     await input.press("2");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(3);
     await input.press("0");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(4);
   });
 
