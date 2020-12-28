@@ -12,20 +12,18 @@
 // disabled styles
 :host([disabled]) {
   pointer-events: none;
-  opacity: 0.4;
+  opacity: var(--calcite-ui-opacity-disabled);
 }
 
 :host .calcite-dropdown-wrapper {
   @include popperContainer();
-  visibility: hidden;
-  pointer-events: none;
+  @include popperWrapper();
 }
 
 @include popperElemAnim(".calcite-dropdown-wrapper");
 
 :host([active]) .calcite-dropdown-wrapper {
-  pointer-events: initial;
-  visibility: visible;
+  @include popperWrapperActive();
 }
 
 :host .calcite-dropdown-content {

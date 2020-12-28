@@ -69,6 +69,14 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 | ------------------------ | --------------------------------------- | ------------------ |
 | `calciteActionPadToggle` | Emitted when expanded has been toggled. | `CustomEvent<any>` |
 
+## Methods
+
+### `setFocus(focusId?: "expand-toggle") => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
 | Slot | Description                                            |

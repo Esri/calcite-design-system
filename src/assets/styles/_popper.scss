@@ -80,7 +80,17 @@ $popper-transform-right: translateX(-5px);
   display: block;
   position: absolute;
   z-index: 999;
-  top: -999999px;
+  transform: scale(0);
+}
+
+@mixin popperWrapper {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@mixin popperWrapperActive {
+  pointer-events: initial;
+  visibility: visible;
 }
 
 @mixin popperHost {

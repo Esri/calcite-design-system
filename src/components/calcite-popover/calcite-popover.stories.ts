@@ -1,4 +1,3 @@
-import { storiesOf } from "@storybook/html";
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
@@ -36,10 +35,16 @@ const contentHTML = `
 
 const referenceElementHTML = `<calcite-popover-manager>Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.</calcite-popover-manager>`;
 
-storiesOf("Components/Popover", module)
-  .addParameters({ notes: readme })
-  .add("Simple", () => {
-    return `
+export default {
+  title: "Components/Popover",
+
+  parameters: {
+    notes: readme
+  }
+};
+
+export const Simple = (): string => {
+  return `
       <div>
         ${referenceElementHTML}
         <calcite-popover
@@ -58,9 +63,10 @@ storiesOf("Components/Popover", module)
         </calcite-popover>
       </div>
     `;
-  })
-  .add("Dark Mode", () => {
-    return `
+};
+
+export const DarkMode = (): string => {
+  return `
       <div>
         ${referenceElementHTML}
         <calcite-popover
@@ -79,4 +85,4 @@ storiesOf("Components/Popover", module)
         </calcite-popover>
       </div>
     `;
-  });
+};

@@ -320,7 +320,7 @@ describe("calcite-inline-editable", () => {
         page = await newE2EPage();
         await page.setContent(`
         <calcite-label>
-          <span>Hello</span>
+          Hello
           <calcite-inline-editable controls>
             <calcite-input value="John Doe"/>
           </calcite-inline-editable>
@@ -329,18 +329,19 @@ describe("calcite-inline-editable", () => {
       });
 
       it("focuses the enable editing button when the label is clicked", async () => {
-        const label = await page.find("span");
-        await label.click();
-        const activeEl = await page.evaluateHandle(() => document.activeElement);
-        expect(activeEl["_remoteObject"].description).toMatch(
-          "calcite-button.calcite-inline-editable-enable-editing-button"
-        );
+        expect(
+          await page.evaluate(async () => {
+            const label: HTMLSpanElement = document.querySelector("label");
+            await label.click();
+            return document.activeElement.className;
+          })
+        ).toContain("calcite-inline-editable-enable-editing-button");
       });
 
       it("focuses the input when editing is enabled and the label is subsequently clicked", async () => {
         const enableEditingButton = await page.find(".calcite-inline-editable-enable-editing-button");
         await enableEditingButton.click();
-        const label = await page.find("span");
+        const label = await page.find("label");
         await label.click();
         const activeEl = await page.evaluateHandle(() => document.activeElement);
         expect(activeEl["_remoteObject"].description).toMatch("input");
