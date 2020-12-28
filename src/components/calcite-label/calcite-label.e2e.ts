@@ -38,6 +38,99 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
+  describe("alignment prop", () => {
+    let page;
+    let element;
+    let style;
+
+    describe("default behavior", () => {
+      it("should render with 'start' alignment", async () => {
+        page = await newE2EPage({
+          html: `<calcite-label>Label text
+          <calcite-input></calcite-input>
+          </calcite-label>`
+        });
+        element = await page.find("calcite-label");
+        expect(await element.getProperty("alignment")).toEqual("start");
+      });
+
+      describe("when in a center-aligned container", () => {
+        describe("when direction is left-to-right", () => {
+          it("should render text left-aligned", async () => {
+            page = await newE2EPage({
+              html: `<div style="text-align: center;">
+              <calcite-label dir="ltr">Label text
+              <calcite-input></calcite-input>
+              </calcite-label>
+              </div>`
+            });
+            element = await page.find("calcite-label");
+            style = await element.getComputedStyle();
+            expect(style["textAlign"]).toEqual("left");
+          });
+        });
+
+        describe("when direction is right-to-left", () => {
+          it("should render text right-aligned", async () => {
+            page = await newE2EPage({
+              html: `<div style="text-align: center;">
+              <calcite-label dir="rtl">Label text
+              <calcite-input></calcite-input>
+              </calcite-label>
+              </div>`
+            });
+            element = await page.find("calcite-label");
+            style = await element.getComputedStyle();
+            expect(style["textAlign"]).toEqual("right");
+          });
+        });
+      });
+    });
+
+    describe("when alignment prop is provided", () => {
+      describe("'center' alignment", () => {
+        it("should render text center-aligned", async () => {
+          page = await newE2EPage({
+            html: `<calcite-label alignment="center">Label text
+            <calcite-input></calcite-input>
+            </calcite-label>`
+          });
+          element = await page.find("calcite-label");
+          style = await element.getComputedStyle();
+          expect(style["textAlign"]).toEqual("center");
+        });
+      });
+
+      describe("'end' alignment", () => {
+        describe("when direction is left-to-right", () => {
+          it("should render text right-aligned", async () => {
+            page = await newE2EPage({
+              html: `<calcite-label alignment="end" dir="ltr">Label text
+              <calcite-input></calcite-input>
+              </calcite-label>`
+            });
+            element = await page.find("calcite-label");
+            style = await element.getComputedStyle();
+            expect(style["textAlign"]).toEqual("right");
+          });
+        });
+
+        describe("when direction is right-to-left", () => {
+          it("should render text left-aligned", async () => {
+            page = await newE2EPage({
+              html: `<calcite-label alignment="end" dir="rtl">Label text
+              <calcite-input></calcite-input>
+              </calcite-label>`
+            });
+            element = await page.find("calcite-label");
+            style = await element.getComputedStyle();
+            expect(style["textAlign"]).toEqual("left");
+          });
+        });
+      });
+    });
+  });
+
   it("does not pass id to child label element", async () => {
     const page = await newE2EPage();
     await page.setContent(`
