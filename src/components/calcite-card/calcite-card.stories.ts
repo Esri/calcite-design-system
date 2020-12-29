@@ -42,7 +42,12 @@ SimpleWithLinks.story = {
 export const FooterButton = (): string => html`
   <div style="width:260px">
     <calcite-card ${boolean("loading", false)} ${boolean("selectable", false)}>
-      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img
+        alt=""
+        slot="thumbnail"
+        src="https://placem.at/places?w=380&h=180&txt=0"
+        style="width: 380px; height: 180px;"
+      />
       <h3 slot="title">Untitled experience</h3>
       <span slot="subtitle">Subtext</span>
       <calcite-button slot="footer-leading" width="full">Go</calcite-button>
@@ -53,7 +58,12 @@ export const FooterButton = (): string => html`
 export const FooterLinks = (): string => html`
   <div style="width:260px">
     <calcite-card ${boolean("loading", false)} ${boolean("selectable", false)}>
-      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img
+        alt=""
+        slot="thumbnail"
+        src="https://placem.at/places?w=380&h=180&txt=0"
+        style="width: 380px; height: 180px;"
+      />
       <h3 slot="title">My perhaps multiline card title</h3>
       <span slot="subtitle"
         >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
@@ -67,7 +77,12 @@ export const FooterLinks = (): string => html`
 export const FooterTextButtonsTooltips = (): string => html`
   <div style="width:260px">
     <calcite-card ${boolean("loading", false)} ${boolean("selectable", false)}>
-      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img
+        alt=""
+        slot="thumbnail"
+        src="https://placem.at/places?w=380&h=180&txt=0"
+        style="width: 380px; height: 180px;"
+      />
       <h3 slot="title">My great project that might wrap two lines</h3>
       <span slot="subtitle">Johnathan Smith</span>
       <span slot="footer-leading">Nov 25, 2018</span>
@@ -93,7 +108,7 @@ export const FooterButtonsTooltipsDropdown = (): string => html`
   ${boolean("loading", false)}
   ${boolean("selectable", false)}
   >
-    <img alt="" slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+    <img alt="" slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" style="width:260px;height:160px" />
     <h3 slot="title">Portland Businesses</h3>
     <span slot="subtitle">by
       <calcite-link href="">example_user</calcite-button>
@@ -169,7 +184,12 @@ DarkThemeSimpleWithLinks.story = {
 export const DarkThemeFooterButton = (): string => html`
   <div style="width:260px">
     <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
-      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img
+        alt=""
+        slot="thumbnail"
+        src="https://placem.at/places?w=380&h=180&txt=0"
+        style="width: 380px; height: 180px;"
+      />
       <h3 slot="title">Untitled experience</h3>
       <span slot="subtitle">Subtext</span>
       <calcite-button theme="dark" slot="footer-leading" width="full">Go</calcite-button>
@@ -185,7 +205,12 @@ DarkThemeFooterButton.story = {
 export const DarkThemeFooterLinks = (): string => html`
   <div style="width:260px">
     <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
-      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img
+        alt=""
+        slot="thumbnail"
+        src="https://placem.at/places?w=380&h=180&txt=0"
+        style="width: 380px; height: 180px;"
+      />
       <h3 slot="title">My perhaps multiline card title</h3>
       <span slot="subtitle"
         >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
@@ -204,7 +229,12 @@ DarkThemeFooterLinks.story = {
 export const DarkThemeFooterTextButtonsTooltips = (): string => html`
   <div style="width:260px">
     <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
-      <img alt="" slot="thumbnail" src="https://placem.at/places?w=380&h=180&txt=0" />
+      <img
+        alt=""
+        slot="thumbnail"
+        src="https://placem.at/places?w=380&h=180&txt=0"
+        style="width: 380px; height: 180px;"
+      />
       <h3 slot="title">My great project that might wrap two lines</h3>
       <span slot="subtitle">Johnathan Smith</span>
       <span slot="footer-leading">Nov 25, 2018</span>
@@ -228,7 +258,12 @@ DarkThemeFooterTextButtonsTooltips.story = {
 export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
   <div style="width:260px">
     <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
-      <img alt="" slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+      <img
+        alt=""
+        slot="thumbnail"
+        src="https://placem.at/places?w=260&h=160&txt=0"
+        style="width: 260px; height: 160px;"
+      />
       <h3 slot="title">Portland Businesses</h3>
       <span slot="subtitle"
         >by
