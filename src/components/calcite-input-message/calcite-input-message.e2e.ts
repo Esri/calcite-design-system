@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders } from "../../tests/commonTests";
+import bananaShape from "../calcite-icon/assets/banana16.json";
 
 describe("calcite-input-message", () => {
   it("renders", async () => renders("calcite-input-message", false));
@@ -61,5 +62,15 @@ describe("calcite-input-message", () => {
 
     const icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
     expect(icon).not.toBeNull();
+  });
+
+  describe("when a custom icon is provided", () => {
+    it("should render the requested icon", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-input-message icon='banana'>Nah</calcite-input-message>");
+      const requestedIcon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+      const svgPath = await requestedIcon.shadowRoot.querySelector("svg > path");
+      expect(await svgPath.getAttribute("d")).toEqual(bananaShape);
+    });
   });
 });

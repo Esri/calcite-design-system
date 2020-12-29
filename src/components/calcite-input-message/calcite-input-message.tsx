@@ -1,5 +1,5 @@
 import { Component, Element, Host, h, Prop, VNode } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status, Theme } from "../interfaces";
 import { InputMessageType } from "./interfaces";
 
@@ -26,7 +26,7 @@ export class CalciteInputMessage {
   @Prop({ reflect: true }) active = false;
 
   /** optionally display an icon based on status */
-  @Prop({ reflect: true }) icon: boolean;
+  @Prop({ reflect: true }) icon: boolean | string;
 
   /** specify the scale of the input, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -49,14 +49,22 @@ export class CalciteInputMessage {
   connectedCallback(): void {
     this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
+    this.requestedIcon = setRequestedIcon(this.iconDefaults, this.icon, this.status);
   }
 
   render(): VNode {
     const dir = getElementDir(this.el);
     const hidden = !this.active;
+    let iconEl = null;
+    if (this.icon && !this.requestedIcon) {
+      iconEl = this.renderIcon(this.iconDefaults[this.status]);
+    }
+    if (!!this.requestedIcon) {
+      iconEl = this.renderIcon(this.requestedIcon);
+    }
     return (
       <Host calcite-hydrated-hidden={hidden} dir={dir} theme={this.theme}>
-        {this.icon ? this.renderIcon(this.iconDefaults[this.status]) : null}
+        {iconEl}
         <slot />
       </Host>
     );
@@ -74,6 +82,9 @@ export class CalciteInputMessage {
     invalid: "exclamation-mark-triangle",
     idle: "information"
   };
+
+  /** the custom icon to render */
+  private requestedIcon?: string;
 
   //--------------------------------------------------------------------------
   //
