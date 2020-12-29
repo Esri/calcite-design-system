@@ -102,7 +102,7 @@ export const DarkMode = (): string => html`
   <div style="width: 400px">
     <calcite-label layout="inline" theme="dark">
       Date
-      <calcite-date-picker
+      <calcite-input-date-picker
         theme="dark"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         value="${text("value", "")}"
@@ -124,7 +124,7 @@ DarkMode.story = {
 
 export const Range = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
+    <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
       start="${text("start", "")}"
       end="${text("end", "")}"
