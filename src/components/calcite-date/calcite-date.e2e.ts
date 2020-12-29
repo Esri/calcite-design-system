@@ -135,7 +135,7 @@ describe("calcite-date", () => {
   describe("when the locale is set to Slovak calendar", () => {
     it("should start the week on Monday", async () => {
       const page = await newE2EPage({
-        html: `<calcite-date scale="m" locale="sk" value="2000-11-27" no-calendar-input="true" active></calcite-date>`
+        html: `<calcite-date scale="m" locale="sk" value="2000-11-27" no-calendar-input active></calcite-date>`
       });
       const handle = (
         await page.waitForFunction(() => {

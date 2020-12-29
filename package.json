@@ -82,7 +82,7 @@
     "@types/jest": "26.0.15",
     "@types/jest-axe": "3.5.1",
     "@types/lodash-es": "4.17.4",
-    "@types/pify": "3.0.2",
+    "@types/pify": "5.0.0",
     "@types/puppeteer": "5.4.1",
     "@types/rimraf": "3.0.0",
     "@types/semver": "7.3.4",
