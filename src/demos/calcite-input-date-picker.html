@@ -145,7 +145,7 @@
   <script>
     var dateSample = document.getElementById("dateSample");
     var dateDisplay = document.getElementById("dateDisplay");
-    dateSample.addEventListener("calciteDateChange", function (e) {
+    dateSample.addEventListener("calciteDatePickerChange", function (e) {
       dateDisplay.innerHTML = e.detail;
     });
   </script>
@@ -162,7 +162,7 @@
   var dateRangeSample = document.getElementById("dateRangeSample");
   var startDisplay = document.getElementById("startDisplay");
   var endDisplay = document.getElementById("endDisplay");
-  dateRangeSample.addEventListener("calciteDateRangeChange", function (e) {
+  dateRangeSample.addEventListener("calciteDatePickerRangeChange", function (e) {
     startDisplay.textContent = e.detail.startDate;
     endDisplay.textContent = e.detail.endDate;
   });

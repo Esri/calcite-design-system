@@ -462,6 +462,7 @@ export class CalciteDatePicker {
    */
   private handleDateChange = (event: CustomEvent<Date>): void => {
     this.valueAsDate = event.detail;
+    this.active = false;
 
     this.range &&
       setTimeout(() => {
