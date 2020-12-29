@@ -56,7 +56,7 @@ const locales = [
 ];
 
 export default {
-  title: "Components/DatePicker",
+  title: "Components/InputDatePicker",
 
   parameters: {
     notes: readme
@@ -65,27 +65,26 @@ export default {
 
 export const Simple = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="${text("value", "")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en-US")}"
-      intl-next-month="${text("intl-next-month", "Next month")}"
-      intl-prev-month="${text("intl-prev-month", "Previous month")}"
-    ></calcite-date-picker>
+    <calcite-label layout="inline">
+      Date
+      <calcite-input-date-picker
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        value="${text("value", "")}"
+        min="${text("min", "2016-08-09")}"
+        max="${text("max", "2023-12-18")}"
+        locale="${select("locale", locales, "en-US")}"
+        intl-next-month="${text("intl-next-month", "Next month")}"
+        intl-prev-month="${text("intl-prev-month", "Previous month")}"
+      ></calcite-input-date-picker
+    ></calcite-label>
   </div>
 `;
-
-Simple.story = {
-  name: "Simple"
-};
 
 export const DarkMode = (): string => html`
   <div style="width: 400px">
     <calcite-label layout="inline" theme="dark">
       Date
-      <calcite-date-picker
+      <calcite-input-date-picker
         theme="dark"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         value="${text("value", "")}"
@@ -95,7 +94,7 @@ export const DarkMode = (): string => html`
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
         range="${boolean("range", false)}"
-      ></calcite-date-picker
+      ></calcite-input-date-picker
     ></calcite-label>
   </div>
 `;
@@ -107,7 +106,7 @@ DarkMode.story = {
 
 export const Range = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
+    <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
       start="${text("start", "")}"
       end="${text("end", "")}"
@@ -118,6 +117,6 @@ export const Range = (): string => html`
       prev-month-label="${text("prev-month-label", "Previous month")}"
       range="${boolean("range", true)}"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    ></calcite-date-picker>
+    ></calcite-input-date-picker>
   </div>
 `;

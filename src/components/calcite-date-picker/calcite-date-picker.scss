@@ -4,6 +4,7 @@
   width: 100%;
   position: relative;
   overflow: visible;
+  background-color: var(--calcite-ui-foreground-1);
 }
 
 :host-context([theme="dark"]) {
