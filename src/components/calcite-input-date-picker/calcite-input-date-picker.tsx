@@ -144,13 +144,6 @@ export class CalciteDatePicker {
    */
   @State() focusedInput: "start" | "end" = "start";
 
-  @Watch("focusedInput")
-  focusedHandler(): void {
-    this.reposition();
-  }
-
-  private endInput: HTMLCalciteInputElement;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -279,17 +272,40 @@ export class CalciteDatePicker {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+  private endInput: HTMLCalciteInputElement;
+
   @State() private localeData: DateLocaleData;
 
   private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
   private popper: Popper;
 
-  private menuEl: HTMLDivElement;
+  @State() private menuEl: HTMLDivElement;
 
-  private startWrapper: HTMLDivElement;
+  @State() private referenceEl: HTMLDivElement;
 
-  private endWrapper: HTMLDivElement;
+  @Watch("menuEl")
+  @Watch("referenceEl")
+  handlePopperElements(): void {
+    this.createPopper();
+  }
+
+  @State() private startWrapper: HTMLDivElement;
+
+  @State() private endWrapper: HTMLDivElement;
+
+  @Watch("layout")
+  @Watch("focusedInput")
+  @Watch("endWrapper")
+  @Watch("startWrapper")
+  handleWrappers(): void {
+    const { focusedInput, layout, endWrapper, startWrapper } = this;
+
+    this.referenceEl =
+      focusedInput === "end" || layout === "vertical"
+        ? endWrapper || startWrapper
+        : startWrapper || endWrapper;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -350,15 +366,19 @@ export class CalciteDatePicker {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, startWrapper, endWrapper } = this;
+    const { menuEl, referenceEl } = this;
+
+    if (!menuEl || !referenceEl) {
+      return;
+    }
+
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
       placement: DEFAULT_PLACEMENT,
-      referenceEl:
-        this.focusedInput === "end" || this.layout === "vertical" ? endWrapper : startWrapper
+      referenceEl
     });
   }
 
@@ -463,7 +483,10 @@ export class CalciteDatePicker {
       return;
     }
     this.valueAsDate = event.detail;
-    this.active = false;
+
+    if (event.detail) {
+      this.active = false;
+    }
   };
 
   private handleDateRangeChange = (event: CustomEvent<DateRangeChange>): void => {
@@ -471,9 +494,12 @@ export class CalciteDatePicker {
       return;
     }
 
-    this.active = false;
     this.startAsDate = event.detail.startDate;
     this.endAsDate = event.detail.endDate;
+
+    if (event.detail.startDate && event.detail.endDate) {
+      this.active = false;
+    }
 
     if (event.detail.startDate && this.focusedInput === "start") {
       setTimeout(() => this.endInput?.setFocus(), 150);
