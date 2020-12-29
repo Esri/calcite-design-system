@@ -25,12 +25,11 @@ import { DateRangeChange } from "../../interfaces/DateRangeChange";
 const DEFAULT_PLACEMENT = "bottom-start";
 
 @Component({
-  assetsDirs: ["calcite-input-date-picker-nls"],
   tag: "calcite-input-date-picker",
   styleUrl: "calcite-input-date-picker.scss",
   shadow: true
 })
-export class CalciteDatePicker {
+export class CalciteInputDatePicker {
   //--------------------------------------------------------------------------
   //
   //  Element
