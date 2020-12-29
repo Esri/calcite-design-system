@@ -110,7 +110,7 @@ export class CalciteDatePicker {
    */
   @Listen("focusin", { target: "window" })
   focusInHandler(e: FocusEvent): void {
-    if (!this.hasShadow && !this.el.contains(e.srcElement as HTMLElement)) {
+    if (!this.hasShadow && !this.el.contains(e.target as HTMLElement)) {
       this.reset();
     }
   }
