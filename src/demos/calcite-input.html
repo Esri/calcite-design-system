@@ -42,6 +42,23 @@
               <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
               <calcite-input-message icon active>Some information about the input</calcite-input-message>
             </calcite-label>
+            <calcite-label scale="s">
+              With input message 1
+              <calcite-input></calcite-input>
+              <calcite-input-message active>Default active input message, no icon</calcite-input-message>
+            </calcite-label>
+            <calcite-label scale="s">
+              With input message 2
+              <calcite-input value="Pumpkin Pie"></calcite-input>
+              <calcite-input-message icon active status="valid">Valid active input message with default status icon</calcite-input-message>
+              <calcite-input-message icon active status="invalid">Invalid active input message with default status icon</calcite-input-message>
+            </calcite-label>
+            <calcite-label scale="s" status="invalid">
+              With input message 3
+              <calcite-input></calcite-input>
+              <calcite-input-message icon="arcgis-online" active>Invalid status input message with custom icon</calcite-input-message>
+              <calcite-input-message icon="banana" active>Invalid status input message with custom icon</calcite-input-message>
+            </calcite-label>
 
             <calcite-label scale="m">
               Scale m
@@ -510,6 +527,7 @@
             <calcite-label dir="rtl">
               Icon flip rtl not requested
               <calcite-input icon="camera" placeholder="Enter your cell phone"></calcite-input>
+              <calcite-input-message icon="upload" active>Please upload your image here</calcite-input-message>
             </calcite-label>
             <calcite-label dir="rtl">
               Icon flip rtl requested
@@ -948,7 +966,7 @@
                 <calcite-input id="validate-input-example-password-2" type="password" placeholder="•••••">
                 </calcite-input>
               </calcite-label>
-              <calcite-button width="full">Register</calcite-button>
+              <!-- <calcite-button width="full">Register</calcite-button> -->
             </form>
             <calcite-notice width="full" id="validate-input-example-focus-notice"> </calcite-notice>
             <calcite-notice width="full" id="validate-input-example-blur-notice"> </calcite-notice>
