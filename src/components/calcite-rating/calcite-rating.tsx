@@ -11,7 +11,7 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { getElementDir, hasLabel } from "../../utils/dom";
+import { getElementDir, hasLabel, focusElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { TEXT } from "./calcite-rating-resources";
 
@@ -193,8 +193,20 @@ export class CalciteRating {
   //--------------------------------------------------------------------------
   @Method()
   async setFocus(): Promise<void> {
-    this.el.querySelector("input").focus();
-    this.hasFocus = true;
+    const {
+      el: { shadowRoot, disabled, value, readOnly }
+    } = this;
+    const nonEditable = !!disabled || !!readOnly;
+    if (!nonEditable) {
+      if (value > 0) {
+        const selected = shadowRoot.querySelectorAll(".selected");
+        const lastSelectedId = selected[selected.length - 1].getAttribute("for");
+        focusElement(shadowRoot.querySelector(`input[id="${lastSelectedId}"]`));
+      } else {
+        focusElement(shadowRoot.querySelector("fieldset input"));
+      }
+      this.hasFocus = true;
+    }
   }
 
   // --------------------------------------------------------------------------

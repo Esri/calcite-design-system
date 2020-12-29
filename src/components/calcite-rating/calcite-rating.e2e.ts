@@ -418,4 +418,63 @@ describe("calcite-rating", () => {
     expect(countSpan).not.toBeNull();
     expect(averageSpan).not.toBeNull();
   });
+
+  describe("when wrapped inside calcite-label", () => {
+    let page;
+    let ratingStars;
+    let label;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
+    describe("when the rating is disabled or read-only", () => {
+      it("should not focus any stars", async () => {
+        await page.setContent(
+          `<calcite-label>Past review 1
+            <calcite-rating value="2" disabled></calcite-rating>
+          </calcite-label>
+          <calcite-label>Past review 2
+            <calcite-rating value="4" read-only></calcite-rating>
+          </calcite-label>`
+        );
+        const labelComponents = await page.findAll("calcite-label");
+        await labelComponents[0].click();
+        ratingStars = await page.findAll("calcite-rating >>> label.focused");
+        expect(ratingStars.length).toEqual(0);
+        await labelComponents[1].click();
+        ratingStars = await page.findAll("calcite-rating >>> label.focused");
+        expect(ratingStars.length).toEqual(0);
+      });
+    });
+
+    describe("when a rating value exists", () => {
+      it("should focus the last-selected star", async () => {
+        await page.setContent('<calcite-label>Your rating<calcite-rating value="3"></calcite-rating></calcite-label>');
+        label = await page.find("calcite-label");
+        await label.click();
+        ratingStars = await page.findAll("calcite-rating >>> label.selected");
+        const lastSelectedStar = ratingStars[ratingStars.length - 1];
+        expect(lastSelectedStar).toHaveClass("focused");
+        const guid = await lastSelectedStar.getAttribute("for");
+        const lastSelectedInput = await page.find(`calcite-rating >>> input[id="${guid}"]`);
+        expect(await lastSelectedInput.getProperty("value")).toEqual("3");
+      });
+    });
+
+    describe("when no rating value exists", () => {
+      it("should focus the first non-selected star", async () => {
+        await page.setContent('<calcite-label dir="rtl">הדירוג שלי<calcite-rating></calcite-rating></calcite-label>');
+        label = await page.find("calcite-label");
+        await label.click();
+        ratingStars = await page.findAll("calcite-rating >>> label");
+        const firstStar = ratingStars[0];
+        expect(firstStar).toHaveClass("focused");
+        expect(firstStar).not.toHaveClass("selected");
+        const guid = await firstStar.getAttribute("for");
+        const firstInputById = await page.find(`calcite-rating >>> input[id="${guid}"]`);
+        expect(await firstInputById.getProperty("value")).toEqual("1");
+      });
+    });
+  });
 });
