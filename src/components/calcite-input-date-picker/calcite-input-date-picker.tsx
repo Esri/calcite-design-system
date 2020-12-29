@@ -225,6 +225,7 @@ export class CalciteInputDatePicker {
                   min={this.min}
                   onCalciteDatePickerChange={this.handleDateChange}
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
+                  proximitySelection={this.proximitySelection}
                   range={this.range}
                   scale={this.scale}
                   startAsDate={this.startAsDate}
