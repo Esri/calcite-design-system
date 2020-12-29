@@ -4,6 +4,8 @@
   width: 100%;
   position: relative;
   overflow: visible;
+  border-radius: none;
+  border: 1px solid var(--calcite-ui-border-2);
   background-color: var(--calcite-ui-foreground-1);
 }
 

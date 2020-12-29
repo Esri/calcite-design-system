@@ -12,8 +12,6 @@
   @apply shadow-none;
   position: static;
   transform: translate3d(0, 0, 0);
-  border-radius: none;
-  border: 1px solid var(--calcite-ui-border-2);
   width: 100%;
   line-height: 0; // fixes height in ie11
 }
