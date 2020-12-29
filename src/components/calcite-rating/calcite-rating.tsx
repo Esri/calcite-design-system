@@ -194,19 +194,16 @@ export class CalciteRating {
   @Method()
   async setFocus(): Promise<void> {
     const {
-      el: { shadowRoot, disabled, value, readOnly }
+      el: { shadowRoot, value }
     } = this;
-    const nonEditable = !!disabled || !!readOnly;
-    if (!nonEditable) {
-      if (value > 0) {
-        const selected = shadowRoot.querySelectorAll(".selected");
-        const lastSelectedId = selected[selected.length - 1].getAttribute("for");
-        focusElement(shadowRoot.querySelector(`input[id="${lastSelectedId}"]`));
-      } else {
-        focusElement(shadowRoot.querySelector("fieldset input"));
-      }
-      this.hasFocus = true;
+    if (value > 0) {
+      const selected = shadowRoot.querySelectorAll(".selected");
+      const lastSelectedId = selected[selected.length - 1].getAttribute("for");
+      focusElement(shadowRoot.querySelector(`input[id="${lastSelectedId}"]`));
+    } else {
+      focusElement(shadowRoot.querySelector("fieldset input"));
     }
+    this.hasFocus = true;
   }
 
   // --------------------------------------------------------------------------

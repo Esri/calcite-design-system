@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible } from "../../tests/commonTests";
+import { renders, accessible, focusable } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>"));
@@ -419,6 +419,14 @@ describe("calcite-rating", () => {
     expect(averageSpan).not.toBeNull();
   });
 
+  describe("when setFocus method is called", () => {
+    it("should focus input element in shadow DOM", async () => {
+      focusable("calcite-rating", {
+        shadowFocusTargetSelector: "input"
+      });
+    });
+  });
+
   describe("when wrapped inside calcite-label", () => {
     let page;
     let ratingStars;
@@ -428,29 +436,9 @@ describe("calcite-rating", () => {
       page = await newE2EPage();
     });
 
-    describe("when the rating is disabled or read-only", () => {
-      it("should not focus any stars", async () => {
-        await page.setContent(
-          `<calcite-label>Past review 1
-            <calcite-rating value="2" disabled></calcite-rating>
-          </calcite-label>
-          <calcite-label>Past review 2
-            <calcite-rating value="4" read-only></calcite-rating>
-          </calcite-label>`
-        );
-        const labelComponents = await page.findAll("calcite-label");
-        await labelComponents[0].click();
-        ratingStars = await page.findAll("calcite-rating >>> label.focused");
-        expect(ratingStars.length).toEqual(0);
-        await labelComponents[1].click();
-        ratingStars = await page.findAll("calcite-rating >>> label.focused");
-        expect(ratingStars.length).toEqual(0);
-      });
-    });
-
     describe("when a rating value exists", () => {
-      it("should focus the last-selected star", async () => {
-        await page.setContent('<calcite-label>Your rating<calcite-rating value="3"></calcite-rating></calcite-label>');
+      it("should focus the last-selected star on label click", async () => {
+        await page.setContent("<calcite-label>Your rating<calcite-rating value='3'></calcite-rating></calcite-label>");
         label = await page.find("calcite-label");
         await label.click();
         ratingStars = await page.findAll("calcite-rating >>> label.selected");
@@ -463,8 +451,8 @@ describe("calcite-rating", () => {
     });
 
     describe("when no rating value exists", () => {
-      it("should focus the first non-selected star", async () => {
-        await page.setContent('<calcite-label dir="rtl">הדירוג שלי<calcite-rating></calcite-rating></calcite-label>');
+      it("should focus the first non-selected star on label click", async () => {
+        await page.setContent("<calcite-label dir='rtl'>הדירוג שלי<calcite-rating></calcite-rating></calcite-label>");
         label = await page.find("calcite-label");
         await label.click();
         ratingStars = await page.findAll("calcite-rating >>> label");
