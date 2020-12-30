@@ -49,6 +49,7 @@ export const TEXT = {
   hsv: "HSV",
   hex: "Hex",
   hue: "Hue",
+  noColor: "No color",
   r: "R",
   red: "Red",
   rgb: "RGB",

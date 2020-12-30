@@ -196,54 +196,6 @@ describe("calcite-radio-button", () => {
     expect(await second.getProperty("checked")).toBe(false);
   });
 
-  it("removing a radio button also removes the hidden <input type=radio> element", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button name="radio" id="first" value="one" checked>
-            One
-      </calcite-radio-button>
-      <calcite-radio-button name="radio" id="second" value="two">
-          Two
-      </calcite-radio-button>
-    `);
-
-    let firstInput = await page.find("input#first-input");
-    expect(firstInput).toBeTruthy();
-
-    await page.evaluate(() => {
-      const first = document.querySelector("#first");
-      first.parentNode.removeChild(first);
-    });
-    await page.waitForChanges();
-
-    firstInput = await page.find("input#first-input");
-
-    expect(firstInput).toBeFalsy();
-  });
-
-  it("moving a radio button also moves the corresponding <input> element", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button name="radio" id="first" value="one" checked>
-            One
-      </calcite-radio-button>
-      <calcite-radio-button name="radio" id="second" value="two">
-          Two
-      </calcite-radio-button>
-    `);
-    const documentBody = await page.evaluate(() => {
-      const one = document.querySelector("calcite-radio-button[value=one]");
-      one.parentNode.removeChild(one);
-      document.body.appendChild(one);
-      return document.body;
-    });
-    await page.waitForChanges();
-
-    const firstInput = document.querySelector("input#first-input");
-
-    expect(documentBody.lastChild === firstInput);
-  });
-
   it("programmatically checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -404,5 +356,63 @@ describe("calcite-radio-button", () => {
 
     const labels2 = await page.findAll("calcite-label");
     expect(labels2).toHaveLength(0);
+  });
+
+  it("works correctly inside a shadowRoot", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div></div>
+      <template>
+        <calcite-radio-button name="in-shadow" value="one">
+          One
+        </calcite-radio-button>
+        <calcite-radio-button name="in-shadow" value="two">
+          Two
+        </calcite-radio-button>
+      </template>
+      <script>
+        const shadowRootDiv = document.querySelector("div");
+        const shadowRoot = shadowRootDiv.attachShadow({ mode: "open" });
+        shadowRoot.append(document.querySelector("template").content.cloneNode(true));
+      </script>
+    `);
+
+    const radios = await page.findAll("div >>> calcite-radio-button");
+    const inputs = await page.findAll("div >>> input");
+
+    await radios[0].click();
+
+    expect(await radios[0].getProperty("checked")).toBe(true);
+    expect(await radios[0].getAttribute("checked")).toBe("");
+    expect(await inputs[0].getProperty("checked")).toBe(true);
+
+    await radios[1].click();
+
+    expect(await radios[0].getProperty("checked")).toBe(false);
+    expect(await radios[0].getAttribute("checked")).toBe(null);
+    expect(await inputs[0].getProperty("checked")).toBe(false);
+
+    expect(await radios[1].getProperty("checked")).toBe(true);
+    expect(await radios[1].getAttribute("checked")).toBe("");
+    expect(await inputs[1].getProperty("checked")).toBe(true);
+  });
+
+  it("selects properly when wrapped in a label", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <label>
+        Wrapping label
+        <calcite-radio-button id="one" name="wrapped" value="one">One</calcite-radio-button>
+        <calcite-radio-button id="two" name="wrapped" value="two">Two</calcite-radio-button>
+      </label>
+    `);
+    const one = await page.find("#one");
+    const two = await page.find("#two calcite-radio");
+
+    await two.click();
+    await page.waitForChanges();
+
+    expect(await one.getProperty("checked")).toBe(false);
+    expect(await two.getProperty("checked")).toBe(true);
   });
 });

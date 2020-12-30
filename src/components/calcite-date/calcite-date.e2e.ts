@@ -105,7 +105,7 @@ describe("calcite-date", () => {
     await date.click();
     const calendar = await page.find("calcite-date >>> .calendar-picker-wrapper");
 
-    expect(await calendar.isVisible());
+    expect(await calendar.isVisible()).toBe(true);
   });
 
   it("fires calciteDateRangeChange event on change", async () => {
@@ -130,5 +130,23 @@ describe("calcite-date", () => {
     await page.keyboard.press("Space");
     await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(1);
+  });
+
+  describe("when the locale is set to Slovak calendar", () => {
+    it("should start the week on Monday", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-date scale="m" locale="sk" value="2000-11-27" no-calendar-input active></calcite-date>`
+      });
+      const handle = (
+        await page.waitForFunction(() => {
+          return document
+            .querySelector("calcite-date")
+            .shadowRoot.querySelector("calcite-date-month")
+            .shadowRoot.querySelector("span.week-header:first-child");
+        })
+      ).asElement();
+      const text = await handle.getProperty("textContent");
+      expect(await text.jsonValue()).toEqual("po");
+    });
   });
 });

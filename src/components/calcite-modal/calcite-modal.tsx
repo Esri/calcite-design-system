@@ -98,6 +98,10 @@ export class CalciteModal {
     }
   }
 
+  disconnectedCallback(): void {
+    this.removeOverflowHiddenClass();
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
@@ -292,7 +296,7 @@ export class CalciteModal {
       this.active = false;
       this.isActive = false;
       focusElement(this.previousActiveElement);
-      document.documentElement.classList.remove("overflow-hidden");
+      this.removeOverflowHiddenClass();
       setTimeout(() => this.calciteModalClose.emit(), 300);
     });
   };
@@ -311,4 +315,8 @@ export class CalciteModal {
       focusElement(this.closeButtonEl);
     }
   };
+
+  private removeOverflowHiddenClass(): void {
+    document.documentElement.classList.remove("overflow-hidden");
+  }
 }

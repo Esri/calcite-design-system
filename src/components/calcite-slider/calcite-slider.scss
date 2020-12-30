@@ -26,7 +26,7 @@ $tick-height: 4px;
 }
 
 :host([disabled]) {
-  opacity: 0.4;
+  opacity: var(--calcite-ui-opacity-disabled);
   pointer-events: none;
   .track__range,
   .tick--active {
@@ -143,19 +143,19 @@ $tick-height: 4px;
 //     top: -16px;
 //     left: -7px;
 //     background-color: #ccc;
-//     opacity: 0.3;
+//     opacity: var(--calcite-ui-opacity-disabled);
 //   }
 //   .handle__label {
 //     &.static {
 //       background-color: var(--calcite-ui-blue-1);
-//       opacity: 0.3;
+//       opacity: var(--calcite-ui-opacity-disabled);
 //       color: transparent;
 //     }
 //     &.transformed:not([style*="translateX(0px)"]),
 //     &.transformed:not([style*="margin-left: 0px"]),
 //     &.transformed:not([style*="margin-right: 0px"]) {
 //       background-color: red;
-//       opacity: 0.3;
+//       opacity: var(--calcite-ui-opacity-disabled);
 //       color: transparent;
 //     }
 //   }

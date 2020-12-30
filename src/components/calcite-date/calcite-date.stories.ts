@@ -1,8 +1,8 @@
-import { storiesOf } from "@storybook/html";
 import { select, text, boolean } from "@storybook/addon-knobs";
 
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import { html } from "../../tests/utils";
 
 const locales = [
   "ar",
@@ -55,30 +55,33 @@ const locales = [
   "zh-TW"
 ];
 
-storiesOf("Components/Date", module)
-  .addParameters({ notes: readme })
-  .add(
-    "Simple",
-    (): string => `
-    <div style="width: 400px">
+export default {
+  title: "Components/Date",
+
+  parameters: {
+    notes: readme
+  }
+};
+
+export const Simple = (): string => html`
+  <div style="width: 400px">
     <calcite-label layout="inline">
-    Date
-    <calcite-date
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="${text("value", "")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en-US")}"
-      intl-next-month="${text("intl-next-month", "Next month")}"
-      intl-prev-month="${text("intl-prev-month", "Previous month")}"
-    ></calcite-date></calcite-label>
-    </div>
-  `
-  )
-  .add(
-    "No input",
-    (): string => `
-    <div style="width: 400px">
+      Date
+      <calcite-date
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        value="${text("value", "")}"
+        min="${text("min", "2016-08-09")}"
+        max="${text("max", "2023-12-18")}"
+        locale="${select("locale", locales, "en-US")}"
+        intl-next-month="${text("intl-next-month", "Next month")}"
+        intl-prev-month="${text("intl-prev-month", "Previous month")}"
+      ></calcite-date
+    ></calcite-label>
+  </div>
+`;
+
+export const NoInput = (): string => html`
+  <div style="width: 400px">
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="${text("value", "")}"
@@ -90,34 +93,39 @@ storiesOf("Components/Date", module)
       intl-next-month="${text("intl-next-month", "Next month")}"
       intl-prev-month="${text("intl-prev-month", "Previous month")}"
     ></calcite-date>
-    </div>
-  `
-  )
-  .add(
-    "Dark mode",
-    (): string => `
-    <div style="width: 400px">
+  </div>
+`;
+
+NoInput.story = {
+  name: "No input"
+};
+
+export const DarkMode = (): string => html`
+  <div style="width: 400px">
     <calcite-label layout="inline" theme="dark">
-    Date
-    <calcite-date
-      theme="dark"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="${text("value", "")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en-US")}"
-      intl-next-month="${text("intl-next-month", "Next month")}"
-      intl-prev-month="${text("intl-prev-month", "Previous month")}"
-      range="${boolean("range", false)}"
-    ></calcite-date></calcite-label>
-    </div>
-`,
-    { backgrounds: darkBackground }
-  )
-  .add(
-    "Range",
-    (): string => `
-    <div style="width: 400px">
+      Date
+      <calcite-date
+        theme="dark"
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        value="${text("value", "")}"
+        min="${text("min", "2016-08-09")}"
+        max="${text("max", "2023-12-18")}"
+        locale="${select("locale", locales, "en-US")}"
+        intl-next-month="${text("intl-next-month", "Next month")}"
+        intl-prev-month="${text("intl-prev-month", "Previous month")}"
+        range="${boolean("range", false)}"
+      ></calcite-date
+    ></calcite-label>
+  </div>
+`;
+
+DarkMode.story = {
+  name: "Dark mode",
+  parameters: { backgrounds: darkBackground }
+};
+
+export const Range = (): string => html`
+  <div style="width: 400px">
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
       start="${text("start", "")}"
@@ -130,6 +138,5 @@ storiesOf("Components/Date", module)
       range="${boolean("range", true)}"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     ></calcite-date>
-    </div>
-  `
-  );
+  </div>
+`;

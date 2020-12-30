@@ -4,19 +4,24 @@
 
 ## Properties
 
-| Property       | Attribute | Description                                           | Type                | Default      |
-| -------------- | --------- | ----------------------------------------------------- | ------------------- | ------------ |
-| `activeDate`   | --        | Date currently active.                                | `Date`              | `new Date()` |
-| `max`          | --        | Maximum date of the calendar above which is disabled. | `Date`              | `undefined`  |
-| `min`          | --        | Minimum date of the calendar below which is disabled. | `Date`              | `undefined`  |
-| `scale`        | `scale`   | specify the scale of the date picker                  | `"l" \| "m" \| "s"` | `undefined`  |
-| `selectedDate` | --        | Already selected date.                                | `Date`              | `undefined`  |
+| Property       | Attribute     | Description                                           | Type                | Default      |
+| -------------- | ------------- | ----------------------------------------------------- | ------------------- | ------------ |
+| `activeDate`   | --            | Date currently active.                                | `Date`              | `new Date()` |
+| `endDate`      | --            | End date currently active                             | `Date`              | `undefined`  |
+| `hoverRange`   | `hover-range` |                                                       | `any`               | `undefined`  |
+| `max`          | --            | Maximum date of the calendar above which is disabled. | `Date`              | `undefined`  |
+| `min`          | --            | Minimum date of the calendar below which is disabled. | `Date`              | `undefined`  |
+| `scale`        | `scale`       | specify the scale of the date picker                  | `"l" \| "m" \| "s"` | `undefined`  |
+| `selectedDate` | --            | Already selected date.                                | `Date`              | `undefined`  |
+| `startDate`    | --            | Start date currently active.                          | `Date`              | `undefined`  |
 
 ## Events
 
 | Event                     | Description                               | Type               |
 | ------------------------- | ----------------------------------------- | ------------------ |
 | `calciteActiveDateChange` | Active date for the user keyboard access. | `CustomEvent<any>` |
+| `calciteDateHover`        | Event emitted when user hovers the date.  | `CustomEvent<any>` |
+| `calciteDateMouseOut`     |                                           | `CustomEvent<any>` |
 | `calciteDateSelect`       | Event emitted when user selects the date. | `CustomEvent<any>` |
 
 ## Dependencies

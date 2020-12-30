@@ -103,7 +103,8 @@ This component represents a menu of options.
 | `disabled`           | `disabled` | When true, it prevents the option from being selected.              | `boolean`                    | `false`     |
 | `label` _(required)_ | `label`    | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
 | `scale`              | `scale`    | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
-| `theme`              | `theme`    | The component theme.                                                | `"dark" \| "light"`          | `"light"`   |
+| `selectedOption`     | --         | The currently selected option.                                      | `HTMLCalciteOptionElement`   | `undefined` |
+| `theme`              | `theme`    | The component theme.                                                | `"dark" \| "light"`          | `undefined` |
 | `width`              | `width`    | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
 
 ## Events

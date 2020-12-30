@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   Host,
-  Listen,
   Method,
   Prop,
   h,
@@ -14,7 +13,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
-import { getKey } from "../../utils/key";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -31,13 +30,18 @@ export class CalciteComboboxItem {
   /** When true, the item cannot be clicked and is visually muted. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** The parent combobox item element */
-  @Prop() parentItem?: HTMLCalciteComboboxItemElement;
-
   /** Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
   @Prop({ reflect: true }) selected = false;
 
-  @Watch("selected") selectedWatchHandler(newValue: boolean): void {
+  /** True when item is highlighted either from keyboard or mouse hover */
+  @Prop() active = false;
+
+  @Prop({ mutable: true }) anscestors: HTMLCalciteComboboxItemElement[];
+
+  @Prop() guid: string = guid();
+
+  @Watch("selected")
+  selectedWatchHandler(newValue: boolean): void {
     this.isSelected = newValue;
   }
 
@@ -70,7 +74,9 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    this.isNested = this.getDepth();
+    const parent = this.el.parentElement?.closest("calcite-combobox-item");
+    const grandparent = parent?.parentElement?.closest("calcite-combobox-item");
+    this.anscestors = [parent, grandparent].filter((el) => el);
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 
@@ -86,38 +92,6 @@ export class CalciteComboboxItem {
    */
   @Event() calciteComboboxItemChange: EventEmitter;
 
-  @Event() calciteComboboxItemKeyEvent: EventEmitter;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  // --------------------------------------------------------------------------
-
-  @Listen("keydown") keyDownHandler(event: KeyboardEvent): void {
-    event.stopPropagation();
-    switch (getKey(event.key)) {
-      case " ":
-      case "Enter":
-        this.isSelected = !this.isSelected;
-        this.calciteComboboxItemChange.emit(this.el);
-        event.preventDefault();
-        break;
-      case "ArrowUp":
-      case "ArrowDown":
-      case "Home":
-      case "End":
-      case "Tab":
-      case "Escape":
-        this.calciteComboboxItemKeyEvent.emit({
-          event: event,
-          item: this.el
-        });
-        event.preventDefault();
-        break;
-    }
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -128,7 +102,8 @@ export class CalciteComboboxItem {
    * Used to toggle the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
    */
-  @Method() async toggleSelected(coerce?: boolean): Promise<void> {
+  @Method()
+  async toggleSelected(coerce?: boolean): Promise<void> {
     if (this.disabled) {
       return;
     }
@@ -151,8 +126,16 @@ export class CalciteComboboxItem {
     this.calciteComboboxItemChange.emit(this.el);
   };
 
-  getDepth(): boolean {
-    return !!this.el.parentElement?.closest("calcite-combobox-item");
+  getDepth(): number {
+    const parent = this.el.parentElement?.closest("calcite-combobox-item");
+    if (!parent) {
+      return 0;
+    }
+    const grandparent = parent.parentElement?.closest("calcite-combobox-item");
+    if (!grandparent) {
+      return 1;
+    }
+    return 2;
   }
   // --------------------------------------------------------------------------
   //
@@ -161,9 +144,10 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon(scale: string): VNode {
+    const level = `${CSS.icon}--indent-${this.getDepth()}`;
     const iconScale = scale !== "l" ? "s" : "m";
     const iconPath = this.disabled ? "circle-disallowed" : "check";
-    return <calcite-icon class={CSS.icon} icon={iconPath} scale={iconScale} />;
+    return <calcite-icon class={`${CSS.icon} ${level}`} icon={iconPath} scale={iconScale} />;
   }
 
   renderChildren(): VNode {
@@ -181,29 +165,23 @@ export class CalciteComboboxItem {
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.isSelected,
-      [CSS.nested]: this.isNested,
-      [CSS.parent]: !this.isNested
+      [CSS.active]: this.active
     };
     const scale = getElementProp(this.el, "scale", "m");
     const dir = getElementDir(this.el);
 
     return (
-      <Host
-        aria-selected={this.isSelected.toString()}
-        dir={dir}
-        disabled={this.disabled}
-        role="option"
-        scale={scale}
-        tabIndex={this.disabled ? null : 0}
-      >
-        <div
+      <Host aria-hidden dir={dir} disabled={this.disabled} scale={scale} tabIndex={-1}>
+        <li
           class={classes}
+          id={this.guid}
           onClick={this.itemClickHandler}
           ref={(el) => (this.comboboxItemEl = el as HTMLElement)}
+          tabIndex={-1}
         >
           {this.renderIcon(scale)}
           <span class={CSS.title}>{this.textLabel}</span>
-        </div>
+        </li>
         {this.renderChildren()}
       </Host>
     );
