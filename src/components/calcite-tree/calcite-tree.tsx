@@ -69,7 +69,7 @@ export class CalciteTree {
           this.selectionMode === TreeSelectionMode.Multi ||
           this.selectionMode === TreeSelectionMode.MultiChildren
         }
-        aria-role={this.root ? "tree" : undefined}
+        role={this.root ? "tree" : undefined}
         tabindex={this.root ? "0" : undefined}
       >
         <slot />

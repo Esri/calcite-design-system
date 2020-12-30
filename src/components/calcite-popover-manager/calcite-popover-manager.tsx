@@ -1,6 +1,6 @@
 import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
-import { getDescribedByElement } from "../../utils/dom";
+import { getElementByAttributeId } from "../../utils/dom";
 
 @Component({
   tag: "calcite-popover-manager"
@@ -42,6 +42,19 @@ export class CalcitePopoverManager {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  getRelatedPopover = (el: HTMLElement): HTMLCalcitePopoverElement => {
+    return getElementByAttributeId(
+      el.closest(this.selector),
+      POPOVER_REFERENCE
+    ) as HTMLCalcitePopoverElement;
+  };
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
@@ -49,23 +62,21 @@ export class CalcitePopoverManager {
   @Listen("click", { target: "window", capture: true })
   closeOpenPopovers(event: Event): void {
     const target = event.target as HTMLElement;
-    const { autoClose, el, selector } = this;
+    const { autoClose, el } = this;
     const popoverSelector = "calcite-popover";
     const isTargetInsidePopover = target.closest(popoverSelector);
-    const describedByElement = getDescribedByElement(target.closest(selector));
+    const relatedPopover = this.getRelatedPopover(target);
 
     if (autoClose && !isTargetInsidePopover) {
       Array.from(document.body.querySelectorAll(popoverSelector))
-        .filter((popover) => popover.open && popover !== describedByElement)
+        .filter((popover) => popover.open && popover !== relatedPopover)
         .forEach((popover) => popover.toggle(false));
     }
 
-    if (!el.contains(target)) {
+    if (!el.contains(target) || !relatedPopover) {
       return;
     }
 
-    if (describedByElement) {
-      (describedByElement as HTMLCalcitePopoverElement).toggle();
-    }
+    relatedPopover.toggle();
   }
 }

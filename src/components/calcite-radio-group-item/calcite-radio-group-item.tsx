@@ -11,7 +11,7 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 @Component({
   tag: "calcite-radio-group-item",
   styleUrl: "calcite-radio-group-item.scss",
@@ -44,6 +44,9 @@ export class CalciteRadioGroupItem {
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
+
+  /** flip the icon in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: boolean;
 
   /** optionally used with icon, select where to position the icon */
   @Prop({ reflect: true }) iconPosition?: "start" | "end" = "start";
@@ -87,11 +90,20 @@ export class CalciteRadioGroupItem {
 
   render(): VNode {
     const { checked, useFallback, value } = this;
+    const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const appearance = getElementProp(this.el, "appearance", "solid");
     const layout = getElementProp(this.el, "layout", "horizontal");
 
-    const iconEl = <calcite-icon class="radio-group-item-icon" icon={this.icon} scale="s" />;
+    const iconEl = (
+      <calcite-icon
+        class="radio-group-item-icon"
+        dir={dir}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale="s"
+      />
+    );
 
     return (
       <Host

@@ -1,9 +1,7 @@
-import { Component, Prop, h, Host, Watch, VNode } from "@stencil/core";
+import { Component, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
-import { CSS } from "./resources";
+import { COLORS, CSS } from "./resources";
 import { Scale, Theme } from "../../interfaces/common";
-
-const ACTIVE_BORDER_COLOR = "rgba(0, 0, 0, 0.15)";
 
 @Component({
   tag: "calcite-color-swatch",
@@ -73,14 +71,12 @@ export class CalciteColorSwatch {
   }
 
   render(): VNode {
-    const { internalColor, active, theme } = this;
-    const hex = internalColor.hex();
-
-    const borderColor = active
-      ? ACTIVE_BORDER_COLOR
-      : internalColor[theme === "light" ? "darken" : "whiten"](0.25).hex();
-
+    const { active, internalColor, theme } = this;
     const borderRadius = active ? "100%" : "0";
+    const hex = internalColor.hex();
+    const borderColor = active
+      ? COLORS.activeBorder
+      : internalColor[theme === "light" ? "darken" : "whiten"](0.25).hex();
 
     return (
       <Host aria-label={hex} title={hex}>

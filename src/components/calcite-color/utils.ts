@@ -1,4 +1,4 @@
-import { ColorValue, HSLA, HSVA, RGB, RGBA } from "../../interfaces/Color";
+import { ColorValue, RGB } from "../../interfaces/Color";
 import Color from "color";
 
 export function rgbToHex(color: RGB): string {
@@ -130,48 +130,10 @@ export function parseMode(colorValue: ColorValue): SupportedMode | null {
   return null;
 }
 
-function hasChannels(colorObject: Exclude<ColorValue, string>, ...channels: string[]): boolean {
-  return channels.every((channel) => `${channel}` in colorObject);
+function hasChannels(colorObject: Exclude<ColorValue, string> | null, ...channels: string[]): boolean {
+  return channels.every((channel) => channel && colorObject && `${channel}` in colorObject);
 }
 
-export function colorEqual(value1: Color, value2: Color): boolean {
-  return value1.rgbNumber() === value2.rgbNumber();
-}
-
-export function colorValueEqual(value1: ColorValue, value2: ColorValue, mode: SupportedMode): boolean {
-  if (
-    mode === CSSColorMode.HEX ||
-    mode === CSSColorMode.HEXA ||
-    mode === CSSColorMode.RGB_CSS ||
-    mode === CSSColorMode.RGBA_CSS ||
-    mode === CSSColorMode.HSL_CSS ||
-    mode === CSSColorMode.HSLA_CSS
-  ) {
-    return (value1 as string).toLowerCase() === (value2 as string).toLowerCase();
-  }
-
-  if (mode === ObjectColorMode.RGB || mode === ObjectColorMode.RGBA) {
-    return (
-      (value1 as RGBA).r === (value2 as RGBA).r &&
-      (value1 as RGBA).g === (value2 as RGBA).g &&
-      (value1 as RGBA).b === (value2 as RGBA).b &&
-      (value1 as RGBA).a === (value2 as RGBA).a
-    );
-  }
-
-  if (mode === ObjectColorMode.HSV || mode === ObjectColorMode.HSVA) {
-    return (
-      (value1 as HSVA).h === (value2 as HSVA).h &&
-      (value1 as HSVA).s === (value2 as HSVA).s &&
-      (value1 as HSVA).v === (value2 as HSVA).v &&
-      (value1 as HSVA).a === (value2 as HSVA).a
-    );
-  }
-
-  return (
-    (value1 as HSLA).h === (value2 as HSLA).h &&
-    (value1 as HSLA).s === (value2 as HSLA).s &&
-    (value1 as HSLA).l === (value2 as HSLA).l &&
-    (value1 as HSLA).a === (value2 as HSLA).a
-  );
+export function colorEqual(value1: Color | null, value2: Color | null): boolean {
+  return value1?.rgbNumber() === value2?.rgbNumber();
 }

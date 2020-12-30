@@ -23,6 +23,7 @@
 | `disablePointer`                | `disable-pointer`   | Removes the caret pointer.                                                                 | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `flipPlacements`                | --                  | Defines the available placements that can be used when a flip occurs.                      | `Placement[]`                                                                                                                                                                                                                                                                                                     | `undefined`             |
 | `intlClose`                     | `intl-close`        | Text for close button.                                                                     | `string`                                                                                                                                                                                                                                                                                                          | `TEXT.close`            |
+| `label` _(required)_            | `label`             | Accessible name for the component                                                          | `string`                                                                                                                                                                                                                                                                                                          | `undefined`             |
 | `offsetDistance`                | `offset-distance`   | Offset the position of the popover away from the reference element.                        | `number`                                                                                                                                                                                                                                                                                                          | `defaultOffsetDistance` |
 | `offsetSkidding`                | `offset-skidding`   | Offset the position of the popover along the reference element.                            | `number`                                                                                                                                                                                                                                                                                                          | `0`                     |
 | `open`                          | `open`              | Display and position the component.                                                        | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
@@ -65,6 +66,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+- [calcite-panel](../calcite-panel)
+
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
@@ -74,6 +79,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-popover --> calcite-icon
+  calcite-panel --> calcite-popover
   style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

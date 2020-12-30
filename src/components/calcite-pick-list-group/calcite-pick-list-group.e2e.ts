@@ -1,8 +1,21 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
 import { accessible } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-pick-list-group", () => {
+  it("is accessible", async () => {
+    await accessible("<calcite-pick-list-group></calcite-pick-list-group>");
+    await accessible(`<calcite-pick-list-group group-title="awesome title, bruh"></calcite-pick-list-group>`);
+    await accessible(html`
+      <calcite-pick-list>
+        <calcite-pick-list-group>
+          <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>
+        </calcite-pick-list-group>
+      </calcite-pick-list>
+    `);
+  });
+
   it("should render", async () => {
     const page = await newE2EPage();
 
@@ -12,11 +25,6 @@ describe("calcite-pick-list-group", () => {
     const isVisible = await pickList.isVisible();
     expect(isVisible).toBe(true);
   });
-
-  it("is accessible", async () =>
-    accessible(
-      `<calcite-pick-list><calcite-pick-list-group><calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item></calcite-pick-list-group></calcite-pick-list>`
-    ));
 
   it("should render a header if one is provided", async () => {
     const page = await newE2EPage();

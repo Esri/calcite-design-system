@@ -12,6 +12,7 @@
   padding: 0;
   margin: 0;
   font-weight: var(--calcite-ui-text-weight-demi);
+  line-height: 1.5;
 }
 
 .header .heading {
@@ -20,17 +21,17 @@
 }
 
 h1.heading {
-  @include font-size(0);
+  font-size: theme("fontSize.2");
 }
 
 h2.heading {
-  @include font-size(-1);
+  font-size: theme("fontSize.1");
 }
 
 h3.heading {
-  @include font-size(-2);
+  font-size: theme("fontSize.0");
 }
 h4.heading,
 h5.heading {
-  @include font-size(-4);
+  font-size: theme("fontSize.-1");
 }

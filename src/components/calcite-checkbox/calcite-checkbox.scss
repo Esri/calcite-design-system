@@ -5,19 +5,22 @@
   @include calcite-theme-dark();
 }
 :host([scale="s"]) {
-  --calcite-checkbox-size: 12px;
+  --calcite-checkbox-size: theme("fontSize.-2");
+  --calcite-checkbox-grid-gap: theme("spacing.2");
 }
 :host([scale="m"]) {
-  --calcite-checkbox-size: 16px;
+  --calcite-checkbox-size: theme("fontSize.-1");
+  --calcite-checkbox-grid-gap: theme("spacing.2");
 }
 :host([scale="l"]) {
-  --calcite-checkbox-size: 20px;
+  --calcite-checkbox-size: theme("fontSize.1");
+  --calcite-checkbox-grid-gap: theme("spacing.3");
 }
 :host {
-  display: inline-flex;
-  cursor: pointer;
-  position: relative;
-  user-select: none;
+  @apply inline-flex
+    cursor-pointer
+    relative
+    select-none;
   -webkit-tap-highlight-color: transparent;
   .check-svg {
     width: var(--calcite-checkbox-size);
@@ -33,7 +36,7 @@
   }
   .hasLabel {
     display: grid;
-    grid-gap: 12px;
+    grid-gap: var(--calcite-checkbox-grid-gap);
     align-items: center;
     --calcite-label-margin-bottom: 0;
   }
@@ -59,7 +62,7 @@
 }
 :host([disabled]) {
   cursor: default;
-  opacity: 0.4;
+  opacity: var(--calcite-ui-opacity-disabled);
   pointer-events: none;
 }
 :host([scale="s"]) {

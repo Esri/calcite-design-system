@@ -1,11 +1,19 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-panel", () => {
   it("renders", async () => renders("calcite-panel"));
 
   it("honors hidden attribute", async () => hidden("calcite-panel"));
+
+  it("has property defaults", async () =>
+    defaults("calcite-panel", [
+      {
+        propertyName: "widthScale",
+        defaultValue: undefined
+      }
+    ]));
 
   it("honors dismissed prop", async () => {
     const page = await newE2EPage();
@@ -50,31 +58,22 @@ describe("calcite-panel", () => {
     </calcite-panel>
     `));
 
-  it("should focus on close button", async () => {
-    const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
+  it("should focus on close button", async () =>
+    focusable(`<calcite-panel dismissible>test</calcite-panel>`, {
+      focusId: "dismiss-button",
+      shadowFocusTargetSelector: "calcite-action"
+    }));
 
-    const tagName = await page.evaluate(async () => {
-      const calcitePanel = document.querySelector("calcite-panel");
-      await calcitePanel.setFocus("dismiss-button");
-      const activeElement = calcitePanel.shadowRoot.activeElement;
-      return activeElement.tagName;
-    });
+  it("should focus on back button", async () =>
+    focusable(`<calcite-panel show-back-button>test</calcite-panel>`, {
+      focusId: "back-button",
+      shadowFocusTargetSelector: "calcite-action"
+    }));
 
-    expect(tagName).toBe("CALCITE-ACTION");
-  });
-
-  it("should focus on container", async () => {
-    const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
-
-    const tagName = await page.evaluate(async () => {
-      const calcitePanel = document.querySelector("calcite-panel");
-      await calcitePanel.setFocus();
-      const activeElement = calcitePanel.shadowRoot.activeElement;
-      return activeElement.tagName;
-    });
-
-    expect(tagName).toBe("ARTICLE");
-  });
+  it("should focus on container", async () =>
+    focusable(`<calcite-panel dismissible>test</calcite-panel>`, {
+      shadowFocusTargetSelector: "article"
+    }));
 
   it("honors calcitePanelScroll event", async () => {
     const page = await newE2EPage({
@@ -119,7 +118,7 @@ describe("calcite-panel", () => {
   it("should not render a header if there are no actions or content", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<calcite-panel>test</<calcite-panel>");
+    await page.setContent("<calcite-panel>test</calcite-panel>");
 
     const header = await page.find(`calcite-panel >>> .${CSS.header}`);
 
@@ -292,7 +291,7 @@ describe("calcite-panel", () => {
   it("should not render footer node if there are no actions or content", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<calcite-panel>test</<calcite-panel>");
+    await page.setContent("<calcite-panel>test</calcite-panel>");
 
     const footer = await page.find(`calcite-panel >>> .${CSS.footer}`);
 

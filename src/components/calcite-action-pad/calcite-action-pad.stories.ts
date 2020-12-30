@@ -2,7 +2,7 @@ import { boolean, select, text } from "@storybook/addon-knobs";
 import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import dedent from "dedent";
+import { html } from "../../tests/utils";
 const { dir, position, theme } = ATTRIBUTES;
 import { TEXT } from "./resources";
 
@@ -49,15 +49,15 @@ export const basic = (): string =>
   create(
     "calcite-action-pad",
     createAttributes(),
-    dedent`
-    <calcite-action-group>
-      <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
-      <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
-    </calcite-action-group>
-    <calcite-action-group>
-      <calcite-action text="Delete" label="Delete Item" icon="trash"></calcite-action>
-    </calcite-action-group>
-  `
+    html`
+      <calcite-action-group>
+        <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
+        <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Delete" label="Delete Item" icon="trash"></calcite-action>
+      </calcite-action-group>
+    `
   );
 
 export const withTooltip = (): DocumentFragment => {

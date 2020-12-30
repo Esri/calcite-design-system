@@ -1,9 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
-import { defaults, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-color-swatch", () => {
   it("renders", () => renders("calcite-color-swatch"));
+
+  it("is accessible", async () => {
+    await accessible("calcite-color-swatch");
+    await accessible(`<calcite-color-swatch active></calcite-color-swatch>`);
+    await accessible(`<calcite-color-swatch color='#c0ffee'></calcite-color-swatch>`);
+    await accessible(`<calcite-color-swatch active color='#c0ffee'></calcite-color-swatch>`);
+  });
 
   it("has defaults", () =>
     defaults("calcite-color-swatch", [
@@ -21,7 +28,7 @@ describe("calcite-color-swatch", () => {
       }
     ]));
 
-  describe("has accepts CSS color strings", () => {
+  describe("accepts CSS color strings", () => {
     it("supports rgb", async () => {
       const page = await newE2EPage({
         html: "<calcite-color-swatch color='rgb(255, 255, 255)'></calcite-color-swatch>"

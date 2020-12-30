@@ -38,29 +38,32 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Optionally include a unique name for the tab title,
-   * be sure to also set this name on the associated tab.
-   */
-  @Prop({ reflect: true }) tab?: string;
-
   /** Show this tab title as selected */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Disable this tab title  */
   @Prop({ reflect: true }) disabled = false;
 
-  /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconStart?: string;
-
   /** optionally pass an icon to display at the end of a tab title - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
+
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+
+  /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
+  @Prop({ reflect: true }) iconStart?: string;
 
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
 
   /** @internal Parent tabs component position value */
   @Prop({ reflect: true, mutable: true }) position: "above" | "below";
+
+  /**
+   * Optionally include a unique name for the tab title,
+   * be sure to also set this name on the associated tab.
+   */
+  @Prop({ reflect: true }) tab?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -75,7 +78,12 @@ export class CalciteTabTitle {
 
   disconnectedCallback(): void {
     this.observer.disconnect();
-    this.calciteTabTitleUnregister.emit();
+    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
+    document.body?.dispatchEvent(
+      new CustomEvent("calciteTabTitleUnregister", {
+        detail: this.el
+      })
+    );
   }
 
   componentWillLoad(): void {
@@ -93,21 +101,35 @@ export class CalciteTabTitle {
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
     const id = this.el.id || this.guid;
     const Tag = this.disabled ? "span" : "a";
 
     const iconStartEl = (
-      <calcite-icon class="calcite-tab-title--icon icon-start" icon={this.iconStart} scale="s" />
+      <calcite-icon
+        class="calcite-tab-title--icon icon-start"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale="s"
+      />
     );
 
     const iconEndEl = (
-      <calcite-icon class="calcite-tab-title--icon icon-end" icon={this.iconEnd} scale="s" />
+      <calcite-icon
+        class="calcite-tab-title--icon icon-end"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale="s"
+      />
     );
 
     return (
       <Host
         aria-controls={this.controls}
         aria-expanded={this.active.toString()}
+        dir={dir}
         hasText={this.hasText}
         id={id}
         role="tab"
@@ -132,9 +154,8 @@ export class CalciteTabTitle {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "body" }) tabChangeHandler(
-    event: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteTabChange", { target: "body" })
+  tabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     if (this.parentTabNavEl === event.target) {
       if (this.tab) {
         this.active = this.tab === event.detail.tab;
@@ -146,11 +167,13 @@ export class CalciteTabTitle {
     }
   }
 
-  @Listen("click") onClick(): void {
+  @Listen("click")
+  onClick(): void {
     this.emitActiveTab();
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     switch (getKey(e.key)) {
       case " ":
       case "Enter":
@@ -200,11 +223,6 @@ export class CalciteTabTitle {
    */
   @Event() calciteTabTitleRegister: EventEmitter<TabID>;
 
-  /**
-   * @internal
-   */
-  @Event() calciteTabTitleUnregister: EventEmitter;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -233,7 +251,8 @@ export class CalciteTabTitle {
   /**
    * @internal
    */
-  @Method() async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
+  @Method()
+  async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
   }
 

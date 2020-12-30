@@ -1,4 +1,4 @@
-@import "./node_modules/@esri/calcite-colors/colors.scss";
+@import "./node_modules/@esri/calcite-colors/dist/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
 /* CSS vars (@include in global) */
@@ -17,7 +17,7 @@
 
   --calcite-border-radius: 3px;
   --calcite-icon-size: 1rem;
-  --calcite-ui-opacity-disabled: 0.3;
+  --calcite-ui-opacity-disabled: 0.5;
 
   --calcite-ui-text-weight-light: 300;
   --calcite-ui-text-weight: 400;
@@ -46,7 +46,7 @@
   overflow: hidden;
 }
 
-[calcite-hydrated][aria-hidden="true"] {
+[calcite-hydrated-hidden] {
   visibility: hidden;
   pointer-events: none;
 }

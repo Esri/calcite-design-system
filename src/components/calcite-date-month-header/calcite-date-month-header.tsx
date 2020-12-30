@@ -66,7 +66,7 @@ export class CalciteDateMonthHeader {
   /**
    *  Changes to active date
    */
-  @Event() calciteActiveDateChange: EventEmitter<Date>;
+  @Event() calciteDateSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -88,21 +88,21 @@ export class CalciteDateMonthHeader {
     const suffix = this.localeData.year?.suffix;
     return (
       <Host dir={dir}>
-        <div aria-hidden="true" class="header">
+        <div class="header">
           <a
-            aria-disabled={nextMonthDate.getMonth() === activeMonth}
-            aria-label={this.intlNextMonth}
+            aria-disabled={(prevMonthDate.getMonth() === activeMonth).toString()}
+            aria-label={this.intlPrevMonth}
             class="chevron"
             href="#"
             onClick={(e) => this.handleArrowClick(e, prevMonthDate)}
             onKeyDown={(e) => this.handleKeyDown(e, prevMonthDate)}
             role="button"
-            tabindex="0"
+            tabindex={prevMonthDate.getMonth() === activeMonth ? -1 : 0}
           >
-            <calcite-icon dir={dir} icon="chevron-left" mirrored scale={iconScale} />
+            <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
           </a>
           <div class={{ text: true, "text--reverse": reverse }}>
-            <span class="month" role="heading">
+            <span aria-level="2" class="month" role="heading">
               {localizedMonth}
             </span>
             <span class="year-wrap">
@@ -132,16 +132,16 @@ export class CalciteDateMonthHeader {
             </span>
           </div>
           <a
-            aria-disabled={nextMonthDate.getMonth() === activeMonth}
+            aria-disabled={(nextMonthDate.getMonth() === activeMonth).toString()}
             aria-label={this.intlNextMonth}
             class="chevron"
             href="#"
             onClick={(e) => this.handleArrowClick(e, nextMonthDate)}
             onKeyDown={(e) => this.handleKeyDown(e, nextMonthDate)}
             role="button"
-            tabindex="0"
+            tabindex={nextMonthDate.getMonth() === activeMonth ? -1 : 0}
           >
-            <calcite-icon dir={dir} icon="chevron-right" mirrored scale={iconScale} />
+            <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
           </a>
         </div>
       </Host>
@@ -183,7 +183,7 @@ export class CalciteDateMonthHeader {
   private handleArrowClick(e: Event, date: Date) {
     e?.preventDefault();
     e.stopPropagation();
-    this.calciteActiveDateChange.emit(date);
+    this.calciteDateSelect.emit(date);
   }
 
   /*
@@ -213,7 +213,7 @@ export class CalciteDateMonthHeader {
       const nextDate = new Date(activeDate);
       nextDate.setFullYear(year as number);
       const inRangeDate = dateFromRange(nextDate, min, max);
-      this.calciteActiveDateChange.emit(inRangeDate);
+      this.calciteDateSelect.emit(inRangeDate);
       yearInput.value = localizeNumber(inRangeDate.getFullYear(), localeData);
     } else {
       // leave the current active date and clean up garbage input

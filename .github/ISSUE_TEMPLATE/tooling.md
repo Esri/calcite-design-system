@@ -2,7 +2,7 @@
 name: Tooling
 about: Request improvements to our component workflow.
 title: "Tooling: "
-labels: tooling 🛠️, 0 - new
+labels: tooling, 0 - new
 assignees: ""
 ---
 

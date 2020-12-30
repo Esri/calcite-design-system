@@ -85,9 +85,9 @@ export class CalcitePanel {
   @Prop({ reflect: true }) heightScale: CalciteScale;
 
   /**
-   * This sets width and max-width of the content area.
+   * This sets width of the panel.
    */
-  @Prop({ reflect: true }) widthScale: CalciteScale;
+  @Prop({ reflect: true }) widthScale?: CalciteScale;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -98,6 +98,11 @@ export class CalcitePanel {
    * 'Close' text string for the close button. The close button will only be shown when 'dismissible' is true.
    */
   @Prop() intlClose?: string;
+
+  /**
+   * 'Options' text string for the actions menu.
+   */
+  @Prop() intlOptions?: string = TEXT.options;
 
   /**
    * Used to set the component's color scheme.
@@ -127,6 +132,8 @@ export class CalcitePanel {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalcitePanelElement;
+
+  backButtonEl: HTMLCalciteActionElement;
 
   dismissButtonEl: HTMLCalciteActionElement;
 
@@ -174,6 +181,10 @@ export class CalcitePanel {
 
   setDismissRef = (node: HTMLCalciteActionElement): void => {
     this.dismissButtonEl = node;
+  };
+
+  setBackRef = (node: HTMLCalciteActionElement): void => {
+    this.backButtonEl = node;
   };
 
   panelKeyUpHandler = (event: KeyboardEvent): void => {
@@ -285,9 +296,14 @@ export class CalcitePanel {
   // --------------------------------------------------------------------------
 
   @Method()
-  async setFocus(focusId?: "dismiss-button"): Promise<void> {
+  async setFocus(focusId?: "dismiss-button" | "back-button"): Promise<void> {
     if (focusId === "dismiss-button") {
       this.dismissButtonEl?.setFocus();
+      return;
+    }
+
+    if (focusId === "back-button") {
+      this.backButtonEl?.setFocus();
       return;
     }
 
@@ -315,6 +331,7 @@ export class CalcitePanel {
         icon={icon}
         key="back-button"
         onClick={backButtonClick}
+        ref={this.setBackRef}
         scale="s"
         slot={SLOTS.headerActionsStart}
         text={label}
@@ -324,7 +341,7 @@ export class CalcitePanel {
 
   renderHeaderContent(): VNode {
     const { heading, summary } = this;
-    const headingNode = heading ? <h4 class={CSS.heading}>{heading}</h4> : null;
+    const headingNode = heading ? <h3 class={CSS.heading}>{heading}</h3> : null;
     const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
 
     return headingNode || summaryNode ? (
@@ -388,12 +405,13 @@ export class CalcitePanel {
   }
 
   renderMenuItems(): VNode {
-    const { menuOpen, menuButtonEl } = this;
+    const { menuOpen, menuButtonEl, intlOptions } = this;
 
     return (
       <calcite-popover
         disablePointer={true}
         flipPlacements={["bottom-end", "top-end"]}
+        label={intlOptions}
         offsetDistance={0}
         onKeyDown={this.menuActionsKeydown}
         open={menuOpen}

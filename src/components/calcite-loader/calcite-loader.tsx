@@ -25,6 +25,9 @@ export class CalciteLoader {
   /** Inline loaders are smaller and will appear to the left of the text */
   @Prop({ reflect: true }) inline = false;
 
+  /** Accessible name for the component */
+  @Prop() label!: string;
+
   /** Speficy the scale of the loader. Defaults to "m" */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
@@ -47,7 +50,7 @@ export class CalciteLoader {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, inline, scale, text, type, value } = this;
+    const { el, inline, label, scale, text, type, value } = this;
 
     const id = el.id || guid();
     const radiusRatio = 0.45;
@@ -68,7 +71,12 @@ export class CalciteLoader {
     const svgAttributes = { r: radius, cx: size / 2, cy: size / 2 };
     const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
     return (
-      <Host id={id} role="progressbar" {...(isDeterminate ? hostAttributes : {})}>
+      <Host
+        aria-label={label}
+        id={id}
+        role="progressbar"
+        {...(isDeterminate ? hostAttributes : {})}
+      >
         <div class="loader__svgs">
           <svg class="loader__svg loader__svg--1" viewBox={viewbox}>
             <circle {...svgAttributes} />

@@ -1,4 +1,4 @@
-name: "main"
+name: "Move issues/PRs to next milestone"
 on:
   release:
     types: [released]
@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: move to next milestone
-        uses: jcfranco/actions-milestone-sync@aaae6dbebbc68e210ba7cfe31aa588c2c56602bc
+        uses: jcfranco/actions-milestone-sync@45fb8180b4ec0f176a26379ae7528b3fffdccf09
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
 

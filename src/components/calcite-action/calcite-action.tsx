@@ -2,7 +2,7 @@ import { Component, Element, Host, Method, Prop, h, forceUpdate } from "@stencil
 
 import { CalciteAppearance, CalciteScale, CalciteTheme } from "../interfaces";
 
-import { CSS } from "./resources";
+import { CSS, TEXT } from "./resources";
 
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -50,6 +50,9 @@ export class CalciteAction {
    * Indicates unread changes.
    */
   @Prop({ reflect: true }) indicator = false;
+
+  /** string to override English loading text */
+  @Prop() intlLoading?: string = TEXT.loading;
 
   /**
    * Label of the action, exposed on hover. If no label is provided, the label inherits what's provided for the `text` prop.
@@ -140,9 +143,11 @@ export class CalciteAction {
   }
 
   renderIconContainer(): VNode {
-    const { loading, icon, scale, el } = this;
+    const { loading, icon, scale, el, intlLoading } = this;
     const iconScale = scale === "l" ? "m" : "s";
-    const calciteLoaderNode = loading ? <calcite-loader active inline scale={iconScale} /> : null;
+    const calciteLoaderNode = loading ? (
+      <calcite-loader active inline label={intlLoading} scale={iconScale} />
+    ) : null;
     const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;

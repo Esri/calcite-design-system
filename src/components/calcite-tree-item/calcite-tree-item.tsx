@@ -61,14 +61,18 @@ export class CalciteTreeItem {
 
   componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
+    this.depth = 0;
+    this.el.dir = getElementDir(this.el);
 
     let parentTree = this.el.closest("calcite-tree");
 
+    if (!parentTree) {
+      return;
+    }
+
     this.selectionMode = parentTree.selectionMode;
-    this.depth = 0;
-    this.scale = (parentTree && parentTree.scale) || "m";
-    this.lines = parentTree && parentTree.lines;
-    this.el.dir = getElementDir(this.el);
+    this.scale = parentTree.scale || "m";
+    this.lines = parentTree.lines;
 
     let nextParentTree;
     while (parentTree) {
@@ -93,11 +97,12 @@ export class CalciteTreeItem {
       />
     ) : null;
 
+    const hidden = !(this.parentExpanded || this.depth === 1);
+
     return (
       <Host
         aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
-        aria-hidden={this.parentExpanded || this.depth === 1 ? undefined : "true"}
-        aria-role="treeitem"
+        aria-hidden={hidden.toString()}
         aria-selected={
           this.selected
             ? "true"
@@ -106,6 +111,8 @@ export class CalciteTreeItem {
             ? "false"
             : undefined
         }
+        calcite-hydrated-hidden={hidden}
+        role="treeitem"
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
         <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>

@@ -1,12 +1,32 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-import { defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
-import { CSS } from "./resources";
+import { CSS, POPOVER_REFERENCE } from "./resources";
 
 describe("calcite-popover", () => {
-  it("renders", async () =>
-    renders(`<calcite-popover open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+  it("renders", async () => {
+    await renders("calcite-popover", false);
+    await renders(
+      `<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+    );
+  });
+
+  it("is accessible when closed", async () =>
+    accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+
+  it("is accessible when open", async () =>
+    accessible(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+
+  it("is accessible with close button", async () =>
+    accessible(
+      `<calcite-popover label="test" open close-button reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+    ));
+
+  it("is accessible with image", async () =>
+    accessible(
+      `<calcite-popover label="test" placement="auto" reference-element="ref" open><img alt="" slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
+    ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
 
@@ -214,7 +234,7 @@ describe("calcite-popover", () => {
     expect(event).toHaveReceivedEventTimes(1);
   });
 
-  it("guid id should match referenceElement's aria-describedby", async () => {
+  it("guid id should match referenceElement's referenceId", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-popover open></calcite-popover>`);
@@ -234,12 +254,12 @@ describe("calcite-popover", () => {
     const referenceElement = await page.find("div");
 
     const id = element.getAttribute("id");
-    const describedby = referenceElement.getAttribute("aria-describedby");
+    const referenceId = referenceElement.getAttribute(POPOVER_REFERENCE);
 
-    expect(id).toEqual(describedby);
+    expect(id).toEqual(referenceId);
   });
 
-  it("user defined id should match referenceElement's aria-describedby", async () => {
+  it("user defined id should match referenceElement's referenceId", async () => {
     const page = await newE2EPage();
 
     const userDefinedId = "user-defined-id";
@@ -261,9 +281,9 @@ describe("calcite-popover", () => {
     const referenceElement = await page.find("div");
 
     const id = element.getAttribute("id");
-    const describedby = referenceElement.getAttribute("aria-describedby");
+    const referenceId = referenceElement.getAttribute(POPOVER_REFERENCE);
 
     expect(id).toEqual(userDefinedId);
-    expect(describedby).toEqual(userDefinedId);
+    expect(referenceId).toEqual(userDefinedId);
   });
 });

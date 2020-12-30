@@ -1,0 +1,110 @@
+:host([scale="s"]) {
+  --calcite-rating-spacing-unit: theme("spacing.1");
+}
+
+:host {
+  --calcite-rating-spacing-unit: theme("spacing.2");
+}
+
+:host([scale="l"]) {
+  --calcite-rating-spacing-unit: theme("spacing.3");
+}
+
+:host {
+  @apply flex items-center relative;
+  width: fit-content;
+}
+
+:host([disabled]) {
+  @apply pointer-events-none opacity-50;
+}
+
+:host([read-only]) {
+  @apply pointer-events-none;
+}
+
+.fieldset {
+  @apply p-0 m-0 border-0 inline-block;
+}
+
+.wrapper {
+  margin-right: var(--calcite-rating-spacing-unit);
+}
+
+:host([dir="rtl"]) .wrapper {
+  margin-right: 0;
+  margin-left: var(--calcite-rating-spacing-unit);
+}
+
+.star {
+  @include focus-style-base();
+  @apply relative inline-block;
+  color: var(--calcite-ui-border-1);
+  transition: $transition;
+  transform: scale(1);
+  cursor: pointer;
+  &:active {
+    transform: scale(1.1);
+  }
+}
+
+.focused {
+  @include focus-style-outset();
+}
+
+.average,
+.fraction {
+  color: var(--calcite-ui-yellow-1);
+}
+
+.hovered,
+.selected,
+:host([read-only]) .average,
+:host([read-only]) .fraction {
+  color: var(--calcite-ui-blue-1);
+}
+
+.hovered:not(.selected) {
+  transform: scale(0.9);
+}
+
+:host .fraction {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  transition: $transition;
+}
+
+:host([dir="rtl"]) .fraction {
+  right: 0;
+  left: unset;
+}
+
+// rating count
+calcite-chip {
+  cursor: default;
+  pointer-events: none;
+}
+
+.number--average {
+  font-weight: 700;
+}
+
+.number--count {
+  font-style: italic;
+  color: var(--calcite-ui-text-2);
+  &:not(:first-child) {
+    margin-left: var(--calcite-rating-spacing-unit);
+  }
+}
+
+:host([dir="rtl"]) .number--count:not(:first-child) {
+  margin-right: var(--calcite-rating-spacing-unit);
+  margin-left: 0;
+}
+
+.visually-hidden {
+  @apply sr-only;
+}

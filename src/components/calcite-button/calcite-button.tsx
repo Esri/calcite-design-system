@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
-
+import { CSS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 
 @Component({
@@ -37,17 +37,29 @@ export class CalciteButton {
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  /** optionally add a floating style to the button - this should be positioned fixed or sticky */
-  @Prop({ reflect: true }) floating?: boolean = false;
-
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
+
+  /** string to override English loading text */
+  @Prop() intlLoading?: string = TEXT.loading;
+
+  /** optionally specify alignment of button elements. */
+  @Prop({ reflect: true }) alignment?:
+    | "start"
+    | "end"
+    | "center"
+    | "space-between"
+    | "icon-start-space-between"
+    | "icon-end-space-between" = "center";
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
@@ -57,6 +69,9 @@ export class CalciteButton {
 
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /** is the button a child of a calcite-split-button */
+  @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: "light" | "dark";
@@ -93,8 +108,8 @@ export class CalciteButton {
     const Tag = this.childElType;
 
     const loader = (
-      <div class="calcite-button--loader">
-        <calcite-loader active inline />
+      <div class={CSS.buttonLoader}>
+        <calcite-loader active inline label={this.intlLoading} />
       </div>
     );
 
@@ -102,14 +117,28 @@ export class CalciteButton {
 
     const iconStartEl = (
       <calcite-icon
-        class="calcite-button--icon icon-start"
+        class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={iconScale}
       />
     );
 
     const iconEndEl = (
-      <calcite-icon class="calcite-button--icon icon-end" icon={this.iconEnd} scale={iconScale} />
+      <calcite-icon
+        class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale={iconScale}
+      />
+    );
+
+    const contentEl = (
+      <span class={CSS.content}>
+        <slot />
+      </span>
     );
 
     return (
@@ -117,13 +146,13 @@ export class CalciteButton {
         <Tag
           {...attributes}
           disabled={this.disabled}
-          onClick={(e) => this.handleClick(e)}
+          onClick={this.handleClick}
           ref={(el) => (this.childEl = el)}
           tabIndex={this.disabled ? -1 : null}
         >
           {this.loading ? loader : null}
           {this.iconStart ? iconStartEl : null}
-          <slot />
+          {this.hasText ? contentEl : null}
           {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>
@@ -185,6 +214,7 @@ export class CalciteButton {
       "icon-start",
       "icon-end",
       "id",
+      "splitChild",
       "loading",
       "scale",
       "slot",

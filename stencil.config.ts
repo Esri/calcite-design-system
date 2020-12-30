@@ -2,6 +2,7 @@ import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
+import tailwind from "tailwindcss";
 import { generatePreactTypes } from "./support/preact";
 
 export const create: () => Config = () => ({
@@ -13,6 +14,7 @@ export const create: () => Config = () => ({
       components: ["calcite-action", "calcite-action-group", "calcite-action-bar", "calcite-action-pad"]
     },
     { components: ["calcite-alert"] },
+    { components: ["calcite-avatar"] },
     {
       components: ["calcite-block", "calcite-block-section"]
     },
@@ -36,13 +38,16 @@ export const create: () => Config = () => ({
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
+    { components: ["calcite-fab"] },
     {
       components: ["calcite-panel", "calcite-flow"]
     },
     { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
+    { components: ["calcite-rating"] },
     { components: ["calcite-scrim"] },
+    { components: ["calcite-select", "calcite-option", "calcite-option-group"] },
     {
       components: ["calcite-shell", "calcite-shell-panel"]
     },
@@ -68,13 +73,7 @@ export const create: () => Config = () => ({
       type: "www",
       baseUrl: "https://stenciljs.com/",
       prerenderConfig: "./prerender.config.ts",
-      copy: [
-        { src: "demos", dest: "demos" },
-        {
-          src: "../node_modules/dedent/dist",
-          dest: "vendor/dedent"
-        }
-      ],
+      copy: [{ src: "demos", dest: "demos" }],
       serviceWorker: {
         unregister: true
       }
@@ -86,7 +85,7 @@ export const create: () => Config = () => ({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [autoprefixer()]
+      plugins: [tailwind(), autoprefixer()]
     })
   ],
   testing: {

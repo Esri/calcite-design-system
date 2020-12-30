@@ -5,17 +5,22 @@ import {
   selectionAndDeselection,
   filterBehavior,
   disabledStates,
-  keyboardNavigation
+  keyboardNavigation,
+  itemRemoval
 } from "../calcite-pick-list/shared-list-tests";
-import { dragAndDrop } from "../../tests/utils";
+import { dragAndDrop, html } from "../../tests/utils";
 
 describe("calcite-value-list", () => {
-  it("renders", async () => renders("calcite-value-list"));
+  it("renders", () => renders("calcite-value-list"));
+
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
-  it("is accessible", async () =>
-    accessible(
-      `<calcite-value-list><calcite-value-list-item label="Sample" value="one"></calcite-value-list-item></calcite-value-list>`
-    ));
+
+  it("is accessible", () =>
+    accessible(html`
+      <calcite-value-list>
+        <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
+      </calcite-value-list>
+    `));
 
   describe("Selection and Deselection", () => {
     selectionAndDeselection("value");
@@ -24,7 +29,7 @@ describe("calcite-value-list", () => {
   describe("Keyboard navigation", () => keyboardNavigation("value"));
 
   describe("icon logic", () => {
-    it("should be 'grip' when in `configuration` mode drag and drop is enabled ", async () => {
+    it("should be 'grip' when in `configuration` mode drag and drop is enabled", async () => {
       const page = await newE2EPage({
         html: `<calcite-value-list drag-enabled>
         <calcite-value-list-item value="one"></calcite-value-list-item>
@@ -51,6 +56,8 @@ describe("calcite-value-list", () => {
   describe("filter behavior (hide/show items)", () => {
     filterBehavior("value");
   });
+
+  describe("item removal", () => itemRemoval("value"));
 
   describe("disabled states", () => {
     disabledStates("value");

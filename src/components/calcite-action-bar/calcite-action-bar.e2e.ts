@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html } from "../../tests/utils";
 
 describe("calcite-action-bar", () => {
   it("renders", async () => renders("calcite-action-bar"));
@@ -151,4 +152,19 @@ describe("calcite-action-bar", () => {
       </calcite-action-group>
     </calcite-action-bar>
     `));
+
+  it("should focus on toggle button", async () =>
+    focusable(
+      html`
+        <calcite-action-bar>
+          <calcite-action-group>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+      `,
+      {
+        focusId: "expand-toggle",
+        focusTargetSelector: "calcite-action-bar"
+      }
+    ));
 });

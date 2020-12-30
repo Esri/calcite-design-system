@@ -4,9 +4,7 @@
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    padding: 8px;
-    font-size: 12px;
-    height: 32px;
+    @apply text--2 p-2 h-8;
   }
   & textarea {
     min-height: 32px;
@@ -14,11 +12,15 @@
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
   & .calcite-input-action-wrapper calcite-button button {
-    height: 32px;
+    @apply h-8;
   }
   & textarea,
   & input[type="file"] {
-    height: auto;
+    @apply h-auto;
+  }
+  & .calcite-input-clear-button {
+    min-height: 32px;
+    min-width: 32px;
   }
 }
 
@@ -27,8 +29,7 @@
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    padding: 12px;
-    font-size: 16px;
+    @apply text--1 p-3;
     height: 44px;
   }
   & textarea {
@@ -41,7 +42,11 @@
   }
   & textarea,
   & input[type="file"] {
-    height: auto;
+    @apply h-auto;
+  }
+  & .calcite-input-clear-button {
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 
@@ -50,8 +55,7 @@
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    padding: 16px;
-    font-size: 20px;
+    @apply text-1 p-4;
     height: 56px;
   }
   & textarea {
@@ -66,6 +70,10 @@
   & input[type="file"] {
     height: auto;
   }
+  & .calcite-input-clear-button {
+    min-height: 56px;
+    min-width: 56px;
+  }
 }
 
 // disabled styles
@@ -73,7 +81,7 @@
   pointer-events: none;
 
   & .calcite-input-wrapper {
-    opacity: 0.4;
+    opacity: var(--calcite-ui-opacity-disabled);
     pointer-events: none;
   }
   & textarea,
@@ -229,10 +237,10 @@ input[type="time"]::-webkit-clear-button {
   display: flex;
   align-self: stretch;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   cursor: pointer;
   min-height: 100%;
-  padding: 0 $baseline/2;
   border: 1px solid var(--calcite-ui-border-1);
   transition: $transition;
   pointer-events: initial;
@@ -245,6 +253,16 @@ input[type="time"]::-webkit-clear-button {
   }
   &:active {
     background-color: var(--calcite-ui-foreground-3);
+  }
+  &:disabled {
+    opacity: var(--calcite-ui-opacity-disabled);
+  }
+}
+
+:host([dir="rtl"]) {
+  .calcite-input-clear-button {
+    border-left: 1px solid var(--calcite-ui-border-1);
+    border-right: none;
   }
 }
 
@@ -530,6 +548,10 @@ input[type="time"]::-webkit-clear-button {
     background-color: $blk-005;
     text-align: center;
   }
+}
+
+:host(.no-bottom-border) input.sc-calcite-input {
+  border-bottom: none;
 }
 
 // status

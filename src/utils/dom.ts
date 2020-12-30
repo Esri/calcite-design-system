@@ -109,12 +109,25 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
 }
 
-export function getDescribedByElement<T extends Element>(element: Element): T | HTMLElement | null {
-  const id = element?.getAttribute("aria-describedby");
+export function getElementByAttributeId<T extends Element>(element: Element, attrName: string): T | HTMLElement | null {
+  const id = element?.getAttribute(attrName);
 
   return (id && document.getElementById(id)) || null;
 }
 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
   return labelEl.contains(el);
+}
+
+// set a default icon from a defined set or allow an override with an icon name string
+export function setRequestedIcon(
+  iconObject: Record<string, string>,
+  iconValue: string | boolean,
+  matchedValue: string
+): string {
+  if (typeof iconValue === "string" && iconValue !== "") {
+    return iconValue;
+  } else if (iconValue === "") {
+    return iconObject[matchedValue];
+  }
 }

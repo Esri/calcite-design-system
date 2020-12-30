@@ -12,9 +12,18 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { queryShadowRoot, isHidden, isFocusable } from "@a11y/focus-trap";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, CalciteFocusableElement, focusElement } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
+import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
+
+function isCalciteFocusable(el: CalciteFocusableElement): boolean {
+  return typeof el.setFocus === "function" || isFocusable(el);
+}
+
+function getFocusableElements(el: HTMLElement): HTMLElement[] {
+  return queryShadowRoot(el, isHidden, isCalciteFocusable);
+}
 
 @Component({
   tag: "calcite-modal",
@@ -89,6 +98,10 @@ export class CalciteModal {
     }
   }
 
+  disconnectedCallback(): void {
+    this.removeOverflowHiddenClass();
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
@@ -96,7 +109,7 @@ export class CalciteModal {
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
         <div class="modal">
-          <div data-focus-fence="true" onFocus={this.focusLastElement.bind(this)} tabindex="0" />
+          <div data-focus-fence="true" onFocus={this.focusLastElement} tabindex="0" />
           <div class="modal__header">
             {this.renderCloseButton()}
             <header class="modal__title">
@@ -113,7 +126,7 @@ export class CalciteModal {
             <slot name="content" />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence="true" onFocus={this.focusFirstElement.bind(this)} tabindex="0" />
+          <div data-focus-fence="true" onFocus={this.focusFirstElement} tabindex="0" />
         </div>
       </Host>
     );
@@ -140,7 +153,7 @@ export class CalciteModal {
       <button
         aria-label={this.intlClose}
         class="modal__close"
-        onClick={() => this.close()}
+        onClick={this.close}
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
       >
@@ -182,14 +195,26 @@ export class CalciteModal {
 
   //--------------------------------------------------------------------------
   //
+  //  Variables
+  //
+  //--------------------------------------------------------------------------
+  @State() isActive: boolean;
+
+  previousActiveElement: HTMLElement;
+
+  closeButtonEl: HTMLButtonElement;
+
+  modalContent: HTMLDivElement;
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("keyup", { target: "window" }) handleEscape(e: KeyboardEvent): void {
+  @Listen("keyup", { target: "window" })
+  handleEscape(e: KeyboardEvent): void {
     if (this.active && !this.disableEscape && getKey(e.key) === "Escape") {
-      this.beforeClose(this.el).then(() => {
-        this.active = false;
-      });
+      this.close();
     }
   }
 
@@ -210,21 +235,23 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   /** Focus first interactive element */
-  @Method() async focusElement(el?: HTMLElement): Promise<void> {
+  @Method()
+  async focusElement(el?: HTMLElement): Promise<void> {
     if (el) {
-      el.focus();
+      focusElement(el);
       return;
     }
-    const focusableElements = queryShadowRoot(this.el, isHidden, isFocusable);
+    const focusableElements = getFocusableElements(this.el);
     if (focusableElements.length > 0) {
-      focusableElements[0].focus();
+      focusElement(focusableElements[0]);
     } else {
-      this.closeButtonEl?.focus();
+      focusElement(this.closeButtonEl);
     }
   }
 
   /** Set the scroll top of the modal content */
-  @Method() async scrollContent(top = 0, left = 0): Promise<void> {
+  @Method()
+  async scrollContent(top = 0, left = 0): Promise<void> {
     if (this.modalContent) {
       if (this.modalContent.scrollTo) {
         this.modalContent.scrollTo({ top, left, behavior: "smooth" });
@@ -240,7 +267,8 @@ export class CalciteModal {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  @Watch("active") async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
+  @Watch("active")
+  async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
       if (value) {
         this.open();
@@ -263,40 +291,32 @@ export class CalciteModal {
   }
 
   /** Close the modal, first running the `beforeClose` method */
-  private close() {
+  close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
+      this.active = false;
       this.isActive = false;
-      this.previousActiveElement?.focus();
-      document.documentElement.classList.remove("overflow-hidden");
+      focusElement(this.previousActiveElement);
+      this.removeOverflowHiddenClass();
       setTimeout(() => this.calciteModalClose.emit(), 300);
     });
-  }
+  };
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-  @State() isActive: boolean;
+  focusFirstElement = (): void => {
+    focusElement(this.closeButtonEl);
+  };
 
-  private previousActiveElement: HTMLElement;
-
-  private closeButtonEl: HTMLButtonElement;
-
-  private modalContent: HTMLDivElement;
-
-  private focusFirstElement() {
-    this.closeButtonEl?.focus();
-  }
-
-  private focusLastElement() {
-    const focusableElements = queryShadowRoot(this.el, isHidden, isFocusable).filter(
+  focusLastElement = (): void => {
+    const focusableElements = getFocusableElements(this.el).filter(
       (el) => !el.getAttribute("data-focus-fence")
     );
     if (focusableElements.length > 0) {
-      focusableElements[focusableElements.length - 1].focus();
+      focusElement(focusableElements[focusableElements.length - 1]);
     } else {
-      this.closeButtonEl?.focus();
+      focusElement(this.closeButtonEl);
     }
+  };
+
+  private removeOverflowHiddenClass(): void {
+    document.documentElement.classList.remove("overflow-hidden");
   }
 }

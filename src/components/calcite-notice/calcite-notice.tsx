@@ -7,11 +7,14 @@ import {
   Host,
   Method,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 
-import { TEXT } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import { TEXT } from "./calcite-notice.resources";
+import { CalciteStatusColor, CalciteScale, CalciteTheme, CalciteWidth } from "../interfaces";
+import { StatusIcons } from "../../interfaces/StatusIcons";
+import { getElementDir, setRequestedIcon } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
@@ -49,31 +52,41 @@ export class CalciteNotice {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Color for the notice (will apply to top border and icon) */
-  @Prop({ reflect: true }) color: "blue" | "green" | "red" | "yellow" = "blue";
+  @Prop({ reflect: true }) color: CalciteStatusColor = "blue";
 
   /** Optionally show a button the user can click to dismiss the notice */
   @Prop({ reflect: true }) dismissible?: boolean = false;
 
-  /** If false, no icon will be shown in the notice */
-  @Prop() icon = false;
+  /** when used as a boolean set to true, show a default recommended icon. You can
+   * also pass a calcite-ui-icon name to this prop to display a requested icon */
+  @Prop({ reflect: true }) icon: string | boolean;
 
   /** String for the close button. */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
   /** specify the scale of the notice, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: CalciteScale = "m";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: CalciteTheme;
 
-  /** specify the width of the notice, defaults to m */
-  @Prop({ reflect: true }) width: "auto" | "half" | "full" = "auto";
+  /** specify the width of the notice, defaults to auto */
+  @Prop({ reflect: true }) width: CalciteWidth = "auto";
 
+  @Watch("icon")
+  @Watch("color")
+  updateRequestedIcon(): void {
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  }
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  }
 
   componentDidLoad(): void {
     this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
@@ -94,7 +107,11 @@ export class CalciteNotice {
 
     return (
       <Host active={this.active} dir={dir}>
-        {this.icon ? this.renderIcon() : null}
+        {this.requestedIcon ? (
+          <div class="notice-icon">
+            <calcite-icon icon={this.requestedIcon} scale="m" />
+          </div>
+        ) : null}
         <div class="notice-content">
           <slot name="notice-title" />
           <slot name="notice-message" />
@@ -159,19 +176,6 @@ export class CalciteNotice {
   /** the notice link child element  */
   private noticeLinkEl?: HTMLCalciteLinkElement;
 
-  private iconDefaults = {
-    green: "checkCircle",
-    yellow: "exclamationMarkTriangle",
-    red: "exclamationMarkTriangle",
-    blue: "lightbulb"
-  };
-
-  private renderIcon(): VNode {
-    const path = this.iconDefaults[this.color];
-    return (
-      <div class="notice-icon">
-        <calcite-icon icon={path} scale="m" />
-      </div>
-    );
-  }
+  /** the computed icon to render */
+  private requestedIcon?: string;
 }

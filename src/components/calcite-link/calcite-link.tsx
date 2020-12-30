@@ -1,17 +1,17 @@
 import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
-
-@Component({
-  tag: "calcite-link",
-  styleUrl: "calcite-link.scss",
-  shadow: true
-})
+import { focusElement, getElementDir } from "../../utils/dom";
 
 /** @slot default text slot for link text */
 
 /** Any attributes placed on <calcite-link> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission */
+
+@Component({
+  tag: "calcite-link",
+  styleUrl: "calcite-link.scss",
+  shadow: true
+})
 export class CalciteLink {
   //--------------------------------------------------------------------------
   //
@@ -27,9 +27,6 @@ export class CalciteLink {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the color of the link, defaults to blue */
-  @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
-
   /** is the link disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
@@ -38,6 +35,9 @@ export class CalciteLink {
 
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
+
+  /** flip the icon(s) in rtl */
+  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
 
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
@@ -60,25 +60,38 @@ export class CalciteLink {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+
+    const iconStartEl = (
+      <calcite-icon
+        class="calcite-link--icon icon-start"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale="s"
+      />
+    );
+
+    const iconEndEl = (
+      <calcite-icon
+        class="calcite-link--icon icon-end"
+        dir={dir}
+        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
+        icon={this.iconEnd}
+        scale="s"
+      />
+    );
+
     const attributes = this.getAttributes();
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
     const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
 
-    const iconStartEl = (
-      <calcite-icon class="calcite-link--icon icon-start" icon={this.iconStart} scale="s" />
-    );
-
-    const iconEndEl = (
-      <calcite-icon class="calcite-link--icon icon-end" icon={this.iconEnd} scale="s" />
-    );
-
     return (
-      <Host dir={dir}>
+      <Host dir={dir} role="presentation">
         <Tag
           {...attributes}
           href={Tag === "a" && this.href}
-          ref={(el) => (this.childEl = el)}
+          ref={this.storeTagRef}
           role={role}
           tabIndex={tabIndex}
         >
@@ -98,7 +111,7 @@ export class CalciteLink {
 
   @Method()
   async setFocus(): Promise<void> {
-    this.childEl.focus();
+    focusElement(this.childEl);
   }
 
   //--------------------------------------------------------------------------
@@ -108,16 +121,26 @@ export class CalciteLink {
   //--------------------------------------------------------------------------
 
   /** the rendered child element */
-  private childEl?: HTMLElement;
+  private childEl: HTMLAnchorElement | HTMLSpanElement;
 
   /** the node type of the rendered child element */
-  private childElType?: "a" | "span" = "span";
+  private childElType: "a" | "span" = "span";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
 
   private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
-    const props = ["color", "dir", "icon", "icon-position", "id", "theme"];
+    const props = ["dir", "icon-end", "icon-start", "id", "theme", "user-select"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
+
+  private storeTagRef = (el: CalciteLink["childEl"]): void => {
+    this.childEl = el;
+  };
 }
