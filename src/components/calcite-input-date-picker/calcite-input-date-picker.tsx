@@ -132,17 +132,6 @@ export class CalciteInputDatePicker {
       : this.createPopper();
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * In range mode, indicates which input was is focused on
-   */
-  @State() focusedInput: "start" | "end" = "start";
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -272,39 +261,38 @@ export class CalciteInputDatePicker {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  private endInput: HTMLCalciteInputElement;
+  /**
+   * In range mode, indicates which input was is focused on
+   */
+  @State() focusedInput: "start" | "end" = "start";
 
   @State() private localeData: DateLocaleData;
+
+  private endInput: HTMLCalciteInputElement;
 
   private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
   private popper: Popper;
 
-  @State() private menuEl: HTMLDivElement;
+  private menuEl: HTMLDivElement;
 
-  @State() private referenceEl: HTMLDivElement;
+  private referenceEl: HTMLDivElement;
 
-  @Watch("menuEl")
-  @Watch("referenceEl")
-  handlePopperElements(): void {
-    this.createPopper();
-  }
+  private startWrapper: HTMLDivElement;
 
-  @State() private startWrapper: HTMLDivElement;
-
-  @State() private endWrapper: HTMLDivElement;
+  private endWrapper: HTMLDivElement;
 
   @Watch("layout")
   @Watch("focusedInput")
-  @Watch("endWrapper")
-  @Watch("startWrapper")
-  handleWrappers(): void {
+  setReferenceEl(): void {
     const { focusedInput, layout, endWrapper, startWrapper } = this;
 
     this.referenceEl =
       focusedInput === "end" || layout === "vertical"
         ? endWrapper || startWrapper
         : startWrapper || endWrapper;
+
+    this.createPopper();
   }
 
   //--------------------------------------------------------------------------
@@ -340,15 +328,18 @@ export class CalciteInputDatePicker {
   setMenuEl = (el: HTMLDivElement): void => {
     if (el) {
       this.menuEl = el;
+      this.createPopper();
     }
   };
 
   setStartWrapper = (el: HTMLDivElement): void => {
     this.startWrapper = el;
+    this.setReferenceEl();
   };
 
   setEndWrapper = (el: HTMLDivElement): void => {
     this.endWrapper = el;
+    this.setReferenceEl();
   };
 
   getModifiers(): Partial<StrictModifiers>[] {
@@ -482,6 +473,7 @@ export class CalciteInputDatePicker {
     if (this.range) {
       return;
     }
+
     this.valueAsDate = event.detail;
 
     if (event.detail) {
