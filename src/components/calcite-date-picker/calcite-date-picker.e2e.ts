@@ -39,7 +39,7 @@ describe("calcite-date-picker", () => {
     await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(0);
     const value = await date.getProperty("value");
-    expect(value).toEqual("2001-11-27");
+    expect(value).toEqual("2000-11-27");
     await page.keyboard.press("ArrowDown");
     const value2 = await date.getProperty("value");
     expect(value2).toEqual("2000-11-27");
