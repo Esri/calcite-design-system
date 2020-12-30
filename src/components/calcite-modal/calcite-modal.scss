@@ -68,6 +68,7 @@
   border-radius: var(--calcite-border-radius);
   margin: $baseline;
   width: 100%;
+  @apply rounded;
 }
 
 // focus styles
