@@ -246,7 +246,6 @@ export class CalciteDatePicker {
     const date = new Date(e.detail);
     if (!this.range) {
       this.activeDate = date;
-      this.handleDateChange(e);
     } else {
       if (this.activeRange === "start") {
         this.activeStartDate = date;
@@ -329,10 +328,6 @@ export class CalciteDatePicker {
     }
   };
 
-  monthSelectChange = (e: CustomEvent<Date>): void => {
-    this.handleDateChange(e, true);
-  };
-
   /**
    * Render calcite-date-picker-month-header and calcite-date-picker-month
    */
@@ -369,7 +364,7 @@ export class CalciteDatePicker {
           onCalciteActiveDateChange={this.monthActiveDateChange}
           onCalciteDatePickerHover={this.monthHoverChange}
           onCalciteDatePickerMouseOut={this.monthMouseOutChange}
-          onCalciteDatePickerSelect={this.monthSelectChange}
+          onCalciteDatePickerSelect={this.monthDateChange}
           scale={this.scale}
           selectedDate={this.activeRange === "start" ? date : endDate}
           startDate={this.range ? date : undefined}
@@ -412,14 +407,12 @@ export class CalciteDatePicker {
   /**
    * Event handler for when the selected date changes
    */
-  private handleDateChange(e: CustomEvent<Date>, doReset?: boolean) {
+  private monthDateChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
     if (!this.range) {
       this.value = dateToISO(date);
       this.activeDate = date;
-      if (doReset) {
-        this.reset();
-      }
+      this.reset();
       return;
     }
 
@@ -458,9 +451,7 @@ export class CalciteDatePicker {
           this.endAsDate = this.activeEndDate = this.end = undefined;
         }
       }
-      if (doReset) {
-        this.reset();
-      }
+      this.reset();
       return;
     }
 
@@ -474,10 +465,8 @@ export class CalciteDatePicker {
       this.activeEndDate = date;
     }
 
-    if (doReset) {
-      this.reset();
-    }
-  }
+    this.reset();
+  };
 
   /**
    * Get an active date using the value, or current date as default

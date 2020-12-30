@@ -101,7 +101,7 @@ export class CalciteInputDatePicker {
   //--------------------------------------------------------------------------
 
   /**
-   * Blur doesn't fire properly when there is no shadow dom (ege/IE11)
+   * Blur doesn't fire properly when there is no shadow dom (Edge/IE11)
    * Check if the focused element is inside the date picker, if not close
    */
   @Listen("focusin", { target: "window" })
@@ -261,9 +261,7 @@ export class CalciteInputDatePicker {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  /**
-   * In range mode, indicates which input was is focused on
-   */
+
   @State() focusedInput: "start" | "end" = "start";
 
   @State() private localeData: DateLocaleData;
