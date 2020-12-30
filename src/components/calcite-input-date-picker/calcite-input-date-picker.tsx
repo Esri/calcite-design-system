@@ -111,6 +111,11 @@ export class CalciteInputDatePicker {
     }
   }
 
+  @Listen("calciteDaySelect")
+  calciteDaySelectHandler(): void {
+    this.active = false;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -243,7 +248,7 @@ export class CalciteInputDatePicker {
                   onCalciteInputFocus={this.endInputFocus}
                   onCalciteInputInput={this.inputInput}
                   placeholder={this.localeData?.placeholder}
-                  ref={(el) => (this.endInput = el)}
+                  ref={this.setEndInput}
                   scale={this.scale}
                   type="text"
                   value={formattedEndDate}
@@ -298,6 +303,10 @@ export class CalciteInputDatePicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setEndInput = (el: HTMLCalciteInputElement): void => {
+    this.endInput = el;
+  };
 
   deactivate = (): void => {
     this.active = false;
@@ -470,25 +479,19 @@ export class CalciteInputDatePicker {
     }
 
     this.valueAsDate = event.detail;
-
-    if (this.valueAsDate) {
-      this.active = false;
-    }
   };
 
   private handleDateRangeChange = (event: CustomEvent<DateRangeChange>): void => {
-    if (!this.range) {
+    if (!this.range || !event.detail) {
       return;
     }
 
-    this.startAsDate = event.detail.startDate;
-    this.endAsDate = event.detail.endDate;
+    const { startDate, endDate } = event.detail;
 
-    if (this.startAsDate && this.endAsDate) {
-      this.active = false;
-    }
+    this.startAsDate = startDate;
+    this.endAsDate = endDate;
 
-    if (event.detail.startDate && this.focusedInput === "start") {
+    if (startDate && this.focusedInput === "start") {
       setTimeout(() => this.endInput?.setFocus(), 150);
     }
   };

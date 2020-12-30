@@ -51,6 +51,7 @@ export class CalciteDatePicker {
 
   @Watch("valueAsDate")
   handleValueAsDate(date: Date): void {
+    this.activeDate = date;
     this.calciteDatePickerChange.emit(date);
   }
 
@@ -64,6 +65,9 @@ export class CalciteDatePicker {
   @Watch("endAsDate")
   handleRangeChange(): void {
     const { startAsDate: startDate, endAsDate: endDate } = this;
+
+    this.activeEndDate = endDate;
+    this.activeStartDate = startDate;
 
     this.calciteDatePickerRangeChange.emit({
       startDate,
@@ -414,7 +418,6 @@ export class CalciteDatePicker {
     if (!this.range) {
       this.value = dateToISO(date);
       this.activeDate = date;
-      this.reset();
       return;
     }
 
@@ -452,8 +455,6 @@ export class CalciteDatePicker {
         this.endAsDate = this.activeEndDate = this.end = undefined;
       }
     }
-
-    this.reset();
   };
 
   /**
