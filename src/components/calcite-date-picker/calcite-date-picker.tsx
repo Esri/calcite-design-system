@@ -63,10 +63,12 @@ export class CalciteDatePicker {
   @Watch("startAsDate")
   @Watch("endAsDate")
   handleRangeChange(): void {
-    this.calciteDatePickerRangeChange.emit({
-      startDate: this.startAsDate,
-      endDate: this.endAsDate
-    });
+    if (this.startAsDate && this.endAsDate) {
+      this.calciteDatePickerRangeChange.emit({
+        startDate: this.startAsDate,
+        endDate: this.endAsDate
+      });
+    }
   }
 
   /** Earliest allowed date ("yyyy-mm-dd") */

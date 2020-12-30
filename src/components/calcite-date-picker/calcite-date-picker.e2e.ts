@@ -58,12 +58,10 @@ describe("calcite-date-picker", () => {
   it("fires calciteDatePickerRangeChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-date-picker range start="2020-09-08" end="2020-09-23"></calcite-date-picker>`);
-    await page.waitForChanges();
     const date = await page.find("calcite-date-picker");
     const changedEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
     // have to wait for transition
     await new Promise((res) => setTimeout(() => res(true), 200));
-    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(0);
     const start1 = await date.getProperty("start");
     const end1 = await date.getProperty("end");
