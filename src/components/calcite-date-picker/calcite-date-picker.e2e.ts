@@ -69,13 +69,18 @@ describe("calcite-date-picker", () => {
     expect(start1).toEqual("2020-09-08");
     expect(end1).toEqual("2020-09-23");
     await page.keyboard.press("Tab");
+    await page.waitForChanges();
     await page.keyboard.press("Tab");
+    await page.waitForChanges();
     await page.keyboard.press("Tab");
+    await page.waitForChanges();
     await page.keyboard.press("Tab");
+    await page.waitForChanges();
     await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
     await page.keyboard.press("Space");
     await page.waitForChanges();
-    expect(changedEvent).toHaveReceivedEventTimes(1);
+    expect(changedEvent).toHaveReceivedEventTimes(2);
   });
 
   describe("when the locale is set to Slovak calendar", () => {
