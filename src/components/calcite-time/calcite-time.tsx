@@ -1,4 +1,5 @@
 import { Component, Element, Host, h, Prop, Watch, VNode, State } from "@stencil/core";
+import { guid } from "../../utils/guid";
 
 const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
@@ -44,6 +45,9 @@ export class CalciteTime {
       this.input.blur();
     }
   }
+
+  /** The id attribute.  When omitted, a globally unique identifier is used. */
+  @Prop({ reflect: true }) guid: string;
 
   /** The name of the time input */
   @Prop({ reflect: true }) name?: string = "";
@@ -215,6 +219,7 @@ export class CalciteTime {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.guid = this.el.id || `calcite-time-${guid()}`;
     this.renderInput();
   }
 
@@ -232,7 +237,7 @@ export class CalciteTime {
     this.input = document.createElement("calcite-input");
     this.input.disabled = this.disabled;
     this.input.icon = "clock";
-    this.input.id = `${this.el.id}-input`;
+    this.input.id = `${this.guid}-input`;
     this.input.name = this.name;
     this.input.onblur = () => (this.focused = false);
     this.input.onfocus = () => (this.focused = true);
