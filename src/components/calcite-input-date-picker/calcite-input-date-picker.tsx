@@ -300,7 +300,9 @@ export class CalciteInputDatePicker {
   //--------------------------------------------------------------------------
 
   deactivate = (): void => {
-    this.active = false;
+    if (this.hasShadow) {
+      this.active = false;
+    }
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {
