@@ -300,9 +300,7 @@ export class CalciteInputDatePicker {
   //--------------------------------------------------------------------------
 
   deactivate = (): void => {
-    if (this.hasShadow) {
-      this.active = false;
-    }
+    this.active = false;
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {
@@ -473,7 +471,7 @@ export class CalciteInputDatePicker {
 
     this.valueAsDate = event.detail;
 
-    if (event.detail) {
+    if (this.valueAsDate) {
       this.active = false;
     }
   };
@@ -486,7 +484,7 @@ export class CalciteInputDatePicker {
     this.startAsDate = event.detail.startDate;
     this.endAsDate = event.detail.endDate;
 
-    if (event.detail.startDate && event.detail.endDate) {
+    if (this.startAsDate && this.endAsDate) {
       this.active = false;
     }
 

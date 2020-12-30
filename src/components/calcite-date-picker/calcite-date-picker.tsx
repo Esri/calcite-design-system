@@ -63,14 +63,12 @@ export class CalciteDatePicker {
   @Watch("startAsDate")
   @Watch("endAsDate")
   handleRangeChange(): void {
-    const { startAsDate, endAsDate } = this;
+    const { startAsDate: startDate, endAsDate: endDate } = this;
 
-    if ((startAsDate && endAsDate) || (!startAsDate && !endAsDate)) {
-      this.calciteDatePickerRangeChange.emit({
-        startDate: startAsDate,
-        endDate: endAsDate
-      });
-    }
+    this.calciteDatePickerRangeChange.emit({
+      startDate,
+      endDate
+    });
   }
 
   /** Earliest allowed date ("yyyy-mm-dd") */
@@ -420,53 +418,39 @@ export class CalciteDatePicker {
       return;
     }
 
-    if (this.range) {
-      if (!this.startAsDate || (!this.endAsDate && date < this.startAsDate)) {
-        if (this.startAsDate) {
-          const newEndDate = new Date(this.startAsDate);
-          this.end = dateToISO(newEndDate);
-          this.setEndAsDate(newEndDate);
-          this.activeEndDate = newEndDate;
-        }
-        this.start = dateToISO(date);
-        this.setStartAsDate(date);
-        this.activeStartDate = date;
-      } else if (!this.endAsDate) {
-        this.end = dateToISO(date);
-        this.setEndAsDate(date);
-        this.activeEndDate = date;
-      } else {
-        if (this.proximitySelection) {
-          const startDiff = getDaysDiff(date, this.startAsDate);
-          const endDiff = getDaysDiff(date, this.endAsDate);
-          if (startDiff < endDiff) {
-            this.start = dateToISO(date);
-            this.setStartAsDate(date);
-            this.activeStartDate = date;
-          } else {
-            this.end = dateToISO(date);
-            this.setEndAsDate(date);
-            this.activeEndDate = date;
-          }
-        } else {
-          this.start = dateToISO(date);
-          this.setStartAsDate(date);
-          this.activeStartDate = date;
-          this.endAsDate = this.activeEndDate = this.end = undefined;
-        }
+    if (!this.startAsDate || (!this.endAsDate && date < this.startAsDate)) {
+      if (this.startAsDate) {
+        const newEndDate = new Date(this.startAsDate);
+        this.end = dateToISO(newEndDate);
+        this.setEndAsDate(newEndDate);
+        this.activeEndDate = newEndDate;
       }
-      this.reset();
-      return;
-    }
-
-    if (this.activeRange === "start") {
       this.start = dateToISO(date);
       this.setStartAsDate(date);
       this.activeStartDate = date;
-    } else {
+    } else if (!this.endAsDate) {
       this.end = dateToISO(date);
       this.setEndAsDate(date);
       this.activeEndDate = date;
+    } else {
+      if (this.proximitySelection) {
+        const startDiff = getDaysDiff(date, this.startAsDate);
+        const endDiff = getDaysDiff(date, this.endAsDate);
+        if (startDiff < endDiff) {
+          this.start = dateToISO(date);
+          this.setStartAsDate(date);
+          this.activeStartDate = date;
+        } else {
+          this.end = dateToISO(date);
+          this.setEndAsDate(date);
+          this.activeEndDate = date;
+        }
+      } else {
+        this.start = dateToISO(date);
+        this.setStartAsDate(date);
+        this.activeStartDate = date;
+        this.endAsDate = this.activeEndDate = this.end = undefined;
+      }
     }
 
     this.reset();

@@ -12,6 +12,7 @@ describe("calcite-input-date-picker", () => {
       )
     ).asElement();
     await input.focus();
+    await page.waitForChanges();
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
     await page.waitForTimeout(animationDurationInMs);
     const wrapper = (
