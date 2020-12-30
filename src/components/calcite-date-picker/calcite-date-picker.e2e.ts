@@ -37,13 +37,13 @@ describe("calcite-date-picker", () => {
     await page.keyboard.press("Tab");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(changedEvent).toHaveReceivedEventTimes(1);
+    expect(changedEvent).toHaveReceivedEventTimes(0);
     const value = await date.getProperty("value");
     expect(value).toEqual("2001-11-27");
     await page.keyboard.press("ArrowDown");
     const value2 = await date.getProperty("value");
     expect(value2).toEqual("2000-11-27");
-    expect(changedEvent).toHaveReceivedEventTimes(2);
+    expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
   it("doesn't fire calciteDatePickerChange on outside changes to value", async () => {
@@ -82,6 +82,7 @@ describe("calcite-date-picker", () => {
       const page = await newE2EPage({
         html: `<calcite-date-picker scale="m" locale="sk" value="2000-11-27"></calcite-date-picker>`
       });
+      await page.waitForChanges();
       const handle = (
         await page.waitForFunction(() => {
           return document
