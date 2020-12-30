@@ -63,10 +63,12 @@ export class CalciteDatePicker {
   @Watch("startAsDate")
   @Watch("endAsDate")
   handleRangeChange(): void {
-    if (this.startAsDate && this.endAsDate) {
+    const { startAsDate, endAsDate } = this;
+
+    if ((startAsDate && endAsDate) || (!startAsDate && !endAsDate)) {
       this.calciteDatePickerRangeChange.emit({
-        startDate: this.startAsDate,
-        endDate: this.endAsDate
+        startDate: startAsDate,
+        endDate: endAsDate
       });
     }
   }
