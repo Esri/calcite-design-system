@@ -95,7 +95,7 @@ export class CalciteRadioButton {
       this.input.name = newName;
     }
     this.checkLastRadioButton();
-    const currentValue: HTMLInputElement = document.querySelector(
+    const currentValue: HTMLInputElement = this.rootNode.querySelector(
       `input[name="${this.name}"]:checked`
     );
     if (!currentValue?.value) {
@@ -130,11 +130,9 @@ export class CalciteRadioButton {
 
   private input: HTMLInputElement;
 
-  /** @internal */
-  @Method()
-  async emitCheckedChange(): Promise<void> {
-    this.calciteRadioButtonCheckedChange.emit();
-  }
+  private radio: HTMLCalciteRadioElement;
+
+  private rootNode: HTMLElement;
 
   //--------------------------------------------------------------------------
   //
@@ -143,8 +141,8 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   private checkLastRadioButton(): void {
-    const radioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name
+    const radioButtons = Array.from(this.rootNode.querySelectorAll("calcite-radio-button")).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
 
     const checkedRadioButtons = radioButtons.filter((radioButton) => radioButton.checked);
@@ -160,9 +158,17 @@ export class CalciteRadioButton {
     }
   }
 
+  /** @internal */
+  @Method()
+  async emitCheckedChange(): Promise<void> {
+    this.calciteRadioButtonCheckedChange.emit();
+  }
+
   private uncheckAllRadioButtonsInGroup(): void {
-    const otherRadioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name
+    const otherRadioButtons = Array.from(
+      this.rootNode.querySelectorAll("calcite-radio-button")
+    ).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
     otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
       if (otherRadioButton.checked) {
@@ -173,8 +179,11 @@ export class CalciteRadioButton {
   }
 
   private uncheckOtherRadioButtonsInGroup(): void {
-    const otherRadioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name && radioButton.guid !== this.guid
+    const otherRadioButtons = Array.from(
+      this.rootNode.querySelectorAll("calcite-radio-button")
+    ).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) =>
+        radioButton.name === this.name && radioButton.guid !== this.guid
     ) as HTMLCalciteRadioButtonElement[];
     otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
       if (otherRadioButton.checked) {
@@ -215,7 +224,7 @@ export class CalciteRadioButton {
   @Listen("click")
   check(event: MouseEvent | FocusEvent): void {
     // Prevent parent label from clicking the first radio when calcite-radio-button is clicked
-    if (this.el.closest("label") && event.target === this.el) {
+    if (this.el.closest("label") && (event.target === this.el || event.target === this.radio)) {
       event.preventDefault();
     }
     if (!this.disabled && !this.hidden) {
@@ -258,6 +267,7 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.rootNode = this.el.getRootNode() as HTMLElement;
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
     this.initialChecked = this.checked;
     if (this.name) {
@@ -296,6 +306,7 @@ export class CalciteRadioButton {
           disable-spacing
           disabled={this.disabled}
           for={`${this.guid}-input`}
+          layout="inline"
           scale={this.scale}
         >
           <slot />
@@ -330,6 +341,7 @@ export class CalciteRadioButton {
           focused={this.focused}
           hidden={this.hidden}
           hovered={this.hovered}
+          ref={(el) => (this.radio = el)}
           scale={this.scale}
           theme={this.theme}
         />

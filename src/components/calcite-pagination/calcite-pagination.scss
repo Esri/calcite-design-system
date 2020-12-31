@@ -85,7 +85,7 @@
     background-color: transparent;
     pointer-events: none;
     & > calcite-icon {
-      opacity: 0.4;
+      opacity: var(--calcite-ui-opacity-disabled);
     }
   }
 }

@@ -57,7 +57,7 @@ $tab-margin: 1.25rem;
   span,
   a {
     pointer-events: none;
-    opacity: 0.4;
+    opacity: var(--calcite-ui-opacity-disabled);
   }
 }
 

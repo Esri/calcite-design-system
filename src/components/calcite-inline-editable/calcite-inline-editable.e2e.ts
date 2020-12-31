@@ -251,12 +251,12 @@ describe("calcite-inline-editable", () => {
       expect(element).toHaveAttribute("editing-enabled");
     });
 
-    it("it disables editing when afterConfirm resolves successfully", async () => {
+    it("disables editing when afterConfirm resolves successfully", async () => {
       const element = await page.find("calcite-inline-editable");
       const afterConfirm = () => new Promise((resolve) => setTimeout(resolve, 100));
       // https://github.com/ionic-team/stencil/issues/1174
-      page.exposeFunction("afterConfirm", afterConfirm);
-      page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
+      await page.exposeFunction("afterConfirm", afterConfirm);
+      await page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
         el.afterConfirm = afterConfirm;
       });
       const calciteInlineEditableChangesConfirm = await page.spyOnEvent("calciteInlineEditableChangesConfirm");
@@ -272,12 +272,12 @@ describe("calcite-inline-editable", () => {
       expect(element).not.toHaveAttribute("editing-enabled");
     });
 
-    it("it does not disable editing when afterConfirm resolves unsuccessfully", async () => {
+    it("does not disable editing when afterConfirm resolves unsuccessfully", async () => {
       const element = await page.find("calcite-inline-editable");
       const afterConfirm = () => new Promise((_resolve, reject) => setTimeout(reject, 100));
       // https://github.com/ionic-team/stencil/issues/1174
-      page.exposeFunction("afterConfirm", afterConfirm);
-      page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
+      await page.exposeFunction("afterConfirm", afterConfirm);
+      await page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
         el.afterConfirm = afterConfirm;
       });
       const calciteInlineEditableChangesConfirm = await page.spyOnEvent("calciteInlineEditableChangesConfirm");
@@ -320,7 +320,7 @@ describe("calcite-inline-editable", () => {
         page = await newE2EPage();
         await page.setContent(`
         <calcite-label>
-          <span>Hello</span>
+          Hello
           <calcite-inline-editable controls>
             <calcite-input value="John Doe"/>
           </calcite-inline-editable>
@@ -329,18 +329,19 @@ describe("calcite-inline-editable", () => {
       });
 
       it("focuses the enable editing button when the label is clicked", async () => {
-        const label = await page.find("span");
-        await label.click();
-        const activeEl = await page.evaluateHandle(() => document.activeElement);
-        expect(activeEl["_remoteObject"].description).toMatch(
-          "calcite-button.calcite-inline-editable-enable-editing-button"
-        );
+        expect(
+          await page.evaluate(async () => {
+            const label: HTMLSpanElement = document.querySelector("label");
+            await label.click();
+            return document.activeElement.className;
+          })
+        ).toContain("calcite-inline-editable-enable-editing-button");
       });
 
       it("focuses the input when editing is enabled and the label is subsequently clicked", async () => {
         const enableEditingButton = await page.find(".calcite-inline-editable-enable-editing-button");
         await enableEditingButton.click();
-        const label = await page.find("span");
+        const label = await page.find("label");
         await label.click();
         const activeEl = await page.evaluateHandle(() => document.activeElement);
         expect(activeEl["_remoteObject"].description).toMatch("input");

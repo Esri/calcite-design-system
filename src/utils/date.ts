@@ -162,3 +162,12 @@ export function getOrder(unitOrder: string): unitOrderSignifier[] {
   const order = unitOrder.toLowerCase();
   return signifiers.sort((a, b) => order.indexOf(a) - order.indexOf(b));
 }
+
+/**
+ * Get number of days between two dates
+ */
+export function getDaysDiff(date1: Date, date2: Date): number {
+  const ts1 = date1.getTime();
+  const ts2 = date2.getTime();
+  return Math.abs(ts1 - ts2) * 1000 * 60 * 60 * 24;
+}

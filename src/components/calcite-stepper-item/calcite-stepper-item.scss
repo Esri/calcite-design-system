@@ -92,7 +92,7 @@
   margin-right: var(--calcite-stepper-item-spacing-unit-l);
   margin-top: var(--calcite-stepper-item-spacing-unit-s);
   color: var(--calcite-ui-text-3);
-  opacity: 0.5;
+  opacity: var(--calcite-ui-opacity-disabled);
   height: 12px;
   display: inline-flex;
   flex-shrink: 0;
@@ -147,7 +147,7 @@
   margin-right: initial;
 }
 :host([disabled]) {
-  opacity: 0.4;
+  opacity: var(--calcite-ui-opacity-disabled);
 }
 :host([disabled]),
 :host([disabled]) * {

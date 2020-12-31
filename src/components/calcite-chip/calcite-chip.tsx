@@ -1,5 +1,16 @@
-import { Component, h, Host, Prop, Event, EventEmitter, Element, VNode } from "@stencil/core";
+import {
+  Component,
+  h,
+  Host,
+  Prop,
+  Event,
+  EventEmitter,
+  Element,
+  VNode,
+  Method
+} from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import { CSS, TEXT } from "./resources";
 
 @Component({
@@ -23,6 +34,9 @@ export class CalciteChip {
   /** Optionally show a button the user can click to dismiss the chip */
   @Prop({ reflect: true }) dismissible?: boolean = false;
 
+  /** Aria label for the "x" button */
+  @Prop() dismissLabel?: string = TEXT.close;
+
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
@@ -45,6 +59,17 @@ export class CalciteChip {
 
   @Element() el: HTMLCalciteChipElement;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    this.closeButton?.focus();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -64,6 +89,10 @@ export class CalciteChip {
     event.preventDefault();
     this.calciteChipDismiss.emit(this.el);
   };
+
+  private closeButton: HTMLButtonElement;
+
+  private guid: string = guid();
 
   //--------------------------------------------------------------------------
   //
@@ -86,7 +115,13 @@ export class CalciteChip {
     );
 
     const closeButton = (
-      <button class={CSS.close} onClick={this.closeClickHandler} title={TEXT.close}>
+      <button
+        aria-describedby={this.guid}
+        aria-label={this.dismissLabel}
+        class={CSS.close}
+        onClick={this.closeClickHandler}
+        ref={(el) => (this.closeButton = el)}
+      >
         <calcite-icon icon="x" scale={iconScale} />
       </button>
     );
@@ -95,7 +130,7 @@ export class CalciteChip {
       <Host dir={dir}>
         <slot name="chip-image" />
         {this.icon ? iconEl : null}
-        <span>
+        <span id={this.guid}>
           <slot />
         </span>
         {this.dismissible ? closeButton : null}
