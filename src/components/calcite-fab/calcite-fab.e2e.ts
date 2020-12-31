@@ -7,6 +7,18 @@ describe("calcite-fab", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-fab"));
 
+  it("should have default scale of 'm'", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-fab></calcite-fab>"
+    });
+
+    const fabEl = await page.find("calcite-fab");
+
+    const scale = await fabEl.getProperty("scale");
+
+    expect(scale).toEqual("m");
+  });
+
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
