@@ -1,5 +1,4 @@
-import { Component, Element, Host, h, Prop, Watch, VNode, State } from "@stencil/core";
-import { guid } from "../../utils/guid";
+import { Component, Element, Host, h, Prop, VNode, State } from "@stencil/core";
 
 const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
@@ -23,45 +22,11 @@ export class CalciteTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  /** The active state of the time input.  When true, the time input popup is displayed. */
-  @Prop({ reflect: true }) active = false;
+  /** The focused state of the time picker */
+  @Prop({ reflect: true }) focused = false;
 
-  /** The disabled state of the time input */
-  @Prop({ reflect: true }) disabled?: boolean = false;
-
-  @Watch("disabled")
-  disabledChanged(disabled: boolean): void {
-    this.input.disabled = disabled;
-  }
-
-  /** The focused state of the time input */
-  @Prop({ mutable: true, reflect: true }) focused = false;
-
-  @Watch("focused")
-  focusedChanged(focused: boolean): void {
-    if (focused && !this.el.hasAttribute("hidden")) {
-      this.input.focus();
-    } else {
-      this.input.blur();
-    }
-  }
-
-  /** The id attribute.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid: string;
-
-  /** The name of the time input */
-  @Prop({ reflect: true }) name?: string = "";
-
-  @Watch("name")
-  nameChanged(newName: string): void {
-    this.input.name = newName;
-  }
-
-  /** The scale (size) of the time input */
+  /** The scale (size) of the time picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
-
-  /** The selected time */
-  @Prop({ reflect: true }) value?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -70,8 +35,6 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   private hourEl: HTMLSpanElement;
-
-  private input: HTMLCalciteInputElement;
 
   @State() hour?: string = "--";
 
@@ -206,47 +169,11 @@ export class CalciteTimePicker {
     }
   };
 
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.guid = this.el.id || `calcite-time-picker-${guid()}`;
-    this.renderInput();
-  }
-
-  disconnectedCallback(): void {
-    this.input.parentNode.removeChild(this.input);
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
-
-  private renderInput() {
-    this.input = document.createElement("calcite-input");
-    this.input.disabled = this.disabled;
-    this.input.icon = "clock";
-    this.input.id = `${this.guid}-input`;
-    this.input.name = this.name;
-    this.input.onblur = () => (this.focused = false);
-    this.input.onfocus = () => (this.focused = true);
-    this.input.type = "time";
-    if (this.value) {
-      this.input.value = this.value;
-    }
-    this.el.insertAdjacentElement("beforeend", this.input);
-  }
 
   render(): VNode {
     return (

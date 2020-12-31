@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Time</title>
+  <title>Calcite Time Picker</title>
   <style>
     body {
       margin: 20px;
@@ -40,47 +40,21 @@
   <demo-spacer>
     <calcite-button href="/">
       < Home</calcite-button>
-        <h1>Calcite Time</h1>
-        <demo-form>
-          <form name="calcite-time-demo-form">
-            <demo-spacer>
-              <div class="demo-background-light">
-                <demo-spacer>
-                  <div>
-                    <calcite-date scale="s"></calcite-date>
-                    <calcite-time-picker scale="s" name="s"></calcite-time-picker>
-                  </div>
-                  <div>
-                    <calcite-date scale="m"></calcite-date>
-                    <calcite-time-picker scale="m" name="m"></calcite-time-picker>
-                  </div>
-                  <div>
-                    <calcite-date scale="l"></calcite-date>
-                    <calcite-time-picker scale="l" name="l"></calcite-time-picker>
-                  </div>
-                </demo-spacer>
-              </div>
-              <div class="demo-background-dark" theme="dark">
-                <demo-spacer>
-                  <div>
-                    <calcite-date scale="s"></calcite-date>
-                    <calcite-time-picker scale="s" name="s-dark"></calcite-time-picker>
-                  </div>
-                  <div>
-                    <calcite-date scale="m"></calcite-date>
-                    <calcite-time-picker scale="m" name="m-dark"></calcite-time-picker>
-                  </div>
-                  <div>
-                    <calcite-date scale="l"></calcite-date>
-                    <calcite-time-picker scale="l" name="l-dark"></calcite-time-picker>
-                  </div>
-                </demo-spacer>
-              </div>
-              <calcite-button form="calcite-time-demo-form" type="submit">Submit</calcite-button>
-              <button type="submit" style="display: none">Submit</button>
-            </demo-spacer>
-          </form>
-        </demo-form>
+        <h1>Calcite Time Picker</h1>
+        <div class="demo-background-light">
+          <demo-spacer>
+            <calcite-time-picker scale="s" name="s"></calcite-time-picker>
+            <calcite-time-picker scale="m" name="m"></calcite-time-picker>
+            <calcite-time-picker scale="l" name="l"></calcite-time-picker>
+          </demo-spacer>
+        </div>
+        <div class="demo-background-dark" theme="dark">
+          <demo-spacer>
+            <calcite-time-picker scale="s" name="s-dark"></calcite-time-picker>
+            <calcite-time-picker scale="m" name="m-dark"></calcite-time-picker>
+            <calcite-time-picker scale="l" name="l-dark"></calcite-time-picker>
+          </demo-spacer>
+        </div>
   </demo-spacer>
 </body>
 

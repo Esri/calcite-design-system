@@ -1,0 +1,11 @@
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
+}
+:host {
+  display: inline-block;
+  user-select: none;
+}
+calcite-input {
+  position: relative;
+  z-index: 200;
+}

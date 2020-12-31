@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Input Time Picker</title>
+  <style>
+    body {
+      margin: 20px;
+    }
+
+    .demo-background-light {
+      border: 1px solid #202020;
+      padding: 1rem;
+    }
+
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+  <script type="module" src="./helpers/demo-form.js"></script>
+  <script type="module" src="./helpers/demo-spacer.js"></script>
+</head>
+
+<body>
+  <demo-spacer>
+    <calcite-button href="/">
+      < Home</calcite-button>
+        <h1>Calcite Input Time Picker</h1>
+        <demo-form>
+          <form name="calcite-time-demo-form">
+            <demo-spacer>
+              <div class="demo-background-light">
+                <demo-spacer>
+                  <div>
+                    <calcite-date scale="s"></calcite-date>
+                    <calcite-input-time-picker scale="s" name="s"></calcite-input-time-picker>
+                  </div>
+                  <div>
+                    <calcite-date scale="m"></calcite-date>
+                    <calcite-input-time-picker scale="m" name="m"></calcite-input-time-picker>
+                  </div>
+                  <div>
+                    <calcite-date scale="l"></calcite-date>
+                    <calcite-input-time-picker scale="l" name="l"></calcite-input-time-picker>
+                  </div>
+                </demo-spacer>
+              </div>
+              <div class="demo-background-dark" theme="dark">
+                <demo-spacer>
+                  <div>
+                    <calcite-date scale="s"></calcite-date>
+                    <calcite-input-time-picker scale="s" name="s-dark"></calcite-input-time-picker>
+                  </div>
+                  <div>
+                    <calcite-date scale="m"></calcite-date>
+                    <calcite-input-time-picker scale="m" name="m-dark"></calcite-input-time-picker>
+                  </div>
+                  <div>
+                    <calcite-date scale="l"></calcite-date>
+                    <calcite-input-time-picker scale="l" name="l-dark"></calcite-input-time-picker>
+                  </div>
+                </demo-spacer>
+              </div>
+              <calcite-button form="calcite-time-demo-form" type="submit">Submit</calcite-button>
+              <button type="submit" style="display: none">Submit</button>
+            </demo-spacer>
+          </form>
+        </demo-form>
+  </demo-spacer>
+</body>
+
+</html>
