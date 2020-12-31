@@ -34,8 +34,6 @@ export class CalciteTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  private hourEl: HTMLSpanElement;
-
   @State() hour?: string = "--";
 
   @State() minute?: string = "--";
@@ -94,10 +92,28 @@ export class CalciteTimePicker {
         this.hour = "12";
       } else {
         const newHour = hourAsNumber - 1;
-        this.hour = newHour >= 10 && newHour <= 12 ? newHour.toString() : `0${newHour}`;
+        this.hour = newHour >= 0 && newHour <= 9 ? `0${newHour}` : newHour.toString();
       }
     }
   };
+
+  private decrementMinute = (): void => {
+    if (this.minute === "--") {
+      this.minute = "59";
+    } else {
+      const minuteAsNumber = parseInt(this.minute);
+      if (minuteAsNumber === 0) {
+        this.minute = "59";
+      } else {
+        const newMinute = minuteAsNumber - 1;
+        this.minute = this.formatMinute(newMinute);
+      }
+    }
+  };
+
+  private formatMinute(minute: number): string {
+    return minute >= 0 && minute <= 9 ? `0${minute}` : minute.toString();
+  }
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Tab") {
@@ -154,19 +170,49 @@ export class CalciteTimePicker {
     }
   };
 
+  private incrementMinute = (): void => {
+    if (this.minute === "--") {
+      this.minute = "00";
+    } else {
+      const minuteAsNumber = parseInt(this.minute);
+      if (minuteAsNumber === 59) {
+        this.minute = "00";
+      } else {
+        const newMinute = minuteAsNumber + 1;
+        this.minute = this.formatMinute(newMinute);
+      }
+    }
+  };
+
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
     // TODO: support arrowup and arrowdown
     // TODO: support number constraints
     if (numberKeys.includes(event.key)) {
+      const keyAsNumber = parseInt(event.key);
+      if (this.minute === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
+        this.minute = `1${event.key}`;
+      } else {
+        this.minute = `0${event.key}`;
+      }
       if (this.minute.length === 2) {
         this.minute = event.key;
       } else {
         this.minute = `${this.minute}${event.key}`;
       }
+    } else {
+      switch (event.key) {
+        case "Backspace":
+          this.minute = "--";
+          break;
+        case "ArrowDown":
+          this.decrementMinute();
+          break;
+        case "ArrowUp":
+          this.incrementMinute();
+          break;
+      }
     }
-    if (event.key === "Backspace") {
-      this.minute = "--";
-    }
+    event.preventDefault();
   };
 
   // --------------------------------------------------------------------------
@@ -190,7 +236,6 @@ export class CalciteTimePicker {
               aria-valuenow="5"
               aria-valuetext="05"
               onKeyDown={this.hourKeyDownHandler}
-              ref={(el) => (this.hourEl = el)}
               role="spinbutton"
               tabIndex={0}
             >
@@ -200,7 +245,7 @@ export class CalciteTimePicker {
           </div>
           <div class="colon">:</div>
           <div class="column minute">
-            <calcite-icon icon="chevronup" scale={this.scale} />
+            <calcite-icon icon="chevronup" onClick={this.incrementMinute} scale={this.scale} />
             <span
               aria-label="Hours"
               aria-placeholder="--"
@@ -214,7 +259,7 @@ export class CalciteTimePicker {
             >
               {this.minute}
             </span>
-            <calcite-icon icon="chevrondown" scale={this.scale} />
+            <calcite-icon icon="chevrondown" onClick={this.decrementMinute} scale={this.scale} />
           </div>
           <div class="column ampm">
             <calcite-icon icon="chevronup" onClick={this.incrementAmPm} scale={this.scale} />
