@@ -84,7 +84,7 @@ export class CalciteTimePicker {
   };
 
   private decrementHour = (): void => {
-    if (this.hour === "--") {
+    if (this.hour === "--" || this.hour === "01") {
       this.hour = "12";
     } else {
       const hourAsNumber = parseInt(this.hour);
@@ -92,7 +92,7 @@ export class CalciteTimePicker {
         this.hour = "12";
       } else {
         const newHour = hourAsNumber - 1;
-        this.hour = newHour >= 0 && newHour <= 9 ? `0${newHour}` : newHour.toString();
+        this.hour = this.formatNumberAsString(newHour);
       }
     }
   };
@@ -106,13 +106,13 @@ export class CalciteTimePicker {
         this.minute = "59";
       } else {
         const newMinute = minuteAsNumber - 1;
-        this.minute = this.formatMinute(newMinute);
+        this.minute = this.formatNumberAsString(newMinute);
       }
     }
   };
 
-  private formatMinute(minute: number): string {
-    return minute >= 0 && minute <= 9 ? `0${minute}` : minute.toString();
+  private formatNumberAsString(number: number): string {
+    return number >= 0 && number <= 9 ? `0${number}` : number.toString();
   }
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
@@ -165,7 +165,7 @@ export class CalciteTimePicker {
         this.hour = "00";
       } else {
         const newHour = hourAsNumber + 1;
-        this.hour = newHour >= 10 && newHour <= 12 ? newHour.toString() : `0${newHour}`;
+        this.hour = this.formatNumberAsString(newHour);
       }
     }
   };
@@ -179,13 +179,12 @@ export class CalciteTimePicker {
         this.minute = "00";
       } else {
         const newMinute = minuteAsNumber + 1;
-        this.minute = this.formatMinute(newMinute);
+        this.minute = this.formatNumberAsString(newMinute);
       }
     }
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
-    // TODO: support arrowup and arrowdown
     // TODO: support number constraints
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
