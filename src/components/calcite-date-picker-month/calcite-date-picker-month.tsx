@@ -93,7 +93,7 @@ export class CalciteDatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  keyDownHandler = (e: KeyboardEvent): void => {
     const isRTL = this.el.dir === "rtl";
     switch (getKey(e.key)) {
       case "ArrowUp":
@@ -139,17 +139,18 @@ export class CalciteDatePickerMonth {
       case "Tab":
         this.activeFocus = false;
     }
-  }
+  };
 
   /**
    * Once user is not interacting via keyboard,
    * disable auto focusing of active date
    */
-  @Listen("focusout") disableActiveFocus(): void {
+  disableActiveFocus = (): void => {
     this.activeFocus = false;
-  }
+  };
 
-  @Listen("mouseout") mouseoutHandler(): void {
+  @Listen("mouseout")
+  mouseoutHandler(): void {
     this.calciteDatePickerMouseOut.emit();
   }
 
@@ -192,7 +193,7 @@ export class CalciteDatePickerMonth {
     }
 
     return (
-      <Host>
+      <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
         <div class="calender" role="grid">
           <div class="week-headers" role="row">
             {adjustedWeekDays.map((weekday) => (

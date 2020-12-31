@@ -75,18 +75,19 @@ export class CalciteDatePickerDay {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(): void {
+  onClick = (): void => {
     !this.disabled && this.calciteDaySelect.emit();
-  }
+  };
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  keyDownHandler = (e: KeyboardEvent): void => {
     const key = getKey(e.key);
     if (key === " " || key === "Enter") {
       !this.disabled && this.calciteDaySelect.emit();
     }
-  }
+  };
 
-  @Listen("mouseover") mouseoverHandler(): void {
+  @Listen("mouseover")
+  mouseoverHandler(): void {
     this.calciteDayHover.emit({
       disabled: this.disabled
     });
@@ -120,7 +121,13 @@ export class CalciteDatePickerDay {
       .join("");
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir} role="gridcell" tabindex={this.active ? 0 : -1}>
+      <Host
+        dir={dir}
+        onClick={this.onClick}
+        onKeyDown={this.keyDownHandler}
+        role="gridcell"
+        tabindex={this.active ? 0 : -1}
+      >
         <div class="day-v-wrapper">
           <div class="day-wrapper">
             <span class="day">

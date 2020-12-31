@@ -1,4 +1,15 @@
-import { Component, Element, Prop, Host, Event, h, EventEmitter, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  Host,
+  Event,
+  h,
+  EventEmitter,
+  VNode,
+  State,
+  Watch
+} from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import {
   dateFromRange,
@@ -74,6 +85,10 @@ export class CalciteDatePickerMonthHeader {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.setNextPrevMonthDates();
+  }
+
   render(): VNode {
     const activeMonth = this.activeDate.getMonth();
     const { months, unitOrder } = this.localeData;
@@ -83,21 +98,19 @@ export class CalciteDatePickerMonthHeader {
     const dir = getElementDir(this.el);
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
-    const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
-    const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
     const suffix = this.localeData.year?.suffix;
     return (
       <Host dir={dir}>
         <div class="header">
           <a
-            aria-disabled={(prevMonthDate.getMonth() === activeMonth).toString()}
+            aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
             aria-label={this.intlPrevMonth}
             class="chevron"
             href="#"
-            onClick={(e) => this.handleArrowClick(e, prevMonthDate)}
-            onKeyDown={(e) => this.handleKeyDown(e, prevMonthDate)}
+            onClick={this.nextMonthClick}
+            onKeyDown={this.nextMonthKeydown}
             role="button"
-            tabindex={prevMonthDate.getMonth() === activeMonth ? -1 : 0}
+            tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
           >
             <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
           </a>
@@ -114,8 +127,8 @@ export class CalciteDatePickerMonthHeader {
                 inputmode="numeric"
                 maxlength="4"
                 minlength="1"
-                onChange={(event) => this.setYear((event.target as HTMLInputElement).value)}
-                onKeyDown={(event) => this.onYearKey(event)}
+                onChange={this.yearChanged}
+                onKeyDown={this.onYearKey}
                 pattern="\d*"
                 ref={(el) => (this.yearInput = el)}
                 type="text"
@@ -132,14 +145,14 @@ export class CalciteDatePickerMonthHeader {
             </span>
           </div>
           <a
-            aria-disabled={(nextMonthDate.getMonth() === activeMonth).toString()}
+            aria-disabled={(this.nextMonthDate.getMonth() === activeMonth).toString()}
             aria-label={this.intlNextMonth}
             class="chevron"
             href="#"
-            onClick={(e) => this.handleArrowClick(e, nextMonthDate)}
-            onKeyDown={(e) => this.handleKeyDown(e, nextMonthDate)}
+            onClick={this.prevMonthClick}
+            onKeyDown={this.prevMonthKeydown}
             role="button"
-            tabindex={nextMonthDate.getMonth() === activeMonth ? -1 : 0}
+            tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
           >
             <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
           </a>
@@ -153,7 +166,20 @@ export class CalciteDatePickerMonthHeader {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
   private yearInput: HTMLInputElement;
+
+  @State() nextMonthDate: Date;
+
+  @State() prevMonthDate: Date;
+
+  @Watch("min")
+  @Watch("max")
+  @Watch("activeDate")
+  setNextPrevMonthDates(): void {
+    this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
+    this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -163,7 +189,7 @@ export class CalciteDatePickerMonthHeader {
   /**
    * Increment year on UP/DOWN keys
    */
-  private onYearKey(e: KeyboardEvent): void {
+  private onYearKey = (e: KeyboardEvent): void => {
     const year = (e.target as HTMLInputElement).value;
     switch (getKey(e.key)) {
       case "ArrowDown":
@@ -175,27 +201,42 @@ export class CalciteDatePickerMonthHeader {
         this.setYear(year, 1);
         break;
     }
-  }
+  };
+
+  private yearChanged = (event: Event): void => {
+    this.setYear((event.target as HTMLInputElement).value);
+  };
+
+  private prevMonthClick = (e: Event): void => {
+    this.handleArrowClick(e, this.prevMonthDate);
+  };
+
+  private prevMonthKeydown = (e: KeyboardEvent): void => {
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
+      this.prevMonthClick(e);
+    }
+  };
+
+  private nextMonthClick = (e: Event): void => {
+    this.handleArrowClick(e, this.nextMonthDate);
+  };
+
+  private nextMonthKeydown = (e: KeyboardEvent): void => {
+    const key = getKey(e.key);
+    if (key === " " || key === "Enter") {
+      this.nextMonthClick(e);
+    }
+  };
 
   /*
    * Update active month on clicks of left/right arrows
    */
-  private handleArrowClick(e: Event, date: Date) {
+  private handleArrowClick = (e: Event, date: Date): void => {
     e?.preventDefault();
     e.stopPropagation();
     this.calciteDatePickerSelect.emit(date);
-  }
-
-  /*
-   * Because we have to use an anchor rather than button (#1069),
-   * ensure enter/space work like a button would
-   */
-  private handleKeyDown(e: KeyboardEvent, date: Date) {
-    const key = getKey(e.key);
-    if (key === " " || key === "Enter") {
-      this.handleArrowClick(e, date);
-    }
-  }
+  };
 
   /**
    * Parse localized year string from input,
