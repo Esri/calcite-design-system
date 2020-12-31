@@ -8,7 +8,7 @@ storiesOf("Components/Time", module)
   .add(
     "Basic",
     () => `
-      <calcite-time
+      <calcite-time-picker
         ${boolean("active", false)}
         ${boolean("disabled", false)}
         ${boolean("focused", false)}
@@ -17,6 +17,6 @@ storiesOf("Components/Time", module)
         scale="${select("scale", ["s", "m", "l"], "m")}"
         value="${text("value", "")}"
       >
-      </calcite-time>
+      </calcite-time-picker>
   `
   );

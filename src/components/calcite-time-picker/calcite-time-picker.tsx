@@ -4,18 +4,18 @@ import { guid } from "../../utils/guid";
 const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 @Component({
-  tag: "calcite-time",
-  styleUrl: "calcite-time.scss",
+  tag: "calcite-time-picker",
+  styleUrl: "calcite-time-picker.scss",
   shadow: true
 })
-export class CalciteTime {
+export class CalciteTimePicker {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteTimeElement;
+  @Element() el: HTMLCalciteTimePickerElement;
 
   //--------------------------------------------------------------------------
   //
@@ -219,7 +219,7 @@ export class CalciteTime {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.guid = this.el.id || `calcite-time-${guid()}`;
+    this.guid = this.el.id || `calcite-time-picker-${guid()}`;
     this.renderInput();
   }
 

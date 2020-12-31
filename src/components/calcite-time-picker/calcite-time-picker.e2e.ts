@@ -1,13 +1,13 @@
 // import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
-describe("calcite-time", () => {
-  it("renders", async () => renders("calcite-time"));
+describe("calcite-time-picker", () => {
+  it("renders", async () => renders("calcite-time-picker"));
 
-  it("is accessible", async () => accessible(`<calcite-time></calcite-time>`));
+  it("is accessible", async () => accessible(`<calcite-time-picker></calcite-time-picker>`));
 
   it("has defaults", async () =>
-    defaults("calcite-time", [
+    defaults("calcite-time-picker", [
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
@@ -15,7 +15,7 @@ describe("calcite-time", () => {
     ]));
 
   it("reflects", async () =>
-    reflects("calcite-time", [
+    reflects("calcite-time-picker", [
       { propertyName: "active", value: true },
       { propertyName: "embed", value: true },
       { propertyName: "focused", value: true },
@@ -24,5 +24,5 @@ describe("calcite-time", () => {
       { propertyName: "theme", value: "light" }
     ]));
 
-  it("honors hidden attribute", async () => hidden("calcite-time"));
+  it("honors hidden attribute", async () => hidden("calcite-time-picker"));
 });
