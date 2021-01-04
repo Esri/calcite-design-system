@@ -1,23 +1,20 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { defaults } from "../../tests/commonTests";
 
 describe("calcite-fab", () => {
   it("renders", async () => renders("calcite-fab"));
 
   it("honors hidden attribute", async () => hidden("calcite-fab"));
 
-  it("should have default scale of 'm'", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-fab></calcite-fab>"
-    });
-
-    const fabEl = await page.find("calcite-fab");
-
-    const scale = await fabEl.getProperty("scale");
-
-    expect(scale).toEqual("m");
-  });
+  it("has property defaults", async () =>
+    defaults("calcite-fab", [
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      }
+    ]));
 
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
