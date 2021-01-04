@@ -116,9 +116,6 @@ export class CalciteTimePicker {
   }
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Tab") {
-      return;
-    }
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
       if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
@@ -139,7 +136,6 @@ export class CalciteTimePicker {
           break;
       }
     }
-    event.preventDefault();
   };
 
   private incrementAmPm = (): void => {
@@ -211,7 +207,6 @@ export class CalciteTimePicker {
           break;
       }
     }
-    event.preventDefault();
   };
 
   // --------------------------------------------------------------------------
