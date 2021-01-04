@@ -208,7 +208,7 @@ export class CalciteSelect {
     this.clearInternalSelect();
 
     optionsAndGroups.forEach((optionOrGroup) =>
-      this.selectEl.append(this.toNativeElement(optionOrGroup))
+      this.selectEl?.append(this.toNativeElement(optionOrGroup))
     );
   };
 
