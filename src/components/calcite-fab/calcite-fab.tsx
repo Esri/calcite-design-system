@@ -48,7 +48,7 @@ export class CalciteFab {
   /**
    * Specifies the size of the fab.
    */
-  @Prop({ reflect: true }) scale: CalciteScale = "s";
+  @Prop({ reflect: true }) scale: CalciteScale = "m";
 
   /**
    * Text that accompanies the FAB icon.
