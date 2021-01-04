@@ -140,6 +140,9 @@ export class CalciteRating {
               this.hasFocus = true;
               this.focusValue = i;
             }}
+            ref={(el) =>
+              (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
+            }
             type="radio"
             value={i}
           />
@@ -193,8 +196,7 @@ export class CalciteRating {
   //--------------------------------------------------------------------------
   @Method()
   async setFocus(): Promise<void> {
-    this.el.querySelector("input").focus();
-    this.hasFocus = true;
+    this.inputFocusRef.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -210,4 +212,6 @@ export class CalciteRating {
   @State() hasFocus: boolean;
 
   private guid = `calcite-ratings-${guid()}`;
+
+  private inputFocusRef: HTMLInputElement;
 }
