@@ -11,7 +11,7 @@ import {
   VNode
 } from "@stencil/core";
 import { focusElement, getElementDir, getElementProp } from "../../utils/dom";
-import { Scale, Theme } from "../../interfaces/common";
+import { Scale, Theme, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { FocusRequest } from "../../interfaces/Label";
 
@@ -85,7 +85,7 @@ export class CalciteSelect {
   @Prop({
     reflect: true
   })
-  width: "auto" | "half" | "full" = "auto";
+  width: Width = "auto";
 
   //--------------------------------------------------------------------------
   //

@@ -3,7 +3,7 @@ import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
 import { IconScale } from "../../interfaces/Icon";
-import { Theme } from "../../interfaces/common";
+import { Theme } from "../interfaces";
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 
 @Component({
@@ -45,7 +45,7 @@ export class CalciteIcon {
   flipRtl = false;
 
   /**
-   * Icon scale. Can be "s" | "m" | "l".
+   * Icon scale.
    */
   @Prop({
     reflect: true

@@ -14,6 +14,7 @@ import {
 import { TabChangeEventDetail } from "../../interfaces/TabChange";
 import { getElementDir, filterDirectChildren } from "../../utils/dom";
 import { TabID } from "../calcite-tabs/interfaces";
+import { TabPosition } from "../calcite-tabs/interfaces";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -49,7 +50,7 @@ export class CalciteTabNav {
   @Prop({ reflect: true, mutable: true }) layout: "center" | "inline" = "inline";
 
   /** @internal Parent tabs component position value */
-  @Prop({ reflect: true, mutable: true }) position: "above" | "below" = "below";
+  @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
 
   /**
    * @internal

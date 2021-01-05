@@ -12,8 +12,8 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor } from "../../interfaces/Color";
-import { Scale, Theme } from "../../interfaces/common";
+import { ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Scale, Theme } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,

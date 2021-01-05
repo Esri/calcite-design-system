@@ -1,7 +1,7 @@
 import { Component, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
 import { COLORS, CSS } from "./resources";
-import { Scale, Theme } from "../../interfaces/common";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-color-swatch",

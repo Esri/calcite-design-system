@@ -1,13 +1,13 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { CalcitePosition } from "../interfaces";
+import { Position } from "../interfaces";
 
 interface CalciteExpandToggleProps {
   expanded: boolean;
   intlExpand: string;
   intlCollapse: string;
   el: HTMLElement;
-  position: CalcitePosition;
+  position: Position;
   tooltip?: HTMLCalciteTooltipElement;
   toggle: () => void;
   ref?: (el: HTMLElement) => void;
@@ -18,7 +18,7 @@ const ICONS = {
   chevronsRight: "chevrons-right"
 };
 
-function getCalcitePosition(position: CalcitePosition, el: HTMLElement): CalcitePosition {
+function getCalcitePosition(position: Position, el: HTMLElement): Position {
   return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 

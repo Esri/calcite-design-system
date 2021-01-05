@@ -1,4 +1,4 @@
-import { ColorValue, RGB } from "../../interfaces/Color";
+import { ColorValue, RGB } from "./interfaces";
 import Color from "color";
 
 export function rgbToHex(color: RGB): string {

@@ -15,6 +15,7 @@ import {
 
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { Layout, Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-radio-group",
@@ -43,7 +44,7 @@ export class CalciteRadioGroup {
   @Prop({ reflect: true }) disabled?: boolean;
 
   /** specify the layout of the radio group, defaults to horizontal */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   /**
    * The group's name. Gets submitted with the form.
@@ -56,7 +57,7 @@ export class CalciteRadioGroup {
   }
 
   /** The scale of the radio group */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * The group's selected item.
@@ -85,7 +86,7 @@ export class CalciteRadioGroup {
   }
 
   /** The component's theme. */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the width of the group, defaults to auto */
   @Prop({ reflect: true }) width: "auto" | "full" = "auto";

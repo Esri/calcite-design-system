@@ -1,4 +1,5 @@
 import { Component, Host, h, Prop, VNode } from "@stencil/core";
+import { Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-tile",
@@ -37,7 +38,7 @@ export class CalciteTile {
   @Prop({ reflect: true }) icon?: string;
 
   /** The theme of the tile. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: Theme = "light";
 
   // --------------------------------------------------------------------------
   //

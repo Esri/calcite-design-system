@@ -2,7 +2,7 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 
 import { CSS, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { ColorValue } from "../../interfaces/Color";
+import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
 describe("calcite-color", () => {

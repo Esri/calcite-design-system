@@ -13,6 +13,7 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent, ItemRegistration } from "../../interfaces/Dropdown";
 import { getKey } from "../../utils/key";
+import { Flip } from "../interfaces";
 
 @Component({
   tag: "calcite-dropdown-item",
@@ -37,7 +38,7 @@ export class CalciteDropdownItem {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+  @Prop({ reflect: true }) iconFlipRtl?: Flip;
 
   /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;

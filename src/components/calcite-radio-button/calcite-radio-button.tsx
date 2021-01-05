@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-radio-button",
@@ -112,10 +113,10 @@ export class CalciteRadioButton {
   }
 
   /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: Theme = "light";
 
   /** The value of the radio button. */
   @Prop({ reflect: true }) value!: string;

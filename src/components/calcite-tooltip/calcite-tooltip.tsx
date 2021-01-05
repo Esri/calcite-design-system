@@ -9,6 +9,7 @@ import {
   updatePopper,
   CSS as PopperCSS
 } from "../../utils/popper";
+import { Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-tooltip",
@@ -79,7 +80,7 @@ export class CalciteTooltip {
   }
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

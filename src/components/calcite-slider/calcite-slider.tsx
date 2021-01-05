@@ -16,6 +16,7 @@ import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { DataSeries } from "../../interfaces/Graph";
 import { hasLabel } from "../../utils/dom";
+import { Theme } from "../interfaces";
 
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -38,7 +39,7 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** Disable and gray out the slider */
   @Prop({ reflect: true }) disabled = false;
