@@ -28,7 +28,7 @@ import {
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-date-resources";
 
-import { DateRangeChange } from "../../interfaces/DateRangeChange";
+import { DateRangeChange } from "./interfaces";
 
 import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";

@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
-import { DataSeries } from "../../interfaces/Graph";
+import { DataSeries } from "../calcite-graph/interfaces";
 import { hasLabel } from "../../utils/dom";
 import { Theme } from "../interfaces";
 

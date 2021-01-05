@@ -11,7 +11,7 @@ import {
   Watch,
   Method
 } from "@stencil/core";
-import { GroupRegistration, ItemKeyboardEvent } from "../../interfaces/Dropdown";
+import { GroupRegistration, ItemKeyboardEvent } from "./interfaces";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { createPopper, CalcitePlacement, updatePopper, CSS as PopperCSS } from "../../utils/popper";

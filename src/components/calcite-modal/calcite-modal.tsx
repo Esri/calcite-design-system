@@ -17,6 +17,7 @@ import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
 import { Scale, Theme } from "../interfaces";
+import { ModalBackgroundColor } from "./interfaces";
 
 function isCalciteFocusable(el: CalciteFocusableElement): boolean {
   return typeof el.setFocus === "function" || isFocusable(el);
@@ -82,7 +83,7 @@ export class CalciteModal {
   @Prop({ reflect: true }) theme: Theme;
 
   /** Background color of modal content */
-  @Prop({ reflect: true }) backgroundColor: "white" | "grey" = "white";
+  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
   /** Turn off spacing around the content area slot */
   @Prop() noPadding?: boolean;

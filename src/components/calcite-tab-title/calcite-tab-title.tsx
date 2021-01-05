@@ -12,11 +12,11 @@ import {
   Build,
   VNode
 } from "@stencil/core";
-import { TabChangeEventDetail } from "../../interfaces/TabChange";
+import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { TabID, TabPosition } from "../calcite-tabs/interfaces";
+import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { Flip } from "../interfaces";
 
 @Component({
@@ -55,7 +55,7 @@ export class CalciteTabTitle {
   @Prop({ reflect: true }) iconStart?: string;
 
   /** @internal Parent tabs component layout value */
-  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+  @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
   /** @internal Parent tabs component position value */
   @Prop({ reflect: true, mutable: true }) position: TabPosition;

@@ -10,7 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { GroupRegistration, ItemRegistration } from "../../interfaces/Dropdown";
+import { GroupRegistration, ItemRegistration } from "../calcite-dropdown/interfaces";
 import { SelectionMode } from "./interfaces";
 
 @Component({

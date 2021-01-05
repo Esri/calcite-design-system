@@ -10,10 +10,9 @@ import {
   VNode
 } from "@stencil/core";
 import { nodeListToArray } from "../../utils/dom";
-import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
-import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
-import { TreeSelectDetail } from "../../interfaces/TreeSelect";
-import { Theme } from "../interfaces";
+import { TreeItemSelectDetail } from "../calcite-tree-item/interfaces";
+import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-tree",
@@ -42,7 +41,7 @@ export class CalciteTree {
   @Prop({ reflect: true }) theme: Theme;
 
   /** Specify the scale of the tree, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Extract<"s" | "m", Scale> = "m";
 
   /** Customize how tree selection works (single, multi, children, multi-children) */
   @Prop({ mutable: true, reflect: true })

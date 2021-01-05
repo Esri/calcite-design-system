@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { ButtonAppearance, ButtonColor } from "../calcite-button/interfaces";
+import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
 import { Flip, Scale, Theme } from "../interfaces";
 
 @Component({
@@ -21,8 +21,7 @@ export class CalciteSplitButton {
   @Prop({ reflect: true }) disabled?: boolean;
 
   /** specify the icon used for the dropdown menu, defaults to chevron */
-  @Prop({ reflect: true }) dropdownIconType: "chevron" | "caret" | "ellipsis" | "overflow" =
-    "chevron";
+  @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
   /** aria label for overflow button */
   @Prop({ reflect: true }) dropdownLabel?: string;

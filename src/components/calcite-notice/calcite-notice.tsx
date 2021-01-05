@@ -13,8 +13,7 @@ import {
 
 import { TEXT } from "./calcite-notice.resources";
 import { Scale, Theme, Width } from "../interfaces";
-import { StatusColor } from "../calcite-alert/interfaces";
-import { StatusIcons } from "../../interfaces/StatusIcons";
+import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because

@@ -11,7 +11,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { ItemKeyboardEvent, ItemRegistration } from "../../interfaces/Dropdown";
+import { ItemKeyboardEvent, ItemRegistration } from "../calcite-dropdown/interfaces";
 import { getKey } from "../../utils/key";
 import { Flip } from "../interfaces";
 

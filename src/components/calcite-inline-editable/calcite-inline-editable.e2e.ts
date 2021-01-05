@@ -253,7 +253,7 @@ describe("calcite-inline-editable", () => {
 
     it("disables editing when afterConfirm resolves successfully", async () => {
       const element = await page.find("calcite-inline-editable");
-      const afterConfirm = () => new Promise((resolve) => setTimeout(resolve, 100));
+      const afterConfirm: () => Promise<void> = () => new Promise((resolve) => setTimeout(resolve, 100));
       // https://github.com/ionic-team/stencil/issues/1174
       await page.exposeFunction("afterConfirm", afterConfirm);
       await page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
@@ -274,7 +274,7 @@ describe("calcite-inline-editable", () => {
 
     it("does not disable editing when afterConfirm resolves unsuccessfully", async () => {
       const element = await page.find("calcite-inline-editable");
-      const afterConfirm = () => new Promise((_resolve, reject) => setTimeout(reject, 100));
+      const afterConfirm: () => Promise<void> = () => new Promise((_resolve, reject) => setTimeout(reject, 100));
       // https://github.com/ionic-team/stencil/issues/1174
       await page.exposeFunction("afterConfirm", afterConfirm);
       await page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {

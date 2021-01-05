@@ -15,8 +15,7 @@ import {
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, TEXT } from "./calcite-alert.resources";
 import { Scale, Theme } from "../interfaces";
-import { StatusColor, AlertDuration } from "./interfaces";
-import { StatusIcons } from "../../interfaces/StatusIcons";
+import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.

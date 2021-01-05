@@ -11,7 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { FocusRequest } from "../../interfaces/Label";
+import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status, Theme } from "../interfaces";
 
 @Component({

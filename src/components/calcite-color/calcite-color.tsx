@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { ColorMode, ColorValue, InternalColor, ColorAppearance } from "./interfaces";
 import { Scale, Theme } from "../interfaces";
 import {
   CSS,
@@ -60,7 +60,7 @@ export class CalciteColor {
   @Prop() allowEmpty = false;
 
   /** specify the appearance - default (containing border), or minimal (no containing border) */
-  @Prop({ reflect: true }) appearance: "default" | "minimal" = "default";
+  @Prop({ reflect: true }) appearance: ColorAppearance = "default";
 
   /**
    * Internal prop for advanced use-cases.

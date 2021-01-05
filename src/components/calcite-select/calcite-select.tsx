@@ -13,7 +13,7 @@ import {
 import { focusElement, getElementDir, getElementProp } from "../../utils/dom";
 import { Scale, Theme, Width } from "../interfaces";
 import { CSS } from "./resources";
-import { FocusRequest } from "../../interfaces/Label";
+import { FocusRequest } from "../calcite-label/interfaces";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;

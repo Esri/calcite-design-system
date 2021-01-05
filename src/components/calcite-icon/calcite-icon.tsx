@@ -2,8 +2,7 @@ import { Build, Component, Element, h, Host, Prop, State, VNode, Watch } from "@
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
-import { IconScale } from "../../interfaces/Icon";
-import { Theme } from "../interfaces";
+import { Scale, Theme } from "../interfaces";
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 
 @Component({
@@ -50,7 +49,7 @@ export class CalciteIcon {
   @Prop({
     reflect: true
   })
-  scale: IconScale = "m";
+  scale: Scale = "m";
 
   /**
    * The icon label.

@@ -1,6 +1,7 @@
 import { Component, Element, Host, h, Prop, VNode } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { Scale, Status, Theme } from "../interfaces";
+import { InputMessageType } from "./interfaces";
 
 @Component({
   tag: "calcite-input-message",
@@ -37,7 +38,7 @@ export class CalciteInputMessage {
   @Prop({ reflect: true }) theme: Theme;
 
   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
-  @Prop({ reflect: true }) type: "default" | "floating" = "default";
+  @Prop({ reflect: true }) type: InputMessageType = "default";
 
   //--------------------------------------------------------------------------
   //
