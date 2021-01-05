@@ -108,8 +108,8 @@ export const Range = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      start="${text("start", "")}"
-      end="${text("end", "")}"
+      start="${text("start", "2020-12-12")}"
+      end="${text("end", "2020-14-12")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       locale="${select("locale", locales, "en-US")}"
