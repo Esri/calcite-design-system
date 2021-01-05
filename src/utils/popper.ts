@@ -3,14 +3,14 @@ import { getElementDir } from "./dom";
 
 type PlacementRtl = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 
-export type CalcitePlacement = Placement | PlacementRtl;
+export type PopperPlacement = Placement | PlacementRtl;
 
 export const CSS = {
   animation: "calcite-popper-anim",
   animationActive: "calcite-popper-anim--active"
 };
 
-export function getPlacement(el: HTMLElement, placement: CalcitePlacement): Placement {
+export function getPlacement(el: HTMLElement, placement: PopperPlacement): Placement {
   const values = ["left", "right"];
 
   if (getElementDir(el) === "rtl") {
@@ -28,7 +28,7 @@ export function createPopper({
 }: {
   el: HTMLElement;
   modifiers: Partial<StrictModifiers>[];
-  placement: CalcitePlacement;
+  placement: PopperPlacement;
   referenceEl: HTMLElement;
 }): Popper | null {
   if (!referenceEl) {
@@ -44,15 +44,15 @@ export function createPopper({
 export function updatePopper({
   el,
   modifiers,
-  placement: calcitePlacement,
+  placement: PopperPlacement,
   popper
 }: {
   el: HTMLElement;
   modifiers: Partial<StrictModifiers>[];
   popper: Popper;
-  placement: CalcitePlacement;
+  placement: PopperPlacement;
 }): void {
-  const placement = getPlacement(el, calcitePlacement);
+  const placement = getPlacement(el, PopperPlacement);
 
   popper.setOptions({
     modifiers,

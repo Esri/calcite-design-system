@@ -16,6 +16,8 @@ import { getElementDir, CalciteFocusableElement, focusElement } from "../../util
 import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
+import { Scale, Theme } from "../interfaces";
+import { ModalBackgroundColor } from "./interfaces";
 
 function isCalciteFocusable(el: CalciteFocusableElement): boolean {
   return typeof el.setFocus === "function" || isFocusable(el);
@@ -65,10 +67,10 @@ export class CalciteModal {
   @Prop() disableEscape?: boolean;
 
   /** specify the scale of modal, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Set the width of the modal. Can use stock sizes or pass a number (in pixels) */
-  @Prop({ reflect: true }) width: "s" | "m" | "l" | number = "m";
+  @Prop({ reflect: true }) width: Scale | number = "m";
 
   /** Set the modal to always be fullscreen (overrides width) */
   @Prop({ reflect: true }) fullscreen: boolean;
@@ -78,10 +80,10 @@ export class CalciteModal {
   @Prop({ reflect: true }) color?: "red" | "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** Background color of modal content */
-  @Prop({ reflect: true }) backgroundColor: "white" | "grey" = "white";
+  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
   /** Turn off spacing around the content area slot */
   @Prop() noPadding?: boolean;

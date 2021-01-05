@@ -10,6 +10,8 @@ import {
   VNode
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
+import { AccordionAppearance } from "./interfaces";
+import { Position, Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-accordion",
@@ -32,23 +34,23 @@ export class CalciteAccordion {
   //--------------------------------------------------------------------------
 
   /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
-  @Prop({ reflect: true }) appearance: "default" | "minimal" | "transparent" = "default";
+  @Prop({ reflect: true }) appearance: AccordionAppearance = "default";
 
   /** specify the placement of the icon in the header, defaults to end */
-  @Prop({ reflect: true }) iconPosition: "start" | "end" = "end";
+  @Prop({ reflect: true }) iconPosition: Position = "end";
 
   /** specify the type of the icon in the header, defaults to chevron */
   @Prop({ reflect: true }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
 
   /** specify the scale of accordion, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** specify the selection mode - multi (allow any number of open items), single (allow one open item),
    * or single-persist (allow and require one open item), defaults to multi */
   @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
 
   /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   //--------------------------------------------------------------------------
   //

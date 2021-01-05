@@ -12,8 +12,8 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor } from "../../interfaces/Color";
-import { Scale, Theme } from "../../interfaces/common";
+import { ColorMode, ColorValue, InternalColor, ColorAppearance } from "./interfaces";
+import { Scale, Theme } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -60,7 +60,7 @@ export class CalciteColor {
   @Prop() allowEmpty = false;
 
   /** specify the appearance - default (containing border), or minimal (no containing border) */
-  @Prop({ reflect: true }) appearance: "default" | "minimal" = "default";
+  @Prop({ reflect: true }) appearance: ColorAppearance = "default";
 
   /**
    * Internal prop for advanced use-cases.
@@ -159,10 +159,10 @@ export class CalciteColor {
   @Prop({
     reflect: true
   })
-  scale: Exclude<Scale, "xs" | "xl"> = "m";
+  scale: Scale = "m";
 
   @Watch("scale")
-  handleScaleChange(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
+  handleScaleChange(scale: Scale = "m"): void {
     this.updateDimensions(scale);
   }
 
@@ -686,7 +686,7 @@ export class CalciteColor {
     return radius * 2 - height;
   }
 
-  private updateDimensions(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
+  private updateDimensions(scale: Scale = "m"): void {
     this.dimensions = DIMENSIONS[scale];
   }
 

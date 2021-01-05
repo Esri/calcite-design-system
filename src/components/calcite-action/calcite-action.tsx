@@ -1,6 +1,6 @@
 import { Component, Element, Host, Method, Prop, h, forceUpdate } from "@stencil/core";
 
-import { CalciteAppearance, CalciteScale, CalciteTheme } from "../interfaces";
+import { Appearance, Scale, Theme } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -24,7 +24,7 @@ export class CalciteAction {
   //
   // --------------------------------------------------------------------------
   /** Specify the appearance style of the action, defaults to solid. */
-  @Prop({ reflect: true }) appearance: CalciteAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Appearance = "solid";
 
   /**
    * Indicates whether the action is highlighted.
@@ -67,7 +67,7 @@ export class CalciteAction {
   /**
    * Specifies the size of the action.
    */
-  @Prop({ reflect: true }) scale: CalciteScale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * Text that accompanies the action icon.
@@ -82,7 +82,7 @@ export class CalciteAction {
   /**
    * Used to set the component's color scheme.
    */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

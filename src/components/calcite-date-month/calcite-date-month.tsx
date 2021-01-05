@@ -13,6 +13,7 @@ import { inRange, sameDate, dateFromRange } from "../../utils/date";
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
 import { DateLocaleData } from "../calcite-date/utils";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-date-month",
@@ -53,7 +54,7 @@ export class CalciteDateMonth {
   @Prop() max: Date;
 
   /** specify the scale of the date picker */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+  @Prop({ reflect: true }) scale: Scale;
 
   /**
    * CLDR locale data for current locale

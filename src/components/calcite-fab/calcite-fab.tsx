@@ -1,5 +1,6 @@
 import { Component, Element, Host, Method, Prop, h, VNode } from "@stencil/core";
-import { CalciteAppearance, CalciteColor, CalciteScale, CalciteTheme } from "../interfaces";
+import { Appearance, Scale, Theme } from "../interfaces";
+import { FabColor } from "./interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
 
@@ -18,12 +19,12 @@ export class CalciteFab {
   /**
    * Used to set the button's appearance. Default is outline.
    */
-  @Prop({ reflect: true }) appearance: CalciteAppearance = "outline";
+  @Prop({ reflect: true }) appearance: Appearance = "outline";
 
   /**
    * Used to set the button's color. Default is light.
    */
-  @Prop({ reflect: true }) color: CalciteColor = "light";
+  @Prop({ reflect: true }) color: FabColor = "light";
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
@@ -48,7 +49,7 @@ export class CalciteFab {
   /**
    * Specifies the size of the fab.
    */
-  @Prop({ reflect: true }) scale: CalciteScale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * Text that accompanies the FAB icon.
@@ -63,7 +64,7 @@ export class CalciteFab {
   /**
    * Used to set the component's color scheme.
    */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
