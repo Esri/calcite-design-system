@@ -17,7 +17,7 @@ import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
-import { Flip } from "../interfaces";
+import { FlipContext } from "../interfaces";
 
 @Component({
   tag: "calcite-tab-title",
@@ -49,7 +49,7 @@ export class CalciteTabTitle {
   @Prop({ reflect: true }) iconEnd?: string;
 
   /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: Flip;
+  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;

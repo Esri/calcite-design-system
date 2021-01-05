@@ -1,6 +1,6 @@
 import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { Flip, Theme } from "../interfaces";
+import { FlipContext, Theme } from "../interfaces";
 
 /** @slot default text slot for link text */
 
@@ -38,7 +38,7 @@ export class CalciteLink {
   @Prop({ reflect: true }) iconEnd?: string;
 
   /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: Flip;
+  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;

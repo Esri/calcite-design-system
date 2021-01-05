@@ -2,7 +2,7 @@ import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "
 import { CSS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
-import { Flip, Scale, Theme, Width } from "../interfaces";
+import { FlipContext, Scale, Theme, Width } from "../interfaces";
 
 @Component({
   tag: "calcite-button",
@@ -46,7 +46,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) iconEnd?: string;
 
   /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: Flip;
+  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;

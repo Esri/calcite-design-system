@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
-import { Flip, Scale, Theme } from "../interfaces";
+import { FlipContext, Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-split-button",
@@ -34,7 +34,7 @@ export class CalciteSplitButton {
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
   /** flip the primary icon(s) in rtl */
-  @Prop({ reflect: true }) primaryIconFlipRtl?: Flip;
+  @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconStart?: string;

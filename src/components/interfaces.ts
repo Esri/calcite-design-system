@@ -1,7 +1,7 @@
 /* Note: using `.d.ts` file extension will exclude it from the output build */
 export type Alignment = "start" | "center" | "end";
 export type Appearance = "solid" | "clear" | "outline";
-export type Flip = "both" | "start" | "end";
+export type FlipContext = "both" | "start" | "end";
 export type Layout = "horizontal" | "vertical";
 export type Position = "start" | "end";
 export type Scale = "s" | "m" | "l";
