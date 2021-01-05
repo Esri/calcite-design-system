@@ -141,8 +141,8 @@ describe("calcite-date", () => {
         await page.waitForFunction(() => {
           return document
             .querySelector("calcite-date")
-            .shadowRoot.querySelector("calcite-date-month")
-            .shadowRoot.querySelector("span.week-header:first-child");
+            .shadowRoot?.querySelector("calcite-date-month")
+            .shadowRoot?.querySelector("span.week-header:first-child");
         })
       ).asElement();
       const text = await handle.getProperty("textContent");
