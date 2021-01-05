@@ -247,7 +247,7 @@ export class CalciteRadioButton {
 
   private formResetHandler = (): void => {
     this.checked = this.initialChecked;
-    this.initialChecked && this.input.setAttribute("checked", "");
+    this.initialChecked && this.input?.setAttribute("checked", "");
   };
 
   private onInputBlur = (): void => {
