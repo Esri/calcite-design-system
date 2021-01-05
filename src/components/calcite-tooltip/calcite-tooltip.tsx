@@ -3,7 +3,7 @@ import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
-  CalcitePlacement,
+  PopperPlacement,
   defaultOffsetDistance,
   createPopper,
   updatePopper,
@@ -59,7 +59,7 @@ export class CalciteTooltip {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
-  @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
+  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   @Watch("placement")
   placementHandler(): void {

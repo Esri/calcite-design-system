@@ -14,7 +14,7 @@ import {
 import { GroupRegistration, ItemKeyboardEvent } from "./interfaces";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { createPopper, CalcitePlacement, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import { createPopper, PopperPlacement, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { Alignment, Scale, Theme } from "../interfaces";
 
@@ -340,7 +340,7 @@ export class CalciteDropdown {
     return [flipModifier];
   }
 
-  getPlacement(): CalcitePlacement {
+  getPlacement(): PopperPlacement {
     const { alignment } = this;
 
     if (alignment === "center") {

@@ -42,7 +42,7 @@ export class CalciteColorSwatch {
   @Prop({
     reflect: true
   })
-  scale: Exclude<Scale, "xs" | "xl"> = "m";
+  scale: Scale = "m";
 
   /**
    * The component's theme.

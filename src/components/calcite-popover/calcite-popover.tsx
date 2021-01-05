@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, POPOVER_REFERENCE, TEXT } from "./resources";
 import {
-  CalcitePlacement,
+  PopperPlacement,
   defaultOffsetDistance,
   createPopper,
   updatePopper,
@@ -103,7 +103,7 @@ export class CalcitePopover {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
-  @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
+  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   @Watch("placement")
   placementHandler(): void {

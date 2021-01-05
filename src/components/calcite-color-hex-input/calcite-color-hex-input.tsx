@@ -94,7 +94,7 @@ export class CalciteColorHexInput {
   /**
    * The component's scale.
    */
-  @Prop({ reflect: true }) scale: Exclude<Scale, "xs" | "xl"> = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * The component's theme.

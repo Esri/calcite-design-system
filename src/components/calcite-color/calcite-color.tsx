@@ -159,10 +159,10 @@ export class CalciteColor {
   @Prop({
     reflect: true
   })
-  scale: Exclude<Scale, "xs" | "xl"> = "m";
+  scale: Scale = "m";
 
   @Watch("scale")
-  handleScaleChange(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
+  handleScaleChange(scale: Scale = "m"): void {
     this.updateDimensions(scale);
   }
 
@@ -686,7 +686,7 @@ export class CalciteColor {
     return radius * 2 - height;
   }
 
-  private updateDimensions(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
+  private updateDimensions(scale: Scale = "m"): void {
     this.dimensions = DIMENSIONS[scale];
   }
 
