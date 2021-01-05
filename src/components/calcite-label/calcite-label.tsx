@@ -11,7 +11,8 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { FocusRequest } from "../../interfaces/Label";
+import { FocusRequest } from "./interfaces";
+import { Alignment, Scale, Status, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-label",
@@ -34,19 +35,19 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   /** specify the text alignment of the label */
-  @Prop({ reflect: true }) alignment: "start" | "center" | "end" = "start";
+  @Prop({ reflect: true }) alignment: Alignment = "start";
 
   /** specify the status of the label and any child input / input messages */
-  @Prop({ mutable: true, reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
+  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** The id of the input associated with the label */
   @Prop({ reflect: true }) for: string;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** specify theme of the label and its any child input / input messages */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** is the wrapped element positioned inline with the label slotted text */
   @Prop({ mutable: true, reflect: true }) layout: "inline" | "inline-space-between" | "default" =

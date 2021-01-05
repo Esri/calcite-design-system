@@ -28,10 +28,11 @@ import {
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-date-resources";
 
-import { DateRangeChange } from "../../interfaces/DateRangeChange";
+import { DateRangeChange } from "./interfaces";
 
 import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+import { Layout, Position, Scale } from "../interfaces";
 
 const DEFAULT_PLACEMENT = "bottom-start";
 
@@ -93,7 +94,7 @@ export class CalciteDate {
   @Prop() noCalendarInput?: boolean = false;
 
   /** specify the scale of the date picker */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Range mode activation */
   @Prop({ reflect: true }) range?: boolean = false;
@@ -107,7 +108,7 @@ export class CalciteDate {
   @Prop() proximitySelection?: boolean = true;
 
   /** Layout */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   //--------------------------------------------------------------------------
   //
@@ -191,7 +192,7 @@ export class CalciteDate {
   /**
    * In range mode, indicates which input was is focused on
    */
-  @State() focusedInput: "start" | "end" = "start";
+  @State() focusedInput: Position = "start";
 
   @Watch("focusedInput")
   focusedHandler(): void {

@@ -11,11 +11,12 @@ import {
   Watch,
   Method
 } from "@stencil/core";
-import { GroupRegistration, ItemKeyboardEvent } from "../../interfaces/Dropdown";
+import { GroupRegistration, ItemKeyboardEvent } from "./interfaces";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { createPopper, CalcitePlacement, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import { createPopper, PopperPlacement, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+import { Alignment, Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-dropdown",
@@ -45,7 +46,7 @@ export class CalciteDropdown {
   }
 
   /** specify the alignment of dropdown, defaults to start */
-  @Prop({ reflect: true }) alignment: "start" | "center" | "end" = "start";
+  @Prop({ reflect: true }) alignment: Alignment = "start";
 
   /**
    allow the dropdown to remain open after a selection is made
@@ -68,7 +69,7 @@ export class CalciteDropdown {
   @Prop() maxItems = 0;
 
   /** specify the scale of dropdown, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * **read-only** The currently selected items
@@ -78,13 +79,13 @@ export class CalciteDropdown {
   @Prop({ mutable: true }) selectedItems: HTMLCalciteDropdownItemElement[] = [];
 
   /** specify the theme of the dropdown, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify whether the dropdown is opened by hover or click of a trigger element */
   @Prop({ reflect: true }) type: "hover" | "click" = "click";
 
   /** specify the width of dropdown, defaults to m */
-  @Prop({ reflect: true }) width: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) width: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -339,7 +340,7 @@ export class CalciteDropdown {
     return [flipModifier];
   }
 
-  getPlacement(): CalcitePlacement {
+  getPlacement(): PopperPlacement {
     const { alignment } = this;
 
     if (alignment === "center") {

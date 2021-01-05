@@ -10,7 +10,7 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { CalciteLayout, CalcitePosition, CalciteTheme } from "../interfaces";
+import { Layout, Position, Theme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { getElementDir, focusElement } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -33,7 +33,7 @@ export class CalciteActionPad {
   /**
    * Indicates the horizontal or vertical layout of the component.
    */
-  @Prop({ reflect: true }) layout: CalciteLayout = "vertical";
+  @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
    * Indicates whether widget can be expanded.
@@ -79,12 +79,12 @@ export class CalciteActionPad {
   /**
    * Arranges the component depending on the elements 'dir' property.
    */
-  @Prop({ reflect: true }) position: CalcitePosition;
+  @Prop({ reflect: true }) position: Position;
 
   /**
    * Used to set the component's color scheme.
    */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

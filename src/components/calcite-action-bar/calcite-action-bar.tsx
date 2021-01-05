@@ -10,7 +10,7 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { CalcitePosition, CalciteTheme } from "../interfaces";
+import { Position, Theme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
@@ -74,12 +74,12 @@ export class CalciteActionBar {
   /**
    * Arranges the component depending on the elements 'dir' property.
    */
-  @Prop({ reflect: true }) position: CalcitePosition;
+  @Prop({ reflect: true }) position: Position;
 
   /**
    * Used to set the component's color scheme.
    */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

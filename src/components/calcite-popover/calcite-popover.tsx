@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, POPOVER_REFERENCE, TEXT } from "./resources";
 import {
-  CalcitePlacement,
+  PopperPlacement,
   defaultOffsetDistance,
   createPopper,
   updatePopper,
@@ -21,6 +21,7 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
+import { Theme } from "../interfaces";
 
 export type FocusId = "close-button";
 
@@ -102,7 +103,7 @@ export class CalcitePopover {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
-  @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
+  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   @Watch("placement")
   placementHandler(): void {
@@ -126,7 +127,7 @@ export class CalcitePopover {
   @Prop() intlClose = TEXT.close;
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
