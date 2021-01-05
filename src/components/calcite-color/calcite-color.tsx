@@ -24,7 +24,7 @@ import {
   TEXT
 } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
+import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 
@@ -88,7 +88,7 @@ export class CalciteColor {
    *
    * When "auto", the format will be inferred from `value` when set.
    */
-  @Prop() format: "auto" | SupportedMode = "auto";
+  @Prop() format: Format = "auto";
 
   @Watch("format")
   handleFormatChange(format: CalciteColor["format"]): void {

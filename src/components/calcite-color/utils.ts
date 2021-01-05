@@ -63,25 +63,34 @@ export function hexToRGB(hex: string): RGB {
   return { r, g, b };
 }
 
-export enum CSSColorMode {
-  HEX = "hex",
-  HEXA = "hexa",
-  RGB_CSS = "rgb-css",
-  RGBA_CSS = "rgba-css",
-  HSL_CSS = "hsl-css",
-  HSLA_CSS = "hsla-css"
-}
+// these utils allow users to pass enum values as strings without having to access the enum
+// based on the approach suggested by https://github.com/microsoft/TypeScript/issues/17690#issuecomment-321365759,
+const enumify = <T extends { [index: string]: U }, U extends string>(x: T) => x;
+type Enumify<T> = T[keyof T];
 
-export enum ObjectColorMode {
-  RGB = "rgb",
-  RGBA = "rgba",
-  HSL = "hsl",
-  HSLA = "hsla",
-  HSV = "hsv",
-  HSVA = "hsva"
-}
+export const CSSColorMode = enumify({
+  HEX: "hex",
+  HEXA: "hexa",
+  RGB_CSS: "rgb-css",
+  RGBA_CSS: "rgba-css",
+  HSL_CSS: "hsl-css",
+  HSLA_CSS: "hsla-css"
+});
+type CSSColorMode = Enumify<typeof CSSColorMode>;
+
+export const ObjectColorMode = enumify({
+  RGB: "rgb",
+  RGBA: "rgba",
+  HSL: "hsl",
+  HSLA: "hsla",
+  HSV: "hsv",
+  HSVA: "hsva"
+});
+type ObjectColorMode = Enumify<typeof ObjectColorMode>;
 
 export type SupportedMode = CSSColorMode | ObjectColorMode;
+
+export type Format = "auto" | SupportedMode;
 
 export function parseMode(colorValue: ColorValue): SupportedMode | null {
   if (typeof colorValue === "string") {
