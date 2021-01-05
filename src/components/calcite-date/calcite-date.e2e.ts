@@ -137,6 +137,7 @@ describe("calcite-date", () => {
       const page = await newE2EPage({
         html: `<calcite-date scale="m" locale="sk" value="2000-11-27" no-calendar-input active></calcite-date>`
       });
+      await page.waitForChanges();
       const handle = (
         await page.waitForFunction(() => {
           return document

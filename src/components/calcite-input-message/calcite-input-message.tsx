@@ -53,8 +53,9 @@ export class CalciteInputMessage {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+    const hidden = !this.active;
     return (
-      <Host dir={dir} theme={this.theme}>
+      <Host calcite-hydrated-hidden={hidden} dir={dir} theme={this.theme}>
         {this.icon ? this.renderIcon(this.iconDefaults[this.status]) : null}
         <slot />
       </Host>
