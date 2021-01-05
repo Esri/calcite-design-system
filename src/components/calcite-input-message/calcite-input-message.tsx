@@ -1,5 +1,7 @@
 import { Component, Element, Host, h, Prop, VNode } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
+import { Scale, Status, Theme } from "../interfaces";
+import { InputMessageType } from "./interfaces";
 
 @Component({
   tag: "calcite-input-message",
@@ -27,16 +29,16 @@ export class CalciteInputMessage {
   @Prop({ reflect: true }) icon: boolean;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** specify the theme, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
-  @Prop({ reflect: true }) type: "default" | "floating" = "default";
+  @Prop({ reflect: true }) type: InputMessageType = "default";
 
   //--------------------------------------------------------------------------
   //
@@ -51,8 +53,9 @@ export class CalciteInputMessage {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+    const hidden = !this.active;
     return (
-      <Host dir={dir} theme={this.theme}>
+      <Host calcite-hydrated-hidden={hidden} dir={dir} theme={this.theme}>
         {this.icon ? this.renderIcon(this.iconDefaults[this.status]) : null}
         <slot />
       </Host>

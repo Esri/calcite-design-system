@@ -21,6 +21,7 @@ import {
 } from "../../utils/date";
 import { getKey } from "../../utils/key";
 import { DateLocaleData } from "../calcite-date-picker/utils";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -64,7 +65,7 @@ export class CalciteDatePickerMonthHeader {
   @Prop() intlNextMonth: string;
 
   /** specify the scale of the date picker */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+  @Prop({ reflect: true }) scale: Scale;
 
   /** CLDR locale data for translated calendar info */
   @Prop() localeData: DateLocaleData;

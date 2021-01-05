@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-switch",
@@ -29,13 +30,13 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) name?: string = "";
 
   /** The scale of the switch */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** True if the switch is initially on */
   @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
 
   /** The component's theme. */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the checkbox input */
   @Prop({ reflect: true, mutable: true }) value?: string = "";

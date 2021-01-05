@@ -71,10 +71,22 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
 };
 
 const menuActionsHTML = html`
-  <calcite-action slot="${SLOTS.menuActions}" text-enabled text="Add" label="Add Item" icon="plus"></calcite-action>
-  <calcite-action slot="${SLOTS.menuActions}" text-enabled text="Save" label="Save Item" icon="save"></calcite-action>
   <calcite-action
-    slot="${SLOTS.menuActions}"
+    slot="${SLOTS.headerMenuActions}"
+    text-enabled
+    text="Add"
+    label="Add Item"
+    icon="plus"
+  ></calcite-action>
+  <calcite-action
+    slot="${SLOTS.headerMenuActions}"
+    text-enabled
+    text="Save"
+    label="Save Item"
+    icon="save"
+  ></calcite-action>
+  <calcite-action
+    slot="${SLOTS.headerMenuActions}"
     text-enabled
     text="Layers"
     label="View Layers"

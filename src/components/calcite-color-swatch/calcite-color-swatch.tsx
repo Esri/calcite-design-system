@@ -1,7 +1,7 @@
 import { Component, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
 import { COLORS, CSS } from "./resources";
-import { Scale, Theme } from "../../interfaces/common";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-color-swatch",
@@ -42,7 +42,7 @@ export class CalciteColorSwatch {
   @Prop({
     reflect: true
   })
-  scale: Exclude<Scale, "xs" | "xl"> = "m";
+  scale: Scale = "m";
 
   /**
    * The component's theme.

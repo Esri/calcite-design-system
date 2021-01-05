@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible } from "../../tests/commonTests";
+import { renders, accessible, focusable } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>"));
@@ -417,5 +417,52 @@ describe("calcite-rating", () => {
     expect(calciteChip).not.toBeNull();
     expect(countSpan).not.toBeNull();
     expect(averageSpan).not.toBeNull();
+  });
+
+  describe("when setFocus method is called", () => {
+    it("should focus input element in shadow DOM", async () => {
+      focusable("calcite-rating", {
+        shadowFocusTargetSelector: "input"
+      });
+    });
+  });
+
+  describe("when wrapped inside calcite-label", () => {
+    let page;
+    let ratingStars;
+    let label;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
+    describe("when a rating value exists", () => {
+      it("should focus the last-selected star on label click", async () => {
+        await page.setContent("<calcite-label>Your rating<calcite-rating value='3'></calcite-rating></calcite-label>");
+        label = await page.find("calcite-label");
+        await label.click();
+        ratingStars = await page.findAll("calcite-rating >>> label.selected");
+        const lastSelectedStar = ratingStars[ratingStars.length - 1];
+        expect(lastSelectedStar).toHaveClass("focused");
+        const guid = await lastSelectedStar.getAttribute("for");
+        const lastSelectedInput = await page.find(`calcite-rating >>> input[id="${guid}"]`);
+        expect(await lastSelectedInput.getProperty("value")).toEqual("3");
+      });
+    });
+
+    describe("when no rating value exists", () => {
+      it("should focus the first non-selected star on label click", async () => {
+        await page.setContent("<calcite-label dir='rtl'>הדירוג שלי<calcite-rating></calcite-rating></calcite-label>");
+        label = await page.find("calcite-label");
+        await label.click();
+        ratingStars = await page.findAll("calcite-rating >>> label");
+        const firstStar = ratingStars[0];
+        expect(firstStar).toHaveClass("focused");
+        expect(firstStar).not.toHaveClass("selected");
+        const guid = await firstStar.getAttribute("for");
+        const firstInputById = await page.find(`calcite-rating >>> input[id="${guid}"]`);
+        expect(await firstInputById.getProperty("value")).toEqual("1");
+      });
+    });
   });
 });

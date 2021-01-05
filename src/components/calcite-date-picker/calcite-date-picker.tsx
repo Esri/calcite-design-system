@@ -19,7 +19,7 @@ import { dateFromRange, dateFromISO, dateToISO, getDaysDiff } from "../../utils/
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-date-picker-resources";
 
-import { DateRangeChange } from "../../interfaces/DateRangeChange";
+import { DateRangeChange } from "./interfaces";
 
 @Component({
   assetsDirs: ["calcite-date-picker-nls"],

@@ -20,7 +20,7 @@ import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
 
 import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
-import { DateRangeChange } from "../../interfaces/DateRangeChange";
+import { DateRangeChange } from "../calcite-date-picker/interfaces";
 
 const DEFAULT_PLACEMENT = "bottom-start";
 

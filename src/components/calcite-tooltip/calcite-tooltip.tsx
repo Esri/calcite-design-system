@@ -3,12 +3,13 @@ import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
-  CalcitePlacement,
+  PopperPlacement,
   defaultOffsetDistance,
   createPopper,
   updatePopper,
   CSS as PopperCSS
 } from "../../utils/popper";
+import { Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-tooltip",
@@ -58,7 +59,7 @@ export class CalciteTooltip {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
-  @Prop({ reflect: true }) placement: CalcitePlacement = "auto";
+  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   @Watch("placement")
   placementHandler(): void {
@@ -79,7 +80,7 @@ export class CalciteTooltip {
   }
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
