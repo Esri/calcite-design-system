@@ -224,6 +224,7 @@ export class CalciteInputDatePicker {
                   range={this.range}
                   scale={this.scale}
                   startAsDate={this.startAsDate}
+                  tabIndex={0}
                   valueAsDate={this.valueAsDate}
                 />
               </div>
