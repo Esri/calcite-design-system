@@ -12,7 +12,7 @@
 | `guid`               | `guid`     | The id attribute of the radio button. When omitted, a globally unique identifier is used.                                                    | `string`            | `undefined` |
 | `hidden`             | `hidden`   | The radio button's hidden status. When a radio button is hidden it is not focusable or checkable.                                            | `boolean`           | `false`     |
 | `hovered`            | `hovered`  | The hovered state of the radio button.                                                                                                       | `boolean`           | `false`     |
-| `name` _(required)_  | `name`     | The name of the radio button. <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>.          | `string`            | `undefined` |
+| `name`               | `name`     | The name of the radio button. <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>.          | `string`            | `undefined` |
 | `required`           | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                                             | `boolean`           | `false`     |
 | `scale`              | `scale`    | The scale (size) of the radio button. <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. | `"l" \| "m" \| "s"` | `"m"`       |
 | `theme`              | `theme`    | The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>.  | `"dark" \| "light"` | `"light"`   |
@@ -30,12 +30,14 @@
 ### Depends on
 
 - [calcite-label](../calcite-label)
+- [calcite-radio](../calcite-radio)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-radio-button --> calcite-label
+  calcite-radio-button --> calcite-radio
   style calcite-radio-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

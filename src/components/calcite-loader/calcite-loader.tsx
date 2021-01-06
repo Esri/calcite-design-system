@@ -1,5 +1,6 @@
 import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { guid } from "../../utils/guid";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-loader",
@@ -29,7 +30,7 @@ export class CalciteLoader {
   @Prop() label!: string;
 
   /** Speficy the scale of the loader. Defaults to "m" */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Use indeterminate if finding actual progress value is impossible */
   @Prop({ reflect: true }) type: "indeterminate" | "determinate";

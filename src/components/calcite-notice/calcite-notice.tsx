@@ -12,8 +12,8 @@ import {
 } from "@stencil/core";
 
 import { TEXT } from "./calcite-notice.resources";
-import { CalciteStatusColor, CalciteScale, CalciteTheme, CalciteWidth } from "../interfaces";
-import { StatusIcons } from "../../interfaces/StatusIcons";
+import { Scale, Theme, Width } from "../interfaces";
+import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -52,7 +52,7 @@ export class CalciteNotice {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Color for the notice (will apply to top border and icon) */
-  @Prop({ reflect: true }) color: CalciteStatusColor = "blue";
+  @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /** Optionally show a button the user can click to dismiss the notice */
   @Prop({ reflect: true }) dismissible?: boolean = false;
@@ -65,13 +65,13 @@ export class CalciteNotice {
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
   /** specify the scale of the notice, defaults to m */
-  @Prop({ reflect: true }) scale: CalciteScale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the width of the notice, defaults to auto */
-  @Prop({ reflect: true }) width: CalciteWidth = "auto";
+  @Prop({ reflect: true }) width: Width = "auto";
 
   @Watch("icon")
   @Watch("color")

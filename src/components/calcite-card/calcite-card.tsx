@@ -2,6 +2,7 @@ import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { Theme } from "../interfaces";
 
 /**
  * @slot thumbnail - A slot for adding a thumnail to the card.
@@ -46,7 +47,7 @@ export class CalciteCard {
   @Prop({ reflect: true }) selectable = false;
 
   /**  The theme of the card.*/
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** string to override English loading text */
   @Prop() intlLoading?: string = TEXT.loading;

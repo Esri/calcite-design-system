@@ -10,6 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { Scale, Theme } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -47,10 +48,10 @@ export class CalcitePagination {
   @Prop() textLabelPrevious: string = TEXT.previousLabel;
 
   /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The scale of the pagination */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   // --------------------------------------------------------------------------
   //

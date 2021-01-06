@@ -12,6 +12,8 @@ import {
 import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT } from "./resources";
+import { ChipColor } from "./interfaces";
+import { Appearance, Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-chip",
@@ -26,10 +28,10 @@ export class CalciteChip {
   //--------------------------------------------------------------------------
 
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ reflect: true }) appearance: "solid" | "clear" = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /** specify the color of the button, defaults to blue */
-  @Prop({ reflect: true }) color: "blue" | "red" | "yellow" | "green" | "grey" = "grey";
+  @Prop({ reflect: true }) color: ChipColor = "grey";
 
   /** Optionally show a button the user can click to dismiss the chip */
   @Prop({ reflect: true }) dismissible?: boolean = false;
@@ -44,10 +46,10 @@ export class CalciteChip {
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
 
   /** specify the scale of the chip, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   @Prop() value!: string;
 

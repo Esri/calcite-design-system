@@ -10,10 +10,10 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { focusElement, getElementDir } from "../../utils/dom";
-import { Scale, Theme } from "../../interfaces/common";
+import { focusElement, getElementDir, getElementProp } from "../../utils/dom";
+import { Scale, Theme, Width } from "../interfaces";
 import { CSS } from "./resources";
-import { FocusRequest } from "../../interfaces/Label";
+import { FocusRequest } from "../calcite-label/interfaces";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -77,7 +77,7 @@ export class CalciteSelect {
   @Prop({
     reflect: true
   })
-  theme: Theme = "light";
+  theme: Theme;
 
   /**
    * The component width.
@@ -85,7 +85,7 @@ export class CalciteSelect {
   @Prop({
     reflect: true
   })
-  width: "auto" | "half" | "full" = "auto";
+  width: Width = "auto";
 
   //--------------------------------------------------------------------------
   //
@@ -115,6 +115,8 @@ export class CalciteSelect {
       subtree: true,
       childList: true
     });
+
+    if (!this.theme) this.theme = getElementProp(this.el, "theme", "light");
   }
 
   disconnectedCallback(): void {
@@ -206,7 +208,7 @@ export class CalciteSelect {
     this.clearInternalSelect();
 
     optionsAndGroups.forEach((optionOrGroup) =>
-      this.selectEl.append(this.toNativeElement(optionOrGroup))
+      this.selectEl?.append(this.toNativeElement(optionOrGroup))
     );
   };
 

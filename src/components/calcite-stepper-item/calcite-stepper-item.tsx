@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-stepper-item",
@@ -66,7 +67,7 @@ export class CalciteStepperItem {
 
   /** the scale of the item */
   /** @internal */
-  @Prop({ reflect: true, mutable: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
   // watch for removal of disabled to register step
   @Watch("disabled") disabledWatcher(): void {

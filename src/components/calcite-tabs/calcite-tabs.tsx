@@ -1,4 +1,6 @@
 import { Component, Prop, h, Host, Element, Listen, State, VNode } from "@stencil/core";
+import { Theme } from "../interfaces";
+import { TabLayout, TabPosition } from "./interfaces";
 
 @Component({
   tag: "calcite-tabs",
@@ -23,17 +25,17 @@ export class CalciteTabs {
   /**
    * Select theme (light or dark)
    */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /**
    * Align tab titles to the edge or fully justify them across the tab nav ("center")
    */
-  @Prop({ reflect: true }) layout: "center" | "inline" = "inline";
+  @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
    * Display the tabs above (default) or below the tab content
    */
-  @Prop({ reflect: true }) position: "above" | "below" = "above";
+  @Prop({ reflect: true }) position: TabPosition = "above";
 
   //--------------------------------------------------------------------------
   //

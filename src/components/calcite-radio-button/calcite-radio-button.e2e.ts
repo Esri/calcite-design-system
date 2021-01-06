@@ -357,4 +357,62 @@ describe("calcite-radio-button", () => {
     const labels2 = await page.findAll("calcite-label");
     expect(labels2).toHaveLength(0);
   });
+
+  it("works correctly inside a shadowRoot", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div></div>
+      <template>
+        <calcite-radio-button name="in-shadow" value="one">
+          One
+        </calcite-radio-button>
+        <calcite-radio-button name="in-shadow" value="two">
+          Two
+        </calcite-radio-button>
+      </template>
+      <script>
+        const shadowRootDiv = document.querySelector("div");
+        const shadowRoot = shadowRootDiv.attachShadow({ mode: "open" });
+        shadowRoot.append(document.querySelector("template").content.cloneNode(true));
+      </script>
+    `);
+
+    const radios = await page.findAll("div >>> calcite-radio-button");
+    const inputs = await page.findAll("div >>> input");
+
+    await radios[0].click();
+
+    expect(await radios[0].getProperty("checked")).toBe(true);
+    expect(await radios[0].getAttribute("checked")).toBe("");
+    expect(await inputs[0].getProperty("checked")).toBe(true);
+
+    await radios[1].click();
+
+    expect(await radios[0].getProperty("checked")).toBe(false);
+    expect(await radios[0].getAttribute("checked")).toBe(null);
+    expect(await inputs[0].getProperty("checked")).toBe(false);
+
+    expect(await radios[1].getProperty("checked")).toBe(true);
+    expect(await radios[1].getAttribute("checked")).toBe("");
+    expect(await inputs[1].getProperty("checked")).toBe(true);
+  });
+
+  it("selects properly when wrapped in a label", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <label>
+        Wrapping label
+        <calcite-radio-button id="one" name="wrapped" value="one">One</calcite-radio-button>
+        <calcite-radio-button id="two" name="wrapped" value="two">Two</calcite-radio-button>
+      </label>
+    `);
+    const one = await page.find("#one");
+    const two = await page.find("#two calcite-radio");
+
+    await two.click();
+    await page.waitForChanges();
+
+    expect(await one.getProperty("checked")).toBe(false);
+    expect(await two.getProperty("checked")).toBe(true);
+  });
 });
