@@ -42,6 +42,10 @@ describe("calcite-color", () => {
         defaultValue: "default"
       },
       {
+        propertyName: "format",
+        defaultValue: "auto"
+      },
+      {
         propertyName: "intlB",
         defaultValue: TEXT.b
       },
@@ -145,36 +149,91 @@ describe("calcite-color", () => {
     expect(spy).toHaveReceivedEventTimes(1);
   });
 
-  it("accepts multiple color value types", async () => {
+  const supportedFormatToSampleValue = {
+    hex: "#ffffff",
+    "rgb-css": "rgb(255, 255, 255)",
+    "hsl-css": "hsl(0, 0%, 100%)",
+    rgb: { r: 255, g: 255, b: 255 },
+    hsl: { h: 0, s: 0, l: 100 },
+    hsv: { h: 0, s: 0, v: 100 }
+  };
+
+  describe("color format", () => {
+    it("allows specifying the color value format", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color></calcite-color>"
+      });
+
+      const color = await page.find("calcite-color");
+
+      for (const format in supportedFormatToSampleValue) {
+        const expectedValue = supportedFormatToSampleValue[format];
+
+        // set base format and value to test setting different format values
+        color.setProperty("format", format);
+        color.setProperty("value", expectedValue);
+        await page.waitForChanges();
+
+        for (const format in supportedFormatToSampleValue) {
+          const currentTestValue = supportedFormatToSampleValue[format];
+          color.setProperty("value", currentTestValue);
+          await page.waitForChanges();
+
+          // non-matching formats are ignored
+          expect(await color.getProperty("value")).toEqual(expectedValue);
+        }
+      }
+    });
+
+    it("changing format updates value", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color value=${supportedFormatToSampleValue["hex"]}></calcite-color>`
+      });
+      const color = await page.find("calcite-color");
+
+      for (const format in supportedFormatToSampleValue) {
+        color.setProperty("format", format);
+        await page.waitForChanges();
+
+        expect(await color.getProperty("value")).toEqual(supportedFormatToSampleValue[format]);
+      }
+    });
+  });
+
+  it("accepts multiple color value formats", async () => {
     const page = await newE2EPage({
       html: "<calcite-color></calcite-color>"
     });
     const picker = await page.find("calcite-color");
     const spy = await picker.spyOnEvent("calciteColorChange");
 
-    const supportedStringValues = ["#beefee", "rgb(255, 0, 255)", "hsl(30, 100%, 50%)"];
+    const supportedStringFormats = [
+      supportedFormatToSampleValue.hex,
+      supportedFormatToSampleValue["rgb-css"],
+      supportedFormatToSampleValue["hsl-css"]
+    ];
 
-    for (const value of supportedStringValues) {
+    for (const value of supportedStringFormats) {
       picker.setProperty("value", value);
       await page.waitForChanges();
 
       expect(await picker.getProperty("value")).toBe(value);
     }
 
-    const supportedObjectValues = [
-      { r: 255, g: 255, b: 0 },
-      { h: 270, s: 60, l: 70 },
-      { h: 202, s: 0, v: 100 }
+    const supportedObjectFormats = [
+      supportedFormatToSampleValue.rgb,
+      supportedFormatToSampleValue.hsl,
+      supportedFormatToSampleValue.hsv
     ];
 
-    for (const value of supportedObjectValues) {
+    for (const value of supportedObjectFormats) {
       picker.setProperty("value", value);
       await page.waitForChanges();
 
       expect(await picker.getProperty("value")).toMatchObject(value);
     }
 
-    expect(spy).toHaveReceivedEventTimes(supportedStringValues.length + supportedObjectValues.length);
+    expect(spy).toHaveReceivedEventTimes(supportedStringFormats.length + supportedObjectFormats.length);
   });
 
   it("allows selecting colors via color field/slider", async () => {
@@ -305,7 +364,7 @@ describe("calcite-color", () => {
   });
 
   describe("initial value used to initialize internal color", () => {
-    const initialColor = "#c0ff33";
+    const initialColor = supportedFormatToSampleValue.hex;
 
     async function getInternalColorAsHex(page: E2EPage): Promise<string> {
       return page.$eval("calcite-color", (picker: HTMLCalciteColorElement) => picker.color.hex().toLowerCase());
@@ -331,7 +390,7 @@ describe("calcite-color", () => {
         picker.value = color;
         document.body.append(picker);
 
-        await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       }, initialColor);
 
       expect(await getInternalColorAsHex(page)).toBe(initialColor);
@@ -414,7 +473,7 @@ describe("calcite-color", () => {
       }
 
       it("supports hex", async () => {
-        const hex = "#f0f";
+        const hex = supportedFormatToSampleValue.hex;
         picker.setProperty("value", hex);
         await page.waitForChanges();
 
@@ -425,7 +484,7 @@ describe("calcite-color", () => {
       });
 
       it("supports rgb", async () => {
-        const rgbCss = "rgb(255, 0, 255)";
+        const rgbCss = supportedFormatToSampleValue["rgb-css"];
         picker.setProperty("value", rgbCss);
         await page.waitForChanges();
 
@@ -436,7 +495,7 @@ describe("calcite-color", () => {
       });
 
       it("supports hsl", async () => {
-        const hslCss = "hsl(30, 100%, 50%)";
+        const hslCss = supportedFormatToSampleValue["hsl-css"];
         picker.setProperty("value", hslCss);
         await page.waitForChanges();
 
@@ -447,7 +506,7 @@ describe("calcite-color", () => {
       });
 
       it("supports rgb (object)", async () => {
-        const rgbObject = { r: 255, g: 255, b: 0 };
+        const rgbObject = supportedFormatToSampleValue.rgb;
         picker.setProperty("value", rgbObject);
         await page.waitForChanges();
 
@@ -462,7 +521,7 @@ describe("calcite-color", () => {
       });
 
       it("supports hsl (object)", async () => {
-        const hslObject = { h: 270, s: 60, l: 70 };
+        const hslObject = supportedFormatToSampleValue.hsl;
         picker.setProperty("value", hslObject);
         await page.waitForChanges();
 
@@ -477,7 +536,7 @@ describe("calcite-color", () => {
       });
 
       it("supports hsv (object)", async () => {
-        const hsvObject = { h: 202, s: 0, v: 100 };
+        const hsvObject = supportedFormatToSampleValue.hsv;
         picker.setProperty("value", hsvObject);
         await page.waitForChanges();
 
@@ -747,6 +806,8 @@ describe("calcite-color", () => {
 
   describe("color storage", () => {
     const storageId = "test-storage-id";
+    const color1 = "#ff00ff";
+    const color2 = "#beefee";
 
     async function clearStorage(): Promise<void> {
       const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${storageId}`;
@@ -767,9 +828,6 @@ describe("calcite-color", () => {
       const picker = await page.find("calcite-color");
       const saveColor = await page.find(`calcite-color >>> .${CSS.saveColor}`);
       await saveColor.click();
-
-      const color1 = "#ff00ff";
-      const color2 = "#beefee";
 
       picker.setProperty("value", color1);
       await page.waitForChanges();
@@ -808,9 +866,6 @@ describe("calcite-color", () => {
       const picker = await page.find("calcite-color");
       const saveColor = await page.find(`calcite-color >>> .${CSS.saveColor}`);
       await saveColor.click();
-
-      const color1 = "#ff00ff";
-      const color2 = "#beefee";
 
       picker.setProperty("value", color1);
       await page.waitForChanges();
