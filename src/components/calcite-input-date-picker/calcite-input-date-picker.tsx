@@ -89,8 +89,8 @@ export class CalciteInputDatePicker {
   /** Selected end date */
   @Prop() end?: string;
 
-  /** Changes the behaviour of date selection after a choosing a start and an end date. The default behaviour on the third click will select a new start date of a brand new range. With this flag enabled, once you have a range, clicking a third time will move the closest of the extremes, narrowing or extending the range. */
-  @Prop() proximitySelection?: boolean = true;
+  /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
+  @Prop() disableProximitySelection?: boolean = false;
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -212,6 +212,7 @@ export class CalciteInputDatePicker {
                 <calcite-date-picker
                   activeRange={this.focusedInput}
                   dir={dir}
+                  disableProximitySelection={this.disableProximitySelection}
                   endAsDate={this.endAsDate}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
@@ -220,7 +221,6 @@ export class CalciteInputDatePicker {
                   min={this.min}
                   onCalciteDatePickerChange={this.handleDateChange}
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
-                  proximitySelection={this.proximitySelection}
                   range={this.range}
                   scale={this.scale}
                   startAsDate={this.startAsDate}

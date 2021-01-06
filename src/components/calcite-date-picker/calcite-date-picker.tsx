@@ -102,8 +102,8 @@ export class CalciteDatePicker {
   /** Selected end date */
   @Prop() end?: string;
 
-  /** Changes the behaviour of date selection after a choosing a start and an end date. The default behaviour on the third click will select a new start date of a brand new range. With this flag enabled, once you have a range, clicking a third time will move the closest of the extremes, narrowing or extending the range. */
-  @Prop() proximitySelection?: boolean = true;
+  /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
+  @Prop() disableProximitySelection?: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -184,7 +184,7 @@ export class CalciteDatePicker {
     const activeEndDate = this.getActiveEndDate(endDate, min, max);
     if (
       (this.activeRange === "end" ||
-        (this.hoverRange?.focused === "end" && (this.proximitySelection || endDate))) &&
+        (this.hoverRange?.focused === "end" && (!this.disableProximitySelection || endDate))) &&
       activeEndDate
     ) {
       activeDate = activeEndDate;
@@ -288,7 +288,7 @@ export class CalciteDatePicker {
       start: this.startAsDate,
       end: this.endAsDate
     };
-    if (this.proximitySelection) {
+    if (!this.disableProximitySelection) {
       if (this.endAsDate) {
         const startDiff = getDaysDiff(date, this.startAsDate);
         const endDiff = getDaysDiff(date, this.endAsDate);
@@ -437,7 +437,7 @@ export class CalciteDatePicker {
       this.setEndAsDate(date);
       this.activeEndDate = date;
     } else {
-      if (this.proximitySelection) {
+      if (!this.disableProximitySelection) {
         const startDiff = getDaysDiff(date, this.startAsDate);
         const endDiff = getDaysDiff(date, this.endAsDate);
         if (startDiff < endDiff) {
