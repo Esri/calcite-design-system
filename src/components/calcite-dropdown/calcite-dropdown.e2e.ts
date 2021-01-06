@@ -898,6 +898,7 @@ describe("calcite-dropdown", () => {
   it("correct role and aria properties are applied based on selection type", async () => {
     const page = await newE2EPage();
     await page.setContent(dedent`${dropdownSelectionModeContent}`);
+    await page.waitForChanges();
 
     const element = await page.find("calcite-dropdown");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
