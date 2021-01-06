@@ -89,6 +89,7 @@ export class CalciteInputDatePicker {
   /** Selected end date */
   @Prop() end?: string;
 
+  /** Changes the behaviour of date selection after a choosing a start and an end date. The default behaviour on the third click will select a new start date of a brand new range. With this flag enabled, once you have a range, clicking a third time will move the closest of the extremes, narrowing or extending the range. */
   @Prop() proximitySelection?: boolean = true;
 
   /** Layout */
