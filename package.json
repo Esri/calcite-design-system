@@ -91,6 +91,7 @@
     "@types/yargs": "15.0.12",
     "@typescript-eslint/eslint-plugin": "4.11.1",
     "@typescript-eslint/parser": "4.11.1",
+    "@whitespace/storybook-addon-html": "4.0.2",
     "autoprefixer": "10.1.0",
     "awesome-typescript-loader": "5.2.1",
     "axe-core": "4.1.1",
