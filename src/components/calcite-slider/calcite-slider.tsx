@@ -43,6 +43,9 @@ export class CalciteSlider {
   /** Disable and gray out the slider */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Disable snap selection along the step interval */
+  @Prop() disableSnap?: boolean = false;
+
   /** Minimum selectable value */
   @Prop({ reflect: true }) min = 0;
 
@@ -63,9 +66,6 @@ export class CalciteSlider {
 
   /** Label for second handle if needed (ex. "Temperature, upper bound") */
   @Prop() maxLabel?: string;
-
-  /** Snap selection along the step interval */
-  @Prop() snap?: boolean = true;
 
   /** Interval to move on up/down keys */
   @Prop() step?: number = 1;
@@ -104,7 +104,7 @@ export class CalciteSlider {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
     this.value = this.bound(this.value);
-    if (this.snap) {
+    if (!this.disableSnap) {
       this.value = this.getClosestStep(this.value);
     }
     if (this.histogram) {
