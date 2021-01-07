@@ -110,10 +110,10 @@ describe("calcite-radio-group", () => {
       const hiddenInput = await page.find(`calcite-radio-group input[type="hidden"]`);
       expect(hiddenInput).toBeDefined();
 
-      const hiddenInputValue = await hiddenInput.getAttribute("value");
+      const hiddenInputValue = hiddenInput.getAttribute("value");
       expect(hiddenInputValue).toBe("2");
 
-      const hiddenInputName = await hiddenInput.getAttribute("name");
+      const hiddenInputName = hiddenInput.getAttribute("name");
       expect(hiddenInputName).toBe("grouped");
     });
 
@@ -171,7 +171,7 @@ describe("calcite-radio-group", () => {
       await page.setContent("<calcite-radio-group></calcite-radio-group>");
       const element = await page.find("calcite-radio-group");
 
-      const role = await element.getAttribute("role");
+      const role = element.getAttribute("role");
       expect(role).toEqualText("radiogroup");
     });
   });
