@@ -26,7 +26,9 @@ function closestElementCrossShadowBoundary<E extends Element = Element>(
 ): E | null {
   // based on https://stackoverflow.com/q/54520554/194216
   function closestFrom(el): E | null {
-    if (!el || el === document || el === window) return null;
+    if (!el || el === document || el === window) {
+      return null;
+    }
     const found = el.closest(selector);
     return found ? found : closestFrom(el.getRootNode().host);
   }

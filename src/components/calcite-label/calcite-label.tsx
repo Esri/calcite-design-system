@@ -61,7 +61,9 @@ export class CalciteLabel {
 
   @Watch("disabled")
   disabledWatcher(): void {
-    if (this.disabled) this.setDisabledControls();
+    if (this.disabled) {
+      this.setDisabledControls();
+    }
   }
   //--------------------------------------------------------------------------
   //
@@ -104,15 +106,23 @@ export class CalciteLabel {
 
   private handleCalciteHtmlForClicks = (target: HTMLElement) => {
     // 1. has htmlFor
-    if (!this.for) return;
+    if (!this.for) {
+      return;
+    }
 
     // 2. htmlFor matches a calcite component
     const inputForThisLabel = document.getElementById(this.for);
-    if (!inputForThisLabel) return;
-    if (!inputForThisLabel.localName.startsWith("calcite")) return;
+    if (!inputForThisLabel) {
+      return;
+    }
+    if (!inputForThisLabel.localName.startsWith("calcite")) {
+      return;
+    }
 
     // 5. target is NOT the calcite component that this label matches
-    if (target === inputForThisLabel) return;
+    if (target === inputForThisLabel) {
+      return;
+    }
 
     // 3. target is not a labelable native form element
     const labelableNativeElements = [
@@ -124,7 +134,9 @@ export class CalciteLabel {
       "select",
       "textarea"
     ];
-    if (labelableNativeElements.includes(target.localName)) return;
+    if (labelableNativeElements.includes(target.localName)) {
+      return;
+    }
 
     // 4. target is not a labelable calcite form element
     const labelableCalciteElements = [
@@ -142,7 +154,9 @@ export class CalciteLabel {
       "calcite-slider",
       "calcite-switch"
     ];
-    if (labelableCalciteElements.includes(target.localName)) return;
+    if (labelableCalciteElements.includes(target.localName)) {
+      return;
+    }
 
     // 5. target is not a child of a labelable calcite form element
     for (let i = 0; i < labelableCalciteElements.length; i++) {
@@ -162,17 +176,25 @@ export class CalciteLabel {
 
   connectedCallback(): void {
     const status = ["invalid", "valid", "idle"];
-    if (!status.includes(this.status)) this.status = "idle";
+    if (!status.includes(this.status)) {
+      this.status = "idle";
+    }
 
     const layout = ["inline", "inline-space-between", "default"];
-    if (!layout.includes(this.layout)) this.layout = "default";
+    if (!layout.includes(this.layout)) {
+      this.layout = "default";
+    }
 
     const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
+    if (!scale.includes(this.scale)) {
+      this.scale = "m";
+    }
   }
 
   componentDidLoad(): void {
-    if (this.disabled) this.setDisabledControls();
+    if (this.disabled) {
+      this.setDisabledControls();
+    }
   }
 
   render(): VNode {

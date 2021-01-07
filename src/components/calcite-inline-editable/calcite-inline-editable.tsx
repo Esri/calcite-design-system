@@ -86,7 +86,9 @@ export class CalciteInlineEditable {
 
   componentDidLoad() {
     this.htmlInput = this.inputElement.querySelector("input");
-    if (!this.editingEnabled) this.htmlInput.tabIndex = -1;
+    if (!this.editingEnabled) {
+      this.htmlInput.tabIndex = -1;
+    }
   }
 
   render(): VNode {
@@ -168,7 +170,9 @@ export class CalciteInlineEditable {
 
   @Listen("calciteInputBlur")
   blurHandler(): void {
-    if (!this.controls) this.disableEditing();
+    if (!this.controls) {
+      this.disableEditing();
+    }
   }
 
   @Listen("click", { target: "window" })
@@ -179,9 +183,12 @@ export class CalciteInlineEditable {
         htmlTarget.parentElement.tagName === "LABEL" ||
         htmlTarget.parentElement.tagName === "CALCITE-LABEL"
       )
-    )
+    ) {
       return;
-    if (!htmlTarget.parentElement.contains(this.el)) return;
+    }
+    if (!htmlTarget.parentElement.contains(this.el)) {
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
     if (this.editingEnabled) {
@@ -236,7 +243,9 @@ export class CalciteInlineEditable {
   };
 
   private escapeKeyHandler = async (e: KeyboardEvent) => {
-    if (e.key !== "Escape") return;
+    if (e.key !== "Escape") {
+      return;
+    }
     this.cancelEditing();
   };
 
@@ -249,8 +258,12 @@ export class CalciteInlineEditable {
   private enableEditingHandler = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (this.disabled) return;
-    if (!this.editingEnabled) this.enableEditing();
+    if (this.disabled) {
+      return;
+    }
+    if (!this.editingEnabled) {
+      this.enableEditing();
+    }
   };
 
   private confirmChangesHandler = async (e: MouseEvent) => {

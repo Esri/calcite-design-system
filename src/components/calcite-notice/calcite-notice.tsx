@@ -158,8 +158,9 @@ export class CalciteNotice {
     if (!this.closeButton && !this.noticeLinkEl) {
       return;
     }
-    if (this.noticeLinkEl) this.noticeLinkEl.setFocus();
-    else if (this.closeButton) {
+    if (this.noticeLinkEl) {
+      this.noticeLinkEl.setFocus();
+    } else if (this.closeButton) {
       this.closeButton.focus();
     }
   }

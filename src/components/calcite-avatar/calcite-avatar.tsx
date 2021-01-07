@@ -51,7 +51,9 @@ export class CalciteAvatar {
   connectedCallback() {
     // prop validations
     const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
+    if (!scale.includes(this.scale)) {
+      this.scale = "m";
+    }
   }
 
   render() {

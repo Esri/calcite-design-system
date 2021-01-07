@@ -116,7 +116,9 @@ export class CalciteSelect {
       childList: true
     });
 
-    if (!this.theme) this.theme = getElementProp(this.el, "theme", "light");
+    if (!this.theme) {
+      this.theme = getElementProp(this.el, "theme", "light");
+    }
   }
 
   disconnectedCallback(): void {

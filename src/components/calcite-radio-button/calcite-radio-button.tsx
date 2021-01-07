@@ -62,7 +62,9 @@ export class CalciteRadioButton {
 
   @Watch("focused")
   focusedChanged(focused: boolean): void {
-    if (!this.input) return;
+    if (!this.input) {
+      return;
+    }
     if (focused && !this.el.hasAttribute("hidden")) {
       this.input.focus();
     } else {
