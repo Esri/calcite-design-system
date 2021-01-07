@@ -40,6 +40,8 @@ export class CalciteComboboxItem {
 
   @Prop() guid: string = guid();
 
+  @Prop() icon?: string;
+
   @Watch("selected")
   selectedWatchHandler(newValue: boolean): void {
     this.isSelected = newValue;
@@ -143,11 +145,32 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(scale: string): VNode {
+  renderIcon(scale: string, isSingle: boolean): VNode {
     const level = `${CSS.icon}--indent-${this.getDepth()}`;
     const iconScale = scale !== "l" ? "s" : "m";
-    const iconPath = this.disabled ? "circle-disallowed" : "check";
-    return <calcite-icon class={`${CSS.icon} ${level}`} icon={iconPath} scale={iconScale} />;
+    const defaultIcon = isSingle ? "dot" : "check";
+    const iconPath = this.disabled ? "circle-disallowed" : defaultIcon;
+    const showDot = isSingle && !this.icon && !this.disabled;
+    return showDot ? (
+      <span
+        class={{
+          [CSS.icon]: true,
+          [CSS.dot]: true,
+          [level]: true
+        }}
+      />
+    ) : (
+      <calcite-icon
+        class={{
+          [CSS.icon]: !this.icon,
+          [CSS.custom]: !!this.icon,
+          [CSS.iconActive]: this.icon && this.isSelected,
+          [level]: true
+        }}
+        icon={this.icon || iconPath}
+        scale={iconScale}
+      />
+    );
   }
 
   renderChildren(): VNode {
@@ -162,12 +185,15 @@ export class CalciteComboboxItem {
   }
 
   render(): VNode {
+    const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.isSelected,
-      [CSS.active]: this.active
+      [CSS.active]: this.active,
+      [CSS.single]: isSingleSelect
     };
     const scale = getElementProp(this.el, "scale", "m");
+
     const dir = getElementDir(this.el);
 
     return (
@@ -179,7 +205,7 @@ export class CalciteComboboxItem {
           ref={(el) => (this.comboboxItemEl = el as HTMLElement)}
           tabIndex={-1}
         >
-          {this.renderIcon(scale)}
+          {this.renderIcon(scale, isSingleSelect)}
           <span class={CSS.title}>{this.textLabel}</span>
         </li>
         {this.renderChildren()}
