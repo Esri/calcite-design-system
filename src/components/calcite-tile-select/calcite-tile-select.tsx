@@ -1,4 +1,6 @@
 import { Component, Element, Host, h, Prop, Listen, VNode, Watch } from "@stencil/core";
+import { Theme, Width } from "../interfaces";
+import { TileSelectType } from "./interfaces";
 
 @Component({
   tag: "calcite-tile-select",
@@ -58,16 +60,16 @@ export class CalciteTileSelect {
   @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";
 
   /** The theme of the tile select. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: Theme = "light";
 
   /** The selection mode of the tile select: radio (single) or checkbox (multiple). */
-  @Prop({ reflect: true }) type: "radio" | "checkbox" = "radio";
+  @Prop({ reflect: true }) type: TileSelectType = "radio";
 
   /** The value of the tile select.  This value will appear in form submissions when this tile select is checked. */
   @Prop({ reflect: true }) value?: string;
 
   /** specify the width of the tile, defaults to auto */
-  @Prop({ reflect: true }) width: "auto" | "full" = "auto";
+  @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //--------------------------------------------------------------------------
   //

@@ -1,4 +1,4 @@
-import { CalciteScale, CalciteTheme } from "../interfaces";
+import { Scale, Status, Theme } from "../interfaces";
 import {
   Component,
   Element,
@@ -15,6 +15,8 @@ import {
 import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
+import { InputPlacement } from "./interfaces";
+import { Position } from "../interfaces";
 
 @Component({
   tag: "calcite-input",
@@ -37,7 +39,7 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   /** specify the alignment of the value of the input */
-  @Prop({ reflect: true }) alignment: "start" | "end" = "start";
+  @Prop({ reflect: true }) alignment: Position = "start";
 
   /** should the input autofocus */
   @Prop() autofocus = false;
@@ -85,7 +87,7 @@ export class CalciteInput {
   }
 
   /** specify the placement of the number buttons */
-  @Prop({ reflect: true }) numberButtonType?: "vertical" | "horizontal" | "none" = "vertical";
+  @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
 
   /** explicitly whitelist placeholder attribute */
   @Prop() placeholder: string;
@@ -97,10 +99,10 @@ export class CalciteInput {
   @Prop() required = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: CalciteScale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true }) status: "invalid" | "valid" | "idle" = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** input step */
   @Prop({ reflect: true }) step?: number;
@@ -114,7 +116,7 @@ export class CalciteInput {
   @Prop() suffixText?: string;
 
   /** specify the alignment of dropdown, defaults to left */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the input type */
   @Prop({ reflect: true }) type:

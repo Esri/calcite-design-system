@@ -20,6 +20,7 @@ import { getKey } from "../../utils/key";
 import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
+import { Scale, Theme } from "../interfaces";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
 
@@ -72,10 +73,10 @@ export class CalciteCombobox {
   @Prop() allowCustomValues: boolean;
 
   /** Specify the scale of the combobox, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   //--------------------------------------------------------------------------
   //

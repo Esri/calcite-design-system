@@ -1,4 +1,4 @@
-import { Point, DataSeries, Graph, TranslateOptions, Translator, Extent } from "../../interfaces/Graph";
+import { Point, DataSeries, Graph, TranslateOptions, Translator, Extent } from "../calcite-graph/interfaces";
 
 /**
  * Math.sign not supported in IE
