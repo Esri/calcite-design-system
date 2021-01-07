@@ -256,17 +256,31 @@ describe("calcite-button", () => {
     expect(loader).not.toBeNull();
   });
 
-  it("hastext is true when text is present", async () => {
+  it("hascontent is true when content (as text) is present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);
     const element = await page.find("calcite-button");
-    expect(element).toHaveAttribute("hastext");
+    expect(element).toHaveAttribute("hascontent");
   });
 
-  it("hastext is false when text is not present", async () => {
+  it("hascontent is true when content (as element) is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button><calcite-icon icon="banana" /></calcite-button>`);
+    const element = await page.find("calcite-button");
+    expect(element).toHaveAttribute("hascontent");
+  });
+
+  it("hascontent is true when content (as text and element) is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button>Banana <calcite-icon icon="banana" /></calcite-button>`);
+    const element = await page.find("calcite-button");
+    expect(element).toHaveAttribute("hascontent");
+  });
+
+  it("hascontent is false when content is not present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button icon-start='plus'></calcite-button>`);
     const element = await page.find("calcite-button");
-    expect(element).not.toHaveAttribute("hastext");
+    expect(element).not.toHaveAttribute("hascontent");
   });
 });

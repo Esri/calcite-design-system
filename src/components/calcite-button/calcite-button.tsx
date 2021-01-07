@@ -96,7 +96,7 @@ export class CalciteButton {
 
   componentWillLoad(): void {
     if (Build.isBrowser) {
-      this.updateHasText();
+      this.updateHasContent();
       const elType = this.el.getAttribute("type");
       this.type = this.childElType === "button" && elType ? elType : "submit";
     }
@@ -142,7 +142,7 @@ export class CalciteButton {
     );
 
     return (
-      <Host dir={dir} hasText={this.hasText}>
+      <Host dir={dir} hasContent={this.hasContent}>
         <Tag
           {...attributes}
           disabled={this.disabled}
@@ -152,7 +152,7 @@ export class CalciteButton {
         >
           {this.loading ? loader : null}
           {this.iconStart ? iconStartEl : null}
-          {this.hasText ? contentEl : null}
+          {this.hasContent ? contentEl : null}
           {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>
@@ -188,17 +188,17 @@ export class CalciteButton {
   /** the node type of the rendered child element */
   private childElType?: "a" | "button" = "button";
 
-  /** determine if there is slotted text for styling purposes */
-  @State() private hasText?: boolean = false;
+  /** determine if there is slotted content for styling purposes */
+  @State() private hasContent?: boolean = false;
 
-  private updateHasText() {
-    this.hasText = this.el.textContent.trim().length > 0;
+  private updateHasContent() {
+    this.hasContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
   }
 
   private setupTextContentObserver() {
     if (Build.isBrowser) {
       this.observer = new MutationObserver(() => {
-        this.updateHasText();
+        this.updateHasContent();
       });
       this.observer.observe(this.el, { childList: true, subtree: true });
     }
@@ -210,7 +210,7 @@ export class CalciteButton {
       "appearance",
       "color",
       "dir",
-      "hasText",
+      "hasContent",
       "icon-start",
       "icon-end",
       "id",
