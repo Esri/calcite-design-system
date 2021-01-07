@@ -158,7 +158,7 @@ export class CalciteTimePicker {
     } else {
       const hourAsNumber = parseInt(this.hour);
       if (hourAsNumber === 12) {
-        this.hour = "00";
+        this.hour = "01";
       } else {
         const newHour = hourAsNumber + 1;
         this.hour = this.formatNumberAsString(newHour);
@@ -220,8 +220,35 @@ export class CalciteTimePicker {
       <Host>
         <slot />
         <div class="time-picker">
-          <div class="column hour">
-            <calcite-icon icon="chevronup" onClick={this.incrementHour} scale={this.scale} />
+          <div class="row">
+            <button
+              aria-label="increase hour"
+              class="top-left"
+              onClick={this.incrementHour}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevronup" scale={this.scale} />
+            </button>
+            <button
+              aria-label="increase minute"
+              onClick={this.incrementMinute}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevronup" scale={this.scale} />
+            </button>
+            <button
+              aria-label="switch to am or pm"
+              class="top-right"
+              onClick={this.incrementAmPm}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevronup" scale={this.scale} />
+            </button>
+          </div>
+          <div>
             <span
               aria-label="Hours"
               aria-placeholder="--"
@@ -235,30 +262,22 @@ export class CalciteTimePicker {
             >
               {this.hour}
             </span>
-            <calcite-icon icon="chevrondown" onClick={this.decrementHour} scale={this.scale} />
-          </div>
-          <div class="colon">:</div>
-          <div class="column minute">
-            <calcite-icon icon="chevronup" onClick={this.incrementMinute} scale={this.scale} />
             <span
-              aria-label="Hours"
+              aria-label="Minutes"
               aria-placeholder="--"
               aria-valuemax="12"
               aria-valuemin="1"
               aria-valuenow="5"
               aria-valuetext="05"
+              class="minute"
               onKeyDown={this.minuteKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
             >
               {this.minute}
             </span>
-            <calcite-icon icon="chevrondown" onClick={this.decrementMinute} scale={this.scale} />
-          </div>
-          <div class="column ampm">
-            <calcite-icon icon="chevronup" onClick={this.incrementAmPm} scale={this.scale} />
             <span
-              aria-label="Hours"
+              aria-label="AM/PM"
               aria-placeholder="--"
               aria-valuemax="12"
               aria-valuemin="1"
@@ -270,7 +289,34 @@ export class CalciteTimePicker {
             >
               {this.ampm}
             </span>
-            <calcite-icon icon="chevrondown" onClick={this.decrementAmPm} scale={this.scale} />
+          </div>
+          <div>
+            <button
+              aria-label="decrease hour"
+              class="bottom-left"
+              onClick={this.decrementHour}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevrondown" scale={this.scale} />
+            </button>
+            <button
+              aria-label="decrease minute"
+              onClick={this.decrementMinute}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevrondown" scale={this.scale} />
+            </button>
+            <button
+              aria-label="switch to am or pm"
+              class="bottom-right"
+              onClick={this.decrementAmPm}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevrondown" scale={this.scale} />
+            </button>
           </div>
         </div>
       </Host>

@@ -1,28 +1,17 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
 :host {
+  @apply text-1;
   display: inline-block;
   user-select: none;
 }
-:host([scale="s"]) {
-  width: 120px;
-  font-size: 12px;
-}
-:host([scale="m"]) {
-  font-size: 16px;
-  width: 140px;
-}
-:host([scale="l"]) {
-  font-size: 20px;
-  width: 180px;
+:host-context([theme="dark"]) {
+  @include calcite-theme-dark();
 }
 .time-picker {
   align-items: center;
-  border-radius: var(--calcite-border-radius);
+  border-radius: 4px;
   box-shadow: var(--calcite-shadow-2);
   display: flex;
-  padding: 0.25em 0;
+  flex-direction: column;
   position: relative;
   z-index: 200;
 }
@@ -33,14 +22,81 @@
   flex-direction: column;
 }
 span {
-  display: inline-block;
+  align-items: center;
+  display: inline-flex;
   font-weight: var(--calcite-ui-text-weight-medium);
+  justify-content: center;
   text-align: center;
   &:focus {
     background: #b5d5ff;
     outline: none;
   }
 }
-calcite-icon {
-  color: var(--calcite-ui-border-5);
+button {
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  margin: 0;
+  -moz-appearance: none;
+  padding: 0;
+  -webkit-appearance: none;
+  &:hover,
+  &:focus {
+    @apply bg-foreground-2;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    @apply bg-foreground-3;
+  }
+  &.top-left {
+    border-top-left-radius: 4px;
+  }
+  &.bottom-left {
+    border-bottom-left-radius: 4px;
+  }
+  &.top-right {
+    border-top-right-radius: 4px;
+  }
+  &.bottom-right {
+    border-bottom-right-radius: 4px;
+  }
+  calcite-icon {
+    color: var(--calcite-ui-text-3);
+  }
+}
+.minute {
+  position: relative;
+  &::before {
+    content: ":";
+    position: absolute;
+    left: -0.125rem;
+    line-height: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+:host([scale="s"]) {
+  font-size: 14px;
+  font-weight: 500;
+  .time-picker {
+    width: 120px;
+  }
+  button,
+  span {
+    height: 24px;
+    width: 40px;
+  }
+}
+:host([scale="m"]) {
+  font-size: 16px;
+  width: 140px;
+}
+:host([scale="l"]) {
+  font-size: 20px;
+  width: 180px;
 }
