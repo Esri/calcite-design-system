@@ -892,8 +892,7 @@ describe("calcite-dropdown", () => {
   });
 
   it("is accessible", async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
-    accessible(dedent`${dropdownSelectionModeContent}`, page);
+    accessible(dedent`${dropdownSelectionModeContent}`);
     await page.waitForChanges();
   });
 
