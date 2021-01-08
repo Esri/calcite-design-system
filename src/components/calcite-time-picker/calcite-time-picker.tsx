@@ -216,6 +216,7 @@ export class CalciteTimePicker {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
     return (
       <Host>
         <slot />
@@ -228,7 +229,7 @@ export class CalciteTimePicker {
               tabIndex={-1}
               type="button"
             >
-              <calcite-icon icon="chevronup" scale={this.scale} />
+              <calcite-icon icon="chevronup" scale={iconScale} />
             </button>
             <button
               aria-label="increase minute"
@@ -236,7 +237,7 @@ export class CalciteTimePicker {
               tabIndex={-1}
               type="button"
             >
-              <calcite-icon icon="chevronup" scale={this.scale} />
+              <calcite-icon icon="chevronup" scale={iconScale} />
             </button>
             <button
               aria-label="switch to am or pm"
@@ -245,7 +246,7 @@ export class CalciteTimePicker {
               tabIndex={-1}
               type="button"
             >
-              <calcite-icon icon="chevronup" scale={this.scale} />
+              <calcite-icon icon="chevronup" scale={iconScale} />
             </button>
           </div>
           <div>
@@ -300,7 +301,7 @@ export class CalciteTimePicker {
               tabIndex={-1}
               type="button"
             >
-              <calcite-icon icon="chevrondown" scale={this.scale} />
+              <calcite-icon icon="chevrondown" scale={iconScale} />
             </button>
             <button
               aria-label="decrease minute"
@@ -308,7 +309,7 @@ export class CalciteTimePicker {
               tabIndex={-1}
               type="button"
             >
-              <calcite-icon icon="chevrondown" scale={this.scale} />
+              <calcite-icon icon="chevrondown" scale={iconScale} />
             </button>
             <button
               aria-label="switch to am or pm"
@@ -317,7 +318,7 @@ export class CalciteTimePicker {
               tabIndex={-1}
               type="button"
             >
-              <calcite-icon icon="chevrondown" scale={this.scale} />
+              <calcite-icon icon="chevrondown" scale={iconScale} />
             </button>
           </div>
         </div>
