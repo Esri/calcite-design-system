@@ -27,8 +27,12 @@ span {
   font-weight: var(--calcite-ui-text-weight-medium);
   justify-content: center;
   text-align: center;
-  &:focus {
-    background: #b5d5ff;
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-foreground-2);
+  }
+  &:focus,
+  &:hover:focus {
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-blue-1);
     outline: none;
   }
 }
@@ -74,7 +78,7 @@ button {
   &::before {
     content: ":";
     position: absolute;
-    left: -0.125rem;
+    left: -4px;
     line-height: 14px;
     top: 50%;
     transform: translateY(-50%);
@@ -90,6 +94,19 @@ button {
   span {
     height: 24px;
     width: 40px;
+  }
+  span {
+    &.hour,
+    &.minute {
+      width: 38px;
+    }
+    &.hour {
+      margin-right: 2px;
+    }
+    &.minute {
+      margin-left: 2px;
+      width: 38px;
+    }
   }
 }
 :host([scale="m"]) {

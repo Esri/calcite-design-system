@@ -256,6 +256,7 @@ export class CalciteTimePicker {
               aria-valuemin="1"
               aria-valuenow="5"
               aria-valuetext="05"
+              class="hour"
               onKeyDown={this.hourKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
@@ -283,6 +284,7 @@ export class CalciteTimePicker {
               aria-valuemin="1"
               aria-valuenow="5"
               aria-valuetext="05"
+              class="ampm"
               onKeyDown={this.amPmKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
