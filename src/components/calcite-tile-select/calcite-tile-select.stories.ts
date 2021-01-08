@@ -25,7 +25,7 @@ export const Light = (): string => html`
     ${boolean("hidden", false)}
     icon="${select("icon", iconNames, iconNames[296])}"
     ${boolean("show-input", false)}
-    show-input="${select("input-alignment", ["start", "end"], "start")}"
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="${text("value", "one")}"
   >
@@ -46,7 +46,7 @@ export const Dark = (): string => html`
     icon="${select("icon", iconNames, iconNames[296])}"
     name="${text("name", "tile-select-demo")}"
     ${boolean("show-input", false)}
-    show-input="${select("input-alignment", ["start", "end"], "start")}"
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="${text("value", "one")}"

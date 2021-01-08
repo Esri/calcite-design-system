@@ -16,7 +16,7 @@ export const Light = (): string => html`
       icon="layers"
       name="light"
       ${boolean("show-input", false)}
-      show-input="${select("input-alignment", ["start", "end"], "start")}"
+      input-alignment="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="one"
     >
@@ -27,7 +27,7 @@ export const Light = (): string => html`
       icon="layers"
       name="light"
       ${boolean("show-input", false)}
-      show-input="${select("input-alignment", ["start", "end"], "start")}"
+      input-alignment="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="two"
     >
@@ -38,7 +38,7 @@ export const Light = (): string => html`
       icon="layers"
       name="light"
       ${boolean("show-input", false)}
-      show-input="${select("input-alignment", ["start", "end"], "start")}"
+      input-alignment="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="three"
     >
@@ -50,7 +50,7 @@ export const Light = (): string => html`
       icon="layers"
       name="light"
       ${boolean("show-input", false)}
-      show-input="${select("input-alignment", ["start", "end"], "start")}"
+      input-alignment="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="four"
     >
@@ -66,7 +66,7 @@ export const Dark = (): string => html`
     heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     icon="layers"
     name="dark"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    input-alignment="${select("show-input", ["left", "right", "none"], "left")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="one"
@@ -77,7 +77,7 @@ export const Dark = (): string => html`
     heading="Tile title lorem ipsum"
     icon="layers"
     name="dark"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    input-alignment="${select("show-input", ["left", "right", "none"], "left")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="two"
@@ -88,7 +88,7 @@ export const Dark = (): string => html`
     heading="Tile title lorem ipsum"
     icon="layers"
     name="dark"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    input-alignment="${select("show-input", ["left", "right", "none"], "left")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="three"
@@ -100,7 +100,7 @@ export const Dark = (): string => html`
     heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     icon="layers"
     name="dark"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    input-alignment="${select("show-input", ["left", "right", "none"], "left")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="four"

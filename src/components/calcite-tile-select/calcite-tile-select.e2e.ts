@@ -25,14 +25,11 @@ describe("calcite-tile-select", () => {
       { propertyName: "heading", value: "My Tile Select Heading" },
       { propertyName: "hidden", value: true },
       { propertyName: "icon", value: "layers" },
-      { propertyName: "inputAlignment", value: "end" },
       { propertyName: "inputAlignment", value: "start" },
       { propertyName: "name", value: "my-tile-select" },
       { propertyName: "showInput", value: true },
       { propertyName: "theme", value: "light" },
-      { propertyName: "theme", value: "dark" },
       { propertyName: "type", value: "radio" },
-      { propertyName: "type", value: "checkbox" },
       { propertyName: "width", value: "auto" },
       { propertyName: "value", value: "option one" }
     ]));
