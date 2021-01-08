@@ -1,5 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { darkBackground } from "../../../.storybook/utils";
+import { boolean } from "../../../.storybook/helpers";
 import { html } from "../../tests/utils";
 
 export default {
@@ -14,7 +15,8 @@ export const Light = (): string => html`
       heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
       icon="layers"
       name="light"
-      show-input="${select("show-input", ["left", "right", "none"], "left")}"
+      ${boolean("show-input", false)}
+      show-input="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="one"
     >
@@ -24,7 +26,8 @@ export const Light = (): string => html`
       heading="Tile title lorem ipsum"
       icon="layers"
       name="light"
-      show-input="${select("show-input", ["left", "right", "none"], "left")}"
+      ${boolean("show-input", false)}
+      show-input="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="two"
     >
@@ -34,7 +37,8 @@ export const Light = (): string => html`
       heading="Tile title lorem ipsum"
       icon="layers"
       name="light"
-      show-input="${select("show-input", ["left", "right", "none"], "left")}"
+      ${boolean("show-input", false)}
+      show-input="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="three"
     >
@@ -45,7 +49,8 @@ export const Light = (): string => html`
       heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
       icon="layers"
       name="light"
-      show-input="${select("show-input", ["left", "right", "none"], "left")}"
+      ${boolean("show-input", false)}
+      show-input="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="four"
     >
