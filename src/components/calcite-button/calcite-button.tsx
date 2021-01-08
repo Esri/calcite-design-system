@@ -137,10 +137,13 @@ export class CalciteButton {
       </span>
     );
 
+    const className = this.hasContent ? { ["class"]: CSS.contentSlotted } : null;
+
     return (
-      <Host dir={dir} hasContent={this.hasContent}>
+      <Host dir={dir}>
         <Tag
           {...attributes}
+          {...className}
           disabled={this.disabled}
           onClick={this.handleClick}
           ref={(el) => (this.childEl = el)}
@@ -188,7 +191,11 @@ export class CalciteButton {
   @State() private hasContent?: boolean = false;
 
   private updateHasContent() {
-    this.hasContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
+    const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
+    this.hasContent =
+      this.el.childNodes.length === 1 && this.el.childNodes[0]?.nodeName === "#text"
+        ? this.el.textContent?.trim().length > 0
+        : slottedContent;
   }
 
   private setupTextContentObserver() {
@@ -204,9 +211,11 @@ export class CalciteButton {
     // spread attributes from the component to rendered child, filtering out props
     const props = [
       "appearance",
+      "alignment",
+      "calcite-hydrated",
+      "class",
       "color",
       "dir",
-      "hasContent",
       "icon-start",
       "icon-end",
       "id",
