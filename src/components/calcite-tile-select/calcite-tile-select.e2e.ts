@@ -27,7 +27,7 @@ describe("calcite-tile-select", () => {
       { propertyName: "icon", value: "layers" },
       { propertyName: "inputAlignment", value: "start" },
       { propertyName: "name", value: "my-tile-select" },
-      { propertyName: "showInput", value: true },
+      { propertyName: "enableInput", value: true },
       { propertyName: "theme", value: "light" },
       { propertyName: "type", value: "radio" },
       { propertyName: "width", value: "auto" },
