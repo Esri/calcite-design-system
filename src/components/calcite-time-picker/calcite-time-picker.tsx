@@ -181,18 +181,17 @@ export class CalciteTimePicker {
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
-    // TODO: support number constraints
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
-      if (this.minute === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
-        this.minute = `1${event.key}`;
-      } else {
+      const minuteAsNumber = parseInt(this.minute);
+      if (this.minute === "--" || keyAsNumber >= 6 || keyAsNumber === 0 || minuteAsNumber >= 6) {
         this.minute = `0${event.key}`;
-      }
-      if (this.minute.length === 2) {
-        this.minute = event.key;
       } else {
-        this.minute = `${this.minute}${event.key}`;
+        const minuteLastCharacter = this.minute.split("")[this.minute.length - 1];
+        const newMinute = `${minuteLastCharacter}${event.key}`;
+        if (parseInt(newMinute) < 60) {
+          this.minute = newMinute;
+        }
       }
     } else {
       switch (event.key) {
