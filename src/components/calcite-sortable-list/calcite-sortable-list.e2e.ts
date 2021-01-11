@@ -30,10 +30,10 @@ describe("calcite-sortable-list", () => {
     });
 
     it("works using a keyboard", async () => {
-      page.keyboard.press("Tab");
-      page.keyboard.press("Space");
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Space");
       await page.waitForChanges();
-      page.keyboard.press("ArrowDown");
+      await page.keyboard.press("ArrowDown");
       const itemsAfter = await page.findAll("div");
       expect(await itemsAfter[0].getProperty("id")).toBe("two");
       expect(await itemsAfter[1].getProperty("id")).toBe("one");

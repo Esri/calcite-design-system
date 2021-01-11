@@ -420,11 +420,10 @@ describe("calcite-rating", () => {
   });
 
   describe("when setFocus method is called", () => {
-    it("should focus input element in shadow DOM", async () => {
+    it("should focus input element in shadow DOM", () =>
       focusable("calcite-rating", {
         shadowFocusTargetSelector: "input"
-      });
-    });
+      }));
   });
 
   describe("when wrapped inside calcite-label", () => {

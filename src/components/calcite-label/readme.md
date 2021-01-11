@@ -37,6 +37,7 @@ It also allows consumers to set a `status` attribute for child `calcite-input` a
 
 | Property         | Attribute         | Description                                                          | Type                                              | Default     |
 | ---------------- | ----------------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
+| `alignment`      | `alignment`       | specify the text alignment of the label                              | `"center" \| "end" \| "start"`                    | `"start"`   |
 | `disableSpacing` | `disable-spacing` | eliminates any space around the label                                | `boolean`                                         | `undefined` |
 | `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `undefined` |
 | `for`            | `for`             | The id of the input associated with the label                        | `string`                                          | `undefined` |
