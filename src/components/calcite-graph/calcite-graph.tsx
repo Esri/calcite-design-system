@@ -1,5 +1,5 @@
 import { Component, Element, Prop, h, VNode } from "@stencil/core";
-import { DataSeries } from "../../interfaces/Graph";
+import { DataSeries } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { area, range, translate } from "./util";
 

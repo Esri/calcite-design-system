@@ -1,6 +1,6 @@
 import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { CalciteTheme } from "../interfaces";
+import { Theme } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
 
 /**
@@ -26,7 +26,7 @@ export class CalciteShell {
   /**
    * Used to set the component's color scheme.
    */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

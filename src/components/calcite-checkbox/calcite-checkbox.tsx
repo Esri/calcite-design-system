@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",
@@ -83,10 +84,10 @@ export class CalciteCheckbox {
   }
 
   /** specify the scale of the checkbox, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Determines what theme to use */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the checkbox input */
   @Prop({ reflect: true }) value?: string;
@@ -165,12 +166,15 @@ export class CalciteCheckbox {
     this.checked = this.initialChecked;
   };
 
-  private nativeLabelClickHandler = (event: MouseEvent): void => {
-    if (!this.el.closest("calcite-label") && (event.target as HTMLElement).nodeName === "LABEL") {
-      const target = event.target as HTMLLabelElement;
-      if (this.el.id && target.htmlFor === this.el.id) {
-        this.toggle();
-      }
+  private nativeLabelClickHandler = ({ target }: MouseEvent): void => {
+    if (
+      !this.el.closest("calcite-label") &&
+      (target as HTMLElement).nodeName === "LABEL" &&
+      (target as HTMLLabelElement).parentNode.nodeName !== "CALCITE-LABEL" &&
+      this.el.id &&
+      (target as HTMLLabelElement).htmlFor === this.el.id
+    ) {
+      this.toggle();
     }
   };
 

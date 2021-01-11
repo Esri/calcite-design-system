@@ -1,6 +1,7 @@
 import { Component, Element, h, Host, Prop, State } from "@stencil/core";
 import { getElementDir, getElementTheme } from "../../utils/dom";
 import { isValidHex } from "../calcite-color/utils";
+import { Scale, Theme } from "../interfaces";
 import { hexToHue, stringToHex } from "./utils";
 
 @Component({
@@ -24,10 +25,10 @@ export class CalciteAvatar {
   //--------------------------------------------------------------------------
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the scale of the avatar, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** src to an image (remember to add a token if the user is private) */
   @Prop() thumbnail: string;

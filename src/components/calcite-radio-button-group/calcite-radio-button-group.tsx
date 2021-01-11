@@ -10,6 +10,7 @@ import {
   EventEmitter,
   Listen
 } from "@stencil/core";
+import { Layout, Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -48,7 +49,7 @@ export class CalciteRadioButtonGroup {
   }
 
   /** The layout direction of the radio buttons in a group. */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   @Watch("layout")
   onLayoutChange(): void {
@@ -62,7 +63,7 @@ export class CalciteRadioButtonGroup {
   @Prop({ reflect: true }) required = false;
 
   /** The scale (size) of the radio button group. */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("scale")
   onScaleChange(): void {
@@ -70,7 +71,7 @@ export class CalciteRadioButtonGroup {
   }
 
   /** The color theme of the radio button group. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: Theme = "light";
 
   @Watch("theme")
   onThemeChange(): void {

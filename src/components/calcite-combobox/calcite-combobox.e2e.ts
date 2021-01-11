@@ -19,7 +19,7 @@ describe("calcite-combobox", () => {
       <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
     </calcite-combobox>`);
 
-    page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
     await page.waitForChanges();
 
     const container = await page.find(`calcite-combobox >>> .popper-container`);

@@ -70,7 +70,8 @@ ul {
   @include focus-style-inset();
 }
 
-.label:hover, .label:active {
+.label:hover,
+.label:active {
   @apply text-color-1 bg-foreground-2 shadow-none;
   text-decoration: none;
 }

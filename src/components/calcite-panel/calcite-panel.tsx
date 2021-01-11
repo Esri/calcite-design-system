@@ -13,7 +13,7 @@ import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { focusElement, getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { VNode } from "@stencil/core/internal";
-import { CalciteScale, CalciteTheme } from "../interfaces";
+import { Scale, Theme } from "../interfaces";
 import { getRoundRobinIndex } from "../../utils/array";
 
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
@@ -82,12 +82,12 @@ export class CalcitePanel {
   /**
    * Specifies the maxiumum height of the panel.
    */
-  @Prop({ reflect: true }) heightScale: CalciteScale;
+  @Prop({ reflect: true }) heightScale: Scale;
 
   /**
    * This sets width of the panel.
    */
-  @Prop({ reflect: true }) widthScale?: CalciteScale;
+  @Prop({ reflect: true }) widthScale?: Scale;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -108,7 +108,7 @@ export class CalcitePanel {
    * Used to set the component's color scheme.
    */
 
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   /**
    * Heading text.

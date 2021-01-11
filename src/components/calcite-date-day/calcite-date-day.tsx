@@ -12,6 +12,7 @@ import {
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
 import { DateLocaleData } from "../calcite-date/utils";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-date-day",
@@ -67,7 +68,7 @@ export class CalciteDateDay {
   @Prop() localeData: DateLocaleData;
 
   /** specify the scale of the date picker */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l";
+  @Prop({ reflect: true }) scale: Scale;
 
   //--------------------------------------------------------------------------
   //

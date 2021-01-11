@@ -84,6 +84,14 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 | ------------------------ | --------------------------------------- | ------------------ |
 | `calciteActionBarToggle` | Emitted when expanded has been toggled. | `CustomEvent<any>` |
 
+## Methods
+
+### `setFocus(focusId?: "expand-toggle") => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
 | Slot               | Description                                                                                                             |

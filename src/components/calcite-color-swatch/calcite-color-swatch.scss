@@ -4,6 +4,7 @@ $size-l: 28px;
 
 :host {
   display: inline-flex;
+  position: relative;
 }
 
 :host([scale="s"]) {
@@ -29,4 +30,14 @@ $size-l: 28px;
   rect {
     transition: all 150ms ease-in-out;
   }
+}
+
+.no-color-icon {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
 }

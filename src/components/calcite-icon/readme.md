@@ -20,7 +20,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 | ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
 | `flipRtl`   | `flip-rtl`   | When true, the icon will be flipped when the element direction is 'rtl'.                                                            | `boolean`           | `false`     |
 | `icon`      | `icon`       | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`            | `null`      |
-| `scale`     | `scale`      | Icon scale. Can be "s" \| "m" \| "l".                                                                                               | `"l" \| "m" \| "s"` | `"m"`       |
+| `scale`     | `scale`      | Icon scale.                                                                                                                         | `"l" \| "m" \| "s"` | `"m"`       |
 | `textLabel` | `text-label` | The icon label. It is recommended to set this value if your icon is semantic.                                                       | `string`            | `undefined` |
 | `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `undefined` |
 
@@ -36,6 +36,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-button](../calcite-button)
 - [calcite-chip](../calcite-chip)
 - [calcite-combobox-item](../calcite-combobox-item)
+- [calcite-date](../calcite-date)
 - [calcite-date-month-header](../calcite-date-month-header)
 - [calcite-dropdown-item](../calcite-dropdown-item)
 - [calcite-filter](../calcite-filter)
@@ -69,6 +70,7 @@ graph TD;
   calcite-button --> calcite-icon
   calcite-chip --> calcite-icon
   calcite-combobox-item --> calcite-icon
+  calcite-date --> calcite-icon
   calcite-date-month-header --> calcite-icon
   calcite-dropdown-item --> calcite-icon
   calcite-filter --> calcite-icon
