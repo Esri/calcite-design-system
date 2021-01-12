@@ -20,7 +20,7 @@ describe("calcite-handle", () => {
 
     await button.focus();
 
-    page.keyboard.press(" ");
+    await page.keyboard.press(" ");
 
     await page.waitForChanges();
 

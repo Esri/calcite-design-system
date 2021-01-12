@@ -42,7 +42,7 @@ describe("calcite-icon", () => {
       await page.waitForChanges();
       const path = await page.find(`calcite-icon >>> path`);
 
-      expect(await path.getAttribute("d")).toBeTruthy();
+      expect(path.getAttribute("d")).toBeTruthy();
     });
 
     it("supports both camelcase and kebab case for icon name", async () => {
@@ -51,12 +51,12 @@ describe("calcite-icon", () => {
       await page.waitForChanges();
       const icon = await page.find(`calcite-icon`);
       const path = await page.find(`calcite-icon >>> path`);
-      const iconPathData = await path.getAttribute("d");
+      const iconPathData = path.getAttribute("d");
 
       icon.setProperty("icon", "aZ");
       await page.waitForChanges();
 
-      expect(await path.getAttribute("d")).toBe(iconPathData);
+      expect(path.getAttribute("d")).toBe(iconPathData);
     });
 
     it("loads icon when it's close to viewport", async () => {
@@ -67,12 +67,12 @@ describe("calcite-icon", () => {
       const icon = await page.find(`calcite-icon`);
       const path = await page.find(`calcite-icon >>> path`);
 
-      expect(await path.getAttribute("d")).toBeFalsy();
+      expect(path.getAttribute("d")).toBeFalsy();
 
       icon.setProperty("style", null);
       await page.waitForChanges();
 
-      expect(await path.getAttribute("d")).toBeTruthy();
+      expect(path.getAttribute("d")).toBeTruthy();
     });
 
     describe("scales", () => {
@@ -89,9 +89,9 @@ describe("calcite-icon", () => {
 
           expect(calciteIconComputedStyle.height).toBe(`${sizeInPx}px`);
           expect(calciteIconComputedStyle.width).toBe(`${sizeInPx}px`);
-          expect(await svg.getAttribute("width")).toBe("100%");
-          expect(await svg.getAttribute("height")).toBe("100%");
-          expect(await svg.getAttribute("viewBox")).toBe(`0 0 ${sizeInPx} ${sizeInPx}`);
+          expect(svg.getAttribute("width")).toBe("100%");
+          expect(svg.getAttribute("height")).toBe("100%");
+          expect(svg.getAttribute("viewBox")).toBe(`0 0 ${sizeInPx} ${sizeInPx}`);
         })
       );
     });

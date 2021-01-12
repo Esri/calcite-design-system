@@ -80,7 +80,7 @@ describe("calcite-radio-group-item", () => {
     const input = await page.find("input");
     element.setProperty("checked", false);
     await page.waitForChanges();
-    checked = await input.getAttribute("checked");
+    checked = input.getAttribute("checked");
     expect(checked).toBeNull();
   });
 
@@ -106,7 +106,7 @@ describe("calcite-radio-group-item", () => {
       await page.setContent("<calcite-radio-group-item></calcite-radio-group-item>");
       const element = await page.find("calcite-radio-group-item");
 
-      const role = await element.getAttribute("role");
+      const role = element.getAttribute("role");
 
       expect(role).toEqualText("radio");
     });
@@ -116,21 +116,21 @@ describe("calcite-radio-group-item", () => {
       await page.setContent("<calcite-radio-group-item></calcite-radio-group-item>");
       const element = await page.find("calcite-radio-group-item");
 
-      let ariaChecked = await element.getAttribute("aria-checked");
+      let ariaChecked = element.getAttribute("aria-checked");
 
       expect(ariaChecked).toEqualText("false");
 
       element.setProperty("checked", true);
       await page.waitForChanges();
 
-      ariaChecked = await element.getAttribute("aria-checked");
+      ariaChecked = element.getAttribute("aria-checked");
 
       expect(ariaChecked).toEqualText("true");
 
       element.setProperty("checked", false);
       await page.waitForChanges();
 
-      ariaChecked = await element.getAttribute("aria-checked");
+      ariaChecked = element.getAttribute("aria-checked");
 
       expect(ariaChecked).toEqualText("false");
     });
