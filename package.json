@@ -44,7 +44,7 @@
     "util:add-custom-elements-index-mjs": "cpy dist/custom-elements/index.js dist/custom-elements/ --rename index.mjs",
     "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
-    "util:copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.json ./src/components/calcite-icon/assets",
+    "util:copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.json ./src/components/calcite-icon/assets/calcite-icon/",
     "util:deploy-next-from-existing-build": "npm run util:prep-next-from-existing-build && npm run util:push-tags && npm run util:publish-next",
     "util:prep-next-from-existing-build": "ts-node ./support/prepareVersionUpdate.ts --next --standard-version-options=\"--skip.changelog\"",
     "util:publish-next": "npm publish --tag next",

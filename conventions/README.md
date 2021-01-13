@@ -13,6 +13,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Private Events](#private-events)
 - [Event Details](#event-details)
 - [CSS Class Names](#css-class-names)
+- [assets](#assets)
 - [a11y](#a11y)
 - [i18n](#i18n)
 - [Bundling and Loading](#bundling-and-loading)
@@ -338,6 +339,44 @@ This builds a nice symmetry between the styling and the public API of a componen
 - https://github.com/ArcGIS/calcite-components/pull/24#discussion_r287462934
 - https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-495788683
 - https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497962263
+
+## assets
+
+If a component needs assets, they should be placed under a `assets/<component-name>` subdirectory. For example,
+
+```
+my-component/
+  assets/
+    my-component/
+      asset.json
+  my-component.e2e.ts
+  my-component.tsx
+  my-component.scss
+  ...
+```
+
+The component's metadata should then include the following metadata prop `assetsDir: ["assets"]`.
+
+```tsx
+import { Component, Host, h } from "@stencil/core";
+
+@Component({
+  tag: "calcite-test",
+  shadow: true,
+  assetsDir: ["assets"]
+})
+export class MyComponent {
+  /* ... */
+}
+```
+
+Afterwards, any asset path references must use the `getAssetPath` utility, using the `assets` directory as the root.
+
+```ts
+const assetPath = getAssetPath(`./assets/my-component/asset.json`);
+```
+
+This is required in order to have a unified assets folder in the distributable.
 
 ## a11y
 
