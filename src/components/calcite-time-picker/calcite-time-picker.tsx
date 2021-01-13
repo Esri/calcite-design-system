@@ -58,9 +58,11 @@ export class CalciteTimePicker {
         this.ampm = "--";
         break;
       case "ArrowUp":
+        event.preventDefault();
         this.incrementAmPm();
         break;
       case "ArrowDown":
+        event.preventDefault();
         this.decrementAmPm();
         break;
       case "Tab":
@@ -129,9 +131,11 @@ export class CalciteTimePicker {
           this.hour = "--";
           break;
         case "ArrowDown":
+          event.preventDefault();
           this.decrementHour();
           break;
         case "ArrowUp":
+          event.preventDefault();
           this.incrementHour();
           break;
       }
@@ -199,9 +203,11 @@ export class CalciteTimePicker {
           this.minute = "--";
           break;
         case "ArrowDown":
+          event.preventDefault();
           this.decrementMinute();
           break;
         case "ArrowUp":
+          event.preventDefault();
           this.incrementMinute();
           break;
       }
@@ -220,7 +226,7 @@ export class CalciteTimePicker {
       <Host>
         <slot />
         <div class="time-picker">
-          <div class="row">
+          <div>
             <button
               aria-label="increase hour"
               class="top-left"
@@ -248,7 +254,7 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevronup" scale={iconScale} />
             </button>
           </div>
-          <div>
+          <div class="time-row">
             <span
               aria-label="Hours"
               aria-placeholder="--"
@@ -263,6 +269,7 @@ export class CalciteTimePicker {
             >
               {this.hour}
             </span>
+            <div class="colon">:</div>
             <span
               aria-label="Minutes"
               aria-placeholder="--"
