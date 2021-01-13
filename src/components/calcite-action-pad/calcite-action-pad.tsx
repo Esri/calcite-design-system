@@ -34,11 +34,11 @@ export class CalciteActionPad {
   /**
    * When set to true, the expand-toggling behavior will be disabled.
    */
-  @Prop({ reflect: true }) disableExpand = false;
+  @Prop({ reflect: true }) expandDisabled = false;
 
-  @Watch("disableExpand")
-  expandHandler(disableExpand: boolean): void {
-    if (!disableExpand) {
+  @Watch("expandDisabled")
+  expandHandler(expandDisabled: boolean): void {
+    if (!expandDisabled) {
       toggleChildActionText({ parent: this.el, expanded: this.expanded });
     }
   }
@@ -50,7 +50,7 @@ export class CalciteActionPad {
 
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
-    if (!this.disableExpand) {
+    if (!this.expandDisabled) {
       toggleChildActionText({ parent: this.el, expanded });
     }
 
@@ -115,9 +115,9 @@ export class CalciteActionPad {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const { el, disableExpand, expanded } = this;
+    const { el, expandDisabled, expanded } = this;
 
-    if (!disableExpand) {
+    if (!expandDisabled) {
       toggleChildActionText({ parent: el, expanded });
     }
   }
@@ -161,7 +161,7 @@ export class CalciteActionPad {
   renderBottomActionGroup(): VNode {
     const {
       expanded,
-      disableExpand,
+      expandDisabled,
       intlExpand,
       intlCollapse,
       el,
@@ -173,7 +173,7 @@ export class CalciteActionPad {
     const expandLabel = intlExpand || TEXT.expand;
     const collapseLabel = intlCollapse || TEXT.collapse;
 
-    const expandToggleNode = !disableExpand ? (
+    const expandToggleNode = !expandDisabled ? (
       <CalciteExpandToggle
         el={el}
         expanded={expanded}

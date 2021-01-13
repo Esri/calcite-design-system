@@ -11,7 +11,7 @@ describe("calcite-action-pad", () => {
   it("defaults", async () =>
     defaults("calcite-action-pad", [
       {
-        propertyName: "disableExpand",
+        propertyName: "expandDisabled",
         defaultValue: false
       },
       {
@@ -27,7 +27,7 @@ describe("calcite-action-pad", () => {
   it("reflects", async () =>
     reflects("calcite-action-pad", [
       {
-        propertyName: "disableExpand",
+        propertyName: "expandDisabled",
         value: true
       },
       {
@@ -56,7 +56,7 @@ describe("calcite-action-pad", () => {
     it("allows disabling expandable behavior", async () => {
       const page = await newE2EPage();
 
-      await page.setContent("<calcite-action-pad disable-expand></calcite-action-pad>");
+      await page.setContent("<calcite-action-pad expand-disabled></calcite-action-pad>");
 
       await page.waitForChanges();
 
@@ -115,7 +115,7 @@ describe("calcite-action-pad", () => {
   it("should not have bottomGroup when not expandable", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-action-bar disable-expand></calcite-action-bar>`);
+    await page.setContent(`<calcite-action-bar expand-disabled></calcite-action-bar>`);
 
     const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
 
@@ -126,7 +126,7 @@ describe("calcite-action-pad", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-action-bar disable-expand expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
+      `<calcite-action-bar expand-disabled expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
     );
 
     const action = await page.find("calcite-action");

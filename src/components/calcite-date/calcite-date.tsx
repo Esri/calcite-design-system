@@ -56,7 +56,7 @@ export class CalciteDate {
   //
   //--------------------------------------------------------------------------
 
-  @Prop() disableProximitySelection?: boolean = false;
+  @Prop() proximitySelectionDisabled?: boolean = false;
 
   /** Selected date */
   @Prop() value?: string;
@@ -242,7 +242,7 @@ export class CalciteDate {
       (this.focusedInput === "end" ||
         (this.noCalendarInput &&
           this.hoverRange?.focused === "end" &&
-          (!this.disableProximitySelection || endDate))) &&
+          (!this.proximitySelectionDisabled || endDate))) &&
       activeEndDate
     ) {
       activeDate = activeEndDate;
@@ -503,7 +503,7 @@ export class CalciteDate {
                     this.hoverRange.end = date;
                   }
                 } else {
-                  if (!this.disableProximitySelection) {
+                  if (!this.proximitySelectionDisabled) {
                     if (this.endAsDate) {
                       const startDiff = getDaysDiff(date, this.startAsDate);
                       const endDiff = getDaysDiff(date, this.endAsDate);
@@ -677,7 +677,7 @@ export class CalciteDate {
         this.setEndAsDate(date);
         this.activeEndDate = date;
       } else {
-        if (!this.disableProximitySelection) {
+        if (!this.proximitySelectionDisabled) {
           const startDiff = getDaysDiff(date, this.startAsDate);
           const endDiff = getDaysDiff(date, this.endAsDate);
           if (startDiff < endDiff) {
