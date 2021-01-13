@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@popperjs/core": "2.6.0",
+    "@stencil/core": "2.3.0",
     "@types/color": "3.0.1"
   },
   "devDependencies": {
@@ -64,7 +65,6 @@
     "@esri/calcite-base": "^1.2.0",
     "@esri/calcite-colors": "5.0.0",
     "@esri/calcite-ui-icons": "3.14.3",
-    "@stencil/core": "2.3.0",
     "@stencil/eslint-plugin": "0.3.1",
     "@stencil/postcss": "2.0.0",
     "@stencil/sass": "1.4.1",
