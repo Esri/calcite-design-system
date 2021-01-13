@@ -72,7 +72,7 @@ export const Simple = (): string => html`
         value="${text("value", "")}"
         min="${text("min", "2016-08-09")}"
         max="${text("max", "2023-12-18")}"
-        locale="${select("locale", locales, "en-US")}"
+        locale="${select("locale", locales, "en")}"
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
       ></calcite-date
@@ -87,7 +87,7 @@ export const NoInput = (): string => html`
       value="${text("value", "")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en-US")}"
+      locale="${select("locale", locales, "en")}"
       active
       no-calendar-input
       intl-next-month="${text("intl-next-month", "Next month")}"
@@ -110,7 +110,7 @@ export const DarkMode = (): string => html`
         value="${text("value", "")}"
         min="${text("min", "2016-08-09")}"
         max="${text("max", "2023-12-18")}"
-        locale="${select("locale", locales, "en-US")}"
+        locale="${select("locale", locales, "en")}"
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
         range="${boolean("range", false)}"
@@ -132,7 +132,7 @@ export const Range = (): string => html`
       end="${text("end", "")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en-US")}"
+      locale="${select("locale", locales, "en")}"
       next-month-label="${text("next-month-label", "Next month")}"
       prev-month-label="${text("prev-month-label", "Previous month")}"
       range="${boolean("range", true)}"
