@@ -37,10 +37,10 @@ import { Layout, Position, Scale } from "../interfaces";
 const DEFAULT_PLACEMENT = "bottom-start";
 
 @Component({
-  assetsDirs: ["calcite-date-nls"],
   tag: "calcite-date",
   styleUrl: "calcite-date.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class CalciteDate {
   //--------------------------------------------------------------------------
