@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### ⚠ BREAKING CHANGES
 
 - **fab:** default scale property to medium (m). #1427 (#1436)
+- **utils/popper:** exported interface `CalcitePlacement` renamed to `PopperPlacement`.
 
 ### Features
 
