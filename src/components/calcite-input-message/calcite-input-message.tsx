@@ -1,7 +1,7 @@
 import { Component, Element, Host, h, Prop, VNode, Watch } from "@stencil/core";
 import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status, Theme } from "../interfaces";
-import { InputMessageType } from "./interfaces";
+import { InputMessageType, StatusIconDefaults } from "./interfaces";
 
 @Component({
   tag: "calcite-input-message",
@@ -44,7 +44,7 @@ export class CalciteInputMessage {
   @Watch("status")
   @Watch("icon")
   handleIconEl(): void {
-    this.requestedIcon = setRequestedIcon(this.iconDefaults, this.icon, this.status);
+    this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
   }
 
   //--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ export class CalciteInputMessage {
   connectedCallback(): void {
     this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
-    this.requestedIcon = setRequestedIcon(this.iconDefaults, this.icon, this.status);
+    this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
   }
 
   render(): VNode {
@@ -75,13 +75,6 @@ export class CalciteInputMessage {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  // icons for status and validation
-  private iconDefaults = {
-    valid: "check-circle",
-    invalid: "exclamation-mark-triangle",
-    idle: "information"
-  };
 
   /** the computed icon to render */
   private requestedIcon?: string;
