@@ -58,9 +58,9 @@ export class CalciteTileSelect {
   }
 
   /** Display an interactive radio or checkbox. */
-  @Prop({ reflect: true }) enableInput = false;
+  @Prop({ reflect: true }) inputEnabled = false;
 
-  /** The side of the tile that the radio or checkbox appears on when enableInput is true. */
+  /** The side of the tile that the radio or checkbox appears on when inputEnabled is true. */
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /** The theme of the tile select. */
