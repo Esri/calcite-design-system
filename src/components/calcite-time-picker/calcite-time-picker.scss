@@ -7,6 +7,7 @@
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
 }
+
 .time-picker {
   align-items: center;
   border-radius: 4px;
@@ -16,26 +17,14 @@
   position: relative;
   z-index: 200;
 }
+
 .time-row {
   align-items: center;
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-span {
-  align-items: center;
-  display: inline-flex;
-  font-weight: var(--calcite-ui-text-weight-medium);
-  justify-content: center;
-  &:hover {
-    box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
-  }
-  &:focus,
-  &:hover:focus {
-    box-shadow: inset 0 0 0 2px var(--calcite-ui-blue-1);
-    outline: none;
-  }
-}
+
 button {
   align-items: center;
   background: none;
@@ -73,6 +62,38 @@ button {
     color: var(--calcite-ui-text-3);
   }
 }
+
+span {
+  align-items: center;
+  display: inline-flex;
+  font-weight: var(--calcite-ui-text-weight-medium);
+  justify-content: center;
+  position: relative;
+  z-index: 200;
+  &:focus {
+    outline: none;
+  }
+  &::before {
+    content: "";
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+  &:hover::before {
+    box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
+  }
+  &:focus::before,
+  &:hover:focus::before {
+    box-shadow: inset 0 0 0 2px var(--calcite-ui-blue-1);
+    outline: none;
+  }
+}
+
+.colon {
+  position: absolute;
+  z-index: 100;
+}
+
 :host([scale="s"]) {
   font-size: 14px;
   .time-picker {
@@ -83,7 +104,19 @@ button {
     height: 24px;
     width: 40px;
   }
+  span.hour::before {
+    right: 2px;
+    width: 38px;
+  }
+  span.minute::before {
+    left: 2px;
+    width: 38px;
+  }
+  .colon {
+    left: 38px;
+  }
 }
+
 :host([scale="m"]) {
   font-size: 16px;
   .time-picker {
@@ -94,7 +127,19 @@ button {
     height: 32px;
     width: 44px;
   }
+  span.hour::before {
+    right: 2px;
+    width: 42px;
+  }
+  span.minute::before {
+    left: 3px;
+    width: 41px;
+  }
+  .colon {
+    left: 42px;
+  }
 }
+
 :host([scale="l"]) {
   font-size: 20px;
   .time-picker {
@@ -104,5 +149,16 @@ button {
   span {
     height: 48px;
     width: 64px;
+  }
+  span.hour::before {
+    right: 3px;
+    width: 61px;
+  }
+  span.minute::before {
+    left: 3px;
+    width: 61px;
+  }
+  .colon {
+    left: 61px;
   }
 }
