@@ -182,7 +182,6 @@ module.exports = {
           "outline": "2px solid var(--calcite-ui-brand)",
           "outline-offset": "-2px"
         }
-        // TODO: focus-box-shadow
       }
       addUtilities(newUtilities);
     },
