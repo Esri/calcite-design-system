@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -42,7 +43,7 @@
 }
 
 ::slotted(.header .heading) {
-  font-weight: var(--calcite-ui-text-weight);
+  font-weight: var(--calcite-font-weight-normal);
   @include font-size(-2);
 }
 
@@ -53,13 +54,15 @@
 }
 
 ::slotted(calcite-tip-manager) {
-  animation: calcite-fade-in-up $transition;
-  border-radius: var(--calcite-border-radius);
+  @apply
+  rounded
+  shadow-2
+  absolute
+  animate-in-up;
+
   bottom: var(--calcite-spacing-plus-half);
-  box-shadow: var(--calcite-shadow-2);
   box-sizing: border-box;
   left: var(--calcite-shell-tip-spacing);
-  position: absolute;
   right: var(--calcite-shell-tip-spacing);
   z-index: 2;
 }
