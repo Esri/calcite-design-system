@@ -898,7 +898,7 @@ export class CalciteSlider {
     const { left, width } = this.el.getBoundingClientRect();
     const percent = (x - left) / width;
     let value = this.bound(this.min + range * percent);
-    if (this.snap && this.step) {
+    if (!this.snapDisabled && this.step) {
       value = this.getClosestStep(value);
     }
     return value;
