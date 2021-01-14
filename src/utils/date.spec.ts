@@ -11,9 +11,9 @@ import {
   parseDateString,
   getOrder
 } from "./date";
-import arabic from "../components/calcite-date/calcite-date-nls/ar.json";
-import french from "../components/calcite-date/calcite-date-nls/fr.json";
-import korean from "../components/calcite-date/calcite-date-nls/ko.json";
+import arabic from "../components/calcite-date/assets/calcite-date/ar.json";
+import french from "../components/calcite-date/assets/calcite-date/fr.json";
+import korean from "../components/calcite-date/assets/calcite-date/ko.json";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
