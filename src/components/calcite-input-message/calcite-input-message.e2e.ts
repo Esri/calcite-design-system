@@ -1,9 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders } from "../../tests/commonTests";
-import banana16 from "../calcite-icon/assets/banana16.json";
-import information16 from "../calcite-icon/assets/information16.json";
-import checkCircle16 from "../calcite-icon/assets/checkCircle16.json";
-import exclamationMarkTriangle16 from "../calcite-icon/assets/exclamationMarkTriangle16.json";
+import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {
   it("renders", async () => renders("calcite-input-message", false));
@@ -60,8 +57,8 @@ describe("calcite-input-message", () => {
   describe("when icon prop is provided", () => {
     let page;
     let element;
-    let icon;
-    let svgPath;
+    let iconEl;
+    let requestedIcon;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -73,10 +70,10 @@ describe("calcite-input-message", () => {
           await page.setContent(`
           <calcite-input-message icon>Text</calcite-input-message>
           `);
-          icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
-          svgPath = await icon.shadowRoot.querySelector("path");
-          expect(await svgPath.getAttribute("d")).toEqual(information16);
-          expect(icon).not.toBeNull();
+          iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+          requestedIcon = await iconEl.getAttribute("icon");
+          expect(requestedIcon).toEqual(StatusIconDefaults.idle);
+          expect(iconEl).not.toBeNull();
         });
 
         describe("when element status is changed", () => {
@@ -85,20 +82,18 @@ describe("calcite-input-message", () => {
               <calcite-input-message icon status="invalid">An example with icon</calcite-input-message>
             `);
             element = await page.find("calcite-input-message");
-            icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
-            svgPath = await icon.shadowRoot.querySelector("path");
-            expect(await element.getProperty("status")).toEqual("invalid");
-            expect(await svgPath.getAttribute("d")).toEqual(exclamationMarkTriangle16);
-            expect(icon).not.toBeNull();
+            iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+            requestedIcon = await iconEl.getAttribute("icon");
+            expect(requestedIcon).toEqual(StatusIconDefaults.invalid);
+            expect(iconEl).not.toBeNull();
 
-            element.setProperty("status", "valid");
+            await element.setAttribute("status", "valid");
             await page.waitForChanges();
 
-            icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
-            svgPath = await icon.shadowRoot.querySelector("path");
-            expect(await element.getProperty("status")).toEqual("valid");
-            expect(await svgPath.getAttribute("d")).toEqual(checkCircle16);
-            expect(icon).not.toBeNull();
+            iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+            requestedIcon = await iconEl.getAttribute("icon");
+            expect(requestedIcon).toEqual(StatusIconDefaults.valid);
+            expect(iconEl).not.toBeNull();
           });
         });
       });
@@ -109,8 +104,8 @@ describe("calcite-input-message", () => {
           await page.setContent(`
           <calcite-input-message !icon>Text</calcite-input-message>
           `);
-          icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
-          expect(icon).toBeNull();
+          iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+          expect(iconEl).toBeNull();
         });
       });
     });
@@ -118,25 +113,33 @@ describe("calcite-input-message", () => {
     describe("when it's a string type", () => {
       it("should render the requested custom icon", async () => {
         await page.setContent("<calcite-input-message icon='banana'>Nah</calcite-input-message>");
-        icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
-        svgPath = await icon.shadowRoot.querySelector("path");
-        expect(await svgPath.getAttribute("d")).toEqual(banana16);
+        element = await page.find("calcite-input-message");
+        iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+        requestedIcon = await iconEl.getAttribute("icon");
+        expect(requestedIcon).toEqual("banana");
       });
 
       describe("when the icon is changed", () => {
         it("should render the new icon", async () => {
           await page.setContent("<calcite-input-message icon='information'>More info</calcite-input-message>");
           element = await page.find("calcite-input-message");
-          icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
-          svgPath = await icon.shadowRoot.querySelector("path");
-          expect(await svgPath.getAttribute("d")).toEqual(information16);
+          iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+          requestedIcon = await iconEl.getAttribute("icon");
+          expect(requestedIcon).toEqual(StatusIconDefaults.idle);
 
           await element.setAttribute("icon", "banana");
           await page.waitForChanges();
 
-          icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
-          svgPath = await icon.shadowRoot.querySelector("path");
-          expect(await svgPath.getAttribute("d")).toEqual(banana16);
+          iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+          requestedIcon = await iconEl.getAttribute("icon");
+          expect(requestedIcon).toEqual("banana");
+
+          await element.setAttribute("icon", "view-hide");
+          await page.waitForChanges();
+
+          iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+          requestedIcon = await iconEl.getAttribute("icon");
+          expect(requestedIcon).toEqual("view-hide");
         });
       });
     });
