@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
-import { CalciteTheme } from "../interfaces";
+import { Theme } from "../interfaces";
 import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
 
 /**
@@ -72,7 +72,7 @@ export class CalciteBlock {
   /**
    * Used to set the component's color scheme.
    */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

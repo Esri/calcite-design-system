@@ -4,7 +4,7 @@ import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, ICONS, TEXT } from "./resources";
 import { guid } from "../../utils/guid";
-import { CalciteBlockSectionToggleDisplay } from "../interfaces";
+import { BlockSectionToggleDisplay } from "./interfaces";
 
 /**
  * @slot - A slot for adding content to the block section.
@@ -48,7 +48,7 @@ export class CalciteBlockSection {
    *
    * @todo revisit doc
    */
-  @Prop({ reflect: true }) toggleDisplay: CalciteBlockSectionToggleDisplay = "button";
+  @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
   // --------------------------------------------------------------------------
   //

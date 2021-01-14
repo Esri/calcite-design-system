@@ -20,8 +20,8 @@ import {
 } from "../calcite-color/utils";
 import Color from "color";
 import { CSS } from "./resources";
-import { Scale, Theme } from "../../interfaces/common";
-import { RGB } from "../../interfaces/Color";
+import { Scale, Theme } from "../interfaces";
+import { RGB } from "../calcite-color/interfaces";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { TEXT } from "../calcite-color/resources";
 import { getKey } from "../../utils/key";
@@ -94,7 +94,7 @@ export class CalciteColorHexInput {
   /**
    * The component's scale.
    */
-  @Prop({ reflect: true }) scale: Exclude<Scale, "xs" | "xl"> = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * The component's theme.

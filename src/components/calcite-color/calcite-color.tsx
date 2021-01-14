@@ -12,8 +12,8 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor } from "../../interfaces/Color";
-import { Scale, Theme } from "../../interfaces/common";
+import { ColorMode, ColorValue, InternalColor, ColorAppearance } from "./interfaces";
+import { Scale, Theme } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -24,7 +24,7 @@ import {
   TEXT
 } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { colorEqual, CSSColorMode, normalizeHex, parseMode, SupportedMode } from "./utils";
+import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 
@@ -60,7 +60,7 @@ export class CalciteColor {
   @Prop() allowEmpty = false;
 
   /** specify the appearance - default (containing border), or minimal (no containing border) */
-  @Prop({ reflect: true }) appearance: "default" | "minimal" = "default";
+  @Prop({ reflect: true }) appearance: ColorAppearance = "default";
 
   /**
    * Internal prop for advanced use-cases.
@@ -80,9 +80,20 @@ export class CalciteColor {
       return;
     }
 
-    const value = this.toValue(color);
+    this.value = this.toValue(color);
+  }
 
-    this.value = value;
+  /**
+   * The format of the value property.
+   *
+   * When "auto", the format will be inferred from `value` when set.
+   */
+  @Prop() format: Format = "auto";
+
+  @Watch("format")
+  handleFormatChange(format: CalciteColor["format"]): void {
+    this.mode = format === "auto" ? this.mode : format;
+    this.value = this.toValue(this.color);
   }
 
   /** When true, hides the hex input */
@@ -159,10 +170,10 @@ export class CalciteColor {
   @Prop({
     reflect: true
   })
-  scale: Exclude<Scale, "xs" | "xl"> = "m";
+  scale: Scale = "m";
 
   @Watch("scale")
-  handleScaleChange(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
+  handleScaleChange(scale: Scale = "m"): void {
     this.updateDimensions(scale);
   }
 
@@ -194,14 +205,14 @@ export class CalciteColor {
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
-    const { allowEmpty } = this;
+    const { allowEmpty, format } = this;
     const checkMode = !allowEmpty || value;
     let modeChanged = false;
 
     if (checkMode) {
       const nextMode = parseMode(value);
 
-      if (!nextMode) {
+      if (!nextMode || (format !== "auto" && nextMode !== format)) {
         console.warn(`ignoring invalid color value: ${value}`);
         this.value = oldValue;
         return;
@@ -686,7 +697,7 @@ export class CalciteColor {
     return radius * 2 - height;
   }
 
-  private updateDimensions(scale: Exclude<Scale, "xs" | "xl"> = "m"): void {
+  private updateDimensions(scale: Scale = "m"): void {
     this.dimensions = DIMENSIONS[scale];
   }
 

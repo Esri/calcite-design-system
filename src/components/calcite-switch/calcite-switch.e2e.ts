@@ -65,7 +65,7 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).not.toHaveAttribute("switched");
     expect(input).not.toHaveAttribute("checked");
 
-    calciteSwitch.click();
+    await calciteSwitch.click();
 
     await page.waitForChanges();
 
@@ -149,7 +149,7 @@ describe("calcite-switch", () => {
     const input = await page.find("input");
     const paragraph = await page.find("p");
 
-    paragraph.click();
+    await paragraph.click();
 
     await page.waitForChanges();
 

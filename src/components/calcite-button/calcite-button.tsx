@@ -1,6 +1,8 @@
 import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
+import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
+import { FlipContext, Scale, Theme, Width } from "../interfaces";
 
 @Component({
   tag: "calcite-button",
@@ -29,10 +31,10 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ reflect: true }) appearance: "solid" | "outline" | "clear" | "transparent" = "solid";
+  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
 
   /** specify the color of the button, defaults to blue */
-  @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
+  @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the button disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
@@ -44,7 +46,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) iconEnd?: string;
 
   /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
@@ -53,13 +55,7 @@ export class CalciteButton {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally specify alignment of button elements. */
-  @Prop({ reflect: true }) alignment?:
-    | "start"
-    | "end"
-    | "center"
-    | "space-between"
-    | "icon-start-space-between"
-    | "icon-end-space-between" = "center";
+  @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
@@ -68,16 +64,16 @@ export class CalciteButton {
   @Prop({ reflect: true }) round?: boolean = false;
 
   /** specify the scale of the button, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** is the button a child of a calcite-split-button */
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the width of the button, defaults to auto */
-  @Prop({ reflect: true }) width: "auto" | "half" | "full" = "auto";
+  @Prop({ reflect: true }) width: Width = "auto";
 
   //--------------------------------------------------------------------------
   //

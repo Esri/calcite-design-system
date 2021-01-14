@@ -2,7 +2,9 @@ import { Component, Element, Host, Listen, Method, Prop, State, h, VNode } from 
 
 import { CSS } from "./resources";
 
-import { CalciteTheme, FlowDirection } from "../interfaces";
+import { Theme } from "../interfaces";
+
+import { FlowDirection } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
@@ -22,7 +24,7 @@ export class CalciteFlow {
   /**
    * Used to set the component's color scheme.
    */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

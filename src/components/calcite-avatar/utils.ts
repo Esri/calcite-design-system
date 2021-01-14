@@ -1,4 +1,4 @@
-import { RGB } from "../../interfaces/Color";
+import { RGB } from "../calcite-color/interfaces";
 import { hexToRGB } from "../calcite-color/utils";
 
 /**

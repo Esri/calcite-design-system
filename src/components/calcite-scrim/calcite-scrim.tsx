@@ -1,4 +1,5 @@
 import { Component, Host, Prop, h, VNode } from "@stencil/core";
+import { Theme } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -28,7 +29,7 @@ export class CalciteScrim {
   @Prop({ reflect: true }) loading = false;
 
   /** specify the theme of scrim, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

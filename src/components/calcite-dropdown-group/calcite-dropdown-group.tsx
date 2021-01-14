@@ -10,7 +10,8 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { GroupRegistration, ItemRegistration } from "../../interfaces/Dropdown";
+import { GroupRegistration, ItemRegistration } from "../calcite-dropdown/interfaces";
+import { SelectionMode } from "./interfaces";
 
 @Component({
   tag: "calcite-dropdown-group",
@@ -36,7 +37,7 @@ export class CalciteDropdownGroup {
 
   /** specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
    none (no active items), defaults to single */
-  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "none" = "single";
+  @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
 
   //--------------------------------------------------------------------------
   //
