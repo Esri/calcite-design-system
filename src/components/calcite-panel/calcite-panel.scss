@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   display: flex;
   position: relative;
   max-height: var(--calcite-panel-max-height);
@@ -105,17 +106,16 @@ calcite-scrim {
     width: 100%;
   }
   .heading {
-    color: var(--calcite-ui-text-3);
-    font-weight: var(--calcite-ui-text-weight-demi);
+    font-weight: var(--calcite-font-weight-medium);
     margin: 0 0 var(--calcite-spacing-quarter);
-    font-size: theme("fontSize.0");
+    font-size: var(--calcite-font-size-0);
     &:only-child {
       margin-bottom: 0;
     }
   }
   .summary {
     color: var(--calcite-ui-text-3);
-    font-size: theme("fontSize.-2");
+    font-size: var(--calcite-font-size--2);
   }
 }
 

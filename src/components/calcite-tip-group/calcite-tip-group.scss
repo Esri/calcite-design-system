@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   --calcite-tip-max-width: 540px;
 }
 

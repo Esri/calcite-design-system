@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   display: flex;
   align-items: stretch;
   background-color: transparent;
@@ -61,12 +62,15 @@
 }
 
 .content--detached {
-  border-radius: var(--calcite-border-radius);
-  box-shadow: var(--calcite-shadow-0);
-  height: auto;
-  margin: var(--calcite-spacing-half) var(--calcite-spacing-half) auto;
+  @apply
+  rounded
+  shadow-0
+  h-auto
+  overflow-hidden
+  mt-2 mb-auto mx-2;
+
   max-height: var(--calcite-shell-panel-detached-max-height);
-  overflow: hidden;
+
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     max-height: unset;

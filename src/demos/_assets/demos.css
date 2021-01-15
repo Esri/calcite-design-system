@@ -15,7 +15,7 @@ main {
   min-width: 280px;
   width: 70vw;
   padding: 0 var(--calcite-spacing-double);
-  margin: 0 auto var(--calcite-spacing-double);
+  margin: 0 auto;
   background-color: transparent;
 }
 

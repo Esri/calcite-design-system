@@ -16,6 +16,9 @@
   outline-offset: -2px;
 }
 
+/**
+* Currently only used in Checkbox.
+*/
 @mixin focus-box-shadow($base-shadow: null) {
   @if $base-shadow {
     box-shadow: $base-shadow, 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
