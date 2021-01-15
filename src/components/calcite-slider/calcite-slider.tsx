@@ -105,7 +105,7 @@ export class CalciteSlider {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
     this.value = this.bound(this.value);
-    if (!this.snap) {
+    if (this.snap) {
       this.value = this.getClosestStep(this.value);
     }
     if (this.histogram) {
@@ -898,7 +898,7 @@ export class CalciteSlider {
     const { left, width } = this.el.getBoundingClientRect();
     const percent = (x - left) / width;
     let value = this.bound(this.min + range * percent);
-    if (!this.snap && this.step) {
+    if (this.snap && this.step) {
       value = this.getClosestStep(value);
     }
     return value;
