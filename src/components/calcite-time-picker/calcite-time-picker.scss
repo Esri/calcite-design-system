@@ -70,28 +70,14 @@ span {
   justify-content: center;
   position: relative;
   z-index: 200;
-  &:focus {
-    outline: none;
-  }
-  &::before {
-    content: "";
-    height: 100%;
-    position: absolute;
-    width: 100%;
-  }
-  &:hover::before {
+  &:hover {
     box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
   }
-  &:focus::before,
-  &:hover:focus::before {
+  &:focus,
+  &:hover:focus {
     box-shadow: inset 0 0 0 2px var(--calcite-ui-blue-1);
     outline: none;
   }
-}
-
-.colon {
-  position: absolute;
-  z-index: 100;
 }
 
 :host([scale="s"]) {
@@ -103,17 +89,6 @@ span {
   span {
     height: 24px;
     width: 40px;
-  }
-  span.hour::before {
-    right: 2px;
-    width: 38px;
-  }
-  span.minute::before {
-    left: 2px;
-    width: 38px;
-  }
-  .colon {
-    left: 38px;
   }
 }
 
@@ -127,17 +102,6 @@ span {
     height: 32px;
     width: 44px;
   }
-  span.hour::before {
-    right: 2px;
-    width: 42px;
-  }
-  span.minute::before {
-    left: 3px;
-    width: 41px;
-  }
-  .colon {
-    left: 42px;
-  }
 }
 
 :host([scale="l"]) {
@@ -149,16 +113,5 @@ span {
   span {
     height: 48px;
     width: 64px;
-  }
-  span.hour::before {
-    right: 3px;
-    width: 61px;
-  }
-  span.minute::before {
-    left: 3px;
-    width: 61px;
-  }
-  .colon {
-    left: 61px;
   }
 }

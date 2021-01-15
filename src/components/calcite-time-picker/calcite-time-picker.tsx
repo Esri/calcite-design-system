@@ -225,7 +225,6 @@ export class CalciteTimePicker {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
     return (
       <Host>
-        <slot />
         <div class="time-picker">
           <div>
             <button
