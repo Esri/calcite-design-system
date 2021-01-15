@@ -236,25 +236,6 @@ export class CalciteTimePicker {
             >
               <calcite-icon icon="chevronup" scale={iconScale} />
             </button>
-            <button
-              aria-label="increase minute"
-              onClick={this.incrementMinute}
-              tabIndex={-1}
-              type="button"
-            >
-              <calcite-icon icon="chevronup" scale={iconScale} />
-            </button>
-            <button
-              aria-label="switch to am or pm"
-              class="top-right"
-              onClick={this.incrementAmPm}
-              tabIndex={-1}
-              type="button"
-            >
-              <calcite-icon icon="chevronup" scale={iconScale} />
-            </button>
-          </div>
-          <div class="time-row">
             <span
               aria-label="Hours"
               aria-placeholder="--"
@@ -269,7 +250,26 @@ export class CalciteTimePicker {
             >
               {this.hour}
             </span>
-            <div class="colon">:</div>
+            <button
+              aria-label="decrease hour"
+              class="bottom-left"
+              onClick={this.decrementHour}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevrondown" scale={iconScale} />
+            </button>
+          </div>
+          <div>:</div>
+          <div>
+            <button
+              aria-label="increase minute"
+              onClick={this.incrementMinute}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevronup" scale={iconScale} />
+            </button>
             <span
               aria-label="Minutes"
               aria-placeholder="--"
@@ -284,6 +284,25 @@ export class CalciteTimePicker {
             >
               {this.minute}
             </span>
+            <button
+              aria-label="decrease minute"
+              onClick={this.decrementMinute}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevrondown" scale={iconScale} />
+            </button>
+          </div>
+          <div>
+            <button
+              aria-label="switch to am or pm"
+              class="top-right"
+              onClick={this.incrementAmPm}
+              tabIndex={-1}
+              type="button"
+            >
+              <calcite-icon icon="chevronup" scale={iconScale} />
+            </button>
             <span
               aria-label="AM/PM"
               aria-placeholder="--"
@@ -298,25 +317,6 @@ export class CalciteTimePicker {
             >
               {this.ampm}
             </span>
-          </div>
-          <div>
-            <button
-              aria-label="decrease hour"
-              class="bottom-left"
-              onClick={this.decrementHour}
-              tabIndex={-1}
-              type="button"
-            >
-              <calcite-icon icon="chevrondown" scale={iconScale} />
-            </button>
-            <button
-              aria-label="decrease minute"
-              onClick={this.decrementMinute}
-              tabIndex={-1}
-              type="button"
-            >
-              <calcite-icon icon="chevrondown" scale={iconScale} />
-            </button>
             <button
               aria-label="switch to am or pm"
               class="bottom-right"

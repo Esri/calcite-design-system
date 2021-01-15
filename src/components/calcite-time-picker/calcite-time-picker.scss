@@ -13,16 +13,8 @@
   border-radius: 4px;
   box-shadow: var(--calcite-shadow-2);
   display: flex;
-  flex-direction: column;
   position: relative;
   z-index: 200;
-}
-
-.time-row {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 }
 
 button {
@@ -83,7 +75,7 @@ span {
 :host([scale="s"]) {
   font-size: 14px;
   .time-picker {
-    width: 120px;
+    width: 124.2px;
   }
   button,
   span {
@@ -95,7 +87,7 @@ span {
 :host([scale="m"]) {
   font-size: 16px;
   .time-picker {
-    width: 132px;
+    width: 136.8px;
   }
   button,
   span {
@@ -107,7 +99,7 @@ span {
 :host([scale="l"]) {
   font-size: 20px;
   .time-picker {
-    width: 192px;
+    width: 198px;
   }
   button,
   span {
