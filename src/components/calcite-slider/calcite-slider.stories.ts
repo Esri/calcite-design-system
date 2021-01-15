@@ -13,20 +13,20 @@ export default {
 };
 
 export const SingleValue = (): string => html`
-<calcite-slider
-  min="${number("min", 0)}"
-  max="${number("max", 100)}"
-  value="${number("value", 50)}"
-  step="${number("step", 1)}"
-  label="${text("label", "Temperature")}"
-  ${boolean("disabled", false)}
-  ${boolean("label-handles", false)}
-  ${boolean("label-ticks", false)}
-  ticks="${number("ticks", undefined)}
-  page-step="${number("page-step", false)}"
-  ${boolean("precise", false)}
-  ${boolean("snap", true)}
-></calcite-slider>
+  <calcite-slider
+    min="${number("min", 0)}"
+    max="${number("max", 100)}"
+    value="${number("value", 50)}"
+    step="${number("step", 1)}"
+    label="${text("label", "Temperature")}"
+    ${boolean("disabled", false)}
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", false)}
+    ticks="${number("ticks", 0)}"
+    page-step="${number("page-step", 5)}"
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
+  ></calcite-slider>
 `;
 
 SingleValue.story = {
