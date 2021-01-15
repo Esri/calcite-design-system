@@ -626,7 +626,7 @@ export class CalciteCombobox {
   }
 
   renderInput(): VNode {
-    const { active, disabled, placeholder, selectionMode, needsIcon } = this;
+    const { active, disabled, placeholder, selectionMode, needsIcon, label } = this;
     const single = selectionMode === "single";
     const showLabel = !active && single && !!this.selectedItem;
     return (
@@ -653,6 +653,7 @@ export class CalciteCombobox {
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
           aria-controls={guid}
+          aria-label={label}
           class={{
             input: true,
             "input--transparent": this.activeChipIndex > -1,

@@ -36,10 +36,13 @@ export class CalciteComboboxItem {
   /** True when item is highlighted either from keyboard or mouse hover */
   @Prop() active = false;
 
+  /** Parent and grandparent combobox items, this is set internally for use from combobox */
   @Prop({ mutable: true }) anscestors: HTMLCalciteComboboxItemElement[];
 
+  /** Unique identifier, used for accessibility */
   @Prop() guid: string = guid();
 
+  /** Custom icon to display both in combobox chips and next to combobox item text */
   @Prop() icon?: string;
 
   @Watch("selected")
