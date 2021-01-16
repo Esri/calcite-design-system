@@ -223,7 +223,8 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteRadioGroupChange: EventEmitter;
+  /** Fired when the selected option changes, event detail is the new value */
+  @Event() calciteRadioGroupChange: EventEmitter<string>;
 
   // --------------------------------------------------------------------------
   //
