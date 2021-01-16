@@ -220,7 +220,9 @@ export class CalciteValueList<
   keyDownHandler = (event: KeyboardEvent): void => {
     const handleElement = event
       .composedPath()
-      .find((item: HTMLElement) => item.dataset?.jsHandle) as HTMLCalciteHandleElement;
+      .find(
+        (item: HTMLElement) => item.dataset?.jsHandle !== undefined
+      ) as HTMLCalciteHandleElement;
 
     const item = event
       .composedPath()

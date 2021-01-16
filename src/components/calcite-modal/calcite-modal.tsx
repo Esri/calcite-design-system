@@ -111,7 +111,7 @@ export class CalciteModal {
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
         <div class="modal">
-          <div data-focus-fence="true" onFocus={this.focusLastElement} tabindex="0" />
+          <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class="header">
             {this.renderCloseButton()}
             <header class="title">
@@ -128,7 +128,7 @@ export class CalciteModal {
             <slot name="content" />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence="true" onFocus={this.focusFirstElement} tabindex="0" />
+          <div data-focus-fence onFocus={this.focusFirstElement} tabindex="0" />
         </div>
       </Host>
     );
