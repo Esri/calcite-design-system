@@ -84,7 +84,7 @@ In the [global CSS file](https://github.com/Esri/calcite-components/blob/master/
 ```html
 <div theme="dark">
   <calcite-button>Button text</calcite-button>
-  <calcite-date></calcite-date>
+  <calcite-date-picker></calcite-date-picker>
 </div>
 ```
 

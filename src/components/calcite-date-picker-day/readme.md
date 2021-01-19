@@ -30,14 +30,14 @@
 
 ### Used by
 
-- [calcite-date-month](../calcite-date-month)
+- [calcite-date-picker-month](../calcite-date-picker-month)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-date-month --> calcite-date-day
-  style calcite-date-day fill:#f9f,stroke:#333,stroke-width:4px
+  calcite-date-picker-month --> calcite-date-picker-day
+  style calcite-date-picker-day fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---

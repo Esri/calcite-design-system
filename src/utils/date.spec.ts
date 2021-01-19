@@ -1,4 +1,4 @@
-import { DateLocaleData } from "../components/calcite-date/utils";
+import { DateLocaleData } from "../components/calcite-date-picker/utils";
 import {
   inRange,
   dateFromRange,
@@ -11,9 +11,10 @@ import {
   parseDateString,
   getOrder
 } from "./date";
-import arabic from "../components/calcite-date/assets/calcite-date/ar.json";
-import french from "../components/calcite-date/assets/calcite-date/fr.json";
-import korean from "../components/calcite-date/assets/calcite-date/ko.json";
+
+import arabic from "../components/calcite-date-picker/assets/calcite-date-picker/nls/ar.json";
+import french from "../components/calcite-date-picker/assets/calcite-date-picker/nls/fr.json";
+import korean from "../components/calcite-date-picker/assets/calcite-date-picker/nls/ko.json";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {

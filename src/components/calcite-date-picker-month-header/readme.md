@@ -18,15 +18,15 @@
 
 ## Events
 
-| Event               | Description            | Type                |
-| ------------------- | ---------------------- | ------------------- |
-| `calciteDateSelect` | Changes to active date | `CustomEvent<Date>` |
+| Event                     | Description            | Type                |
+| ------------------------- | ---------------------- | ------------------- |
+| `calciteDatePickerSelect` | Changes to active date | `CustomEvent<Date>` |
 
 ## Dependencies
 
 ### Used by
 
-- [calcite-date](../calcite-date)
+- [calcite-date-picker](../calcite-date-picker)
 
 ### Depends on
 
@@ -36,9 +36,9 @@
 
 ```mermaid
 graph TD;
-  calcite-date-month-header --> calcite-icon
-  calcite-date --> calcite-date-month-header
-  style calcite-date-month-header fill:#f9f,stroke:#333,stroke-width:4px
+  calcite-date-picker-month-header --> calcite-icon
+  calcite-date-picker --> calcite-date-picker-month-header
+  style calcite-date-picker-month-header fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---

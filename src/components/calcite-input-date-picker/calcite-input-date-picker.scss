@@ -5,6 +5,16 @@
   width: 100%;
   position: relative;
   overflow: visible;
+  @include popperElemAnim(".menu-container");
+  @apply shadow-none;
+}
+
+.calendar-picker-wrapper {
+  @apply shadow-none;
+  position: static;
+  transform: translate3d(0, 0, 0);
+  width: 100%;
+  line-height: 0; // fixes height in ie11
 }
 
 :host-context([theme="dark"]) {
@@ -15,93 +25,12 @@
   max-width: 216px;
 }
 
-:host([scale="s"][range]:not([layout="vertical"])) {
-  max-width: 462px;
-
-  .calendar-picker-wrapper {
-    width: 216px;
-  }
-
-  .horizontal-arrow-container {
-    height: 30px;
-  }
-}
-
 :host([scale="m"]) {
   max-width: 286px;
 }
 
-:host([scale="m"][range]:not([layout="vertical"])) {
-  max-width: 596px;
-
-  .calendar-picker-wrapper {
-    width: 286px;
-  }
-}
-
 :host([scale="l"]) {
   max-width: 398px;
-}
-
-:host([scale="l"][range]:not([layout="vertical"])) {
-  max-width: 820px;
-
-  .calendar-picker-wrapper {
-    width: 398px;
-  }
-
-  .horizontal-arrow-container {
-    height: 54px;
-  }
-}
-
-.calendar-icon {
-  color: var(--calcite-ui-text-3);
-  position: absolute;
-  top: 50%;
-  margin: -8px $baseline * 0.5;
-  pointer-events: none;
-}
-
-:host(:not([no-calendar-input])) .menu-container {
-  @include popperContainer();
-  @include popperWrapper();
-  width: 100%;
-}
-:host(:not([no-calendar-input])[active]) .menu-container {
-  @include popperWrapperActive();
-}
-
-:host(:not([no-calendar-input])) {
-  @include popperElemAnim(".menu-container");
-}
-
-.calendar-picker-wrapper {
-  background-color: var(--calcite-ui-foreground-1);
-  width: 100%;
-  line-height: 0; // fixes height in ie11
-}
-
-.input .calcite-input-wrapper {
-  margin-top: 0;
-}
-
-:host([active]) {
-  .date-input-wrapper {
-    border: 1px solid var(--calcite-ui-foreground-1);
-    border-bottom: 1px solid var(--calcite-ui-border-3);
-  }
-}
-
-:host([no-calendar-input]) {
-  @apply shadow-none;
-  .calendar-picker-wrapper {
-    @apply shadow-none;
-    position: static;
-    transform: translate3d(0, 0, 0);
-    border-radius: none;
-    border: 1px solid var(--calcite-ui-border-2);
-  }
 }
 
 .input-wrapper {
@@ -154,6 +83,53 @@
     @apply px-2.5;
     @apply mx-px;
   }
+}
+
+:host([scale="s"][range]:not([layout="vertical"])) {
+  max-width: 462px;
+
+  .calendar-picker-wrapper {
+    width: 216px;
+  }
+
+  .horizontal-arrow-container {
+    height: 30px;
+  }
+}
+
+:host([scale="m"][range]:not([layout="vertical"])) {
+  max-width: 596px;
+
+  .calendar-picker-wrapper {
+    width: 286px;
+  }
+}
+
+:host([scale="l"][range]:not([layout="vertical"])) {
+  max-width: 820px;
+
+  .calendar-picker-wrapper {
+    width: 398px;
+  }
+
+  .horizontal-arrow-container {
+    height: 54px;
+  }
+}
+
+.menu-container {
+  @include popperContainer();
+  visibility: hidden;
+  pointer-events: none;
+  width: 100%;
+}
+:host([active]) .menu-container {
+  pointer-events: initial;
+  visibility: visible;
+}
+
+.input .calcite-input-wrapper {
+  margin-top: 0;
 }
 
 :host([range][layout="vertical"][scale="s"]) .vertical-arrow-container {

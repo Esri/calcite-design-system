@@ -11,22 +11,22 @@ import {
 } from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
-import { DateLocaleData } from "../calcite-date/utils";
+import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
 
 @Component({
-  tag: "calcite-date-day",
-  styleUrl: "calcite-date-day.scss",
+  tag: "calcite-date-picker-day",
+  styleUrl: "calcite-date-picker-day.scss",
   shadow: true
 })
-export class CalciteDateDay {
+export class CalciteDatePickerDay {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteDateDayElement;
+  @Element() el: HTMLCalciteDatePickerDayElement;
 
   //--------------------------------------------------------------------------
   //
@@ -70,24 +70,28 @@ export class CalciteDateDay {
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: Scale;
 
+  /** Date value for the day. */
+  @Prop() value: Date;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(): void {
+  onClick = (): void => {
     !this.disabled && this.calciteDaySelect.emit();
-  }
+  };
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  keyDownHandler = (e: KeyboardEvent): void => {
     const key = getKey(e.key);
     if (key === " " || key === "Enter") {
       !this.disabled && this.calciteDaySelect.emit();
     }
-  }
+  };
 
-  @Listen("mouseover") mouseoverHandler(): void {
+  @Listen("mouseover")
+  mouseoverHandler(): void {
     this.calciteDayHover.emit({
       disabled: this.disabled
     });
@@ -121,7 +125,13 @@ export class CalciteDateDay {
       .join("");
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir} role="gridcell" tabindex={this.active ? 0 : -1}>
+      <Host
+        dir={dir}
+        onClick={this.onClick}
+        onKeyDown={this.keyDownHandler}
+        role="gridcell"
+        tabindex={this.active ? 0 : -1}
+      >
         <div class="day-v-wrapper">
           <div class="day-wrapper">
             <span class="day">

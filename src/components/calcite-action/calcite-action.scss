@@ -159,7 +159,6 @@
 :host([loading]) .button:focus {
   background-color: var(--calcite-ui-foreground-1);
   .text-container {
-
     @apply opacity-disabled;
   }
 }

@@ -12,22 +12,22 @@ import {
 import { inRange, sameDate, dateFromRange } from "../../utils/date";
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
-import { DateLocaleData } from "../calcite-date/utils";
+import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
 
 @Component({
-  tag: "calcite-date-month",
-  styleUrl: "calcite-date-month.scss",
+  tag: "calcite-date-picker-month",
+  styleUrl: "calcite-date-picker-month.scss",
   shadow: true
 })
-export class CalciteDateMonth {
+export class CalciteDatePickerMonth {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteDateMonthElement;
+  @Element() el: HTMLCalciteDatePickerMonthElement;
 
   //--------------------------------------------------------------------------
   //
@@ -74,19 +74,19 @@ export class CalciteDateMonth {
   /**
    * Event emitted when user selects the date.
    */
-  @Event() calciteDateSelect: EventEmitter;
+  @Event() calciteDatePickerSelect: EventEmitter;
 
   /**
    * Event emitted when user hovers the date.
    */
-  @Event() calciteDateHover: EventEmitter;
+  @Event() calciteDatePickerHover: EventEmitter;
 
   /**
    * Active date for the user keyboard access.
    */
-  @Event() calciteActiveDateChange: EventEmitter;
+  @Event() calciteDatePickerActiveDateChange: EventEmitter;
 
-  @Event() calciteDateMouseOut: EventEmitter;
+  @Event() calciteDatePickerMouseOut: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -94,7 +94,7 @@ export class CalciteDateMonth {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  keyDownHandler = (e: KeyboardEvent): void => {
     const isRTL = this.el.dir === "rtl";
     switch (getKey(e.key)) {
       case "ArrowUp":
@@ -140,18 +140,19 @@ export class CalciteDateMonth {
       case "Tab":
         this.activeFocus = false;
     }
-  }
+  };
 
   /**
    * Once user is not interacting via keyboard,
    * disable auto focusing of active date
    */
-  @Listen("focusout") disableActiveFocus(): void {
+  disableActiveFocus = (): void => {
     this.activeFocus = false;
-  }
+  };
 
-  @Listen("mouseout") mouseoutHandler(): void {
-    this.calciteDateMouseOut.emit();
+  @Listen("mouseout")
+  mouseoutHandler(): void {
+    this.calciteDatePickerMouseOut.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -193,7 +194,7 @@ export class CalciteDateMonth {
     }
 
     return (
-      <Host>
+      <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
         <div class="calender" role="grid">
           <div class="week-headers" role="row">
             {adjustedWeekDays.map((weekday) => (
@@ -230,7 +231,7 @@ export class CalciteDateMonth {
   private addMonths(step: number) {
     const nextDate = new Date(this.activeDate);
     nextDate.setMonth(this.activeDate.getMonth() + step);
-    this.calciteActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
+    this.calciteDatePickerActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
     this.activeFocus = true;
   }
 
@@ -240,7 +241,7 @@ export class CalciteDateMonth {
   private addDays(step = 0) {
     const nextDate = new Date(this.activeDate);
     nextDate.setDate(this.activeDate.getDate() + step);
-    this.calciteActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
+    this.calciteDatePickerActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
     this.activeFocus = true;
   }
 
@@ -335,8 +336,22 @@ export class CalciteDateMonth {
     );
   }
 
+  dayHover = (e: CustomEvent): void => {
+    const target = e.target as HTMLCalciteDatePickerDayElement;
+    if (e.detail.disabled) {
+      this.calciteDatePickerMouseOut.emit(target.value);
+    } else {
+      this.calciteDatePickerHover.emit();
+    }
+  };
+
+  daySelect = (e: CustomEvent): void => {
+    const target = e.target as HTMLCalciteDatePickerDayElement;
+    this.calciteDatePickerSelect.emit(target.value);
+  };
+
   /**
-   * Render calcite-date-day
+   * Render calcite-date-picker-day
    */
   private renderDateDay(
     active: boolean,
@@ -346,46 +361,44 @@ export class CalciteDateMonth {
     currentMonth?: boolean,
     ref?: boolean
   ) {
-    const props = {
-      active,
-      currentMonth,
-      day,
-      dir,
-      disabled: !inRange(date, this.min, this.max),
-      startOfRange: this.isStartOfRange(date),
-      endOfRange: this.isEndOfRange(date),
-      highlighted: this.betweenSelectedRange(date),
-      localeData: this.localeData,
-      onCalciteDaySelect: () => this.calciteDateSelect.emit(date),
-      onCalciteDayHover: (e: CustomEvent) => {
-        if (e.detail.disabled) {
-          this.calciteDateMouseOut.emit();
-        } else {
-          this.calciteDateHover.emit(date);
-        }
-      },
-      range: !!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate),
-      scale: this.scale,
-      selected: this.isSelected(date),
-      ...(ref && {
-        ref: (el) => {
+    const isFocusedOnStart = this.isFocusedOnStart();
+    const isHoverInRange =
+      this.isHoverInRange() ||
+      (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
+
+    return (
+      <calcite-date-picker-day
+        active={active}
+        class={{
+          "hover--inside-range": this.startDate && isHoverInRange,
+          "hover--outside-range": this.startDate && !isHoverInRange,
+          "focused--start": isFocusedOnStart,
+          "focused--end": !isFocusedOnStart
+        }}
+        currentMonth={currentMonth}
+        day={day}
+        dir={dir}
+        disabled={!inRange(date, this.min, this.max)}
+        endOfRange={this.isEndOfRange(date)}
+        highlighted={this.betweenSelectedRange(date)}
+        key={date.toDateString()}
+        localeData={this.localeData}
+        onCalciteDayHover={this.dayHover}
+        onCalciteDaySelect={this.daySelect}
+        range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
+        rangeHover={this.isRangeHover(date)}
+        ref={(el: HTMLCalciteDatePickerDayElement) => {
           // when moving via keyboard, focus must be updated on active date
-          if (active && this.activeFocus) {
+          if (ref && active && this.activeFocus) {
             el?.focus();
           }
-        }
-      }),
-      rangeHover: this.isRangeHover(date),
-      class: `${
-        !this.startDate
-          ? ""
-          : this.isHoverInRange() ||
-            (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate))
-          ? "hover--inside-range"
-          : "hover--outside-range"
-      } ${this.isFocusedOnStart() ? "focused--start" : "focused--end"}`
-    };
-    return <calcite-date-day {...props} />;
+        }}
+        scale={this.scale}
+        selected={this.isSelected(date)}
+        startOfRange={this.isStartOfRange(date)}
+        value={date}
+      />
+    );
   }
 
   private isFocusedOnStart(): boolean {

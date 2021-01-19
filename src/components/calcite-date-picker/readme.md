@@ -20,7 +20,6 @@ You can also add range property to activate date range mode. In this mode, you c
 
 | Property             | Attribute             | Description                                                 | Type                         | Default                                      |
 | -------------------- | --------------------- | ----------------------------------------------------------- | ---------------------------- | -------------------------------------------- |
-| `active`             | `active`              | Expand or collapse when calendar does not have input        | `boolean`                    | `false`                                      |
 | `end`                | `end`                 | Selected end date                                           | `string`                     | `undefined`                                  |
 | `endAsDate`          | --                    | Selected end date as full date object                       | `Date`                       | `undefined`                                  |
 | `intlNextMonth`      | `intl-next-month`     | Localized string for "next month" (used for aria label)     | `string`                     | `TEXT.nextMonth`                             |
@@ -29,7 +28,6 @@ You can also add range property to activate date range mode. In this mode, you c
 | `locale`             | `locale`              | BCP 47 language tag for desired language and country format | `string`                     | `document.documentElement.lang \|\| "en-US"` |
 | `max`                | `max`                 | Latest allowed date ("yyyy-mm-dd")                          | `string`                     | `undefined`                                  |
 | `min`                | `min`                 | Earliest allowed date ("yyyy-mm-dd")                        | `string`                     | `undefined`                                  |
-| `noCalendarInput`    | `no-calendar-input`   | Show only calendar popup                                    | `boolean`                    | `false`                                      |
 | `proximitySelection` | `proximity-selection` |                                                             | `boolean`                    | `true`                                       |
 | `range`              | `range`               | Range mode activation                                       | `boolean`                    | `false`                                      |
 | `scale`              | `scale`               | specify the scale of the date picker                        | `"l" \| "m" \| "s"`          | `"m"`                                        |
@@ -40,41 +38,32 @@ You can also add range property to activate date range mode. In this mode, you c
 
 ## Events
 
-| Event                    | Description                                                     | Type                           |
-| ------------------------ | --------------------------------------------------------------- | ------------------------------ |
-| `calciteDateChange`      | Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
-| `calciteDateRangeChange` | Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
-
-## Methods
-
-### `reposition() => Promise<void>`
-
-#### Returns
-
-Type: `Promise<void>`
+| Event                          | Description                                                     | Type                           |
+| ------------------------------ | --------------------------------------------------------------- | ------------------------------ |
+| `calciteDatePickerChange`      | Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
+| `calciteDatePickerRangeChange` | Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
 
 ## Dependencies
 
+### Used by
+
+- [calcite-input-date-picker](../calcite-input-date-picker)
+
 ### Depends on
 
-- [calcite-input](../calcite-input)
-- [calcite-icon](../calcite-icon)
-- [calcite-date-month-header](../calcite-date-month-header)
-- [calcite-date-month](../calcite-date-month)
+- [calcite-date-picker-month-header](../calcite-date-picker-month-header)
+- [calcite-date-picker-month](../calcite-date-picker-month)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-date --> calcite-input
-  calcite-date --> calcite-icon
-  calcite-date --> calcite-date-month-header
-  calcite-date --> calcite-date-month
-  calcite-input --> calcite-progress
-  calcite-input --> calcite-icon
-  calcite-date-month-header --> calcite-icon
-  calcite-date-month --> calcite-date-day
-  style calcite-date fill:#f9f,stroke:#333,stroke-width:4px
+  calcite-date-picker --> calcite-date-picker-month-header
+  calcite-date-picker --> calcite-date-picker-month
+  calcite-date-picker-month-header --> calcite-icon
+  calcite-date-picker-month --> calcite-date-picker-day
+  calcite-input-date-picker --> calcite-date-picker
+  style calcite-date-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---

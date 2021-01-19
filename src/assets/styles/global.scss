@@ -6,7 +6,7 @@
 
 :root {
   @extend %type-vars;
-  @include calcite-theme-light(); 
+  @include calcite-theme-light();
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,7 +14,7 @@
 
   --calcite-border-radius: 3px;
   --calcite-ui-opacity-disabled: 0.5;
-  
+
   @apply font-sans;
 }
 

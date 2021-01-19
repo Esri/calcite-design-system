@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Date</title>
+  <title>Calcite Date Picker</title>
   <style>
     .demo-background-dark {
       background: #202020;
@@ -24,38 +24,42 @@
 
 <body>
   <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Date</h1>
+  <h1>Calcite Date Picker</h1>
 
   <h2>Standard</h2>
-  <calcite-date></calcite-date>
+  <calcite-date-picker id="simple-picker">-picker</calcite-date-picker>
+  <script>
+    var simplePicker = document.getElementById("simple-picker");
+    simplePicker.addEventListener("calciteDatePickerChange", console.log);
+  </script>
 
   <h2>Initial Value (from ISO 8601 string)</h2>
-  <calcite-date value="2020-03-07"></calcite-date>
+  <calcite-date-picker value="2020-03-07"></calcite-date-picker>
 
   <h2>Min &amp; Max</h2>
-  <calcite-date min="2020-03-07" max="2020-03-15" value="2020-04-01"></calcite-date>
+  <calcite-date-picker min="2020-03-07" max="2020-03-15" value="2020-04-01"></calcite-date-picker>
 
   <h2>Start day of locale</h2>
-  <calcite-date locale="es"></calcite-date>
+  <calcite-date-picker locale="es"></calcite-date-picker>
 
   <h2>Scales</h2>
 
   <h3>Small</h3>
-  <calcite-date scale="s" value="2000-11-27" no-calendar-input active></calcite-date>
+  <calcite-date-picker scale="s" value="2000-11-27" active></calcite-date-picker>
 
   <h3>Medium</h3>
-  <calcite-date scale="m" value="2000-11-27" no-calendar-input active></calcite-date>
+  <calcite-date-picker scale="m" value="2000-11-27" active></calcite-date-picker>
 
   <h3>Large</h3>
-  <calcite-date scale="l" value="2000-11-27" no-calendar-input active></calcite-date>
+  <calcite-date-picker scale="l" value="2000-11-27" active></calcite-date-picker>
 
   <h2>Inside Small Container</h2>
   <div style="width: 200px">
-    <calcite-date value="2020-03-07" scale="s"></calcite-date>
+    <calcite-date-picker value="2020-03-07" scale="s"></calcite-date-picker>
   </div>
 
   <h2>Locale formatted dates</h2>
-  <calcite-date value="2019-08-23" min="2019-08-09" max="2021-12-18" locale="ja" id="locale"></calcite-date>
+  <calcite-date-picker value="2019-08-23" min="2019-08-09" max="2021-12-18" locale="ja" id="locale"></calcite-date-picker>
   <calcite-dropdown id="localePicker">
     <calcite-button slot="dropdown-trigger">Select Locale</calcite-button>
     <calcite-dropdown-group>
@@ -117,15 +121,15 @@
 
   <div dir="rtl">
     <h2>Right to left, arabic numerals</h2>
-    <calcite-date value="2000-11-27" locale="ar-EG" dir="rtl"></calcite-date>
+    <calcite-date-picker value="2000-11-27" locale="ar-EG" dir="rtl"></calcite-date-picker>
   </div>
 
   <h2>Always open</h2>
-  <calcite-date value="2000-11-27" no-calendar-input active></calcite-date>
+  <calcite-date-picker value="2000-11-27" active></calcite-date-picker>
 
   <h2>Set Value</h2>
   <calcite-button id="dynamic-button">Set value of date input</calcite-button>
-  <calcite-date id="dynamic-value" value="2000-11-27"></calcite-date>
+  <calcite-date-picker id="dynamic-value" value="2000-11-27"></calcite-date-picker>
   <script>
     var dynamicDate = document.getElementById("dynamic-value");
     document.getElementById("dynamic-button").addEventListener("click", function () {
@@ -135,18 +139,18 @@
   </script>
 
   <h2>Events</h2>
-  <calcite-date id="dateSample"></calcite-date>
+  <calcite-date-picker id="dateSample"></calcite-date-picker>
   <p>Date selected: <pre><code id="dateDisplay">n/a</code></pre></p>
   <script>
     var dateSample = document.getElementById("dateSample");
     var dateDisplay = document.getElementById("dateDisplay");
-    dateSample.addEventListener("calciteDateChange", function (e) {
+    dateSample.addEventListener("calciteDatePickerChange", function (e) {
       dateDisplay.innerHTML = e.detail;
     });
   </script>
 
 <h2>Date Range with Event</h2>
-<calcite-date id="dateRangeSample" range ></calcite-date>
+<calcite-date-picker id="dateRangeSample" range start="2020-09-08" end="2020-09-23"></calcite-date-picker>
 <div>
   Start: <span id="startDisplay"></span>
 </div>
@@ -157,7 +161,8 @@
   var dateRangeSample = document.getElementById("dateRangeSample");
   var startDisplay = document.getElementById("startDisplay");
   var endDisplay = document.getElementById("endDisplay");
-  dateRangeSample.addEventListener("calciteDateRangeChange", function (e) {
+  dateRangeSample.addEventListener("calciteDatePickerRangeChange", function (e) {
+    console.log(e);
     startDisplay.textContent = e.detail.startDate;
     endDisplay.textContent = e.detail.endDate;
   });
@@ -165,51 +170,51 @@
 
 <div>
   <h2>Small Date Range</h2>
-  <calcite-date scale="s" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  <calcite-date-picker scale="s" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
   <div style="margin-top: 16px;">
-    <calcite-date scale="s" layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+    <calcite-date-picker scale="s" layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
   </div>
 </div>
 
 <div>
   <h2>Medium Date Range</h2>
-  <calcite-date range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  <calcite-date-picker range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
   <div style="margin-top: 16px;">
-    <calcite-date layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+    <calcite-date-picker layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
   </div>
 </div>
 
 <div>
   <h2>Large Date Range</h2>
-  <calcite-date scale="l" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  <calcite-date-picker scale="l" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
   <div style="margin-top: 16px;">
-    <calcite-date layout="vertical" scale="l" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+    <calcite-date-picker layout="vertical" scale="l" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
   </div>
 </div>
 
 <div>
   <h2>Date Range Always Open</h2>
-  <calcite-date range no-calendar-input active></calcite-date>
+  <calcite-date-picker range active></calcite-date-picker>
   <h2>Without Proximity Selection</h2>
-  <calcite-date range no-calendar-input active proximity-selection-disabled></calcite-date>
+  <calcite-date-picker range active proximity-selection="false"></calcite-date-picker>
 </div>
 
 <div dir="rtl" style="margin-bottom: 16px;">
   <h2>Date Range RTL</h2>
-  <calcite-date id="dateRangeSampleRtl" locale="ar-EG" dir="rtl" range  min="2020-01-03" max="2020-09-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+  <calcite-date-picker id="dateRangeSampleRtl" locale="ar-EG" dir="rtl" range  min="2020-01-03" max="2020-09-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
 </div>
 
   <div class="demo-background-dark">
     <h1>Dark theme</h1>
-    <calcite-date theme="dark" value="2019-08-23"></calcite-date>
+    <calcite-date-picker theme="dark" value="2019-08-23"></calcite-date-picker>
 
     <h2>Always open</h2>
-    <calcite-date value="2000-11-27" theme="dark" no-calendar-input active></calcite-date>
+    <calcite-date-picker value="2000-11-27" theme="dark" active></calcite-date-picker>
 
     <h2>Range</h2>
-    <calcite-date theme="dark" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+    <calcite-date-picker theme="dark" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
     <div style="margin-top: 16px;">
-      <calcite-date theme="dark" layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date>
+      <calcite-date-picker theme="dark" layout="vertical" range min="2020-01-03" max="2020-12-29" start="2020-09-08" end="2020-09-23"></calcite-date-picker>
     </div>
   </div>
 </body>

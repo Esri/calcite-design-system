@@ -124,7 +124,7 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
     return translationCache[locale];
   }
   if (!requestCache[locale]) {
-    requestCache[locale] = fetch(getAssetPath(`./assets/calcite-date/${locale}.json`))
+    requestCache[locale] = fetch(getAssetPath(`./assets/calcite-date-picker/nls/${locale}.json`))
       .then((resp) => resp.json())
       .catch(() => {
         console.error(`Translations for "${locale}" not found or invalid, falling back to english`);

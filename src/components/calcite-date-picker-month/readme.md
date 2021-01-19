@@ -17,30 +17,30 @@
 
 ## Events
 
-| Event                     | Description                               | Type               |
-| ------------------------- | ----------------------------------------- | ------------------ |
-| `calciteActiveDateChange` | Active date for the user keyboard access. | `CustomEvent<any>` |
-| `calciteDateHover`        | Event emitted when user hovers the date.  | `CustomEvent<any>` |
-| `calciteDateMouseOut`     |                                           | `CustomEvent<any>` |
-| `calciteDateSelect`       | Event emitted when user selects the date. | `CustomEvent<any>` |
+| Event                       | Description                               | Type               |
+| --------------------------- | ----------------------------------------- | ------------------ |
+| `calciteActiveDateChange`   | Active date for the user keyboard access. | `CustomEvent<any>` |
+| `calciteDatePickerHover`    | Event emitted when user hovers the date.  | `CustomEvent<any>` |
+| `calciteDatePickerMouseOut` |                                           | `CustomEvent<any>` |
+| `calciteDatePickerSelect`   | Event emitted when user selects the date. | `CustomEvent<any>` |
 
 ## Dependencies
 
 ### Used by
 
-- [calcite-date](../calcite-date)
+- [calcite-date-picker](../calcite-date-picker)
 
 ### Depends on
 
-- [calcite-date-day](../calcite-date-day)
+- [calcite-date-picker-day](../calcite-date-picker-day)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-date-month --> calcite-date-day
-  calcite-date --> calcite-date-month
-  style calcite-date-month fill:#f9f,stroke:#333,stroke-width:4px
+  calcite-date-picker-month --> calcite-date-picker-day
+  calcite-date-picker --> calcite-date-picker-month
+  style calcite-date-picker-month fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---

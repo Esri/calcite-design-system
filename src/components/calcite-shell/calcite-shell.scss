@@ -54,8 +54,7 @@
 }
 
 ::slotted(calcite-tip-manager) {
-  @apply
-  rounded
+  @apply rounded
   shadow-2
   absolute
   animate-in-up;
