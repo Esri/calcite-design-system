@@ -84,7 +84,7 @@ export const NoInput = (): string => html`
   <div style="width: 400px">
     <calcite-date
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="${text("value", "")}"
+      value="${text("value", "2020-12-12")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       locale="${select("locale", locales, "en")}"
