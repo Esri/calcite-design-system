@@ -103,7 +103,7 @@ export class CalciteDatePicker {
   @Prop() end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() disableProximitySelection?: boolean = false;
+  @Prop() proximitySelectionDisabled?: boolean = false;
 
   //--------------------------------------------------------------------------
   //
@@ -184,7 +184,7 @@ export class CalciteDatePicker {
     const activeEndDate = this.getActiveEndDate(endDate, min, max);
     if (
       (this.activeRange === "end" ||
-        (this.hoverRange?.focused === "end" && (!this.disableProximitySelection || endDate))) &&
+        (this.hoverRange?.focused === "end" && (!this.proximitySelectionDisabled || endDate))) &&
       activeEndDate
     ) {
       activeDate = activeEndDate;
@@ -288,7 +288,7 @@ export class CalciteDatePicker {
       start: this.startAsDate,
       end: this.endAsDate
     };
-    if (!this.disableProximitySelection) {
+    if (!this.proximitySelectionDisabled) {
       if (this.endAsDate) {
         const startDiff = getDaysDiff(date, this.startAsDate);
         const endDiff = getDaysDiff(date, this.endAsDate);
@@ -368,7 +368,7 @@ export class CalciteDatePicker {
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
-          onCalciteActiveDateChange={this.monthActiveDateChange}
+          onCalciteDatePickerActiveDateChange={this.monthActiveDateChange}
           onCalciteDatePickerHover={this.monthHoverChange}
           onCalciteDatePickerMouseOut={this.monthMouseOutChange}
           onCalciteDatePickerSelect={this.monthDateChange}
@@ -437,7 +437,7 @@ export class CalciteDatePicker {
       this.setEndAsDate(date);
       this.activeEndDate = date;
     } else {
-      if (!this.disableProximitySelection) {
+      if (!this.proximitySelectionDisabled) {
         const startDiff = getDaysDiff(date, this.startAsDate);
         const endDiff = getDaysDiff(date, this.endAsDate);
         if (startDiff < endDiff) {

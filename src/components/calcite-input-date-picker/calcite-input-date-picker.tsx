@@ -90,7 +90,7 @@ export class CalciteInputDatePicker {
   @Prop() end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() disableProximitySelection?: boolean = false;
+  @Prop() proximitySelectionDisabled?: boolean = false;
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -212,7 +212,6 @@ export class CalciteInputDatePicker {
                 <calcite-date-picker
                   activeRange={this.focusedInput}
                   dir={dir}
-                  disableProximitySelection={this.disableProximitySelection}
                   endAsDate={this.endAsDate}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
@@ -221,6 +220,7 @@ export class CalciteInputDatePicker {
                   min={this.min}
                   onCalciteDatePickerChange={this.handleDateChange}
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
+                  proximitySelectionDisabled={this.proximitySelectionDisabled}
                   range={this.range}
                   scale={this.scale}
                   startAsDate={this.startAsDate}
@@ -460,14 +460,15 @@ export class CalciteInputDatePicker {
    * Clean up invalid date from input on blur
    */
   private blur(target: HTMLInputElement): void {
+    const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
     const date = this.getDateFromInput(target.value);
     if (!date) {
-      if (!this.range && this.valueAsDate) {
-        target.value = this.valueAsDate.toLocaleDateString(this.locale);
-      } else if (this.focusedInput === "start" && this.startAsDate) {
-        target.value = this.startAsDate.toLocaleDateString(this.locale);
-      } else if (this.focusedInput === "end" && this.endAsDate) {
-        target.value = this.endAsDate.toLocaleDateString(this.locale);
+      if (!range && valueAsDate) {
+        target.value = valueAsDate.toLocaleDateString(locale);
+      } else if (focusedInput === "start" && startAsDate) {
+        target.value = startAsDate.toLocaleDateString(locale);
+      } else if (focusedInput === "end" && endAsDate) {
+        target.value = endAsDate.toLocaleDateString(locale);
       }
     }
   }
