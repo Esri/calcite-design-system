@@ -892,8 +892,7 @@ describe("calcite-dropdown", () => {
   });
 
   it("is accessible", async () => {
-    accessible(dedent`${dropdownSelectionModeContent}`);
-    await page.waitForChanges();
+    await accessible(dedent`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {
