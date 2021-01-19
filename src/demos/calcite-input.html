@@ -473,6 +473,42 @@
               <calcite-input type="tel" placeholder="Enter your cell phone"></calcite-input>
               <calcite-input-message icon active status="idle">This is where we'll call you</calcite-input-message>
             </calcite-label>
+            <calcite-card>
+              <div style="display:inline-flex; width: 100%; padding:var(--calcite-spacing-half) 0;">
+                <calcite-input-message icon active id="toggle-status">
+                  Input message + status icon
+                </calcite-input-message>
+                <calcite-button appearance="outline" color="blue" scale="s" round onclick="toggleStatus();">
+                  Toggle status
+                </calcite-button>
+              </div>
+              <div style="display:inline-flex; width: 100%; padding:var(--calcite-spacing-half) 0;">
+                <calcite-input-message icon active id="toggle-icon">
+                  Input message + custom icon
+                </calcite-input-message>
+                <calcite-button appearance="outline" color="red" scale="s" round onclick="toggleIcon();">
+                  Toggle icon
+                </calcite-button>
+              </div>
+              <script>
+                function toggleStatus() {
+                  let el = document.getElementById("toggle-status");
+                  if (el.status === "idle") {
+                    el.status = "invalid";
+                  } else if (el.status === "invalid") {
+                    el.status = "valid";
+                  } else {
+                    el.status = "idle";
+                  }
+                }
+                function toggleIcon() {
+                  let el = document.getElementById("toggle-icon");
+                  const iconOptions = ["banana","layer-basemap","arcgis-online","3d-glasses","add-layer","a-z"];
+                  let num = Math.floor(Math.random() * Math.floor(iconOptions.length));
+                  el.icon = iconOptions[num];
+                }
+              </script>
+            </calcite-card>
           </calcite-accordion-item>
 
           <calcite-accordion-item active item-title="Interactions with native elements">

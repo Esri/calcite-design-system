@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   display: flex;
   overflow: hidden;
   transition: height $transition;
@@ -28,11 +29,12 @@
 }
 
 :host([detached]) {
-  animation: calcite-fade-in-up $transition;
-  border: none;
-  border-radius: var(--calcite-border-radius);
-  box-shadow: var(--calcite-shadow-0);
-  margin: var(--calcite-spacing-half) var(--calcite-spacing-half) var(--calcite-spacing-plus-half);
+  @apply
+  border-0
+  rounded
+  shadow-0
+  mt-2 mb-6 mx-2
+  animate-in-up;
 }
 
 :host([position="end"]) {

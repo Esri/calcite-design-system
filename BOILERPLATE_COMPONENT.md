@@ -164,7 +164,7 @@ describe.skip("calcite-example", () => {
   it("hides myString when someProp is false", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-example some-prop="false"></calcite-example>`);
+    await page.setContent(`<calcite-example></calcite-example>`);
     const div = await page.find(`calcite-example >>> .${CSS.foo}`);
     expect(div.innerText).toBe("");
   });
