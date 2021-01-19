@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, focusable } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
@@ -420,17 +420,16 @@ describe("calcite-rating", () => {
   });
 
   describe("when setFocus method is called", () => {
-    it("should focus input element in shadow DOM", async () => {
+    it("should focus input element in shadow DOM", () =>
       focusable("calcite-rating", {
         shadowFocusTargetSelector: "input"
-      });
-    });
+      }));
   });
 
   describe("when wrapped inside calcite-label", () => {
-    let page;
-    let ratingStars;
-    let label;
+    let page: E2EPage;
+    let ratingStars: E2EElement[];
+    let label: E2EElement;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -444,7 +443,7 @@ describe("calcite-rating", () => {
         ratingStars = await page.findAll("calcite-rating >>> label.selected");
         const lastSelectedStar = ratingStars[ratingStars.length - 1];
         expect(lastSelectedStar).toHaveClass("focused");
-        const guid = await lastSelectedStar.getAttribute("for");
+        const guid = lastSelectedStar.getAttribute("for");
         const lastSelectedInput = await page.find(`calcite-rating >>> input[id="${guid}"]`);
         expect(await lastSelectedInput.getProperty("value")).toEqual("3");
       });
@@ -459,7 +458,7 @@ describe("calcite-rating", () => {
         const firstStar = ratingStars[0];
         expect(firstStar).toHaveClass("focused");
         expect(firstStar).not.toHaveClass("selected");
-        const guid = await firstStar.getAttribute("for");
+        const guid = firstStar.getAttribute("for");
         const firstInputById = await page.find(`calcite-rating >>> input[id="${guid}"]`);
         expect(await firstInputById.getProperty("value")).toEqual("1");
       });

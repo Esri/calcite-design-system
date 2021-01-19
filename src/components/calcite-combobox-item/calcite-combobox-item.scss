@@ -101,7 +101,7 @@ ul {
 }
 
 .label--selected .icon {
-  @apply text-blue-1 opacity-100;
+  @apply text-color-link opacity-100;
 }
 
 :host(:hover[disabled]) .icon {

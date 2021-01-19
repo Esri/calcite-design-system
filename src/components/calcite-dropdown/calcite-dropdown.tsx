@@ -139,7 +139,6 @@ export class CalciteDropdown {
           aria-hidden={(!active).toString()}
           class="calcite-dropdown-wrapper"
           ref={this.setMenuEl}
-          tabIndex={-1}
         >
           <div
             class={{
@@ -391,7 +390,7 @@ export class CalciteDropdown {
   };
 
   private keyDownHandler = (e: KeyboardEvent): void => {
-    const target = event.target as HTMLSlotElement;
+    const target = e.target as HTMLSlotElement;
     const key = getKey(e.key);
     if (
       this.triggers.includes(target) ||

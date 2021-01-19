@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   display: flex;
   padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
   width: 100%;

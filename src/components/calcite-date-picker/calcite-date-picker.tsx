@@ -22,7 +22,7 @@ import { TEXT } from "./calcite-date-picker-resources";
 import { DateRangeChange } from "./interfaces";
 
 @Component({
-  assetsDirs: ["calcite-date-picker-nls"],
+  assetsDirs: ["assets"],
   tag: "calcite-date-picker",
   styleUrl: "calcite-date-picker.scss",
   shadow: true
