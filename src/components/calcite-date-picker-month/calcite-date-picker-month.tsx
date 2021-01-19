@@ -339,7 +339,7 @@ export class CalciteDatePickerMonth {
   dayHover = (e: CustomEvent): void => {
     const target = e.target as HTMLCalciteDatePickerDayElement;
     if (e.detail.disabled) {
-      this.calciteDatePickerMouseOut.emit(target.date);
+      this.calciteDatePickerMouseOut.emit(target.value);
     } else {
       this.calciteDatePickerHover.emit();
     }
@@ -347,7 +347,7 @@ export class CalciteDatePickerMonth {
 
   daySelect = (e: CustomEvent): void => {
     const target = e.target as HTMLCalciteDatePickerDayElement;
-    this.calciteDatePickerSelect.emit(target.date);
+    this.calciteDatePickerSelect.emit(target.value);
   };
 
   /**
@@ -376,7 +376,6 @@ export class CalciteDatePickerMonth {
           "focused--end": !isFocusedOnStart
         }}
         currentMonth={currentMonth}
-        date={date}
         day={day}
         dir={dir}
         disabled={!inRange(date, this.min, this.max)}
@@ -397,6 +396,7 @@ export class CalciteDatePickerMonth {
         scale={this.scale}
         selected={this.isSelected(date)}
         startOfRange={this.isStartOfRange(date)}
+        value={date}
       />
     );
   }

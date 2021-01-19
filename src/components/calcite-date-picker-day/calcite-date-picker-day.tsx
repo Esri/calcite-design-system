@@ -34,9 +34,6 @@ export class CalciteDatePickerDay {
   //
   //--------------------------------------------------------------------------
 
-  /** Date of the day. */
-  @Prop() date: Date;
-
   /** Day of the month to be shown. */
   @Prop() day: number;
 
@@ -72,6 +69,9 @@ export class CalciteDatePickerDay {
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: Scale;
+
+  /** Date value for the day. */
+  @Prop() value: Date;
 
   //--------------------------------------------------------------------------
   //
