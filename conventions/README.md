@@ -279,7 +279,7 @@ If you need to use events to pass information inside your components for example
 
 ## Event Details
 
-Only attach additional data to your event if that data cannot be determined from the state of the component. This is because events also get a reference to the component the fired the event also passes a reference to the component that fired the event. For example you do not need to pass anything exposed as a `@Prop()` in the event details.
+Only attach additional data to your event if that data cannot be determined from the state of the component. This is because events also get a reference to the component that fired the event. For example you do not need to pass anything exposed as a `@Prop()` in the event details.
 
 ```tsx
 @Listen("calciteCustomEvent") customEventHandler(
