@@ -57,6 +57,9 @@ export class CalciteInputTimePicker {
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
+  /** number that specifies the granularity that the value must adhere to */
+  @Prop({ reflect: true }) step = 60;
+
   /** The selected time */
   @Prop({ reflect: true }) value?: string;
 
@@ -99,6 +102,7 @@ export class CalciteInputTimePicker {
           onBlur={this.onCalciteInputBlur}
           onFocus={this.onCalciteInputFocus}
           ref={(el) => (this.input = el)}
+          step={this.step}
           type="time"
           value={this.value}
         />

@@ -262,6 +262,7 @@ export class CalciteInput {
         disabled={this.disabled ? true : null}
         max={this.maxString}
         min={this.minString}
+        name={this.name}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
