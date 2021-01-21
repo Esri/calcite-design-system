@@ -279,12 +279,12 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevronup" scale={iconScale} />
             </button>
             <span
-              aria-label="Hours"
+              aria-label="Hour"
               aria-placeholder="--"
               aria-valuemax="12"
               aria-valuemin="1"
-              aria-valuenow="5"
-              aria-valuetext="05"
+              aria-valuenow={this.hour !== "--" ? parseInt(this.hour) : undefined}
+              aria-valuetext={this.hour !== "--" ? this.hour : undefined}
               class="hour"
               onKeyDown={this.hourKeyDownHandler}
               role="spinbutton"
@@ -313,12 +313,12 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevronup" scale={iconScale} />
             </button>
             <span
-              aria-label="Minutes"
+              aria-label="Minute"
               aria-placeholder="--"
               aria-valuemax="12"
               aria-valuemin="1"
-              aria-valuenow="5"
-              aria-valuetext="05"
+              aria-valuenow={this.minute !== "--" ? parseInt(this.minute) : undefined}
+              aria-valuetext={this.minute !== "--" ? this.minute : undefined}
               class="minute"
               onKeyDown={this.minuteKeyDownHandler}
               role="spinbutton"
@@ -348,10 +348,10 @@ export class CalciteTimePicker {
             <span
               aria-label="AM/PM"
               aria-placeholder="--"
-              aria-valuemax="12"
+              aria-valuemax="2"
               aria-valuemin="1"
-              aria-valuenow="5"
-              aria-valuetext="05"
+              aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
+              aria-valuetext={this.ampm !== "--" ? this.ampm : undefined}
               class="ampm"
               onKeyDown={this.amPmKeyDownHandler}
               role="spinbutton"
