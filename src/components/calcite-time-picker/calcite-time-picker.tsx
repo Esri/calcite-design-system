@@ -1,6 +1,26 @@
-import { Component, Element, Host, h, Prop, VNode, State } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Host,
+  h,
+  Prop,
+  VNode,
+  Event,
+  EventEmitter,
+  Watch
+} from "@stencil/core";
+import { Scale } from "../interfaces";
 
 const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+export type AmPm = "--" | "AM" | "PM";
+
+export interface Time {
+  hour: string;
+  minute: string;
+  second: string;
+  ampm: AmPm;
+}
 
 @Component({
   tag: "calcite-time-picker",
@@ -18,6 +38,14 @@ export class CalciteTimePicker {
 
   //--------------------------------------------------------------------------
   //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Event() calciteTimePickerChange: EventEmitter<Time>;
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -26,19 +54,27 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) focused = false;
 
   /** The scale (size) of the time picker */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
+  /** The hour value */
+  @Prop() hour?: string = "--";
 
-  @State() hour?: string = "--";
+  /** The minute value */
+  @Prop() minute?: string = "--";
 
-  @State() minute?: string = "--";
+  /** The second value */
+  @Prop() second?: string = "--";
 
-  @State() ampm?: string = "--";
+  /** The am/pm value */
+  @Prop() ampm?: AmPm = "--";
+
+  @Watch("hour")
+  @Watch("minute")
+  @Watch("second")
+  @Watch("ampm")
+  timeChanged(): void {
+    this.calciteTimePickerChange.emit(this.getTimeValues());
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -65,10 +101,7 @@ export class CalciteTimePicker {
         event.preventDefault();
         this.decrementAmPm();
         break;
-      case "Tab":
-        return;
     }
-    event.preventDefault();
   };
 
   private decrementAmPm = (): void => {
@@ -115,6 +148,15 @@ export class CalciteTimePicker {
 
   private formatNumberAsString(number: number): string {
     return number >= 0 && number <= 9 ? `0${number}` : number.toString();
+  }
+
+  private getTimeValues(): Time {
+    return {
+      hour: this.hour,
+      minute: this.minute,
+      second: this.second,
+      ampm: this.ampm
+    };
   }
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {

@@ -1,4 +1,5 @@
-import { Component, Element, Host, VNode, h, Prop, Watch } from "@stencil/core";
+import { Component, Element, Host, VNode, h, Prop, Watch, Listen } from "@stencil/core";
+import { Time } from "../calcite-time-picker/calcite-time-picker";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -65,6 +66,22 @@ export class CalciteInputTimePicker {
 
   //--------------------------------------------------------------------------
   //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("calciteTimePickerChange")
+  calciteTimePickerChange(event: CustomEvent): void {
+    const { hour, minute, second, ampm } = event.detail as Time;
+    if (this.step !== 60) {
+      this.value = `${hour}:${minute}:${second} ${ampm}`;
+    } else {
+      this.value = `${hour}:${minute} ${ampm}`;
+    }
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Private Properties
   //
   //--------------------------------------------------------------------------
@@ -103,7 +120,6 @@ export class CalciteInputTimePicker {
           onFocus={this.onCalciteInputFocus}
           ref={(el) => (this.input = el)}
           step={this.step}
-          type="time"
           value={this.value}
         />
         <calcite-time-picker scale={this.scale} />
