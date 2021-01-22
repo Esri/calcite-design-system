@@ -1,13 +1,11 @@
 // example for alerts appended to dom
-function createExampleAlert(id) {
-  var exampleAlert = [
+function createExampleAlert(id: string): void {
+  const exampleAlert = [
     "<calcite-alert id=" + id + " color='red'>",
     "<div slot='alert-title'>Something failed</div>",
-    "<div slot='alert-message'>" +
-      id +
-      " That thing you wanted to do didn't work as expected</div>",
+    "<div slot='alert-message'>" + id + " That thing you wanted to do didn't work as expected</div>",
     "<calcite-link slot='alert-link' title='my action' appearance='inline'>Take action</calcite-link>",
-    "</calcite-alert>",
+    "</calcite-alert>"
   ].join("\n");
 
   // if the id element doesn't exist, insert into page
