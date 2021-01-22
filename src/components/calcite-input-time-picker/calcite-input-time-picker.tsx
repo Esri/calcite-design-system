@@ -122,7 +122,7 @@ export class CalciteInputTimePicker {
           step={this.step}
           value={this.value}
         />
-        <calcite-time-picker scale={this.scale} />
+        <calcite-time-picker scale={this.scale} step={this.step} />
       </Host>
     );
   }

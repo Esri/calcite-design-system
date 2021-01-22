@@ -15,6 +15,8 @@ const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 export type AmPm = "--" | "AM" | "PM";
 
+type MinuteOrSecond = "minute" | "second";
+
 export interface Time {
   hour: string;
   minute: string;
@@ -50,11 +52,11 @@ export class CalciteTimePicker {
   //
   //--------------------------------------------------------------------------
 
+  /** The am/pm value */
+  @Prop() ampm?: AmPm = "--";
+
   /** The focused state of the time picker */
   @Prop({ reflect: true }) focused = false;
-
-  /** The scale (size) of the time picker */
-  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The hour value */
   @Prop() hour?: string = "--";
@@ -65,8 +67,11 @@ export class CalciteTimePicker {
   /** The second value */
   @Prop() second?: string = "--";
 
-  /** The am/pm value */
-  @Prop() ampm?: AmPm = "--";
+  /** The scale (size) of the time picker */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** number that specifies the granularity that the value must adhere to */
+  @Prop({ reflect: true }) step = 60;
 
   @Watch("hour")
   @Watch("minute")
@@ -132,18 +137,26 @@ export class CalciteTimePicker {
     }
   };
 
-  private decrementMinute = (): void => {
-    if (this.minute === "--") {
-      this.minute = "59";
+  private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
+    if (this[key] === "--") {
+      this[key] = "59";
     } else {
-      const minuteAsNumber = parseInt(this.minute);
-      if (minuteAsNumber === 0) {
-        this.minute = "59";
+      const valueAsNumber = parseInt(this[key]);
+      if (valueAsNumber === 0) {
+        this[key] = "59";
       } else {
-        const newMinute = minuteAsNumber - 1;
-        this.minute = this.formatNumberAsString(newMinute);
+        const newValue = valueAsNumber - 1;
+        this[key] = this.formatNumberAsString(newValue);
       }
     }
+  };
+
+  private decrementMinute = (): void => {
+    this.decrementMinuteOrSecond("minute");
+  };
+
+  private decrementSecond = (): void => {
+    this.decrementMinuteOrSecond("second");
   };
 
   private formatNumberAsString(number: number): string {
@@ -212,18 +225,26 @@ export class CalciteTimePicker {
     }
   };
 
-  private incrementMinute = (): void => {
-    if (this.minute === "--") {
-      this.minute = "00";
+  private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
+    if (this[key] === "--") {
+      this[key] = "00";
     } else {
-      const minuteAsNumber = parseInt(this.minute);
-      if (minuteAsNumber === 59) {
-        this.minute = "00";
+      const valueAsNumber = parseInt(this[key]);
+      if (valueAsNumber === 59) {
+        this[key] = "00";
       } else {
-        const newMinute = minuteAsNumber + 1;
-        this.minute = this.formatNumberAsString(newMinute);
+        const newValue = valueAsNumber + 1;
+        this[key] = this.formatNumberAsString(newValue);
       }
     }
+  };
+
+  private incrementMinute = (): void => {
+    this.incrementMinuteOrSecond("minute");
+  };
+
+  private incrementSecond = (): void => {
+    this.incrementMinuteOrSecond("second");
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
@@ -257,6 +278,37 @@ export class CalciteTimePicker {
     }
   };
 
+  private secondKeyDownHandler = (event: KeyboardEvent): void => {
+    if (numberKeys.includes(event.key)) {
+      if (this.second === "--") {
+        this.second = `0${event.key}`;
+      } else if (this.second.startsWith("0")) {
+        const secondAsNumber = parseInt(this.second);
+        if (secondAsNumber > 5) {
+          this.second = `0${event.key}`;
+        } else {
+          this.second = `${secondAsNumber}${event.key}`;
+        }
+      } else {
+        this.second = `0${event.key}`;
+      }
+    } else {
+      switch (event.key) {
+        case "Backspace":
+          this.second = "--";
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          this.decrementSecond();
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.incrementSecond();
+          break;
+      }
+    }
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -265,6 +317,7 @@ export class CalciteTimePicker {
 
   render(): VNode {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
+    const includeSeconds = this.step !== 60 ? true : false;
     return (
       <Host>
         <div class="time-picker">
@@ -335,6 +388,41 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevrondown" scale={iconScale} />
             </button>
           </div>
+          {includeSeconds && <div>:</div>}
+          {includeSeconds && (
+            <div>
+              <button
+                aria-label="increase second"
+                onClick={this.incrementSecond}
+                tabIndex={-1}
+                type="button"
+              >
+                <calcite-icon icon="chevronup" scale={iconScale} />
+              </button>
+              <span
+                aria-label="Second"
+                aria-placeholder="--"
+                aria-valuemax="59"
+                aria-valuemin="0"
+                aria-valuenow={this.second !== "--" ? parseInt(this.second) : undefined}
+                aria-valuetext={this.second !== "--" ? this.second : undefined}
+                class="second"
+                onKeyDown={this.secondKeyDownHandler}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {this.second}
+              </span>
+              <button
+                aria-label="decrease second"
+                onClick={this.decrementSecond}
+                tabIndex={-1}
+                type="button"
+              >
+                <calcite-icon icon="chevrondown" scale={iconScale} />
+              </button>
+            </div>
+          )}
           <div>
             <button
               aria-label="switch to am or pm"
