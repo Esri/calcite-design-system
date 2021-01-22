@@ -83,6 +83,11 @@ span {
     width: 40px;
   }
 }
+:host([scale="s"]:not([step="60"])) {
+  .time-picker {
+    width: 168px;
+  }
+}
 
 :host([scale="m"]) {
   font-size: 16px;
@@ -95,6 +100,11 @@ span {
     width: 44px;
   }
 }
+:host([scale="m"]:not([step="60"])) {
+  .time-picker {
+    width: 186px;
+  }
+}
 
 :host([scale="l"]) {
   font-size: 20px;
@@ -105,5 +115,10 @@ span {
   span {
     height: 48px;
     width: 64px;
+  }
+}
+:host([scale="l"]:not([step="60"])) {
+  .time-picker {
+    width: 268px;
   }
 }

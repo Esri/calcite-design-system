@@ -20,7 +20,7 @@ type MinuteOrSecond = "minute" | "second";
 export interface Time {
   hour: string;
   minute: string;
-  second: string;
+  second?: string;
   ampm: AmPm;
 }
 
