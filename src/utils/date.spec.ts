@@ -168,9 +168,9 @@ describe("parseDateString", () => {
 describe("getOrder", () => {
   it("derives order from various unit orders", () => {
     expect(getOrder("d‏/M‏/y")).toEqual(["d", "m", "y"]);
-    expect(getOrder("dd.MM.y")).toEqual(["d", "m", "y"]);
-    expect(getOrder("M/d/yy")).toEqual(["m", "d", "y"]);
-    expect(getOrder("y/MM/dd")).toEqual(["y", "m", "d"]);
-    expect(getOrder("y. MM. dd.")).toEqual(["y", "m", "d"]);
+    expect(getOrder("DD.MM.YYYY")).toEqual(["d", "m", "y"]);
+    expect(getOrder("MM/DD/YYYY")).toEqual(["m", "d", "y"]);
+    expect(getOrder("YYYY/MM/DD")).toEqual(["y", "m", "d"]);
+    expect(getOrder("YYYY. MM. DD.")).toEqual(["y", "m", "d"]);
   });
 });
