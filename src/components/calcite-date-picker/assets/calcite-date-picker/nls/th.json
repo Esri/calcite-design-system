@@ -1,9 +1,9 @@
 {
   "default-calendar": "gregorian",
   "separator": "/",
-  "unitOrder": "d/M/yy",
+  "unitOrder": "DD/MM/YYYY",
   "weekStart": 7,
-  "placeholder": "d/M/yy",
+  "placeholder": "DD/MM/YYYY",
   "days": {
     "abbreviated": ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."],
     "narrow": ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"],

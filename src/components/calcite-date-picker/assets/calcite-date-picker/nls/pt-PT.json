@@ -1,9 +1,9 @@
 {
   "default-calendar": "gregorian",
   "separator": "/",
-  "unitOrder": "dd/MM/yy",
+  "unitOrder": "DD/MM/YYYY",
   "weekStart": 7,
-  "placeholder": "dd/MM/yy",
+  "placeholder": "DD/MM/YYYY",
   "days": {
     "abbreviated": ["dom.", "seg.", "ter.", "qua.", "qui.", "sex.", "sáb."],
     "wide": ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"],

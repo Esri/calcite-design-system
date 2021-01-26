@@ -1,9 +1,9 @@
 {
   "default-calendar": "gregorian",
   "separator": "/",
-  "unitOrder": "d/M/yy",
+  "unitOrder": "DD/MM/YYYY",
   "weekStart": 7,
-  "placeholder": "d/M/yy",
+  "placeholder": "DD/MM/YYYY",
   "days": {
     "abbreviated": ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"],
     "narrow": ["र", "सो", "मं", "बु", "गु", "शु", "श"],

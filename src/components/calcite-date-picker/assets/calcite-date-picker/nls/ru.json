@@ -1,9 +1,9 @@
 {
   "default-calendar": "gregorian",
   "separator": ".",
-  "unitOrder": "dd.MM.y",
+  "unitOrder": "DD.MM.YYYY",
   "weekStart": 7,
-  "placeholder": "dd.MM.y",
+  "placeholder": "DD.MM.YYYY",
   "days": {
     "abbreviated": ["вс", "пн", "вт", "ср", "чт", "пт", "сб"],
     "narrow": ["вс", "пн", "вт", "ср", "чт", "пт", "сб"],
