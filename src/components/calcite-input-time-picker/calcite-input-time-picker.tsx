@@ -72,12 +72,21 @@ export class CalciteInputTimePicker {
 
   @Listen("calciteTimePickerChange")
   calciteTimePickerChange(event: CustomEvent): void {
-    const { hour, minute, second, ampm } = event.detail as Time;
-    if (this.step !== 60) {
-      this.value = `${hour}:${minute}:${second} ${ampm}`;
+    const { hour, minute, second } = event.detail as Time;
+    if (hour !== "--" && minute !== "--") {
+      if (this.step !== 60 && second !== "--") {
+        this.value = `${hour}:${minute}:${second}`;
+      } else {
+        this.value = `${hour}:${minute}`;
+      }
     } else {
-      this.value = `${hour}:${minute} ${ampm}`;
+      this.value = "";
     }
+  }
+
+  @Listen("calciteInputInput")
+  calciteInputChange(event: CustomEvent): void {
+    this.value = event.detail.value;
   }
 
   //--------------------------------------------------------------------------
@@ -120,6 +129,7 @@ export class CalciteInputTimePicker {
           onFocus={this.onCalciteInputFocus}
           ref={(el) => (this.input = el)}
           step={this.step}
+          type="time"
           value={this.value}
         />
         <calcite-time-picker scale={this.scale} step={this.step} />

@@ -21,7 +21,6 @@ export interface Time {
   hour: string;
   minute: string;
   second?: string;
-  ampm: AmPm;
 }
 
 @Component({
@@ -58,7 +57,7 @@ export class CalciteTimePicker {
   /** The focused state of the time picker */
   @Prop({ reflect: true }) focused = false;
 
-  /** The hour value */
+  /** The hour value (24-hour format) */
   @Prop() hour?: string = "--";
 
   /** The minute value */
@@ -124,16 +123,12 @@ export class CalciteTimePicker {
   };
 
   private decrementHour = (): void => {
-    if (this.hour === "--" || this.hour === "01") {
-      this.hour = "12";
+    if (this.hour === "--" || this.hour === "00") {
+      this.hour = "23";
     } else {
       const hourAsNumber = parseInt(this.hour);
-      if (hourAsNumber === 0) {
-        this.hour = "12";
-      } else {
-        const newHour = hourAsNumber - 1;
-        this.hour = this.formatNumberAsString(newHour);
-      }
+      const newHour = hourAsNumber - 1;
+      this.hour = this.formatNumberAsString(newHour);
     }
   };
 
@@ -165,10 +160,9 @@ export class CalciteTimePicker {
 
   private getTimeValues(): Time {
     return {
-      hour: this.hour,
+      hour: this.ampm === "PM" ? `${parseInt(this.hour) + 12}` : this.hour,
       minute: this.minute,
-      second: this.second,
-      ampm: this.ampm
+      second: this.second
     };
   }
 
@@ -212,16 +206,12 @@ export class CalciteTimePicker {
   };
 
   private incrementHour = (): void => {
-    if (this.hour === "--") {
-      this.hour = "01";
+    const hourAsNumber = parseInt(this.hour);
+    if (this.hour === "--" || hourAsNumber === 23) {
+      this.hour = "00";
     } else {
-      const hourAsNumber = parseInt(this.hour);
-      if (hourAsNumber === 12) {
-        this.hour = "01";
-      } else {
-        const newHour = hourAsNumber + 1;
-        this.hour = this.formatNumberAsString(newHour);
-      }
+      const newHour = hourAsNumber + 1;
+      this.hour = this.formatNumberAsString(newHour);
     }
   };
 
