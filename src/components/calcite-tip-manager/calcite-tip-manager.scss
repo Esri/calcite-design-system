@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   display: block;
   --calcite-tip-manager-height: 18vh;
   --calcite-tip-max-width: 540px;

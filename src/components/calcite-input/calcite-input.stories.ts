@@ -1,5 +1,5 @@
 import { select, text, number } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
@@ -83,7 +83,8 @@ export const WithLabelAndInputMessage = (): string => html`
       </calcite-input>
       <calcite-input-message
         ${boolean("active", true, "Input Message")}
-        ${boolean("icon", true, "Input Message")}
+        ${boolean("icon", false, "Input Message")}
+        icon="${select("icon", iconNames, "", "Input Message")}"
         type="${select("type", ["default", "floating"], "default", "Input Message")}"
         >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
       >

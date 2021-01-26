@@ -16,6 +16,8 @@ import { getElementDir, CalciteFocusableElement, focusElement } from "../../util
 import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
+import { Scale, Theme } from "../interfaces";
+import { ModalBackgroundColor } from "./interfaces";
 
 function isCalciteFocusable(el: CalciteFocusableElement): boolean {
   return typeof el.setFocus === "function" || isFocusable(el);
@@ -65,10 +67,10 @@ export class CalciteModal {
   @Prop() disableEscape?: boolean;
 
   /** specify the scale of modal, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Set the width of the modal. Can use stock sizes or pass a number (in pixels) */
-  @Prop({ reflect: true }) width: "s" | "m" | "l" | number = "m";
+  @Prop({ reflect: true }) width: Scale | number = "m";
 
   /** Set the modal to always be fullscreen (overrides width) */
   @Prop({ reflect: true }) fullscreen: boolean;
@@ -78,10 +80,10 @@ export class CalciteModal {
   @Prop({ reflect: true }) color?: "red" | "blue";
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** Background color of modal content */
-  @Prop({ reflect: true }) backgroundColor: "white" | "grey" = "white";
+  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
   /** Turn off spacing around the content area slot */
   @Prop() noPadding?: boolean;
@@ -109,24 +111,24 @@ export class CalciteModal {
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
         <div class="modal">
-          <div data-focus-fence="true" onFocus={this.focusLastElement} tabindex="0" />
-          <div class="modal__header">
+          <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
+          <div class="header">
             {this.renderCloseButton()}
-            <header class="modal__title">
+            <header class="title">
               <slot name="header" />
             </header>
           </div>
           <div
             class={{
-              modal__content: true,
-              "modal__content--spaced": !this.noPadding
+              content: true,
+              "content--spaced": !this.noPadding
             }}
             ref={(el) => (this.modalContent = el)}
           >
             <slot name="content" />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence="true" onFocus={this.focusFirstElement} tabindex="0" />
+          <div data-focus-fence onFocus={this.focusFirstElement} tabindex="0" />
         </div>
       </Host>
     );
@@ -134,14 +136,14 @@ export class CalciteModal {
 
   renderFooter(): VNode {
     return this.el.querySelector("[slot=back], [slot=secondary], [slot=primary]") ? (
-      <div class="modal__footer">
-        <span class="modal__back">
+      <div class="footer">
+        <span class="back">
           <slot name="back" />
         </span>
-        <span class="modal__secondary">
+        <span class="secondary">
           <slot name="secondary" />
         </span>
-        <span class="modal__primary">
+        <span class="primary">
           <slot name="primary" />
         </span>
       </div>
@@ -152,7 +154,7 @@ export class CalciteModal {
     return !this.disableCloseButton ? (
       <button
         aria-label={this.intlClose}
-        class="modal__close"
+        class="close"
         onClick={this.close}
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
@@ -179,13 +181,9 @@ export class CalciteModal {
             margin: 0;
             border-radius: 0;
           }
-          .modal__content {
+          .content {
             flex: 1 1 auto;
             max-height: unset;
-          }
-          .modal__header,
-          .modal__footer {
-            flex: inherit;
           }
         }
       `}

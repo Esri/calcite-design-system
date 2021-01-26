@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { html } from "../../tests/utils";
 
@@ -8,17 +8,32 @@ describe("calcite-action-bar", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-action-bar"));
 
-  it("defaults", async () => {
-    const page = await newE2EPage();
+  it("defaults", async () =>
+    defaults("calcite-action-bar", [
+      {
+        propertyName: "expandDisabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "expanded",
+        defaultValue: false
+      }
+    ]));
 
-    await page.setContent("<calcite-action-bar></calcite-action-bar>");
-    const element = await page.find("calcite-action-bar");
-    expect(element.getAttribute("expand")).not.toBeNull();
-    expect(element.getAttribute("expanded")).toBeNull();
-  });
+  it("reflects", async () =>
+    reflects("calcite-action-bar", [
+      {
+        propertyName: "expandDisabled",
+        value: true
+      },
+      {
+        propertyName: "expanded",
+        value: true
+      }
+    ]));
 
   describe("expand functionality", () => {
-    it("should show expand by default", async () => {
+    it("should be expandable by default", async () => {
       const page = await newE2EPage();
 
       await page.setContent("<calcite-action-bar></calcite-action-bar>");
@@ -30,10 +45,10 @@ describe("calcite-action-bar", () => {
       expect(expandAction).not.toBeNull();
     });
 
-    it("should not show expand when false", async () => {
+    it("allows disabling expandable behavior", async () => {
       const page = await newE2EPage();
 
-      await page.setContent('<calcite-action-bar expand="false"></calcite-action-bar>');
+      await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
 
       await page.waitForChanges();
 
@@ -88,21 +103,21 @@ describe("calcite-action-bar", () => {
       expect(textEnabled).toBe(true);
     });
 
-    it("should not have bottomGroup when expand is false", async () => {
+    it("should not have bottomGroup when not expandable", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(`<calcite-action-bar expand="false"></calcite-action-bar>`);
+      await page.setContent(`<calcite-action-bar expand-disabled></calcite-action-bar>`);
 
       const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
 
       expect(buttonGroup).toBeNull();
     });
 
-    it("should not modify textEnabled on actions when expand is false", async () => {
+    it("should not modify textEnabled on actions when not expandable", async () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        `<calcite-action-bar expand="false" expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
+        `<calcite-action-bar expand-disabled expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
       );
 
       const action = await page.find("calcite-action");
@@ -116,7 +131,7 @@ describe("calcite-action-bar", () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        `<calcite-action-bar expand expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
+        `<calcite-action-bar expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
       );
 
       await page.evaluate(() => {

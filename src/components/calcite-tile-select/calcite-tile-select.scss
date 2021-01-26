@@ -97,6 +97,6 @@ $spacing: $baseline/2;
 }
 
 :host([disabled]) {
-  opacity: var(--calcite-ui-opacity-disabled);
+  @apply opacity-disabled;
   pointer-events: none;
 }

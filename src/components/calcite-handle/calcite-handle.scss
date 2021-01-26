@@ -8,7 +8,7 @@
   align-self: stretch;
   justify-content: center;
   padding: var(--calcite-spacing-three-quarters) var(--calcite-spacing-quarter);
-  background-color: var(--calcite-ui-foreground-1);
+  background-color: var(--calcite-ui-foreground-3);
   background-color: transparent;
   border: none;
   color: var(--calcite-ui-border-3);
@@ -24,7 +24,7 @@
     @include focus-style-inset();
   }
   &--activated {
-    background-color: var(--calcite-ui-foreground-current);
-    color: var(--calcite-ui-text-current);
+    background-color: var(--calcite-ui-foreground-3);
+    color: var(--calcite-ui-text-1);
   }
 }

@@ -14,8 +14,9 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
-import { DataSeries } from "../../interfaces/Graph";
+import { DataSeries } from "../calcite-graph/interfaces";
 import { hasLabel } from "../../utils/dom";
+import { Theme } from "../interfaces";
 
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -38,7 +39,7 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** Disable and gray out the slider */
   @Prop({ reflect: true }) disabled = false;
@@ -64,8 +65,8 @@ export class CalciteSlider {
   /** Label for second handle if needed (ex. "Temperature, upper bound") */
   @Prop() maxLabel?: string;
 
-  /** Snap selection along the step interval */
-  @Prop() snap?: boolean = true;
+  /** When true, enables snap selection along the step interval */
+  @Prop() snap?: boolean = false;
 
   /** Interval to move on up/down keys */
   @Prop() step?: number = 1;

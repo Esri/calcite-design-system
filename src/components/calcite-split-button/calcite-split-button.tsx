@@ -1,5 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
+import { FlipContext, Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-split-button",
@@ -10,17 +12,16 @@ export class CalciteSplitButton {
   @Element() el: HTMLCalciteSplitButtonElement;
 
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ reflect: true }) appearance: "solid" | "outline" | "clear" | "transparent" = "solid";
+  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
 
   /** specify the color of the control, defaults to blue */
-  @Prop({ reflect: true }) color: "blue" | "dark" | "light" | "red" = "blue";
+  @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the control disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
   /** specify the icon used for the dropdown menu, defaults to chevron */
-  @Prop({ reflect: true }) dropdownIconType: "chevron" | "caret" | "ellipsis" | "overflow" =
-    "chevron";
+  @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
   /** aria label for overflow button */
   @Prop({ reflect: true }) dropdownLabel?: string;
@@ -33,7 +34,7 @@ export class CalciteSplitButton {
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
   /** flip the primary icon(s) in rtl */
-  @Prop({ reflect: true }) primaryIconFlipRtl?: "both" | "start" | "end";
+  @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconStart?: string;
@@ -45,10 +46,10 @@ export class CalciteSplitButton {
   @Prop({ reflect: true }) primaryText: string;
 
   /** specify the scale of the control, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** select theme (light or dark), defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** fired when the primary button is clicked */
   @Event() calciteSplitButtonPrimaryClick: EventEmitter;

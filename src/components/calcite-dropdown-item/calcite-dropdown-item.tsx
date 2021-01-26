@@ -11,8 +11,9 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { ItemKeyboardEvent, ItemRegistration } from "../../interfaces/Dropdown";
+import { ItemKeyboardEvent, ItemRegistration } from "../calcite-dropdown/interfaces";
 import { getKey } from "../../utils/key";
+import { FlipContext } from "../interfaces";
 
 @Component({
   tag: "calcite-dropdown-item",
@@ -37,7 +38,7 @@ export class CalciteDropdownItem {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
@@ -140,7 +141,7 @@ export class CalciteDropdownItem {
       </a>
     );
 
-    const itemRole = this.href // https://www.levelaccess.com/how-not-to-misuse-aria-states-properties-and-roles/
+    const itemRole = this.href
       ? null
       : this.selectionMode === "single"
       ? "menuitemradio"

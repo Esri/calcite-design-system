@@ -401,7 +401,7 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
     const clearButton = await page.find(".calcite-input-clear-button");
     expect(element.getAttribute("value")).toBe("John Doe");
-    clearButton.click();
+    await clearButton.click();
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("");
   });
@@ -416,7 +416,7 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
     const clearButton = await page.find(".calcite-input-clear-button");
     expect(element.getAttribute("value")).toBe("John Doe");
-    clearButton.click();
+    await clearButton.click();
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
@@ -450,7 +450,7 @@ describe("calcite-input", () => {
     const clearButton = await page.find(".calcite-input-clear-button");
     expect(element.getAttribute("value")).toBe("John Doe");
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
-    clearButton.click();
+    await clearButton.click();
     await page.waitForChanges();
     expect(element.getAttribute("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);

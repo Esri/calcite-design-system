@@ -1,10 +1,10 @@
 import { getAssetPath } from "@stencil/core";
-import { IconScale } from "../../interfaces/Icon";
 import { CalciteIconPath } from "@esri/calcite-ui-icons";
+import { Scale } from "../interfaces";
 
 export interface FetchIconProps {
   icon: string;
-  scale: IconScale;
+  scale: Scale;
 }
 
 /**
@@ -21,7 +21,7 @@ export const iconCache: Record<string, CalciteIconPath> = {};
  */
 export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 
-export const scaleToPx: Record<IconScale, number> = {
+export const scaleToPx: Record<Scale, number> = {
   s: 16,
   m: 24,
   l: 32
@@ -38,7 +38,7 @@ export async function fetchIcon({ icon, scale }: FetchIconProps): Promise<Calcit
     return iconCache[id];
   }
   if (!requestCache[id]) {
-    requestCache[id] = fetch(getAssetPath(`./assets/${id}.json`))
+    requestCache[id] = fetch(getAssetPath(`./assets/calcite-icon/${id}.json`))
       .then((resp) => resp.json())
       .catch(() => {
         console.error(`"${id}" is not a valid calcite-ui-icon name`);

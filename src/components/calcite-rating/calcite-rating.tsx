@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { Scale, Theme } from "../interfaces";
 import { TEXT } from "./calcite-rating-resources";
 
 @Component({
@@ -36,10 +37,10 @@ export class CalciteRating {
   // --------------------------------------------------------------------------
 
   /** specify the theme of scrim, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the scale of the component, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** the value of the rating component */
   @Prop({ reflect: true }) value = 0;
@@ -140,6 +141,9 @@ export class CalciteRating {
               this.hasFocus = true;
               this.focusValue = i;
             }}
+            ref={(el) =>
+              (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
+            }
             type="radio"
             value={i}
           />
@@ -193,8 +197,7 @@ export class CalciteRating {
   //--------------------------------------------------------------------------
   @Method()
   async setFocus(): Promise<void> {
-    this.el.querySelector("input").focus();
-    this.hasFocus = true;
+    this.inputFocusRef.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -210,4 +213,6 @@ export class CalciteRating {
   @State() hasFocus: boolean;
 
   private guid = `calcite-ratings-${guid()}`;
+
+  private inputFocusRef: HTMLInputElement;
 }

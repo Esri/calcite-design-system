@@ -12,11 +12,12 @@ import {
   Build,
   VNode
 } from "@stencil/core";
-import { TabChangeEventDetail } from "../../interfaces/TabChange";
+import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { TabID } from "../calcite-tabs/interfaces";
+import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
+import { FlipContext } from "../interfaces";
 
 @Component({
   tag: "calcite-tab-title",
@@ -48,16 +49,16 @@ export class CalciteTabTitle {
   @Prop({ reflect: true }) iconEnd?: string;
 
   /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
   /** @internal Parent tabs component layout value */
-  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline";
+  @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
   /** @internal Parent tabs component position value */
-  @Prop({ reflect: true, mutable: true }) position: "above" | "below";
+  @Prop({ reflect: true, mutable: true }) position: TabPosition;
 
   /**
    * Optionally include a unique name for the tab title,
