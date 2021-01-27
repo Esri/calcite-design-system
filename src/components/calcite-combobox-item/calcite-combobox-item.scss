@@ -123,7 +123,8 @@ ul {
 }
 
 .label--selected .icon {
-  @apply text-color-link opacity-100;
+  @apply opacity-100;
+  color: var(--calcite-ui-blue-1);
 }
 
 :host(:hover[disabled]) .icon {
