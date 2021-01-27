@@ -7,7 +7,8 @@ import {
   VNode,
   Event,
   EventEmitter,
-  Watch
+  Watch,
+  State
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 
@@ -51,14 +52,14 @@ export class CalciteTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  /** The am/pm value */
-  @Prop() ampm?: AmPm = "--";
-
   /** The focused state of the time picker */
   @Prop({ reflect: true }) focused = false;
 
   /** The hour value (24-hour format) */
   @Prop() hour?: string = "--";
+
+  /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
+  @Prop({ reflect: true }) hourFormat: "12" | "24" = "12";
 
   /** The minute value */
   @Prop() minute?: string = "--";
@@ -75,10 +76,18 @@ export class CalciteTimePicker {
   @Watch("hour")
   @Watch("minute")
   @Watch("second")
-  @Watch("ampm")
   timeChanged(): void {
     this.calciteTimePickerChange.emit(this.getTimeValues());
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  State
+  //
+  // --------------------------------------------------------------------------
+
+  /** The am/pm value */
+  @State() ampm: AmPm = "--";
 
   // --------------------------------------------------------------------------
   //
@@ -158,9 +167,22 @@ export class CalciteTimePicker {
     return number >= 0 && number <= 9 ? `0${number}` : number.toString();
   }
 
+  private getDisplayHour(): string {
+    if (this.hourFormat === "12" && this.hour !== "--") {
+      const hourAsNumber = parseInt(this.hour);
+      if (hourAsNumber > 12) {
+        return this.formatNumberAsString(hourAsNumber - 12);
+      }
+      if (hourAsNumber === 0) {
+        return "12";
+      }
+    }
+    return this.hour;
+  }
+
   private getTimeValues(): Time {
     return {
-      hour: this.ampm === "PM" ? `${parseInt(this.hour) + 12}` : this.hour,
+      hour: this.hour,
       minute: this.minute,
       second: this.second
     };
@@ -324,7 +346,7 @@ export class CalciteTimePicker {
             <span
               aria-label="Hour"
               aria-placeholder="--"
-              aria-valuemax="12"
+              aria-valuemax="23"
               aria-valuemin="1"
               aria-valuenow={this.hour !== "--" ? parseInt(this.hour) : undefined}
               aria-valuetext={this.hour !== "--" ? this.hour : undefined}
@@ -333,7 +355,7 @@ export class CalciteTimePicker {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.hour}
+              {this.getDisplayHour()}
             </span>
             <button
               aria-label="decrease hour"
@@ -413,40 +435,42 @@ export class CalciteTimePicker {
               </button>
             </div>
           )}
-          <div>
-            <button
-              aria-label="switch to am or pm"
-              class="top-right"
-              onClick={this.incrementAmPm}
-              tabIndex={-1}
-              type="button"
-            >
-              <calcite-icon icon="chevronup" scale={iconScale} />
-            </button>
-            <span
-              aria-label="AM/PM"
-              aria-placeholder="--"
-              aria-valuemax="2"
-              aria-valuemin="1"
-              aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
-              aria-valuetext={this.ampm !== "--" ? this.ampm : undefined}
-              class="ampm"
-              onKeyDown={this.amPmKeyDownHandler}
-              role="spinbutton"
-              tabIndex={0}
-            >
-              {this.ampm}
-            </span>
-            <button
-              aria-label="switch to am or pm"
-              class="bottom-right"
-              onClick={this.decrementAmPm}
-              tabIndex={-1}
-              type="button"
-            >
-              <calcite-icon icon="chevrondown" scale={iconScale} />
-            </button>
-          </div>
+          {this.hourFormat === "12" && (
+            <div>
+              <button
+                aria-label="switch to am or pm"
+                class="top-right"
+                onClick={this.incrementAmPm}
+                tabIndex={-1}
+                type="button"
+              >
+                <calcite-icon icon="chevronup" scale={iconScale} />
+              </button>
+              <span
+                aria-label="AM/PM"
+                aria-placeholder="--"
+                aria-valuemax="2"
+                aria-valuemin="1"
+                aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
+                aria-valuetext={this.ampm !== "--" ? this.ampm : undefined}
+                class="ampm"
+                onKeyDown={this.amPmKeyDownHandler}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {this.ampm}
+              </span>
+              <button
+                aria-label="switch to am or pm"
+                class="bottom-right"
+                onClick={this.decrementAmPm}
+                tabIndex={-1}
+                type="button"
+              >
+                <calcite-icon icon="chevrondown" scale={iconScale} />
+              </button>
+            </div>
+          )}
         </div>
       </Host>
     );
