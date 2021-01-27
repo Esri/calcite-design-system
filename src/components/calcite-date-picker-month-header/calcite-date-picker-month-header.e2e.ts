@@ -4,9 +4,9 @@ describe("calcite-date-picker-month-header", () => {
   const localeDataFixture = {
     "default-calendar": "gregorian",
     separator: "/",
-    unitOrder: "dd/MM/yy",
+    unitOrder: "DD/MM/YYYY",
     weekStart: 7,
-    placeholder: "dd/MM/yy",
+    placeholder: "DD/MM/YYYY",
     days: {
       narrow: ["D", "L", "M", "M", "J", "V", "S"]
     },
