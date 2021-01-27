@@ -59,7 +59,7 @@ export class CalciteTimePicker {
   @Prop() hour?: string = "--";
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
-  @Prop({ reflect: true }) hourFormat: "12" | "24" = "12";
+  @Prop({ reflect: true }) hourDisplay: "12" | "24" = "12";
 
   /** The minute value */
   @Prop() minute?: string = "--";
@@ -168,7 +168,7 @@ export class CalciteTimePicker {
   }
 
   private getDisplayHour(): string {
-    if (this.hourFormat === "12" && this.hour !== "--") {
+    if (this.hourDisplay === "12" && this.hour !== "--") {
       const hourAsNumber = parseInt(this.hour);
       if (hourAsNumber > 12) {
         return this.formatNumberAsString(hourAsNumber - 12);
@@ -435,7 +435,7 @@ export class CalciteTimePicker {
               </button>
             </div>
           )}
-          {this.hourFormat === "12" && (
+          {this.hourDisplay === "12" && (
             <div>
               <button
                 aria-label="switch to am or pm"
