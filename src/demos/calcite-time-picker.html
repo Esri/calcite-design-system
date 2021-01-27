@@ -35,27 +35,65 @@
   <script type="module" src="./helpers/demo-form.js"></script>
   <script type="module" src="./helpers/demo-spacer.js"></script>
 </head>
-
 <body>
   <demo-spacer>
     <calcite-button href="/">
       < Home</calcite-button>
-        <h1>Calcite Time Picker</h1>
-        <div class="demo-background-light">
-          <demo-spacer>
-            <calcite-time-picker scale="s" name="s"></calcite-time-picker>
-            <calcite-time-picker scale="m" name="m"></calcite-time-picker>
-            <calcite-time-picker scale="l" name="l"></calcite-time-picker>
-          </demo-spacer>
-        </div>
-        <div class="demo-background-dark" theme="dark">
-          <demo-spacer>
-            <calcite-time-picker scale="s" name="s-dark"></calcite-time-picker>
-            <calcite-time-picker scale="m" name="m-dark"></calcite-time-picker>
-            <calcite-time-picker scale="l" name="l-dark"></calcite-time-picker>
-          </demo-spacer>
-        </div>
-  </demo-spacer>
-</body>
+    <h1>Calcite Time Picker</h1>
 
+    <calcite-input name="native" type="time"></calcite-input>
+    <span>--:--</span>
+
+    <div class="demo-background-light">
+      <demo-spacer>
+        <h1>Small</h1>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display="24" step="1"></calcite-time-picker>
+
+        <h1>Medium</h1>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display="24" step="1"></calcite-time-picker>
+
+        <h1>Large</h1>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24" step="1"></calcite-time-picker>
+      </demo-spacer>
+    </div>
+
+    <div class="demo-background-dark" theme="dark">
+      <demo-spacer>
+        <h1>Small</h1>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display="24" step="1"></calcite-time-picker>
+
+        <h1>Medium</h1>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display="24" step="1"></calcite-time-picker>
+
+        <h1>Large</h1>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24" step="1"></calcite-time-picker>
+      </demo-spacer>
+    </div>
+  </demo-spacer>
+  <script>
+    const native = document.querySelector("calcite-input");
+    const span = document.querySelector("span");
+    native.addEventListener("input", (e) => {
+      span.innerHTML = e.target.value;
+    })
+  </script>
+</body>
 </html>
