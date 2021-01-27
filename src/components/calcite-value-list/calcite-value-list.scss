@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   align-items: stretch;
   background-color: transparent;
   display: flex;
@@ -23,7 +24,7 @@ header {
     top: 0;
     z-index: 1;
   }
-  @include borderShadow();
+  @apply shadow-border-bottom;
 }
 
 calcite-filter {

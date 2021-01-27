@@ -45,6 +45,8 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
 
   await page.addScriptTag({ path: require.resolve("axe-core") });
 
+  await page.waitForChanges();
+
   expect(
     await page.evaluate(
       async (componentTag: CalciteComponentTag) =>

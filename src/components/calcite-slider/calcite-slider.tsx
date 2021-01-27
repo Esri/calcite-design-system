@@ -65,8 +65,8 @@ export class CalciteSlider {
   /** Label for second handle if needed (ex. "Temperature, upper bound") */
   @Prop() maxLabel?: string;
 
-  /** Snap selection along the step interval */
-  @Prop() snap?: boolean = true;
+  /** When true, enables snap selection along the step interval */
+  @Prop() snap?: boolean = false;
 
   /** Interval to move on up/down keys */
   @Prop() step?: number = 1;

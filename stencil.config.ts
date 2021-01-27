@@ -24,7 +24,13 @@ export const create: () => Config = () => ({
     { components: ["calcite-color", "calcite-color-hex-input", "calcite-color-swatch"] },
     { components: ["calcite-combobox"] },
     {
-      components: ["calcite-date", "calcite-date-month", "calcite-date-month-header", "calcite-date-day"]
+      components: [
+        "calcite-input-date-picker",
+        "calcite-date-picker",
+        "calcite-date-picker-month",
+        "calcite-date-picker-month-header",
+        "calcite-date-picker-day"
+      ]
     },
     {
       components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"]
