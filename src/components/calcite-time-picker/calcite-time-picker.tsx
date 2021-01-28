@@ -208,10 +208,27 @@ export class CalciteTimePicker {
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
-      if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
-        this.hour = `1${event.key}`;
+      if (this.hour === "--") {
+        this.hour = `0${keyAsNumber}`;
       } else {
-        this.hour = `0${event.key}`;
+        switch (this.hourDisplay) {
+          case "12":
+            if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
+              this.hour = `1${keyAsNumber}`;
+            } else {
+              this.hour = `0${keyAsNumber}`;
+            }
+            break;
+          case "24":
+            if (this.hour === "01") {
+              this.hour = `1${keyAsNumber}`;
+            } else if (this.hour === "02" && keyAsNumber >= 0 && keyAsNumber <= 3) {
+              this.hour = `2${keyAsNumber}`;
+            } else {
+              this.hour = `0${keyAsNumber}`;
+            }
+            break;
+        }
       }
     } else {
       switch (event.key) {
