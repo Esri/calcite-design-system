@@ -427,9 +427,7 @@ export class CalciteCombobox {
       this.textInput.focus();
       this.filterItems("");
     } else {
-      this.items.forEach((el) => {
-        el.toggleSelected(false);
-      });
+      this.items.forEach((el) => el.toggleSelected(false));
       item.toggleSelected(true);
       this.selectedItem = item;
       this.textInput.value = item.textLabel;
@@ -467,8 +465,7 @@ export class CalciteCombobox {
     this.visibleItems = this.getVisibleItems();
     this.needsIcon = this.getNeedsIcon();
     if (this.selectionMode === "single" && this.selectedItems.length) {
-      const item = this.selectedItems[0];
-      this.selectedItem = item;
+      this.selectedItem = this.selectedItems[0];
     }
   };
 

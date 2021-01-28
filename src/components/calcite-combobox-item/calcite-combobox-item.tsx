@@ -149,11 +149,12 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon(scale: string, isSingle: boolean): VNode {
+    const { icon, disabled, isSelected } = this;
     const level = `${CSS.icon}--indent-${this.getDepth()}`;
     const iconScale = scale !== "l" ? "s" : "m";
     const defaultIcon = isSingle ? "dot" : "check";
-    const iconPath = this.disabled ? "circle-disallowed" : defaultIcon;
-    const showDot = isSingle && !this.icon && !this.disabled;
+    const iconPath = disabled ? "circle-disallowed" : defaultIcon;
+    const showDot = isSingle && !icon && !disabled;
     return showDot ? (
       <span
         class={{
@@ -165,12 +166,12 @@ export class CalciteComboboxItem {
     ) : (
       <calcite-icon
         class={{
-          [CSS.icon]: !this.icon,
-          [CSS.custom]: !!this.icon,
-          [CSS.iconActive]: this.icon && this.isSelected,
+          [CSS.icon]: !icon,
+          [CSS.custom]: !!icon,
+          [CSS.iconActive]: icon && isSelected,
           [level]: true
         }}
-        icon={this.icon || iconPath}
+        icon={icon || iconPath}
         scale={iconScale}
       />
     );
