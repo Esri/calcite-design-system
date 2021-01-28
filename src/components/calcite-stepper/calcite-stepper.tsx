@@ -14,6 +14,7 @@ import {
 import { getElementDir } from "../../utils/dom";
 import { IESTYLES } from "./calcite-stepper.resources";
 import { getKey } from "../../utils/key";
+import { Layout, Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-stepper",
@@ -39,16 +40,16 @@ export class CalciteStepper {
   @Prop({ reflect: true }) icon = false;
 
   /** specify the layout of stepper, defaults to horizontal */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   /** optionally display the number next to the step title */
   @Prop({ reflect: true }) numbered = false;
 
   /** specify the scale of stepper, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** specify the theme of stepper, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** @internal */
   @Prop() requestedContent: HTMLElement[] | NodeListOf<any>;

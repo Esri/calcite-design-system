@@ -11,8 +11,8 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { TreeItemSelectDetail } from "../../interfaces/TreeItemSelect";
-import { TreeSelectionMode } from "../../interfaces/TreeSelectionMode";
+import { TreeItemSelectDetail } from "./interfaces";
+import { TreeSelectionMode } from "../calcite-tree/interfaces";
 
 import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
 import { getKey } from "../../utils/key";

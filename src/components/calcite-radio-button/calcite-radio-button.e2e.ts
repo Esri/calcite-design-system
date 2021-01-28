@@ -58,8 +58,8 @@ describe("calcite-radio-button", () => {
     expect(radioInputs).toHaveLength(3);
 
     for (let i = 0; i < radioInputs.length; i++) {
-      const name = await radioInputs[i].getAttribute("name");
-      const value = await radioInputs[i].getAttribute("value");
+      const name = radioInputs[i].getAttribute("name");
+      const value = radioInputs[i].getAttribute("value");
       expect(name).toBe("hidden-input");
       expect(value).toBe((i + 1).toString());
     }
@@ -75,7 +75,7 @@ describe("calcite-radio-button", () => {
     const radioButtons = await page.findAll("calcite-radio-button");
     for (let i = 0; i < radioButtons.length; i++) {
       expect(await radioButtons[i].getProperty("checked")).toBe(false);
-      expect(await radioButtons[i].getAttribute("checked")).toBe(null);
+      expect(radioButtons[i].getAttribute("checked")).toBe(null);
     }
   });
 
@@ -333,7 +333,7 @@ describe("calcite-radio-button", () => {
     expect(await checked.getProperty("checked")).toBe(false);
 
     const resetButton = await page.find("button");
-    resetButton.click();
+    await resetButton.click();
 
     await page.waitForChanges();
 
@@ -356,6 +356,45 @@ describe("calcite-radio-button", () => {
 
     const labels2 = await page.findAll("calcite-label");
     expect(labels2).toHaveLength(0);
+  });
+
+  it("works correctly inside a shadowRoot", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div></div>
+      <template>
+        <calcite-radio-button name="in-shadow" value="one">
+          One
+        </calcite-radio-button>
+        <calcite-radio-button name="in-shadow" value="two">
+          Two
+        </calcite-radio-button>
+      </template>
+      <script>
+        const shadowRootDiv = document.querySelector("div");
+        const shadowRoot = shadowRootDiv.attachShadow({ mode: "open" });
+        shadowRoot.append(document.querySelector("template").content.cloneNode(true));
+      </script>
+    `);
+
+    const radios = await page.findAll("div >>> calcite-radio-button");
+    const inputs = await page.findAll("div >>> input");
+
+    await radios[0].click();
+
+    expect(await radios[0].getProperty("checked")).toBe(true);
+    expect(radios[0].getAttribute("checked")).toBe("");
+    expect(await inputs[0].getProperty("checked")).toBe(true);
+
+    await radios[1].click();
+
+    expect(await radios[0].getProperty("checked")).toBe(false);
+    expect(radios[0].getAttribute("checked")).toBe(null);
+    expect(await inputs[0].getProperty("checked")).toBe(false);
+
+    expect(await radios[1].getProperty("checked")).toBe(true);
+    expect(radios[1].getAttribute("checked")).toBe("");
+    expect(await inputs[1].getProperty("checked")).toBe(true);
   });
 
   it("selects properly when wrapped in a label", async () => {

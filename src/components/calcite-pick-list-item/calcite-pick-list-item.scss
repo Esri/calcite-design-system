@@ -1,12 +1,13 @@
 :host {
   @extend %component-host;
+  @extend %component-spacing;
   align-items: stretch;
   display: flex;
   margin: 0 0 1px 0;
   color: var(--calcite-ui-text-1);
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
-  @include borderShadow();
+  @apply shadow-border-bottom;
 
   --calcite-icon-dot-size: 16px;
 }
@@ -17,7 +18,7 @@
 
 .icon {
   align-items: center;
-  color: var(--calcite-ui-blue-3);
+  color: var(--calcite-ui-brand);
   display: flex;
   flex: 0 0 auto;
   line-height: 0;
@@ -44,7 +45,6 @@
   flex: 1 1 auto;
   padding: var(--calcite-spacing-three-quarters);
   align-items: center;
-  mix-blend-mode: multiply;
   cursor: pointer;
   @include focus-style-base();
   &:focus {
@@ -63,6 +63,7 @@
 .title {
   @include font-size(-4);
   @include word-break();
+  @apply text-color-1;
 }
 
 .description {
@@ -79,11 +80,6 @@
   flex: 0 0 auto;
   justify-self: flex-end;
   margin: 0;
-}
-
-::slotted(calcite-action),
-.remove {
-  mix-blend-mode: multiply;
 }
 
 .actions--start ~ .label {

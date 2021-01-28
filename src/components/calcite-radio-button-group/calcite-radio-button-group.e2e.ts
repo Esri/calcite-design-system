@@ -75,8 +75,8 @@ describe("calcite-radio-button-group", () => {
     expect(radioInputs).toHaveLength(3);
 
     for (let i = 0; i < radioInputs.length; i++) {
-      const name = await radioInputs[i].getAttribute("name");
-      const value = await radioInputs[i].getAttribute("value");
+      const name = radioInputs[i].getAttribute("name");
+      const value = radioInputs[i].getAttribute("value");
       expect(name).toBe("hidden-input");
       expect(value).toBe((i + 1).toString());
     }
@@ -94,7 +94,7 @@ describe("calcite-radio-button-group", () => {
     const radioButtons = await page.findAll("calcite-radio-button");
     for (let i = 0; i < radioButtons.length; i++) {
       expect(await radioButtons[i].getProperty("checked")).toBe(false);
-      expect(await radioButtons[i].getAttribute("checked")).toBe(null);
+      expect(radioButtons[i].getAttribute("checked")).toBe(null);
     }
   });
 
@@ -291,7 +291,7 @@ describe("calcite-radio-button-group", () => {
     await page.setContent("<calcite-radio-button-group></calcite-radio-button-group>");
     const element = await page.find("calcite-radio-button-group");
 
-    const role = await element.getAttribute("role");
+    const role = element.getAttribute("role");
     expect(role).toEqualText("radiogroup");
   });
 

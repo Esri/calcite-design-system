@@ -1,5 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible } from "../../tests/commonTests";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { renders, accessible, focusable } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>"));
@@ -381,14 +381,21 @@ describe("calcite-rating", () => {
 
   it("does not render the calcite chip when count and average are not present", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-rating></calcite-rating>");
+    await page.setContent("<calcite-rating show-chip></calcite-rating>");
+    const calciteChip = await page.find("calcite-rating >>> calcite-chip");
+    expect(calciteChip).toBeNull();
+  });
+
+  it("does not render the calcite chip when show-chip is false", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-rating count=240 average=3 value=2></calcite-rating>");
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
     expect(calciteChip).toBeNull();
   });
 
   it("renders the calcite chip and the count span when count is present and average is not", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-rating count=15></calcite-rating>`);
+    await page.setContent(`<calcite-rating count=15 show-chip></calcite-rating>`);
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
     const countSpan = await page.find("calcite-rating >>> .number--count");
     const averageSpan = await page.find("calcite-rating >>> .number--average");
@@ -399,7 +406,7 @@ describe("calcite-rating", () => {
 
   it("renders the calcite chip and the average span when average is present and count is not", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-rating average=4.2></calcite-rating>");
+    await page.setContent("<calcite-rating average=4.2 show-chip></calcite-rating>");
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
     const countSpan = await page.find("calcite-rating >>> .number---count");
     const averageSpan = await page.find("calcite-rating >>> .number--average");
@@ -410,12 +417,58 @@ describe("calcite-rating", () => {
 
   it("renders the calcite chip and both the average and count spans when average and count are present", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-rating count=15 average=4.2></calcite-rating>");
+    await page.setContent("<calcite-rating count=15 average=4.2 show-chip></calcite-rating>");
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
     const countSpan = await page.find("calcite-rating >>> .number--count");
     const averageSpan = await page.find("calcite-rating >>> .number--average");
     expect(calciteChip).not.toBeNull();
     expect(countSpan).not.toBeNull();
     expect(averageSpan).not.toBeNull();
+  });
+
+  describe("when setFocus method is called", () => {
+    it("should focus input element in shadow DOM", () =>
+      focusable("calcite-rating", {
+        shadowFocusTargetSelector: "input"
+      }));
+  });
+
+  describe("when wrapped inside calcite-label", () => {
+    let page: E2EPage;
+    let ratingStars: E2EElement[];
+    let label: E2EElement;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
+    describe("when a rating value exists", () => {
+      it("should focus the last-selected star on label click", async () => {
+        await page.setContent("<calcite-label>Your rating<calcite-rating value='3'></calcite-rating></calcite-label>");
+        label = await page.find("calcite-label");
+        await label.click();
+        ratingStars = await page.findAll("calcite-rating >>> label.selected");
+        const lastSelectedStar = ratingStars[ratingStars.length - 1];
+        expect(lastSelectedStar).toHaveClass("focused");
+        const guid = lastSelectedStar.getAttribute("for");
+        const lastSelectedInput = await page.find(`calcite-rating >>> input[id="${guid}"]`);
+        expect(await lastSelectedInput.getProperty("value")).toEqual("3");
+      });
+    });
+
+    describe("when no rating value exists", () => {
+      it("should focus the first non-selected star on label click", async () => {
+        await page.setContent("<calcite-label dir='rtl'>הדירוג שלי<calcite-rating></calcite-rating></calcite-label>");
+        label = await page.find("calcite-label");
+        await label.click();
+        ratingStars = await page.findAll("calcite-rating >>> label");
+        const firstStar = ratingStars[0];
+        expect(firstStar).toHaveClass("focused");
+        expect(firstStar).not.toHaveClass("selected");
+        const guid = firstStar.getAttribute("for");
+        const firstInputById = await page.find(`calcite-rating >>> input[id="${guid}"]`);
+        expect(await firstInputById.getProperty("value")).toEqual("1");
+      });
+    });
   });
 });

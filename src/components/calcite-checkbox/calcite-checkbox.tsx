@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",
@@ -83,10 +84,10 @@ export class CalciteCheckbox {
   }
 
   /** specify the scale of the checkbox, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Determines what theme to use */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the checkbox input */
   @Prop({ reflect: true }) value?: string;
@@ -227,9 +228,12 @@ export class CalciteCheckbox {
     this.input.name = this.name;
     this.input.onblur = this.onInputBlur.bind(this);
     this.input.onfocus = this.onInputFocus.bind(this);
-    this.input.style.opacity = "0";
-    this.input.style.position = "absolute";
-    this.input.style.zIndex = "-1";
+    this.input.style.setProperty("margin", "0", "important");
+    this.input.style.setProperty("opacity", "0", "important");
+    this.input.style.setProperty("padding", "0", "important");
+    this.input.style.setProperty("position", "absolute", "important");
+    this.input.style.setProperty("transform", "none", "important");
+    this.input.style.setProperty("z-index", "-1", "important");
     this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value;

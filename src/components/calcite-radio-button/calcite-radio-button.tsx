@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-radio-button",
@@ -95,7 +96,7 @@ export class CalciteRadioButton {
       this.input.name = newName;
     }
     this.checkLastRadioButton();
-    const currentValue: HTMLInputElement = document.querySelector(
+    const currentValue: HTMLInputElement = this.rootNode.querySelector(
       `input[name="${this.name}"]:checked`
     );
     if (!currentValue?.value) {
@@ -112,10 +113,10 @@ export class CalciteRadioButton {
   }
 
   /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) theme: "light" | "dark" = "light";
+  @Prop({ reflect: true }) theme: Theme = "light";
 
   /** The value of the radio button. */
   @Prop({ reflect: true }) value!: string;
@@ -132,11 +133,7 @@ export class CalciteRadioButton {
 
   private radio: HTMLCalciteRadioElement;
 
-  /** @internal */
-  @Method()
-  async emitCheckedChange(): Promise<void> {
-    this.calciteRadioButtonCheckedChange.emit();
-  }
+  private rootNode: HTMLElement;
 
   //--------------------------------------------------------------------------
   //
@@ -145,8 +142,8 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   private checkLastRadioButton(): void {
-    const radioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name
+    const radioButtons = Array.from(this.rootNode.querySelectorAll("calcite-radio-button")).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
 
     const checkedRadioButtons = radioButtons.filter((radioButton) => radioButton.checked);
@@ -162,9 +159,17 @@ export class CalciteRadioButton {
     }
   }
 
+  /** @internal */
+  @Method()
+  async emitCheckedChange(): Promise<void> {
+    this.calciteRadioButtonCheckedChange.emit();
+  }
+
   private uncheckAllRadioButtonsInGroup(): void {
-    const otherRadioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name
+    const otherRadioButtons = Array.from(
+      this.rootNode.querySelectorAll("calcite-radio-button")
+    ).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
     otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
       if (otherRadioButton.checked) {
@@ -175,8 +180,11 @@ export class CalciteRadioButton {
   }
 
   private uncheckOtherRadioButtonsInGroup(): void {
-    const otherRadioButtons = Array.from(document.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton) => radioButton.name === this.name && radioButton.guid !== this.guid
+    const otherRadioButtons = Array.from(
+      this.rootNode.querySelectorAll("calcite-radio-button")
+    ).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) =>
+        radioButton.name === this.name && radioButton.guid !== this.guid
     ) as HTMLCalciteRadioButtonElement[];
     otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
       if (otherRadioButton.checked) {
@@ -240,7 +248,7 @@ export class CalciteRadioButton {
 
   private formResetHandler = (): void => {
     this.checked = this.initialChecked;
-    this.initialChecked && this.input.setAttribute("checked", "");
+    this.initialChecked && this.input?.setAttribute("checked", "");
   };
 
   private onInputBlur = (): void => {
@@ -260,6 +268,7 @@ export class CalciteRadioButton {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.rootNode = this.el.getRootNode() as HTMLElement;
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
     this.initialChecked = this.checked;
     if (this.name) {

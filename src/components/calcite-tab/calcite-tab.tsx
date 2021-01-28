@@ -11,7 +11,7 @@ import {
   Host,
   VNode
 } from "@stencil/core";
-import { TabChangeEventDetail } from "../../interfaces/TabChange";
+import { TabChangeEventDetail } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { nodeListToArray } from "../../utils/dom";
 

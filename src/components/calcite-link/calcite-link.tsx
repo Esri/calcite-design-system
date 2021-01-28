@@ -1,5 +1,6 @@
 import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
+import { FlipContext, Theme } from "../interfaces";
 
 /** @slot default text slot for link text */
 
@@ -37,16 +38,13 @@ export class CalciteLink {
   @Prop({ reflect: true }) iconEnd?: string;
 
   /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: "both" | "start" | "end";
+  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
   /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  /** Allows the text to be selectable */
-  @Prop({ reflect: true }) userSelect = true;
+  @Prop({ reflect: true }) theme: Theme;
 
   //--------------------------------------------------------------------------
   //
@@ -134,7 +132,7 @@ export class CalciteLink {
 
   private getAttributes(): Record<string, any> {
     // spread attributes from the component to rendered child, filtering out props
-    const props = ["dir", "icon-end", "icon-start", "id", "theme", "user-select"];
+    const props = ["dir", "icon-end", "icon-start", "id", "theme"];
     return Array.from(this.el.attributes)
       .filter((a) => a && !props.includes(a.name))
       .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});

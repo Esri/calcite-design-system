@@ -12,6 +12,8 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
+import { Position } from "../interfaces";
+
 @Component({
   tag: "calcite-radio-group-item",
   styleUrl: "calcite-radio-group-item.scss",
@@ -49,7 +51,7 @@ export class CalciteRadioGroupItem {
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
 
   /** optionally used with icon, select where to position the icon */
-  @Prop({ reflect: true }) iconPosition?: "start" | "end" = "start";
+  @Prop({ reflect: true }) iconPosition?: Position = "start";
 
   /**
    * The control's value.

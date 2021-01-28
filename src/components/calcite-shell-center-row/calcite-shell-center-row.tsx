@@ -1,6 +1,6 @@
 import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { CalcitePosition, CalciteScale } from "../interfaces";
+import { Position, Scale } from "../interfaces";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -28,12 +28,12 @@ export class CalciteShellCenterRow {
   /**
    * Specifies the maxiumum height of the row.
    */
-  @Prop({ reflect: true }) heightScale: CalciteScale = "s";
+  @Prop({ reflect: true }) heightScale: Scale = "s";
 
   /**
    * Arranges the component depending on the elements 'dir' property.
    */
-  @Prop({ reflect: true }) position: CalcitePosition = "end";
+  @Prop({ reflect: true }) position: Position = "end";
 
   // --------------------------------------------------------------------------
   //

@@ -1,13 +1,13 @@
-import { Meta, Description, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Description, Canvas, Story } from "@storybook/addon-docs/blocks";
 import { color } from "@storybook/addon-knobs";
 
-import markdown from './custom-theme.md';
+import markdown from "./custom-theme.md";
 
 <Meta title="Overview/Custom Theme" />
 
 <Description markdown={markdown}></Description>
 
-export const Template = () => (
+export const Template = () =>
   `<div
     style="
       --calcite-ui-blue-1: ${color("--calcite-ui-blue-1", "#007ac2")};
@@ -123,7 +123,7 @@ export const Template = () => (
       <div class="demo-column">
         <div>
           <calcite-card selected selectable>
-            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img alt="" slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" style="width: 260px;" />
             <h3 slot="title">Selectable card</h3>
             <calcite-link slot="footer-leading">Lead füt</calcite-link>
             <calcite-link slot="footer-trailing">Trail füt</calcite-link>
@@ -173,7 +173,7 @@ export const Template = () => (
         ></calcite-slider>
       </div>
       <div class="demo-column">
-        <calcite-date scale="m" value="2020-11-27" no-calendar-input="true" active></calcite-date>
+        <calcite-date-picker scale="m" value="2020-11-27" active></calcite-date-picker>
         <calcite-tabs active>
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
@@ -184,17 +184,11 @@ export const Template = () => (
         </calcite-tabs>
         <calcite-loader active></calcite-loader>
         <label>
-          <calcite-switch scale="m" switched="true" color="red"> </calcite-switch>
+          <calcite-switch scale="m" switched color="red"> </calcite-switch>
           Red switch scale medium
         </label>
       </div>
     </div>
-  </div>`
-);
+  </div>`;
 
-<Story name="Interactive Example" >
-  {Template.bind({})}
-</Story>
-
-
-
+<Story name="Interactive Example">{Template.bind({})}</Story>

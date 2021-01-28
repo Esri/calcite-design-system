@@ -1,4 +1,4 @@
-import { DateLocaleData } from "../components/calcite-date/utils";
+import { DateLocaleData } from "../components/calcite-date-picker/utils";
 
 /**
  * Check if date is within a min and max

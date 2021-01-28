@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
-import { CalciteTheme } from "../interfaces";
+import { Theme } from "../interfaces";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
@@ -68,7 +68,7 @@ export class CalciteTipManager {
   /**
    * Used to set the component's color scheme.
    */
-  @Prop({ reflect: true }) theme: CalciteTheme;
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

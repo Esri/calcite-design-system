@@ -11,9 +11,10 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { TabChangeEventDetail } from "../../interfaces/TabChange";
+import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { getElementDir, filterDirectChildren } from "../../utils/dom";
-import { TabID } from "../calcite-tabs/interfaces";
+import { TabID, TabLayout } from "../calcite-tabs/interfaces";
+import { TabPosition } from "../calcite-tabs/interfaces";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -46,10 +47,10 @@ export class CalciteTabNav {
   @Prop() syncId: string;
 
   /** @internal Parent tabs component layout value */
-  @Prop({ reflect: true, mutable: true }) layout: "center" | "inline" = "inline";
+  @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
 
   /** @internal Parent tabs component position value */
-  @Prop({ reflect: true, mutable: true }) position: "above" | "below" = "below";
+  @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
 
   /**
    * @internal

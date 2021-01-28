@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { Scale, Theme } from "../interfaces";
 import { TEXT } from "./calcite-rating-resources";
 
 @Component({
@@ -36,10 +37,10 @@ export class CalciteRating {
   // --------------------------------------------------------------------------
 
   /** specify the theme of scrim, defaults to light */
-  @Prop({ reflect: true }) theme: "light" | "dark";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the scale of the component, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** the value of the rating component */
   @Prop({ reflect: true }) value = 0;
@@ -50,8 +51,8 @@ export class CalciteRating {
   /** is the rating component in a selectable mode */
   @Prop({ reflect: true }) disabled = false;
 
-  /** display rating value */
-  @Prop({ reflect: true }) displayValue = false;
+  /** Show average and count data summary chip (if available) */
+  @Prop({ reflect: true }) showChip = false;
 
   /** optionally pass a number of previous ratings to display */
   @Prop({ reflect: true }) count?: number;
@@ -71,7 +72,7 @@ export class CalciteRating {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteRatingChange: EventEmitter;
+  @Event() calciteRatingChange: EventEmitter<{ value: number }>;
 
   //--------------------------------------------------------------------------
   //
@@ -140,6 +141,9 @@ export class CalciteRating {
               this.hasFocus = true;
               this.focusValue = i;
             }}
+            ref={(el) =>
+              (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
+            }
             type="radio"
             value={i}
           />
@@ -149,6 +153,7 @@ export class CalciteRating {
   }
 
   render() {
+    const { intlRating, showChip, scale, theme, count, average } = this;
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
@@ -158,18 +163,13 @@ export class CalciteRating {
           onMouseLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
         >
-          <legend class="visually-hidden">{this.intlRating}</legend>
+          <legend class="visually-hidden">{intlRating}</legend>
           {this.renderStars()}
         </fieldset>
-        {this.count || this.average ? (
-          <calcite-chip
-            dir={dir}
-            scale={this.scale}
-            theme={this.theme}
-            value={this.count?.toString()}
-          >
-            {this.average && <span class="number--average">{this.average.toString()}</span>}
-            {this.count && <span class="number--count">({this.count?.toString()})</span>}
+        {(count || average) && showChip ? (
+          <calcite-chip dir={dir} scale={scale} theme={theme} value={count?.toString()}>
+            {!!average && <span class="number--average">{average.toString()}</span>}
+            {!!count && <span class="number--count">({count?.toString()})</span>}
           </calcite-chip>
         ) : null}
       </Host>
@@ -193,8 +193,7 @@ export class CalciteRating {
   //--------------------------------------------------------------------------
   @Method()
   async setFocus(): Promise<void> {
-    this.el.querySelector("input").focus();
-    this.hasFocus = true;
+    this.inputFocusRef.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -210,4 +209,6 @@ export class CalciteRating {
   @State() hasFocus: boolean;
 
   private guid = `calcite-ratings-${guid()}`;
+
+  private inputFocusRef: HTMLInputElement;
 }
