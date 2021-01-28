@@ -51,8 +51,8 @@ export class CalciteRating {
   /** is the rating component in a selectable mode */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Show average and count data, if available */
-  @Prop({ reflect: true }) displayValue = false;
+  /** Show average and count data summary chip (if available) */
+  @Prop({ reflect: true }) showChip = false;
 
   /** optionally pass a number of previous ratings to display */
   @Prop({ reflect: true }) count?: number;
@@ -153,7 +153,7 @@ export class CalciteRating {
   }
 
   render() {
-    const { intlRating, displayValue, scale, theme, count, average } = this;
+    const { intlRating, showChip, scale, theme, count, average } = this;
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
@@ -166,7 +166,7 @@ export class CalciteRating {
           <legend class="visually-hidden">{intlRating}</legend>
           {this.renderStars()}
         </fieldset>
-        {(count || average) && displayValue ? (
+        {(count || average) && showChip ? (
           <calcite-chip dir={dir} scale={scale} theme={theme} value={count?.toString()}>
             {!!average && <span class="number--average">{average.toString()}</span>}
             {!!count && <span class="number--count">({count?.toString()})</span>}
