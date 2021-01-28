@@ -232,7 +232,7 @@ export class CalciteCheckbox {
     this.input.style.setProperty("opacity", "0", "important");
     this.input.style.setProperty("padding", "0", "important");
     this.input.style.setProperty("position", "absolute", "important");
-    this.input.style.setProperty("zIndex", "-1", "important");
+    this.input.style.setProperty("z-index", "-1", "important");
     this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value;
