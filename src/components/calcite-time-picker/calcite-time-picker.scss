@@ -9,9 +9,9 @@
 }
 
 .time-picker {
+  @apply shadow-2;
   align-items: center;
   border-radius: 4px;
-  box-shadow: var(--calcite-shadow-2);
   display: flex;
   position: relative;
   z-index: 200;

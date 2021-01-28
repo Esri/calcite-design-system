@@ -41,10 +41,13 @@
       < Home</calcite-button>
     <h1>Calcite Time Picker</h1>
 
-    <calcite-input name="native" type="time"></calcite-input>
+    <calcite-input name="native" type="time" value="00:00"></calcite-input>
     <span>--:--</span>
+    <span id="native-change"></span>
+    <calcite-time-picker hour="00" minute="00" scale="s"></calcite-time-picker>
+    <span id="calcite"></span>
 
-    <div class="demo-background-light">
+    <!-- <div class="demo-background-light">
       <demo-spacer>
         <h1>Small</h1>
         <calcite-time-picker hour="23" minute="59" second="59" scale="s"></calcite-time-picker>
@@ -86,13 +89,25 @@
         <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24"></calcite-time-picker>
         <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24" step="1"></calcite-time-picker>
       </demo-spacer>
-    </div>
+    </div> -->
   </demo-spacer>
   <script>
     const native = document.querySelector("calcite-input");
     const span = document.querySelector("span");
+    const change = document.querySelector("#native-change");
     native.addEventListener("input", (e) => {
+      console.log("native input fired")
       span.innerHTML = e.target.value;
+    })
+    native.addEventListener("change", (e) => {
+      console.log("native change fired");
+    });
+
+    const timePicker = document.querySelector("calcite-time-picker");
+    const calcite = document.querySelector("#calcite");
+    timePicker.addEventListener("calciteTimePickerChange", (e) => {
+      const value = e.detail ? JSON.stringify(e.detail) : ""
+      calcite.innerHTML = value;
     })
   </script>
 </body>

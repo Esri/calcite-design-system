@@ -14,7 +14,7 @@ import { Scale } from "../interfaces";
 
 const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-export type AmPm = "--" | "AM" | "PM";
+type AmPm = "--" | "AM" | "PM";
 
 type MinuteOrSecond = "minute" | "second";
 
@@ -77,7 +77,12 @@ export class CalciteTimePicker {
   @Watch("minute")
   @Watch("second")
   timeChanged(): void {
-    this.calciteTimePickerChange.emit(this.getTimeValues());
+    const timeValues = this.getTimeValues();
+    if (timeValues) {
+      this.calciteTimePickerChange.emit(this.getTimeValues());
+    } else {
+      this.calciteTimePickerChange.emit();
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -132,12 +137,18 @@ export class CalciteTimePicker {
   };
 
   private decrementHour = (): void => {
-    if (this.hour === "--" || this.hour === "00") {
-      this.hour = "23";
-    } else {
-      const hourAsNumber = parseInt(this.hour);
-      const newHour = hourAsNumber - 1;
-      this.hour = this.formatNumberAsString(newHour);
+    switch (this.hour) {
+      case "--":
+        this.hour = "00";
+        break;
+      case "00":
+        this.hour = "23";
+        break;
+      default:
+        const hourAsNumber = parseInt(this.hour);
+        const newHour = hourAsNumber - 1;
+        this.hour = this.formatNumberAsString(newHour);
+        break;
     }
   };
 
@@ -181,11 +192,17 @@ export class CalciteTimePicker {
   }
 
   private getTimeValues(): Time {
-    return {
-      hour: this.hour,
-      minute: this.minute,
-      second: this.second
-    };
+    if (this.hour !== "--" && this.minute !== "--") {
+      const time: Time = {
+        hour: this.hour,
+        minute: this.minute
+      };
+      if (this.second !== "--") {
+        time.second = this.second;
+      }
+      return time;
+    }
+    return;
   }
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
@@ -228,12 +245,18 @@ export class CalciteTimePicker {
   };
 
   private incrementHour = (): void => {
-    const hourAsNumber = parseInt(this.hour);
-    if (this.hour === "--" || hourAsNumber === 23) {
-      this.hour = "00";
-    } else {
-      const newHour = hourAsNumber + 1;
-      this.hour = this.formatNumberAsString(newHour);
+    switch (this.hour) {
+      case "--":
+        this.hour = "01";
+        break;
+      case "23":
+        this.hour = "00";
+        break;
+      default:
+        const hourAsNumber = parseInt(this.hour);
+        const newHour = hourAsNumber + 1;
+        this.hour = this.formatNumberAsString(newHour);
+        break;
     }
   };
 
