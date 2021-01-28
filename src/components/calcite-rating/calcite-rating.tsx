@@ -51,8 +51,8 @@ export class CalciteRating {
   /** is the rating component in a selectable mode */
   @Prop({ reflect: true }) disabled = false;
 
-  /** display rating value */
-  @Prop({ reflect: true }) displayValue = false;
+  /** Show average and count data summary chip (if available) */
+  @Prop({ reflect: true }) showChip = false;
 
   /** optionally pass a number of previous ratings to display */
   @Prop({ reflect: true }) count?: number;
@@ -72,7 +72,7 @@ export class CalciteRating {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteRatingChange: EventEmitter;
+  @Event() calciteRatingChange: EventEmitter<{ value: number }>;
 
   //--------------------------------------------------------------------------
   //
@@ -153,6 +153,7 @@ export class CalciteRating {
   }
 
   render() {
+    const { intlRating, showChip, scale, theme, count, average } = this;
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
@@ -162,18 +163,13 @@ export class CalciteRating {
           onMouseLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
         >
-          <legend class="visually-hidden">{this.intlRating}</legend>
+          <legend class="visually-hidden">{intlRating}</legend>
           {this.renderStars()}
         </fieldset>
-        {this.count || this.average ? (
-          <calcite-chip
-            dir={dir}
-            scale={this.scale}
-            theme={this.theme}
-            value={this.count?.toString()}
-          >
-            {this.average && <span class="number--average">{this.average.toString()}</span>}
-            {this.count && <span class="number--count">({this.count?.toString()})</span>}
+        {(count || average) && showChip ? (
+          <calcite-chip dir={dir} scale={scale} theme={theme} value={count?.toString()}>
+            {!!average && <span class="number--average">{average.toString()}</span>}
+            {!!count && <span class="number--count">({count?.toString()})</span>}
           </calcite-chip>
         ) : null}
       </Host>
