@@ -99,10 +99,10 @@ export class CalciteInput {
   @Prop() required = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true }) status: Status = "idle";
+  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
   @Prop({ reflect: true }) step?: number;
