@@ -80,22 +80,22 @@ span {
     width: 40px;
   }
 }
-:host([scale="s"][hour-display="12"]) {
+:host([scale="s"][hour-display-format="12"]) {
   .time-picker {
     width: 124.2px;
   }
 }
-:host([scale="s"][hour-display="12"]:not([step="60"])) {
+:host([scale="s"][hour-display-format="12"]:not([step="60"])) {
   .time-picker {
     width: 168px;
   }
 }
-:host([scale="s"][hour-display="24"]) {
+:host([scale="s"][hour-display-format="24"]) {
   .time-picker {
     width: 84.2px;
   }
 }
-:host([scale="s"][hour-display="24"]:not([step="60"])) {
+:host([scale="s"][hour-display-format="24"]:not([step="60"])) {
   .time-picker {
     width: 128.4px;
   }
@@ -109,22 +109,22 @@ span {
     width: 44px;
   }
 }
-:host([scale="m"][hour-display="12"]) {
+:host([scale="m"][hour-display-format="12"]) {
   .time-picker {
     width: 136.8px;
   }
 }
-:host([scale="m"][hour-display="12"]:not([step="60"])) {
+:host([scale="m"][hour-display-format="12"]:not([step="60"])) {
   .time-picker {
     width: 186px;
   }
 }
-:host([scale="m"][hour-display="24"]) {
+:host([scale="m"][hour-display-format="24"]) {
   .time-picker {
     width: 92.8px;
   }
 }
-:host([scale="m"][hour-display="24"]:not([step="60"])) {
+:host([scale="m"][hour-display-format="24"]:not([step="60"])) {
   .time-picker {
     width: 141.6px;
   }
@@ -138,22 +138,22 @@ span {
     width: 64px;
   }
 }
-:host([scale="l"][hour-display="12"]) {
+:host([scale="l"][hour-display-format="12"]) {
   .time-picker {
     width: 198px;
   }
 }
-:host([scale="l"][hour-display="12"]:not([step="60"])) {
+:host([scale="l"][hour-display-format="12"]:not([step="60"])) {
   .time-picker {
     width: 268px;
   }
 }
-:host([scale="l"][hour-display="24"]) {
+:host([scale="l"][hour-display-format="24"]) {
   .time-picker {
     width: 134px;
   }
 }
-:host([scale="l"][hour-display="24"]:not([step="60"])) {
+:host([scale="l"][hour-display-format="24"]:not([step="60"])) {
   .time-picker {
     width: 204px;
   }

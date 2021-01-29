@@ -43,30 +43,32 @@
 
     <calcite-input name="native" type="time" value="00:00"></calcite-input>
     <span>--:--</span>
-    <span id="native-change"></span>
+
     <calcite-time-picker hour="00" minute="00" scale="s"></calcite-time-picker>
-    <span id="calcite"></span>
-    <calcite-time-picker hour="00" minute="00" scale="s" hour-display="24"></calcite-time-picker>
+    <span id="one"></span>
+
+    <calcite-time-picker id="picker2" hour="00" minute="00" scale="s" hour-display-format="24"></calcite-time-picker>
+    <span id="two"></span>
 
     <!-- <div class="demo-background-light">
       <demo-spacer>
         <h1>Small</h1>
         <calcite-time-picker hour="23" minute="59" second="59" scale="s"></calcite-time-picker>
         <calcite-time-picker hour="23" minute="59" second="59" scale="s" step="1"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display="24"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display="24" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display-format="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display-format="24" step="1"></calcite-time-picker>
 
         <h1>Medium</h1>
         <calcite-time-picker hour="23" minute="59" second="59" scale="m"></calcite-time-picker>
         <calcite-time-picker hour="23" minute="59" second="59" scale="m" step="1"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display="24"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display="24" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display-format="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display-format="24" step="1"></calcite-time-picker>
 
         <h1>Large</h1>
         <calcite-time-picker hour="23" minute="59" second="59" scale="l"></calcite-time-picker>
         <calcite-time-picker hour="23" minute="59" second="59" scale="l" step="1"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display-format="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display-format="24" step="1"></calcite-time-picker>
       </demo-spacer>
     </div>
 
@@ -75,41 +77,46 @@
         <h1>Small</h1>
         <calcite-time-picker hour="23" minute="59" second="59" scale="s"></calcite-time-picker>
         <calcite-time-picker hour="23" minute="59" second="59" scale="s" step="1"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display="24"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display="24" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display-format="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="s" hour-display-format="24" step="1"></calcite-time-picker>
 
         <h1>Medium</h1>
         <calcite-time-picker hour="23" minute="59" second="59" scale="m"></calcite-time-picker>
         <calcite-time-picker hour="23" minute="59" second="59" scale="m" step="1"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display="24"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display="24" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display-format="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="m" hour-display-format="24" step="1"></calcite-time-picker>
 
         <h1>Large</h1>
         <calcite-time-picker hour="23" minute="59" second="59" scale="l"></calcite-time-picker>
         <calcite-time-picker hour="23" minute="59" second="59" scale="l" step="1"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24"></calcite-time-picker>
-        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display="24" step="1"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display-format="24"></calcite-time-picker>
+        <calcite-time-picker hour="23" minute="59" second="59" scale="l" hour-display-format="24" step="1"></calcite-time-picker>
       </demo-spacer>
     </div> -->
   </demo-spacer>
   <script>
     const native = document.querySelector("calcite-input");
     const span = document.querySelector("span");
-    const change = document.querySelector("#native-change");
     native.addEventListener("input", (e) => {
       console.log("native input fired")
       span.innerHTML = e.target.value;
     })
-    native.addEventListener("change", (e) => {
-      console.log("native change fired");
-    });
 
     const timePicker = document.querySelector("calcite-time-picker");
-    const calcite = document.querySelector("#calcite");
+    const span1 = document.querySelector("#one");
     timePicker.addEventListener("calciteTimePickerChange", (e) => {
       const value = e.detail ? JSON.stringify(e.detail) : ""
-      calcite.innerHTML = value;
+      span1.innerHTML = value;
     })
+
+    const picker2 = document.querySelector("#picker2");
+    const span2 = document.querySelector("#two");
+    picker2.addEventListener("calciteTimePickerChange", (e) => {
+      const value = e.detail ? JSON.stringify(e.detail) : ""
+      span2.innerHTML = value;
+    })
+
+
   </script>
 </body>
 </html>

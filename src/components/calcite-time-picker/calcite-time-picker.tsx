@@ -59,7 +59,7 @@ export class CalciteTimePicker {
   @Prop() hour?: string = "--";
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
-  @Prop({ reflect: true }) hourDisplay: "12" | "24" = "12";
+  @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
 
   /** The minute value */
   @Prop() minute?: string = "--";
@@ -178,8 +178,8 @@ export class CalciteTimePicker {
     return number >= 0 && number <= 9 ? `0${number}` : number.toString();
   }
 
-  private getDisplayHour(): string {
-    if (this.hourDisplay === "12" && this.hour !== "--") {
+  private getHourDisplay(): string {
+    if (this.hourDisplayFormat === "12" && this.hour !== "--") {
       const hourAsNumber = parseInt(this.hour);
       if (hourAsNumber > 12) {
         return this.formatNumberAsString(hourAsNumber - 12);
@@ -211,7 +211,7 @@ export class CalciteTimePicker {
       if (this.hour === "--") {
         this.hour = `0${keyAsNumber}`;
       } else {
-        switch (this.hourDisplay) {
+        switch (this.hourDisplayFormat) {
           case "12":
             if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
               this.hour = `1${keyAsNumber}`;
@@ -395,7 +395,7 @@ export class CalciteTimePicker {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.getDisplayHour()}
+              {this.getHourDisplay()}
             </span>
             <button
               aria-label="decrease hour"
@@ -475,7 +475,7 @@ export class CalciteTimePicker {
               </button>
             </div>
           )}
-          {this.hourDisplay === "12" && (
+          {this.hourDisplayFormat === "12" && (
             <div>
               <button
                 aria-label="switch to am or pm"
