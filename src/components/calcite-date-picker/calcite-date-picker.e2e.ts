@@ -55,6 +55,16 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
+  it("doesn't fire calciteDatePickerRangeChange on outside changes to start/end", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-date-picker range start='2000-11-27' start='2000-11-29'></calcite-date-picker>");
+    const date = await page.find("calcite-date-picker");
+    const changedEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+    await date.setProperty("start", "2001-10-28");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+  });
+
   it("fires calciteDatePickerRangeChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-date-picker range start="2020-09-08" end="2020-09-23"></calcite-date-picker>`);
@@ -80,7 +90,7 @@ describe("calcite-date-picker", () => {
     await page.waitForChanges();
     await page.keyboard.press("Space");
     await page.waitForChanges();
-    expect(changedEvent).toHaveReceivedEventTimes(2);
+    expect(changedEvent).toHaveReceivedEventTimes(1);
   });
 
   describe("when the locale is set to Slovak calendar", () => {
