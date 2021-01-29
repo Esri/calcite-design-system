@@ -74,6 +74,11 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) step = 60;
 
   @Watch("hour")
+  hourChanged(): void {
+    this.hourDisplay = this.getHourDisplay();
+  }
+
+  @Watch("hour")
   @Watch("minute")
   @Watch("second")
   timeChanged(): void {
@@ -93,6 +98,9 @@ export class CalciteTimePicker {
 
   /** The am/pm value */
   @State() ampm: AmPm = "--";
+
+  /** The display value of the hour */
+  @State() hourDisplay = this.getHourDisplay();
 
   // --------------------------------------------------------------------------
   //
@@ -184,9 +192,6 @@ export class CalciteTimePicker {
       if (hourAsNumber > 12) {
         return this.formatNumberAsString(hourAsNumber - 12);
       }
-      if (hourAsNumber === 0) {
-        return "12";
-      }
     }
     return this.hour;
   }
@@ -204,6 +209,12 @@ export class CalciteTimePicker {
     }
     return;
   }
+
+  private hourBlurHandler = (): void => {
+    if (this.hour === "00" && this.hourDisplayFormat === "12") {
+      this.hourDisplay = "12";
+    }
+  };
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
@@ -391,11 +402,12 @@ export class CalciteTimePicker {
               aria-valuenow={this.hour !== "--" ? parseInt(this.hour) : undefined}
               aria-valuetext={this.hour !== "--" ? this.hour : undefined}
               class="hour"
+              onBlur={this.hourBlurHandler}
               onKeyDown={this.hourKeyDownHandler}
               role="spinbutton"
               tabIndex={0}
             >
-              {this.getHourDisplay()}
+              {this.hourDisplay}
             </span>
             <button
               aria-label="decrease hour"
