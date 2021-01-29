@@ -138,36 +138,32 @@
   margin: 0 var(--calcite-chip-spacing-unit-l) 0 0;
 }
 
-$chipColors: "blue" var(--calcite-ui-brand) var(--calcite-ui-brand-hover) var(--calcite-ui-brand-press)
-    var(--calcite-ui-foreground-1) var(--calcite-ui-brand-press),
-  "red" var(--calcite-ui-danger) var(--calcite-ui-danger-hover) var(--calcite-ui-danger-press)
-    var(--calcite-ui-foreground-1) var(--calcite-ui-danger-press),
-  "yellow" var(--calcite-ui-warning) var(--calcite-ui-yellow-2) var(--calcite-ui-yellow-3) var(--calcite-ui-text-1)
-    var(--calcite-ui-yellow-3),
-  "green" var(--calcite-ui-success) var(--calcite-ui-green-2) var(--calcite-ui-green-3) var(--calcite-ui-text-1)
-    var(--calcite-ui-green-3),
-  "grey" var(--calcite-ui-foreground-2) var(--calcite-ui-foreground-3) var(--calcite-ui-foreground-3)
-    var(--calcite-ui-text-1) var(--calcite-ui-text-1);
+$chipColors: "blue" var(--calcite-ui-brand) var(--calcite-ui-brand-hover) var(--calcite-ui-foreground-1),
+  "red" var(--calcite-ui-danger) var(--calcite-ui-danger-hover) var(--calcite-ui-foreground-1),
+  "yellow" var(--calcite-ui-warning) var(--calcite-ui-yellow-2) var(--calcite-ui-text-1),
+  "green" var(--calcite-ui-success) var(--calcite-ui-green-2) var(--calcite-ui-text-1),
+  "grey" var(--calcite-ui-foreground-2) var(--calcite-ui-foreground-3) var(--calcite-ui-text-1);
 
 @each $chipColor in $chipColors {
   $name: nth($chipColor, 1);
   $bgColor: nth($chipColor, 2);
   $bgColor2: nth($chipColor, 3);
-  $bgColor3: nth($chipColor, 4);
-  $color: nth($chipColor, 5);
-  $iconColor: nth($chipColor, 6);
+  $color: nth($chipColor, 4);
 
   :host([color="#{$name}"][appearance="solid"]),
   :host([color="#{$name}"][appearance="solid"]) button {
     border-color: $bgColor;
     background-color: $bgColor;
     color: $color;
+  }
+
+  :host([appearance="solid"]) button {
     &:hover,
     &:focus {
-      background-color: $bgColor2;
+      background-color: rgba(255, 255, 255, 0.1);
     }
     &:active {
-      background-color: $bgColor3;
+      background-color: rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -179,10 +175,10 @@ $chipColors: "blue" var(--calcite-ui-brand) var(--calcite-ui-brand-hover) var(--
 
   :host([color="#{$name}"][appearance="clear"]) {
     color: var(--calcite-ui-text-1);
-    border-color: $bgColor3;
+    border-color: $bgColor;
     background-color: transparent;
     & .calcite-chip--icon {
-      color: $iconColor;
+      color: $bgColor;
     }
   }
 
