@@ -92,7 +92,7 @@ export class CalciteInput {
   /** explicitly whitelist placeholder attribute */
   @Prop() placeholder: string;
 
-  /** optionally add prefix  **/
+  /** optionally add prefix  */
   @Prop() prefixText?: string;
 
   /** is the input required */
