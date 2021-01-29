@@ -431,8 +431,7 @@ export class CalciteInput {
     if (this.childElType === "input" && this.type === "number") {
       const inputMax = this.maxString ? parseFloat(this.maxString) : null;
       const inputMin = this.minString ? parseFloat(this.minString) : null;
-      const inputStep =
-        this.stepString && this.stepString !== "any" ? parseFloat(this.stepString) : 1;
+      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
 
       switch (e.target.dataset.adjustment) {
