@@ -95,12 +95,12 @@ To make this work, inside a component's SASS file, _you must use colors from the
 ```scss
 // 🙅‍♀️ using the sass var will not correctly inherit or change in light/dark mode
 :host {
-  color: $ui-blue-1;
+  color: $ui-brand-light;
 }
 
 // 👍 using the CSS var will inherit correctly
 :host {
-  color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-brand);
 }
 ```
 
@@ -110,7 +110,7 @@ Since Calcite Components might be used in many different contexts such as config
 
 ```css
 :root {
-  --calcite-ui-blue-1: red;
+  --calcite-ui-brand: red;
 }
 ```
 
@@ -118,7 +118,7 @@ You can apply these overrides to individual components as well:
 
 ```css
 calcite-slider {
-  --calcite-ui-blue-1: red;
+  --calcite-ui-brand: red;
 }
 ```
 
@@ -126,7 +126,7 @@ Or, add a class to the specific instance:
 
 ```css
 .my-custom-theme {
-  --calcite-ui-blue-1: red;
+  --calcite-ui-brand: red;
 }
 ```
 
@@ -146,34 +146,7 @@ All components have been constructed to inherit their `font-family`. This enable
 
 ### Palette
 
-The current light theme colors and their hex values can be found below:
-
-| CSS variable name           | Hex value |
-| --------------------------- | --------- |
-| `--calcite-ui-blue-1`       | `#007ac2` |
-| `--calcite-ui-blue-2`       | `#2890ce` |
-| `--calcite-ui-blue-3`       | `#00619b` |
-| `--calcite-ui-green-1`      | `#35ac46` |
-| `--calcite-ui-green-2`      | `#50ba5f` |
-| `--calcite-ui-green-3`      | `#288835` |
-| `--calcite-ui-yellow-1`     | `#edd317` |
-| `--calcite-ui-yellow-2`     | `#f9e54e` |
-| `--calcite-ui-yellow-3`     | `#d9bc00` |
-| `--calcite-ui-red-1`        | `#d83020` |
-| `--calcite-ui-red-2`        | `#e65240` |
-| `--calcite-ui-red-3`        | `#a82b1e` |
-| `--calcite-ui-background`   | `#f8f8f8` |
-| `--calcite-ui-foreground-1` | `#ffffff` |
-| `--calcite-ui-foreground-2` | `#f3f3f3` |
-| `--calcite-ui-foreground-3` | `#eaeaea` |
-| `--calcite-ui-text-1`       | `#151515` |
-| `--calcite-ui-text-2`       | `#4a4a4a` |
-| `--calcite-ui-text-3`       | `#6a6a6a` |
-| `--calcite-ui-border-1`     | `#cacaca` |
-| `--calcite-ui-border-2`     | `#dfdfdf` |
-| `--calcite-ui-border-3`     | `#eaeaea` |
-| `--calcite-ui-border-4`     | `#9f9f9f` |
-| `--calcite-ui-border-5`     | `#757575` |
+The current light theme colors and their hex values can be found [here](https://esri.github.io/calcite-colors/).
 
 **Discussed In**:
 

@@ -107,7 +107,7 @@
 :host {
   span,
   a {
-    @include link-style(var(--calcite-blue-accessible), var(--calcite-ui-blue-1), var(--calcite-link-blue-underline));
+    @include link-style(var(--calcite-blue-accessible), var(--calcite-ui-brand), var(--calcite-link-blue-underline));
   }
 }
 
