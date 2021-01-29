@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop } from "@stencil/core";
+import { Component, Host, h, Element, Prop, Watch } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { VNode } from "@stencil/core/internal";
@@ -23,9 +23,19 @@ export class CalciteActionGroup {
   // --------------------------------------------------------------------------
 
   /**
+   * Indicates whether widget is expanded.
+   */
+  @Prop({ reflect: true }) expanded = false;
+
+  @Watch("expanded")
+  expandedHandler(): void {
+    this.menuOpen = false;
+  }
+
+  /**
    * 'Options' text string for the actions menu.
    */
-  @Prop() intlOptions?: string = TEXT.options;
+  @Prop() intlOptions?: string;
 
   /**
    * 'Close' text string for the menu.
@@ -59,21 +69,24 @@ export class CalciteActionGroup {
   // --------------------------------------------------------------------------
 
   renderMenuButton(): VNode {
-    const { menuOpen, intlOpen, intlClose } = this;
+    const { menuOpen, intlOpen, intlOptions, intlClose, expanded } = this;
     const closeLabel = intlClose || TEXT.close;
     const openLabel = intlOpen || TEXT.open;
-
+    const optionsText = intlOptions || TEXT.options;
     const menuLabel = menuOpen ? closeLabel : openLabel;
 
     return (
       <calcite-action
+        active={menuOpen}
         aria-label={menuLabel}
         class={CSS.menuButton}
         icon={ICONS.menu}
+        label={menuLabel}
         onClick={this.toggleMenuOpen}
         onKeyDown={this.menuButtonKeyDown}
         ref={this.setMenuButonRef}
-        text={menuLabel}
+        text={optionsText}
+        textEnabled={expanded}
       />
     );
   }
@@ -81,7 +94,16 @@ export class CalciteActionGroup {
   renderMenu(): VNode {
     const { el } = this;
 
-    return getSlotted(el, SLOTS.menuActions) ? (
+    const actionCount = getSlotted(el, SLOTS.menuActions, { all: true }).length;
+    const hasMin = actionCount > 1;
+
+    if (actionCount && !hasMin) {
+      console.warn(`${el.tagName}: '${SLOTS.menuActions}' slot must have a minimum of 2 actions.`, {
+        el
+      });
+    }
+
+    return hasMin ? (
       <div class={CSS.menuContainer} onKeyDown={this.menuActionsContainerKeyDown}>
         {this.renderMenuButton()}
         {this.renderMenuItems()}
@@ -91,12 +113,13 @@ export class CalciteActionGroup {
 
   renderMenuItems(): VNode {
     const { menuOpen, menuButtonEl, intlOptions } = this;
+    const label = intlOptions || TEXT.options;
 
     return (
       <calcite-popover
         disablePointer={true}
         flipPlacements={["left", "right"]}
-        label={intlOptions}
+        label={label}
         offsetDistance={8}
         onKeyDown={this.menuActionsKeydown}
         open={menuOpen}

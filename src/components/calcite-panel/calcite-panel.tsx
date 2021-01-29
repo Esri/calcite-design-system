@@ -102,7 +102,7 @@ export class CalcitePanel {
   /**
    * 'Options' text string for the actions menu.
    */
-  @Prop() intlOptions?: string = TEXT.options;
+  @Prop() intlOptions?: string;
 
   /**
    * Used to set the component's color scheme.
@@ -406,12 +406,13 @@ export class CalcitePanel {
 
   renderMenuItems(): VNode {
     const { menuOpen, menuButtonEl, intlOptions } = this;
+    const label = intlOptions || TEXT.options;
 
     return (
       <calcite-popover
         disablePointer={true}
         flipPlacements={["bottom-end", "top-end"]}
-        label={intlOptions}
+        label={label}
         offsetDistance={0}
         onKeyDown={this.menuActionsKeydown}
         open={menuOpen}

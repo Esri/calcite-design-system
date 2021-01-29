@@ -3,6 +3,14 @@ $image_max_height: 200px;
 @include popperHost();
 @include popperArrow();
 
+:host {
+  pointer-events: none;
+}
+
+:host-context([open]) {
+  pointer-events: initial;
+}
+
 .container {
   background: var(--calcite-ui-foreground-1);
   position: relative;

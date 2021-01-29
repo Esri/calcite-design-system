@@ -29,7 +29,10 @@ export function toggleChildActionText({
   parent: HTMLElement;
   expanded: boolean;
 }): void {
-  parent.querySelectorAll("calcite-action").forEach((action) => (action.textEnabled = expanded));
+  Array.from(parent.querySelectorAll("calcite-action"))
+    .filter((el) => el.slot !== "menu-actions")
+    .forEach((action) => (action.textEnabled = expanded));
+  parent.querySelectorAll("calcite-action-group").forEach((group) => (group.expanded = expanded));
 }
 
 const setTooltipReference = ({
