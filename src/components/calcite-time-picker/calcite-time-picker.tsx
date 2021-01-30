@@ -74,11 +74,6 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) step = 60;
 
   @Watch("hour")
-  hourChanged(): void {
-    this.hourDisplay = this.getHourDisplay();
-  }
-
-  @Watch("hour")
   @Watch("minute")
   @Watch("second")
   timeChanged(): void {
@@ -99,8 +94,11 @@ export class CalciteTimePicker {
   /** The am/pm value */
   @State() ampm: AmPm = "--";
 
-  /** The display value of the hour */
-  @State() hourDisplay = this.getHourDisplay();
+  /** The display version of the hour */
+  @State() displayHour: string = this.getDisplayHour();
+
+  /** Whether the hour is being edited while focused */
+  @State() editingHourWhileFocused = false;
 
   // --------------------------------------------------------------------------
   //
@@ -186,9 +184,16 @@ export class CalciteTimePicker {
     return number >= 0 && number <= 9 ? `0${number}` : number.toString();
   }
 
-  private getHourDisplay(): string {
+  private getDisplayHour(): string {
     if (this.hourDisplayFormat === "12" && this.hour !== "--") {
       const hourAsNumber = parseInt(this.hour);
+      if (hourAsNumber === 0) {
+        if (this.editingHourWhileFocused) {
+          return this.hour;
+        } else {
+          return "12";
+        }
+      }
       if (hourAsNumber > 12) {
         return this.formatNumberAsString(hourAsNumber - 12);
       }
@@ -211,13 +216,12 @@ export class CalciteTimePicker {
   }
 
   private hourBlurHandler = (): void => {
-    if (this.hour === "00" && this.hourDisplayFormat === "12") {
-      this.hourDisplay = "12";
-    }
+    this.editingHourWhileFocused = false;
   };
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
+      this.editingHourWhileFocused = true;
       const keyAsNumber = parseInt(event.key);
       if (this.hour === "--") {
         this.hour = `0${keyAsNumber}`;
@@ -407,7 +411,7 @@ export class CalciteTimePicker {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.hourDisplay}
+              {this.getDisplayHour()}
             </span>
             <button
               aria-label="decrease hour"
