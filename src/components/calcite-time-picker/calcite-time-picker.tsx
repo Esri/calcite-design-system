@@ -74,6 +74,18 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) step = 60;
 
   @Watch("hour")
+  hourChanged(newHour: string): void {
+    if (this.hourDisplayFormat === "12" && newHour !== "--") {
+      const newHourAsNumber = parseInt(newHour);
+      if (newHourAsNumber >= 0 && newHourAsNumber <= 11) {
+        this.ampm = "AM";
+      } else {
+        this.ampm = "PM";
+      }
+    }
+  }
+
+  @Watch("hour")
   @Watch("minute")
   @Watch("second")
   timeChanged(): void {
