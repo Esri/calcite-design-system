@@ -74,6 +74,7 @@ export const create: () => Config = () => ({
     { type: "dist-custom-elements-bundle" },
     { type: "dist" },
     { type: "docs-readme" },
+    { type: "docs-json", file: "./dist/extras/docs-json.json" },
     { type: "custom", name: "preact", generator: generatePreactTypes },
     {
       type: "www",
