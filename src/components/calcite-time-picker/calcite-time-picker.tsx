@@ -8,7 +8,8 @@ import {
   Event,
   EventEmitter,
   Watch,
-  State
+  State,
+  Listen
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 
@@ -37,14 +38,6 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteTimePickerElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  @Event() calciteTimePickerChange: EventEmitter<Time>;
 
   //--------------------------------------------------------------------------
   //
@@ -99,6 +92,23 @@ export class CalciteTimePicker {
 
   // --------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @State()
+  activeEl: HTMLSpanElement;
+
+  private hourEl: HTMLSpanElement;
+
+  private minuteEl: HTMLSpanElement;
+
+  private secondEl: HTMLSpanElement;
+
+  private amPmEl: HTMLSpanElement;
+
+  // --------------------------------------------------------------------------
+  //
   //  State
   //
   // --------------------------------------------------------------------------
@@ -111,6 +121,68 @@ export class CalciteTimePicker {
 
   /** Whether the hour is being edited while focused */
   @State() editingHourWhileFocused = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Event() calciteTimePickerChange: EventEmitter<Time>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
+    switch (this.activeEl) {
+      case this.hourEl:
+        if (event.key === "ArrowRight") {
+          this.minuteEl.focus();
+        }
+        break;
+      case this.minuteEl:
+        switch (event.key) {
+          case "ArrowLeft":
+            this.hourEl.focus();
+            break;
+          case "ArrowRight":
+            if (this.step !== 60) {
+              this.secondEl.focus();
+            } else if (this.hourDisplayFormat === "12") {
+              this.amPmEl.focus();
+            }
+            break;
+        }
+        break;
+      case this.secondEl:
+        switch (event.key) {
+          case "ArrowLeft":
+            this.minuteEl.focus();
+            break;
+          case "ArrowRight":
+            if (this.hourDisplayFormat === "12") {
+              this.amPmEl.focus();
+            }
+            break;
+        }
+        break;
+      case this.amPmEl:
+        switch (event.key) {
+          case "ArrowLeft":
+            if (this.step !== 60) {
+              this.secondEl.focus();
+            } else {
+              this.minuteEl.focus();
+            }
+            break;
+        }
+        break;
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -226,6 +298,10 @@ export class CalciteTimePicker {
     }
     return;
   }
+
+  private handleFocus = (event: FocusEvent): void => {
+    this.activeEl = event.target as HTMLSpanElement;
+  };
 
   private hourBlurHandler = (): void => {
     this.editingHourWhileFocused = false;
@@ -419,7 +495,9 @@ export class CalciteTimePicker {
               aria-valuetext={this.hour !== "--" ? this.hour : undefined}
               class="hour"
               onBlur={this.hourBlurHandler}
+              onFocus={this.handleFocus}
               onKeyDown={this.hourKeyDownHandler}
+              ref={(el) => (this.hourEl = el)}
               role="spinbutton"
               tabIndex={0}
             >
@@ -453,7 +531,9 @@ export class CalciteTimePicker {
               aria-valuenow={this.minute !== "--" ? parseInt(this.minute) : undefined}
               aria-valuetext={this.minute !== "--" ? this.minute : undefined}
               class="minute"
+              onFocus={this.handleFocus}
               onKeyDown={this.minuteKeyDownHandler}
+              ref={(el) => (this.minuteEl = el)}
               role="spinbutton"
               tabIndex={0}
             >
@@ -487,7 +567,9 @@ export class CalciteTimePicker {
                 aria-valuenow={this.second !== "--" ? parseInt(this.second) : undefined}
                 aria-valuetext={this.second !== "--" ? this.second : undefined}
                 class="second"
+                onFocus={this.handleFocus}
                 onKeyDown={this.secondKeyDownHandler}
+                ref={(el) => (this.secondEl = el)}
                 role="spinbutton"
                 tabIndex={0}
               >
@@ -522,7 +604,9 @@ export class CalciteTimePicker {
                 aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
                 aria-valuetext={this.ampm !== "--" ? this.ampm : undefined}
                 class="ampm"
+                onFocus={this.handleFocus}
                 onKeyDown={this.amPmKeyDownHandler}
+                ref={(el) => (this.amPmEl = el)}
                 role="spinbutton"
                 tabIndex={0}
               >
