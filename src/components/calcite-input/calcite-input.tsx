@@ -163,11 +163,6 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    this.status = getElementProp(this.el, "status", this.status);
-    this.scale = getElementProp(this.el, "scale", this.scale);
-  }
-
   componentWillLoad(): void {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
