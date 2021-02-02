@@ -7,7 +7,7 @@ import { config } from "../../stencil.config";
 expect.extend(toHaveNoViolations);
 
 type CalciteComponentTag = keyof JSX.IntrinsicElements;
-type AxeOwningWindow = Window & { axe: typeof axe };
+type AxeOwningWindow = Window & { axe: typeof axe } & typeof globalThis;
 type ComponentHTML = string;
 type TagOrHTML = CalciteComponentTag | ComponentHTML;
 
@@ -44,13 +44,11 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
   }
 
   await page.addScriptTag({ path: require.resolve("axe-core") });
-
-  await page.waitForChanges();
+  await page.waitForFunction(() => (window as AxeOwningWindow).axe);
 
   expect(
     await page.evaluate(
-      async (componentTag: CalciteComponentTag) =>
-        (window as AxeOwningWindow & typeof globalThis).axe.run(componentTag),
+      async (componentTag: CalciteComponentTag) => (window as AxeOwningWindow).axe.run(componentTag),
       getTag(componentTagOrHTML)
     )
   ).toHaveNoViolations();

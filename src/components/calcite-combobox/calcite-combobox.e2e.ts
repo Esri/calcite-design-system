@@ -327,4 +327,118 @@ describe("calcite-combobox", () => {
       expect(await item1.getProperty("selected")).toBe(true);
     });
   });
+
+  describe("single select", () => {
+    it("should allow selection of single item", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox selection-mode="single">
+            <calcite-combobox-item id="one" value="one" text-label="One"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="Two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).toBeNull();
+
+      const input = await page.find("calcite-combobox >>> input");
+      const value = await input.getProperty("value");
+      expect(value).toBe("");
+      await input.click();
+
+      const container = await page.find("calcite-combobox >>> .popper-container");
+      let visible = await container.isVisible();
+      expect(visible).toBe(true);
+
+      const items = await page.findAll("calcite-combobox-item");
+      expect(items.length).toBe(3);
+
+      const item1 = await page.find("calcite-combobox-item[value=one]");
+      await item1.click();
+      await page.waitForChanges();
+      const label = await page.find("calcite-combobox >>> .label");
+      const labelVisible = await label.isVisible();
+      expect(labelVisible).toBe(true);
+      expect(label.textContent).toBe("One");
+
+      visible = await container.isVisible();
+      expect(visible).toBe(false);
+    });
+  });
+
+  describe("custom icons", () => {
+    it("should use icons if set on items", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox>
+            <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
+            <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const chip = await page.find("calcite-combobox >>> calcite-chip");
+      expect(chip).toBeNull();
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const items = await page.findAll("calcite-combobox-item");
+      await items[0].click();
+      await items[1].click();
+      await items[2].click();
+      await page.waitForChanges();
+
+      const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      const icon1 = await chips[0].getProperty("icon");
+      const icon2 = await chips[1].getProperty("icon");
+      const icon3 = await chips[2].getProperty("icon");
+
+      expect(icon1).toBe("banana");
+      expect(icon2).toBe("beaker");
+      expect(icon3).toBeUndefined();
+    });
+
+    it("should use icon in single select", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox selection-mode="single">
+            <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
+            <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const element = await page.find("calcite-combobox");
+      let selected = await page.find("calcite-combobox >>> .selected-icon");
+      expect(selected).toBeNull();
+
+      await element.click();
+      await page.waitForChanges();
+
+      const items = await page.findAll("calcite-combobox-item");
+      await items[0].click();
+
+      selected = await page.find("calcite-combobox >>> .selected-icon");
+      let icon = await selected.getProperty("icon");
+      expect(icon).toBe("banana");
+
+      await element.click();
+
+      await items[1].click();
+      selected = await page.find("calcite-combobox >>> .selected-icon");
+      icon = await selected.getProperty("icon");
+      expect(icon).toBe("beaker");
+
+      await element.click();
+
+      await items[2].click();
+      selected = await page.find("calcite-combobox >>> .selected-icon");
+      expect(selected).toBeNull();
+    });
+  });
 });

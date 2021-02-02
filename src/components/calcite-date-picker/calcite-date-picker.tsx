@@ -68,11 +68,6 @@ export class CalciteDatePicker {
 
     this.activeEndDate = endDate;
     this.activeStartDate = startDate;
-
-    this.calciteDatePickerRangeChange.emit({
-      startDate,
-      endDate
-    });
   }
 
   /** Earliest allowed date ("yyyy-mm-dd") */
@@ -383,17 +378,29 @@ export class CalciteDatePicker {
   /**
    * Update date instance of start if valid
    */
-  private setStartAsDate(startDate: Date): void {
+  private setStartAsDate(startDate: Date, emit?: boolean): void {
     this.startAsDate = startDate;
     this.mostRecentRangeValue = this.startAsDate;
+    if (emit) {
+      this.calciteDatePickerRangeChange.emit({
+        startDate,
+        endDate: this.endAsDate
+      });
+    }
   }
 
   /**
    * Update date instance of end if valid
    */
-  private setEndAsDate(endDate: Date): void {
+  private setEndAsDate(endDate: Date, emit?: boolean): void {
     this.endAsDate = endDate;
     this.mostRecentRangeValue = this.endAsDate;
+    if (emit) {
+      this.calciteDatePickerRangeChange.emit({
+        startDate: this.startAsDate,
+        endDate
+      });
+    }
   }
 
   /**
@@ -426,15 +433,15 @@ export class CalciteDatePicker {
       if (this.startAsDate) {
         const newEndDate = new Date(this.startAsDate);
         this.end = dateToISO(newEndDate);
-        this.setEndAsDate(newEndDate);
+        this.setEndAsDate(newEndDate, true);
         this.activeEndDate = newEndDate;
       }
       this.start = dateToISO(date);
-      this.setStartAsDate(date);
+      this.setStartAsDate(date, true);
       this.activeStartDate = date;
     } else if (!this.endAsDate) {
       this.end = dateToISO(date);
-      this.setEndAsDate(date);
+      this.setEndAsDate(date, true);
       this.activeEndDate = date;
     } else {
       if (!this.proximitySelectionDisabled) {
@@ -442,16 +449,16 @@ export class CalciteDatePicker {
         const endDiff = getDaysDiff(date, this.endAsDate);
         if (startDiff < endDiff) {
           this.start = dateToISO(date);
-          this.setStartAsDate(date);
+          this.setStartAsDate(date, true);
           this.activeStartDate = date;
         } else {
           this.end = dateToISO(date);
-          this.setEndAsDate(date);
+          this.setEndAsDate(date, true);
           this.activeEndDate = date;
         }
       } else {
         this.start = dateToISO(date);
-        this.setStartAsDate(date);
+        this.setStartAsDate(date, true);
         this.activeStartDate = date;
         this.endAsDate = this.activeEndDate = this.end = undefined;
       }

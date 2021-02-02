@@ -1,9 +1,9 @@
 {
   "default-calendar": "gregorian",
   "separator": "/",
-  "unitOrder": "d/M/y",
+  "unitOrder": "DD/MM/YYYY",
   "weekStart": 7,
-  "placeholder": "d/M/y",
+  "placeholder": "DD/MM/YYYY",
   "days": {
     "abbreviated": ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
     "narrow": ["日", "一", "二", "三", "四", "五", "六"],

@@ -96,12 +96,35 @@ ul {
   padding-right: var(--calcite-combobox-item-indent-end-2);
 }
 
+.icon--custom {
+  margin-top: -1px;
+  @apply text-color-3;
+}
+
+.icon--active {
+  @apply text-color-1;
+}
+
+.icon--dot {
+  @apply flex justify-end;
+  width: var(--calcite-combobox-item-spacing-unit-l);
+}
+
+.icon--dot:before {
+  content: "\2022";
+}
+
+:host([dir="rtl"]) .icon--dot:before {
+  @apply text-right;
+}
+
 .label--active .icon {
   @apply opacity-100;
 }
 
 .label--selected .icon {
-  @apply text-color-link opacity-100;
+  @apply opacity-100;
+  color: var(--calcite-ui-blue-1);
 }
 
 :host(:hover[disabled]) .icon {

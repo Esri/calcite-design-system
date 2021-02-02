@@ -107,6 +107,7 @@ describe("calcite-radio-button-group", () => {
           <calcite-radio-button value="3" checked>three</calcite-radio-button>
         </calcite-radio-button-group>`
     );
+    await page.waitForChanges();
     const checkedItems = await page.findAll("calcite-radio-button[checked]");
     expect(checkedItems).toHaveLength(1);
 
