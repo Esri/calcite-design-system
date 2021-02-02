@@ -62,7 +62,7 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true }) step = 60;
 
   /** The selected time */
-  @Prop({ reflect: true }) value?: string;
+  @Prop({ reflect: true, mutable: true }) value?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -72,15 +72,17 @@ export class CalciteInputTimePicker {
 
   @Listen("calciteTimePickerChange")
   calciteTimePickerChange(event: CustomEvent): void {
-    const { hour, minute, second } = event.detail as Time;
-    if (hour !== "--" && minute !== "--") {
-      if (this.step !== 60 && second !== "--") {
-        this.value = `${hour}:${minute}:${second}`;
+    if (event.detail) {
+      const { hour, minute, second } = event.detail as Time;
+      if (hour !== "--" && minute !== "--") {
+        if (this.step !== 60 && second !== "--") {
+          this.value = `${hour}:${minute}:${second}`;
+        } else {
+          this.value = `${hour}:${minute}`;
+        }
       } else {
-        this.value = `${hour}:${minute}`;
+        this.value = "";
       }
-    } else {
-      this.value = "";
     }
   }
 
