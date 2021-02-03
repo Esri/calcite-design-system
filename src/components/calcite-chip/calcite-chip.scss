@@ -140,9 +140,9 @@
 
 $chipColors: "blue" var(--calcite-ui-brand) var(--calcite-ui-brand-hover) var(--calcite-ui-foreground-1),
   "red" var(--calcite-ui-danger) var(--calcite-ui-danger-hover) var(--calcite-ui-foreground-1),
-  "yellow" var(--calcite-ui-warning) var(--calcite-ui-yellow-2) var(--calcite-ui-text-1),
-  "green" var(--calcite-ui-success) var(--calcite-ui-green-2) var(--calcite-ui-text-1),
-  "grey" var(--calcite-ui-ui-text-3) var(--calcite-ui-foreground-3) var(--calcite-ui-text-1);
+  "yellow" var(--calcite-ui-warning) var(--calcite-ui-warning) var(--calcite-ui-text-1),
+  "green" var(--calcite-ui-success) var(--calcite-ui-success) var(--calcite-ui-text-1),
+  "grey" var(--calcite-ui-foreground-2) var(--calcite-ui-text-3) var(--calcite-ui-text-1);
 
 @each $chipColor in $chipColors {
   $name: nth($chipColor, 1);
@@ -178,7 +178,7 @@ $chipColors: "blue" var(--calcite-ui-brand) var(--calcite-ui-brand-hover) var(--
     border-color: $bgColor;
     background-color: transparent;
     & .calcite-chip--icon {
-      color: $bgColor;
+      color: $bgColor2;
     }
   }
 
