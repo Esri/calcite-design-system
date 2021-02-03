@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
@@ -312,7 +312,9 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  /* eslint-disable @stencil/prefer-vdom-listener */
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     if (this.isClearable && getKey(e.key) === "Escape") {
       this.clearInputValue();
     }
