@@ -132,7 +132,6 @@ export class CalciteTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  /* eslint-disable @stencil/prefer-vdom-listener */
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
     switch (this.activeEl) {
@@ -209,8 +208,18 @@ export class CalciteTimePicker {
     }
   };
 
-  private changeTime = (key: string, value: string): void => {
-    this[key] = value;
+  private changeTime = (key: "hour" | "minute" | "second", value: string): void => {
+    switch (key) {
+      case "hour":
+        this.hour = value;
+        break;
+      case "minute":
+        this.minute = value;
+        break;
+      case "second":
+        this.second = value;
+        break;
+    }
     this.timeChanged = true;
   };
 
