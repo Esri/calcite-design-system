@@ -99,10 +99,10 @@ export class CalciteInput {
   @Prop() required = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** input step */
   @Prop({ reflect: true }) step?: number | "any";
@@ -312,7 +312,6 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  /* eslint-disable @stencil/prefer-vdom-listener */
   @Listen("keydown")
   keyDownHandler(e: KeyboardEvent): void {
     if (this.isClearable && getKey(e.key) === "Escape") {
