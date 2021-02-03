@@ -56,9 +56,6 @@ export class CalciteInputTimePicker {
     }
   }
 
-  /** The id attribute.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid: string;
-
   /** The name of the time input */
   @Prop({ reflect: true }) name?: string = "";
 
@@ -71,7 +68,7 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** number that specifies the granularity that the value must adhere to */
-  @Prop({ reflect: true }) step = 60;
+  @Prop({ reflect: true }) step?: number = 60;
 
   /** The selected time */
   @Prop({ reflect: true, mutable: true }) value?: string;
@@ -188,7 +185,6 @@ export class CalciteInputTimePicker {
         <calcite-input
           disabled={this.disabled}
           icon="clock"
-          id={`${this.guid}-input`}
           name={this.name}
           onBlur={this.onCalciteInputBlur}
           onCalciteInputInput={this.inputHandler}
