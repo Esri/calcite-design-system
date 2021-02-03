@@ -24,6 +24,7 @@
     "@stencil/prefer-vdom-listener": "warn",
     "@stencil/required-jsdoc": "off",
     "@stencil/strict-boolean-conditions": "off",
+    "@stencil/strict-mutable": "warn",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",

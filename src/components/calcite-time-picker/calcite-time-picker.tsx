@@ -52,10 +52,10 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
 
   /** The minute value */
-  @Prop({ reflect: true, mutable: true }) minute?: string = "--"; // eslint-disable-line @stencil/strict-mutable
+  @Prop({ reflect: true, mutable: true }) minute?: string = "--";
 
   /** The second value */
-  @Prop({ reflect: true, mutable: true }) second?: string = "--"; // eslint-disable-line @stencil/strict-mutable
+  @Prop({ reflect: true, mutable: true }) second?: string = "--";
 
   /** The scale (size) of the time picker */
   @Prop({ reflect: true }) scale: Scale = "m";
