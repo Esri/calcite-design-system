@@ -46,7 +46,7 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   /** The hour value (24-hour format) */
-  @Prop({ reflect: true, mutable: true }) hour?: string = "--"; // eslint-disable-line @stencil/strict-mutable
+  @Prop({ reflect: true, mutable: true }) hour?: string = "--";
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
