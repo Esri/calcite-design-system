@@ -330,10 +330,10 @@
   a {
     @include btn-outline-clear(
       var(--calcite-ui-foreground-1),
-      var(--calcite-ui-brand-press),
+      var(--calcite-ui-brand),
       var(--calcite-ui-brand-hover),
       var(--calcite-ui-brand-press),
-      var(--calcite-ui-brand-press),
+      var(--calcite-ui-brand),
       var(--calcite-ui-brand-press)
     );
   }
@@ -343,10 +343,10 @@
   a {
     @include btn-outline-clear(
       var(--calcite-ui-foreground-1),
-      var(--calcite-ui-danger-press),
+      var(--calcite-ui-danger),
       var(--calcite-ui-danger-hover),
       var(--calcite-ui-danger-press),
-      var(--calcite-ui-danger-press),
+      var(--calcite-ui-danger),
       var(--calcite-ui-danger-press)
     );
   }
@@ -382,10 +382,10 @@
   a {
     @include btn-outline-clear(
       transparent,
-      var(--calcite-ui-brand-press),
+      var(--calcite-ui-brand),
       var(--calcite-ui-brand-hover),
       var(--calcite-ui-brand-press),
-      var(--calcite-ui-brand-press),
+      var(--calcite-ui-brand),
       var(--calcite-ui-brand-press)
     );
   }
@@ -395,10 +395,10 @@
   a {
     @include btn-outline-clear(
       transparent,
-      var(--calcite-ui-danger-press),
+      var(--calcite-ui-danger),
       var(--calcite-ui-danger-hover),
       var(--calcite-ui-danger-press),
-      var(--calcite-ui-danger-press),
+      var(--calcite-ui-danger),
       var(--calcite-ui-danger-press)
     );
   }
@@ -411,15 +411,22 @@
       var(--calcite-ui-foreground-3),
       var(--calcite-ui-foreground-2),
       var(--calcite-ui-border-2),
-      var(--calcite-ui-background),
-      var(--calcite-ui-foreground-1)
+      var(--calcite-ui-text-1),
+      var(--calcite-ui-text-1)
     );
   }
 }
 :host([appearance="clear"][color="dark"]) {
   button,
   a {
-    @include btn-outline-clear(transparent, $blk-180, $blk-190, $blk-170, $blk-220, $blk-220);
+    @include btn-outline-clear(
+      transparent,
+      $blk-180,
+      $blk-190,
+      $blk-170,
+      var(--calcite-ui-text-1),
+      var(--calcite-ui-text-1)
+    );
   }
 }
 
@@ -456,7 +463,7 @@
 :host([appearance="transparent"][color="blue"]) {
   button,
   a {
-    @include btn-transparent(var(--calcite-ui-brand-press));
+    @include btn-transparent(var(--calcite-ui-text-link));
   }
 }
 
