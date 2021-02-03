@@ -13,7 +13,8 @@ import {
 import { Position, Theme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { getSlotted, focusElement } from "../../utils/dom";
+import { getSlotted, focusElement, getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
@@ -173,11 +174,13 @@ export class CalciteActionBar {
       el,
       position,
       toggleExpand,
-      tooltipExpand
+      tooltipExpand,
+      expandToggleEl
     } = this;
 
     const expandLabel = intlExpand || TEXT.expand;
     const collapseLabel = intlCollapse || TEXT.collapse;
+    const rtl = getElementDir(el) === "rtl";
 
     const expandToggleNode = !expandDisabled ? (
       <CalciteExpandToggle
@@ -191,6 +194,12 @@ export class CalciteActionBar {
         tooltip={tooltipExpand}
       />
     ) : null;
+
+    if (rtl) {
+      if (expandToggleEl?.shadowRoot) {
+        expandToggleEl.shadowRoot.querySelector("button").classList.add(CSS_UTILITY.rtl);
+      }
+    }
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
       <calcite-action-group class={CSS.actionGroupBottom}>
