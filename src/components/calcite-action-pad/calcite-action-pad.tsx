@@ -167,13 +167,11 @@ export class CalciteActionPad {
       el,
       position,
       toggleExpand,
-      tooltipExpand,
-      expandToggleEl
+      tooltipExpand
     } = this;
 
     const expandLabel = intlExpand || TEXT.expand;
     const collapseLabel = intlCollapse || TEXT.collapse;
-    const rtl = getElementDir(el) === "rtl";
 
     const expandToggleNode = !expandDisabled ? (
       <CalciteExpandToggle
@@ -187,12 +185,6 @@ export class CalciteActionPad {
         tooltip={tooltipExpand}
       />
     ) : null;
-
-    if (rtl) {
-      if (expandToggleEl?.shadowRoot) {
-        expandToggleEl.shadowRoot.querySelector("button").classList.add(CSS_UTILITY.rtl);
-      }
-    }
 
     return expandToggleNode ? (
       <calcite-action-group class={CSS.actionGroupBottom}>{expandToggleNode}</calcite-action-group>
