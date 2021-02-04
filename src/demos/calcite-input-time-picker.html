@@ -43,43 +43,51 @@
         <h1>Calcite Input Time Picker</h1>
         <demo-form>
           <form name="calcite-time-demo-form">
-            <calcite-input-time-picker scale="s" name="s" step="1"></calcite-input-time-picker>
-            <!-- <demo-spacer>
+            <demo-spacer>
               <div class="demo-background-light">
                 <demo-spacer>
                   <div>
-                    <calcite-date scale="s"></calcite-date>
-                    <calcite-input-time-picker scale="s" name="s" step="1"></calcite-input-time-picker>
+                    <calcite-label for="s" scale="s">Small</calcite-label>
+                    <calcite-input-time-picker id="s" scale="s" name="s"></calcite-input-time-picker>
                   </div>
                   <div>
-                    <calcite-date scale="m"></calcite-date>
-                    <calcite-input-time-picker scale="m" name="m"></calcite-input-time-picker>
+                    <calcite-label for="s-second" scale="s">Small with seconds</calcite-label>
+                    <calcite-input-time-picker id="s-second" scale="s" name="s" step="1"></calcite-input-time-picker>
                   </div>
                   <div>
-                    <calcite-date scale="l"></calcite-date>
-                    <calcite-input-time-picker scale="l" name="l"></calcite-input-time-picker>
+                    <calcite-label for="m" scale="m">Medium</calcite-label>
+                    <calcite-input-time-picker id="m" scale="m" name="m"></calcite-input-time-picker>
+                  </div>
+                  <div>
+                    <calcite-label for="m-second" scale="m">Medium with seconds</calcite-label>
+                    <calcite-input-time-picker id="m-second" scale="m" name="m" step="1"></calcite-input-time-picker>
+                  </div>
+                  <div>
+                    <calcite-label for="l" scale="m">Large</calcite-label>
+                    <calcite-input-time-picker id="l" scale="l" name="l"></calcite-input-time-picker>
+                  </div>
+                  <div>
+                    <calcite-label for="l-second" scale="m">Large with seconds</calcite-label>
+                    <calcite-input-time-picker id="l-second" scale="l" name="l" step="1"></calcite-input-time-picker>
                   </div>
                 </demo-spacer>
               </div>
               <div class="demo-background-dark" theme="dark">
                 <demo-spacer>
                   <div>
-                    <calcite-date scale="s"></calcite-date>
                     <calcite-input-time-picker scale="s" name="s-dark"></calcite-input-time-picker>
                   </div>
                   <div>
-                    <calcite-date scale="m"></calcite-date>
                     <calcite-input-time-picker scale="m" name="m-dark"></calcite-input-time-picker>
                   </div>
                   <div>
-                    <calcite-date scale="l"></calcite-date>
                     <calcite-input-time-picker scale="l" name="l-dark"></calcite-input-time-picker>
                   </div>
                 </demo-spacer>
               </div>
               <calcite-button form="calcite-time-demo-form" type="submit">Submit</calcite-button>
               <button type="submit" style="display: none">Submit</button>
-            </demo-spacer> -->
+            </demo-spacer>
           </form>
         </demo-form>
   </demo-spacer>

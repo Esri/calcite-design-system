@@ -11,6 +11,7 @@ import {
   Event,
   EventEmitter
 } from "@stencil/core";
+import { guid } from "../../utils/guid";
 import { Time } from "../calcite-time-picker/calcite-time-picker";
 
 @Component({
@@ -41,7 +42,7 @@ export class CalciteInputTimePicker {
 
   @Watch("disabled")
   disabledChanged(disabled: boolean): void {
-    this.input.disabled = disabled;
+    this.inputEl.disabled = disabled;
   }
 
   /** The focused state of the time input */
@@ -50,18 +51,21 @@ export class CalciteInputTimePicker {
   @Watch("focused")
   focusedChanged(focused: boolean): void {
     if (focused && !this.el.hasAttribute("hidden")) {
-      this.input.focus();
+      this.inputEl.focus();
     } else {
-      this.input.blur();
+      this.inputEl.blur();
     }
   }
+
+  /** The id attribute of the input time picker.  When omitted, a globally unique identifier is used. */
+  @Prop({ reflect: true, mutable: true }) guid: string;
 
   /** The name of the time input */
   @Prop({ reflect: true }) name?: string = "";
 
   @Watch("name")
   nameChanged(newName: string): void {
-    this.input.name = newName;
+    this.inputEl.name = newName;
   }
 
   /** The scale (size) of the time input */
@@ -79,7 +83,7 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  private input: HTMLCalciteInputElement;
+  private inputEl: HTMLCalciteInputElement;
 
   //--------------------------------------------------------------------------
   //
@@ -126,6 +130,13 @@ export class CalciteInputTimePicker {
     }
   }
 
+  @Listen("click")
+  clickHandler(event: MouseEvent): void {
+    if (event.target === this.el) {
+      this.inputEl.click();
+    }
+  }
+
   inputHandler = (event: CustomEvent): void => {
     this.setTime(event.detail.value);
   };
@@ -167,6 +178,7 @@ export class CalciteInputTimePicker {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+    this.guid = this.el.id || `calcite-input-time-picker-${guid()}`;
     if (this.value) {
       this.setTime(this.value);
     }
@@ -184,11 +196,12 @@ export class CalciteInputTimePicker {
         <calcite-input
           disabled={this.disabled}
           icon="clock"
+          id={`${this.guid}-input`}
           name={this.name}
           onBlur={this.onCalciteInputBlur}
           onCalciteInputInput={this.inputHandler}
           onFocus={this.onCalciteInputFocus}
-          ref={(el) => (this.input = el)}
+          ref={(el) => (this.inputEl = el)}
           scale={this.scale}
           step={this.step}
           type="time"
@@ -201,7 +214,6 @@ export class CalciteInputTimePicker {
           second={this.second}
           step={this.step}
         />
-        <div>{this.value}</div>
       </Host>
     );
   }
