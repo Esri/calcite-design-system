@@ -66,12 +66,7 @@ export class CalciteTimePicker {
   @Watch("hour")
   hourChanged(newHour: string): void {
     if (this.hourDisplayFormat === "12" && newHour !== "--") {
-      const newHourAsNumber = parseInt(newHour);
-      if (newHourAsNumber >= 0 && newHourAsNumber <= 11) {
-        this.ampm = "AM";
-      } else {
-        this.ampm = "PM";
-      }
+      this.ampm = this.getAmPm();
     }
   }
 
@@ -258,6 +253,16 @@ export class CalciteTimePicker {
   private formatNumberAsTimeString(number: number): string {
     return number >= 0 && number <= 9 ? `0${number}` : number.toString();
   }
+
+  private getAmPm = (): AmPm => {
+    if (this.hour === "--") return "--";
+    const hourAsNumber = parseInt(this.hour);
+    if (hourAsNumber >= 0 && hourAsNumber <= 11) {
+      return "AM";
+    } else {
+      return "PM";
+    }
+  };
 
   private getDisplayHour(): string {
     if (this.hourDisplayFormat === "12" && this.hour !== "--") {
@@ -475,6 +480,18 @@ export class CalciteTimePicker {
         break;
     }
   };
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback() {
+    if (this.hourDisplayFormat === "12") {
+      this.ampm = this.getAmPm();
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
