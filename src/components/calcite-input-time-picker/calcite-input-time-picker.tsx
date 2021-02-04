@@ -7,7 +7,6 @@ import {
   Prop,
   Watch,
   Listen,
-  State,
   Event,
   EventEmitter
 } from "@stencil/core";
@@ -87,21 +86,6 @@ export class CalciteInputTimePicker {
 
   //--------------------------------------------------------------------------
   //
-  //  State
-  //
-  //--------------------------------------------------------------------------
-
-  /** The hour value (24-hour format) */
-  @State() hour?: string;
-
-  /** The minute value */
-  @State() minute?: string;
-
-  /** The second value */
-  @State() second?: string;
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -138,7 +122,7 @@ export class CalciteInputTimePicker {
   }
 
   inputHandler = (event: CustomEvent): void => {
-    this.setTime(event.detail.value);
+    this.value = event.detail.value;
   };
 
   // --------------------------------------------------------------------------
@@ -148,10 +132,10 @@ export class CalciteInputTimePicker {
   // --------------------------------------------------------------------------
 
   private convertValueToTime = (value: string): Time => {
-    const [hour, minute, second] = value.split(":");
+    const [hour, minute, second] = value ? value.split(":") : ["--", "--", "--"];
     return {
-      hour: hour || "--",
-      minute: minute || "--",
+      hour,
+      minute,
       second: second || (hour !== "--" && minute !== "--" ? "00" : "--")
     };
   };
@@ -164,13 +148,6 @@ export class CalciteInputTimePicker {
     this.focused = true;
   };
 
-  private setTime = (time: string): void => {
-    const { hour, minute, second } = this.convertValueToTime(time);
-    this.hour = hour;
-    this.minute = minute;
-    this.second = second;
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -179,9 +156,6 @@ export class CalciteInputTimePicker {
 
   connectedCallback() {
     this.guid = this.el.id || `calcite-input-time-picker-${guid()}`;
-    if (this.value) {
-      this.setTime(this.value);
-    }
   }
 
   // --------------------------------------------------------------------------
@@ -191,6 +165,7 @@ export class CalciteInputTimePicker {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const { hour, minute, second } = this.convertValueToTime(this.value);
     return (
       <Host>
         <calcite-input
@@ -208,10 +183,10 @@ export class CalciteInputTimePicker {
           value={this.value}
         />
         <calcite-time-picker
-          hour={this.hour}
-          minute={this.minute}
+          hour={hour}
+          minute={minute}
           scale={this.scale}
-          second={this.second}
+          second={second}
           step={this.step}
         />
       </Host>
