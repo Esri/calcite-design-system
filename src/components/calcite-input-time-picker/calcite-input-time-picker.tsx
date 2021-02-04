@@ -75,6 +75,14 @@ export class CalciteInputTimePicker {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  private input: HTMLCalciteInputElement;
+
+  //--------------------------------------------------------------------------
+  //
   //  State
   //
   //--------------------------------------------------------------------------
@@ -119,16 +127,8 @@ export class CalciteInputTimePicker {
   }
 
   inputHandler = (event: CustomEvent): void => {
-    this.updateTime(event.detail.value);
+    this.setTime(event.detail.value);
   };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  //--------------------------------------------------------------------------
-
-  private input: HTMLCalciteInputElement;
 
   // --------------------------------------------------------------------------
   //
@@ -141,7 +141,7 @@ export class CalciteInputTimePicker {
     return {
       hour: hour || "--",
       minute: minute || "--",
-      second: second || "--"
+      second: second || (hour !== "--" && minute !== "--" ? "00" : "--")
     };
   };
 
@@ -153,7 +153,7 @@ export class CalciteInputTimePicker {
     this.focused = true;
   };
 
-  private updateTime = (time: string): void => {
+  private setTime = (time: string): void => {
     const { hour, minute, second } = this.convertValueToTime(time);
     this.hour = hour;
     this.minute = minute;
@@ -168,7 +168,7 @@ export class CalciteInputTimePicker {
 
   connectedCallback() {
     if (this.value) {
-      this.updateTime(this.value);
+      this.setTime(this.value);
     }
   }
 
@@ -181,7 +181,6 @@ export class CalciteInputTimePicker {
   render(): VNode {
     return (
       <Host>
-        <span>{this.value}</span>
         <calcite-input
           disabled={this.disabled}
           icon="clock"
@@ -190,6 +189,7 @@ export class CalciteInputTimePicker {
           onCalciteInputInput={this.inputHandler}
           onFocus={this.onCalciteInputFocus}
           ref={(el) => (this.input = el)}
+          scale={this.scale}
           step={this.step}
           type="time"
           value={this.value}
@@ -201,6 +201,7 @@ export class CalciteInputTimePicker {
           second={this.second}
           step={this.step}
         />
+        <div>{this.value}</div>
       </Host>
     );
   }
