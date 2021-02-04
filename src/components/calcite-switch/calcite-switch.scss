@@ -5,13 +5,13 @@
 // theme variables
 // light theme
 :host {
-  --calcite-switch-hover-handle-border: var(--calcite-ui-brand-hover);
-  --calcite-switch-switched-track-background: var(--calcite-ui-brand-hover);
-  --calcite-switch-switched-track-border: var(--calcite-ui-brand-hover);
+  --calcite-switch-hover-handle-border: var(--calcite-ui-brand);
+  --calcite-switch-switched-track-background: var(--calcite-ui-brand);
+  --calcite-switch-switched-track-border: var(--calcite-ui-brand);
   --calcite-switch-switched-handle-border: var(--calcite-ui-brand);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-brand-hover);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-brand-hover);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-brand-press);
+  --calcite-switch-switched-hover-track-background: var(--calcite-ui-brand);
+  --calcite-switch-switched-hover-track-border: var(--calcite-ui-brand);
+  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-brand-hover);
 }
 
 // sizes
