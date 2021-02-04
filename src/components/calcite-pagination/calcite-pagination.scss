@@ -68,14 +68,14 @@
   &.is-selected {
     font-weight: 500;
     color: var(--calcite-ui-text-1);
-    border-bottom-color: var(--calcite-ui-blue-1);
+    border-bottom-color: var(--calcite-ui-brand);
   }
 }
 .previous,
 .next {
   padding: var(--calcite-pagination-spacing);
   &:hover {
-    color: var(--calcite-ui-blue-1);
+    color: var(--calcite-ui-brand);
     background-color: var(--calcite-ui-foreground-2);
   }
   &:active {

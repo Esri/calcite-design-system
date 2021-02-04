@@ -15,7 +15,3 @@
   overflow: hidden;
   @include font-size(-3);
 }
-
-:host([theme="dark"]) .container {
-  background: var(--calcite-ui-foreground-2);
-}

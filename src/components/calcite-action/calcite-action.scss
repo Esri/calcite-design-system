@@ -164,7 +164,7 @@
 }
 
 :host([loading]) calcite-loader[inline] {
-  color: var(--calcite-ui-border-5);
+  color: var(--calcite-ui-text-3);
   margin-right: 0;
 }
 
@@ -195,7 +195,7 @@
   width: var(--calcite-spacing-half);
   height: var(--calcite-spacing-half);
   border: var(--calcite-spacing-eighth) solid var(--calcite-ui-foreground-1);
-  background-color: var(--calcite-ui-blue-1);
+  background-color: var(--calcite-ui-brand);
   position: absolute;
   bottom: var(--calcite-spacing-half);
   right: var(--calcite-spacing-half);

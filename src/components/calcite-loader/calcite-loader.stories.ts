@@ -55,9 +55,9 @@ export const CustomTheme = (): string => html`
     ${boolean("no-padding", false)}
     value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
     style="
-    --calcite-ui-blue-1: ${color("calcite-ui-blue-1", "#50ba5f")};
-    --calcite-ui-blue-2: ${color("calcite-ui-blue-2", "#1a6324")};
-    --calcite-ui-blue-3: ${color("calcite-ui-blue-3", "#338033")};"
+    --calcite-ui-brand: ${color("calcite-ui-blue-1", "#50ba5f")};
+    --calcite-ui-brand-hover: ${color("calcite-ui-blue-2", "#1a6324")};
+    --calcite-ui-brand-press: ${color("calcite-ui-blue-3", "#338033")};"
     active
   />
 `;

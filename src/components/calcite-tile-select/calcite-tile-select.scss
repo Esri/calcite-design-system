@@ -23,18 +23,18 @@ $spacing: $baseline/2;
 }
 :host([checked]) {
   @apply z-30;
-  box-shadow: 0 0 0 1px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 1px var(--calcite-ui-brand);
 }
 :host([focused]) {
   @apply z-30;
 }
 
 :host([show-input="none"]:hover) {
-  box-shadow: 0 0 0 1px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 1px var(--calcite-ui-brand);
 }
 :host([show-input="none"][focused]) {
-  box-shadow: 0 0 0 1px var(--calcite-ui-blue-1), inset 0 0 0 2px var(--calcite-ui-foreground-1),
-    inset 0 0 0 5px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
+    inset 0 0 0 5px var(--calcite-ui-brand);
 }
 
 :host([width="full"]) {

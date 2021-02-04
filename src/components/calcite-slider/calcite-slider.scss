@@ -112,10 +112,10 @@ $tick-height: 4px;
 
   &:hover {
     .handle {
-      box-shadow: 0 0 0 3px var(--calcite-ui-blue-1) inset;
+      box-shadow: 0 0 0 3px var(--calcite-ui-brand) inset;
     }
     .handle-extension {
-      background-color: var(--calcite-ui-blue-1);
+      background-color: var(--calcite-ui-brand);
     }
   }
 
@@ -125,7 +125,7 @@ $tick-height: 4px;
       outline-offset: 2px;
     }
     .handle-extension {
-      background-color: var(--calcite-ui-blue-1);
+      background-color: var(--calcite-ui-brand);
     }
   }
 }
@@ -147,7 +147,7 @@ $tick-height: 4px;
 //   }
 //   .handle__label {
 //     &.static {
-//       background-color: var(--calcite-ui-blue-1);
+//       background-color: var(--calcite-ui-brand);
 //       opacity: var(--calcite-ui-opacity-disabled);
 //       color: transparent;
 //     }
@@ -253,7 +253,7 @@ $tick-height: 4px;
 .thumb--active {
   z-index: 3;
   .handle {
-    background-color: var(--calcite-ui-blue-1);
+    background-color: var(--calcite-ui-brand);
     @include shadow(1, "press");
   }
 }
@@ -261,7 +261,7 @@ $tick-height: 4px;
 .thumb:hover.thumb--precise:after,
 .thumb:focus.thumb--precise:after,
 .thumb--active.thumb--precise:after {
-  background-color: var(--calcite-ui-blue-1);
+  background-color: var(--calcite-ui-brand);
 }
 
 .track {
@@ -277,7 +277,7 @@ $tick-height: 4px;
   position: absolute;
   top: 0;
   height: $track-height;
-  background-color: var(--calcite-ui-blue-1);
+  background-color: var(--calcite-ui-brand);
 }
 :host([is-range]) {
   .track__range {
@@ -306,7 +306,7 @@ $tick-height: 4px;
 }
 
 .tick--active {
-  background-color: var(--calcite-ui-blue-1);
+  background-color: var(--calcite-ui-brand);
 }
 
 .tick__label {
@@ -354,7 +354,7 @@ $tick-height: 4px;
     height: 48px;
   }
   .graph-path--highlight {
-    fill: var(--calcite-ui-blue-1);
+    fill: var(--calcite-ui-brand);
     opacity: 0.25;
   }
 }

@@ -56,7 +56,7 @@
 }
 
 ::slotted(a) {
-  color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-brand);
   @include focus-style-base();
 }
 
