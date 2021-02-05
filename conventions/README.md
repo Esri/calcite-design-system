@@ -241,6 +241,7 @@ Event names should be treated like global variables since they can collide with 
   - Bad: `change`
   - Good: `calciteTabChange`
 - If an existing event can be listened to, don't create a new custom event. For example, there is no need to create a `calciteButtonClick` event because a standard `click` event will still be fired from the element.
+- For consistency, use `calcite<ComponentName>Change` for value change events.
 
 **Discussed In:**
 
