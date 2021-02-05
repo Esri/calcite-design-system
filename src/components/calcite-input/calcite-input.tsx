@@ -18,6 +18,9 @@ import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 
+/**
+ * @slot `calcite-action` - A slot for positioning a button next to an input
+ */
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
@@ -118,7 +121,11 @@ export class CalciteInput {
   /** specify the alignment of dropdown, defaults to left */
   @Prop({ reflect: true }) theme: Theme;
 
-  /** specify the input type */
+  /**
+   * specify the input type
+   *
+   * Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`
+   */
   @Prop({ reflect: true }) type:
     | "color"
     | "date"
