@@ -8,8 +8,14 @@ $image_max_height: 200px;
   position: relative;
   display: flex;
   overflow: hidden;
-  flex-direction: column nowrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
   color: var(--calcite-ui-text-1);
+}
+:host([corner-appearance="round"]) {
+  .container {
+    border-radius: var(--calcite-border-radius);
+  }
 }
 
 .content {
@@ -17,7 +23,6 @@ $image_max_height: 200px;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  line-height: 24px;
 }
 // focus styles
 .close-button {

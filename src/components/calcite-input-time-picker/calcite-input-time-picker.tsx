@@ -71,7 +71,7 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** number that specifies the granularity that the value must adhere to */
-  @Prop({ reflect: true }) step?: number = 60;
+  @Prop({ reflect: true }) step = 60;
 
   /** The selected time */
   @Prop({ reflect: true, mutable: true }) value?: string;
@@ -148,6 +148,10 @@ export class CalciteInputTimePicker {
     this.focused = true;
   };
 
+  private setInputEl = (el: HTMLCalciteInputElement): void => {
+    this.inputEl = el;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -168,27 +172,35 @@ export class CalciteInputTimePicker {
     const { hour, minute, second } = this.convertValueToTime(this.value);
     return (
       <Host>
-        <calcite-input
-          disabled={this.disabled}
-          icon="clock"
-          id={`${this.guid}-input`}
-          name={this.name}
-          onBlur={this.onCalciteInputBlur}
-          onCalciteInputInput={this.inputHandler}
-          onFocus={this.onCalciteInputFocus}
-          ref={(el) => (this.inputEl = el)}
-          scale={this.scale}
-          step={this.step}
-          type="time"
-          value={this.value}
-        />
-        <calcite-time-picker
-          hour={hour}
-          minute={minute}
-          scale={this.scale}
-          second={second}
-          step={this.step}
-        />
+        <calcite-popover-manager>
+          <calcite-input
+            disabled={this.disabled}
+            icon="clock"
+            id={`${this.guid}-input`}
+            name={this.name}
+            onBlur={this.onCalciteInputBlur}
+            onCalciteInputInput={this.inputHandler}
+            onFocus={this.onCalciteInputFocus}
+            ref={this.setInputEl}
+            scale={this.scale}
+            step={this.step}
+            type="time"
+            value={this.value}
+          />
+          <calcite-popover
+            corner-appearance="round"
+            label="Time Picker"
+            referenceElement={`${this.guid}-input`}
+          >
+            <calcite-time-picker
+              hour={hour}
+              minute={minute}
+              scale={this.scale}
+              second={second}
+              step={this.step}
+            />
+          </calcite-popover>
+        </calcite-popover-manager>
       </Host>
     );
   }

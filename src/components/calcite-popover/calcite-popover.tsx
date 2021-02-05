@@ -126,6 +126,9 @@ export class CalcitePopover {
   /** Text for close button. */
   @Prop() intlClose = TEXT.close;
 
+  /** Appearance of the corners (rounded or flat) */
+  @Prop({ reflect: true }) cornerAppearance: "flat" | "round" = "flat";
+
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
