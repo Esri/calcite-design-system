@@ -3,14 +3,23 @@ var flattenColorPalette = require('tailwindcss/lib/util/flattenColorPalette').de
 
 module.exports = {
   theme: {
-    borderColor: {
+    borderColor: theme => ({
       color: {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
         3: "var(--calcite-ui-border-3)",
         input: "var(--calcite-ui-border-input)"
-      }
-    },
+      },
+      "color-brand": theme("colors.brand"),
+      "color-brand-hover": theme("colors.brand-hover"),
+      "color-brand-press": theme("colors.brand-press"),
+      "color-info": theme("colors.info"),
+      "color-success": theme("colors.success"),
+      "color-warning": theme("colors.warning"),
+      "color-danger": theme("colors.danger"),
+      "color-danger-hover": theme("colors.danger-hover"),
+      "color-danger-press": theme("colors.danger-press"),
+    }),
     colors: {
       "brand": "var(--calcite-ui-brand)",
       "brand-hover": "var(--calcite-brand-hover)",
@@ -21,7 +30,6 @@ module.exports = {
       "danger": "var(--calcite-ui-danger)",
       "danger-hover": "var(--calcite-ui-danger-hover)",
       "danger-press": "var(--calcite-ui-danger-press)",
-
       background: {
         background: "var(--calcite-ui-background)",
         foreground: {
@@ -47,18 +55,18 @@ module.exports = {
     },
     fontSize: {
       // assets/styles/_type
-      "-3": "var(--calcite-font-size--3)",  // 10px
-      "-2": "var(--calcite-font-size--2)",  // 12px
-      "-1": "var(--calcite-font-size--1)",  // 14px
-      0: "var(--calcite-font-size-0)",      // 16px
-      1: "var(--calcite-font-size-1)",      // 18px
-      2: "var(--calcite-font-size-2)",      // 20px
-      3: "var(--calcite-font-size-3)",      // 26px
-      4: "var(--calcite-font-size-4)",      // 32px
-      5: "var(--calcite-font-size-5)",      // 40px
-      6: "var(--calcite-font-size-6)",      // 48px
-      7: "var(--calcite-font-size-7)",      // 56px
-      8: "var(--calcite-font-size-8)",      // 64px
+      "-3": [ "var(--calcite-font-size--3)", { lineHeight: '0.75rem' } ], // 10px (0.625rem)
+      "-2": [ "var(--calcite-font-size--2)", { lineHeight: '1rem' } ],    // 12px (0.75rem)
+      "-1": [ "var(--calcite-font-size--1)", { lineHeight: '1rem' } ],    // 14px (0.875rem)
+      "0": [ "var(--calcite-font-size-0)", { lineHeight: '1.25rem' } ],   // 16px (1rem)
+      "1": [ "var(--calcite-font-size-1)", { lineHeight: '1.5rem' } ],    // 18px (1.125rem)
+      "2": [ "var(--calcite-font-size-2)", { lineHeight: '1.5rem' } ],    // 20px (1.25rem)
+      "3": [ "var(--calcite-font-size-3)", { lineHeight: '2rem' } ],      // 26px (1.625rem)
+      "4": [ "var(--calcite-font-size-4)", { lineHeight: '2.5rem' } ],    // 32px (2rem)
+      "5": [ "var(--calcite-font-size-5)", { lineHeight: '3rem' } ],      // 40px (2.5rem)
+      "6": [ "var(--calcite-font-size-6)", { lineHeight: '4rem' } ],      // 48px (3rem)
+      "7": [ "var(--calcite-font-size-7)", { lineHeight: '4rem' } ],      // 56px (3.5rem)
+      "8": [ "var(--calcite-font-size-8)", { lineHeight: '5rem' } ],      // 64px (4rem)
     },
     fontWeight: {
       // assets/styles/_type
@@ -74,15 +82,15 @@ module.exports = {
       'xl': '1440px'
     },
     textColor: theme => ({
-      color: {
-        "1": theme("colors.text.1"),
-        "2": theme("colors.text.2"),
-        "3": theme("colors.text.3"),
-        "link": theme("colors.text.link"),
-        "inverse": theme("colors.text.inverse")
-      }
+      color: theme("colors.text")
     }),
-    backgroundColor: theme => theme("colors.background"),
+    backgroundColor: theme => ({
+      ...theme("colors.background"),
+      transparent: theme("colors.transparent"),
+      brand: theme("colors.brand"),
+      "brand-hover": theme("colors.brand-hover"),
+      "brand-press": theme("colors.brand-press"),
+    }),
     extend: {
       animation: {
         "in": "in 300ms ease-in-out",
@@ -102,9 +110,12 @@ module.exports = {
         "2-lg": "0 12px 32px -2px rgba(0, 0, 0, 0.1), 0 4px 20px 0 rgba(0, 0, 0, 0.08)",
         "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
         'border-bottom': '0 1px 0 var(--calcite-ui-border-3)',
-        'outline-active': '0 0 0 1px var(--calcite-ui-brand)', 
+        'outline-active': '0 0 0 1px var(--calcite-ui-brand)',
         'none': 'none',
       },
+      fill: theme => ({
+        color: theme("colors.text")
+      }),
       keyframes: {
         "in": {
           "0%": {
