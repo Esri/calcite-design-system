@@ -9,9 +9,10 @@ This is a living document defining our best practices and reasoning for authorin
 - [Light Theme/Dark Theme](#light-themedark-theme)
 - [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
 - [Component Responsibilities](#component-responsibilities)
-- [Event Names](#event-names)
-- [Private Events](#private-events)
-- [Event Details](#event-details)
+- [Events](#events)
+  - [Event Names](#event-names)
+  - [Private Events](#private-events)
+  - [Event Details](#event-details)
 - [CSS Class Names](#css-class-names)
 - [assets](#assets)
 - [a11y](#a11y)
@@ -231,7 +232,11 @@ However components are allowed to:
 - [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to implement for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
 - [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
 
-## Event Names
+## Events
+
+All public events should be documented with [JSDoc](https://jsdoc.app/).
+
+### Event Names
 
 Event names should be treated like global variables since they can collide with any other event names and global variables. As such follow these guidelines when naming events.
 
@@ -246,11 +251,13 @@ Event names should be treated like global variables since they can collide with 
 
 - https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227
 
-## Private Events
+### Private/Internal Events
 
 If you need to use events to pass information inside your components for example to communicate between parents and children make sure you call `event.stopPropagation();` and `event.preventDefault();` to prevent the event from reaching outside the component.
 
-## Event Details
+Also, make sure to add the `@internal` JSDoc tag to hide an event from the generated doc or `@private` to hide it from both the doc and generated type declarations.
+
+### Event Details
 
 Only attach additional data to your event if that data cannot be determined from the state of the component. This is because events also get a reference to the component that fired the event. For example you do not need to pass anything exposed as a `@Prop()` in the event details.
 
