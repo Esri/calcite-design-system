@@ -54,6 +54,9 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteDropdownItemSelect: EventEmitter;
 
   /** @internal */

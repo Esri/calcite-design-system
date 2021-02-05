@@ -131,6 +131,9 @@ export class CalciteRadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @todo doc
+   */
   @Event()
   calciteRadioGroupItemChange: EventEmitter;
 

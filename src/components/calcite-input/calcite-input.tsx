@@ -326,10 +326,19 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @todo doc
+   */
   @Event() calciteInputFocus: EventEmitter;
 
+  /**
+   * @todo doc
+   */
   @Event() calciteInputBlur: EventEmitter;
 
+  /**
+   * @todo doc
+   */
   @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
 
   //--------------------------------------------------------------------------

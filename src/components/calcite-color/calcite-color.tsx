@@ -280,6 +280,9 @@ export class CalciteColor {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Fires when the color value has changed.
+   */
   @Event()
   calciteColorChange: EventEmitter;
 

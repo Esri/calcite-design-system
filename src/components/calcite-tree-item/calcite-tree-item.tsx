@@ -274,6 +274,9 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteTreeItemSelect: EventEmitter<TreeItemSelectDetail>;
 
   //--------------------------------------------------------------------------

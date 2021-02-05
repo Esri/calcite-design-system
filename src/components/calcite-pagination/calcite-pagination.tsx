@@ -66,8 +66,8 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
-  /** Emitted whenever the selected page changes.
-   * @event calcitePaginationUpdate
+  /**
+   * Emitted whenever the selected page changes.
    */
   @Event() calcitePaginationUpdate: EventEmitter<CalcitePaginationDetail>;
 

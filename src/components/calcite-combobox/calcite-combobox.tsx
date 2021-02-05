@@ -209,6 +209,9 @@ export class CalciteCombobox {
   /** Called when the selected items set changes */
   @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
+  /**
+   * @todo doc
+   */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   // --------------------------------------------------------------------------

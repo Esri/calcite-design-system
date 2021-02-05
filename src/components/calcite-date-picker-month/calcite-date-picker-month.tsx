@@ -78,6 +78,7 @@ export class CalciteDatePickerMonth {
 
   /**
    * Event emitted when user hovers the date.
+   * @internal
    */
   @Event() calciteDatePickerHover: EventEmitter;
 
@@ -86,6 +87,9 @@ export class CalciteDatePickerMonth {
    */
   @Event() calciteDatePickerActiveDateChange: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteDatePickerMouseOut: EventEmitter;
 
   //--------------------------------------------------------------------------

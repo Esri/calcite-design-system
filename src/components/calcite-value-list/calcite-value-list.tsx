@@ -138,13 +138,11 @@ export class CalciteValueList<
 
   /**
    * Emitted when any of the item selections have changed.
-   * @event calciteListChange
    */
   @Event() calciteListChange: EventEmitter;
 
   /**
-   * Emmitted when the order of the list has changed.
-   * @event calciteListOrderChange
+   * Emitted when the order of the list has changed.
    */
   @Event() calciteListOrderChange: EventEmitter;
 
