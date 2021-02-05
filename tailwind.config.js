@@ -90,6 +90,13 @@ module.exports = {
       brand: theme("colors.brand"),
       "brand-hover": theme("colors.brand-hover"),
       "brand-press": theme("colors.brand-press"),
+      "brand": theme("colors.brand"),
+      "info": theme("colors.info"),
+      "success": theme("colors.success"),
+      "warning": theme("colors.warning"),
+      "danger": theme("colors.danger"),
+      "danger-hover": theme("colors.danger-hover"),
+      "danger-press": theme("colors.danger-press"),
     }),
     extend: {
       animation: {
