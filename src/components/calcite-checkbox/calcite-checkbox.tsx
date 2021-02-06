@@ -50,7 +50,10 @@ export class CalciteCheckbox {
     this.input.disabled = disabled;
   }
 
-  /** The focused state of the checkbox. */
+  /**
+   * The focused state of the checkbox.
+   * @private
+   */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
   @Watch("focused")
@@ -65,7 +68,10 @@ export class CalciteCheckbox {
   /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true }) guid: string;
 
-  /** The hovered state of the checkbox. */
+  /**
+   * The hovered state of the checkbox.
+   * @private
+   */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**

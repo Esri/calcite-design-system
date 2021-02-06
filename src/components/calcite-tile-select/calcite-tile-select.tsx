@@ -36,7 +36,10 @@ export class CalciteTileSelect {
   /** The disabled state of the tile select. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** The focused state of the tile select. */
+  /**
+   * The focused state of the tile select.
+   * @private
+   */
   @Prop({ reflect: true, mutable: true }) focused = false;
 
   /** The heading text that appears between the icon and description of the tile. */
