@@ -8,7 +8,8 @@ import {
   Watch,
   Listen,
   Event,
-  EventEmitter
+  EventEmitter,
+  State
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Time } from "../calcite-time-picker/calcite-time-picker";
@@ -47,15 +48,6 @@ export class CalciteInputTimePicker {
   /** The focused state of the time input */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  @Watch("focused")
-  focusedChanged(focused: boolean): void {
-    if (focused && !this.el.hasAttribute("hidden")) {
-      this.inputEl.focus();
-    } else {
-      this.inputEl.blur();
-    }
-  }
-
   /** The id attribute of the input time picker.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
@@ -83,6 +75,14 @@ export class CalciteInputTimePicker {
   //--------------------------------------------------------------------------
 
   private inputEl: HTMLCalciteInputElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  @State() popoverOpen = false;
 
   //--------------------------------------------------------------------------
   //
@@ -114,10 +114,21 @@ export class CalciteInputTimePicker {
     }
   }
 
-  @Listen("click")
+  @Listen("click", { target: "window" })
   clickHandler(event: MouseEvent): void {
-    if (event.target === this.el) {
-      this.inputEl.click();
+    const target = event.target as HTMLElement;
+    if (target === this.el) {
+      this.inputEl.setFocus();
+      this.popoverOpen = true;
+    } else if (target.closest("calcite-input-time-picker") !== this.el) {
+      this.popoverOpen = false;
+    }
+  }
+
+  @Listen("keyup")
+  keyUpHandler(event: KeyboardEvent): void {
+    if (event.key === "Escape" && this.popoverOpen === true) {
+      this.popoverOpen = false;
     }
   }
 
@@ -140,12 +151,13 @@ export class CalciteInputTimePicker {
     };
   };
 
-  private onCalciteInputBlur = (): void => {
+  private inputBlurHandler = (): void => {
     this.focused = false;
   };
 
-  private onCalciteInputFocus = (): void => {
+  private inputFocusHandler = (): void => {
     this.focused = true;
+    this.popoverOpen = true;
   };
 
   private setInputEl = (el: HTMLCalciteInputElement): void => {
@@ -172,35 +184,34 @@ export class CalciteInputTimePicker {
     const { hour, minute, second } = this.convertValueToTime(this.value);
     return (
       <Host>
-        <calcite-popover-manager>
-          <calcite-input
-            disabled={this.disabled}
-            icon="clock"
-            id={`${this.guid}-input`}
-            name={this.name}
-            onBlur={this.onCalciteInputBlur}
-            onCalciteInputInput={this.inputHandler}
-            onFocus={this.onCalciteInputFocus}
-            ref={this.setInputEl}
+        <calcite-input
+          disabled={this.disabled}
+          icon="clock"
+          id={`${this.guid}-input`}
+          name={this.name}
+          onCalciteInputBlur={this.inputBlurHandler}
+          onCalciteInputFocus={this.inputFocusHandler}
+          onCalciteInputInput={this.inputHandler}
+          ref={this.setInputEl}
+          scale={this.scale}
+          step={this.step}
+          type="time"
+          value={this.value}
+        />
+        <calcite-popover
+          corner-appearance="round"
+          label="Time Picker"
+          open={this.popoverOpen}
+          referenceElement={`${this.guid}-input`}
+        >
+          <calcite-time-picker
+            hour={hour}
+            minute={minute}
             scale={this.scale}
+            second={second}
             step={this.step}
-            type="time"
-            value={this.value}
           />
-          <calcite-popover
-            corner-appearance="round"
-            label="Time Picker"
-            referenceElement={`${this.guid}-input`}
-          >
-            <calcite-time-picker
-              hour={hour}
-              minute={minute}
-              scale={this.scale}
-              second={second}
-              step={this.step}
-            />
-          </calcite-popover>
-        </calcite-popover-manager>
+        </calcite-popover>
       </Host>
     );
   }

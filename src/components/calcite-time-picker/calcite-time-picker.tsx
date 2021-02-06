@@ -250,6 +250,10 @@ export class CalciteTimePicker {
     this.decrementMinuteOrSecond("second");
   };
 
+  private focusHandler = (event: FocusEvent): void => {
+    this.activeEl = event.target as HTMLSpanElement;
+  };
+
   private formatNumberAsTimeString(number: number): string {
     return number >= 0 && number <= 9 ? `0${number}` : number.toString();
   }
@@ -288,10 +292,6 @@ export class CalciteTimePicker {
       second: this.second
     };
   }
-
-  private handleFocus = (event: FocusEvent): void => {
-    this.activeEl = event.target as HTMLSpanElement;
-  };
 
   private hourBlurHandler = (): void => {
     this.editingHourWhileFocused = false;
@@ -524,7 +524,7 @@ export class CalciteTimePicker {
               aria-valuetext={this.hour !== "--" ? this.hour : undefined}
               class="hour"
               onBlur={this.hourBlurHandler}
-              onFocus={this.handleFocus}
+              onFocus={this.focusHandler}
               onKeyDown={this.hourKeyDownHandler}
               ref={(el) => (this.hourEl = el)}
               role="spinbutton"
@@ -560,7 +560,7 @@ export class CalciteTimePicker {
               aria-valuenow={this.minute !== "--" ? parseInt(this.minute) : undefined}
               aria-valuetext={this.minute !== "--" ? this.minute : undefined}
               class="minute"
-              onFocus={this.handleFocus}
+              onFocus={this.focusHandler}
               onKeyDown={this.minuteKeyDownHandler}
               ref={(el) => (this.minuteEl = el)}
               role="spinbutton"
@@ -596,7 +596,7 @@ export class CalciteTimePicker {
                 aria-valuenow={this.second !== "--" ? parseInt(this.second) : undefined}
                 aria-valuetext={this.second !== "--" ? this.second : undefined}
                 class="second"
-                onFocus={this.handleFocus}
+                onFocus={this.focusHandler}
                 onKeyDown={this.secondKeyDownHandler}
                 ref={(el) => (this.secondEl = el)}
                 role="spinbutton"
@@ -633,7 +633,7 @@ export class CalciteTimePicker {
                 aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
                 aria-valuetext={this.ampm !== "--" ? this.ampm : undefined}
                 class="ampm"
-                onFocus={this.handleFocus}
+                onFocus={this.focusHandler}
                 onKeyDown={this.amPmKeyDownHandler}
                 ref={(el) => (this.amPmEl = el)}
                 role="spinbutton"

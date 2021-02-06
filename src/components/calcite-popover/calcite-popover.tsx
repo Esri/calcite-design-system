@@ -87,7 +87,7 @@ export class CalcitePopover {
   /**
    * Display and position the component.
    */
-  @Prop({ reflect: true }) open = false;
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(open: boolean): void {
