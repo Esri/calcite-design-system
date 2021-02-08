@@ -9,6 +9,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Light Theme/Dark Theme](#light-themedark-theme)
 - [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
 - [Component Responsibilities](#component-responsibilities)
+- [Focus support](#focus-support)
 - [Event Names](#event-names)
 - [Private Events](#private-events)
 - [Event Details](#event-details)
@@ -230,6 +231,25 @@ However components are allowed to:
 
 - [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to implement for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
 - [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
+
+## Focus support
+
+Components with focusable content, must implement the following pattern:
+
+```ts
+interface FocusableComponent {
+  setFocus(focusId?: FocusId): Promise<void>; // focusId should be supported if there is more than one supported focus target
+}
+
+type FocusId = string;
+```
+
+**Note**: Implementations can use the [`focusElement`](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/utils/dom.ts#L41-L47) helper to handle focusing both native and calcite components.
+
+Examples:
+
+- [`calcite-color`](https://github.com/Esri/calcite-components/blob/78a70a805324689d516130816a69f031e39c5338/src/components/calcite-color/calcite-color.tsx#L409-L413)
+- [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/calcite-panel/calcite-panel.tsx#L298-L311)
 
 ## Event Names
 
