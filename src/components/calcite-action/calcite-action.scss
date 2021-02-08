@@ -168,7 +168,7 @@
   content: "";
   @apply absolute
     bg-brand
-    border-rounded
+    rounded-full
     h-2
     w-2
     z-10;
@@ -188,7 +188,7 @@
 }
 
 :host([indicator]) .calcite--rtl::after {
-  @apply right-auto
+  @apply right-auto;
   left: theme("spacing.1");
 }
 
