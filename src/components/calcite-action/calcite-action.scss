@@ -127,7 +127,7 @@
 :host([appearance="clear"]) .button:hover,
 :host([appearance="clear"]) .button:focus {
   @apply bg-transparent;
-  box-shadow: 0 0 0 2px var(--calcite-ui-border-1) inset; // TODO - jrowlingson
+  box-shadow: 0 0 0 2px theme("borderColor.color.1") inset;
 }
 
 :host([active][appearance="clear"]) .button,
@@ -175,12 +175,13 @@
 :host([indicator]) .button::after {
   content: "";
   @apply absolute
+    border-2
     bg-brand
     rounded-full
     h-2
     w-2
     z-10;
-  border: var(--calcite-spacing-eighth) solid var(--calcite-ui-foreground-1); // TODO
+  border-color: theme("colors.background.foreground.1");
   bottom: theme("spacing.2");
   right: theme("spacing.2");
 }
@@ -206,11 +207,11 @@
 
 :host([indicator]) .button:hover::after,
 :host([indicator]) .button:focus::after {
-  border-color: var(--calcite-ui-foreground-1);
+  border-color: theme("colors.background.foreground.1");
 }
 
 :host([indicator][active]) .button::after {
-  border-color: var(--calcite-ui-foreground-3);
+  border-color: theme("colors.background.foreground.3");
 }
 
 :host([indicator]) .button--text-visible::after,
