@@ -67,7 +67,7 @@
   "devDependencies": {
     "@esri/calcite-base": "^1.2.0",
     "@esri/calcite-colors": "6.0.0",
-    "@esri/calcite-ui-icons": "3.14.3",
+    "@esri/calcite-ui-icons": "3.14.8",
     "@stencil/eslint-plugin": "0.3.1",
     "@stencil/postcss": "2.0.0",
     "@stencil/sass": "1.4.1",
