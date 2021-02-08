@@ -112,6 +112,9 @@ module.exports = {
       "danger-press": theme("colors.danger-press"),
     }),
     extend: {
+      fill: theme => ({
+        color: theme("colors.text")
+      }),
       animation: {
         "in": "in 300ms ease-in-out",
         "in-down": "in-down 300ms ease-in-out",
