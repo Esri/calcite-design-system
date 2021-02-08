@@ -46,9 +46,15 @@
   }
 
   .text-container {
-    @apply leading-none truncate m-0 opacity-0 w-0;
+    @apply leading-none
+      truncate
+      m-0
+      w-0
+      opacity-0
+      transition-all
+      ease-in-out
+      duration-150;
     color: inherit; // TODO - jrowlingson
-    transition: opacity $transition, margin $transition, width $transition; // TODO
   }
 
   .text-container--visible {
@@ -112,8 +118,10 @@
 }
 
 :host([appearance="clear"]) .button {
-  @apply bg-transparent;
-  transition: box-shadow $transition;
+  @apply bg-transparent
+    transition-shadow
+    duration-150
+    ease-in-out;
 }
 
 :host([appearance="clear"]) .button:hover,
