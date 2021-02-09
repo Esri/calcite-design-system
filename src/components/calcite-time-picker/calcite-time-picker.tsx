@@ -119,13 +119,27 @@ export class CalciteTimePicker {
   //
   //--------------------------------------------------------------------------
 
+  @Event() calciteTimePickerBlur: EventEmitter<Time>;
+
   @Event() calciteTimePickerChange: EventEmitter<Time>;
+
+  @Event() calciteTimePickerFocus: EventEmitter<Time>;
 
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("blur")
+  hostBlurHandler(): void {
+    this.calciteTimePickerBlur.emit();
+  }
+
+  @Listen("focus")
+  hostFocusHandler(): void {
+    this.calciteTimePickerFocus.emit();
+  }
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {

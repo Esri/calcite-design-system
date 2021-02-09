@@ -98,6 +98,11 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
+  @Listen("calciteTimePickerBlur")
+  timePickerBlurHandler(): void {
+    this.popoverOpen = false;
+  }
+
   @Listen("calciteTimePickerChange")
   timePickerChangeHandler(event: CustomEvent): void {
     if (event.detail) {
