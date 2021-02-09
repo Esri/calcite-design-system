@@ -138,7 +138,7 @@ describe("calcite-slider", () => {
     expect(ticks.length).toBe(11);
   });
 
-  it("fires calciteSliderUpdate event on changes", async () => {
+  it("fires calciteSliderChange event on changes", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-slider
@@ -152,7 +152,7 @@ describe("calcite-slider", () => {
     `);
     const slider = await page.find("calcite-slider");
     const handle = await page.find("calcite-slider >>> .thumb");
-    const changeEvent = await slider.spyOnEvent("calciteSliderUpdate");
+    const changeEvent = await slider.spyOnEvent("calciteSliderChange");
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await handle.press("ArrowRight");
     expect(changeEvent).toHaveReceivedEventTimes(1);
