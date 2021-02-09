@@ -57,7 +57,7 @@ module.exports = {
       // assets/styles/_type
       "-3": "var(--calcite-font-size--3)",  // 10px
       "-2": "var(--calcite-font-size--2)",  // 12px
-      "-1": "var(--calcite-font-size--1)",  // 15px
+      "-1": "var(--calcite-font-size--1)",  // 14px
       0: "var(--calcite-font-size-0)",      // 16px
       1: "var(--calcite-font-size-1)",      // 18px
       2: "var(--calcite-font-size-2)",      // 20px
