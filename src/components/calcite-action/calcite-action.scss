@@ -1,5 +1,5 @@
 :host {
-  @extend %component-host; // TODO - jrowlingson
+  @extend %component-host;
   @apply flex bg-transparent;
 }
 
@@ -9,7 +9,7 @@
 
 .button {
   @apply bg-foreground-1
-    border-0
+    border-none
     cursor-pointer
     fill-color-3
     flex
@@ -21,7 +21,7 @@
     text--2h
     text-color-3;
   font-family: inherit;
-  width: auto; // TODO - jrowlingson - button reset?
+  width: auto;
   text-align: unset;
   &:hover {
     @apply bg-foreground-2 text-color-1 fill-color-1;
@@ -51,15 +51,16 @@
       m-0
       w-0
       opacity-0
-      transition-all
       ease-in-out
-      duration-150;
-    color: inherit; // TODO - jrowlingson
+      duration-150
+      transition-opacity;
+    transition-property: margin;
+    transition-property: width;
   }
 
   .text-container--visible {
     @apply flex-auto opacity-100;
-    width: auto; // TODO - jrowlingson
+    width: auto;
   }
 }
 
@@ -91,7 +92,7 @@
 }
 
 .button--text-visible {
-  @apply w-full
+  @apply w-full;
 
   .icon-container {
     @apply m-0 mr-2;
@@ -221,7 +222,7 @@
   right: theme("spacing.2");
 }
 
-:host([indicator]) .button--text-visible.calcite--rtl::after, // TODO - jrowlingson - rtl:?
+:host([indicator]) .button--text-visible.calcite--rtl::after,
 :host([indicator][scale="s"]) .button--text-visible.calcite--rtl::after,
 :host([indicator][scale="l"]) .button--text-visible.calcite--rtl::after {
   @apply right-auto;
