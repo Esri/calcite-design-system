@@ -1,11 +1,8 @@
 :host {
-  @apply text-1;
+  @apply text-color-1;
   display: inline-block;
   font-weight: 500;
   user-select: none;
-}
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
 }
 
 .time-picker {
@@ -19,7 +16,7 @@
 
 button {
   align-items: center;
-  background: none;
+  @apply bg-foreground-1;
   border: none;
   cursor: pointer;
   display: inline-flex;
@@ -57,12 +54,13 @@ button {
 
 span {
   align-items: center;
+  @apply bg-foreground-1;
   display: inline-flex;
   font-weight: var(--calcite-ui-text-weight-medium);
   justify-content: center;
   position: relative;
   z-index: 200;
-  &:hover {
+  &:hover:not(.colon) {
     box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
   }
   &:focus,
@@ -78,6 +76,9 @@ span {
   span {
     height: 24px;
     width: 40px;
+  }
+  .colon {
+    height: 72px;
   }
 }
 :host([scale="s"][hour-display-format="12"]) {
@@ -108,6 +109,9 @@ span {
     height: 32px;
     width: 44px;
   }
+  .colon {
+    height: 96px;
+  }
 }
 :host([scale="m"][hour-display-format="12"]) {
   .time-picker {
@@ -136,6 +140,9 @@ span {
   span {
     height: 48px;
     width: 64px;
+  }
+  .colon {
+    height: 144px;
   }
 }
 :host([scale="l"][hour-display-format="12"]) {

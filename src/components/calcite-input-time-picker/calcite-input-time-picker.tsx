@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Time } from "../calcite-time-picker/calcite-time-picker";
+import { Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -53,6 +54,9 @@ export class CalciteInputTimePicker {
 
   /** number that specifies the granularity that the value must adhere to */
   @Prop({ reflect: true }) step = 60;
+
+  /** The color theme of the time-picker */
+  @Prop({ reflect: true }) theme: Theme = "light";
 
   /** The selected time */
   @Prop({ reflect: true, mutable: true }) value?: string;

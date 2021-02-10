@@ -11,7 +11,7 @@ import {
   State,
   Listen
 } from "@stencil/core";
-import { Scale } from "../interfaces";
+import { Scale, Theme } from "../interfaces";
 
 const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
@@ -62,6 +62,9 @@ export class CalciteTimePicker {
 
   /** number that specifies the granularity that the value must adhere to */
   @Prop({ reflect: true }) step = 60;
+
+  /** The color theme of the time-picker */
+  @Prop({ reflect: true }) theme: Theme = "light";
 
   @Watch("hour")
   hourChanged(newHour: string): void {
@@ -565,7 +568,7 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevrondown" scale={iconScale} />
             </button>
           </div>
-          <div>:</div>
+          <span class="colon">:</span>
           <div>
             <button
               aria-label="increase minute"
@@ -600,7 +603,7 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevrondown" scale={iconScale} />
             </button>
           </div>
-          {includeSeconds && <div>:</div>}
+          {includeSeconds && <span class="colon">:</span>}
           {includeSeconds && (
             <div>
               <button
