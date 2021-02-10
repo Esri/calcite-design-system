@@ -96,7 +96,7 @@ export class CalciteAccordionItem {
           {this.icon ? iconEl : null}
           <div class="accordion-item-header-text">
             <span class="accordion-item-title">{this.itemTitle}</span>
-            <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+            {this.itemSubtitle && <span class="accordion-item-subtitle">{this.itemSubtitle}</span>}
           </div>
           <calcite-icon
             class="accordion-item-expand-icon"

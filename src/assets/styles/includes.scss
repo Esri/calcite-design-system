@@ -8,6 +8,17 @@
 @import "spacing";
 @import "popper";
 
+// extracted from @tailwind base
+:host,
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
   #{$scope} #{$tag}::slotted([slot="#{$selector}"]) {
