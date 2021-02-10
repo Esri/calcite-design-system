@@ -90,6 +90,8 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
+  // TODO: make label clicks open the popup.  Might make sense to have two click handlers,
+  // 1 for detecting clicks outside with target: window and 1 for external clicks from label or others
   @Listen("click", { target: "window" })
   clickHandler(event: MouseEvent): void {
     const target = event.target as HTMLElement;
@@ -114,6 +116,17 @@ export class CalciteInputTimePicker {
   private inputInputHandler = (event: CustomEvent): void => {
     this.value = event.detail.value;
   };
+
+  @Listen("keydown")
+  inputKeyDownHandler(event: KeyboardEvent): void {
+    // This prevents the browser default time picker UI from appearing
+    if (
+      (event.target as HTMLElement).closest("calcite-input") === this.inputEl &&
+      event.key === " "
+    ) {
+      event.preventDefault();
+    }
+  }
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
