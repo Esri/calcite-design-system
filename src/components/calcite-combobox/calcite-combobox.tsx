@@ -52,7 +52,7 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   /** Open and close combobox */
-  @Prop({ reflect: true }) active = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active") activeHandler(): void {
     this.reposition();
@@ -745,7 +745,10 @@ export class CalciteCombobox {
             "wrapper--active": active,
             "wrapper--single": single
           }}
-          onClick={() => this.setFocus()}
+          onClick={(e) => {
+            e.stopPropagation();
+            this.setFocus();
+          }}
           ref={this.setReferenceEl}
           role="combobox"
         >
