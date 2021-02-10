@@ -5,7 +5,6 @@ import {
   VNode,
   h,
   Prop,
-  Watch,
   Listen,
   Event,
   EventEmitter,
@@ -40,11 +39,6 @@ export class CalciteInputTimePicker {
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled?: boolean = false;
 
-  @Watch("disabled")
-  disabledChanged(disabled: boolean): void {
-    this.inputEl.disabled = disabled;
-  }
-
   /** The focused state of the time input */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
@@ -53,11 +47,6 @@ export class CalciteInputTimePicker {
 
   /** The name of the time input */
   @Prop({ reflect: true }) name?: string = "";
-
-  @Watch("name")
-  nameChanged(newName: string): void {
-    this.inputEl.name = newName;
-  }
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -90,6 +79,9 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Fires when the time value has changed.
+   */
   @Event() calciteInputTimePickerChange: EventEmitter<string>;
 
   //--------------------------------------------------------------------------
@@ -97,6 +89,38 @@ export class CalciteInputTimePicker {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("click", { target: "window" })
+  clickHandler(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target === this.el) {
+      this.inputEl.setFocus();
+      this.popoverOpen = true;
+    } else if (target.closest("calcite-input-time-picker") !== this.el) {
+      this.popoverOpen = false;
+    }
+  }
+
+  private inputBlurHandler = (): void => {
+    this.focused = false;
+    this.popoverOpen = false;
+  };
+
+  private inputFocusHandler = (): void => {
+    this.focused = true;
+    this.popoverOpen = true;
+  };
+
+  private inputInputHandler = (event: CustomEvent): void => {
+    this.value = event.detail.value;
+  };
+
+  @Listen("keyup")
+  keyUpHandler(event: KeyboardEvent): void {
+    if (event.key === "Escape" && this.popoverOpen === true) {
+      this.popoverOpen = false;
+    }
+  }
 
   @Listen("calciteTimePickerBlur")
   timePickerBlurHandler(): void {
@@ -119,27 +143,10 @@ export class CalciteInputTimePicker {
     }
   }
 
-  @Listen("click", { target: "window" })
-  clickHandler(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (target === this.el) {
-      this.inputEl.setFocus();
-      this.popoverOpen = true;
-    } else if (target.closest("calcite-input-time-picker") !== this.el) {
-      this.popoverOpen = false;
-    }
+  @Listen("calciteTimePickerFocus")
+  timePickerFocusHandler(): void {
+    this.popoverOpen = true;
   }
-
-  @Listen("keyup")
-  keyUpHandler(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.popoverOpen === true) {
-      this.popoverOpen = false;
-    }
-  }
-
-  inputHandler = (event: CustomEvent): void => {
-    this.value = event.detail.value;
-  };
 
   // --------------------------------------------------------------------------
   //
@@ -154,15 +161,6 @@ export class CalciteInputTimePicker {
       minute,
       second: second || (hour !== "--" && minute !== "--" ? "00" : "--")
     };
-  };
-
-  private inputBlurHandler = (): void => {
-    this.focused = false;
-  };
-
-  private inputFocusHandler = (): void => {
-    this.focused = true;
-    this.popoverOpen = true;
   };
 
   private setInputEl = (el: HTMLCalciteInputElement): void => {
@@ -196,7 +194,7 @@ export class CalciteInputTimePicker {
           name={this.name}
           onCalciteInputBlur={this.inputBlurHandler}
           onCalciteInputFocus={this.inputFocusHandler}
-          onCalciteInputInput={this.inputHandler}
+          onCalciteInputInput={this.inputInputHandler}
           ref={this.setInputEl}
           scale={this.scale}
           step={this.step}

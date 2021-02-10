@@ -119,10 +119,19 @@ export class CalciteTimePicker {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteTimePickerBlur: EventEmitter<Time>;
 
+  /**
+   * @internal
+   */
   @Event() calciteTimePickerChange: EventEmitter<Time>;
 
+  /**
+   * @internal
+   */
   @Event() calciteTimePickerFocus: EventEmitter<Time>;
 
   //--------------------------------------------------------------------------
