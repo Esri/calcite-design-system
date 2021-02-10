@@ -1,147 +1,131 @@
 // theme variables
 // light theme
 :host {
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
+  --calcite-alert-dismiss-progress-background: rgba(theme("backgroundColor.foreground.1"), theme("opacity.75"));
 }
 
-// dark theme
-:host([theme="dark"]) {
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
-}
+// // dark theme // TODO -- remove?
+// :host([theme="dark"]) {
+//   --calcite-alert-dismiss-progress-background: rgba(theme("backgroundColor.foreground.1"), theme("opacity.75"));
+// }
 
 // scale variables
 :host([scale="s"]) {
-  --calcite-alert-width: 40em;
-  --calcite-alert-spacing-token-small: #{$baseline/2};
-  --calcite-alert-spacing-token-large: #{$baseline/1.5};
+  --calcite-alert-width: 40rem; // TODO -- max width
+  --calcite-alert-spacing-token-small: theme("spacing.2"); // // TODO - jrowlingson why?
+  --calcite-alert-spacing-token-large: theme("spacing.4");
   @include slotted("alert-title", "*") {
-    @include font-size(-2);
+    @apply text--2h;
   }
   @include slotted("alert-message", "*") {
-    @include font-size(-3);
+    @apply text--3h;
   }
   ::slotted(calcite-link) {
-    @include font-size(-3);
+    @apply text--3h;
   }
 }
 
 :host([scale="m"]) {
-  --calcite-alert-width: 50em;
-  --calcite-alert-spacing-token-small: #{$baseline/1.5};
-  --calcite-alert-spacing-token-large: #{$baseline};
+  --calcite-alert-width: 50rem; // TODO -- max-width
+  --calcite-alert-spacing-token-small: theme("spacing.4");
+  --calcite-alert-spacing-token-large: theme("spacing.6");
   @include slotted("alert-title", "*") {
-    @include font-size(-1);
+    @apply text--1h;
   }
   @include slotted("alert-message", "*") {
-    @include font-size(-2);
+    @apply text--2h;
   }
   ::slotted(calcite-link) {
-    @include font-size(-2);
+    @apply text--2h;
   }
 }
 
 :host([scale="l"]) {
-  --calcite-alert-width: 60em;
-  --calcite-alert-spacing-token-small: #{$baseline/1.25};
-  --calcite-alert-spacing-token-large: #{$baseline * 1.25};
+  --calcite-alert-width: 60rem;
+  --calcite-alert-spacing-token-small: theme("spacing.5");
+  --calcite-alert-spacing-token-large: theme("spacing.8");
   @include slotted("alert-title", "*") {
-    @include font-size(0);
+    @apply text-0h;
   }
   @include slotted("alert-message", "*") {
-    @include font-size(-1);
+    @apply text--1h;
   }
   ::slotted(calcite-link) {
-    @include font-size(-1);
+    @apply text--1h;
   }
 }
 
 :host {
-  @apply shadow-2;
-  display: flex;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
+  @apply flex
+    fixed
+    justify-center
+    items-center
+    pointer-events-none
+    bg-foreground-1
+    rounded
+    opacity-0
+    inset-x-0
+    bottom-0
+    shadow-2;
   margin: 0 auto;
   width: var(--calcite-alert-width);
-  max-width: 90%;
-  max-height: 0;
-  background-color: var(--calcite-ui-foreground-1);
-  border-radius: var(--calcite-border-radius);
-  opacity: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 101;
-  transform: translate3d(0, $baseline, 0);
-  transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
-  border-top: 0px solid transparent;
+  max-width: 90%; // TODO
+  max-height: 0; // TODO - wat
+  z-index: 101; // TODO - z-50?
+  transform: translate3d(0, $baseline, 0); // TODO
+  transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out; // TODO
+  border-top: 0px solid transparent; // TODO
   @media only screen and (max-width: $viewport-medium) {
-    width: 100%;
-    max-width: 100%;
-    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+    @apply w-full max-w-full rounded-t;
   }
 }
 
 // focus styles
 .alert-close {
-  @include focus-style-base();
+  @apply focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 }
 
 :host([active]:not([queued])) {
-  opacity: 1;
-  max-height: 100%;
+  @apply max-h-full opacity-0 pointer-events-auto;
   transform: translate3d(0, -$baseline, 0);
-  pointer-events: initial;
-  border-top-width: 3px;
+  border-top-width: 3px; // TODO
 
   @media only screen and (max-width: $viewport-medium) {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); // TODO
   }
 }
 
 @include slotted("alert-title", "*") {
-  @include font-size(0);
-  color: var(--calcite-ui-text-1);
-  margin: 0;
-  font-weight: 500;
+  @apply text-0h text-color-1 m-0 font-medium;
 }
 
 @include slotted("alert-message", "*") {
-  display: inline;
-  margin: 0;
-  margin-right: $baseline/2;
-  font-weight: 400;
-  @include font-size(-1);
-  color: var(--calcite-ui-text-2);
+  @apply inline m-0 mr-3 font-normal text--1h text-color-2;
 }
 
 :host([dir="rtl"]) {
   @include slotted("alert-message", "*") {
-    margin-right: unset;
-    margin-left: $baseline/2;
+    @apply mr-0 ml-3;
   }
 }
 
 @mixin alert-element-base() {
-  padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-large);
-  flex: 0 0 auto;
-  transition: all 0.15s ease-in-out;
+  padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-large); // TODO - jrowlingson
+  flex: 0 0 auto; // TODO - jrowlingson
+  transition: all 0.15s ease-in-out; // TODO - jrowlingson
 
   @media only screen and (max-width: $viewport-medium) {
-    padding: $baseline;
+    @apply p-5;
   }
 }
 
 .alert-content {
-  @include alert-element-base;
-  flex: 1 1 auto;
-  min-width: 0;
-  word-wrap: break-word;
+  @include alert-element-base; // TODO - jrowlingson
+  @apply flex-auto break-words min-w-0;
+  flex: 1 1 auto; // TODO - jrowlingson
   padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-small)
     var(--calcite-alert-spacing-token-small) 0;
 
@@ -173,114 +157,100 @@
   }
 }
 .alert-icon {
-  @include alert-element-base;
-  padding-top: 0;
-  padding-bottom: 0;
-  display: flex;
-  align-self: stretch;
-  align-items: center;
+  @include alert-element-base; // TODO - jrowlingson
+  @apply py-0 flex items-center self-stretch;
 }
 
 .alert-close {
-  @include alert-element-base;
-  padding-top: 0;
-  padding-bottom: 0;
-  align-self: stretch;
-  background-color: transparent;
+  @include alert-element-base; // TODO - jrowlingson
+  @apply py-0
+    self-stretch
+    bg-transparent
+    border-none
+    outline-none
+    cursor-pointer
+    text-color-3
+    rounded-br
+    overflow-hidden;
   -webkit-appearance: none;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  color: var(--calcite-ui-text-3);
-  overflow: hidden;
-  border-radius: 0 0 var(--calcite-border-radius) 0;
-
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
   @media only screen and (max-width: $viewport-medium) {
-    border-radius: 0;
+    @apply rounded-none;
   }
 }
 :host([dir="rtl"]) {
   .alert-close {
-    border-radius: 0 0 0 var(--calcite-border-radius);
+    @apply rounded-none rounded-bl; // TODO - jrowlingson
   }
 }
 .alert-queue-count {
-  @include font-size(-2);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  align-self: stretch;
-  overflow: hidden;
-  width: 0;
-  visibility: hidden;
-  font-weight: 500;
-  text-align: center;
-  color: var(--calcite-ui-text-2);
-  opacity: 0;
-  border-left: 0px solid transparent;
-  border-right: 0px solid transparent;
-  cursor: default;
-  transition: all 0.15s ease-in-out;
-  overflow: hidden;
+  @apply text--2h
+    flex
+    items-center
+    justify-around
+    self-stretch
+    w-0
+    invisible
+    font-medium
+    text-center
+    text-color-2
+    opacity-0
+    cursor-default
+    overflow-hidden;
+  border-left: 0px solid transparent; // TODO - jrowlingson
+  border-right: 0px solid transparent; // TODO - jrowlingson
+  transition: all 0.15s ease-in-out; // TODO - jrowlingson
 
   &.active {
-    visibility: visible;
-    opacity: 1;
-    padding: 0 $baseline/4;
-    width: $baseline * 2;
-    border-left: 1px solid var(--calcite-ui-border-3);
-    border-right: 1px solid var(--calcite-ui-border-3);
+    // TODO - jrowlingson - padding
+    @apply visible
+      opacity-100
+      px-1
+      w-12
+      border-l
+      border-r
+      border-color-3;
   }
 
   @media only screen and (max-width: $viewport-medium) {
-    border-radius: 0;
+    @apply rounded-none;
   }
 }
 
 :host([auto-dismiss]) > .alert-queue-count {
-  border-right: 0px solid transparent;
+  @apply border-r-0;
 }
 
 :host([auto-dismiss][dir="rtl"]) > .alert-queue-count {
-  border-left: 0px solid transparent;
+  @apply border-l-0;
 }
 
 .alert-dismiss-progress {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -3px;
-  width: 100%;
-  height: 3px;
-  z-index: 103;
-  overflow: hidden;
-  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+  @apply block absolute inset-x-0 w-full h-1 hidden rounded-t;
+  // top: -3px; // TODO - jrowlingson
+  top: -4px; // TODO - jrowlingson
+  z-index: 103; // TODO - jrowlingson
   &:after {
-    height: 3px;
-    top: 0;
-    right: 0;
-    display: block;
-    position: absolute;
+    @apply h-1 top-0 right-0 block absolute;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
-    z-index: 104;
+    z-index: 104; // // TODO - jrowlingson
   }
 }
 
 :host([dir="rtl"]) .alert-dismiss-progress:after {
-  left: 0;
-  right: initial;
+  @apply left-0;
+  right: initial; // TODO - jrowlingson
 }
 
+// TODO - jrowlingson
 $alertColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
   "green" var(--calcite-ui-success);
 
@@ -309,11 +279,9 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 
 @keyframes dismissProgress {
   0% {
-    width: 0;
-    opacity: 0.8;
+    @apply w-0 opacity-75;
   }
   100% {
-    width: 100%;
-    opacity: 1;
+    @apply w-full opacity-100;
   }
 }
