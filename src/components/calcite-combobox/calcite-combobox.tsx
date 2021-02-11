@@ -90,8 +90,7 @@ export class CalciteCombobox {
 
   @Listen("click", { target: "document" })
   documentClickHandler(event: Event): void {
-    const target = event.target as HTMLElement;
-    this.setInactiveIfNotContained(target);
+    this.setInactiveIfNotContained(event);
   }
 
   @Listen("calciteComboboxItemChange")
@@ -301,8 +300,8 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  setInactiveIfNotContained = (target: HTMLElement): void => {
-    if (!this.active || this.el.contains(target)) {
+  setInactiveIfNotContained = (event: Event): void => {
+    if (!this.active || event.composedPath().includes(this.el)) {
       return;
     }
 
@@ -591,8 +590,7 @@ export class CalciteCombobox {
   };
 
   comboboxBlurHandler = (event: FocusEvent): void => {
-    const relatedTarget = event.relatedTarget as HTMLElement;
-    this.setInactiveIfNotContained(relatedTarget);
+    this.setInactiveIfNotContained(event);
   };
 
   //--------------------------------------------------------------------------
@@ -745,10 +743,7 @@ export class CalciteCombobox {
             "wrapper--active": active,
             "wrapper--single": single
           }}
-          onClick={(e) => {
-            e.stopPropagation();
-            this.setFocus();
-          }}
+          onClick={() => this.setFocus()}
           ref={this.setReferenceEl}
           role="combobox"
         >
