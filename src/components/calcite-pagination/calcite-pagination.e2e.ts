@@ -50,7 +50,7 @@ describe("calcite-pagination", () => {
       pagination = await page.find("calcite-pagination");
     });
     it("next button should increase selected page by 1 when clicked", async () => {
-      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
       const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
       await nextButton.click();
       await page.waitForChanges();
@@ -60,7 +60,7 @@ describe("calcite-pagination", () => {
       expect(toggleSpy).toHaveReceivedEventTimes(1);
     });
     it("previous button should be disabled when selected page equals the starting page", async () => {
-      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
       const previousButton = await page.find(`calcite-pagination >>> .${CSS.previous}`);
       await previousButton.click();
       await page.waitForChanges();
@@ -71,7 +71,7 @@ describe("calcite-pagination", () => {
       await pagination.setAttribute("start", "21");
       await page.waitForChanges();
 
-      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
       const previousButton = await page.find(`calcite-pagination >>> .${CSS.previous}`);
       await previousButton.click();
       await page.waitForChanges();
@@ -84,7 +84,7 @@ describe("calcite-pagination", () => {
       await pagination.setAttribute("start", "121");
       await page.waitForChanges();
 
-      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
       const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
       await nextButton.click();
       await page.waitForChanges();
@@ -97,7 +97,7 @@ describe("calcite-pagination", () => {
       await pagination.setAttribute("start", "1");
       await page.waitForChanges();
 
-      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
       const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
       await nextButton.click();
       await page.waitForChanges();
@@ -109,10 +109,10 @@ describe("calcite-pagination", () => {
     it("should switch selected page to the page that's clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination start="1" total="36" num="10"></calcite-pagination>`);
-      const toggleSpy = await page.spyOnEvent("calcitePaginationUpdate");
+      const toggleSpy = await page.spyOnEvent("calcitePaginationChange");
 
       await page.evaluate(() => {
-        document.addEventListener("calcitePaginationUpdate", (event: CustomEvent): void => {
+        document.addEventListener("calcitePaginationChange", (event: CustomEvent): void => {
           (window as any).eventDetail = event.detail;
         });
       });
@@ -160,7 +160,7 @@ describe("calcite-pagination", () => {
       expect(selectedPage.innerText).toBe("1");
     });
     it("previous button should be disabled when selected page equals the starting page", async () => {
-      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
       const previousButton = await page.find(`calcite-pagination >>> .${CSS.previous}`);
       await previousButton.click();
       await page.waitForChanges();
@@ -171,7 +171,7 @@ describe("calcite-pagination", () => {
       await pagination.setAttribute("start", "5");
       await page.waitForChanges();
 
-      const toggleSpy = await pagination.spyOnEvent("calcitePaginationUpdate");
+      const toggleSpy = await pagination.spyOnEvent("calcitePaginationChange");
       const nextButton = await page.find(`calcite-pagination >>> .${CSS.next}`);
       await nextButton.click();
       await page.waitForChanges();

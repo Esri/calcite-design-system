@@ -1,9 +1,9 @@
 {
   "default-calendar": "gregorian",
   "separator": "/",
-  "unitOrder": "y/MM/dd",
+  "unitOrder": "YYYY/MM/DD",
   "weekStart": 7,
-  "placeholder": "y/MM/dd",
+  "placeholder": "YYYY/MM/DD",
   "days": {
     "abbreviated": ["日", "月", "火", "水", "木", "金", "土"],
     "narrow": ["日", "月", "火", "水", "木", "金", "土"],

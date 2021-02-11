@@ -21,6 +21,7 @@ import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale, Theme } from "../interfaces";
+import { ComboboxSelectionMode } from "./interfaces";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
 
@@ -71,6 +72,9 @@ export class CalciteCombobox {
 
   /** Allow entry of custom values which are not in the original set of items */
   @Prop() allowCustomValues: boolean;
+
+  /** specify the selection mode - multi (allow any number of selected items), single (only one selction), defaults to multi */
+  @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
 
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -158,7 +162,7 @@ export class CalciteCombobox {
       case "Backspace":
         if (this.activeChipIndex > -1) {
           this.removeActiveChip();
-        } else if (!this.text) {
+        } else if (!this.text && this.selectionMode === "multi") {
           this.removeLastChip();
         }
         break;
@@ -251,7 +255,11 @@ export class CalciteCombobox {
 
   @State() selectedItems: HTMLCalciteComboboxItemElement[] = [];
 
+  @State() selectedItem: HTMLCalciteComboboxItemElement;
+
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
+
+  @State() needsIcon: boolean;
 
   @State() activeItemIndex = -1;
 
@@ -296,6 +304,13 @@ export class CalciteCombobox {
   setInactiveIfNotContained = (target: HTMLElement): void => {
     if (!this.active || this.el.contains(target)) {
       return;
+    }
+
+    if (this.selectionMode === "single") {
+      this.textInput.value = "";
+      this.text = "";
+      this.filterItems("");
+      this.updateActiveItemIndex(-1);
     }
 
     this.active = false;
@@ -404,12 +419,23 @@ export class CalciteCombobox {
   }, 100);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
-    item.selected = value;
-    this.selectedItems = this.getSelectedItems();
-    this.calciteLookupChange.emit(this.selectedItems);
-    this.resetText();
-    this.textInput.focus();
-    this.filterItems("");
+    if (this.selectionMode === "multi") {
+      item.selected = value;
+      this.selectedItems = this.getSelectedItems();
+      this.calciteLookupChange.emit(this.selectedItems);
+      this.resetText();
+      this.textInput.focus();
+      this.filterItems("");
+    } else {
+      this.items.forEach((el) => el.toggleSelected(false));
+      item.toggleSelected(true);
+      this.selectedItem = item;
+      this.textInput.value = item.textLabel;
+      this.active = false;
+      this.updateActiveItemIndex(-1);
+      this.resetText();
+      this.filterItems("");
+    }
   }
 
   getVisibleItems(): HTMLCalciteComboboxItemElement[] {
@@ -437,6 +463,10 @@ export class CalciteCombobox {
     this.data = this.getData();
     this.selectedItems = this.getSelectedItems();
     this.visibleItems = this.getVisibleItems();
+    this.needsIcon = this.getNeedsIcon();
+    if (this.selectionMode === "single" && this.selectedItems.length) {
+      this.selectedItem = this.selectedItems[0];
+    }
   };
 
   getData(): ItemData[] {
@@ -445,6 +475,10 @@ export class CalciteCombobox {
       label: item.textLabel,
       guid: item.guid
     }));
+  }
+
+  getNeedsIcon(): boolean {
+    return this.selectionMode === "single" && this.items.some((item) => item.icon);
   }
 
   resetText(): void {
@@ -553,6 +587,7 @@ export class CalciteCombobox {
 
   comboboxFocusHandler = (): void => {
     this.active = true;
+    this.textInput.focus();
   };
 
   comboboxBlurHandler = (event: FocusEvent): void => {
@@ -575,6 +610,7 @@ export class CalciteCombobox {
           class={chipClasses}
           dismissLabel={"remove tag"}
           dismissible
+          icon={item.icon}
           id={`chip-${item.guid}`}
           key={item.value}
           scale={scale}
@@ -586,10 +622,60 @@ export class CalciteCombobox {
     });
   }
 
+  renderInput(): VNode {
+    const { active, disabled, placeholder, selectionMode, needsIcon, label } = this;
+    const single = selectionMode === "single";
+    const showLabel = !active && single && !!this.selectedItem;
+    return (
+      <span
+        class={{
+          "input-wrap": true,
+          "input-wrap--single": single
+        }}
+      >
+        {showLabel && (
+          <span
+            class={{
+              label: true,
+              "label--spaced": needsIcon
+            }}
+            key="label"
+            onFocus={this.comboboxFocusHandler}
+            tabindex="0"
+          >
+            {this.selectedItem.textLabel}
+          </span>
+        )}
+        <input
+          aria-activedescendant={this.activeDescendant}
+          aria-autocomplete="list"
+          aria-controls={guid}
+          aria-label={label}
+          class={{
+            input: true,
+            "input--transparent": this.activeChipIndex > -1,
+            "input--single": single,
+            "input--hidden": showLabel,
+            "input--icon": single && needsIcon
+          }}
+          disabled={disabled}
+          id={`${guid}-input`}
+          key="input"
+          onBlur={this.comboboxBlurHandler}
+          onFocus={this.comboboxFocusHandler}
+          onInput={this.inputHandler}
+          placeholder={placeholder}
+          ref={(el) => (this.textInput = el as HTMLInputElement)}
+          type="text"
+        />
+      </span>
+    );
+  }
+
   renderListBoxOptions(): VNode[] {
     return this.visibleItems.map((item) => (
       <li aria-selected={(!!item.selected).toString()} id={item.guid} role="option" tabindex="-1">
-        {item.value}
+        {item.textLabel || item.value}
       </li>
     ));
   }
@@ -615,8 +701,35 @@ export class CalciteCombobox {
     );
   }
 
+  renderIconStart(): VNode {
+    const { selectionMode, needsIcon, selectedItem } = this;
+    const scale = this.scale === "l" ? "m" : "s";
+    return (
+      selectionMode === "single" &&
+      needsIcon && (
+        <span class="icon-start">
+          {selectedItem?.icon && (
+            <calcite-icon class="selected-icon" icon={selectedItem?.icon} scale={scale} />
+          )}
+        </span>
+      )
+    );
+  }
+
+  renderIconEnd(): VNode {
+    const scale = this.scale === "l" ? "m" : "s";
+    return (
+      this.selectionMode === "single" && (
+        <span class="icon-end">
+          <calcite-icon icon="chevron-down" scale={scale} />
+        </span>
+      )
+    );
+  }
+
   render(): VNode {
-    const { guid, active, disabled, el, label, placeholder } = this;
+    const { guid, active, el, label } = this;
+    const single = this.selectionMode === "single";
     const dir = getElementDir(el);
     const labelId = `${guid}-label`;
     return (
@@ -627,29 +740,22 @@ export class CalciteCombobox {
           aria-haspopup="listbox"
           aria-labelledby={labelId}
           aria-owns={guid}
-          class={{ wrapper: true, "wrapper--active": active }}
+          class={{
+            wrapper: true,
+            "wrapper--active": active,
+            "wrapper--single": single
+          }}
           onClick={() => this.setFocus()}
           ref={this.setReferenceEl}
           role="combobox"
         >
-          {this.renderChips()}
+          {this.renderIconStart()}
+          {!single && this.renderChips()}
           <label class="screen-readers-only" htmlFor={`${guid}-input`} id={labelId}>
             {label}
           </label>
-          <input
-            aria-activedescendant={this.activeDescendant}
-            aria-autocomplete="list"
-            aria-controls={guid}
-            class={{ input: true, "input--hidden": this.activeChipIndex > -1 }}
-            disabled={disabled}
-            id={`${guid}-input`}
-            onBlur={this.comboboxBlurHandler}
-            onFocus={this.comboboxFocusHandler}
-            onInput={this.inputHandler}
-            placeholder={placeholder}
-            ref={(el) => (this.textInput = el as HTMLInputElement)}
-            type="text"
-          />
+          {this.renderInput()}
+          {this.renderIconEnd()}
         </div>
         <ul
           aria-labelledby={labelId}

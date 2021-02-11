@@ -59,7 +59,7 @@
   @apply flex max-w-full min-w-0 rounded-t bg-foreground-1;
   flex: 0 0 auto;
   z-index: 2;
-  border-bottom: 1px solid theme("colors.border.3");
+  border-bottom: 1px solid var(--calcite-ui-border-3);
 }
 
 .close {
@@ -250,13 +250,13 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-red-1);
+    border-top: 4px solid var(--calcite-ui-danger);
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-blue-1);
+    border-top: 4px solid var(--calcite-ui-brand);
   }
 }
 

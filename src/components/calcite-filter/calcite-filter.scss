@@ -44,8 +44,8 @@ input[type="text"] {
 }
 
 input[type="text"]:focus {
-  border-color: var(--calcite-ui-blue-1);
-  box-shadow: 0 2px 0 var(--calcite-ui-blue-1);
+  border-color: var(--calcite-ui-brand);
+  box-shadow: 0 2px 0 var(--calcite-ui-brand);
   outline: none;
   padding-left: var(--calcite-spacing-quarter);
   padding-right: var(--calcite-spacing-quarter);

@@ -378,7 +378,7 @@ describe("calcite-radio-button", () => {
     `);
 
     const radios = await page.findAll("div >>> calcite-radio-button");
-    const inputs = await page.findAll("div >>> input");
+    const inputs = await page.findAll("div >>> calcite-radio-button >>> input");
 
     await radios[0].click();
 

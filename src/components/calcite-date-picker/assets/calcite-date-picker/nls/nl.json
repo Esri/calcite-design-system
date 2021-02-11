@@ -1,9 +1,9 @@
 {
   "default-calendar": "gregorian",
   "separator": "-",
-  "unitOrder": "dd-MM-y",
+  "unitOrder": "DD-MM-YYYY",
   "weekStart": 7,
-  "placeholder": "dd-MM-y",
+  "placeholder": "DD-MM-YYYY",
   "days": {
     "abbreviated": ["zo", "ma", "di", "wo", "do", "vr", "za"],
     "narrow": ["Z", "M", "D", "W", "D", "V", "Z"],

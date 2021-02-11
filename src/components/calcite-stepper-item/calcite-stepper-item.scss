@@ -159,17 +159,17 @@
   // todo dark theme
   border-top-color: rgba($h-bb-060, 0.5);
   & .stepper-item-icon {
-    color: var(--calcite-ui-blue-1);
+    color: var(--calcite-ui-brand);
   }
 }
 
 :host([error]) {
-  border-top-color: var(--calcite-ui-red-1);
+  border-top-color: var(--calcite-ui-danger);
   & .stepper-item-number {
-    color: var(--calcite-ui-red-1);
+    color: var(--calcite-ui-danger);
   }
   & .stepper-item-icon {
-    color: var(--calcite-ui-red-1);
+    color: var(--calcite-ui-danger);
     opacity: 1;
   }
 }
@@ -192,7 +192,7 @@
 }
 
 :host([active]) {
-  border-top-color: var(--calcite-ui-blue-1);
+  border-top-color: var(--calcite-ui-brand);
   & .stepper-item-title {
     color: var(--calcite-ui-text-1);
   }
@@ -200,11 +200,11 @@
     color: var(--calcite-ui-text-2);
   }
   & .stepper-item-number {
-    color: var(--calcite-ui-blue-1);
+    color: var(--calcite-ui-brand);
   }
 
   & .stepper-item-icon {
-    color: var(--calcite-ui-blue-1);
+    color: var(--calcite-ui-brand);
     opacity: 1;
   }
 }
@@ -258,10 +258,10 @@
   border-color: rgba($h-bb-060, 0.5);
 }
 :host([layout="vertical"][error]) {
-  border-color: var(--calcite-ui-red-1);
+  border-color: var(--calcite-ui-danger);
 }
 :host([layout="vertical"][active]) {
-  border-color: var(--calcite-ui-blue-1);
+  border-color: var(--calcite-ui-brand);
 }
 :host([layout="vertical"]:hover:not([disabled]):not([active])),
 :host([layout="vertical"]:focus:not([disabled]):not([active])) {

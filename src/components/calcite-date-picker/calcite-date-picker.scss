@@ -24,15 +24,3 @@
 :host([scale="l"]) {
   max-width: 398px;
 }
-
-:host([scale="s"][range]:not([layout="vertical"])) {
-  max-width: 462px;
-}
-
-:host([scale="m"][range]:not([layout="vertical"])) {
-  max-width: 596px;
-}
-
-:host([scale="l"][range]:not([layout="vertical"])) {
-  max-width: 820px;
-}

@@ -67,7 +67,10 @@ export class CalciteColor {
    *
    * @internal
    */
-  @Prop() color: InternalColor | null = DEFAULT_COLOR;
+  @Prop({
+    mutable: true
+  })
+  color: InternalColor | null = DEFAULT_COLOR;
 
   @Watch("color")
   handleColorChange(color: Color | null, oldColor: Color | null): void {

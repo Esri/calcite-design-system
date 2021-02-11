@@ -228,9 +228,12 @@ export class CalciteCheckbox {
     this.input.name = this.name;
     this.input.onblur = this.onInputBlur.bind(this);
     this.input.onfocus = this.onInputFocus.bind(this);
-    this.input.style.opacity = "0";
-    this.input.style.position = "absolute";
-    this.input.style.zIndex = "-1";
+    this.input.style.setProperty("margin", "0", "important");
+    this.input.style.setProperty("opacity", "0", "important");
+    this.input.style.setProperty("padding", "0", "important");
+    this.input.style.setProperty("position", "absolute", "important");
+    this.input.style.setProperty("transform", "none", "important");
+    this.input.style.setProperty("z-index", "-1", "important");
     this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value;

@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
   it("renders", async () => {
@@ -156,6 +157,34 @@ describe("calcite-modal accessibility checks", () => {
     await modal.setProperty("active", false);
     await page.waitForChanges();
     expect(document.activeElement).toEqual($button);
+  });
+
+  describe("setFocus", () => {
+    const createModalHTML = (contentHTML?: string) => `<calcite-modal active>${contentHTML}</calcite-modal>`;
+
+    const closeButtonFocusId = "close-button";
+    const closeButtonTargetSelector = ".close";
+    const focusableContentTargetClass = "test";
+
+    const focusableContentHTML = html`<h3 slot="header">Title</h3>
+      <p slot="content">This is the content <button class=${focusableContentTargetClass}>test</button></p>`;
+
+    it("focuses focusable content by default", async () =>
+      focusable(createModalHTML(focusableContentHTML), {
+        focusTargetSelector: `.${focusableContentTargetClass}`
+      }));
+
+    it("focuses close button if there is no focusable content", async () =>
+      focusable(createModalHTML(), {
+        focusId: closeButtonFocusId,
+        shadowFocusTargetSelector: closeButtonTargetSelector
+      }));
+
+    it("can focus close button directly", async () =>
+      focusable(createModalHTML(focusableContentHTML), {
+        focusId: closeButtonFocusId,
+        shadowFocusTargetSelector: closeButtonTargetSelector
+      }));
   });
 
   it("has correct aria role/attribute", async () => {
