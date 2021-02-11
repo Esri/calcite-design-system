@@ -11,7 +11,13 @@ export const create: () => Config = () => ({
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
     {
-      components: ["calcite-action", "calcite-action-group", "calcite-action-bar", "calcite-action-pad"]
+      components: [
+        "calcite-action",
+        "calcite-action-group",
+        "calcite-action-menu",
+        "calcite-action-bar",
+        "calcite-action-pad"
+      ]
     },
     { components: ["calcite-alert"] },
     { components: ["calcite-avatar"] },
