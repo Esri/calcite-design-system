@@ -462,7 +462,7 @@ describe("calcite-combobox", () => {
 
     const combobox = await page.find("div >>> calcite-combobox");
     const input = await page.find("div >>> calcite-combobox >>> .wrapper");
-    expect(await combobox.getProperty("active")).toBe(false);
+    expect(await combobox.getProperty("active")).toBeFalsy();
     await input.click();
     expect(await combobox.getProperty("active")).toBe(true);
   });
