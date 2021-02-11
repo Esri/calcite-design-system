@@ -81,7 +81,7 @@ export class CalciteActionMenu {
         class={CSS.menuButton}
         icon={ICONS.menu}
         label={menuLabel}
-        onClick={this.toggleopen}
+        onClick={this.toggleOpen}
         onKeyDown={this.menuButtonKeyDown}
         ref={this.setMenuButonRef}
         text={optionsText}
@@ -97,12 +97,11 @@ export class CalciteActionMenu {
     return (
       <calcite-popover
         disablePointer={true}
-        flipPlacements={["left", "right"]}
         label={label}
-        offsetDistance={8}
+        offsetDistance={8} // todo
         onKeyDown={this.menuActionsKeydown}
         open={open}
-        placement="leading"
+        placement="leading-start" // todo
         referenceElement={menuButtonEl}
       >
         <div class={CSS.menu}>
@@ -133,6 +132,7 @@ export class CalciteActionMenu {
     this.menuButtonEl = node;
   };
 
+  // todo: fix
   queryActions(): HTMLCalciteActionElement[] {
     return Array.from(this.el.querySelectorAll("calcite-action"));
   }
@@ -179,7 +179,7 @@ export class CalciteActionMenu {
     }
   };
 
-  toggleopen = (): void => {
+  toggleOpen = (): void => {
     this.open = !this.open;
   };
 

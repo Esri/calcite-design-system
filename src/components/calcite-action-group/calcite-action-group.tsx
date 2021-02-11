@@ -1,6 +1,7 @@
-import { Component, Host, h, Prop, Watch } from "@stencil/core";
+import { Component, Host, h, Prop, Watch, Element } from "@stencil/core";
 import { SLOTS } from "./resources";
 import { VNode } from "@stencil/core/internal";
+import { getSlotted } from "../../utils/dom";
 
 @Component({
   tag: "calcite-action-group",
@@ -50,14 +51,24 @@ export class CalciteActionGroup {
 
   // --------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteActionGroupElement;
+
+  // --------------------------------------------------------------------------
+  //
   //  Component Methods
   //
   // --------------------------------------------------------------------------
 
   renderMenu(): VNode {
-    const { expanded, intlClose, intlOpen, intlOptions, menuOpen } = this;
+    const { el, expanded, intlClose, intlOpen, intlOptions, menuOpen } = this;
 
-    return (
+    const hasMenuItems = getSlotted(el, SLOTS.menuActions);
+
+    return hasMenuItems ? (
       <calcite-action-menu
         expanded={expanded}
         intlClose={intlClose}
@@ -67,7 +78,7 @@ export class CalciteActionGroup {
       >
         <slot name={SLOTS.menuActions} />
       </calcite-action-menu>
-    );
+    ) : null;
   }
 
   render(): VNode {
