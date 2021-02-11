@@ -40,9 +40,6 @@ export class CalciteInputTimePicker {
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled?: boolean = false;
 
-  /** The focused state of the time input */
-  @Prop({ mutable: true, reflect: true }) focused = false;
-
   /** The id attribute of the input time picker.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
@@ -94,26 +91,11 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  // TODO: make label clicks open the popup.  Might make sense to have two click handlers,
-  // 1 for detecting clicks outside with target: window and 1 for external clicks from label or others
-  @Listen("click", { target: "window" })
-  clickHandler(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (target === this.el) {
-      this.inputEl.setFocus();
-      this.popoverOpen = true;
-    } else if (target.closest("calcite-input-time-picker") !== this.el) {
-      this.popoverOpen = false;
-    }
-  }
-
   private inputBlurHandler = (): void => {
-    this.focused = false;
     this.popoverOpen = false;
   };
 
   private inputFocusHandler = (): void => {
-    this.focused = true;
     this.popoverOpen = true;
   };
 
@@ -163,6 +145,21 @@ export class CalciteInputTimePicker {
   @Listen("calciteTimePickerFocus")
   timePickerFocusHandler(): void {
     this.popoverOpen = true;
+  }
+
+  @Listen("click", { target: "window" })
+  windowClickHandler(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const closestHost = target.closest(
+      "calcite-input-time-picker"
+    ) as HTMLCalciteInputTimePickerElement;
+    const closestLabel = target.closest("calcite-label") as HTMLCalciteLabelElement;
+    if (closestLabel && closestLabel.for === this.guid) {
+      this.inputEl.setFocus();
+      this.popoverOpen = true;
+    } else if (closestHost !== this.el) {
+      this.popoverOpen = false;
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -215,6 +212,7 @@ export class CalciteInputTimePicker {
           ref={this.setInputEl}
           scale={this.scale}
           step={this.step}
+          theme={this.theme}
           type="time"
           value={this.value}
         />
@@ -223,6 +221,7 @@ export class CalciteInputTimePicker {
           label="Time Picker"
           open={this.popoverOpen}
           referenceElement={`${this.guid}-input`}
+          theme={this.theme}
         >
           <calcite-time-picker
             hour={hour}
@@ -230,6 +229,7 @@ export class CalciteInputTimePicker {
             scale={this.scale}
             second={second}
             step={this.step}
+            theme={this.theme}
           />
         </calcite-popover>
       </Host>
