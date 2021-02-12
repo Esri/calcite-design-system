@@ -23,7 +23,7 @@ export const Light = (): string => html`
     ${boolean("focused", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
-    icon="${select("icon", iconNames, iconNames[296])}"
+    icon="${select("icon", iconNames, "layer")}"
     name="${text("name", "tile-select-demo")}"
     show-input="${select("show-input", ["left", "right", "none"], "left")}"
     type="${select("type", ["radio", "checkbox"], "radio")}"
@@ -43,7 +43,7 @@ export const Dark = (): string => html`
     ${boolean("focused", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
-    icon="${select("icon", iconNames, iconNames[296])}"
+    icon="${select("icon", iconNames, "layer")}"
     name="${text("name", "tile-select-demo")}"
     show-input="${select("show-input", ["left", "right", "none"], "left")}"
     theme="dark"
