@@ -71,7 +71,7 @@ export class CalciteTile {
     return (
       <Host>
         {this.href ? (
-          <calcite-link href={this.href} theme={this.theme} user-select="false">
+          <calcite-link href={this.href} theme={this.theme}>
             {this.renderTile()}
           </calcite-link>
         ) : (

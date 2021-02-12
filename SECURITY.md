@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We release patches for security vulnerabilities. 
+We release patches for security vulnerabilities.
 
 ## Reporting a Vulnerability
 

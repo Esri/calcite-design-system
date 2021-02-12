@@ -80,7 +80,7 @@ export class CalciteRadioGroup {
 
     if (match) {
       this.selectItem(match);
-      this.calciteRadioGroupChange.emit();
+      this.calciteRadioGroupChange.emit(match.value);
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
@@ -223,7 +223,8 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Event() calciteRadioGroupChange: EventEmitter;
+  /** Fired when the selected option changes, event detail is the new value */
+  @Event() calciteRadioGroupChange: EventEmitter<string>;
 
   // --------------------------------------------------------------------------
   //

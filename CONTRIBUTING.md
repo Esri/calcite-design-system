@@ -27,11 +27,14 @@ If something isn't working the way you expected, please take a look at [previous
 
 ### Getting a development environment set up
 
-You don't _have to_ but we recommend installing TypeScript, TSLint, Prettier and EditorConfig extensions for your editor of choice.
+You don't _have to_ but we recommend installing TypeScript, TSLint, TailwindCSS, Prettier and EditorConfig extensions for your editor of choice.
 
+#### VS Code
 - https://code.visualstudio.com/
 - https://atom.io/packages/atom-typescript
 - https://github.com/Microsoft/TypeScript-Sublime-Plugin
+- https://tailwindcss.com/docs/intellisense
+- https://github.com/neoclide/coc.nvim
 - etc...
 
 To start the local development environment run `npm start` this will start the local Stencil development server on http://localhost:3333. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.

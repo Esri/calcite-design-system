@@ -36,9 +36,14 @@ export class CalciteComboboxItem {
   /** True when item is highlighted either from keyboard or mouse hover */
   @Prop() active = false;
 
+  /** Parent and grandparent combobox items, this is set internally for use from combobox */
   @Prop({ mutable: true }) anscestors: HTMLCalciteComboboxItemElement[];
 
+  /** Unique identifier, used for accessibility */
   @Prop() guid: string = guid();
+
+  /** Custom icon to display both in combobox chips and next to combobox item text */
+  @Prop() icon?: string;
 
   @Watch("selected")
   selectedWatchHandler(newValue: boolean): void {
@@ -143,11 +148,33 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(scale: string): VNode {
+  renderIcon(scale: string, isSingle: boolean): VNode {
+    const { icon, disabled, isSelected } = this;
     const level = `${CSS.icon}--indent-${this.getDepth()}`;
     const iconScale = scale !== "l" ? "s" : "m";
-    const iconPath = this.disabled ? "circle-disallowed" : "check";
-    return <calcite-icon class={`${CSS.icon} ${level}`} icon={iconPath} scale={iconScale} />;
+    const defaultIcon = isSingle ? "dot" : "check";
+    const iconPath = disabled ? "circle-disallowed" : defaultIcon;
+    const showDot = isSingle && !icon && !disabled;
+    return showDot ? (
+      <span
+        class={{
+          [CSS.icon]: true,
+          [CSS.dot]: true,
+          [level]: true
+        }}
+      />
+    ) : (
+      <calcite-icon
+        class={{
+          [CSS.icon]: !icon,
+          [CSS.custom]: !!icon,
+          [CSS.iconActive]: icon && isSelected,
+          [level]: true
+        }}
+        icon={icon || iconPath}
+        scale={iconScale}
+      />
+    );
   }
 
   renderChildren(): VNode {
@@ -162,12 +189,15 @@ export class CalciteComboboxItem {
   }
 
   render(): VNode {
+    const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.isSelected,
-      [CSS.active]: this.active
+      [CSS.active]: this.active,
+      [CSS.single]: isSingleSelect
     };
     const scale = getElementProp(this.el, "scale", "m");
+
     const dir = getElementDir(this.el);
 
     return (
@@ -179,7 +209,7 @@ export class CalciteComboboxItem {
           ref={(el) => (this.comboboxItemEl = el as HTMLElement)}
           tabIndex={-1}
         >
-          {this.renderIcon(scale)}
+          {this.renderIcon(scale, isSingleSelect)}
           <span class={CSS.title}>{this.textLabel}</span>
         </li>
         {this.renderChildren()}

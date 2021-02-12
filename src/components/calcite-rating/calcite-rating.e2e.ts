@@ -381,14 +381,21 @@ describe("calcite-rating", () => {
 
   it("does not render the calcite chip when count and average are not present", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-rating></calcite-rating>");
+    await page.setContent("<calcite-rating show-chip></calcite-rating>");
+    const calciteChip = await page.find("calcite-rating >>> calcite-chip");
+    expect(calciteChip).toBeNull();
+  });
+
+  it("does not render the calcite chip when show-chip is false", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-rating count=240 average=3 value=2></calcite-rating>");
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
     expect(calciteChip).toBeNull();
   });
 
   it("renders the calcite chip and the count span when count is present and average is not", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-rating count=15></calcite-rating>`);
+    await page.setContent(`<calcite-rating count=15 show-chip></calcite-rating>`);
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
     const countSpan = await page.find("calcite-rating >>> .number--count");
     const averageSpan = await page.find("calcite-rating >>> .number--average");
@@ -399,7 +406,7 @@ describe("calcite-rating", () => {
 
   it("renders the calcite chip and the average span when average is present and count is not", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-rating average=4.2></calcite-rating>");
+    await page.setContent("<calcite-rating average=4.2 show-chip></calcite-rating>");
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
     const countSpan = await page.find("calcite-rating >>> .number---count");
     const averageSpan = await page.find("calcite-rating >>> .number--average");
@@ -410,7 +417,7 @@ describe("calcite-rating", () => {
 
   it("renders the calcite chip and both the average and count spans when average and count are present", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-rating count=15 average=4.2></calcite-rating>");
+    await page.setContent("<calcite-rating count=15 average=4.2 show-chip></calcite-rating>");
     const calciteChip = await page.find("calcite-rating >>> calcite-chip");
     const countSpan = await page.find("calcite-rating >>> .number--count");
     const averageSpan = await page.find("calcite-rating >>> .number--average");

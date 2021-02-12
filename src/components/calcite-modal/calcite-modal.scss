@@ -29,7 +29,7 @@
 }
 
 .modal {
-  @apply flex flex-col shadow-2-sm box-border float-none m-6 rounded-1 bg-foreground-1 w-full;
+  @apply flex flex-col shadow-2-sm box-border float-none m-6 rounded bg-foreground-1 w-full;
   z-index: 102;
   -webkit-overflow-scrolling: touch;
   opacity: 0;
@@ -56,10 +56,10 @@
  * Header
  */
 .header {
-  @apply flex max-w-full min-w-0 rounded-t-1 bg-foreground-1;
+  @apply flex max-w-full min-w-0 rounded-t bg-foreground-1;
   flex: 0 0 auto;
   z-index: 2;
-  border-bottom: 1px solid theme("colors.border.3");
+  border-bottom: 1px solid var(--calcite-ui-border-3);
 }
 
 .close {
@@ -129,7 +129,7 @@
  * Footer
  */
 .footer {
-  @apply flex justify-between mt-auto box-border rounded-b-1 w-full bg-foreground-1;
+  @apply flex justify-between mt-auto box-border rounded-b w-full bg-foreground-1;
   flex: 0 0 auto;
   padding: var(--calcite-modal-padding);
   border-top: 1px solid var(--calcite-ui-border-3);
@@ -250,20 +250,20 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-red-1);
+    border-top: 4px solid var(--calcite-ui-danger);
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-blue-1);
+    border-top: 4px solid var(--calcite-ui-brand);
   }
 }
 
 :host([color="red"]),
 :host([color="blue"]) {
   .header {
-    @apply rounded-1;
+    @apply rounded;
   }
 }
 

@@ -1,4 +1,4 @@
-import { DateLocaleData } from "../components/calcite-date/utils";
+import { DateLocaleData } from "../components/calcite-date-picker/utils";
 import {
   inRange,
   dateFromRange,
@@ -11,9 +11,10 @@ import {
   parseDateString,
   getOrder
 } from "./date";
-import arabic from "../components/calcite-date/calcite-date-nls/ar.json";
-import french from "../components/calcite-date/calcite-date-nls/fr.json";
-import korean from "../components/calcite-date/calcite-date-nls/ko.json";
+
+import arabic from "../components/calcite-date-picker/assets/calcite-date-picker/nls/ar.json";
+import french from "../components/calcite-date-picker/assets/calcite-date-picker/nls/fr.json";
+import korean from "../components/calcite-date-picker/assets/calcite-date-picker/nls/ko.json";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -167,9 +168,9 @@ describe("parseDateString", () => {
 describe("getOrder", () => {
   it("derives order from various unit orders", () => {
     expect(getOrder("d‏/M‏/y")).toEqual(["d", "m", "y"]);
-    expect(getOrder("dd.MM.y")).toEqual(["d", "m", "y"]);
-    expect(getOrder("M/d/yy")).toEqual(["m", "d", "y"]);
-    expect(getOrder("y/MM/dd")).toEqual(["y", "m", "d"]);
-    expect(getOrder("y. MM. dd.")).toEqual(["y", "m", "d"]);
+    expect(getOrder("DD.MM.YYYY")).toEqual(["d", "m", "y"]);
+    expect(getOrder("MM/DD/YYYY")).toEqual(["m", "d", "y"]);
+    expect(getOrder("YYYY/MM/DD")).toEqual(["y", "m", "d"]);
+    expect(getOrder("YYYY. MM. DD.")).toEqual(["y", "m", "d"]);
   });
 });

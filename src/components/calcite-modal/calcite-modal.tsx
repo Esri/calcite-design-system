@@ -1,21 +1,21 @@
 import {
   Component,
   Element,
-  Prop,
-  Host,
   Event,
   EventEmitter,
-  Listen,
   h,
+  Host,
+  Listen,
   Method,
+  Prop,
   State,
-  Watch,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
-import { getElementDir, CalciteFocusableElement, focusElement } from "../../utils/dom";
+import { CalciteFocusableElement, focusElement, getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
-import { isHidden, isFocusable } from "@a11y/focus-trap/focusable";
+import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale, Theme } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 
@@ -111,7 +111,7 @@ export class CalciteModal {
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
         <div class="modal">
-          <div data-focus-fence="true" onFocus={this.focusLastElement} tabindex="0" />
+          <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class="header">
             {this.renderCloseButton()}
             <header class="title">
@@ -128,7 +128,7 @@ export class CalciteModal {
             <slot name="content" />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence="true" onFocus={this.focusFirstElement} tabindex="0" />
+          <div data-focus-fence onFocus={this.focusFirstElement} tabindex="0" />
         </div>
       </Host>
     );
@@ -232,19 +232,32 @@ export class CalciteModal {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-  /** Focus first interactive element */
+  /**
+   * Focus first interactive element
+   * @deprecated use `setFocus` instead.
+   */
   @Method()
   async focusElement(el?: HTMLElement): Promise<void> {
     if (el) {
-      focusElement(el);
-      return;
+      el.focus();
     }
-    const focusableElements = getFocusableElements(this.el);
-    if (focusableElements.length > 0) {
-      focusElement(focusableElements[0]);
-    } else {
-      focusElement(this.closeButtonEl);
-    }
+
+    return this.setFocus();
+  }
+
+  /**
+   * Sets focus on the component.
+   *
+   * By default, will try to focus on any focusable content. If there is none, it will focus on the close button.
+   * If you want to focus on the close button, you can use the `close-button` focus ID.
+   */
+  @Method()
+  async setFocus(focusId?: "close-button"): Promise<void> {
+    const closeButton = this.closeButtonEl;
+
+    return focusElement(
+      focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton
+    );
   }
 
   /** Set the scroll top of the modal content */

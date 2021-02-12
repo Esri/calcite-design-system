@@ -92,20 +92,20 @@ export class CalciteInput {
   /** explicitly whitelist placeholder attribute */
   @Prop() placeholder: string;
 
-  /** optionally add prefix  **/
+  /** optionally add prefix  */
   @Prop() prefixText?: string;
 
   /** is the input required */
   @Prop() required = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true }) status: Status = "idle";
+  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ reflect: true }) step?: number;
+  @Prop({ reflect: true }) step?: number | "any";
 
   @Watch("step")
   stepWatcher(): void {
@@ -431,7 +431,7 @@ export class CalciteInput {
     if (this.childElType === "input" && this.type === "number") {
       const inputMax = this.maxString ? parseFloat(this.maxString) : null;
       const inputMin = this.minString ? parseFloat(this.minString) : null;
-      const inputStep = this.stepString ? parseFloat(this.stepString) : 1;
+      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
 
       switch (e.target.dataset.adjustment) {

@@ -181,8 +181,8 @@
   }
 }
 
-$noticeColors: "blue" var(--calcite-ui-blue-1), "red" var(--calcite-ui-red-1), "yellow" var(--calcite-ui-yellow-1),
-  "green" var(--calcite-ui-green-1);
+$noticeColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
+  "green" var(--calcite-ui-success);
 
 @each $noticeColor in $noticeColors {
   $name: nth($noticeColor, 1);
