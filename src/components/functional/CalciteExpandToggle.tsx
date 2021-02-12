@@ -79,6 +79,7 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
 
   const actionNode = (
     <calcite-action
+      dir={rtl ? "rtl" : "ltr"}
       icon={expanded ? expandIcon : collapseIcon}
       onClick={toggle}
       ref={(referenceElement): HTMLCalciteActionElement =>
