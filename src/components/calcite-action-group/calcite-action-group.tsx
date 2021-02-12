@@ -71,10 +71,12 @@ export class CalciteActionGroup {
     return hasMenuItems ? (
       <calcite-action-menu
         expanded={expanded}
+        flipPlacements={["left", "right"]}
         intlClose={intlClose}
         intlOpen={intlOpen}
         intlOptions={intlOptions}
         open={menuOpen}
+        placement="leading-start"
       >
         <slot name={SLOTS.menuActions} />
       </calcite-action-menu>

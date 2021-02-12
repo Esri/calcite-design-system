@@ -3,6 +3,8 @@ import { CSS, ICONS, TEXT } from "./resources";
 import { focusElement } from "../../utils/dom";
 import { VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
+import { PopperPlacement } from "../../utils/popper";
+import { Placement } from "@popperjs/core";
 
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
 
@@ -32,6 +34,11 @@ export class CalciteActionMenu {
   }
 
   /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: Placement[];
+
+  /**
    * 'Options' text string for the actions menu.
    */
   @Prop() intlOptions?: string;
@@ -47,9 +54,19 @@ export class CalciteActionMenu {
   @Prop() intlOpen?: string;
 
   /**
+   * Offset the position of the menu away from the reference element.
+   */
+  @Prop({ reflect: true }) offsetDistance = 0;
+
+  /**
    * Opens the action menu.
    */
-  @Prop({ reflect: true }) open = false;
+  @Prop({ reflect: true, mutable: true }) open = false;
+
+  /**
+   * Determines where the component will be positioned relative to the referenceElement.
+   */
+  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   // --------------------------------------------------------------------------
   //
@@ -91,17 +108,17 @@ export class CalciteActionMenu {
   }
 
   renderMenuItems(): VNode {
-    const { open, menuButtonEl, intlOptions } = this;
+    const { open, menuButtonEl, intlOptions, offsetDistance, placement } = this;
     const label = intlOptions || TEXT.options;
 
     return (
       <calcite-popover
         disablePointer={true}
         label={label}
-        offsetDistance={8} // todo
+        offsetDistance={offsetDistance}
         onKeyDown={this.menuActionsKeydown}
         open={open}
-        placement="leading-start" // todo
+        placement={placement}
         referenceElement={menuButtonEl}
       >
         <div class={CSS.menu}>
@@ -113,7 +130,7 @@ export class CalciteActionMenu {
 
   render(): VNode {
     return (
-      <Host>
+      <Host onBlur={this.onBlur}>
         <div class={CSS.menuContainer} onKeyDown={this.menuActionsContainerKeyDown}>
           {this.renderMenuButton()}
           {this.renderMenuItems()}
@@ -132,9 +149,11 @@ export class CalciteActionMenu {
     this.menuButtonEl = node;
   };
 
-  // todo: fix
+  // todo: fix. and a11y of elements
   queryActions(): HTMLCalciteActionElement[] {
-    return Array.from(this.el.querySelectorAll("calcite-action"));
+    return this.el
+      .querySelector("slot")
+      .assignedElements({ flatten: true }) as HTMLCalciteActionElement[];
   }
 
   isValidKey(key: string, supportedKeys: string[]): boolean {
@@ -181,6 +200,14 @@ export class CalciteActionMenu {
 
   toggleOpen = (): void => {
     this.open = !this.open;
+  };
+
+  onBlur = (event: FocusEvent): void => {
+    if (!this.open || event.composedPath().includes(this.el)) {
+      return;
+    }
+
+    this.open = false;
   };
 
   menuButtonKeyDown = (event: KeyboardEvent): void => {
