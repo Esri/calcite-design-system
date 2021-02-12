@@ -441,4 +441,29 @@ describe("calcite-combobox", () => {
       expect(selected).toBeNull();
     });
   });
+
+  it("works correctly inside a shadowRoot", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div></div>
+      <template>
+        <calcite-combobox selection-mode="single">
+          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
+          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+        </calcite-combobox>
+      </template>
+      <script>
+        const shadowRootDiv = document.querySelector("div");
+        const shadowRoot = shadowRootDiv.attachShadow({ mode: "open" });
+        shadowRoot.append(document.querySelector("template").content.cloneNode(true));
+      </script>
+    `);
+
+    const combobox = await page.find("div >>> calcite-combobox");
+    const input = await page.find("div >>> calcite-combobox >>> .wrapper");
+    expect(await combobox.getProperty("active")).toBeFalsy();
+    await input.click();
+    expect(await combobox.getProperty("active")).toBe(true);
+  });
 });

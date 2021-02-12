@@ -65,6 +65,29 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
+  it.skip("correctly changes date on next/prev", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
+    const getMonth = () => {
+      return document
+        .querySelector("calcite-date-picker")
+        .shadowRoot.querySelector("calcite-date-picker-month-header")
+        .shadowRoot.querySelector(".month").textContent;
+    };
+    expect(await page.evaluate(getMonth)).toEqualText("November");
+    // tab to prev arrow
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await page.evaluate(getMonth)).toEqualText("October");
+    // tab to next arrow
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await page.evaluate(getMonth)).toEqualText("November");
+  });
+
   it("fires calciteDatePickerRangeChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-date-picker range start="2020-09-08" end="2020-09-23"></calcite-date-picker>`);
