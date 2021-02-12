@@ -65,9 +65,7 @@
 }
 
 :host {
-  @apply duration-150
-    ease-in-out
-    flex
+  @apply flex
     flex-col
     no-underline
     outline-none
@@ -170,8 +168,7 @@
   @apply text-color-2 font-medium;
 }
 :host .accordion-item-subtitle {
-  @apply text-color-3 mt-1;
-  line-height: 1.35; // TODO: add leading util for wrapping
+  @apply text-color-3 mt-1 leading-snug;
 }
 :host([dir="rtl"]) .accordion-item-title {
   @apply mr-0;
