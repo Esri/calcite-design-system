@@ -38,20 +38,19 @@ export class CalciteLabel {
   @Prop({ reflect: true }) alignment: Alignment = "start";
 
   /** specify the status of the label and any child input / input messages */
-  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The id of the input associated with the label */
   @Prop({ reflect: true }) for: string;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** specify theme of the label and its any child input / input messages */
   @Prop({ reflect: true }) theme: Theme;
 
   /** is the wrapped element positioned inline with the label slotted text */
-  @Prop({ mutable: true, reflect: true }) layout: "inline" | "inline-space-between" | "default" =
-    "default";
+  @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
   /** eliminates any space around the label */
   @Prop() disableSpacing?: boolean;
@@ -159,17 +158,6 @@ export class CalciteLabel {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    const status = ["invalid", "valid", "idle"];
-    if (!status.includes(this.status)) this.status = "idle";
-
-    const layout = ["inline", "inline-space-between", "default"];
-    if (!layout.includes(this.layout)) this.layout = "default";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-  }
 
   componentDidLoad(): void {
     if (this.disabled) this.setDisabledControls();
